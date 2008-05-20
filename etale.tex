@@ -1,0 +1,1037 @@
+\documentclass{amsart}
+
+% The following AMS packages are automatically loaded with amsart 
+% documentclass:
+%\usepackage{amsmath}
+%\usepackage{amssymb}
+%\usepackage{amsthm}
+
+% For commutative diagrams you can use
+% \usepackage{amscd}
+% but Jason prefers xypic
+\usepackage[all]{xy}
+
+% To put source file link in headers.
+% Change "template.tex" to "this_filename.tex"
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{}
+\chead{}
+\rhead{Source file: \url{src/etale.tex}}
+\lfoot{}
+\cfoot{\thepage}
+\rfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\renewcommand{\headheight}{12pt}
+
+% For cross-file-references
+\usepackage{xr-hyper}
+
+% Package for hypertext links:
+\usepackage[colorlinks=true]{hyperref}
+% For any local file, say "hello.tex" you want to refer to please use
+% \externaldocument[hello-]{hello}
+\externaldocument[conventions-]{conventions}
+\externaldocument[hypercovering-]{hypercovering}
+\externaldocument[injectives-]{injectives}
+
+% The macro \autoref uses the macros \figurename, etc.
+% We list the default values and we change some of them
+% to start with a captial.
+% Figure	\figurename
+% Table		\tablename
+% Part		\partname
+% Appendix	\appendixname
+% Equation	\equationname
+% item		\Itemname
+% \renewcommand{\Itemname}{Item}
+\renewcommand{\Itemautorefname}{Item}
+% chapter	\mathbf{C}haptername
+% \renewcommand{\mathbf{C}haptername}{Chapter}
+% \renewcommand{\mathbf{C}hapterautorefname}{Chapter}
+% section	\sectionname
+\renewcommand{\sectionname}{Section}
+\renewcommand{\sectionautorefname}{Section}
+% subsection	\subsectionname
+\renewcommand{\subsectionname}{Subsection}
+\renewcommand{\subsectionautorefname}{Subsection}
+% subsubsection	\subsubsectionname
+\renewcommand{\subsubsectionname}{Subsubsection}
+\renewcommand{\subsubsectionautorefname}{Subsubsection}
+% paragraph	\paragraphname
+\renewcommand{\paragraphname}{Paragraph}
+\renewcommand{\paragraphautorefname}{Paragraph}
+% footnote	\Hfootnotename
+% \renewcommand{\Hfootnotename}{Footnote}
+\renewcommand{\Hfootnoteautorefname}{Footnote}
+% Equation	\mathbf{A}MSname
+% Theorem	\theoremname
+
+
+% Theorem environments.
+%
+\newtheorem{theorem}{Theorem}[subsection]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{situation}[theorem]{Situation}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{remarks}[theorem]{Remarks}
+
+\numberwithin{equation}{subsection}
+
+
+% OK, start here.
+%
+\begin{document}
+
+\title{The \'etale topology on schemes}
+
+\begin{abstract}
+In this Chapter, we study \'etale morphisms of schemes. Our principal goal is
+to equip the reader with enough (commutative) algebraic tools to approach a
+treatise on \'etale cohomology. An auxiliary goal is to provide enough evidence
+to ensure that the reader stops calling the phrase ``the \'etale topology of
+schemes'' an exercise in general nonsense, if (s)he does indulge in such
+blasphemy. 
+\end{abstract}
+
+\maketitle
+\thispagestyle{fancy}
+
+\tableofcontents
+
+\section{Introduction}
+\label{section-introduction}
+
+\noindent
+Almost all the material presented here is taken, without too many
+modifications, from \cite{SGA1} and \cite{Ner}. Assuming certain standard
+results in algebraic geometry (and therefore commutative algebra), we have
+tried to provide detailed proofs of most of the claims we make. However, as is
+the bane of the subject, it's almost impossible to provide fully detailed
+proofs (say, as seen in early undergraduate courses) while maintaining
+brevity. It is nevertheless hoped that the proofs provided here give more than
+enough to the reader to reconstruct the entire proof.
+
+\section{Notation and conventions}
+\label{section-notation}
+
+\noindent
+All rings will be commutative with $1$ and, more restrictively, Noetherian.
+Therefore all schemes will be assumed to be locally Noetherian. If $A$ is a
+local ring, we will denote its maximal ideal by $r(A)$ and its residue class
+field by $k(A)$. A morphism of local rings $f:A \to B$ is a ring homomorphism
+such that $f(r(A)) \subset r(B)$. The completion of a local ring $A$ with the
+$r(A)$-adic topology is denoted by $\widehat{A}$.
+
+\smallskip\noindent
+FIXME: Remove Noetherian hypotheses.
+
+\section{Unramified morphisms}
+\label{section-unramified}
+
+\subsection{Definition and sorites}
+\label{subsection-unramified-definition}
+
+\noindent
+We first define the notion of unramified morphisms for local rings, and then
+globalise it to get one for arbitrary schemes. Along the way, we mention a few
+sorites which can be easily verified.
+
+\begin{definition}
+\label{definition-unramified-rings}
+A morphism $f:A \to B$ of local rings is said to be unramified if
+$f(r(A))B = r(B)$ and $k(B)$ is a finite separable extension of $k(A)$. 
+\end{definition}
+
+\noindent
+It is clear that a morphism $f:A \to B$ of local rings is unramified if and
+only if $\widehat{f}:\widehat{A} \to \widehat{B}$ is unramified. By basic
+properties of complete local rings, this also implies that $\widehat{B}$ is a
+finite $\widehat{A}$ module. Moreover, if $k(A)$ is separably closed, it is
+easy to see that $\widehat{A} \to \widehat{B}$ is actually surjective. More
+generally, if $k(B)$ is the trivial extension of $k(A)$, $\widehat{B}$ is a
+quotient of $\widehat{A}$. Lastly, if $A$ and $B$ are complete discrete
+valuation rings, $f:A \to B$ is unramified if and only the uniformizer for
+$A$ is also a uniformizer for $B$. Thus, this definition agrees with the
+definition in number theory.
+
+\begin{definition}
+\label{definition-unramified-schemes}
+A morphism $f:X \to Y$ of schemes is said to be unramified at $x \in X$ if it
+is of finite type at $x$ and the associated morphism of local rings at $x$
+($\mathcal{O}_{Y,y} \to \mathcal{O}_{X,x}$) is unramified. The morphism $f:X \to Y$ is said to
+be unramified if it is unramified at all points of $x$ (and therefore is
+locally of finite type).
+\end{definition}
+
+\noindent
+By definition, it follows that unramifiedness is local on the source and the
+target. It is easy to verify that unramified morphisms are stable under
+base change and composition. One can easily see that quasi-compact unramified
+morphisms of schemes are quasi-finite (and therefore have relative dimension
+$0$). An important, but once again easily verified, observation is that a
+morphism that is locally of finite type is unramified if and only if all its
+fibres are unramified. That is, unramifiedness can be checked on the fibres
+of a morphism locally of finite type.
+
+\subsection{Three other equivalent definitions}
+\label{subsection-three-other}
+
+\begin{theorem}
+\label{theorem-unramified-equivalence}
+Let $f:X \to Y$ be a morphism locally of finite type. Let $x$ be a point of
+$X$. The following are equivalent
+\begin{enumerate}
+\item $f$ is unramified at $x$,
+\item $\Omega^1_{X/Y}$ is trivial at $x$,
+\item There exists open neighbourhoods $U$ of $x$ and $V$ of $f(x)$, and a
+$V$-morphism $U \to \mathbf{A}^n_V$ which is closed immersion defined by a
+quasi-coherent sheaf of ideals $\mathcal{J}$ such that the differentials
+$\{dg | g \in \Gamma(\mathbf{A}^n_V,\mathcal{J})\}$ span $\Omega^1_{\mathbf{A}^n_V/V}$ at $x$,
+\item The diagonal $\Delta_{X/Y}:X \to X \times_Y X$ is a local isomorphism at
+$x$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof} $1 \Longleftrightarrow 2$: For the forward implication, after
+taking sufficiently small open sets about $x$ and $f(x)$, we may assume that
+$X$ and $Y$ are affine (the formation of the module of K\"ahler differentials
+is compatible with base change and taking open subsets of the source). Note
+that this automatically forces $f$ to be of finite type. By Nakayama's lemma,
+it suffices to show that the fibre of $\Omega^1_{X/Y}$ at $x$ is trivial.
+Thus, by replacing $X \to Y$ with its fibre over $f(x)$, we reduce to the case
+that $Y$ is a field. Now, if $X = \text{Spec}(A)$, $A$ is a finite separable
+$k$-algebra ($k$ being trivially complete forces $A$ to be finite, and the
+unramifiedness hypothesis on $f$ forces separability). But now $|X|$ is just
+a finite union of points with the discrete topology. Thus, we may assume that
+$X$ itself is the spectrum of a finite separable extension field of $k$. In
+this case, it is a well-known result that a finite extension field of a field
+is separable if and only if the associated vector space of K\"ahler
+differentials is zero (check \cite{MatCA}, section 27, for the proof). The
+claim follows. 
+
+\smallskip\noindent
+For the reverse implication, since unramifiedness is a property of the fibres
+that is local on the source, we once again reduce to the case that $Y$ is a
+field, and $X$ is the spectrum of a finitely generated $k$-algebra $A$. By
+replacing $X$ with an irreducible component passing through $x$, we may assume
+that $X$ is integral (we can do this because if $\Omega^1_{X/Y} = 0$, then
+$\Omega^1_{Z/Y} = 0$ for any closed immersion $Z \to X$). Thus, $X$ has a
+function field $K$. A basic result in commutative algebra says that the rank
+of $\Omega^1_{X/Y}$ at the generic point (which is also the rank of
+$\Omega^1_{K/k}$) is at least the transcendence degree of $K/k$. It follows
+from the hypothesis that $K/k$ is a finite algebraic extension and, therefore,
+that $X = \text{Spec}(K)$. We can once again apply the afore-mentioned lemma to
+conclude that $K/k$ is separable thereby establishing the claim.
+
+\smallskip\noindent
+$2 \Longleftrightarrow 3$: For the forward implication, note that $f$ being
+locally of finite type gives us (heavily non-canonical) open neighbourhoods
+$U$ of $x$ and $V$ of $f(x)$ with $f(U) \subset V$, and a closed immersion
+(over $V$) $j:U \to \mathbf{A}^n_V$. If $j$ is defined by the sheaf of ideals $\mathcal{J}$,
+commutative algebra gives an exact sequence 
+$$
+j^*(\mathcal{J}/\mathcal{J}^2) \to j^*\Omega^1_{\mathbf{A}^n_V/V} \to \Omega^1_{U/V} \to 0
+$$
+
+\smallskip\noindent
+The hypothesis gives us that $\Omega^1_{U/V}$ is trivial at $x$ because the
+stalk of this sheaf at $x$ is also the stalk of $\Omega^1_{X/Y}$ at $x$ by
+virtue of the compatibility of the formation of the module with K\"ahler
+differentials with restricting to open subsets on both the target and the
+source. By Nakayama's lemma, we obtained the required implication. The reverse
+implication follows trivially from the above exact sequence.
+
+\smallskip\noindent
+$2 \Longleftrightarrow 4$: Since both the properties are local on the source
+and the target, we may assume that $X$ and $Y$ are affine and, consequently,
+that $f$ is of finite type. The desired implications then follow from the fact
+that $\Omega^1_{X/Y}$ can be defined as pullback $\Delta^*(\mathcal{J}/\mathcal{J}^2)$ where
+$\mathcal{J}$ is the sheaf of ideals defining the closed immersion $X \to X \times_Y X$
+and Nakayama's lemma.
+\end{proof}
+
+\noindent
+If $f:X \to Y$ and $g:Y \to Z$ are two morphisms, there is a canonical short
+exact sequence
+$$
+f^*(\Omega^1_{Y/Z}) \to \Omega^1_{X/Z} \to \Omega^1_{X/Y} \to 0
+$$
+
+\smallskip\noindent
+The theorem therefore implies that if $gf$ is unramified, then so is $f$. The
+definition of $\Omega^1_{X/Y}$ as the pullback  $\Delta^*(\mathcal{J}/\mathcal{J}^2)$ (with
+obvious notation) allows us to conclude that if $X \to Y$ is a monomorphism
+(i.e: $X \to X \times_Y X$ is an isomorphism or, equivalently,
+$\text{Hom}(T,X) \to \text{Hom}(T,Y)$ is injective for all $T$), then $X \to Y$ is
+unramified. In particular, open and closed immersions (and inverse limits of
+such maps) are unramified.
+
+\smallskip\noindent
+The theorem also implies that the locus of ramification of a morphism
+$f:X \to Y$ is the closed subset which is the support of (the coherent sheaf)
+$\Omega^1_{X/Y}$. Thus, the set of points where a morphism is unramified form
+an open subset.
+
+\subsection{The functorial characterisation}
+\label{subsection-functorial-unramified}
+
+\noindent
+In basic algebraic geometry we learn that some classes of morphisms can be
+characterised functorially, and that such descriptions are incredibly useful.
+Unramified morphisms too have such a characterisation which we now present
+(assuming the morphism is locally of finite type).
+
+\begin{theorem}
+\label{theorem-formally-unramified}
+Let $f:X \to S$ be a morphism that is locally of finite type. Then the
+following are equivalent:
+\begin{enumerate}
+\item $f$ is unramified,
+\item For all $S$-schemes $Y \to S$ which are affine, and subschemes $Y_0$ of
+$Y$ defined by square-zero ideals, the natural map
+$\text{Hom}_S(Y,X) \to \text{Hom}_S(Y_0,X)$ is injective.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Since both properties are local on the source and the target, we are free to
+assume that $S$ and $X$ are affine, say $X = \text{Spec}(B)$ and $S = \text{Spec}(R)$.
+Thus, $Y = \text{Spec}(C)$ is also affine. Let $J$ be a square-zero ideal of $C$ and
+assume that we are given the diagram
+$$
+\xymatrix{
+					& B \ar[d]^\phi \ar[rd]^{\bar{\phi}}	& \\
+R \ar[r] \ar[ur]	& C \ar[r]								& C/J
+}
+$$
+
+\smallskip\noindent
+One can easily verify that the association $\psi \to \psi - \phi$ gives a
+bijection between the set of liftings of $\bar{\phi}$ and the module
+$\text{Der}_R(B,J)$. Thus, we obtain the implication $(1) \Rightarrow (2)$
+
+\smallskip\noindent
+To obtain the reverse implication, consider the surjection
+$q:C = (B \otimes_R B)/I^2 \to B = C/J$ defined by the square zero ideal
+$J = I/I^2$ where $I$ is the kernel of the multiplication map
+$B \otimes_R B \to B$. We already have a lifting $B \to C$ defined by, say,
+$b \mapsto b \otimes 1$. Thus, by the same reasoning as above, we obtain a
+bijective correspondence between liftings of $\mathrm{id}:B \to C/J$ and
+$\text{Der}_R(B,J)$. The hypothesis therefore implies that the latter module is
+trivial. But we know that $J \cong \Omega^1_{B/R}$. Thus, $B/R$ is unramified.
+\end{proof}
+
+\subsection{Some topological properties}
+\label{subsection-topological-unramified}
+
+\noindent
+The first topological result that will be of utility to us is one which says
+that unramified and separated morphisms have ``nice'' sections.
+
+\begin{proposition}
+\label{proposition-properties-sections}
+Any section of an unramified morphism is an open immersion, while any section
+of a separated morphism is a closed immersion. Thus, any section of an
+unramified separated morphism with a connected target is an isomorphism onto a
+connected component.
+\end{proposition}
+
+\begin{proof}
+Fix a base scheme $S$. If $g:X \to S$ is separated (resp. unramified) and
+$f:X' \to X$ is any $S$-morphism, then the graph
+$\Gamma_f:X' \to X' \times_S X$ is obtained as the base change of the diagonal
+$X \to X \times_S X$ via the projection $X' \times_S X \to X \times_S X$.
+Since the diagonal is a closed immersion (resp. open immersion), so is the
+graph. In the special case $X' = S$, we obtain the claim.
+\end{proof}
+
+\noindent
+We can now explicitly describe the sections of unramified morphisms. 
+
+\begin{theorem}
+\label{theorem-sections-unramified-maps}
+If $Y$ is a noetherian connected scheme and $f:X \to Y$ is unramified and
+separated, then every section of $f$ is an isomorphism onto a connected
+component. There exists a bijective correspondence between sections of $f$ and
+connected components $X_i$ of $X$ such that the induced map $X_i \to Y$ is an
+isomorphism. In particular, the knowledge of a section is equivalent to the
+knowledge of its value at any point in the base.
+\end{theorem}
+
+\begin{proof}
+Proposition \ref{proposition-properties-sections} shows that a section of $f$
+has to be both an open and closed immersion and, consequently, it is an
+isomorphism onto its image. Therefore, it maps onto a connected component of
+$Y$. The rest follows easily.
+\end{proof}
+
+\noindent
+The preceding theorem gives us some idea of the ``rigidity'' of unramified
+morphisms. Further indication is provided by the following proposition which,
+besides being intrinsically interesting, is also extremely useful in the
+theory of the algebraic fundamental group (\cite{SGA1}, expos\'e 5).
+
+\begin{proposition}
+\label{proposition-equality}
+Let $Y$ is a noetherian connected scheme, and $f:X \to Y$ be unramified and
+separated. Let $f,g:S \to X$ be two $Y$-morphisms such that $f(s) = g(s)$, and
+that the induced maps $\kappa(g(s)) = \kappa(f(s)) \to \kappa(s)$ are
+identical (that is, $f$ and $g$ are geometrically equal at $x$). Then $f = g$.
+\end{proposition}
+
+\begin{proof}
+The maps $f,g:S \to X$ defines the maps $(f,1),(g,1):S \to X \times_Y S$. If
+we denote by $i:\text{Spec}(\kappa(s)) \to S$ the canonical map from the residue
+class field at $s$, then the hypothesis ensures that $f\circ i = g\circ i$
+and, consequently, $(f,1)\circ i = (g,1) \circ i$. Therefore,
+$(f,1)(s) = (g,1)(s)$. However, the maps $(f,1)$ and $(g,1)$ are sections of
+the unramified morphism $p_2:X\times_Y S \to S$. Thus, by the preceeding
+theorem, since $(f,1)$ and $(g,1)$ agree geometrically at a point, they agree
+everywhere.
+\end{proof}
+
+\noindent
+The topological results presented above will be used to give a functorial
+characterisation of \'etale morphisms similar to Theorem
+\ref{theorem-formally-unramified}.
+
+\subsection{Examples}
+\label{subsection-examples}
+
+\noindent
+We will end the section with a few examples.
+
+\begin{example}[The trivial case]
+\label{example-etale-field-extensions}
+Unramified quasi-compact morphisms $X \to \text{Spec}(k)$ for a field $k$ are forced
+to be affine because $X$ has to have dimension $0$ and be compact. Noether
+normalisation (or whatever else you want) forces $X$ to be the spectrum of a
+finite separable $k$-algebra $A$. Such algebras are simply products of finite
+separable field extensions of $k$. Thus, giving an unramified quasi-compact
+morphism to a field is not different from giving a finite number of separable
+field extensions of $k$. In particular, an unramified morphism with a
+connected source and a one point target is forced to be a finite separable
+field extensions. As we will see later, $X \to \text{Spec}(k)$ is \'etale if and
+only if it is unramified. Thus, in this case at least, we obtain a very easy
+description of the \'etale topology of a scheme. Of course, the cohomology of
+this topology is another story.
+\end{example}
+
+\begin{example}[The standard case]
+\label{example-standard-etale}
+Property $3$ in \ref{theorem-unramified-equivalence} 
+gives us a canonical source of
+examples for unramified morphisms. Fix a ring $R$ and an integer $n$. Any
+ideal $J = (g_1,\cdots,g_m)$ in $R[x_1,\cdots,x_n]$ with the property that the
+matrix $(\frac{\partial g_i}{\partial x_j})$ has rank $n$ at a point
+$x \in R^n$ defines a morphism $f:\text{Spec}(R[x_1,\cdots,x_n]/J) \to \text{Spec}(R)$
+that is unramified at the point $x \in \mathbf{A}^n_R(R)$. Clearly we must have
+$m \geq n$. If we can choose $m = n$ (i.e: the differential of the map
+$\mathbf{A}^n_R \to \mathbf{A}^n_R$ defined by the $g_i$'s is an isomorphism of the tangent
+spaces), a theorem of Grothendieck allows us to show that $f$ is also flat
+$x$ and, hence, is an \'etale map. Conversely, we will see that all \'etale
+maps arise locally in this manner.
+\end{example}
+
+\begin{example}[Number theory]
+\label{example-number-theory-etale}
+Fix a Galois extension of number fields $L/K$ with rings of integers $\mathcal{O}_L$
+and $\mathcal{O}_K$. The injection $K \to L$ defines a morphism
+$f:\text{Spec}(\mathcal{O}_L) \to \text{Spec}(\mathcal{O}_K)$. As discussed above, the points where $f$
+is unramified in our sense correspond to the set of points where $f$ is
+unramified in the conventional sense. In the conventional sense, the locus of
+ramification in $\text{Spec}(\mathcal{O}_L)$ can be defined by vanishing set of the
+``different'' (this is an ideal in $\mathcal{O}_L$). (In fact, the different is
+nothing but the annihilator of $\Omega^1_{\mathcal{O}_L/\mathcal{O}_K}$.) Similarly, the
+vanishing set of the discriminant (an ideal in $\mathcal{O}_K$) is precisely the set
+of points of $K$ which ramify in $L$ (that is, at least one prime lying above
+them is ramified). Thus, denoting by $X$ the complement of the closed subset
+defined by the different in $\text{Spec}(\mathcal{O}_L)$, and by $Y$ the complement of the
+closed subset defined by the discriminant in $\text{Spec}(\mathcal{O}_K)$, we obtain a
+morphism $X \to Y$ which is unramified. Furthermore, it is shown in algebraic
+number theory that this is also finite and flat. Thus, this is an example of
+an \'etale covering. The same situation of affairs can be mimcked for the
+function field case too.
+\end{example}
+
+\section{Flat morphisms}
+\label{section-flat-moprhisms}
+
+\noindent
+This section simply exists to summarise the properties of flatness that will
+be useful to us. Thus, we will be content with stating the theorems precisely
+and giving references for the proofs.
+
+\subsection{Definitions, sorites, and a theorem of Grothendieck}
+\label{subsection-definition-flat}
+
+\noindent
+After briefly recalling the necessary facts about flat modules over Noetherian
+rings, we state a theorem of Grothendieck which gives sufficient conditions
+for ``hyperplane sections'' of certain modules to be flat.
+
+\begin{definition}
+\label{definition-flat-rings}
+A module $N$ over a ring $A$ is said to be flat if the functor
+$M \to M \otimes_A N$ is exact. If this functor is also faithful, we say that
+$N$ is faithfully flat over $A$. A morphism of rings $f:A \to B$ is said to be
+flat (resp. faithfully flat) if the functor $M \to M \otimes_A B$ is exact
+(resp. faithful and exact). 
+\end{definition}
+
+\noindent
+We first begin with some sorites, all of which can be found in \cite{MatCA}.
+Clearly free and projective modules are flat. It's easily verified that
+flatness is a local property (that is, $M$ is flat over $A$ if and only if
+$M_p$ is flat over $A_p$ for all $p \in \text{Spec}(A)$), and that finite flat
+modules over noetherian local rings are free. If $f:A \to B$ is a morphism of
+arbitrary rings, $f$ is flat if and only if the induced maps
+$A_{f^{-1}q} \to B_q$ are flat for all $q \in \text{Spec}(B)$. If $f:A \to B$ is a
+morphism of local rings, $f$ is flat if and only if it is faithfully flat.
+Thus, a morphism of arbitrary rings is faithfully flat if and only if it is
+flat and the induced map on spectra is surjective. An important result from
+commutative algebra is that if $A$ is a noetherian local ring, the completion
+$\widehat{A}$ is faithfully flat over $A$ -- this is the algebraic way of
+capturing the idea that ``no local information is lost on passage to the
+completion.'' As a consequence of this, we obtain that a module $M$ is flat
+over $A$ if and only if $M \otimes_A \widehat{A}$ is flat over $\widehat{A}$
+(that is, flatness can be checked after a base change to the completion).
+Before we move on to the geometric category, we present Grothendieck's
+theorem, which provides a convenient recipe for producing flat
+modules\footnote{We shall use this theorem later to give two equivalent
+definitions of smooth and \'etale morphisms.}.
+
+\begin{theorem}[Grothendieck]
+\label{theorem-flatness-grothendieck}
+Let $f:A \to B$ be a morphism of local rings. If $M$ is a finite $B$-module
+that is flat as an $A$-module, and $t \in r(B)$ is an element such that
+multiplication by $t$ is injective on $M/r(A)M$, then $M/tM$ is also
+$A$-flat
+\end{theorem}
+
+\begin{proof}
+This essentially follows from the local flatness criterion of Grothendieck.
+The idea is to first prove that $t$ is $M$-regular (i.e: multiplication by
+$t$ is injective on $M$) and then give a $\mathrm{Tor}$ argument using the
+exact sequence $0 \to M \to M \to M/tM \to 0$ where the first map is
+multiplication by $t$. A carefully written out proof can be found, for
+instance, \cite{MatCA}, section 20.
+\end{proof}
+
+\begin{definition}
+\label{definition-flat-schemes}
+A morphism $f:X \to Y$ of schemes is said to be flat at $x \in X$ if the
+associated morphism of local rings at $x$ 
+($\mathcal{O}_{Y,y} \to \mathcal{O}_{X,x}$) is flat.
+The morphism $f:X \to Y$ is said to flat if it is flat at all points of $x$.
+A morphism $f:X \to Y$ that is flat and surjective is said to be faithfully
+flat.
+\end{definition}
+
+\noindent
+Once again, some sorites are in order. The property (of a morphism) of being
+flat is, by fiat, local on the source and the target. Consequently, open
+immersions are flat. Almost as trivially, flat morphisms are stable under
+base change and composition. Slightly less trivially, $f:X \to Y$ is flat if
+and only if the functor $f^*$ is exact on the category of quasi-coherent
+sheaves on $Y$. 
+
+\subsection{Some topological properties}
+\label{subsection-topological-flat}
+
+\noindent
+We ``recall'' below some openness properties that flat morphisms enjoy.
+
+\begin{theorem}
+\label{theorem-flat-open}
+For a morphism of finite type $f:X \to Y$, the set of points in $X$ where $f$
+is flat is an open set. Moreover, if $f$ is flat at all points of $X$, it is
+an open map. Thus, a flat morphism can be factored as a faithfully flat
+morphism followed by an open immersion.
+\end{theorem}
+
+\begin{proof}
+A proof of the first claim can be found in \cite{EGA}, IV, Section 11 or in
+\cite{SGA1}, Expos\'e IV, Section 6. The second claim depends on three
+results. The first one is Chevalley's theorem which states that $f$ preserves
+constructible sets (this doesn't require flatness); the second one is the
+easy fact that constructible sets (of a noetherian scheme) are open if and
+only they are stable under generalisation; the last one is the fact that the
+``going-down'' theorem holds for faithfully flat morphisms of rings. A proof
+of all three of these facts and how they imply the claim can be found in
+section 6 of \cite{MatCA} 
+\end{proof}
+
+\begin{theorem}
+\label{theorem-flat-is-quotient}
+A faithfully flat quasi-compact morphism is a quotient map for
+the Zariski topology.
+\end{theorem}
+
+\begin{proof}
+If $f:X \to Y$ is a surjective flat quasi-compact morphism, then $f$ sends
+constructible sets to pro-constructible sets (application of Chevalley's
+theorem using the fact that, over a ring $R$, any $R$-algebra is a direct
+limit of finitely generated $R$-algebras). Such sets are closed if and only
+if they are stable under specialisation. Using this fact, the surjectivity
+of $f$, and the fact that the ``going-down'' theorem holds for faithfully
+flat morphisms of rings, one can easily show that $f$ is a quotient map for
+the Zariski topology. Like the previous theorem, a proof of this theorem too
+can be found in section 6 of \cite{MatCA}.
+\end{proof}
+
+\noindent
+An important reason to study flat morphisms is that they provide the adequate
+framework for capturing the notion of a family of schemes parametrised by the
+points of another scheme. Naively one may think that any morphism $f:X \to S$
+should be thought of as a family parametrised by the points of $S$. However,
+without a flatness restriction on $f$, really bizarre things can happen in
+this so-called family. For instance, we aren't guaranteed that relative
+dimension (dimension of the fibres) is constant in a family. Other numerical
+invariants, such as the Hilbert polynomial, too may change from fibre to
+fibre. Flatness prevents such things from happening and, therefore, provides
+some ``continuity'' to the fibres. 
+
+\section{\'Etale morphisms}
+\label{section-etale-moprhisms}
+
+\noindent
+In this section, we will define \'etale morphisms and prove a number of
+important properties about them. The most important one, no doubt, is the
+functorial characterisation presented in Theorem \ref{theorem-formally-etale}.
+Following this, we will also discuss a few properties of rings which are
+insensitive to an \'etale extension (i.e: properties which hold for a ring
+if and only if they hold for all its \'etale extensions) to motivate the basic
+tenet of \'etale cohomology -- \'etale morphisms are the algebraic analogue of
+local isomorphisms.
+
+\subsection{Definitions and sorites}
+\label{subsection-etale-definition}
+
+\noindent
+As the title suggests, we will define the class of \'etale morphisms -- the
+class of morphisms (whose surjective families) we shall deem to be coverings
+in the category of schemes over a base scheme $S$ in order to define the
+\'etale site $S_{et}$. Intuitively, an \'etale morphism is supposed to
+capture the idea of a covering space and, therefore, should be close to a
+local isomorphism. If we're working with varieties over algebraically closed
+fields, this last statement can be made into a definition provided we replace
+``local isomorphism'' with ``formal local isomorphism'' (isomorphism after
+completion). One can then give a definition over any base field by asking
+that the base change to the algebraic closure be \'etale (in the
+aforementioned sense). But, rather than proceeding via such aesthetically
+displeasing constructions, we will adopt a cleaner, albeit slightly more
+abstract, algebraic approach.
+
+\begin{definition}
+\label{definition-etale-ring}
+A morphism $f:A \to B$ of local rings is \'etale if it is flat and unramified.
+\end{definition}
+
+\noindent
+As we have already discussed the sorites for flat and unramified morphisms,
+there's not much more to discuss here. One thing that we would like to point
+out, however, is that \'etaleness can be checked after completion. Moreover,
+by combining flatness with basic properties of complete local rings, we see
+that if $f:A \to B$ is \'etale, then, in fact, $\widehat{B}$ is a finite flat
+$\widehat{A}$-module and, hence, $\widehat{B} \cong \big(\widehat{A}\big)^n$.
+The integer $n$ is nothing other than the (separable) degree $[k(B):k(A)]$.
+In particular, if $k(A)$ is separably closed, we obtain that
+$\widehat{A} \to \widehat{B}$ is an isomorphism, which vindicates our earlier
+claims. Lastly, if $f:A \to B$ is \'etale, the unramifiedness forces
+$\dim(B) \leq  \dim(A)$ while (faithful) flatness forces the other
+inequality. Thus, we obtain that $\dim(B) = \dim(A)$.
+
+\begin{definition}
+\label{definition-etale-schemes-1}
+A morphism $f:X \to Y$ of schemes is said to \'etale at $x \in X$ if it is
+flat and unramified at $x$ (and, therefore, of finite type in a neighbourhood
+of $x$). The morphism is said to \'etale if it is \'etale at all its points.
+\end{definition}
+
+\noindent
+Note that the unramifiedness hypothesis forces \'etale morphisms to be
+locally of finite type; flatness then forces such morphisms to be open.
+Since unramifiedness and flatness are both open properties, the \'etale
+locus of a morphism is open. Moreover, it's trivially verified that
+\'etaleness, besides being local on the source and the target, is stable
+under base change and composition. 
+
+\subsection{The structure theorem for \'etale morphisms}
+\label{subsection-structure-etale-map}
+
+\noindent
+We present a theorem which describes the local structure of \'etale morphisms
+with great clarity. Besides its obvious independent importance, this theorem
+also allows us to make the transition to another definition of \'etale
+morphisms that captures the geometric intuition better than the one we've
+used so far. 
+
+\begin{theorem}[Structure Theorem]
+\label{theorem-structure-etale}
+Let $f:A \to B$ be an unramified morphism of local rings with the property
+that $B$ is the localisation of a finitely generated $A$-algebra. Then there
+exists a finite $A$-algebra $A'$, a maximal ideal $p \in A'$, a generator
+$u$ of $A'$ (as an $A$-algebra), a monic polynomial $F \in A[t]$ such that
+$F(u) = 0$ and $F'(u) \notin p$ and an isomorphism $B \to A'_p$ as
+$A$-algebras. Furthermore, we may choose $A' \cong A[t]/(F)$ if $f$
+is \'etale.
+\end{theorem}
+
+\begin{proof}
+The first step is to use Zariski's main
+theorem\footnote{The classical version, as explained in Section 4.4 of
+Chapter 1 of \cite{EGA}, III suffices for our purposes; we do not need the
+full power of Deligne's generalised version of the main theorem.} to
+construct a finite $A$-algebra $A'$ and a maximal ideal $p$ of $A'$ such
+that $A'_p \cong B$ as an $A$-algebra. The next step is to combine the
+primitive element theorem with Nakayama's lemma to be able to assume that
+$A'$ is monogenic. The last step is to show that this $A'$ works. A
+carefully written out proof can be found in section 7 of expos\'e 1 of
+\cite{SGA1}.
+\end{proof}
+
+\noindent
+Via standard lifting arguments, one then obtains the following geometric
+statement which will be of essential use to us.
+
+\begin{theorem}
+\label{theorem-geometric-structure}
+Let $f:X \to Y$ be an \'etale morphism. Then, for every $x \in X$, there
+exist affine neighbourhoods $V = \text{Spec}(R)$ and $U = \text{Spec}(S)$ of $f(x)$
+and $x$ respectively such that $f(U) \subset V$ and that $U$ is $V$-isomorphic
+to an open subscheme of $\text{Spec}(R[t]/g)_{g'}$ for some monic polynomial
+$g \in R[t]$  (with $g' = dg/dt$ and that $U$ is $V$-isomorphic to an open
+subscheme of $\text{Spec}(R[t]/g)_{g'}$ for some monic polynomial $g \in R[t]$
+(with $g' = dg/dt$).
+\end{theorem}
+
+\subsection{An equivalent definition}
+\label{subsection-definition-equivalent}
+
+\noindent
+We now give another (equivalent) definition of \'etale morphisms which,
+besides having some geometric interpretation, is often easily verified in
+practice. More importantly perhaps, this definition also naturally leads
+one to the notion of smoothness. As smooth morphisms don't directly concern
+us, we don't discuss them here and, instead, refer the interested reader to
+chapter 2 of the Neron models book (\cite{Ner}) for an almost perfect
+account of the basic theory of smoothness, especially its relationship to
+differential calculus.
+
+\begin{definition}
+\label{definition-etale-differential}
+A morphism $f:X \to Y$ (of schemes) is said to be \'etale if the following
+two properties hold:
+\begin{enumerate}
+\item for every $x \in X$, there exists an open neighbourhood $U$ of $x$ and an immersion $g:U \to \mathbf{A}^n_Y$, and
+\item if $\mathcal{J}$ is the sheaf of ideals that defines $g$, then, locally at
+$g(x)$, $\mathcal{J}$ can be generated by sections $g_1,\cdots,g_n$ such that the
+differentials $dg_i$ form a basis for $\Omega^1_{\mathbf{A}^n_Y}$ at $g(x)$.  
+\end{enumerate}
+\end{definition}
+
+\begin{proof}[Proof of equivalence]
+Note that the first property simply expresses the fact that $f$ is locally of
+finite type. Thus, \'etale morphisms for the old definition satisfy the first
+property. To show that they satisfy the second one as well, we use Theorem
+\ref{theorem-geometric-structure}. Following the notation of that theorem,
+we may assume that $U = \text{Spec}  R[t,x,y]/(g,xg' - 1, ya - 1)$ where
+$V = \text{Spec}(R)$ is an open subscheme of $Y$ with $U \subset f^{-1}(V)$, $g$
+is a polynomial in $t$, $g' = dg/dt$ and $a$ is a polynomial in $t$ and $x$.
+It is then trivially verified that the obvious morphism
+$U \to \mathbf{A}^3_V \to \mathbf{A}^3_Y$ is an immersion with the requisite properties.
+
+\smallskip\noindent
+For the converse direction, let $f:X \to Y$ be a morphism verifying properties
+$1$ and $2$. By the first property, we get that $f$ is locally of finite type.
+It remains to show that $f$ is unramified and flat.
+
+\smallskip\noindent
+To see that $f$ is unramified, using Theorem
+\ref{theorem-unramified-equivalence}, it suffices to show that
+$\Omega^1_{X/Y} = 0$. Since this is a local statement, after fixing $x \in X$,
+we immediately reduce to the case where $Y = \text{Spec}(R)$ and $g:X \to \mathbf{A}^n_Y$ is
+a closed subscheme defined by $J = (g_1,\cdots,g_n)$ with the property that
+the differentials $dg_i$ form a basis for $\Omega^1_{\mathbf{A}^n_Y}$ at $g(x)$. We
+are now in a position to use the exact sequence 
+$$
+g^*(\mathcal{J}/\mathcal{J}^2) \to g^*(\Omega^1_{\mathbf{A}^n_Y/Y} \to \Omega^1_{X/Y} \to 0
+$$
+where $\mathcal{J}$ is the sheaf of ideals associated to $J$. The hypothesis implies
+that the fibre of $\Omega^1_{X/Y}$ is $0$ at $x$ which implies that
+$\Omega^1_{X/Y}$ is trivial at $x$ by Nakayama's lemma. Thus, we've shown
+that $f$ is unramified.
+
+\smallskip\noindent
+To prove flatness, we once again reduce to the local case. Following the
+same notation as that introduced above, we need to show that
+$R[x_1,\cdots,x_n]/(g_1,\cdots,g_n)$ is flat over $R$ where the $x_i$ are
+coordinates on $\mathbf{A}^n_Y$ and $(\frac{\partial g_i}{\partial x_j})$ is
+invertible at $g(x)$. The flatness would follow from Grothendieck's flatness
+theorem (Theorem \ref{theorem-flatness-grothendieck}) if we showed that
+$g_1,\cdots,g_n$ was a $k(R)$-regular sequence inside
+$k(R)[x_1,\cdots,x_n]$. We know that $k(R)[x_1,\cdots,x_n]/(g_1,\cdots,g_n)$
+is \'etale over $k(R)$ (we just showed it was unramified, and any morphism to
+a field is flat) and, consequently, of dimension $0$. Hence,
+$\mathrm{ht}(g_1,\cdots,g_n) = n$ by basic dimension theory. Since
+$k(R)[x_1,\cdots,x_n]$ is a Cohen-Macaulay ring, it follows, from Theorem
+17.4 in \cite{Ma} for instance, that $g_1,\cdots,g_n$ is a $k(R)$-regular
+sequence which finishes the proof. For a proof that avoids the use of
+Cohen-Macaulay rings, we refer the reader to Theorem 3 of Section 3.10 of
+Mumford's exposition (\cite{RB}).
+\end{proof}
+
+\subsection{Some topological properties }
+\label{subsection-topological-etale}
+
+\noindent
+We present a few of the fundamental topological properties of \'etale
+morphisms as explained in, say, \cite{SGA1}, expos\'e 1, section 5. Of key
+importance here is Theorem \ref{theorem-formally-etale-step-0} which, besides
+providing one direction of the equivalence promised by the functorial
+characterisation, also gives motivation to view \'etaleness as essentially
+a topological property. But first, we give what Grothendieck calls the
+fundamental theorem for \'etale morphisms.
+
+\begin{theorem}
+\label{theorem-etale-radiciel-open}
+Let $f:X \to Y$ be a separated morphism of finite type. Then $f$ is an open
+immersion if and only if it \'etale and
+radiciel\footnote{Recall (\cite{EGA}, I, chapter 1, section 3.5) that
+$f:X \to Y$ is radiciel if $X(K) \to Y(K)$ is injective for every field $K$,
+and that this is equivalent to requiring that $f$ be injective and that the
+maps $\kappa(f(x)) \to \kappa(x)$ be epimorphisms in the category of fields
+(purely inseparable extensions). Lastly, this is also equivalent to requiring
+that $f$ be universally injective}.
+\end{theorem}
+
+\begin{proof}
+It is clear that open immersions are \'etale and radiciel. For the converse
+direction, we are told that $f$ is \'etale and universally injective. As it
+is a flat morphism of finite type, it also universally open. Hence, it is
+universally a homeomorphism onto its image. Replacing $Y$ with $f(X)$, we may
+assume that $f:X \to Y$ is a universal homeomorphism.  Now, if $f$ had a 
+section, the section would have to be an open immersion (because $f$ is 
+unramified) that is surjective (because $f$ is a homeomorphism). That is, it 
+would be an isomorphism and that would prove our claim. On the other hand, to 
+show that $f$ is an isomorphism, it clearly suffices to work after a faithfully 
+flat base change. But $f$ itself provides such a base change! And once we base
+change via $f$, the diagonal provides a section. The claim follows.
+\end{proof}
+
+\noindent
+Next, we present an extremely crucial theorem which, roughly speaking, says
+that \'etaleness is a topological property. 
+
+\begin{theorem}
+\label{theorem-etale-topological}
+Let $X$ and $Y$ be two separated noetherian schemes over a base scheme $S$
+such that $X$ is \'etale over $S$ . Let $S_0$ be a subscheme of $S$ defined
+by a nilpotent ideal, and denote by $X_0$ (resp. $Y_0$) the pullback
+$X \times_S S_0$ (resp. $Y \times_S S_0$). Then the map
+$\text{Hom}_S(Y,X) \to \text{Hom}_{S_0}(Y_0,X_0)$ is bijective. 
+\end{theorem}
+
+\begin{proof}
+After base changing via $Y \to S$, we may assume that $Y = S$ in which case
+the theorem states that any $Y$-morphism $Y_0 \to X$ actually factors
+uniquely through a section $Y \to X$. For existence, assume that we are
+given $t:Y_0 \to X$. Since $|Y_0| = |Y|$, by Theorem
+\ref{theorem-sections-unramified-maps}, the section $t$ is uniquely
+determined by a connected component $X_i$ of $X$ such that
+$X_i \times_Y Y_0 \to Y_0$ is an isomorphism (with inverse defined by
+$(t,\mathrm{id})$). In particular, $X_i \to Y$ is a universal homeomorphism
+and therefore radiciel. Since $X_i \to X$ and $X \to Y$ are \'etale, it
+follows from Theorem \ref{theorem-etale-radiciel-open} that $X_i \to Y$ is an
+isomorphism and, therefore, it has an inverse which is the required section.
+The uniqueness follows from repeated application of Theorem
+\ref{theorem-formally-unramified}, or directly from Theorem
+\ref{theorem-sections-unramified-maps}, or, if one carefully observes,
+from our proof itself.
+\end{proof}
+
+\noindent
+From the proof of preceeding theorem, we also obtain one direction of the
+promised functorial characterisation of \'etale morphisms.
+
+\begin{theorem}
+\label{theorem-formally-etale-step-0}
+Let $f:X \to S$ be an \'etale morphism. Then for all $S$-schemes $Y \to S$
+which are affine, and subschemes $Y_0$ of $Y$ defined by square-zero ideals,
+the natural map $\text{Hom}_S(Y,X) \to \text{Hom}_S(Y_0,X)$ is bijective.
+\end{theorem}
+
+\subsection{The functorial characterisation}
+\label{subsection-functorial-etale}
+
+\noindent
+We finally present the promised functorial characterisation. Note that this
+takes our count of (equivalent) definitions of \'etale morphisms to four --
+the one we originally gave, the one provided by the structure theorem, the
+alternative one and the one obtained from the functorial characterisation. 
+
+\begin{theorem}
+\label{theorem-formally-etale}
+Let $f:X \to S$ be a morphism that is locally of finite type. Then the
+following are equivalent
+\begin{enumerate}
+\item $f$ is \'etale
+\item For all $S$-schemes $Y \to S$ which are affine, and subschemes $Y_0$
+of $Y$ defined by square-zero ideals, the natural map
+$\text{Hom}_S(Y,X) \to \text{Hom}_S(Y_0,X)$ is bijective.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+The forward implication was proven in Theorem
+\ref{theorem-formally-etale-step-0}. For the reverse implication, we use
+Definition \ref{definition-etale-differential}. We may assume that $X$ is
+defined as a closed subscheme $g: X \to \mathbf{A}^n_S$ by an ideal $\mathcal{J}$. Using the
+alternative definition, it suffices to show that the natural map
+$g^*(\mathcal{J}/\mathcal{J}^2) \to g^*(\Omega^1_{\mathbf{A}^n_S/S})$ is an isomorphism. Since this is
+a local problem, we may assume that $S = \text{Spec}(R)$, $\mathbf{A}^n_S = \text{Spec}(A)$ and
+$X = \text{Spec}(B)$ where $A = R[x_1,\cdots,x_n]$ and $B$ is a quotient of $A$ by
+an ideal $I$. We have the canonical isomorphism $B \to (A/I^2)/(I/I^2)$
+which, by the functorial hypothesis, lifts to an $R$-linear map
+$B \to A/I^2$. Therefore, the exact sequence
+$0 \to I/I^2 \to A/I^2 \to A/I \to 0$ splits. If we denote the first map
+by $i$, the second map by $v$ and the splitting $A/I \to A/I^2$ by $\phi$,
+then $\tau = \mathrm{id} - (\phi \circ v)$ defines an $A$-derivation
+$A/I^2 \to I/I^2$. Consequently, we obtain a map
+$\Omega^1_{A/R} \otimes_A B \to I/I^2$ which gives an inverse to the
+natural map $I/I^2 \to \Omega^1_{A/R} \otimes_A B$ thereby showing that
+the latter is an isomorphism, as was required.
+\end{proof}
+
+\noindent
+This characterisation says that solutions to the equations defining $X$ can
+be lifted uniquely through nilpotent thickenings. 
+
+\subsection{Permanence properties}
+\label{subsection-properties-permanence}
+
+\noindent
+We have already seen that the Krull dimension is insensitive to an \'etale
+extension. In what follows, we present a few other such ``permanence''
+properties of \'etale morphisms.
+
+\begin{proposition}
+\label{proposition-etale-dimension}
+Let $f:A \to B$ be an \'etale map of local rings. Then
+$\mathrm{depth}(A) = \mathrm{depth}(B)$
+\end{proposition}
+
+\begin{proof}
+This follows fairly easily from the observation that, on tensoring with
+$B$, the Koszul complex of the ideal $r(A)$ of $A$ gives the Koszul complex
+of the ideal $r(B)$ of $B$, and that $A \to B$ is faithfully flat.
+\end{proof}
+
+\begin{proposition}
+\label{proposition-etale-regular}
+Let $f:A \to B$ be an \'etale map of local rings. Then $A$ is regular if and
+only if $B$ is so.
+\end{proposition}
+
+\begin{proof}
+By the \'etaleness of $A \to B$ and the local flatness criterion
+(\cite{MatCA}, theorem 49), one sees that
+$gr^*(B) \cong gr^*(A) \otimes_{k(A)} k(B)$ as graded algebras. Thus,
+by looking at the degree $1$ components, we see that the embedded
+dimensions of $A$ and $B$ co-incide. By the \'etaleness of $A \to B$,
+the (Krull) dimensions of the two rings co-incide as well. Thus, $A$ is
+regular if and only if $B$ is so.
+\end{proof}
+
+\begin{proposition}
+\label{proposition-etale-reduced}
+Let $f:A \to B$ be an \'etale map of local rings. Then $A$ is reduced if and
+only if $B$ is so.
+\end{proposition}
+
+\begin{proof}
+It's clear from the faithful flatness of $A \to B$ that if $B$ is reduced, so
+is $A$. Conversely, lets assume $A$ is reduced and show that $B$ is so. By
+assumption, if $\{p_i\}$ is the set of minimal primes of $A$, the natural map
+$A \to \prod_i A/p_i$ is injective. By the flatness of $B$,
+$B \to \prod_i B/p_iB$ is also injective; hence, it suffices to show that each
+of $B/p_iB$ is reduced. Thus, after base changing to an irreducible component,
+we may assume that $A$ is a domain with field of fractions $K$. By the
+flatness of $B$, the natural map $B \to B \otimes_A K$ is injective; hence,
+it suffices to show the latter is reduced. Since $K \to B \otimes_A K$ is
+\'etale, we are reduced to the case where $A$ is a field. By virtue of
+Example \ref{example-etale-field-extensions}, we see that $B$ is a product of fields,
+and therefore reduced.
+\end{proof}
+
+
+\begin{proposition}
+\label{proposition-etale-normal}
+Let $f:A \to B$ be an \'etale map of local rings. Then $A$ is normal if and
+only if $B$ is so.
+\end{proposition}
+
+\begin{proof}
+We use Serre's normality criterion for a noetherian local ring $A$ of
+dimension $\neq 0$. Recall that this says that $A$ is normal if and only if
+it is regular in codimension $1$, and for every prime $p$ of height $\geq 2$,
+$\mathrm{depth}(A_p) \geq 2$. Since $A \to B$ is an \'etale map of local
+rings, it's faithfully flat. Moreover, if $p \in \text{Spec}(B)$ lies over
+$q \in \text{Spec}(A)$, then $A_q \to B_p$ is \'etale. Hence, the height $1$
+(resp. $\geq 2$) primes of $B$ lie over all the height $1$ (resp. $\geq 2$)
+primes of $A$. The result now follows from the permanence of regularity and
+depth for \'etale extensions.
+\end{proof}
+
+\begin{proposition}
+\label{proposition-etale-CM}
+Let $f:A \to B$ be an \'etale map of local rings. Then $A$ is Cohen-Macaulay
+if and only if $B$ is so.
+\end{proposition}
+\begin{proof}
+Recall that a local ring $A$ is Cohen-Macaulay if and only
+$\mathrm{dim}(A) = \mathrm{depth}(A)$. As each of these invariants is
+preserved under an \'etale extension, the claim follows.
+\end{proof}
+
+\noindent
+The preceeding propositions give some indication as to why we'd like to think
+of \'etale maps as ``local isomorphisms''. Another property that gives an
+excellent indication that we have the ``right'' definition is the fact that
+for $\mathbf{C}$-schemes of finite type, a morphism is \'etale if and only if the
+associated morphism on analytic spaces (the $\mathbf{C}$-valued points given the
+complex topology) is a local isomorphism in the analytic sense (open
+embedding locally on the source). This fact can be proven with the aid of the
+structure theorem and the fact that the analytification commutes with the
+formation of the completed local rings -- the details are left to the reader.
+
+
+\smallskip\noindent
+To continue reading,
+\begin{enumerate}
+
+\item visit the next section: Injectives,
+\autoref{injectives-section-introduction}, or
+
+\item go back to the
+table of contents: \url{index.html#contents}.
+
+\end{enumerate}
+
+
+
+\bibliography{my}
+\bibliographystyle{alpha}
+
+\end{document}

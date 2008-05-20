@@ -1,0 +1,351 @@
+\documentclass{amsart}
+
+% The following AMS packages are automatically loaded with amsart 
+% documentclass:
+%\usepackage{amsmath}
+%\usepackage{amssymb}
+%\usepackage{amsthm}
+
+% For commutative diagrams you can use
+% \usepackage{amscd}
+% but Jason prefers xypic
+\usepackage[all]{xy}
+
+% To put source file link in headers.
+% Change "template.tex" to "this_filename.tex"
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{}
+\chead{}
+\rhead{Source file: \url{src/sets.tex}}
+\lfoot{}
+\cfoot{\thepage}
+\rfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\renewcommand{\headheight}{12pt}
+
+% For cross-file-references
+\usepackage{xr-hyper}
+
+% Package for hypertext links:
+\usepackage[colorlinks=true]{hyperref}
+% For any local file, say "hello.tex" you want to refer to please use
+% \externaldocument[hello-]{hello}
+\externaldocument[conventions-]{conventions}
+\externaldocument[categories-]{categories}
+
+
+% The macro \autoref uses the macros \figurename, etc.
+% We list the default values and we change some of them
+% to start with a captial.
+% Figure	\figurename
+% Table		\tablename
+% Part		\partname
+% Appendix	\appendixname
+% Equation	\equationname
+% item		\Itemname
+% \renewcommand{\Itemname}{Item}
+\renewcommand{\Itemautorefname}{Item}
+% chapter	\Chaptername
+% \renewcommand{\Chaptername}{Chapter}
+% \renewcommand{\Chapterautorefname}{Chapter}
+% section	\sectionname
+\renewcommand{\sectionname}{Section}
+\renewcommand{\sectionautorefname}{Section}
+% subsection	\subsectionname
+\renewcommand{\subsectionname}{Subsection}
+\renewcommand{\subsectionautorefname}{Subsection}
+% subsubsection	\subsubsectionname
+\renewcommand{\subsubsectionname}{Subsubsection}
+\renewcommand{\subsubsectionautorefname}{Subsubsection}
+% paragraph	\paragraphname
+\renewcommand{\paragraphname}{Paragraph}
+\renewcommand{\paragraphautorefname}{Paragraph}
+% footnote	\Hfootnotename
+% \renewcommand{\Hfootnotename}{Footnote}
+\renewcommand{\Hfootnoteautorefname}{Footnote}
+% Equation	\AMSname
+% Theorem	\theoremname
+
+
+% Theorem environments.
+%
+\newtheorem{theorem}{Theorem}[subsection]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{situation}[theorem]{Situation}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{remarks}[theorem]{Remarks}
+
+\numberwithin{equation}{subsection}
+
+
+% OK, start here.
+%
+\begin{document}
+
+\title{Set theory}
+
+%\begin{abstract}
+%\end{abstract}
+
+\maketitle
+\thispagestyle{fancy}
+
+\tableofcontents
+
+\section{Introduction}
+\label{section-introduction}
+
+\noindent
+We need some set theory every now and then. We use Zermelo-Fraenkel set theory
+with the axiom of choice as described in \cite{Kunen} and \cite{Jech}. Since
+we are talking about potentially large objects (categories and categories of
+categories) we should be carefull.
+
+\section{Everything is a set}
+\label{section-sets-everything}
+
+\noindent
+Most mathematiciens think of set theory as providing the basic
+foundations for mathematics. So how does this really work?
+For example, how do we translate the sentence
+``$X$ is a scheme'' into set theory? Well, we just unravel the
+definitions: A scheme is a locally ringed space such that every
+point has an open neighbourhood which is an affine scheme. 
+A locally ringed space is a ringed space such that every stalk
+of the structure sheaf is a local ring. A ringed space is
+a pair $(X, \mathcal{O}_X)$ consisting of a topological space
+$X$ and a sheaf of rings $\mathcal{O}_X$ on it. A topological
+space is a pair $(X, \tau)$ consisiting of a set
+$X$ and a set of subsets $\tau \subset \mathcal{P}(X)$ 
+satisfying the axions of a topology. And so on and
+so forth.
+
+\medskip\noindent
+So how, given a set $S$ would we recognize whether it is a scheme?
+The first thing we look for is whether the set $S$ is an ordered pair.
+This is defined (see \cite{Jech}, page 7) as saying that $S$
+has the form $(a,b) := \{\{a\},\{a,b\}\}$ for some sets $a, b$. If this is
+the case, then we would take a look to see whether $a$ is an
+ordered pair $(c,d)$. If so we would check whether 
+$d \subset \mathcal{P}(c)$, and if so whether $d$ forms the collection
+of sets for a topology on the set $c$. And so on and so forth.
+
+\medskip\noindent
+So even though it would take a considerable amount of work to write
+a complete formula $\phi(x)$ with one free variable $x$ in set theory 
+that expresses the notion ``$x$ is a set'', it is not difficult to do.
+The same thing can be said about any mathematical object.
+
+\subsection{Classes}
+\label{subsection-classes}
+
+\noindent
+Informally we use the notion of a {\it class}. Given a formula
+$\phi(x,p_1,\ldots,p_n)$ we call
+$$
+C = \{x : \phi(x,p_1,\ldots,p_n)\}
+$$
+a {\it class}. A class is easier to manipulate than the formula
+that defines it but it is not strictly speaking a mathematical
+object. For example, if $R$ is a ring then we may
+consider the class of all $R$-modules (since after all we
+may translate the sentence ``$M$ is an $R$-module''
+into a formula in set theory which then defines a class).
+
+
+\subsection{The hierarchy of sets}
+\label{subsection-sets-hierarchy}
+
+\noindent
+A set $T$ is {\it transitive} if $x\in T$ implies $x\subset T$.
+A set $\alpha$ is an {\it ordinal} if it is transitive and well-ordered
+by $\in$. In this case we define $\alpha + 1 = \alpha \cup \{\alpha\}$,
+which is another ordinal called the {\it successor} of $\alpha$.
+An ordinal $\alpha$ is called a {\it successor ordinal} if 
+there exists an ordinal $\beta$ such that $\alpha = \beta + 1$.
+If $\alpha$ is not a successor ordinal, then $\alpha$ is called
+a {\it limit ordinal} and we have
+$$
+\alpha 
+=
+\bigcup_{\gamma \in \alpha} \gamma
+=
+\sup \{\beta \mid \beta < \alpha \}
+$$
+
+\medskip\noindent
+We define, by transfinite induction, $V_0 = \emptyset$,
+$V_{\alpha + 1} = P(V_\alpha)$, and for a limit ordinal $\alpha$,
+$$
+V_\alpha = \bigcup_{\beta < \alpha} V_\beta.
+$$
+
+\begin{lemma}
+\label{axiom-regularity}
+(See \cite{Jech}, Lemma 6.3.)
+Every set is an element of $V_\alpha$ for some ordinal $\alpha$.
+\end{lemma}
+
+\section{Reflection principle}
+\label{section-reflection-principle}
+
+\noindent
+This explains how we deal with some of the set theoretical difficulties. 
+
+\subsection{Statement of the theorem}
+\label{subsection-reflection-theorem}
+
+\noindent
+Let $\phi(x_1,\ldots,x_n)$ be a formula of set theory.
+This notation implies that all the free variables in $\phi$
+occur among $x_1,\ldots,x_n$. Let $M$ be a set.
+The formula $\phi^M(x_1,\ldots,x_n)$ is the formula obtained 
+from $\phi(x_1,\ldots,x_n)$ by replacing all the
+$\forall x$ and $\exists x$ by $\forall x\in M$ and $\exists x\in M$.
+(So the formula $\phi(x_1,x_2) = \exists x, (x\in x_1 \wedge x\in x_2)$
+is turned  into
+$\phi^M(x_1,x_2) = \exists x \in M, (x\in x_1 \wedge x\in x_2)$.
+
+\begin{theorem}
+\label{theorem-reflection-principle}
+(See \cite{Jech}, Theorem 12.14.)
+Let $\phi_i(x_1,\ldots,x_n)$ be a {\bf finite} collection of
+formulas of set theory, and let $T$ be a set.
+There exists a set $M$ such that
+$T \subset M$ and
+$\forall x_1,\ldots,x_n \in M$, we have
+$$
+\forall i,\  
+\phi_i^{M}(x_1,\ldots,x_n)
+\Leftrightarrow
+\forall i,\  
+\phi_i(x_1,\ldots,x_n).
+$$
+In fact we may take $M = V_\alpha$ for some ordinal $\alpha$.
+\end{theorem}
+
+\noindent
+One important feature of this theorem is that the
+formulae hold in all of set theory if and only if they
+hold in $V_\alpha$.
+
+\subsection{Some example applications}
+\label{example-reflection-principle}
+
+\subsubsection{Fibre products of schemes}
+
+\noindent
+Consider the following sentence: ``For every pair of morphisms of
+schemes $X \to S$ and $Y\to S$ with the same target scheme $S$
+there exists a diagram
+$$
+\xymatrix{
+Z \ar[r] \ar[d] & Y \ar[d] \cr
+X \ar[r] & S \cr
+}
+$$
+such that for every scheme $T$ we 
+find a bijection $\text{Mor}(T, Z) \to \text{Mor}(T,X)
+\times_{\text{Mor}(T,S)} \text{Mor}(T, Y)$.''
+From \cite{H} we know this sentence is true.
+Let's write this sentence symbolically as
+\begin{eqnarray*}
+\forall\ X,Y,S\ \text{schemes},
+\forall\ X\to S, Y\to S\ \text{morphisms} \\
+\exists\ Z\ \text{scheme},
+\exists\ Z \to X, Z\to Y\ \text{morphisms},
+\forall\ T\ \text{scheme} \\
+\text{Mor}(T, Z) \cong \text{Mor}(T,X)
+\times_{\text{Mor}(T,S)} \text{Mor}(T, Y)
+\end{eqnarray*}
+Note that this formula has no free variables.
+Choose an initial set of schemes $\mathcal{C}_0$.
+Apply the reflection theorem with $T=\mathcal{C}_0$
+and the sentence above. The theorem implies
+there exists a set\footnote{The
+reflection principle just produces a set, and we
+let $\mathcal{C}$ be the set of elements of this set which are schemes.}
+of schemes
+$\mathcal{C}$ such that
+$\mathcal{C}_0 \subset \mathcal{C}$ and such that
+for any morphisms of schemes $X \to S$ and $Y\to S$
+with the same target scheme $S$ with $X,Y,S \in \mathcal{C}$
+there exists a $Z \in \mathcal{C}$ and a commutative
+diagram as above such that
+$$
+\text{Mor}(T, Z) \cong \text{Mor}(T,X)
+\times_{\text{Mor}(T,S)} \text{Mor}(T, Y)
+$$
+for {\it any scheme} $T$. Let us reformulate this as follows.
+By abuse of notation, let $\mathcal{C}$ denote the category
+whose underlying set of objects is $\mathcal{C}$.
+Then we have:
+\begin{enumerate}
+\item $\mathcal{C}$ has fibre products, and
+\item fibre products in $\mathcal{C}$ satisfy
+the universal property in the class of {\it all} schemes.
+\end{enumerate}
+
+\subsubsection{Injective modules}
+
+\noindent
+Let $R$ be a ring and let $M$ be an $R$-module.
+Consider the sentence: ``The $R$-module $M$ is injective.''
+This can be formulated symbolically as follows
+\begin{eqnarray*}
+\forall\ X,Y\ \text{$R$-modules},\\
+\forall\ j : X\to Y\ \text{injective $R$-module map},\\
+\forall\ x : X\to M\ \text{$R$-module map},\\
+\exists\ y : Y\to M\ \text{$R$-module map}\\
+y \circ j = x
+\end{eqnarray*}
+Note that this formula does have a free variable (namely $M$).
+Let $\mathcal{A}_0$ denote an initial set of $R$-modules.
+(For example we could choose $\mathcal{A}_0$ to be the set
+consisting of all cokernels of maps of free modules -- this
+clearly is a set.)
+The reflection principle says that we can find a set
+of $R$-modules $\mathcal{A}$ (which we think of as a category
+as above) containing the given set $\mathcal{A}_0$
+such that $M \in \mathcal{A}$ is an injective
+object in the category $\mathcal{A}$ if and only if
+it is injective as an $R$-module. 
+
+\subsubsection{Categories of modules}
+
+\noindent
+We continue with the discussion above.
+Consider the sentence: ``Given a category $\mathcal{I}$
+and a functor from $\mathcal{I}$ to $R$-modules,
+denote $i \mapsto M_i$, the limit $\lim_{i\in \mathcal{I}} M_i$
+and the colimit $\text{colim}_{i \in \mathcal{I}} M_i$
+exist.'' 
+
+
+\smallskip\noindent
+To continue reading, 
+\begin{enumerate}
+
+\item visit the next section: Categories,
+\autoref{categories-section-introduction}, or 
+
+\item go back to the
+table of contents: \url{index.html#contents}.
+
+\end{enumerate}
+
+
+\bibliography{my}
+\bibliographystyle{alpha}
+
+\end{document}

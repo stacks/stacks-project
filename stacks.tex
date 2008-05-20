@@ -1,0 +1,431 @@
+\documentclass{amsart}
+
+% The following AMS packages are automatically loaded with amsart 
+% documentclass:
+%\usepackage{amsmath}
+%\usepackage{amssymb}
+%\usepackage{amsthm}
+
+% For commutative diagrams you can use
+% \usepackage{amscd}
+% but Jason prefers xypic
+\usepackage[all]{xy}
+
+% To put source file link in headers.
+% Change "template.tex" to "this_filename.tex"
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{}
+\chead{}
+\rhead{Source file: \url{src/stacks.tex}}
+\lfoot{}
+\cfoot{\thepage}
+\rfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\renewcommand{\headheight}{12pt}
+
+% For cross-file-references
+\usepackage{xr-hyper}
+
+% Package for hypertext links:
+\usepackage[colorlinks=true]{hyperref}
+% For any local file, say "hello.tex" you want to refer to please use
+% \externaldocument[hello-]{hello}
+\externaldocument[conventions-]{conventions}
+\externaldocument[hypercovering-]{hypercovering}
+\externaldocument[sites-]{sites}
+\externaldocument[categories-]{categories}
+\externaldocument[stacks-groupoids-]{stacks-groupoids}
+
+% The macro \autoref uses the macros \figurename, etc.
+% We list the default values and we change some of them
+% to start with a captial.
+% Figure	\figurename
+% Table		\tablename
+% Part		\partname
+% Appendix	\appendixname
+% Equation	\equationname
+% item		\Itemname
+% \renewcommand{\Itemname}{Item}
+\renewcommand{\Itemautorefname}{Item}
+% chapter	\Chaptername
+% \renewcommand{\Chaptername}{Chapter}
+% \renewcommand{\Chapterautorefname}{Chapter}
+% section	\sectionname
+\renewcommand{\sectionname}{Section}
+\renewcommand{\sectionautorefname}{Section}
+% subsection	\subsectionname
+\renewcommand{\subsectionname}{Subsection}
+\renewcommand{\subsectionautorefname}{Subsection}
+% subsubsection	\subsubsectionname
+\renewcommand{\subsubsectionname}{Subsubsection}
+\renewcommand{\subsubsectionautorefname}{Subsubsection}
+% paragraph	\paragraphname
+\renewcommand{\paragraphname}{Paragraph}
+\renewcommand{\paragraphautorefname}{Paragraph}
+% footnote	\Hfootnotename
+% \renewcommand{\Hfootnotename}{Footnote}
+\renewcommand{\Hfootnoteautorefname}{Footnote}
+% Equation	\AMSname
+% Theorem	\theoremname
+
+
+% Theorem environments.
+%
+\newtheorem{theorem}{Theorem}[subsection]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{situation}[theorem]{Situation}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{remarks}[theorem]{Remarks}
+
+\numberwithin{equation}{subsection}
+
+
+% OK, start here.
+%
+\begin{document}
+
+\title{Stacks}
+
+%\begin{abstract}
+%\end{abstract}
+
+\maketitle
+\thispagestyle{fancy}
+
+\tableofcontents
+
+\section{Introduction}
+\label{section-introduction}
+
+\noindent
+Stacks are defined in this document. See \cite{DM}.
+
+\section{Definition}
+\label{section-definition}
+
+\noindent
+Let $\mathcal{C}$ be a site. The $2$-category of stacks over
+$\mathcal{C}$ will be a full sub-$2$-category of the $2$-category
+of categories over $\mathcal{C}$, see Categories,
+\hyperref[categories-definition-categories-over-C]%
+{Definition~\ref*{categories-definition-categories-over-C}}. 
+Thus a stack will be given by a functor of categories
+$p : \mathcal{S} \to \mathcal{C}$ which satisfies the following
+conditions:
+\begin{enumerate}
+\item $p : \mathcal{S} \to \mathcal{C}$ is a category fibred
+in groupoids, see Categories,
+\hyperref[categories-definition-fibred-groupoids]%
+{Definition~\ref*{categories-definition-fibred-groupoids}},
+\item descent for morphisms holds, and
+\item descent data for objects are effective.
+\end{enumerate}
+
+\subsection{Explanation}
+\label{subsection-definition-explanation}
+
+\noindent
+To explain this, we choose a collection of pullback functors as in
+Categories, \hyperref[categories-lemma-fibred-groupoids]%
+{Lemma~\ref*{categories-lemma-fibred-groupoids}}. Another approach is to use
+Categories, \hyperref[categories-lemma-fibred-strict]%
+{Lemma~\ref*{categories-lemma-fibred-strict}}.
+
+\smallskip\noindent
+First, suppose that $x,y\in \text{Ob}(\mathcal{S}_U)$ are
+objects in the fibre category over $U$. We are going to define
+a contravariant functor
+$$
+\text{Isom}(x,y) : \mathcal{C}/U \longrightarrow \text{Sets}.
+$$
+In other words this will be a presheaf on $\mathcal{C}/U$, see
+Sites, \hyperref[sites-definition-presheaf]%
+{Definition~\ref*{sites-definition-presheaf}}. Namely, for 
+$f : V \to U$ we set 
+$$
+\text{Isom}(x,y)(f:V\to U) = 
+\text{Mor}_{\mathcal{S}_V}(f^\ast x, f^\ast y).
+$$
+We also have to define the restriction map corresponding to a
+morphism $(g,\text{id}_U) : (f' : V' \to U)  \to (f : V\to U)$ 
+in $\mathcal{C}/U$ (in other words $f' = f \circ g$). This will be a map
+$$
+\text{Mor}_{\mathcal{S}_V}(f^\ast x, f^\ast y) \longrightarrow
+\text{Mor}_{\mathcal{S}_{V'}}({f'}^\ast x, {f'}^\ast y).
+$$
+This map will basically be $g^\ast$, except that this transforms
+an element $\phi$ of the left hand side into an element 
+$g^\ast \phi$
+of $\text{Mor}_{\mathcal{S}_{V'}}(g^\ast f^\ast x, g^\ast f^\ast y)$.
+At this point we use the transformation $t$ of 
+Categories, \hyperref[categories-lemma-fibred-groupoids]%
+{Lemma~\ref*{categories-lemma-fibred-groupoids}}.
+In a formula, the restriction map maps $\phi$ to
+$$
+t_y \circ g^\ast \phi \circ (t_x)^{-1}.
+$$
+
+\begin{lemma}
+\label{lemma-painfull}
+This actually does give a presheaf.
+\end{lemma}
+
+\begin{proof}
+Let $(g',\text{id}_U) : (f' : V' \to U)  \to (f : V\to U)$ and
+$(g'',\text{id}_U) : (f'' : V'' \to U)  \to (f' : V' \to U)$ be morphisms in
+$\mathcal{C}/U$, and let $\phi \in {Mor}_{\mathcal{S}_V}(f^\ast x, f^\ast y)$.
+It suffices to show that 
+$$
+[(\text{Isom}(x,y))(g' \circ g'')](\phi) = 
+[(\text{Isom}(x,y))(g'')]([(\text{Isom}(x,y))(g')](\phi))
+$$
+By \hyperref[categories-lemma-fibred-groupoids]%
+{Lemma~\ref*{categories-lemma-fibred-groupoids}} there are pullback functors 
+$r: (g' \circ g'')^\ast f'^\ast \longrightarrow f''^\ast$, 
+$t': g'^\ast f^\ast \longrightarrow f'^\ast$, 
+$t'': g''^\ast f'^\ast \longrightarrow f''^\ast$ and
+$u: g''^\ast g'^\ast \longrightarrow (g' \circ g'')^\ast$.  It follows from the
+uniqueness part of the lemma that 
+$t''_{y} \circ g''^\ast t'_{y} = r_{y} \circ u_{f^\ast y}$ and 
+$g''^\ast t'^{-1}_{x} \circ t''^{-1}_{x} = u^{-1}_{f^\ast x} \circ r^{-1}_{x}$.
+We now have that 
+\begin{eqnarray*}
+[(\text{Isom}(x,y))(g' \circ g'')](\phi) & = & 
+r_{y} \circ (g' \circ g'')^\ast \phi \circ r^{-1}_{x}\\
+& = & r_{y} \circ u_{f^\ast y} \circ 
+g''^\ast g'^\ast \phi \circ u^{-1}_{f^\ast x} \circ r^{-1}_{x} \\
+& = & t''_{y} \circ g''^\ast t'_{y} \circ 
+g''^\ast g'^\ast \phi \circ g''^\ast t'^{-1}_{x} \circ t''^{-1}_{x} \\
+& = & t''_{y} \circ g''^\ast (t'_{y} \circ 
+g'^\ast \phi \circ t'^{-1}_{x}) \circ t''^{-1}_{x} \\
+& = & [(\text{Isom}(x,y))(g'')]([(\text{Isom}(x,y))(g')](\phi)).
+\end{eqnarray*}
+
+\noindent
+Alternatively we can argue with
+\hyperref[categories-lemma-fibred-strict]{Lemma~\ref*{categories-lemma-fibred-strict}}
+which says that $\mathcal{S}\to\mathcal{C}$ is equivalent to the
+category assoicated to a contravariant function $F\colon
+\mathcal{C}\to \text{Groupoids}$.  Then $t_y$ is the identity
+transformation for all $y$ so the restriction map is $g\mapsto g^*\phi
+= F(g)\phi$ which is clearly functorial making $\text{Isom}(x,y)$ a
+presheaf.
+\end{proof}
+
+\smallskip\noindent
+OK, so the second condition listed in Section \ref{section-definition}
+is simply the condition that $\text{Isom}(x,y)$ is a sheaf on the site
+$\mathcal{C}/U$! 
+
+\smallskip\noindent
+In order to explain the meaning of the third condition, we must define a
+descent datum. First, we introduce some notation. Suppose that
+$\{f_i : U_i \to U\}_{i\in I}$ is a covering in the site $\mathcal{C}$.
+We will be looking at fibre products $U_{ij} = U_i \times_U U_j$ and
+$U_{ijk} = U_i \times_U U_j \times_U U_k$. It is very important to allow
+$i=j$ and even $i=j=k$ in the following. The projection maps from
+$U_{ij}$ to $U_i$, resp.\ $U_j$ are denoted $\text{pr}_1$, resp.\ 
+$\text{pr}_2$. The projection maps from $U_{ijk}$ to the twofold fibre
+products are $\text{pr}_{12} : U_{ijk} \to U_{ij}$, 
+$\text{pr}_{13} : U_{ijk} \to U_{ik}$, and  
+$\text{pr}_{23} : U_{ijk} \to U_{jk}$. The projection maps from 
+$U_{ijk}$ to $U_{i}$, $U_{j}$, and $U_{k}$ are $\text{pr}_1$, 
+$\text{pr}_2$, and $\text{pr}_3$, respectively. 
+
+\smallskip\noindent
+This notation is potentially ambiguous, but it is standard in the
+literature. For an example of the ambiguity: note the relations
+$\text{pr}_1 = \text{pr}_{1} \circ \text{pr}_{12} =
+\text{pr}_1 \circ \text{pr}_{13}$, $\text{pr}_2 =
+\text{pr}_2 \circ \text{pr}_{12} = \text{pr}_1 \circ \text{pr}_{23}$,
+and $\text{pr}_3 = \text{pr}_2 \circ \text{pr}_{13} =
+\text{pr}_3 \circ \text{pr}_{23}$.
+
+\smallskip\noindent
+Let $x_i \in \text{Ob}(\mathcal{S}_{U_i})$, $i\in I$ be a collection of
+objects, and let
+$$
+\phi_{ij} : \text{pr}_{1}^\ast x_i \longrightarrow
+\text{pr}_{2}^\ast x_j \qquad (i,j \in I)
+$$
+be a collection of morphisms in the fibre categories
+$\mathcal{S}_{U_{ij}}$. In the definition that follows we will
+identify, for instance, $\text{pr}_1^\ast x_i$ on $U_{ijk}$ with both 
+$\text{pr}_{12}^\ast \text{pr}_{1}^\ast x_i$ and 
+$\text{pr}_{13}^\ast \text{pr}_{1}^\ast x_i$.
+
+\begin{definition}
+\label{definition-descent-data}
+The collection $\{x_i, \phi_{ij}\}$ is a descent datum if
+the following cocycle condition is satisfied: For every
+triple $(i,j,k)\in I^3$ the diagram
+$$
+\xymatrix{
+\text{pr}_1^\ast x_i 
+	\ar[rr]^{\text{pr}_{13}^\ast \phi_{ik}}
+	\ar[rd]_{\text{pr}_{12}^\ast \phi_{ij}}
+& & 
+\text{pr}_3^\ast x_k \\
+& \text{pr}_2^\ast x_j \ar[ru]_{\text{pr}_{23}^\ast \phi_{jk}}
+}
+$$
+in the fibre category $\mathcal{S}_{U_{ijk}}$ is commutative.
+\end{definition}
+
+\begin{remarks}
+\label{remarks-definition-descent-datum}
+Two remarks about this definition are in order.  
+
+\smallskip\noindent
+(1) There is a diagonal morphism $\Delta_i : U_i \to U_{ii}$. We can pull back
+$\phi_{ii}$ via this morphism to get an automorphism 
+${\Delta_i}^\ast \phi_{ii} \in \text{Aut}_{U_i}(x_i)$.
+On pulling back the cocycle condition for the triple $(i,i,i)$ 
+by $\Delta_{123} : U_i \to U_{iii}$ we deduce that
+${\Delta_i}^\ast \phi_{ii} \circ {\Delta_i}^\ast \phi_{ii} =
+{\Delta_i}^\ast \phi_{ii}$; thus ${\Delta_i}^\ast \phi_{ii} =
+\text{id}_{x_i}$.
+
+\smallskip\noindent
+(2) There is a morphism
+$\Delta_{13}: U_{ij} \to U_{iji}$ and we can pull back the
+cocycle condition for the triple $(i,j,i)$ to get the
+identity $(\sigma^\ast \phi_{ji}) \circ \phi_{ij} = 
+\text{id}_{\text{pr}_{1/2}^\ast x_i}$, where $\sigma: U_{ij} \to U_{ji}$ is the
+switching morphism.
+\end{remarks}
+
+\smallskip\noindent
+A morphism of descent data 
+$\alpha : \{x_i, \phi_{ij}\} \rightarrow \{y_i, \psi_{ij}\}$ is given by a 
+collection of morphisms $\alpha_i : x_i \to y_i$ in the fibre category
+over $U_i$ such that the following diagrams
+$$
+\xymatrix{
+\text{pr}_1^\ast x_i
+	\ar[r]^{\text{pr}_1^\ast \alpha_i}
+	\ar[d]_{\phi_{ij}}
+&
+\text{pr}_1^\ast y_i
+	\ar[d]^{\psi_{ij}}
+\\
+\text{pr}_2^\ast x_j
+	\ar[r]_{\text{pr}_2^\ast \alpha_j}
+&
+\text{pr}_2^\ast y_j
+}
+$$
+commute. Note that every morphism of descent data is an isomorphism.
+
+\smallskip\noindent
+An object $x \in \text{Ob}(\mathcal{S}_U)$ gives rise to a descent
+datum in the following manner. First we set $x_i = f_i^\ast x$.
+Then we set $\phi_{ij} = {t_{j}}^{-1} \circ t_{i}$, where 
+$t_{i}: \text{pr}_1^\ast f_i^\ast x \to (f_i \circ \text{pr}_1)^\ast x$
+and $t_{j}: \text{pr}_2^\ast f_j^\ast x \to (f_j \circ \text{pr}_2)^\ast x$ 
+are the canonical isomorphisms guaranteed by Categories, 
+\hyperref[categories-lemma-fibred-groupoids]%
+{Lemma~\ref*{categories-lemma-fibred-groupoids}}.
+The lemma below shows this is a descent datum; we will call
+this the {\it canonical descent datum} associated to $x$.
+
+\begin{lemma}
+\label{lemma-trivial-cocycle}
+The cocycle condition holds for the datum described above.
+\end{lemma}
+
+\begin{proof}
+First, note that $f_i \circ\text{pr}_1 = f_j \circ \text{pr}_2=
+f_k\circ \text{pr}_3$. Then note that $\text{pr}_{13}^\ast \phi_{ik}$,
+$\text{pr}_{23}^\ast \phi_{jk}$ and $\text{pr}_{12}^\ast \phi_{ij}$ factor
+uniquely through $(f_i\circ\text{pr}_1)^\ast x = 
+(f_j \circ\text{pr}_2)^\ast x = (f_k \circ\text{pr}_3)^\ast x$
+by Lemma 3.1.3.
+\end{proof}
+
+\begin{definition}
+\label{definition-effective-descent-datum}
+A descent datum $\{x_i,\phi_{ij}\}$ is said to be effective
+when there exists an $x\in \text{Ob}(\mathcal{S}_U)$ 
+such that $\{x_i,\phi_{ij}\}$ is isomorphic to the
+canonical descent datum associated to $x$.
+\end{definition}
+
+\noindent
+At this point we are ready to give the definition of a
+stack. 
+
+\begin{definition}
+\label{defintion-stack}
+A stack (in groupoids) over a site $\mathcal{C}$ is a 
+category $p : \mathcal{S} \to \mathcal{C}$ over $\mathcal{C}$
+such that
+\begin{enumerate}
+\item $p : \mathcal{S} \to \mathcal{C}$ is a category fibred 
+in groupoids over $\mathcal{C}$, 
+\item for all $U \in \text{Ob}(\mathcal{C})$ and all
+$x,y\in \text{Ob}(\mathcal{S}_U)$ the presheaf
+$\text{Isom}(x,y)$ is a sheaf on $\mathcal{C}/U$, and
+\item for all coverings $\mathcal{U}=\{U_i \to U\}$ in $\mathcal{C}$, 
+all descent data $\{x_i,\phi_{ij}\}$ for $\mathcal{U}$ are effective.
+\end{enumerate}
+\end{definition}
+
+\noindent
+Usually the hardest part to check is the third condition.
+
+\begin{lemma}
+\label{lemma-2-product-stacks}
+Suppose that $f : \mathcal{X} \to \mathcal{S}$ and
+$g : \mathcal{Y} \to \mathcal{S}$ are morphisms of stacks over
+$\mathcal{C}$. Let $\mathcal{X} \times_\mathcal{S}\mathcal{Y}$, $p$, $q$,
+$\psi$ be the explicit 2-fibre product of $f$ and $g$ in the 2-category
+of categories over $\mathcal{C}$ described in
+\hyperref[categories-lemma-2-product-categories-over-C]%
+{Lemma~\ref*{categories-lemma-2-product-categories-over-C}}.
+Then $\mathcal{X} \times_\mathcal{S}\mathcal{Y}$ is a stack. In particular
+the 2-category of stacks over $\mathcal{C}$ has 2-fibre products (and
+they are as described in 
+\hyperref[categories-lemma-2-product-categories-over-C]%
+{Lemma~\ref*{categories-lemma-2-product-categories-over-C}}).
+\end{lemma}
+
+\begin{proof}
+FIXME.
+\end{proof}
+
+\subsection{Examples}
+\label{subsection-examples}
+
+\noindent
+FIXME: Here we need lots of examples.
+
+\noindent
+FIXME: To be continued.
+
+\smallskip\noindent
+To continue reading, 
+\begin{enumerate}
+
+\item visit the next section: Stacks and Groupoids,
+\autoref{stacks-groupoids-section-introduction}, or 
+
+\item go back to the
+table of contents: \url{index.html#contents}.
+
+\end{enumerate}
+
+\bibliography{my}
+\bibliographystyle{alpha}
+
+\end{document}

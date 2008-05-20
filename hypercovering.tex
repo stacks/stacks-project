@@ -1,0 +1,314 @@
+\documentclass{amsart}
+
+% The following AMS packages are automatically loaded with amsart 
+% documentclass:
+%\usepackage{amsmath}
+%\usepackage{amssymb}
+%\usepackage{amsthm}
+
+% For commutative diagrams you can use
+\usepackage{amscd}
+% but Jason prefers xypic
+% \usepackage[all]{xy}
+
+% To put source file link in headers.
+% Change "introduction.tex" to "this_filename.tex"
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{}
+\chead{}
+\rhead{Source file: \url{src/hypercovering.tex}}
+\lfoot{}
+\cfoot{\thepage}
+\rfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\renewcommand{\headheight}{12pt}
+
+% For cross-file-references
+\usepackage{xr-hyper}
+
+% Package for hypertext links:
+\usepackage[colorlinks=true]{hyperref}
+% For any local file, say "hello.tex" you want to refer to please use
+% \externaldocument[hello-]{hello}
+\externaldocument[conventions-]{conventions}
+\externaldocument[injectives-]{injectives}
+\externaldocument[stacks-]{stacks}
+
+% The macro \autoref uses the macros \figurename, etc.
+% We list the default values and we change some of them
+% to start with a captial.
+% Figure	\figurename
+% Table		\tablename
+% Part		\partname
+% Appendix	\appendixname
+% Equation	\equationname
+% item		\Itemname
+% \renewcommand{\Itemname}{Item}
+\renewcommand{\Itemautorefname}{Item}
+% chapter	\Chaptername
+% \renewcommand{\Chaptername}{Chapter}
+% \renewcommand{\Chapterautorefname}{Chapter}
+% section	\sectionname
+\renewcommand{\sectionname}{Section}
+\renewcommand{\sectionautorefname}{Section}
+% subsection	\subsectionname
+\renewcommand{\subsectionname}{Subsection}
+\renewcommand{\subsectionautorefname}{Subsection}
+% subsubsection	\subsubsectionname
+\renewcommand{\subsubsectionname}{Subsubsection}
+\renewcommand{\subsubsectionautorefname}{Subsubsection}
+% paragraph	\paragraphname
+\renewcommand{\paragraphname}{Paragraph}
+\renewcommand{\paragraphautorefname}{Paragraph}
+% footnote	\Hfootnotename
+% \renewcommand{\Hfootnotename}{Footnote}
+\renewcommand{\Hfootnoteautorefname}{Footnote}
+% Equation	\AMSname
+% Theorem	\theoremname
+
+
+% Theorem environments.
+%
+\newtheorem{theorem}{Theorem}[subsection]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{situation}[theorem]{Situation}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{remarks}[theorem]{Remarks}
+
+\numberwithin{equation}{subsection}
+
+
+% OK, start here.
+%
+\begin{document}
+
+\title{Hypercoverings}
+
+%\begin{abstract}
+%\end{abstract}
+
+\maketitle
+\thispagestyle{fancy}
+
+\tableofcontents
+
+\section{Introduction}
+\label{section-introduction}
+
+\noindent
+Hypercoverings can be used to compute cohomology of abelian sheaves on sites
+without recourse to injective resolutions. See \cite[Expose V, Sec. 7]{SGA4}.
+A nice manuscript on cohomological descent is the text by Brian Conrad,
+see \url{http://www.math.lsa.umich.edu/~bdconrad/papers/hypercover.pdf}.
+Probably it is useless to try to improve on Brian's article, so we look
+at the question a little differently (more naively).
+
+\section{Definitions}
+\label{section-definitions}
+
+\noindent
+Let $\mathcal{C}$ be a category. Let $\Delta$ be the category of finite 
+ordered sets with objects $[0]=\{0\}, [1]=\{0,1\}, [2]=\{0,1,2\},\ldots$ 
+and order preserving maps. A simplicial object $U_\bullet$ of $\mathcal{C}$ 
+is a contravariant functor $U_\bullet : \Delta \to \mathcal{C}$. This means 
+there are objects $U_0,U_1,U_2,\ldots$ and morphisms $U_\bullet(\varphi) : 
+U_n \to U_m$, where $\varphi$ is any order preserving map 
+$\varphi : [m] \to [n]$.
+
+\smallskip\noindent
+In particular there is a unique morphism $U_0 \to U_n$ and there are
+exactly $n+1$ morphisms $U_n \to U_0$ corresponding to the $n+1$ maps
+$[0] \to [n]$. Obviously we need some more notation to be able to talk 
+intelligently about these simplicial objects.
+
+\begin{definition}
+\label{definition-face-degeneracy}
+For any integer $n\geq 1$, and any $0\leq j \leq n$ we let $d^n_j : [n-1]
+\to [n]$ denote the injective order preserving map skipping $j$. For any
+integer $n\geq 0$, and any $0\leq j \leq n$ we denote $s^n_j : [n+1] 
+\to [n]$ the surjective order preserving map with 
+$(s^n_j)^{-1}(\{j\}) = \{j, j+1\}$.
+\end{definition}
+
+\noindent
+We get a unique morphism $U_\bullet(s^0_0) : U_0 \to U_1$ and
+two morphisms $U_\bullet(d^1_0), U_\bullet(d^1_1) : U_1 \to U_0$.
+There are two morphisms $U_\bullet(s^1_0), U_\bullet(s^1_1) :
+U_1 \to U_2$ and three morphisms $U_\bullet(d^2_0), 
+U_\bullet(d^2_1), U_\bullet(d^2_2) : U_3 \to U_2$. And so on.
+FIXME: This notation...
+
+\smallskip\noindent
+FIXME: Much more.
+
+\begin{example}
+\label{example-simplicial-products}
+(1) The simplest example is the {\it constant} simplicial object with
+value $X \in \text{Ob}(\mathcal{C})$. In other words, $U_n=X$ and
+all maps are $\text{id}_X$. \\
+(2) Suppose that $Y\to X$ is a morphism of $C$ such that all
+the fibred products $Y_{/X}^nY = \times_X Y \times_X \ldots Y$ exist.
+Then we set $U_n = Y^{n+1}_{/X}$, and we let $s: [n] \to [m]$
+correspond to the map (on ``coordinates'') $(y_0,\ldots, y_m) 
+\mapsto (y_{s(0)},\ldots, y_{s(n)})$.
+\end{example}
+
+\subsection{Goals}
+
+\noindent
+Assume that $\mathcal{C}$ is a site with the property
+that the set of coverings consisting of $1$ morphism is cofinal.
+Let $\mathcal{F}$ be a sheaf of abelian groups on
+the site $\mathcal{C}$ which is assumed to have the property
+that the set of coverings consisting of $1$ morphism is cofinal.
+Choose an injective resolution $\mathcal{F} \to \mathcal{J}^\bullet$
+(for example a canonical one, see 
+Injectives, \autoref{injectives-subsection-injectives-sheaves}).
+Let $X$ be an object of $\mathcal{C}$. We want to compute 
+$R\Gamma(X, \mathcal{F}) = \Gamma(X, \mathcal{J}^\bullet)$
+or at least the cohomology groups $H^j(X, \mathcal{F})$.
+The idea is to construct simplicial objects $U_\bullet$ 
+augmented towards $X$, so $U_\bullet \to X$, such that 
+$$
+R\Gamma(X, \mathcal{F}) 
+= \text{Tot}(R\Gamma(U_\bullet, \mathcal{J}^\bullet))
+\leqno{(*)}
+$$
+is a quasi-isomorphism (for any $\mathcal{F}$). On the right hand 
+side this is the total complex associated to the double complex. 
+(The maps are always canonical since we have the resolution over 
+all of $\mathcal{C}$.)
+The complex $\Gamma(U_\bullet, \mathcal{F})$ maps into the
+complex on the right. We will show that for any
+element $\eta \in H^j(X, \mathcal{F})$ there exists a choice
+of $U_\bullet \to X$ such that $\eta$ comes from an element
+in $H^j(U_\bullet, \mathcal{F})$. This is a first step and
+it already allows us to define cup products for example.
+The starting point is the following.
+
+\begin{lemma}
+\label{lemma-product-hypercovering}
+Suppose that $\{Y \to X\}$ is a covering in the topology of
+$\mathcal{C}$. Let $U_n = Y^n_{/X}$ be the simplicial
+object defined in Example \ref{example-simplicial-products}.
+The augmentation $U_\bullet \to X$ has the property
+that $(*)$ is a quasi-isomorphism for all $\mathcal{F}$.
+\end{lemma}
+
+\begin{proof}
+FIXME.
+\end{proof}
+
+\subsection{Making simplicial objects}
+\label{subsection-making-simplicial}
+
+\noindent
+Suppose that $U_\bullet$ is a simplicial object of $\mathcal{C}$. Now let
+$n\geq 0$ and let $V \to U_n$ be a representable morphism of 
+$\mathcal{C}$. This means that the fibre products $V \times_{U_n} W$ 
+exist for all morphisms $W \to U_n$.
+
+\smallskip\noindent
+For any $m$ consider the fibre product (over $U_m$)
+$$
+U'_m = \prod\nolimits_{\varphi \in \text{Mor}_\Delta([n],[m])}
+V\times_{U_n, U_\bullet(\varphi)} U_m.
+$$
+By our assumption on the morphism $V \to U_n$ this fibre product
+exists. For any $\psi : [m1] \to [m2]$ there is a canonical morphism
+$U'_{m2} \to U'_{m1}$ coming from the map $\text{Mor}_\Delta([n],[m1])
+\to \text{Mor}_\Delta([n],[m2]), \varphi \mapsto \varphi \circ \psi$,
+the identity map on $V$ and the canonical map $U_\bullet(\psi) : 
+U_{m2} \to U_{m1}$
+
+\smallskip\noindent
+Clearly, these data give rise to a simplicial object $U'_\bullet$ in
+$\mathcal{C}$. The natural morphisms $U'_m \to U_m$ give rise to a
+morphism of simplicial objects $U'_\bullet \to U_\bullet$. Note that
+the morphism $U'_n \to U_n$ factors throught the morphism $V \to U_n$
+by projection onto the factor corresponding to $\varphi=\text{id}_{[n]}$.
+Also, note that if $\mathcal{C}$ is a site and if 
+$\{V \to U_n\}$ is a covering in the site then for any $m$ it is true
+that $\{U'_m \to U_m\}$ is a covering. This proves the following lemma.
+
+\begin{lemma}
+\label{lemma-construct-new-covers}
+Suppose that $U_\bullet$ and $V\to U_n$ are as above such that
+$\{V \to U_n\}$ is a covering for the topology on the site
+$\mathcal{C}$. The morphism of simplicial objects 
+$U'_\bullet \to U_\bullet$ constructed above has the following 
+properties:
+(1) The morphism $U'_n \to U_n$ factors trough $V \to U_n$.
+(2) For any $m$ the set $\{U'_m \to U_m\}$ is a covering
+in the topology of $\mathcal{C}$.
+\end{lemma}
+
+\subsection{Doubly simplicial stuff}
+\label{subsection-doubly-simplicial}
+
+\noindent
+A doubly simplicial object of $\mathcal{C}$ is a functor
+$U_{\bullet,\bullet} : (\Delta\times\Delta)^\circ \to \mathcal{C}$.
+By subdividing we can make this into a simplicial object 
+$W(U_{\bullet,\bullet})$ with the same cohomology. FIXME: Explain this.
+
+\noindent
+Suppose that $U'_\bullet \to U_\bullet$ is a morphism of simplicial
+objects of $\mathcal{C}$ such that each of the morphisms $U'_n \to
+U_n$ is representable. Then we can construct a doubly-simplicial
+object $U'_{\bullet,\bullet}$ by setting $U'_{n,0}= U'_n$,
+$$
+U'_{n,1} = U'_n \times_{U_n} U'_n,
+$$
+etc. Compare Example \ref{example-simplicial-products}. 
+Out of this object we can construct a single simplicial object
+$W(U'_{\bullet,\bullet})$ as explained above. Construct the 
+natural morphism of simplicial objects 
+$W(U'_{\bullet,\bullet}) \to U_\bullet$.
+
+\begin{lemma}
+Suppose that every $\{U'_n \to U_n\}$ is a covering for the topology
+of $\mathcal{C}$. Suppose that $\mathcal{F}$ is a sheaf on 
+$\mathcal{C}$. Then there is a natural
+morphism of complexes
+$$
+R\Gamma(U_\bullet, \mathcal{F}) \to 
+R\Gamma(W(U_{\bullet,\bullet}), \mathcal{F})
+$$
+which is a quasi-isomorphism. FIXME: Something like this in any case.
+\end{lemma}
+
+\section{The general case}
+
+\noindent
+Mention how things work more generally, for example if $\mathcal{C}$
+does not have the property that coverings consisting of a single map
+are cofinal. State the theorem in the correct generality.
+
+
+\smallskip\noindent
+To continue reading,
+\begin{enumerate}
+
+\item visit the next section: Stacks,
+\autoref{stacks-section-introduction}, or 
+
+\item go back to the
+table of contents: \url{index.html#contents}.
+
+\end{enumerate}
+
+\bibliography{my}
+\bibliographystyle{alpha}
+
+\end{document}

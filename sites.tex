@@ -1,0 +1,564 @@
+\documentclass{amsart}
+
+% The following AMS packages are automatically loaded with amsart 
+% documentclass:
+%\usepackage{amsmath}
+%\usepackage{amssymb}
+%\usepackage{amsthm}
+
+% For commutative diagrams you can use
+% \usepackage{amscd}
+% but Jason prefers xypic
+\usepackage[all]{xy}
+
+% To put source file link in headers.
+% Change "sites.tex" to "this_filename.tex"
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{}
+\chead{}
+\rhead{Source file: \url{src/sites.tex}}
+\lfoot{}
+\cfoot{\thepage}
+\rfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\renewcommand{\headheight}{12pt}
+
+% For cross-file-references
+\usepackage{xr-hyper}
+
+% Package for hypertext links:
+\usepackage[colorlinks=true]{hyperref}
+% For any local file, say "hello.tex" you want to refer to please use
+% \externaldocument[hello-]{hello}
+\externaldocument[conventions-]{conventions}
+\externaldocument[sets-]{sets}
+\externaldocument[categories-]{categories}
+\externaldocument[flat-]{flat}
+\externaldocument[etale-]{etale}
+\externaldocument[injectives-]{injectives}
+
+% The macro \autoref uses the macros \figurename, etc.
+% We list the default values and we change some of them
+% to start with a captial.
+% Figure	\figurename
+% Table		\tablename
+% Part		\partname
+% Appendix	\appendixname
+% Equation	\equationname
+% item		\Itemname
+% \renewcommand{\Itemname}{Item}
+\renewcommand{\Itemautorefname}{Item}
+% chapter	\Chaptername
+% \renewcommand{\Chaptername}{Chapter}
+% \renewcommand{\Chapterautorefname}{Chapter}
+% section	\sectionname
+\renewcommand{\sectionname}{Section}
+\renewcommand{\sectionautorefname}{Section}
+% subsection	\subsectionname
+\renewcommand{\subsectionname}{Subsection}
+\renewcommand{\subsectionautorefname}{Subsection}
+% subsubsection	\subsubsectionname
+\renewcommand{\subsubsectionname}{Subsubsection}
+\renewcommand{\subsubsectionautorefname}{Subsubsection}
+% paragraph	\paragraphname
+\renewcommand{\paragraphname}{Paragraph}
+\renewcommand{\paragraphautorefname}{Paragraph}
+% footnote	\Hfootnotename
+% \renewcommand{\Hfootnotename}{Footnote}
+\renewcommand{\Hfootnoteautorefname}{Footnote}
+% Equation	\AMSname
+% Theorem	\theoremname
+
+
+% Theorem environments.
+%
+\newtheorem{theorem}{Theorem}[subsection]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{situation}[theorem]{Situation}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{remarks}[theorem]{Remarks}
+
+\numberwithin{equation}{subsection}
+
+
+% OK, start here.
+%
+\begin{document}
+
+\title{Sites and Sheaves}
+
+%\begin{abstract}
+%\end{abstract}
+
+\maketitle
+\thispagestyle{fancy}
+
+\tableofcontents
+
+\section{Introduction}
+\label{section-introduction}
+
+\noindent
+The notion of a site was introduced by Grothendieck to be able to study
+sheaves in the \'etale topology of schemes. The basic reference for this
+notion is perhaps \cite{SGA4}. 
+
+\section{Topologies}
+\label{section-topologies}
+
+\noindent
+In this section we define what sites are and how to think about sheaves
+on sites. See \cite{ArtinTopologies}.
+
+\subsection{Definitions}
+\label{subsection-sites-definitions}
+
+\noindent
+Let $C$ be a category, see Conventions, 
+\autoref{conventions-section-categories}. 
+In the following the notation $\{U_i \to U\}_{i\in I}$ means that 
+$U \in \text{Ob}(C)$, that $I$ is a set and that for each $i\in I$ 
+we are given a morphism $U_i \to U$ of $C$ with target $U$. This
+notation suggests an open covering as in topology.
+
+\begin{definition}
+\label{definition-site}
+A {\it site} is given by a category $\mathcal{C}$ and a set 
+$\text{Cov} \mathcal{C}$ consisting of coverings 
+$\{U_i \to U\}_{i \in I}$ satisfying the following axioms
+\begin{enumerate}
+\item If $V \to U$ is an isomorphism then $\{V \to U\} \in 
+\text{Cov} \mathcal{C}$.
+\item If $\{U_i \to U\} \in \text{Cov} \mathcal{C}$ and for each
+$i$ we have $\{V_{ij} \to U_i\} \in \text{Cov} \mathcal{C}$, then
+$\{V_{ij} \to U\} \in \text{Cov} \mathcal{C}$.
+\item If $\{U_i \to U\}\in \text{Cov} \mathcal{C}$ and $V \to U$ is a
+morphism of $\mathcal{C}$ then $U_i \times_U V$ exists for all
+$i$ and $\{U_i \times_U V \to V \} \in \text{Cov} \mathcal{C}$.
+\end{enumerate}
+\end{definition}
+
+\begin{example}
+Let $X$ be a topological space.  Let $T_X$ be the category whose
+objects consist of all the open sets $U$ in $X$ and whose morphisms
+are just the inclusion maps.  That is, there is at most one morphism
+between any two objects in $T_X$.  Now define a site on this
+category by defining $\{U_i \to U\}\in \text{Cov} T_X$ if $\bigcup
+U_i = U$. Conditions (1) and (2) above are clear, and (3) is also
+clear once we realize that in $T_X$ we have $U \times V = U \bigcap V$.
+Presheaves and sheaves (as defined below) on the site $T_X$ will
+agree exactly with the usual notion of a (pre)sheaf on a topological
+space.
+\end{example}
+
+\begin{example}
+\label{example-site on group} Every category (with products) has a
+canonical topology associated to it. (Note: this is the finest
+topology where all representable presheaves are sheaves). Here is one
+example. Let $G$ be a group. Consider the category whose objects are 
+sets $X$ with a left $G$-action, with $G$-equivariant maps as the
+morphisms.  We define a topology by declaring $\{U_i \to U\}$ to be 
+a covering if $\bigcup U_i = U$. To verify that fibred products do 
+exist in this category, suppose $f: S \rightarrow U$ and 
+$h: T \rightarrow U$ are morphisms in the category. Then let 
+$W = \{(s, t) \in S \times T \mid f(s) = h(t)\}$. This is a $G$-set. 
+The action is given by $g \bullet(s,t) = (g \bullet s, g \bullet t)$.
+Projections onto $S$ and $T$ are clearly $G$-maps and so 
+$W = S \times_U T$.  Conditions (1), (2), and (3) are now easily 
+verified. This site will be denoted $T_G$.
+\end{example}
+
+\begin{example}
+FIXME. We can have a lot of examples linked from here.
+\end{example}
+
+\noindent
+In this context a presheaf of sets is a contravariant functor
+$\mathcal{F}$ from $\mathcal{C}$ to $\text{Sets}$ (see Categories, 
+\hyperref[categories-remark-functor-into-sets]%
+{Remark~\ref*{categories-remark-functor-into-sets}}). 
+So for every object $U$ of $\mathcal{C}$ we have a set 
+$\mathcal{F}(U)$ and for every morphism
+$f : V \to U$ a ``restricton map'' $f^\ast : \mathcal{F}(U) \to 
+\mathcal{F}(V)$. Sometimes we say an element
+of $\mathcal{F}(U)$ is a section of $\mathcal{F}$ over $U$ , and sometimes
+we use the notation $f^\ast(s) =: s|_V$. 
+
+\smallskip\noindent
+Similarly, we can define the notion of a presheaf of abelian groups, rings,
+or a presheaf with values in a category. Note also that a presheaf is defined
+without reference to the topology.
+
+\begin{definition}
+\label{definition-presheaf}
+A presheaf $\mathcal{F}$ on a category $\mathcal{C}$ with values in a category
+$\mathcal{A}$ is a contravariant functor from $\mathcal{C}$ to $\mathcal{A}$,
+i.e., $\mathcal{F} : \mathcal{C}^\circ \to \mathcal{A}$.
+\end{definition}
+
+\noindent
+The sheaf condition is taken with respect to the coverings of the 
+topology as follows.
+
+\begin{definition}
+\label{definition-sheaf}
+Let $\mathcal{F} : \mathcal{C}^\circ \to \mathcal{A}$ be a presheaf 
+with values in a category $\mathcal{A}$. We say that $\mathcal{F}$ 
+is a sheaf if for every covering $\{U_i \to U\} \in \text{Cov} \mathcal{C}$ 
+the diagram
+$$
+\xymatrix{
+\mathcal{F}(U) \ar[r] 
+& 
+\prod\nolimits_i \mathcal{F}(U_i) \ar@/^/[r] \ar@/_/[r] 
+&
+\prod\nolimits_{ij} \mathcal{F}(U_i\times_U U_j)
+}
+\leqno{(*)}
+$$
+is exact. The meaning of this will be made clear below.
+\end{definition}
+
+\noindent
+First, we explain what this means if $\mathcal{F}$ is a presheaf of sets:
+It means that given sections $s_i \in F(U_i)$ such that
+$\text{pr}_1^\ast(s_i) = \text{pr}_2^\ast(s_j)$ in 
+$\mathcal{F}(U_i \times_U U_j)$ for all $i,j$ there exists a unique
+$s \in \mathcal{F}(U)$ such that $s_i = s|_{U_i}$.
+
+\smallskip\noindent
+If $\mathcal{A}$ is arbitrary, the condition means that for any
+object $X\in \text{Ob}(\mathcal{A})$ the diagram of sets
+$$
+\xymatrix{
+\text{Mor}_\mathcal{A}(X,\mathcal{F}(U)) \ar[r] 
+& 
+\prod\nolimits_i \text{Mor}_\mathcal{A}(X,\mathcal{F}(U_i)) 
+\ar@/^/[r] \ar@/_/[r] 
+&
+\prod\nolimits_{ij} \text{Mor}_\mathcal{A}(X,\mathcal{F}(U_i\times_U U_j))
+}
+$$
+is exact as before. If the products in $(*)$ exist then this condition just
+means that the first arrow is the equalizer of the other two.
+
+FIXME: A little about the canonical topology, and in particular some examples.
+
+\begin{example}
+As an example, suppose $\mathcal{F}$ is a sheaf of sets on $T_G$
+(see Example \ref{example-site on group}).  First we note that $G$ 
+itself is an object in the category (the action given by left 
+multiplication). As a $G$-set, denote it ${}_GG$. Next, remark that
+the map
+$$
+\text{Hom}_G({}_GG,{}_GG) \longrightarrow G^{opp}, 
+\varphi \longmapsto \varphi(1)
+$$
+is an isomorphism of groups. The inverse map sends $g \in G$
+to the map $ s \mapsto s \cdot g$ (i.e.\ right multiplication). Then
+$\mathcal{F}({}_GG)$ is also a $G$-set where the action $g \bullet s$
+for $g \in G$ and $s \in \mathcal{F}({}_GG)$ is given by
+$\mathcal{F}(\cdot g)(s)$. Claim: If $\mathcal{F}$ is a sheaf then we
+can recover $\mathcal{F}$ from the $G$-set $\mathcal{F}({}_GG)$
+and vice versa. That is, there is an equivalence of categories
+between left $G$-sets and sheaves of sets on $T_G$. We will show a
+quasi-inverse of the functor $\mathcal{F} \mapsto \mathcal{F}({}_GG)$ is
+given by $U \mapsto \text{Hom}_G(\cdot, U)$ where $U$ is a $G$-set. 
+Since $T_G$ has the canonical topology, the presheaves  
+$\text{Hom}_G(\cdot, U)$ are sheaves.
+Composing $U \rightarrow \text{Hom}_G(\cdot, U)$ with 
+$\mathcal{F} \rightarrow \mathcal{F}({}_GG)$ we get 
+$U \mapsto \text{Hom}_G({}_GG,U)$ which is
+canonically isomorphic to $U$ (namely, a $G$-equivariant map of ${}_GG$ 
+into $U$ is uniquely determined by the image of $1$ in the exact same way 
+as above). Composing in the reverse direction $\mathcal{F} \mapsto 
+\mathcal{F}({}_GG)$ with $U \mapsto \text{Hom}_G(\cdot, U)$ we have to 
+show that the presheaf $\text{Hom}_G(\cdot, \mathcal{F}({}_GG))$ is naturally
+isomorphic to $\mathcal{F}$, provided that $\mathcal{F}$ is a sheaf.
+Suppose $U$ is another $G$-set. Then
+$\{{}_GG \stackrel{\phi_u}{\rightarrow} U\}_{u \in U}$ (where
+$\phi_u(g) = g \bullet u$) is a covering of $U$. Since $\mathcal{F}$ is a 
+sheaf we have the exact sequence:
+$$
+\xymatrix{ \mathcal{F}(U) \ar[r] & \prod\nolimits_{u \in U}
+\mathcal{F}({}_GG) \ar@/^/[r] \ar@/_/[r] & \prod\nolimits_{u, v \in
+U} \mathcal{F}({}_GG \times_U{}_GG) } \leqno{(*)}
+$$
+Now we note that the middle term is exactly 
+$\text{Mor}(U,\mathcal{F}({}_GG))$ (maps of sets). Since the sequence is 
+exact, we have that $\mathcal{F}(U)$ is the equalizer of the second two
+arrows. This means it is exactly isomorphic to the subset of morphisms in
+$\text{Mor}(U, \mathcal{F}(_G G))$ that commute with the $G$-action (FIXME?),
+i.e., $\mathcal{F}(U) \cong \text{Hom}_G(U, \mathcal{F}({}_GG))$.
+This isomorphisms is clearly functorial in $U$ so we have an
+isomorphism of sheaves, as desired. Note that in the special case that 
+$U$ is a left $G$-module rather than just a set, then this process gives 
+an equivalence between left $G$-modules and sheaves of abelian groups on $T_G$.
+\end{example}
+
+\subsection{More about coverings}
+\label{subsection-coverings}
+
+\noindent
+Let $\mathcal{C}$ be a site. A morphism of coverings of $\mathcal{C}$ from 
+$\mathcal{U}=\{U_i \to U\}_{i\in I}$ to $\mathcal{V}=\{V_j \to V\}_{j\in J}$
+is given by a morphism $U \to V$, a map of sets $\alpha : I \to J$ and
+for each $i\in I$ a morphism $U_i \to V_{\alpha(i)}$ such that
+the diagram
+$$
+\xymatrix{
+U_i \ar[r] \ar[d] & V_{\alpha(i)} \ar[d] \\
+U \ar[r] & V
+}
+$$
+is commutative. In the special case that $U=V$ and $U\to V$ is the identity
+we call $\mathcal{U}$ a refinement of the covering $\mathcal{V}$.
+
+\smallskip\noindent
+Let $\mathcal{F}$ be a presheaf of sets on $\mathcal{C}$, and let
+$\mathcal{U}$ be a covering in $\mathcal{C}$ as above. Let us use the
+notation $\mathcal{F}(\mathcal{U})$ to indicate the equalizer
+$$
+\mathcal{F}(\mathcal{U}) = \{ (s_i)_i \in \prod_i \mathcal{F}(U_i)
+\mid  \text{pr}_1^\ast s_i = \text{pr}_2^\ast s_j \forall i,j \in I\}.
+$$
+There is a canonical map $\mathcal{F}(U) \to \mathcal{F}(\mathcal{U})$.
+It is clear that a morphism of coverings $\mathcal{U} \to \mathcal{V}$
+induces commutative diagrams
+$$
+\xymatrix{
+& U_i \ar[rr] & & V_{\alpha(i)} \\
+U_i \times_U U_j \ar[rr] \ar[ur] \ar[dr] & & 
+V_{\alpha(i)}\times_V V_{\alpha(j)} \ar[ur] \ar[dr] & \\
+& U_j \ar[rr] & & V_{\alpha(j)}
+}.
+$$
+This in turn produces a map $\mathcal{F}(\mathcal{V}) \to 
+\mathcal{F}(\mathcal{U})$, compatible with the map $\mathcal{F}(V) 
+\to \mathcal{F}(U)$. 
+
+\begin{lemma}
+\label{lemma-indepent-refinement}
+Any two morphisms $f,g: \mathcal{U} \to \mathcal{V}$ of coverings
+inducing the same morphism $U \to V$ induce the same
+map $\mathcal{F}(\mathcal{V}) \to \mathcal{F}(\mathcal{U})$.
+\end{lemma}
+
+\begin{proof}
+Let $\mathcal{U}=\{U_i \to U\}_{i\in I}$ and 
+$\mathcal{V}=\{V_j \to V\}_{j\in J}$.
+The morphism~$f$ consists of a map $U\to V$, a map $\alpha\colon I\to J$ and
+maps $f_i\colon U_i\to V_{\alpha(i)}$.
+Likewise, $g$~determines a map $\beta\colon I\to J$ and maps
+$g_i\colon U_i\to V_{\beta(i)}$.
+As $f$~and~$g$ induce the same map $U\to V$, the diagram
+$$\xymatrix{&V_{\alpha(i)}\ar[dr]\\
+  U_i\ar[ur]^{f_i}\ar[dr]_{g_i}&&V\\
+  &V_{\beta(i)}\ar[ur]}$$
+is commutative for every~$i\in I$. Hence $f$~and~$g$ factor through 
+the fibre product
+$$\xymatrix{&V_{\alpha(i)}\\
+  U_i\ar[r]^-\varphi\ar[ur]^{f_i}\ar[dr]_{g_i}&
+  V_{\alpha(i)}\times_VV_{\beta(i)}\ar[u]_{\text{pr}_1}\ar[d]^{\text{pr}_2}\\
+  &V_{\beta(i)}.}$$
+Now let $s=(s_j)_j\in\mathcal{F}(\mathcal{V})$.
+Then for all~$i\in I$:
+ $$(f^*s)_i=f_i^*(s_{\alpha(i)})=\varphi^*\text{pr}_1^*(s_{\alpha(i)})
+   =\varphi^*\text{pr}_2^*(s_{\beta(i)})=g_i^*(s_{\beta(i)})=(g^*s)_i,$$
+where the middle equality is given by the definition 
+of~$\mathcal{F}(\mathcal{V})$.
+This shows that the maps $\mathcal{F}(\mathcal{V})\to\mathcal{F}(\mathcal{U})$
+induced by $f$~and~$g$ are equal.
+\end{proof}
+
+\smallskip\noindent
+Suppose that $\mathcal{F}$ is a presheaf of abelian groups on a
+fixed site $T$.  We would like to canonically associate a sheaf
+$\mathcal{F}^\#$ to $\mathcal{F}$ such that there exists a
+functorial morphism $\mathcal{F} \rightarrow \mathcal{F}^\#$ and such that for
+any morphism from $\mathcal{F}$ to an abelian sheaf $\mathcal{G}$
+there is a unique factorization $\mathcal{F} \rightarrow
+\mathcal{F}^\# \rightarrow \mathcal{G}$. The sheaf $\mathcal{F}^\#$ will be
+called the sheafification of $\mathcal{F}$.
+
+\smallskip\noindent
+FIXME: Move the following stuff on limits to another file, and make it
+more general. Find nice lim symbol anyone?
+
+\begin{definition}
+A directed set is a set $S$ together with a relation $\geq$ which is
+transitive and reflexive such that for $a, b \in S$ there exists another
+element $c \in S$ such that $c \geq a$ and $c \geq b$.
+\end{definition}
+
+\noindent
+A directed system over a directed set $S$, is given by a set $M_s$ for
+every $s\in S$ and a map $M_a \to M_b$ for every pair $b\geq a$ such
+that all the composition $M_a \to M_b \to M_c$ equals the map
+$M_a \to M_c$ whenever $c \geq b \geq a$. The limit of the directed system
+is the set $\lim_{s\in S} M_s = \big(\coprod_{a\in S} M_a\big)/\sim$. Here,
+if $m\in M_a$ and $m'\in M_{a'}$, then $m \sim m'$ if and only if $m$ and $m'$
+map to the same element in some $M_b$ for some $b$ with $b\geq a$ and
+$b \geq a'$. If the system is in the category of abelian groups then the
+limit has the structure of an abelian group.
+
+\noindent
+Let $\mathcal{J}_U$ be the set of all coverings of $U$. It is not hard to
+check that $\mathcal{J}_U$ with morphisms being morphisms of coverings
+over $U$, is a category. It is also clear that given any two coverings of $U$,
+$\mathcal{U}_1$ and $\mathcal{U}_2$, there is another covering refining them
+both. That is, the covering $\{U_{1i} \times_U U_{2j} \rightarrow U\}$ is a
+cover of $U$ and the natural projection maps give the refinements: it is
+exactly conditions (2) and (3) in \ref{definition-site} that allow us to conclude
+that this is a cover. Now, by the above remarks, we see that $\mathcal{J}_U$
+is a directed set, where we say that $\{U_i \to U\} \geq \{V_j \to U\}$ if 
+and only if $\{U_i \to U\}$ is a refinement of $\{V_j \to U\}$. Lemma
+\ref{lemma-indepent-refinement} tells us that $\mathcal{U} \mapsto
+\mathcal{F}(\mathcal{U})$ is a directed system over $\mathcal{J}(U)$, if
+we define, for $\mathcal{U} \geq \mathcal{V}$ the map 
+$\mathcal{F}(\mathcal{U}) \to \mathcal{F}(\mathcal{V})$ to be induced from any
+morphism of coverings of $U$. Hence we can take the direct limit over the set
+of coverings of $U$. Thus we define 
+$$
+\mathcal{F}^\dagger(U) = \lim_{\mathcal{U}}\mathcal{F}(\mathcal{U})
+$$
+where the limit is over the directed set of coverings $\mathcal{J}_U$.
+This is sometimes denoted $\check{H}^0(U, F)$, ie, the $0$th \v{C}ech
+cohomology group. 
+
+\smallskip\noindent
+Finally, we say that $\mathcal{F}$ is separated if, for all coverings
+of $U$, $\{U_i \rightarrow U$ the map 
+$\mathcal(F) \rightarrow \prod \mathcal(F)(U_i)$ is injective.
+
+\begin{theorem}
+With $\mathcal{F}$ as above
+\begin{enumerate}
+\item $\mathcal{F}^\dagger$ is separated
+\item If $\mathcal{F}$ is separated, then $\mathcal{F}^\dagger$ is a sheaf.
+\item $\mathcal{F}^{\dagger\dagger}$ is always a sheaf.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+FIXME.
+\end{proof}
+
+\noindent
+FIXME. Discuss the more general case when $\mathcal{F}$ may not be a sheaf with
+values in $\mathcal{A}b$.
+
+\section{Representable sheaves}
+\label{section-representable-sheaves}
+
+\noindent
+FIXME. Talk about representable presheaves, canonical topology and
+representable sheaves.
+
+\section{Morphisms of sites}
+\label{section-morphism-sites}
+
+\noindent
+FIXME. Talk about continuous functors, and explain the condition that leads to
+the correct functoriality on sheaves (i.e., exactness of the pullback functor).
+It makes sense to not always assume this holds.
+
+\section{Topoi}
+
+\noindent
+The topos associated to a site $\mathcal{C}$ is its ``category'' of sheaves of
+sets. Conversely, any topos is equivalent to such a ``category'' of sheaves.
+Our conventions do not allow us to talk about topoi. Of course we can choose a
+large cardinal $\alpha$ and consider the category of sheaves of sets
+$\text{Sh}_\alpha(\mathcal{C})$ contained in $\alpha$, but this does not have
+the same flavor.
+
+\smallskip\noindent
+FIXME. What are topoi? What are morphisms of topoi? Do we need them? (Yes, in a
+way.)
+
+\smallskip\noindent
+As a result some of the discussion in this project uses sites in places where
+it might be more convenient to use the language of topoi. We discuss a few
+of these ``inconveniences'' in this section.
+
+\subsection{Sites and points}
+\label{subsection-points}
+
+\noindent
+A point of a topos $\mathcal{S}$ is a morphism of topoi from $\text{Sets}$ to
+$\mathcal{S}$. As discussed above we do not use this definition. In stead, we
+somewhat akwardly define a point as follows. A point is a functor
+$p : \mathcal{C} \to \text{Sets}$ such that
+\begin{enumerate}
+\item if $V\times_U W$ exists then $p(V\times_U W)=p(V)\times_{p(U)}p(W)$,
+\item if $\{U_i \to U\}$ is a covering, then $\coprod_i p(U_i) \to p(U)$ is
+surjective,
+\item for any $x\in p(U)$ and $y\in p(V)$ there exists a $z\in p(W)$ and
+morphisms $\alpha:W \to U$, $\beta:W \to V$ such that $p(\alpha)(z)=x$,
+and $p(\beta)(z)=y$, and
+\item for any pair of morphisms $f,g : V \to U$, and $y\in p(V)$ such
+that $p(f)(x)=p(g)(x)$, there exists a $h: W \to V$, $z\in p(W)$ such that
+$p(h)(z)=y$ and $g\circ h = f \circ h$.
+\end{enumerate}
+Once we have this, then we can define the stalk of a (pre)sheaf $\mathcal{F}$
+at $p$ as follows
+$$
+\mathcal{F}_p = \lim_{(U,x)} \mathcal{F},
+$$
+where the limit is over the category of pairs 
+$\{(U,x) \mid U \in \text{Ob}(\mathcal{C}), x\in p(U)$. The conditions
+above imply this is a FIXME filtered limit. This implies that taking
+stalks is an exact functor. FIXME: Need a section on limits.
+
+\begin{lemma}
+\label{lemma-points-recover}
+In the situation above we have $p(U) = (U^{++})_p$. FIXME: notation.
+\end{lemma}
+
+\begin{proof}
+FIXME.
+\end{proof}
+
+\noindent
+We say that a site $\mathcal{C}$ has enough points if the following equivalence
+is true for every morphism of sheaves of sets 
+$\phi : \mathcal{F} \to \mathcal{G}$:
+$$
+\phi\ \text{is}\ \text{injective} 
+\Leftrightarrow 
+\forall p, \phi_p\ \text{is}\ \text{injective} 
+$$
+This will then imply the same thing for ``bijective'' and ``surjective'', and
+it allows you to check exactness of sequences of sheaves of abelian groups
+on stalks. (FIXME: explain?) Often sites that we work with have enough points
+and it is easier to work with them, e.g., it is fairly easy to construct
+injective sheaves of abelian groups on such a site.
+
+\smallskip\noindent
+To continue reading,
+\begin{enumerate}
+
+\item visit the next section: Flat descent for quasi-coherent sheaves,
+\autoref{flat-section-introduction}, or
+
+\item go back to the
+table of contents: \url{index.html#contents}.
+
+\end{enumerate}
+
+
+\bibliography{my}
+\bibliographystyle{alpha}
+
+\end{document}

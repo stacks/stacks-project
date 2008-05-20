@@ -1,0 +1,495 @@
+\documentclass{amsart}
+
+% The following AMS packages are automatically loaded with amsart 
+% documentclass:
+%\usepackage{amsmath}
+%\usepackage{amssymb}
+%\usepackage{amsthm}
+
+% For commutative diagrams you can use
+% \usepackage{amscd}
+% but Jason prefers xypic
+\usepackage[all]{xy}
+
+% To put source file link in headers.
+% Change "template.tex" to "this_filename.tex"
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{}
+\chead{}
+\rhead{Source file: \url{src/schemes.tex}}
+\lfoot{}
+\cfoot{\thepage}
+\rfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\renewcommand{\headheight}{12pt}
+
+% For cross-file-references
+\usepackage{xr-hyper}
+
+% Package for hypertext links:
+\usepackage[colorlinks=true]{hyperref}
+% For any local file, say "hello.tex" you want to refer to please use
+% \externaldocument[hello-]{hello}
+\externaldocument[conventions-]{conventions}
+\externaldocument[sets-]{sets}
+\externaldocument[categories-]{categories}
+\externaldocument[stacks-]{stacks}
+\externaldocument[algebraic-]{algebraic}
+
+% The macro \autoref uses the macros \figurename, etc.
+% We list the default values and we change some of them
+% to start with a captial.
+% Figure	\figurename
+% Table		\tablename
+% Part		\partname
+% Appendix	\appendixname
+% Equation	\equationname
+% item		\Itemname
+% \renewcommand{\Itemname}{Item}
+\renewcommand{\Itemautorefname}{Item}
+% chapter	\Chaptername
+% \renewcommand{\Chaptername}{Chapter}
+% \renewcommand{\Chapterautorefname}{Chapter}
+% section	\sectionname
+\renewcommand{\sectionname}{Section}
+\renewcommand{\sectionautorefname}{Section}
+% subsection	\subsectionname
+\renewcommand{\subsectionname}{Subsection}
+\renewcommand{\subsectionautorefname}{Subsection}
+% subsubsection	\subsubsectionname
+\renewcommand{\subsubsectionname}{Subsubsection}
+\renewcommand{\subsubsectionautorefname}{Subsubsection}
+% paragraph	\paragraphname
+\renewcommand{\paragraphname}{Paragraph}
+\renewcommand{\paragraphautorefname}{Paragraph}
+% footnote	\Hfootnotename
+% \renewcommand{\Hfootnotename}{Footnote}
+\renewcommand{\Hfootnoteautorefname}{Footnote}
+% Equation	\AMSname
+% Theorem	\theoremname
+
+
+% Theorem environments.
+%
+\newtheorem{theorem}{Theorem}[subsection]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{situation}[theorem]{Situation}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{remarks}[theorem]{Remarks}
+
+\numberwithin{equation}{subsection}
+
+
+% OK, start here.
+%
+\begin{document}
+
+\title{Schemes as stacks and representability}
+
+%\begin{abstract}
+%\end{abstract}
+
+\maketitle
+\thispagestyle{fancy}
+
+\tableofcontents
+
+\section{Introduction}
+\label{section-introduction}
+
+\noindent
+In this document we explain how we will think of schemes as stacks over the
+category of affine schemes.
+
+\section{Affine schemes, schemes, stacks representable by a scheme}
+\label{section-schemes}
+
+\noindent
+You can skip the first two subsections for sure.
+
+\subsection{Locally ringed spaces}
+\label{subsection-locally-ringed-sapces}
+
+\noindent
+A locally ringed space $(X,\mathcal{O}_X)$ is a pair consisting of a
+topological space $X$ and a sheaf of rings $\mathcal{O}_X$ all of whose stalks
+are local rings. Morphisms in the category of locally ringed spaces are
+maps of pairs $f : (X, \mathcal{O}_X) \to (Y,\mathcal{O}_Y)$ so that
+all the induced ring maps $\mathcal{O}_{Y,f(x)} \to \mathcal{O}_{X,x}$ are
+local ring maps.
+
+\smallskip\noindent
+A reference for this section is \cite{EGA}, I.
+
+\subsection{Affine schemes}
+\label{subsection-affine-schemes}
+
+\noindent
+An affine scheme is a locally ringed space isomorphic to a locally ringed
+space of the form $\text{Spec}(A)$, for some commutative (unital) ring $A$.
+(Note that $A$ can be the zero ring in which case $\text{Spec}(A)$ is
+the empty space.) As a set $\text{Spec}(A)$ is the set of prime ideals of
+$A$. The topology on $\text{Spec}(A)$ is the unique one that has a basis
+of opens of the form $D(f) = \{ \wp \in\text{Spec}(A) \mid
+f \not\in \wp \}$,
+$f\in A$. The structure sheaf $\mathcal{O} = 
+\mathcal{O}_{\text{Spec}(A)}$ is the unique
+sheaf of rings such that (1) $\Gamma(D(f), \mathcal{O}) = A_f$ and
+(2) the restriction map $\Gamma(D(f), \mathcal{O}) \to \Gamma(D(fg),
+\mathcal{O})$ is the canonical map $A_f \to A_{fg}$.
+
+\smallskip\noindent
+A morphism of affine schemes is a morphism in the category of locally ringed 
+spaces.
+
+\subsection{The category of affine schemes}
+\label{subsection-affine-schemes}
+
+\noindent
+It should be clear what the category of affine schemes is, except for a
+little bit of set-theoretical discussion. We will use the notation
+$\text{Aff}$ to denote this category. Our approach is to use only
+categories which are sets. Thus we will choose a supply of affines and
+work with this. For a precise mathematical discussion, see
+Subsection \ref{subsection-sets-of-affines}.
+
+\smallskip\noindent
+The topology on $\text{Aff}$ will be the fppf topology. A covering is
+given by a finite family of maps $\{U_i \to U\}$, where each $U_i \to U$
+is a finitely presented flat morphism of affines, and $\coprod U_i \to U$
+is surjective. 
+
+\smallskip\noindent
+Sometimes we consider $\text{Aff}$ with other topologies, such as the
+etale, Zariski, or fpqc topologies. Notation $\text{Aff}_{etale}$, etc.
+FIXME. Put in internal reference to topology discussion.
+
+\subsubsection{Sets of affine schemes}
+\label{subsection-sets-of-affines}
+
+\noindent
+Choose an ordinal $\alpha$ and denote $\text{Aff}_\alpha$ the
+category of affine schemes which are elements of $V_\alpha$, see
+Sets,\hyperref[sets-subsection-sets-hierarchy]%
+{Subsection~\ref*{sets-subsection-sets-hierarchy}}. So there is a
+theory of algebraic stacks for any $\alpha$. There are some minimal
+conditions on $\alpha$ needed to imply that $\text{Aff}_\alpha$ is a site. 
+These minimal required properties are expressed in the following lemma.
+
+\begin{lemma}
+\label{lemma-Aff-site}
+For any set $S$ may choose an ordinal $\alpha$ with $S \in V_\alpha$ 
+such that $\text{Aff}_\alpha$ has (finite) fibre products, and finite disjoint
+unions. In addition we may assume that for any finitely presented morphism
+of affines $X \to Y$, such that $Y \in \text{Aff}_\alpha$, there exists
+an affine $X' \in \text{Ob}(\text{Aff}_\alpha)$ such that $X' \cong X$.
+\end{lemma}
+
+\begin{proof}
+Consider the following statement: ``For any finite directed graph $\Gamma$,
+for any assignment $v \mapsto F(v)$, $\forall v\in \text{Vertices}(\Gamma)$,
+where $F(v)$ is an affine scheme, and any assignment
+$\big(e : v_1 \to v_2\big) \mapsto \big(F(e) : F(v_1) \to F(v_2)\big)$,
+$\forall e \in \text{Edges}(\Gamma)$ where $F(e)$ is a morphism of affine
+schemes, there exists an affine scheme $X$ and morphisms $f(v) : X \to F(v)$,
+$\forall v\in \text{Vertices}(\Gamma)$ such that $f(v_2) = F(e) \circ f(v_1)$,
+$\forall \big(e : v_1 \to v_2\big) \in \text{Edges}(\Gamma)$, such that
+$(X, \{f(v)\}_{v\in \text{Vertices}(\Gamma)})$ is universal among all such.''
+This statement says that finite limits exist for affine schemes. It is
+proved in a standard way (for example by turning it into ring theory).
+
+\smallskip\noindent
+On the other hand, upon formalizing the statement we obtain a provable
+formula $\phi(\Gamma, F)$ of ZFC set theory. Hence, according to the reflection
+principle, see Sets, \hyperref[sets-section-reflection-principle]%
+{Lemma~\ref*{sets-section-reflection-principle}}
+there exists an ordinal $\alpha$ such that the formula is true in
+$V_\alpha$: If you take $\Gamma \in V_\alpha$ and the $F(v)$ to be in
+$\text{Aff}_\alpha$, then you can find a solution
+$(X, \{f(v)\}_{v\in \text{Vertices}(\Gamma)})$
+with $X$ in $V_\alpha$. This takes care of the statement about fibre 
+products. (Of course as soon as $\alpha$ is infinite then every
+graph is isomorphic to a graph in $V_\alpha$; we can also simply apriori
+require this for $V_\alpha$.).
+
+\smallskip\noindent
+We can similarly write out the condition of the existence of disjoint unions
+as a set theory formula, and similarly the existence of the affine $X'$
+given $X \to Y$. The reflection principle states we can have $S$ inside of
+$V_\alpha$ as well.
+\end{proof}
+
+\noindent
+Clearly, we may assume that $\text{Aff}_\alpha$ is closed under any reasonable
+operation (see Sets, \autoref{sets-section-reflection-principle}).
+Of course, whenever we require such a condition we will need to write out
+the proof that this is so.
+
+\smallskip\noindent
+So, in the following we will work with stacks (or categories) over
+$\text{Aff}_\alpha$\footnote{As per our general philosophy, if we ever need
+an actual 2-category of stacks, we also choose another cardinal $\gamma$ and
+consider only those categories over $\text{Aff}_\alpha$ contained in
+$V_\gamma$.}. If $\alpha < \beta$, then there is an inclusion
+$\text{Aff}_\alpha \subset \text{Aff}_\beta$, and hence any category
+over $\text{Aff}_\beta$ gives rise to a category over $\text{Aff}_\alpha$.
+But this is not the correct thing to do when studying algebraic stacks.
+Instead we want to show that algebraic stacks over $\text{Aff}_\alpha$
+give rise to algebraic stacks over $\text{Aff}_\beta$. In other words we will
+need a theorem saying that the 2-category of algebraic
+stacks over $\text{Aff}_\alpha$ is equivalent to a full sub-2-category of
+algebraic stacks over $\text{Aff}_\beta$. Here it is.
+
+\smallskip\noindent
+FIXME. Improve the theorem below and move it to a more appropriate spot.
+
+\begin{theorem}
+\label{theorem-change-alpha}
+Suppose that $p : \mathcal{S} \to \text{Aff}_\alpha$ is an algebraic stack.
+Let $\beta > \alpha$. Then there exists an algebraic stack
+$p' : \mathcal{S}' \to \text{Aff}_\beta$ and an equivalence
+$$
+\xymatrix{
+(p')^{-1}(\text{Aff}_\alpha) \ar[rd]_{p'} \ar[rr]^c && \mathcal{S}\ar[ld]^p\\
+&\text{Aff}_\alpha.&}
+$$
+The pair $((\mathcal{S'},p'),c)$ is well determined up to a 1-isomorphism
+(which is itself unique up to unique 2-isomorphism).
+\end{theorem}
+
+\begin{proof}
+FIXME. Hint. Choose a representation (in $\text{Stacks}/\text{Aff}_\alpha$)
+$\mathcal{S} = [ \mathcal{X}/\mathcal{R} ]$, with $\mathcal{X}$ representable
+by a scheme $X$ and $\mathcal{R}$ representable by an algebraic space.
+Choose a presentation $\mathcal{R} = [ \mathcal{U}/\mathcal{R}_\mathcal{U} ]$
+where $\mathcal{U}$ and $\mathcal{R}_\mathcal{U}$ are representable
+by schemes $U$ and $R_U$. Now define (in $\text{Stacks}/\text{Aff}_\beta$)
+$\mathcal{U}'$ to be the stack associated to $U$, $\mathcal{R}'_\mathcal{U}$
+to be the stack associated to $R_U$, $\mathcal{R}'$ the stack
+$\mathcal{R}' = [ \mathcal{U}'/\mathcal{R}'_\mathcal{U} ]$, $\mathcal{X}'$
+the stack associated to $X$, and finally
+$\mathcal{S}' = [ \mathcal{X}'/\mathcal{R}' ]$.
+\end{proof}
+
+\noindent
+From now on $\text{Aff}$ will denote a category of affines $\text{Aff}_\alpha$
+such as in Lemma \ref{lemma-Aff-site}. By the theorem above we may increase
+$\alpha$ whenever this is needed.
+
+\begin{remark}
+\label{remark-other-approach}
+There is another approach. Allow yourself to enlarge $\alpha$ at any moment.
+Think of every statement in the text as being preceded by ``There exist
+arbitrarily large $\alpha$ such that''. 
+\end{remark}
+
+\subsection{Schemes}
+\label{subsection-schemes}
+
+\noindent
+We recall the definition of a scheme.
+
+\smallskip\noindent
+A scheme $(X,\mathcal{O}_X)$ is a locally ringed space
+with the property that every point has a neighbourhood which is an
+affine scheme.
+
+\smallskip\noindent
+A scheme $X$ gives rise to a functor (or presheaf)
+$$
+\xymatrix{
+\text{Aff}^{\text{opp}} \ar[r]^{h_X} & \text{Sets}, &
+U \ar@{|->}[r] & \text{Mor}(U, X).}
+$$
+The usual Yoneda lemma tells us that we can recover the scheme from this
+functor. 
+
+\begin{lemma}
+\label{lemma-yoneda-schemes}
+Suppose that $X$, $Y$ are schemes with that have open coverings
+by affines isomorphic to objects of $\text{Aff}$. Then $\text{Mor}(X,Y)
+= \text{Mor}(h_X, h_Y)$.
+\end{lemma}
+
+\begin{proof}
+FIXME.
+\end{proof}
+
+\subsection{Stacks representable by a scheme}
+\label{subsection-stack-representable-by-scheme}
+
+\noindent
+In Categories, \hyperref[categories-definition-representable-fibred-category]%
+{Definition~\ref*{categories-definition-representable-fibred-category}} we
+defined the notion of a representable category fibred in groupoids. This,
+applied to a stack (or a category) over $\text{Aff}$ will define the notion of
+a stack representable by an affine scheme. 
+
+\smallskip\noindent
+Here is the formal definition of a category over $\text{Aff}$ representable by
+a scheme. Please also see the informal discussion below.
+
+\begin{definition}
+\label{definition-representable-by-scheme}
+A category fibred in groupoids $p : \mathcal{S} \to \text{Aff}$ is
+called representable by a scheme, if the following conditions are satisfied:
+\begin{enumerate}
+\item all fibre categories $\mathcal{S}_U$ are setlike, and
+\item the presheaf $U \mapsto \text{Ob}(\mathcal{S}_U)/\cong$ is 
+is isomorphic to $h_S$ for a scheme $S$ as in
+Lemma \ref{lemma-yoneda-schemes}.
+\end{enumerate}
+\end{definition}
+
+\begin{lemma}
+\label{lemma-representable-by-scheme-implies-stack}
+If $\mathcal{S} \to \text{Aff}$ is representable by a scheme then $\mathcal{S}$
+is a stack over $\text{Aff}$.
+\end{lemma}
+
+\begin{proof}
+FIXME.
+\end{proof}
+
+\begin{example}
+\label{example-standard-representable-scheme}
+Let $X$ be a scheme that has a covering by open affines which are isomorphic
+to objects of $\text{Aff}$. There is a standard stack over $\text{Aff}$
+representable by $X$, namely the stack of affines over $X$. Compare Categories,
+\hyperref[categories-example-comma-category]%
+{Example~\ref*{categories-example-comma-category}}.
+This stack will be denoted $\text{Aff}/X$, and it is described as follows.
+\begin{enumerate}
+\item An object of $\text{Aff}/X$ is a morphism of schemes
+$U \to X$, with $U \in \text{Ob}(\text{Aff})$.
+\item A morphism between $U\to X$ and $V \to X$ is a commutative diagram
+$$
+\xymatrix{
+U \ar[rr] \ar[rd] && V \ar[ld] \\
+&X.&}
+$$
+\item The functor $(\text{Aff}/X) \to \text{Aff}$ maps $U\to X$ to $U$.
+\end{enumerate}
+It is clear from the definition that $\text{Aff}/X$ is representable by
+a scheme. 
+
+\smallskip\noindent
+The construction is clearly functorial in $X$, so that a morphism
+of schemes $f : X \to Y$ induces a morphisms of stacks 
+$\text{Aff}/X \to \text{Aff}/Y$. FIXME: more?
+\end{example}
+
+\begin{situation}
+\label{situation-stack-represented-by-scheme}
+The following situation will appear repeatedly in the text. Suppose that
+$\mathcal{S} \to \text{Aff}$ is a stack representable by a scheme. If we
+say the scheme $S$ represents $\mathcal{S}$, then we mean that besides 
+being given the scheme $S$, we are given an equivalence $j : \mathcal{S}
+\to \text{Aff}/S$ of stacks over $\text{Aff}$.
+\end{situation}
+
+\begin{lemma}
+\label{lemma-morphism-stacks-representable-by-schemes}
+Suppose that the stacks $\mathcal{X}$, $\mathcal{Y}$ are represented
+by the schemes $X$ and $Y$. For any morphism of stacks $F : \mathcal{X}
+\to \mathcal{Y}$ there is a unique morphism of schemes $f : X \to Y$
+such that the diagram
+$$
+\xymatrix{
+\mathcal{X} \ar[r]^F \ar[d]_j & \mathcal{Y} \ar[d]^j \\
+\text{Aff}/X \ar[r]^f & \text{Aff}/Y}
+$$
+2-commutes and then the diagram actually commutes.
+\end{lemma}
+
+\begin{proof}
+FIXME.
+\end{proof}
+
+\section{Morphisms representable by schemes}
+\label{section-morphisms-representable-by-schemes}
+
+\noindent
+In this section we define the notion of moprhisms of stacks over $\text{Aff}$
+representable by schemes.
+
+\subsection{Definition}
+\label{subsection-definition-representable-by-schemes}
+
+\noindent
+Here is the formal definition. Please also see the informal discussion below.
+
+\begin{definition}
+\label{definition-representable-by-schemes}
+Let $f : \mathcal{X} \to \mathcal{Y}$ be a morphism of categories
+fibred in groupoids over $\text{Aff}$. We say $f$ is representable by
+schemes if for every stack $\mathcal{S}$ representable by a scheme
+(see Definition \ref{definition-representable-by-scheme}), and every morphism
+$\mathcal{U} \to \mathcal{Y}$, the 2-fibre product
+$\mathcal{S}\times_\mathcal{Y}\mathcal{X}$ is representable by a scheme.
+\end{definition}
+
+\noindent
+Informal discussion. In the situation of the definition we sometimes 
+say that $\mathcal{X}$ is relatively representable over $\mathcal{Y}$.
+Suppose that, with the notation of the definition, $S$ represents
+$\mathcal{S}$ and $W$ represents $\mathcal{S}\times_\mathcal{Y}\mathcal{X}$.
+According to Lemma \ref{lemma-morphism-stacks-representable-by-schemes}
+we get a morphism of schemes $g : W \to S$ and a 2-commutative diagram
+of stacks
+$$
+\xymatrix{
+\text{Aff}/W \ar[d]^g &
+\mathcal{S}\times_\mathcal{X}\mathcal{Y} \ar[d] \ar[l]^j \ar[r] &
+\mathcal{Y} \ar[d] \\
+\text{Aff}/S &
+\mathcal{S} \ar[l]^j \ar[r] & \mathcal{X}
+}
+$$
+FIXME: more.
+
+\smallskip\noindent
+FIXME. It seems to me that you can define the notion even if 
+$\mathcal{X}$ and $\mathcal{Y}$ are just categories over $\text{Aff}$. Does
+it make sense in this generality?
+
+\begin{definition}
+\label{definition-property-morphism-representable-by-schemes}
+Let $P$ be a property of morphisms of schemes such that
+if the morphism $f : X \to Y$ has property $P$, then so does
+every base change of $f$. (FIXME: introduce base change.)
+We say that a morphism of stacks $\mathcal{X}
+\to \mathcal{Y}$ representable by schemes has property
+$P$ if for every diagram as above the morphism of schemes
+$g : W \to S$ has property $P$.
+\end{definition}
+
+\noindent
+FIXME. Explain rationale behind this definition: what else could it be?
+
+\smallskip\noindent
+To continue reading, 
+\begin{enumerate}
+
+\item visit the next section: Algebraic stacks,
+\autoref{algebraic-section-introduction}, or 
+
+\item go back to the
+table of contents: \url{index.html#contents}.
+
+\end{enumerate}
+
+\bibliography{my}
+\bibliographystyle{alpha}
+
+\end{document}

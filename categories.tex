@@ -1,0 +1,1322 @@
+\documentclass{amsart}
+
+% The following AMS packages are automatically loaded with amsart 
+% documentclass:
+%\usepackage{amsmath}
+%\usepackage{amssymb}
+%\usepackage{amsthm}
+
+% For commutative diagrams you can use
+% \usepackage{amscd}
+% but Jason prefers xypic
+\usepackage[all]{xy}
+
+% To put source file link in headers.
+% Change "template.tex" to "this_filename.tex"
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{}
+\chead{}
+\rhead{Source file: \url{src/categories.tex}}
+\lfoot{}
+\cfoot{\thepage}
+\rfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\renewcommand{\headheight}{12pt}
+
+% For cross-file-references
+\usepackage{xr-hyper}
+
+% Package for hypertext links:
+\usepackage[colorlinks=true]{hyperref}
+% For any local file, say "hello.tex" you want to refer to please use
+% \externaldocument[hello-]{hello}
+\externaldocument[conventions-]{conventions}
+\externaldocument[sets-]{sets}
+\externaldocument[sites-]{sites}
+
+% The macro \autoref uses the macros \figurename, etc.
+% We list the default values and we change some of them
+% to start with a captial.
+% Figure	\figurename
+% Table		\tablename
+% Part		\partname
+% Appendix	\appendixname
+% Equation	\equationname
+% item		\Itemname
+% \renewcommand{\Itemname}{Item}
+\renewcommand{\Itemautorefname}{Item}
+% chapter	\Chaptername
+% \renewcommand{\Chaptername}{Chapter}
+% \renewcommand{\Chapterautorefname}{Chapter}
+% section	\sectionname
+\renewcommand{\sectionname}{Section}
+\renewcommand{\sectionautorefname}{Section}
+% subsection	\subsectionname
+\renewcommand{\subsectionname}{Subsection}
+\renewcommand{\subsectionautorefname}{Subsection}
+% subsubsection	\subsubsectionname
+\renewcommand{\subsubsectionname}{Subsubsection}
+\renewcommand{\subsubsectionautorefname}{Subsubsection}
+% paragraph	\paragraphname
+\renewcommand{\paragraphname}{Paragraph}
+\renewcommand{\paragraphautorefname}{Paragraph}
+% footnote	\Hfootnotename
+% \renewcommand{\Hfootnotename}{Footnote}
+\renewcommand{\Hfootnoteautorefname}{Footnote}
+% Equation	\AMSname
+% Theorem	\theoremname
+
+
+% Theorem environments.
+%
+\newtheorem{theorem}{Theorem}[subsection]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{situation}[theorem]{Situation}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{remarks}[theorem]{Remarks}
+
+\numberwithin{equation}{subsection}
+
+
+% OK, start here.
+%
+\begin{document}
+
+\title{Categories}
+
+%\begin{abstract}
+%\end{abstract}
+
+\maketitle
+\thispagestyle{fancy}
+
+\tableofcontents
+\section{Introduction}
+\label{section-introduction}
+
+\noindent
+Categories were first introduced in \cite{GenEqui}.
+
+\section{Categories and $2$-categories}
+\label{section-categories-2-categories}
+
+\noindent
+The category of categories (which does not exist with our conventions)
+is a $2$-category. Similarly, the category of stacks forms a $2$-category.
+So, even if you already know about categories, you can read this section and
+find the terminology regarding $1$-morphisms and $2$-morphisms that we will
+use later for stacks as well.
+
+\subsection{Categories}
+\label{subsection-categories}
+
+\noindent
+We recall the definitions, partly to fix notation. A category
+$\mathcal{C}$ consists of the following data:
+\begin{enumerate}
+\item A set of objects $\text{Ob}(\mathcal{C})$.
+\item For each pair $x,y \in \text{Ob}(\mathcal{C})$ a set of morphisms
+$\text{Mor}_\mathcal{C}(x,y)$.
+\item For each triple $x,y,z\in \text{Ob}(\mathcal{C})$ a composition
+map $ \text{Mor}_\mathcal{C}(y,z) \times \text{Mor}_\mathcal{C}(x,y) 
+\to \text{Mor}_\mathcal{C}(x,z) $, denoted $(\phi, \psi) \mapsto 
+\phi \circ \psi$.
+\end{enumerate}
+These data are to satisfy the following rules:
+\begin{enumerate}
+\item For every element $x\in \text{Ob}(\mathcal{C})$ there exists a unique
+identity morphism $\text{id}_x\in \text{Mor}_\mathcal{C}(x,x)$ such that 
+$\text{id}_x \circ \phi = \phi$ and $\psi \circ \text{id}_x = \psi $ whenever
+these compositions make sense.
+\item Composition is transitive $(\phi \circ \psi) \circ \chi =
+\phi \circ ( \psi \circ \chi)$ whenever these compositions make sense.
+\end{enumerate}
+We leave it to the reader to define the notion of an isomorphism
+between objects of the category $\mathcal{C}$. 
+
+\begin{definition} 
+\label{definition-groupoid}
+A groupoid is a category where every morphism is an isomorphism.
+\end{definition}
+
+\begin{example}
+\label{example-group-groupoid}
+A group $G$ can be thought of as a groupoid with a single object $x$
+and morphisms $\text{Mor}(x,x)=G$, with the composition rule
+given by the group law in $G$.
+\end{example}
+
+\begin{example}
+\label{example-set-groupoid}
+Any set $C$ the set of objects of a groupoid $\mathcal{C}$ if we
+let $\text{Ob}(\mathcal{C})=C$ and declare $\text{Mor}(x,y)$ to be empty if
+$x\neq y$ and to be $\{\text{id}_x\}$ if $x=y$.
+\end{example}
+
+\smallskip\noindent A functor $F : \mathcal{A} \to \mathcal{B}$
+between two categories $\mathcal{A}, \mathcal{B}$ is given by the
+following data:
+\begin{enumerate}
+\item A map $F : \text{Ob}(\mathcal{A}) \to \text{Ob}(\mathcal{B})$.
+\item For every $x,y \in \text{Ob}(\mathcal{A})$ a map
+$F : \text{Mor}_\mathcal{A}(x,y) \to \text{Mor}_\mathcal{B}(F(x), F(y))$,
+denoted $\phi \mapsto F(\phi)$.
+\end{enumerate}
+These data should be compatible with composition and identity morphisms
+in an obvious manner. Note that every category $\mathcal{A}$ has an
+identity functor $\text{id}_\mathcal{A}$.
+
+\begin{remark} 
+\label{remark-functor-into-sets}
+Suppose that $\mathcal{A}$ is a category. A functor $F$ from $\mathcal{C}$
+to $\text{Sets}$ clearly makes sense even though there is no category of sets.
+For example we can think of $F$ as a functor into $\text{Sets}_\alpha$, see
+Sets, \autoref{sets-section-reflection-principle}.
+\end{remark}
+
+\smallskip\noindent
+Recall that a functor $F : \mathcal{A} \to \mathcal{B}$ is faithfull if 
+for any objects $x,y$ of $\text{Ob}(\mathcal{A})$ the map
+$F : \text{Mor}_\mathcal{A}(x,y) \to \text{Mor}_\mathcal{B}(F(x), F(y))$
+is injective. Moreover, if these maps are all bijective then $F$ is called
+fully faithfull. The functor $F$ is called essentially surjective if for any 
+object $z \in \text{Ob}(\mathcal{B})$ there exists an object
+$x \in \text{Ob}(\mathcal{A})$ such that $F(x)$ is isomorphic to $z$ in
+$\mathcal{B}$.
+
+\begin{example}
+\label{example-group-homorphism-functor}
+A homomorphism $p\colon G\to H$ of groups gives rise to a functor
+between the associated groupoids in Example \ref{example-group-groupoid}. It is
+faithful (resp.\ fully faithful) if and only if $p$ is injective (resp.\ an
+isomorphism).
+\end{example}
+
+\begin{example}
+\label{example-comma-category}
+Given a category $\mathcal{C}$ and an object $X\in \text{Ob}(\mathcal{C})$
+we define the category of objects over $X$, denoted $\mathcal{C}/X$ as follows.
+The objects of $\mathcal{C}/X$ are morphisms $Y\to X$ for
+some $Y\in \text{Ob}(\mathcal{C})$. Morphisms between objects
+$Y\to X$ and $Y'\to X$ are morphisms $Y\to Y'$ in $\mathcal{C}$ that
+make the obvious diagram commute.  Note that there is a functor
+$p_X\colon \mathcal{C}/X\to \mathcal{C}$ which simply forgets the
+morphism for $X$.  Moreover given a morphism $f\colon X'\to X$ in
+$\mathcal{C}$ there is an induced functor 
+$F\colon \mathcal{C}/X' \to \mathcal{C}/X$ obtained by composition with $f$,
+and $p_X\circ F = p_{X'}$.
+\end{example}
+
+\smallskip\noindent
+A transformation of functors $t : F \to G$ (or simply a morphism of functors)
+between functors $F, G : \mathcal{A} \to \mathcal{B}$ is given by the following
+data:
+\begin{enumerate}
+\item For every $x\in \text{Ob}(\mathcal{A})$ a morphism
+$t_x : F(x) \to G(x)$ in the category $\mathcal{B}$.
+\end{enumerate}
+These data should satisfy the condition that for every 
+morphism $\phi : x \to y$ of $\mathcal{A}$ the following diagram is
+commutative
+\begin{displaymath}
+\xymatrix{
+F(x) \ar[r]^{t_x} \ar[d]_{F(\phi)} & G(x) \ar[d]^{G(\phi)} \\
+F(y) \ar[r]^{t_y} & G(y) }
+\end{displaymath}
+Note that every functor $F$ comes with the identity transformation
+$\text{id}_F : F \to F$.
+
+\smallskip\noindent
+Next we recall the concept of equivalent categories. An equivalence of
+categories $F : \mathcal{A} \to \mathcal{B}$ is a functor such that there
+exists a functor $G : \mathcal{B} \to \mathcal{A}$ with the property that
+the compositions $F \circ G$ and $G \circ F$ are isomorphic to the
+identity functors $\text{id}_\mathcal{B}$ respectively $\text{id}_\mathcal{A}$.
+
+\smallskip\noindent
+Since we are working with categories that are sets it is easy to see that
+a functor is an equivalence of categories if and only if it is both fully
+faithful and essentially surjective.
+
+\subsubsection{Additional notions}
+\label{subsubsection-categories-additional}
+
+\begin{definition}
+\label{definition-fibre-products}
+Let $x,y\in \text{Ob}(\mathcal{C})$ and $f\in \text{Mor}_{\mathcal{C}}(x,z)$
+and $g\in \text{Mor}_{\mathcal C}(y,z)$.  The fibre product of $f$ and $g$ is
+an object $x\times_z y\in \text{Ob}(\mathcal{C})$ together with morphisms 
+$p\in \text{Mor}_{\mathcal C}(x\times_z y,x)$ and 
+$q\in\text{Mor}_{\mathcal C}(x\times_z y,y)$ making the diagram
+$$
+\xymatrix{
+&x\times_y z \ar[r]^{p} \ar[d]_{q} & x \ar[d]^{f} \\
+&y \ar[r]^{g} & z }
+$$
+commute, and such that the following universal property holds: for
+any $w\in \text{Ob}(\mathcal{C})$ and morphisms 
+$\alpha \in \text{Mor}_{\mathcal C}(w,x)$ and 
+$\beta \in \text{Mor}_{\mathcal{C}}(w,y)$ with $f \circ \alpha= g\circ \beta$
+there is a unique $\gamma\in \text{Mor}_{\mathcal C}(w,x\times_z y)$ making
+the diagram
+$$
+\xymatrix{
+w\ar[rrrd]^\alpha \ar@{-->}[rrd]_\gamma \ar[rrdd]_\beta &&\\
+&&x\times_y z \ar[r]_{p} \ar[d]_{q} & x \ar[d]^{f} \\
+&&y \ar[r]^{g} & z }
+$$
+commute.  If a fibre product exists it is unique up to unique
+isomorphism.  We say the category $\mathcal{C}$ has fibre products if
+the fibre product exists for any $f\in \text{Mor}_{\mathcal C}(x,z)$
+and $g\in \text{Mor}_{\mathcal C}(y,z)$.
+\end{definition}
+
+\noindent
+Given a category $\mathcal{C}$ we can form the opposite category
+$\mathcal{C}^{\text{opp}}$ which has the same objects as $\mathcal{C}$
+but all morphisms reversed, so
+$\text{Mor}_{\mathcal{C}^{\text{opp}}}(x,y) =
+\text{Mor}_{\mathcal{C}}(y,x)$.  A contravariant functor $F\colon
+\mathcal{C}\to \mathcal{S}$ is a functor $\mathcal{C}^{\text{opp}}\to
+\mathcal{S}$.  Concretely, if $F$ is contravariant then for composable
+morphisms $f$ and $g$ in $\mathcal{C}$, $F(f\circ g) = F(g)\circ
+F(f)$.
+
+\begin{example}
+\label{example-hom-functor}
+For any $U\in \text{Ob}(\mathcal{C})$ there is a contravariant
+functor 
+$$
+\text{Mor}(-,U) \colon\mathcal{C} \to \text{Sets}
+$$
+which takes an object $X$ to the set $\text{Mor}_{\mathcal{C}}(X,U)$.
+Given a morphism $f\colon X\to Y$ the corresponding map
+$\text{Mor}(-,U)(f)\colon \text{Mor}(Y,U)\to \text{Mor}(X,U)$ takes
+$\phi$ to $\phi\circ f$. More commonly this functor is denoted
+$h_U : \mathcal{C}^{\text{opp}} \to \text{Sets}$. If $\mathcal{C}$ is the
+category of schemes this functor is sometimes referred to as the
+\emph{functor of points} of $U$.
+\end{example}
+
+\begin{definition}
+\label{definition-representable-functor}
+A contravariant functor $F\colon \mathcal{C}\to \text{Sets}$ is said
+to be representable if it is isomorphic to the functor
+$h_U(-) = \text{Mor}(-,U)$ for some object $U$ of $\mathcal{C}$.
+\end{definition}
+
+\begin{definition}
+\label{definition-representable-morphism}
+A morphism $f : x \to y$ of a category $\mathcal{C}$ is said to be
+representable, if and only if for every morphism $z \to y$ in $\mathcal{C}$
+the fibre product $z\times_y x$ exists.
+\end{definition}
+
+\subsection{2-categories}
+\label{subsection-2-categories}
+
+\noindent
+We will give a definition of (strict) $2$-categories as they appear in the 
+setting of stacks. Before you read this take a look at Example
+\ref{example-category-of-categories}. Basically, you take this example
+and you write out all the rules satisfied by the objects,
+$1$-morphisms and $2$-morphisms in that example. This is actually not that
+helpful but it shows that it can be done.
+
+\begin{definition}
+\label{definition-2-category}
+A $2$-category $\mathcal{C}$ consists of the following data
+\begin{enumerate}
+\item A set of objects $\text{Ob}(\mathcal{C})$.
+\item For each pair $x,y \in \text{Ob}(\mathcal{C})$ a set of $1$-morphisms
+$\text{Mor}_\mathcal{C}(x,y)$.
+\item For each triple $x,y,z\in \text{Ob}(\mathcal{C})$ a composition
+map $ \text{Mor}_\mathcal{C}(y,z) \times \text{Mor}_\mathcal{C}(x,y) 
+\to \text{Mor}_\mathcal{C}(x,z) $, denoted $(F, G) \mapsto 
+F \circ G$.
+\item For each pair $x,y\in \text{Ob}(\mathcal{C})$ and for each pair 
+$F,F' \in \text{Mor}_\mathcal{C}(x,y)$ a set of $2$-morphisms 
+$\text{Mor}_\mathcal{C}(F,F')$.
+\item For each triple $F,F',F''$ of $1$-morphisms with the same source
+and target a composition law $\text{Mor}_\mathcal{C}(F',F'') \times
+\text{Mor}_\mathcal{C}(F,F') \to \text{Mor}_\mathcal{C}(F,F'')$, denoted
+$(\phi, \psi) \mapsto \phi\circ\psi$.
+\item For each triple $x,y,z\in \text{Ob}(\mathcal{C})$ and
+$1$-morphisms $F,F' : x \to y$ and $G : y \to z$ a map 
+$G : \text{Mor}_\mathcal{C}(F,F') \to 
+\text{Mor}_\mathcal{C}(G \circ F,G \circ F')$.
+\item For each triple $x,y,z\in \text{Ob}(\mathcal{C})$ and
+$1$-morphisms $F : x \to y$ and $G,G' : y \to z$ a map 
+$F : \text{Mor}_\mathcal{C}(G,G') \to 
+\text{Mor}_\mathcal{C}(G \circ F,G' \circ F)$.
+\end{enumerate}
+These data are to satisfy the following rules:
+\begin{enumerate}
+\item For every element $x\in \text{Ob}(\mathcal{C})$ there exists a unique
+identity $1$-morphism $\text{id}_x\in \text{Mor}_\mathcal{C}(x,x)$ such that 
+$\text{id}_x \circ F = F$ and $G \circ \text{id}_x = G $ whenever
+these compositions make sense.
+\item For every $1$-morphism $F$ there exists a unique
+identity $2$-morphism $\text{id}_F\in \text{Mor}_\mathcal{C}(F,F)$ such that 
+$\text{id}_F \circ \phi = \phi$ and $\psi \circ \text{id}_F = \psi $ whenever
+these compositions make sense.
+\item Composition is transitive for both $1$-morphisms and $2$-morphisms.
+\item Every $2$-morphism is an isomorphism. This makes sense since the 
+conditions sofar imply that $\text{Mor}_\mathcal{C}(x,y)$ is a category
+with $1$-morphisms as objects and $2$-morphisms as morphisms. So this
+condition means every $\text{Mor}_\mathcal{C}(x,y)$ is a groupoid.
+\item Let $x,y,z\in \text{Ob}(\mathcal{C})$ and let $G \in 
+\text{Mor}_\mathcal{C}(y,z)$.
+The map $\text{Mor}_\mathcal{C}(x,y) \to 
+\text{Mor}_\mathcal{C}(x,z)$ given by $G$ (see item 6 above) 
+is a functor.
+\item Let $x,y,z\in \text{Ob}(\mathcal{C})$ and let $F \in \text{Mor}(x,y)$.
+The map $\text{Mor}_\mathcal{C}(y,z) \to 
+\text{Mor}_\mathcal{C}(x,z)$ given by $F$ (see item 7 above)
+is a functor.
+\item Suppose we have objects $x,y,z$, $1$-morphisms $F,F' : x \to y$, 
+$G,G' : y \to z$, and $2$-morphisms $\phi : F \to F'$, $\psi : G \to G'$. 
+The following diagram commutes:
+$$
+\xymatrix{
+G \circ F \ar[r]^{G(\phi)} \ar[d]_{F(\psi)} &
+G\circ F' \ar[d]^{F'(\psi)} \\
+G \circ F' \ar[r]_{G'(\phi)} & G' \circ F' }
+$$
+\end{enumerate}
+\end{definition}
+
+\noindent
+This is obviously not a very pleasant type of object to work with.
+On the other hand, there are lots of examples where it is quite clear
+how you work with it. Note that we require the $2$-morphisms to be
+isomorphisms. As far as this text is concerned all 2-categories occuring
+in this document are (full) sub 2-categories of the example below.
+FIXME: Remove this definition? Replace by a better one?
+
+\begin{example}
+\label{example-category-of-categories}
+The category of categories. The terminology of $2$-categories applies to
+categories as follows. Choose an ordinal $\alpha$ (see our discussion in
+Sets, \autoref{sets-section-reflection-principle}). Let
+$\text{Ob}(\text{Cat}_\alpha)$ be the set of all categories which are elements
+of $V_\alpha$. This will be the set of objects of our $2$-category. A
+$1$-morphism between
+$\mathcal{A}, \mathcal{B} \in \text{Ob}(\text{Cat}_\alpha)$ is a functor
+$F : \mathcal{A} \to \mathcal{B}$. A $2$-morphism is an {\it isomorphism}
+of $1$-morphisms, i.e., an invertible natural transformation of functors.
+
+\smallskip\noindent
+Composition of functors and composition of transformations of functors is
+defined above. Datum (6) in Definition \ref{definition-2-category} is 
+given as follows. Suppose that $t : F \to F'$ is a transformation of
+functors $\mathcal{A} \to \mathcal{B}$ and suppose that
+$G : \mathcal{B} \to \mathcal{C}$ is a functor. In this case $G(t)$
+is the transformation of functors $G\circ F \to G \circ F'$ given
+by $G(t_A) : G(F(A)) \to G(F'(A))$. Datum (7) of Definition 
+\ref{definition-2-category} is defined similarly. FIXME. Check the rules
+(1) -- (7) hold in this example (and no more than that in general).
+\end{example}
+
+\noindent
+The notion of equivalence of categories that we defined in Subsection
+\ref{subsection-categories} extends to the more general setting of
+$2$-categories as follows.
+
+\begin{definition}
+\label{definition-equivalence}
+Two objects $x,y$ of a $2$-category are {\it equivalent} if there exist 
+$1$-morphisms $F : x \to y$ and $G : y \to x$ such that $F \circ G$ is 
+$2$-isomorphic to $\text{id}_y$ and $G \circ F$ is $2$-isomorphic to 
+$\text{id}_x$.
+\end{definition}
+
+\begin{remark}
+\label{remark-other-2-categories}
+There are variants of the construction of \ref{example-category-of-categories}
+above where we look at the $2$-category of groupoids (contained in some 
+$\alpha$), or categories fibred in groupoids over a fixed category, or stacks. 
+And so on.
+\end{remark}
+
+\begin{remarks}
+\label{remarks-functor-into-2-category}
+(1) A functor from an ordinary category into a $2$-category will ignore the
+$2$-morphisms unless mentioned otherwise. In other words, it will be a 
+``usual'' functor into the category formed out of 2-category by forgetting
+all the 2-morpshisms.
+
+\smallskip\noindent
+(2) Another notion of a functor from a category $\mathcal{A}$ into a
+2-category $\mathcal{C}$ would be to say that it is given by a map
+$F : \text{Ob}(\mathcal{A}) \to \text{Ob}(\mathcal{C})$ together with a
+family of maps 
+$F : \text{Mor}_{\mathcal{A}}(x,y) \to \text{Mor}_{\mathcal{C}}(F(x),F(y))$
+such that for every composable pair of morphisms $f,g$ of $\mathcal{A}$
+the morphisms $F(g \circ f)$ and $F(g) \circ F(f)$ are 2-isomorphic. This is
+not a very good notion, since for example it does not require $F(\text{id}_x)$
+to be isomorphic to $\text{id}_{F(x)}$. Even if you do then
+there may be a problem: see the conditions in (3) below.
+
+\smallskip\noindent
+(3) A better notion is the following. A weak functor (or a pseudo-functor)
+from a category $\mathcal{A}$ into a 2-category $\mathcal{C}$ is given by 
+\begin{enumerate}
+\item a map $F : \text{Ob}(\mathcal{A}) \to \text{Ob}(\mathcal{C})$,
+\item for every pair $x,y\in \text{Ob}(\mathcal{A})$ a map
+$F : \text{Mor}_{\mathcal{A}}(x,y) \to  \text{Mor}_{\mathcal{C}}(F(x),F(y))$,
+\item for every $x\in \text{ob}(C)$ a $2$-morphism
+$\alpha_x : \text{id}_x \to F(\text{id}_{x})$, and
+\item for every pair of composable morphisms $f,g$ of $\mathcal{A}$ a 
+$2$-morphism $\alpha_{f,g} : F(g \circ f) \to F(g) \circ F(f)$.
+\end{enumerate}
+Now these data are subject to the following conditions:
+(with notations as in Definition \ref{definition-2-category})
+\begin{enumerate}
+\item for any morphism $f : x \to y$ in $\mathcal{A}$ the morphism
+$\alpha_{f,\text{id}_y} : F(f) \to F(f) \circ F(\text{id}_y)$
+equals the composition of $F(f) \circ \text{id}_{F(y)} = F(f)$ with
+$F(f)(\alpha_y)$, and similary for $\alpha_{\text{id}_x,f}$ and
+$\alpha_x$, and
+\item for any triple of composable morphisms $f,g,h$ the
+compositions $F(h)(\alpha_{f,g}) \circ \alpha_{g\circ f, h}$ and
+$F(f)(\alpha_{g,h}) \circ \alpha_{g,f\circ h}$ should be equal.
+\end{enumerate}
+Again this is not a very workable notion, but it does sometimes come up.
+There is a theorem that says that any pseudo-functor is isomorphic to
+a functor. FIXME: Add more as needed.
+\end{remarks}
+
+\subsubsection{2-fibre products}
+\label{subsubsection-2-fibre-products}
+
+\noindent
+In this subsection we introduce $2$-fibre products. Suppose that $\mathcal{C}$
+is a 2-category. We say that a diagram
+$$
+\xymatrix{
+w \ar[r] \ar[d] & y \ar[d] \\
+x \ar[r] & z }
+$$
+2-commutes if the two 1-morphisms $w \to y \to z$ and $w \to x \to z$ are
+2-isomorphic. In a 2-category it is more natural to ask for 2-commutativity 
+of diagrams than for actually commuting diagrams. (Indeed, some may say that
+we should not work with strict 2-categories at all, and in a ``weak''
+2-category the notion of a commutative diagram of 1-morphisms does not even
+make sense.) Correspondingly the notion of a fibre product has to be adjusted.
+
+\smallskip\noindent
+Let $\mathcal{C}$ be a $2$-category. Let $x,y,z\in \text{Ob}(\mathcal{C})$ and
+$f\in \text{Mor}_{\mathcal{C}}(x,z)$ and $g\in \text{Mor}_{\mathcal C}(y,z)$.
+In order to define the 2-fibre product of $f$ and $g$ we are going to look at
+2-commutative diagrams
+$$
+\xymatrix{
+&w \ar[r]^{a} \ar[d]_{b} & x \ar[d]^{f} \\
+&y \ar[r]^{g} & z. }
+$$
+Now in the case of categories, the fibre product is a final object in the
+category of such diagrams. Correspondingly a 2-fibre product is a final object
+in a 2-category (see definition below). The 2-category we will consider is
+the 2-category of 2-commutative diagrams defined as follows:
+\begin{enumerate}
+\item Objects are quadruples $(w,a,b,\phi)$ as above where $\phi$
+is a 2-morphism $\phi : f \circ a \to g \circ b$, 
+\item 1-morphisms from $(w,a,b,\phi)$ to $(w',a',b',\phi')$
+are given by $(k : w \to w', \alpha : a' \to a \circ k,
+\beta : b \circ k \to b')$ such that $\phi'$ equals 
+$$
+\xymatrix{
+f \circ a' \ar[r]^{f(\alpha)} &
+f \circ a \circ k \ar[r]^{k(\phi)} &
+g \circ b \circ k \ar[r]^{g(\beta)} &
+g \circ b'. }
+$$
+\item a 2-morphism between $(k_i, \alpha_i, \beta_i)$, $i=1,2$ is given
+by a 2-morphism $\delta : k_1 \to k_2$ such that 
+$$
+\xymatrix{
+a' \ar[rd]_{\alpha_2} \ar[r]^{\alpha_1} & 
+a \circ k_1 \ar[d]^{a(\delta)} &
+&
+b \circ k_1 \ar[r]^{\beta_1} \ar[d]_{b(\delta)} &
+b'
+\\
+&
+a \circ k_2 &
+&
+b \circ k_2 \ar[ru]_{\beta_2}
+&
+}
+$$
+commute.
+\end{enumerate}
+
+\begin{definition}
+\label{definition-final-object-2-category}
+A final object of a 2-category $\mathcal{C}$ is an object $x$ such that
+(1) for every $y \in \text{Ob}(\mathcal{C})$ there is a morphism $y \to x$,
+and (2) every two morphisms $y \to x$ are isomorphic by a unique 2-morphism.
+\end{definition}
+
+\begin{definition}
+\label{definition-2-fibre-products}
+Let $\mathcal{C}$ be a $2$-category.
+Let $x,y,z\in \text{Ob}(\mathcal{C})$ and $f\in \text{Mor}_{\mathcal{C}}(x,z)$
+and $g\in \text{Mor}_{\mathcal C}(y,z)$. A 2-fibre product of $f$ and $g$ is
+a final object in the category of 2-commutative diagrams described above. If
+a 2-fibre product exists we
+will denote it $x\times_z y\in \text{Ob}(\mathcal{C})$, and denote the
+required morphisms $p\in \text{Mor}_{\mathcal C}(x\times_z y,x)$ and 
+$q\in \text{Mor}_{\mathcal C}(x\times_z y,y)$ making the diagram
+$$
+\xymatrix{
+&x\times_y z \ar[r]^{p} \ar[d]_{q} & x \ar[d]^{f} \\
+&y \ar[r]^{g} & z }
+$$
+2-commute and we will denote the given 2-morphism exhibiting this by
+$\psi : f \circ p \to g \circ q$.
+\end{definition}
+
+\noindent
+Thus the following universal property holds: for any
+$w\in \text{Ob}(\mathcal{C})$ and morphisms 
+$a \in \text{Mor}_{\mathcal C}(w,x)$ and 
+$b \in \text{Mor}_{\mathcal{C}}(w,y)$ with a given 2-morphism
+$\phi : f \circ a \to g\circ b$
+there is a $\gamma \in \text{Mor}_{\mathcal C}(w,x\times_z y)$
+making the diagram
+$$
+\xymatrix{
+w\ar[rrrd]^a \ar@{-->}[rrd]_\gamma \ar[rrdd]_b &&\\
+&&x\times_y z \ar[r]_{p} \ar[d]_{q} & x \ar[d]^{f} \\
+&&y \ar[r]^{g} & z }
+$$
+2-commute such that for suitable choices of $q \circ \gamma \to b$
+and $a \to p \circ \gamma$ the composition
+$$
+\xymatrix{
+f \circ a \ar[r] &
+f \circ p \circ \gamma \ar[r]^{\gamma(\psi)} &
+g \circ q \circ \gamma \ar[r] &
+g\circ b }
+$$
+equals $\phi$. Of course the exact properties are finer than this. All of the
+cases of 2-fibre products that we will need later on come from the following
+example of 2-fibre products in the 2-category of categories.
+
+\begin{example}
+\label{example-2-fibre-product-categories}
+In this example we switch notations and we let $\mathcal{A}$, $\mathcal{B}$,
+and $\mathcal{C}$ be categories and we let $F : \mathcal{A} \to \mathcal{C}$
+and $G : \mathcal{B} \to \mathcal{C}$ be functors. In this case the 2-fibre
+product $\mathcal{A}\times_\mathcal{C} \mathcal{B}$ exists and is given by
+the following:
+\begin{enumerate}
+\item an object of $\mathcal{A}\times_\mathcal{C} \mathcal{B}$ is a triple
+$(A,B,f)$, where $A\in \text{Ob}(\mathcal{A})$, $B\in \text{Ob}(\mathcal{B})$,
+and $f : F(A) \to G(B)$ is an isomorphism in $\mathcal{C}$,
+\item a morphism $(A,B,f) \to (A',B', f')$ is given by a pair $(a,b)$, where
+$a : A \to A'$ is a morphism in $\mathcal{A}$, and $b : B \to B'$ is a
+morphism in $\mathcal{B}$ such that the diagram 
+$$
+\xymatrix{
+F(A) \ar[r]^f \ar[d]^{F(a)} & G(B) \ar[d]^{G(b)} \\
+F(A') \ar[r]^{f'} & G(B')
+}
+$$
+is commutative.
+\end{enumerate}
+The functors $p : \mathcal{A}\times_\mathcal{C}\mathcal{B} \to \mathcal{A}$
+and $q : \mathcal{A}\times_\mathcal{C}\mathcal{B} \to \mathcal{B}$ are the
+forgetfull functors in this case. The transformation $\psi : F \circ p \to
+G \circ q$ is given on the object $\xi = (A,B,f)$ by
+$\psi_\xi = f : F(p(\xi)) = F(A) \to G(B) = G(q(\xi))$.
+
+\smallskip\noindent
+Let us check the universal property: let $\mathcal{W}$ be a category, let
+$X : \mathcal{W} \to \mathcal{A}$ and $Y : \mathcal{W} \to \mathcal{B}$ be
+functors, and let $t : F \circ X \to G \circ Y$ be an isomorphism of functors.
+The desired functor $\gamma : \mathcal{W} \to
+\mathcal{A}\times_\mathcal{C}\mathcal{B}$
+is given by $W \mapsto (X(W), Y(W), t_W)$. What else could it be? 
+(A meta-argument for uniqueness.) FIXME: write this out.
+
+\smallskip\noindent
+Note that the functor $\gamma$ constructed above actually has the property
+that $p \circ \gamma = X$ and $q \circ \gamma = Y$. In general this need not
+be the case.
+\end{example}
+
+\section{Categories fibred in groupoids}
+\label{subsection-fibred-groupoids}
+
+\noindent
+In this section we explain how to think about categories in groupoids and
+we see how they are basically the same as functors in groupoids.
+
+\subsection{Definitions}
+\label{subsection-categories-groupoids-definition}
+
+\noindent
+In this subsection we have a functor $p : \mathcal{S} \to \mathcal{C}$.
+We think of $\mathcal{S}$ as being on top and of $\mathcal{C}$ as being
+at the bottom.
+
+\smallskip\noindent
+Analogously to the fibre of a map of spaces, we have the notion of a 
+fibre category. The fibre category over an object 
+$U\in \text{Ob}(\mathcal{C})$ is the category $\mathcal{S}_U$ with 
+objects
+$$
+\text{Ob}(\mathcal{S}_U) = \{x\in \text{Ob}(\mathcal{S}) :
+p(x)=U\}
+$$
+and morphisms 
+$$
+\text{Mor}_{\mathcal{S}_U}(x,y) = \{ \phi \in \text{Mor}_\mathcal{S}(x,y) :
+p(\phi) = \text{id}_U\}.
+$$
+
+\smallskip\noindent
+In order to discuss the notion of ``category fibred in groupoids'' we
+temporarily introduce the notion of lifting.
+A {\it lift} of an object $U \in \text{Ob}(\mathcal{C})$ is an object 
+$x\in \text{Ob}(\mathcal{S})$ such that $p(x)=U$, i.e., 
+$x\in \text{Ob}(\mathcal{S}_U)$.  
+Similarly, a {\it lift} of a morphism $f : V \to U$ in $\mathcal{C}$ is a 
+morphism $\phi : y \to x$ in $\mathcal{S}$ such that $p(\phi)=f$.
+
+\begin{definition}
+\label{definition-fibred-groupoids}
+We say that $\mathcal{S}$ is fibred in groupoids over $\mathcal{C}$ if
+the following two conditions hold:
+\begin{enumerate}
+\item For every morphism $f : V \to U$ in $\mathcal{C}$ and every
+lift $x$ of $U$ there is a lift $\phi : y \to x$ of $f$ with
+target $x$.
+\item For every pair of morphisms $ \phi : y \to x$ and $ \psi : z \to x$
+and any morphism $ f : p(z) \to p(y)$ such that $ p(\phi) \circ f = 
+p(\psi)$ there exists a unique lift $ \chi : z \to y$ of $f$ such that
+$\phi \circ \chi = \psi$.
+\end{enumerate}
+\end{definition}
+
+\noindent
+Condition (2) phrased differently says that 
+applying the functor $p$ gives a bijection between the sets 
+of dotted arrows in the following commutative diagram below:
+$$
+\xymatrix{
+y \ar[r] & x & p(y) \ar[r] & p(x) \\
+z \ar@{-->}[u] \ar[ru] & & p(z) \ar@{-->}[u]\ar[ru] & \\
+}
+$$
+
+\smallskip\noindent
+Another way to think about the second condition is the following.
+Suppose that $g : W \to V$ and $f : V \to U$ are morphisms in $\mathcal{C}$. 
+Let $x \in \text{Ob}(\mathcal{S}_U)$. By the first condition we can lift
+$f$ to $ \phi : y \to x$ and then we can lift $g$ to $\psi : z \to y$.
+Instead of doing this two step process we can directly lift $g \circ f$ to
+$\gamma : z' \to x$. This gives the solid arrows in the diagram below.
+$$
+\xymatrix{
+z' \ar@{-->}[d]\ar[rrd]^\gamma & & \\
+z \ar@{-->}[u]\ar[r]^\psi & y \ar[r]^\phi & x \\
+W \ar[r]^g & V \ar[r]^f & U \\
+}
+$$
+Applying the second condition to the arrows $\phi \circ \phi$, $\gamma$
+and $\text{id}_W$ we conclude that there is a unique morphism 
+$\chi : z \to z'$ in $\mathcal{S}_W$ such that 
+$\gamma \circ \chi = \phi \circ \psi$. Similarly there is a unique morphism
+$z' \to z$. The uniqueness implies that the morphisms $z' \to z$ and
+$z\to z'$ are mutually inverse, in other words isomorphisms.
+
+\begin{example}
+\label{example-group-homomorphism-fibreedingroupoids}
+A homomorphism of groups $p : G \to H$ gives rise to a functor 
+$p\colon \mathcal{S}\to\mathcal{C}$ as in Example 
+\ref{example-group-homorphism-functor}. This functor
+$p\colon \mathcal{S}\to\mathcal{C}$ is fibred in groupoids if and only if 
+$p$ is surjective.  The fibre category $\mathcal{S}_{U}$ over the (unique)
+object $U\in \text{Ob}(\mathcal{C})$ is the category associated to the
+kernel of $p$ as in Example \ref{example-group-groupoid}.
+\end{example}
+
+\smallskip\noindent
+Suppose that for every $f : V \to U$ and $x\in \text{Ob}(\mathcal{S}_U)$
+as in the first condition we choose a lift
+$f^\ast x \to x$ of $f$; this is possible by the axiom of choice. For
+every morphism $\phi : x \to x'$ in $\mathcal{S}_U$ there is a unique
+morphism $f^\ast \phi : f^\ast x \to f^\ast x'$ in $\mathcal{S}_V$
+such that
+$$
+\xymatrix{
+f^\ast x \ar[r]^{f^\ast \phi} \ar[d] & f^\ast x' \ar[d] \\
+x \ar[r]^{\phi} & x' }
+$$
+commutes. Again uniqueness of this arrow guarantees that $f^\ast$ is a
+functor $ f^\ast : \mathcal{S}_U \to \mathcal{S}_V$. 
+
+\begin{lemma}
+\label{lemma-fibred-groupoids}
+If $p : \mathcal{S} \to \mathcal{C}$ is a category fibred in groupoids then
+all fibre categories are groupoids. Choose functors $f^\ast$ as above.
+Then for any pair of composable
+morphisms $f : V \to U$, $g : U\to W$ there is a unique isomorphism of 
+functors $\mathcal{S}_W \to \mathcal{S}_V$ 
+$$
+t : g^\ast f^\ast \to (g \circ f)^\ast 
+$$ 
+such that for every $y\in \text{Ob}(\mathcal{S}_W)$ the following
+diagram commutes
+\begin{equation}
+\xymatrix{
+f^\ast g^\ast y \ar[r] \ar[d]_{t_y} & g^\ast y \ar[d] \\
+(f\circ g)^\ast y \ar[r] & y
+}\label{eq:lemma-fibred-groupoids-commutes}
+\end{equation}
+\end{lemma}
+
+\begin{proof} 
+To show all fibre categories $\mathcal{S}_U$ for $U \in \text{Ob}(\mathcal{C})$
+are groupoids, we must exhibit for every $f : y \to x$ in $\mathcal{S}_U$ an
+inverse morphism.  The diagram on the left (in $\mathcal{S}_U$) is mapped by
+$p$ to the diagram on the right:
+$$
+\xymatrix{
+y \ar[r]^f & x & U \ar[r]^{id_U} & U \\
+x \ar@{-->}[u] \ar[ru]_{id_x} & & U \ar@{-->}[u]\ar[ru]_{id_U} & \\
+}
+$$
+Since only $id_U$ makes the diagram on the right commute, there is a unique
+$g : x \to y$ making the diagram on the left commute, so $fg = id_x$.  By a
+similar argument there is a unique $h : y \to x$ so that $gh = id_y$.  Then
+$fgh = f : y \to x$.  We have $fg = id_x$, so $h=f$.
+
+\smallskip\noindent
+Now let $y\in \text{Ob}(\mathcal S_W)$ and consider the diagram
+\begin{equation}\label{eq:lemma-fibred-groupoids-commutes2}
+\xymatrix{
+f^\ast g^\ast y \ar@{-->}[d]_{t_y} \ar[r] & g^\ast y \ar[r] & y \\
+(g\circ f)^\ast y \ar[rru] & &
+}
+\xymatrix{
+V\ar@{-->}[d]_{\text{id}_V} \ar[r]^f & U \ar[r]^g & W \\
+V \ar[rru]_{g\circ f} & &
+}
+\end{equation}
+The morphism $t_y \colon f^\ast g^\ast y \to (g\circ f)^\ast y$ is the
+unique lift of of $\text{id}_V$ making
+\ref{eq:lemma-fibred-groupoids-commutes2} (resp.\ 
+\ref{eq:lemma-fibred-groupoids-commutes}) commute.  If $\phi\colon
+y'\to y$ is a morphism in $\mathcal S_W$ the compositions $(f^\ast
+g^\ast \phi) \circ t_y$ and $((g\circ f)^\ast \phi)\circ t_{y'}$ are
+both lifts of $\text{id}_V$, so are equal making $t$ is a
+transformation of functors.  Essentially the same construction applies
+to give the inverse transformation $t^{-1}$, so $t$ is an isomorphism.
+\end{proof}
+
+\noindent
+Conversely, given $p : \mathcal{S} \to \mathcal{C}$, we can ask: if the fibre
+category $\mathcal{S}_U$ is a groupoid for all $U \in \text{Ob}(\mathcal{C})$,
+must $\mathcal{S}$ be fibred in groupoids over $\mathcal{C}$? We can see the
+answer is no as follows. Start with a category fibred in groupoids
+$p : \mathcal{S} \to \mathcal{C}$. Altering the morphisms in $\mathcal{S}$
+which do not map to the identity morphism on some object does not alter the 
+categories $\mathcal{S}_U$. Hence we can violate the existence and uniqueness
+conditions on lifts. One example is the functor from Example 
+\ref{example-group-homomorphism-fibreedingroupoids} when $G \to H$ is not
+surjective. Here is another example.
+
+\begin{example}
+Let $ \text{Ob}(\mathcal{C}) = \{A,B,T\}$ and 
+$\text{Mor}_\mathcal{C}(A,B) = \{f\}$, $\text{Mor}_\mathcal{C}(B,T) = \{g\}$,
+$\text{Mor}_\mathcal{C}(A,T) = \{h\} = \{gf\},$ plus the identity morphism for 
+each object. See the diagram below for a picture of this category. Now let 
+$\text{Ob}(\mathcal{S}) = \{A',B',T'\}$ and 
+$\text{Mor}_\mathcal{S}(A',B') = \emptyset$,  
+$\text{Mor}_\mathcal{S}(B',T') = \{g'\}$,  
+$\text{Mor}_\mathcal{S}(A',T') = \{h'\},$ plus the identity morphisms. The 
+functor $p : \mathcal{S} \to \mathcal{C}$ is obvious. Then for every 
+$U \in \text{Ob}(\mathcal{C})$, $\mathcal{S}_U$ is the category with one 
+object and the identity morphism on that object, so a groupoid, but the 
+morphism $f: A \to B$ cannot be lifted. Similarly, if we declare 
+$\text{Mor}_\mathcal{S}(A',B') = \{f'_1, f'_2\}$ and 
+$ \text{Mor}_\mathcal{S}(A',T') = \{h'\} = \{g'f'_1 \} = \{g'f'_2\}$, then 
+the fibre categories are the same and $f: A \to B$ in the diagram below has 
+two lifts. 
+$$
+\xymatrix{
+B' \ar[r]^{g'} & T' &  & B \ar[r]^g & T & \\
+A' \ar@{-->}[u]^{??} \ar[ru]_{h'} & & \ar@{}[u]^{above} &
+A \ar[u]^f \ar[ru]_{gf = h} & \\
+}
+$$ 
+\end{example}
+
+\noindent
+Later we would like to make assertions such as ``any category fibred in
+groupoids over $\mathcal{C}$ is equivalent to a split one'', or
+``any category fibred in groupoids whose fibre categories are setlike
+is equivalent to a category fibred in sets''. The notion of equivalence
+depends on the $2$-category we are working with. To make sure
+that everybody knows what we are talking about we define the
+$2$-category of categories over $\mathcal{C}$.
+
+\begin{definition}
+\label{definition-categories-over-C}
+The $2$-category of categories over $\mathcal{C}$ is defined
+as follows. Its objects will be functors 
+$p : \mathcal{S} \to \mathcal{C}$ (belonging to
+some set, see Sets, \autoref{sets-section-reflection-principle}). Its 
+$1$-morphisms will be functors $G : \mathcal{S} \to \mathcal{S}'$
+such that $p' \circ G = p$, and its $2$-morphisms $t : G \to H$
+will be morphisms of functors such that $p'(t_x) = \text{id}_{p(x)}$
+for all $x \in \text{Ob}(\mathcal{S})$.
+\end{definition}
+
+\noindent
+The $2$-category of categories fibred in groupoids over $\mathcal{C}$
+is the full sub-$2$-category of this $2$-category whose objects
+are categories fibred in groupoids.
+
+\begin{lemma}
+\label{lemma-equivalence-fibred-categories}
+Let $p\colon \mathcal{S}\to \mathcal{C}$ and 
+$p'\colon \mathcal{S'}\to \mathcal{C}$ be categories fibred in groupoids, and
+suppose that $G\colon \mathcal{S}\to \mathcal {S}'$ is a functor over 
+$\mathcal{C}$.  Then $G$ is fully faithful (resp.\ an equivalence) if and only
+if for each $U\in\text{Ob}(\mathcal{C})$ the induced functor 
+$G_U\colon \mathcal{S}_U\to \mathcal{S}'_U$ is fully faithful (resp.\ an
+equivalence).
+\end{lemma}
+
+\begin{proof}
+Clearly if $G$ is fully faithful (resp.\ an equivalence) then so is $G_U$. So
+suppose that $G_U$ is fully faithful for all $U\in\text{Ob}(\mathcal C)$. To
+show that $G$ is fully faithful we have to show for any objects
+$x,y\in\text{Ob}(\mathcal{S})$ that $G$ induces a bijection between
+$\text{Mor}_{\mathcal{S}}(x,y)$ and $\text{Mor}_{\mathcal{S}'}(G(x),G(y))$. 
+To this end let $\phi'\colon G(x)\to G(y)$ and set $U=p(x)$ and $V=p(y)$.
+As $\mathcal{S}$ is fibred in groupoids there is a lift $z\to y$ of 
+$p'(\phi')$ in $\mathcal{S}$, and any morphisms $x\to y$ factors uniquely
+as $x\to z\to y$, where the map $x\to z$ lifts $\text{id}_U$, as in the
+following diagram
+$$
+\xymatrix{
+x \ar@{-->}[d] \ar[rd]  \\
+z \ar[r]^\psi \ar[d] & y \ar[d] \\
+U \ar[r]^{p'(\phi')} &V}
+$$ 
+Now in $\mathcal{S}'$,  $G(\psi)\colon G(z)\to G(y)$ is the pullback of
+$G(y)$, so any morphism $G(x)\to G(y)$ factors uniquely
+as $G(x)\to G(z)\to G(y)$, where again the map
+$G(x)\to G(z)$ lifts $\text{id}_U$.  Since $G_U$
+induces a bijection between $\text{Mor}_{\mathcal{S}_U}(x,z)$ and
+$\text{Mor}_{\mathcal{S}'_U}(G(x),G(z))$ we get that
+$G$ induces a bijection between $\text{Mor}_{\mathcal{S}}(x,y)$
+and $\text{Mor }_{\mathcal{S}'}(G(x),G(y))$, hence $G$
+is fully faithful.
+
+\smallskip\noindent
+Finally suppose for all $G_U$ is an equivalence for all $U$, so it is
+fully faithful and essentially surjective.  We have seen this implies $G$ is
+fully faithful, and thus to prove it is an equivalence we have to prove that
+it is essentially surjective.  This is clear, for if $z'\in
+\text{Ob}(\mathcal{S}')$ then $z'\in \text{Ob}(\mathcal{S}'_U)$ where
+$U=p'(z')$.  Since $G_U$ is essentially surjective we know that
+$z'$ is isomorphic, in $\mathcal{S}'_U$, to an object of the form
+$G_U(z)$ for some $z\in \text{Ob}(\mathcal{S}_U)$.  But morphisms
+in $\mathcal{S}'_U$ are morphisms in $\mathcal{S}'$ and hence $z'$ is
+isomorphic to $G(z)$ in $\mathcal{S}'$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-2-product-categories-over-C} The 2-category of categories
+over $\mathcal{C}$ has 2-fibre products. Suppose that
+$f : \mathcal{X} \to \mathcal{S}$ and
+$g : \mathcal{Y} \to \mathcal{S}$ are morphisms of categories over
+$\mathcal{C}$. An explicit 2-fibre product
+$\mathcal{X} \times_\mathcal{S}\mathcal{Y}$ is given by the following
+description
+\begin{enumerate}
+\item an object of $\mathcal{X}\times_\mathcal{S} \mathcal{Y}$ is a quadruple
+$(U,x,y,f)$, where $U \in \text{Ob}(\mathcal{C})$,
+$x\in \text{Ob}(\mathcal{X}_U)$, $y\in \text{Ob}(\mathcal{Y}_U)$,
+and $f : F(x) \to G(y)$ is an isomorphism in $\mathcal{S}_U$,
+\item a morphism $(U,x,y,f) \to (U',x',y', f')$ is given by a pair $(a,b)$,
+where $a : x \to x'$ is a morphism in $\mathcal{X}$, and $b : y \to y'$ is a
+morphism in $\mathcal{Y}$ such that (1) $a$ and $b$ induced the same
+morphism $U \to U'$, and (2) the diagram 
+$$
+\xymatrix{
+F(A) \ar[r]^f \ar[d]^{F(a)} & G(B) \ar[d]^{G(b)} \\
+F(A') \ar[r]^{f'} & G(B')
+}
+$$
+is commutative.
+\end{enumerate}
+The functors $p : \mathcal{X}\times_\mathcal{S}\mathcal{Y} \to \mathcal{X}$
+and $q : \mathcal{X}\times_\mathcal{S}\mathcal{Y} \to \mathcal{Y}$ are the
+forgetfull functors in this case. The transformation $\psi : F \circ p \to
+G \circ q$ is given on the object $\xi = (U,x,y,f)$ by
+$\psi_\xi = f : F(p(\xi)) = F(x) \to G(y) = G(q(\xi))$.
+\end{lemma}
+
+\begin{proof}
+Let us check the universal property: let $p_W : \mathcal{W}\to \mathcal{C}$
+be a category over $\mathcal{C}$, let $X : \mathcal{W} \to \mathcal{X}$ and
+$Y : \mathcal{W} \to \mathcal{Y}$ be functors over $\mathcal{C}$, and let
+$t : F \circ X \to G \circ Y$ be an isomorphism of functors.
+The desired functor
+$\gamma : \mathcal{W} \to \mathcal{A}\times_\mathcal{C}\mathcal{B}$
+is given by $W \mapsto (p_W(W), X(W), Y(W), t_W)$. What else could it be? 
+(A meta-argument for uniqueness.) FIXME: write this out.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-2-product-fibred-categories}
+In the situation of the lemma above, if $\mathcal{X}$, $\mathcal{Y}$ and 
+$\mathcal{S}$ are fibred in groupoids over $\mathcal{C}$, then so is
+$\mathcal{X}\times_\mathcal{S}\mathcal{Y}$. In particular the 2-category
+of categories fibred in groupoids over $\mathcal{C}$ has 2-fibre products
+(and they are described as above).
+\end{lemma}
+
+\begin{proof} 
+FIXME.
+\end{proof}
+
+\subsection{Categories fibred in sets}
+\label{subsection-fibred-in-sets}
+
+\noindent
+Let us call a category setlike if it is a groupoid where every object
+has exactly one automorphism: the identity. If $C$ is a set with an 
+equivalence relation $\sim$, then we can make a setlike category
+$\mathcal{C}$ as follows: $\text{Ob}(\mathcal{C}) = C$ and 
+$\text{Mor}_\mathcal{C}(x,y) = \emptyset$ unless $x \sim y$ in which
+case we set $\text{Mor}_\mathcal{C}(x,y) = \{1\}$. Transitivity of
+$\sim$ means that we can compose morphisms. Conversely any setlike
+category defines an equivalence relation on its objects (isomorphism)
+such that you recover the category (up to unique isomorphism -- not
+equivalence) from the procedure just described. This is why these categories
+are sometimes simply called equivalence relations.
+
+\smallskip\noindent
+A category is called discrete if the only morphisms are the identity 
+morphisms. Sometimes discrete categories are called sets (reasons as above).
+Discrete categories are setlike. For any setlike category $\mathcal{C}$
+there is a canonical procedure to make a discrete category equivalent to it,
+namely one replaces $\text{Ob}(\mathcal{C})$ by the set of isomorphism
+classes, and adds identity morphisms.
+
+\begin{definition}
+\label{definition-category-fibred-sets}
+A category fibred in groupoids $p : \mathcal{S} \to \mathcal{C}$ is said
+to be a category fibred in sets if all fibre categories are discrete.
+\end{definition}
+
+\noindent
+We discuss briefly the relationship between categories fibred in sets
+and presheaves (see Sites, \hyperref[sites-definition-presheaf]%
+{Definition~\ref*{sites-definition-presheaf}}). Suppose that $p :
+\mathcal{S} \to \mathcal{C}$ is fibred in sets. Let $f : V \to U$
+be a morphism in $\mathcal{C}$ and let $x \in \text{Ob}(\mathcal{S}_U)$.
+Then there is exactly one choice for the object $f^\ast x$. Thus we see that
+$(f \circ g)^\ast x = g^\ast(f^\ast x)$ for $f,g$ as in Lemma
+\ref{lemma-fibred-groupoids}. It follows that we may think of the
+assigments $U \mapsto \text{Ob}(\mathcal{S}_U)$ and $f \mapsto f^\ast$
+as a presheaf on $\mathcal{C}$.
+
+\smallskip\noindent
+Conversely, given a presheaf of sets
+$F : \mathcal{C}^{\text{opp}} \to \text{Sets}$
+we can construct a category $\mathcal{S}_F$ fibred in sets
+over $\mathcal{C}$ by taking as fibre category $\mathcal{S}_{F,U}$ 
+the discrete category whose underlying set is $F(U)$. This is explained
+more generally, and in more detail in Example \ref{example-functor-groupoids}
+below. Also, here is an important example.
+
+\begin{example}
+\label{example-fibred-category-from-functor-of-points}
+In this example $F = h_X = \text{Mor}(-,X)$ for some
+$X \in \text{Ob}(\mathcal{C})$ (see Example \ref{example-hom-functor}).
+In other words, $F$ is a representable presheaf.
+Since $\mathcal{S}_{F,U}$ is the discrete category whose objects are the
+morphisms from $U$ into $X$ it follows that
+$\mathcal{S}_F\to \mathcal{C}$ is the functor denoted
+$\mathcal{C}/X \to \mathcal{C}$ from
+Example \ref{example-comma-category}.
+FIXME. Improve formulation.
+\end{example}
+
+\smallskip\noindent
+For this reason it is tempting to define a ``representable'' object in the
+2-category of categories fibred in groupoids to be a category fibred in
+sets whose associated presheaf is representable. However, this is would not
+be a good definition since we prefer to have a notion wich is invariant under
+equivalences. Thus we consider first which categories in groupoids are
+equivalent to categories fibred in sets.
+
+\begin{lemma}
+\label{lemma-setlike-fibres}
+Suppose that $p : \mathcal{S} \to \mathcal{C}$ is a category fibred in
+groupoids all of whose fibre categories $\mathcal{S}_U$ are setlike. 
+Then there exists a category fibred in sets $p' : \mathcal{S}' \to
+\mathcal{C}$ and an equivalence
+$\text{can}:\mathcal{S} \to \mathcal{S}'$ of categories over $\mathcal{C}$.
+The 1-morphism $\mathcal{S}\to\mathcal{S}'$ is unique up to a unique
+2-morphism. It further has the property that
+$$
+\text{Ob}(\mathcal{S}_U) \longrightarrow \text{Ob}(\mathcal{S}'_U) 
+$$
+(induced by $\text{can}$) identifies the RHS with ismorphism classes of the
+LHS for all $U \in \text{Ob}(\mathcal{C})$. The 1-morphism
+$\mathcal{S}\to\mathcal{S}'$ is unique up to a unique 2-morphism. 
+
+\smallskip\noindent
+Conversely, any category fibred in groupoids over $\mathcal{C}$ which
+is equivalent (as a category over $\mathcal{C}$) to a category fibred 
+in sets, has setlike fibre categories.
+\end{lemma}
+
+\begin{proof}
+An object of the category $\mathcal{S}'$ will be a pair $(U, \xi)$, where
+$U \in \text{Ob}(\mathcal{C})$ and $\xi$ is an isomorphism class of objects
+of $\mathcal{S}_U$. A morphism $(U,\xi) \to (V , \psi)$ is given by a 
+morphism $x \to y$, where $x \in \xi$ and $y \in \psi$. Here we identify
+two morphisms $x \to y$ and $x' \to y'$ if they induce the same morphism
+$U \to V$, and if for some choices of isomorphisms $x \to x'$ in
+$\mathcal{S}_U$ and $y \to y'$ in $\mathcal{S}_V$ the compositions
+$x \to x' \to y'$ and $x \to y \to y'$ agree. By construction there are
+surjective maps on objects and morphisms from $\mathcal{S} \to
+\mathcal{S}'$. We define composition of morphisms in $\mathcal{S}'$ to
+be the unique law that turns $\mathcal{S} \to \mathcal{S}'$ into a functor.
+FIXME: check this is well-defined. 
+
+\smallskip\noindent
+By construction the rule $(U,\xi) \mapsto U$ is a functor. FIXME: check this
+and the other properties.
+\end{proof}
+
+\noindent
+With this lemma in hand it is easy to recognize those categories over
+$\mathcal{C}$ which are equivalent to a category fibred in sets. Thus we
+now make the following definition.
+
+\begin{definition}
+\label{definition-representable-fibred-category}
+A category fibred in groupoids $p : \mathcal{S} \to \mathcal{C}$ is
+called representable, if the following conditions are satisfied:
+\begin{enumerate}
+\item all fibre categories $\mathcal{S}_U$ are setlike, and
+\item the presheaf $U \mapsto \text{Ob}(\mathcal{S}_U)/\cong$ is 
+representable.
+\end{enumerate}
+\end{definition}
+
+\noindent
+In this case, by Lemma \ref{lemma-setlike-fibres} the category 
+$\mathcal{S}'$ is isomorphic to $\mathcal{C}/X$ over $\mathcal{C}$.
+As usual, by the Yoneda lemma the pair $(X,j)$, where $j$ is the
+equivalence $j : \mathcal{S} \to \mathcal{C}/X$ is uniquely determined
+up to isomorphism.
+
+\begin{lemma}
+\label{lemma-2-product-categories-fibred-sets}
+The 2-category of categories fibred in sets over $\mathcal{C}$
+has 2-fibre products. More precisely, the 2-fibre product described in 
+Lemma \ref{lemma-2-product-categories-over-C} returns a category fibred in
+sets if one starts out with such. A similar result holds for categories
+fibred in groupoids all of whose fibre categories are setlike.
+\end{lemma}
+
+\begin{proof}
+FIXME.
+\end{proof}
+
+\subsection{Presheaves of groupoids}
+\label{subsection-presheaves-groupoids}
+
+\noindent
+In this subsection we compare the notion of categories fibred in groupoids
+with the closely related notion of a ``presheaf of groupoids''. The basic
+construction is explained in the following example.
+
+\begin{example}
+\label{example-functor-groupoids}
+Suppose that $F : \mathcal{C} \to \text{Groupoids}$ is a contravariant functor
+to the category of groupoids (see 
+\hyperref[remark-functor-into-sets]{Remark~\ref*{remark-functor-into-sets}} and
+\hyperref[remarks-functor-into-2-category]%
+{Remark~\ref{remarks-functor-into-2-category}}). 
+For $f : V \to U$ in $\mathcal{C}$ we will
+suggestively write $F(f) = f^\ast$ for the functor from $F(U)$ to $F(V)$. 
+From this we can construct a category fibred in groupoids over $\mathcal{C}$ 
+as follows. Define 
+$$
+\text{Ob}(\mathcal{S}) =
+\{(U,x) \mid U\in \text{Ob}(\mathcal{C}), x\in \text{Ob}(F(U)\}.
+$$ 
+For $(U,x), (V,y) \in \text{Ob}(\mathcal{S})$ we define
+$$
+\text{Mor}_\mathcal{S}((V,y),(U,x)) = 
+\{ (f, \phi) \mid f\in \text{Mor}_\mathcal{C}(V,U), 
+\phi \in \text{Mor}_{F(V)}(y, f^\ast x)\}.
+$$
+In order to define composition we use that $g^\ast \circ f^\ast = 
+(f \circ g)^\ast$ for a pair of composable morphisms of $\mathcal{C}$
+(by definition of a functor into a $2$-category).
+Namely, we define the composition of $\psi : z \to g^\ast y$ and 
+$ \phi : y \to f^\ast x$ to be $ g^\ast(\phi) \circ \psi$. It is clear
+what the functor $p : \mathcal{S} \to \mathcal{C}$ is. The condition
+that $F(U)$ is a groupoid for every $U$ guarantees that $\mathcal{S}$ is
+fibred in groupoids over $\mathcal{C}$. Lifts of morphisms exist: given 
+$f: V \to U$ in $\mathcal{C}$ and $(U,x)$ a lift of $U$, then 
+$(f, id_{f^\ast x}): (V, {f^\ast x}) \to (U,x)$ is a lift of $f$. 
+Uniqueness means $h$ in the diagram on the left determines $(h,\nu)$ on 
+the right:
+$$
+\xymatrix{
+V \ar[r]^f & U & (V,y) \ar[r]^{(f, \phi)} & (U,x) \\
+W \ar@{-->}[u]^h \ar[ru]_g & &
+(W,z) \ar@{-->}[u]^{(h,\nu)} \ar[ru]_{(g, \psi)} & \\
+}
+$$
+Then $\nu = (h^\ast \phi)^{-1} \circ \psi $ and the uniqueness of inverses
+guarantees this is the only lift making the diagram commute.
+
+\noindent
+We will write $\mathcal{S}_F \to \mathcal{C}$ for the resulting functor
+if we want to indicate the dependence on $F$. Because we can think of 
+objects of $\mathcal{S}_F$ as pairs $(U,x)$, we sometimes say $\mathcal{S}_F$ 
+is a {\it split} category fibred in groupoids.
+\end{example}
+
+\begin{lemma} 
+\label{lemma-fibred-strict}
+Let $ p : \mathcal{S} \to \mathcal{C}$ be a category fibred in groupoids.
+There exists a functor $F : \mathcal{C} \to \text{Groupoids}$ such that 
+$\mathcal{S}$ is equivalent to $\mathcal{S}_F$ over $\mathcal{C}$. In other 
+words, every category fibred in groupoids is equivalent to a split one.
+\end{lemma}
+
+\begin{proof} 
+We construct a new category $\mathcal{S}'$ as follows. First we choose 
+pullback functors $g^\ast : \mathcal{S}_V \to \mathcal{S}_{V'}$ for any 
+morphism $g : V' \to V$ of $\mathcal{C}$. (We can do this since 
+$\mathcal{S}$, $\mathcal{C}$ are sets. FIXME: We can do this proof without
+choosing these as well.) The objects of $\mathcal{S}'$ 
+are pairs $(x,f)$ consisting of a morphism $f : V \to U$ of $\mathcal{C}$
+and an object $x$ of $\mathcal{S}$ over $U$, i.e., 
+$x\in \text{Ob}(\mathcal{S}_U)$. The functor 
+$p' : \mathcal{S}' \to \mathcal{C}$ will map the pair $(x,f)$ to the source 
+of the morphism $f$, in other words $p'(x,f:V\to U) = V$. A morphism 
+$\varphi : (x_1,f_1: V_1 \to U_1) \to (x_2, f_2 : V_2 \to U_2)$ is given by a 
+pair $(\varphi,g)$ consisting of a morphism $g : V_1 \to V_2$ and a morphism 
+$\varphi : f_1^\ast x_1 \to f_2^\ast x_2$ with $p(\varphi) = g$. It is no 
+problem to define the composition law: $(\varphi,g) \circ (\psi,h) = 
+(\varphi \circ \psi, g\circ h)$ for any pair of composable morphisms. 
+There is a natural functor $\mathcal{S} \to \mathcal{S}'$ which simply maps
+$x$ over $U$ to the pair $(x, \text{id}_x)$.
+
+\smallskip\noindent
+FIXME. We need to check that $p'$ makes $\mathcal{S}'$ into a category
+fibred in groupoids over $\mathcal{C}$, and we need to check that 
+$\mathcal{S} \to \mathcal{S}'$ is an equivalence of categories over 
+$\mathcal{C}$ (hopefully the lemma above helps!). 
+
+\smallskip\noindent
+Finally, we can define pullback functors on $\mathcal{S}'$ 
+by setting $g^\ast(x,f) = (x, f \circ g)$ on objects if $g : V' \to V$ and
+$f : V \to U$. On morphisms $(\varphi,\text{id}_V) : (x_1, f_1) \to (x_2,f_2)$
+between morphisms in $\mathcal{S}'_V$ we set $g^\ast(\varphi,\text{id}_V) =
+(g^\ast\varphi, \text{id}_{V'})$ where we use the unique identifications
+$g^\ast f_i^\ast x_i = (f_i \circ g)^\ast x_i$ from Lemma 
+\ref{lemma-fibred-groupoids} to think of $g^\ast\varphi$ as a morphism from
+$(f_1 \circ g)^\ast x_1$ to $(f_2 \circ g)^\ast x_2$. Clearly, these pullback
+functors $g^\ast$ have the property that
+$g_1^\ast \circ g_2^\ast = (g_2\circ g_1)^\ast$, in other words $\mathcal{S}'$
+is split as desired.
+\end{proof}
+
+\begin{proof}[Alternate proof]
+We define a contravariant functor $F$ from $\mathcal{C}$ to the
+category of groupoids as follows: for $U\in \text{Ob}(\mathcal{C})$
+set $F(U) = \text{Mor}(\mathcal{S}/U,\mathcal{S})$ to be the set of
+base preserving natural transformations.  If $f\colon U\to V$ the
+induced functor $\mathcal{S}/U\to \mathcal{S}/V$ induces the
+morphism $F(f)\colon F(V)\to F(U)$.  Clearly $F$ is a functor, and
+we will see below that it is a functor into groupoids.  Let
+$\mathcal{S}'$ be the associated category fibred in groupoids from Example
+\ref{example-functor-groupoids}.
+
+\smallskip\noindent
+There is an obvious functor $G\colon \mathcal{S}'\to \mathcal{S}$
+over $\mathcal{C}$ given by taking the pair $(U,x)$, where
+$U\in\text{Ob}(\mathcal{C})$ and $x\in F(U)$, to
+$x(U\stackrel{\text{id}_U}{\to} U) \in \mathcal{S}$.  Now Lemma
+\ref{lemma-yoneda-2category} implies that for each $U$,
+$$
+G_U\colon \mathcal{S}'_U = F(U)= 
+\text{Mor}(\mathcal{C}/U,\mathcal{S}) \to \mathcal{S}_U
+$$
+is an equivalence, and thus $G$ equivalence between $\mathcal{S}$ and
+$\mathcal{S}'$ by Lemma \ref{lemma-equivalence-fibred-categories}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-yoneda-2category}
+Let $\mathcal{S}\to \mathcal{C}$ be fibred in groupoids.  Then for any
+$U\in \text{Ob}(\mathcal{C})$ the functor
+$$
+G\colon \text{Mor}(\mathcal{C}/U,\mathcal{S}) \to \mathcal{S}_U
+$$
+given by $G(x) = x(U\stackrel{\text{id}_U}{\to} U)$ is an equivalence.
+\end{lemma}
+
+\noindent
+FIXME: Do we have notation for base preserving transformations already?
+Say what $G$ does on arrows.
+
+\begin{proof}
+We define a functor $H\colon \mathcal{S}_U \to
+\text{Mor}(\mathcal{C}/U,\mathcal{S})$ as follows.  Given $x\in
+\text{Ob}(\mathcal{S}_U)$ and $f\colon X\to U$ set $H(x)(f) = f^*x$.
+(FIXME: say what this does on arrows and prove this gives an
+equivalence).
+\end{proof}
+ 
+\noindent {\bf Biographical notes:} Parts of this have been taken from
+Vistoli's notes \cite{Vis2}.
+
+\smallskip\noindent
+To continue reading, 
+\begin{enumerate}
+
+\item visit the next section: Sites,
+\autoref{sites-section-introduction}, or 
+
+\item go back to the
+table of contents: \url{index.html#contents}.
+
+\end{enumerate}
+
+\bibliographystyle{alpha}
+\bibliography{my}
+
+\end{document}
