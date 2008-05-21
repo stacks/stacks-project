@@ -10,6 +10,9 @@
 % \usepackage{amscd}
 % but Jason prefers xypic
 \usepackage[all]{xy}
+% In this file we use 2cell for 2-commutative diagrams.
+\xyoption{2cell}
+\UseAllTwocells
 
 % To put source file link in headers.
 % Change "template.tex" to "this_filename.tex"
@@ -137,8 +140,8 @@ map $ \text{Mor}_\mathcal{C}(y,z) \times \text{Mor}_\mathcal{C}(x,y)
 \end{enumerate}
 These data are to satisfy the following rules:
 \begin{enumerate}
-\item For every element $x\in \text{Ob}(\mathcal{C})$ there exists a unique
-identity morphism $\text{id}_x\in \text{Mor}_\mathcal{C}(x,x)$ such that 
+\item For every element $x\in \text{Ob}(\mathcal{C})$ there exists a
+morphism $\text{id}_x\in \text{Mor}_\mathcal{C}(x,x)$ such that 
 $\text{id}_x \circ \phi = \phi$ and $\psi \circ \text{id}_x = \psi $ whenever
 these compositions make sense.
 \item Composition is transitive $(\phi \circ \psi) \circ \chi =
@@ -177,6 +180,13 @@ over $\mathcal{C}$.
 \end{enumerate}
 \end{remark}
 
+\begin{remark}
+\label{remark-unique-indentity}
+It follows directly from the definition any two identity morphisms
+of and object $x$ of $\mathcal{A}$ are the same. Thus we may and will
+speak of {\it the} identity morphism $\text{id}_x$ of $x$.
+\end{remark}
+
 \begin{definition}
 \label{definition-isomorphism}
 A morphism $\phi : x \to y$ is an {\it isomorphism} of the category
@@ -184,6 +194,15 @@ $\mathcal{C}$ if there exists a morphism $\psi : y \to x$
 such that $\phi \circ \psi = \text{id}_y$ and
 $\psi \circ \phi = \text{id}_x$.
 \end{definition}
+
+\noindent
+An isomorphism $\phi$ is also sometimes called an {\it invertible}
+morphism, and the morphism $\psi$ of the definition is called the
+inverse and denoted $\phi^{-1}$. It is unique if it exists. Note that
+given an object $x$ of a category $\mathcal{A}$ the set of invertible
+elements $\text{Aut}_{\mathcal{A}}(x)$
+of $\text{Mor}_{\mathcal{A}}(x,x)$ forms a group under composition. 
+This group is called the {\it automorphism} group of $x$ in $\mathcal{A}$.
 
 \begin{definition} 
 \label{definition-groupoid}
@@ -309,22 +328,32 @@ and $p_X\circ F = p_{X'}$.
 \begin{definition}
 Let $F, G : \mathcal{A} \to \mathcal{B}$ be functors.
 A {\it transformation}, or a {\it morphism} of functors
-$t : F \to G$, is given by the following data:
+$t : F \to G$, is a collection $\{t_x\}_{x\in \text{Ob}(\mathcal{A})}$
+such that
 \begin{enumerate}
-\item For every $x\in \text{Ob}(\mathcal{A})$ a morphism
-$t_x : F(x) \to G(x)$ in the category $\mathcal{B}$.
-\end{enumerate}
-These data should satisfy the condition that for every 
-morphism $\phi : x \to y$ of $\mathcal{A}$ the following
+\item $t_x : F(x) \to G(x)$ is a morphism in the category $\mathcal{B}$, and
+\item for every morphism $\phi : x \to y$ of $\mathcal{A}$ the following
 diagram is commutative
 $$
 \xymatrix{
 F(x) \ar[r]^{t_x} \ar[d]_{F(\phi)} & G(x) \ar[d]^{G(\phi)} \\
 F(y) \ar[r]^{t_y} & G(y) }
 $$
+\end{enumerate}
 \end{definition}
 
 \noindent
+Sometimes we use the diagram
+$$\xymatrix{
+\mathcal{A}
+\rtwocell^F_{G}{t}
+&
+\mathcal{B}
+}
+$$
+to indicate that $t$ is a morphism from $F$ to $G$.
+
+\medskip\noindent
 Note that every functor $F$ comes with the {\it identity} transformation
 $\text{id}_F : F \to F$. In addition, given a morphism of
 functors $t : F \to G$ and a morphism of functors $s : E \to F$
@@ -332,7 +361,7 @@ then the {\it composition} $t \circ s$ is defined by the rule
 $$
 (t \circ s)_x = t_x \circ s_x : E(x) \to G(x)
 $$
-for $x \in \text{Ob}(\mathcal{A}$.
+for $x \in \text{Ob}(\mathcal{A})$.
 It is easy to verify that this is indeed a morphism of functors
 from $E$ to $G$.
 In this way, given categories 
@@ -374,14 +403,45 @@ faithful and essentially surjective.
 \label{subsubsection-formal-cat-cat}
 
 \noindent
+In this subsection we discuss some formal properties of the
+$2$-category of categories. This will lead us to the definition
+of a (strict) $2$-category later.
+
+\medskip\noindent
 Let us denote $\text{Ob}(\textit{Cat})$ the class of all categories.
 For every pair of categories
 $\mathcal{A}, \mathcal{B} \in \text{Ob}(\text{Cat})$
 we have the category of functors
 $$
-\text{Fun}(\mathcal{A}, \mathcal{B}).
+\text{Fun}(\mathcal{A}, \mathcal{B})
 $$
-There is a bit more structure on this. Namely for every triple
+Composition of transformation of functors 
+such as
+$$
+\xymatrixcolsep{5pc}
+\xymatrix{
+\mathcal{A}
+\ruppertwocell^F{t}
+\ar[r]_(.3){F'}
+\rlowertwocell_{F''}{t'}
+&
+\mathcal{B}
+}
+\text{ composes to }
+\xymatrix{
+\mathcal{A}
+\rtwocell^F_{F''}{\ \ t \circ t'}
+&
+\mathcal{B}
+}
+$$
+is called {\it vertical} composition. We will use the usual
+symbol $\circ$ for this. Next, we will define {\it horizontal}
+composition. In order to do this we explain a bit more 
+of the structure at hand.
+
+\medskip\noindent
+Namely for every triple
 of categories $\mathcal{A}$, $\mathcal{B}$, and $\mathcal{C}$
 there is a composition law
 $$
@@ -392,22 +452,34 @@ $$
 \text{Ob}(\text{Fun}(\mathcal{A}, \mathcal{C}))
 $$
 coming from composition of functors. This composition law
-is associative.
+is associative, and identity functors act as units. In other
+words -- forgetting about transformations of functors --
+we see that $\textit{Cat}$ forms a category. How does
+this structure interact with the morphisms between functors?
 
 \medskip\noindent
-Aditionally, given $t : F \to F'$ a transformation of
+Well, given $t : F \to F'$ a transformation of
 functors $F, F' : \mathcal{A} \to \mathcal{B}$ and
-$G : \mathcal{B} \to \mathcal{C}$ a functor we can define
-${}_Gt$ to be the transformation of functors
-$G\circ F \to G \circ F'$ given by
+a functor
+$G : \mathcal{B} \to \mathcal{C}$ we can define
+a transformation of functors
+$G\circ F \to G \circ F'$. We will denote this
+transformation ${}_Gt$. It is given by the formula
 ${}_Gt_x = G(t_x) : G(F(x)) \to G(F'(x))$
-for all $x \in \mathcal{A}$. In this way composition
+for all $x \in \mathcal{A}$. 
+In this way composition
 with $G$ becomes a functor
 $$
 \text{Fun}(\mathcal{A}, \mathcal{B})
 \longrightarrow
 \text{Fun}(\mathcal{A}, \mathcal{C}).
 $$
+To see this you just have to check that
+${}_G(\text{id}_F) = \text{id}_{G \circ F}$ and that
+${}_G(t_1 \circ t_2) = {}_Gt_1 \circ {}_Gt_2$.
+Of course we also have that ${}_{\text{id}_{\mathcal{A}}}t = t$.
+
+\medskip\noindent
 Similarly, given $s : G \to G'$ a transformation of
 functors $G, G' : \mathcal{B} \to \mathcal{C}$ and
 $F : \mathcal{A} \to \mathcal{B}$ a functor we can define
@@ -421,11 +493,17 @@ $$
 \longrightarrow
 \text{Fun}(\mathcal{A}, \mathcal{C}).
 $$
-These constructions satisfy additional properties such as
+To see this you just have to check that
+$(\text{id}_G)_F = \text{id}_{G\circ F}$ and that
+$(s_1 \circ s_2)_F = s_{1,F} \circ s_{2,F}$.
+Of course we also have that $s_{\text{id}_{\mathcal{B}}} = s$.
+
+\medskip\noindent
+These constructions satisfy the additional properties
 $$
 {}_{G_1}({}_{G_2}t) = {}_{G_1\circ G_2}t,\ 
 (s_{F_1})_{F_2} = s_{F_1 \circ F_2}, \text{ and }
-{}_G(t_H) = ({}_Gt)_H
+{}_H(s_F) = ({}_Hs)_F
 $$
 whenever these make sense.
 Finally, given functors $F, F' : \mathcal{A} \to \mathcal{B}$,
@@ -442,32 +520,130 @@ G' \circ F \ar[r]_{{}_{G'}t}
 G' \circ F'
 }
 $$
-in other words ${}_{G'}t \circ s_F = {}_Gt \circ s_{F'}$.
+in other words ${}_{G'}t \circ s_F =  s_{F'}\circ {}_Gt$.
 To prove this we just consider what happens on
-any object $x \in \mathcal{A}$:
+any object $x \in \text{Ob}(\mathcal{A})$:
 $$
 \xymatrix{
-G(F(x)) \ar[r]^{G(t_{F(x)})} \ar[d]_{s_{F(x)}}
+G(F(x)) \ar[r]^{G(t_{x})} \ar[d]_{s_{F(x)}}
 &
 G(F'(x)) \ar[d]^{s_{F'(x)}} \\
-G'(F(x)) \ar[r]_{G'(t_{F(x)})}
+G'(F(x)) \ar[r]_{G'(t_{x})}
 &
 G'(F'(x))
 }
 $$
 which is commutative because $s$ is a transformation
-of functors.
+of functors. This compatibility relation allows us
+to define horizontal composition.
 
+\begin{definition}
+\label{definition-horizontal-composition}
+Given a diagram as in the left hand side of:
+$$
+\xymatrixcolsep{4pc}
+\xymatrix{
+\mathcal{A}
+\rtwocell^F_{F'}{t}
+&
+\mathcal{B}
+\rtwocell^G_{G'}{s}
+&
+\mathcal{C}
+} 
+\text{ gives }
+\xymatrix{
+\mathcal{A}
+\rtwocell^{G \circ F} _{G' \circ F'}{\ \ t \star s}
+&
+\mathcal{C}
+}
+$$
+we define the {\it horizontal} composition $t \star s$ to be the
+transformation of functors ${}_{G'}t \circ s_F =  s_{F'}\circ {}_Gt$.
+\end{definition}
 
+\noindent
+Now we see that we may recover our previously constructed
+transformations ${}_Gt$ and $s_F$ as
+$ {}_Gt = \text{id}_G \star t $ and $ s_F = s \star \text{id}_F $.
+Furthermore, all of the rules we found above are consequences of
+the properties stated in the lemma that follows.
 
-\subsubsection{Additional notions}
-\label{subsubsection-categories-additional}
+\begin{lemma}
+\label{lemma-properties-2-cat-cats}
+The horizontal and vertical compositions have the following
+properties
+\begin{enumerate}
+\item $\circ$ and $\star$ are associative,
+\item the identity transformations $\text{id}_F$ 
+are units for $\circ$,
+\item the identity transformations of the identity functors
+$\text{id}_{\text{id}_{\mathcal{A}}}$
+are units for $\star$ and $\circ$, and
+\item given a diagram
+$$
+\xymatrixcolsep{5pc}
+\xymatrix{
+\mathcal{A}
+\ruppertwocell^F{t}
+\ar[r]_(.3){F'}
+\rlowertwocell_{F''}{t'}
+&
+\mathcal{B}
+\ruppertwocell^G{s}
+\ar[r]_(.3){G'}
+\rlowertwocell_{G''}{s'}
+&
+\mathcal{C}
+}
+$$
+we have $ (t' \circ t) \star (s' \circ s) = (t' \star s') \circ
+(s' \star s)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+The last statement turns using our previous notation into the following
+equation
+$$
+s'_{F''}
+\circ
+{}_{G'}t' 
+\circ
+s_{F'}
+\circ
+{}_Gt 
+=
+(s' \circ s)_{F''}
+\circ
+{}_G(t' \circ t).
+$$
+According to our result above applied to the middle composition
+we may rewrite the left hand side as
+$
+s'_{F''}
+\circ
+s_{F''} 
+\circ
+{}_Gt'
+\circ
+{}_Gt 
+$
+which is easily shown to be equal to the right hand side.
+\end{proof}
+
+\subsubsection{Fibre products}
+\label{subsubsection-fibre-products}
 
 \begin{definition}
 \label{definition-fibre-products}
-Let $x,y\in \text{Ob}(\mathcal{C})$ and $f\in \text{Mor}_{\mathcal{C}}(x,z)$
-and $g\in \text{Mor}_{\mathcal C}(y,z)$.  The fibre product of $f$ and $g$ is
-an object $x\times_z y\in \text{Ob}(\mathcal{C})$ together with morphisms 
+Let $x,y,z\in \text{Ob}(\mathcal{C})$,
+$f\in \text{Mor}_{\mathcal{C}}(x,z)$
+and $g\in \text{Mor}_{\mathcal C}(y,z)$.
+The {\it fibre product} of $f$ and $g$ is
+an object $x\times_z y\in \text{Ob}(\mathcal{C})$
+together with morphisms 
 $p\in \text{Mor}_{\mathcal C}(x\times_z y,x)$ and 
 $q\in\text{Mor}_{\mathcal C}(x\times_z y,y)$ making the diagram
 $$
@@ -487,11 +663,17 @@ w\ar[rrrd]^\alpha \ar@{-->}[rrd]_\gamma \ar[rrdd]_\beta &&\\
 &&x\times_y z \ar[r]_{p} \ar[d]_{q} & x \ar[d]^{f} \\
 &&y \ar[r]^{g} & z }
 $$
-commute.  If a fibre product exists it is unique up to unique
+commute.
+\end{definition}
+
+\noindent
+If a fibre product exists it is unique up to unique
 isomorphism.  We say the category $\mathcal{C}$ has fibre products if
 the fibre product exists for any $f\in \text{Mor}_{\mathcal C}(x,z)$
 and $g\in \text{Mor}_{\mathcal C}(y,z)$.
-\end{definition}
+
+\subsubsection{Opposite Category}
+\label{subsubsection-opposite}
 
 \noindent
 Given a category $\mathcal{C}$ we can form the opposite category
