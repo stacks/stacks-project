@@ -20,7 +20,7 @@ INSTALLDIR=..
 
 # Make all the funny targets first so crossreferences work.
 .PHONY: all
-all: $(FUNNYS) $(PDFS) $(DVIS) $(PSS) $(HTMLS)
+all: $(FUNNYS) $(DVIS)
 
 # We need the following to cancel the built-in rule for
 # .dvi files (which uses tex not latex).

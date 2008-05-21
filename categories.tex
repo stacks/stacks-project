@@ -121,8 +121,11 @@ use later for stacks as well.
 \label{subsection-categories}
 
 \noindent
-We recall the definitions, partly to fix notation. A category
-$\mathcal{C}$ consists of the following data:
+We recall the definitions, partly to fix notation.
+
+\begin{definition}
+\label{definition-category}
+A {\it category} $\mathcal{C}$ consists of the following data:
 \begin{enumerate}
 \item A set of objects $\text{Ob}(\mathcal{C})$.
 \item For each pair $x,y \in \text{Ob}(\mathcal{C})$ a set of morphisms
@@ -141,12 +144,50 @@ these compositions make sense.
 \item Composition is transitive $(\phi \circ \psi) \circ \chi =
 \phi \circ ( \psi \circ \chi)$ whenever these compositions make sense.
 \end{enumerate}
-We leave it to the reader to define the notion of an isomorphism
-between objects of the category $\mathcal{C}$. 
+\end{definition}
+
+\noindent
+It is customary to require all the morphism sets
+$\text{Mor}_{\mathcal{C}}(x,y)$ to be disjoint.
+In this way a morphism $\phi: x \to y$ has a unique {\it source} $x$
+and a unique {\it target} $y$. This is not strictly necessary,
+allthough care has to be taken in formulating condition (2) above
+if it is not the case. It is convenient and we will often assume
+this is the case. In this case we say that $\phi$ and $\psi$ are
+{\it composable} if the source of $\phi$ is equal to the 
+target of $\psi$, in which case $\phi \circ \psi$ is defined.
+An equivalent definition would be to define a category
+as a quintuple $(\text{Ob}, \text{Arrows}, s, t, \circ)$
+consisting of a set of objects, a set of morphisms (arrows),
+source, target and composition subject to a long list of axioms.
+We will occasionally use this point of view.
+
+\begin{remark}
+\label{remark-big-categories}
+Big categories. In some texts a category is allowed to have a proper
+class of objects. We will allow this as well in these notes but only
+in the following list of cases (to be updated as we go along)
+\begin{enumerate}
+\item The category $\textit{Sets}$ of sets.
+\item Given a ring $R$ the category of $R$-modules.
+\item Given a site $\mathcal{C}$ the category of sheaves
+over $\mathcal{C}$.
+\item The category of rings.
+\item The category of schemes.
+\end{enumerate}
+\end{remark}
+
+\begin{definition}
+\label{definition-isomorphism}
+A morphism $\phi : x \to y$ is an {\it isomorphism} of the category
+$\mathcal{C}$ if there exists a morphism $\psi : y \to x$
+such that $\phi \circ \psi = \text{id}_y$ and
+$\psi \circ \phi = \text{id}_x$.
+\end{definition}
 
 \begin{definition} 
 \label{definition-groupoid}
-A groupoid is a category where every morphism is an isomorphism.
+A {\it groupoid} is a category where every morphism is an isomorphism.
 \end{definition}
 
 \begin{example}
@@ -163,7 +204,9 @@ let $\text{Ob}(\mathcal{C})=C$ and declare $\text{Mor}(x,y)$ to be empty if
 $x\neq y$ and to be $\{\text{id}_x\}$ if $x=y$.
 \end{example}
 
-\smallskip\noindent A functor $F : \mathcal{A} \to \mathcal{B}$
+\begin{definition}
+\label{definition-functor}
+A {\it functor} $F : \mathcal{A} \to \mathcal{B}$
 between two categories $\mathcal{A}, \mathcal{B}$ is given by the
 following data:
 \begin{enumerate}
@@ -173,26 +216,72 @@ $F : \text{Mor}_\mathcal{A}(x,y) \to \text{Mor}_\mathcal{B}(F(x), F(y))$,
 denoted $\phi \mapsto F(\phi)$.
 \end{enumerate}
 These data should be compatible with composition and identity morphisms
-in an obvious manner. Note that every category $\mathcal{A}$ has an
-identity functor $\text{id}_\mathcal{A}$.
+in the following manner: $F(\phi \circ \psi) =
+F(\phi) \circ F(\psi)$ for a composable pair $(\phi, \psi)$ of
+morphisms of $\mathcal{A}$ and $F(\text{id}_x) = \text{id}_{F(x)}$.
+\end{definition}
+
+\noindent
+Note that every category $\mathcal{A}$ has an
+{\it identity} functor $\text{id}_\mathcal{A}$.
+In addition, given a functor $G : \mathcal{B} \to \mathcal{C}$
+and a functor $F : \mathcal{A} \to \mathcal{B}$ there is
+a {\it composition} functor $G \circ F : \mathcal{A} \to \mathcal{C}$
+defined in an obvious manner.
+
+\begin{definition}
+\label{definition-faithfull}
+Let $F : \mathcal{A} \to \mathcal{B}$ be a functor.
+\begin{enumerate}
+\item We say $F$ is {\it faithfull} if 
+for any objects $x,y$ of $\text{Ob}(\mathcal{A})$ the map
+$F : \text{Mor}_\mathcal{A}(x,y) \to \text{Mor}_\mathcal{B}(F(x), F(y))$
+is injective.
+\item If these maps are all bijective then $F$ is called
+{\it fully faithfull}.
+\item
+The functor $F$ is called {\it essentially surjective} if for any 
+object $y \in \text{Ob}(\mathcal{B})$ there exists an object
+$x \in \text{Ob}(\mathcal{A})$ such that $F(x)$ is isomorphic to $y$ in
+$\mathcal{B}$.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}
+\label{definition-subcategory}
+A {\it subcategory} of a category $\mathcal{B}$ is
+a category $\mathcal{A}$ whose objects and arrows
+form subsets of the objects and arrows
+of $\mathcal{A}$ and such that source, target
+and composition in $\mathcal{A}$ agree with those
+of $\mathcal{B}$. We say $\mathcal{A}$ is a
+{\it full subcategory} of $\mathcal{B}$ if $\text{Mor}_{\mathcal{A}}(x,y)
+= \text{Mor}_{\mathcal{B}}(x,y)$ for all $x,y \in \text{Ob}(\mathcal{A})$.
+\end{definition}
+
+\noindent
+If $\mathcal{A} \subset \mathcal{B}$ is a subcategory then the
+identity map is a functor from $\mathcal{A}$ to $\mathcal{B}$.
+Furthermore a subcategory $\mathcal{A} \subset \mathcal{B}$
+is full if and only if the inclusion functor is fully faithfull.
+Note that given a category $\mathcal{B}$ the set of full subcategories
+of $\mathcal{B}$ is the same as the set of subsets of
+$\text{Ob}(\mathcal{B})$.
 
 \begin{remark} 
 \label{remark-functor-into-sets}
-Suppose that $\mathcal{A}$ is a category. A functor $F$ from $\mathcal{C}$
-to $\text{Sets}$ clearly makes sense even though there is no category of sets.
-For example we can think of $F$ as a functor into $\text{Sets}_\alpha$, see
-Sets, \autoref{sets-section-reflection-principle}.
+Suppose that $\mathcal{A}$ is a category.
+A functor $F$ from $\mathcal{C}$ to $\textit{Sets}$
+is a mathematical object (i.e., it is a set, see
+Sets \autoref{sets-section-sets-everything})
+even though the category of sets is ``big''.
+Namely, the range of $F$ on objects will be 
+a set $F(\text{Ob}(\mathcal{A}))$ and then we 
+may think of $F$ as a functor between 
+$\mathcal{A}$ and the full subcategory
+of the category of sets whose
+objects are elements of $F(\text{Ob}(\mathcal{A}))$.
 \end{remark}
-
-\smallskip\noindent
-Recall that a functor $F : \mathcal{A} \to \mathcal{B}$ is faithfull if 
-for any objects $x,y$ of $\text{Ob}(\mathcal{A})$ the map
-$F : \text{Mor}_\mathcal{A}(x,y) \to \text{Mor}_\mathcal{B}(F(x), F(y))$
-is injective. Moreover, if these maps are all bijective then $F$ is called
-fully faithfull. The functor $F$ is called essentially surjective if for any 
-object $z \in \text{Ob}(\mathcal{B})$ there exists an object
-$x \in \text{Ob}(\mathcal{A})$ such that $F(x)$ is isomorphic to $z$ in
-$\mathcal{B}$.
 
 \begin{example}
 \label{example-group-homorphism-functor}
@@ -217,36 +306,151 @@ $F\colon \mathcal{C}/X' \to \mathcal{C}/X$ obtained by composition with $f$,
 and $p_X\circ F = p_{X'}$.
 \end{example}
 
-\smallskip\noindent
-A transformation of functors $t : F \to G$ (or simply a morphism of functors)
-between functors $F, G : \mathcal{A} \to \mathcal{B}$ is given by the following
-data:
+\begin{definition}
+Let $F, G : \mathcal{A} \to \mathcal{B}$ be functors.
+A {\it transformation}, or a {\it morphism} of functors
+$t : F \to G$, is given by the following data:
 \begin{enumerate}
 \item For every $x\in \text{Ob}(\mathcal{A})$ a morphism
 $t_x : F(x) \to G(x)$ in the category $\mathcal{B}$.
 \end{enumerate}
 These data should satisfy the condition that for every 
-morphism $\phi : x \to y$ of $\mathcal{A}$ the following diagram is
-commutative
-\begin{displaymath}
+morphism $\phi : x \to y$ of $\mathcal{A}$ the following
+diagram is commutative
+$$
 \xymatrix{
 F(x) \ar[r]^{t_x} \ar[d]_{F(\phi)} & G(x) \ar[d]^{G(\phi)} \\
 F(y) \ar[r]^{t_y} & G(y) }
-\end{displaymath}
-Note that every functor $F$ comes with the identity transformation
-$\text{id}_F : F \to F$.
+$$
+\end{definition}
 
-\smallskip\noindent
-Next we recall the concept of equivalent categories. An equivalence of
-categories $F : \mathcal{A} \to \mathcal{B}$ is a functor such that there
-exists a functor $G : \mathcal{B} \to \mathcal{A}$ with the property that
+\noindent
+Note that every functor $F$ comes with the {\it identity} transformation
+$\text{id}_F : F \to F$. In addition, given a morphism of
+functors $t : F \to G$ and a morphism of functors $s : E \to F$
+then the {\it composition} $t \circ s$ is defined by the rule
+$$
+(t \circ s)_x = t_x \circ s_x : E(x) \to G(x)
+$$
+for $x \in \text{Ob}(\mathcal{A}$.
+It is easy to verify that this is indeed a morphism of functors
+from $E$ to $G$.
+In this way, given categories 
+$\mathcal{A}$ and $\mathcal{B}$ we obtain a new category,
+namely the category of functors between $\mathcal{A}$ and
+$\mathcal{B}$.
+
+\begin{remark}
+This is one instance where the same thing does not hold if
+$\mathcal{A}$ is a ``big'' category. For example consider
+functors $\textit{Sets} \to \textit{Sets}$. As we have currently
+defined it such a functor is a class and not a set. In other
+words, it is given by a formula in set theory (with some variables
+equal to specified sets)! It is not a good idea to try to consider
+all possible formulae of set theory as part of the definition of 
+a mathematical object. The same problem presents itself when
+considering sheaves on the category of schemes for example.
+We will come back to this point later.
+\end{remark}
+
+\begin{definition}
+\label{definiton-equivalence-categories}
+An {\it equivalence of categories}
+$F : \mathcal{A} \to \mathcal{B}$ is a functor such that there
+exists a functor $G : \mathcal{B} \to \mathcal{A}$ such that
 the compositions $F \circ G$ and $G \circ F$ are isomorphic to the
-identity functors $\text{id}_\mathcal{B}$ respectively $\text{id}_\mathcal{A}$.
+identity functors $\text{id}_\mathcal{B}$,
+respectively $\text{id}_\mathcal{A}$.
+\end{definition}
 
-\smallskip\noindent
-Since we are working with categories that are sets it is easy to see that
-a functor is an equivalence of categories if and only if it is both fully
+\begin{lemma}
+A functor is an equivalence of categories if and only if it is both fully
 faithful and essentially surjective.
+\end{lemma}
+
+\begin{proof} FIXME. \end{proof}
+
+\subsubsection{Formal properties of categories, functors and transformations}
+\label{subsubsection-formal-cat-cat}
+
+\noindent
+Let us denote $\text{Ob}(\textit{Cat})$ the class of all categories.
+For every pair of categories
+$\mathcal{A}, \mathcal{B} \in \text{Ob}(\text{Cat})$
+we have the category of functors
+$$
+\text{Fun}(\mathcal{A}, \mathcal{B}).
+$$
+There is a bit more structure on this. Namely for every triple
+of categories $\mathcal{A}$, $\mathcal{B}$, and $\mathcal{C}$
+there is a composition law
+$$
+\circ : \text{Ob}(\text{Fun}(\mathcal{B}, \mathcal{C}))
+\times 
+\text{Ob}(\text{Fun}(\mathcal{A}, \mathcal{B}))
+\longrightarrow
+\text{Ob}(\text{Fun}(\mathcal{A}, \mathcal{C}))
+$$
+coming from composition of functors. This composition law
+is associative.
+
+\medskip\noindent
+Aditionally, given $t : F \to F'$ a transformation of
+functors $F, F' : \mathcal{A} \to \mathcal{B}$ and
+$G : \mathcal{B} \to \mathcal{C}$ a functor we can define
+$G(t)$ to be the transformation of functors
+$G\circ F \to G \circ F'$ given by
+$G(t)_x = G(t_x) : G(F(x)) \to G(F'(x))$
+for all $x \in \mathcal{A}$. In this way composition
+with $G$ becomes a functor
+$$
+\text{Fun}(\mathcal{A}, \mathcal{B})
+\longrightarrow
+\text{Fun}(\mathcal{A}, \mathcal{C}).
+$$
+Similarly, given $s : G \to G'$ a transformation of
+functors $G, G' : \mathcal{B} \to \mathcal{C}$ and
+$F : \mathcal{A} \to \mathcal{B}$ a functor we can define
+$F(s)$ to be the transformation of functors
+$G\circ F \to G' \circ F$ given by
+$F(s)_x = s_{F(x)} : G(F(x)) \to G'(F(x))$
+for all $x \in \mathcal{A}$. In this way
+composition with $F$ becomes a functor
+$$
+\text{Fun}(\mathcal{B}, \mathcal{C})
+\longrightarrow
+\text{Fun}(\mathcal{A}, \mathcal{C}).
+$$
+Finally, given functors $F, F' : \mathcal{A} \to \mathcal{B}$,
+and $G, G' : \mathcal{B} \to \mathcal{C}$ and transformations
+$t : F \to F'$, and $s : G \to G'$ the following
+diagram is commutative
+$$
+\xymatrix{
+G \circ F \ar[r]^{G(t)} \ar[d]_{F(s)}
+&
+G \circ F' \ar[d]^{F'(s)} \\
+G' \circ F \ar[r]_{G'(t)}
+&
+G' \circ F'
+}
+$$
+To prove this we just consider what happens on
+any object $x \in \mathcal{A}$:
+$$
+\xymatrix{
+G(F(x)) \ar[r]^{G(t_{F(x)})} \ar[d]_{s_{F(x)}}
+&
+G(F'(x)) \ar[d]^{s_{F'(x)}} \\
+G'(F(x)) \ar[r]_{G'(t_{F(x)})}
+&
+G'(F'(x))
+}
+$$
+which is commutative because $s$ is a transformation
+of functors.
+
+
 
 \subsubsection{Additional notions}
 \label{subsubsection-categories-additional}
@@ -404,29 +608,6 @@ isomorphisms. As far as this text is concerned all 2-categories occuring
 in this document are (full) sub 2-categories of the example below.
 FIXME: Remove this definition? Replace by a better one?
 
-\begin{example}
-\label{example-category-of-categories}
-The category of categories. The terminology of $2$-categories applies to
-categories as follows. Choose an ordinal $\alpha$ (see our discussion in
-Sets, \autoref{sets-section-reflection-principle}). Let
-$\text{Ob}(\text{Cat}_\alpha)$ be the set of all categories which are elements
-of $V_\alpha$. This will be the set of objects of our $2$-category. A
-$1$-morphism between
-$\mathcal{A}, \mathcal{B} \in \text{Ob}(\text{Cat}_\alpha)$ is a functor
-$F : \mathcal{A} \to \mathcal{B}$. A $2$-morphism is an {\it isomorphism}
-of $1$-morphisms, i.e., an invertible natural transformation of functors.
-
-\smallskip\noindent
-Composition of functors and composition of transformations of functors is
-defined above. Datum (6) in Definition \ref{definition-2-category} is 
-given as follows. Suppose that $t : F \to F'$ is a transformation of
-functors $\mathcal{A} \to \mathcal{B}$ and suppose that
-$G : \mathcal{B} \to \mathcal{C}$ is a functor. In this case $G(t)$
-is the transformation of functors $G\circ F \to G \circ F'$ given
-by $G(t_A) : G(F(A)) \to G(F'(A))$. Datum (7) of Definition 
-\ref{definition-2-category} is defined similarly. FIXME. Check the rules
-(1) -- (7) hold in this example (and no more than that in general).
-\end{example}
 
 \noindent
 The notion of equivalence of categories that we defined in Subsection
