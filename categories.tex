@@ -169,7 +169,7 @@ We will occasionally use this point of view.
 \label{remark-big-categories}
 Big categories. In some texts a category is allowed to have a proper
 class of objects. We will allow this as well in these notes but only
-in the following list of cases (to be updated as we go along)
+in the following list of cases (to be updated as we go along).
 \begin{enumerate}
 \item The category $\textit{Sets}$ of sets.
 \item Given a ring $R$ the category of $R$-modules.
@@ -177,6 +177,8 @@ in the following list of cases (to be updated as we go along)
 over $\mathcal{C}$.
 \item The category of rings.
 \item The category of schemes.
+\item Given a small category $\mathcal{C}$ the category of functors
+from $\mathcal{C}$ to $\textit{Sets}$.
 \end{enumerate}
 \end{remark}
 
@@ -633,6 +635,118 @@ $
 which is easily shown to be equal to the right hand side.
 \end{proof}
 
+\subsubsection{Opposite Category and the Yoneda Lemma}
+\label{subsubsection-opposite}
+
+\begin{definition}
+\label{definition-opposite}
+Given a category $\mathcal{C}$ the {\it opposite category}
+$\mathcal{C}^{\text{opp}}$ is the category with the same objects
+as $\mathcal{C}$ but all morphisms reversed.
+\end{definition}
+
+\noindent
+In other
+words $\text{Mor}_{\mathcal{C}^{\text{opp}}}(x,y) =
+\text{Mor}_{\mathcal{C}}(y,x)$. Composition in $\mathcal{C}^{\text{opp}}$
+is the same as in $\mathcal{C}$ except backwards: if $\phi : y \to z$ and
+$\psi : x \to y$ in $\mathcal{C}^{\text{opp}}$ then
+$\phi \circ^{\text{opp}} \psi := \psi \circ \phi$.
+
+\begin{definition}
+A {\it contravariant} functor $F\colon
+\mathcal{C}\to \mathcal{S}$ is a functor $\mathcal{C}^{\text{opp}}\to
+\mathcal{S}$.
+\end{definition}
+
+\noindent
+Concretely, a contravariant functor $F$ is given
+by a map $F : \text{Ob}(\mathcal{C}) \to 
+\text{Ob}(\mathcal{S})$ and for ever morphism
+$\psi : x \to y$ in $\mathcal{C}$ a morphism
+$F(\psi) : F(y) \to F(x)$. These should satisfy the property
+that, given another morphism
+$\phi : y \to z$, we have $F(\phi \circ \psi)
+= F(\psi) \circ F(\phi)$ as morphisms $F(z) \to F(x)$.
+(Note the reverse of order.)
+
+\begin{example}
+\label{example-hom-functor}
+Functor of points.
+For any $U\in \text{Ob}(\mathcal{C})$ there is a contravariant
+functor 
+$$
+\begin{matrix}
+h_U & : & \mathcal{C} 
+&
+\longrightarrow
+&
+\text{Sets} \\
+&&
+X
+&
+\longmapsto
+&
+\text{Mor}_{\mathcal{C}}(X,U) 
+\end{matrix}
+$$
+which takes an object $X$ to the set
+$\text{Mor}_{\mathcal{C}}(X,U)$.
+Given a morphism $f\colon X\to Y$ the corresponding map
+$h_U(f)\colon
+\text{Mor}_{\mathcal{C}}(Y,U)\to \text{Mor}_{\mathcal{C}}(X,U)$ takes
+$\phi$ to $\phi\circ f$. We will always denote
+this functor $h_U : \mathcal{C}^{\text{opp}} \to \text{Sets}$.
+If $\mathcal{C}$ is the category of schemes this functor is
+sometimes referred to as the
+\emph{functor of points} of $U$.
+\end{example}
+
+\noindent
+Note that given a morphism $\phi : U \to V$ in $\mathcal{C}$ we get a
+corresponding natural transformation of functors
+$h(\phi) : h_U \to h_V$ defined simply by composing with the morphism
+$U \to V$. It is trivial to see that this turns
+composition of morphisms in $\mathcal{C}$ into composition of
+transformations of functors. In other words we get a functor
+$$
+h :
+\mathcal{C}
+\longrightarrow
+\text{Fun}(\mathcal{C}^{\text{opp}}, \textit{Sets})
+$$
+Note that the target is a ``big'' category, see
+Remark \ref{remark-big-categories}. On the other hand,
+$h$ is an actual mathematical object (i.e.\ a set), compare Remark
+\ref{remark-functor-into-sets}.
+
+\begin{lemma}
+\label{lemma-yoneda}
+Yoneda lemma.
+Let $U,V \in \text{Ob}(\mathcal{C})$.
+Given any morphism of functors $s : h_U \to h_V$
+there is a unique morphism $\phi : U \to V$
+such that $h(\phi) = s$. In other words the
+functor $h$ is fully faithfull.
+\end{lemma}
+
+\begin{proof}
+Just take $\phi = s_U(\text{id}_U) \in \text{Mor}_{\mathcal{C}}(U,V)$.
+\end{proof}
+
+\begin{definition}
+\label{definition-representable-functor}
+A contravariant functor $F : \mathcal{C}\to \text{Sets}$ is said
+to be {\it representable} if it is isomorphic to the functor of
+points $h_U$ for some object $U$ of $\mathcal{C}$.
+\end{definition}
+
+\noindent
+Choose an isomorphism $s : h_U \to F$.
+The Yoneda lemma garantees that the pair $(U, s)$ 
+is unique up to unique isomorphism. The object
+$U$ is called an object {\it representing} $F$.
+
 \subsubsection{Fibre products}
 \label{subsubsection-fibre-products}
 
@@ -641,7 +755,7 @@ which is easily shown to be equal to the right hand side.
 Let $x,y,z\in \text{Ob}(\mathcal{C})$,
 $f\in \text{Mor}_{\mathcal{C}}(x,z)$
 and $g\in \text{Mor}_{\mathcal C}(y,z)$.
-The {\it fibre product} of $f$ and $g$ is
+A {\it fibre product} of $f$ and $g$ is
 an object $x\times_z y\in \text{Ob}(\mathcal{C})$
 together with morphisms 
 $p\in \text{Mor}_{\mathcal C}(x\times_z y,x)$ and 
@@ -668,52 +782,23 @@ commute.
 
 \noindent
 If a fibre product exists it is unique up to unique
-isomorphism.  We say the category $\mathcal{C}$ has fibre products if
+isomorphism. This follows from the Yoneda lemma as
+the definition requires $x\times_yz$ to be an object
+of $\mathcal{C}$ such that
+$$
+h_{x\times_y z}(w) = h_x(w) \times_{h_y(w)} h_z(w)
+$$
+functorially in $w$.
+We say the category $\mathcal{C}$ {\it has fibre products} if
 the fibre product exists for any $f\in \text{Mor}_{\mathcal C}(x,z)$
 and $g\in \text{Mor}_{\mathcal C}(y,z)$.
 
-\subsubsection{Opposite Category}
-\label{subsubsection-opposite}
-
-\noindent
-Given a category $\mathcal{C}$ we can form the opposite category
-$\mathcal{C}^{\text{opp}}$ which has the same objects as $\mathcal{C}$
-but all morphisms reversed, so
-$\text{Mor}_{\mathcal{C}^{\text{opp}}}(x,y) =
-\text{Mor}_{\mathcal{C}}(y,x)$.  A contravariant functor $F\colon
-\mathcal{C}\to \mathcal{S}$ is a functor $\mathcal{C}^{\text{opp}}\to
-\mathcal{S}$.  Concretely, if $F$ is contravariant then for composable
-morphisms $f$ and $g$ in $\mathcal{C}$, $F(f\circ g) = F(g)\circ
-F(f)$.
-
-\begin{example}
-\label{example-hom-functor}
-For any $U\in \text{Ob}(\mathcal{C})$ there is a contravariant
-functor 
-$$
-\text{Mor}(-,U) \colon\mathcal{C} \to \text{Sets}
-$$
-which takes an object $X$ to the set $\text{Mor}_{\mathcal{C}}(X,U)$.
-Given a morphism $f\colon X\to Y$ the corresponding map
-$\text{Mor}(-,U)(f)\colon \text{Mor}(Y,U)\to \text{Mor}(X,U)$ takes
-$\phi$ to $\phi\circ f$. More commonly this functor is denoted
-$h_U : \mathcal{C}^{\text{opp}} \to \text{Sets}$. If $\mathcal{C}$ is the
-category of schemes this functor is sometimes referred to as the
-\emph{functor of points} of $U$.
-\end{example}
-
-\begin{definition}
-\label{definition-representable-functor}
-A contravariant functor $F\colon \mathcal{C}\to \text{Sets}$ is said
-to be representable if it is isomorphic to the functor
-$h_U(-) = \text{Mor}(-,U)$ for some object $U$ of $\mathcal{C}$.
-\end{definition}
 
 \begin{definition}
 \label{definition-representable-morphism}
 A morphism $f : x \to y$ of a category $\mathcal{C}$ is said to be
-representable, if and only if for every morphism $z \to y$ in $\mathcal{C}$
-the fibre product $z\times_y x$ exists.
+{\it representable}, if and only if for every morphism $z \to y$
+in $\mathcal{C}$ the fibre product $z\times_y x$ exists.
 \end{definition}
 
 \subsection{2-categories}
