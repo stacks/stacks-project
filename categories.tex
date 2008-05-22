@@ -119,7 +119,7 @@ an introduction to the formal definitions later on.
 \section{Categories}
 \label{section-categories}
 
-\subsection{Definition}
+\subsection{Definitions}
 \label{subsection-definition-categories}
 
 \noindent
@@ -179,6 +179,10 @@ over $\mathcal{C}$.
 \item Given a small category $\mathcal{C}$ the category of functors
 from $\mathcal{C}$ to $\textit{Sets}$.
 \end{enumerate}
+One of the reason to enumerate these here is to try and avoid 
+working with something like the ``collection'' of ``big'' categories
+which would be like working with the collection of all classes
+which I think definitively is a meta-mathematical object.
 \end{remark}
 
 \begin{remark}
@@ -199,7 +203,7 @@ $\psi \circ \phi = \text{id}_x$.
 \noindent
 An isomorphism $\phi$ is also sometimes called an {\it invertible}
 morphism, and the morphism $\psi$ of the definition is called the
-inverse and denoted $\phi^{-1}$. It is unique if it exists. Note that
+{\it inverse} and denoted $\phi^{-1}$. It is unique if it exists. Note that
 given an object $x$ of a category $\mathcal{A}$ the set of invertible
 elements $\text{Aut}_{\mathcal{A}}(x)$
 of $\text{Mor}_{\mathcal{A}}(x,x)$ forms a group under composition. 
@@ -212,16 +216,18 @@ A {\it groupoid} is a category where every morphism is an isomorphism.
 
 \begin{example}
 \label{example-group-groupoid}
-A group $G$ can be thought of as a groupoid with a single object $x$
-and morphisms $\text{Mor}(x,x)=G$, with the composition rule
-given by the group law in $G$.
+A group $G$ gives rise to a groupoid with a single object $x$
+and morphisms $\text{Mor}(x,x) = G$, with the composition rule
+given by the group law in $G$. Every groupoid with a single
+object is of this form.
 \end{example}
 
 \begin{example}
 \label{example-set-groupoid}
-Any set $C$ the set of objects of a groupoid $\mathcal{C}$ if we
-let $\text{Ob}(\mathcal{C})=C$ and declare $\text{Mor}(x,y)$ to be empty if
-$x\neq y$ and to be $\{\text{id}_x\}$ if $x=y$.
+A set $C$ gives rise to a groupoid $\mathcal{C}$ defined as follows:
+As objects we take $\text{Ob}(\mathcal{C}) := C$ and for morphsms
+we take $\text{Mor}(x,y)$ empty if $x\neq y$ and equal to
+$\{\text{id}_x\}$ if $x=y$.
 \end{example}
 
 \begin{definition}
@@ -400,7 +406,25 @@ faithful and essentially surjective.
 
 \begin{proof} FIXME. \end{proof}
 
-\subsubsection{Formal properties of categories, functors and transformations}
+\begin{definition}
+\label{definition-product-category}
+Let $\mathcal{A}$, $\mathcal{B}$ be categories.
+We define the {\it product category} to be the category
+$\mathcal{A}\times \mathcal{B}$ to be the category with
+objects
+$\text{Ob}(\mathcal{A}\times \mathcal{B}) =
+\text{Ob}(\mathcal{A}) \times \text{Ob}(\mathcal{B})$
+and 
+$$
+\text{Mor}_{\mathcal{A}\times \mathcal{B}}((x,y), (x',y'))
+:=
+\text{Mor}_{\mathcal{A}}(x, x')\times
+\text{Mor}_{\mathcal{B}}(y, y').
+$$
+Composition is defined componentwise.
+\end{definition}
+
+\subsubsection{Formal properties}
 \label{subsubsection-formal-cat-cat}
 
 \noindent
@@ -411,7 +435,7 @@ of a (strict) $2$-category later.
 \medskip\noindent
 Let us denote $\text{Ob}(\textit{Cat})$ the class of all categories.
 For every pair of categories
-$\mathcal{A}, \mathcal{B} \in \text{Ob}(\text{Cat})$
+$\mathcal{A}, \mathcal{B} \in \text{Ob}(\textit{Cat})$
 we have the category of functors
 $$
 \text{Fun}(\mathcal{A}, \mathcal{B})
@@ -634,7 +658,22 @@ $
 which is easily shown to be equal to the right hand side.
 \end{proof}
 
-\subsubsection{Opposite Category and the Yoneda Lemma}
+\noindent
+Another way of formulating condition (4) of the lemma is
+that composition of functors and horzinontal composition
+of transformation of functors gives rise to a functor
+$$
+(\circ, \star) :
+\text{Fun}(\mathcal{B}, \mathcal{C})
+\times 
+\text{Fun}(\mathcal{A}, \mathcal{B})
+\longrightarrow
+\text{Fun}(\mathcal{A}, \mathcal{C})
+$$
+whose source is the product category,
+see Definition \ref{definition-product-category}.
+
+\subsubsection{Opposite Categories and the Yoneda Lemma}
 \label{subsubsection-opposite}
 
 \begin{definition}
@@ -741,7 +780,7 @@ points $h_U$ for some object $U$ of $\mathcal{C}$.
 \end{definition}
 
 \noindent
-Choose an isomorphism $s : h_U \to F$.
+Choose an object $U$ of $\mathcal{C}$ and an isomorphism $s : h_U \to F$.
 The Yoneda lemma garantees that the pair $(U, s)$ 
 is unique up to unique isomorphism. The object
 $U$ is called an object {\it representing} $F$.
@@ -787,11 +826,16 @@ of $\mathcal{C}$ such that
 $$
 h_{x\times_y z}(w) = h_x(w) \times_{h_y(w)} h_z(w)
 $$
-functorially in $w$.
+functorially in $w$. In other words the fibre product $x\times_yz$
+is an object representing the functor
+$w \mapsto h_x(w) \times_{h_y(w)} h_z(w)$.
+
+\begin{definition}
+\label{definition-has-fibre-products}
 We say the category $\mathcal{C}$ {\it has fibre products} if
 the fibre product exists for any $f\in \text{Mor}_{\mathcal C}(x,z)$
 and $g\in \text{Mor}_{\mathcal C}(y,z)$.
-
+\end{definition}
 
 \begin{definition}
 \label{definition-representable-morphism}
@@ -804,88 +848,88 @@ in $\mathcal{C}$ the fibre product $z\times_y x$ exists.
 \label{subsection-2-categories}
 
 \noindent
-We will give a definition of (strict) $2$-categories as they appear in the 
-setting of stacks. Before you read this take a look at Example
-\ref{example-category-of-categories}. Basically, you take this example
-and you write out all the rules satisfied by the objects,
-$1$-morphisms and $2$-morphisms in that example. This is actually not that
-helpful but it shows that it can be done.
+We will give a definition of (strict) $2$-categories as they appear
+in the setting of stacks. Before you read this take a look at
+Subsection \ref{subsubsection-formal-cat-cat} and Example
+\ref{example-2-1-category-of-categories}. Basically, you take this example
+and you write out all the rules satisfied by the objects, $1$-morphisms
+and $2$-morphisms in that example.
 
 \begin{definition}
 \label{definition-2-category}
-A $2$-category $\mathcal{C}$ consists of the following data
+A {\it (strict) $2$-category} $\mathcal{C}$ consists of the following data
 \begin{enumerate}
 \item A set of objects $\text{Ob}(\mathcal{C})$.
-\item For each pair $x,y \in \text{Ob}(\mathcal{C})$ a set of $1$-morphisms
-$\text{Mor}_\mathcal{C}(x,y)$.
-\item For each triple $x,y,z\in \text{Ob}(\mathcal{C})$ a composition
-map $ \text{Mor}_\mathcal{C}(y,z) \times \text{Mor}_\mathcal{C}(x,y) 
-\to \text{Mor}_\mathcal{C}(x,z) $, denoted $(F, G) \mapsto 
-F \circ G$.
-\item For each pair $x,y\in \text{Ob}(\mathcal{C})$ and for each pair 
-$F,F' \in \text{Mor}_\mathcal{C}(x,y)$ a set of $2$-morphisms 
-$\text{Mor}_\mathcal{C}(F,F')$.
-\item For each triple $F,F',F''$ of $1$-morphisms with the same source
-and target a composition law $\text{Mor}_\mathcal{C}(F',F'') \times
-\text{Mor}_\mathcal{C}(F,F') \to \text{Mor}_\mathcal{C}(F,F'')$, denoted
-$(\phi, \psi) \mapsto \phi\circ\psi$.
-\item For each triple $x,y,z\in \text{Ob}(\mathcal{C})$ and
-$1$-morphisms $F,F' : x \to y$ and $G : y \to z$ a map 
-$G : \text{Mor}_\mathcal{C}(F,F') \to 
-\text{Mor}_\mathcal{C}(G \circ F,G \circ F')$.
-\item For each triple $x,y,z\in \text{Ob}(\mathcal{C})$ and
-$1$-morphisms $F : x \to y$ and $G,G' : y \to z$ a map 
-$F : \text{Mor}_\mathcal{C}(G,G') \to 
-\text{Mor}_\mathcal{C}(G \circ F,G' \circ F)$.
+\item For each pair $x,y \in \text{Ob}(\mathcal{C})$
+a category $\text{Mor}_\mathcal{C}(x,y)$. The objects of
+$\text{Mor}_\mathcal{C}(x,y)$ will be called {\it $1$-morphisms}
+and denoted $F : x \to y$. The morphisms between these $1$-morphisms
+will be called {\it $2$-morphisms} and denoted $t : F' \to F$.
+The composition of $2$-morphisms in $\text{Mor}_\mathcal{C}(x,y)$
+will be called {\it vertical} composition and will be
+denoted $t \circ t'$ for $t : F' \to F$ and $t' : F'' \to F'$.
+\item For each triple $x,y,z\in \text{Ob}(\mathcal{C})$ a
+functor
+$$
+(\circ, \star) : 
+\text{Mor}_\mathcal{C}(y,z) \times \text{Mor}_\mathcal{C}(x,y) 
+\longrightarrow
+\text{Mor}_\mathcal{C}(x,z).
+$$
+The image of the pair of $1$-morphisms $(F,G)$ on the left hand side
+will be called the {\it composition} of $F$ and $G$, and denoted
+$F\circ G$. The image of the pair of $2$-morphisms $(t,s)$ will
+be called the {\it horizontal} composition and denoted $t \star s$.
 \end{enumerate}
 These data are to satisfy the following rules:
 \begin{enumerate}
-\item For every element $x\in \text{Ob}(\mathcal{C})$ there exists a unique
-identity $1$-morphism $\text{id}_x\in \text{Mor}_\mathcal{C}(x,x)$ such that 
-$\text{id}_x \circ F = F$ and $G \circ \text{id}_x = G $ whenever
-these compositions make sense.
-\item For every $1$-morphism $F$ there exists a unique
-identity $2$-morphism $\text{id}_F\in \text{Mor}_\mathcal{C}(F,F)$ such that 
-$\text{id}_F \circ \phi = \phi$ and $\psi \circ \text{id}_F = \psi $ whenever
-these compositions make sense.
-\item Composition is transitive for both $1$-morphisms and $2$-morphisms.
-\item Every $2$-morphism is an isomorphism. This makes sense since the 
-conditions sofar imply that $\text{Mor}_\mathcal{C}(x,y)$ is a category
-with $1$-morphisms as objects and $2$-morphisms as morphisms. So this
-condition means every $\text{Mor}_\mathcal{C}(x,y)$ is a groupoid.
-\item Let $x,y,z\in \text{Ob}(\mathcal{C})$ and let $G \in 
-\text{Mor}_\mathcal{C}(y,z)$.
-The map $\text{Mor}_\mathcal{C}(x,y) \to 
-\text{Mor}_\mathcal{C}(x,z)$ given by $G$ (see item 6 above) 
-is a functor.
-\item Let $x,y,z\in \text{Ob}(\mathcal{C})$ and let $F \in \text{Mor}(x,y)$.
-The map $\text{Mor}_\mathcal{C}(y,z) \to 
-\text{Mor}_\mathcal{C}(x,z)$ given by $F$ (see item 7 above)
-is a functor.
-\item Suppose we have objects $x,y,z$, $1$-morphisms $F,F' : x \to y$, 
-$G,G' : y \to z$, and $2$-morphisms $\phi : F \to F'$, $\psi : G \to G'$. 
-The following diagram commutes:
-$$
-\xymatrix{
-G \circ F \ar[r]^{G(\phi)} \ar[d]_{F(\psi)} &
-G\circ F' \ar[d]^{F'(\psi)} \\
-G \circ F' \ar[r]_{G'(\phi)} & G' \circ F' }
-$$
+\item The set of objects together with the set of $1$-morphisms endowed
+with composition of $1$-morphisms forms a category.
+\item Horizontal composition of $2$-morphisms is associative.
+\item The identity $2$-morphism $\text{id}_{\text{id}_x}$
+of the identity $1$-morphism $\text{id}_x$ is a unit for
+horizontal composition.
 \end{enumerate}
 \end{definition}
 
 \noindent
 This is obviously not a very pleasant type of object to work with.
 On the other hand, there are lots of examples where it is quite clear
-how you work with it. Note that we require the $2$-morphisms to be
-isomorphisms. As far as this text is concerned all 2-categories occuring
-in this document are (full) sub 2-categories of the example below.
-FIXME: Remove this definition? Replace by a better one?
+how you work with it. The only example we have sofar is that of
+the $2$-category whose objects are a given collection of categories,
+$1$-morphisms are functors between these categories,
+and $2$-morphisms are natural transformations of functors, see
+Subsection \ref{subsubsection-formal-cat-cat}.
+As far as this text is concerned
+all $2$-categories occuring in this document are sub $2$-categories
+of this example. Some $2$-categories have the property that all $2$-morphisms
+are isomoprhisms. These will play an important role in the following,
+and they are easier to work with.
 
+\begin{definition}
+\label{definition-2-1-category}
+A {\it (strict) $(2,1)$-category} is a $2$-category in which all
+$2$-morphisms are isomorphisms.
+\end{definition}
 
-\noindent
-The notion of equivalence of categories that we defined in Subsection
-\ref{subsection-categories} extends to the more general setting of
+\begin{example}
+\label{example-2-1-category-of-categories}
+The $2$-category $\textit{Cat}$ can be turned into a
+$(2,1)$-category by only allowing isomorphisms of functors
+as $2$-morphisms. In fact, more generally any $2$-category
+can be turned into a $(2,1)$-category by restricting
+the $2$-morphisms to all be isomorphisms. We will use the turn of phrase
+``the $(2,1)$-category of XYZ'' to mean the $(2,1)$-category
+so obtained from the $2$-category of XYZ. For example,
+the $(2,1)$-category of groupoids means the
+$2$-category whose objects are groupoids, whose
+$1$-morphisms are functors and whose $2$-morphisms are
+isomorphisms of functors.
+\end{example}
+
+\medskip\noindent
+The notion of equivalence of categories that we defined in Section
+\ref{section-categories} extends to the more general setting of
 $2$-categories as follows.
 
 \begin{definition}
@@ -896,12 +940,30 @@ $2$-isomorphic to $\text{id}_y$ and $G \circ F$ is $2$-isomorphic to
 $\text{id}_x$.
 \end{definition}
 
+\begin{remark} 
+\label{remark-big-2-categories}
+In many texts a $2$-category is allowed to have a class of
+objects (but hopefully a ``class of classes'' is not allowed).
+We will allow these ``big'' $2$-categories as well, but only
+in the examples listed below:
+\begin{enumerate}
+\item The $2$-category of categories $\textit{Cat}$.
+\item The $(2,1)$-category of categories $\textit{Cat}$.
+\item The $2$-category of groupoids $\textit{Groupoids}$.
+\item The $(2,1)$-category of groupoids $\textit{Groupoids}$.
+\item The $2$-category of fibred categories over a fixed category.
+\item The $(2,1)$-category of fibred categories over a fixed category.
+\end{enumerate}
+We will update this list as we go along.
+\end{remark}
+
 \begin{remark}
 \label{remark-other-2-categories}
-There are variants of the construction of \ref{example-category-of-categories}
-above where we look at the $2$-category of groupoids (contained in some 
-$\alpha$), or categories fibred in groupoids over a fixed category, or stacks. 
-And so on.
+There are variants of the construction of
+\ref{example-2-1-category-of-categories} above
+where we look at the $2$-category of groupoids,
+or categories fibred in groupoids over a fixed
+category, or stacks. And so on.
 \end{remark}
 
 \begin{remarks}
