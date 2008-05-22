@@ -1052,7 +1052,7 @@
     \protect\@secnumpunct
   }%
 }
-\def\@secnumfont{\mdseries}
+\def\@secnumfont{\bfseries}
 \def\@sect#1#2#3#4#5#6[#7]#8{%
   \edef\@toclevel{\ifnum#2=\@m 0\else\number#2\fi}%
   \ifnum #2>\c@secnumdepth \let\@secnumber\@empty
@@ -1117,13 +1117,13 @@
   {\normalfont\centering}}
 \def\section{\@startsection{section}{1}%
   \z@{.7\linespacing\@plus\linespacing}{.5\linespacing}%
-  {\normalfont\scshape\centering}}
+  {\normalfont\bfseries\centering}}
 \def\subsection{\@startsection{subsection}{2}%
   \z@{.5\linespacing\@plus.7\linespacing}{-.5em}%
   {\normalfont\bfseries}}
 \def\subsubsection{\@startsection{subsubsection}{3}%
   \z@{.5\linespacing\@plus.7\linespacing}{-.5em}%
-  {\normalfont\itshape}}
+  {\normalfont\bfseries}}
 \def\paragraph{\@startsection{paragraph}{4}%
   \z@\z@{-\fontdimen2\font}%
   \normalfont}
@@ -1149,7 +1149,7 @@
 \newswitch{toc}
 \newswitch{lof}
 \newswitch{lot}
-\newcommand\contentsnamefont{\scshape}
+\newcommand\contentsnamefont{\bfseries}
 \def\@starttoc#1#2{\begingroup
   \setTrue{#1}%
   \par\removelastskip\vskip\z@skip
@@ -1617,7 +1617,7 @@
   \normalfont % body font
 }
 \def\th@remark{%
-  \thm@headfont{\itshape}%
+  \thm@headfont{\bfseries}%
   \normalfont % body font
 }
 \def\@endtheorem{\endtrivlist\@endpefalse }
@@ -1818,7 +1818,7 @@
   \normalfont \topsep6\p@\@plus6\p@\relax
   \trivlist
   \item[\hskip\labelsep
-        \itshape
+        \bfseries
     #1\@addpunct{.}]\ignorespaces
 }{%
   \popQED\endtrivlist\@endpefalse
