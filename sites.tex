@@ -28,7 +28,65 @@ notion is perhaps \cite{SGA4}.
 In this section we define what sites are and how to think about sheaves
 on sites. See \cite{ArtinTopologies}.
 
-\subsection{Definitions}
+\subsection{Presheaves}
+\label{subsection-presheaves}
+
+\noindent
+Let $\mathcal{C}$ be a category.
+A {\it presheaf of sets} is a contravariant functor $\mathcal{F}$
+from $\mathcal{C}$ to $\text{Sets}$ (see Categories, 
+\hyperref[categories-remark-functor-into-sets]%
+{Remark~\ref*{categories-remark-functor-into-sets}}). 
+So for every object $U$ of $\mathcal{C}$ we have a set 
+$\mathcal{F}(U)$. The elements of this set are called
+the {\it sections} of $\mathcal{F}$ over $U$. For every morphism
+$f : V \to U$ the map $\mathcal{F}(f) : \mathcal{F}(U) \to \mathcal{F}(V)$
+is called the {\it restricton map} and is often denoted
+$f^\ast : \mathcal{F}(U) \to \mathcal{F}(V)$. Another way
+of expressing this is to say that $f^*(s)$ is the {\it pullback}
+of $s$ via $f$. Functoriality means that $g^* f^* (s) = (f \circ g)^*(s)$.
+Sometimes we use the notation $s|_V := f^\ast(s)$.
+This notation is consistent with the notion of restriction
+of functions from topology because if $W \to V \to U$
+are morphisms in $\mathcal{C}$ and $s$ is a section of
+$\mathcal{F}$ over $U$ then $s|_W = (s|_V)|_W$ by the
+functorial nature of $\mathcal{F}$. Of course we have to be
+careful since it may very well happen
+that there is more than one morphism $V \to U$ and it is
+certainly not going to be the case that the corresponding
+pull back maps are equal.
+
+\medskip\noindent
+Similarly, we can define the notion of a presheaf of abelian groups, rings,
+etc. More generally we may define a presheaf with values in a category.
+
+\begin{definition}
+\label{definition-presheaf}
+Let $\mathcal{C}$, $\mathcal{A}$ be categories.
+A {\it presheaf} $\mathcal{F}$ on $\mathcal{C}$
+with values in $\mathcal{A}$ is a contravariant
+functor from $\mathcal{C}$ to $\mathcal{A}$,
+i.e., $\mathcal{F} : \mathcal{C}^\circ \to \mathcal{A}$.
+A {\it morphism} of presheaves $\mathcal{F} \to \mathcal{G}$
+on $\mathcal{C}$ with values in $\mathcal{A}$ is a transformation
+of functors from $\mathcal{F}$ to $\mathcal{G}$.
+\end{definition}
+
+\noindent
+In other words we have now defined the category of preseaves
+on $\mathcal{C}$ with values in $\mathcal{A}$.
+
+\begin{remark}
+\label{remark-big-presheaves}
+As already pointed out above we may consider the category
+presheaves with values in any of the ``big'' categories
+listed in Categories, \hyperref[categories-remark-big-categories]%
+{Remark~\ref*{categories-remark-big-categories}}.
+These will be ``big'' categories as well and they will be
+listed in the above mentioned remark as we go along.
+\end{remark}
+
+\subsection{Sites}
 \label{subsection-sites-definitions}
 
 \noindent
@@ -66,6 +124,19 @@ been so important in algebraic geometry. In order to avoid thinking
 about things like ``class of all classes'' and so on, we will
 not allow sites to be ``big'' categories, in contrast to what
 we do for categories and $2$-categories.
+
+\medskip\noindent
+On the other hand, suppose that $\mathcal{C}$ is a category and
+that $\text{Cov}(\mathcal{C})$ is a proper class of coverings
+satisfying (1), (2) and (3) above. There are several natural
+ways to get around this. For example, in Sets,
+\hyperref[sets-subsubsection-coverings-site]%
+{Subsubsection~\ref*{sets-subsubsection-coverings-site}} we show how
+to pick a set of coverings that gives the same topology (see below).
+We could also use the notion of sieves to define a topology on $\mathcal{C}$,
+which automatically forms a set. We could also slightly modify the
+notion of a site, see Remark \ref{remark-combinatorial-equivalence}
+below.
 \end{remark}
 
 \begin{example}
@@ -86,81 +157,133 @@ a presheaves and sheaves on a topological space.
 \label{example-site-on-group}
 Let $G$ be a group. Consider the category $G\textit{-Sets}$
 whose objects are sets $X$ with a left $G$-action, with
-$G$-equivariant maps as the morphisms. This is a ``big'' category,
-so we replace it by a suitable full subcategory $G\textit{-Sets}_\alpha$
-as in Sets, \autoref{sets-subsubsection-sets-with-group-action}.
-We define a topology by declaring $\{U_i \to U\}_{i\in I}$ to be 
-a covering if $\bigcup U_i = U$. To verify that fibred products do 
-exist in this category, suppose $f: S \rightarrow U$ and 
-$h: T \rightarrow U$ are morphisms in the category. Then let 
-$W = \{(s, t) \in S \times T \mid f(s) = h(t)\}$. This is a $G$-set. 
-The action is given by $g \bullet(s,t) = (g \bullet s, g \bullet t)$.
-Projections onto $S$ and $T$ are clearly $G$-maps and so 
-$W = S \times_U T$.  Conditions (1), (2), and (3) are now easily 
-verified. This site will be denoted $T_G$.
+$G$-equivariant maps as the morphisms. This category has
+fibred product, see Categories,
+\autoref{categories-subsubsection-example-fibre-products}.
+This is a ``big'' category, so we replace it by a suitable
+(large enough) full subcategory $G\textit{-Sets}_\alpha$ which
+has a set of objects. (More about this later; see for example Sets,
+\autoref{sets-subsubsection-sets-with-group-action} for a suitable
+choice.) We declare $\{\varphi_i : U_i \to U\}_{i\in I}$ to be 
+a covering if $\cup_{i\in I} \varphi_i(U_i) = U$.
+Conditions (1), (2), and (3) are easily verified.
+This site will be denoted $T_G$.
 \end{example}
 
-\begin{example}
-FIXME. We can have a lot of examples linked from here.
-\end{example}
+\subsection{Sheaves}
+\label{subsection-sheaves}
 
 \noindent
-In this context a presheaf of sets is a contravariant functor
-$\mathcal{F}$ from $\mathcal{C}$ to $\text{Sets}$ (see Categories, 
-\hyperref[categories-remark-functor-into-sets]%
-{Remark~\ref*{categories-remark-functor-into-sets}}). 
-So for every object $U$ of $\mathcal{C}$ we have a set 
-$\mathcal{F}(U)$ and for every morphism
-$f : V \to U$ a ``restricton map'' $f^\ast : \mathcal{F}(U) \to 
-\mathcal{F}(V)$. Sometimes we say an element
-of $\mathcal{F}(U)$ is a section of $\mathcal{F}$ over $U$ , and sometimes
-we use the notation $f^\ast(s) =: s|_V$. 
-
-\smallskip\noindent
-Similarly, we can define the notion of a presheaf of abelian groups, rings,
-or a presheaf with values in a category. Note also that a presheaf is defined
-without reference to the topology.
+Let $\mathcal{C}$ be a site. Before we introduce the notion of
+a sheaf with values in a category we explain what it means
+for a presheaf of sets to be a sheaf. Let $\mathcal{F}$ be
+a presheaf of sets on $\mathcal{C}$ and let
+$\{U_i \to U\}_{i\in I}$ be an element of $\text{Cov}(\mathcal{C})$.
+By assumption all the fibre products $U_i\times_U U_j$ exist
+in $\mathcal{C}$. There are two natural maps
+$$
+\xymatrix{
+\prod\nolimits_{i\in I}
+\mathcal{F}(U_i)
+\ar@<1ex>[r]^-{\text{pr}_0^*} \ar@<-1ex>[r]_-{\text{pr}_1^*}
+&
+\prod\nolimits_{(i_0, i_1) \in I\times I}
+\mathcal{F}(U_{i_0}\times_U U_{i_1})
+}
+$$
+which we will denote $\text{pr}^*_i$, $i=0,1$ as indicated
+in the displayed equation.
+Namely, an element of the left hand side corresponds to a
+family $(s_i)_{i\in I}$, where each $s_i$ is a section of
+$\mathcal{F}$ over $U_i$. For each pair $(i_0, i_1) \in I\times I$
+we have the projection morphisms
+$$
+\text{pr}^{(i_0, i_1)}_{i_0} : 
+U_{i_0}\times_U U_{i_1}
+\longrightarrow
+U_{i_0}
+\text{ and }
+\text{pr}^{(i_0, i_1)}_{i_1} : 
+U_{i_0}\times_U U_{i_1}
+\longrightarrow
+U_{i_1}.
+$$
+Thus we may pull back either the section $s_{i_0}$ via
+the first of these maps or the section $s_{i_1}$ via the
+second. Explicitly the maps we refered to above are
+$$
+\text{pr}_0^* :
+(s_i)_{i\in I}
+\longmapsto
+\Big(
+\text{pr}^{(i_0, i_1), *}_{i_0}(s_{i_0})
+\Big)_{(i_0, i_1) \in I\times I}
+$$
+and
+$$
+\text{pr}_1^* :
+(s_i)_{i\in I}
+\longmapsto
+\Big(
+\text{pr}^{(i_0, i_1), *}_{i_1}(s_{i_1})
+\Big)_{(i_0, i_1) \in I\times I}.
+$$
+Finally consider the natural map
+$$
+\mathcal{F}(U)
+\longrightarrow
+\prod\nolimits_{i\in I}
+\mathcal{F}(U_i)
+,\ \ 
+s
+\longmapsto
+(s|_{U_i})_{i \in I}
+$$
+where we have used the notation $s|_{U_i}$ to indicate the
+pullback of $s$ via the map $U_i \to U$. It is clear from the
+functorial natural of $\mathcal{F}$ and the commutativity
+of the fibre product diagrams that
+$\text{pr}_0^*( (s|_{U_i})_{i \in I} ) =
+\text{pr}_1^*( (s|_{U_i})_{i \in I} )$.
 
 \begin{definition}
-\label{definition-presheaf}
-A {\it presheaf} $\mathcal{F}$ on a category $\mathcal{C}$
-with values in a category $\mathcal{A}$ is a contravariant
-functor from $\mathcal{C}$ to $\mathcal{A}$,
-i.e., $\mathcal{F} : \mathcal{C}^\circ \to \mathcal{A}$.
-\end{definition}
-
-\noindent
-The sheaf condition is taken with respect to the coverings of the 
-topology as follows.
-
-\begin{definition}
-\label{definition-sheaf}
-Let $\mathcal{F} : \mathcal{C}^\circ \to \mathcal{A}$ be a presheaf 
-with values in a category $\mathcal{A}$. We say that $\mathcal{F}$ 
-is a sheaf if for every covering $\{U_i \to U\} \in \text{Cov} \mathcal{C}$ 
+\label{definition-sheaf-sets}
+Let $\mathcal{C}$ be a site, and let $\mathcal{F}$ be a presheaf of sets
+on $\mathcal{C}$. We say $\mathcal{F}$ is a {\it sheaf} if
+for every covering $\{U_i \to U\}_{i \in I} \in \text{Cov} \mathcal{C}$ 
 the diagram
 $$
 \xymatrix{
-\mathcal{F}(U) \ar[r] 
-& 
-\prod\nolimits_i \mathcal{F}(U_i) \ar@/^/[r] \ar@/_/[r] 
+\mathcal{F}(U) \ar[r]
 &
-\prod\nolimits_{ij} \mathcal{F}(U_i\times_U U_j)
+\prod\nolimits_{i\in I}
+\mathcal{F}(U_i)
+\ar@<1ex>[r]^-{\text{pr}_0^*} \ar@<-1ex>[r]_-{\text{pr}_1^*}
+&
+\prod\nolimits_{(i_0, i_1) \in I\times I}
+\mathcal{F}(U_{i_0}\times_U U_{i_1})
 }
-\leqno{(*)}
 $$
-is exact. The meaning of this will be made clear below.
+represents the first arrow as the equalizer of $\text{pr}_0^*$
+and $\text{pr}_1^*$.
 \end{definition}
 
 \noindent
-First, we explain what this means if $\mathcal{F}$ is a presheaf of sets:
-It means that given sections $s_i \in F(U_i)$ such that
-$\text{pr}_1^\ast(s_i) = \text{pr}_2^\ast(s_j)$ in 
-$\mathcal{F}(U_i \times_U U_j)$ for all $i,j$ there exists a unique
-$s \in \mathcal{F}(U)$ such that $s_i = s|_{U_i}$.
+Loosely speaking this means that given sections $s_i \in \mathcal{F}(U_i)$
+such that
+$$
+s_i|_{U_i \times_U U_j} = s_j|_{U_i \times_U U_j}
+$$
+in $\mathcal{F}(U_i \times_U U_j)$ for all pairs $(i,j) \in I\times I$
+then there exists a unique $s \in \mathcal{F}(U)$ such
+that $s_i = s|_{U_i}$.
 
 \smallskip\noindent
-If $\mathcal{A}$ is arbitrary, the condition means that for any
+Let $\mathcal{A}$ be a category. If $\mathcal{A}$ has products
+of objects indexed by $I$, $I\times I$, then the formulation of
+the definition still makes sense.
+
+is arbitrary, the condition means that for any
 object $X\in \text{Ob}(\mathcal{A})$ the diagram of sets
 $$
 \xymatrix{
@@ -179,7 +302,7 @@ FIXME: A little about the canonical topology, and in particular some examples.
 
 \begin{example}
 As an example, suppose $\mathcal{F}$ is a sheaf of sets on $T_G$
-(see Example \ref{example-site on group}).  First we note that $G$ 
+(see Example \ref{example-site-on-group}).  First we note that $G$ 
 itself is an object in the category (the action given by left 
 multiplication). As a $G$-set, denote it ${}_GG$. Next, remark that
 the map

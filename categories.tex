@@ -81,9 +81,12 @@ We will occasionally use this point of view.
 Big categories. In some texts a category is allowed to have a proper
 class of objects. We will allow this as well in these notes but only
 in the following list of cases (to be updated as we go along).
+In particular, when we say: ``Let $\mathcal{C}$ be a category''
+then it is understood that $\text{Ob}(\mathcal{C})$ is a set.
 \begin{enumerate}
 \item The category $\textit{Sets}$ of sets.
-\item Given a group $G$ the category $G-\textit{Sets}$ of
+\item The category $\textit{Groups}$ of groups.
+\item Given a group $G$ the category $G\textit{-Sets}$ of
 sets with a left $G$-action.
 \item Given a ring $R$ the category of $R$-modules.
 \item Given a site $\mathcal{C}$ the category of sheaves
@@ -705,29 +708,50 @@ $U$ is called an object {\it representing} $F$.
 \begin{definition}
 \label{definition-fibre-products}
 Let $x,y,z\in \text{Ob}(\mathcal{C})$,
-$f\in \text{Mor}_{\mathcal{C}}(x,z)$
-and $g\in \text{Mor}_{\mathcal C}(y,z)$.
+$f\in \text{Mor}_{\mathcal{C}}(x,y)$
+and $g\in \text{Mor}_{\mathcal C}(z,y)$.
 A {\it fibre product} of $f$ and $g$ is
-an object $x\times_z y\in \text{Ob}(\mathcal{C})$
+an object $x\times_y z\in \text{Ob}(\mathcal{C})$
 together with morphisms 
-$p\in \text{Mor}_{\mathcal C}(x\times_z y,x)$ and 
-$q\in\text{Mor}_{\mathcal C}(x\times_z y,y)$ making the diagram
+$p\in \text{Mor}_{\mathcal C}(x\times_y z,x)$ and 
+$q\in\text{Mor}_{\mathcal C}(x\times_y z,z)$ making the diagram
 $$
 \xymatrix{
-&x\times_y z \ar[r]^{p} \ar[d]_{q} & x \ar[d]^{f} \\
-&y \ar[r]^{g} & z }
+x\times_y z \ar[r]^{q} \ar[d]_{p}
+&
+z \ar[d]^{g}
+\\
+x \ar[r]^{f}
+&
+y
+}
 $$
 commute, and such that the following universal property holds: for
 any $w\in \text{Ob}(\mathcal{C})$ and morphisms 
 $\alpha \in \text{Mor}_{\mathcal C}(w,x)$ and 
-$\beta \in \text{Mor}_{\mathcal{C}}(w,y)$ with $f \circ \alpha= g\circ \beta$
-there is a unique $\gamma\in \text{Mor}_{\mathcal C}(w,x\times_z y)$ making
+$\beta \in \text{Mor}_{\mathcal{C}}(w,z)$ with
+$f \circ \alpha= g\circ \beta$
+there is a unique
+$\gamma\in \text{Mor}_{\mathcal C}(w,x\times_z y)$ making
 the diagram
 $$
 \xymatrix{
-w\ar[rrrd]^\alpha \ar@{-->}[rrd]_\gamma \ar[rrdd]_\beta &&\\
-&&x\times_y z \ar[r]_{p} \ar[d]_{q} & x \ar[d]^{f} \\
-&&y \ar[r]^{g} & z }
+w \ar[rrrd]^\beta \ar@{-->}[rrd]_\gamma \ar[rrdd]_\alpha
+&
+&
+\\
+&
+&
+x\times_y z \ar[d]_{p} \ar[r]_{q}
+&
+z \ar[d]^{g}
+\\
+&
+&
+x \ar[r]^{f}
+&
+z
+}
 $$
 commute.
 \end{definition}
@@ -757,6 +781,232 @@ A morphism $f : x \to y$ of a category $\mathcal{C}$ is said to be
 {\it representable}, if and only if for every morphism $z \to y$
 in $\mathcal{C}$ the fibre product $z\times_y x$ exists.
 \end{definition}
+
+\subsubsection{Examples of fibre products}
+\label{subsubsection-example-fibre-products}
+
+\noindent
+In this subsection we list examples of fibre products and
+we describe them.
+
+\medskip\noindent 
+As a really trivial first example we observe 
+that the category of sets has fibred products and hence every
+morphism is representable. Namely, if $f : X \to Y$
+and $g : Z \to Y$ are maps of sets then we define
+$X\times_Y Z$ as the subset of $X\times Z$ consisting
+of pairs $(x,z)$ such that $f(x) = g(z)$. The morphisms
+$p : X\times_Y Z \to X$ and $q : X\times_U Z \to Z$ are
+the projection maps $(x,z) \mapsto x$, and $(x,z) \mapsto z$.
+Finally, if $\alpha : W \to X$ and $\beta : W \to Z$ 
+are morphisms such that $f \circ \alpha = g \circ \beta$
+then the map $W \to X\times Y$, $w\mapsto (\alpha(w), \beta(w))$
+obviously ends up in $X\times_YZ$ as desired.
+
+\medskip\noindent
+In many categories whose objects are sets endowed with certain types of
+algebraic structures the fibre product of the underlying sets also
+provides the fibre product in the category. For example, suppose
+that $X$, $Y$ and $Z$ above are groups and that $f$, $g$ are
+homomorphisms of groups. Then the set-theoretic fibre product
+$X\times_Y Z$ inherets the structure of a group, simply by
+defining the product of two pairs by the formula
+$(x,z) \cdot (x',z') = (xx', zz')$. Here we list those categories
+for which a similar reasoning works.
+\begin{enumerate}
+\item The category $\textit{Groups}$ of groups.
+\item The category $G\textit{-Sets}$ of sets
+endowed with a left $G$-action for some fixed group $G$.
+\item The category of rings.
+\item The category of $R$-modules given a ring $R$.
+\end{enumerate}
+
+\subsubsection{Push outs}
+\label{subsubsection-pushouts}
+
+\noindent
+The dual notion to fibre products is that of push outs.
+
+\begin{definition}
+\label{definition-pushouts}
+Let $x,y,z\in \text{Ob}(\mathcal{C})$,
+$f\in \text{Mor}_{\mathcal{C}}(y, x)$
+and $g\in \text{Mor}_{\mathcal C}(y, z)$.
+A {\it push out} of $f$ and $g$ is
+an object $x\amalg_y z\in \text{Ob}(\mathcal{C})$
+together with morphisms 
+$p\in \text{Mor}_{\mathcal C}(x, x\amalg_y z)$ and 
+$q\in\text{Mor}_{\mathcal C}(z, x\amalg_y z)$ making the diagram
+$$
+\xymatrix{
+y \ar[r]^{g} \ar[d]_{f}
+&
+z \ar[d]^{q}
+\\
+x \ar[r]^{p}
+&
+x\amalg_y z
+}
+$$
+commute, and such that the following universal property holds:
+For any $w\in \text{Ob}(\mathcal{C})$ and morphisms 
+$\alpha \in \text{Mor}_{\mathcal C}(x, w)$ and 
+$\beta \in \text{Mor}_{\mathcal{C}}(z, w)$ with
+$\alpha \circ f = \beta \circ g$ there is a unique
+$\gamma\in \text{Mor}_{\mathcal C}(x\amalg_z y, w)$ making
+the diagram
+$$
+\xymatrix{
+y \ar[r]^{g} \ar[d]_{f}
+&
+z \ar[d]^{q} \ar[rrdd]^\beta
+&
+&
+\\
+x \ar[r]^{p} \ar[rrrd]^\alpha
+&
+x\amalg_y z  \ar@{-->}[rrd]^\gamma
+&
+&
+\\
+&&&
+w
+}
+$$
+commute.
+\end{definition}
+
+\noindent
+It is possible and straightforward to prove the uniqueness of the triple
+$(x\amalg_y z, p, q)$ up to unique isomorphism (if it exists) by direct
+arguments. Another possibility is to think of the coproduct as the
+product in the opposite category, thereby getting this uniqueness for
+free from the discussion in Subsubsection \ref{subsubsection-fibre-products}.
+
+\subsubsection{Equalizers}
+\label{subsubsection-equalizers}
+
+\begin{definition}
+\label{definition-equalizers}
+Suppose that $X$, $Y$ are objects of a category $\mathcal{C}$
+and that $a, b : X \to Y$ are morphisms. We say a morphism
+$e : Z \to X$ is an {\it equalizer} for the pair $(a,b)$ if
+$a \circ e = b \circ e$ and if $(Z,e)$ satisfies the following
+universal property: For every morphism $t : W \to X$
+in $\mathcal{C}$ such that $a \circ t = b \circ t$ there exists
+a unique morphism $s : W \to Z$ such that $t = e \circ s$.
+\end{definition}
+
+\noindent
+As in the case of the fibre product above, equalizers when
+they exist are unique up to unique isomorphsm. There is a
+straightforward generalization of this definition to the
+case where we have more than $2$ morphisms.
+
+\subsubsection{Coequalizers}
+\label{subsubsection-coequalizers}
+
+\begin{definition}
+\label{definition-coequalizers}
+Suppose that $X$, $Y$ are objects of a category $\mathcal{C}$
+and that $a, b : X \to Y$ are morphisms. We say a morphism
+$c : Y \to Z$ is a {\it coequalizer} for the pair $(a,b)$ if
+$c \circ a = c \circ b$ and if $(Z,c)$ satisfies the following
+universal property: For every morphism $t : Y \to W$
+in $\mathcal{C}$ such that $t \circ a = t \circ b$ there exists
+a unique morphism $s : Z \to W$ such that $t = s \circ c$.
+\end{definition}
+
+\noindent
+As in the case of the push outs above, coequalizers when
+they exist are unique up to unique isomorphsm, and this follows
+from the uniqueness of equalizers upon considering the opposite
+category. There is a straightforward generalization of this definition
+to the case where we have more than $2$ morphisms.
+
+\subsubsection{Limits and colimits}
+\label{subsubsection-limits}
+
+\noindent
+Let $\mathcal{C}$ be a category. A {\it diagram} in $\mathcal{C}$ is
+simply a functor $M : \mathcal{I} \to \mathcal{C}$. We say that
+$I$ is the {\it index category} or that $M$ is an $\mathcal{I}$-diagram.
+We will use the notation $M_i$ to denote the image of the object
+$i$ of $\mathcal{I}$. Hence for $\phi : i \to i'$ a morphism
+in $\mathcal{I}$ we have $M(\phi) : M_i \to M_{i'}$.
+
+\begin{definition}
+\label{definition-limit}
+A {\it limit} of the $\mathcal{I}$-diagram $M$ in the category
+$\mathcal{C}$ is given by an object $\lim_I M$ in $\mathcal{C}$
+together with morphisms $p_i : \lim_I M \to M_i$ such that
+\begin{enumerate}
+\item for $\phi : i \to i'$ a morphism
+in $\mathcal{I}$ we have $p_{i'} =  M(\phi) \circ p_i$, and
+\item for any object $W$ in $\mathcal{C}$ and any family of
+morphisms $q_i : W \to M_i$ such that for all $\phi : i \to i'$
+in $\mathcal{I}$ we have $q_{i'} = M(\phi) \circ q_i$ there 
+exists a unique morphism $q : W \to \lim_I M$ such that
+$q_i = p_i \circ q$ for every object $i$ of $\mathcal{I}$.
+\end{enumerate}
+\end{definition}
+
+\noindent
+Limits $(\lim_I M, (p_i)_{i\in \text{Ob}(\mathcal{I})})$ are
+(if they exist)
+unique up to unique isomorphism by the uniqueness requirement
+in the definition. Equalizers and fibred products are examples
+of limits. In the category of sets all limits exist.
+The dual notion is that of colimits.
+
+\begin{definition}
+\label{definition-colimit}
+A {\it colimit} of the $\mathcal{I}$-diagram $M$ in the category
+$\mathcal{C}$ is given by an object $\text{colim}_I M$ in $\mathcal{C}$
+together with morphisms $s_i : M_i \to \text{colim}_I M$ such that
+\begin{enumerate}
+\item for $\phi : i \to i'$ a morphism
+in $\mathcal{I}$ we have $s_{i} = s_{i'} \circ M(\phi)$, and
+\item for any object $W$ in $\mathcal{C}$ and any family of
+morphisms $t_i : M_i \to W$ such that for all $\phi : i \to i'$
+in $\mathcal{I}$ we have $t_{i} = t_{i'} \circ M(\phi)$ there 
+exists a unique morphism $t : \text{colim}_I M \to W$ such that
+$t_i = t \circ s_i$ for every object $i$ of $\mathcal{I}$.
+\end{enumerate}
+\end{definition}
+
+\noindent
+Push outs and coequalizers are examples of colimits.
+In the category of sets all limits exist.
+As an application of the notions of limits and colimits
+we define products and coproducts.
+
+\begin{definition}
+\label{definition-product}
+Suppose that $I$ is a set, and suppose given for every $i \in I$ an
+object $M_i$ of $\mathcal{C}$. The {\it product} $\prod_{i\in I} M_i$
+is by definition $\lim_{\mathcal{I}} M$ where $\mathcal{I}$ is the
+category having only identities as morphisms and having the
+elements of $I$ as objects.
+\end{definition}
+
+\noindent
+The morphisms $p_i : \prod M_i \to M_i$ are called the
+{\it projection morphisms}.
+
+\begin{definition}
+\label{definition-coproduct}
+Suppose that $I$ is a set, and suppose given for every $i \in I$ an
+object $M_i$ of $\mathcal{C}$. The {\it coproduct} $\coprod_{i\in I} M_i$
+is by definition $\text{colim}_{\mathcal{I}} M$ where $\mathcal{I}$ is the
+category having only identities as morphisms and having the
+elements of $I$ as objects.
+\end{definition}
+
+\noindent
+Note that the coproduct comes equipped with morphisms
+$M_i \to \coprod M_i$ (that do not seem to have a good
+name in the literature).
 
 \subsection{2-categories}
 \label{subsection-2-categories}
