@@ -99,6 +99,34 @@ These will be ``big'' categories as well and they will be
 listed in the above mentioned remark as we go along.
 \end{remark}
 
+\subsubsection{Injective and surjective maps of presheaves}
+\label{subsubsection-injective-surjective}
+
+\begin{definition}
+\label{definition-presheaves-injective-surjective}
+Let $\mathcal{C}$ be a category, and let $\varphi : \mathcal{F}
+\to \mathcal{G}$ be a map of presheaves of sets.
+\begin{enumerate}
+\item We say that $\varphi$ is {\it injective} if for every object
+$U$ of $\mathcal{C}$ we have $\alpha : \mathcal{F}(U)
+\to \mathcal{G}(U)$ is injective.
+\item We say that $\varphi$ is {\it surjective} if for every object
+$U$ of $\mathcal{C}$ we have $\alpha : \mathcal{F}(U)
+\to \mathcal{G}(U)$ is surjective.
+\end{enumerate}
+\end{definition}
+
+\begin{lemma}
+\label{lemma-mono-epi}
+The injective (resp.\ surjective) maps defined above
+are exactly the monomorphisms (resp.\ epimorphisms) of
+$\textit{PSh}(\mathcal{C})$.
+\end{lemma}
+
+\begin{proof}
+FIXME.
+\end{proof}
+
 \subsection{Sites}
 \label{subsection-sites-definitions}
 
@@ -616,27 +644,29 @@ with isomorphisms as horizontal arrows.
 This defines an equivalence relation on families of morphisms
 having a fixed target. Clearly, if $\text{Cov}(\mathcal{C})$
 defines the structure of a site on $\mathcal{C}$ then we may
-add to $\mathcal{C}$ all families of morphisms tautologically
+add to $\mathcal{C}$ any set of morphisms tautologically
 equivalent to elements of $\text{Cov}(\mathcal{C})$ without
 changing the topology.
 \end{remark}
 
 \begin{remark}
 \label{remark-shrink-coverings}
-Shrinking the class of coverings.
-Consider the set $\mathcal{S} = \mathcal{P}(\text{Arrow}(\mathcal{C}))$
+Shrinking the class of coverings. Let $\mathcal{C}$
+be a site.
+Consider the power set $\mathcal{S} = \mathcal{P}(\text{Arrow}(\mathcal{C}))$
+of the set of morphisms, i.e., the set
 of all sets of morphisms. Let $\mathcal{S}_\tau \subset \mathcal{S}$
 be the subset consisting of those $T \in \mathcal{S}$ such that
 (a) all $\varphi \in T$ have the same target,
 (b) the collection $\{\varphi\}_{\varphi \in T}$ is tautologically
-equivalent (see Remark \ref{remark-enlarge-coverings})
+equivalent (see Remark \ref{remark-enlarge-coverings} above)
 to some covering in $\text{Cov}(\mathcal{C})$.
 Clearly, considering the elements of $\mathcal{S}_\tau$ as
 the coverings, we do not get exactly the notion of a site
 as defined in Definition \ref{definition-site}.
-The structure $(\mathcal{C}, \text{Cov}(\mathcal{C}))$
-we get instead satisfies the following
-slightly modified conditions:
+The structure $(\mathcal{C}, \mathcal{S}_\tau)$
+we get satisfies slightly modified conditions. The modified
+conditions are:
 \begin{enumerate}
 \item[(0')] $\text{Cov}(\mathcal{C}) \subset \mathcal{P}(\text{Arrow}(\mathcal{C}))$,
 \item[(1')] If $V \to U$ is an isomorphism then $\{V \to U\} \in 
@@ -652,11 +682,13 @@ exists for all $i$ and $\{U_i \times_U V \to V \}_{i\in I}$
 is tautologically equivalent to an element of $\text{Cov}(\mathcal{C})$.
 \end{enumerate}
 And it is easy to verify that, given a structure satisfying 
-(0') -- (3') above the after enlarging $\text{Cov}(\mathcal{C})$
+(0') -- (3') above the after suitably enlarging $\text{Cov}(\mathcal{C})$
 as in the remark above we get a site.
 Obviously there is little difference between this notion and the
 actual notion of a site, at least from the point of view of the
-topology.
+topology. And because of condition (0') above the coverings automatically
+form a set; the price you pay for this is that you have to keep writing
+``tautologically equivalent'' everywhere.
 \end{remark}
 
 \subsection{Sheafification}
@@ -786,7 +818,7 @@ element associated with $(s_i|_{V\times_U U_i})
 \in H^0(\{U_i \times_U V \to V\}, \mathcal{F})$.
 
 \begin{lemma}
-\label{lemma-plus-is-presheaf}
+\label{lemma-plus-presheaf}
 The constructions above define a presheaf 
 $\mathcal{F}^+$ together with a canonical
 map of presheaves $\mathcal{F} \to \mathcal{F}^+$.
@@ -812,6 +844,30 @@ we may pullback an element $s$ as above via any morphism
 from any covering of $W$ to $\{U_i \to U\}$
 and we will always end up with the same element in 
 $\mathcal{F}^+(W)$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-plus-functorial}
+The association $\mathcal{F} \mapsto 
+(\mathcal{F} \to \mathcal{F}^+)$
+is a functor.
+\end{lemma}
+
+\begin{proof}
+Instead of proving this we state exactly what needs to be proven.
+Let $\mathcal{F} \to \mathcal{G}$ be a map of presehaves. Prove
+the commutativity of:
+$$
+\xymatrix{
+\mathcal{F} \ar[r] \ar[d]
+&
+\mathcal{F}^{+} \ar[d]
+\\
+\mathcal{G} \ar[r]
+&
+\mathcal{G}^{+}
+}
+$$
 \end{proof}
 
 \noindent
@@ -899,6 +955,26 @@ $H^0(\mathcal{V}, \mathcal{F}) \to H^0(\mathcal{U}, \mathcal{F})$
 induced by $f$ and $g$ are equal.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-plus-surjective}
+The map $\theta : \mathcal{F} \to \mathcal{F}^+$ has the following
+property: For every object $U$ of $\mathcal{C}$ and every section
+$s \in \mathcal{F}(U)$ there exists a covering $\{U_i \to U\}$
+such that $s|_{U_i}$ is in the image of $\theta: \mathcal{F}(U_i)
+\to \mathcal{F}^{+}(U_i)$.
+\end{lemma}
+
+\begin{proof}
+Namely, let $\{U_i \to U\}$ be a covering such that $s$ arises
+from the element $(s_i) \in H^0(\{U_i \to U\}, \mathcal{F})$.
+According to Lemma \ref{lemma-independent-refinement} we may
+consider the covering $\{U_i \to U_i\}$ and the (obvious) morphism
+of coverings $\{U_i \to U_i\} \to \{U_i \to U\}$ to compute the
+pullback of $s$ to an element of $\mathcal{F}^+(U_i)$. And indeed,
+using this covering we get exactly $\theta(s_i)$ for the restriction
+of $s$ to $U_i$.
+\end{proof}
+
 \begin{definition}
 \label{definition-separated}
 We say that a presheaf of sets $\mathcal{F}$ on a site
@@ -908,16 +984,108 @@ $\mathcal{F}(U) \to \prod \mathcal{F}(U_i)$ is injective.
 \end{definition}
 
 \begin{theorem}
+\label{theorem-plus}
 With $\mathcal{F}$ as above
 \begin{enumerate}
-\item $\mathcal{F}^+$ is separated
-\item If $\mathcal{F}$ is separated, then $\mathcal{F}^+$ is a sheaf.
-\item $\mathcal{F}^{++}$ is always a sheaf.
+\item The presheaf $\mathcal{F}^+$ is separated.
+\label{sep}
+\item If $\mathcal{F}$ is separated, then $\mathcal{F}^+$ is a sheaf
+and the map of presheaves $\mathcal{F} \to \mathcal{F}^+$ is injective.
+\label{sheaf}
+\item If $\mathcal{F}$ is a sheaf, then $\mathcal{F} \to \mathcal{F}^+$
+is an isomorphism.
+\label{plus-iso}
+\item The presheaf $\mathcal{F}^{++}$ is always a sheaf.
+\label{plusplus}
 \end{enumerate}
 \end{theorem}
 
+\begin{proof}\
+Proof of (\ref{sep}).
+Suppose that $s, s' \in \mathcal{F}^+(U)$ and suppose that
+there exists some covering $\{U_i \to U\}$ such that
+$s|_{U_i} = s'|_{U_i}$ for all $i$. We now have three coverings
+of $U$: the covering $\{U_i \to U\}$ above, a covering $\mathcal{U}$
+for $s$ as in Lemma \ref{lemma-plus-surjective},
+and a similar covering $\mathcal{U}'$ for $s'$. By Lemma
+\ref{lemma-common-refinement}, we can find a common refinement,
+say $\{W_j \to U\}$. This means we have $s_j, s'_j \in \mathcal{F}(W_j)$
+such that $s|_{W_j} = \theta(s_j)$, similarly for $s'|_{W_j}$, and
+such that $\theta(s_j) = \theta(s'_j)$. This last equality means
+that there exists some covering $\{W_{jk} \to W_j\}$ such that
+$s_j|_{W_{jk}} = s'_j|_{W_{jk}}$. Then since $\{W_{jk} \to U\}$
+is a covering we see that $s,s'$ map to the same element of
+$H^0(\{W_{jk} \to U\}, \mathcal{F})$ as desired.
+
+\medskip\noindent
+Proof of (\ref{sheaf}). It is clear that $\mathcal{F} \to
+\mathcal{F}^+$ is injective because all the maps
+$\mathcal{F}(U) \to H^0(\mathcal{U}, \mathcal{F})$
+are injective. It is also clear that, if $\mathcal{U} \to 
+\mathcal{U}'$ is a refinement, then $H^0(\mathcal{U}', \mathcal{F})
+\to H^0(\mathcal{U}, \mathcal{F})$ is injective. Now,
+suppose that $\{U_i \to U\}$ is a covering, and let
+$(s_i)$ be a family of elements of $\mathcal{F}^+(U_i)$
+satisfying the sheaf condition
+$s_i|_{U_i \times_U U_j} = s_j|_{U_i \times_U U_j}$
+for all $i,j \in I$. Choose coverings (as in
+Lemma \ref{lemma-plus-surjective}) $\{U_{ij} \to U_i\}$
+such that $s_i|_{U_{ij}}$ is the image of the (unique)
+element $s_{ij} \in \mathcal{F}(U_{ij})$. The sheaf condition
+implies that $s_{ij}$ and $s_{i'j'}$ agree over
+$U_{ij} \times_U U_{i'j'}$ because it maps to
+$U_i \times_U U_{i'}$ and we have the equality there.
+Hence $(s_{ij}) \in H^0(\{U_{ij} \to U\}, \mathcal{F})$
+gives rise to an element $s \in \mathcal{F}^+(U)$. We leave 
+it to the reader to verify that $s|_{U_i} = s_i$. 
+
+\medskip\noindent
+Proof of (\ref{plus-iso}). By (\ref{sep}) the map
+$\mathcal{F} \to \mathcal{F}^+$ is injective,
+and it follows easily from Lemma \ref{lemma-plus-surjective}
+that it is surjective as well.
+
+\medskip\noindent
+Statement (\ref{plusplus}) is now obvious.
+\end{proof}
+
+\begin{definition}
+\label{definition-associated-sheaf}
+Let $\mathcal{C}$ be a site and let $\mathcal{F}$ be a presheaf
+of sets on $\mathcal{C}$. The sheaf $\mathcal{F}^\# := \mathcal{F}^{++}$
+together with the canonical map $\mathcal{F} \to \mathcal{F}^\#$
+is called {\it the sheaf associated to $\mathcal{F}$}.
+\end{definition}
+
+\begin{proposition}
+The morphism The canonical map $\mathcal{F} \to \mathcal{F}^\#$ has the
+following universal property: For any map $\mathcal{F} \to \mathcal{G}$,
+where $\mathcal{G}$ is a sheaf of sets, there is a unique map
+$\mathcal{F}^\# \to \mathcal{G}$ such that $\mathcal{F} \to \mathcal{F}^\#
+\to \mathcal{G}$ equals the given map.
+\end{proposition}
+
 \begin{proof}
-FIXME.
+By Lemma \ref{lemma-plus-functorial} we get a commutative diagram
+$$
+\xymatrix{
+\mathcal{F} \ar[r] \ar[d]
+&
+\mathcal{F}^{+} \ar[r] \ar[d]
+&
+\mathcal{F}^{++} \ar[d]
+\\
+\mathcal{G} \ar[r]
+&
+\mathcal{G}^{+} \ar[r]
+&
+\mathcal{G}^{++}
+}
+$$
+and by Theorem \ref{theorem-plus} the lower horizontal maps 
+are isomorphisms. The uniqueness follows from Lemma
+\ref{lemma-plus-surjective} which says that every section of
+$\mathcal{F}^\#$ locally comes from sections of $\mathcal{F}$.
 \end{proof}
 
 \noindent
