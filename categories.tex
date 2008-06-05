@@ -767,6 +767,36 @@ it cannot be one of the categories listed in
 Remark \ref{remark-big-categories}
 \end{remark}
 
+\begin{remark}
+\label{remark-limit-colim}
+We often write $\lim_i M_i$ and $\text{colim}_i M_i$,
+of $\lim_{i\in \mathcal{I}} M_i$ and $\text{colim}_{i\in \mathcal{I}} M_i$
+instead of the versions indexed by $\mathcal{I}$.
+Using this notation, and using the description of
+limits and colimits of sets in Subsubsection \ref{subsubsection-limit-sets}
+below, we can say the following. 
+Let $\mathcal{I} \to \mathcal{C}$ be a diagram.
+\begin{enumerate}
+\item The object $\lim_i M_i$ if it
+exists satisfies the following property
+$$
+\text{Mor}_{\mathcal{C}}(W, \lim\nolimits_i M_i)
+=
+\lim\nolimits_i \text{Mor}_{\mathcal{C}}(W, M_i)
+$$
+\item The object $\text{colim}_i M_i$ if it
+exists satisfies the following property
+$$
+\text{Mor}_{\mathcal{C}}(\text{colim}_i M_i, W)
+=
+\lim\nolimits_{i\in \mathcal{I}^\text{opp}} \text{Mor}_{\mathcal{C}}(M_i, W)
+$$
+Note that this is a limit over the opposite category.
+\end{enumerate}
+By the Yoneda lemma (and its dual) this formula completely determines the
+limit, respectively the colimit.
+\end{remark}
+
 \noindent
 As an application of the notions of limits and colimits
 we define products and coproducts.
@@ -798,6 +828,67 @@ identities as morphisms and having the elements of $I$ as objects.
 Note that the coproduct comes equipped with morphisms
 $M_i \to \coprod M_i$ (that do not seem to have a good
 name in the literature).
+
+\begin{lemma}
+\label{lemma-functorial-colimit}
+Suppose that $M : \mathcal{I} \to \mathcal{C}$,
+and $N : \mathcal{J} \to \mathcal{C}$ are diagrams
+whose colimits exist. Suppose that
+$H : \mathcal{I} \to \mathcal{J}$ is 
+a functor, and suppose that $t : M \to N \circ H$
+is a trasformation of functors. 
+Then there is a unique morphism
+$$
+\theta :
+\text{colim}_{\mathcal{I}} M
+\longrightarrow
+\text{colim}_{\mathcal{J}} N
+$$
+such that all the diagrams
+$$
+\xymatrix{
+M_i \ar[d]_{t_{H(i)}} \ar[r]
+&
+\text{colim}_{\mathcal{I}} M \ar[d]^{\theta}
+\\
+N_{H(i)} \ar[r]
+&
+\text{colim}_{\mathcal{I}} N
+}
+$$
+commute.
+\end{lemma}
+
+\begin{lemma}
+\label{lemma-functorial-limit}
+Suppose that $M : \mathcal{I} \to \mathcal{C}$,
+and $N : \mathcal{J} \to \mathcal{C}$ are diagrams
+whose limits exist. Suppose that
+$H : \mathcal{I} \to \mathcal{J}$ is 
+a functor, and suppose that $t : M \to N \circ H$
+is a trasformation of functors. 
+Then there is a unique morphism
+$$
+\theta :
+\text{lim}_{\mathcal{I}} M
+\longrightarrow
+\text{lim}_{\mathcal{J}} N
+$$
+such that all the diagrams
+$$
+\xymatrix{
+\text{lim}_{\mathcal{I}} M \ar[d]^{\theta} \ar[r]
+&
+M_i \ar[d]_{t_{H(i)}}
+\\
+\text{lim}_{\mathcal{I}} N \ar[r]
+&
+N_{H(i)}
+}
+$$
+commute.
+\end{lemma}
+
 
 \subsubsection{Limits and colimits in the category of sets}
 \label{subsubsection-limit-sets}
@@ -898,7 +989,6 @@ m_i \sim m_{i'}
 M(\phi)(m_i) = M(\phi')(m_{i'}).
 $$
 
-
 \subsection{Exact functors}
 \label{subsection-exact-functor}
 
@@ -920,6 +1010,90 @@ with all finite colimits.
 exact.
 \end{enumerate}
 \end{definition}
+
+\subsection{Adjoint functors}
+\label{subsection-adjoint}
+
+\begin{definition}
+\label{definition-adjoint}
+Let $\mathcal{C}$, $\mathcal{D}$ be categories.
+Let $u : \mathcal{C} \to \mathcal{D}$ and
+$v : \mathcal{D} \to \mathcal{C}$ be functors.
+We say that $u$ is a {\it left adjoint} of $v$
+if there are bijections
+$$
+\text{Mor}_{\mathcal{D}}(u(X), Y)
+\longrightarrow
+\text{Mor}_{\mathcal{C}}(X, v(Y))
+$$
+functorial in $X \in \text{Ob}(\mathcal{C})$, and
+$Y \in \text{Ob}(\mathcal{D})$.
+\end{definition}
+
+\noindent
+In other words, this means that there is an isomorphism
+of functors $\mathcal{C}^{\text{opp}} \times \mathcal{D}
+\to \textit{Sets}$ from $\text{Mor}_{\mathcal{D}}(u(-), -)$
+to $\text{Mor}_{\mathcal{C}}(-, v(-))$.
+
+\begin{lemma}
+\label{lemma-adjoint-exact}
+Let $u,v$ be adjoint as in Definition \ref{definition-adjoint}.
+\begin{enumerate}
+\item Suppose that $M : \mathcal{I} \to \mathcal{C}$ is a diagram,
+and suppose that $\text{colim}_{\mathcal{I}} M$ exists in
+$\mathcal{C}$. Then $u(\text{colim}_{\mathcal{I}} M) =
+\text{colim}_{\mathcal{I}} u \circ M$. In other words,
+$u$ commutes with (representable) colimits.
+\item Suppose that $M : \mathcal{I} \to \mathcal{D}$ is a diagram,
+and suppose that $\lim_{\mathcal{I}} M$ exists in
+$\mathcal{D}$. Then $v(\lim_{\mathcal{I}} M) =
+\lim_{\mathcal{I}} v \circ M$. In other words $v$ commutes
+with representable limits.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+A morphism from a colimit into an object is the same as a compatible
+system of morphisms from the constitutents of the limit into the
+object, see Remark \ref{remark-limit-colim}. So
+$$
+\begin{matrix}
+\text{Mor}_{\mathcal{D}}(u(\text{colim}_{i \in \mathcal{I}} M_i), Y)
+&
+=
+&
+\text{Mor}_{\mathcal{C}}(\text{colim}_{i \in \mathcal{I}} M_i, v(Y))
+\\
+&
+=
+&
+\lim_{i \in \mathcal{I}^{\text{opp}}} \text{Mor}_{\mathcal{C}}(M_i, v(Y))
+\\
+&
+=
+&
+\lim_{i \in \mathcal{I}^{\text{opp}}} \text{Mor}_{\mathcal{D}}(u(M_i), Y)
+\end{matrix}
+$$
+proves that $u(\text{colim}_{i \in \mathcal{I}} M_i)$ is
+the colimit we are looking for.
+A similar argument works for the other statement.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-exact-adjoint}
+Let $u,v$ be adjoint as in Definition \ref{definition-adjoint}.
+\begin{enumerate}
+\item If $\mathcal{C}$ has finite colimits, then $u$ is right exact.
+\item If $\mathcal{D}$ has finite limits, then $v$ is left exact.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Obvious from the defintions and Lemma \ref{lemma-adjoint-exact}.
+\end{proof}
+
 
 \subsection{Monomorphisms and Epimorphisms}
 \label{subsection-mono-epi}
