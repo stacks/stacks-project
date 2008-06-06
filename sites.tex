@@ -1275,7 +1275,7 @@ is called {\it the sheaf associated to $\mathcal{F}$}.
 
 \begin{proposition}
 \label{proposition-sheafification-adjoint}
-The morphism The canonical map $\mathcal{F} \to \mathcal{F}^\#$ has the
+The canonical map $\mathcal{F} \to \mathcal{F}^\#$ has the
 following universal property: For any map $\mathcal{F} \to \mathcal{G}$,
 where $\mathcal{G}$ is a sheaf of sets, there is a unique map
 $\mathcal{F}^\# \to \mathcal{G}$ such that $\mathcal{F} \to \mathcal{F}^\#
@@ -1319,9 +1319,40 @@ $$
 In other words, the functor of sheafification is the left adjoint
 to the inclusion functor $i$. 
 
+\begin{proposition}
+\label{proposition-limit-sheaves}
+Let $\mathcal{F} : \mathcal{I} \to \textit{Sh}(\mathcal{C})$
+be a diagram. Then both $\lim_{\mathcal{I}} \mathcal{F}$ and
+$\text{colim}_{\mathcal{I}} \mathcal{F}$ exist.
+\end{proposition}
+
+\begin{proof}
+Since the sheafification functor is a left adjoint it commutes 
+with all colimits, see Categories,
+Lemma \ref{categories-lemma-adjoint-exact}.
+Hence, since $\textit{PSh}(\mathcal{C})$ has colimits, we deduce
+that $\textit{Sh}(\mathcal{C})$ has colimits (which are the
+sheafifications of the colimits in presheaves). 
+
 \medskip\noindent
-FIXME. Discuss the more general case when $\mathcal{F}$ may not be a sheaf with
-values in $\mathcal{A}b$.
+Let $\lim_i \mathcal{F}_i$ be the limit as a presheaf.
+We will show that this is a sheaf and then it will trivially follow
+that it is a limit in the category of sheaves. To prove the sheaf
+property, let $\mathcal{V} = \{V_j \to V\}_{j\in J}$ be a covering.
+Let $(s_j)_{j\in J}$ be an element of $H^0(\mathcal{V}, \lim_i \mathcal{F}_i)$. 
+Using the projection maps we get elements $(s_{j,i})_{j\in J}$
+in $H^0(\mathcal{V}, \mathcal{F}_i)$. By the sheaf poperty for
+$\mathcal{F}_i$ we see that there is a unique $s_i \in \mathcal{F}_i(V)$
+such that $s_{j, i} = s_i|_{V_j}$. Let $\phi : i \to i'$ be a morphism
+of the index category. We would like to show that
+$\mathcal{F}(\phi) : \mathcal{F}_i \to \mathcal{F}_{i'}$
+maps $s_i$ to $s_{i'}$. We know this is true for the sections
+$s_{i,j}$ and $s_{i',j}$ for all $j$ and hence by the sheaf property
+for $\mathcal{F}_{i'}$ this is true. At this point we have an
+element $s = (s_i)_{i \in \text{Ob}(\mathcal{I})}$ of
+$(\lim_i \mathcal{F}_i)(V)$. We leave it to the reader to see
+this element has the required property that $s_j = s|_{V_j}$.
+\end{proof}
 
 \subsection{Representable sheaves}
 \label{subsection-representable-sheaves}
@@ -1446,6 +1477,88 @@ $u$ commutes with them.
 Then $u$ defines a morphism of sites $\mathcal{D} \to
 \mathcal{C}$, in other words $u_s$ is exact.
 \end{proposition}
+
+\begin{lemma}
+\label{lemma-directed}
+Under the hypotheses of the proposition above the index categories
+$(\mathcal{I}^u_Y)^{\text{opp}}$ of
+Subsection \ref{subsection-functoriality-PSh}
+are directed (see
+Categories, Definition \ref{categories-definition-directed}).
+\end{lemma}
+
+\begin{proof}
+Let $\phi_1 : Y \to u(X_1)$ and $\phi_2 : Y \to u(X_2)$ be
+in $\text{Ob}(\mathcal{I}_Y)$. By assumption $X_1\times X_2$
+exists and $u(X_1\times X_2) = u(X_1)\times u(X_2)$.
+Consider the morphism $\phi : Y \to u(X_1\times X_2)$
+corresponding to $(\phi_1,\phi_2)$ by the universal property
+of products. Clearly the object $\phi : Y \to u(X_1\times X_2)$
+maps to both $\phi_1 : Y \to u(X_1)$ and $\phi_2 : Y \to u(X_2)$.
+
+\medskip\noindent
+Next, suppose $\phi_1 : Y \to u(X_1)$ and $\phi_2 : Y \to u(X_2)$ are
+in $\text{Ob}(\mathcal{I}_Y)$ and we are given two morphisms
+$a, b$ from the first to the second in $\mathcal{I}_Y$. By definition
+$a$ is a morphism $a : X_1 \to X_2$ such that $u(a) \circ \phi_1 =
+\phi_2$ and similarly for $b$. In this case, let 
+$$
+X = (X_1 \times_{a, X_2, b} X_1)
+\times_{(p_1, p_2), X_1 \times X_1, \Delta} 
+X_1
+$$
+where $\Delta : X_1 \to X_1\times X_1$ is the diagonal morphism,
+and $p_i$ is the projection map.
+Note that the map $c : X \to X_1$ (universally) equalizes
+the maps $a,b : X_1 \to X_2$.
+By assumption also
+$$
+u(X)
+=
+(u(X_1) \times_{u(a), u(X_2), u(b)} u(X_1))
+\times_{(p_1, p_2), u(X_1) \times u(X_1), \Delta} 
+u(X_1)
+$$
+and hence this has a similar universal property. Thus by assumption
+on the relation between $\phi_1$, $\phi_2$, $a$ and $b$ there is a
+morphism $\phi : Y \to u(X)$ such that $u(c) \circ \phi = \phi_1$.
+It is easily verified that the morphism from $\phi : Y \to u(X)$
+to $\phi_1 : Y \to u(X_1)$ so obtained equalizes the morphisms
+$a$, $b$.
+\end{proof}
+
+\begin{proof}
+Since $u_s$ is the left adjoint of $u^s$ we see that $u_s$ is right
+exact, see Categories, Lemma \ref{categories-lemma-exact-adjoint}.
+Hence it suffices to show that $u_s$ is left exact. 
+By Categories, Lemma \ref{categories-lemma-characterize-left-exact}
+it suffices to prove that $u_s$ commutes with products and
+equalizers. Let $a,b : \mathcal{F} \to \mathcal{G}$ be two
+morphisms between sheaves on $\mathcal{C}$. Let $\mathcal{H}
+\to \mathcal{F}$ be the equalizer. According to the proof of
+Proposition \ref{proposition-limit-sheaves} $\mathcal{H}$
+is also the equalizer in the category of presheaves.
+Clearly the map $u_s\mathcal{H} \to u_s\mathcal{F}$ maps
+into the equalizer of the maps $u_sa$ and $u_sb$. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{proof}
+
+
+
+
 
 
 \section{Topoi}
