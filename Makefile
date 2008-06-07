@@ -22,6 +22,9 @@ INSTALLDIR=..
 .PHONY: all
 all: $(FUNNYS) $(DVIS)
 
+.PHONY: pdfs
+pdfs: $(FUNNYS) $(PDFS)
+
 # We need the following to cancel the built-in rule for
 # .dvi files (which uses tex not latex).
 %.dvi : %.tex
