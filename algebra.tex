@@ -590,7 +590,7 @@ in $R/I \otimes_R M = M/IM$ in other words
 $\sum g_im_i \in IM$, in other words
 $\sum g_im_i = \sum h_j m'_j$ for suitable
 $h_j \in I$. We may replace $I$ by the finitely
-generated ideal $(g_j)$ without modifying the assumptions.
+generated ideal $(h_j)$ without modifying the assumptions.
 In this case we have $K = J+I/I$
 $$
 K\otimes_R M
@@ -610,9 +610,9 @@ is {\it trivial} if there exist an integer $m \geq 0$,
 elements $y_j$, $j=1,\ldots, m$, and elements $g_{ij} \in R$,
 $i=1,\ldots,n$, $j=1,\ldots,m$ such that
 $$
-x_i = \sum\nolimits_j a_{ij} y_j, \forall j
+x_i = \sum\nolimits_j a_{ij} y_j, \forall j,
 \text{ and }
-0 = \sum\nolimits_i f_ia_{ij}, \forall i
+0 = \sum\nolimits_i f_ia_{ij}, \forall i.
 $$
 
 \begin{lemma}
@@ -1050,11 +1050,11 @@ Let $\Omega_{S/R}$ be the $S$-module which has the
 following presentation:
 $$
 \begin{matrix}
-\bigoplus_{(a,b)\in S^2} S(a,b) \oplus \bigoplus_{r\in R} Sr
+\bigoplus_{(a,b)\in S^2} S[(a,b)] \oplus \bigoplus_{r\in R} S[r]
 &
 \to
 &
-\bigoplus_{a\in S} S \text{d}a
+\bigoplus_{a\in S} S [a]
 &
 \to
 &
@@ -1064,29 +1064,31 @@ $$
 &
 0
 \\
-(a,b)
+[(a,b)]
 &
 \mapsto
 &
-a\text{d}b + b\text{d}a
+a[b] + b[a]
 &
 &
 &
 &
 \\
-r
+[r]
 &
 \mapsto
 &
-\text{d}\varphi(r)
+[\varphi(r)]
 &
 &
 &
 &
 \end{matrix}
 $$
-There is a map $\text{d} : S \to \Omega_{S/R}$
-which maps $a$ to the class of $\text{d}s$ in the cokernel.
+Here the notation is that $[\xi]$ represents the basis
+element corresponoding to the element $\xi$ of the index set
+of the direct sum. There is a map $\text{d} : S \to \Omega_{S/R}$
+which maps $a$ to the class $\text{d}a$ of $[a]$ in the cokernel.
 It is obvious that this is an $R$-derivation.
 The pair $(\Omega_{S/R}, \text{d})$ is called the module
 of K\"ahler diffentials of $S$ over $R$.
@@ -1110,20 +1112,509 @@ is an isomorphism of functors.
 FIXME.
 \end{proof}
 
+\noindent
+Suppose that
+$$
+\xymatrix{
+S \ar[r]^\varphi
+&
+S'
+\\
+R \ar[r]^\psi \ar[u]^\alpha
+&
+R' \ar[u]^\beta
+}
+$$
+is a commutative diagram of rings. In this case there is a
+natural map of modules of differentials fitting into the
+commutative diagram
+$$
+\begin{matrix}
+\Omega_{S/R}
+&
+\longrightarrow
+&
+\Omega_{S'/R'}
+\\
+\uparrow
+&
+&
+\uparrow
+\\
+S
+&
+\longrightarrow
+&
+S'
+\end{matrix}
+$$
+To construct the map just use the obvious map
+between the presentations for $\Omega_{S/R}$ and $\Omega_{S'/R'}$.
+Namely,
+$$
+\xymatrix{
+\bigoplus_{(a',b')\in (S')^2} S'[(a',b')]
+\oplus
+\bigoplus_{r'\in R'} S'[r'] \ar[r]
+&
+\bigoplus_{a'\in S'} S' [a'] \ar[r]
+&
+\Omega_{S'/R'} \ar[r]
+&
+0
+\\
+\bigoplus_{(a,b)\in (S)^2} S[(a,b)]
+\oplus
+\bigoplus_{r\in R} S[r] \ar[r]
+\ar[u]^{[(a,b)] \mapsto [(\varphi(a),\varphi(b)]}_{[r]\mapsto [\psi(r)]}
+&
+\bigoplus_{a\in S} S[a] \ar[r] \ar[u]^{[a] \mapsto [\varphi(a)]}
+&
+\Omega_{S'/R'} \ar[r] \ar[u]
+&
+0
+}
+$$
+
 \begin{lemma}
-\label{lemma-differentials-finitely-generated}
+\label{lemma-differential-surjective}
+Suppose that $S \to S'$ is surjective with kernel $I \subset S$.
+Then $\Omega_{S/R} \to \Omega_{S'/R'}$ is surjective with
+kernel generated as an $S$-module by the elements 
+\begin{enumerate}
+\item $i\eta$ with $i\in I$ and $\eta \in \Omega_{S/R}$,
+\item $\text{d}i$, $i \in I$, and
+\item the elements $\text{d}f$, where $f \in S$ is
+such that $\varphi(f) \in \beta(R')$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Consider the map of presentations above. Clearly the middle vertical
+map of free modules is surjective. Thus the map is surjective.
+An easy diagram chase completes the proof.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-differential-seq}
+Suppose that $S \to S'$ is surjective with kernel $I \subset S$,
+and assume that $R' = R$.
+Then there is a canonical exact sequence of $S'$-modules
+$$
+I/I^2 
+\longrightarrow
+\Omega_{S/R}\otimes_S S'
+\longrightarrow
+\Omega_{S'/R}
+\longrightarrow
+0
+$$
+The rightmost map is characterized by the rule that
+$f \in I$ maps to $\text{d}f \otimes 1$.
+\end{lemma}
+
+\begin{proof}
+Note that the middle term can also be written as 
+$\Omega_{S/R}/I\Omega_{S/R}$. For $f \in I$ denote
+$\overline{f}$ the image of $f$ in $I/I^2$.
+To show that the map $\overline{f} \mapsto \text{d}f \otimes 1$
+is well defined we just have to check that
+$\text{d} f_1f_2 \otimes 1 = 0$ if $f_1, f_2 \in I$. 
+And this is clear from the Leibniz rule 
+$\text{d} f_1f_2 \otimes 1
+=
+(f_1 \text{d}f_2 + f_2 \text{d} f_1 )\otimes 1
+=
+\text{d}f_2 \otimes f_1 + \text{d}f_2 \otimes f_1
+=
+0$. It is also $S' = S/I$-linear because of the $S/I$-module
+structure on $I/I^2$ is defined through $S$-multiplication 
+combined with the Leibniz rule.
+
+\medskip\noindent
+The exactness is now a direct consequence of
+Lemma \ref{lemma-differential-surjective}
+which describes the kernel of the surjective map.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-differentials-base-change}
+Suppose that we have ring maps $R \to R'$ and $R \to S'$.
+Set $S' = S\otimes_R R'$. Then the canonical map defined above
+induces an isomorphism $\Omega_{S/R} \otimes_R R' = \Omega_{S'/R'}$.
+\end{lemma}
+
+\begin{proof}
+Let $\text{d}' : S' = S\otimes_R R' \to \Omega_{S/R} \otimes_R R'$ denote the
+map $\text{d}'( \sum a_i \otimes x_i ) = \text{d}(a_i) \otimes x_i$.
+It exists because the map $S \times R' \to \Omega_{S/R} \otimes_R R'$,
+$(a,x)\mapsto \text{d}a\otimes_R x$ is $R$-bilinear.
+This is an $R'$-derivation, as can be verified by a simple computation.
+We will show that $(\Omega_{S/R} \otimes_R R', \text{d}')$ satisfies
+the universal property. Let $D : S' \to M'$ be an $R'$ derivation
+into an $S'$-module. The composition $S \to S' \to M'$ is an $R$-derivation,
+hence we get an $S$-linear map $\varphi_D : \Omega_{S/R} \to M'$. We may
+tensor this with $R'$ and get the map $\varphi'_D : 
+\Omega_{S/R} \otimes_R R' \to M'$, $\varphi'_D(\eta \otimes x) =
+x\varphi_D(\eta)$. It is clear that $D = \varphi'_D \circ \text{d}'$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-differentials-polynomial-ring}
+If $S = R[x_1,\ldots,x_n]$, then 
+$\Omega_{S/R}$ is finite free with
+basis $\text{d}x_1,\ldots, \text{d}x_n$.
+\end{lemma}
+
+\begin{proof}
+We first show that $\text{d}x_1,\ldots, \text{d}x_n$
+generate $\Omega_{S/R}$ as an $S$-module. To prove this
+we show that $\text{d}g$ can be expressed as a 
+sum $\sum g_i \text{d}x_i$ for any $g \in R[x_1,\ldots,x_n]$.
+We do this by induction on the (total) degree of $g$.
+It is clear if the degree of $g$ is $0$, because then
+$\text{d}g = 0$. If the degree of $g$ is $>0$, then
+we may write $g$ as $c + \sum g_i x_i$ with $c\in R$
+and $\deg(g_i) < \deg(g)$. By the Leibnize rule we have
+$\text{d}g = \sum g_i \text{d} x_i + \sum x_i \text{d}g_i$,
+and hence we win by induction.
+
+\medskip\noindent
+Consider the $R$-derivation $\partial / \partial x_i :
+R[x_1,\ldots,x_n] \to R[x_1,\ldots,x_n]$. (We leave it to
+the reader to define this; the defining property
+being that $\partial / \partial x_i (x_j) = \delta_{ij}$.)
+By the universal property this corresponds to an $S$-module map $l_i : 
+\Omega_{S/R} \to R[x_1,\ldots,x_n]$ which maps $\text{d}x_i$
+to $1$ and $\text{d}x_j$ to $0$ for $j \not= i$. 
+Thus it is clear that there are no $S$-linear relations
+among the elements $\text{d}x_1,\ldots, \text{d}x_n$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-differentials-finitely-presented}
 Suppose $R \to S$ is of finite presentation.
 Then $\Omega_{S/R}$ is a finitely presented
 $S$-module.
 \end{lemma}
 
 \begin{proof}
+Write $S = R[x_1,\ldots,x_n]/(f_1, \ldots, f_m)$. 
+Write $I = (f_1, \ldots, f_m)$. According
+to Lemma \ref{lemma-differential-seq} there is an exact sequence
+of $S$-modules
+$$
+I/I^2
+\to
+\Omega_{R[x_1,\ldots,x_n]/R}\otimes_{R[x_1,\ldots,x_n]} S
+\to 
+\Omega_{S/R}
+\to
+0
+$$
+The result follows from the fact that $I/I^2$ is a finite 
+$S$-module (generated by the images of the $f_i$), and that
+the middle term is finite free by
+Lemma \ref{lemma-differentials-polynomial-ring}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-differentials-finitely-generated}
+Suppose $R \to S$ is of finite type.
+Then $\Omega_{S/R}$ is finitely generated
+$S$-module.
+\end{lemma}
+
+\begin{proof}
+This is very similar to, but easier than the proof
+of Lemma \ref{lemma-differentials-finitely-presented}.
+\end{proof}
+
+\noindent
+Suppose that $R \to S$ is of finite type.
+We say that a {\it presentation} of $S$ over $R$ is
+given by the choice of an integer $n \geq 0$, and
+a surjection $\alpha : R[x_1,\ldots,x_n] \to S$
+of $R$-algebras. We will usually just indicate
+this by saying: ``Let $R[x_1,\ldots,x_n] \to S$ be a presentation of
+$S/R$'', or ``Let $0\to I \to R[x_1,\ldots,x_n] \to S \to 0$
+be a presentation of $S/R$'' if we want to indicate that $I$
+is the kernel of the presentation.
+
+\medskip\noindent
+Note that for every presentation $\alpha$ we obtain a two term
+complex of $S$-modules
+$$
+NL(\alpha) :
+I/I^2 \longrightarrow \Omega_{R[x_1,\ldots,x_n]/R}\otimes S.
+$$
+The cokernel of this complex is canonically $\Omega_{S/R}$,
+see Lemma \ref{lemma-differential-seq}. We call the complex
+$NL(\alpha)$
+the {\it naive cotangent complex}\footnote{This is better know as the {\it Netherlander complex} in some localities.} associated to the
+presentation $\alpha : R[x_1,\ldots,x_n] \to S$ of $S/R$. We will
+sometimes use the notation
+$I/I^2 \to \bigoplus_{i=1,\ldots,n} S\text{d}x_i$
+to denote this complex.
+
+\medskip\noindent
+A {\it morphism of presentations of $S/R$} from the presentation
+$\alpha : R[x_1,\ldots,x_n] \to S$ to the presentation
+$\beta : R[y_1,\ldots,y_m] \to S$ is defined to be a
+map $\varphi : R[x_1,\ldots,x_n] \to R[y_1,\ldots,y_m]$
+such that $\alpha = \beta \circ \varphi$. Note that
+in this case $\varphi(I) \subset J$, where $I = \text{ker}(\alpha)$
+and $J = \text{ker}(\beta)$. Thus $\varphi$ induces a map
+of $S$-modules $I/I^2 \to J/J^2$ and by functoriality of
+differentials also a $S$-module map
+$\Omega_{R[x_1,\ldots,x_n]/R}\otimes S
+\to \Omega_{R[y_1,\ldots,y_m]/R}\otimes S$.
+These maps are compatible and we obtain a map
+of naive cotangent complexes
+$$
+NL(\alpha) \longrightarrow NL(\beta).
+$$
+We leave it to the reader to see that if $\psi$ is a morphism
+of presentations from $\beta$ to $\gamma$, then $\psi \circ \varphi$
+is a morphism from $\alpha$ to $\gamma$ and furthermore 
+the composition $NL(\alpha) \to NL(\beta) \to NL(\gamma)$
+is the map associated to $\psi \circ \varphi$.
+
+\begin{lemma}
+\label{lemma-NL-homotopy}
+Let $S$ be a finite type $R$-algebra.
+Let $\alpha : R[x_1,\ldots,x_n] \to S$, and
+$\beta : R[y_1,\ldots,y_m] \to S$ be presentations.
+\begin{enumerate}
+\item For any map $\varphi$ of presentations from
+$\alpha$ to $\beta$ the induced map $NL(\alpha) \to NL(\beta)$
+is a quasi-isomorphism.
+\item For any pair of maps $\varphi, \varphi'$ the induced maps
+$NL(\alpha) \to NL(\beta)$ are homotopic.
+\end{enumerate}
+See the proof of the lemma for a simple explanation
+of the assertions.
+\end{lemma}
+
+\begin{proof}
+In the simple case of complexes with two terms a quasi-isomoprhism
+is just a map that induces an isomorphism on both the cokernel
+and the kernel of the maps between the terms. In this case the
+fact that $\varphi$ induces an isomorphism on cokernels is by
+the choice of $NL(\alpha)$ having cokernel equal to $\Omega_{S/R}$.
+
+\medskip\noindent
+Note that the first assertion of the lemma follows from the second.
+This is so because we may always choose a morphism of presentations
+$\varphi'$ from $\beta$ to $\alpha$. The compositions
+$\varphi' \circ \varphi$ and $\varphi \circ \varphi'$
+will by (2) induce self maps of $NL(\alpha)$ and $NL(\beta)$
+which are homotopic to the identity and hence quasi-isomorphism
+(see below).
+Hence both compositions $NL(\alpha) \to NL(\beta) \to NL(\alpha)$
+and $NL(\beta) \to NL(\alpha) \to NL(\beta)$ are quasi-isomoprhisms
+(inducing the indentity on cohomology) and hence so are the maps induced
+by $\varphi$ and $\varphi'$.
+
+\medskip\noindent
+For the second assertion, let $\varphi$ and $\varphi'$ as stated.
+Let $I = \text{Ker}(\alpha)$ and $J = \text{Ker}(\beta)$.
+We have to construct the diagonal map in the diagram
+$$
+\xymatrix{
+I/I^2 \ar[r]^{\text{d}} \ar@<1ex>[d] \ar@<-1ex>[d]
+&
+\bigoplus S\text{d}x_i \ar@<1ex>[d] \ar@<-1ex>[d] \ar[ld]_h
+\\
+J/J^2 \ar[r]^{\text{d}}
+&
+\bigoplus S\text{d}y_j
+}
+$$
+where the vertical maps are induced by $\varphi$, $\varphi'$.
+The condition is that $\text{d} \circ h + h \circ \text{d}$ should be
+the difference of the vertical arrows. It is immediate in this
+very simple case of complexes with two terms that this implies 
+the vertical maps induce the same maps on kernel and cokernel
+of the horizontal maps.
+
+\medskip\noindent
+Write $\varphi(x_i) - \varphi'(x_i) = h_i$ for some
+$h_i \in R[y_j]$. Of course $h_i \in J$. For all $i$ we have
+$\varphi(\text{d}x_i) = \text{d}\varphi(x_i)
+=\text{d}(\varphi'(x_i) + h_i) =
+\text{d}(\varphi'(x_i)) + \text{d}h_i$. On the other hand,
+for every $f = f(x_1,\ldots,x_n) \in I$ we have $\varphi(f) = 
+f(\varphi(x_1),\ldots, \varphi(x_n)) =
+f(\varphi'(x_1) + h_1,\ldots, \varphi'(x_n) + h_n) =
+f(\varphi'(x_1),\ldots, \varphi'(x_n)) + 
+\sum_i h_i \partial f/\partial x_i + $ terms in 
+$J^2$. Hence the map $h : \bigoplus S\text{d}x_i \to J/J^2$,
+$x_i \to h_i$ gives the desired homoropy.
+\end{proof}
+
+\section{Hilbert Nullstellensatz}
+\label{section-nullstellensatz}
+
+\noindent
+In this section we give a quick and dirty proof
+of the Hilbert Nullstellensatz which uses some
+simple field theory.
+
+\begin{lemma}
+\label{lemma-tensor-fields}
+Suppose that $k \subset k_1$ and $k\subset k_2$ are
+field extensions. Then there exists an surjection
+$k_1\otimes_k k_2 \to k_3$ onto a field $k_3$ such
+that $\text{trdeg}(k_3/k_1) = \text{trdeg}(k_2/k)$
+and  $\text{trdeg}(k_2/k_1) = \text{trdeg}(k_3/k)$
+\end{lemma}
+
+\begin{proof}
+Choose transcendence bases $t_i$ for $k_1/k$ and
+$s_j$ for $k_2/k$. Let $\Omega$ be any algebraic closure
+of the field $k(\{t_i\}\cup \{s_j\})$. By construction
+there are $k$-algebra maps $k_1 \to \Omega$ and
+$k_2 \to \Omega$. Let $k_3$ be the field generated
+by their images.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-dimension}
+Suppose that $k$ is an uncountable algebraically closed field,
+and suppose that $V$ is a nonzero vector space of countable dimension
+over $k$. For any linear operator $T : V \to V$ there exists
+some $\lambda \in k$ such that $T - \lambda$ is not invertible.
+\end{lemma}
+
+\begin{proof}
+If not then $V$ inherits the structure of a vector space over
+the field $k(T)$. But the dimension of $k(T)$ over $k$ is
+uncountable due to the fact that the elements $\frak{1}{T - \lambda}$
+are linearly independent.
+\end{proof}
+
+\begin{theorem}
+\label{theorem-nulstellensatz}
+Let $k$ be a field and let $\mathfrak m \subset 
+k[x_1,\ldots,x_n]$ be a maximal ideal.
+The field extension $k \subset \kappa(\mathfrak m)$
+is finite. The same is true for any maximal ideal in
+any finite type $k$-algebra.
+\end{theorem}
+
+\begin{proof}
+Of course it suffices to prove the result for $\mathfrak m \subset 
+k[x_1,\ldots,x_n]$, because any finite type $k$-algebra is a
+quotient of one of these. 
+If we show that $k \subset \kappa(\mathfrak m)$
+is algebraic then the result follows since it is
+finitely generated as a $k$-algebra.
+
+\medskip\noindent
+First assume that $k$ is uncountable and algebraically closed.
+To arrive at a contradiction pick
+$T \in \kappa(\mathfrak m)$ transcendental over $k$.
+Note that the $k$-linear map $T : \kappa(\mathfrak m)
+\to \kappa(\mathfrak m)$ has the property that
+$T - \lambda$ is invertible for all $\lambda \in k$.
+Also, $\kappa(\mathfrak m)$ has countable dimension
+over $k$ since it is a quotient of the vector space
+$k[x_1,\ldots,x_m]$ over $k$.
+This is impossible by Lemma \ref{lemma-dimension}.
+
+\medskip\noindent
+In the general case, choose an uncountable algebraically closed
+field extension $k \subset k_1$. Choose a quotient
+$k_1\otimes_k \kappa(\mathfrak m) \to \kappa$ as in
+Lemma \ref{lemma-tensor-fields}. Since the field
+$\kappa$ is a quotient of $k_1[x_1,\ldots,x_n]$ via
+$$
+k_1[x_1,\ldots,x_n]
+=
+k_1 \otimes_k k[x_1,\ldots,x_n]
+\to 
+k_1\otimes_k \kappa(\mathfrak m)
+\to
+\kappa
+$$
+we see that we may apply the previous case to conclude the
+extension $k_1 \subset \kappa$ is algebraic. By our choice
+of $\kappa$ we win.
 \end{proof}
 
 \section{Dimension}
 \label{section-dimension}
 
-\noindent
+\begin{definition}
+\label{definition-Krull}
+The {\it Krull dimension} of the ring $R$ is the 
+Krull dimension of the topological space $\text{Spec}(R)$,
+see Topology, \ref{topology-definition-Krull}.
+In other words it is the supremum of the integers $n\geq 0$
+such that there exists a chain of prime ideals of length $n$:
+$$
+\mathfrak p_n
+\subset 
+\ldots
+\subset
+\mathfrak p_1
+\subset
+\mathfrak p_0,\ \ 
+\mathfrak p_i \not= \mathfrak p_{i+1}.
+$$
+\end{definition}
+
+\begin{definition}
+\label{definition-height}
+The {\it height} of a prime ideal $\mathfrak p$ of
+a ring $R$ is the dimension of the local ring $R_{\mathfrak p}$.
+\end{definition}
+
+\begin{lemma}
+\label{lemma-height-1}
+Let $R$ be a local ring. Let $x$ be an element 
+in its maximal ideal $\mathfrak m$ such that
+$\sqrt{(x)} = \mathfrak m$. Then the dimension
+of $R$ is $1$ or $0$.
+\end{lemma}
+
+\begin{proof}
+We have the decomposition $\text{Spec}(R)
+= D(x) \sqcup V(x)$. And $V(x) = \{\mathfrak m\}$.
+On the other hand, every nonunit $y \in R$ is in
+$\mathfrak m$ and hence $y^n = rx$ for some $n \geq 0$ and
+$r \in R$ and hence $y$ is invertible in $R_x$. Thus either
+$R_x$ is a field or zero. Thus either $\text{Spec}(R)$
+has one element or two. In the second case the dimension
+is $1$ in the first the dimension is $0$.
+\end{proof}.
+
+\begin{lemma}
+\label{lemma-one-equation}
+Suppose that $R$ is a local ring and $x\in \mathfrak m$ an
+element of its maximal ideal. 
+Then $\dim R <= \dim R/(x) + 1$.
+\end{lemma}
+
+\begin{proof}
+??????????????????????????
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
