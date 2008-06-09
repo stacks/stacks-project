@@ -536,17 +536,17 @@ the map $N\otimes_R M \to N'\otimes_R M$ is injective.
 \label{injective}
 \item for every ideal $I \subset R$ the map
 $I\otimes_R M \to R\otimes_R M = M$ is injective.
-\label{ideal}
+\label{f-ideal}
 \item for every finitely generated ideal $I \subset R$
 the map $I\otimes_R M \to R\otimes_R M = M$ is injective.
-\label{fg-ideal}
+\label{ffg-ideal}
 \end{enumerate}
 \end{lemma}
 
 \begin{proof}
 The implications (\ref{flat}) implies (\ref{injective})
-implies (\ref{ideal}) implies (\ref{fg-ideal}) are all
-trivial. Thus we prove (\ref{fg-ideal}) implies (\ref{flat}).
+implies (\ref{f-ideal}) implies (\ref{ffg-ideal}) are all
+trivial. Thus we prove (\ref{ffg-ideal}) implies (\ref{flat}).
 Suppose that $N_1 \to N_2 \to N_3$ is exact.
 Let $K_2 = \text{Ker}(N_2 \to N_3)$. 
 It is clear that the surjection $N_1 \to K$
@@ -768,8 +768,8 @@ $\mathfrak p R_{\mathfrak p'}$. The inverse image of this
 prime in $S$ does the job.
 \end{proof}
 
-\section{Going up, going down, and images}
-\label{section-up-down}
+\section{Images and ring maps of finite presentation}
+\label{section-images-finite-presentation}
 
 \noindent
 In this section we prove some results on the 
@@ -801,6 +801,23 @@ In order to do this it suffices to show that
 $(\cup_{i=1\ldots n} D(f_i)) \cap (\cup_{j=1\ldots m} D(g_j))$
 is quasi-compact, which is clear because it equals
 $\cup_{i,j} D(f_i g_j)$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-constructible-is-image}
+Let $R$ be a ring and let $T \subset \text{Spec}(R)$
+be constructible. Then there exists an $R \to S$ of
+finite presentation such that $T$ is the image of
+$\text{Spec}(S)$ in $\text{Spec}(R)$.
+\end{lemma}
+
+\begin{proof}
+Since the spectrum of a finite product of rings 
+is the dijoint union of the spectra, we may assume
+that $T = (\cup D(f_i)) \cap (\cup D(g_j))^c$.
+In fact we may assume that $T = D(f) \cap V(g_1,\ldots,g_m)$.
+In this case $T$ is the image of the map
+$R \to (R/(g_1,\ldots,g_m))_f$.
 \end{proof}
 
 \begin{lemma}
@@ -972,6 +989,7 @@ are dealt with in Lemmas \ref{lemma-affineline-special}
 and \ref{lemma-affineline-open}.
 \end{proof}
 
+
 \begin{proposition}
 \label{proposition-fppf-open}
 Let $R \to S$ be flat and of finite presentation.
@@ -981,14 +999,158 @@ Then $\text{Spec}(R) \to \text{Spec}(S)$ is open.
 \begin{proof}
 It suffices to prove that the image of a standard open $D(f)$ is open.
 After replacing $S$ by $S_f$ we see it suffices to prove the image is
-open. Let $\mathfrak p$ be in the image. 
-
-
-
-
+open. Let $T \subset \text{Spec}(R)$ be the complement of the image.
+Let $\mathfrak p$ be in the image (hence $\mathfrak p \not \in T$),
+and in the closure of $T$. According to
+Lemma \ref{lemma-constructible-is-image} we may
+write $T$ as the image of $\text{Spec}(S') \to \text{Spec}(R)$
+for some finitely presented $R$-algebra $S'$. The fact that $\mathfrak p$
+is in the closure of $T$ means that for all $f \in R \setminus \mathfrak p$
+the ring $S'_f$ is not zero. By Lemma \ref{lemma-localize-colimit}
+we see that $S'_{\mathfrak p} = S' \otimes_R R_{\mathfrak p}$
+is not zero. (Because you can test whether a ring is zero
+by testing whether $1=0$ which does not happen in any of the
+$S'_f$ above.) This implies that there is an point of
+$\text{Spec}(R_{\mathfrak p})$ which is not in the image
+of $\text{Spec}(S_{\mathfrak p}) \to \text{Spec}(R_{\mathfrak p})$
+and this contradicts Lemma \ref{lemma-flat-gd}.
 \end{proof}
 
+\section{Differentials}
+\label{section-differentials}
 
+\begin{definition}
+\label{definition-derivation}
+Let $\varphi : R \to S$ be a ring map and let $M$ be an $S$-module.
+A {\it $R$-derivation} into $M$ is a map $D : S \to M$
+which is additive, annihilates elements of $\varphi(R)$,
+and satisfies the {\it Leibniz rule}: 
+$D(ab) = aD(b) + D(a)b$.
+\end{definition}
+
+\noindent
+Note that $D(ra) = rD(a)$ if $r\in R$ and $a\in S$.
+The set of all $R$-derivations forms an
+$S$-module: Given two $R$-derivations $D, D'$
+the sum $D+D' : S \to M$, $a \mapsto D(a)+D'(a)$
+is an $R$-derivation, and given an $R$-derivation $D$
+and an element $c\in S$ the scalar multiple $cD : S \to M$,
+$a \mapsto cD(a)$ is an $R$-derivation. We denote this
+$S$-module
+$$
+\text{Der}_R(S, M).
+$$
+Also, if $\alpha : M \to N$ is an $S$-module map, then the
+composition $\alpha \circ D$ is an $R$-derivation into
+$N$. In this way the assignment $M \mapsto \text{Der}_R(S, M)$
+is a covariant functor.
+
+\medskip\noindent
+Let $\Omega_{S/R}$ be the $S$-module which has the
+following presentation:
+$$
+\begin{matrix}
+\bigoplus_{(a,b)\in S^2} S(a,b) \oplus \bigoplus_{r\in R} Sr
+&
+\to
+&
+\bigoplus_{a\in S} S \text{d}a
+&
+\to
+&
+\Omega_{S/R}
+&
+\to
+&
+0
+\\
+(a,b)
+&
+\mapsto
+&
+a\text{d}b + b\text{d}a
+&
+&
+&
+&
+\\
+r
+&
+\mapsto
+&
+\text{d}\varphi(r)
+&
+&
+&
+&
+\end{matrix}
+$$
+There is a map $\text{d} : S \to \Omega_{S/R}$
+which maps $a$ to the class of $\text{d}s$ in the cokernel.
+It is obvious that this is an $R$-derivation.
+The pair $(\Omega_{S/R}, \text{d})$ is called the module
+of K\"ahler diffentials of $S$ over $R$.
+
+\begin{lemma}
+\label{lemma-universal-omega}
+The module of differentials of $S$ over $R$ has the following
+universal property. The map
+$$
+\text{Hom}_S(\Omega_{S/R}, M)
+\longrightarrow
+\text{Der}_R(S, M),\ \ 
+\alpha 
+\longmapsto
+\alpha \circ \text{d}
+$$
+is an isomorphism of functors.
+\end{lemma}
+
+\begin{proof}
+FIXME.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-differentials-finitely-generated}
+Suppose $R \to S$ is of finite presentation.
+Then $\Omega_{S/R}$ is a finitely presented
+$S$-module.
+\end{lemma}
+
+\begin{proof}
+\end{proof}
+
+\section{Dimension}
+\label{section-dimension}
+
+\noindent
+
+
+
+\section{Smooth ring maps}
+\label{section-smooth}
+
+\begin{definition}
+\label{definition-smooth}
+A ring map $R \to S$ is {\it smooth} if it is of finite presentation
+and 
+\end{definition}
+
+\section{Miscellany}
+\label{section-miscellany}
+
+\begin{lemma}
+\label{lemma-localize-colimit}
+Let $M$ be an $R$-module, and let $S \subset R$ be
+a multiplicative subset. Then $S^{-1}M = M\otimes_R S^{-1}R$
+is the directed colimit of the modules $M_f$, $f\in S$ with
+transition maps $M_f \to M_{f'}, m/f^n \mapsto (f'')^n m/(f')^n$
+whenever $f =f' f''$ with $f,f',f''\in S$.
+\end{lemma}
+
+\begin{proof}
+FIXME.
+\end{proof}
 
 \input{chapters}
 
