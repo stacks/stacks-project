@@ -626,6 +626,20 @@ and the second by assumption on $M$.
 Thus $y$ is zero in $K\otimes_RM$ as desired.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-flat-base-change}
+Suppose that $M$ is flat over $R$, and that $R \to R'$
+is a ring map. Then $M\otimes_R R'$ is flat over $R'$.
+\end{lemma}
+
+\begin{proof}
+For any $R'$-module $N$ we have a canonical
+isomorphism $N \otimes_{R'} (R'\otimes_R M)
+= N \otimes_R M$. Hence the exactness of
+$-\otimes_{R'}(R'\otimes_R M)$ follows from
+the exactness of $-\otimes_R M$.
+\end{proof}
+
 \noindent
 We say the relation $\sum f_i x_i$
 is {\it trivial} if there exist an integer $m \geq 0$,
@@ -1066,6 +1080,34 @@ to the kernel of a presentation $R^n \to M$.
 \end{proof}
 
 \begin{lemma}
+If $R$ is a Noetherian ring then $\text{Spec}(R)$ 
+is a Noetherian topological space, see Topology,
+Definition \ref{topology-definition-components}.
+\end{lemma}
+
+\begin{proof}
+This is because any closed subset of $\text{Spec}(R)$
+is uniquely of the form $V(I)$ with $I$ a radical ideal,
+see Lemma \ref{lemma-Zariski-topology}.
+And this correspdonce is inclusion reversing.
+Thus the result follows from the definitions.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-Noetherian-power}
+Let $R$ be a Noethrian ring.
+Let $I, J$ be ideals of $R$.
+Suppose $J \subset \sqrt{I}$.
+Then $J^n \subset I$ for some $n$.
+\end{lemma}
+
+\begin{proof}
+Say $J = (f_1,\ldots,f_s)$. 
+By assumption $f_i^{d_i} \in I$. 
+Take $n = d_1 + d_2 + \ldots + d_s + 1$.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-Artin-Rees}
 (Artin-Rees lemma.)
 Suppose that $R$ is Noetherian, $I \subset R$ an ideal.
@@ -1099,6 +1141,22 @@ in $I^nM \cap N$ is of the form $\sum h_j \xi_j$ with
 $h_j \in I^{n - d_j}$. The lemma now follows from this and the trivial 
 observation that $I^{n-d_j}(I^{d_j}M \cap N) \subset I^{n-c}(I^cM \cap N)$.
 \end{proof}
+
+\begin{lemma}
+\label{lemma-map-AR}
+Suppose that $0 \to K \to M \xrightarrow{f} N$ is an
+exact sequence of finitely generated modules
+over a Noetherian ring $R$. Let $I \subset R$ be an ideal.
+Then there exists a $c$ such that $f^{-1}(I^nN)
+= K + I^{n-c}f^{-1}(I^cN)$.
+\end{lemma}
+
+\begin{proof}
+Apply Lemma \ref{lemma-Artin-Rees} to
+$\text{Im}(f) \subset N$ and note that
+$f : I^{n-c}M \to I^{n-c}f(M)$ is surjective.
+\end{proof}
+
 
 \section{Completion}
 \label{section-completion}
@@ -1195,7 +1253,7 @@ The result follows from Lemma \ref{lemma-flat}.
 \end{proof}
 
 \begin{lemma}
-\label{lemma-flat}
+\label{lemma-completion-faithfully-flat}
 Let $R$ be a Noetherian local ring.
 Let $\mathfrak m \subset R$ be the maximal ideal.
 Let $I \subset \mathfrak m$ be an ideal.
@@ -1215,8 +1273,50 @@ flat by Lemma \ref{lemma-ff}.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-mod-injective}
+Suppose that $R \to S$ is a flat, local homomorphism of Noetherian
+local rings. Denote $\mathfrak m$ the maximal ideal of $R$.
+Let $u : M \to N$ be a map of finite $S$-modules.
+Assume $N$ flat over $R$.
+If $\overline{u} : M/\mathfrak mM \to N/\mathfrak mN$
+is injective then $u$ is injective.
+\end{lemma}
+
+\begin{proof}
+First we claim that $u_n : M/{\mathfrak m}^nM \to N/{\mathfrak m}^nN$ 
+is injective for all $n \geq 1$. We proceed by induction, the base
+case given by assumption. By our assumption that $N$ is flat
+over $R$ we have  a short exact sequence
+$0 \to N\otimes_R {\mathfrak m}^n/{\mathfrak m}^{n+1}
+\to N/{\mathfrak m}^{n+1}N \to N/{\mathfrak m}^n N\to 0$.
+Also, $N\otimes_R {\mathfrak m}^n/{\mathfrak m}^{n+1}
+= N/{\mathfrak m}N \otimes_{R/{\mathfrak m}}
+{\mathfrak m}^n/{\mathfrak m}^{n+1}$. We have 
+a similar exact sequence $M\otimes_R {\mathfrak m}^n/{\mathfrak m}^{n+1}
+\to M/{\mathfrak m}^{n+1}M \to M/{\mathfrak m}^n M\to 0$
+for $M$ except we do not have the zero on the left. We also
+have $M\otimes_R {\mathfrak m}^n/{\mathfrak m}^{n+1}
+= M/{\mathfrak m}M \otimes_{R/{\mathfrak m}}
+{\mathfrak m}^n/{\mathfrak m}^{n+1}$. Thus the map $u_{n+1}$ is
+injective as both $u_n$ and the map
+$\overline{u}\otimes \text{id}_{{\mathfrak m}^n/{\mathfrak m}^{n+1}}$ are.
+
+\medskip\noindent
+Note that $\lim_n M/{\mathfrak m}^nM$ is the completion
+of the module $M$ with respect to the ideal $I = {\mathfrak m}S$,
+and similarly for $N$. Since $M$ and $N$ are finite $S$-modules
+we have $\hat M = M \otimes \hat S$ and similarly for $N$, see Lemma
+\ref{lemma-completion-tensor}.
+We conclude that $u \otimes 1 : M \otimes \hat S
+\to N \otimes \hat S$ is injective. Since $\hat S$ is faithfully
+flat over $S$, see Lemma \ref{lemma-completion-faithfully-flat},
+we conclude that $u$ is injective, see Lemma \ref{lemma-flat}.
+\end{proof}
+
+
+\begin{lemma}
 \label{lemma-grothendieck}
-Suppose that $R \to S$ is a flat ring map of Noetherian
+Suppose that $R \to S$ is a flat and local ring homomorphism of Noetherian
 local rings. Denote $\mathfrak m$ the maximal ideal of $R$.
 Suppose $f \in S$ is a nonzero divisor in $S/{\mathfrak m}S$.
 Then $S/fS$ is flat over $R$.
@@ -1329,28 +1429,293 @@ S/fS\otimes_R I
 0
 \end{matrix}
 $$
+By flatness of $S/R$ we get $S\otimes_R I = IS$ and the
+injectivity of multiplicaiton by $f$ on $S\otimes_RI$.
+By the snake lemma it follows that to prove 
+$S/fS \otimes_R I \to S/fS$ is injective it suffices
+to show that multiplication by $f$ on $S/IS$ is injective.
+Note that $S/IS$ is flat over $R/I$ by Lemma \ref{lemma-flat-base-change}.
+Thus the lemma follows from Lemma \ref{lemma-mod-injective}.
+\end{proof}
+
+\section{Noetherian local rings}
+\label{section-Noetherian-local}
+
+\noindent
+In all of this section $(R, \mathfrak m, \kappa)$
+is a Noetherian local ring. For any $R$-module $M$
+we define the {\it length} of $M$ over $R$ by the
+formula
+$$
+\text{length}_R(M)
+=
+\sup
+\{
+n
+\mid
+\exists\ M_0 \subset M_1 \subset \ldots \subset M_n=M,
+\text{ }M_i \not= M_{i+1}
+\}.
+$$
+In other words it is the supremum of the lengths of chains 
+of submodules.
+
+\begin{lemma}
+\label{lemma-NAK}
+(Nakayama's lemma.)
+If $M$ is a finite nonzero module over $R$, then
+$\mathfrak m M \not= M$.
+\end{lemma}
+
+\begin{proof}
+Here is a silly way to prove this: If $\mathfrak m M = M$ for
+$M$ finite then by induction ${\mathfrak m}^nM = M$. Hence the
+completion of $M$ with respect to the maximal ideal is zero.
+Hence $M \otimes_R \hat R = 0$, see Lemma \ref{lemma-completion-tensor}.
+But $R \to \hat R$ is faithfully flat by
+Lemma \ref{lemma-completion-faithfully-flat} and hence we
+conclude $M = 0$ by Lemma \ref{lemma-easy-ff}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-length-infinite}
+If $M$ is a finite $R$-module such that
+$\mathfrak m^n M \not = 0$ for all $n\geq 0$,
+then $\text{length}_R(M) = \infty$.
+\end{lemma}
+
+\begin{proof}
+By the previous lemma all the steps in the filtration
+$0 \subset \mathfrak m^n M 
+\subset \mathfrak m^{n-1} M \subset \ldots \subset
+\mathfrak m M \subset M$ are distinct.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-length-additive}
+If $0 \to M' \to M \to M'' \to 0$
+is a short exact sequence of modules over $R$ then
+the length of $M$ is the sum of the
+lengths of $M'$ and $M''$.
+\end{lemma}
+
+\begin{proof}
+Given filtrations of $M'$ and $M''$ of lengths $n', n''$
+it is easy to make a corresponding filtration of $M$ 
+of length $n' + n''$. Thus we see that $\text{length}_R M
+\geq \text{length}_R M' + \text{length}_R M''$.
+Conversely, given a filtration
+$M_0 \subset M_1 \subset \ldots \subset M_n$ of
+$M$ consider the induced filtrations
+$M_i' = M_i \cap M'$ and $M_i'' = \text{Im}(M_i \to M'')$.
+Let $n'$ (resp.\ $n''$) be the number of steps in the filtration
+$\{M'_i\}$ (resp.\ $\{M''_i\}$).
+If $M_i' = M_{i+1}'$ and $M_i'' = M_{i+1}''$ then
+$M_i = M_{i+1}$. Hence we conclude that $n' + n'' \geq n$.
+Combined with the earlier result we win.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-dimension-is-length}
+Suppose that $M$ is a finite $R$-module with
+$\mathfrak m M  =  0$. Then the length of $M$ as
+an $R$-module agrees with the dimension of $M$ as
+a $R/\mathfrak m$ vector space, and it is finite.
+\end{lemma}
+
+\begin{proof}
+A filtration of $M$ by $R$-submodules is the same as a filtration
+of $M$ by subvector spaces.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-length-finite}
+Suppose that $M$ is a finite $R$-module with
+$\mathfrak m^n M  =  0$ for some $n$. 
+Then $\text{length}_R(M) < \infty$.
+\end{lemma}
+
+\begin{proof}
+Consider the filtration
+$0 = \mathfrak m^n M \subset
+\mathfrak m^{n-1} M \subset
+\ldots \subset \mathfrak m M \subset M$.
+All of the subquotients are finitely generated $R$-modules
+to which Lemma \ref{lemma-dimension-is-length}. We conclude
+by additivity, see Lemma \ref{lemma-length-additive}.
+\end{proof}
+
+\noindent
+Let $M$ be a finite $R$-module. We define the {\it Hilbert
+function} of $M$ to be the function
+$$
+\varphi_M : n 
+\longmapsto
+\text{length}_R(\mathfrak m^nM/{\mathfrak m}^{n+1}M).
+$$
+Note that we have by Lemma \ref{lemma-length-additive}
+that
+$$
+\text{length}_R(M / \mathfrak m^{n+1}M)
+=
+\sum\nolimits_{i=0}^n
+\varphi_M(i).
+$$
+There is a variant of this construction which uses an
+ideal $I \subset R$ such that $\sqrt{I} = \mathfrak m$.
+Because $R$ is Noetherian this means that
+$\mathfrak m^r \subset I$ for some $r$, see Lemma
+\ref{lemma-Noetherian-power}. Hence any finite $R$-module
+annihilated by a power of $I$ has a finite length, see Lemma
+\ref{lemma-length-finite}.
+Thus in this case we may put
+$$
+\varphi_{I,M} : n 
+\longmapsto
+\text{length}_R(I^nM/I^{n+1}M).
+$$
+Again we have that
+$$
+\text{length}_R(M / I^{n+1}M)
+=
+\sum\nolimits_{i=0}^n
+\varphi_{I,M}(i).
+$$
+
+\begin{lemma}
+\label{lemma-differ-finite}
+Suppose that $M' \subset M$ are finite $R$-modules
+with finite length quotient.
+Then there exist constants $c_1, c_2$
+such that $\varphi_{I,M}(n) \geq \varphi_{I, M'}(n-c_1) - c_2$
+and $\varphi_{I, M'}(n) \geq \varphi_{I,M}(n) - c_2$.
+\end{lemma}
+
+\begin{proof}
+By induction on the length of $M/M'$ we may assume
+that $M'/M$ has length $1$, i.e., that $M/M' \cong R/\mathfrak m$.
+In this case $IM \subset M'$ and hence
+$\varphi_{I, M}(n) \geq \varphi_{I, M'}(n-1) - 1$.
+On the other hand, $\varphi_{I, M'}(n) \geq \varphi_{I, M}(n) - 1$
+because of the relations $M'/I^nM' \supset M/I^nM' \to M/I^nM$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-hilbert-ses}
+Suppose that $0 \to M' \to M \to M'' \to 0$
+is a short exact sequence of finite $R$-modules.
+Then there exists a submodule $N \subset M'$ with
+finite colength and an integer $c$ such that $\varphi_{I,M}(n)
+= \varphi_{I, M''}(n) + \varphi_{I,N}(n-c)$ for all $n$ large enough.
+\end{lemma}
+
+\begin{proof}
+Note that $M/I^nM \to M''/I^nM''$ is surjective
+with kernel $M' / M' \cap I^nM$. By the Artin-Rees
+Lemma \ref{lemma-Artin-Rees} there exists a
+constant $c$ such that $M' \cap I^nM =
+I^{n-c}(M' \cap I^cM)$. Denote $N = M' \cap I^cM$.
+Note that $I^c M' \subset N \subset M'$.
+Hence $\text{length}_R(M' / M' \cap I^nM) 
+= \text{length}_R(M'/N) + \text{length}_R(N/I^{n-c}N)$.
+Then we obtain the equality
+$$
+\sum_{i=0}^{n-1} \varphi_{I,M}(i)
+=
+\sum_{i=0}^{n-1} \varphi_{I,M''}(i)
++
+\sum_{i=0}^{n-c-1} \varphi_{I,N}(i)
++
+\text{length}_R(M'/N)
+$$
+for $n$ large enough. Thus we get $\varphi_{I,M}(n)
+= \varphi_{I, M''}(n) + \varphi_{I,N}(n-c)$ for
+$n$ large enough.
+\end{proof}
+
+\begin{proposition}
+\label{proposition-hilbert-function-polynomial}
+For every Noetherian local ring $R$, any $I \subset R$
+such that $\sqrt{I} = \mathfrak m$ and every
+finite $R$-module $M$ the hilbert function $\varphi_{I,M}$
+is eventually polynomial.
+\end{proposition}
+
+\begin{proof}
+We prove this by induction on the number of generators
+of $I$. If this number is $0$, then $I = (0)$
+and there is nothing to prove. Suppose that the ideal
+$I = (x,x_2,\ldots,x_r)$ can be generated by $r$ elements and
+that we have proved the result for all cases where there are
+at most $r-1$ generators.
+
+\medskip\noindent
+First we show the result holds if $x$ is nilpotent on $M$.
+This we do by induction on the minimal integer $r$ such that $x^r M  = 0$.
+If $r = 1$, then $M$ is a module over $R/xR$ and the result 
+follows from the induction hypothesis for $r-1$ above.
+If $r > 1$, then we can find a short exact sequence
+$0 \to M' \to M \to M'' \to 0$ such that the integers
+$r', R''$ are stricly smaller than $r$. Thus we know
+the result for $M''$ and any submodule of $M'$. Hence
+we get the result for $M$ from Lemma \ref{lemma-hilbert-ses}.
+
+\medskip\noindent
+If $x$ is not nilpotent on $M$, let $M' \subset M$ be
+the largest submodule on which $x$ is nilpotent. Hence
+the result holds for any submodule of $M'$ by the above.
+Considering the exact sequence $0 \to M' \to M \to M/M' \to 0$
+we see by Lemma \ref{lemma-hilbert-ses} again that
+it suffices to prove the result for $M/M'$. In other
+words we may assume that multiplication by $x$ is injective.
+
+\medskip\noindent
+In this case we have a short exact sequence
+$$
+0 \to M \to M \to M/xM \to 0.
+$$
+Denote $\overline{M} = M/xM$. For any $n$ we have
+$xI^{n} \subset I^{n+1}$. Hence we have an exact sequence
+$$
+M/I^{n}M \to M/I^{n+1}M \to \overline{M}/\overline{I}^{n+1}\overline{M} \to 0.
+$$
+Note that the kernel of the first map is the module
+$\{m \in M \mid xm \in I^{n+1}M\}/I^nM$.
+Hence we conclude from the above that
+$$
+\varphi_{I,M}(n)
+\leq 
+\sum\nolimits_{i=0}^n \varphi_{\overline{I}, \overline{M}}(i)
+$$
+
+\medskip\noindent
+On the other hand, let $c$ be such that
+$xM \cap I^nM = I^{n-c}(xM \cap I^c)$. Set $M' = \{m \in M \mid
+xm \in I^c\}$.
+Consider the filtration of $M/I^{n+1}M$ given by powers of $x$.
+In other words: $0 \subset x^n(M/I^{n+1}M) \subset x^{n-1}(M/I^{n+1}M)
+\subset \ldots \subset x (M/I^{n+1}M) \subset M/I^{n+1}M$.
+Note that $x^j(M/I^{n+1}M) = (x^jM + I^{n+1}M)/I^{n+1}M$. Thus
+the subquotients $x^j(M/I^{n+1}M) / x^{j+1}(M/I^{n+1}M)$
+are isomorphic to $(x^jM + I^{n+1}M)/(x^{j+1}M+I^{n+1}M)$.
+These modules are quotients of the modules $M/(I^{n+1-j}M + xM)$
+via multiplication by $x^j$. Hence we get
+$$
+\sum\nolimits_{i=0}^n \varphi_{I,M}(i)
+\leq
+\sum\nolimits_{j=0}^n
+\sum\nolimits_{i=0}^{n-j}
+\varphi_{\overline{I},\overline{M}}(i)
+$$
 
 
 
 
 
-
-
-
-
-
-
-Let $f_i \in S$ and $x_i \in R$ such that $\sum x_i \overline{f_i}$
-is a relation in $S/fS$. Thus $\sum x_i f_i + x f = 0$ in $S$ for some
-$x\in S$. By the equational criterion of flatness there exist
-$g_j \in S$ and $a_{ij}, a_j \in R$ such that
-$f_i = \sum a_{ij} g_j$, $f = \sum a_j g_j$ and such that
-$\sum x_i a_{ij} + xa_j = 0$. 
-
-Suppose that $I \subset R$ is an ideal. 
-Consider $I \otimes $
 
 \end{proof}
+
+
 
 
 
@@ -2159,7 +2524,7 @@ a ring $R$ is the dimension of the local ring $R_{\mathfrak p}$.
 
 \begin{lemma}
 \label{lemma-height-1}
-Let $R$ be a local ring. Let $x$ be an element 
+Let $R$ be a local Noetherian ring. Let $x$ be an element 
 in its maximal ideal $\mathfrak m$ such that
 $\sqrt{(x)} = \mathfrak m$. Then the dimension
 of $R$ is $1$ or $0$.
@@ -2196,7 +2561,6 @@ containing it, and since $\mathfrak q$ is the only prime
 containing $x$ by minimality, we see that $\sqrt{(x)} = \mathfrak q$.
 Hence Lemma \ref{lemma-height-1} applies.
 \end{proof}
-
 
 \begin{lemma}
 \label{lemma-one-equation}
