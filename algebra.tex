@@ -464,6 +464,27 @@ And then it follows that $\text{Spec}(R)
 = \cup_{i \in finite\ list} D(f_i)$.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-irreducible}
+The closed irreducible subsets of $\text{Spec}(R)$ are
+exactly the subsets $V(\mathfrak p)$, with $\mathfrak \subset R$
+a prime. The irreducible components (see Topology,
+Definition \ref{topology-definition-components}) of $\text{Spec}(R)$ are 
+exactly the subsets $V(\mathfrak p)$, with $\mathfrak p \subset R$
+a minimal prime.
+\end{lemma}
+
+\begin{proof}
+The first assertion implies the second. For the first consider
+$V(I) \subset \text{Spec}(R)$ with $I$ a radical ideal.
+If $I$ is not prime, then choose $a,b\in R$, $a,b\not \in I$
+with $ab\in I$. In this case $V(I,a) \cup V(I,b) = V(I)$,
+but neither $V(I,b) = V(I)$ nor $V(I,a) = V(I)$, by
+Lemma \ref{lemma-Zariski-topology}. Conversely, if 
+$I = \mathfrak p$ is prime, then $V(I) = \overline{\{\mathfrak p\}}$
+is the closure of a $1$-point set and hence irreducible.
+\end{proof}
+
 \section{Flat modules and flat ring maps}
 \label{section-flat}
 
@@ -1090,6 +1111,7 @@ to the kernel of a presentation $R^n \to M$.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-Noetherian-topology}
 If $R$ is a Noetherian ring then $\text{Spec}(R)$ 
 is a Noetherian topological space, see Topology,
 Definition \ref{topology-definition-components}.
@@ -1320,16 +1342,16 @@ stage where $I^k = 0$, and we win.
 \end{proof}
 
 \begin{lemma}
-\label{lemma-artinian-product-local}
-Any Artinian ring is the product of its localizations
+\label{lemma-product-local}
+Any ring with finitely many maximal ideals and
+nilpotent radical is the product of its localizations
 at its maximal ideal.
 \end{lemma}
 
 \begin{proof}
 By Lemma \ref{lemma-artinian-finite-nr-max} there are
 finitely many maximal ideals.
-Let $I = \bigcap_{i=1}^n \mathfrak m_i$ be the radical of $R$
-as in the proof of \ref{lemma-artinian-radical-nilpotent}.
+Let $I = \bigcap_{i=1}^n \mathfrak m_i$ be the radical of $R$.
 Then $R/I \cong \bigoplus R/\mathfrak m_i$
 which is a product of fields.
 Hence by Lemma \ref{lemma-lift-idempotents}
@@ -1343,19 +1365,23 @@ ring with exactly one maximal ideal.
 \label{lemma-Artinian-finite-length}
 A ring $R$ is Artinian if and only if it has finite length
 as a module over itself. Any such ring is both Artinian and
-Noetherian.
+Noetherian, and is equal to the product of its localizations
+at its maximal ideals.
 \end{lemma}
 
 \begin{proof}
 If $R$ has finite length over itself then it satisfies both 
 the ascending chain condition and the descending chain
-condition for ideals.
+condition for ideals. Hence it is both Noetherian and Artinian.
+Any Artinian ring is equal to product of its localizations
+at maximal ideals by Lemmas \ref{lemma-artinian-finite-nr-max},
+\ref{lemma-artinian-radical-nilpotent}, and \ref{lemma-product-local}.
 
 \medskip\noindent
 Suppose that $R$ is Artinian. We will show $R$ has finite
 length over itself. It suffices to exhibit a chain of
 submodules whose succesive quotients have finite length.
-By Lemma \ref{lemma-artinian-product-local}
+By what we said above
 we may assume that $R$ is local, with maximal ideal $\mathfrak m$.
 By Lemma \ref{lemma-artinian-radical-nilpotent} we have
 $\mathfrak m^n =0$ for some $n$. 
@@ -1892,7 +1918,7 @@ Hence we win by Lemma \ref{lemma-numerical-polynomial}.
 \end{proof}
 
 \begin{remark}
-If $S$ is still Noetherian bu $S$ is not generated in degree $1$,
+If $S$ is still Noetherian but $S$ is not generated in degree $1$,
 then the function associated to a graded $S$-module is a periodic
 polynomial (i.e., it is a numerical polynomial on the
 congruence classes of integers modulo $n$ for some $n$).
@@ -2027,6 +2053,7 @@ Lemma \ref{lemma-length-K0}.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-d-independent}
 Suppose that $M$ is a finite $R$-module.
 The degree of the numerical polynomial 
 $\varphi_{I,M}$ is independent of the
@@ -2039,10 +2066,49 @@ This follows immediately from Lemma \ref{lemma-hilbert-change-I}.
 
 \begin{definition}
 \label{definition-d}
-If $R$ is a local Noetherian ring and $M$ a finite $R$-module,
-we denote $d(M)$ the degree of any of the numerical polynomials
+If $R$ is a local Noetherian ring and $M$ a finite $R$-module.
+If $\mathfrak m^nM = 0$ we set $d(M) = 0$.
+Otherwise we denote $d(M)$ the degree $+1$ of any of the numerical polynomials
 $\varphi_{I,M}$ above.
 \end{definition}
+
+\noindent
+In other words, $d(M)$ is the degree of the numerical polynomial
+$n \mapsto \text{length}_R(M/I^nM)$ for any ideal of definition $I$.
+We will denote this function
+$$
+\chi_{I,M}(n) = \text{length}_R(M/I^{n+1}M).
+$$
+We will frequently use that $\chi_{I,M}(n)
+= \sum_{i=0}^n \varphi_{I,M}(i)$ without further mention.
+
+\begin{lemma}
+\label{lemma-differ-finite-chi}
+Suppose $M \subset M'$ with finite length quotient,
+but neither finite length.
+Then $\chi_{I,M} - \chi_{I,M'}$
+is a polynomial of degree $<$ degree of either 
+polynomial.
+\end{lemma}
+
+\begin{proof}
+Immediate from Lemma \ref{lemma-differ-finite} by elementary calculus.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-hilbert-ses-chi}
+Suppose that $0 \to M' \to M \to M'' \to 0$
+is a short exact sequence of finite $R$-modules.
+Suppose the length of $M'$ is not finite.
+Then $\chi_{I,M} - \chi_{I, M''} - \chi_{I,M'}$
+is a numerical polynomial of degree $<$ the degree of
+$\chi_{I,M'}$.
+\end{lemma}
+
+\begin{proof}
+Immediate from Lemma \ref{lemma-hilbert-ses}, and 
+\ref{lemma-differ-finite-chi} by elementary calculus.
+\end{proof}
 
 \section{Images and ring maps of finite presentation}
 \label{section-images-finite-presentation}
@@ -2846,6 +2912,43 @@ $$
 The {\it height} of a prime ideal $\mathfrak p$ of
 a ring $R$ is the dimension of the local ring $R_{\mathfrak p}$.
 \end{definition}
+
+\begin{lemma}
+\label{lemma-Noetherian-dimension-0}
+A Noetherian ring of dimension $0$ is Artinian.
+Conversely, any Artinian ring has dimension zero.
+\end{lemma}
+
+\begin{proof}
+By Lemma \ref{lemma-Noetherian-topology} the space $\text{Spec}(R)$
+is Noetherian. By Topology, Lemma \ref{topology-lemma-Noetherian} we see
+that $\text{Spec}(R)$ has finitely many irreducible
+components, say $\text{Spec}(R) = Z_1 \cup \ldots Z_r$.
+According to Lemma \ref{lemma-irreducible}, each $Z_i = V(\mathfrak p_i)$
+with $\mathfrak p_i$ a minimal ideal. Since the dimension is $0$
+these $\mathfrak p_i$ are also maximal. Thus $\text{Spec}(R)$
+is the discrete topological space with elements $\mathfrak p_i$.
+All elements $f$ of the radical $I = \cap \mathfrak p_i$
+are nilpotent since otherwise $R_f$ would not be the zero ring
+and we would have another prime. Since $I$ is finitely generated
+we conclude that $I$ is nilpotent, Lemma \ref{lemma-Noetherian-power}.
+By Lemma \ref{lemma-product-local} $R$ is the product of its
+local rings. By Lemma \ref{lemma-length-finite} each of these
+has finite length over $R$. Hence we conclude that $R$
+is Artinian by Lemma \ref{lemma-Artinian-finite-length}.
+
+\medskip\noindent
+If $R$ is Artinian then it has finitely many maximal
+ideals $\mathfrak m_i$, $i=1,\ldots,n$
+(Lemma \ref{lemma-artinian-finite-nr-max})
+and the radical $I = \mathfrak m_1 \mathfrak m_2 \ldots \mathfrak m_n$
+is nilpotent (Lemma \ref{lemma-artinian-radical-nilpotent}).
+Hence any prime $\mathfrak p$ contains
+$(\mathfrak m_1 \mathfrak m_2 \ldots \mathfrak m_n)^r$,
+hence contains $\mathfrak m_1 \mathfrak m_2 \ldots \mathfrak m_n$
+hence contains one of the $\mathfrak m_i$. Thus $\mathfrak p$
+is equal to one of the $\mathfrak m_i$.
+\end{proof}
 
 \begin{lemma}
 \label{lemma-height-1}
