@@ -3359,7 +3359,6 @@ Immediate from Lemma \ref{lemma-finite-no-rel} and the definitions.
 \section{Support and dimension of modules}
 \label{section-support}
 
-
 \begin{lemma}
 \label{lemma-trivial-filter-finite-module}
 Let $R$ be a ring, and let $M$ be a finite $R$-module.
@@ -3551,6 +3550,96 @@ Trivially $\dim(R/\mathfrak p_i) = \dim V(\mathfrak p_i)$.
 Since all minimal primes of $\text{Supp}(M)$ occur among
 the $\mathfrak p_i$ we win.
 \end{proof}
+
+\section{Associated primes}
+\label{section-ass}
+
+\begin{definition}
+\label{definition-associated}
+Let $R$ be a ring. Let $M$ be an $R$-module.
+A prime $\mathfrak p$ of $R$ is {\it associated} to $M$
+if there exists an element $m \in M$ whose annihilator
+is $\mathfrak p$.
+The set of all such primes is denoted $\text{Ass}_R(M)$
+or $\text{Ass}(M)$.
+\end{definition}
+
+\begin{lemma}
+\label{lemma-ass-filter}
+Let $R$, $M$, $M_i$, $\mathfrak p_i$ as in
+Lemma \ref{lemma-filter-Noetherian-module}.
+Then $\text{Ass}(M) \subset \{\mathfrak p_i\}$.
+\end{lemma}
+
+\begin{proof}
+By induction on the length $n$ of the filtration $\{ M_i \}$.
+Pick $m \in M$ whose annihilator is a prime $\mathfrak p$.
+If $m \in M_{n-1}$ we are done by induction. If not,
+then $m$ maps to a nonzero element of $M/M_{n-1} \cong
+R/\mathfrak p_n$. Hence we have $\mathfrak p \subset \mathfrak p_n$.
+If equality does not hold, then we can find $f \in \mathfrak p_n$,
+$f \not\in \mathfrak p$. In this case the annihilator of $fm$ is still
+$\mathfrak p$ and $fm \in M_{n-1}$. Thus we win by induction.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-finite-ass}
+Let $R$ be a Noetherian ring.
+Let $M$ be a finite $R$-module.
+Then $\text{Ass}(M)$ is finite.
+\end{lemma}
+
+\begin{proof}
+Immediate from Lemma \ref{lemma-ass-filter} and
+Lemma \ref{lemma-filter-Noetherian-module}.
+\end{proof}
+
+\begin{proposition}
+Let $R$ be a Noetherian ring.
+Let $M$ be a finite $R$-module.
+The following sets of primes are the same:
+\begin{enumerate}
+\item The minimal primes in the support of $M$.
+\item The minimal primes in $\text{Ass}(M)$.
+\item For any filtration $0 = M_0 \subset M_1 \subset \ldots
+\subset M_{n-1} \subset M_n = M$ with $M_i/M_{i-1} \cong R/\mathfrak p_i$
+the minimal primes of the set $\{\mathfrak p_i\}$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Part of this we saw in Lemma \ref{lemma-filter-minimal-primes-in-support}.
+It suffices to prove that if $\mathfrak p$ is a minimal element of
+the set $\{\mathfrak p_i\}$ then it is the annihilator of
+an element of $M$. Let $i$ be minimal such that
+$\mathfrak p = \mathfrak p_i$.
+Pick $m \in M_i$, $m \not \in M_{i-1}$. The annihilator of $m$ 
+is contained in $\mathfrak p_i = \mathfrak p$ and contains
+$\mathfrak p_1 \mathfrak p_2 \ldots \mathfrak p_i$. By our choice of
+$i$ we have $\mathfrak p_1 \mathfrak p_2 \ldots \mathfrak p_{i-1}
+\not \subset \mathfrak p_i$. Pick
+$f \in \mathfrak p_1 \mathfrak p_2 \ldots \mathfrak p_{i-1}$,
+$f \not \in \mathfrak p$. Then $fm$ has annihilator $\mathfrak p$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-ass-zero-divisors}
+Let $R$ be a Noetherian ring.
+Let $M$ be a finite $R$-module.
+The union $\bigcup_{\mathfrak q \in \text{Ass}(M)} \mathfrak q$
+is the set elements of $R$ which are zero divisors on $M$.
+\end{lemma}
+
+\begin{proof}
+Any element in any associated prime clearly is a zero divisor
+on $M$. Conversely, suppose $x \in R$ is a zero divisor on $M$.
+Consider the submodule $N = \{m \in M \mid xm = 0\}$.
+Since $N$ is not zero it has an associated prime $\mathfrak q$,
+and clearly $x \in \mathfrak q$. But just as clearly $\mathfrak q$
+is also an associated prime of $M$.
+\end{proof}
+
+
 
 \section{Regular sequences and depth}
 \label{section-depth}
@@ -4350,10 +4439,6 @@ whose leading coefficient is not in $\mathfrak m$. Hence
 $f$ is not a zero divisor in $R[x]_{\mathfrak q}$.
 By Lemma \ref{lemma-exact-mod-x} the complex
 with terms $F_i/fF_i$ is a resolution of $M/fM$. 
-
-
-
-
 \end{proof}
 
 \noindent
@@ -4363,6 +4448,279 @@ regular local rings have finite global dimension, and so all
 the localizations have finite local dimension. As explained
 above we will see later that these localizations are in fact
 regular as well.
+
+\section{What makes a complex exact}
+\label{section-complex-exact}
+
+\noindent
+Some of this material can be found in a paper by Buchsbaum and Eisenbud.
+
+\begin{situation}
+\label{situation-complex}
+Here $R$ is a ring, and we have a complex
+$$
+0
+\to
+R^{n_e}
+\xrightarrow{\varphi_e}
+R^{n_{e-1}}
+\xrightarrow{\varphi_{e-1}}
+\ldots
+\xrightarrow{\varphi_{i+1}}
+R^{n_i}
+\xrightarrow{\varphi_i}
+R^{n_{i-1}}
+\xrightarrow{\varphi_{i-1}}
+\ldots
+\xrightarrow{\varphi_1}
+R^{n_0}
+$$
+\end{situation}
+
+\begin{lemma}
+\label{lemma-add-trivial-complex}
+In Situation \ref{situation-complex}.
+Suppose $R$ is a local ring with maximal ideal $\mathfrak m$.
+Suppose that for some $i$, $e \leq i \leq 1$
+some matrix coefficient of the map $\varphi_i$. Then the complex
+$0 \to R^{n_e} \to R^{n_{e-1}} \to \ldots \to R^{n_0}$
+is isomorphic to the direct sum of a complex
+$0 \to R^{n_e} \to \ldots \to R^{n_i - 1} \to
+R^{n_{i-1} - 1} \to \ldots \to R^{n_0}$
+and the complex $0 \to 0 \to \ldots \to R \to R \to 0 \to \ldots \to 0$
+where the map is the identity.
+\end{lemma}
+
+\begin{proof}
+The assumption means, after a change of basis of
+$R^{n_i}$ and $R^{n_{i-1}}$ that the first basis
+vector of $R^{n_i}$ is mapped via $\varphi_i$ to the first basis
+vector of $R^{n_{i-1}}$. Let $e_j$ denote the
+$j$th basis vector of $R^{n_i}$ and $f_k$ the $k$th
+basis vector of $R^{n_{i-1}}$. Write $\varphi_i(e_j) 
+= \sum a_{jk} f_k$. So $a_{1k} = 0$ unless $k = 1$
+and $a_{11} = 1$. Change basis on $R^{n_i}$ again
+by setting $e'_j = e_j - a_{j1} e_1$ for $j > 1$.
+After this change of coordinates we have $a_{j1} = 0$
+for $j > 1$. Note the image
+of $R^{n_{i+1}} \to R^{n_i}$ is contained in the
+subspace spanned by $e_j$, $j > 1$. Note also
+that $R^{n_{i-1}} \to R^{n_{i-2}}$ has to annihilate
+$f_1$ since it is in the image. These conditions
+and the shape of the matrix $(a_{jk})$ for $\varphi_i$
+imply the lemma.
+\end{proof}
+
+\noindent
+Let us say that an acyclic complex of the form
+$\ldots \to 0 \to R \to R \to 0 \to \ldots $
+is {\it trivial}. The lemma above clearly says that
+any finite complex of finite free modules over a local ring is up to direct
+sums with trivial complexes the same as a complex
+all of whose maps have all matrix coefficients in 
+the maximal ideal.
+
+\begin{lemma}
+\label{lemma-exact-artinian-local}
+In Situation \ref{situation-complex}.
+Let $R$ be a Artinian local ring.
+Suppose that $0 \to R^{n_e} \to R^{n_{e-1}}
+\to \ldots \to R^{n_0}$ is an exact complex.
+Then the complex is isomorphic to a direct sum of
+trivial complexes.
+\end{lemma}
+
+\begin{proof}
+By induction on the integer $\sum n_i$.
+Clearly $\text{Ass}(R) = \{\mathfrak m\}$.
+Pick $x \in R$, $x \not = 0$, $\mathfrak m x = 0$.
+Pick a basis vector $e_i \in R^{n_e}$.
+Since $xe_i$ cannot be mapped to zero by
+exactness we deduce that some matrix 
+coefficient of the map $R^{n_e} \to R^{n_{e-1}}$.
+Lemma \ref{lemma-add-trivial-complex} then allows
+us to decrease $\sum n_i$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-ideal-nonzerodivisor}
+Let $R$ be a Noetherian local ring with maximal ideal $\mathfrak m$.
+Let $I \subset \mathfrak m$ be an ideal.
+The following are equivalent:
+\begin{enumerate}
+\item There exists a nonzero divisor in $I$.
+\item We have $\mathfrak m \not\in \text{Ass}(R)$ and
+$I \not \subset \mathfrak q$ for all $\mathfrak q \in \text{Ass}(R)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+If there exists a nonzero divisor $x$ in $\mathfrak m$,
+then it is clear that no nonzero element of $R$ has annihilator
+$\mathfrak m$. Also, $x$ clearly cannot be in any associated
+prime of $R$. Conversely, suppose $I \not \subset \mathfrak q$
+for all $\mathfrak q \in \text{Ass}(R)$. In this case we can
+choose $x \in I$, $x \not \in \mathfrak q$ for all
+$\mathfrak q \in \text{Ass}(R)$ by Lemma \ref{lemma-silly}.
+By Lemma \ref{lemma-ass-zero-divisors} the element $x$
+is not a zero divisor.
+\end{proof}
+
+\begin{definition}
+\label{definition-rank}
+Let $R$ be a ring. Suppose that $\varphi : R^m \to R^n$ is a map
+of finite free modules.
+\begin{enumerate}
+\item The {\it rank} of $\varphi$ is the maximal $r$ such that
+$\wedge^r \varphi : \wedge^r R^m \to \wedge^r R^n$ is nonzero.
+\item We let $I(\varphi) \subset R$ be the ideal generated by
+the $r\times r$ minors of the matrix of $\varphi$, where $r$
+is the rank as defined above.
+\end{enumerate}
+\end{definition}
+
+
+\begin{lemma}
+In Situation \ref{situation-complex}, suppose the complex is
+isomorphic to a direct sum of trivial complexes. Then
+for all $i$, $1 \leq i \leq e$ we have
+$\text{rank}(\varphi_{i+1}) + \text{rank}(\varphi_i)
+= n_i$ and each $I(\varphi_i) = R$.
+\end{lemma}
+
+\begin{proof}
+We may assume the complex is the direct sum of trivial
+complexes. In this case the assertion is clear since for
+each $i$ we can split the basis elements of $R^{n_i}$
+into those that get mapped to by a basis element, and those
+that map to a basis element.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-exact-length-1}
+Let $R$ be a local Noetherian ring.
+Suppose that $\varphi : R^m \to R^n$ is a map
+of finite free modules. The following are equivalent
+\begin{enumerate}
+\item $\varphi$ is injective.
+\item the rank of $\varphi$ is $m$ and
+either $I(\varphi) = R$ or it contains a nonzero divisor.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+If any matrix coefficient of $\varphi$ is not in $\mathfrak m$,
+then we apply lemma \ref{lemma-add-trivial-complex} to write
+$\varphi$ as the sum of $1 : R \to R$ and a map
+$\varphi' : R^{m-1} \to R^{n-1}$. It is easy to see that
+the lemma for $\varphi'$ implies the lemma for $\varphi$.
+Thus we may assume from the outset that all the matrix 
+coefficients of $\varphi$ are in $\mathfrak m$.
+
+\medskip\noindent
+Suppose $\varphi$ is injective. We may assume $m > 0$.
+Let $q \in \text{Ass}(R)$. Let $x \in R$ be an element
+whose annihilator is $\mathfrak q$. Note that $\varphi$
+induces a injective map $xR^m \to xR^n$ which is isomorphic
+to the map $\varphi_{\mathfrak q} : (R/\mathfrak q)^m \to (R/\mathfrak q)^n$
+induced by $\varphi$. Since $R/\mathfrak q$ is a domain
+we deduce immediately by localizing to its fraction field
+that the rank of $\varphi_{\mathfrak q}$ is $m$ and that
+$I(\varphi_{\mathfrak q})$ is not the zero ideal. Hence we
+conclude by Lemma \ref{lemma-ideal-nonzerodivisor}.
+
+\medskip\noindent
+Conversely, assume that the rank of $\varphi$ is $m$
+and that $I(\varphi)$ contains a non zerodivisor.
+The rank being $m$ implies $n \geq m$. Let $I$ be
+a subset $I \subset \{1,\ldots,n\}$ of cardinality
+$m$ and denote $p_I : R^{n} \to R^m$ the projection
+corresponding to the coordinate functions whose indices
+are in $I$. Denote $\varphi_I$ the composition
+$p_I \circ \varphi$ and $a_I = \det(\varphi_I)$.
+our assumption is that there exist $b_I \in R$ such
+that $x = \sum b_I a_I$ is a nonzero divisor.
+Let $\psi_I : R^m \to R^m$ be a the adjoint map, i.e.,
+such that $\varphi_I \circ \psi_I = \psi_I \circ \varphi_I = 
+a_I \text{id}_{R^m}$. Suppose $v \in R^m$ is in the kernel of $\varphi$.
+Then $\varphi_I(v) = 0$. Hence $xv = \sum b_I a_I v 
+= \sum b_I (\psi_I \circ \varphi_I)(v)
+= \sum b_I \psi_I(\varphi_I(v)) = 0$. Thus $v = 0$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-exact-depth-zero-local}
+In Situation \ref{situation-complex}. Suppose $R$ is
+a local Noetherian ring with maximal ideal $\mathfrak m$.
+Assume $\mathfrak m \in \text{Ass}(R)$, in other words
+$R$ has depth $0$. Suppose that the complex is exact.
+In this case the complex is isomoprhic to a direct sum of trivial
+complexes.
+\end{lemma}
+
+\begin{proof}
+The proof is the same as in \ref{lemma-exact-artinian-local},
+except using Lemma \ref{lemma-exact-length-1} to garantee
+that $I(\varphi_e)$
+\end{proof}
+
+\begin{lemma}
+\label{lemma-div-x-exact-one-less}
+In Situation \ref{situation-complex}, suppose $R$ is
+a local Noetherian ring, and suppose that the complex
+is exact. Let $x$ be an element of the maximal ideal
+which is a nonzero divisor. The complex
+$0 \to (R/xR)^{n_e} \to \ldots \to (R/xR)^{n_1}$
+is still exact.
+\end{lemma}
+
+\begin{proof}
+Follows easily from the snake lemma.
+\end{proof}
+
+\begin{proposition}
+In Situation \ref{situation-complex}, suppose $R$ is
+a local Noetherian ring. The complex is exact if and
+only if for all $i$, $1 \leq i \leq e$
+the following two conditions are satisfied:
+\begin{enumerate}
+\item we have $\text{rank}(\varphi_{i+1}) + \text{rank}(\varphi_i)
+= n_i$, and
+\item $I(\varphi_i) = R$, or $I(\varphi_i)$ contains a
+regular sequence of length $i$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+This proof is very similar to the proof of Lemma
+\ref{lemma-exact-length-1}.
+As in the proof of Lemma \ref{lemma-exact-length-1} we may assume
+that all matrix entries of each $\varphi_i$ are elements of
+the maximal ideal. We may also assume that $e \geq 1$.
+
+\medskip\noindent
+Assume the complex is exact. Let $q \in \text{Ass}(R)$.
+Note that the ring $R_{\mathfrak q}$ has depth $0$.
+Thus we see that 
+
+Let $x \in R$ be an element whose annihilator is $\mathfrak q$.
+Note that the maps $\varphi_i$
+induce maps $xR^{n_i} \to xR^{n_{i-1}}$ which are isomorphic
+to the maps $\varphi_{i, \mathfrak q} : (R/\mathfrak q)^{n_i}
+\to (R/\mathfrak q)^{n_{i-1}}$ induced by $\varphi_i$.
+
+
+Since $R/\mathfrak q$ is a domain
+we deduce immediately by localizing to its fraction field
+that the rank of $\varphi_{\mathfrak q}$ is $m$ and that
+$I(\varphi_{\mathfrak q})$ is not the zero ideal. Hence we
+conclude by Lemma \ref{lemma-ideal-nonzerodivisor}.
+
+
+
+
+\end{proof}
+
 
 \section{Dimension of finite type algebras over fields}
 \label{section}
