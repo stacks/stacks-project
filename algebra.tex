@@ -5293,6 +5293,10 @@ if $R$ is Noetherian and every $R$ algebra of finite
 type is catenary.
 \end{definition}
 
+\noindent
+By Lemma \ref{lemma-quotient-catenary}
+this just means that $R$ and any polynomial
+algebra $R[x_1,\ldots,x_n]$ is catenary.
 
 \begin{lemma}
 \label{lemma-CM-ring-catenary}
@@ -5300,6 +5304,10 @@ A Cohen-Macaulay ring is universally catenary.
 \end{lemma}
 
 \begin{proof}
+Since a polynomial algebra over $R$ is Cohen-Macaulay,
+by Lemma \ref{lemma-CM-polynomial-algebra},
+it suffices to show that a Cohen-Macaulay ring is
+catenary.
 Let $R$ be Cohen-Macaulay and $\mathfrak p \subset \mathfrak q$
 primes of $R$. By definition $R_{\mathfrak q}$ and
 $R_{\mathfrak p}$ are Cohen-Macaulay.
@@ -5380,12 +5388,13 @@ $g \in \mathfrak m^{b+1}$. Contradiction.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-regular-ring-CM}
 Let $R$ be a regular local ring and let
 $x_1,\ldots,x_d$ be a minimal set of generators
 for the maximal ideal $\mathfrak m$. Then
 $x_1,\ldots,x_d$ is a regular sequence, and
 each $R/(x_1,\ldots,x_c)$ is a regular local ring
-of dimension $d - c$.
+of dimension $d - c$. In particular $R$ is Cohen-Macaulay.
 \end{lemma}
 
 \begin{proof}
@@ -5909,13 +5918,29 @@ The case of going down is exactly the same.
 \end{proof}
 
 \begin{lemma}
-\label{lemma-integral-dim-up}
-Suppose that $R \to S$ is a ring map such that $S$ is integral over $R$.
-Then $\dim (R) \geq \dim(S)$.
+\label{lemma-going-up-maximal-on-top}
+Suppose that $R \to S$ is a ring map with the going up property,
+see Definition \ref{definition-going-up}. If
+$\mathfrak q \subset S$ is a maximal ideal.
+then the inverse image of $\mathfrak q$ in $R$
+is a maximal ideal too.
 \end{lemma}
 
 \begin{proof}
-Immediate from Lemma \ref{lemma-integral-no-inclusion} and the definitions.
+Trivial.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-integral-dim-up}
+Suppose that $R \to S$ is a ring map such that $S$ is integral over $R$.
+Then $\dim (R) \geq \dim(S)$, and every closed point of $\text{Spec}(S)$
+maps to a closed point of $\text{Spec}(R)$.
+\end{lemma}
+
+\begin{proof}
+Immediate from Lemmas \ref{lemma-integral-no-inclusion} and
+\ref{lemma-going-up-maximal-on-top}
+and the definitions.
 \end{proof}
 
 \begin{lemma}
@@ -5931,6 +5956,12 @@ This is a combination of Lemmas
 \ref{lemma-dimension-going-up}, and
 \ref{lemma-integral-dim-up}.
 \end{proof}
+
+
+
+
+
+
 
 
 
@@ -6021,8 +6052,9 @@ a chain of primes of length $n$ in $k[x_1,\ldots,x_n]_{\mathfrak m}$.
 
 \begin{proposition}
 \label{proposition-finite-gl-dim-polynomial-ring}
-A polynomial algebra over a field is a regular ring.
-It has global dimension equal to the number of variables.
+A polynomial algebra in $n$ variables over a field is a regular ring.
+It has global dimension $n$. All localizations at maximal ideals
+are regular local rings of dimension $n$.
 \end{proposition}
 
 \begin{proof}
@@ -6094,36 +6126,101 @@ we see (a), (b) hold for $k[z_1,\ldots,z_r]
 
 \begin{lemma}
 \label{lemma-dimension-prime-polynomial-ring}
-Let $k$ be a field. Let
-$\mathfrak p \subset \mathfrak q \subset k[x_1,\ldots,x_n]$
-be prime ideals.
-Let $r = \text{trdeg}(\kappa(\mathfrak p)/k)$ and
-$s = \text{trdeg}(\kappa(\mathfrak q)/k)$. Then
+Let $k$ be a field. Let $\mathfrak p \subset k[x_1,\ldots,x_n]$
+be a prime ideal. Let $S = k[x_1,\ldots,x_n]/\mathfrak p$.
+Let $r = \text{trdeg}(\kappa(\mathfrak p)/k)$ be the transcendence
+degree of the field of fractions of $S$ over $k$. Then
 \begin{enumerate}
-\item $r \geq s$ with equality if and only if $\mathfrak p =
-\mathfrak q$,
-\item
-$\dim (k[x_1,\ldots,x_n]/\mathfrak p) = r$ and similarly for $\mathfrak q$,
-\item
-$\dim (k[x_1,\ldots,x_n]_{\mathfrak p}) = n - r$ and similarly
-for $\mathfrak q$, and
-\item every maximal chain of primes 
+\item $\dim(S) = r$,
+\item any maximal chain of primes in $S$ has length $r$,
+\item $\dim(k[x_1,\ldots,x_n]_{\mathfrak p}) = n - r$,
+\item for any maximal ideal $\mathfrak m \subset S$
+we have $\dim(S_{\mathfrak m}) = r$,
+\item for any prime ideal $\mathfrak q \subset S$ we
+have $\dim(S_{\mathfrak q}) + \dim(S/\mathfrak q) = r$,
+and all maximal chains of primes in $S/\mathfrak q$
+(resp.\ $S_{\mathfrak q}$) have the same length.
+\item if $\mathfrak p \subset \mathfrak q \subset k[x_1,\ldots,x_n]$
+is another prime, then every maximal chain of primes 
 $\mathfrak p = \mathfrak p_0 \subset \mathfrak p_1 \subset \ldots
 \subset \mathfrak p_e = \mathfrak q$
-between $\mathfrak p$ and
-$\mathfrak q$ has length $e = r - s$.
+between $\mathfrak p$ and $\mathfrak q$ has length
+$e = r - \text{trdeg}(\kappa(\mathfrak q))$.
 \end{enumerate}
 \end{lemma}
 
 \begin{proof}
-First pick $k[y_1,\ldots,y_{r'}] \subset k[x_1,\ldots,x_n]/\mathfrak p$
+First pick $k[y_1,\ldots,y_{r'}] \subset S$
 as in Lemma \ref{lemma-Noether-normalization}. By
 Lemma \ref{lemma-integral-sub-dim-equal} we see
 $r' = \dim (k[x_1,\ldots,x_n]/\mathfrak p)$, because the dimension
-of $k[y_1,\ldots,y_{r'}]$ is $r'$ (by
-Proposition \ref{proposition-finite-gl-dim-polynomial-ring}).
+of $k[y_1,\ldots,y_{r'}]$ is $r'$
+(by Proposition \ref{proposition-finite-gl-dim-polynomial-ring}).
 On the other hand, the field extension $k(y_1,\ldots,y_{r'}) \subset
 \kappa(\mathfrak p)$ is finite and hence algebraic and so $r' = r$.
+At this point by Lemma \ref{lemma-integral-sub-dim-equal}
+every maximal ideal $\mathfrak m \subset S$ maps to a
+maximal ideal $\mathfrak m' \subset k[y_1,\ldots,y_{r'}]$
+and then the same lemma again applied to the finite
+ring map $k[y_1,\ldots,y_{r'}]_{\mathfrak m'} \subset S_{\mathfrak m}$
+implies the dimension of $S_{\mathfrak m}$ is $r$. (This uses
+Proposition \ref{proposition-finite-gl-dim-polynomial-ring} again.)
+
+\medskip\noindent
+Choose a maximal ideal $\mathfrak p \subset \mathfrak m$.
+The ring $k[x_1,\ldots,x_n]_{\mathfrak m}$ is regular
+of dimension $n$ (see Proposition
+\ref{proposition-finite-gl-dim-polynomial-ring})
+and hence Cohen-Macaulay of dimension $n$ by
+Lemma \ref{lemma-regular-ring-CM}.
+Thus by Lemma \ref{lemma-CM-dim-formula} we have 
+$$
+\dim(k[x_1,\ldots,x_n]_{\mathfrak p}) + 
+\dim(
+k[x_1,\ldots,x_n]_{\mathfrak m}/{\mathfrak p}k[x_1,\ldots,x_n]_{\mathfrak m}
+)
+= n.
+$$
+We just proved that the ring 
+$k[x_1,\ldots,x_n]_{\mathfrak m}/{\mathfrak p}k[x_1,\ldots,x_n]_{\mathfrak m}
+= S_{\mathfrak m / \mathfrak p}$
+has dimension $r$. This proves that
+$\dim(k[x_1,\ldots,x_n]_{\mathfrak p}) = n - r$.
+
+\medskip\noindent
+At this point we have proven the assertion on the dimension of $S$,
+and $S_{\mathfrak m}$ and on the dimension of
+$k[x_1,\ldots,x_n]_{\mathfrak p}$. Also,
+any maximal chain of primes in $k[x_1,\ldots,x_n]$ has length
+$n$ because each localization $k[x_1,\ldots,x_n]$ at a maximal
+ideal is Cohen-Macaulay of dimension $n$.
+The combination of these results implies the other statements.
+
+\medskip\noindent
+For example, a maximal chain of primes in $S$, say of length $e$
+really is a maximal
+chain of primes between $\mathfrak p$ and a maximal ideal of
+$k[x_1,\ldots,x_n]$. We may extend this to a maximal chain of
+primes in $k[x_1,\ldots,x_n]$ by a maximal chain of primes between
+$(0)$ and $\mathfrak p$ which has length $n-r$ by the above.
+Then $e+n-r = n$ and we see $e= r$ as desired.
+
+\medskip\noindent
+Also, say $\mathfrak q \subset S$ is a prime. Take any maximal
+chain of primes in $S/{\mathfrak q}$; this corresponds
+to a maximal chain of primes in $S$ containing $\mathfrak q$,
+say of length $a$. So $a \leq \dim(S/{\mathfrak q})$ and equality
+holds for some choice of some chain.
+Take a maximal chain of primes in
+$S_{\mathfrak q}$; this corresponds to a maximal chain of primes
+in $S$ contained in $\mathfrak q$, say of length $b$.
+So $b \leq \dim(S_{\mathfrak q})$, and equality holds for some
+choice of some chain.
+We may combine these to form a corresponding maximal chain
+of primes in $S$ of length $a + b$. By the above $a + b = r$
+whenever you choose chains as above. Hence 
+$\dim(S/{\mathfrak q}) + \dim(S_{\mathfrak q}) = r$
+and equality holds for any choice of chains.
 
 \end{proof}
 
