@@ -119,6 +119,12 @@ of all the maximal ideals of $R$,
 \label{ideal-generated-by}
 \item the {\it quotient ring} $R/I$,
 \label{quotient-ring}
+\item an ideal $I$ in the ring $R$ is prime if and only if $R/I$
+is a domain,
+\label{characterize-prime-ideal}
+\item an ideal $I$ in the ring $R$ is maximal if and only if the
+ring $R/I$ is a field,
+\label{characterize-maximal-ideal}
 \item if $\varphi : R_1 \to R_2$ is a ring homomorphism, and if
 $I \subset R_2$ is an ideal, then $\varphi^{-1}(I)$ is an
 ideal of $R_1$,
@@ -199,12 +205,25 @@ one can take $N$ to be the inverse image of $N'$ in $M$,
 \label{submodule-in-localization}
 \item if $S = \{1, f, f^2,\ldots\}$ then $R_f = S^{-1}R$, and
 $M_f = S^{-1}M$,
-\label{localiza-f}
-\item if $S = R \setminus \mathfrak p$, then $R_{\mathfrak p} = S^{-1}R$
+\label{localize-f}
+\item if $S = R \setminus \mathfrak p = \{x\in R \mid x\not\in \mathfrak p\}$
+for some prime ideal $\mathfrak p$,
+then it is customary to denote $R_{\mathfrak p} = S^{-1}R$
 and $M_{\mathfrak p} = S^{-1}M$,
 \label{localize-p}
+\item a {\it local ring} is a ring with exactly one maximal ideal,
+\label{local-ring}
+\item if $\mathfrak p$ is a prime in $R$, then $R_{\mathfrak p}$ is
+a local ring with maximal ideal $\mathfrak p R_{\mathfrak p}$,
+\label{localize-p-local-ring}
+\item the {\it residue field}, denoted $\kappa(\mathfrak p)$,
+of the prime $\mathfrak p$ in the
+ring $R$ is the quotient $R_{\mathfrak p}/{\mathfrak p}R_{\mathfrak p}
+= (R \setminus \mathfrak p)^{-1}R/{\mathfrak p}$,
+\label{residue-field}
 \item given $R$ and $M_1$, $M_2$ the {\it tensor product} 
 $M_1 \otimes_R M_2$,
+\label{tensor-product}
 \item etc.
 \end{enumerate}
 
@@ -261,13 +280,16 @@ V(I \cap J)$.
 \item If $(I_a)_{a\in A}$ is a set of ideals of $R$ then
 $\cap_{a\in A} V(I_a) = V(\cup_{a\in A} I_a)$.
 \item If $f \in R$, then $D(f) \sqcup V(f) = \text{Spec}(R)$.
-\item If $f\ in R$ then $D(f) = \emptyset$ if and only if $f$
+\item If $f \in R$ then $D(f) = \emptyset$ if and only if $f$
 is nilpotent.
 \item If $f = u f'$ for some unit $u \in R$, then $D(f) = D(f')$.
 \item If $I \subset R$ is an ideal, and $\mathfrak p$ is a prime of
 $R$ with $\mathfrak p \not\in V(I)$, then there exists an $f \in R$
 such that $\mathfrak p \in D(f)$, and $D(f) \cap V(I) = \emptyset$.
 \item If $f,g \in R$, then $D(fg) = D(f) \cap D(g)$.
+\item If $f_i \in R$ for $i \in I$, then
+$\bigcup_{i\in I} D(f_i)$ is the complement of $V(\{f_i \}_{i\in I})$
+in $\text{Spec}(R)$.
 \end{enumerate}
 \end{lemma}
 
@@ -351,7 +373,7 @@ by $\mathfrak p \mapsto S^{-1}\mathfrak p$.
 \end{lemma}
 
 \begin{proof}
-Denote the left hand side of the arrow of the lemma by $D$.
+Denote the right hand side of the arrow of the lemma by $D$.
 Choose a prime $\mathfrak p' \subset R_f$ and let $\mathfrak p$
 the inverse image of $\mathfrak p'$ in $R$. Since $\mathfrak p'$
 does not contain $1$ we see that $\mathfrak p$ does not contain
@@ -438,7 +460,8 @@ S/\mathfrak q \ar[r]
 &
 \kappa(\mathfrak q) = \text{f.f.}(S/\mathfrak q)
 \\
-\kappa(\mathfrak p) \otimes_R S = S_{\mathfrak p}/{\mathfrak p}S_{\mathfrak p} \ar[u]
+\kappa(\mathfrak p) \otimes_R S =
+S_{\mathfrak p}/{\mathfrak p}S_{\mathfrak p} \ar[u]
 &
 S_{\mathfrak p} \ar[u] \ar[l]
 &
@@ -498,16 +521,16 @@ Let $R$ be a ring. The space $\text{Spec}(R)$ is quasicompact.
 It suffices to prove that any covering of $\text{Spec}(R)$
 by standard opens can be refined by a finite covering.
 Thus suppose that $\text{Spec}(R) = \cup D(f_i)$
-for a set of elements $f_i$ of $R$. This means that
+for a set of elements $\{f_i\}_{i\in I}$ of $R$. This means that
 $\cap V(f_i) = \emptyset$. According to Lemma
 \ref{lemma-Zariski-topology} this means that
 $V(\{f_i \}) = \emptyset$. According to the
 same lemma this means that the ideal generated
 by the $f_i$ is the unit ideal of $R$. This means
-that we can write $1$ as a {\it finite} sum like so
-$1 = \sum_{i \in finite\ list} r_i f_i$.
+that we can write $1$ as a {\it finite} sum:
+$1 = \sum_{i \in J} r_i f_i$ with $J \subset I$ finite.
 And then it follows that $\text{Spec}(R) 
-= \cup_{i \in finite\ list} D(f_i)$.
+= \cup_{i \in J} D(f_i)$.
 \end{proof}
 
 \begin{lemma}
@@ -547,27 +570,61 @@ a closed subset.
 
 \begin{lemma}
 \label{lemma-disjoint-decomposition}
-Let $R$ be a ring. There is a 1-1 correspondence between
+Let $R$ be a ring. For each $U \subset \text{Spec}(R)$
+which is open and closed
+there exists a unique idempotent $e \in R$ such that
+$e$ maps to $1$ in $\kappa(\mathfrak p)$ for all
+$\mathfrak p \in U$ and maps to $0$ in
+$\kappa(\mathfrak p)$ for all $\mathfrak p \not\in U$.
+This induces a 1-1 correspondence between
 open and closed subsets $U \subset \text{Spec}(R)$ and
-idempotents $e \in R$, as in the proof of Lemma
-\ref{lemma-spec-product}.
+idempotents $e \in R$.
 \end{lemma}
 
 \begin{proof}
 Let $U \subset \text{Spec}(R)$ be open and closed.
-Since $U$ is closed it is quasi-compact by Lemma \ref{lemma-quasicompact}.
-Write $U = \bigcup D(f_i)$ as a finite union of standard opens
-and also write $U = V(I)$ for some ideal $I \subset R$.
-Then $IR_{f_i} = 0$, because $D(f_i) \subset V(I)$.
-This means that for all $x\in I$ there exists an $n$
-such that $f_i^n x = 0$. The fact that $U = \bigcup D(f_i)$
-means that the $f_i$ generate the unit ideal in
-$R/I$. Hence let us write $ 1 = x + \sum a_i f_i$
-for some $x \in I$ and $a_i \in R$. Set $y = \sum a_i f_i$.
-By the above we have $xy^n = 0$ for some $n$.
-Consider the equation $1 = 1^n = (x + y)^n =
-xz + y^n$ for some $z \in R$. At this point 
-$(xz) y^n = 0$ and hence both $xz$ and $y^n$ are idempotents.
+Since $U$ is closed it is quasi-compact by
+Lemma \ref{lemma-quasicompact}, and similarly for
+its complement.
+Write $U = \bigcup_{i=1}^n D(f_i)$ as a finite union of standard opens.
+Similarly, write $\text{Spec}(R) \setminus U = \bigcup_{j=1}^m D(g_j)$
+as a finite union of standard opens. Since $\emptyset =
+D(f_i) \cap D(g_j) = D(f_i g_j)$ we see that $f_i g_j$ is
+nilpotent by Lemma \ref{lemma-Zariski-topology}.
+Let $I = (f_1, \ldots, f_n) \subset R$ and let
+$J = (g_1, \ldots, g_m) \subset R$.
+Note that $V(J)$ equals $U$, that $V(I)$
+equals the complement of $U$, so $\text{Spec}(R) = V(I) \coprod V(J)$.
+By the remark on nilpotency above,
+we see that $(IJ)^N = (0)$ for some sufficiently large integer $N$.
+Since $\bigcup D(f_i) \cup \bigcup D(g_j) = \text{Spec}(R)$
+we see that $I + J = R$, see Lemma \ref{lemma-Zariski-topology}.
+By raising this equation to the $2N$th power we conclude that
+$I^N + J^N = R$. Write $1 = x + y$ with $x \in I^N$ and $y \in J^N$.
+Then $1 = (x + y)^2 = x^2 + y^2$ because $I^N J^N = (0)$.
+Then $z = x - x^2 \in I^N \cap J^N$. Thus $zx = 0$ and $z^2 = 0$.
+Hence $(x - z) - (x - z)^2 = x - x^2 - z = 0$.
+In other words, $e = x - z$ is an idempotent contained in
+$I^N \subset I$, and the idempotent $e' = 1 - e = y + z$
+is contained in $J^N \subset J$. This shows that the
+idempotent $e$ maps to $1$ in every residue field
+$\kappa(\mathfrak p)$ for $\mathfrak p \in V(J)$ and
+that $e$ maps to $0$ in $\kappa(\mathfrak p)$
+for every $\mathfrak p \in V(I)$.
+
+\medskip\noindent
+To see uniqueness suppose that $e_1, e_2$ are
+distinct idempotents in $R$. We have to show there
+exists a prime $\mathfrak p$ such that $e_1 \in \mathfrak p$
+and $e_2 \not \in \mathfrak p$, or conversely.
+Write $e_i' = 1 - e_i$. If $e_1 \not = e_2$, then
+$0 \not = e_1 - e_2  = e_1(e_2 + e_2') - (e_1 + e_1')e_2
+= e_1 e_2' - e_1' e_2$. Hence either the idempotent
+$e_1 e_2' \not = 0$ or $e_1' e_2 \not = 0$. An idempotent
+is not nilpotent, and hence we find a prime 
+$\mathfrak p$ such that either $e_1e_2' \not \in \mathfrak p$
+or $e_1'e_2 \not \in \mathfrak p$, by Lemma \ref{lemma-Zariski-topology}.
+It is easy to see this gives the desired prime.
 \end{proof}
 
 \begin{lemma}
@@ -580,7 +637,7 @@ is a field.
 
 \begin{proof}
 If some element $x$ of ${\mathfrak p}R_{\mathfrak p}$
-is not nilpotent, then $D(x) \not\emptyset$, see
+is not nilpotent, then $D(x) \not = \emptyset$, see
 Lemma \ref{lemma-Zariski-topology}. This contradicts
 the minimality of $\mathfrak p$. If $R$ is reduced,
 then ${\mathfrak p}R_{\mathfrak p} = 0$ and

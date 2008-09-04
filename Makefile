@@ -16,7 +16,7 @@ FUNNYS = $(patsubst %,%.funny,$(LIJST_FDL))
 HTMLS = stacks.html contents.html downloads.html
 
 # Files in INSTALLDIR will be overwritten.
-INSTALLDIR=..
+INSTALLDIR=/home/dejong/html/algebraic_geometry/stacks-git
 
 # Make all the funny targets first so crossreferences work.
 .PHONY: all
@@ -68,17 +68,13 @@ fdl.funny : fdl.tex
 	echo "touch $@" >> logfile.log
 	touch $@
 
-%.ps: %.dvi
-	echo "dvips -o $@ $<" >> logfile.log
-	dvips -o $@ $<
-
 .PHONY: clean
 clean:
 	rm -f *.aux *.bbl *.blg *.dvi *.log *.pdf *.ps *.out *.toc *.html *.funny
 
 .PHONY: backup
 backup: clean
-	cd .. ; tar -cjvf stacks-0.2.tar.bz2 src/
+	cd .. ; tar -cjvf stacks-git.tar.bz2 stacks-git/
 
 # The script scripts/name_html.sh creates name.html in src directory.
 # We do not want an index.html in src! So we concatenate these into
@@ -91,6 +87,5 @@ backup: clean
 	./scripts/$*_html.sh
 
 .PHONY: install
-install: all
-	cp *.pdf *.ps *.dvi $(INSTALLDIR)
-	cat stacks.html contents.html downloads.html > $(INSTALLDIR)/index.html
+install: $(FUNNYS) $(PDFS) $(DVIS) $(HTMLS)
+	cp *.tex *.pdf *.dvi $(INSTALLDIR)
