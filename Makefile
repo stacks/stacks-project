@@ -87,5 +87,5 @@ backup: clean
 	./scripts/$*_html.sh
 
 .PHONY: install
-install: $(FUNNYS) $(PDFS) $(DVIS) $(HTMLS)
+install: $(FUNNYS) $(PDFS) $(DVIS)
 	cp *.tex *.pdf *.dvi $(INSTALLDIR)
