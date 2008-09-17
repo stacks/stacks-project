@@ -3387,9 +3387,53 @@ Then $S/fS$ is flat over $R$.
 Follows directly from Lemma \ref{lemma-mod-injective}.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-free-fibre-flat-free}
+Let $R \to S$ be a local homomorphism of Noetherian
+local rings. Let $\mathfrak m$ be the maximal
+ideal of $R$. Let $M$ be a finite $S$-modules.
+Suppose that (a) $M/\mathfrak mM$
+is a free $S/\mathfrak mS$-module, and (b) $M$ is flat over $R$.
+Then $M$ is free and $S$ is flat over $R$.
+\end{lemma}
 
+\begin{proof}
+Let $\overline{x}_1,\ldots,\overline{x}_n$ be a basis
+for the free module $M/\mathfrak mM$. Choose lifts
+$x_1,\ldots,x_n \in M$ of the $\overline{x}_i$. Let
+$u : S^{\oplus n} \to M$ be the map which maps the $i$th
+standard basis vector to $x_i$. By Lemma \ref{lemma-mod-injective}
+we see that $u$ is injective. On the other hand, by
+Nakayama's Lemma \ref{lemma-NAK} the map is surjective. The
+lemma follows.
+\end{proof}
 
+\begin{lemma}
+\label{lemma-complex-exact-mod}
+Let $R \to S$ be a local homomorphism of local Noetherian
+rings. Let $\mathfrak m$ be the maximal ideal of $R$.
+Let $0 \to F_e \to F_{e-1} \to \ldots \to F_0$
+be a finite complex of finite $S$-modules. Assume that
+each $F_i$ is $R$-flat, and that the complex
+$0 \to F_e/\mathfrak m F_e \to F_{e-1}/\mathfrak m F_{e-1}
+\to \ldots \to F_0 / \mathfrak m F_0$ is exact.
+Then $0 \to F_e \to F_{e-1} \to \ldots \to F_0$
+is exact, and moreover the module
+$\text{Coker}(F_1 \to F_0)$ is $R$-flat.
+\end{lemma}
 
+\begin{proof}
+By induction on $e$. If $e = 1$, then this is exactly
+Lemma \ref{lemma-mod-injective}. If $e > 1$, we see
+by Lemma \ref{lemma-mod-injective} that $F_e \to F_{e-1}$
+is injective and that $C = \text{Coker}(F_e \to F_{e-1})$
+is a finite $S$-module flat over $R$. Hence we can 
+apply the induction hypothesis to the complex
+$0 \to C \to F_{e-2} \to \ldots \to F_0$.
+We deduce that $C \to F_{e-2}$ is injective
+and the exactness of the complex follows, as well
+as the flatness of the cokernel of $F_1 \to F_0$.
+\end{proof}
 
 
 
@@ -9811,6 +9855,11 @@ is an isomorphism.
 $M_\lambda \otimes_{S_\lambda} S_\mu \to S_\mu$
 is an isomorphism.
 \end{enumerate}
+In particular, for every $\lambda \in \Lambda$ we have
+$$
+M = M_\lambda \otimes_{S_\lambda} S
+= M_\lambda \otimes_{R_\lambda} R.
+$$
 \end{lemma}
 
 \begin{proof}
@@ -9834,9 +9883,162 @@ Proof is similar and left to the reader.
 \section{Openness of the flat locus}
 \label{section-open-flat}
 
-\noindent
-In this section we use the auxilliary results of Section
-\ref{section-limits-flat} to prove the following theorem.
+
+\begin{lemma}
+\label{lemma-CM-dim-finite-type}
+Let $k$ be a field. Let $S$ be a finite type
+$k$ algebra. Let $f_1, \ldots, f_i$ be elements
+of $S$. Assume that $S$ is Cohen Macaulay and
+equidimensional of dimension $d$, and that
+$\dim V(f_1,\ldots,f_i) \leq d - i$. Then equality
+holds and $f_1, \ldots, f_i$ forms a regular
+sequence in $S_{\mathfrak q}$ for every prime
+in $V(f_1,\ldots,f_i)$.
+\end{lemma}
+
+\begin{proof}
+This follows from the material in the section
+on Cohen-Macaulay modules and the fact that
+dimensions behave well in finite type algebras
+over fields. FIXME.
+\end{proof}
+
+
+
+\begin{lemma}
+\label{lemma-open-regular-sequence}
+Suppose that $R \to S$ is a ring map which is
+finite type, flat. Let $d$ be an integer
+such that all fibres
+$S \otimes_R \kappa(\mathfrak p)$ are
+Cohen Macaulay and equidimensional
+of dimension $d$. Let $f_1,\ldots,f_i$
+be elements of $S$. The set
+$$
+\{ \mathfrak q \in V(f_1,\ldots,f_i)
+\mid f_1, \ldots, f_i 
+\text{ form a regular sequence on }
+S_{\mathfrak q}/\mathfrak p S_{\mathfrak q}
+\}
+$$
+is open in $V(f_1,\ldots,f_i)$.
+\end{lemma}
+
+\begin{proof}
+Write $\overline{S} = S/(f_1,\ldots,f_i)$.
+Suppose $\mathfrak q$ is an element of the set defined in the
+lemma. Then $\dim_{\mathfrak q}(\overline{S}/R) = d - i$.
+FIXME: add references. By Lemma
+\ref{lemma-dimension-fibres-bounded-open-upstairs}
+we have $\dim_{\mathfrak q'}(\overline{S}/R) \leq d - i$
+for all $\mathfrak q' \in V(f_1,\ldots, f_i) = \text{Spec}(\overline{S})$
+in a neighbourhood of $\mathfrak q$. Thus after replacing
+$S$ by $S_g$ for some $g \in S$, $g \not \in \mathfrak q$
+we may assume that the inequality holds for all
+$\mathfrak q'$. The result follows from Lemma
+\ref{lemma-CM-dim-finite-type}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-exact-on-fibres-open}
+Let $R \to S$ is a ring map.
+Consider a finite homological complex of 
+finite free $S$-modules:
+$$
+F_{\bullet} :
+0
+\to
+S^{n_e}
+\xrightarrow{\varphi_e}
+S^{n_{e-1}}
+\xrightarrow{\varphi_{e-1}}
+\ldots
+\xrightarrow{\varphi_{i+1}}
+S^{n_i}
+\xrightarrow{\varphi_i}
+S^{n_{i-1}}
+\xrightarrow{\varphi_{i-1}}
+\ldots
+\xrightarrow{\varphi_1}
+S^{n_0}
+$$
+For every prime $\mathfrak q$ of $S$ consider the
+complex $\overline{F}_{\bullet, \mathfrak q} =
+F_{\bullet, \mathfrak q} \otimes_R \kappa(\mathfrak p)$
+where $\mathfrak p$ is inverse image of $\mathfrak q$ in $R$.
+Assume there exists an integer $d$ such
+that $R \to S$ is finite type, flat
+with fibres $S \otimes_R \kappa(\mathfrak p)$
+Cohen-Macaulay of dimension $d$.
+The set
+$$
+\{\mathfrak q \in \text{Spec}(S) \mid
+\overline{F}_{\bullet, \mathfrak q}\text{ is exact}\}
+$$
+is open in $\text{Spec}(S)$.
+\end{lemma}
+
+\begin{proof}
+Let $\mathfrak q$ be an element of the set defined in the lemma.
+We are going to use Proposition \ref{proposition-what-exact}
+to show there exists a $g \in S$, $g \not \in \mathfrak q$
+such that $D(g)$ is contained in the set defined in the lemma.
+In other words, we are going to show that after replacing $S$
+by $S_g$, the set of the lemma is all of $\text{Spec}(S)$.
+Thus during the proof we will, finitely often, replace
+$S$ by such a localization.
+Recall that Proposition \ref{proposition-what-exact}
+characterizes exactness of complexes
+in terms of ranks of the maps $\varphi_i$ and the ideals
+$I(\varphi_i)$, in case the ring is local. We first address
+the rank condition. Set
+$r_i = n_i - n_{i+1} + \ldots + (-1)^{e - i} n_e$.
+Note that $r_i + r_{i+1} = n_i$ and note that
+$r_i$ is the expected rank of $\varphi_i$ (in the
+exact case).
+
+\medskip\noindent
+By Lemma \ref{lemma-complex-exact-mod} we see that if
+$\overline{F}_{\bullet, \mathfrak q}$ is exact, then
+the localization $F_{\bullet, \mathfrak q}$ is exact.
+In particular the complex $F_\bullet$ becomes
+exact after localizing by an element
+$g \in S$, $g \not \in \mathfrak q$. In this case
+Proposition \ref{proposition-what-exact} applied
+to all localizations of $S$ at prime ideals
+implies that all $(r_i + 1) \times (r_i + 1)$-minors
+of $\varphi_i$ are zero. Thus we see that the rank of
+of $\varphi_i$ is at most $r_i$.
+
+\medskip\noindent
+Let $I_i \subset S$ denote the ideal generated
+by the $r_i \times r_i$-minors of the matrix
+of $\varphi_i$. By Proposition \ref{proposition-what-exact}
+the complex $\overline{F}_{\bullet, \mathfrak q}$ is exact
+if and only if for every $1 \leq i \leq e$ we have
+either $(I_i)_{\mathfrak q} = S_{\mathfrak q}$ or
+$(I_i)_{\mathfrak q}$ contains a $S_{\mathfrak q}/\mathfrak p
+S_{\mathfrak q}$-regular sequence of length $i$.
+Namely, by our choice of $r_i$ above and by the
+bound on the ranks of the $\varphi_i$ this is the
+only way the conditions of Proposition \ref{proposition-what-exact}
+can be satisfied.
+
+\medskip\noindent
+If $(I_i)_{\mathfrak q} = S_{\mathfrak q}$, then after localizing $S$ at
+some element $g \not\in \mathfrak q$ we may assume that
+$I_i = S$. Clearly, this is an open condition.
+
+\medskip\noindent
+If $(I_i)_{\mathfrak q} \not = S_{\mathfrak q}$, then we have
+a sequence $f_1, \ldots, f_i \in (I_i)_{\mathfrak q}$ which
+form a regular sequence in $S_{\mathfrak q}/\mathfrak pS_{\mathfrak q}$.
+Note that for any prime $\mathfrak q' \subset S$ such that
+$(f_1, \ldots, f_i) \not \subset \mathfrak q'$ we have
+$(I_i)_{\mathfrak q'} = S_{\mathfrak q'}$.
+Thus the result follows from Lemma \ref{lemma-open-regular-sequence}.
+\end{proof}
+
 
 \begin{theorem}
 Let $R$ be a ring. Let $R \to S$ be a ring map of finite
@@ -9850,11 +10052,17 @@ is open in $\text{Spec}(S)$.
 \end{theorem}
 
 \begin{proof}
-Let $\mathfrak q \in \text{Spec}(S)$ be a prime
-such that $M_{\mathfrak q}$ is flat over $R$.
-Let $\mathfrak p \subset R$ be the inverse image
-of $\mathfrak q$ in $R$.
-Note that $M_{\mathfrak q}$ is actually flat over $R_{\mathfrak p}$.
+Let $\mathfrak q \in \text{Spec}(S)$ be a prime.
+Let $\mathfrak p \subset R$ be the inverse image of $\mathfrak q$ in $R$.
+Note that $M_{\mathfrak q}$ is flat over $R$ if and only if 
+it is flat over $R_{\mathfrak p}$. 
+Let us assume that $M_{\mathfrak q}$ is flat over $R$.
+We claim that there exists a $g \in S$, $g \not \in \mathfrak q$
+such that $M_g$ is flat over $R$.
+
+\medskip\noindent
+We first reduce to the case where $R$ and $S$ are
+of finite type over $\mathbf{Z}$.
 Choose a directed partially ordered set $\Lambda$ and
 a system $(R_\lambda \to S_\Lambda, M_\lambda)$
 as in Lemma \ref{lemma-limit-module-finite-presentation}.
@@ -9873,11 +10081,77 @@ Lemma \ref{lemma-limit-module-essentially-finite-presentation}.
 Hence by Lemma \ref{lemma-colimit-eventually-flat}
 we see that for some $\lambda$ the module
 $M_\lambda$ is flat over $R_\lambda$ at the prime
-$\mathfrak q_{\lambda}$. Since $M = M_\lambda \otimes_{S_\lambda} S
-= M_\lambda \otimes_{ \otimes_R} $
+$\mathfrak q_{\lambda}$. Suppose we
+can prove our claim for the system
+$(R_\lambda \to S_\lambda, M_\lambda, \mathfrak q_{\lambda})$.
+In other words, suppose that we can find a $g \in S_\lambda$,
+$g \not\in \mathfrak q_\lambda$ such that $(M_\lambda)_g$
+is flat over $R_\lambda$. By Lemma \ref{lemma-limit-module-finite-presentation}
+we have $M = M_\lambda \otimes_{R_\lambda} R$ and hence
+also $M_g = (M_\lambda)_g \otimes_{R_\lambda} R$. Thus by
+Lemma \ref{lemma-flat-base-change} we deduce the claim
+for the system $(R \to S, M, \mathfrak q)$.
 
+\medskip\noindent
+At this point we may assume that $R$ and $S$ are of finite type
+over $\mathbf{Z}$. We may write $S$ as a quotient of a
+polynomial ring $R[x_1,\ldots,x_n]$. Of course, we may replace
+$S$ by $R[x_1,\ldots,x_n]$ and assume that $S$ is a polynomial
+ring over $R$. In particular we see that $R \to S$ is flat
+and all fibres rings $S \otimes_R \kappa(\mathfrak p)$
+have global dimension $n$.
 
+\medskip\noindent
+Choose a resolution $F_\bullet$ of $M$ over $S$ with each
+$F_i$ finite free, see Lemma \ref{lemma-resolution-by-finite-free}.
+Let $K_n = \text{Ker}(F_{n-1} \to F_{n-2})$. Note that
+$(K_n)_{\mathfrak q}$ is flat over $R$, since each $F_i$
+is flat over $R$ and by assumption on $M$, see Lemma
+\ref{lemma-flat-ses}. In addition, the sequence
+$$
+0 \to
+K_n/\mathfrak p K_n \to
+F_{n-1}/ \mathfrak p F_{n-1} \to
+\ldots \to
+F_0 / \mathfrak p F_0 \to
+M/\mathfrak p M \to
+0
+$$
+is exact upon localizing at $\mathfrak q$, because of vanishing
+of $\text{Tor}_i^{R_\mathfrak p}(\kappa(\mathfrak p), M_{\mathfrak q})$.
+Since the global dimension of $S_\mathfrak q/\mathfrak p S_{\mathfrak q}$
+is $n$ we conclude that $K_n / \mathfrak p K_n$ localized
+at $\mathfrak q$ is a finite free module over 
+$S_\mathfrak q/\mathfrak p S_{\mathfrak q}$. By
+Lemma \ref{lemma-free-fibre-flat-free} $(K_n)_{\mathfrak q}$
+is free over $S_{\mathfrak q}$. In particular, there exists a
+$g \in S$, $g \not \in \mathfrak q$ such that $(K_n)_g$
+is finite free over $S_g$.
+
+\medskip\noindent
+By Lemma \ref{lemma-exact-on-fibres-open}
+there exists a further localization $S_g$ such that
+the complex
+$$
+0 \to K_n \to F_{n-1} \to \ldots \to F_0
+$$
+is exact on {\it all fibres} of $R \to S$. By
+Lemma \ref{lemma-complex-exact-mod}
+this implies that the cokernel of $F_1 \to F_0$ is
+flat. This proves the theorem in the Noetherian case.
 \end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
