@@ -68,9 +68,11 @@ if $e = 1$ or $e = 0$,
 \label{ring-homomorphism}
 \item $\varphi : R_1 \to R_2$ is {\it of finite presentation}, or
 {\it $R_2$ is a finitely presented $R_1$-algebra},
+see Defintion \ref{definition-essentially-finite-p-t},
 \label{ring-homomorphism-finite-presentation}
 \item $\varphi : R_1 \to R_2$ is {\it of finite type}, or
 {\it $R_2$ is a finitely type $R_1$-algebra},
+see Definition \ref{definition-essentially-finite-p-t},
 \label{ring-homomorphism-finite-type}
 \item $\varphi : R_1 \to R_2$ is {\it finite}, or
 {\it $R_2$ is a finite $R_1$-algebra},
@@ -6688,6 +6690,8 @@ R^{n_{i-1}}
 \xrightarrow{\varphi_1}
 R^{n_0}
 $$
+In other words we require $\varphi_i \circ \varphi_{i+1} = 0$
+for $i = 1, \ldots, e - 1$.
 \end{situation}
 
 \begin{lemma}
@@ -6756,6 +6760,11 @@ Lemma \ref{lemma-add-trivial-complex} then allows
 us to decrease $\sum n_i$.
 \end{proof}
 
+\noindent
+Below we define the rank of a map of finite free modules.
+This is just one possible definition of rank. It 
+is just the definition that works in this section; there
+are others that may be more convenient in other settings.
 
 \begin{definition}
 \label{definition-rank}
@@ -6774,23 +6783,28 @@ is the rank as defined above.
 \label{lemma-trivial-case-exact}
 In Situation \ref{situation-complex}, suppose the complex is
 isomorphic to a direct sum of trivial complexes. Then
-for all $i$, $1 \leq i \leq e$ we have
-$\text{rank}(\varphi_{i+1}) + \text{rank}(\varphi_i) = n_i$
-and each $I(\varphi_i) = R$.
+we have
+\begin{enumerate}
+\item the maps $\varphi_i$ have rank
+$r_i = n_i - n_{i+1} + \ldots + (-1)^{e-i-1} n_{e-1} + (-1)^{e-i} n_e$,
+\item for all $i$, $1 \leq i \leq e$ we have
+$\text{rank}(\varphi_{i+1}) + \text{rank}(\varphi_i) = n_i$,
+\item each $I(\varphi_i) = R$.
+\end{enumerate}
 \end{lemma}
 
 \begin{proof}
 We may assume the complex is the direct sum of trivial
-complexes. In this case the assertion is clear since for
-each $i$ we can split the basis elements of $R^{n_i}$
-into those that get mapped to by a basis element, and those
-that map to a basis element.
+complexes. Then for each $i$ we can split the standard basis
+elements of $R^{n_i}$ into those that map to a basis element
+of $R^{n_{i-1}}$ and those that are mapped to zero (and these
+are mapped onto by basis elements of $R^{n_{i+1}}$).
+Using descending
+induction starting with $i = e$ it is easy to prove that there
+are $r_{i+1}$-basis elements of $R^{n_i}$ which are mapped
+to zero and $r_i$ which are mapped to basis elements of
+$R^{n_{i-1}}$. From this the result follows.
 \end{proof}
-
-\noindent
-In particular in the situation of the lemma the
-maps $\varphi_i$ have rank
-$(-1)^{e-i} n_e + (-1)^{e-1-i} n_{e-1} + \ldots + n_i$.
 
 \begin{lemma}
 \label{lemma-exact-length-1}
@@ -9465,9 +9479,17 @@ dealing with absolute Noetherian reduction.
 \label{definition-essentially-finite-p-t}
 Let $R \to S$ be a ring map.
 \begin{enumerate}
-\item We say that $R \to S$ is essentially of finite type if
+\item We say $R \to S$ is {\it of finite type} if there exist
+$n \in \mathbf{N}$, an ideal $I \subset R[x_1,\ldots,x_n]$ and
+an isomorphism of $R$-algebras $S \cong R[x_1,\ldots,x_n]/I$.
+\item We say $R \to S$ is {\it of finite presentation} if there
+exist integers $n,m \in \mathbf{N}$ and polynomials
+$f_1,\ldots,f_m \in R[x_1,\ldots,x_n]$
+and an isomorphism of $R$-algebras
+$S \cong R[x_1,\ldots,x_n]/(f_1,\ldots,f_m)$.
+\item We say that $R \to S$ is {\it essentially of finite type} if
 $S$ is the localization of an $R$-algebra of finite type.
-\item We say that $R \to S$ is essentially of finite presentation if
+\item We say that $R \to S$ is {\it essentially of finite presentation} if
 $S$ is the localization of an $R$-algebra of finite presentation.
 \end{enumerate}
 \end{definition}
@@ -9611,6 +9633,7 @@ Set $S_\lambda =
 
 \begin{remark}
 \label{remark-suitable-systems-limits}
+This remark will not be used in the text.
 Suppose that $R \to S$ is a local homomorphism
 of local rings, which is essentially of finite type.
 Take any system $(\Lambda, \leq)$, $R_\lambda \to S_\lambda$
@@ -9868,9 +9891,63 @@ Lemma \ref{lemma-limit-module-essentially-finite-presentation}.
 Proof is similar and left to the reader.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-finite-presentation-independent}
+Suppose $R \to S$ is a ring map of finite presentation.
+Let $\Phi : R[y_1,\ldots, y_t] \to S$ be any surjective map.
+Then $\text{Ker}(\Phi)$ is a finitely generated ideal.
+\end{lemma}
 
-
-
+\begin{proof}
+Write $R = \text{colim} R_\lambda$ and $S = \text{colim} S_\lambda$
+as in Lemma \ref{lemma-limit-finite-presentation}.
+Pick $\lambda_1 \in \Lambda$ and write
+$S_{\lambda_1} = R_{\lambda_1}[x_1,\ldots,x_n]/
+(f_{1,\lambda_1},\ldots,f_{m,\lambda_1})$. For $\lambda \geq \lambda_1$
+denote $f_{j, \lambda}$ the image of $f_{j, \lambda_1}$ in
+$R_\lambda[x_1,\ldots,x_n]$. Thus we have
+$S_{\lambda} = R_{\lambda}[x_1,\ldots,x_n]/
+(f_{1,\lambda},\ldots,f_{m,\lambda})$. Pick $\lambda_2 \geq \lambda_1$
+such that (a) $\Phi(y_1),\ldots,\Phi(y_t)$ are in the image of
+$S_{\lambda_2} \to S$, and (b) the images of $x_1,\ldots,x_n$
+are in the image of $\Phi : R_{\lambda_2}[y_1,\ldots,y_t] \to S$.
+Choose $g_{1,\lambda_2},\ldots,g_{t, \lambda_2} \in 
+R_{\lambda_2}[x_1,\ldots,x_n]$ which map to $\Phi(y_1),\ldots,\Phi(y_t)$.
+Also choose polynomials
+$h_{1,\lambda_2},\ldots, h_{n,\lambda_2} \in R_{\lambda_2}[y_1,\ldots,y_t]$
+mapping to the images of $x_1,\ldots,x_n$.
+For any $\lambda \geq \lambda_2$ we denote 
+$g_{i, \lambda} \in R_{\lambda}[x_1,\ldots,x_n]$
+and
+$h_{i, \lambda} \in R_{\lambda}[y_1,\ldots,y_t]$
+the images as before. Let
+$$
+I_{\lambda_2} = \text{Ker}\Big(
+R_{\lambda_2}[y_1,\ldots,y_t]
+\xrightarrow{y_i \mapsto g_{i, \lambda_2}}
+R_{\lambda_2}[x_1,\ldots,x_n]/(f_{1,\lambda_2},\ldots,f_{m,\lambda_2})
+= S_{\lambda_2}
+\Big)
+$$
+Clearly $I_{\lambda_2}$ is finitely generated. The existence of
+$h_{i, \lambda_2}$ implies that 
+$$
+0 \to I_{\lambda_2} \to R_{\lambda_2}[y_1,\ldots,y_t]
+\to S_{\lambda_2} \to 0
+$$
+is exact. Hence for all $\lambda \geq \lambda_2$ we see
+that
+$$
+I_{\lambda_2} \otimes_{R_{\lambda_2}} R_\lambda
+\to 
+R_{\lambda}[y_1,\ldots,y_t]
+\to S_{\lambda} \to 0
+$$
+is exact. This proves that $\text{Ker}(\Phi)$
+is a quotient of $\text{colim}_\lambda\ 
+I_{\lambda_2} \otimes_{R_{\lambda_2}} R_\lambda $ and hence
+is finitely generated.
+\end{proof}
 
 
 
@@ -9888,7 +9965,7 @@ Proof is similar and left to the reader.
 \label{lemma-CM-dim-finite-type}
 Let $k$ be a field. Let $S$ be a finite type
 $k$ algebra. Let $f_1, \ldots, f_i$ be elements
-of $S$. Assume that $S$ is Cohen Macaulay and
+of $S$. Assume that $S$ is Cohen-Macaulay and
 equidimensional of dimension $d$, and that
 $\dim V(f_1,\ldots,f_i) \leq d - i$. Then equality
 holds and $f_1, \ldots, f_i$ forms a regular
@@ -9911,7 +9988,7 @@ Suppose that $R \to S$ is a ring map which is
 finite type, flat. Let $d$ be an integer
 such that all fibres
 $S \otimes_R \kappa(\mathfrak p)$ are
-Cohen Macaulay and equidimensional
+Cohen-Macaulay and equidimensional
 of dimension $d$. Let $f_1,\ldots,f_i$
 be elements of $S$. The set
 $$
