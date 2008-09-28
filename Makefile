@@ -49,7 +49,7 @@ fdl.funny : fdl.tex
 %.dvi : %.tex %.funny
 	echo "2x latex $<" >> logfile.log
 	latex $<
-	latex $<
+	latex -src $<
 
 # Funny target to prepare %.aux, %.toc and %.bbl.
 # The latex command creates %.aux and %.toc,
