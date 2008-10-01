@@ -530,11 +530,12 @@ are inverse to each other, hence are both isomorphisms.
 \noindent
 We now consider how submodules behave in localization.
 
-\begin{proposition}
+\begin{lemma}
+\label{lemma-submodule-localization}
 Any submodule $N'$ of $S^{-1}M$ is of the form $S^{-1}N$ for some
 $N\subset M$. Indeed one can take $N$ to be the inverse image of
 $N'$ in $M$.
-\end{proposition}
+\end{lemma}
 
 \begin{proof}
 Let $N$ be the inverse image of $N'$ in $M$. Then one can see that
@@ -4014,13 +4015,22 @@ To show that $M$ is finitely presented just apply the previous result
 to the kernel of a presentation $R^n \to M$.
 \end{proof}
 
+\begin{definition}
+\label{definition-locally-nilpotent-ideal}
+Let $R$ be a ring. Let $I \subset R$ be an ideal.
+We say $I$ is {\it locally nilpotent} if for every
+$x \in I$ there exists an $n \in \mathbf{N}$ such
+that $x^n = 0$. We say $I$ is {\it nilpotent} if
+there exists an $n \in \mathbf{N}$ such that $I^n = 0$.
+\end{definition}
 
 \begin{lemma}
 \label{lemma-Noetherian-power}
-Let $R$ be a Noetherian ring.
-Let $I, J$ be ideals of $R$.
-Suppose $J \subset \sqrt{I}$.
-Then $J^n \subset I$ for some $n$.
+Let $R$ be a Noetherian ring. Let $I, J$ be ideals of $R$.
+Suppose $J \subset \sqrt{I}$. Then $J^n \subset I$ for some $n$.
+In particular, in a Noetherian ring the notions of
+``locally nilpotent ideal''
+and ``nilpotent ideal'' coincide.
 \end{lemma}
 
 \begin{proof}
@@ -4198,13 +4208,20 @@ $$
 \{
 n
 \mid
-\exists\ M_0 \subset M_1 \subset \ldots \subset M_n=M,
+\exists\ 0=M_0 \subset M_1 \subset \ldots \subset M_n=M,
 \text{ }M_i \not= M_{i+1}
 \}.
 $$
 In other words it is the supremum of the lengths of chains 
-of submodules.
-
+of submodules. There is an obvious notion of when a chain
+of submodules is a refinement of another. This gives a partial
+ordering on the collection of all chains of submodules,
+with the smallest chain having the shape $0 = M_0 \subset M_1 = M$
+if $M$ is not zero.
+We note the obvious fact that if the length of
+$M$ is finite, then every chain can be refined to a
+maximal chain. But it is not as obvious that all maximal
+chains have the same length (as we will see later).
 
 \begin{lemma}
 \label{lemma-length-additive}
@@ -4246,17 +4263,49 @@ $0 \subset \mathfrak m^n M
 \end{proof}
 
 \begin{lemma}
-\label{lemma-dimension-is-length}
-Let $R$ be a local ring with maximal ideal $\mathfrak m$.
-Suppose that $M$ is a finite $R$-module with
-$\mathfrak m M  =  0$. Then the length of $M$ as
-an $R$-module agrees with the dimension of $M$ as
-a $R/\mathfrak m$ vector space, and it is finite.
+\label{lemma-length-independent}
+Let $R \to S$ be a ring map.
+Let $M$ be an $S$-module. 
+Then $\text{length}_R(M) \geq \text{length}_S(M)$.
+If $R \to S$ is surjective then equality holds.
 \end{lemma}
 
 \begin{proof}
-A filtration of $M$ by $R$-submodules is the same as a filtration
-of $M$ by subvector spaces.
+A filtration of $M$ by $S$-submodules gives rise a filtration
+of $M$ by $R$-submodules. This proves the inequality.
+And if $R \to S$ is surjective, then any $R$-submodule
+of $M$ is automatically a $S$-submodule. Hence equality
+in this case.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-dimension-is-length}
+Let $R$ be a ring with maximal ideal $\mathfrak m$.
+Suppose that $M$ is an $R$-module with
+$\mathfrak m M  =  0$. Then the length of $M$ as
+an $R$-module agrees with the dimension of $M$ as
+a $R/\mathfrak m$ vector space. 
+The length is finite if and only if $M$ is a finite $R$-module.
+\end{lemma}
+
+\begin{proof}
+The first part is a special case of Lemma \ref{lemma-length-independent}.
+Thus the length is finite if and only if $M$ has a finite basis
+as a $R/\mathfrak m$-vector space if and only if $M$ has a finite
+set of generators as an $R$-module.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-length-localize}
+Let $R$ be a ring. Let $M$ be an $R$-module. Let $S \subset R$ be
+a multiplicative subset. Then
+$\text{length}_R(M) \geq \text{length}_{S^{-1}R}(S^{-1}M)$.
+\end{lemma}
+
+\begin{proof}
+Any submodule $N' \subset S^{-1}M$ is of the form
+$S^{-1}N$ for some $R$-submodule $N \subset M$, by Lemma
+\ref{lemma-submodule-localization}. The lemma follows.
 \end{proof}
 
 \begin{lemma}
@@ -4278,11 +4327,99 @@ to which Lemma \ref{lemma-dimension-is-length} applies. We conclude
 by additivity, see Lemma \ref{lemma-length-additive}.
 \end{proof}
 
+\begin{definition}
+\label{definition-simple-module}
+Let $R$ be a ring. Let $M$ be an $R$-module.
+We say $M$ is {\it simple} if $M \not = 0$ and
+every submodule of $M$ is either equal to $M$ or
+to $0$.
+\end{definition}
 
+\begin{lemma}
+\label{lemma-characterize-length-1}
+Let $R$ be a ring. Let $M$ be an $R$-module.
+The following are equivalent:
+\begin{enumerate}
+\item $M$ is simple,
+\item $\text{length}_R(M) = 1$, and
+\item $M \cong R/\mathfrak m$ for some maximal ideal
+$\mathfrak m \subset R$.
+\end{enumerate}
+\end{lemma}
 
+\begin{proof}
+Let $\mathfrak m$ be a maximal ideal of $R$.
+By Lemma \ref{lemma-dimension-is-length} the module
+$R/\mathfrak m$ has length $1$. The equivalence of
+the first two assertions is tautological. 
+Suppose that $M$ is simple. Choose $x \in M$, $x \not = 0$.
+As $M$ is simple we have $M = R \cdot x$. 
+Let $I \subset R$ be the annihilator of $x$, i.e.,
+$I = \{f \in R \mid fx = 0\}$. The map $R/I \to M$,
+$f \bmod I \mapsto fx$ is an isomorphism, hence
+$R/I$ is a simple $R$-module. Since $R/I \not = 0$ we see $I \not = R$.
+Let $I \subset \mathfrak m$ be a maximal ideal containing $I$.
+If $I \not = \mathfrak m$, then $\mathfrak m /I \subset R/I$
+is a nontrivial submodule contradicting the simplicity
+of $R/I$. Hence we see $I = \mathfrak m$ as desired.
+\end{proof}
 
+\begin{lemma}
+\label{lemma-simple-pieces}
+Let $R$ be a ring. Let $M$ be a finite length $R$-module.
+Let $\ell = \text{length}_R(M)$. Choose any maximal chain of
+submodules
+$$
+0 = M_0 \subset M_1 \subset M_2 \subset \ldots \subset M_n = M
+$$
+with $M_i \not = M_{i-1}$, $i=1,\ldots,n$. Then
+\begin{enumerate}
+\item $n = \ell$,
+\item each $M_i/M_{i-1}$ is simple,
+\item each $M_i/M_{i-1}$ is of the form
+$R/\mathfrak m_i$ for some maximal ideal $\mathfrak m_i$,
+\item given a maximal ideal $\mathfrak m \subset R$
+we have
+$$
+\# \{i \mid \mathfrak m_i = \mathfrak m\}
+=
+\text{length}_{R_{\mathfrak m}} (M_{\mathfrak m}).
+$$
+\end{enumerate}
+\end{lemma}
 
-
+\begin{proof}
+If $M_i/M_{i-1}$ is not simple then we can refine the filtration
+and the filtration is not maximal. Thus we see that $M_i/M_{i-1}$
+is simple. By Lemma \ref{lemma-characterize-length-1} the modules
+$M_i/M_{i-1}$ have length $1$ and are of the form $R/\mathfrak m_i$
+for some maximal ideals $\mathfrak m_i$. By additivity of length,
+Lemma \ref{lemma-length-additive}, we see $n = \ell$. Since localization
+is exact, we see that
+$$
+0 = (M_0)_{\mathfrak m}
+\subset (M_1)_{\mathfrak m}
+\subset (M_2)_{\mathfrak m}
+\subset \ldots
+\subset (M_n)_{\mathfrak m} = M_{\mathfrak m}
+$$
+is a filtration of $M_{\mathfrak m}$ with successive quotients
+$(M_i/M_{i-1})_{\mathfrak m}$. Thus the last statement follows
+directly from the fact that given maximal ideals $\mathfrak m$,
+$\mathfrak m'$ of $R$ we have
+$$
+(R/\mathfrak m')_{\mathfrak m}
+\cong
+\left\{
+\begin{matrix}
+0 &
+\text{if } \mathfrak m \not = \mathfrak m', \\
+R_{\mathfrak m}/\mathfrak m R_{\mathfrak m} &
+\text{if } \mathfrak m  = \mathfrak m'
+\end{matrix} \right.
+$$
+This we leave to the reader.
+\end{proof}
 
 
 
@@ -4342,11 +4479,18 @@ Since $I^{n+1}=I^n$ we conclude $x\in J$. Contradiction.
 
 \begin{lemma}
 \label{lemma-lift-idempotents}
-Suppose that $R$ is a ring and $I \subset R$ nilpotent.
+Let $R$ be a ring. Let $I \subset R$ be a locally nilpotent ideal.
 Then $R \to R/I$ induces a bijection on idempotents.
 \end{lemma}
 
-\begin{proof}
+\begin{proof}[First proof of Lemma \ref{lemma-lift-idempotents}]
+As $I$ is locally nilpotent is is contained in every prime ideal.
+Hence $\text{Spec}(R/I) = V(I) = \text{Spec}(R)$. Hence the
+lemma follows from Lemma \ref{lemma-disjoint-decomposition}.
+\end{proof}
+
+\begin{proof}[Second proof of Lemma \ref{lemma-lift-idempotents}]
+First assume $I$ is nilpotent.
 Suppose $\overline{e} \in R/I$ is an idempotent.
 We have to lift $\overline{e}$ to an idempotent of $R$.
 Choose a lift $e \in R$ such that $x = e^2 - e \in I^k$ for some
@@ -4356,6 +4500,21 @@ e^2 - 2(2e-e)x - e + (2e-1)x \bmod I^{2k} =
 x - x \bmod I^{2k} = 0 \bmod I^{2k}$.
 By succesively improving the approximation as above we reach a
 stage where $I^k = 0$, and we win.
+
+\medskip\noindent
+Next, suppose $I$ is locally nilpotent. 
+Let $\overline{e} \in R/I$ be an idempotent.
+Let $f \in R$ be any element lifting $\overline{e}$.
+Denote $R' \subset R$ the $\mathbf{Z}$-subalgebra of $R$ generated
+by $f$. Denote $I' = R' \cap I$. Since $R'$ is Noetherian,
+see Lemma \ref{lemma-obvious-Noetherian} we see that $I'$ is
+nilpotent, see Lemma \ref{lemma-Noetherian-power}. On the other
+hand we have $R' / I' \subset R/I$ and hence the image
+$\overline{f} \in R'/I'$ of $f$ is an idempotent. 
+Thus by the first part of the proof we see that
+we can find an idempotent $e \in R'$ which
+is a lift of $\overline{f}$.
+Then $e \in R$ is also a lift of $\overline{e}$ in $R/I$.
 \end{proof}
 
 \begin{lemma}
@@ -11762,8 +11921,8 @@ FIXME.
 Let $M$ be an $R$-module, and let $S \subset R$ be
 a multiplicative subset. Then $S^{-1}M = M\otimes_R S^{-1}R$
 is the directed colimit of the modules $M_f$, $f\in S$ with
-transition maps $M_f \to M_{f'}, m/f^n \mapsto (f'')^n m/(f')^n$
-whenever $f =f' f''$ with $f,f',f''\in S$.
+transition maps $M_{f'} \to M_f, m/(f')^n \mapsto (f'')^n m/f^n$
+whenever $f = f' f''$ with $f,f',f''\in S$.
 \end{lemma}
 
 \begin{proof}
