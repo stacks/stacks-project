@@ -89,4 +89,4 @@ backup: clean
 .PHONY: install
 install: $(FUNNYS) $(PDFS) $(DVIS)
 	cp *.tex *.pdf *.dvi $(INSTALLDIR)
-	cp COPYING CONTRIBUTORS $(INSTALLDIR)
+	cp COPYING CONTRIBUTORS my.bib Makefile $(INSTALLDIR)
