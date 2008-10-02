@@ -19,14 +19,11 @@
 \noindent
 The notion of a site was introduced by Grothendieck to be able to study
 sheaves in the \'etale topology of schemes. The basic reference for this
-notion is perhaps \cite{SGA4}. 
-
-\section{Topologies}
-\label{section-topologies}
-
-\noindent
-In this section we define what sites are and how to think about sheaves
-on sites. See \cite{ArtinTopologies}.
+notion is perhaps \cite{SGA4}. Our notion of a site differs from that
+in \cite{SGA4}; what we call a site is called a category endowed with
+a pretopology in \cite[Exposee II, Definition 1.3]{SGA4}.
+Our exposition will closely follow \cite{ArtinTopologies}. 
+We will not use universes.
 
 \section{Presheaves}
 \label{section-presheaves}
@@ -108,8 +105,8 @@ These will be ``big'' categories as well and they will be
 listed in the above mentioned remark as we go along.
 \end{remark}
 
-\subsection{Injective and surjective maps of presheaves}
-\label{subsection-injective-surjective}
+\section{Injective and surjective maps of presheaves}
+\label{section-injective-surjective}
 
 \begin{definition}
 \label{definition-presheaves-injective-surjective}
@@ -136,6 +133,41 @@ if and only if it is both injective and surjective.
 \begin{proof}
 FIXME.
 \end{proof}
+
+\begin{definition}
+\label{definition-sub-presheaf}
+We say $\mathcal{F}$ is a {\it subpresheaf} of $\mathcal{G}$
+if for every object $U \in \text{Ob}(\mathcal{C})$ the set
+$\mathcal{F}(U)$ is a subset of $\mathcal{G}(U)$, compatibly
+with the restriction mappings.
+\end{definition}
+
+\noindent
+In other words, the inclusion
+maps $\mathcal{F}(U) \to \mathcal{G}(U)$
+glue together to give an (injective) morphism of
+presheaves $\mathcal{F} \to \mathcal{G}$.
+
+\begin{lemma}
+\label{lemma-image}
+Let $\mathcal{C}$ be a category.
+Suppose that $\varphi : \mathcal{F} \to \mathcal{G}$ is a 
+morphism of presheaves of setson $\mathcal{C}$.
+There exists a unique subpresheaf $\mathcal{G}' \subset \mathcal{G}$
+such that $\varphi$ factors as
+$\mathcal{F} \to \mathcal{G}' \to \mathcal{G}$
+and such that the first map is surjective.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\begin{definition}
+\label{definition-image}
+Notation as in Lemma \ref{lemma-image}. We 
+say that $\mathcal{G}'$ is the {\it image of $\varphi$}.
+\end{definition}
 
 \section{Limits and colimits in $\textit{PSh}$}
 \label{section-limits-colimits-PSh}
@@ -346,6 +378,329 @@ leading to a map of presheaves $u_p u^p \mathcal{G} \to \mathcal{G}$.
 The composition $u_p\mathcal{F} \to u_p u^p\mathcal{G} \to
 \mathcal{G}$ is the desired map.
 \end{proof}
+
+\section{Topologies}
+\label{section-topologies}
+
+\noindent
+In this section we define what a topology on a category is.
+However, the case of most interest for algebraic geometry
+is the topology defined by a site on its underlying category.
+We strongly suggest the first time reader {\bf skip this section},
+and start reading about sites right away.
+
+\begin{definition}
+\label{definition-sieve}
+Let $\mathcal{C}$ be a category. Let $U \in \text{Ob}(\mathcal{C})$.
+A {\it sieve $S$ on $U$} is a subpresheaf $S \subset h_U$.
+\end{definition}
+
+\noindent
+In other words, a sieve on $U$ picks out for each object
+$T \in \text{Ob}(\mathcal{C})$ a subset $S(T)$ of the set
+of all morphisms $T \to U$. In fact, the only condition
+on the collection of subsets
+$S(T) \subset h_U(T) = \text{Mor}_{\mathcal{C}}(T, U)$
+is the following rule
+\begin{equation}
+\label{equation-property-sieve}
+\left.
+\begin{matrix}
+(\alpha : T \to U) \in S(T) \\
+g : T' \to T
+\end{matrix}
+\right\} \Rightarrow
+(\alpha \circ g : T' \to U) \in S(T')
+\end{equation}
+A good mental picture to keep in mind is to think of the
+map $S \to h_U$ as a ``morphism from $S$ to $U$''.
+
+\begin{lemma}
+\label{lemma-sieves-set}
+Let $\mathcal{C}$ be a category. Let $U \in \text{Ob}(\mathcal{C})$.
+\begin{enumerate}
+\item The collection of sieves on $U$ is a set.
+\item Inclusion defines a partial ordering on this set.
+\item Unions and intersections of sieves are sieves.
+\item
+\label{sieve-generated}
+Given a family of morphisms $\{U_i \to U\}_{i\in I}$
+of $\mathcal{C}$ with target $U$
+there exists a unique smallest sieve $S$ on $U$ such that
+each $U_i \to U$ belongs to $S(U_i)$.
+\item The sieve $S = h_U$ is the maximal sieve.
+\item The empty subfunctor is the minimal sieve.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+By our definition of subpresheaf, the collection of
+all subpresheaves of a presheaf $\mathcal{F}$ is a subset of 
+$\prod_{U \in \text{Ob}(\mathcal{C})} \mathcal{P}(\mathcal{F}(U))$.
+And this is a set. (Here $\mathcal{P}(A)$ denotes
+the powerset of $A$.) Hence the collection of sieves on $U$
+is a set.
+
+\medskip\noindent
+The partial ordering is defined by: $S \leq S'$ if and only if
+$S(T) \subset S'(T)$ for all $T \to U$. Notation: $S \subset S'$.
+
+\medskip\noindent
+Given a collection of sieves $S_i$, $i \in I$ on $U$ we can
+define $\bigcup S_i$ as the sieve with values
+$(\bigcup S_i)(T) = \bigcup S_i(T)$ for all
+$T \in \text{Ob}(\mathcal{C})$.
+We define the intersection $\bigcap S_i$ in the same way.
+
+\medskip\noindent
+Given $\{U_i \to U\}_{i\in I}$ as in the statement, consider
+the morphisms of presheaves $h_{U_i} \to h_U$. We simply
+define $S$ as the union of the images (Definition \ref{definition-image})
+of these maps of presheaves.
+
+\medskip\noindent
+The last two statements of the lemma are obvious.
+\end{proof}
+
+\begin{definition}
+\label{definition-sieve-generated}
+Let $\mathcal{C}$ be a category.
+Given a family of morphisms $\{f_i : U_i \to U\}_{i\in I}$
+of $\mathcal{C}$ with target $U$ we say the sieve
+$S$ on $U$ described in Lemma \ref{lemma-sieves-set}
+part (\ref{sieve-generated}) is the {\it sieve generated by the
+morphisms $f_i$}.
+\end{definition}
+
+\begin{definition}
+\label{definition-pullback-sieve}
+Let $\mathcal{C}$ be a category.
+Let $f : V \to U$ be a morphism of $\mathcal{C}$.
+Let $S \subset h_U$ be a sieve. We define the
+{\it pullback of $S$ by $f$} to be the sieve
+$S \times_U V$ of $V$ defined by the rule
+$$
+(\alpha : T \to V) \in (S \times_U V)(T)
+\Leftrightarrow
+(f \circ \alpha : T \to U) \in S(T)
+$$
+\end{definition}
+
+\noindent
+We leave it to the reader to see that this is indeed a sieve
+(hint: use Equation \ref{equation-property-sieve}).
+We also sometimes call $S \times_U V$ the {\it base change}
+of $S$ by $f : V \to U$.
+
+\begin{lemma}
+\label{lemma-pullback-sieve-section}
+Let $\mathcal{C}$ be a category.
+Let $U \in \text{Ob}(\mathcal{C})$.
+Let $S$ be a sieve on $U$.
+If $f : V \to U$ is in $S$, then
+$S \times_U V = h_V$ is maximal.
+\end{lemma}
+
+\begin{proof}
+Trivial from the definitions.
+\end{proof}
+
+\begin{definition}
+\label{definition-topology}
+Let $\mathcal{C}$ be a category.
+A {\it topology on $\mathcal{C}$} is given by the following
+datum:
+\begin{list}{}{}
+\item For every $U \in \text{Ob}(\mathcal{C})$
+a subset $J(U)$ of the set of all sieves on $U$.
+\end{list}
+These sets $J(U)$ have to satisfy the following
+conditions
+\begin{enumerate}
+\item For every morphism $f : V \to U$ in $\mathcal{C}$, and
+every element $S \in J(U)$ the pullback $S \times_U V$
+is an element of $J(V)$.
+\item If $S$ and $S'$ are sieves on $U \in \text{Ob}(\mathcal{C})$,
+if $S \in J(U)$, and if for all $f \in S(V)$ the pullback
+$S' \times_U V$ belongs to $J(V)$, then $S'$ belongs to $J(U)$.
+\item For every $U \in \text{Ob}(\mathcal{C})$ the
+maximal sieve $S = h_U$ belongs to $J(U)$.
+\end{enumerate}
+\end{definition}
+
+\noindent
+In this case, the sieves belonging to $J(U)$ are called
+the {\it covering sieves}.
+
+\begin{lemma}
+\label{lemma-topology-basic}
+Let $\mathcal{C}$ be a category.
+Let $J$ be a topology on $\mathcal{C}$.
+Let $U \in \text{Ob}(\mathcal{C})$.
+\begin{enumerate}
+\item Finite intersections of elements of $J(U)$ are in $J(U)$.
+\item If $S \in J(U)$ and $S' \supset S$, then $S' \in J(U)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Let $S, S' \in J(U)$. Consider $S'' = S \cap S'$. For every
+$V \to U$ in $S(U)$ we have
+$$
+S' \times_U V = S'' \times_U V
+$$
+simply because $V \to U$ already is in $S$. Hence by the second
+axiom of the definition we see that $S'' \in J(U)$.
+
+\medskip\noindent
+Let $S \in J(U)$ and $S' \supset S$. For every
+$V \to U$ in $S(U)$ we have $S' \times_U V = h_V$ by
+Lemma \ref{lemma-pullback-sieve-section}. Thus
+$S' \times_U V \in J(V)$ by the third axiom. Hence
+$S' \in J(U)$ by the second axiom.
+\end{proof}
+
+\begin{definition}
+\label{definition-finer}
+Let $\mathcal{C}$ be a category. Let $J$, $J'$ be
+two topologies on $\mathcal{C}$. We say that $J$ is
+{\it finer} than $J'$ if and only if for every object
+$U$ of $\mathcal{C}$ we have $J'(U) \subset J(U)$.
+\end{definition}
+
+\noindent
+In other words, any covering sieve of $J'$ is a
+covering sieve of $J$. There exists a finest topology
+on $\mathcal{C}$, namely that topology where any sieve
+is a covering sieve. This is called the
+{\it discrete topology} of $\mathcal{C}$.
+There also exists a coarsest topology.
+Namely, the topology where $J(U) = \{h_U\}$
+for all objects $U$. This is called the
+{\it chaotic topology}.
+
+\begin{lemma}
+\label{lemma-play-with-topologies}
+Let $\mathcal{C}$ be a category. 
+Let $\{J_i\}_{i\in I}$ be a set of topologies.
+\begin{enumerate}
+\item The rule $J(U) = \bigcap J_i(U)$ defines
+a topology on $\mathcal{C}$.
+\item There is a coarsest topology finer than
+all of the topologies $J_i$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+The first part is direct from the definitions.
+The second follows by taking the intersection
+of all topologies finer than all of the $J_i$.
+\end{proof}
+
+
+
+\noindent
+At this point we can define
+without any motivation what a sheaf is:
+
+\begin{definition}
+\label{definition-sheaf-sets-topology}
+Let $\mathcal{C}$ be a category endowed with a
+topology $J$. Let $\mathcal{F}$ be a presheaf of sets
+on $\mathcal{C}$.
+We say that $\mathcal{F}$ is a
+{\it sheaf}\footnote{We redefine this later in the more
+usual case where $\mathcal{C}$ is a site,
+see Definition \ref{definition-sheaf-sets}} on $\mathcal{C}$
+if for every $U \in \text{Ob}(\mathcal{C})$ and for
+every covering sieve $S$ of $U$ the canonical map
+$$
+\text{Mor}_{\textit{PSh}(\mathcal{C})}(h_U, \mathcal{F})
+\longrightarrow
+\text{Mor}_{\textit{PSh}(\mathcal{C})}(S, \mathcal{F})
+$$
+is bijective.
+\end{definition}
+
+\noindent
+Recall that the left hand side of the displayed
+formula equals $\mathcal{F}(U)$. In other words, $\mathcal{F}$
+is a sheaf if and only if a section of $\mathcal{F}$
+over $U$ is the same thing as a compatible collection of sections
+$s_{T,\alpha} \in \mathcal{F}(T)$ parametrized by
+$(\alpha : T \to U) \in S(T)$, and this for every covering sieve $S$
+on $U$. 
+
+\begin{lemma}
+\label{lemma-topology-presheaves-sheaves}
+Let $\mathcal{C}$ be a category. Let $\{ \mathcal{F}_i \}_{i\in I}$ be a
+collection of presheaves of sets on $\mathcal{C}$. For each
+$U \in \text{Ob}(\mathcal{C})$ denote
+$J(U)$ the set of sieves $S$ with the following property:
+For every morphism $V \to U$, the maps
+$$
+\text{Mor}_{\textit{PSh}(\mathcal{C})}(h_V, \mathcal{F}_i)
+\longrightarrow
+\text{Mor}_{\textit{PSh}(\mathcal{C})}(S \times_U V, \mathcal{F}_i)
+$$
+are bijective for all $i \in I$. Then $J$ defines a
+topology on $\mathcal{C}$. This topology is the finest
+topology in which all of the $\mathcal{F}_i$ are sheaves.
+\end{lemma}
+
+\begin{proof}
+If we show that $J$ is a topology, then the last statement of
+the lemma immediately follows. The first and second axioms of
+a topology are immediately verified. Thus, assume that
+we have an object $U$, and sieves $S, S'$ of $U$
+such that $S \in J(U)$, and for all $V \to U$ in $S(V)$
+we have $S' \times_U V \in J(V)$. We have to show that
+$S' \in J(U)$. In other words, we have to show that for
+any $f : W \to U$, the maps
+$$
+\mathcal{F}_i(W) =
+\text{Mor}_{\textit{PSh}(\mathcal{C})}(h_W, \mathcal{F}_i)
+\longrightarrow
+\text{Mor}_{\textit{PSh}(\mathcal{C})}(S' \times_U W, \mathcal{F}_i)
+$$
+are bijective for all $i \in I$. Pick an element
+$\varphi \in
+\text{Mor}_{\textit{PSh}(\mathcal{C})}(S' \times_U W, \mathcal{F}_i)$.
+We will construct a section $s \in \mathcal{F}_i(W)$
+mapping to $\varphi$.
+
+\medskip\noindent
+Suppose $\alpha : V \to W$ is an element of $S \times_U W$.
+According to the definition of pullbacks we see that
+the composition $f \circ\alpha : V \to W  \to U$ is in $S$. Hence
+$S' \times_U V$ is in $J(W)$ by assumption on the pair
+of sieves $S, S'$.
+Thus the restriction of $\varphi$ to $S' \times_U V$
+corresponds to an element $s_{V, \alpha} \in \mathcal{F}_i(V)$
+(by definition of $J$). We leave it to the reader to check
+that the rule $(V, \alpha) \mapsto s_{V, \alpha}$ defines
+an element
+$\psi \in
+\text{Mor}_{\textit{PSh}(\mathcal{C})}(S \times_U W, \mathcal{F}_i)$.
+Since $S \in J(U)$ we see immediately from the definition of $J$
+that $\psi$ corresponds to an element $s$ of $\mathcal{F}_i(W)$.
+
+\medskip\noindent
+We leave it to the reader to verify that the construction
+$\varphi \mapsto s$ is inverse to the natural map displayed above.
+\end{proof}
+
+\begin{definition}
+\label{definition-canonical-topology}
+Let $\mathcal{C}$ be a category.
+The finest topology on $\mathcal{C}$ such that
+all presheaves are sheaves, see
+Lemma \ref{lemma-topology-presheaves-sheaves},
+is called the {\it canonical topology} of $\mathcal{C}$.
+\end{definition}
+
+
+
 
 \section{Sites}
 \label{section-sites-definitions}
@@ -815,7 +1170,7 @@ the categories of sheaves (of sets) for $\text{Cov}_1(\mathcal{C})$
 and $\text{Cov}_2(\mathcal{C})$ are the same. 
 
 \begin{definition}
-\label{definition-topology}
+\label{definition-topology-in-terms-of-sheaves}
 In the situation above, if the categories of sheaves (of sets)
 for $\text{Cov}_1(\mathcal{C})$ and $\text{Cov}_2(\mathcal{C})$
 are the same, then we say $\text{Cov}_1(\mathcal{C})$ and
