@@ -1,0 +1,170 @@
+\input{preamble}
+
+% OK, start here.
+%
+\begin{document}
+
+\title{Coding Style}
+
+%\begin{abstract}
+%\end{abstract}
+
+\maketitle
+
+\tableofcontents
+
+\section{List of style comments}
+\label{section-style}
+
+\noindent
+These will be changed over time, but having some here now
+will hopefully encourage a consistent LaTeX style.
+We will call ``code\footnote{It is all Knuth's fault. See \cite{Knuth}.}''
+the contents of the source files.
+
+\begin{enumerate}
+\item Keep all lines in all tex files to at most 80 characters.
+\item Do not break the code for mathematical formulas across
+lines if possible. If the complete code complete with enclosing
+dollar signs does not fit on the line, then start with the first
+dollar sign on the first character of the next line. If it still
+does not fit, find a mathematically reasonable spot to break
+the code.
+\item Displayed math equations should be coded as follows
+\begin{verbatim}
+$$
+...
+...
+$$
+\end{verbatim}
+In other words, start with a double dollar sign on a line by itself
+and end similarly.
+\item {\it Do not use any macros}. Rationale: This makes it easier
+to read the tex file, and start editing an arbitrary part
+without having to learn inumerable macros.
+And it doesn't make it harder or more timeconsuming to write.
+Of course the disadvantage is that the same mathematical object
+may be TeXed differently in different spots in the text, but
+this should be easy to spot.
+\item The theorem environments we use are:
+``theorem'', ``proposition'', ``lemma'' (plain),
+``definition'', ``example'', ``exercise'', ``situation'' (definition)
+``remark'', ``remarks'' (remark). Of course there is also
+a ``proof'' environment.
+\item An environment ``foo'' should be coded as follows
+\begin{verbatim}
+\begin{foo}
+...
+...
+\end{foo}
+\end{verbatim}
+similarly to the way displayed equations are coded.
+\item In stead of a ``corollary'', just use ``lemma'' environment
+since likely the result will be used to prove the next bigger
+theorem anyway.
+\item Directly following each lemma, proposition, or theorem
+is the proof of said lemma, proposition, or theorem. No nested
+proofs please.
+\item The files preamble.tex, chapters.tex and fdl.tex are special
+tex files. Apart from these, each tex file
+has the following structure
+\begin{verbatim}
+\input{preamble}
+\begin{document}
+\title{Title}
+\maketitle
+\tableofcontents
+...
+...
+\input{chapters}
+\bibliography{my}
+\bibliographystyle{alpha}
+\end{document}
+\end{verbatim}
+\item Try to add labels to lemmas, propositions, theorems, and even
+remarks, exercise, and other environments.
+If labelling a lemma use something like
+\begin{verbatim}
+\begin{lemma}
+\label{lemma-bar}
+...
+\end{lemma}
+\end{verbatim}
+Similarly for all other environments. In other words, the label
+of a environment named ``foo'' starts with ``foo-''. In addition to
+this please make all labels consist only of lower case letters,
+digits, and the symbol ``-''.
+\item Never refer to ``the lemma above'' (or proposition, etc).
+In stead use:
+\begin{verbatim}
+Lemma \ref{lemma-bar} above
+\end{verbatim}
+This means that later
+moving lemmas around is basically harmless.
+\item Cross-file referencing. To reference a lemma labeled
+``lemma-bar'' in the file foo.tex which has title
+``Foo'', please use the following code
+\begin{verbatim}
+Foo, Lemma \ref{foo-lemma-bar}
+\end{verbatim}
+If this does not work, then take a look at the file
+preamble.tex to find the correct expression to use.
+This will produce the ``Foo, Lemma $<$link$>$'' in the 
+output file so it will be clear that the link points
+out of the file.
+\item If at all possible avoid forward references in proof
+environments. (It should be possible to write an automated
+test for this.)
+\item Do not start any sentence with a mathematical symbol.
+\item Do not have a sentence of the type ``This follows from
+the following'' just before a lemma, proposition, or theorem.
+Every sentence ends with a period.
+\item State all hypotheses in each lemma, proposition, theorem.
+This makes it easier for readers to see if a given
+lemma, proposition, or theorem applies to their particular
+problem.
+\item Keep proofs short; less than 1 page in pdf or dvi.
+You can always achieve this by splitting out the proof in lemmas
+etc.
+\item In a defining property foobar use
+\begin{verbatim}
+{\it foobar}
+\end{verbatim}
+in the code inside the definition evironment.
+Similarly if the definition occurs in the text of the document.
+This will make it easier for the reader to see what it is
+that is being defined.
+\item Put any definition that will be used outside the section
+it is in, in its own definition evironment. Temporary definitions
+may be made in the text. A tricky case is that of mathematical
+constructions (which are often definitions involving interrelated
+lemmas). Maybe a good solution is to have them in their own
+short section so users can refer to the section in stead of
+a definition.
+\item Do not number equations unless they are actually being
+referenced somewhere in the text. We can always add labels later.
+\item In statements of lemmas, propositions and theorems and
+in proofs keep the sentences short. For example, in stead of
+``Let $R$ be a ring and let $M$ be an $R$-module.'' write
+``Let $R$ be a ring. Let $M$ be an $R$-module.''. Rationale:
+This makes it easier to parse the trickier parts of proofs and
+statements.
+\item Use the
+\begin{verbatim}
+\section, \subsection
+\end{verbatim}
+commands to make sections and subsections,
+but try to avoid using subsubsections.
+\item Avoid using complicated latex constructions.
+\end{enumerate}
+
+
+
+
+
+\input{chapters}
+
+\bibliography{my}
+\bibliographystyle{alpha}
+
+\end{document}
