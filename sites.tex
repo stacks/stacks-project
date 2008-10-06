@@ -788,6 +788,10 @@ G\textit{-Sets},\ \
 \longmapsto
 \mathcal{F}({}_GG).
 $$
+We leave it to the reader to verify that this construction
+has the pleasing property that the representable presheaf
+$h_U$ is mapped to something canonically isomorphic to $U$.
+In a formula $h_U({}_GG) = \text{Hom}_G({}_GG, U) \cong U$.
 
 \medskip\noindent
 Suppose that $S$ is a $G$-set. We define a presheaf
@@ -1819,7 +1823,7 @@ $a$ is a morphism $a : X_1 \to X_2$ such that $u(a) \circ \phi_1 =
 \begin{equation}
 \label{equation-equalizer}
 X = (X_1 \times_{a, X_2, b} X_1)
-\times_{(p_1, p_2), X_1 \times X_1, \Delta} 
+\times_{(pr_1, pr_2), X_1 \times X_1, \Delta} 
 X_1
 \end{equation}
 where $\Delta : X_1 \to X_1\times X_1$ is the diagonal morphism,
@@ -1833,7 +1837,7 @@ $$
 u(X)
 =
 (u(X_1) \times_{u(a), u(X_2), u(b)} u(X_1))
-\times_{(p_1, p_2), u(X_1) \times u(X_1), \Delta} 
+\times_{(pr_1, pr_2), u(X_1) \times u(X_1), \Delta} 
 u(X_1).
 $$
 Hence $u(c) : u(X) \to u(X_1)$ is the equalizer of 
@@ -1897,16 +1901,21 @@ In a formula $\textit{Sh}(pt) = \textit{Sets}$.
 \begin{remark}
 \label{remark-pt-topos}
 There are many sites that give rise to the topos 
-$\textit{Sh}(pt)$. Namely, suppose that $S$ is any
-set of sets which contains at least one element $s\in S$ that
-is a singleton set. Let $\mathcal{S}$ be the category
+$\textit{Sh}(pt)$. For example, suppose that $S$ is a nonempty
+set of sets. Let $\mathcal{S}$ be the category
 whose objects are elements of $S$ and whose morphisms
-are arbitrary set maps. Make this into a site by declaring
+are arbitrary set maps. Assume that $\mathcal{S}$ has
+fibre products. For example this
+will be the case if $S = \mathcal{P}(\text{infinite set})$
+is the power set of any infinite set (exercise in set theory).
+Make $\mathcal{S}$ into a site by declaring
 surjective families of maps to be coverings (and choose
 a suitable sufficiently large set of covering families as in Sets,
 Subsection \ref{sets-subsection-coverings-site}).
-It is a nice exercise to prove that the functor
-of evaluation at $s$ gives an equivalence of categories
+It is a nice exercise to prove that $\textit{Sh}(\mathcal{S})$
+is equivalent to the category of sets. If $s \in S$
+is a singleton set, then the functor
+of evaluation at $s$ gives the equivalence of categories
 $\textit{Sh}(\mathcal{S}) \to \textit{Sets}$.
 \end{remark}
 
@@ -1916,10 +1925,11 @@ $\textit{Sh}(\mathcal{S}) \to \textit{Sets}$.
 \noindent
 A point of a topos $\textit{Sh}(\mathcal{C})$ is a morphism of
 topoi from $\textit{Sh}(pt)$ to $\textit{Sh}(\mathcal{C})$.
-We have not defined this notion, and we will not. In stead, we
+We have not defined this notion. Instead, we
 define a point of a site in terms of a functor
 $u : \mathcal{C} \to \textit{Sets}$. This makes sense because, as
-we saw in Remark \ref{remark-pt-topos} any set of sets can be turned
+we saw in Remark \ref{remark-pt-topos} a suitable collection of sets
+containing $u(\text{Ob}(\mathcal{C}))$ can be turned
 into the objects of a site whose category of sheaves is equivalent
 to $\textit{Sets}$.
 
@@ -1966,10 +1976,29 @@ it is probably better not to use this notion unless $p$
 actually is a point (see definition below), since in general
 the stalk functor does not have good properties.
 
+\begin{definition}
+\label{definition-point}
+Let $\mathcal{C}$ be a site. A {\it point $p$} of
+$\mathcal{C}$ is given by a functor $u : \mathcal{C}
+\to \textit{Sets}$ such that
+\begin{enumerate}
+\item For every covering $\{U_i \to U\}$ of $\mathcal{C}$ the map
+$\coprod u(U_i) \to u(U)$ is surjective.
+\item For every covering $\{U_i \to U\}$ of $\mathcal{C}$ and
+every morphism $V \to U$ the maps
+$u(U_i \times_U V) \to u(U_i) \times_{u(U)} u(V)$ are bijective.
+\item The stalk functor $\textit{Sh}(\mathcal{C}) \to \textit{Sets}$
+is exact.
+\end{enumerate}
+\end{definition}
+
+\noindent
+We will prove some lemmas for general functors $u$.
+
 \begin{lemma}
 \label{lemma-points-recover}
 Let $\mathcal{C}$ be a site.
-Let $p = u : \mathcal{C} \to \textit{Sets}$ be a functor as above.
+Let $p = u : \mathcal{C} \to \textit{Sets}$ be a functor.
 There are functorial isomorphisms
 $(h_U)_p = u(U)$ for $U \in \text{Ob}(\mathcal{C})$.
 \end{lemma}
@@ -1995,141 +2024,129 @@ is bijective.
 Let $\mathcal{C}$ be a site. Let $p = u : \mathcal{C} \to \textit{Sets}$
 be a functor. In analogy with the constructions in
 Section \ref{section-functoriality-PSh} we define a functor
-$u^p$
+$u^p : \textit{Sets} \to \textit{PSh}(\mathcal{C})$, $S \mapsto u^pS$
+where $u^pS$ is the presheaf defined by
+the rule $u^pS(U) = \text{Map}(u(U), S)$.
 
 \begin{lemma}
-\label{lemma-stalk-presheaf-onto-stalk-sheaf}
-Let $\mathcal{C}$ be a site.
-Let $p = u : \mathcal{C} \to \textit{Sets}$
-be a functor satisfying property (2) of Definition
-\ref{definition-point}.
-Let $\mathcal{F}$ be a presheaf of sets.
-The canonical map $\mathcal{F}_p \to (\mathcal{F}^\#)_p$
-is surjective.
+\label{lemma-adjoint-point-push-stalk}
+For any functor $\mathcal{C} \to \textit{Sets}$.
+The functor $u^p$ is a right adjoint to the stalk functor
+on presheaves.
 \end{lemma}
 
 \begin{proof}
-For a presheaf $\mathcal{F}$, denote $\theta : \mathcal{F}
-\to \mathcal{F}^+$ the canonical map. It suffices to show
-that $\theta_p : \mathcal{F}_p \to (\mathcal{F}^+)_p$
-is surjective for every presheaf $\mathcal{F}$.
-Let $\sigma \in (\mathcal{F}^+)_p$.
-Let $(U, x, s)$ denote a triple giving rise to
-$\sigma$. Let $\{f_i : U_i \to U\}$
-be a covering such that $s|_{U_i} = \theta(s_i)$ for
-some $s_i \in \mathcal{F}(U_i)$, see Lemma \ref{lemma-plus-surjective}.
-Pick an $i_0$ such that there exists a $y \in u(U_{i_0})$
-which maps to $x \in u(U)$. Then the triple
-$(U_{i_0}, y, s_{i_0})$ corresponds to an element
-of $\mathcal{F}_p$ which maps to the
-element $\sigma$.
+Let $\mathcal{F}$ be a presheaf on $\mathcal{C}$.
+Let $S$ be a set. A morphism $\mathcal{F} \to u^pS$
+is given by a compatible system of maps
+$\mathcal{F}(U) \to \text{Map}(u(U), S)$, i.e., 
+a compatible system of maps $\mathcal{F}(U) \times u(U) \to S$.
+And by definition of $\mathcal{F}_p$ a map $\mathcal{F}_p \to S$
+is given by a rule associating with each triple $(U, x, \sigma)$
+an element in $S$. This also means a compatible system of
+maps $\mathcal{F}(U) \times u(U) \to S$.
 \end{proof}
 
+\noindent
+In analogy with Section \ref{section-continuous-functors}
+we have the following lemma.
+
 \begin{lemma}
-\label{lemma-neighbourhoods-drected}
+\label{lemma-point-pushforward-sheaf}
+Let $\mathcal{C}$ be a site. Let $p = u : \mathcal{C} \to \textit{Sets}$
+be a functor. Suppose that
+\begin{enumerate}
+\item For every covering $\{U_i \to U\}$ of $\mathcal{C}$ the map
+$\coprod u(U_i) \to u(U)$ is surjective.
+\item For every covering $\{U_i \to U\}$ of $\mathcal{C}$ and
+every morphism $V \to U$ the maps
+$u(U_i \times_U U_j) \to u(U_i) \times_{u(U)} u(U_j)$ are surjective.
+\end{enumerate}
+Then we have
+\begin{enumerate}
+\item the presheaf $u^pS$ is a sheaf for all sets $S$, denote it $u^sS$,
+\item the stalk functor $\textit{Sh}(\mathcal{C}) \to \textit{Sets}$
+and the functor $u^s: \textit{Sets} \to \textit{Sh}(\mathcal{C})$ are
+adjoint, and
+\item we have $\mathcal{F}_p = \mathcal{F}^\#_p$
+for every presheaf of sets $\mathcal{F}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+The first assertion is immediate from the definition of a sheaf, and the
+definition of $u^pS$. The second is a restatement of the adjointness
+of $u^p$ and the stalk functor (but now restricted to sheaves). The third
+assertion follows as, for any set $S$, we have
+$$
+\text{Map}(\mathcal{F}_p, S) =
+\text{Mor}_{\textit{PSh}(\mathcal{C})}(\mathcal{F}, u^pS) =
+\text{Mor}_{\textit{Sh}(\mathcal{C})}(\mathcal{F}^\#, u^sS) =
+\text{Map}(\mathcal{F}^\#_p, S)
+$$
+by the adjointness property of sheafification.
+\end{proof}
+
+\noindent
+In particular Lemma \ref{lemma-point-pushforward-sheaf}
+holds when $p = u$ is a point. In this case we think of the
+sheaf $u^sS$ as the ``scyscraper'' sheaf with value $S$ at $p$.
+
+\begin{definition}
+\label{definition-pushforward-point}
+Let $p$ be a point of the site $\mathcal{C}$ given by the functor $u$.
+For a set $S$ we define $p_*S = u^s S$ the sheaf
+described in Lemma \ref{lemma-point-pushforward-sheaf} above.
+We sometimes call this a {\it scyscraper sheaf}.
+\end{definition}
+
+\begin{lemma}
+\label{lemma-neighbourhoods-directed}
 Let $\mathcal{C}$ be a site. Assume that $\mathcal{C}$ has
-all finite limits. Let $p = u : \mathcal{C} \to \textit{Sets}$
-be a functor which commutes with all finite limits.
-Then the opposite of the category
-of neighbourhoods of $p$ is directed.
+products and fibred products. Let $p = u : \mathcal{C} \to \textit{Sets}$
+be a functor such that
+\begin{enumerate}
+\item for every pair of objects $U, V$ of $\mathcal{C}$ the map
+$u(U \times V) \to u(U) \times u(V)$ is surjective, and
+\item for every pair of morphisms $U \to W$ and $V \to W$ with
+the same target the map
+$u(U \times_W V) \to u(U) \times_{u(W)} u(V)$ is surjective.
+\end{enumerate}
+Then the opposite of the category of neighbourhoods of $p$ is directed.
+Moreover, the stalk functor $\textit{Sh}(\mathcal{C}) \to \textit{Sets}$,
+$\mathcal{F} \to \mathcal{F}_p$ commutes with finite limits.
 \end{lemma}
 
 \begin{proof}
-This is shown in exactly the
-same way as in the proof of Lemma \ref{lemma-directed}
-above. Namely, if $(U,x)$ and $(V, y)$ are objects,
-then $(U\times V, (x,y))$ is an object mapping 
-to both of them; note that $u(U\times V) = u(U)\times u(V)$
-by assumption. If $a,b : (V,y) \to (U,x)$ are two morphisms
-in the category, then take $W$ the equalizer of $a$ and $b$
-(see the formula in terms of products and fibre products in
-the proof of Lemma \ref{lemma-directed})
-and let $z \in u(W)$ be the element corresponding to $x$
-which is in the equalizer of $u(a)$ and $u(b)$.
-Then $(W, z) \to (V, y)$ equalizes $a,b$ as desired.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-stalk-presheaf-sheaf}
-Assume $\mathcal{C}$ and $p$ as in Definition \ref{definition-point}.
-Let $\mathcal{F}$ be a presheaf.
-The canonical map $\mathcal{F} \to \mathcal{F}^\#$ induces
-an isomorphism $\mathcal{F}_p \to (\mathcal{F}^\#)_p$ on stalks.
-\end{lemma}
-
-\begin{proof}
-For a presheaf $\mathcal{F}$, denote $\theta : \mathcal{F}
-\to \mathcal{F}^+$ the canonical map.
-It suffices to show that $\theta_p : \mathcal{F}_p \to (\mathcal{F}^+)_p$
-is an isomorphism for every presheaf $\mathcal{F}$.
-In the proof of
-Lemma \ref{lemma-stalk-presheaf-onto-stalk-sheaf}
-we showed that it is surjective.
+This is shown in exactly the same way as in the proof
+of Lemma \ref{lemma-directed} above. Namely, if
+$(U, x)$ and $(V, y)$ are neighbourhoods,
+then by (1) there exists a neighbourhood $(U\times V, z)$ mapping 
+to both of them. Let $a, b : (V, y) \to (U, x)$ be two morphisms
+in the category of neighbourhoods. Let $W$ be the equalizer of
+$a, b : V \to U$. As in Equation (\ref{equation-equalizer})
+we may write $W$ in terms of products and fibre products:
+\begin{equation}
+W = (V \times_{a, U, b} V) \times_{(pr_1, pr_2), V \times V, \Delta} V
+\end{equation}
+By assumptions (1) and (2) there exists an element $z \in u(W)$
+which maps to $((y, y), y)$.
+Then $(W, z) \to (V, y)$ equalizes $a, b$ as desired.
 
 \medskip\noindent
-We show that $\mathcal{F}_p \to (\mathcal{F}^+)_p$ is injective.
-Suppose that $\sigma, \sigma' \in \mathcal{F}_p$ map to the
-same element of $(\mathcal{F}^+)_p$. We may represent $\sigma$
-by a triple $(U, x, s)$ and $\sigma'$ by a triple $(U', x', s')$.
-By Lemma \ref{lemma-neighbourhoods-drected} we may assume
-that $U = U'$ and $x = x'$. Similarly, after replacing $(U,x)$
-by a ``smaller'' neighbourhood, we may assume that
-$\theta(s) = \theta(s')$ in $\mathcal{F}^+(U)$. 
-This means that there exists a covering $\{U_i \to U\}$
-such that $s|_{U_i} = s'|_{U_i}$ for all $i$. By assumption
-there exists an index $i_0$ and an element $x_{i_0} \in u(U_{i_0})$
-mapping to $x$. Then we see that $(U, x, s)$ and $(U, x, s')$
-define the same element in $\mathcal{F}_p$, namely they are
-both equal to the equivalence class of $(U_{i_0}, x_{i_0}, s|_{U_{i_0}})$.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-points-exact}
-Assume $\mathcal{C}$ and $p$ as in
-Definition \ref{definition-point}.
-The stalk functor $\textit{Sh}(\mathcal{C}) \to \textit{Sets}$,
-$\mathcal{F} \to \mathcal{F}_p$ is exact.
-In addition it commutes with all colimits.
-\end{lemma}
-
-\begin{proof}
 Let $\mathcal{I} \to \textit{Sh}(\mathcal{C})$,
-$i \mapsto \mathcal{F}_i$ be a diagram of sheaves.
-We have to show that the stalk of the colimit of this
-system agrees with the colimit of the stalks.
-For limits we have to show this if $\mathcal{I}$ is finite.
+$i \mapsto \mathcal{F}_i$ be a finite diagram of sheaves.
+We have to show that the stalk of the limit of this
+system agrees with the limit of the stalks.
 
 \medskip\noindent
-Let $\mathcal{F}$ be the colimit of the system as a {\it presheaf}.
-According to Lemma \ref{lemma-colimit-sheaves} the colimit in
-the category of sheaves is just the sheafification of $\mathcal{F}$.
-Recall also that $\mathcal{F}$ has a simple description, see
-Section \ref{section-limits-colimits-PSh}.
-By Lemma \ref{lemma-stalk-presheaf-sheaf} it suffices to prove
-that $\mathcal{F}_p = \text{colim}_{\mathcal{I}} \mathcal{F}_{i, p}$.
-OK, and the expression on the right equals
-$$
-\text{colim}_{i}\ 
-\text{colim}_{\{(U,x)\}^{opp}}\ 
-\mathcal{F}_i(U)
-$$
-whereas the expression on the left equals
-$$
-\text{colim}_{\{(U,x)\}^{opp}}\ 
-\text{colim}_{i}\ 
-\mathcal{F}_i(U).
-$$
-Hence we see the result from Categories,
-Lemma \ref{categories-lemma-colimits-commute}.
-
-\medskip\noindent
-Next, let $\mathcal{F}$ be the limit of the system as a {\it presheaf}.
-Also, assume the diagram category $\mathcal{I}$ is finite.
+Let $\mathcal{F}$ be the limit of the system as a {\it presheaf}.
 According to Lemma \ref{lemma-limit-sheaf} this is a sheaf and
 it is the limit in the category of sheaves.
 Hence we have to show that
 $\mathcal{F}_p = \text{lim}_{\mathcal{I}} \mathcal{F}_{i, p}$.
-Arguing as above we have to show that
+Recall also that $\mathcal{F}$ has a simple description, see
+Section \ref{section-limits-colimits-PSh}. Thus we have to show that
 $$
 \text{lim}_{i}\ 
 \text{colim}_{\{(U,x)\}^{opp}}\ 
@@ -2139,112 +2156,123 @@ $$
 \text{lim}_{i}\ 
 \mathcal{F}_i(U).
 $$
-To prove this holds it
-suffices to show that the opposite of the
-category of neighbourhoods is directed
-see Categories, Lemma
-\ref{categories-lemma-directed-commutes}.
-And this is shown in Lemma \ref{lemma-neighbourhoods-drected} above.
+This holds, by Categories, Lemma \ref{categories-lemma-directed-commutes},
+because we just showed the opposite of the category of neighbourhoods
+is directed.
 \end{proof}
 
-\noindent
-The following remark is not logically necessary for the
-development of the theory.
-
-\begin{remark}
-\label{remark-points-sites}
-More generally, suppose that $u : \mathcal{C} \to \textit{Sets}$
-is a functor such that property (2) of
-Definition \ref{definition-point}
-holds, but suppose that $\mathcal{C}$ does not necessarily have
-finite limits. Let $S$ be the set of sets whose elements are the
-sets $u(U)$, as well as a set $Y = \{p\}$. Let $\mathcal{S}$ be
-the site constructed in Remark \ref{remark-pt-topos} from $S$. Then
-$u : \mathcal{C} \to \mathcal{S}$ is a continuous functor,
-and hence we have the functors $u_s$ and $u^s$. In this case
-$u_s = u_p$. By Remark \ref{remark-pt-topos} the ``evaluation at $Y$''
-functor  $\textit{Sh}(\mathcal{S}) \to \textit{Sets}$, $\mathcal{G} \mapsto
-\mathcal{G}(Y)$ is an equivalence. Now it is easy to see that
-the category $\mathcal{I}^u_Y$ defined in
-Section \ref{section-functoriality-PSh}
-is equal to the category of pairs $(U, x)$ used in the definition
-of the stalk functor above. Then clearly
-$(u_s\mathcal{F})(Y) = (u_p\mathcal{F})(Y) = \mathcal{F}_p$
-is the stalk functor, defined above. This discussion motivates
-the following definition.
-\end{remark}
-
-\begin{definition}
-\label{definition-point}
-Let $\mathcal{C}$ be a site, and assume that finite limits exist
+\begin{proposition}
+\label{proposition-point-limits}
+Let $\mathcal{C}$ be a site. Assume that finite limits exist
 in $\mathcal{C}$. (I.e., $\mathcal{C}$ has fibre products, and a
-final object.) A {\it point $p$} of such a site $\mathcal{C}$
-is a functor $u : \mathcal{C} \to \textit{Sets}$ such that
+final object.) A point $p$ of such a site $\mathcal{C}$
+is given by a functor $u : \mathcal{C} \to \textit{Sets}$ such that
 \begin{enumerate}
 \item $u$ commutes with finite limits, and
 \item if $\{U_i \to U\}$ is a covering, then
 $\coprod_i u(U_i) \to u(U)$ is surjective.
 \end{enumerate}
-\end{definition}
+\end{proposition}
 
-\begin{definition}
-\label{definition-point-general}
-Let $\mathcal{C}$ be a site. A {\it point $p$} of the site $\mathcal{C}$
-is a functor $u : \mathcal{C} \to \text{Sets}$ such that
+\begin{proof}
+Suppose first that $p$ is a point (Definition \ref{definition-point})
+given by a functor $u$. Condition (2) is satisfied directly from
+the definition of a point. By Lemma \ref{lemma-points-recover}
+we have $(h_U)_p = u(U)$. By Lemma \ref{lemma-point-pushforward-sheaf}
+we have $(h_U^\#)_p = (h_U)_p$. Thus we see that $u$
+is equal to the composition of functors
+$$
+\mathcal{C} \xrightarrow{h}
+\textit{PSh}(\mathcal{C}) \xrightarrow{{}^\#}
+\textit{Sh}(\mathcal{C}) \xrightarrow{()_p}
+\textit{Sets}
+$$
+Each of these functors is exact, and hence we see $u$ satisfies (1).
+
+\medskip\noindent
+Conversely, suppose that $u$ satisfies (1) and (2).
+In this case we immediately see that $u$ satisfies the first two
+conditions of Definition \ref{definition-point}. And its
+stalk functor is exact, because it is a left adjoint by
+Lemma \ref{lemma-point-pushforward-sheaf} and it commutes
+with limits by Lemma \ref{lemma-neighbourhoods-directed}.
+\end{proof}
+
+\begin{remark}
+\label{remark-improve-proposition-points-limits}
+In fact, let $\mathcal{C}$ be a site. Assume $\mathcal{C}$ has products
+and fibre products. Let $p = u: \mathcal{C} \to \textit{Sets}$ be a functor 
+such that
 \begin{enumerate}
-\item the stalk functor $\textit{Sh}(\mathcal{C}) \to \textit{Sets}$,
-$\mathcal{F} \to \mathcal{F}_p$ is exact, and
-\item if $\{U_i \to U\}$ is a covering, then
-$\coprod_i u(U_i) \to u(U)$ is surjective.
+\item for every pair of objects $U, V$ of $\mathcal{C}$ the map
+$u(U \times V) \to u(U) \times u(V)$ is surjective, and
+\item for every pair of morphisms $U \to W$ and $V \to W$ with
+the same target the map
+$u(U \times_W V) \to u(U) \times_{u(W)} u(V)$ is surjective.
+\item for every covering $\{U_i \to U\}$ the map
+$\coprod u(U_i) \to u(U)$ is surjective.
 \end{enumerate}
-\end{definition}
+Then $p$ is a point of $\mathcal{C}$. See
+Lemma \ref{lemma-point-pushforward-sheaf}
+and Lemma \ref{lemma-neighbourhoods-directed}.
+So it suffices to prove the surjectivity
+when checking that $u$ commutes with products and fibred products.
+\end{remark}
 
-\noindent
-Now we still have to verify that this does not introduce more
-points in the case that $\mathcal{C}$ has finite limits. This we 
-will show below. It follows by interpreting $u$ in terms of the
-stalk functor in the general case. The proof of the equivalence
-below will show that even in the general case the functor $u$
-commutes with all finite limits that exist in $\mathcal{C}$.
+\begin{example}
+\label{example-point-G-sets}
+Consider the site $\mathcal{T}_G$ described in
+Example \ref{example-site-on-group} and
+Section \ref{section-example-sheaf-G-sets}.
+The forgetful functor $u : \mathcal{T}_G \to \textit{Sets}$
+commutes with products and fibred products and turns 
+coverings into surjective families. Hence it defines a point
+of $\mathcal{T}_G$. We identify $\textit{Sh}(\mathcal{T}_G)$
+and $G\textit{-Sets}$. The stalk functor
+$$
+\textit{Sh}(\mathcal{T}_G) = G\textit{-Sets} \longrightarrow \textit{Sets}
+$$
+is the forgetful functor. The pushforward $p_*$ is the
+functor
+$$
+\textit{Sets}
+\longrightarrow
+\textit{Sh}(\mathcal{T}_G) = G\textit{-Sets}
+$$
+which maps a set $S$ to the $G$-set $\text{Map}(G, S)$ with
+action $g \cdot \psi = \psi \circ R_g$ where $R_g$ is right
+multiplication.
+\end{example}
+
+\section{Morphisms between points}
+\label{section-morphisms-points}
 
 \begin{definition}
 \label{definition-morphism-points}
-Let $\mathcal{C}$ be a site.
-Let $p, p'$ be points of $\mathcal{C}$.
-A morphism $p \to p'$ is 
+Let $\mathcal{C}$ be a site. Let $p, p'$ be points of $\mathcal{C}$.
+A {\it morphism $f : p \to p'$} is given by a transformation of functors
+$$ f : p_* \to p'_* $$
+(see Definition \ref{definition-pushforward-point}).
 \end{definition}
 
+\noindent
+This is a fairly important notion, and deserves a more complete
+treatment here. List of desiderata
+\begin{enumerate}
+\item Describe the autormorphisms of the point of $\mathcal{T}_G$
+described in Example \ref{example-point-G-sets}.
+\item Describe $\text{Mor}(p, p')$ in terms of 
+$\text{Mor}(u', u)$, where $u, u' : \mathcal{C} \to \textit{Sets}$
+are the corresponding functors.
+\item More examples, e.g., specialization of points in topological
+spaces.
+\end{enumerate}
 
 
-\begin{lemma}
-\label{lemma-notion-points-agree}
-Let $\mathcal{C}$ be a site whose underlying category has
-all finite limits. Let $p = u : \mathcal{C} \to \textit{Sets}$
-be a functor. Then $p$ is a point in the sense of
-Definition \ref{definition-point} if and only if 
-$p$ is a point in the sense of Definition \ref{definition-point-general}.
-\end{lemma}
 
-\begin{proof}
-It is clear from Lemma \ref{lemma-points-exact} that a point
-in the sense of Definition \ref{definition-point}
-is a point in the sense of Definition \ref{definition-point-general}.
-Conversely, suppose that $p$ is a point in the sense
-of Definition \ref{definition-point-general}. Let
-$\mathcal{I} \to \mathcal{C}$, $i \mapsto U_i$
-be a finite diagram in $\mathcal{C}$. Let
-$\text{lim}_i U_i \in \text{ob}(\mathcal{C})$ be the limit. We see that
-$$
-\text{lim}_i\ u(U_i) =
-\text{lim}_i\ (h_{U_i})_p =
-( \text{lim}_i\ h_{U_i} )_p =
-(h_{\text{lim}_i\ U_i})_p =
-u(\text{lim}_i\ U_i).
-$$
-Here we have used Lemma \ref{lemma-points-recover} multiple times.
-The third equality is immediate from the definition of the representable
-presheaves and the definition of a limit.
-\end{proof}
+
+\section{Sites with enough points}
+\label{section-sites-enough-points}
 
 \begin{definition}
 \label{definition-enough-points}
