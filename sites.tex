@@ -2097,8 +2097,19 @@ sheaf $u^sS$ as the ``scyscraper'' sheaf with value $S$ at $p$.
 Let $p$ be a point of the site $\mathcal{C}$ given by the functor $u$.
 For a set $S$ we define $p_*S = u^s S$ the sheaf
 described in Lemma \ref{lemma-point-pushforward-sheaf} above.
-We sometimes call this a {\it scyscraper sheaf}.
+We sometimes call this a {\it skyscraper sheaf}.
 \end{definition}
+
+\noindent
+In particular we have the following adjointness property
+of skyscraper sheaves and stalks:
+$$
+\text{Mor}_{\textit{Sh}(\mathcal{C})}(\mathcal{F}, p_*S)
+=
+\text{Map}(\mathcal{F}_p, S)
+$$
+This motivates the notation $p^{-1}\mathcal{F} = \mathcal{F}_p$
+which we will sometimes use.
 
 \begin{lemma}
 \label{lemma-neighbourhoods-directed}
@@ -2220,6 +2231,28 @@ when checking that $u$ commutes with products and fibred products.
 \end{remark}
 
 \begin{example}
+\label{example-point-topological}
+Let $X$ be a topological space.
+Let $\mathcal{T}_X$ be the site
+of Example \ref{example-site-toplogical}.
+Let $x \in X$ be a point. Consider the functor
+$$
+u : \mathcal{T}_X \longrightarrow \textit{Sets},\ 
+U \mapsto \left\{
+\begin{matrix}
+\emptyset & \text{if} & x \not \in U \\
+\{x\} & \text{if} & x \in U
+\end{matrix}\right.
+$$
+This functor commutes with product and fibred products,
+and turns coverings into surjective families of maps.
+Hence we obtain a point $p$ of the site $\mathcal{T}_X$.
+It is immediately verified that the stalk functor
+agrees with the stalk at $x$ defined in Topology,
+Section \ref{topology-section-stalks}.
+\end{example}
+
+\begin{example}
 \label{example-point-G-sets}
 Consider the site $\mathcal{T}_G$ described in
 Example \ref{example-site-on-group} and
@@ -2230,7 +2263,10 @@ coverings into surjective families. Hence it defines a point
 of $\mathcal{T}_G$. We identify $\textit{Sh}(\mathcal{T}_G)$
 and $G\textit{-Sets}$. The stalk functor
 $$
-\textit{Sh}(\mathcal{T}_G) = G\textit{-Sets} \longrightarrow \textit{Sets}
+p^{-1} :
+\textit{Sh}(\mathcal{T}_G) = G\textit{-Sets}
+\longrightarrow
+\textit{Sets}
 $$
 is the forgetful functor. The pushforward $p_*$ is the
 functor
@@ -2249,23 +2285,44 @@ multiplication.
 
 \begin{definition}
 \label{definition-morphism-points}
-Let $\mathcal{C}$ be a site. Let $p, p'$ be points of $\mathcal{C}$.
-A {\it morphism $f : p \to p'$} is given by a transformation of functors
-$$ f : p_* \to p'_* $$
-(see Definition \ref{definition-pushforward-point}).
+Let $\mathcal{C}$ be a site. Let $p, p'$ be points of $\mathcal{C}$
+given by functors $u, u' : \mathcal{C} \to \textit{Sets}$.
+A {\it morphism $f : p \to p'$} is given by a transformation of
+functors
+$$ f_u : u' \to u. $$
 \end{definition}
 
 \noindent
+Note how the transformation of functors goes the other way.
+This makes sense, as we will see later, by thinking of
+the morphism $f$ as a kind of $2$-arrow pictorially as
+follows:
+$$
+\xymatrix{
+\textit{Sets}
+=
+\textit{Sh}(pt)
+\rrtwocell^p_{p'}{f}
+&
+&
+\textit{Sh}(\mathcal{C})
+}
+$$
+Namely, we will see later that $f_u$ induces a canonical
+transformation of functors $p_* \to p'_*$ between
+the skyscraper sheaf constructions.
+
+\medskip\noindent
 This is a fairly important notion, and deserves a more complete
 treatment here. List of desiderata
 \begin{enumerate}
 \item Describe the autormorphisms of the point of $\mathcal{T}_G$
 described in Example \ref{example-point-G-sets}.
-\item Describe $\text{Mor}(p, p')$ in terms of 
-$\text{Mor}(u', u)$, where $u, u' : \mathcal{C} \to \textit{Sets}$
-are the corresponding functors.
-\item More examples, e.g., specialization of points in topological
-spaces.
+\item Describe $\text{Mor}(p, p')$ in terms of  $\text{Mor}(p_*, p'_*)$.
+\item Specialization of points in topological spaces.
+Show that if $x' \in \overline{\{x\}}$ in the topological space
+$X$, then there is a morphism $p \to p'$, where $p$ (resp.\ $p'$)
+is the point of $\mathcal{T}_X$ associated to $x$ (resp.\ $x'$).
 \end{enumerate}
 
 
@@ -2351,8 +2408,11 @@ Suppose that the family is conservative and that $\mathcal{F}$, $U$, and
 $s,s'$ are as in the lemma. The sections $s$, $s'$ define maps
 $a, a' : (h_U)^\# \to \mathcal{F}$ which are distinct. Hence, by Lemma
 \ref{lemma-exactness-stalks} there is an $i$ such that $a_{p_i}
-\not = a'_{p_i}$. Unwinding the definitions you get an $x \in u_i(U)$
-as in the statement of the lemma.
+\not = a'_{p_i}$. Recall that $(h_U)^\#_{p_i} = u_i(U)$.
+Hence there exists a $x \in u_i(U)$ such that $a_{p_i}(x)
+\not = a'_{p_i}(x)$ in $\mathcal{F}_{p_i}$.
+Unwinding the definitions you see that $(U, x, s)$
+and $(U, x, s')$ are as in the statement of the lemma.
 
 \medskip\noindent
 To prove the converse, assume the condition on the existence of
@@ -3357,8 +3417,8 @@ A {\it point $p$} of the topology is given by a functor
 $u : \mathcal{C} \to \textit{Sets}$ such that
 \begin{enumerate}
 \item For every covering sieve $S$ on $U$ the map
-$S_p \to U_p$ is surjective.
-\item
+$S_p \to (h_U)_p$ is surjective.
+\item The stalk functor is exact.
 \end{enumerate}
 \end{definition}
 
