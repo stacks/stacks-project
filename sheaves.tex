@@ -1,0 +1,839 @@
+\input{preamble}
+
+% OK, start here.
+%
+\begin{document}
+
+\title{Sheaves on spaces}
+
+%\begin{abstract}
+%\end{abstract}
+
+\maketitle
+
+\tableofcontents
+
+\section{Introduction}
+\label{section-introduction}
+
+\noindent
+Basic properties of sheaves on topological spaces
+will be explained in this document.
+A reference is \cite{Godement}.
+
+\medskip\noindent
+This will be superceded by the discussion of sheaves
+over sites later in the documents. But perhaps it makes 
+sense to briefly define some of the notions here.
+
+
+
+
+
+
+
+
+
+
+
+\section{Basic notions}
+\label{section-sheaves-basic}
+
+\noindent
+The following notions are considered basic and will not be defined,
+and or proved. This does not mean they are all necessarily easy or 
+well known.
+
+\begin{enumerate}
+\item Nothing sofar.
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Presheaves}
+\label{section-presheaves}
+
+
+\begin{definition}
+\label{definition-presheaf}
+Let $X$ be a topological space.
+\begin{enumerate}
+\item A {\it presheaf} $\mathcal{F}$ of sets is a rule which
+assigns to each open $U \subset X$ a set $\mathcal{F}(U)$ and
+to each inclusion $V \subset U$ a map
+$\rho^U_V : \mathcal{F}(U) \to \mathcal{F}(V)$ such that
+whenever $W \subset V \subset U$ we have 
+$\rho^U_W = \rho^V_W \circ \rho ^U_V$.
+\item A morphism $\varphi : \mathcal{F} \to \mathcal{G}$ 
+of presheaves of sets is a rule which assigns to each
+open $U \subset X$ a map of sets $\varphi : \mathcal{F}(U)
+\to \mathcal{G}(U)$ compatible with restriction maps,
+i.e., whenever $V \subset U \subset X$ are open the
+diagram
+$$
+\xymatrix{
+\mathcal{F}(U) \ar[r]^\varphi \ar[d]^{\rho^U_V} &
+\mathcal{G}(U) \ar[d]^{\rho^U_V} \cr
+\mathcal{F}(V) \ar[r]^\varphi & \mathcal{G}(V)
+}
+$$
+commutes.
+\item The category of presheaves of sets on $X$ will be denoted
+$\textit{PSh}(X)$.
+\end{enumerate}
+\end{definition}
+
+\noindent
+The elements of the set $\mathcal{F}(U)$ are called
+the {\it sections} of $\mathcal{F}$ over $U$.
+For every $V \subset U$ the map
+$\rho^U_V : \mathcal{F}(U) \to \mathcal{F}(V)$
+is called the {\it restricton map}. We will use the
+notation $s|_V := \rho^U_V(s)$ if $s\in \mathcal{F}(U)$.
+This notation is consistent with the notion of restriction
+of functions from topology because if $W \subset V \subset U$
+and $s$ is a section of $\mathcal{F}$ over $U$ then
+$s|_W = (s|_V)|_W$ by the property of the restriction maps
+expressed in the definition above.
+
+\begin{definition}
+\label{definition-constant-presheaf}
+Let $X$ be a topological space. Let $A$ be a set.
+The {\it constant presheaf with value $A$} is the
+presheaf that assigns the set $A$ to every open
+$U \subset X$, and such that all restriction mappings
+are $\text{id}_A$.
+\end{definition}
+
+\section{Presheaves of abelian groups, etc}
+\label{section-abelian-presheaves}
+
+\noindent
+In this section we briefly point out some features of the
+category of presheaves that allow one to define presheaves
+of abelian groups, rings, etc. Of course it would be better
+to discuss this in greater generality, using that limits
+and colimits exist in the category of presheaves of sets,
+but we leave this to our later discussion of (pre)sheaves
+on a general site.
+
+\begin{example}
+\label{example-singleton-presheaf}
+Let $X$ be a topological space $X$. Consider a rule $\mathcal{F}$ that
+associates to every open subset a singleton set. Since every set
+has a unique map into a singleton set, there exist unique restriction
+maps $\rho^U_V$. The resulting structure is a presheaf of sets.
+It is a final object in the category of presheaves of sets, by the
+property of singleton sets mentioned above. Hence it is
+also unique up to unique isomorphism. We will sometimes write $*$
+for this presheaf.
+\end{example}
+
+\begin{lemma}
+\label{lemma-product-presheaves}
+The category of presheaves of sets has products
+(see Categories, Definition \ref{categories-definition-product}).
+\end{lemma}
+
+\begin{proof}
+Namely, suppose $\mathcal{F}$ and $\mathcal{G}$ are
+presheaves of sets on the topological space $X$.
+Consider the rule $U \mapsto \mathcal{F}(U) \times \mathcal{G}(U)$,
+denoted $\mathcal{F}\times \mathcal{G}$. If $V \subset U \subset X$
+are open then define the restriction mapping
+$$
+(\mathcal{F} \times \mathcal{G})(U)
+\longrightarrow
+(\mathcal{F} \times \mathcal{G})(V)
+$$
+by mapping $(s, t) \mapsto (s|_V, t|_V)$. Then it is immediately
+clear that $\mathcal{F}\times\mathcal{G}$ is a presheaf.
+Also, there are projection maps
+$p : \mathcal{F}\times\mathcal{G} \to \mathcal{F}$
+and 
+$q : \mathcal{F}\times\mathcal{G} \to \mathcal{G}$.
+We leave it to the reader to show that
+for any third presheaf $\mathcal{H}$ we have
+$\text{Mor}(\mathcal{H}, \mathcal{F}\times \mathcal{G})
+= \text{Mor}(\mathcal{H}, \mathcal{F}) \times
+\text{Mor}(\mathcal{H}, \mathcal{G})$.
+\end{proof}
+
+\noindent
+Recall that if $(A, + : A\times A \to A, - : A \to A, 0\in A)$
+is an abelian group, then the zero and the negation maps are
+uniquely determined by the addition law. In other words, it
+makes sense to say ``let $(A, +)$ be an abelian group''.
+
+\begin{lemma}
+\label{lemma-abelian-presheaves}
+Let $X$ be a topological space.
+Let $\mathcal{F}$ be a presheaf of sets.
+Consider the following types of structure on $\mathcal{F}$:
+\begin{enumerate}
+\item For every open $U$ the structure of an abelian group
+on $\mathcal{F}(U)$ such that all restriction maps are
+abelian group homomorphisms.
+\item A map of presheaves
+$+ : \mathcal{F} \times \mathcal{F} \to \mathcal{F}$,
+a map of presheaves $- : \mathcal{F} \to \mathcal{F}$
+and a map $0 : * \to \mathcal{F}$
+(see Example \ref{example-singleton-presheaf})
+satisfying all the axioms of $+, -, 0$ in a usual
+abelian group.
+\item A map of presheaves
+$+ : \mathcal{F} \times \mathcal{F} \to \mathcal{F}$,
+a map of presheaves $- : \mathcal{F} \to \mathcal{F}$
+and a map $0 : * \to \mathcal{F}$
+such that for each open $U \subset X$ the quadruple
+$(\mathcal{F}(U), +, -, 0)$ is an abelian group,
+\item A map of presheaves $+ : \mathcal{F} \times \mathcal{F}
+\to \mathcal{F}$ such that for every open $U \subset X$
+the map $+ : \mathcal{F}(U) \times \mathcal{F}(U) \to \mathcal{F}(U)$
+defines the structure of an abelian group.
+\end{enumerate}
+There are natural bijections between the collections of
+types of data (1) - (4) above.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\noindent
+The lemma says that to give an abelian group object $\mathcal{F}$
+in the category of presheaves is the same as giving a presheaf of sets
+$\mathcal{F}$ such that all the sets $\mathcal{F}(U)$ are endowed
+with the structure of an abelian group and such that all the restriction
+mappings are group homomorphisms. For most algebra structures
+we will take this approach to (pre)sheaves of such objects, i.e.,
+we will define a (pre)sheaf of such objects to be a (pre)sheaf
+$\mathcal{F}$ of sets all of whose sets of sections $\mathcal{F}(U)$
+are endowed with this structure compatibly with the restriction
+mappings.
+
+\begin{definition}
+\label{definition-abelian-presheaves}
+Let $X$ be a topological space.
+\begin{enumerate}
+\item A {\it presheaf of abelian groups} or an {\it abelian presheaf}
+is a presheaf of sets $\mathcal{F}$ such that for each open
+$U \subset X$ the set $\mathcal{F}(U)$ is endowed with
+the structure of an abelian group, and such that all restriction
+maps $\rho^U_V$ are homomorphisms of abelian groups, see
+Lemma \ref{lemma-abelian-presheaves} above.
+\item A {\it morphism of presheaves of abelian groups}
+$\varphi : \mathcal{F} \to \mathcal{G}$ is a morphism of presheaves
+of sets which induces
+a homomorphism of abelian groups $\mathcal{F}(U) \to \mathcal{G}(U)$
+for every open $U \subset X$.
+\item The category of presheaves of abelian groups on $X$ is denoted
+$\textit{PAb}(X)$.
+\item {\it Presheaves of (not necessarily abelian) groups, rings, modules
+over a fixed ring, vector spaces over a fixed field,} etc and
+{\it morphisms between these} are defined similarly (see comments
+preceding the definition).
+\end{enumerate}
+\end{definition}
+
+\begin{remark}
+\label{remark-presheaves-structure}
+This remark intends to clarify the definition
+of presheaves of certain types of structures,
+but is likely very confusing for those reading
+this material for the first time.
+Suppose that $\mathcal{C}$ is a category and
+that $F : \mathcal{C} \to \textit{Sets}$ is
+a faithfull functor. Typically $F$ is a ``forgetfull''
+functor. Then we may define a ``presheaf of objects of $\mathcal{C}$''
+as a pair consisting of
+\begin{enumerate}
+\item a presheaf of sets $\mathcal{F}$, and
+\item for every open $U \subset X$ a choice
+of an object $A(U) \in \text{Ob}(\mathcal{C})$
+\end{enumerate}
+such that
+\begin{enumerate}
+\item we have $F(A(U)) = \mathcal{F}(U)$ for all $U \subset X$ open, and
+\item for every $V \subset U \subset X$ open we have
+$\rho^U_V : F(A(U)) = \mathcal{F}(U) \to F(A(V)) = \mathcal{F}(V)$
+is in the image of $F : \text{Mor}_{\mathcal{C}}(A(U), A(V))
+\to \text{Map}(\mathcal{F}(U), \mathcal{F}(V))$.
+\end{enumerate}
+In other words, the restriction mappings $\rho^U_V$ actually
+come from unique morphisms $A(U) \to A(V)$ in the category $\mathcal{C}$.
+It should be clear to the observant reader that $U \mapsto A(U)$
+is a contravariant functor from the category of opens of $X$
+into $\mathcal{C}$. This is the notion we will use later on
+(in the section on sites).
+\end{remark}
+
+\begin{example}
+\label{example-direct-sum-points}
+Let $X$ be a topological space. For each $x \in X$ suppose
+given an abelian group $M_x$. For $U \subset X$ open
+we set
+$$
+\mathcal{F}(U) = \bigoplus\nolimits_{x \in U} M_x.
+$$
+We denote a typical element in this abelian group by
+$\sum_{i=1}^n m_{x_i}$, where $x_i \in U$ and $m_{x_i} \in M_{x_i}$.
+(Of course we may always choose our representation such that
+$x_1,\ldots,x_n$ are pairwise distinct.)
+We define for $V \subset U \subset X$ open a restriction
+mapping $\mathcal{F}(U) \to \mathcal{F}(V)$ by
+mapping an element $s = \sum_{i=1}^n m_{x_i}$ 
+to the element $s|_V = \sum_{x_i \in V} m_{x_i}$.
+We leave it to the reader to verify that this is a 
+presheaf of abelian groups.
+\end{example}
+
+\noindent
+Suppose that $\mathcal{O}$ is a presheaf of rings on $X$.
+We would like to define the notion of a presheaf of
+$\mathcal{O}$-modules over $X$. In analogy with Definition
+\ref{definition-abelian-presheaves} we are tempted to define 
+this as a sheaf of sets $\mathcal{F}$ such that for every open
+$U \subset X$ the set $\mathcal{F}(U)$ is endowed with the structure
+of an $\mathcal{O}(U)$-module compatible with restriction mappings
+(of $\mathcal{F}$ and $\mathcal{O}$). However, it is customary
+(and equivalent) to define it as in the following definition.
+
+\begin{definition}
+\label{definition-presheaf-modules}
+Let $X$ be a topological space, and let $\mathcal{O}$ be
+a presheaf of rings. A {\it presheaf of $\mathcal{O}$-modules}
+is given by an abelian presheaf $\mathcal{F}$ together with a
+map of presheaves
+$$
+\mathcal{O} \times \mathcal{F} \longrightarrow \mathcal{F}
+$$
+such that for every open $U \subset X$ the map
+$\mathcal{O}(U) \times \mathcal{F}(U) \to \mathcal{F}(U)$ 
+defines the structure of an $\mathcal{O}(U)$-module
+structure on the abelian group $\mathcal{F}(U)$.
+\end{definition}
+
+\section{Sheaves}
+\label{section-sheaves}
+
+\noindent
+In this section we explain the sheaf condition.
+
+\begin{definition}
+\label{definition-sheaf}
+Let $X$ be a topological space.
+\begin{enumerate}
+\item A {\it sheaf} $\mathcal{F}$ of sets on $X$ is a presheaf
+which satsifies the following additional property: Given
+any open covering $U = \bigcup_{i \in I} U_i$ and any collection
+of sections $s_i \in \mathcal{F}(U_i)$, $i \in I$ such that
+$\forall i,j\in I$
+$$
+s_i|_{U_i \cap U_j} = s_j|_{U_i \cap U_j}
+$$
+there exists a unique section $s \in \mathcal{F}(U)$ such that
+$s_i = s|_U$ for all $i \in I$.
+\item A {\it morphism of sheaves of sets} is simply a
+morphism of presheaves of sets.
+\item The category of sheaves of sets on $X$ is denoted
+$\textit{Sh}(X)$.
+\item {\it Sheaves of abelian groups, groups, rings, modules
+over a fixed ring, vector spaces over a fixed field,} etc
+are defined to be presheaves of abelian groups, groups, rings,
+modules over a fixed ring, vector spaces over a fixed field, etc
+such that the underlying presheaf of sets is a sheaf%
+\footnote{This only for those categories of algebraic
+structures listed here. See Remark \ref{remark-sheaves-structure}}.
+\item The category of sheaves of abelian groups
+is denoted $\textit{Ab}(X)$.
+\item Given a sheaf of rings $\mathcal{O}$ over $X$
+a {\it sheaf of $\mathcal{O}$-modules} is a presheaf
+of $\mathcal{O}$-modules $\mathcal{F}$,
+see Definition \ref{definition-presheaf-modules},
+such that the underlying presheaf of abelian groups $\mathcal{F}$
+is a sheaf.
+\end{enumerate}
+\end{definition}
+
+\begin{remark}
+There is always a bit of confusion as to whether it is
+necessary to say something about the set of sections of
+a sheaf over the empty set $\emptyset \subset X$.
+Note that the empty set is
+covered by the empty open covering, and hence the ``collection
+of section $s_i$'' from the definition above actually form
+an element of the empty product which is the final object
+of the category the sheaf has values in. In other words,
+if you read the definition right you automatically deduce
+that $\mathcal{F}(\emptyset) = \textit{a final object}$,
+which in the case of a sheaf of sets is a singleton.
+If you do not like this argument, then you can just require
+that $\mathcal{F}(\emptyset) = \{*\}$.
+\end{remark}
+
+\begin{example}
+\label{example-basic-continuous-maps}
+Let $X$, $Y$ be topological spaces.
+Consider the rule $\mathcal{F}$ wich associates to
+the open $U \subset X$ the set
+$$
+\mathcal{F}(U) = \{ f : U \to Y \mid f \text{ is continuous}\}
+$$
+with the obvious restriction mappings. We claim that
+$\mathcal{F}$ is a sheaf. To see this suppose that
+$U = \bigcup_{i\in I} U_i$ is an open covering, and
+$f_i \in \mathcal{F}(U_i)$, $i\in I$ with
+$f_i |_{U_i \cap U_j} = f_j|_{U_i \cap U_j}$ for all $i,j \in I$.
+In this case define $f : U \to Y$ by setting $f(u)$
+equal to the value of $f_i(u)$ for any $i \in I$ such that
+$u \in U_i$. This is well defined by assumption. Moreover,
+$f : U \to Y$ is a map such that its restriction to $U_i$
+agrees with the continuous map $U_i$. Hence clearly $f$ is
+continuous!
+\end{example}
+
+\begin{example}
+\label{example-sheaf-product-pointwise}
+Let $X$ be a topological space. Let $(A_x)_{x \in X}$ be 
+a family of sets $A_x$ indexed by points $x \in X$.
+For $U \subset X$ open set
+$$
+\mathcal{F}(U) = \prod\nolimits_{x \in U} A_x,
+$$
+and for $V \subset U \subset X$ open define
+a restriction mapping by the following rule: An element
+$s = (a_x)_{x\in U} \in \mathcal{F}(U)$ restricts
+to $s|_V = (a_x)_{x \in V}$. It is obvious that this
+defines a presheaf of sets. We claim this is a sheaf.
+Namely, let $U = \bigcup U_i$ be an open covering.
+Suppose that $s_i \in \mathcal{F}(U_i)$ are
+such that $s_i$ and $s_j$ agree over $U_i \cap U_j$. Write
+$s_i = (a_{i,x})_{x\in U_i}$. The compatibility condition implies that
+$a_{i, x} = a_{j, x}$ in the set $A_x$ whenever $x \in U_i \cap U_j$. 
+Hence there exists a unique element $s = (a_x)_{x\in U}$
+in $\prod_{x\in U} A_x$ with the property that
+$a_x = a_{i, x}$ whenever $x \in U_i$ for some $i$. Of course this
+element $s$ has the property that $s|_{U_i} = s_i$ for all $i$.
+\end{example}
+
+\begin{example}
+\label{example-direct-sum-points-not-sheaf}
+Let $X$ be a topological space.
+Suppose for each $x\in X$ we are given an abelian group $M_x$.
+Consider the presheaf $\mathcal{F} : U \mapsto \bigoplus_{x \in U} M_x$
+defined in Example \ref{example-direct-sum-points}. This
+is not a sheaf in general. For example, if $X$ is an infinite set
+with the discrete topology, then the sheaf condition 
+would imply that $\mathcal{F}(X) = \prod_{x\in X} \mathcal{F}(\{x\})$
+but by definition we have $\mathcal{F}(X)
+= \bigoplus_{x \in X} M_x = \bigoplus_{x \in X} \mathcal{F}(\{x\})$.
+And an infinite direct sum is in general different from an infinite
+direct product.
+
+\medskip\noindent
+However, if $X$ is a topological space such that every open
+of $X$ is quasi-compact, then $\mathcal{F}$ {\it is} a sheaf.
+This is left as an exercise to the reader.
+\end{example}
+
+\begin{remark}
+\label{remark-sheaves-structure}
+This remark intends to clarify the definition
+of sheaves of certain types of structures,
+but is likely very confusing for those reading
+this material for the first time; it is a continuation
+of Remark \ref{remark-presheaves-structure}.
+Suppose that $\mathcal{C}$ is a category and
+that $F : \mathcal{C} \to \textit{Sets}$ is
+a faithfull functor. Then we have defined
+in Remark \ref{remark-presheaves-structure}
+the notion of a presheaf of objects of $\mathcal{C}$
+(in terms of a presheaf of sets $\mathcal{F}$ and
+object $A(U)$, etc).
+When does Definition \ref{definition-sheaf} give
+the ``correct notion'' of a sheaf? According to
+our later definitions (see Sites, Section \ref{sites-section-sheaves}),
+if $\mathcal{C}$ has all products, then this should imply that
+for every open covering $U = \bigcup_{i \in I} U_i$, the
+sequence
+$$
+\xymatrix{
+A(U) \ar[r]
+&
+\prod\nolimits_{i\in I}
+A(U_i)
+\ar@<1ex>[r] \ar@<-1ex>[r]
+&
+\prod\nolimits_{(i_0, i_1) \in I\times I}
+A(U_{i_0} \cap U_{i_1})
+}
+$$
+is an equalizer diagram {\it in the category $\mathcal{C}$}.
+But in the definition above we only require the
+corresponding diagram of sets to be an equalizer diagram!
+A small amount of thought shows the definition above {\it does work} if
+the category $\mathcal{C}$ and
+the functor $F : \mathcal{C} \to \textit{Sets}$
+have the following properties:
+\begin{enumerate}
+\item $\mathcal{C}$ has products and equalizers,
+\item the functor $F$ commutes with products,
+\item the functor $F$ commutes with equalizers, and
+\item the functor $F$ reflects isomorphisms.
+\end{enumerate}
+The last property means that given a morphism
+$f : A \to A'$ in $\mathcal{C}$, then $f$ is
+an isomorphism if (and only if) $F(f)$ is.
+Below you will find an example where Definition \ref{definition-sheaf}
+does not lead to the correct notion.
+\end{remark}
+
+\begin{example}
+\label{example-sheaves-topological-spaces}
+Sheaves of topological spaces should not be defined as
+in Definition \ref{definition-sheaf}.
+This example is confusing and should probably be skipped on
+a first reading. Suppose $X = \mathbf{N}$ with the discrete
+topology. Let $A_i$, for $i \in \mathbf{N}$ be a discrete
+topological space. For any subset $U \subset \mathbf{N}$
+define $\mathcal{F}(U) = \prod_{i\in U} A_i$ with the
+discrete topology. Then this is a presheaf of topological
+spaces whose underlying presheaf of sets is a sheaf.
+However, if each $A_i$ has at least two elements, then
+this is not a sheaf of topological spaces
+according to Sites, Definition \ref{sites-definition-sheaf}.
+The reader may check that putting the {\it product topology} on
+each $\mathcal{F}(U) = \prod_{i\in U} A_i$ does lead to a sheaf
+of topological spaces over $X$ (as in Sites,
+Definition \ref{sites-definition-sheaf}).
+\end{example}
+
+
+
+
+
+
+\section{Stalks}
+\label{section-stalks}
+
+\noindent
+Let $X$ be a topological space. Let $x \in X$ be a point.
+Let $\mathcal{F}$ be a presheaf of sets on $X$.
+The {\it stalk of $\mathcal{F}$ at $x$} is the set
+$$
+\mathcal{F}_x
+=
+\text{colim}_{x\in U} \mathcal{F}(U)
+$$
+where the colimit is over the set of opens $U \subset X$
+containing $x$ (partially) ordered by inclusion, with
+transition maps given by the restriction maps of $\mathcal{F}$.
+See Categories, Section \ref{categories-section-posets-limits}
+for notation and terminology. In other words
+$$
+\mathcal{F}_x
+=
+\{
+(U,s)
+\mid
+x\in U, s\in \mathcal{F}(U)
+\}/\sim
+$$
+with equivalence relation given by $(U,s) \sim (U', s')$
+if and only if $s|_{U\cap U'} = s'|_{U\cap U'}$. By abuse of
+notation we will often denote $(U, s)$
+or even $s$ the corresponding element in $\mathcal{F}_x$.
+Also we will say $s = s'$ in $\mathcal{F}_x$ for two local sections
+of $\mathcal{F}$ defined in a neighbourhod of $x$ to denote that
+they have the same image in $\mathcal{F}_x$.
+
+\medskip\noindent
+An obvious consequence of this definition is that
+for any open $U \subset X$ there is a canonical map
+$$
+\mathcal{F}(U) 
+\longrightarrow
+\prod\nolimits_{u \in U} \mathcal{F}_u
+$$
+defined by $s \mapsto \prod_{u \in U} (U, s)$. Think about it!
+
+\medskip\noindent
+Another observation is that the construction of the stalk
+$\mathcal{F}_x$ is functorial in the presheaf $\mathcal{F}$.
+In other words, it gives a functor
+$$
+\textit{PSh}(X) \longrightarrow \textit{Sets},
+\ \mathcal{F} \longmapsto \mathcal{F}_x.
+$$
+This functor is called the {\it stalk functor}.
+Namely, if $\varphi : \mathcal{F} \to \mathcal{G}$ is 
+a morphism of presheaves, then we define
+$\varphi_x : \mathcal{F}_x \to \mathcal{G}_x$
+by the rule $(U, s) \mapsto (U, \varphi(s))$.
+To see that this works we have to check that
+if $(U, s) = (U', s')$ in $\mathcal{F}_x$ then also
+$(U, \varphi(s)) = (U', \varphi(s'))$ in $\mathcal{G}_x$.
+This is clear since $\varphi$ is compatible with the
+restriction mappings.
+
+\begin{example}
+\label{example-germs-functions}
+Suppose $X = \mathbf{R}^n$ with the Euclidean topology.
+Consider the presheaf of $\mathcal{C}^\infty$ functions
+on $X$, usually denoted $\mathcal{C}^\infty$ as well.
+In other words, $\mathcal{C}^\infty(U)$ is the set
+of $\mathcal{C}^\infty$-functions $f : U \to \mathbf{R}$.
+As in Example \ref{example-basic-continuous-maps}
+it is easy to show that this is a sheaf. In fact it
+is a sheaf of $\mathbf{R}$-vector spaces.
+
+\medskip\noindent
+Next, let $x \in X = \mathbf{R}^n$ be a point. How do
+we think of an element in the stalk $\mathcal{C}^\infty_x$?
+Such an element is given by a $\mathcal{C}^\infty$-function 
+$f$ whose domain contains $x$. And a pair of such
+functions $f$, $g$ determine
+the same element of the stalk if they agree in a neighbourhood
+of $x$. In other words, an element if $\mathcal{C}^\infty_x$
+is the same thing as what is sometimes called
+a {\it germ of a $\mathcal{C}^\infty$-function at $x$}.
+\end{example}
+
+\begin{example}
+\label{example-sheaf-product-pointwise-stalk}
+Let $X$ be a topological space. Let $A_x$ be a set for each $x \in X$.
+Consider the sheaf $\mathcal{F} : U \mapsto \prod_{x\in U} A_x$ of Example
+\ref{example-sheaf-product-pointwise}. We would just like to point
+out here that the stalk $\mathcal{F}_x$ of $\mathcal{F}$ at $x$
+is in general {\it not} equal to the set $A_x$. Of course there is
+a (surjective) map $\mathcal{F}_x \to A_x$, but that is in general
+the best you can say. For example, if each neighbourhood of $x$
+has infinitely many points, and each $A_{x'}$ has exactly two elements,
+then $\mathcal{F}_x$ has infinitely many elements. (Left to the
+reader.)
+\end{example}
+
+
+
+
+
+
+\section{Exactness and points}
+\label{section-exactness-points}
+
+\noindent
+In any category we have the notion of epimorphism, monomorphism,
+isomorphism, etc.
+
+\begin{lemma}
+\label{lemma-points-exactness}
+Let $X$ be a topological space. Let $\varphi : \mathcal{F} \to \mathcal{G}$
+be a morphism of sheaves.
+\begin{enumerate}
+\item The map $\varphi$ is a monomorphism in the category of sheaves
+if and only if for all $x \in X$ the map
+$\varphi_x : \mathcal{F}_x \to \mathcal{G}_x$
+is injective.
+\item The map $\varphi$ is an epimorphism in the category of sheaves
+if and only if for all $x \in X$ the map
+$\varphi_x : \mathcal{F}_x \to \mathcal{G}_x$
+is surjective.
+\item The map $\varphi$ is a isomorphism in the category of sheaves
+if and only if for all $x \in X$ the map
+$\varphi_x : \mathcal{F}_x \to \mathcal{G}_x$
+is bijective.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Fixme.
+\end{proof}
+
+\noindent
+Here we need to talk about short exact sequences of abelian sheaves, etc.
+
+
+
+
+\section{Sheafification}
+\label{section-sheafification}
+
+\noindent
+In this section we explain how to get the sheafification
+of a presheaf on a topological space. We will use stalks
+to describe the sheafification in this case. This is different
+from the general procedure described in Sites, Section
+\ref{sites-section-sheafification}, and perhaps somewhat
+easier to understand.
+
+\medskip\noindent
+The basic construction is the following. Let $\mathcal{F}$ be a presheaf
+of sets $\mathcal{F}$ on a topological space $X$.
+For every open $U \subset X$ we define
+$$
+\mathcal{F}^{\#}(U)
+=
+\{
+(s_u) \in \prod\nolimits_{u \in U} \mathcal{F}_u
+\text{ such that }(*)
+\}
+$$
+where $(*)$ is the property:
+\begin{list}{$(*)$}{}
+\item For every $u \in U$, there exists an open neighbourhood
+$u \in V \subset U$, and a section $\sigma \in \mathcal{F}(V)$
+such that for all $v \in V$ we have $s_v = (V, \sigma)$
+in $\mathcal{F}_v$.
+\end{list}
+Note that $(*)$ is a condition for each $u \in U$,
+and that given $u \in U$ the truth of this condition
+depends only on the values $s_v$ for $v$ in any neighbourhood
+of $u$. Thus it is clear that,
+if $V \subset U \subset X$ are open, the projection maps
+$$
+\prod\nolimits_{u \in U} \mathcal{F}_u
+\longrightarrow
+\prod\nolimits_{v \in V} \mathcal{F}_v
+$$
+maps elements of $\mathcal{F}^{\#}(U)$ into $\mathcal{F}^{\#}(V)$.
+In other words, we get the structure of a presheaf of sets
+on $\mathcal{F}^{\#}$. 
+
+\medskip\noindent
+Furthermore, the map $\mathcal{F}(U) \to \prod_{u \in U} \mathcal{F}_u$
+described in Section \ref{section-stalks} clearly has image
+in $\mathcal{F}^{\#}(U)$. In addition, if $V \subset U \subset X$ are
+open then we have the following commutative diagram
+$$
+\xymatrix{
+\mathcal{F}(U) \ar[r] \ar[d] &
+\mathcal{F}^{\#}(U) \ar[r] \ar[d] &
+\prod_{u\in U} \mathcal{F}_u \ar[d]\cr
+\mathcal{F}(V) \ar[r] &
+\mathcal{F}^{\#}(V) \ar[r] &
+\prod_{v\in V} \mathcal{F}_v
+}
+$$
+where the vertical maps are induced from the
+restriction mappings. Thus we see that
+there is a canonical morphism of presheaves
+$\mathcal{F} \to \mathcal{F}^{\#}$.
+
+\medskip\noindent
+In Example \ref{example-sheaf-product-pointwise} we saw
+that the rule $U \mapsto \prod_{u\in U} \mathcal{F}_u$
+is a sheaf, with obvious restriction mappings. And by construction
+$\mathcal{F}^{\#}$ is a sub-presheaf of this. This will be
+used in the proof of the lemma below.
+
+\begin{lemma}
+\label{lemma-sheafification-sheaf}
+The presheaf $\mathcal{F}^{\#}$ is a sheaf.
+\end{lemma}
+
+\begin{proof}
+It is probably better for the reader to find their own explanation
+of this then to read the proof here. In fact the lemma is true
+for the same reason as why the presheaf of continuous
+function is a sheaf, see Example \ref{example-basic-continuous-maps}.
+
+\medskip\noindent
+Anyway, let $U = \bigcup U_i$ be an open covering.
+Suppose that $s_i = (s_{i,u})_{u \in U_i} \in \mathcal{F}^{\#}(U_i)$
+such that $s_i$ and $s_j$ agree over $U_i \cap U_j$.
+Because of the remark just above the lemma stating
+that $U \mapsto \prod_{u\in U} \mathcal{F}_u$ is a sheaf,
+we find an element $s = (s_u)_{u\in U}$ in $\prod_{u\in U} \mathcal{F}_u$
+restricting to $s_i$ on $U_i$. We have to check property $(*)$.
+Pick $u \in U$. Then $u \in U_i$ for some $i$. Hence by $(*)$ for $s_i$,
+there exists a $u \in V \subset U_i$ open and a $\sigma \in \mathcal{F}(V)$
+such that $s_{i, v} = (V, \sigma)$ in $\mathcal{F}_v$ 
+for all $v \in V$. Since $s_{i,v} = s_v$ we get $(*)$ for $s$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-sheafifiy-universal}
+Let $\mathcal{F}$ be a presheaf of sets on $X$.
+Any map $\mathcal{F} \to \mathcal{G}$ into a sheaf of sets 
+factors uniquely as
+$\mathcal{F} \to \mathcal{F}^\# \to \mathcal{G}$.
+\end{lemma}
+
+\begin{proof}
+Let $\Pi(\mathcal{F})$ denote the sheaf
+$U \mapsto \prod_{u \in U} \mathcal{F}_u$
+of Example \ref{example-sheaf-product-pointwise}.
+Similarly for $\mathcal{G}$. Clearly, there is a commutative
+diagram
+$$
+\xymatrix{
+\mathcal{F} \ar[r] \ar[d] &
+\mathcal{F}^\# \ar[r] \ar[d] &
+\Pi(\mathcal{F}) \ar[d] \\
+\mathcal{G} \ar[r] &
+\mathcal{G}^\# \ar[r] &
+\Pi(\mathcal{G}) \\
+}
+$$
+So it suffices to prove that $\mathcal{G} = \mathcal{G}^\#$.
+To see this it suffices to prove, for every point $x \in X$ the
+map $\mathcal{G}_x \to \mathcal{G}^\#_x$ is bijective
+(see Lemma \ref{lemma-points-exactness}).
+It is clearly injective, since already the map
+$\mathcal{G}_x \to \Pi(\mathcal{G})_x$ is injective. (Compare with
+Example \ref{example-sheaf-product-pointwise-stalk}.)
+To show that it is surjective, suppose that
+$\overline{s} \in \mathcal{G}^\#_x$.
+We can find an open neighbourhood $U$ of $x$ such that
+$\overline{s}$ is the equivalence class of $(U, s)$
+with $s \in \mathcal{G}^\#_x$.
+By definition, this means there exists an open neighbourhood
+$V$, $x \in V \subset U$ and a section $\sigma \in \mathcal{G}(V)$
+such that $s|_V$ is the image of $\sigma$ in $\Pi(\mathcal{G})(V)$.
+Clearly the class of $(V, \sigma)$ defines an element of
+$\mathcal{G}_x$ mapping to $\overline{s}$.
+\end{proof}
+
+\noindent
+This lemma really says that there is an adjoint pair
+of functors: $i : \textit{Sh}(X) \to \textit{PSh}(X)$
+(inclusion) and $\# : \textit{PSh}(X) \to \textit{Sh}(X)$
+(sheafification). The formula is that
+$$
+\text{Mor}_{\textit{PSh}(X)}(\mathcal{F}, i(\mathcal{G}))
+=
+\text{Mor}_{\textit{Sh}(X)}(\mathcal{F}^\#, \mathcal{G})
+$$
+which says that sheafification is a left adjoint of
+the inclusion functor. See Categories, Section
+\ref{categories-section-adjoint}.
+
+\section{Continuous maps and sheaves}
+\label{section-presheaves-functorial}
+
+\noindent
+Let $f : X \to Y$ be a continuous map of topological spaces.
+
+
+
+
+
+
+
+
+\input{chapters}
+
+\bibliography{my}
+\bibliographystyle{alpha}
+
+\end{document}
