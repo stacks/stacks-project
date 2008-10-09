@@ -863,6 +863,9 @@ $$
 $$
 exists in $\mathcal{C}$. Its underlying set is equal to the
 stalk of the underlying presheaf of sets of $\mathcal{F}$.
+Furthermore, the construction $\mathcal{F} \mapsto \mathcal{F}_x$
+is a functor from the catergory of presheaves with values in
+$\mathcal{C}$ to $\mathcal{C}$.
 \end{lemma}
 
 \begin{proof}
@@ -1396,15 +1399,224 @@ Lemma \ref{lemma-image-contained-in}.
 
 
 
-
 \section{Continuous maps and sheaves}
 \label{section-presheaves-functorial}
 
 \noindent
 Let $f : X \to Y$ be a continuous map of topological spaces.
+We will define the push forward and pull back functors for
+presheaves and sheaves.
+
+\medskip\noindent
+Let $\mathcal{F}$ be a presheaf of sets on $X$. We define the
+{\it pushforward} of $\mathcal{F}$ by the rule
+$$
+f_*\mathcal{F}(V) = \mathcal{F}(f^{-1}(V))
+$$
+for any open $V \subset Y$.
+Given $V_1 \subset V_2 \subset Y$ open the restriction map
+is given by the commutativity of the diagram
+$$
+\xymatrix{
+f_*\mathcal{F}(V_2) \ar[d] \ar@{=}[r] &
+\mathcal{F}(f^{-1}(V_2)) \ar[d]^{\text{restriction for }\mathcal{F}} \\
+f_*\mathcal{F}(V_1) \ar@{=}[r] &
+\mathcal{F}(f^{-1}(V_1))
+}
+$$
+It is clear that this defines a presheaf of sets. The construction
+is clearly functorial in the presheaf $\mathcal{F}$ and hence
+we obtain a functor
+$$
+f_* : \textit{PSh}(X) \longrightarrow \textit{PSh}(Y).
+$$
+
+\begin{lemma}
+\label{lemma-pushforward-sheaf}
+Let $f : X \to Y$ be a continuous map.
+Let $\mathcal{F}$ be a sheaf of sets on $X$.
+Then $f_*\mathcal{F}$ is a sheaf on $Y$.
+\end{lemma}
+
+\begin{proof}
+This immediately follows from the fact that
+if $V = \bigcup V_j$ is an open covering in $Y$,
+then $f^{-1}(V) = \bigcup f^{-1}(V_j)$ is an open covering in $X$.
+\end{proof}
+
+\noindent
+As a consequence we obtain a functor
+$$
+f_* : \textit{Sh}(X) \longrightarrow \textit{Sh}(Y).
+$$
+
+\noindent
+Let $\mathcal{G}$ be a presheaf of sets on $Y$.
+The {\it pullback presheaf} $f_p\mathcal{G}$
+of a given presheaf $\mathcal{G}$ is defined as the left adjoint
+of the pushforward $f_*$ on presheaves. In other words it
+should be a presheaf $f_p \mathcal{G}$ on $X$ such that
+$$
+\text{Mor}_{\textit{PSh}(X)}(f_p\mathcal{G}, \mathcal{F})
+=
+\text{Mor}_{\textit{PSh}(Y)}(\mathcal{G}, f_*\mathcal{F}).
+$$
+By the Yoneda lemma this determines the pullback uniquely.
+It turns out that it actually exists.
+
+\begin{lemma}
+\label{lemma-pullback-presheaves}
+There exists a functor
+$f_p : \textit{PSh}(Y) \to \textit{PSh}(X)$
+which is right adjoint to $f_*$. For a presheaf
+$\mathcal{G}$ it is determined by the rule
+$$
+f_p\mathcal{G}(U) = \text{colim}_{f(U) \subset V}\ \mathcal{G}(V)
+$$
+where the colimit is over the collection of open neighbourhoods
+$V$ of $f(U)$ in $Y$. The colimits are directed. (The restriction
+mappings of $f_p\mathcal{G}$ are explained in the proof.)
+\end{lemma}
+
+\begin{proof}
+The colimit is directed in the same way that the colimit
+defining a stalk at a point is directed. (And the
+ordering is by reverse inclusion.) Furthermore, if
+$U_1 \subset U_2$, then every open neighbourhood of $f(U_2)$
+is an open neighbourhood of $f(U_1)$. Hence the system defining
+$f_p\mathcal{G}(U_2)$ is a subsystem of the one defining
+$f_p\mathcal{G}(U_1)$ and we obtain a restiction map (for
+example by applying the generalities in Categories,
+Lemma \ref{categories-lemma-functorial-colimit}).
+
+\medskip\noindent
+Note that the construction of the colimit is clearly functorial
+in $\mathcal{G}$, and similarly for the restriction mappings.
+Hence we have defined $f_p$ as a functor.
+
+\medskip\noindent
+A small useful remark is that clearly $f_p\mathcal{G}(f^{-1}(U))
+= \mathcal{G}(U)$, simply because the system of open neighbourhoods
+of $f(f^{-1}(U)) = U$ has a maximal element, namely $U$. 
+In other words, $f_* f_p\mathcal{G} = \mathcal{G}$.
+
+\medskip\noindent
+Let $\mathcal{F}$ be a presheaf of sets on $X$.
+Suppose that $\psi : f_p\mathcal{G} \to \mathcal{F}$
+is a map of presheaves of sets. The corresponding map
+$\mathcal{G} \to f_*\mathcal{F}$ is simply the map
+$f_*\psi : \mathcal{G} = f_* f_p \mathcal{G} \to f_* \mathcal{F}$.
+
+\medskip\noindent
+Another small useful remark is that there exists a
+canonical map $c_{\mathcal{F}} : f_p f_* \mathcal{F} \to \mathcal{F}$.
+Namely, let $U \subset X$ open. 
+For every open neighbourhood $V \supset f(U)$ in $Y$
+there exists a map
+$f_*\mathcal{F}(V) = \mathcal{F}(f^{-1}(V))\to \mathcal{F}(U)$,
+namely the restriction map on $\mathcal{F}$. And this is certainly
+compatible wrt restriction mappings between values of $\mathcal{F}$
+on $f^{-1}$ of varying neighbourhoods of $f(U)$. Thus we obtain
+a canonical map $f_p f_* \mathcal{F}(U) \to \mathcal{F}(U)$.
+Another trivial verification show that these maps are compatible
+with restrictions and define a map $c_{\mathcal{F}}$
+of presheaves of sets.
+
+\medskip\noindent
+Suppose that $\varphi : \mathcal{G} \to f_*\mathcal{F}$
+is a map of presheaves of sets. Consider $f_p\varphi :
+f_p \mathcal{G} \to f_p f_* \mathcal{F}$. 
+Postcomposing with $c_{\mathcal{F}}$ gives the desired map
+$c_{\mathcal{F}} \circ f_p\varphi : f_p\mathcal{G} \to \mathcal{F}$.
+We leave it to the reader to see that this construction is inverse
+to the construction in the other direction higher up.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-stalk-pullback-presheaf}
+Let $x \in X$. Let $\mathcal{G}$ be a presheaf of sets on $Y$.
+There is a canonical bijection of stalks
+$(f_p\mathcal{G})_x = \mathcal{G}_{f(x)}$.
+\end{lemma}
+
+\begin{proof}
+This you can see as follows
+\begin{eqnarray*}
+(f_p\mathcal{G})_x
+& = &
+\text{colim}_{x \in U}\ f_p\mathcal{G}(U) \\
+& = &
+\text{colim}_{x \in U}\ \text{colim}_{f(U) \subset V}\ \mathcal{G}(V) \\
+& = &
+\text{colim}_{f(x) \in V}\ \mathcal{G}(V) \\
+& = &
+\mathcal{G}_{f(x)}
+\end{eqnarray*}
+Here we have used
+Categories, Lemma \ref{categories-lemma-colimits-commute},
+and the fact that any $V$ open in $Y$ containing $f(x)$
+occurs in the third description above (left to the reader).
+\end{proof}
+
+\noindent
+Let $\mathcal{G}$ be a sheaf of sets on $Y$.
+The {\it pullback sheaf} $f^{-1}\mathcal{G}$ is defined
+by the formula
+$$
+f^{-1}\mathcal{G} = (f_p\mathcal{G})^\# .
+$$
+Sheafification is a left adjoint to the inclusion
+of sheaves in presheaves, and $f_p$ is a left
+adjoint to $f_*$ on presheaves. As a formal consequence
+we obtain that $f^{-1}$ is a left adjoint of
+psuhforward on sheaves. In other words,
+$$
+\text{Mor}_{\textit{Sh}(X)}(f^{-1}\mathcal{G}, \mathcal{F})
+=
+\text{Mor}_{\textit{Sh}(Y)}(\mathcal{G}, f_*\mathcal{F}).
+$$
+
+\begin{lemma}
+\label{lemma-stalk-pullback}
+Let $x \in X$. Let $\mathcal{G}$ be a sheaf of sets on $Y$.
+There is a canonical bijection of stalks
+$(f^{-1}\mathcal{G})_x = \mathcal{G}_{f(x)}$.
+\end{lemma}
+
+\begin{proof}
+This is a combination of Lemmas \ref{lemma-stalk-sheafification}
+and \ref{lemma-stalk-pullback-presheaf}.
+\end{proof}
+
+\begin{remark}
+\label{remark-f-map}
+Let $f : X \to Y$ be a continuous map.
+Let $\mathcal{F}$ be a sheaf of sets on $X$ and
+let $\mathcal{G}$ be a sheaf of sets on $Y$.
+Define an {\it $f$-map from $\mathcal{G}$
+to $\mathcal{F}$} to be a collection of maps
+$\xi_V : \mathcal{G}(V) \to \mathcal{F}(f^{-1}(V))$
+such that
+$$
+\xi_{V'} \circ \rho_{V'}^V = \rho_{f^{-1}V'}^{f^{-1}V} \circ \xi_V
+$$
+for all $V' \subset V \subset Y$ open. There are
+canonical bijections between the following three
+sets:
+\begin{enumerate}
+\item The set of maps $\mathcal{G} \to f_*\mathcal{F}$.
+\item The set of maps $f^{-1}\mathcal{G} \to \mathcal{F}$.
+\item The set of $f$-maps $\xi : \mathcal{G} \to \mathcal{F}$.
+\end{enumerate}
+We leave the easy verification to the reader.
+It is sometimes convenient to think about $f$-maps
+instead of maps between sheaves either on $X$ or on $Y$.
+\end{remark}
 
 
 
+\section{Functoriality of abelian sheaves}
+\label{section-functoriality-abelian-sheaves}
 
 
 
