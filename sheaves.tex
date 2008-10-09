@@ -253,7 +253,19 @@ of presheaves of algebraic structures.
 Suppose that $\mathcal{C}$ is a category and
 that $F : \mathcal{C} \to \textit{Sets}$ is
 a faithful functor. Typically $F$ is a ``forgetful''
-functor. In analogy with Definition \ref{definition-abelian-presheaves}
+functor. For an object $M \in \text{Ob}(\mathcal{C})$
+we often call $F(M)$ the {\it underlying set} of the
+object $M$. If $M \to M'$ is a morphism in $\mathcal{C}$
+we call $F(M) \to F(M')$ the {\it underlying map of sets}.
+In fact, we will often not distinghuish between an object
+and its underlying set, and similarly for morphisms.
+So we will say a map of sets $F(M) \to F(M')$
+is a {\it morphism of algebraic structures}, if it is
+equal to $F(f)$ for some morphism $f : M \to M'$
+in $\mathcal{C}$.
+
+\medskip\noindent
+In analogy with Definition \ref{definition-abelian-presheaves}
 above a ``presheaf of objects of $\mathcal{C}$'' could be
 defined by the following data:
 \begin{enumerate}
@@ -263,11 +275,11 @@ of an object $A(U) \in \text{Ob}(\mathcal{C})$
 \end{enumerate}
 subject to the following conditions
 \begin{enumerate}
-\item we have $F(A(U)) = \mathcal{F}(U)$ for all $U \subset X$ open, and
-\item for every $V \subset U \subset X$ open we have
-$\rho^U_V : F(A(U)) = \mathcal{F}(U) \to F(A(V)) = \mathcal{F}(V)$
-is in the image of $F : \text{Mor}_{\mathcal{C}}(A(U), A(V))
-\to \text{Map}(\mathcal{F}(U), \mathcal{F}(V))$.
+\item for every open $U \subset X$ the set $\mathcal{F}(U)$
+is the underlying set of $A(U)$, and
+\item for every $V \subset U \subset X$ open
+there exists a morphism $A(U) \to A(V)$ in $\mathcal{C}$
+whose underlying map of sets is $\rho_V^U: \mathcal{F}(U) \to \mathcal{F}(V)$.
 \end{enumerate}
 In other words, for every $V \subset U$ open in $X$ 
 the restriction mappings $\rho^U_V$ is the image
@@ -317,7 +329,12 @@ It is customary to use the same letter $\mathcal{F}$ to denote
 the underlying presheaf of sets, and this makes
 sense according to our discussion preceding
 Definition \ref{definition-prefsheaf-values-in-category}.
-The notation and definitions above apply inparticular to:
+In particular, the phrasology ``let $s \in \mathcal{F}(U)$''
+or ``let $s$ be a section of $\mathcal{F}$ over $U$'' signifies
+that $s \in F(\mathcal{F}(U))$.
+
+\medskip\noindent
+This notation and these definitions apply inparticular to:
 {\it Presheaves of (not necessarily abelian) groups, rings, modules
 over a fixed ring, vector spaces over a fixed field,} etc and
 {\it morphisms between these}.
@@ -522,7 +539,7 @@ $$
 \prod\nolimits_i s_i
 \mapsto
 \prod\nolimits_{(i_0, i_1)} s_{i_0}|_{U_{i_0} \cap U_{i_1}}
-\text{ and }
+\text{ resp. }
 \prod\nolimits_i s_i
 \mapsto
 \prod\nolimits_{(i_0, i_1)} s_{i_1}|_{U_{i_0} \cap U_{i_1}}.
@@ -560,8 +577,10 @@ A good example to keep in mind is the case where $\mathcal{C}$
 is the category of abelian groups and $F$ is the forgetful functor.
 Consider a presheaf $\mathcal{F}$ with values in $\mathcal{C}$ on $X$.
 We would like to reformulate the condition above in terms
-of the underlying presheaf of sets. Note that the underlying
-presheaf of sets is a sheaf of sets if and only if the
+of the underlying presheaf of sets
+(Definition \ref{definition-underlying-presheaf-sets}).
+Note that the underlying
+presheaf of sets is a sheaf of sets if and only if all the
 diagrams
 $$
 \xymatrix{
@@ -581,8 +600,9 @@ products and equalizers and we would like $F$ to commute with
 them. This is equivalent to the condition that $\mathcal{C}$
 has limits and that $F$ commutes with them, see 
 Categories, Lemma \ref{categories-lemma-limits-products-equalizers}.
-But this is not good enough; we also need $F$ to
-{\it reflect isomorphisms}.
+But this is not yet good enough
+(see Example \ref{example-sheaves-topological-spaces});
+we also need $F$ to {\it reflect isomorphisms}.
 This property means that given a morphism
 $f : A \to A'$ in $\mathcal{C}$, then $f$ is
 an isomorphism if (and only if) $F(f)$ is a bijection.
@@ -625,6 +645,11 @@ such that the underlying presheaf of abelian groups $\mathcal{F}$
 is a sheaf.
 \end{definition}
 
+\noindent
+This definition makes sense even if $\mathcal{O}$ is just a
+presheaf of rings, allthough we do not know any examples where
+this is useful.
+
 \begin{example}
 \label{example-sheaves-topological-spaces}
 Consider the category of topological spaces $\textit{Top}$.
@@ -664,11 +689,16 @@ $$
 =
 \text{colim}_{x\in U} \mathcal{F}(U)
 $$
-where the colimit is over the set of opens $U \subset X$
-containing $x$ (partially) ordered by inclusion, with
-transition maps given by the restriction maps of $\mathcal{F}$.
+where the colimit is over the set of open neighbourhoods
+$U$ of $x$ in $X$. The set of open neighbourhoods is (partially)
+ordered by (reverse) inclusion:
+We say $U \geq U' \Leftrightarrow U \subset U'$.
+The transition maps in the system are
+given by the restriction maps of $\mathcal{F}$.
 See Categories, Section \ref{categories-section-posets-limits}
-for notation and terminology. In other words
+for notation and terminology regarding (co)limits over systems.
+Note that the colimit is a directed colimit.
+Thus it is easy to describe $\mathcal{F}_x$. Namely,
 $$
 \mathcal{F}_x
 =
@@ -716,7 +746,6 @@ $x \in V^x$ such that $s|_{V^x} = s'|_{V^x}$. But then
 $U = \bigcup_{x \in U} V^x$ is an open covering. Thus by the
 uniqueness in the sheaf condition we see that $s = s'$.
 \end{proof}
-
 
 \noindent
 Another observation is that the construction of the stalk
@@ -815,10 +844,70 @@ union $A \coprod B$, showing that colimits in the category
 of abelian groups do not agree with colimits in the
 category of sets in general. The proof of the lemma will work
 for any type of algebraic structure such that directed
-colimits commute with the forgetful functor. Combined
-with the material in Remarks \ref{remark-presheaves-structure}
-and \ref{remark-sheaves-structure} this leads to the following
-definition.
+colimits commute with the forgetful functor.
+
+\begin{lemma}
+\label{lemma-stalk-presheaf-values-in-category}
+Let $\mathcal{C}$ be a category. Let $F : \mathcal{C} \to \textit{Sets}$
+be a functor. Assume that
+\begin{enumerate}
+\item $F$ is faithful, and
+\item directed colimits exist in $\mathcal{C}$ and $F$ commutes with
+them.
+\end{enumerate}
+Let $X$ be a topological space. Let $x \in X$. Let $\mathcal{F}$
+be a presheaf with values in $\mathcal{C}$.
+Then
+$$
+\mathcal{F}_x = \text{colim}_{x\in U} \mathcal{F}(U)
+$$
+exists in $\mathcal{C}$. Its underlying set is equal to the
+stalk of the underlying presheaf of sets of $\mathcal{F}$.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\noindent
+By the very definition, all the morphisms $\mathcal{F}(U)
+\to \mathcal{F}_x$ are morphisms in the category $\mathcal{C}$
+which (after applying the forgetful functor $F$) turn into
+the corresponding maps for the underlying sheaf of sets.
+As usual we will not distinghuish between the morphism
+in $\mathcal{C}$ and the underlying map of sets, which
+is permitted since $F$ is faithful.
+
+\medskip\noindent
+This lemma applies inparticular to:
+{\it Presheaves of (not necessarily abelian) groups, rings, modules
+over a fixed ring, vector spaces over a fixed field}.
+
+\begin{lemma}
+\label{lemma-stalk-module}
+Let $X$ be a topological space.
+Let $\mathcal{O}$ be a presheaf of rings on $X$
+Let $\mathcal{F}$ be a presheaf $\mathcal{O}$-modules.
+Let $x \in X$.
+The canonical map $\mathcal{O}_x \times \mathcal{F}_x
+\to \mathcal{F}_x$ coming from the multiplication map
+$\mathcal{O}\times\mathcal{F} \to \mathcal{F}$ defines
+a $\mathcal{O}_x$-module structure on the abelian group
+$\mathcal{F}_x$.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+
+
+\section{Algebraic structures}
+\label{section-algebraic-structures}
+
+\noindent
+In this section we mildly formalize the notions we have
+encountered in the sections above.
 
 \begin{definition}
 \label{definition-algebraic-structure}
@@ -836,7 +925,7 @@ following properties
 \noindent
 We make this definition to point out the properties
 we will use in a number of arguments below.  But we will
-not actually study this notion in any generality, since we
+not actually study this notion in any great detail, since we
 are prohibited from studying ``big'' categories by convention,
 except for those listed in
 Categories, Remark \ref{categories-remark-big-categories}.
@@ -862,60 +951,61 @@ Omitted.
 
 \noindent
 From now on we will think of a (pre)sheaf of algebraic structures
-of the types listed above, either in the way described in
-Example \ref{remark-presheaves-structure} above, or
-simply as a (pre)sheaf of sets with additional structure.
-Here is the prototypical example of a result that
-holds for any type of algebraic structure.
+and their stalks, in terms of the underlying (pre)sheaf of sets.
+This is allowable by Lemmas \ref{lemma-sheaves-structure} and
+\ref{lemma-stalk-presheaf-values-in-category}.
+
+\medskip\noindent
+In the rest of this section we point out some results
+on algebraic structures that will be useful in the future.
 
 \begin{lemma}
-\label{lemma-stalk-algebraic-structure}
-Let $X$ be a topological space.
-Let $\mathcal{F}$ be a presheaf of groups, rings, resp.\ a
-presheaf of any type of algebraic structure as listed in
-Lemma \ref{lemma-list-algebraic-structures}. Let $x \in X$.
-Then the stalk $\mathcal{F}_x$ has a unique structure of
-a group, ring, resp.\ the corresponding algebraic structure
-such that all the morphisms $\mathcal{F}(U) \to \mathcal{F}_x$
-are homomorphisms. Moreover,
-$$
-\mathcal{F}_x = \text{colim}_{x \in U} \mathcal{F}(U)
-$$
-holds in the category of groups, rings, resp.\ the category
-of algebraic structures of the corresponding type.
+\label{lemma-image-contained-in}
+Let $(\mathcal{C}, F)$ be a type of algebraic structure.
+Suppose that $A, B, C \in \text{Ob}(\mathcal{C})$.
+Let $f : A \to B$ and $g : C \to B$ be morphisms of
+$\mathcal{C}$. If $F(g)$ is injective, and
+$\text{Im}(F(f)) \subset \text{Im}(F(g))$, then 
+$f$ factors as $f = g \circ t$ for some morphism
+$t : A \to C$.
 \end{lemma}
 
 \begin{proof}
-First, simply define $\mathcal{F}_x$ by the colimit in
-the category of algebraic structures.
-Second, verify that the underlying set of this
-colimit is the colimit in the category of sets. Both steps
-are okay by condition (3) of
-Definition \ref{definition-algebraic-structure}.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-stalk-module}
-Let $X$ be a topological space.
-Let $\mathcal{O}$ be a presheaf of rings on $X$
-Let $\mathcal{F}$ be a presheaf $\mathcal{O}$-modules.
-Let $x \in X$.
-The canonical map $\mathcal{O}_x \times \mathcal{F}_x
-\to \mathcal{F}_x$ coming from the multiplication map
-$\mathcal{O}\times\mathcal{F} \to \mathcal{F}$ defines
-a $\mathcal{O}_x$-module structure on the abelian group
-$\mathcal{F}_x$.
-\end{lemma}
-
-\begin{proof}
-Omitted.
+Consider $A \times_B C$. The assumptions imply that
+$F(A \times_B C) = F(A) \times_{F(B)} F(C) = F(A)$.
+Hence $A = A\times_B C$ because $F$ reflects isomorphisms.
+The result follows.
 \end{proof}
 
 \begin{example}
+\label{example-application-lemma-image-contained-in}
+The lemma will be applied often to the following situation.
+Suppose that we have a diagram
+$$
+\xymatrix{
+A \ar[r] & B \ar[d] \\
+C \ar[r] & D 
+}
+$$
+in $\mathcal{C}$. Suppose $C \to D$ is injective on underlying
+sets, and suppose that the composition $A \to B \to D$ has
+image on underlying sets in the image of $C \to D$. 
+Then we get a commutative diagram
+$$
+\xymatrix{
+A \ar[r] \ar[d] & B \ar[d] \\
+C \ar[r] & D 
+}
+$$
+in $\mathcal{C}$.
+\end{example}
+
+
+
+\begin{example}
 \label{example-sheaf-product-pointwise-algebraic-structure}
-Let $F : \mathcal{C} \to \textit{Sets}$ be one
-of the types of algebraic structures listed in
-Lemma \ref{lemma-list-algebraic-structures}.
+Let $F : \mathcal{C} \to \textit{Sets}$ be a
+type of algebraic structures.
 Let $X$ be a topological space. Suppose that
 for every $x \in X$ we are given an object
 $A_x \in \text{ob}(\mathcal{C})$. Consider the presheaf
@@ -972,8 +1062,38 @@ is bijective.
 Fixme.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-check-homomorphism-stalks}
+let $X$ be a topological space.
+Let $(\mathcal{C}, F)$ be a type of algebraic structure.
+Suppose that $\mathcal{F}$, $\mathcal{G}$ are sheaves on $X$
+with values in $\mathcal{C}$.
+Let $\varphi : \mathcal{F} \to \mathcal{G}$
+be a map of the underlying sheaves of sets.
+If for all points $x \in X$ the map
+$\mathcal{F}_x \to \mathcal{G}_x$
+is a morphism of algebraic structures,
+then $\varphi$ is a morphism of sheaves of algebraic structures.
+\end{lemma}
 
-
+\begin{proof}
+Let $U$ be an open subset of $X$. Consider the diagram of
+(underlying) sets
+$$
+\xymatrix{
+\mathcal{F}(U) \ar[r] \ar[d] &
+\prod_{x \in U} \mathcal{F}_x \ar[d] \\
+\mathcal{G}(U) \ar[r] &
+\prod_{x \in U} \mathcal{G}_x
+}
+$$
+By assumption, and previous results, all but the left vertical
+arrow are morphisms of algebraic structures. In addition the
+bottom horizontal arrow is injective,
+see Lemma \ref{lemma-sheaf-subset-stalks}.
+Hence we conclude by Lemma \ref{lemma-image-contained-in},
+see also Example \ref{example-application-lemma-image-contained-in}
+\end{proof}
 
 \noindent
 Here we need to talk about short exact sequences of abelian sheaves, etc.
@@ -1159,8 +1279,9 @@ the inclusion functor. See Categories, Section
 \label{section-sheafify-abelian-presheaves}
 
 \noindent
-As usual we first explain how this works for abelian
-presheaves.
+The following strange looking lemma is likely unnecessary, but
+very convenient to deal with sheafification of presheaves
+of algebraic structures.
 
 \begin{lemma}
 \label{lemma-diagram-fibre-product}
@@ -1196,8 +1317,10 @@ in Section \ref{section-sheafification}.
 
 \begin{proof}
 It is clear that the diagram commutes. We have to show
-it is a fibre product diagram.
-A section $s \in \Pi(\mathcal{F})(U)$ is in $\mathcal{F}^\#$ if and
+it is a fibre product diagram. The bottom horizontal arrow
+is injective since all the maps $\mathcal{F}_x \to \Pi(\mathcal{F})_x$
+are injective (see beginning proof of
+Lemma \ref{lemma-stalk-sheafification}).A section $s \in \Pi(\mathcal{F})(U)$ is in $\mathcal{F}^\#$ if and
 only if $(*)$ holds. But $(*)$ says that around every point
 the section $s$ comes from a section of $\mathcal{F}$. By definition
 of the stalk functors, this is equivalent to saying that
@@ -1205,31 +1328,6 @@ the value of $s$ in every stalk $\Pi(\mathcal{F})_x$ comes
 from an element of the stalk $\mathcal{F}_x$. Hence the lemma.
 \end{proof}
 
-\begin{lemma}
-\label{lemma-check-homomorphism-stalks}
-let $X$ be a topological space.
-Let $(\mathcal{C}, F)$ be one of the types of algebraic structures
-listed in Lemma \ref{lemma-list-algebraic-structures}.
-Suppose that $\mathcal{F}$, $\mathcal{G}$ are sheaves on $X$
-with values in $\mathcal{C}$. Let $\varphi : \mathcal{F}
-\to \mathcal{G}$ be a map of the underlying sheaves of sets.
-If for all points $x \in X$ the map $\mathcal{F}_x \to
-\mathcal{G}_x$ is a homomorphism of the algebraic structures,
-then $\varphi$ is a morphism of sheaves of algebraic structures.
-\end{lemma}
-
-\begin{proof}
-Let $U$ be an open subset of $X$. By assumption all the maps
-\begin{eqnarray*}
-\mathcal{F}_x & \to & \mathcal{G}_x \\
-\Pi(\mathcal{F})(U) & \to & \Pi(\mathcal{G})(U) \\
-\Pi(\mathcal{F})_x & \to & \Pi(\mathcal{G})_x
-\end{eqnarray*}
-are homomorphisms of algebraic structures (because $\Pi(-)$ is constructed
-out of stalks). Hence we conclude by Lemma \ref{lemma-diagram-fibre-product},
-the fact that $\mathcal{F}(U) = \mathcal{F}^\#(U)$
-and the fact that $F$ commutes with (fibre) products.
-\end{proof}
 
 \begin{lemma}
 \label{lemma-sheafify-abelian-presheaf}
@@ -1246,8 +1344,7 @@ $$
 \text{Mor}_{\textit{Ab}(X)}(\mathcal{F}^\#, \mathcal{G}).
 $$
 There is an analogous result for sheafification of
-presheaves of algebraic structures as listed in
-Lemma \ref{lemma-list-algebraic-structures}.
+presheaves of algebraic structures.
 \end{lemma}
 
 \begin{proof}
@@ -1264,7 +1361,7 @@ of $\Pi(\mathcal{F})(U)$ for all open subsets $U \subset X$,
 then $\mathcal{F}^\#$ canonically inherits the structure of abelian sheaf.
 This is quite easy to do by hand, and we leave it to the
 reader to find a good simple argument. The argument we use here,
-which generalizes is the following:
+which generalizes to presheaves of algebraic structures is the following:
 Lemma \ref{lemma-diagram-fibre-product} show that
 $\mathcal{F}^\#(U)$ is the fibre product of a diagram
 of abelian groups. Thus $\mathcal{F}^\#$ is an abelian
@@ -1289,6 +1386,11 @@ that this is a morphism of abelian sheaves. We may do this
 for example by noting that it is true on stalks,
 by Lemma \ref{lemma-stalk-sheafification}, and then using
 Lemma \ref{lemma-check-homomorphism-stalks} above.
+
+\medskip\noindent
+The proof in the case of a presheaf of algebraic structures is exactly
+the same, with repeated application of
+Lemma \ref{lemma-image-contained-in}.
 \end{proof}
 
 
