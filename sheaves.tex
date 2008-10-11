@@ -453,6 +453,28 @@ agrees with the continuous map $U_i$. Hence clearly $f$ is
 continuous!
 \end{example}
 
+\noindent
+We can use the result of the example to define constant
+sheaves. Namely, suppose that $A$ is a set. Endow $A$ with
+the discrete topology. Let $U \subset X$ be an open subset.
+Then we have
+$$
+\{ f : U \to A \mid f\text{ continuous}\}
+=
+\{ f : U \to A \mid f\text{ locally constant}\}.
+$$
+Thus the rule which assigns to an open all locally
+constant maps into $A$ is a sheaf.
+
+\begin{definition}
+\label{definition-constant-sheaf}
+Let $X$ be a topological space. Let $A$ be a set.
+The {\it constant sheaf with value $A$ denoted $\underline{A}$, or
+$\underline{A}_X$} is the sheaf that assigns to an open $U \subset X$
+the set of all locally constant maps $U \to A$ with restriction mappings
+given by restrictions of functions.
+\end{definition}
+
 \begin{example}
 \label{example-sheaf-product-pointwise}
 Let $X$ be a topological space. Let $(A_x)_{x \in X}$ be 
@@ -777,6 +799,21 @@ if $(U, s) = (U', s')$ in $\mathcal{F}_x$ then also
 $(U, \varphi(s)) = (U', \varphi(s'))$ in $\mathcal{G}_x$.
 This is clear since $\varphi$ is compatible with the
 restriction mappings.
+
+\begin{example}
+\label{example-stalk-constant-presheaf}
+Let $X$ be a topological space. Let $A$ be a set.
+Denote temporarily $A_p$ the constant presheaf
+with value $A$ ($p$ for presheaf -- not for point).
+There is a canonical map of presheaves
+$A_p \to \underline{A}$ into the constant sheaf with
+value $A$. For evey point we have canonical
+bijections $A = (A_p)_x = \underline{A}_x$, where
+the second map is induced by functoriality from
+the map $A_p \to \underline{A}$.
+\end{example}
+
+
 
 \begin{example}
 \label{example-germs-functions}
@@ -1295,6 +1332,15 @@ which says that sheafification is a left adjoint of
 the inclusion functor. See Categories, Section
 \ref{categories-section-adjoint}.
 
+\begin{example}
+\label{example-sheafify-constant}
+See Example \ref{example-stalk-constant-presheaf} for notation.
+The map $A_p \to \underline{A}$ induces a map
+$A_p^\# \to \underline{A}$. It is easy to see that this
+is an isomorphism. In words: The sheafification
+of the constant presheaf with value $A$ is the
+constant sheaf with value $A$.
+\end{example}
 
 
 
@@ -1740,11 +1786,13 @@ an abelian presheaf $\mathcal{G}$ on $Y$ we define
 f_*\mathcal{F}(V) & = & \mathcal{F}(f^{-1}(V)) \\
 f_p\mathcal{G}(U) & = & \text{colim}_{f(U) \subset V}\ \mathcal{G}(V)
 \end{eqnarray*}
-as abelian groups. Restriction mappings are the same as 
-the restriction mappings for presheaves of sets.
+as abelian groups. The restriction mappings are the same as 
+the restriction mappings for presheaves of sets (and they are
+all homomorphisms of abelian groups).
 
 \medskip\noindent
-The constructions $f_*$ and $f_p$ are functors on
+The assignments $\mathcal{F} \mapsto f_*\mathcal{F}$ and
+$\mathcal{G} \to f_p\mathcal{G}$ are functors on
 the categories of presheaves of abelian groups.
 This is clear, as (for example) a map of abelian presheaves
 $\mathcal{G}_1 \to \mathcal{G}_2$ gives rise to a map of
@@ -1889,8 +1937,8 @@ The main formulas to keep in mind are the following
 f_*\mathcal{F}(V) & = & \mathcal{F}(f^{-1}(V)) \\
 f_p\mathcal{G}(U) & = & \text{colim}_{f(U) \subset V}\ \mathcal{G}(V) \\
 f^{-1}\mathcal{G} & = & (f_p\mathcal{G})^\# \\
-f_p\mathcal{G}_x & = & \mathcal{G}_{f(x)} \\
-f^{-1}\mathcal{G}_x & = & \mathcal{G}_{f(x)}
+(f_p\mathcal{G})_x & = & \mathcal{G}_{f(x)} \\
+(f^{-1}\mathcal{G})_x & = & \mathcal{G}_{f(x)}
 \end{eqnarray*}
 Each of these formulas has the property that they hold in the
 category $\mathcal{C}$ and that upon taking underlying
@@ -1909,13 +1957,176 @@ In addition we have the adjointness properties
 \section{Continuous maps and sheaves of $\mathcal{O}$-modules}
 \label{section-presheaves-modules-functorial}
 
+\noindent
+The case of sheaves of modules is more complicated.
+The reason is that the natural setting for defining
+the pullback and pushforward functors, is the setting
+of ringed spaces, which we will define below. First
+we state a few obvious lemmas.
+
 \begin{lemma}
-\label{lemma-pushforward-module}
+\label{lemma-pushforward-presheaf-module}
 Let $f : X \to Y$ be a continuous map of topological spaces.
 Let $\mathcal{O}$ be a presheaf of rings on $X$. Let
 $\mathcal{F}$ be a presheaf of $\mathcal{O}$-modules.
+There is a natural map of underlying presheaves of sets
+$$
+f_*\mathcal{O} \times f_*\mathcal{F}
+\longrightarrow
+f_*\mathcal{F}
+$$
+which turns $f_*\mathcal{F}$ into a presheaf of $f_*\mathcal{O}$-modules.
+\end{lemma}
 
+\begin{proof}
+Let $V \subset Y$ is open. We define the map of the lemma
+to be the map
+$$
+f_*\mathcal{O}(V) \times f_*\mathcal{F}(V)
+=
+\mathcal{O}(f^{-1}V) \times \mathcal{F}(f^{-1}V)
+\to
+\mathcal{F}(f^{-1}V)
+=
+f_*\mathcal{F}(V).
+$$
+Here the arrow in the middle is the multiplication map on $X$.
+We leave it to the reader to see this is compatible with
+restriction mappings and defines a structure of
+$f_*\mathcal{O}$-module on $f_*\mathcal{F}$.
+\end{proof}
 
+\begin{lemma}
+\label{lemma-pullback-presheaf-module}
+Let $f : X \to Y$ be a continuous map of topological spaces.
+Let $\mathcal{O}$ be a presheaf of rings on $Y$. Let
+$\mathcal{G}$ be a presheaf of $\mathcal{O}$-modules.
+There is a natural map of underlying presheaves of sets
+$$
+f_p\mathcal{O} \times f_p\mathcal{G}
+\longrightarrow
+f_p\mathcal{G}
+$$
+which turns $f_p\mathcal{G}$ into a presheaf of $f_p\mathcal{O}$-modules.
+\end{lemma}
+
+\begin{proof}
+Let $U \subset X$ is open. We define the map of the lemma
+to be the map
+\begin{eqnarray*}
+f_p\mathcal{O}(U) \times f_p\mathcal{G}(U)
+& = &
+\text{colim}_{f(U) \subset V}\ \mathcal{O}(V)
+\times 
+\text{colim}_{f(U) \subset V}\ \mathcal{G}(V) \\
+& = &
+\text{colim}_{f(U) \subset V}\ (\mathcal{O}(V)\times \mathcal{G}(V)) \\
+& \to &
+\text{colim}_{f(U) \subset V}\ \mathcal{G}(V) \\
+& = &
+f_p\mathcal{G}(U).
+\end{eqnarray*}
+Here the arrow in the middle is the multiplication map on $Y$.
+The second equality holds because directed colimits commute
+with finite limits, see
+Categories, Lemma \ref{categories-lemma-directed-commutes}.
+We leave it to the reader to see this is compatible with
+restriction mappings and defines a structure of
+$f_p\mathcal{O}$-module on $f_p\mathcal{G}$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-pushforward-module}
+Let $f : X \to Y$ be a continuous map of topological spaces.
+Let $\mathcal{O}$ be a sheaf of rings on $X$. Let
+$\mathcal{F}$ be a sheaf of $\mathcal{O}$-modules.
+The pushforward $f_*\mathcal{O}$, as defined in
+Lemma \ref{lemma-pushforward-presheaf-module}
+is a sheaf of $f_*\mathcal{O}$-modules.
+\end{lemma}
+
+\begin{proof}
+Obvious from the definition and Lemma \ref{lemma-pushforward-sheaf}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-pullback-module}
+Let $f : X \to Y$ be a continuous map of topological spaces.
+Let $\mathcal{O}$ be a sheaf of rings on $Y$. Let
+$\mathcal{G}$ be a sheaf of $\mathcal{O}$-modules.
+There is a natural map of underlying presheaves of sets
+$$
+f^{-1}\mathcal{O} \times f^{-1}\mathcal{G}
+\longrightarrow
+f^{-1}\mathcal{G}
+$$
+which turns $f^{-1}\mathcal{G}$ into a
+sheaf of $f^{-1}\mathcal{O}$-modules.
+\end{lemma}
+
+\begin{proof}
+Recall that $f^{-1}$ is defined as the composition of the
+functor $f_p$ and sheafification. Thus the lemma 
+is a combination of Lemma \ref{lemma-pullback-presheaf-module}
+and Lemma \ref{lemma-sheafification-presheaf-modules}.
+\end{proof}
+
+\noindent
+In other to clarify the problem of formulating a suitable
+adjointness property of $f_*$, $f^{-1}$ we introduce the
+categories of (pre)sheaves of modules.
+
+\begin{definition}
+\label{definition-category-modules}
+Let $X$ be a topological space.
+Let $\mathcal{O}$ be a presheaf of rings on $X$.
+\begin{enumerate}
+\item The category of presheaves of $\mathcal{O}$-modules
+is denoted $\textit{PMod}(\mathcal{O})$.
+\item If $\mathcal{O}$ is a sheaf, then the category of
+sheaves of $\mathcal{O}$-modules is denoted
+$\textit{Mod}(\mathcal{O})$.
+\end{enumerate}
+\end{definition}
+
+\noindent
+Although it is not strictly necessary, let us agree to write
+$\textit{Mod}(\mathcal{O})$ only when $\mathcal{O}$ is a sheaf
+of rings. In other words, whenever we write the symbol
+$\textit{Mod}(\mathcal{O})$ we implicitly assume $\mathcal{O}$
+is a sheaf of rings.
+
+\medskip\noindent
+Let $f : X \to Y$ be a continuous map.
+Let $\mathcal{O}_X$ be a (pre)sheaf of rings on $X$ and
+let $\mathcal{O}_Y$ be a (pre)sheaf of rings on $Y$.
+So at the moment we have defined functors
+\begin{eqnarray*}
+f_* : \textit{PMod}(\mathcal{O}_X) &
+\longrightarrow &
+\textit{PMod}(f_*\mathcal{O}_X) \\
+f_* : \textit{Mod}(\mathcal{O}_X) &
+\longrightarrow &
+\textit{Mod}(f_*\mathcal{O}_X) \\
+f_p : \textit{PMod}(\mathcal{O}_Y) &
+\longrightarrow &
+\textit{PMod}(f_p\mathcal{O}_Y) \\
+f^{-1} : \textit{Mod}(\mathcal{O}_Y) &
+\longrightarrow &
+\textit{Mod}(f^{-1}\mathcal{O}_Y)
+\end{eqnarray*}
+Clearly, there is no way for the pair of functors $(f_*, f^{-1})$
+on sheaves of modules to be adjoint, because their target categories
+do not match. This would only work if by some miracle the
+sheaves of rings $\mathcal{O}_X, \mathcal{O}_Y$ satisfy the
+relations $\mathcal{O}_X = f^{-1}\mathcal{O}_Y$ and 
+$\mathcal{O}_Y = f_*\mathcal{O}_X$ which is almost never
+true in practice.
+
+\medskip\noindent
+The solution to the conundrum is to realize that we are supposed to
+think of the sheaf of rings $\mathcal{O}_X$ as the sheaf of functions
+on $X$. 
 
 
 
