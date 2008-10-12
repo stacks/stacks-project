@@ -294,13 +294,13 @@ defined by the following data:
 \item for every open $U \subset X$ a choice
 of an object $A(U) \in \text{Ob}(\mathcal{C})$
 \end{enumerate}
-subject to the following conditions
+subject to the following conditions (using the phraseology above)
 \begin{enumerate}
 \item for every open $U \subset X$ the set $\mathcal{F}(U)$
 is the underlying set of $A(U)$, and
 \item for every $V \subset U \subset X$ open
-there exists a morphism $A(U) \to A(V)$ in $\mathcal{C}$
-whose underlying map of sets is $\rho_V^U: \mathcal{F}(U) \to \mathcal{F}(V)$.
+the map of sets $\rho_V^U: \mathcal{F}(U) \to \mathcal{F}(V)$
+is a morphism of algebraic structures.
 \end{enumerate}
 In other words, for every $V \subset U$ open in $X$ 
 the restriction mappings $\rho^U_V$ is the image
@@ -350,7 +350,7 @@ It is customary to use the same letter $\mathcal{F}$ to denote
 the underlying presheaf of sets, and this makes
 sense according to our discussion preceding
 Definition \ref{definition-prefsheaf-values-in-category}.
-In particular, the phrasology ``let $s \in \mathcal{F}(U)$''
+In particular, the phrase ``let $s \in \mathcal{F}(U)$''
 or ``let $s$ be a section of $\mathcal{F}$ over $U$'' signifies
 that $s \in F(\mathcal{F}(U))$.
 
@@ -423,7 +423,7 @@ $$
 \mathcal{F}.
 $$
 We sometimes denote this by $\mathcal{F}_{\mathcal{O}_1}$
-to indicate the change of rings. We call this
+to indicate the restriction of rings. We call this
 the {\it restriction of $\mathcal{F}$}. We obtain the
 restriction functor
 $$
@@ -627,6 +627,25 @@ is denoted $\textit{Ab}(X)$.
 \end{enumerate}
 \end{definition}
 
+\noindent
+Let $X$ be a topological space.
+In the case of an abelian presheaf $\mathcal{F}$ the sheaf
+condition with regards to an open covering $U = \bigcup U_i$
+is often expressed by saying that the complex of abelian groups
+$$
+0 \to \mathcal{F}(U)
+\to \prod\nolimits_i \mathcal{F}(U_i)
+\to \prod\nolimits_{(i_0, i_1)} \mathcal{F}(U_{i_0} \cap U_{i_1})
+$$
+is exact. The first map is the usual one, whereas the second
+maps the element $(s_i)_{i \in I}$ to the element
+$$
+(
+s_{i_0}|_{U_{i_0} \cap U_{i_1}} -
+s_{i_1}|_{U_{i_0} \cap U_{i_1}}
+)_{(i_0, i_1)}
+\in \prod\nolimits_{(i_0, i_1)} \mathcal{F}(U_{i_0} \cap U_{i_1})
+$$
 
 \section{Sheaves of algebraic structures}
 \label{section-sheaves-structures}
@@ -2248,8 +2267,20 @@ In addition we have the adjointness properties
 & = &
 \text{Mor}_{\textit{Sh}(Y, \mathcal{C})}(\mathcal{G}, f_*\mathcal{F}).
 \end{eqnarray*}
+To prove these, the main step is to construct the maps
+$$
+\mathcal{G} \stackrel{\cong}{\longrightarrow} f_*f_p\mathcal{G}
+$$
+and
+$$
+c_{\mathcal{F}} : f_p f_* \mathcal{F} \longrightarrow \mathcal{F}
+$$
+which occur in the proof of Lemma \ref{lemma-pullback-presheaves} as
+morphisms of presheaves with values in $\mathcal{C}$. This may be safely
+left to the reader since the constructions are exactly the same
+as in the case of presheaves of sets.
 
-\noindent
+\medskip\noindent
 Given a continuous map $f : X \to Y$ and sheaves of algebraic
 structures $\mathcal{F}$ on $X$, $\mathcal{G}$ on $Y$, the notion
 of an {\it $f$-map $\mathcal{G} \to \mathcal{F}$
@@ -2311,7 +2342,9 @@ f_*\mathcal{O} \times f_*\mathcal{F}
 \longrightarrow
 f_*\mathcal{F}
 $$
-which turns $f_*\mathcal{F}$ into a presheaf of $f_*\mathcal{O}$-modules.
+which turns $f_*\mathcal{F}$ into a presheaf of
+$f_*\mathcal{O}$-modules. This construction is
+functorial in $\mathcal{F}$.
 \end{lemma}
 
 \begin{proof}
@@ -2344,6 +2377,7 @@ f_p\mathcal{O} \times f_p\mathcal{G}
 f_p\mathcal{G}
 $$
 which turns $f_p\mathcal{G}$ into a presheaf of $f_p\mathcal{O}$-modules.
+This construction is functorial in $\mathcal{G}$.
 \end{lemma}
 
 \begin{proof}
@@ -2371,12 +2405,103 @@ restriction mappings and defines a structure of
 $f_p\mathcal{O}$-module on $f_p\mathcal{G}$.
 \end{proof}
 
+\noindent
+Let $f : X \to Y$ be a continuous map.
+Let $\mathcal{O}_X$ be a presheaf of rings on $X$ and
+let $\mathcal{O}_Y$ be a presheaf of rings on $Y$.
+So at the moment we have defined functors
+\begin{eqnarray*}
+f_* : \textit{PMod}(\mathcal{O}_X) &
+\longrightarrow &
+\textit{PMod}(f_*\mathcal{O}_X) \\
+f_p : \textit{PMod}(\mathcal{O}_Y) &
+\longrightarrow &
+\textit{PMod}(f_p\mathcal{O}_Y)
+\end{eqnarray*}
+These satisfy some compatibilities as follows.
+
+\begin{lemma}
+\label{lemma-adjoint-push-pull-presheaves-modules}
+Let $f : X \to Y$ be a continuous map of topological spaces.
+Let $\mathcal{O}$ be a presheaf of rings on $Y$.
+Let $\mathcal{G}$ be a presheaf of $\mathcal{O}$-modules.
+Let $\mathcal{F}$ be a presheaf of $f_p\mathcal{O}$-modules.
+Then
+$$
+\text{Mor}_{\textit{PMod}(f_p\mathcal{O})}(f_p\mathcal{G}, \mathcal{F})
+=
+\text{Mor}_{\textit{PMod}(\mathcal{O})}(\mathcal{G}, f_*\mathcal{F}).
+$$
+Here we use
+Lemmas \ref{lemma-pullback-presheaf-module}
+and \ref{lemma-pushforward-presheaf-module}, and we see
+$f_*\mathcal{F}$ is an $\mathcal{O}$-module because
+$f_*f_p\mathcal{O} = \mathcal{O}$.
+\end{lemma}
+
+\begin{proof}
+Note that we have
+$$
+\text{Mor}_{\textit{PAb}(X)}(f_p\mathcal{G}, \mathcal{F})
+=
+\text{Mor}_{\textit{PAb}(Y)}(\mathcal{G}, f_*\mathcal{F}).
+$$
+according to Section \ref{section-abelian-presheaves-functorial}.
+So what we have to prove is that under this correspondence, the
+subsets of module maps correspond. In addition, the correspondence
+is determined by the rule
+$$
+\Big(\psi : f_p\mathcal{G} \to \mathcal{F}\Big)
+\longmapsto
+\Big(f_*\psi : \mathcal{G} = f_* f_p \mathcal{G} \to f_* \mathcal{F}\Big)
+$$
+Hence, using the functoriality of the pushforward we see that
+it suffices to prove that the equality $\mathcal{G} = f_* f_p \mathcal{G}$
+is compatible with module structure, which we leave to the reader.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-adjoint-pull-push-presheaves-modules}
+Let $f : X \to Y$ be a continuous map of topological spaces.
+Let $\mathcal{O}$ be a presheaf of rings on $X$.
+Let $\mathcal{F}$ be a presheaf of $\mathcal{O}$-modules.
+Let $\mathcal{G}$ be a presheaf of $f_*\mathcal{O}$-modules.
+Then
+$$
+\text{Mor}_{\textit{PMod}(\mathcal{O})}(
+\mathcal{O} \otimes_{p, f_pf_*\mathcal{O}} f_p\mathcal{G}, \mathcal{F})
+=
+\text{Mor}_{\textit{PMod}(f_*\mathcal{O})}(\mathcal{G}, f_*\mathcal{F}).
+$$
+Here we use
+Lemmas \ref{lemma-pullback-presheaf-module}
+and \ref{lemma-pushforward-presheaf-module}, and we use
+the map $c_{\mathcal{O}} : f_pf_*\mathcal{O} \to \mathcal{O}$
+in the definition of the tensor product.
+\end{lemma}
+
+\begin{proof}
+This follows from the equalities
+\begin{eqnarray*}
+\text{Mor}_{\textit{PMod}(\mathcal{O})}(
+\mathcal{O} \otimes_{p, f_pf_*\mathcal{O}} f_p\mathcal{G}, \mathcal{F})
+& = &
+\text{Mor}_{\textit{PMod}(f_pf_*\mathcal{O})}(
+f_p\mathcal{G}, \mathcal{F}_{f_pf_*\mathcal{O}}) \\
+& = &
+\text{Mor}_{\textit{PMod}(f_*\mathcal{O})}(\mathcal{G}, f_*\mathcal{F}).
+\end{eqnarray*}
+which is a combination of
+Lemmas \ref{lemma-adjointness-tensor-restrict-presheaves}
+and \ref{lemma-adjoint-push-pull-presheaves-modules}.
+\end{proof}
+
 \begin{lemma}
 \label{lemma-pushforward-module}
 Let $f : X \to Y$ be a continuous map of topological spaces.
 Let $\mathcal{O}$ be a sheaf of rings on $X$. Let
 $\mathcal{F}$ be a sheaf of $\mathcal{O}$-modules.
-The pushforward $f_*\mathcal{O}$, as defined in
+The pushforward $f_*\mathcal{F}$, as defined in
 Lemma \ref{lemma-pushforward-presheaf-module}
 is a sheaf of $f_*\mathcal{O}$-modules.
 \end{lemma}
@@ -2408,29 +2533,89 @@ and Lemma \ref{lemma-sheafification-presheaf-modules}.
 \end{proof}
 
 \noindent
-In other to clarify the problem of formulating a suitable
-adjointness property of $f_*$, $f^{-1}$ we introduce the
-categories of (pre)sheaves of modules.
+Let $f : X \to Y$ be a continuous map.
+Let $\mathcal{O}_X$ be a sheaf of rings on $X$ and
+let $\mathcal{O}_Y$ be a sheaf of rings on $Y$.
+So now we have defined functors
+\begin{eqnarray*}
+f_* : \textit{Mod}(\mathcal{O}_X) &
+\longrightarrow &
+\textit{Mod}(f_*\mathcal{O}_X) \\
+f^{-1} : \textit{Mod}(\mathcal{O}_Y) &
+\longrightarrow &
+\textit{Mod}(f^{-1}\mathcal{O}_Y)
+\end{eqnarray*}
+These satisfy some compatibilities as follows.
 
-\begin{definition}
-\label{definition-category-modules}
-Let $X$ be a topological space.
-Let $\mathcal{O}$ be a presheaf of rings on $X$.
-\begin{enumerate}
-\item The category of presheaves of $\mathcal{O}$-modules
-is denoted $\textit{PMod}(\mathcal{O})$.
-\item If $\mathcal{O}$ is a sheaf, then the category of
-sheaves of $\mathcal{O}$-modules is denoted
-$\textit{Mod}(\mathcal{O})$.
-\end{enumerate}
-\end{definition}
+\begin{lemma}
+\label{lemma-adjoint-push-pull-modules}
+Let $f : X \to Y$ be a continuous map of topological spaces.
+Let $\mathcal{O}$ be a sheaf of rings on $Y$.
+Let $\mathcal{G}$ be a sheaf of $\mathcal{O}$-modules.
+Let $\mathcal{F}$ be a sheaf of $f^{-1}\mathcal{O}$-modules.
+Then
+$$
+\text{Mor}_{\textit{Mod}(f^{-1}\mathcal{O})}(f^{-1}\mathcal{G}, \mathcal{F})
+=
+\text{Mor}_{\textit{Mod}(\mathcal{O})}(\mathcal{G}, f_*\mathcal{F}).
+$$
+Here we use
+Lemmas \ref{lemma-pullback-module}
+and \ref{lemma-pushforward-module}, and we think of
+$f_*\mathcal{F}$ as an $\mathcal{O}$-module by restriction via
+$\mathcal{O} \to f_*f^{-1}\mathcal{O}$.
+\end{lemma}
 
-\noindent
-Although it is not strictly necessary, let us agree to write
-$\textit{Mod}(\mathcal{O})$ only when $\mathcal{O}$ is a sheaf
-of rings. In other words, whenever we write the symbol
-$\textit{Mod}(\mathcal{O})$ we implicitly assume $\mathcal{O}$
-is a sheaf of rings.
+\begin{proof}
+Argue by the equalities
+\begin{eqnarray*}
+\text{Mor}_{\textit{Mod}(f^{-1}\mathcal{O})}(f^{-1}\mathcal{G}, \mathcal{F})
+& = &
+\text{Mor}_{\textit{Mod}(f_p\mathcal{O})}(f_p\mathcal{G}, \mathcal{F}) \\
+& = &
+\text{Mor}_{\textit{Mod}(\mathcal{O})}(\mathcal{G}, f_*\mathcal{F}).
+\end{eqnarray*}
+where the second is
+Lemmas \ref{lemma-adjoint-push-pull-presheaves-modules}
+and the first is by Lemma \ref{lemma-sheafification-presheaf-modules}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-adjoint-pull-push-modules}
+Let $f : X \to Y$ be a continuous map of topological spaces.
+Let $\mathcal{O}$ be a sheaf of rings on $X$.
+Let $\mathcal{F}$ be a sheaf of $\mathcal{O}$-modules.
+Let $\mathcal{G}$ be a sheaf of $f_*\mathcal{O}$-modules.
+Then
+$$
+\text{Mor}_{\textit{Mod}(\mathcal{O})}(
+\mathcal{O} \otimes_{f^{-1}f_*\mathcal{O}} f^{-1}\mathcal{G}, \mathcal{F})
+=
+\text{Mor}_{\textit{Mod}(f_*\mathcal{O})}(\mathcal{G}, f_*\mathcal{F}).
+$$
+Here we use
+Lemmas \ref{lemma-pullback-module}
+and \ref{lemma-pushforward-module}, and we use
+the canonical map $f^{-1}f_*\mathcal{O} \to \mathcal{O}$
+in the definition of the tensor product.
+\end{lemma}
+
+\begin{proof}
+This follows from the equalities
+\begin{eqnarray*}
+\text{Mor}_{\textit{Mod}(\mathcal{O})}(
+\mathcal{O} \otimes_{f^{-1}f_*\mathcal{O}} f^{-1}\mathcal{G}, \mathcal{F})
+& = &
+\text{Mor}_{\textit{Mod}(f^{-1}f_*\mathcal{O})}(
+f^{-1}\mathcal{G}, \mathcal{F}_{f^{-1}f_*\mathcal{O}}) \\
+& = &
+\text{Mor}_{\textit{Mod}(f_*\mathcal{O})}(\mathcal{G}, f_*\mathcal{F}).
+\end{eqnarray*}
+which are a combination of
+Lemma \ref{lemma-adjointness-tensor-restrict}
+and \ref{lemma-adjoint-push-pull-modules}.
+\end{proof}
+
 
 \medskip\noindent
 Let $f : X \to Y$ be a continuous map.
@@ -2451,9 +2636,9 @@ f^{-1} : \textit{Mod}(\mathcal{O}_Y) &
 \longrightarrow &
 \textit{Mod}(f^{-1}\mathcal{O}_Y)
 \end{eqnarray*}
-Clearly, there is no way for the pair of functors $(f_*, f^{-1})$
-on sheaves of modules to be adjoint, because their target categories
-do not match. Namely, it works only if by some miracle the
+Clearly, usually the pair of functors $(f_*, f^{-1})$
+on sheaves of modules are not adjoint, because their target categories
+do not match. Namely, as we saw above, it works only if by some miracle the
 sheaves of rings $\mathcal{O}_X, \mathcal{O}_Y$ satisfy the
 relations $\mathcal{O}_X = f^{-1}\mathcal{O}_Y$ and 
 $\mathcal{O}_Y = f_*\mathcal{O}_X$. This is almost never
@@ -2612,20 +2797,85 @@ This follows from the work we did before:
 \text{Mor}_{\textit{Mod}(f^{-1}\mathcal{O}_Y)}(
 f^{-1}\mathcal{G}, \mathcal{F}_{f^{-1}\mathcal{O}_Y}) \\
 & = &
+\text{Hom}_{\mathcal{O}_Y}(\mathcal{G}, f_*\mathcal{F}).
 \end{eqnarray*}
-
-
-
-
-
+Here we use Lemmas \ref{lemma-adjointness-tensor-restrict}
+and \ref{lemma-adjoint-push-pull-modules}.
 \end{proof}
 
+\section{Limits and colimits of presheaves}
+\label{section-limits-presheaves}
 
+\noindent
+Let $X$ be a topological space.
+Let $\mathcal{I} \to \textit{PSh}(X)$, $i \mapsto \mathcal{F}_i$
+be a diagram.
+\begin{enumerate}
+\item Both $\text{lim}_i\ \mathcal{F}_i$ and $\text{colim}_i\ \mathcal{F}_i$
+exist.
+\item For any open $U \subset X$ we have
+$$
+(\text{lim}_i\ \mathcal{F}_i)(U) = \text{lim}_i\ \mathcal{F}_i(U)
+$$
+and
+$$
+(\text{colim}_i\ \mathcal{F}_i)(U) =
+\text{colim}_i\ \mathcal{F}_i(U).
+$$
+\item Let $x \in X$ be a point. In general the stalk of
+$\text{lim}_i\ \mathcal{F}_i$ at $x$ is not equal to
+the limit of the stalks. But if the diagram category is finite
+then it is the case. In other words, the stalk functor is
+left exact (see Categories, Definition \ref{categories-definition-exact}).
+\item Let $x \in X$. We always have
+$$
+(\text{colim}_i\ \mathcal{F}_i)_x =
+\text{colim}_i\ \mathcal{F}_{i,x}.
+$$
+\end{enumerate}
+The proofs are all easy.
 
+\section{Limits and colimits of sheaves}
+\label{section-limits-sheaves}
 
-
-
-
+\noindent
+Let $X$ be a topological space.
+Let $\mathcal{I} \to \textit{Sh}(X)$, $i \mapsto \mathcal{F}_i$
+be a diagram.
+\begin{enumerate}
+\item Both $\text{lim}_i\ \mathcal{F}_i$ and $\text{colim}_i\ \mathcal{F}_i$
+exist.
+\item The inclusion functor $i : \textit{Sh}(X) \to \textit{PSh}(X)$
+commutes with limits. In other words, we may compute the limit
+in the category of sheaves as the limit in the category of
+presheaves. In particular, for any open $U \subset X$ we have
+$$
+(\text{lim}_i\ \mathcal{F}_i)(U) = \text{lim}_i\ \mathcal{F}_i(U).
+$$
+\item The inclusion functor $i : \textit{Sh}(X) \to \textit{PSh}(X)$
+does not commute with colimits in general (not even
+with finite colimits -- think surjections). The colimit is
+computed as the sheafification of the colimit in the
+category of presheaves:
+$$
+\text{colim}_i\ \mathcal{F}_i =
+\Big(U \mapsto \text{colim}_i\ \mathcal{F}_i(U)\Big)^\#.
+$$
+\item Let $x \in X$ be a point. In general the stalk of
+$\text{lim}_i\ \mathcal{F}_i$ at $x$ is not equal to
+the limit of the stalks. But if the diagram category is finite
+then it is the case. In other words, the stalk functor is
+left exact.
+\item Let $x \in X$. We always have
+$$
+(\text{colim}_i\ \mathcal{F}_i)_x = \text{colim}_i\ \mathcal{F}_{i,x}.
+$$
+\item The sheafification functor
+${}^\# : \text{PSh}(X) \to \textit{Sh}(X)$ commutes with all
+colimits, and with finite limits. But it does not commute
+with all limits.
+\end{enumerate}
+The proofs are all easy.
 
 
 
