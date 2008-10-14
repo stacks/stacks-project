@@ -190,24 +190,33 @@ $D(f) \cap D(g) = D(fg)$, $f,g\in R$.
 Let $R$ be a ring. Let $f \in R$.
 \begin{enumerate}
 \item If $g\in R$ and $D(g) \subset D(f)$,
-then $f$ is invertible in $R_g$, and
-there is a canonical map $R_f \to R_g$.
+then (a) $f$ is invertible in $R_g$,
+(b) $g^e = af$ for some $e \geq 1$ and $a \in R$,
+(c) there is a canonical ring map $R_f \to R_g$, and (d)
+there is a canonical $R_f$-module map
+$M_f \to M_g$ for any $R$-module $M$.
 \item Any open covering of $D(f)$ can be refined to a finite
 open covering of the form $D(f) = \bigcup_{i=1}^n D(g_i)$.
 \item If $g_1,\ldots,g_n \in R$, then $D(f) \subset \bigcup D(g_i)$
-of and only if $g_1,\ldots,g_n$ generate the unit ideal in $R_f$.
+if and only if $g_1,\ldots,g_n$ generate the unit ideal in $R_f$.
 \end{enumerate}
 \end{lemma}
 
 \begin{proof}
 Recall that $D(g) = \text{Spec}(R_g)$ (see
 Algebra, Lemma \ref{algebra-lemma-standard-open}).
-Thus the first statement holds because $f$
+Thus (a) holds because $f$
 maps to an element of $R_g$ which is not
 contained in any prime ideal, and hence invertible,
-see Algebra Lemma \ref{algebra-lemma-Zariski-topology}.
-The existence of the map $R_f \to R_g$ follows
-from the universal property of localization.
+see Algebra, Lemma \ref{algebra-lemma-Zariski-topology}.
+Write the inverse of $f$ in $R_g$ as $a/g^d$.
+This means $g^d - af$ is annihilated by a power of $g$, whence (b).
+For (c), the map $R_f \to R_g$ exists by (a) from the universal property
+of localization, or we can define it by mapping $b/f^n$
+to $a^nb/g^{ne}$. The equality $M_f = M \otimes_R R_f$
+can be used to obtain the map on modules, or
+we can define $M_f \to M_g$ by mapping
+$x/f^n$ to $a^nx/g^{ne}$.
 
 \medskip\noindent
 Recall that $D(f)$ is quasi-compact, see 
@@ -218,7 +227,7 @@ a basis for the topology.
 
 \medskip\noindent
 The third statement follows directly from
-Algebra Lemma \ref{algebra-lemma-Zariski-topology}.
+Algebra, Lemma \ref{algebra-lemma-Zariski-topology}.
 \end{proof}
 
 \noindent
@@ -254,11 +263,11 @@ a presheaf $\widetilde M$ on the basis of standard opens.
 Suppose that $U \subset \text{Spec}(R)$ is a standard open.
 If $f, g \in R$ are such that $D(f) = D(g)$, then
 by Lemma \ref{lemma-standard-open} above there are canonical
-maps $R_f \to R_g$ and $R_g \to R_f$ which are each others
-inverse. Hence we may choose any $f$ such that $U = D(f)$
+maps $M_f \to M_g$ and $M_g \to M_f$ which are mutually inverse.
+Hence we may choose any $f$ such that $U = D(f)$
 and define
 $$
-\widetilde M(U) := M_f = M \otimes_R R_f.
+\widetilde M(U) = M_f.
 $$
 Note that if $D(g) \subset D(f)$, then by
 Lemma \ref{lemma-standard-open} above we have
@@ -271,6 +280,24 @@ of standard opens. If $M = R$, then $\widetilde R$ is a presheaf
 of rings on the basis of standard opens.
 
 \medskip\noindent
+Let us compute the stalk of $\widetilde M$ at a point $x \in \text{Spec}(R)$.
+Suppose that $x$ corresponds to the prime $\mathfrak p \subset R$.
+By definition of the stalk we see that
+$$
+\widetilde M_x = \text{colim}_{f\in R, f\not\in \mathfrak p}\ M_f
+$$
+Here the set $\{f\in R, f\not\in \mathfrak p\}$ is partially
+ordered by the rule $f \geq f' \Leftrightarrow D(f) \subset D(f')$.
+If $f_1, f_2 \in R \setminus \mathfrak p$, then we have
+$f_1f_2 \geq f_1$ in this ordering. Hence by
+Algebra, Lemma \ref{algebra-lemma-localization-colimit}
+we conclude that
+$$
+\widetilde M_x = M_{\mathfrak p}.
+$$
+
+\medskip\noindent
+Next, we check the sheaf condition for the standard open coverings.
 If $D(f) = \bigcup_{i=1}^n D(g_i)$, then the sheaf condition
 for this covering is equivalent with the exactness of the
 sequence
@@ -286,68 +313,192 @@ In addition, by Lemma \ref{lemma-standard-open} above
 we see that $g_1,\ldots,g_n$ generate the unit ideal
 in $R_f$. Thus we may apply
 Algebra, Lemma \ref{algebra-lemma-cover-module}
-and we see that the sequence is exact. By the remarks
+to the module $M_f$ over $R_f$ and the elements $g_1,\ldots,g_n$.
+We conclude that the sequence is exact. By the remarks
 made above, we see that $\widetilde M$ is a sheaf
-on the basis of standard opens. 
+on the basis of standard opens.
+
+\medskip\noindent
+Thus we conclude from the material in
+Sheaves, Section \ref{sheaves-section-bases}
+that there exists a
+unique sheaf of rings $\mathcal{O}_{\text{Spec}(R)}$
+which agrees with $\widetilde R$ on the standard opens.
+Note that by our computation of stalks above, the
+stalks of this sheaf of rings are all local rings.
+
+\medskip\noindent
+Similarly, for any $R$-module $M$ there exists
+a unique sheaf of $\mathcal{O}_{\text{Spec}(R)}$-modules
+$\mathcal{F}$ which agrees with $\widetilde M$ on the
+standard opens, see
+Sheaves, Lemma \ref{sheaves-lemma-extend-off-basis-module}.
 
 \begin{definition}
 \label{definition-structure-sheaf}
-The {\it structure sheaf $\mathcal{O}_{\text{Spec}(R)}$ of the
-spectrum of $R$} is the unique sheaf of rings
-$\mathcal{O}_{\text{Spec}(R)}$ which agrees with
-$\widetilde R$ on the basis of standard opens.
+Let $R$ be a ring.
+\begin{enumerate}
+\item The {\it structure sheaf $\mathcal{O}_{\text{Spec}(R)}$ of the
+spectrum of $R$} is the unique sheaf of rings $\mathcal{O}_{\text{Spec}(R)}$
+which agrees with $\widetilde R$ on the basis of standard opens.
+\item The locally ringed space
+$(\text{Spec}(R), \mathcal{O}_{\text{Spec}(R)})$ is called
+the {\it spectrum} of $R$ and denoted $\text{Spec}(R)$.
+\item The sheaf of $\mathcal{O}_{\text{Spec}(R)}$-modules
+extending $\widetilde M$ to all opens of $\text{Spec}(R)$
+is called the sheaf of $\mathcal{O}_{\text{Spec}(R)}$-modules
+associated to $M$.
+\end{enumerate}
 \end{definition}
 
+\noindent
+We summarize the results obtained so far.
+
+\begin{lemma}
+\label{lemma-spec-sheaves}
+Let $R$ be a ring. Let $M$ be an $R$-module. Let $\mathcal{F}$
+be the sheaf of $\mathcal{O}_{\text{Spec}(R)}$-modules
+associated to $M$.
+\begin{enumerate}
+\item We have
+$$
+\Gamma(\text{Spec}(R), \mathcal{O}_{\text{Spec}(R)}) = R
+$$
+\item We have
+$$
+\Gamma(\text{Spec}(R), \mathcal{F}) = M
+$$
+as an $R$-module.
+\item For every $f \in R$ we have 
+$$
+\Gamma(D(f), \mathcal{O}_{\text{Spec}(R)}) = R_f
+$$
+\item For every $f\in R$ we have
+$$
+\Gamma(D(f), \mathcal{F}) = M_f
+$$
+as an $R_f$-module.
+\item Let $\mathfrak p$ be a prime of $R$, and let $x \in \text{Spec}(R)$
+be the corresponding point. We have
+$$
+\mathcal{O}_{\text{Spec}(R), x} = R_{\mathfrak p}
+$$
+\item Let $\mathfrak p$ be a prime of $R$, and let $x \in \text{Spec}(R)$
+be the corresponding point. We have
+$$
+\mathcal{F}_x = R_{\mathfrak p}
+$$
+as an $R_{\mathfrak p}$-module.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Clear from the discussion above.
+\end{proof}
 
 
+\begin{definition}
+\label{definition-affine-scheme}
+An {\it affine scheme} is a locally ringed space isomorphic
+as a locally ringed space to $\text{Spec}(R)$ for some ring $R$. 
+A {\it morphism of affine schemes} is a morphism in the category
+of locally ringed spaces.
+\end{definition}
 
-
-
-
-
-
-
-
-
-
-An affine scheme is a locally ringed space isomorphic to a locally ringed
-space of the form $\text{Spec}(A)$, for some commutative (unital) ring $A$.
-(Note that $A$ can be the zero ring in which case $\text{Spec}(A)$ is
-the empty space.) As a set $\text{Spec}(A)$ is the set of prime ideals of
-$A$. The topology on $\text{Spec}(A)$ is the unique one that has a basis
-of opens of the form $D(f) = \{ \wp \in\text{Spec}(A) \mid
-f \not\in \wp \}$,
-$f\in A$. The structure sheaf $\mathcal{O} = 
-\mathcal{O}_{\text{Spec}(A)}$ is the unique
-sheaf of rings such that (1) $\Gamma(D(f), \mathcal{O}) = A_f$ and
-(2) the restriction map $\Gamma(D(f), \mathcal{O}) \to \Gamma(D(fg),
-\mathcal{O})$ is the canonical map $A_f \to A_{fg}$.
-
-\medskip\noindent
-A morphism of affine schemes is a morphism in the category of locally ringed 
-spaces.
+\noindent
+It turns out that affine schemes play a special role
+among all locally ringed spaces, which is what the next
+section is about.
 
 \section{The category of affine schemes}
 \label{section-category-affine-schemes}
 
 \noindent
-It should be clear what the category of affine schemes is, except for a
-little bit of set-theoretical discussion. We will use the notation
-$\text{Aff}$ to denote this category. Our approach is to use only
-categories which are sets. Thus we will choose a supply of affines and
-work with this. For a precise mathematical discussion, see
-Section \ref{section-sets-of-affines}.
+Note that if $Y$ is an affine scheme, then its
+points are in canonical $1-1$ bijection with
+prime ideals in $\Gamma(Y, \mathcal{O}_Y)$.
 
-\medskip\noindent
-The topology on $\text{Aff}$ will be the fppf topology. A covering is
-given by a finite family of maps $\{U_i \to U\}$, where each $U_i \to U$
-is a finitely presented flat morphism of affines, and $\coprod U_i \to U$
-is surjective. 
+\begin{lemma}
+\label{lemma-morphism-into-affine-where-point-goes}
+Let $X$ be a locally ringed space.
+Let $Y$ be an affine scheme.
+Let $f \in \text{Mor}(X, Y)$ be a morphism
+of locally ringed spaces. Given a point $x \in X$
+consider the ring maps
+$$
+\Gamma(Y, \mathcal{O}_Y) \to \Gamma(X, \mathcal{O}_X) \to \mathcal{O}_{X, x}
+$$
+Let $\mathfrak p \subset \Gamma(Y, \mathcal{O}_Y)$ denote
+the inverse image of $\mathfrak m_x$. Let $y \in Y$ be the
+corresponding point. Then $f(x) = y$.
+\end{lemma}
 
-\medskip\noindent
-Sometimes we consider $\text{Aff}$ with other topologies, such as the
-etale, Zariski, or fpqc topologies. Notation $\text{Aff}_{etale}$, etc.
-FIXME. Put in internal reference to topology discussion.
+\begin{proof}
+Consider the commutative diagram
+$$
+\xymatrix{
+\Gamma(X, \mathcal{O}_X) \ar[r] &
+\mathcal{O}_{X, x} \\
+\Gamma(Y, \mathcal{O}_Y) \ar[r] \ar[u] &
+\mathcal{O}_{Y, f(x)} \ar[u]
+}
+$$
+Since the right vertical arrow is local
+we see that $\mathfrak m_{f(x)}$ is the
+inverse image of $\mathfrak m_x$. The result
+follows.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-f-open}
+Let $X$ be a locally ringed space.
+Let $f \in \Gamma(X, \mathcal{O}_X)$.
+The set
+$$
+D(f) = \{x \in X \mid \text{image }f \not\in \mathfrak m_x\}
+$$
+is open. Moreover $f|_{D(f)}$ has an inverse.
+\end{lemma}
+
+\begin{proof}
+Suppose that $U \subset X$ and $V \subset X$ are
+two open subsets such that $f|_U$ has an inverse
+$g$ and $f|_V$ has an inverse $h$. Then clearly
+$g|_{U\cap V} = h|_{U\cap V}$. Thus it suffices
+to show that $f$ is invertible in an open neighbourhood
+of any $x \in D(f)$. This is clear because
+$f \not \in \mathfrak m_x$ implies that $f \in \mathcal{O}_{X,x}$
+has an inverse $g \in \mathcal{O}_{X,x}$ which means there
+is some open neighbourhood $x \in U \subset X$ so
+that $g \in \mathcal{O}_X(U)$ and $g\cdot f|_U = 1$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-morphism-into-affine}
+Let $X$ be a locally ringed space.
+Let $Y$ be an affine scheme.
+The map
+$$
+\text{Mor}(X, Y)
+\longrightarrow
+\text{Hom}(\Gamma(Y, \mathcal{O}_Y), \Gamma(X, \mathcal{O}_X))
+$$
+which maps $f$ to the restriction of $f^\sharp$ to global
+sections is bijective.
+\end{lemma}
+
+\begin{proof}
+Motivated by the lemmas above we construct the inverse map.
+Let $\psi : \Gamma(Y, \mathcal{O}_Y) \to \Gamma(X, \mathcal{O}_X)$
+be a ring map. First, we define the corresponding map of
+spaces
+$$
+f_\psi : X \longrightarrow Y
+$$
+by the rule of Lemma \ref{}
+\end{proof}
+
+
 
 \section{Sets of affine schemes}
 \label{section-sets-of-affines}
