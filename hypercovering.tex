@@ -24,57 +24,410 @@ see \url{http://www.math.lsa.umich.edu/~bdconrad/papers/hypercover.pdf}.
 Probably it is useless to try to improve on Brian's article, so we look
 at the question a little differently (more naively).
 
-\section{Definitions}
-\label{section-definitions}
+\section{The category $\Delta$}
+\label{section-Delta}
 
 \noindent
-Let $\mathcal{C}$ be a category. Let $\Delta$ be the category of finite 
-ordered sets with objects $[0]=\{0\}, [1]=\{0,1\}, [2]=\{0,1,2\},\ldots$ 
-and order preserving maps. A simplicial object $U_\bullet$ of $\mathcal{C}$ 
-is a contravariant functor $U_\bullet : \Delta \to \mathcal{C}$. This means 
-there are objects $U_0,U_1,U_2,\ldots$ and morphisms $U_\bullet(\varphi) : 
-U_n \to U_m$, where $\varphi$ is any order preserving map 
-$\varphi : [m] \to [n]$.
-
-\medskip\noindent
-In particular there is a unique morphism $U_0 \to U_n$ and there are
-exactly $n+1$ morphisms $U_n \to U_0$ corresponding to the $n+1$ maps
-$[0] \to [n]$. Obviously we need some more notation to be able to talk 
-intelligently about these simplicial objects.
+The category $\Delta$ is the category with
+\begin{enumerate}
+\item objects $[0], [1], [2], \ldots$ with
+$[n] = \{0, 1, 2, \ldots, n\}$ and
+\item morphism $[n] \to [m]$ is the set of nondecreasing
+maps of sets $\{0, 1, 2, \ldots, n\} \to \{0, 1, 2, \ldots, m\}$.
+\end{enumerate}
+Here {\it nondecreasing} for a map $\varphi : [n] \to [m]$
+means by definition that $\varphi(i) \geq \varphi(j)$ if $i \geq j$.
+In other words, $\Delta$ is a category equivalent to the
+``big'' category of finite totally ordered sets and nondecreasing maps.
+There are exactly $n + 1$ morphisms $[0] \to [n]$ and
+there is exactly $1$ morphism $[n] \to [0]$. There are
+exactly $(n + 1)(n + 2)/2$ morphisms $[1] \to [n]$ and there are
+exactly $n + 2$ morphisms $[n] \to [1]$. And so on and so forth.
 
 \begin{definition}
 \label{definition-face-degeneracy}
-For any integer $n\geq 1$, and any $0\leq j \leq n$ we let $d^n_j : [n-1]
+For any integer $n\geq 1$, and any $0\leq j \leq n$ we let $\delta^n_j : [n-1]
 \to [n]$ denote the injective order preserving map skipping $j$. For any
-integer $n\geq 0$, and any $0\leq j \leq n$ we denote $s^n_j : [n+1] 
+integer $n\geq 0$, and any $0\leq j \leq n$ we denote $\sigma^n_j : [n+1] 
 \to [n]$ the surjective order preserving map with 
-$(s^n_j)^{-1}(\{j\}) = \{j, j+1\}$.
+$(\sigma^n_j)^{-1}(\{j\}) = \{j, j+1\}$.
+\end{definition}
+
+\begin{lemma}
+\label{lemma-face-degeneracy}
+Any morphism in $\Delta$ can be written as a composition
+of an identity morphism, and the morphisms $\delta^n_j$ and $\sigma^n_j$.
+\end{lemma}
+
+\begin{proof}
+Let $\varphi : [n] \to [m]$ be a morphism of $\Delta$.
+If $j \not \in \text{Im}(\varphi)$, then we can write
+$\varphi$ as $\delta^m_j \circ \psi$ for some morphism
+$\psi : [n] \to [m - 1]$. If $\varphi(j) = \varphi(j + 1)$
+then we can write $\varphi$ as $\psi \circ \sigma^{n - 1}_j$
+for some morphism $\psi : [n - 1] \to [m]$.
+The result follows because each replacement
+as above lowers $n + m$ and hence at some point
+$\varphi$ is both injective and surjective, hence
+an identity morphism.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-relations-face-degeneracy}
+The morphisms $\delta^n_j$ and $\sigma^n_j$ satisfy the following relations.
+\begin{enumerate}
+\item $\delta^{n + 1}_i \circ \delta^n_j =
+\delta^{n + 1}_j \circ \delta^n_{i - 1}$
+for $0 \leq j < i \leq n + 1$.
+In other words the diagram
+$$
+\xymatrix{
+& [n] \ar[rd]^{\delta^{n + 1}_i} & \\
+[n - 1] \ar[ru]^{\delta^n_j} \ar[rd]_{\delta^n_{i - 1}} & &
+[n + 1] \\
+& [n] \ar[ru]_{\delta^{n + 1}_j} & 
+}
+$$
+commutes.
+\item $\sigma^{n - 1}_i \circ \delta^n_j =
+\delta^{n - 1}_{j - 1} \circ \sigma^{n - 2}_i$
+for $0 < i + 1 < j \leq n$.
+In other words the diagram
+$$
+\xymatrix{
+& [n] \ar[rd]^{\sigma^{n - 1}_i} & \\
+[n - 1] \ar[ru]^{\delta^n_j} \ar[rd]_{\sigma^{n - 2}_i} & &
+[n - 1] \\
+& [n - 2] \ar[ru]_{\delta^{n - 1}_{j - 1}} & 
+}
+$$
+commutes.
+\item $\sigma^{n - 1}_j \circ \delta^n_j =
+\text{id}_{[n - 1]}$
+for $0 \leq j \leq n - 1$.
+In other words the diagram
+$$
+\xymatrix{
+& [n] \ar[rd]^{\sigma^{n - 1}_j} & \\
+[n - 1] \ar[ru]^{\delta^n_j} \ar[rr]^{\text{id}_{[n - 1]}} & & [n - 1]
+}
+$$
+commutes.
+\item $\sigma^{n - 1}_{j - 1} \circ \delta^n_j =
+\text{id}_{[n - 1]}$
+for $1 \leq j \leq n$.
+In other words the diagram
+$$
+\xymatrix{
+& [n] \ar[rd]^{\sigma^{n - 1}_{j - 1}} & \\
+[n - 1] \ar[ru]^{\delta^n_j} \ar[rr]_{\text{id}_{[n - 1]}} & & [n - 1]}
+$$
+commutes.
+\item $\sigma^{n - 1}_i \circ \delta^n_j =
+\delta^{n - 1}_j \circ \sigma^{n - 2}_{i + 1}$
+for $i > j \geq 0$.
+In other words the diagram
+$$
+\xymatrix{
+& [n] \ar[rd]^{\sigma^{n - 1}_i} & \\
+[n - 1] \ar[ru]^{\delta^n_j} \ar[rd]_{\sigma^{n - 2}_{i + 1}} & &
+[n - 1] \\
+& [n - 2] \ar[ru]_{\delta^{n - 1}_j} & 
+}
+$$
+commutes.
+\item $\sigma^{n - 1}_i \circ \sigma^n_j =
+\sigma^{n - 1}_{j - 1} \circ \sigma^n_i$
+for $0 \leq i < j \leq n$.
+In other words the diagram
+$$
+\xymatrix{
+& [n] \ar[rd]^{\sigma^{n - 1}_i} & \\
+[n + 1] \ar[ru]^{\sigma^n_j} \ar[rd]_{\sigma^n_i} & &
+[n - 1] \\
+& [n] \ar[ru]_{\sigma^{n - 1}_{j - 1}} & 
+}
+$$
+commutes.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-face-degeneracy-category}
+The category $\Delta$ is the universal category
+with objects $[n]$, $n \geq 0$ and morphisms
+$\delta^n_j$ and $\sigma^n_j$ such that (a) every morphism is
+a composition of these morphisms, (b) the relations
+listed in Lemma \ref{lemma-relations-face-degeneracy} are satisfied,
+and (c) any relation among the morphisms is a consquence of
+those relations.
+\end{lemma}
+
+
+
+
+
+
+
+\section{Simplicial objects}
+\label{section-simplicial-object}
+
+\begin{definition}
+\label{definition-simplicial-object}
+Let $\mathcal{C}$ be a category.
+\begin{enumerate}
+\item A {\it simplicial object $U$ of $\mathcal{C}$}
+is a contravariant functor $U$ from $\Delta$ to
+$\mathcal{C}$, in a formula:
+$$
+U : \Delta^{opp} \longrightarrow \mathcal{C}
+$$
+\item If $\mathcal{C}$ is the category of sets, then we call
+$U$ a {\it simplicial set}.
+\item If $\mathcal{C}$ is the category of abelian groups,
+then we call $U$ a {\it simplicial abelian group}.
+\item A {\it morphism of simplicial objects $U \to U'$}
+is a transformation of functors.
+\end{enumerate}
 \end{definition}
 
 \noindent
-We get a unique morphism $U_\bullet(s^0_0) : U_0 \to U_1$ and
-two morphisms $U_\bullet(d^1_0), U_\bullet(d^1_1) : U_1 \to U_0$.
-There are two morphisms $U_\bullet(s^1_0), U_\bullet(s^1_1) :
-U_1 \to U_2$ and three morphisms $U_\bullet(d^2_0), 
-U_\bullet(d^2_1), U_\bullet(d^2_2) : U_3 \to U_2$. And so on.
-FIXME: This notation...
+This means there are objects $U([0]), U([1]), U([2]), \ldots$
+and morphisms $U(\varphi) : U([n]) \to U([m])$,
+where $\varphi$ is any nondecreasing map $\varphi : [m] \to [n]$.
 
 \medskip\noindent
-FIXME: Much more.
+In particular there is a unique morphism $U([0]) \to U([n])$ and there are
+exactly $n + 1$ morphisms $U([n]) \to U([0])$ corresponding to
+the $n + 1$ maps $[0] \to [n]$. Obviously we need some more notation
+to be able to talk 
+intelligently about these simplicial objects. We do this by considering
+the morphisms we singled out in Section \ref{section-Delta} above.
+
+\begin{lemma}
+\label{lemma-characterize-simplicial-object}
+Let $\mathcal{C}$ be a category.
+\begin{enumerate}
+\item Given a simplicial object $U$ in $\mathcal{C}$
+we obtain a sequence of objects $U_n = U([n])$ endowed
+with the morphisms $d^n_j = U(\delta^n_j) : U_n \to U_{n-1}$ and
+$s^n_j = U(\sigma^n_j) : U_n \to U_{n + 1}$. These morphisms
+satisfy the opposites of the relations displayed in
+Lemma \ref{lemma-relations-face-degeneracy}.
+\item Conversely, given a sequence of objects $U_n$ and morphisms
+$d^n_j$, $s^n_j$ satisfying these relations there exists a unique
+a simplicial object $U$ in $\mathcal{C}$ such that $U_n = U([n])$,
+$d^n_j = U(\delta^n_j)$, and $s^n_j = U(\sigma^n_j)$.
+\item A morphism between simplicial objects $U$ and $U'$
+is given by a family of morphisms $U_n \to U'_n$ commuting
+with the morphisms $d^n_j$ and $s^n_j$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+This follows from Lemma \ref{lemma-face-degeneracy-category}.
+\end{proof}
+
+\noindent
+We get a unique morphism $s^0_0 = U(\sigma^0_0) : U_0 \to U_1$ and
+two morphisms $d^1_0 = U(\delta^1_0)$, and
+$d^1_1 = U(\delta^1_1)$ which are morphisms $U_1 \to U_0$.
+There are two morphisms $s^1_0 = U(\sigma^1_0)$, $s^1_1 = U(\sigma^1_1)$
+which are morphsms $U_1 \to U_2$. Three morphisms
+$d^2_0 = U(\delta^2_0)$, $d^2_1 = U(\delta^2_1)$, $d^2_2 = U(\delta^2_2)$
+which are morphisms $U_3 \to U_2$. And so on.
+
+\medskip\noindent
+Pictorially we think of $U$ as follows:
+$$
+\xymatrix{
+U_2
+\ar@<2ex>[r]
+\ar@<0ex>[r]
+\ar@<-2ex>[r]
+&
+U_1 
+\ar@<1ex>[r]
+\ar@<-1ex>[r]
+\ar@<1ex>[l]
+\ar@<-1ex>[l]
+&
+U_0
+\ar@<0ex>[l]
+}
+$$
 
 \begin{example}
-\label{example-simplicial-products}
-(1) The simplest example is the {\it constant} simplicial object with
+\label{example-constant-simplicial-object}
+The simplest example is the {\it constant} simplicial object with
 value $X \in \text{Ob}(\mathcal{C})$. In other words, $U_n=X$ and
-all maps are $\text{id}_X$. \\
-(2) Suppose that $Y\to X$ is a morphism of $C$ such that all
-the fibred products $Y_{/X}^nY = \times_X Y \times_X \ldots Y$ exist.
-Then we set $U_n = Y^{n+1}_{/X}$, and we let $s: [n] \to [m]$
-correspond to the map (on ``coordinates'') $(y_0,\ldots, y_m) 
-\mapsto (y_{s(0)},\ldots, y_{s(n)})$.
+all maps are $\text{id}_X$.
 \end{example}
 
-\section{Goals}
+\begin{example}
+\label{example-fibre-products-simplicial-object}
+Suppose that $Y\to X$ is a morphism of $C$ such that all
+the fibred products $Y\times_X Y \times_X \ldots \times_X Y$ exist.
+Then we set $U_n$ equal to the $(n + 1)$-fold fibre product,
+and we let $\varphi: [n] \to [m]$ correspond to the map
+(on ``coordinates'')
+$(y_0,\ldots, y_m) \mapsto (y_{\varphi(0)},\ldots, y_{\varphi(n)})$.
+In other words, the map $U_0 = Y \to U_1 = Y\times_X Y$ is the
+diagonal map. The two maps $U_1 = Y\times_X Y \to U_0 = Y$ are the
+projection maps.
+\end{example}
+
+\noindent
+Geometrically Example \ref{example-fibre-products-simplicial-object}
+above is an important example. It tells us that it is a good
+idea to think of the maps $d^n_j : U_{n + 1} \to U_n$
+as projection maps (forgetting the $j$th component),
+and to think of the maps $s^n_j : U_n \to U_{n + 1}$
+as diagonal maps (repeating the $j$th coordinate).
+We will return to this in the next section.
+
+
+
+\section{Simplicial sets}
+\label{section-simplicial-set}
+
+\noindent
+Let $U$ be a simplical set. It is a good idea to think of
+$U_0$ as the {\it $0$-simplices}, the set $U_1$ as the
+{\it $1$-simplices},
+the set $U_2$ as the {\it $2$-simplices}, and so on.
+
+\medskip\noindent
+We think of the maps $s^n_j : U_n \to U_{n + 1}$ as
+the map that associates to an $n$-simplex $A$ the degenerate
+$(n + 1)$-simplex $B$ whose $(j, j + 1)$-edge is collapsed
+to the vertex $j$ of $A$. We think of the map $d^n_j : U_n \to U_{n - 1}$
+as the map that associates to an $n$-simplex $A$ one of the
+faces, namely the face that omits the vertex $j$.
+In this way it become possible to visualize the relations
+among the maps $s^n_j$ and $d^n_j$ geometrically.
+
+\begin{definition}
+\label{definition-terminology-simplicial-sets}
+Let $U$ be a simplicial set. 
+We say {\it $x$ is a $n$-simplex of $U$} to signify that
+$x$ is an element of $U_n$. We say that {\it $y$ is the $j$the
+face of $x$} to signify that $d^n_jx = y$. We say that
+{\it $z$ is the $j$th degeneracy of $x$} if $z = s^n_jx$.
+A simplex is called {\it degenerate} if it is the degeneracy
+of another simplex.
+\end{definition}
+
+\noindent
+Here are a few fundamental examples.
+
+\begin{example}
+\label{example-simplex-simplicial-set}
+For every $n \geq 0$ we denote $\Delta[n]$ the simplicial set
+\begin{align*}
+\Delta^{opp} & \longrightarrow \textit{Sets} \\
+[k] & \longmapsto \text{Mor}_{\Delta}([k], [n])
+\end{align*}
+We leave it to the reader to verify the following statements.
+Every $m$-simplex of $\Delta[n]$ with $m > n$ is degenerate.
+There is a unique nondegenerate $n$-simplex of $\Delta[n]$,
+namely $\text{id}_{[n]}$.
+\end{example}
+
+\begin{example-simplex-category}
+Consider the category $\Delta/[n]$ of objects over $[n]$
+in $\Delta$, see
+Categories, Example \ref{categories-example-comma-category}.
+There is a functor $\Delta/[n] \to \Delta$.
+Note that the objects of $\Delta/[n]$ for the disjoint
+union of the sets of $k$-simplices in $\Delta[n]$.
+\end{example}
+
+
+
+
+\begin{lemma}
+\label{lemma-simplex-map}
+Let $U$ be a simplicial set. Let $n \geq 0$ be an integer.
+There is a canonical bijection
+$$
+\text{Mor}(\Delta[n], U)
+\longrightarrow
+U_n
+$$
+which maps a morphism $\varphi$ to the value of $\varphi$
+on the unique nondegenerate $n$-simplex of $\Delta[n]$.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+
+
+
+\section{Skelet and coskelet functors}
+\label{section-skelet}
+
+\noindent
+Let $\Delta_{\leq n}$ denote the full subcategory of
+$\Delta$ with objects $[0], [1], [2], \ldots, [n]$.
+Let $\mathcal{C}$ be a category.
+An {\it $n$-truncated simplicial object of $\mathcal{C}$} 
+is a contravariant functor from $\Delta_{\leq n}$ to
+$\mathcal{C}$.
+
+\medskip\noindent
+Given a simplicial object $U$ of $\mathcal{C}$
+the truncation $\text{sk}_n U$ is the restriction
+of $U$ to the subcategory $\Delta_{\leq n}$.
+This defines a {\it skelet functor}
+$$
+\text{sk}_n :
+\text{Simp}(\mathcal{C}) \longrightarrow \text{Simp}_n(\mathcal{C})
+$$
+from the category of simplicial objects of $\mathcal{C}$
+to the category of $n$-truncated simplicial objects of $\mathcal{C}$.
+
+\medskip\noindent
+The {\it coskelet functor} (if it exists) is a functor
+$$
+\text{cosk}_n :
+\text{Simp}(\mathcal{C}) \longrightarrow \text{Simp}_n(\mathcal{C})
+$$
+which is right adjoint to the skelet functor. In a formula
+$$
+\text{Mor}_{\text{Simp}(\mathcal{C})}(U, \text{cosk}_n V)
+=
+\text{Mor}_{\text{Simp}_n(\mathcal{C})}(\text{sk}_n U, V)
+$$
+Given a $n$-truncated simplicial object we 
+say that {\it $\text{cosk}_nV$ exists} if there
+exists an object $\text{cosk}_nV \in \text{Simp}(\mathcal{C})$
+such that the formula above is valid. If it exists it
+is unique up to unique isomorphism by the Yoneda lemma.
+See Categories, Section \ref{categories-section-opposite}.
+
+\begin{lemma}
+\label{lemma-existence-cosk}
+
+\end{lemma}
+
+\begin{proof}
+Let 
+
+
+\end{proof}
+
+
+
+
+
+\section{Hypercoverings}
 
 \noindent
 Assume that $\mathcal{C}$ is a site with the property
@@ -111,7 +464,7 @@ The starting point is the following.
 \label{lemma-product-hypercovering}
 Suppose that $\{Y \to X\}$ is a covering in the topology of
 $\mathcal{C}$. Let $U_n = Y^n_{/X}$ be the simplicial
-object defined in Example \ref{example-simplicial-products}.
+object defined in Example \ref{example-fibre-products-simplicial-object}.
 The augmentation $U_\bullet \to X$ has the property
 that $(*)$ is a quasi-isomorphism for all $\mathcal{F}$.
 \end{lemma}
@@ -181,7 +534,7 @@ object $U'_{\bullet,\bullet}$ by setting $U'_{n,0}= U'_n$,
 $$
 U'_{n,1} = U'_n \times_{U_n} U'_n,
 $$
-etc. Compare Example \ref{example-simplicial-products}. 
+etc. Compare Example \ref{example-fibre-products-simplicial-object}. 
 Out of this object we can construct a single simplicial object
 $W(U'_{\bullet,\bullet})$ as explained above. Construct the 
 natural morphism of simplicial objects 
