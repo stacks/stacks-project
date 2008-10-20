@@ -192,13 +192,15 @@ $U$ a {\it simplicial set}.
 then we call $U$ a {\it simplicial abelian group}.
 \item A {\it morphism of simplicial objects $U \to U'$}
 is a transformation of functors.
+\item The {\it category of simplicial objects of $\mathcal{C}$}
+is denoted $\text{Simp}(\mathcal{C})$.
 \end{enumerate}
 \end{definition}
 
 \noindent
 This means there are objects $U([0]), U([1]), U([2]), \ldots$
 and morphisms $U(\varphi) : U([n]) \to U([m])$,
-where $\varphi$ is any nondecreasing map $\varphi : [m] \to [n]$.
+where $\varphi$ is any nondecreasing map $\varphi : [m] \to [n]$. 
 
 \medskip\noindent
 In particular there is a unique morphism $U([0]) \to U([n])$ and there are
@@ -260,6 +262,8 @@ U_0
 \ar@<0ex>[l]
 }
 $$
+Here the $d$-morphisms are the arrows pointing right and the 
+$s$-morphisms are the arrows pointing left.
 
 \begin{example}
 \label{example-constant-simplicial-object}
@@ -290,6 +294,17 @@ and to think of the maps $s^n_j : U_n \to U_{n + 1}$
 as diagonal maps (repeating the $j$th coordinate).
 We will return to this in the next section.
 
+\medskip\noindent
+Another observation is that we may think of a simplicial
+object of $\mathcal{C}$ as a presheaf with values in $\mathcal{C}$
+over $\Delta$. See
+Sites, Definition \ref{sites-definition-presheaf}.
+And in fact, if $U$, $U'$ are simplicial objects
+of $\mathcal{C}$, then we have
+\begin{equation}
+\label{simplicial-set-presheaf}
+\text{Mor}(U, U') = \text{Mor}_{\textit{PSh}(\Delta)}(U, U').
+\end{equation}
 
 
 \section{Simplicial sets}
@@ -372,15 +387,18 @@ object over $[k]$ with a morphism covering $\varphi$, namely
 $\psi \circ \varphi : [k] \to [n]$. Thus $\Delta/[n]$
 is fibred in sets over $\Delta$. In other words, we may
 think of $\Delta/[n]$ as a presheaf of sets over $\Delta$.
-See also,
-Categories, Example \ref{categories-example-fibred-category-from-functor-of-points}.
+See also, Categories,
+Example \ref{categories-example-fibred-category-from-functor-of-points}.
+And this presheaf of sets agrees with the simplicial set
+$\Delta[n]$. In particular, from Equation
+(\ref{simplicial-set-presheaf}) and 
+Lemma \ref{lemma-simplex-map} above
+we get the formula
+$$
+\text{Mor}_{\textit{PSh}(\Delta)}(\Delta/[n], U) = U_n
+$$
+for any simplicial set $U$.
 \end{example}
-
-\begin{lemma}
-\label{lemma-functor-on-simplex-category}
-Let $U$ be a simplicial set.
-There is an equivalence of categories
-\end{lemma}
 
 
 \section{Skelet and coskelet functors}
@@ -393,6 +411,9 @@ Let $\mathcal{C}$ be a category.
 An {\it $n$-truncated simplicial object of $\mathcal{C}$} 
 is a contravariant functor from $\Delta_{\leq n}$ to
 $\mathcal{C}$.
+We denote the category of $n$-truncated
+simplicial objects of $\mathcal{C}$ by
+the symbol $\text{Simp}_n(\mathcal{C})$.
 
 \medskip\noindent
 Given a simplicial object $U$ of $\mathcal{C}$
@@ -425,19 +446,219 @@ such that the formula above is valid. If it exists it
 is unique up to unique isomorphism by the Yoneda lemma.
 See Categories, Section \ref{categories-section-opposite}.
 
+\medskip\noindent
+Recall the category $\Delta/[n]$, see Example \ref{example-simplex-category}.
+We let $(\Delta/[n])_{\leq m}$ denote the full subcategory
+of $\Delta/[n]$ consisting of objects $[k] \to [n]$
+of $\Delta/[n]$ with $k \leq m$. In other words we have
+the following commutative diagram of categories and functors
+$$
+\xymatrix{
+(\Delta/[n])_{\leq m} \ar[r] \ar[d] &
+\Delta/[n] \ar[d] \\
+\Delta_{\leq m} \ar[r] &
+\Delta
+}
+$$
+Given a $m$-truncated
+simplicial object $U$ of $\mathcal{C}$
+we define a functor
+$$
+U(n) : (\Delta/[n])_{\leq m}^{opp} \longrightarrow \mathcal{C}
+$$
+by the rules
+\begin{eqnarray*}
+([k] \to [n]) & \longmapsto & U_k \\
+(\psi : ([k] \to [n]) \to ([k'] \to [n])) &
+\longmapsto &
+U(\psi) : U_{k'} \to U_k
+\end{eqnarray*}
+For a given morphism $\varphi : [n] \to [n']$ of $\Delta$
+we have an associated functor
+$$
+"\varphi" : (\Delta/[n])_{\leq m} \longrightarrow (\Delta/[n'])_{\leq m}
+$$
+which maps $\alpha : [k] \to [n]$ to
+$\varphi \circ \alpha : [k] \to [n']$.
+The composition $U(n') \circ "\varphi"$ is
+equal to the functor $U(n)$.
+
 \begin{lemma}
 \label{lemma-existence-cosk}
-
+If the category $\mathcal{C}$ has finite limits, then
+$\text{cosk}_m$ functors exist for all $m$. Moreover,
+for any $m$-truncated simplicial object $U$ the
+simplicial object $\text{cosk}_mU$ is described
+by the formula
+$$
+(\text{cosk}_mU)_n = \text{lim}_{(\Delta/[n])_{\leq m}^{opp}}\ U(n)
+$$
+and for $\varphi : [n] \to [n']$ the map
+$\text{cosk}_mU(\varphi)$ comes from the
+identification $U(n') \circ "\varphi" = U(n)$ above 
+via Categories, Lemma \ref{categories-lemma-functorial-limit}.
 \end{lemma}
 
 \begin{proof}
-Let 
+Suppose that $V$ is a simplicial object.
+A morphism $\gamma : V \to \text{cosk}_mU$ is given by a sequence
+of morphisms $\gamma_n : V_n \to (\text{cosk}_mU)_n$.
+By definition of a limit, this is given by a
+collection of morphisms $\gamma(\alpha) : V_n \to U_k$
+where $\alpha$ ranges over all $\alpha : [k] \to [n]$
+with $k \leq m$. These morphisms then also satisfy
+the rules that
+$$
+\xymatrix{
+V_n \ar[r]_{\gamma(\alpha)} &  U_k \\
+V_{n'} \ar[r]^{\gamma(\alpha')} \ar[u]^{V(\varphi)} & U_{k'} \ar[u]_{U(\psi)}
+}
+$$
+are commutative, where $\psi : [k] \to [k']$,
+$\varphi : [n] \to [n']$, $\alpha : [k] \to [n]$ and
+$\alpha' : [k'] \to [n']$ are any morphisms of $\Delta$
+such that $\varphi \circ \alpha = \alpha' \circ \psi$.
+Taking $n = k$, $\varphi = \alpha'$, and $\alpha = \psi = \text{id}_{[k]}$
+we deduce that $\gamma(\alpha') = \gamma(\text{id}_{[k]}) \circ V(\alpha')$.
+In other words, the morphisms $\gamma(\text{id}_{[k]})$, $k \leq m$
+determine the morphism $\gamma$. And it is easy to see that these
+morphisms form a morphism $\text{sk}_m V \to U$.
 
-
+\medskip\noindent
+Conversely, given a morphism $\gamma : \text{sk}_n V \to U$, 
+we obtain a family of morphsms $\gamma(\alpha)$
+where $\alpha$ ranges over all $\alpha : [k] \to [n]$
+with $k \leq m$ by setting $\gamma(\alpha) = 
+\gamma(\text{id}_{[k]}) \circ V(\alpha)$. These morphisms
+satisfy all the displayed commutativity restraints pictured
+above, and hence give rise to a morphism $V \to \text{cosk}_m U$.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-trivial-cosk}
+Let $\mathcal{C}$ be a category.
+Let $U$ be an $m$-truncated simplicial object of $\mathcal{C}$.
+For $n \leq m$ the limit $\text{lim}_{(\Delta/[n])_{\leq m}^{opp}}\ U(n)$
+exists and is canonically isomorphic to $U_n$.
+\end{lemma}
 
+\begin{proof}
+This is true because the category $(\Delta/[n])_{\leq m}$
+has an final object in this case, namely the identity
+map $[n] \to [n]$.
+\end{proof}
 
+\noindent
+Let us describe the coskelet functor in more detail.
+By abuse of notation we will denote $\text{sk}_n$
+also the restriction functor
+$\text{Simp}_{n'}(\mathcal{C}) \to \text{Simp}_{n'}(\mathcal{C})$
+for any $n' \geq n$. We will denote a right adjoint
+of this functor abusively by $\text{sk}_{n'}\text{cosk}_n$
+if it exists.
+For $n \geq 1$, $0 \leq i < j \leq n + 1$
+define $\delta^{n + 1}_{i,j} : [n - 1] \to [n + 1]$
+to be the increasing map omitting $i$ and $j$.
+Note that
+$\delta^{n + 1}_{i,j} =
+\delta^{n + 1}_j \circ \delta^n_i =
+\delta^{n + 1}_i \circ \delta^n_{j - 1}$, see
+Lemma \ref{lemma-relations-face-degeneracy}. This motivates
+the following lemma.
+
+\begin{lemma}
+\label{lemma-work-out}
+Let $n$ be an integer $\geq 2$. Let $U$ be a $n$-truncated
+simplicial object of $\mathcal{C}$. Consider the
+contravariant functor from $\mathcal{C}$ to $\textit{Sets}$
+which associates to an object $T$ the set
+$$
+\{ (f_0,\ldots,f_{n + 1}) \in \text{Mor}_{\mathcal{C}}(T, U_n)
+\mid
+d^n_{j - 1} \circ f_i = d^n_i \circ f_j\ 
+\forall\ 0\leq i < j\leq n + 1\}
+$$
+If this functor is representable, then there exists an
+$(n + 1)$-truncated simplicial object
+$\text{sk}_{n + 1}\text{cosk}_n U$ such that the following
+adjointness holds
+$$
+\text{Mor}_{\text{Simp}_{n + 1}(\mathcal{C})}(V,
+\text{sk}_{n + 1}\text{cosk}_n U)
+=
+\text{Mor}_{\text{Simp}_n(\mathcal{C})}(\text{sk}_nV, U)
+$$
+\end{lemma}
+
+\begin{proof}
+Denote the representing object $U_{n + 1}$. Denote the maps
+$U_{n + 1} \to U_n$, given on functors as
+$(f_0,\ldots,f_{n + 1}) \mapsto f_i$ by
+$d^{n + 1}_i$. Consider the $(n + 1)$-truncated
+simplicial object $\tilde U$ given by $U_0, \ldots, U_n, U_{n + 1}$, and
+maps defined as follows. For $\varphi : [k] \to [l]$, $k,l \leq n$
+use the morphisms $U(\varphi) : U_l \to U_k$.
+For $\varphi : [k] \to [n + 1]$ with $k \leq n$ choose
+an $i$ not in the image of $\varphi$ and write
+$\varphi = \delta^{n + 1}_i \circ \varphi'$. In this case take
+the morphism $U_{n + 1} \to U_n \to U_k$ which is
+the composition of $d^{n + 1}_i$ and $U(\varphi')$.
+For $\varphi : [n + 1] \to [k]$ consider the maps
+$\varphi \circ \delta^{n + 1}_i : [n] \to [k]$ which
+give morphisms $f_i = U(\varphi \circ \delta^n_i) : U_k \to U_{n - 1}$.
+If we check these satisfy the relations in the definition
+of $U_{n + 1}$ then we obtain the desired morphism $U_k \to U_{n + 1}$.
+To see this it suffices to check that
+$$
+\varphi \circ \delta^{n + 1}_i \circ \delta^n_{j - 1}
+=
+\varphi \circ \delta^{n + 1}_j \circ \delta^n_i
+$$
+which is true by the discussion above the lemma.
+Finally, given a map $\varphi : [n + 1] \to [n + 1]$
+if it is not the identity then we can factor it
+as $[n + 1] \to [n] \to [n + 1]$ and use the definitions
+above.
+
+\medskip\noindent
+We leave it to the reader to verify that this indeed
+defines a contravariant functor $\Delta_{\leq n + 1}$.
+Alternatively, the reader may verify that the object $U_{n + 1}$
+defined above represents the limit
+$\text{lim}_{(\Delta/[n + 1])_{\leq n}^{opp}}\ U(n)$,
+and use this in combination with Lemma \ref{lemma-trivial-cosk} to define
+the maps above.
+
+\medskip\noindent
+To see the adjointness we argue that any element
+$\gamma$ of the right hand side of the formula
+gives rise to a unique morphism $V_{n + 1} \to U_{n + 1}$
+corresponding to setting $f_i : V_{n+1} \to U_n$
+equal to the morphism $\gamma_n \circ d^{n+1} : V_{n+1} \to V_n \to U_n$.
+Conversely, given a morphsm $\gamma'$ of the left hand side
+we can simply restrict to $\Delta_{\leq n}$ to get an element
+of the right hand side.
+Details left to the reader, see also
+Remark \ref{remark-cosk-simplicial-sets}.
+\end{proof}
+
+\begin{remark}
+\label{remark-cosk-simplicial-sets}
+The construction of Lemma \ref{lemma-work-out}
+above in the case of simplicial
+sets is the following. Given an $n$-truncated simplicial
+set $U$, we make a canonical $(n + 1)$-truncated simplicial
+set as follows. We add a set of $(n + 1)$-simplices
+$U_{n + 1}$ by the formula of the lemma. This means that
+an element of $U_{n + 1}$ is a numbered collection of
+$n + 2$ faces $(f_0,\ldots,f_n)$, with the property that they glue
+as they would in a $(n + 1)$-simplex. In other words,
+the $i$th face of $f_j$ is the $(j-1)$st face of $f_i$
+for $i < j$. If $V$ is an $(n + 1)$-truncated simplicial set,
+then its $(n + 1)$-simplices give rise to compatible collections
+of faces
+
+\end{remark}
 
 
 \section{Hypercoverings}
