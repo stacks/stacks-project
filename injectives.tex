@@ -22,13 +22,63 @@ do cohomology of abelian sheaves on a site. So we briefly
 explain why there are enough injectives. At the end we explain
 the more general story.
 
-\section{Existence of injectives in special cases}
-\label{section-foundational}
+\section{Abelian groups}
+\label{section-abelian-groups}
 
 \noindent
-Grothendieck proved the existence of injectives in great generality 
-in the paper \cite{Tohoku}. We will prove this is true for abelian
-(pre)sheaves on a site.
+In this section we show the category of abelian groups has enough
+injectives. Recall that an abelian group $M$ is {\it divisible}
+if and only if for every $x \in M$ and every $n \in \mathbf{N}$
+there exists a $y \in M$ such that $n y = x$.
+
+\begin{lemma}
+\label{lemma-injective-abelian}
+An abelian group $J$ is an injective object in 
+the category of abelian groups if and only if $J$
+is divisible.
+\end{lemma}
+
+\begin{proof}
+Suppose that $J$ is not divisible. Then there exists
+an $x \in J$ and $n \in \mathbf{N}$ such that there
+is no $y \in J$ with $n y = x$. Then the morphism
+$\mathbf{Z} \to J$, $m \mapsto mx$ does not extend
+to $\frac{1}{n}\mathbf{Z} \supset \mathbf{Z}$. Hence
+$J$ is not injective.
+
+\medskip\noindent
+Let $A \subset B$ be abelian groups.
+Assume that $J$ is a divisible abelian group.
+Let $\varphi : A \to J$ be a morphism. 
+Consider the set of homomorphisms $\varphi' : A' \to J$
+with $A \subset A' \subset B$ and $\varphi'|_A = \varphi$.
+Define $(A', \varphi') \geq (A'', \varphi'')$ if
+and only if $A' \supset A''$ and $\varphi'|_{A''} = \varphi''$.
+If $(A_i, \varphi_i)_{i \in I}$ is a totally
+ordered collection of such pairs, then
+$\bigcup_{i \in I} A_i \to J$ defined by $a \in A_i$
+maps to $\varphi_i(a)$. By Zorn's lemma we have to show
+that if the pair $(A', \varphi')$ is maximal then
+$A' = B$. If not, pick $x \in B$, $x \not \in A'$.
+If there exists no $n\in \mathbf{N}$ such that
+$nx \in A'$, then $A' \oplus \mathbf{Z} \cong A' + \mathbf{Z}x$.
+Hence we can extend $\varphi'$ contradicting the maximality.
+If there does exist an $n \in \mathbf{N}$ such that
+$nx \in A'$, then let $n$ be the minimal such integer.
+Let $z \in J$ be an element such that $nz = \varphi'(nx)$.
+Define a morphism $\tilde \varphi : A' \oplus \mathbf{Z} \to J$ by
+$(a, m) \mapsto \varphi'(a) + mz$. By our choice of
+$z$ the kernel of $\tilde \varphi$ contains the kernel
+of the map $A' \oplus \mathbf{Z} \to B$,
+$(a, m) \mapsto a + mx$. Hence this extends the morphism
+$\varphi'$. Contradiction.
+\end{proof}
+
+\noindent
+We can use this lemma to show that every abelian
+group can be embbeded in a injective abelian
+group. But this is a special case of the result of
+the following section.
 
 \section{Modules}
 \label{section-injectives-modules}
@@ -36,37 +86,112 @@ in the paper \cite{Tohoku}. We will prove this is true for abelian
 \noindent 
 As an example theorem let us try to prove that there are enough injective
 modules over a ring $R$. We start with the fact that $\mathbf{Q}/\mathbf{Z}$ 
-is an injective abelian group. This we leave to the reader.
+is an injective abelian group. This follows from
+Lemma \ref{lemma-injective-abelian} above.
 
-\medskip\noindent
-For any ring $R$ and any $R$-module $M$ over $R$ we denote 
-$M^\wedge = \text{Hom}(M,\mathbf{Q}/\mathbf{Z})$
-with its natural $R$-module structure. Also we denote
-$F(M)$ the free module with basis given by the elements 
-of $M$ and we let $F(M)\to M$ be the natural surjection of $R$-modules.
+\begin{definition}
+\label{definition-simple-functors}
+Let $R$ be a ring.
+\begin{enumerate}
+\item For any $R$-module $M$ over $R$ we denote 
+$M^\vee = \text{Hom}(M,\mathbf{Q}/\mathbf{Z})$
+with its natural $R$-module structure. We think
+of $M \mapsto M^\vee$ as a contravariant functor
+from the category of $R$-modules to itself.
+\item For any $R$-module $M$ we denote
+$$
+F(M) = \bigoplus\nolimits_{m \in M} R[m]
+$$
+the free module with basis given by the elements $[m]$ with
+$m \in M$. We let $F(M)\to M$, $\sum f_i [m_i] \mapsto \sum f_i m_i$
+be the natural surjection of $R$-modules.
+We think of $M \mapsto (F(M) \to M)$ as a functor from
+the category of $R$-modules to the category of
+arrows in $R$-modules.
+\end{enumerate}
+\end{definition}
 
-\medskip\noindent
-Note that there is a canonical map $M \to (M^\wedge)^\wedge$.
-This is injective; you can check this using that 
-$\mathbf{Q}/\mathbf{Z}$ is injective. There is a canonical 
-injection $(M^\wedge)^\wedge \to (F(M^\wedge))^\wedge$.
-Set $J(M)=(F(M^\wedge))^\wedge$. The composition of the two maps
-above gives $M \to J(M)$. This will be the desired injection of $M$ 
-into an injective $R$-module.
+\begin{lemma}
+\label{lemma-vee-exact}
+Let $R$ be a ring.
+The functor $M \mapsto M^\vee$ is exact.
+\end{lemma}
 
-\medskip\noindent
-Note that $J(M) \cong \prod_{m\in M} R^\wedge$ as an $R$-module.
+\begin{proof}
+This because $\mathbf{Q}/\mathbf{Z}$
+is an injective abelian group.
+\end{proof}
+
+\noindent
+There is a canonical map $ev : M \to (M^\vee)^\vee$
+given by evaluation: given $x \in M$ we let
+$ev(x) \in (M^\vee)^\vee = \text{Hom}(M^\vee, \mathbf{Q}/\mathbf{Z})$
+be the map $\varphi \mapsto \varphi(x)$.
+
+\begin{lemma}
+\label{lemma-ev-injective}
+For any $R$-module $M$ the evaluation map
+$ev : M \to (M^\vee)^\vee$ is injective.
+\end{lemma}
+
+\begin{proof}
+You can check this using that $\mathbf{Q}/\mathbf{Z}$ is an injective
+abelian group. Namely, if $x \in M$ is not zero, then let
+$M' \subset M$ be the cyclic group it generates. There exists
+a nonzero map $M' \to \mathbf{Q}/\mathbf{Z}$ which necessarily does
+not annihilate $x$. This extends to
+a map $\varphi : M \to \mathbf{Q}/\mathbf{Z}$
+And then $ev(x)(\varphi) = \varphi(x) \not = 0$.
+\end{proof}
+
+\noindent
+The canonical surjection $F(M) \to M$ of $R$-modules turns into a
+a canonical injection, see above, of $R$-modules 
+$$
+(M^\vee)^\vee \longrightarrow (F(M^\vee))^\vee.
+$$
+Set $J(M) = (F(M^\vee))^\vee$. The composition of $ev$ with this
+the displayed map gives $M \to J(M)$ functorially in $M$.
+
+\begin{lemma}
+\label{lemma-JM-injective}
+Let $R$ be a ring. For every $R$-module $M$ the
+$R$-module $J(M)$ is injective.
+\end{lemma}
+
+\begin{proof}
+Note that $J(M) \cong \prod_{m\in M} R^\vee$ as an $R$-module.
 As the product of injective modules is injective, it suffices to
-show that $R^\wedge$ is injective. For this you use that 
-$\text{Hom}_R(N, R^\wedge) = \text{Hom}_R(R, N^\wedge)$ and the
-fact that $(-)^\wedge$ is an exact functor.
+show that $R^\vee$ is injective. For this we use that 
+$$
+\text{Hom}_R(N, R^\vee) =
+\text{Hom}_R(N, \text{Hom}_{\mathbf{Z}}(R, \mathbf{Q}/\mathbf{Z})) =
+N^\vee
+$$
+and the
+fact that $(-)^\vee$ is an exact functor by Lemma
+\ref{lemma-vee-exact}.
+\end{proof}
 
-\medskip\noindent
-The proof above gives us the best possible situation. Not only does
-every module inject into an injective module, but the construction is
-completely functorial. Namely, for any map of $R$-modules $M \to N$ 
-there is an associated morphism $J(M) \to J(N)$ making the following 
-diagram commute:
+\begin{lemma}
+\label{lemma-injectives-modules}
+Let $R$ be a ring.
+The construction above defines a covariant functor
+$M \mapsto (M \to J(M))$ from the category of
+$R$-modules to the category of arrows of $R$-modules
+such that for every module $M$ the output
+$M \to J(M)$ is an injective map of $M$ into
+an injective $R$-module $J(M)$.
+\end{lemma}
+
+\begin{proof}
+Follows from the above.
+\end{proof}
+
+\noindent
+In particular, for any map of $R$-modules $M \to N$ 
+there is an associated morphism $J(M) \to J(N)$
+making the following diagram commute:
 $$
 \xymatrix{
 M \ar[d] \ar[r] & N \ar[d] \\
@@ -106,8 +231,8 @@ are injective in the absolute sense, and not only injective in the
 category $\text{Mod}_{R,\alpha}$. Second, in exactly the same way we
 can make sure that $\text{Mod}_{R,\alpha}$ has all finite limits,
 finite direct sums, or countable sums and products, etc. Of course
-the category $\text{mod}_{R,\alpha}$ never has arbitrary direct sums,
-which is why working with $\text{mod}_{R,\alpha}$ is somewhat cumbersome.
+the category $\text{Mod}_{R,\alpha}$ never has arbitrary direct sums,
+which is why working with $\text{Mod}_{R,\alpha}$ is somewhat cumbersome.
 
 \section{Projective resolutions}
 \label{section-projective-resolution}
@@ -129,24 +254,60 @@ The nice thing about this is that it is absolutely canonical.
 Sometimes we write $S_1 = M\times M \coprod R\times M$ and
 $S_0=M$, so that the resolution is $F(S_1) \to F(S_0) \to M \to 0$.
 
+\section{Injectives and adjoint functors}
+\label{section-adjoint}
+
+\begin{lemma}
+\label{lemma-adjoint}
+Let $\mathcal{A}$ and $\mathcal{B}$ be abelian categories.
+Let $u : \mathcal{A} \to \mathcal{B}$ and
+$v : \mathcal{B} \to \mathcal{A}$ be adjoint additive functors.
+Assume that $v$ transforms injections into injections.
+Then $u$ transforms injectives into injectives.
+\end{lemma}
+
+\begin{proof}
+FIXME.
+\end{proof}
+
+
 \section{Abelian presheaves}
 \label{section-injectives-presheaves}
 
 \noindent
-Let $\mathcal{C}$ be a category. On the one hand, consider abelian
-presheaves on $\mathcal{C}$. On the other hand, consider
-families of abelian groups indexed by elements of
-$\text{Ob}(\mathcal{C})$; in other words presheaves on the discrete
-category with underlying set of objects $\text{Ob}(\mathcal{C})$.
-We will denote presheaves on $\mathcal{C}$ by $B$ and presheaves on
-$\text{Ob}(\mathcal{C})$ by $A$. Consider the forgetful functor $v$,
-denoted $B \mapsto vB$.
+Let $\mathcal{C}$ be a category. Recall that this means that
+$\text{Ob}(\mathcal{C})$ is a set. On the one hand, consider abelian
+presheaves on $\mathcal{C}$, see
+Sites, Section \ref{sites-section-presheaves}.
+On the other hand, consider families of abelian groups
+indexed by elements of $\text{Ob}(\mathcal{C})$; in other
+words presheaves on the discrete category with underlying set
+of objects $\text{Ob}(\mathcal{C})$. Let us denote this
+discrete category simply $\text{Ob}(\mathcal{C})$.
+There is a natural functor
+$$
+i : \text{Ob}(\mathcal{C}) \longrightarrow \mathcal{C}
+$$
+and hence there is a natural restriction or forgetful functor
+$$
+v = i^p : 
+\textit{PAb}(\mathcal{C})
+\longrightarrow
+\textit{PAb}(\text{Ob}(\mathcal{C}))
+$$
+compare Sites, Section \ref{sites-section-functoriality-PSh}.
+We will denote presheaves
+on $\mathcal{C}$ by $B$ and presheaves on
+$\text{Ob}(\mathcal{C})$ by $A$.
 
 \medskip\noindent
-There is a functor $u$ that assigns a presheaf on $\mathcal{C}$
-to a presheaf on $\text{Ob}(\mathcal{C})$. It is defined as follows:
+There is also a functor $u = i_p$ (compare
+Sites, Section \ref{sites-section-functoriality-PSh})
+that assigns an abelian presheaf on $\mathcal{C}$
+to an abelian presheaf on $\text{Ob}(\mathcal{C})$.
+In this particular case it is defined as follows:
 $$
-\Gamma(U, uA) = \prod\nolimits_{U' \to U} A(U').
+uA(U) = \prod\nolimits_{U' \to U} A(U').
 $$
 So an element is a family $(a_\phi)_\phi$ with $\phi$
 ranging through all morphisms in $\mathcal{C}$ with target $U$.
@@ -155,22 +316,41 @@ maps our element $(a_\phi)_\phi$ to the element
 $(a_{g \circ \psi})_\psi$. 
 
 \medskip\noindent
-There is a canonical surjective map $vuA \to A$ and a canonical map
+There is a canonical surjective map $vuA \to A$ and a canonical
 injective map $B \to uvB$. We leave it to the reader to show that
 $$
-\text{Mor}_{\text{PAb}(\text{Ob}(\mathcal{C}))}(B, uA) =
-\text{Mor}_{\text{PAb}(\mathcal{C})}(vB, A).
+\text{Mor}_{\textit{PAb}(\text{Ob}(\mathcal{C}))}(B, uA)
+=
+\text{Mor}_{\textit{PAb}(\mathcal{C})}(vB, A).
 $$
-(Obvious notation.) Thus the pair $(u,v)$ is an example of a pair of adjoint
-functors. FIXME: Discuss this somewhere. It is clear that $u$ and $v$ are exact 
-functors. It is clear that any presheaf on $\text{Ob}(\mathcal{C})$ has an
-injective hull. In fact there is a functor $J$ such that
+in this simple case; the general case is in
+Sites, Section \ref{sites-section-functoriality-PSh}.
+Thus the pair $(u,v)$ is an example of a pair of adjoint
+functors, see
+Categories, Section \ref{categories-section-adjoint}.
+
+\medskip\noindent
+At this point we can list the following facts
+about the situation above.
+\begin{enumerate}
+\item The functors $u$ and $v$ are exact. This follows from
+the explicit description of these functors given above.
+\item The category $\textit{PAb}(\text{Ob}(\mathcal{C}))$
+has enough injectives.
+\item In fact there is a functor $J$ such that
 $A \mapsto \big(A \to J(A)\big)$ is functorial as in
 Section \ref{section-injectives-modules}.
-(Namely, $J(A)$ is the assignment $U\mapsto J(A(U))$, where
-$J(A(U))$ is the functor constructed in
-Section \ref{section-injectives-modules} for the ring $\mathbf{Z}$
-applied to the $\mathbf{Z}$-module $A(U)$.)
+Namely, $J(A)$ is presheaf $U\mapsto J(A(U))$, where
+$J(-)$ is the functor constructed in
+Section \ref{section-injectives-modules} for the ring $\mathbf{Z}$.
+\item For any injective presheaf $J$ in $\textit{PAb}(\text{Ob}(\mathcal{C}))$
+the presheaf $uJ$ is injective in $\textit{PAb}(\mathcal{C})$.
+Namely, let $B_1 \to B_2$ be an injective map of abelian
+presheaves on $\mathcal{C}$. Suppose that $B_1 \to uJ$ is
+a morphism. By adjointness this corresponds to a morphism
+
+Then $vB_1 \to vB_2$
+\end{enumerate}
 
 \medskip\noindent
 Putting all of this together gives us the following procedure
@@ -374,6 +554,10 @@ FIXME. Very similar to the corresponding lemma for modules.
 Here we can talk in general about generators, limits and
 all that good stuff. This will possibly be needed later on
 anyway. FIXME.
+
+\medskip\noindent
+Grothendieck proved the existence of injectives in great generality 
+in the paper \cite{Tohoku}. 
 
 
 \input{chapters}

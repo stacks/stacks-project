@@ -21,8 +21,11 @@ Hypercoverings can be used to compute cohomology of abelian sheaves on sites
 without recourse to injective resolutions. See \cite[Expose V, Sec. 7]{SGA4}.
 A nice manuscript on cohomological descent is the text by Brian Conrad,
 see \url{http://www.math.lsa.umich.edu/~bdconrad/papers/hypercover.pdf}.
-Probably it is useless to try to improve on Brian's article, so we look
-at the question a little differently (more naively).
+This text follows the exposition in \cite[Expose Vbis]{SGA4}, and in
+particular discusses a more general kind of hypercoverings, such as
+proper hypercoverings. Probably it is useless to try to improve on
+Brian's article, so we discuss the particular case of hypercoverings
+in a site.
 
 \section{The category $\Delta$}
 \label{section-Delta}
@@ -309,6 +312,18 @@ and to think of the maps $s^n_j : U_n \to U_{n + 1}$
 as diagonal maps (repeating the $j$th coordinate).
 We will return to this in the sections below.
 
+\begin{lemma}
+\label{lemma-si-injective}
+Let $\mathcal{C}$ be a category.
+Let $U$ be a simplicial object of $\mathcal{C}$.
+Each of the morphisms $s^n_i : U_n \to U_{n + 1}$
+has a left inverse. In particular $s^n_i$ is a monomorphism.
+\end{lemma}
+
+\begin{proof}
+This is true because $d_i^{n + 1} \circ s^n_i = \text{id}_{U_n}$.
+\end{proof}
+
 \section{Simplicial objects as presheaves}
 \label{section-simplicial-presheaves}
 
@@ -367,71 +382,7 @@ Omitted.
 \end{proof}
 
 
-\section{Homotopies}
-\label{section-homotopy}
 
-\noindent
-Consider the simplicial sets $\Delta[0]$ and $\Delta[1]$.
-Recall that there are two morphisms
-$$
-e_i : \Delta[0] \longrightarrow \Delta[1],
-$$
-coming from the morphisms $[0] \to [1]$ mapping 
-$0$ to $i \in \{0, 1\}$. Recall also that each
-set $\Delta[1]_k$ is finite. Hence, if the category
-$\mathcal{C}$ has finite coproducts, then we can
-form the product
-$$
-U \times \Delta[1]
-$$
-for any simplicial object $U$ of $\mathcal{C}$, exactly
-as in Definition \ref{definition-product}. (More generally
-this works if finite coproducts $\coprod_{i=1}^N U_n$
-of the objects $U_n$ exist.)
-Note that $\Delta[0]$ has the property that $\Delta[0]_k = \{*\}$
-is a singleton for all $k \geq 0$. Hence $U \times \Delta[0]
-= U$. Thus $e_i$ above gives rise to morphisms
-$$
-e_i : U \to U \times \Delta[1].
-$$
-
-\begin{definition}
-\label{definition-homotopy}
-Suppose that $U$ and $V$ are two simplicial objects
-of $\mathcal{C}$. Assume that $U \times \Delta[1]$ exists.
-We say morphisms $a, b : U \to V$ are {\it homotopic}
-if there exists a morphism
-$$
-h : U \times \Delta[1] \longrightarrow V
-$$
-such that $a = h \circ e_0$ and $b = h \circ e_1$.
-In this case $h$ is called a {\it homotopy connecting
-$a$ and $b$}.
-\end{definition}
-
-\noindent
-We are going to spell out what this means.
-By definition $\Delta[1]_n = \text{Mor}_{\Delta}([n], [1])$.
-There are $n$ surjective morphisms $[n] \to [1]$, call
-them $\pi_1, \ldots, \pi_n$ where $\pi_i$ is the map such that
-$\pi_i(j) = 0$ for $j < i$ and $\pi_i(j) = 1$ for $j \geq i$.
-Thus a morphism
-$$
-h : U \times \Delta[1] \longrightarrow V
-$$
-in particular gives rise to $n$ morphisms $h^n_i : U_n \to V_n$
-defined as the composition
-$U_n = U_n \times \{\pi_i\} \hookrightarrow U_n \times \Delta[1]_n
-\to V_n$.
-
-\begin{lemma}
-\label{lemma-relations-homotopy}
-Let $U, V, a, b, h$ be as in Definition \ref{definition-homotopy}.
-The morphisms $h^n_i$ satsify the following relations.
-\begin{enumerate}
-\item 
-\end{enumerate}
-\end{lemma}
 
 
 
@@ -528,7 +479,7 @@ Omitted.
 \label{example-simplex-category}
 Consider the category $\Delta/[n]$ of objects over $[n]$
 in $\Delta$, see
-Categories, Example \ref{categories-example-comma-category}.
+Categories, Example \ref{categories-example-category-over-X}.
 There is a functor $p : \Delta/[n] \to \Delta$.
 The fibre category of $p$ over $[k]$, see
 Categories, Section \ref{categories-section-fibred-groupoids},
@@ -553,6 +504,602 @@ $$
 $$
 for any simplicial set $U$.
 \end{example}
+
+\begin{lemma}
+\label{lemma-product-degenerate}
+Let $U$, $V$ be simplicial sets.
+Let $a, b \geq 0$ be integers.
+Assume every $n$-simplex of $U$ is degenerate if $n > a$.
+Assume every $n$-simplex of $V$ is degenerate if $n > b$.
+Then every $n$-simplex of $U \times V$ is degenerate
+if $n > a + b$.
+\end{lemma}
+
+\begin{proof}
+Suppose $n > a + b$. Let $(u,v) \in (U\times V)_n = U_n \times V_n$.
+By assumption, there exists a $\alpha : [n] \to [a]$ and a
+$u' \in U_a$ and a $\beta : [n] \to [b]$ and a $v' \in V_b$
+such that $u = U(\alpha)(u')$ and $v = V(\beta)(v')$. Because
+$n > a + b$, there exists an $0 \leq i \leq a + b$ such that
+$\alpha(i) = \alpha(i + 1)$ and
+$\beta(i) = \beta(i + 1)$. It follows immediately
+that $(u,v)$ is in the image of $s^{n - 1}_i$.
+\end{proof}
+
+
+
+\section{A coproduct construction}
+\label{section-coproduct}
+
+\begin{definition}
+\label{definition-product-with-simplicial-set}
+Let $\mathcal{C}$ be a category such that the coproduct of
+any two objects of $\mathcal{C}$ exists. Let
+$U$ be a simplicial set. Let $V$ be a simplicial
+object of $\mathcal{C}$. Assume that each $U_n$ is
+finite nonempty. In this case we define
+{\it the product 
+$
+U \times V
+$
+of $U$ and $V$}
+to be the simplicial object of $\mathcal{C}$ whose
+$n$th term is the object
+$$
+(U \times V)_n = \coprod\nolimits_{u\in U_n} V_n
+$$
+with maps for $\varphi : [m] \to [n]$ given by the
+morphism
+$$
+\coprod\nolimits_{u\in U_n} V_n
+\longrightarrow
+\coprod\nolimits_{u'\in U_m} V_m
+$$
+which maps the component $V_n$ corresponding to $u$ to the
+component $V_m$ corresponding to $u' = U(\varphi)(u)$
+via the morphism $V(\varphi)$.
+More loosely, if all of the coproducts displayed above
+exist (without assuming anything about $\mathcal{C}$)
+we will say that the {\it product $U \times V$ exists}.
+\end{definition}
+
+\noindent
+Let $\mathcal{C}$ be a category.
+Let $X$ be an object of $\mathcal{C}$.
+Let $k \geq 0$ be an integer.
+If all coproducts $X \coprod \ldots \coprod X$ exist
+then according to the definition above the product
+$$
+X \times \Delta[k]
+$$
+exists, where we think of $X$ as the corresponding constant 
+simplicial object.
+
+\begin{lemma}
+\label{lemma-morphism-from-coproduct}
+With $X$ and $k$ as above.
+For any simplicial object $V$ of
+$\mathcal{C}$ we have the following
+canonical bijection
+$$
+\text{Mor}_{\text{Simp}(\mathcal{C})}(X \times \Delta[k], V)
+\longrightarrow
+\text{Mor}_{\mathcal{C}}(X, V_k).
+$$
+wich maps $\gamma$ to the restriction of the
+morphism $\gamma_k$ to the component corresponding
+to $\text{id}_{[k]}$.
+Similarly, for any $n \geq k$, if $W$ is an
+$n$-truncated simplicial object
+of $\mathcal{C}$, then we have
+$$
+\text{Mor}_{\text{Simp}_n(\mathcal{C})}(\text{sk}_n(X \times \Delta[k]), W)
+=
+\text{Mor}_{\mathcal{C}}(X, W_k).
+$$
+\end{lemma}
+
+\begin{proof}
+A morphism $\gamma : X \times \Delta[k] \to V$ is given by
+a family of morphisms $\gamma_\alpha : X \to V_n$ where
+$\alpha : [n] \to [k]$. The morphisms have to satisfy the
+rules that for all $\varphi : [m] \to [n]$ the diagrams
+$$
+\xymatrix{
+X \ar[r]^{\gamma_\alpha} \ar[d]^{\text{id}_X} & V_n \ar[d]^{V(\varphi)} \\
+X \ar[r]^{\gamma_{\alpha \circ \varphi}} & V_m 
+}
+$$
+commute. Taking $\alpha = \text{id}_{[k]}$, we see that
+for any $\varphi : [m] \to [k]$ we have $\gamma_\varphi =
+V(\varphi) \circ \gamma_{\text{id}_{[k]}}$. Thus the morphism
+$\gamma$ is determined by the value of $\gamma$ on the
+component corresponding to $\text{id}_{[k]}$. Conversely,
+given such a morphism $f : X \to V_k$ we easily
+construct a morphism $\gamma$ by putting
+$\gamma_\alpha = V(\alpha) \circ f$.
+
+\medskip\noindent
+The truncated case is similar, and left to the reader.
+\end{proof}
+
+\noindent
+A particular example of this is the case $k = 0$.
+In this case the formula of the lemma just says
+that
+$$
+\text{Mor}_\mathcal{C}(X, V_0) 
+=
+\text{Mor}_{\text{Simp}(\mathcal{C})}(X, V)
+$$
+where on the right hand side $X$ indicates the
+constant simplicial object with value $X$. We will
+use this formula without further mention in the
+following.
+
+\section{Internal Hom}
+\label{section-internal-hom}
+
+\noindent
+Let $\mathcal{C}$ be a category with finite nonempty
+products. Let $U$, $V$ be simplicial objects $\mathcal{C}$.
+In some cases the functor
+\begin{eqnarray*}
+\text{Simp}(\mathcal{C})^{opp} & \longrightarrow & \textit{Sets} \\
+W & \longmapsto & \text{Mor}_{\text{Simp}(\mathcal{C})}(W \times V, U)
+\end{eqnarray*}
+is representable. In this case we denote $\textit{Hom}(V, U)$
+the resulting simplicial object of $\mathcal{C}$, and we say
+that the {\it internal hom of $V$ into $U$ exists}. Moreover,
+in this case we would have
+\begin{eqnarray*}
+\text{Mor}_{\mathcal{C}}(X, \textit{Hom}(V, U)_n)
+& = &
+\text{Mor}_{\text{Simp}(\mathcal{C})}(X \times \Delta[n], \textit{Hom}(V, U))
+\\
+& = &
+\text{Mor}_{\text{Simp}(\mathcal{C})}(X \times \Delta[n]\times V, U) \\
+& = &
+\text{Mor}_{\text{Simp}(\mathcal{C})}(X, \textit{Hom}(\Delta[n] \times V, U))
+\\
+& = &
+\text{Mor}_{\mathcal{C}}(X, \textit{Hom}(\Delta[n] \times V, U)_0)
+\end{eqnarray*}
+provided that $\textit{Hom}(\Delta[n] \times V, U)$
+exists also. Here we have used the material from Section
+\ref{section-coproduct}.
+
+\medskip\noindent
+The lesson we learn from this is that, given $U$ and $V$,
+if we want to construct the internal hom then we should try to  
+construct the objects
+$$
+\textit{Hom}(\Delta[n] \times V, U)_0
+$$
+because these should be the $n$th term of $\textit{Hom}(V, U)$.
+In the next section we study a construction of simplicial objects
+``$\text{Hom}(\Delta[n], U)$''.
+
+
+\section{A product construction}
+\label{section-product}
+
+\noindent
+Motivated by the discussion on internal hom we define
+what should be the simplicial object classifying
+morphisms from a simplicial set into a given
+simplicial object of the category $\mathcal{C}$.
+
+\begin{definition}
+\label{definition-hom-from-simplicial-set}
+Let $\mathcal{C}$ be a category such that the coproduct
+of any two objects exists.
+Let $U$ be a simplicial set, with $U_n$ finite nonempty
+for all $n \geq 0$.
+Let $V$ be a simplicial object of $\mathcal{C}$.
+We denote $\text{Hom}(U, V)$ any simplicial object of
+$\mathcal{C}$ such that
+$$
+\text{Mor}_{\text{Simp}(\mathcal{C})}(W, \text{Hom}(U, V))
+=
+\text{Mor}_{\text{Simp}(\mathcal{C})}(W \times U, V)
+$$
+functorially in the simplicial object $W$ of $\mathcal{C}$.
+\end{definition}
+
+\noindent
+Of course $\text{Hom}(U, V)$ need not exist.
+Also, by the discussion in Section \ref{section-internal-hom}
+we expect that if it does exist, then
+$\text{Hom}(U, V)_n = \text{Hom}(U \times \Delta[n], V)_0$.
+We do not use the italic notation for these Hom objects
+since $\text{Hom}(U, V)$ is not an internal hom.
+
+\begin{lemma}
+\label{lemma-exists-hom-0-from-simplicial-set}
+Assume the category $\mathcal{C}$
+has coproducts of any two objects and countable
+limits. Let $U$ be a simplicial set, with $U_n$ finite nonempty
+for all $n \geq 0$.
+Let $V$ be a simplicial object of $\mathcal{C}$.
+Then the functor
+\begin{eqnarray*}
+\mathcal{C}^{opp} & \longrightarrow & \textit{Sets} \\
+X
+& \longmapsto &
+\text{Mor}_{\text{Simp}(\mathcal{C})}(X \times U, V)
+\end{eqnarray*}
+is representable.
+\end{lemma}
+
+\begin{proof}
+A morphism from $X \times U$ into $V$ is given by a collection
+of morphisms $f_u : X \to V_n$ with $n \geq 0$ and $u \in U_n$.
+And such a collection actually defines a morphism if and only
+if for all $\varphi : [m] \to [n]$ all the diagrams
+$$
+\xymatrix{
+X \ar[r]^{f_u} \ar[d]_{\text{id}_X} & V_n \ar[d]^{V(\varphi)} \\
+X \ar[r]^{f_{U(\varphi)(u)}} & V_m 
+}
+$$
+commute. Thus it is natural to introduce a category
+$\mathcal{U}$ and a functor
+$\mathcal{V} : \mathcal{U}^{opp} \to \mathcal{C}$
+as follows:
+\begin{enumerate}
+\item The set of objects of $\mathcal{U}$ is
+$\coprod_{n \geq 0} U_n$,
+\item a morphism from $u' \in U_m$ to $u \in U_n$
+is a $\varphi : [m] \to [n]$ such that $U(\varphi)(u) = u'$
+\item for $u \in U_n$ we set $\mathcal{V}(u) = V_n$, and
+\item for $\varphi : [m] \to [n]$ such that $U(\varphi)(u) = u'$
+we set $\mathcal{V}(\varphi) = V(\varphi) : V_n \to V_m$.
+\end{enumerate}
+At this point it is clear that our functor is nothing but the
+functor defining
+$$
+\text{lim}_{\mathcal{U}^{opp}} \mathcal{V}
+$$
+Thus if $\mathcal{C}$ has countable limits then this limit
+and hence an object representing the functor of the lemma
+exist.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-exists-hom-0-from-simplicial-set-finite}
+Assume the category $\mathcal{C}$
+has coproducts of any two objects and finite
+limits. Let $U$ be a simplicial set, with $U_n$ finite nonempty
+for all $n \geq 0$. Assume that all $n$-simplices
+of $U$ are degenerate for all $n \gg 0$.
+Let $V$ be a simplicial object of $\mathcal{C}$.
+Then the functor
+\begin{eqnarray*}
+\mathcal{C}^{opp} & \longrightarrow & \textit{Sets} \\
+X
+& \longmapsto &
+\text{Mor}_{\text{Simp}(\mathcal{C})}(X \times U, V)
+\end{eqnarray*}
+is representable.
+\end{lemma}
+
+\begin{proof}
+We have to show that the category $\mathcal{U}$ described
+in the proof of Lemma \ref{lemma-exists-hom-0-from-simplicial-set}
+has a finite subcategory $\mathcal{U}'$ such that the limit
+of $\mathcal{V}$ over $\mathcal{U}'$ is the same as the
+limit of $\mathcal{V}$ over $\mathcal{U}$. We will use
+Categories, Lemma \ref{categories-lemma-limit-final-subcategory}.
+For $m > 0$ let $\mathcal{U}_{\leq m}$ denote the full
+subcategory with objects $\coprod_{0 \leq n \leq m} U_m$.
+Let $m_0$ be an integer such that every $n$-simplex
+of the simplicial set $U$ is degenerate if $n > m_0$.
+For any $m \geq m_0$ large enough, the subcategory
+$\mathcal{U}_{\leq m}$ satisfies property (1) of the lemma
+cited above.
+
+\medskip\noindent
+Suppose that $u \in U_n$ and
+$u' \in U_{n'}$ with $n, n' \leq m_0$ and suppose that
+$\varphi : [k] \to [n]$, $\varphi' : [k] \to [n']$
+are morphisms such that $U(\varphi)(u) = U(\varphi')(u')$.
+A simple combinatorial argument shows that if $k > 2m_0$,
+then there exists an index $0 \leq i \leq 2m_0$ such that
+$\varphi(i) =\varphi(i + 1)$ and $\varphi'(i) = \varphi'(i + 1)$.
+(The pidgeon hole principle would tell you this works if
+$k > m_0^2$ which is good enough for the argument below
+anyways.) Hence, if $k > 2m_0$, we may write
+$\varphi = \psi \circ \sigma^{k - 1}_i$ and
+$\varphi' = \psi' \circ \sigma^{k - 1}_i$ for some
+$\psi : [k - 1] \to [n]$ and some $\psi' : [k - 1] \to [n']$.
+Since $s^{k - 1}_i : U_{k - 1} \to U_k$ is injective,
+see Lemma \ref{lemma-si-injective}, we conclude that
+$U(\psi)(u) = U(\psi')(u')$ also. Continuing in this
+fashion we conclude that given morphisms
+$u \to z$ and $u' \to z$ of $\mathcal{U}$
+with $u, u' \in \mathcal{U}_{\leq m_0}$, there exists
+a commutative diagram
+$$
+\xymatrix{
+u \ar[rd] \ar[rrd] & & \\
+& a \ar[r] & z \\
+u' \ar[ru] \ar[rru] 
+}
+$$
+with $a \in \mathcal{U}_{\leq 2m_0}$.
+
+\medskip\noindent
+It is easy to deduce from this that the finite subcategory
+$\mathcal{U}_{\leq 2m_0}$ works. Namely, suppose given
+$x' \in U_n$ and $x'' \in U_{n'}$ with $n, n' \leq 2m_0$ as well as
+morphisms $x' \to x$ and $x'' \to x$ of $\mathcal{U}$
+with the same target. By our choice of $m_0$ we can
+find objects $u, u'$ of $\mathcal{U}_{\leq m_0}$ and
+morphisms $u \to x'$, $u' \to x''$.
+By the above we can find $a \in \mathcal{U}_{\leq 2m_0}$
+and morphisms $u \to a$, $u' \to a$ such that
+$$
+\xymatrix{
+u \ar[rd] \ar[rrd] \ar[r] & x' \ar[rd] & \\
+& a \ar[r] & x \\
+u' \ar[ru] \ar[rru] \ar[r] & x'' \ar[ru] &
+}
+$$
+is commutative. Turning this diagram 90 degrees clockwise
+we get the desired diagram as in (2) of the
+cited lemma.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-exists-hom-from-simplicial-set-finite}
+Assume the category $\mathcal{C}$
+has coproducts of any two objects and finite
+limits. Let $U$ be a simplicial set, with $U_n$ finite nonempty
+for all $n \geq 0$. Assume that all $n$-simplices
+of $U$ are degenerate for all $n \gg 0$.
+Let $V$ be a simplicial object of $\mathcal{C}$.
+Then $\text{Hom}(U, V)$ exists, moreover
+we have the expected equalities
+$$
+\text{Hom}(U, V)_n = \text{Hom}(U \times \Delta[n], V)_0.
+$$
+\end{lemma}
+
+\begin{proof}
+We construct this simplicial object as follows.
+For $n \geq 0$ let $\text{Hom}(U, V)_n$ denote
+the object of $\mathcal{C}$ representing the
+functor
+$$
+X
+\longmapsto
+\text{Mor}_{\text{Simp}(\mathcal{C})}(X \times U \times \Delta[n], V)
+$$
+This exists by Lemma \ref{lemma-exists-hom-0-from-simplicial-set-finite} 
+because $U \times \Delta[n]$ is a simplicial set with finite
+sets of simplices and no nondegenerate simplices in high enough degree,
+see Lemma \ref{lemma-product-degenerate}.
+For $\varphi : [m] \to [n]$ we obtain an induced map of simplicial
+sets $\varphi : \Delta[m] \to \Delta[n]$. Hence we obtain a morphism
+$X \times U \times \Delta[m] \to X \times U \times \Delta[n]$
+functorial in $X$, and hence a transformation of functors,
+which in turn gives
+$$
+\text{Hom}(U, V)(\varphi) :
+\text{Hom}(U, V)_n
+\longrightarrow
+\text{Hom}(U, V)_m.
+$$
+Clearly this defines a contravariant functor
+$\text{Hom}(U, V)$ from
+$\Delta$ into the category $\mathcal{C}$.
+In other words, we have a simplicial object of $\mathcal{C}$.
+
+\medskip\noindent
+We have to show that $\text{Hom}(U, V)$ satisfies the desired
+universal property
+$$
+\text{Mor}_{\text{Simp}(\mathcal{C})}(W, \text{Hom}(U, V))
+=
+\text{Mor}_{\text{Simp}(\mathcal{C})}(W \times U, V)
+$$
+To see this, let $f : W \to \text{Hom}(U, V)$ be given.
+We want to construct the element $f' : W \times U \to V$
+of the right hand side.
+By construction, each $f_n : W_n \to \text{Hom}(U, V)_n$
+corresponds to a morphism
+$f_n : W_n \times U \times \Delta[n] \to V$. Further,
+for every morphism $\varphi : [m] \to [n]$ the
+diagram 
+$$
+\xymatrix{
+W_n \times U \times \Delta[m]
+\ar[rr]_{W(\varphi)\times \text{id} \times \text{id}}
+\ar[d]_{\text{id} \times \text{id} \times \varphi} & &
+W_m \times U \times \Delta[m] \ar[d]^{f_m} \\
+W_n \times U \times \Delta[n] \ar[rr]^{f_n} & & V
+}
+$$
+is commutative. For $\psi : [n] \to [k]$ in $(\Delta[n])_k$
+we denote $(f_n)_{k, \psi} : W_n \times U_k \to V_k$
+the component of $(f_n)_k$ corresponding to the element
+$\psi$. We define $f'_n : W_n \times U_n \to V_n$
+as $f'_n = (f_n)_{n, \text{id}}$, in other words, as 
+the restriction of
+$(f_n)_n : W_n \times U_n \times (\Delta[n])_n \to V_n$
+to $W_n \times U_n \times \text{id}_{[n]}$.
+To see that the collection $(f'_n)$ defines a
+morphism of simplicial objects, we have to show
+for any $\varphi : [m] \to [n]$ that
+$V(\varphi) \circ f'_n =
+f'_m \circ W(\varphi) \times U(\varphi)$.
+The commutative diagram above says that
+$(f_n)_{m, \varphi} : W_n \times U_m \to V_m$
+is equal to
+$(f_m)_{m, \text{id}} \circ W(\varphi) :
+W_n \times U_m \to V_m$.
+But then the fact that $f_n$ is a morphism of simplicial
+objects implies that the diagram
+$$
+\xymatrix{
+W_n \times U_n \times (\Delta[n])_n
+\ar[r]_-{(f_n)_n}
+\ar[d]_{\text{id}\times U(\varphi) \times \varphi}
+& V_n \ar[d]^{V(\varphi)} \\
+W_n \times U_m \times (\Delta[n])_m \ar[r]^-{(f_n)_m} & V_m
+}
+$$
+is commutative. And this implies that
+$(f_n)_{m, \varphi} \circ U(\varphi)$ is
+equal to $V(\varphi) \circ (f_n)_{n, \text{id}}$.
+Alltogether we obtain
+$
+V(\varphi) \circ (f_n)_{n, \text{id}}
+=
+(f_n)_{m, \varphi} \circ U(\varphi)
+=
+(f_m)_{m, \text{id}} \circ W(\varphi)\circ U(\varphi)
+=
+(f_m)_{m, \text{id}} \circ W(\varphi)\times U(\varphi)
+$
+as desired.
+
+\medskip\noindent
+On the other hand, given a morphism
+$f' : W \times U \to V$ we define
+a morphism $f : W \to \text{Hom}(U, V)$ 
+as follows. By Lemma \ref{lemma-morphism-from-coproduct} the morphisms
+$\text{id} : W_n \to W_n$ corresponds to a unique
+morphism $c_n : W_n \times \Delta[n] \to W$.
+Hence we can consider the composition
+$$
+W_n \times \Delta[n] \times U
+\xrightarrow{c_n}
+W \times U
+\xrightarrow{f'}
+V.
+$$
+By construction this corresponds to a unique morphism
+$f_n : W_n \to \text{Hom}(U, V)_n$. We leave it to the reader
+to see that these define a morphism of simplicial sets as
+desired.
+
+\medskip\noindent
+We also leave it to the reader to see that
+$f \mapsto f'$ and $f' \mapsto f$ are mutually inverse
+operations.
+\end{proof}
+
+\noindent
+We spell out the construction above in a special case.
+Let $X$ be an object of a category $\mathcal{C}$.
+Assume that self products $X \times \ldots \times X$ exist.
+Let $k$ be an integer.
+Consider the simplicial object $U$ with terms
+$$
+U_n = \prod\nolimits_{\alpha \in \text{Mor}([k], [n])} X
+$$
+and maps given $\varphi : [m] \to [n]$ 
+\begin{eqnarray*}
+U(\varphi) :
+\prod\nolimits_{\alpha \in \text{Mor}([k], [n])} X
+& \longrightarrow &
+\prod\nolimits_{\alpha' \in \text{Mor}([k], [m])} X \\
+(f_{\alpha})_{\alpha} & \longmapsto & 
+(f_{\varphi \circ \alpha'})_{\alpha'}
+\end{eqnarray*}
+In terms of ``coordinates'', the element $(x_\alpha)_\alpha$
+is mapped to the element $(x_{\varphi \circ \alpha'})_{\alpha'}$.
+We claim this object is equal to
+$$
+\text{Hom}(\Delta[k], X)
+$$
+where we think of $X$ as the constant simplicial object $X$.
+
+\begin{lemma}
+\label{lemma-morphism-into-product}
+With $X$, $k$ and $U$ as above.
+\begin{enumerate}
+\item For any simplicial object $V$ of
+$\mathcal{C}$ we have the following
+canonical bijection
+$$
+\text{Mor}_{\text{Simp}(\mathcal{C})}(V, U)
+\longrightarrow
+\text{Mor}_{\mathcal{C}}(V_k, X).
+$$
+wich maps $\gamma$ to the morphism $\gamma_k$ composed with
+the projection onto the factor corresponding to $\text{id}_{[k]}$.
+\item Similarly, if $W$ is an $k$-truncated simplicial object
+of $\mathcal{C}$, then we have
+$$
+\text{Mor}_{\text{Simp}_k(\mathcal{C})}(W, \text{sk}_k U)
+=
+\text{Mor}_{\mathcal{C}}(W_k, X).
+$$
+\item The object $U$ constructed above is an
+incarnation of $\text{Hom}(\Delta[k], X)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+We first prove (1).
+Suppose that $\gamma : V \to U$ is a morphism.
+This is given by a family of morphisms
+$\gamma_{\alpha} : V_n \to X$ for $\gamma : [k] \to [n]$.
+The morphisms have to satisfy the
+rules that for all $\varphi : [m] \to [n]$ the diagrams
+$$
+\xymatrix{
+X \ar[d]^{\text{id}_X} &
+V_n \ar[d]^{V(\varphi)}
+\ar[l]^{\gamma_{\varphi \circ \alpha'}} \\
+X &
+V_m \ar[l]_{\gamma_{\alpha'}}
+}
+$$
+commute for all $\alpha' : [k] \to [m]$.
+Taking $\alpha' = \text{id}_{[k]}$, we see that
+for any $\varphi : [k] \to [n]$ we have $\gamma_\varphi =
+\gamma_{\text{id}_{[k]}} \circ V(\varphi)$. Thus the morphism
+$\gamma$ is determined by the component of $\gamma_k$
+corresponding to $\text{id}_{[k]}$. Conversely,
+given such a morphism $f : V_k \to X$ we easily
+construct a morphism $\gamma$ by putting
+$\gamma_\alpha = f \circ V(\alpha)$.
+
+\medskip\noindent
+The truncated case is similar, and left to the reader.
+
+\medskip\noindent
+To see (3) we argue as follows:
+\begin{eqnarray*}
+\text{Mor}(V, \text{Hom}(\Delta[k], X)) & = &
+\text{Mor}(V \times \Delta[k], X) \\
+& = & \{ (f_n : V_n \times \Delta[k]_n \to X) \mid f_n \text{ compatible}\} \\
+& = & \{ (f_n : V_n \to \prod\nolimits_{\Delta[k]_n} X) \mid f_n \text{ compatible}\} \\
+& = & \text{Mor}(V, U)
+\end{eqnarray*}
+Thus $U$ and $\text{Hom}(\Delta[k], X)$ define the same
+functor on the category of simplicial objects and
+hence are canonically isomorphic.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 \section{Splitting simplicial objects}
@@ -602,8 +1149,135 @@ nondegenerate $m$-simplices.
 \end{lemma}
 
 \begin{proof}
-Omitted.
+Let $x \in U_n$. Suppose that
+there are surjections $\varphi : [n] \to [k]$
+and $\psi : [n] \to [l]$ and nondegenerate simplices
+$y \in U_k$, $z \in U_l$ such that $x = U(\varphi)(y)$
+and $x = U(\psi)(z)$. Choose a right inverse $\xi : [l] \to [n]$
+of $\psi$, i.e., $\psi \circ \xi = \text{id}_{[l]}$.
+Then $z = U(\xi)(x)$. Hence $z = U(\xi)(x) = U(\varphi \circ \xi)(y)$.
+Since $z$ is nondegenerate we conclude that $\varphi \circ \xi :
+[l] \to [k]$ is surjective, and hence $l \geq k$. Similarly
+$k \geq l$. Hence we see that $\varphi \circ \xi : [l] \to [k]$
+has to be the identity map for any choice of right inverse
+$\xi$ of $\psi$. This easily implies that $\psi = \varphi$.
 \end{proof}
+
+\begin{lemma}
+\label{lemma-splitting-simplicial-groups}
+Let $U$ be a simplicial abelian group.
+Then $U$ has a splitting obtained by taking $N(U_0) = U_0$ and
+for $m \geq 1$ taking
+$$
+N(U_m) = \bigcap\nolimits_{i = 1}^m \text{Ker}(d^m_i).
+$$
+\end{lemma}
+
+\begin{proof}
+By induction on $n$ we will show that the choice of $N(U_m)$
+in the lemma garantees that (\ref{equation-splitting}) is
+an isomorphism for $m \leq n$. This is clear for $n = 0$.
+In the rest of this proof we are going to
+drop the superscripts from the maps $d_i$ and $s_i$ in order
+to improve readability.
+
+\medskip\noindent
+First we make a general remark.
+For $1 \leq i \leq m + 1$ and $z \in U_m$ we have
+$d_i(s_{i - 1}(z)) = z$. Hence we can write 
+any $x \in U_{m + 1}$ uniquely as
+$x = x_i + x'_i$ with $d_i(x_i) = 0$
+and $x'_i \in \text{Im}(s_{i - 1})$
+by taking $x_i = (x - s_{i - 1}(d_i(x)))$ and
+$x'_i = s_{i - 1}(d_i(x))$.
+
+\medskip\noindent
+We invent a procedure for decomposing
+any $x \in U_{n + 1}$ as follows.
+First write $x = x_n + s_n(z_n)$ with $d_{n + 1}(x_n) = 0$.
+Next, write $x_n = x_{n - 1} + s_{n - 1}(z_{n - 1})$ with
+$d_n(x_{n - 1}) = 0$. Then
+$0 = d_{n + 1}(x_n) =
+d_{n + 1}(x_{n - 1}) + d_{n + 1}(s_{n - 1}(z_{n - 1})) =
+d_{n + 1}(x_{n - 1}) + s_{n - 1}(d_n(z_{n - 1}))$.
+Now the commutation relations among the $d_b$ show that
+$d_n(d_{n + 1}(x_{n - 1})) = d_n(d_n(x_{n - 1})) = 0$
+because $d_n(x_{n - 1})= 0$ by construction.
+The uniqueness above shows the equality
+$0 = d_{n + 1}(x_{n - 1}) + s_{n - 1}(d_n(z_{n - 1}))$
+can only hold if both terms are zero. In this way we conclude that
+$x_{n - 1} \in \text{Ker}(d_{n + 1}) \cap \text{Ker}(d_n)$,
+and $z_{n - 1} \in \text{Ker}(d_n)$. We continue in this way
+to get
+\begin{eqnarray*}
+x & = & x_n + s_n(z_n), \\
+x_n & = & x_{n - 1} + s_{n - 1}(z_{n - 1}), \\
+x_{n - 1} & = & x_{n - 2} + s_{n - 2}(z_{n - 2}), \\
+\ldots & \ldots & \ldots \\
+x_1 & = & x_0 + s_0(z_0)
+\end{eqnarray*}
+such that
+$x_i \in
+\text{Ker}(d_{n + 1}) \cap \text{Ker}(d_n)
+\cap \ldots \cap \text{Ker}(d_{i + 1})$
+and
+$z_i \in \text{Ker}(d_n) \cap \ldots \cap \text{Ker}(d_{i + 1})$.
+In other words, we can uniquely write
+$$
+x = s_n(z_n) + s_{n - 1}(z_{n - 1}) + \ldots + s_0(z_0) + x_0
+$$
+with $x_0 \in N(U_{n + 1})$ and
+$z_i \in \text{Ker}(d_n) \cap \ldots \cap \text{Ker}(d_{i + 1})$.
+We can reformulate this as saying that we have found a direct
+sum decomposition
+$$
+U_{n + 1}
+=
+N(U_{n + 1})
+\oplus
+\bigoplus\nolimits_{i = 0}^{i = n}
+s_i\Big(\text{Ker}(d_n) \cap \ldots \cap \text{Ker}(d_{i + 1})\Big)
+$$
+with the property that
+$$
+\text{Ker}(d_{n + 1}) \cap \ldots \cap \text{Ker}(d_j)
+=
+N(U_{n + 1}) \oplus
+\bigoplus\nolimits_{i = 0}^{i = j - 2}
+s_i\Big(\text{Ker}(d_n) \cap \ldots \cap \text{Ker}(d_{i + 1})\Big)
+$$
+for $j = n + 1, \ldots, 1$.
+The result follows from this statement as follows.
+Each of the $z_i$ in the expression for $x$
+can be written uniquely as
+$$
+z_i = s_{i - 1}(z'_{i, i - 1}) + \ldots + s_0(z'_{i, 0}) + z_{i, 0}
+$$
+with $z_{i, 0} \in N(U_n)$ and
+$z'_{i, j} \in \text{Ker}(d_{n - 1}) \cap \ldots \cap \text{Ker}(d_{j + 1})$.
+The first few steps in the decomposition of $z_i$ are zero because
+$z_i$ already is in the kernel of $d_n, \ldots, d_{i + 1}$.
+This in turn uniquely gives
+$$
+x = x_0 + s_n(z_{n, 0}) + s_{n - 1}(z_{n - 1, 0}) + \ldots + s_0(z_{0, 0}) +
+\sum\nolimits_{0 \leq j < i \leq n} s_i(s_j(z'_{i, j})).
+$$
+Continuing in this fashion we see that we in the end obtain
+a decomposition of $x$ as a sum of terms
+of the form
+$$
+s_{i_1} s_{i_2} \ldots s_{i_k} (z)
+$$
+with $n \geq i_1 > i_2 > \ldots > i_k \geq 0$ and
+$z \in N(U_{n + 1 - k})$. This is exactly the required
+decomposition, because any surjective map $[n + 1] \to [n + 1 - k]$
+can be uniquely expressed in the form $s_{i_1} s_{i_2} \ldots s_{i_k}$
+with $n \geq i_1 > i_2 > \ldots > i_k \geq 0$.
+\end{proof}
+
+
+
+
 
 \section{Skelet and coskelet functors}
 \label{section-skelet}
@@ -708,9 +1382,9 @@ $$
 by the rules
 \begin{eqnarray*}
 ([k] \to [n]) & \longmapsto & U_k \\
-(\psi : ([k] \to [n]) \to ([k'] \to [n])) &
+(\psi : ([k'] \to [n]) \to ([k] \to [n])) &
 \longmapsto &
-U(\psi) : U_{k'} \to U_k
+U(\psi) : U_k \to U_{k'}
 \end{eqnarray*}
 For a given morphism $\varphi : [n] \to [n']$ of $\Delta$
 we have an associated functor
@@ -739,6 +1413,13 @@ via Categories, Lemma \ref{categories-lemma-functorial-limit}.
 \end{lemma}
 
 \begin{proof}
+During the proof of this lemma we denote $\text{cosk}_mU$ the
+simplicial object with $(\text{cosk}_mU)_n$ equal to
+$\text{lim}_{(\Delta/[n])_{\leq m}^{opp}}\ U(n)$.
+We will conclude at the end of the proof that it does
+satsify the required mapping property.
+
+\medskip\noindent
 Suppose that $V$ is a simplicial object.
 A morphism $\gamma : V \to \text{cosk}_mU$ is given by a sequence
 of morphisms $\gamma_n : V_n \to (\text{cosk}_mU)_n$.
@@ -788,12 +1469,14 @@ map $[n] \to [n]$.
 \end{proof}
 
 \noindent
-Let us describe the coskelet functor in more detail.
+Let us describe a particular instance of the coskelet functor in more detail.
 By abuse of notation we will denote $\text{sk}_n$
 also the restriction functor
-$\text{Simp}_{n'}(\mathcal{C}) \to \text{Simp}_{n'}(\mathcal{C})$
-for any $n' \geq n$. We will give a description of a right adjoint
-of this functor if it exists.
+$\text{Simp}_{n'}(\mathcal{C}) \to \text{Simp}_n(\mathcal{C})$
+for any $n' \geq n$. We are going to describe a right adjoint
+of the functor
+$\text{sk}_n : \text{Simp}_{n + 1}(\mathcal{C})
+\to \text{Simp}_n(\mathcal{C})$.
 For $n \geq 1$, $0 \leq i < j \leq n + 1$
 define $\delta^{n + 1}_{i,j} : [n - 1] \to [n + 1]$
 to be the increasing map omitting $i$ and $j$.
@@ -803,6 +1486,97 @@ $\delta^{n + 1}_{i,j} =
 \delta^{n + 1}_i \circ \delta^n_{j - 1}$, see
 Lemma \ref{lemma-relations-face-degeneracy}. This motivates
 the following lemma.
+
+\begin{lemma}
+\label{lemma-formula-limit}
+Let $n$ be an integer $\geq 1$.
+Let $U$ be a $n$-truncated simplicial object of $\mathcal{C}$.
+Consider the contravariant functor from $\mathcal{C}$ to
+$\textit{Sets}$ which associates to an object $T$ the set
+$$
+\{ (f_0,\ldots,f_{n + 1}) \in \text{Mor}_{\mathcal{C}}(T, U_n)
+\mid
+d^n_{j - 1} \circ f_i = d^n_i \circ f_j\ 
+\forall\ 0\leq i < j\leq n + 1\}
+$$
+If this functor is representable by some object $U_{n + 1}$
+of $\mathcal{C}$, then
+$$
+U_{n + 1} = \text{lim}_{(\Delta/[n + 1])_{\leq n}^{opp}}\ U(n)
+$$
+\end{lemma}
+
+\begin{proof}
+The limit, if it exists, represents the functor
+that associates to an object $T$ the set
+$$
+\{
+(f_\alpha)_{\alpha : [k] \to [n + 1], k \leq n}
+\mid
+f_{\alpha \circ \psi} = U(\psi) \circ f_\alpha\ \forall\ 
+\psi : [k'] \to [k], \alpha : [k] \to [n + 1]
+\}.
+$$
+In fact we will show this functor is isomorphic to the
+one displayed in the lemma. The map in one direction
+is given by the rule
+$$
+(f_\alpha)_{\alpha}
+\longmapsto
+(f_{\delta^{n + 1}_0}, \ldots, f_{\delta^{n + 1}_{n + 1}}).
+$$
+This satisfies the conditions of the lemma because
+$$
+d^n_{j - 1} \circ f_{\delta^{n + 1}_i} =
+f_{\delta^{n + 1}_i \circ \delta^n_{j - 1}} =
+f_{\delta^{n + 1}_j \circ \delta^n_i} =
+d^n_i \circ f_{\delta^{n + 1}_j}
+$$
+by the relations we recalled above the lemma. To construct a map
+in the other direction we have to associate to a system
+$(f_0, \ldots, f_{n + 1})$ as in the displayed formula
+of the lemma a system of maps $f_\alpha$. Let $\alpha : [k] \to [n + 1]$
+be given. Since $k \leq n$ the map $\alpha$ is not surjective.
+Hence we can write $\alpha = \delta^{n + 1}_i \circ \psi$
+for some $0 \leq i \leq n + 1$ and some
+$\psi : [k] \to [n]$. We have no choice but to define
+$$
+f_\alpha = U(\psi) \circ f_i.
+$$
+Of course we have to check that this is independent of the
+choice of the pair $(i, \psi)$. First, observe that given $i$
+there is a unique $\psi$ which works. Second, suppose that $(j, \phi)$ is
+another pair. Then $i \not = j$ and we may assume $i < j$. Since
+both $i, j$ are not in the image of $\alpha$ we may actually
+write $\alpha = \delta^{n + 1}_{i, j} \circ \xi$ and then
+we see that $\psi = \delta^n_{j - 1} \circ \xi$ and
+$\phi = \delta^n_i \circ \xi$. Thus
+\begin{eqnarray*}
+U(\psi) \circ f_i & = & U(\delta^n_{j - 1} \circ \xi) \circ f_i \\
+& = & U(\xi) \circ d^n_{j - 1} \circ f_i \\
+& = & U(\xi) \circ d^n_i \circ f_j \\
+& = & U(\delta^n_i \circ \xi) \circ f_j \\
+& = & U(\phi) \circ f_j
+\end{eqnarray*}
+as desired. We still have to verify that the maps
+$f_\alpha$ so defined satisfy the rules of a system
+of maps $(f_\alpha)_\alpha$. To see this suppose that
+$\psi : [k'] \to [k]$, $\alpha : [k] \to [n + 1]$ with
+$k, k' \leq n$. Set $\alpha' = \alpha \circ \psi$.
+Choose $i$ not in the image of $\alpha$. Then clearly
+$i$ is not in the image of $\alpha'$ also. Write
+$\alpha = \delta^n_i \circ \phi$ (we cannot use the letter $\psi$ here
+because we've already used it). Then obviously
+$\alpha' = \delta^n_i \circ \phi \circ \psi$. By construction above
+we then have
+$$
+U(\psi) \circ f_\alpha = U(\psi) \circ U(\phi) \circ f_i
+= U(\phi \circ \psi) \circ f_i = f_{\alpha \circ \psi} = f_{\alpha'}
+$$
+as desired. We leave to the reader the pleasant task of verifying
+that our constructions are mutually inverse bijections, and are
+functorial in $T$.
+\end{proof}
 
 \begin{lemma}
 \label{lemma-work-out}
@@ -829,87 +1603,37 @@ $$
 \end{lemma}
 
 \begin{proof}
-Denote the representing object $U_{n + 1}$. Denote the maps
-$U_{n + 1} \to U_n$, given on functors as
-$(f_0,\ldots,f_{n + 1}) \mapsto f_i$ by
-$d^{n + 1}_i$. Consider the $(n + 1)$-truncated
-simplicial object $\tilde U$ given by $U_0, \ldots, U_n, U_{n + 1}$, and
-maps defined as follows. For $\varphi : [k] \to [l]$, $k,l \leq n$
-use the morphisms $U(\varphi) : U_l \to U_k$.
-For $\varphi : [k] \to [n + 1]$ with $k \leq n$ choose
-an $i$ not in the image of $\varphi$ and write
-$\varphi = \delta^{n + 1}_i \circ \varphi'$. In this case take
-the morphism $U_{n + 1} \to U_n \to U_k$ which is
-the composition of $d^{n + 1}_i$ and $U(\varphi')$.
-For $\varphi : [n + 1] \to [k]$ consider the maps
-$\varphi \circ \delta^{n + 1}_i : [n] \to [k]$ which
-give morphisms $f_i = U(\varphi \circ \delta^n_i) : U_k \to U_{n - 1}$.
-If we check these satisfy the relations in the definition
-of $U_{n + 1}$ then we obtain the desired morphism $U_k \to U_{n + 1}$.
-To see this it suffices to check that
+By Lemma \ref{lemma-trivial-cosk} there are identifications
 $$
-\varphi \circ \delta^{n + 1}_i \circ \delta^n_{j - 1}
-=
-\varphi \circ \delta^{n + 1}_j \circ \delta^n_i
+U_i = \text{lim}_{(\Delta/[i])_{\leq n}^{opp}}\ U(i)
 $$
-which is true by the discussion above the lemma.
-Finally, given a map $\varphi : [n + 1] \to [n + 1]$
-if it is not the identity then we can factor it
-as $[n + 1] \to [n] \to [n + 1]$ and use the definitions
-above.
+for $0 \leq i \leq n$. By Lemma \ref{lemma-formula-limit}
+we have
+$$
+U_{n + 1} = \text{lim}_{(\Delta/[n + 1])_{\leq n}^{opp}}\ U(n).
+$$
+Thus we may define for any $\varphi : [i] \to [j]$
+with $i, j \leq n + 1$ the corresponding map
+$\tilde U(\varphi) : \tilde U_j \to \tilde U_i$ exactly as
+in Lemma \ref{lemma-existence-cosk}. This defines
+an $(n + 1)$-truncated simplicial object $\tilde U$
+with $\text{sk}_n \tilde U = U$.
 
 \medskip\noindent
-We leave it to the reader to verify that this indeed
-defines a contravariant functor $\Delta_{\leq n + 1}$.
-Alternatively, the reader may use Lemma \ref{} below
-to see that the object $U_{n + 1}$ defined above represents
-the limit $\text{lim}_{(\Delta/[n + 1])_{\leq n}^{opp}}\ U(n)$,
-and use this in combination with Lemma \ref{lemma-trivial-cosk}
-to define the maps above.
-
-\medskip\noindent
-To see the adjointness we argue that any element
-$\gamma$ of the right hand side of the formula
-gives rise to a unique morphism $V_{n + 1} \to U_{n + 1}$
-corresponding to setting $f_i : V_{n+1} \to U_n$
-equal to the morphism $\gamma_n \circ d^{n+1}_i : V_{n+1} \to V_n \to U_n$.
-Conversely, given a morphsm $\gamma'$ of the left hand side
-we can simply restrict to $\Delta_{\leq n}$ to get an element
-of the right hand side.
-Details left to the reader, see also
+To see the adjointness we argue as follows. Given any element
+$\gamma : \text{sk}_n V \to U$ of the right hand side of the formula
+consider the morphisms
+$f_i = \gamma_n \circ d^{n+1}_i : V_{n+1} \to V_n \to U_n$.
+These clearly satisfy the relations $d^n_{j - 1} \circ f_i = d^n_i \circ f_j$
+and hence define a unique morphism $V_{n + 1} \to U_{n + 1}$
+by our choice of $U_{n + 1}$.
+Conversely, given a morphsm $\gamma' : V \to \tilde U$
+of the left hand side we can simply restrict to
+$\Delta_{\leq n}$ to get an element of the right hand side.
+We leave it to the reader to show these are mutually inverse
+constructions. See also
 Remark \ref{remark-cosk-simplicial-sets}.
 \end{proof}
-
-\begin{lemma}
-\label{lemma-formula-limit}
-Let $n$ be an integer $\geq 1$.
-Let $U$ be a $n$-truncated simplicial object of $\mathcal{C}$.
-Consider the contravariant functor from $\mathcal{C}$ to
-$\textit{Sets}$ which associates to an object $T$ the set
-$$
-\{ (f_0,\ldots,f_{n + 1}) \in \text{Mor}_{\mathcal{C}}(T, U_n)
-\mid
-d^n_{j - 1} \circ f_i = d^n_i \circ f_j\ 
-\forall\ 0\leq i < j\leq n + 1\}
-$$
-If this functor is representable by some object $U_{n + 1}$
-of $\mathcal{C}$, then
-$$
-U_{n + 1} = \text{lim}_{(\Delta/[n + 1])_{\leq n}^{opp}}\ U(n)
-$$
-\end{lemma}
-
-\begin{proof}
-Consider the functor that associates to an object
-$T$ the set
-$$
-\{ (f
-$$
-
-
-
-\end{proof}
-
 
 \begin{remark}
 \label{remark-explicit-face-degeneracy}
@@ -921,25 +1645,41 @@ are given by
 $$
 (f_0, \ldots, f_{n + 1}) \longmapsto f_i.
 $$
-And the maps $s^n_i : U_n \to U_{n + 1}$ are given by
+And the maps $s^n_j : U_n \to U_{n + 1}$ are given by
 \begin{eqnarray*}
 f & \longmapsto & (
-s^{n - 1}_{i + 1} \circ d^{n - 1}_0 \circ f,\ 
-s^{n - 1}_{i + 1} \circ d^{n - 1}_1 \circ f,\ 
-\ldots,\ 
-s^{n - 1}_{i + 1} \circ d^{n - 1}_{i - 1} \circ f, \\
+s^{n - 1}_{j - 1} \circ d^{n - 1}_0 \circ f,\\ 
 & &
-f,\ 
-f, \\
+s^{n - 1}_{j - 1} \circ d^{n - 1}_1 \circ f,\\
 & &
-s^{n - 1}_i \circ d^{n - 1}_{i + 1} \circ f,\ 
-s^{n - 1}_i \circ d^{n - 1}_{i + 2} \circ f,\ 
-\ldots,\ 
-s^{n - 1}_i \circ d^{n - 1}_n \circ f
+\ldots\\
+& &
+s^{n - 1}_{j - 1} \circ d^{n - 1}_{j - 1} \circ f, \\
+& &
+f,\\
+& &
+f,\\
+& &
+s^{n - 1}_j \circ d^{n - 1}_{j + 1} \circ f,\\
+& &
+s^{n - 1}_j \circ d^{n - 1}_{j + 2} \circ f,\\
+& &
+\ldots\\
+& &
+s^{n - 1}_j \circ d^{n - 1}_n \circ f
 )
 \end{eqnarray*}
 where we leave it to the reader to verify that the RHS
 is an element of the displayed set of Lemma \ref{lemma-work-out}.
+For $n = 0$ there is one map, namely $f \mapsto (f, f)$.
+For $n = 1$ there are two maps, namely
+$f \mapsto (f, f, s_0d_1f)$ and
+$f \mapsto (s_0d_0f, f, f)$.
+For $n = 2$ there are three maps, namely
+$f \mapsto (f, f, s_0d_1f, s_0d_2f)$,
+$f \mapsto (s_0d_0f, f, f, s_1d_2f)$, and
+$f \mapsto (s_1d_0f, s_1d_1f, f, f)$.
+And so on and so forth.
 \end{remark}
 
 \begin{remark}
@@ -977,6 +1717,42 @@ representable. This is a good way to think about
 the result of Lemma \ref{lemma-work-out}.
 \end{remark}
 
+\begin{remark}
+\label{remark-inductive-coskelet}
+{\it Inductive construction of coskelets.}
+Suppose that $\mathcal{C}$ is a category with
+finite limits. Suppose that $U$ is an $m$-truncated
+simplicial object in $\mathcal{C}$. Then we can
+inductively construct $n$-truncated objects $U^n$ as
+follows:
+\begin{enumerate}
+\item To start, set $U^m = U$.
+\item Given $U^n$ for $n \geq m$ set $U^{n + 1} = \tilde U^n$,
+where $\tilde U^n$ is constructed from $U^n$ as in Lemma
+\ref{lemma-work-out}.
+\end{enumerate}
+Since the construction of Lemma \ref{lemma-work-out} has
+the property that it leaves the $n$-skeleton of $U^n$
+unchanged, we can then define $\text{cosk}_m U$ to be
+the simplicial object with
+$(\text{cosk}_m U)_n = U^n_n = U^{n + 1}_n = \ldots$.
+And it follows formally from Lemma \ref{lemma-work-out}
+that $U^n$ satisfies the formula
+$$
+\text{Mor}_{\text{Simp}_n(\mathcal{C})}(V, U^n) 
+=
+\text{Mor}_{\text{Simp}_m(\mathcal{C})}(\text{sk}_mV, U)
+$$
+for all $n \geq m$. It also then follows formally 
+from this that
+$$
+\text{Mor}_{\text{Simp}(\mathcal{C})}(V, \text{cosk}_mU) 
+=
+\text{Mor}_{\text{Simp}_m(\mathcal{C})}(\text{sk}_mV, U)
+$$
+with $\text{cosk}_mU$ chosen as above.
+\end{remark}
+
 \begin{lemma}
 \label{lemma-cosk-up}
 Let $\mathcal{C}$ be a category which has finite limits.
@@ -984,13 +1760,24 @@ Let $\mathcal{C}$ be a category which has finite limits.
 \item For every $n$ the functor $\text{sk}_n : \text{Simp}(\mathcal{C})
 \to \text{Simp}_n(\mathcal{C})$ has a right adjoint $\text{cosk}_n$.
 \item For every $n' \geq n$ the functor
-$\text{sk}_n : \text{Simp}_{n'} \to \text{Simp}_n$
+$\text{sk}_n : \text{Simp}_{n'}(\mathcal{C}) \to \text{Simp}_n(\mathcal{C})$
 has a right adjoint, namely $\text{sk}_{n'}\text{cosk}_n$.
+\item For every $m \geq n \geq 0$ and every $n$-truncated simplicial
+object $U$ of $\mathcal{C}$ we have
+$\text{cosk}_m \text{sk}_m \text{cosk}_n U = \text{cosk}_n U$.
+\item If $U$ is a simplicial object of $\mathcal{C}$ such that
+the canonical map
+$U \to \text{cosk}_n \text{sk}_nU$
+is an isomorphism for some $n \geq 0$, then the canonical map
+$U \to \text{cosk}_m \text{sk}_mU$
+is an isomorphism for all $m \geq n$.
 \end{enumerate}
 \end{lemma}
 
 \begin{proof}
-Omitted, but follows from the lemmas above.
+The existence in (1) follows from Lemma \ref{lemma-existence-cosk} above
+and the equality in (2), and (3) follows from the discussion
+in Remark \ref{remark-inductive-coskelet}. After this (4) is obvious.
 \end{proof}
 
 \begin{lemma}
@@ -1072,6 +1859,161 @@ $$
 $$
 as desired.
 \end{proof}
+
+
+
+
+
+
+
+
+\section{Left adjoints to the skeleton functors}
+\label{section-adjoint-left}
+
+\noindent
+In this section we construct a left adjoint $i_{m, !}$
+of the skeleton functor $\text{sk}_m$ in certain cases.
+The adjointness formula is
+$$
+\text{Mor}_{\text{Simp}_m(\mathcal{C})}(U,\text{sk}_mV)
+=
+\text{Mor}_{\text{Simp}(\mathcal{C})}(i_{m, !}U,V).
+$$
+It turns out that this left adjoint exists when
+the category $\mathcal{C}$ has finite colimits.
+
+\medskip\noindent
+We use a similar construction as in Section \ref{section-skelet}.
+Recall the category $[n]/\Delta$ of objects
+under $[n]$, see
+Categories, Example \ref{categories-example-category-under-X}.
+Its objects are morphisms $\alpha : [n] \to [k]$
+and its morphisms are commutative triangles.
+We let $([n]/\Delta)_{\leq m}$ denote the full subcategory
+of $[n]/\Delta$ consisting of objects $[n] \to [k]$
+with $k \leq m$. Given a $m$-truncated
+simplicial object $U$ of $\mathcal{C}$
+we define a functor
+$$
+U(n) : ([n]/\Delta)_{\leq m}^{opp} \longrightarrow \mathcal{C}
+$$
+by the rules
+\begin{eqnarray*}
+([n] \to [k]) & \longmapsto & U_k \\
+(\psi : ([n] \to [k']) \to ([n] \to [k]))
+& \longmapsto &
+U(\psi) : U_k \to U_{k'}
+\end{eqnarray*}
+For a given morphism $\varphi : [n] \to [n']$ of $\Delta$
+we have an associated functor
+$$
+"\varphi" : ([n']/\Delta)_{\leq m} \longrightarrow ([n]/\Delta)_{\leq m}
+$$
+which maps $\alpha : [n'] \to [k]$ to
+$\varphi \circ \alpha : [n] \to [k]$.
+The composition $U(n) \circ "\varphi"$ is
+equal to the functor $U(n')$.
+
+\begin{lemma}
+\label{lemma-left-adjoint-exists}
+Let $\mathcal{C}$ be a category which has finite colimits.
+The functors $i_{m, !}$ exist for all $m$.
+Let $U$ be an $m$-truncated simplicial object of $\mathcal{C}$.
+The simplicial object $i_{m, !}U$
+is described by the formula
+$$
+(i_{m, !}U)_n = \text{colim}_{([n]/\Delta)_{\leq m}^{opp}} U(n)
+$$
+and for $\varphi : [n] \to [n']$ the map
+$i_{m, !}U(\varphi)$ comes from the
+identification $U(n) \circ "\varphi" = U(n')$ above 
+via Categories, Lemma \ref{categories-lemma-functorial-colimit}.
+\end{lemma}
+
+\begin{proof}
+In this proof we denote $i_{m, !}U$ the simplicial object
+whose $n$th term is given by the displayed formula of the 
+lemma. We will show it satisfies the adjointness property.
+
+\medskip\noindent
+Let $V$ be a simplicial object of $\mathcal{C}$.
+Let $\gamma : U \to \text{sk}_mV$ be given.
+A morphism
+$$
+\text{colim}_{([n]/\Delta)_{\leq m}^{opp}}\ U(n) \to T
+$$
+is given by a compatible system of morphisms
+$f_\alpha : U_k \to T$ where $\alpha : [n] \to [k]$
+with $k \leq m$. Certainly, we have such a system of
+morphisms by taking the compositions 
+$$
+U_k \xrightarrow{\gamma_k} V_k \xrightarrow{V(\alpha)} V_n.
+$$
+Hence we get an induced morphism $(i_{m, !}U)_n \to V_n$.
+We leave it to the reader to see that these form a 
+morphism of simplicial objects $\gamma' : i_{m, !}U \to V$.
+
+\medskip\noindent
+Coversely, given a morphism $\gamma' : i_{m, !}U \to V$ we obtain
+a morphism $\gamma : U \to \text{sk}_m V$ by setting
+$\gamma_i : U_i \to V_i$ equal to the composition
+$$
+U_i
+\xrightarrow{\text{id}_{[i]}}
+\text{colim}_{([i]/\Delta)_{\leq m}^{opp}}\ U(i)
+\xrightarrow{\gamma'_i}
+V_i
+$$
+for $0 \leq i \leq n$. We leave it to the reader to see that
+this is the inverse of the construction above.
+\end{proof}
+
+
+
+
+\section{Homotopies}
+\label{section-homotopy}
+
+\noindent
+Consider the simplicial sets $\Delta[0]$ and $\Delta[1]$.
+Recall that there are two morphisms
+$$
+e_i : \Delta[0] \longrightarrow \Delta[1],
+$$
+coming from the morphisms $[0] \to [1]$ mapping 
+$0$ to $i \in \{0, 1\}$. Recall also that each
+set $\Delta[1]_k$ is finite. Hence, if the category
+$\mathcal{C}$ has finite coproducts, then we can
+form the product
+$$
+U \times \Delta[1]
+$$
+for any simplicial object $U$ of $\mathcal{C}$, exactly
+as in Definition \ref{definition-product}. (More generally
+this works if finite coproducts $\coprod_{i=1}^N U_n$
+of the objects $U_n$ exist.)
+Note that $\Delta[0]$ has the property that $\Delta[0]_k = \{*\}$
+is a singleton for all $k \geq 0$. Hence $U \times \Delta[0]
+= U$. Thus $e_i$ above gives rise to morphisms
+$$
+e_i : U \to U \times \Delta[1].
+$$
+
+\begin{definition}
+\label{definition-homotopy}
+Suppose that $U$ and $V$ are two simplicial objects
+of $\mathcal{C}$. Assume that $U \times \Delta[1]$ exists.
+We say morphisms $a, b : U \to V$ are {\it homotopic}
+if there exists a morphism
+$$
+h : U \times \Delta[1] \longrightarrow V
+$$
+such that $a = h \circ e_0$ and $b = h \circ e_1$.
+In this case $h$ is called a {\it homotopy connecting
+$a$ and $b$}.
+\end{definition}
+
+
 
 
 
@@ -1251,18 +2193,22 @@ Then $f^0$ is homotopic to $f^1$.
 \end{lemma}
 
 \begin{proof}
+We have to construct
+a morphism of simplicial sets $h : V \times \Delta[1] \to U$
+which recovers $f^i$ on composing with $e_i$.
 The case $n = 0$ was dealt with above the lemma.
 Thus we may assume that $n \geq 1$.
 The map $\Delta[1] \to \text{cosk}_1 \text{sk}_1 \Delta[1]$
 is an isomorphism, see Lemma \ref{lemma-simplex-cosk}.
 Thus we see that $\Delta[1] \to \text{cosk}_n \text{sk}_n \Delta[1]$
-is an isomorphism, as $n \geq 1$. And hence $V \times \Delta[1] \to
+is an isomorphism as $n \geq 1$, see
+Lemma \ref{lemma-cosk-up}. And hence $V \times \Delta[1] \to
 \text{cosk}_n \text{sk}_n (V \times \Delta[1])$
 is an isomorphism too, see Lemma \ref{lemma-cosk-product}.
 In other words, in order to construct the homotopy
 it suffices to construct a suitable
 morphism of $n$-truncated simplicial sets
-$h : \text{sk}_n V \times \text{sk}_n \Delta[n] \to \text{sk}_n U$.
+$h : \text{sk}_n V \times \text{sk}_n \Delta[1] \to \text{sk}_n U$.
 
 \medskip\noindent
 For $k = 0, \ldots, n - 1$ we define $h_k$ by the
@@ -1320,71 +2266,6 @@ $\varphi$ is bijective, since otherwise $V(\varphi)(v)$
 is degenerate. Thus $\varphi = \text{id}_{[n]}$, which is a trivial case.
 \end{proof}
 
-\begin{proof}
-This is clear if $l, k < n$. Suppose $k = n$ and $l < n$.
-
-
-
-
-
-
-Observe that necessarily $f^0(v) = f^1(v)$
-for any degenerate $n$-simplex of $V$. Thus
-$h_n(v, \alpha) = f^0(v) = f^1(v)$ whenever $(v, \alpha)$ is a degenerate
-$n$-simplex of $V \times \Delta[1]$. This shows that
-$h_0, \ldots, h_n$ satisfy (\ref{csa}) for $k = m - 1$.
-The correctness of (\ref{cda}) for $k = m$ is clear because
-the equality takes place in $V_{n - 1}$.
-
-
-
-
-
-
-
-
-\medskip\noindent
-We will construct a homotopy, i.e., a map of simplicial sets
-$h : V \times \Delta[1] \to V$. In other words we will find
-a sequence of maps $h_m : V_m \times \text{Mor}_{\Delta}([m], [1])
-\to V_m$ with the following properties
-\begin{eqnarray}
-d^k_i \circ h_k & = & h_{k - 1} \circ d^k_i \label{cda}\\
-s^k_i \circ h_k & = & h_{k + 1} \circ s^k_i \label{csa}\\
-h_k( v \times (i \mapsto 0)) & = & f^0(v) \nonumber \\
-h_k( v \times (i \mapsto 1)) & = & f^1(v) \nonumber
-\end{eqnarray}
-By induction on $m$ we will show that we can find maps
-$h_0, \ldots, h_m$ such that (\ref{cda}) holds for
-$1 \leq k \leq m$ and (\ref{csa}) holds for $0 \leq k \leq m - 1$,
-and such that the last two properties hold whenever $k \leq m$.
-For $k = 0, \ldots, n - 1$ we define $h_k$ by the
-formula $h_k(v, \alpha) = f^0(v) = f^1(v)$.
-It is clear that the induction hypothesis holds for
-$m = n - 1$. The map $h_n : V_n \times \text{Mor}_{\Delta}([k], [1]) \to V_n$
-is defined as follows. Pick $v \in V_n$ and $\alpha : [n] \to [1]$:
-\begin{enumerate}
-\item If $\text{Im}(\alpha) = \{0\}$, then we set $h_n(v, \alpha) = f^0(v)$.
-\item If $\text{Im}(\alpha) = \{0, 1\}$, then we set $h_n(v, \alpha) = f^0(v)$.
-\item If $\text{Im}(\alpha) = \{1\}$, then we set $h_n(v, \alpha) = f^1(v)$.
-\end{enumerate}
-Observe that necessarily $f^0(v) = f^1(v)$
-for any degenerate $n$-simplex of $V$. Thus
-$h_n(v, \alpha) = f^0(v) = f^1(v)$ whenever $(v, \alpha)$ is a degenerate
-$n$-simplex of $V \times \Delta[1]$. This shows that
-$h_0, \ldots, h_n$ satisfy (\ref{csa}) for $k = m - 1$.
-The correctness of (\ref{cda}) for $k = m$ is clear because
-the equality takes place in $V_{n - 1}$.
-
-\medskip\noindent
-
-
-
-\end{proof}
-
-
-
-
 \begin{lemma}
 \label{lemma-equiv}
 With assumptions and notation as in Lemma \ref{lemma-section}
@@ -1393,8 +2274,7 @@ to the identity on $V$.
 \end{lemma}
 
 \begin{proof}
-
-
+Immediate from Lemma \ref{lemma-homotopy} above.
 \end{proof}
 
 
@@ -1469,7 +2349,41 @@ of the morphism $V \to U_n$.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \section{Hypercoverings}
+\label{section-hypercoverings}
+
+\noindent
+Let $\mathcal{C}$ be a site, see
+Sites Definition \ref{sites-definition-site}.
+Let $X$ be an object of $\mathcal{C}$.
+Given an abelian sheaf $\mathcal{F}$
+on $\mathcal{C}$ we would like to compute
+its cohomology groups
+$$
+H^i(X, \mathcal{F}).
+$$
+
+
+
+
 
 \noindent
 Assume that $\mathcal{C}$ is a site with the property
