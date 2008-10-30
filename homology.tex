@@ -1,0 +1,473 @@
+\input{preamble}
+
+% OK, start here.
+%
+\begin{document}
+
+\title{Homological Algebra}
+
+%\begin{abstract}
+%\end{abstract}
+
+\maketitle
+
+\tableofcontents
+
+\section{Introduction}
+\label{section-introduction}
+
+\noindent
+Basic homological algebra will be explained in this document.
+A reference is \cite{Maclane}.
+
+\section{Basic notions}
+\label{section-topology-basic}
+
+\noindent
+The following notions are considered basic and will not be defined,
+and or proved. This does not mean they are all necessarily easy or 
+well known.
+
+\begin{enumerate}
+\item Nothing yet.
+\end{enumerate}
+
+
+\section{Abelian categories}
+\label{section-abelian-categories}
+
+\noindent
+An abelian category will be a category satisfying
+just enough axioms so the snake lemma holds.
+
+\begin{definition}
+\label{definition-preadditive}
+A category $\mathcal{A}$ is called {\it preadditive} if each
+morphism set $\text{Mor}_{\mathcal{A}}(x, y)$ is endowed
+with the structure of an abelian group such that the
+compositions
+$$
+\text{Mor}(x, y) \times \text{Mor}(y, z)
+\longrightarrow
+\text{Mor}(x, z)
+$$
+are bilinear. A functor $F : \mathcal{A} \to \mathcal{B}$ of
+preadditive categories is called {\it additive} if and only
+if $F : \text{Mor}(x, y) \to \text{Mor}(F(x), f(y))$
+is a homomorphism of abelian groups for all
+$x, y \in \text{Ob}(\mathcal{A})$.
+\end{definition}
+
+\noindent
+In particular for every $x, y$ there exists at least
+one morphism $x \to y$, namely the zero map.
+
+\begin{lemma}
+\label{lemma-preadditive-zero}
+Let $\mathcal{A}$ be a preadditive category.
+If $\mathcal{A}$ has an initial object, then that object
+is also a final object. If $\mathcal{A}$ has a final object, then that object
+is also a initial object. Furthermore, if such an object $0$ exists,
+then a morphism $\alpha : x \to y$ factors through $0$ if and only if
+$\alpha = 0$.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\begin{definition}
+\label{definition-zero-object}
+In a preadditive category $\mathcal{A}$ we call
+{\it zero object}, and we denote it $0$
+any final and initial object as in Lemma \ref{lemma-preadditive-zero} above.
+\end{definition}
+
+\begin{lemma}
+\label{lemma-preadditive-direct-sum}
+Let $\mathcal{A}$ be a preadditive category.
+Let $x, y \in \text{Ob}(\mathcal{A})$.
+If the product $x \times y$ exists, then so does
+the coproduct $x \coprod y$.
+If the product $x \times y$ exists, then so does
+the coproduct $x \coprod y$. In this case
+also $x \coprod y \cong x \times y$.
+\end{lemma}
+
+\begin{proof}
+Suppose that $z = x \times y$ with projections
+$p : z \to x$ and $q : z \to y$. Denote $i : x \to z$
+the morphism corresponding to $(1, 0)$. Denote $j : y \to z$
+the morphism corresponding to $(0, 1)$. Thus we have the
+commutative diagram
+$$
+\xymatrix{
+x \ar[rr]^1 \ar[rd]^i & & x \\
+& z \ar[ru]^p \ar[rd]^q & \\
+y \ar[rr]^1 \ar[ru]^j & & y
+}
+$$
+where the diagonal compositions are zero.
+Suppose given morphisms $a : x \to w$ and $b : y \to w$.
+Then we can form the map $a \circ p + b \circ q : z \to w$.
+In this way we get a bijection $\text{Mor}(z, w)
+= \text{Mor}(x, w) \times \text{Mor}(y, w)$ which
+show that $z = x \coprod y$.
+
+\medskip\noindent
+We leave it to the reader to construct the morphisms
+$p,q$ given a coproduct $x \coprod y$ instead of a
+product.
+\end{proof}
+
+\begin{definition}
+\label{definition-direct-sum}
+Given a pair of objects $x, y$
+in a preadditive category $\mathcal{A}$ we call
+{\it direct sum}, and we denote it $x \oplus y$ the
+product $x \times y$ endowed with the morphisms
+$i,j,p,q$ as in Lemma \ref{lemma-preadditive-direct-sum} above.
+\end{definition}
+
+\begin{definition}
+\label{definition-additive-category}
+A category $\mathcal{A}$ is called {\it additive}
+if it is preadditive and finite products exist, in other
+words it has a zero object and direct sums.
+\end{definition}
+
+\noindent
+Namely the empty product is a finite product and
+if it exists, then it is a final object.
+
+\begin{definition}
+\label{definition-kernel}
+Let $\mathcal{A}$ be a preadditive category.
+Let $f : x \to y$ be a morphism.
+\begin{enumerate}
+\item A {\it kernel} of $f$ is a morphism
+$i : z \to x$ such that (a) $f \circ i = 0$ and (b)
+for any $i' : z' \to x$ such that $f \circ i' = 0$ there
+exists a unique morphism $g : z' \to z$ such that
+$i' = i \circ g$.
+\item If the kernel of $f$ exists, then we denote
+this $\text{Ker}(f) \to x$.
+\item A {\it cokernel} of $f$ is a morphism
+$p : y \to z$ such that (a) $p \circ f = 0$ and (b)
+for any $p' : y \to z'$ such that $p' \circ f = 0$ there
+exists a unique morphism $g : z \to z'$ such that
+$p' = g \circ p$.
+\item If a cokernel of $f$ exists we denote this
+$y \to \text{Coker}(f)$.
+\item If a kernel of $f$ exists, then a {\it coimage
+of $f$} is a cokernel for the morphism $\text{Ker}(f) \to x$.
+\item If a kernel and coimage exist then we denote this
+$x \to \text{Coim}(f)$.
+\item If a cokernel of $f$ exists, then the {\it image of
+$f$} is a kernel of the morphism $y \to \text{Coker}(f)$.
+\item If a cokernel and image of $f$ exist then we denote
+this $\text{Im}(f) \to y$.
+\end{enumerate}
+\end{definition}
+
+\begin{lemma}
+\label{lemma-coim-im-map}
+Let $f : x \to y$ be a morphism in a preadditive category
+such that the kernel, cokernel, image and coimage all exist.
+Then $f$ can be factored uniquely as
+$x \to \text{Coim}(f) \to \text{Im}(f) \to y$.
+\end{lemma}
+
+\begin{proof}
+There is a canonical morphism $\text{Coim}(f) \to y$
+because $\text{Ker}(f) \to x \to y$ is zero.
+The composition $\text{Coim}(f) \to y \to \text{Coker}(f)$
+is zero, because it is the unique morphism which gives
+rise to the morphism $x \to y \to \text{Coker}(f)$ which
+is zero. Hence $\text{Coim}(f) \to y$ factors uniquely through
+$\text{Im}(f) \to y$, which gives us the desired map.
+\end{proof}
+
+\begin{definition}
+\label{definition-abelian-category}
+A category $\mathcal{A}$ is {\it abelian} if
+it is additive, if all kernels and cokernels exist,
+and if the natural map $\text{Coim}(f) \to \text{Im}(f)$
+is an isomorphism for all morphisms $f$ of
+$\mathcal{A}$.
+\end{definition}
+
+\begin{definition}
+\label{definition-injective-surjective}
+Let $f : x \to y$ be a morphism in an abelian category.
+\begin{enumerate}
+\item We say $f$ is {\it injective} if $\text{Ker}(f) = 0$.
+\item We say $f$ is {\it surjective} if $\text{Coker}(f) = 0$.
+\end{enumerate}
+\end{definition}
+
+\begin{lemma}
+\label{lemma-characterize-injective}
+Let $f : x \to y$ be a morphism in an abelian category.
+\begin{enumerate}
+\item $f$ is injective if and only if $f$ is a monomorphism.
+\item $f$ is surjective if and only if $f$ is an epimorphism.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-colimit-abelian-category}
+Let $\mathcal{A}$ be an abelian category.
+All finite limits and finite colimits exist in $\mathcal{A}$.
+\end{lemma}
+
+\begin{proof}
+To show that finite limits exist it suffices to show
+that finite products and equalizers exist, see
+Homology, Lemma \ref{categories-lemma-limits-exist}.
+Finite products exist
+by definition and the equalizer of $a,b : x \to y$ is
+the kernel of $a - b$. The argument for finite colimits
+is similar but dual to this.
+\end{proof}
+
+\begin{definition}
+\label{definition-exact}
+Let $\mathcal{A}$ be an abelian category.
+We say a sequence of morphisms
+$$
+\ldots \to x \to y \to z \to \ldots
+$$
+in $\mathcal{A}$
+is a {\it complex} if the composition of any two (drawn)
+arrows is zero. We say a sequence as above is {\it exact at $y$} if
+$\text{Im}(x \to y) = \text{Ker}(y \to z)$. We say it is {\it exact}
+if it is exact at every object.
+\end{definition}
+
+\begin{lemma}
+\label{lemma-snake}
+Let $\mathcal{A}$ be an abelian category.
+Suppose given a commutative diagram
+$$
+\xymatrix{
+& x \ar[r] \ar[d]^\alpha &
+y \ar[r] \ar[d]^\beta &
+z \ar[r] \ar[d]^\gamma &
+0 \\
+0 \ar[r] & u \ar[r] & v \ar[r] & w
+}
+$$
+with exact rows, then there is a canonical exact sequence
+$$
+\text{Ker}(\alpha) \to \text{Ker}(\beta) \to \text{Ker}(\gamma)
+\to
+\text{Coker}(\alpha) \to \text{Coker}(\beta) \to \text{Coker}(\gamma)
+$$
+Moreover, if $x \to y$ is injective, then the first map is
+injective, and if $v \to w$ is surjective, then the last
+map is surjective.
+\end{lemma}
+
+\begin{proof}
+Shall we really prove this straight from the
+axioms? Omitted.
+\end{proof}
+
+
+\section{Injectives}
+\label{section-injectives}
+
+\begin{definition}
+\label{definition-injective}
+Let $\mathcal{A}$ be an abelian category.
+An object $J \in \text{Ob}(\mathcal{A})$ is
+called {\it injective} if for every injection
+$A \hookrightarrow B$ and every morphism
+$A \to J$ there exists a morphism $B \to J$ making
+the following diagram commute
+$$
+\xymatrix{
+A \ar[r] \ar[d] & B \ar@{-->}[ld] \\
+J & 
+}
+$$
+\end{definition}
+
+\begin{definition}
+\label{definition-enough-injectives}
+Let $\mathcal{A}$ be an abelian category.
+We say $\mathcal{A}$ has {\it enough injectives}
+if every object $A$ has an injective morphism
+$A \to J$ into an injective object $J$.
+\end{definition}
+
+\begin{definition}
+\label{definition-functorial-injective-embedding}
+Let $\mathcal{A}$ be an abelian category.
+We say that {\it $\mathcal{A}$ has functorial injective embeddings}
+if there exists a functor
+$$
+J : \mathcal{A} \longrightarrow \text{Arrows}(\mathcal{A})
+$$
+such that
+\begin{enumerate}
+\item $s \circ J = \text{id}_{\mathcal{A}}$,
+\item for any object $A \in \text{Ob}(\mathcal{A})$
+the morphism $J(A)$ is injective, and
+\item for any object $A \in \text{Ob}(\mathcal{A})$
+the object $t(J(A))$ is an injective object of $\mathcal{A}$.
+\end{enumerate}
+We will denote such a functor by
+$A \mapsto (A \to J(A))$.
+\end{definition}
+
+\section{Projectives}
+\label{section-projectives}
+
+\begin{definition}
+\label{definition-projective}
+Let $\mathcal{A}$ be an abelian category.
+An object $P \in \text{Ob}(\mathcal{A})$ is
+called {\it projective} if for every surjection
+$A \rightarrow B$ and every morphism
+$P \to B$ there exists a morphism $P \to A$ making
+the following diagram commute
+$$
+\xymatrix{
+A \ar[r] & B \\
+P \ar@{-->}[u] \ar[ru] & 
+}
+$$
+\end{definition}
+
+\begin{definition}
+\label{definition-enough-projectives}
+Let $\mathcal{A}$ be an abelian category.
+We say $\mathcal{A}$ has {\it enough projectives}
+if every object $A$ has an surjective morphism
+$P \to A$ from an projective object $P$ onto it.
+\end{definition}
+
+\begin{definition}
+\label{definition-functorial-projective-surjections}
+Let $\mathcal{A}$ be an abelian category.
+We say that {\it $\mathcal{A}$ has functorial projective surjections}
+if there exists a functor
+$$
+P : \mathcal{A} \longrightarrow \text{Arrows}(\mathcal{A})
+$$
+such that
+\begin{enumerate}
+\item $t \circ J = \text{id}_{\mathcal{A}}$,
+\item for any object $A \in \text{Ob}(\mathcal{A})$
+the morphism $P(A)$ is surjective, and
+\item for any object $A \in \text{Ob}(\mathcal{A})$
+the object $s(P(A))$ is an projective object of $\mathcal{A}$.
+\end{enumerate}
+We will denote such a functor by
+$A \mapsto (P(A) \to A)$.
+\end{definition}
+
+
+\section{Injectives and adjoint functors}
+\label{section-adjoint}
+
+\begin{lemma}
+\label{lemma-adjoint-preserve-injectives}
+Let $\mathcal{A}$ and $\mathcal{B}$ be abelian categories.
+Let $u : \mathcal{A} \to \mathcal{B}$ and
+$v : \mathcal{B} \to \mathcal{A}$ be additive functors.
+Assume $u$ is right adjoint to $v$.
+Assume that $v$ transforms injective maps into injective maps.
+Then $u$ transforms injectives into injectives.
+\end{lemma}
+
+\begin{proof}
+Adjointness means there are transformations of functors
+$s : \text{id}_{\mathcal{B}} \to uv$ and $t : vu \to \text{id}_{\mathcal{A}}$
+which give rise to the equality
+$$
+\text{Mor}_{\mathcal{B}}(B, uA)
+=
+\text{Mor}_{\mathcal{A}}(vB, A)
+$$
+via $\varphi : B \to uA$ corresponds to
+$t \circ v\varphi : vB \to vuA \to A$ and
+$\psi : vB \to A$ corresponds to $u\psi \circ s : B \to uvB \to uA$.
+Let $J$ be an injective object of $\mathcal{A}$.
+Let $i : N \hookrightarrow M$ be an injective morphism
+in $\mathcal{B}$. Let $\alpha : N \to uJ$ be a morphism.
+Since $vi : vN \hookrightarrow vM$ is injective we can extend the morphism
+$t \circ v\alpha : vN \to vuJ \to J$ to a morphism $\beta : vM \to J$.
+In a formula $\beta \circ vi = t \circ v\alpha$.
+Consider $u\beta \circ s : M \to uvM \to uJ$. Then
+$u\beta \circ s \circ i$ is equal to $\alpha$ because
+via the adjointness formulas above we get
+$t \circ vu\beta \circ vs \circ vi = \beta \circ vi = t \circ v\alpha$
+by our choice of $\beta$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-adjoint-enough-injectives}
+Let $\mathcal{A}$ and $\mathcal{B}$ be abelian categories.
+Let $u : \mathcal{A} \to \mathcal{B}$ and
+$v : \mathcal{B} \to \mathcal{A}$ be additive functors.
+Assume $u$ is right adjoint to $v$.
+Assume that $v$ transforms injective maps into injective maps.
+Assume that $\mathcal{A}$ has enough injectives.
+Then $\mathcal{B}$ has enough injectives.
+\end{lemma}
+
+\begin{proof}
+Pick $B \in \text{Ob}(\mathcal{B})$.
+Pick an injection $vB \to J$ for $J$
+an injective object of $\mathcal{A}$.
+Consider $B \to uJ$. By Lemma \ref{lemma-adjoint-preserve-injectives}
+the object $uJ$ is injective. Let $K \to B$ be the
+kernel of $B \to uJ$. Because
+$K \to B \to uJ$ is zero, then
+$vK \to J$ is zero, hence $vK \to vB$ is zero,
+hence $K \to B$ is zero because $v$
+transorms injective maps into injective maps
+by assumption. Thus $K = 0$ and we win.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-adjoint-functorial-injectives}
+Let $\mathcal{A}$ and $\mathcal{B}$ be abelian categories.
+Let $u : \mathcal{A} \to \mathcal{B}$ and
+$v : \mathcal{B} \to \mathcal{A}$ be additive functors.
+Assume $u$ is right adjoint to $v$.
+Assume that $v$ transforms injective maps into injective maps.
+Assume that $\mathcal{A}$ has functorial injective hulls.
+Then $\mathcal{B}$ has functorial injective hulls.
+\end{lemma}
+
+\begin{proof}
+Let $A \mapsto (A \to J(A))$ be a functorial
+injective hull on $\mathcal{A}$. Then
+$B \mapsto (B \to uJ(vB))$ is a functorial
+injective hull on $\mathcal{B}$. Compare with the
+proof of Lemma \ref{lemma-adjoint-enough-injectives}.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+\input{chapters}
+
+\bibliography{my}
+\bibliographystyle{alpha}
+
+\end{document}
