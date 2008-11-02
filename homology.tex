@@ -219,6 +219,13 @@ Let $f : x \to y$ be a morphism in an abelian category. Then
 Omitted.
 \end{proof}
 
+\noindent
+In an abelian category, if $K \subset M$ is a subobject,
+then we denote
+$$
+M/K = \text{Coker}(K \to M).
+$$
+
 \begin{lemma}
 \label{lemma-colimit-abelian-category}
 Let $\mathcal{A}$ be an abelian category.
@@ -228,7 +235,7 @@ All finite limits and finite colimits exist in $\mathcal{A}$.
 \begin{proof}
 To show that finite limits exist it suffices to show
 that finite products and equalizers exist, see
-Homology, Lemma \ref{categories-lemma-limits-exist}.
+Categories, Lemma \ref{categories-lemma-finite-limits-exist}.
 Finite products exist
 by definition and the equalizer of $a,b : x \to y$ is
 the kernel of $a - b$. The argument for finite colimits
@@ -277,6 +284,329 @@ map is surjective.
 Shall we really prove this straight from the
 axioms? Omitted.
 \end{proof}
+
+
+
+
+
+
+
+
+\section{Complexes}
+\label{section-complexes}
+
+\noindent
+Of course the notions of a chain complex and a cochain complex
+are dual and you only have to read one of the two parts of
+this section. So pick the one you like.
+
+\medskip\noindent
+A {\it chain complex $A_\bullet$} in an abelian category $\mathcal{A}$
+is a complex
+$$
+\ldots \to
+A_{n + 1} \xrightarrow{d_{n + 1}}
+A_n \xrightarrow{d_n}
+A_{n - 1} \to
+\ldots
+$$
+of $\mathcal{A}$. In other words, we are given an object $A_i$ of
+$\mathcal{A}$ for all $i \in \mathbf{Z}$ and for
+all $i \in \mathbf{Z}$ a morphism $d_i : A_i \to A_{i - 1}$ such that
+$d_{i - 1} \circ d_i = 0$ for all $i$. A {\it morphism of chain
+complexes $f : A_\bullet \to B_\bullet$} is given by a
+family of morphisms $f_i : A_i \to B_i$ such that all
+the diagrams
+$$
+\xymatrix{
+A_i \ar[r]_{d_i} \ar[d]_{f_i} & A_{i - 1} \ar[d]^{f_{i - 1}} \\
+B_i \ar[r]^{d_i} & B_{i - 1}
+}
+$$
+commute. The {\it category of chain complexes of $\mathcal{A}$}
+is denoted $\text{Ch}(\mathcal{A})$. The full subcategory consisting
+of objects of the form
+$$
+\ldots \to A_2 \to A_1 \to A_0 \to 0 \to 0 \to \ldots
+$$
+is denoted $\text{Ch}_{\geq 0}(\mathcal{A})$.
+In other words, a chain complex $A_\bullet$ belongs to
+$\text{Ch}_{\geq 0}(\mathcal{A})$ if and only if
+$A_i = 0$ for all $i < 0$.
+A {\it homotopy $h$} between a pair of morphisms
+of chain complexes $f, g : A_\bullet \to B_\bullet$ is
+is a collection of morphisms $h_i : A_i \to B_{i + 1}$
+such that we have
+$$
+f_i - g_i = d_{i + 1} \circ h_i + h_{i - 1} \circ d_i
+$$
+for all $i$. Clearly, the notions of chain complex, morphism of
+chain complexes, and homotopies between morphisms of chain complexes
+makes sense over any preadditive category. 
+
+\begin{lemma}
+\label{lemma-cat-chain-abelian}
+Let $\mathcal{A}$ be an abelian category.
+\begin{enumerate}
+\item The category of chain complexes in $\mathcal{A}$ is
+abelian.
+\item A morphism of complexes
+$f : A_\bullet \to B_\bullet$ is injective
+if and only if each $f_n : A_n \to B_n$ is injective.
+\item A morphism of complexes
+$f : A_\bullet \to B_\bullet$ is surjective
+if and only if each $f_n : A_n \to B_n$ is surjective.
+\item A sequence of chain complexes
+$$
+A_\bullet \xrightarrow{f} B_\bullet \xrightarrow{g} C_\bullet
+$$
+is exact at $B_\bullet$ if and only if each sequence
+$$
+A_i \xrightarrow{f_i} B_i \xrightarrow{g_i} C_i
+$$
+is exact at $B_i$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\noindent
+For any $i \in \mathbf{Z}$ the $i$th {\it homology group}
+of a chain complex $A_\bullet$ is defined by
+the following formula
+$$
+H_i(A_\bullet) = \text{Ker}(d_i)/\text{Im}(d_{i + 1}).
+$$
+If $f : A_\bullet \to B_\bullet$ is a morphism of chain
+complexes of $\mathcal{A}$ then we get an induced
+morphism $H_i(f) : H_i(A_\bullet) \to H_i(B_\bullet)$
+because clearly
+$f_i(\text{Ker}(d_i : A_i \to A_{i - 1})) \subset
+\text{Ker}(d_i : B_i \to B_{i - 1})$, and similarly
+for $\text{Im}(d_{i + 1})$.
+Thus we obtain a functor
+$$
+H_i : \text{Ch}(\mathcal{A}) \longrightarrow \mathcal{A}.
+$$
+
+\begin{definition}
+\label{definition-quasi-isomorphism}
+Let $\mathcal{A}$ be an abelian category.
+\begin{enumerate}
+\item A morphism of chain complexes $f : A_\bullet \to B_\bullet$
+is called a {\it quasi-isomorphism} if the induced
+maps $H_i(f) : H_i(A_\bullet) \to H_i(B_\bullet)$
+is an isomorphism for all $i \in \mathbf{Z}$.
+\item A chain complex $A_\bullet$ is called
+{\it acyclic} if all of its homology objects
+$H_i(A_\bullet)$ are zero.
+\end{enumerate}
+\end{definition}
+
+\begin{lemma}
+\label{lemma-map-homology-homotopy}
+Let $\mathcal{A}$ be an abelian category.
+If the maps $f, g : A_\bullet \to B_\bullet$ are
+homotopic, then the induced maps $H_i(f)$ and $H_i(g)$
+are equal.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-long-exact-sequence-chain}
+Let $\mathcal{A}$ be an abelian category.
+Suppose that
+$$
+0 \to
+A_\bullet \to
+B_\bullet \to
+C_\bullet \to
+0
+$$
+is a short exact sequence of chain complexes of $\mathcal{A}$.
+Then there is a canonical long exact homology sequence
+$$
+\xymatrix{
+\ldots & \ldots & \dots \ar[lld] \\
+H_i(A_\bullet) \ar[r] & H_i(B_\bullet) \ar[r] & H_i(C_\bullet) \ar[lld] \\
+H_{i - 1}(A_\bullet) \ar[r] &
+H_{i - 1}(B_\bullet) \ar[r] &
+H_{i - 1}(C_\bullet) \ar[lld] \\
+\ldots & \ldots & \dots \\
+}
+$$
+\end{lemma}
+
+\begin{proof}
+Omitted. The maps come from the Snake Lemma \ref{lemma-snake}.
+\end{proof}
+
+\noindent
+A {\it cochain complex $A_\bullet$} in an abelian category $\mathcal{A}$
+is a complex
+$$
+\ldots \to
+A^{n - 1} \xrightarrow{d^{n - 1}}
+A^n \xrightarrow{d^n}
+A^{n + 1} \to
+\ldots
+$$
+of $\mathcal{A}$. In other words, we are given an object $A^i$ of
+$\mathcal{A}$ for all $i \in \mathbf{Z}$ and for
+all $i \in \mathbf{Z}$ a morphism $d^i : A^i \to A^{i + 1}$ such that
+$d^{i + 1} \circ d^i = 0$ for all $i$. A {\it morphism of cochain
+complexes $f : A^\bullet \to B^\bullet$} is given by a
+family of morphisms $f^i : A^i \to B^i$ such that all
+the diagrams
+$$
+\xymatrix{
+A^i \ar[r]_{d^i} \ar[d]_{f^i} & A^{i + 1} \ar[d]^{f^{i + 1}} \\
+B^i \ar[r]^{d^i} & B^{i + 1}
+}
+$$
+commute. The {\it category of cochain complexes of $\mathcal{A}$}
+is denoted $\text{CoCh}(\mathcal{A})$. The full subcategory consisting
+of objects of the form
+$$
+\ldots \to 0 \to 0 \to A^0 \to A^1 \to A^2 \to \ldots
+$$
+is denoted $\text{CoCh}_{\geq 0}(\mathcal{A})$.
+In other words, a cochain complex $A^\bullet$ belongs to
+$\text{CoCh}_{\geq 0}(\mathcal{A})$ if and only if
+$A^i = 0$ for all $i < 0$.
+A {\it homotopy $h$} between a pair of morphisms
+of cochain complexes $f, g : A^\bullet \to B^\bullet$ is
+is a collection of morphisms $h^i : A^i \to B^{i - 1}$
+such that we have
+$$
+f^i - g^i = d^{i - 1} \circ h^i + h^{i + 1} \circ d^i
+$$
+for all $i$. Clearly, the notions of cochain complex, morphism of
+cochain complexes, and homotopies between morphisms of cochain complexes
+makes sense over any preadditive category.
+
+\begin{lemma}
+\label{lemma-cat-cochain-abelian}
+Let $\mathcal{A}$ be an abelian category.
+\begin{enumerate}
+\item The category of cochain complexes in $\mathcal{A}$ is
+abelian.
+\item A morphism of cochain complexes
+$f : A^\bullet \to B^\bullet$ is injective
+if and only if each $f^n : A^n \to B^n$ is injective.
+\item A morphism of cochain complexes
+$f : A^\bullet \to B^\bullet$ is surjective
+if and only if each $f^n : A^n \to B^n$ is surjective.
+\item A sequence of cochain complexes
+$$
+A^\bullet \xrightarrow{f} B^\bullet \xrightarrow{g} C^\bullet
+$$
+is exact at $B^\bullet$ if and only if each sequence
+$$
+A^i \xrightarrow{f^i} B^i \xrightarrow{g^i} C^i
+$$
+is exact at $B^i$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\noindent
+For any $i \in \mathbf{Z}$ the $i$th {\it cohomology group}
+of a cochain complex $A^\bullet$ is defined by
+the following formula
+$$
+H^i(A^\bullet) = \text{Ker}(d^i)/\text{Im}(d^{i - 1}).
+$$
+If $f : A^\bullet \to B^\bullet$ is a morphism of cochain
+complexes of $\mathcal{A}$ then we get an induced
+morphism $H^i(f) : H^i(A^\bullet) \to H^i(B^\bullet)$
+because clearly
+$f^i(\text{Ker}(d^i : A^i \to A^{i + 1})) \subset
+\text{Ker}(d^i : B^i \to B^{i + 1})$, and similarly
+for $\text{Im}(d^{i - 1})$.
+Thus we obtain a functor
+$$
+H^i : \text{CoCh}(\mathcal{A}) \longrightarrow \mathcal{A}.
+$$
+
+\begin{definition}
+\label{definition-quasi-isomorphism-cochain}
+Let $\mathcal{A}$ be an abelian category.
+\begin{enumerate}
+\item A morphism of cochain complexes $f : A^\bullet \to B^\bullet$
+is called a {\it quasi-isomorphism} if the induced
+maps $H^i(f) : H^i(A^\bullet) \to H^i(B^\bullet)$
+is an isomorphism for all $i \in \mathbf{Z}$.
+\item A cochain complex $A^\bullet$ is called
+{\it acyclic} if all of its cohomology objects
+$H^i(A^\bullet)$ are zero.
+\end{enumerate}
+\end{definition}
+
+\begin{lemma}
+\label{lemma-map-cohomology-homotopy}
+Let $\mathcal{A}$ be an abelian category.
+If the maps $f, g : A^\bullet \to B^\bullet$ are
+homotopic, then the induced maps $H^i(f)$ and $H^i(g)$
+are equal.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-long-exact-sequence-cochain}
+Let $\mathcal{A}$ be an abelian category.
+Suppose that
+$$
+0 \to
+A^\bullet \to
+B^\bullet \to
+C^\bullet \to
+0
+$$
+is a short exact sequence of chain complexes of $\mathcal{A}$.
+Then there is a canonical long exact homology sequence
+$$
+\xymatrix{
+\ldots & \ldots & \dots \ar[lld] \\
+H^i(A^\bullet) \ar[r] &
+H^i(B^\bullet) \ar[r] &
+H^i(C^\bullet) \ar[lld] \\
+H^{i + 1}(A^\bullet) \ar[r] &
+H^{i + 1}(B^\bullet) \ar[r] &
+H^{i + 1}(C^\bullet) \ar[lld] \\
+\ldots & \ldots & \dots \\
+}
+$$
+\end{lemma}
+
+\begin{proof}
+Omitted. The maps come from the Snake Lemma \ref{lemma-snake}.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 \section{Injectives}
