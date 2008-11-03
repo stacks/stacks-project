@@ -2348,8 +2348,25 @@ in Homology, Section \ref{homology-section-abelian-categories}.
 \begin{lemma}
 \label{lemma-abelian}
 Let $\mathcal{A}$ be an abelian category.
-The categories $\text{Simp}(\mathcal{A})$ and
+\begin{enumerate}
+\item The categories $\text{Simp}(\mathcal{A})$ and
 $\text{CoSimp}(\mathcal{A})$ are abelian.
+\item A morphism of (co)simplicial objects
+$f : A \to B$ is injective
+if and only if each $f_n : A_n \to B_n$ is injective.
+\item A morphism of (co)simplicial objects
+$f : A \to B$ is surjective
+if and only if each $f_n : A_n \to B_n$ is surjective.
+\item A sequence of (co)simplicial objects
+$$
+A \xrightarrow{f} B \xrightarrow{g} C
+$$
+is exact at $B$ if and only if each sequence
+$$
+A_i \xrightarrow{f_i} B_i \xrightarrow{g_i} C_i
+$$
+is exact at $B_i$.
+\end{enumerate}
 \end{lemma}
 
 \begin{proof}
@@ -2376,7 +2393,7 @@ Since $\mathcal{A}$ has both finite limits and finite colimits
 we see that both $\text{cosk}_k U$ and $i_{k!}U$ exist.
 
 \begin{lemma}
-\label{lemma-isomorphism}
+\label{lemma-eilenberg-maclane-object}
 In the situation above.
 \begin{enumerate}
 \item Given a $k$-truncated simplicial object $V$
@@ -2594,19 +2611,99 @@ the category of abelian groups. Let $(x_\alpha)$
 be an element of $\bigoplus_{\alpha : [n] \to [k]\text{ surjective}} A$
 which maps to zero. Then for every injective $\beta : [k] \to [n]$
 we have $\sum_{\alpha \circ \beta = \text{id}} x_\alpha = 0$.
-Define a total ordering on the set of surjective $\alpha : [n] \to [k]$
+Define a (total) ordering on the set of surjective $\alpha : [n] \to [k]$
 by the rule $\alpha_1 < \alpha_2$ if and only if there
 exists an $i$, $0 \leq i \leq n$, such that
 $\alpha_1(j) = \alpha_2(j)$ for $i < j \leq n$ and
-$\alpha_1(i) < \alpha_2(i)$. Let $\alpha_0$ be the largest
+$\alpha_1(i) < \alpha_2(i)$.
+To get a contradiction assume $(x_\alpha)$ is not zero.
+Let $\alpha_0$ be the largest
 surjective map $[n] \to [k]$ such that $x_{\alpha_0} \not = 0$.
 Let $\beta_0 : [k] \to [n]$ be the injective map such
-that $\alpha_0 \circ \beta_0 = \text{id}_{[k]}$ such that
-$\beta_0(i) = \min\{j \mid \alpha_0(j) = i\}$.
+that $\beta_0(i) = \min \{j \mid \alpha_0(j) = i\}$.
+Then $\alpha_0 \circ \beta_0 = \text{id}_{[k]}$, and if
+$\alpha \circ \beta_0 = \text{id}_{[k]}$ then
+$\alpha \leq \alpha_0$. Thus the sum
+$\sum_{\alpha \circ \beta_0 = \text{id}} x_\alpha$
+has only one term in it and we conclude $x_{\alpha_0} = 0$,
+contradiction.
+
+\medskip\noindent
+The result (7) for a general abelian category
+follows since the result for abelian groups shows that
+all the induced maps
+$$
+\xymatrix{
+\text{Hom}(X, \bigoplus_{\alpha : [n] \to [k]\text{ surjective}} A)
+\ar@{=}[r] \ar[d] &
+\bigoplus_{\alpha : [n] \to [k]\text{ surjective}} \text{Hom}(X, A)
+\ar[d] \\
+\text{Hom}(X, \bigoplus_{\beta : [k] \to [n]\text{ injective}} A)
+\ar@{=}[r] &
+\bigoplus_{\alpha : [k] \to [n]\text{ injective}} \text{Hom}(X, A)
+}
+$$
+are injective.
 \end{proof}
 
+\begin{definition}
+\label{defintition-eilenberg-maclane}
+Let $\mathcal{A}$ be an abelian category.
+Let $A$ be an object of $\mathcal{A}$ and
+let $k$ be an integer $\geq 0$.
+The {\it Eilenberg-Maclane object $K(A, k)$}
+is given by the object $K(A, k) = i_{k!}U$
+which is described in
+Lemma \ref{lemma-eilenberg-maclane-object} above.
+\end{definition}
 
 
+\begin{lemma}
+\label{lemma-extension}
+Let $\mathcal{A}$ be an abelian category.
+Let $A$ be an object of $\mathcal{A}$ and
+let $k$ be an integer $\geq 0$. Consider the
+simplicial object $E$ defined by the following rules
+\begin{enumerate}
+\item $E_n = \bigoplus_\alpha A$, where the 
+sum is over $\alpha : [n] \to [k + 1]$ whose
+image is either $[k]$ or $[k + 1]$.
+\item Given $\varphi : [m] \to [n]$ the map
+$E_n \to E_m$ maps the summand corresponding
+to $\alpha$ via $\txt{id}_A$ to the summand
+corresponding to $\alpha \circ \varphi$,
+provided $\text{Im}(\alpha \circ \varphi)$
+is equal to $[k]$ or $[k + 1]$.
+\end{enumerate}
+Then there exists a short exact sequence
+$$
+0 \to K(A, k) \to E \to K(A, k + 1) \to 0
+$$
+which is term by term split exact.
+\end{lemma}
+
+\begin{proof}
+The maps $K(A, k)_n \to E_n$ resp.\ $E_n \to K(A, k + 1)_n$
+are given by the inclusion of direct sums, resp.\ projection
+of direct sums which is obvious from the inclusions of index
+sets. It is clear that these are maps of simplicial
+objects.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-abelian-limit-skeleta}
+Let $\mathcal{A}$ be an abelian category.
+Any simplicial object $V$ is
+$$
+\text{colim}_n  i_{n!}\text{sk}_n V
+$$
+\end{lemma}
+
+\begin{proof}
+This is true simply because each $V_m$ is
+equal to $(i_{n!}\text{sk}_n V)_m$ as
+soon as $n \geq m$.
+\end{proof}
 
 
 
@@ -2652,7 +2749,114 @@ s : \text{Simp}(\mathcal{A}) \longrightarrow \text{Ch}_{\geq 0}(\mathcal{A}).
 $$
 Thus we have the confusing but correct formula $s(U)_n = U_n$.
 
+\begin{lemma}
+\label{lemma-s-exact}
+The functor $s$ is exact.
+\end{lemma}
+
+\begin{proof}
+Clear from Lemma \ref{lemma-abelian}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-homology-extension}
+Let $\mathcal{A}$ be an abelian category.
+Let $A$ be an object of $\mathcal{A}$ and
+let $k$ be an integer. Let $E$ be the object
+described in Lemma \ref{lemma-extension}.
+Then the complex $s(E)$ is acyclic.
+\end{lemma}
+
+\begin{proof}
+For a morphism $\alpha : [n] \to [k + 1]$
+we define $\alpha' : [n + 1] \to [k + 1]$ to be
+the map such that $\alpha'|_{[n]} = \alpha$ and
+$\alpha'(n + 1) = k + 1$. Note that if the
+image of $\alpha$ is $[k]$ or $[k + 1]$, then
+the image of $\alpha'$ is $[k + 1]$.
+Consider the family of
+maps $h_n : E_n \to E_{n + 1}$ which maps
+the summand corresponding to $\alpha$ to
+the summand corresponding to $\alpha'$ via
+the identity on $A$. 
+Let us compute $d_{n + 1} \circ h_n - h_{n - 1} \circ d_n$.
+We will first do this in case the category $\mathcal{A}$ is
+the category of abelian groups.
+Let us use the notation $x_\alpha$ to indicate
+the element $x \in A$ in the summand of $E_n$ corresponding
+to the map $\alpha$ occuring in the index set.
+Let us also adopt the convention that
+$x_\alpha$ designates the zero element of $E_n$
+whenever $\text{Im}(\alpha)$ is not $[k]$ or $[k + 1]$.
+With these conventions we see that
+$$
+d_{n + 1}(h_n(x_\alpha)) =
+\sum\nolimits_{i = 0}^{n + 1} (-1)^i x_{\alpha' \circ \delta^{n + 1}_i}
+$$
+and 
+$$
+h_{n - 1}(d_n(x_\alpha)) =
+\sum\nolimits_{i = 0}^n (-1)^i x_{(\alpha \circ \delta_i^n)'}
+$$
+It is easy to see that
+$\alpha' \circ \delta^{n + 1}_i = (\alpha \circ \delta_i^n)'$
+for $i = 0, \ldots, n$. It is also easy to see that
+$\alpha' \circ \delta^{n + 1}_{n + 1} = \alpha$. Thus we
+see that
+$$
+(d_{n + 1} \circ h_n - h_{n - 1} \circ d_n)(x_\alpha)
+=
+(-1)^{n + 1} x_\alpha
+$$
+These identities continue to hold if $\mathcal{A}$ is any abelian
+category because they hold in the simplicial abelian group
+$[n] \mapsto \text{Hom}(A, E_n)$; details left to the reader.
+We conclude that the identity map on $E$ is
+homotopic to zero, with homotopy given by the 
+system of maps $h'_n = (-1)^{n + 1}h_n : E_n \to E_{n + 1}$.
+Hence we see that $E$ is acyclic, for
+example by Homology, Lemma \ref{homology-lemma-map-homology-homotopy}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-homology-eilenberg-maclane}
+Let $\mathcal{A}$ be an abelian category.
+Let $A$ be an object of $\mathcal{A}$ and
+let $k$ be an integer. We have
+$H_i(s(K(A, k))) = A$ if $i = k$ and
+$0$ else.
+\end{lemma}
+
+\begin{proof}
+First, let us prove this if $k = 0$.
+In this case we have $K(A, 0)_n = A$ for all $n$.
+Furthermore, all the maps in this simplicial abelian
+group are $\text{id}_A$, in other words $K(A, 0)$
+is the constant simplicial object with value $A$.
+The boundary maps $d_n = \sum_{i = 0}^n (-1)^i \text{id}_A
+= 0$ if $n$ odd and $ = \text{id}_A$ if $n$ is even.
+Thus $s(K(A, 0))$ looks like this
+$$
+\ldots \to A \xrightarrow{0} A \xrightarrow{1} A \xrightarrow{0} A \to 0
+$$
+and the result is clear.
+
 \medskip\noindent
+Next, we prove the result for all $k$ by induction.
+Given the result for $k$ consider the short exact sequence
+$$
+0 \to K(A, k) \to E \to K(A, k + 1) \to 0
+$$
+from Lemma \ref{lemma-extension}.
+By Lemma \ref{lemma-abelian} the associated sequence of
+chain complexes is exact.
+By Lemma \ref{lemma-homology-extension} we see that
+$s(E)$ is acyclic. Hence the result for $k + 1$
+follows from the long exact sequence of homlogy,
+see Homology, Lemma \ref{homology-lemma-long-exact-sequence-chain}.
+\end{proof}
+
+\noindent
 There is a second chain complex we can associate to
 a simplicial object of $\mathcal{A}$. Recall that by
 Lemma \ref{lemma-splitting-abelian-category}
@@ -2690,28 +2894,51 @@ map of $N(U)$ by definition.
 \end{proof}
 
 \begin{lemma}
-\label{lemma-map-associated-complexes-qis}
+\label{lemma-N-K}
+Let $\mathcal{A}$ be an abelian category.
+Let $A$ be an object of $\mathcal{A}$ and
+let $k$ be an integer. We have
+$N(K(A, k))_i = A$ if $i = k$ and
+$0$ else.
+\end{lemma}
+
+\begin{proof}
+It is clear that $N(K(A, k))_i = 0$ when $i < k$
+because $K(A, k)_i = 0$ in that case.
+It is clear that $N(K(A, k))_k = A$ since
+$K(A, k)_{k - 1} = 0$ and $K(A, k)_k = A$.
+We have to show that the intersection
+of the kernels of the maps $d^n_i$, $i = 1, \ldots, n$
+on $K(A, k)_n$ is zero when $n > k$. This is clear from
+the description of the maps $d^n_i$ in
+Lemma \ref{lemma-eilenberg-maclane-object}
+since if $\alpha \circ d^n_i$ is not surjective for
+all $i = 1, \ldots, n$, then $\alpha$ is not surjective.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-decompose-associated-complexes}
 Let $\mathcal{A}$ be an abelian category.
 Let $U$ be a simplicial object of $\mathcal{A}$.
 The canonical morphism of chain complexes
-$N(U) \to s(U)$ is a quasi-isomorphism.
-In fact,
+$N(U) \to s(U)$ is split. In fact,
 $$
 S(U) = N(U) \oplus A(U)
 $$
-for some acyclic complex $A(U)$.
+for some complex $A(U)$. The construction $U \mapsto A(U)$
+is functorial.
 \end{lemma}
 
 \begin{proof}
 Define $A(U)_n$ to be the image of
 $$
-\bigoplus_{\varphi : [n] \to [m]\text{ surjective}, m < n} N(U_m)
+\bigoplus\nolimits_{\varphi : [n] \to [m]\text{ surjective},\ m < n} N(U_m)
 \xrightarrow{\bigoplus U(\varphi)}
 U_n
 $$
 which is a subobject of $U_n$ complementary to
 $N(U_n)$ according to Lemma \ref{lemma-splitting-abelian-category} and
-Definition \ref{definition-split}. First we show that
+Definition \ref{definition-split}. We show that
 $A(U)$ is a subcomplex. Pick a surjective
 map $\varphi : [n] \to [m]$ with $m < n$ and consider
 the composition
@@ -2722,11 +2949,13 @@ This composition is the sum of the maps
 $$
 N(U_m) \xrightarrow{U(\varphi \circ \delta^n_i)} U_{n - 1}
 $$
-with sign $(-1)^i$, $i = 0, \ldots, n$. First we will prove
-by ascending induction on $m$, for $0 \leq m < n - 1$ that
-all the maps $U(\varphi \circ \delta^n_i)$
-map $N(U_m)$ into $A(U)_{n - 1}$. Whenever the map
-$\varphi \circ \delta^n_i : [n - 1] \to [m]$
+with sign $(-1)^i$, $i = 0, \ldots, n$.
+
+\medskip\noindent
+First we will prove by ascending induction on $m$,
+$0 \leq m < n - 1$ that all the maps $U(\varphi \circ \delta^n_i)$
+map $N(U_m)$ into $A(U)_{n - 1}$. (The case $m = n - 1$ is treated below.)
+Whenever the map $\varphi \circ \delta^n_i : [n - 1] \to [m]$
 is surjective then the image of $N(U_m)$ under $U(\varphi \circ \delta^n_i)$
 is contained in $A(U)_{n - 1}$ by definition.
 If $\varphi \circ \delta^n_i : [n - 1] \to [m]$ is not surjective,
@@ -2768,15 +2997,277 @@ either $d^n_0 \circ s^{n - 1}_j = s^{n - 2}_{j - 1} \circ d^{n - 1}_i$
 $d^n_0 \circ s^{n - 1}_j = s^{n - 2}_j \circ d^{n - 1}_{i - 1}$
 (if $i > j + 1$) and in these cases the map is zero because
 of the definition of $N(U_{n - 1})$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-N-exact}
+The functor $N$ is exact.
+\end{lemma}
+
+\begin{proof}
+By Lemma \ref{lemma-s-exact} and the functorial
+decomposition of Lemma \ref{lemma-N-K}. 
+\end{proof}
+
+\begin{lemma}
+\label{lemma-quasi-isomorphism}
+Let $\mathcal{A}$ be an abelian category.
+Let $V$ be a simplicial object of $\mathcal{A}$.
+The canonical morphism of chain complexes
+$N(V) \to s(V)$ is a quasi-isomorphism.
+In other words, the complex $A(V)$ of Lemma
+\ref{lemma-decompose-associated-complexes} is acyclic.
+\end{lemma}
+
+\begin{proof}
+Note that the result holds for $K(A, k)$ for
+any object $A$ and any $k \geq 0$, by Lemmas
+\ref{lemma-homology-eilenberg-maclane} and \ref{lemma-N-K}.
+Consider the hypothesis $IH_{n, m}$:
+for all $V$ such that $V_j = 0$ for
+$j \leq m$ and all $i \leq n$ the map
+$N(V) \to s(V)$ induces an isomorphism
+$H_i(N(V)) \to H_i(s(V))$.
+
+\medskip\noindent
+To start of the induction, note that $IH_{n, n}$
+is trivially true, because in that case $N(V)_n = 0$
+and $s(V)_n = 0$.
+
+\medskip\noindent
+Assume $IH_{n, m}$, with $m \leq n$.
+Pick a simplicial object $V$ such that
+$V_j = 0$ for $j < m$. By Lemma \ref{lemma-eilenberg-maclane-object}
+there are natural morphisms
+$$
+K(V_m, m) = i_{m!} \text{sk}_mV \to V \to \text{cosk}_m \text{sk}_m V
+$$
+whose composition is injective. Hence we get a short exact
+sequence
+$$
+0 \to K(V_m, m) \to V \to W \to 0
+$$
+and $W_i = 0$ for $i = 0, \ldots, m$. This short exact sequence
+induces a morphism of short exact sequence of associated complexes 
+$$
+\xymatrix{
+0 \ar[r] &
+N(K(V_m, m)) \ar[r] \ar[d] &
+N(V) \ar[r] \ar[d] &
+N(W) \ar[r] \ar[d] &
+0 \\
+0 \ar[r] &
+s(K(V_m, m)) \ar[r] &
+s(V) \ar[r] &
+s(W) \ar[r] &
+0
+}
+$$
+see Lemmas \ref{lemma-s-exact} and \ref{lemma-N-exact}.
+Hence we deduce the result for $V$ from the result
+on the ends.
+\end{proof}
+
+
+\section{Dold-Kan}
+\label{section-dold-kan}
+
+\begin{lemma}
+\label{lemma-N-faithful}
+Let $\mathcal{A}$ be an abelian category.
+The functor $N$ is faithful.
+\end{lemma}
+
+\begin{proof}
+This is immediate from the canonical
+splitting of Lemma \ref{lemma-splitting-abelian-category}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-dold-kan}
+Let $\mathcal{A}$ be an abelian category.
+The functor $N$ induces an equivalence of
+categories
+$$
+N :
+\text{Simp}(\mathcal{A})
+\longrightarrow
+\text{Ch}_{\geq 0}(\mathcal{A})
+$$
+\end{lemma}
+
+\begin{proof}
+We will describe a functor in the reverse direction
+inspired by the construction of Lemma \ref{lemma-extension}.
+Let $A_\bullet$ be a chain complex with boundary maps
+$d_n : A_n \to A_{n - 1}$. For each $n \geq 0$ denote
+$$
+I_n =
+\Big\{
+\alpha : [n] \to \{0, 1, 2, \ldots\}
+\mid
+\text{Im}(\alpha) = [k]\text{ for some }k
+\Big\}.
+$$
+For $\alpha \in I_n$ we denote $k(\alpha)$ the unique
+integer such that $\text{Im}(\alpha) = [k]$.
+We define a simplicial object $U(A_\bullet)$ as follows:
+\begin{enumerate}
+\item $U_n(A_\bullet) = \bigoplus_{\alpha \in I_n} A_{k(\alpha)}$, which
+we sometimes write as
+$\bigoplus_{\alpha \in I_n} A_{k(\alpha)} \cdot \alpha$,
+\item given $\varphi : [m] \to [n]$ we define
+$U(A_\bullet)(\varphi)$ by its restriction to
+the direct summand $A_{k(\alpha)}$ as follows
+\begin{enumerate}
+\item $\alpha \circ \varphi \not \in I_m$ then we set it equal to zero,
+\item $\alpha \circ \varphi \in I_m$ but $k(\alpha \circ \varphi)$
+not equal to either $k(\alpha)$ or $k(\alpha) - 1$ then we set it
+equal to zero as well,
+\item if $\alpha \circ \varphi \in I_m$
+and $k(\alpha \circ \varphi) = k(\alpha)$ then we use
+the identity map to the summand $A_{k(\alpha \circ \varphi)}$, and
+\item if $\alpha \circ \varphi \in I_m$
+and $k(\alpha \circ \varphi) = k(\alpha) - 1$
+then we use the map $d_{k(\alpha)}$ to the summand 
+$A_{k(\alpha \circ \varphi)}$.
+\end{enumerate}
+\end{enumerate}
+It is a pleasant exercise to show that
+this is a simplicial complex; one has to use in particular that
+the compositions $d_k \circ d_{k - 1}$ are all zero. 
+
+\medskip\noindent
+Having verified this it is clear that $A_\bullet \mapsto
+U(A_\bullet)$ is an exact functor from chain complexes
+to simplicial objects. If $A_i = 0$ for $i = 0, \ldots, n$
+then $U(A_\bullet)_i = 0$ for $i = 0, \ldots, n$.
+The objects $K(A, k)$, see Definition \ref{defintition-eilenberg-maclane},
+are equal to $U(A[-k])$ where $A[-k]$ is the chain complex
+with $A$ in degree $k$ and zero elsewhere.
+Let $\tau_{\leq k}A_\bullet$ denote the complex
+equal to $A_\bullet$ in degrees $\leq k$ and zero elsewhere.
+There are a canonical maps
+$A_\bullet \to \tau_{\leq k}A_\bullet \to \tau_{\leq k - 1}A_\bullet$.
+The kernel of the first map has no terms in degrees $\leq k$,
+whereas $\text{Ker}(\tau_{\leq k}A_\bullet \to \tau_{\leq k - 1}A_\bullet)
+= A_k[-k]$. By exactness of $N$ and $U(-)$ we deduce that
+$$
+N(U(A_\bullet))_k
+\to
+N(U(\tau_{\leq k}A_\bullet))_k
+\leftarrow
+N(U(A_k[-k])) = A_k
+$$
+are functorial isomorphisms.
+Note that the unique map $A_k \to U(A_\bullet)_k$
+corresponding to the summand $\alpha = \text{id}_{[k]}$
+is what gives rise to this identification.
+
+\medskip\noindent
+In order to show that $N(-) \circ U(-)$ is the identity
+functor on $\text{Ch}_{\geq 0}(\mathcal{A})$,
+the last thing we have to verify
+is that we recover the map $d_{k + 1} : A_{k + 1} \to A_k$
+from the map $N(U(A_\bullet))_{k + 1} \to N(U(A_\bullet))_k$.
+Actually, it will turn out that this is not the case,
+but that the map
+$A_{k + 1} = N(U(A_\bullet))_{k + 1} \to N(U(A_\bullet))_k$
+is equal to $(-1)^{k + 1}d_{k + 1}$. This is still enough
+to conclude that $N$ is an equivalence (see below).
+By truncating as above, it is clear that it is enough
+to prove this formula in the case where $A_\bullet$
+is a complex whose only nonzero terms are in degrees
+$k + 1$ and $k$. We first do a special case.
+
+\medskip\noindent
+Let $A$ be an object of $\mathcal{A}$ and
+let $k \geq 0$ be an integer. Consider
+the simplicial object $E$ constructed in Lemma
+\ref{lemma-extension}. By construction this is
+just $U(A_\bullet)$ with $A_k = A_{k + 1} = A$,
+$A_i = 0$ for $i \not = k, k + 1$ and
+$d_{k + 1} = \text{id}_A$. The identifications
+$N(E)_k = A$ and $N(E)_{k + 1} = A$ we found
+above come from the short exact sequence
+$$
+0 \to K(A, k) \to E \to K(A, k + 1) \to 0
+$$
+together with the identitfications $N(K(A, k))_k = A$
+and $N(K(A, k + 1))_{k + 1} = A$.
+We will compute the induced differential
+$A = N(E)_{k + 1} \to N(E)_k = A$ in the
+case where $A$ is an abelian group.
+The terms of degree $k + 1$ and $k$ of $E$ and
+the maps $d^{k + 1}_i$ look like
+$$
+d^{k + 1}_i :
+A \cdot \text{id}_{[k + 1]} \oplus
+\bigoplus\nolimits_{j = 0}^k A \cdot \sigma^k_j
+\longrightarrow
+A
+$$
+and act as follows:
+\begin{enumerate}
+\item $d^{k + 1}_i$ kills $A \cdot \text{id}_{[k + 1]}$
+unless $i = k + 1$ in which case you get the identity
+map to $A$.
+\item $d^{k + 1}_i$ kills $A \cdot \sigma^k_j$
+unless $i = j, j + 1$ in which case you get the
+identity map to $A$.
+\end{enumerate}
+So an element is in the kernel of $d^{k + 1}_i$ for
+$i = 1, \ldots, k + 1$, i.e., in $N(E)_{k + 1}$, if and only if
+it looks like 
+$$
+x \cdot \text{id}_{[k + 1]} +
+\sum\nolimits_{j = 0}^k (-1)^{j + k + 1} x \cdot \sigma^k_j
+$$
+Furthermore, this element maps to the element
+$x \in A = N(K(A, k+1))_{k +1}$
+under the canonical map $N(E) \to N(K(A, k + 1))$.
+And finally, we see that under the map $d^{k + 1}_0$
+(which is the definition of the differential on $N(E)$)
+we get $(-1)^{k + 1}x$. By the usual trickery with $\text{Hom}$'s
+we see that the differential $N(E)_{k + 1} \to N(E)_k$
+agrees with $(-1)^{k + 1}\text{id}_A$ in the case of
+a general abelian category.
+
+\medskip\noindent
+The general case of a complex $A_\bullet$ concentrated in
+degrees $k, k + 1$ follows from the above and functoriality
+by considering the map of complexes
+$$
+\xymatrix{
+\ldots \ar[r] & 0 \ar[r] & A_{k + 1} \ar[r] \ar[d] &
+A_{k + 1} \ar[r] \ar[d] & 0 \ar[r] & \ldots \\
+\ldots \ar[r] & 0 \ar[r] & A_{k + 1} \ar[r] & A_k \ar[r] & 0 \ar[r] & \ldots
+}
+$$
+This finishes the proof of the relation between the differntial
+on $N(U(A_\bullet))$ and the differential on $A_\bullet$.
+
+\medskip\noindent
+Let us modify the construction of $U(A_\bullet)$
+by putting in a sign $(-1)^{k(\alpha)}$ in case (2)(d),
+and let us call this $U^+(A_\bullet)$. Then it is clear
+that $N \circ U^+$ is the identity functor on
+$\text{Ch}_{\geq 0}(\mathcal{A})$. (Another way to
+resove this issue is to use that clearly $N \circ U \circ N \circ U$
+is the identity functor...)
+
+\medskip\noindent
+We know that $N$ is faithful, see Lemma \ref{lemma-N-faithful}.
+If we can show that $U$ is essentially surjective, then
+it will follow that $N$ is an equivalence.
+By Lemma 
+
 
 
 
 
 
 \end{proof}
-
-
-
 
 
 
