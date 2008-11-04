@@ -1387,7 +1387,7 @@ every simplicial object is split.
 \begin{lemma}
 \label{lemma-splitting-simplicial-sets}
 Let $U$ be a simplicial set.
-Then $U$ has a canonical splitting
+Then $U$ has a splitting
 with $N(U_m)$ equal to the set of 
 nondegenerate $m$-simplices.
 \end{lemma}
@@ -1407,14 +1407,78 @@ has to be the identity map for any choice of right inverse
 $\xi$ of $\psi$. This easily implies that $\psi = \varphi$.
 \end{proof}
 
+\noindent
+Of course it can happen that a map of simplicial sets
+maps a nondegenerate $n$-simplex to a degenerate $n$-simplex.
+Thus the splitting of Lemma \ref{lemma-splitting-simplicial-sets}
+is not functorial. Here is a case where it is functorial.
+
+\begin{lemma}
+\label{lemma-injective-map-simplicial-sets}
+Let $f : U \to V$ be a morphism of simplicial sets.
+Suppose that (a) the image of every nondegenerate simplex of
+$U$ is a nondegerate simplex of $V$ and (b)
+no two nondegenerate simplices of $U$ are mapped
+to the same simplex of $V$.
+Then $f_n$ is injective for all $n$.
+Same holds with ``injective'' replaced by
+``surjective'' or ``bijective''.
+\end{lemma}
+
+\begin{proof}
+Under hypothesis (a) we see that the map $f$ preserves
+the disjoint union decompositions of the splitting
+of Lemma \ref{lemma-splitting-simplicial-sets}, in other words
+that we get commutative diagrams
+$$
+\xymatrix{
+\coprod\nolimits_{\varphi : [n] \to [m]\text{ surjective}}
+N(U_m)
+\ar[r] \ar[d] &
+U_n \ar[d] \\
+\coprod\nolimits_{\varphi : [n] \to [m]\text{ surjective}}
+N(V_m)
+\ar[r] &
+V_n.
+}
+$$
+And then (b) clearly shows that the left vertical arrow is
+injective (resp.\ surjective, resp.\ bijective).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-simplicial-set-n-skel-sub}
+Let $U$ be a simplicial set.
+Let $n \geq 0$ be an integer.
+The rule
+$$
+U'_m = \bigcup\nolimits_{\varphi : [m] \to [i],\ i\leq n} \text{Im}(U(\varphi))
+$$
+defines a sub simplicial set $U' \subset U$ with
+$U'_i = U_i$ for $i \leq n$.
+Moreover, all $m$-simplices of $U'$ are degenerate for
+all $m > n$.
+\end{lemma}
+
+\begin{proof}
+If $x \in U_m$ and $x = U(\varphi)(y)$
+for some $y \in U_i$, $i \leq n$ and some $\varphi : [m] \to [i]$
+then any image $U(\psi)(x)$ for any $\psi : [m'] \to [m]$ is
+equal to $U(\varphi \circ \psi)(y)$ and $\varphi \circ \psi :
+[m'] \to [i]$. Hence $U'$ is a simplicial set. By construction
+all simplices in dimension $n + 1$ and higher are degenerate.
+\end{proof}
+
 \begin{lemma}
 \label{lemma-splitting-simplicial-groups}
 Let $U$ be a simplicial abelian group.
 Then $U$ has a splitting obtained by taking $N(U_0) = U_0$ and
 for $m \geq 1$ taking
 $$
-N(U_m) = \bigcap\nolimits_{i = 1}^m \text{Ker}(d^m_i).
+N(U_m) = \bigcap\nolimits_{i = 0}^{m - 1} \text{Ker}(d^m_i).
 $$
+Moreover, this splitting is functorial on the category
+of simplicial abelian groups.
 \end{lemma}
 
 \begin{proof}
@@ -1428,74 +1492,82 @@ from Remark \ref{remark-relations}.
 
 \medskip\noindent
 First we make a general remark.
-For $1 \leq i \leq m + 1$ and $z \in U_m$ we have
-$d_i(s_{i - 1}(z)) = z$. Hence we can write 
+For $0 \leq i \leq m$ and $z \in U_m$ we have
+$d_i(s_i(z)) = z$. Hence we can write 
 any $x \in U_{m + 1}$ uniquely as
 $x = x' + x''$ with $d_i(x') = 0$
-and $x'' \in \text{Im}(s_{i - 1})$
-by taking $x' = (x - s_{i - 1}(d_i(x)))$ and
-$x'' = s_{i - 1}(d_i(x))$. Moreover, the element
-$z \in U_m$ such that $x'' = s_{i - 1}(z)$
-is unique because $s_{i - 1}$ is injective.
+and $x'' \in \text{Im}(s_i)$
+by taking $x' = (x - s_i(d_i(x)))$ and
+$x'' = s_i(d_i(x))$. Moreover, the element
+$z \in U_m$ such that $x'' = s_i(z)$
+is unique because $s_i$ is injective.
 
 \medskip\noindent
 Here is a procedure for decomposing
 any $x \in U_{n + 1}$.
-First, write $x = x_n + s_n(z_n)$ with $d_{n + 1}(x_n) = 0$.
-Next, write $x_n = x_{n - 1} + s_{n - 1}(z_{n - 1})$ with
-$d_n(x_{n - 1}) = 0$. Continue like this to get
+First, write $x = x_0 + s_0(z_0)$ with $d_0(x_0) = 0$.
+Next, write $x_0 = x_1 + s_1(z_1)$ with
+$d_n(x_1) = 0$. Continue like this to get
 \begin{eqnarray*}
-x & = & x_n + s_n(z_n), \\
-x_n & = & x_{n - 1} + s_{n - 1}(z_{n - 1}), \\
-x_{n - 1} & = & x_{n - 2} + s_{n - 2}(z_{n - 2}), \\
+x & = & x_0 + s_0(z_0), \\
+x_0 & = & x_1 + s_1(z_1), \\
+x_1 & = & x_2 + s_2(z_2), \\
 \ldots & \ldots & \ldots \\
-x_1 & = & x_0 + s_0(z_0)
+x_{n - 1} & = & x_n + s_n(z_n)
 \end{eqnarray*}
-where $d_{i + 1}(x_i) = 0$ for all $i = n, \ldots, 0$.
-By our general remark above all of the $x_i$ are determined
-uniquely by $x$.
+where $d_i(x_i) = 0$ for all $i = n, \ldots, 0$.
+By our general remark above all of the $x_i$
+and $z_i$ are determined uniquely by $x$.
 We claim that
 $x_i \in
-\text{Ker}(d_{n + 1}) \cap
-\text{Ker}(d_n) \cap
+\text{Ker}(d_0) \cap
+\text{Ker}(d_1) \cap
 \ldots \cap
-\text{Ker}(d_{i + 1})$
+\text{Ker}(d_i)$
 and
 $z_i \in
-\text{Ker}(d_n) \cap
+\text{Ker}(d_0) \cap
 \ldots \cap
-\text{Ker}(d_{i + 1})$
+\text{Ker}(d_{i - 1})$
 for $i = n, \ldots, 0$.
+Here and in the following
+an empty intersection of kernels indicates
+the whole space; i.e.,
+the notation
+$z_0 \in \text{Ker}(d_0) \cap
+\ldots \cap
+\text{Ker}(d_{i - 1})$
+when $i = 0$ means $z_0 \in U_n$ with no restriction.
 
 \medskip\noindent
-We prove this by descending induction on $i$.
-It is clear for $i = n$ by construction of $x_n$ and $z_n$.
-Let us prove it for $0 \leq i < n$ assuming the result for $i + 1$.
-First of all we have $d_{i + 1}(x_i) = 0$ by construction.
-So pick a $j$ with $i + 1 < j \leq n + 1$. We have
-$d_j(x_{i + 1}) = 0$ by induction. Hence
+We prove this by ascending induction on $i$.
+It is clear for $i = 0$ by construction of $x_0$ and $z_0$.
+Let us prove it for $0 < i \leq n$ assuming the result for $i - 1$.
+First of all we have $d_i(x_i) = 0$ by construction.
+So pick a $j$ with $0 \leq j < i$. We have
+$d_j(x_{i - 1}) = 0$ by induction. Hence
 $$
-0 = d_j(x_{i + 1})
+0 = d_j(x_{i - 1})
 = d_j(x_i) + d_j(s_i(z_i))
-= d_j(x_i) + s_i(d_{j - 1}(z_i)).
+= d_j(x_i) + s_{i - 1}(d_j(z_i)).
 $$
 The last equality by the relations of Remark \ref{remark-relations}.
 These relations also imply that
-$d_{i + 1}(d_j(x_i)) = d_{j - 1}(d_{i + 1}(x_i)) = 0$
-because $d_{i + 1}(x_i)= 0$ by construction.
+$d_{i - 1}(d_j(x_i)) = d_j(d_i(x_i)) = 0$
+because $d_i(x_i)= 0$ by construction.
 Then the uniqueness in the general remark above shows the equality
-$0 = x' + x'' = d_j(x_i) + s_i(d_{j - 1}(z_i))$
+$0 = x' + x'' = d_j(x_i) + s_{i - 1}(d_j(z_i))$
 can only hold if both terms are zero. We conclude that
-$d_j(x_i) = 0$ and by injectivity of $s_i$ we also
-conclude that $d_{j - 1}(z_i) = 0$. This proves the claim.
+$d_j(x_i) = 0$ and by injectivity of $s_{i - 1}$ we also
+conclude that $d_j(z_i) = 0$. This proves the claim.
 
 \medskip\noindent
 The claim implies we can uniquely write
 $$
-x = s_n(z_n) + s_{n - 1}(z_{n - 1}) + \ldots + s_0(z_0) + x_0
+x = s_0(z_0) + s_1(z_1) + \ldots + s_n(z_n) + x_0
 $$
 with $x_0 \in N(U_{n + 1})$ and
-$z_i \in \text{Ker}(d_n) \cap \ldots \cap \text{Ker}(d_{i + 1})$.
+$z_i \in \text{Ker}(d_0) \cap \ldots \cap \text{Ker}(d_{i - 1})$.
 We can reformulate this as saying that we have found a direct
 sum decomposition
 $$
@@ -1504,31 +1576,31 @@ U_{n + 1}
 N(U_{n + 1})
 \oplus
 \bigoplus\nolimits_{i = 0}^{i = n}
-s_i\Big(\text{Ker}(d_n) \cap \ldots \cap \text{Ker}(d_{i + 1})\Big)
+s_i\Big(\text{Ker}(d_0) \cap \ldots \cap \text{Ker}(d_{i - 1})\Big)
 $$
 with the property that
 $$
-\text{Ker}(d_{n + 1}) \cap \ldots \cap \text{Ker}(d_j)
+\text{Ker}(d_0) \cap \ldots \cap \text{Ker}(d_j)
 =
 N(U_{n + 1}) \oplus
-\bigoplus\nolimits_{i = 0}^{i = j - 2}
-s_i\Big(\text{Ker}(d_n) \cap \ldots \cap \text{Ker}(d_{i + 1})\Big)
+\bigoplus\nolimits_{i = j + 1}^{i = n}
+s_i\Big(\text{Ker}(d_n) \cap \ldots \cap \text{Ker}(d_{i - 1})\Big)
 $$
-for $j = n + 1, \ldots, 1$.
+for $j = 0, \ldots, n$.
 The result follows from this statement as follows.
 Each of the $z_i$ in the expression for $x$
 can be written uniquely as
 $$
-z_i = s_{i - 1}(z'_{i, i - 1}) + \ldots + s_0(z'_{i, 0}) + z_{i, 0}
+z_i = s_i(z'_{i, i}) + \ldots + s_{n - 1}(z'_{i, n - 1}) + z_{i, 0}
 $$
 with $z_{i, 0} \in N(U_n)$ and
-$z'_{i, j} \in \text{Ker}(d_{n - 1}) \cap \ldots \cap \text{Ker}(d_{j + 1})$.
+$z'_{i, j} \in \text{Ker}(d_0) \cap \ldots \cap \text{Ker}(d_{j - 1})$.
 The first few steps in the decomposition of $z_i$ are zero because
-$z_i$ already is in the kernel of $d_n, \ldots, d_{i + 1}$.
+$z_i$ already is in the kernel of $d_0, \ldots, d_i$.
 This in turn uniquely gives
 $$
-x = x_0 + s_n(z_{n, 0}) + s_{n - 1}(z_{n - 1, 0}) + \ldots + s_0(z_{0, 0}) +
-\sum\nolimits_{0 \leq j < i \leq n} s_i(s_j(z'_{i, j})).
+x = x_0 + s_0(z_{0, 0}) + s_1(z_{1, 0}) + \ldots + s_n(z_{n, 0}) +
+\sum\nolimits_{0 \leq i \leq j \leq n - 1} s_i(s_j(z'_{i, j})).
 $$
 Continuing in this fashion we see that we in the end obtain
 a decomposition of $x$ as a sum of terms
@@ -1536,11 +1608,14 @@ of the form
 $$
 s_{i_1} s_{i_2} \ldots s_{i_k} (z)
 $$
-with $n \geq i_1 > i_2 > \ldots > i_k \geq 0$ and
+with $0 \leq i_1 \leq i_2 \leq \ldots \leq i_k \leq n - k + 1$ and
 $z \in N(U_{n + 1 - k})$. This is exactly the required
 decomposition, because any surjective map $[n + 1] \to [n + 1 - k]$
-can be uniquely expressed in the form $s_{i_1} s_{i_2} \ldots s_{i_k}$
-with $n \geq i_1 > i_2 > \ldots > i_k \geq 0$.
+can be uniquely expressed in the form
+$$
+\sigma^{n - k}_{i_k} \ldots \sigma^{n - 1}_{i_2} \sigma^n_{i_1}
+$$
+with $0 \leq i_1 \leq i_2 \leq \ldots \leq i_k \leq n - k + 1$.
 \end{proof}
 
 \begin{lemma}
@@ -1550,8 +1625,10 @@ Let $U$ be a simplicial object in $\mathcal{A}$.
 Then $U$ has a splitting obtained by taking $N(U_0) = U_0$ and
 for $m \geq 1$ taking
 $$
-N(U_m) = \bigcap\nolimits_{i = 1}^m \text{Ker}(d^m_i).
+N(U_m) = \bigcap\nolimits_{i = 0}^{m - 1} \text{Ker}(d^m_i).
 $$
+Moreover, this splitting is functorial on the category of
+simplicial objects of $\mathcal{A}$.
 \end{lemma}
 
 \begin{proof}
@@ -1561,7 +1638,7 @@ Each of these are canonically split by Lemma
 \ref{lemma-splitting-simplicial-groups}. Moreover,
 $$
 N(\text{Mor}_\mathcal{A}(A, U_m)) =
-\bigcap\nolimits_{i = 1}^m \text{Ker}(d^m_i) =
+\bigcap\nolimits_{i = 0}^{m - 1} \text{Ker}(d^m_i) =
 \text{Mor}_\mathcal{A}(A, N(U_m)).
 $$
 Hence we see that the morphism (\ref{equation-splitting})
@@ -1570,9 +1647,82 @@ $\text{Mor}_\mathcal{A}(A, -)$ for any object of $\mathcal{A}$.
 Hence it is an isomorphism by the Yoneda lemma.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-injective-map-simplicial-abelian}
+Let $\mathcal{A}$ be an abelian category.
+Let $f : U \to V$ be a morphism of
+simplicial objects of $\mathcal{A}$.
+If the induced morphisms $N(f)_i : N(U)_i \to N(V)_i$
+are injective for all $i$, then $f_i$ is
+injective for all $i$. Same holds with ``injective'' replaced
+with ``surjective'', or ``isomorphism''.
+\end{lemma}
+
+\begin{proof}
+This is clear from Lemma \ref{lemma-splitting-abelian-category}
+and the definition of a splitting.
+\end{proof}
 
 
+\begin{lemma}
+\label{lemma-N-d-in-N}
+Let $\mathcal{A}$ be an abelian category.
+Let $U$ be a simplicial object in $\mathcal{A}$.
+Let $N(U_m)$ as in Lemma \ref{lemma-splitting-abelian-category} above.
+Then $d^m_m(N(U_m)) \subset N(U_{m - 1})$.
+\end{lemma}
 
+\begin{proof}
+For $j = 0, \ldots, m - 2$ we have
+$d^{m - 1}_j d^m_m = d^{m - 1}_{m - 1} d^m_j$
+by the relations in Remark \ref{remark-relations}.
+The result follows.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-simplicial-abelian-n-skel-sub}
+Let $\mathcal{A}$ be an abelian category.
+Let $U$ be a simplicial object of $\mathcal{A}$.
+Let $n \geq 0$ be an integer.
+The rule
+$$
+U'_m = \sum\nolimits_{\varphi : [m] \to [i],\ i\leq n} \text{Im}(U(\varphi))
+$$
+defines a sub simplicial object $U' \subset U$ with $U'_i = U_i$
+for $i \leq n$.
+Moreover, $N(U'_m) = 0$ for all $m > n$.
+\end{lemma}
+
+\begin{proof}
+Pick $m$, $i \leq n$ and some $\varphi : [m] \to [i]$.
+The image under $U(\psi)$ of $\text{Im}(U(\varphi))$
+for any $\psi : [m'] \to [m]$ is
+equal to the image of $U(\varphi \circ \psi)$ and
+$\varphi \circ \psi : [m'] \to [i]$.
+Hence $U'$ is a simplicial object.
+Pick $m > n$. We have to show $N(U'_m) = 0$.
+By definition of $N(U_m)$ and $N(U'_m)$ we have
+$N(U'_m) = U'_m \cap N(U_m)$ (intersection of subobjects).
+Since $U$ is split by Lemma \ref{lemma-splitting-abelian-category},
+it suffices to show that $U'_m$ is contained in the sum
+$$
+\sum\nolimits_{\varphi : [m] \to [m']\text{ surjective},\ m' < m}
+\text{Im}(U(\varphi)|_{N(U_{m'})}).
+$$
+By the splitting each $U_{m'}$ is the sum of images of
+$N(U_{m''})$ via $U(\psi)$ for surjective maps
+$\psi : [m'] \to [m'']$. Hence the displayed sum above
+is the same as
+$$
+\sum\nolimits_{\varphi : [m] \to [m']\text{ surjective},\ m' < m}
+\text{Im}(U(\varphi)).
+$$
+Clearly $U'_m$ is contained in this by the simple fact that
+any $\varphi : [m] \to [i]$, $i \leq n$ occuring in the definition
+of $U'_m$ may be factored as
+$[m] \to [m'] \to [i]$ with $[m] \to [m']$ surjective
+and $m' < m$ as in the last displayed sum above.
+\end{proof}
 
 
 \section{Skelet and coskelet functors}
@@ -1764,6 +1914,18 @@ exists and is canonically isomorphic to $U_n$.
 This is true because the category $(\Delta/[n])_{\leq m}$
 has an final object in this case, namely the identity
 map $[n] \to [n]$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-recover-cosk}
+Let $\mathcal{C}$ be a category with finite limits.
+Let $U$ be an $n$-truncated simplicial object of $\mathcal{C}$.
+The morphism $\text{sk}_n \text{cosk}_n U \to U$
+is an isomorphism.
+\end{lemma}
+
+\begin{proof}
+Combine Lemmas \ref{lemma-existence-cosk} and \ref{lemma-trivial-cosk}.
 \end{proof}
 
 \noindent
@@ -2169,13 +2331,13 @@ as desired.
 \label{section-adjoint-left}
 
 \noindent
-In this section we construct a left adjoint $i_{m, !}$
+In this section we construct a left adjoint $i_{m!}$
 of the skeleton functor $\text{sk}_m$ in certain cases.
 The adjointness formula is
 $$
 \text{Mor}_{\text{Simp}_m(\mathcal{C})}(U,\text{sk}_mV)
 =
-\text{Mor}_{\text{Simp}(\mathcal{C})}(i_{m, !}U,V).
+\text{Mor}_{\text{Simp}(\mathcal{C})}(i_{m!}U,V).
 $$
 It turns out that this left adjoint exists when
 the category $\mathcal{C}$ has finite colimits.
@@ -2215,21 +2377,21 @@ equal to the functor $U(n')$.
 \begin{lemma}
 \label{lemma-left-adjoint-exists}
 Let $\mathcal{C}$ be a category which has finite colimits.
-The functors $i_{m, !}$ exist for all $m$.
+The functors $i_{m!}$ exist for all $m$.
 Let $U$ be an $m$-truncated simplicial object of $\mathcal{C}$.
-The simplicial object $i_{m, !}U$
+The simplicial object $i_{m!}U$
 is described by the formula
 $$
-(i_{m, !}U)_n = \text{colim}_{([n]/\Delta)_{\leq m}^{opp}} U(n)
+(i_{m!}U)_n = \text{colim}_{([n]/\Delta)_{\leq m}^{opp}} U(n)
 $$
 and for $\varphi : [n] \to [n']$ the map
-$i_{m, !}U(\varphi)$ comes from the
+$i_{m!}U(\varphi)$ comes from the
 identification $U(n) \circ "\varphi" = U(n')$ above 
 via Categories, Lemma \ref{categories-lemma-functorial-colimit}.
 \end{lemma}
 
 \begin{proof}
-In this proof we denote $i_{m, !}U$ the simplicial object
+In this proof we denote $i_{m!}U$ the simplicial object
 whose $n$th term is given by the displayed formula of the 
 lemma. We will show it satisfies the adjointness property.
 
@@ -2247,12 +2409,12 @@ morphisms by taking the compositions
 $$
 U_k \xrightarrow{\gamma_k} V_k \xrightarrow{V(\alpha)} V_n.
 $$
-Hence we get an induced morphism $(i_{m, !}U)_n \to V_n$.
+Hence we get an induced morphism $(i_{m!}U)_n \to V_n$.
 We leave it to the reader to see that these form a 
-morphism of simplicial objects $\gamma' : i_{m, !}U \to V$.
+morphism of simplicial objects $\gamma' : i_{m!}U \to V$.
 
 \medskip\noindent
-Coversely, given a morphism $\gamma' : i_{m, !}U \to V$ we obtain
+Coversely, given a morphism $\gamma' : i_{m!}U \to V$ we obtain
 a morphism $\gamma : U \to \text{sk}_m V$ by setting
 $\gamma_i : U_i \to V_i$ equal to the composition
 $$
@@ -2265,11 +2427,6 @@ $$
 for $0 \leq i \leq n$. We leave it to the reader to see that
 this is the inverse of the construction above.
 \end{proof}
-
-\noindent
-The following lemma implies that
-$\text{sk}_mi_{m, !}U = U$ in the situation
-of the lemma above.
 
 \begin{lemma}
 \label{lemma-recovering-U}
@@ -2288,22 +2445,56 @@ has an initial object, namely $\text{id} : [n] \to [n]$.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-recovering-U-for-real}
+Let $\mathcal{C}$ be a category which has finite colimits.
+Let $U$ be an $m$-truncated simplicial object of $\mathcal{C}$.
+The map $U \to \text{sk}_m i_{m!}U$ is an isomorphism.
+\end{lemma}
+
+\begin{proof}
+Combine Lemmas \ref{lemma-left-adjoint-exists} and \ref{lemma-recovering-U}.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-imshriek-sets}
 If $U$ is an $m$-truncated simplicial set and $n > m$
-then all $n$-simplices of $i_{m, !}U$ are degenerate.
+then all $n$-simplices of $i_{m!}U$ are degenerate.
 \end{lemma}
 
 \begin{proof}
 This can be seen from the construction of
-$i_{m, !}U$ in Lemma \ref{lemma-left-adjoint-exists},
+$i_{m!}U$ in Lemma \ref{lemma-left-adjoint-exists},
 but we can also argue directly as follows.
-Write $V = i_{m, !}U$. For $i \leq m$ set $V'_i = V_i$
-and for $i > m$ set $V'_i$ equal to the set of simplices
-that are in the image of $U_j \to U_i$ for some
-$j \leq m$. It is straightforward to see that $V'$
-is a sub-simplicial set. By the adjunction formula,
+Write $V = i_{m!}U$. Let $V' \subset V$ be the
+simplicial subset with $V'_i = V_i$ for $i \leq m$
+and all $i$ simplices degenerate for $i > m$,
+see Lemma \ref{lemma-simplicial-set-n-skel-sub}.
+By the adjunction formula,
 since $\text{sk}_m V' = U$, there is an inverse to the
 injection $V' \to V$. Hence $V' = V$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-n-skeletion-sets}
+Let $U$ be a simplicial set.
+Let $n \geq 0$ be an integer.
+The morphism $i_{n!} \text{sk}_n U \to U$ identifies
+$i_{n!} \text{sk}_n U$ with the simplicial set
+$U' \subset U$ defined in Lemma \ref{lemma-simplicial-set-n-skel-sub}.
+\end{lemma}
+
+\begin{proof}
+By Lemma \ref{lemma-imshriek-sets} the only
+nondegenerate simplices of $i_{n!} \text{sk}_n U$
+are in degrees $\leq n$. The map
+$i_{n!} \text{sk}_n U \to U$ is an isomorphism
+in degrees $\leq n$. Combined we conclude
+that the map $i_{n!} \text{sk}_n U \to U$ maps
+nondegenerate simplices to nondegenerate simplices
+and no two nondegenerate simplices have the same image.
+Hence Lemma \ref{lemma-injective-map-simplicial-sets} applies.
+Thus $i_{n!} \text{sk}_n U \to U$
+is injective. The result follows easily from this.
 \end{proof}
 
 \begin{remark}
@@ -2313,13 +2504,12 @@ $$
 \text{Simp}(\mathcal{C})
 \xrightarrow{\text{sk}_m}
 \text{Simp}_m(\mathcal{C})
-\xrightarrow{i_{m,!}}
+\xrightarrow{i_{m!}}
 \text{Simp}(\mathcal{C})
 $$
-is denoted $\text{sk}_m$. This makes sense because in the case
-of simplicial sets we see from Lemmas \ref{lemma-splitting-simplicial-sets}
-and \ref{lemma-imshriek-sets}
-that $i_{m,!} \text{sk}_m V$ is just the sub simplicial set
+is denoted $\text{sk}_m$. This makes sense because
+Lemma \ref{lemma-n-skeletion-sets} says
+that $i_{m!} \text{sk}_m V$ is just the sub simplicial set
 of $V$ consisting of all $i$-simplices of $V$, $i \leq m$
 and their degeneracies. In those texts it is also customary
 to denote the composition
@@ -2332,6 +2522,47 @@ $$
 $$
 by $\text{cosk}_m$.
 \end{remark}
+
+\begin{lemma}
+\label{lemma-imshriek-abelian}
+Let $\mathcal{A}$ be an abelian category
+Let $U$ be an $m$-truncated simplicial object of
+$\mathcal{A}$. For $n > m$ we have $N(i_{m!}U)_n = 0$.
+\end{lemma}
+
+\begin{proof}
+Write $V = i_{m!}U$. Let $V' \subset V$ be the
+simplicial subobject of $V$ with $V'_i = V_i$ for $i \leq m$
+and $N(V'_i) = 0$ for $i > m$,
+see Lemma \ref{lemma-simplicial-abelian-n-skel-sub}.
+By the adjunction formula,
+since $\text{sk}_m V' = U$, there is an inverse to the
+injection $V' \to V$. Hence $V' = V$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-n-skeletion-abelian}
+Let $\mathcal{A}$ be an abelian category.
+Let $U$ be a simplicial object of $\mathcal{A}$.
+Let $n \geq 0$ be an integer.
+The morphism $i_{n!} \text{sk}_n U \to U$ identifies
+$i_{n!} \text{sk}_n U$ with the simplicial subobject
+$U' \subset U$ defined in Lemma \ref{lemma-simplicial-abelian-n-skel-sub}.
+\end{lemma}
+
+\begin{proof}
+By Lemma \ref{lemma-imshriek-abelian} 
+we have $N(i_{n!} \text{sk}_n U)_i = 0$
+for $i > n$. The map
+$i_{n!} \text{sk}_n U \to U$ is an isomorphism
+in degrees $\leq n$, see Lemma \ref{lemma-recovering-U-for-real}.
+Combined we conclude that the map $i_{n!} \text{sk}_n U \to U$
+induces injective maps $N(i_{n!} \text{sk}_n U)_i \to N(U)_i$
+for all $i$. Hence Lemma \ref{lemma-injective-map-simplicial-abelian}
+applies. Thus $i_{n!} \text{sk}_n U \to U$
+is injective. The result follows easily from this.
+\end{proof}
+
 
 
 
@@ -2391,10 +2622,12 @@ except $U(\text{id}_{[k]}) = \text{id}_A$.
 \end{enumerate}
 Since $\mathcal{A}$ has both finite limits and finite colimits
 we see that both $\text{cosk}_k U$ and $i_{k!}U$ exist.
+We will describe both of these and the canonical
+map $i_{k!}U \to \text{cosk}_kU$.
 
 \begin{lemma}
 \label{lemma-eilenberg-maclane-object}
-In the situation above.
+With $A$, $k$ and $U$ as above, so $U_i = 0$, $i < k$ and $U_k = A$.
 \begin{enumerate}
 \item Given a $k$-truncated simplicial object $V$
 we have 
@@ -2606,44 +2839,10 @@ $$
 whose proof may safely be left to the reader.
 
 \medskip\noindent
-Finally, we prove (7). First we prove it in case $\mathcal{A}$ is
-the category of abelian groups. Let $(x_\alpha)$
-be an element of $\bigoplus_{\alpha : [n] \to [k]\text{ surjective}} A$
-which maps to zero. Then for every injective $\beta : [k] \to [n]$
-we have $\sum_{\alpha \circ \beta = \text{id}} x_\alpha = 0$.
-Define a (total) ordering on the set of surjective $\alpha : [n] \to [k]$
-by the rule $\alpha_1 < \alpha_2$ if and only if there
-exists an $i$, $0 \leq i \leq n$, such that
-$\alpha_1(j) = \alpha_2(j)$ for $i < j \leq n$ and
-$\alpha_1(i) < \alpha_2(i)$.
-To get a contradiction assume $(x_\alpha)$ is not zero.
-Let $\alpha_0$ be the largest
-surjective map $[n] \to [k]$ such that $x_{\alpha_0} \not = 0$.
-Let $\beta_0 : [k] \to [n]$ be the injective map such
-that $\beta_0(i) = \min \{j \mid \alpha_0(j) = i\}$.
-Then $\alpha_0 \circ \beta_0 = \text{id}_{[k]}$, and if
-$\alpha \circ \beta_0 = \text{id}_{[k]}$ then
-$\alpha \leq \alpha_0$. Thus the sum
-$\sum_{\alpha \circ \beta_0 = \text{id}} x_\alpha$
-has only one term in it and we conclude $x_{\alpha_0} = 0$,
-contradiction.
-
-\medskip\noindent
-The result (7) for a general abelian category
-follows since the result for abelian groups shows that
-all the induced maps
-$$
-\xymatrix{
-\text{Hom}(X, \bigoplus_{\alpha : [n] \to [k]\text{ surjective}} A)
-\ar@{=}[r] \ar[d] &
-\bigoplus_{\alpha : [n] \to [k]\text{ surjective}} \text{Hom}(X, A)
-\ar[d] \\
-\text{Hom}(X, \bigoplus_{\beta : [k] \to [n]\text{ injective}} A)
-\ar@{=}[r] &
-\bigoplus_{\alpha : [k] \to [n]\text{ injective}} \text{Hom}(X, A)
-}
-$$
-are injective.
+Finally, we prove (7). This follows directly from
+Lemmas \ref{lemma-injective-map-simplicial-abelian},
+\ref{lemma-recover-cosk}, \ref{lemma-recovering-U-for-real}
+and \ref{lemma-imshriek-abelian}.
 \end{proof}
 
 \begin{definition}
@@ -2693,19 +2892,19 @@ objects.
 \begin{lemma}
 \label{lemma-abelian-limit-skeleta}
 Let $\mathcal{A}$ be an abelian category.
-Any simplicial object $V$ is
+For any simplicial object $V$ of $\mathcal{A}$ we have
 $$
-\text{colim}_n  i_{n!}\text{sk}_n V
+V = \text{colim}_n\ i_{n!}\text{sk}_n V
 $$
+where all the transition maps are injections.
 \end{lemma}
 
 \begin{proof}
 This is true simply because each $V_m$ is
 equal to $(i_{n!}\text{sk}_n V)_m$ as
-soon as $n \geq m$.
+soon as $n \geq m$. See also Lemma \ref{lemma-n-skeletion-abelian}
+for the transition maps.
 \end{proof}
-
-
 
 \section{Simplicial objects and chain complexes}
 \label{section-complexes}
@@ -2862,20 +3061,23 @@ a simplicial object of $\mathcal{A}$. Recall that by
 Lemma \ref{lemma-splitting-abelian-category}
 any simplicial object $U$ of $\mathcal{A}$
 is canonically split with
-$N(U_m) = \bigcap_{i = 1}^m \text{Ker}(d^m_i)$.
+$N(U_m) = \bigcap_{i = 0}^{m - 1} \text{Ker}(d^m_i)$.
 We define $N(U)$ to be the chain complex
 $$
 \ldots \to N(U_2) \to N(U_1) \to N(U_0) \to 0 \to 0 \to \ldots
 $$
 with boundary map $d_n : N(U_n) \to N(U_{n - 1})$ given
-by the restriction of $d^n_0$ to the direct summand
-$N(U_n)$ of $U_n$. This is a complex because
-$d^n_0 \circ d^{n + 1}_0 = d^n_0 \circ d^{n + 1}_1$
-and $d^{n + 1}_1$ is zero on $N(U_{n + 1})$ by definition.
+by the restriction of $(-1)^nd^n_n$ to the direct summand
+$N(U_n)$ of $U_n$. Note that Lemma \ref{lemma-N-d-in-N}
+implies that $d^n_n(N(U_n)) \subset N(U_{n - 1})$.
+It is a complex because
+$d^n_n \circ d^{n + 1}_{n + 1} = d^n_n \circ d^{n + 1}_n$
+and $d^{n + 1}_n$ is zero on $N(U_{n + 1})$ by definition.
 Thus we obtain a second functor
 $$
 N : \text{Simp}(\mathcal{A}) \longrightarrow \text{Ch}_{\geq 0}(\mathcal{A}).
 $$
+Here is the reason for the sign in the differential.
 
 \begin{lemma}
 \label{lemma-map-associated-complexes}
@@ -2888,8 +3090,8 @@ a morphism of complexes $N(U) \to s(U)$.
 \begin{proof}
 This is clear because the differential
 on $s(U)_n = U_n$ is $\sum (-1)^i d^n_i$ and
-the maps $d^n_i$, $i > 0$ are zero on $N(U_n)$,
-whereas the restriction of $d^n_0$ is the boundary
+the maps $d^n_i$, $i < n$ are zero on $N(U_n)$,
+whereas the restriction of $(-1)^nd^n_n$ is the boundary
 map of $N(U)$ by definition.
 \end{proof}
 
@@ -2907,13 +3109,10 @@ It is clear that $N(K(A, k))_i = 0$ when $i < k$
 because $K(A, k)_i = 0$ in that case.
 It is clear that $N(K(A, k))_k = A$ since
 $K(A, k)_{k - 1} = 0$ and $K(A, k)_k = A$.
-We have to show that the intersection
-of the kernels of the maps $d^n_i$, $i = 1, \ldots, n$
-on $K(A, k)_n$ is zero when $n > k$. This is clear from
-the description of the maps $d^n_i$ in
-Lemma \ref{lemma-eilenberg-maclane-object}
-since if $\alpha \circ d^n_i$ is not surjective for
-all $i = 1, \ldots, n$, then $\alpha$ is not surjective.
+For $i > k$ we have $N(K(A, k))_i = 0$
+by Lemma \ref{lemma-imshriek-abelian} and
+the definition of $K(A, k)$, see Definition
+\ref{defintition-eilenberg-maclane}.
 \end{proof}
 
 \begin{lemma}
@@ -2964,8 +3163,8 @@ index whose image under $\varphi$ is $j$. We may write
 $\varphi \circ \delta^n_i = \delta^m_j \circ \psi \circ \delta^n_i$
 for some $\psi : [n - 1] \to [m - 1]$. Hence
 $U(\varphi \circ \delta^n_i) = U(\psi \circ \delta^n_i) \circ d^m_j$ which
-is zero on $N(U_m)$ unless $j = 0$. If $j = 0$, then
-$d^m_0(N(U_m)) \subset N(U_{m - 1})$ and hence
+is zero on $N(U_m)$ unless $j = m$. If $j = m$, then
+$d^m_m(N(U_m)) \subset N(U_{m - 1})$ and hence
 $U(\varphi \circ \delta^n_i)(N(U_m)) \subset
 U(\psi \circ \delta^n_i)(N(U_{m - 1}))$ and we win
 by induction hypothesis.
@@ -2985,17 +3184,17 @@ $$
 Recall from Remark \ref{remark-relations} that
 $d^n_j \circ s^{n - 1}_j = d^n_{j + 1} \circ s^{n - 1}_j = \text{id}$
 and these drop out because the corresponding terms have opposite signs.
-The map $d^n_0 \circ s^{n - 1}_j$, if $j > 0$, is equal to
-$s^{n - 2}_{j - 1} \circ d^{n - 1}_0$. Since 
-$d^{n - 1}_0$ maps $N(U_{n - 1})$ into $N(U_{n - 2})$,
-we see that the image $d^n_0 ( s^{n - 1}_j (N(U_{n - 1}))$
-is contained in $s^{n - 2}_{j - 1}(N(U_{n - 2}))$ which
+The map $d^n_n \circ s^{n - 1}_j$, if $j < n - 1$, is equal to
+$s^{n - 2}_j \circ d^{n - 1}_{n - 1}$. Since 
+$d^{n - 1}_{n - 1}$ maps $N(U_{n - 1})$ into $N(U_{n - 2})$,
+we see that the image $d^n_n ( s^{n - 1}_j (N(U_{n - 1}))$
+is contained in $s^{n - 2}_j(N(U_{n - 2}))$ which
 is contained in $A(U_{n - 1})$ by definition. For all
 other combinations of $(i, j)$ we have
-either $d^n_0 \circ s^{n - 1}_j = s^{n - 2}_{j - 1} \circ d^{n - 1}_i$
-(if $0 < i < j$), or
-$d^n_0 \circ s^{n - 1}_j = s^{n - 2}_j \circ d^{n - 1}_{i - 1}$
-(if $i > j + 1$) and in these cases the map is zero because
+either $d^n_i \circ s^{n - 1}_j = s^{n - 2}_{j - 1} \circ d^{n - 1}_i$
+(if $i < j$), or
+$d^n_i \circ s^{n - 1}_j = s^{n - 2}_j \circ d^{n - 1}_{i - 1}$
+(if $n > i > j + 1$) and in these cases the map is zero because
 of the definition of $N(U_{n - 1})$.
 \end{proof}
 
@@ -3038,16 +3237,17 @@ and $s(V)_n = 0$.
 Assume $IH_{n, m}$, with $m \leq n$.
 Pick a simplicial object $V$ such that
 $V_j = 0$ for $j < m$. By Lemma \ref{lemma-eilenberg-maclane-object}
-there are natural morphisms
+and Definition \ref{defintition-eilenberg-maclane}
+we have $K(V_m, m) = i_{m!} \text{sk}_mV$.
+By Lemma \ref{lemma-n-skeletion-abelian} the natural morphism
 $$
-K(V_m, m) = i_{m!} \text{sk}_mV \to V \to \text{cosk}_m \text{sk}_m V
+K(V_m, m) = i_{m!} \text{sk}_mV \to V
 $$
-whose composition is injective. Hence we get a short exact
-sequence
+is injective. Thus we get a short exact sequence
 $$
 0 \to K(V_m, m) \to V \to W \to 0
 $$
-and $W_i = 0$ for $i = 0, \ldots, m$. This short exact sequence
+for some $W$ with $W_i = 0$ for $i = 0, \ldots, m$. This short exact sequence
 induces a morphism of short exact sequence of associated complexes 
 $$
 \xymatrix{
@@ -3075,12 +3275,16 @@ on the ends.
 \begin{lemma}
 \label{lemma-N-faithful}
 Let $\mathcal{A}$ be an abelian category.
-The functor $N$ is faithful.
+The functor $N$ is faithful, and reflects
+isomorphisms, injections and surjections.
 \end{lemma}
 
 \begin{proof}
-This is immediate from the canonical
+The faithfulness is immediate from the canonical
 splitting of Lemma \ref{lemma-splitting-abelian-category}.
+The statement on reflecting injections, surjections, and
+isomorphisms follows from
+Lemma \ref{lemma-injective-map-simplicial-abelian}.
 \end{proof}
 
 \begin{lemma}
@@ -3111,14 +3315,17 @@ I_n =
 $$
 For $\alpha \in I_n$ we denote $k(\alpha)$ the unique
 integer such that $\text{Im}(\alpha) = [k]$.
-We define a simplicial object $U(A_\bullet)$ as follows:
+We define a simplicial object $S(A_\bullet)$ as follows:
 \begin{enumerate}
-\item $U_n(A_\bullet) = \bigoplus_{\alpha \in I_n} A_{k(\alpha)}$, which
-we sometimes write as
-$\bigoplus_{\alpha \in I_n} A_{k(\alpha)} \cdot \alpha$,
+\item $S(A_\bullet)_n = \bigoplus_{\alpha \in I_n} A_{k(\alpha)}$, which
+we will write as
+$\bigoplus_{\alpha \in I_n} A_{k(\alpha)} \cdot \alpha$
+to suggest thinking of ``$\alpha$'' as a basis vector for the
+summand corresponding to it,
 \item given $\varphi : [m] \to [n]$ we define
-$U(A_\bullet)(\varphi)$ by its restriction to
-the direct summand $A_{k(\alpha)}$ as follows
+$S(A_\bullet)(\varphi)$ by its restriction to
+the direct summand $A_{k(\alpha)} \cdot \alpha$
+of $S(A_\bullet)_n$ as follows
 \begin{enumerate}
 \item $\alpha \circ \varphi \not \in I_m$ then we set it equal to zero,
 \item $\alpha \circ \varphi \in I_m$ but $k(\alpha \circ \varphi)$
@@ -3126,11 +3333,14 @@ not equal to either $k(\alpha)$ or $k(\alpha) - 1$ then we set it
 equal to zero as well,
 \item if $\alpha \circ \varphi \in I_m$
 and $k(\alpha \circ \varphi) = k(\alpha)$ then we use
-the identity map to the summand $A_{k(\alpha \circ \varphi)}$, and
+the identity map to the summand
+$A_{k(\alpha \circ \varphi)} \cdot (\alpha \circ \varphi)$
+of $S(A_\bullet)_m$, and
 \item if $\alpha \circ \varphi \in I_m$
 and $k(\alpha \circ \varphi) = k(\alpha) - 1$
-then we use the map $d_{k(\alpha)}$ to the summand 
-$A_{k(\alpha \circ \varphi)}$.
+then we use the map $(-1)^{k(\alpha)} d_{k(\alpha)}$ to the summand 
+$A_{k(\alpha \circ \varphi)}\cdot (\alpha \circ \varphi)$
+of $S(A_\bullet)_m$.
 \end{enumerate}
 \end{enumerate}
 It is a pleasant exercise to show that
@@ -3139,128 +3349,88 @@ the compositions $d_k \circ d_{k - 1}$ are all zero.
 
 \medskip\noindent
 Having verified this it is clear that $A_\bullet \mapsto
-U(A_\bullet)$ is an exact functor from chain complexes
+S(A_\bullet)$ is an exact functor from chain complexes
 to simplicial objects. If $A_i = 0$ for $i = 0, \ldots, n$
-then $U(A_\bullet)_i = 0$ for $i = 0, \ldots, n$.
+then $S(A_\bullet)_i = 0$ for $i = 0, \ldots, n$.
 The objects $K(A, k)$, see Definition \ref{defintition-eilenberg-maclane},
-are equal to $U(A[-k])$ where $A[-k]$ is the chain complex
+are equal to $S(A[-k])$ where $A[-k]$ is the chain complex
 with $A$ in degree $k$ and zero elsewhere.
-Let $\tau_{\leq k}A_\bullet$ denote the complex
-equal to $A_\bullet$ in degrees $\leq k$ and zero elsewhere.
-There are a canonical maps
-$A_\bullet \to \tau_{\leq k}A_\bullet \to \tau_{\leq k - 1}A_\bullet$.
-The kernel of the first map has no terms in degrees $\leq k$,
-whereas $\text{Ker}(\tau_{\leq k}A_\bullet \to \tau_{\leq k - 1}A_\bullet)
-= A_k[-k]$. By exactness of $N$ and $U(-)$ we deduce that
-$$
-N(U(A_\bullet))_k
-\to
-N(U(\tau_{\leq k}A_\bullet))_k
-\leftarrow
-N(U(A_k[-k])) = A_k
-$$
-are functorial isomorphisms.
-Note that the unique map $A_k \to U(A_\bullet)_k$
-corresponding to the summand $\alpha = \text{id}_{[k]}$
-is what gives rise to this identification.
 
 \medskip\noindent
-In order to show that $N(-) \circ U(-)$ is the identity
+Moreover, for each integer $k$ we get a sub simplicial
+object $S_{\leq k}(A_\bullet)$ by considering
+only those $\alpha$ with $k(\alpha) \leq k$.
+In fact this is nothing but $S(\tau_{\leq k}A_\bullet)$,
+where $\tau_{\leq k}A_\bullet$ is the ``stupid'' truncation
+of $A_\bullet$ at $k$ (which simply replaces $A_i$ by
+$0$ for $i > k$). Also, by Lemma \ref{lemma-n-skeletion-abelian}
+we see that it is equal to $i_{k!}\text{sk}_k S(A_\bullet)$.
+Clearly, the quotient 
+$S_{\leq k}(A_\bullet)/S_{\leq k - 1}(A_\bullet) = K(A_k, k)$
+and the quotient
+$S(A_\bullet)/S_{\leq k}(A_\bullet) = S(A/\tau_{\leq k}A_\bullet)$
+is a simplicial object whose $i$th term is zero for $i = 0, \ldots, k$.
+Since $S_{\leq k - 1}(A_\bullet)$ is filtered with
+subquotients $K(A_i, i)$, $i < k$ we see that
+$N(S_{\leq k - 1}(A_\bullet))_k = 0$ by exactness
+of the functor $N$, see Lemma \ref{lemma-N-exact}.
+All in all we conclude that the maps
+$$
+N(S(A_\bullet))_k
+\leftarrow
+N(S_{\leq k}(A_\bullet))_k
+\to
+N(S(A_k[-k])) = N(K(A_k, k))_k = A_k
+$$
+are functorial isomorphisms.
+
+\medskip\noindent
+It is actually easy to identify the map $A_k \to N(S(A_\bullet))_k$.
+Note that there is a unique map $A_k \to S(A_\bullet)_k$
+corresponding to the summand $\alpha = \text{id}_{[k]}$.
+Note that $\text{Im}(\text{id}_{[k]} \circ \delta^k_i)$
+has cardinality $k - 1$ but does not
+have image $[k - 1]$ unless $i = k$. Hence 
+$d^k_i$ kills the summand $A_k \cdot \text{id}_{[k]}$
+for $i = 0, \ldots, k - 1$. From the abstract computation
+of $N(S(A_\bullet))_k$ above we conclude that
+the summand $A_k \cdot \text{id}_{[k]}$ is equal to
+$N(S(A_\bullet))_k$.
+
+\medskip\noindent
+In order to show that $N(-) \circ S(-)$ is the identity
 functor on $\text{Ch}_{\geq 0}(\mathcal{A})$,
 the last thing we have to verify
 is that we recover the map $d_{k + 1} : A_{k + 1} \to A_k$
-from the map $N(U(A_\bullet))_{k + 1} \to N(U(A_\bullet))_k$.
-Actually, it will turn out that this is not the case,
-but that the map
-$A_{k + 1} = N(U(A_\bullet))_{k + 1} \to N(U(A_\bullet))_k$
-is equal to $(-1)^{k + 1}d_{k + 1}$. This is still enough
-to conclude that $N$ is an equivalence (see below).
-By truncating as above, it is clear that it is enough
-to prove this formula in the case where $A_\bullet$
-is a complex whose only nonzero terms are in degrees
-$k + 1$ and $k$. We first do a special case.
-
-\medskip\noindent
-Let $A$ be an object of $\mathcal{A}$ and
-let $k \geq 0$ be an integer. Consider
-the simplicial object $E$ constructed in Lemma
-\ref{lemma-extension}. By construction this is
-just $U(A_\bullet)$ with $A_k = A_{k + 1} = A$,
-$A_i = 0$ for $i \not = k, k + 1$ and
-$d_{k + 1} = \text{id}_A$. The identifications
-$N(E)_k = A$ and $N(E)_{k + 1} = A$ we found
-above come from the short exact sequence
-$$
-0 \to K(A, k) \to E \to K(A, k + 1) \to 0
-$$
-together with the identitfications $N(K(A, k))_k = A$
-and $N(K(A, k + 1))_{k + 1} = A$.
-We will compute the induced differential
-$A = N(E)_{k + 1} \to N(E)_k = A$ in the
-case where $A$ is an abelian group.
-The terms of degree $k + 1$ and $k$ of $E$ and
-the maps $d^{k + 1}_i$ look like
-$$
-d^{k + 1}_i :
-A \cdot \text{id}_{[k + 1]} \oplus
-\bigoplus\nolimits_{j = 0}^k A \cdot \sigma^k_j
-\longrightarrow
-A
-$$
-and act as follows:
-\begin{enumerate}
-\item $d^{k + 1}_i$ kills $A \cdot \text{id}_{[k + 1]}$
-unless $i = k + 1$ in which case you get the identity
-map to $A$.
-\item $d^{k + 1}_i$ kills $A \cdot \sigma^k_j$
-unless $i = j, j + 1$ in which case you get the
-identity map to $A$.
-\end{enumerate}
-So an element is in the kernel of $d^{k + 1}_i$ for
-$i = 1, \ldots, k + 1$, i.e., in $N(E)_{k + 1}$, if and only if
-it looks like 
-$$
-x \cdot \text{id}_{[k + 1]} +
-\sum\nolimits_{j = 0}^k (-1)^{j + k + 1} x \cdot \sigma^k_j
-$$
-Furthermore, this element maps to the element
-$x \in A = N(K(A, k+1))_{k +1}$
-under the canonical map $N(E) \to N(K(A, k + 1))$.
-And finally, we see that under the map $d^{k + 1}_0$
-(which is the definition of the differential on $N(E)$)
-we get $(-1)^{k + 1}x$. By the usual trickery with $\text{Hom}$'s
-we see that the differential $N(E)_{k + 1} \to N(E)_k$
-agrees with $(-1)^{k + 1}\text{id}_A$ in the case of
-a general abelian category.
-
-\medskip\noindent
-The general case of a complex $A_\bullet$ concentrated in
-degrees $k, k + 1$ follows from the above and functoriality
-by considering the map of complexes
-$$
-\xymatrix{
-\ldots \ar[r] & 0 \ar[r] & A_{k + 1} \ar[r] \ar[d] &
-A_{k + 1} \ar[r] \ar[d] & 0 \ar[r] & \ldots \\
-\ldots \ar[r] & 0 \ar[r] & A_{k + 1} \ar[r] & A_k \ar[r] & 0 \ar[r] & \ldots
-}
-$$
-This finishes the proof of the relation between the differntial
-on $N(U(A_\bullet))$ and the differential on $A_\bullet$.
-
-\medskip\noindent
-Let us modify the construction of $U(A_\bullet)$
-by putting in a sign $(-1)^{k(\alpha)}$ in case (2)(d),
-and let us call this $U^+(A_\bullet)$. Then it is clear
-that $N \circ U^+$ is the identity functor on
-$\text{Ch}_{\geq 0}(\mathcal{A})$. (Another way to
-resove this issue is to use that clearly $N \circ U \circ N \circ U$
-is the identity functor...)
+as the map $A_{k + 1} = N(S(A_\bullet))_{k + 1} \to N(S(A_\bullet))_k = A_k$.
+Namely, from above and definitions the map
+$N(S(A_\bullet))_{k + 1} \to N(S(A_\bullet))_k$
+corresponds to the restriction of $(-1)^{k + 1}d^{k + 1}_{k + 1}$
+to the summand $A_{k + 1} \cdot \text{id}_{[k + 1]}$.
+And by the definition of $S(A_\bullet)$ above the 
+map $d^{k + 1}_{k + 1}$ maps $A_{k + 1} \cdot \text{id}_{[k + 1]}$
+into $A_k \cdot \text{id}_{[k]}$ by $(-1)^{k + 1}d_{k + 1}$ of $A_\bullet$.
+The signs cancel and hence the result mentioned above.
 
 \medskip\noindent
 We know that $N$ is faithful, see Lemma \ref{lemma-N-faithful}.
-If we can show that $U$ is essentially surjective, then
+If we can show that $S$ is essentially surjective, then
 it will follow that $N$ is an equivalence.
-By Lemma 
+Note that if $A_\bullet$ is a chain complex
+then $S(A_\bullet) = \text{colim}_n\ S_{\leq n}(A_\bullet)
+= \text{colim}_n\ S(\tau_{\leq n} A_\bullet) =
+\text{colim}_n\ i_{n!} S(A_\bullet)$ by construction
+of $S()$.
+By Lemma \ref{lemma-abelian-limit-skeleta} it suffices
+to show that $i_{n!} V$ is in the essential image
+for any $n$-truncated simplicial object $V$.
+By induction on $n$ it suffices to show
+that any extension
+$$
+0 \to S(A_\bullet) \to V \to K(A, n) \to 0
+$$
+where $A_i = 0$ for $i \geq n$ is in the essential
+image of $S$. 
 
 
 
