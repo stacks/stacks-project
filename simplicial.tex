@@ -3302,9 +3302,10 @@ $$
 
 \begin{proof}
 We will describe a functor in the reverse direction
-inspired by the construction of Lemma \ref{lemma-extension}.
-Let $A_\bullet$ be a chain complex with boundary maps
-$d_n : A_n \to A_{n - 1}$. For each $n \geq 0$ denote
+inspired by the construction of Lemma \ref{lemma-extension}
+(except that we throw in a sign to get the boundaries
+right). Let $A_\bullet$ be a chain complex with boundary maps
+$d_{A,n} : A_n \to A_{n - 1}$. For each $n \geq 0$ denote
 $$
 I_n =
 \Big\{
@@ -3338,7 +3339,7 @@ $A_{k(\alpha \circ \varphi)} \cdot (\alpha \circ \varphi)$
 of $S(A_\bullet)_m$, and
 \item if $\alpha \circ \varphi \in I_m$
 and $k(\alpha \circ \varphi) = k(\alpha) - 1$
-then we use the map $(-1)^{k(\alpha)} d_{k(\alpha)}$ to the summand 
+then we use the map $(-1)^{k(\alpha)} d_{A, k(\alpha)}$ to the summand 
 $A_{k(\alpha \circ \varphi)}\cdot (\alpha \circ \varphi)$
 of $S(A_\bullet)_m$.
 \end{enumerate}
@@ -3398,29 +3399,35 @@ the summand $A_k \cdot \text{id}_{[k]}$ is equal to
 $N(S(A_\bullet))_k$.
 
 \medskip\noindent
-In order to show that $N(-) \circ S(-)$ is the identity
+In order to show that $N \circ S$ is the identity
 functor on $\text{Ch}_{\geq 0}(\mathcal{A})$,
 the last thing we have to verify
-is that we recover the map $d_{k + 1} : A_{k + 1} \to A_k$
-as the map $A_{k + 1} = N(S(A_\bullet))_{k + 1} \to N(S(A_\bullet))_k = A_k$.
-Namely, from above and definitions the map
+is that we recover the map $d_{A, k + 1} : A_{k + 1} \to A_k$
+as the differential on the complex $N(S(A_\bullet))$
+as follows
+$$
+A_{k + 1} = N(S(A_\bullet))_{k + 1} \to N(S(A_\bullet))_k = A_k
+$$
+By definition the map
 $N(S(A_\bullet))_{k + 1} \to N(S(A_\bullet))_k$
 corresponds to the restriction of $(-1)^{k + 1}d^{k + 1}_{k + 1}$
-to the summand $A_{k + 1} \cdot \text{id}_{[k + 1]}$.
+to $N(S(A_\bullet))$ which is
+the summand $A_{k + 1} \cdot \text{id}_{[k + 1]}$.
 And by the definition of $S(A_\bullet)$ above the 
 map $d^{k + 1}_{k + 1}$ maps $A_{k + 1} \cdot \text{id}_{[k + 1]}$
-into $A_k \cdot \text{id}_{[k]}$ by $(-1)^{k + 1}d_{k + 1}$ of $A_\bullet$.
-The signs cancel and hence the result mentioned above.
+into $A_k \cdot \text{id}_{[k]}$ by $(-1)^{k + 1}d_{A, k + 1}$.
+The signs cancel and hence the desired equality.
 
 \medskip\noindent
 We know that $N$ is faithful, see Lemma \ref{lemma-N-faithful}.
 If we can show that $S$ is essentially surjective, then
-it will follow that $N$ is an equivalence.
+it will follow that $N$ is an equivalence,
+see Homology, Lemma \ref{homology-lemma-S-N}.
 Note that if $A_\bullet$ is a chain complex
 then $S(A_\bullet) = \text{colim}_n\ S_{\leq n}(A_\bullet)
 = \text{colim}_n\ S(\tau_{\leq n} A_\bullet) =
 \text{colim}_n\ i_{n!} S(A_\bullet)$ by construction
-of $S()$.
+of $S$.
 By Lemma \ref{lemma-abelian-limit-skeleta} it suffices
 to show that $i_{n!} V$ is in the essential image
 for any $n$-truncated simplicial object $V$.
@@ -3430,13 +3437,73 @@ $$
 0 \to S(A_\bullet) \to V \to K(A, n) \to 0
 $$
 where $A_i = 0$ for $i \geq n$ is in the essential
-image of $S$. 
-
-
-
-
-
-
+image of $S$. By Homology, Lemma \ref{homology-lemma-exact-functor-ext}
+we have abelian group homomorphisms
+$$
+\xymatrix{
+\text{Ext}_{\text{Simp}(\mathcal{A})}(K(A, n), S(A_\bullet))
+\ar@<1ex>[r]^-{N} &
+\text{Ext}_{\text{Ch}_{\geq 0}(\mathcal{A})}(A[-n], A_\bullet)
+\ar@<1ex>[l]^-{S}
+}
+$$
+between ext groups (see
+Homology, Definition \ref{homology-definition-ext-group}).
+We want to show that $S$ is surjective. We know that
+$N \circ S = \text{id}$. Hence it suffices to show that
+$\text{Ker}(N) = 0$. Clearly an extension
+$$
+\xymatrix{
+&
+0 \ar[r] &
+0 \ar[r] \ar[d] &
+A_{n - 1} \ar[r] \ar[d] &
+A_{n - 2} \ar[r] \ar[d] &
+\ldots \ar[r] &
+A_0 \ar[r] \ar[d] &
+0 \\
+E : &
+0 \ar[r] &
+A \ar[r] \ar[d] &
+A_{n - 1} \ar[r] \ar[d] &
+A_{n - 2} \ar[r] \ar[d] &
+\ldots \ar[r] &
+A_0 \ar[r] \ar[d] &
+0 \\
+&
+0 \ar[r] &
+A \ar[r] &
+0 \ar[r] &
+0 \ar[r] &
+\ldots \ar[r] &
+0 \ar[r] &
+0
+}
+$$
+of $A_\bullet$ by $A[-n]$ in $\text{Ch}(\mathcal{A})$ is
+zero if and only if the map $A \to A_{n - 1}$ is zero.
+Thus we have to show that any extension
+$$
+0 \to S(A_\bullet) \to V \to K(A, n) \to 0
+$$
+such that $A = N(V)_n \to N(V)_{n - 1}$ is zero is split.
+By Lemma \ref{lemma-eilenberg-maclane-object} we have
+$$
+\text{Mor}(K(A, n), V)
+=
+\left\{
+f : A
+\to
+\bigcap\nolimits_{i = 0}^n \text{ker}(d^n_i : V_n \to V_{n - 1})
+\right\}
+$$
+and if $A = N(V)_n \to N(V)_{n - 1}$ is zero, then
+the intersection occuring in the formula above is
+equal to $A$. Let $i : K(A, n) \to V$ be the morphism
+corresponding to $\text{id}_A$ on the right hand side
+of the displayed formula. Clearly this is a section
+to the map $V \to K(A, n)$ and the extension is split
+as desired.
 \end{proof}
 
 
