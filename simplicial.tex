@@ -1321,8 +1321,10 @@ To see (3) we argue as follows:
 \begin{eqnarray*}
 \text{Mor}(V, \text{Hom}(\Delta[k], X)) & = &
 \text{Mor}(V \times \Delta[k], X) \\
-& = & \{ (f_n : V_n \times \Delta[k]_n \to X) \mid f_n \text{ compatible}\} \\
-& = & \{ (f_n : V_n \to \prod\nolimits_{\Delta[k]_n} X) \mid f_n \text{ compatible}\} \\
+& = & \{ (f_n : V_n \times \Delta[k]_n \to X) \mid
+f_n \text{ compatible}\} \\
+& = & \{ (f_n : V_n \to \prod\nolimits_{\Delta[k]_n} X) \mid
+f_n \text{ compatible}\} \\
 & = & \text{Mor}(V, U)
 \end{eqnarray*}
 Thus $U$ and $\text{Hom}(\Delta[k], X)$ define the same
@@ -3287,8 +3289,8 @@ isomorphisms follows from
 Lemma \ref{lemma-injective-map-simplicial-abelian}.
 \end{proof}
 
-\begin{lemma}
-\label{lemma-dold-kan}
+\begin{theorem}
+\label{theorem-dold-kan}
 Let $\mathcal{A}$ be an abelian category.
 The functor $N$ induces an equivalence of
 categories
@@ -3298,7 +3300,7 @@ N :
 \longrightarrow
 \text{Ch}_{\geq 0}(\mathcal{A})
 $$
-\end{lemma}
+\end{theorem}
 
 \begin{proof}
 We will describe a functor in the reverse direction
@@ -3512,6 +3514,110 @@ as desired.
 
 
 
+\section{Dold-Kan for cosimplicial objects}
+\label{section-dold-kan-cosimplicial}
+
+\noindent
+Let $\mathcal{A}$ be an abelian category.
+According to Homology, Lemma \ref{homology-lemma-abelian-opposite}
+also $\mathcal{A}^{opp}$ is abelian. It follows
+formally from the definitions that
+$$
+\text{CoSimp}(\mathcal{A}) = \text{Simp}(\mathcal{A}^{opp})^{opp}.
+$$
+Thus the Dold-Kan theorem \ref{theorem-dold-kan} implies
+that $\text{CoSimp}(\mathcal{A})$ is equivalent to
+the category
+$\text{Ch}_{\geq 0}(\mathcal{A}^{opp})^{opp}$. And it
+follows formally from the definitions that
+$$
+\text{CoCh}_{\geq 0}(\mathcal{A}) =
+\text{Ch}_{\geq 0}(\mathcal{A}^{opp})^{opp}.
+$$
+Putting these arrows together we obtain an equivalence
+$$
+Q :
+\text{CoSimp}(\mathcal{A})
+\longrightarrow
+\text{CoCh}_{\geq 0}(\mathcal{A}).
+$$
+In this section we describe $Q$.
+
+\medskip\noindent
+First we define the cochain complex $s(U)$ associated to a cosimplicial
+object $U$. It is the cochain complex with terms zero in
+negative degrees, and $s(U)^i = U_i$ for $i \geq 0$.
+As differentials we use the maps
+$d^i : s(U)^i \to s(U)^{i + 1}$ defined by
+$d^i = \sum_{i = 0}^{n + 1} (-1)^i \delta^{n + 1}_i$.
+In other words the complex $s(U)$ looks like
+$$
+\xymatrix{
+0 \ar[r] &
+U_0 \ar[rr]^{\delta^1_0 - \delta^1_1} & &
+U_1 \ar[rr]^{\delta^2_0 - \delta^2_1 + \delta^2_2} & &
+U_2 \ar[r] &
+\ldots
+}
+$$
+On the other hand, given a
+cosimplicial object $U$ of $\mathcal{A}$ set
+$Q(U)^0 = U_0$ and 
+$$
+Q(U)^n = \text{Coker}(
+\xymatrix{
+\bigoplus_{i = 0}^{n - 1} U_{n - 1} \ar[r]^-{\delta^n_i} &
+U_n
+}).
+$$
+The differential $d^n : Q(U)^n \to Q(U)^{n + 1}$
+is defined by fitting the morphism
+$(-1)^{n + 1}\delta^{n + 1}_{n + 1}$ into a commutative
+diagram
+$$
+\xymatrix{
+U_n \ar[rr]_{(-1)^{n + 1}\delta^{n + 1}_{n + 1}} \ar[d] & &
+U_{n + 1} \ar[d] \\
+Q(U)^n \ar[rr]^{d_n} & &
+Q(U)^{n + 1}.
+}
+$$
+We leave it to the reader to show that this diagram makes
+sense, i.e., that the image of $\delta^n_i$ maps into
+the kernel of the right vertical arrow for $i = 0, \ldots, n - 1$.
+(This is dual to Lemma \ref{lemma-N-d-in-N}.)
+Thus our cochain complex $Q(U)$ looks like this
+$$
+0 \to Q(U)^0 \to Q(U)^1 \to Q(U)^2 \to \ldots
+$$
+The dual to the Dold-Kan Theorem \ref{theorem-dold-kan} is the following.
+
+\begin{lemma}
+\label{lemma-dual-dold-kan}
+Let $\mathcal{A}$ be an abelian category.
+\begin{enumerate}
+\item The functor
+$s : \text{CoSimp}(\mathcal{A}) \to \text{CoCh}_{\geq 0}(\mathcal{A})$
+is exact.
+\item The maps $s(U)^n \to Q(U)^n$ define a morphism
+of cochain complexes.
+\item There exists a functorial direct sum decomposition
+$s(U) = A(U) \oplus Q(U)$ in $\text{CoCh}_{\geq 0}(\mathcal{A})$.
+\item The functor $Q$ is exact.
+\item The morphism of complexes $s(U) \to Q(U)$ is a quasi-isomorphism.
+\item The functor $U \mapsto Q(U)^\bullet$ defines
+an equivalence of categories 
+$\text{CoSimp}(\mathcal{A}) \to \text{CoCh}_{\geq 0}(\mathcal{A})$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Omitted. But the results are the exact dual statements to
+Lemmas \ref{lemma-s-exact}, \ref{lemma-map-associated-complexes},
+\ref{lemma-decompose-associated-complexes},
+\ref{lemma-N-exact}, \ref{lemma-quasi-isomorphism}, and
+Theorem \ref{theorem-dold-kan}.
+\end{proof}
 
 \section{Homotopies}
 \label{section-homotopy}
@@ -3530,10 +3636,8 @@ form the product
 $$
 U \times \Delta[1]
 $$
-for any simplicial object $U$ of $\mathcal{C}$, exactly
-as in Definition \ref{definition-product}. (More generally
-this works if finite coproducts $\coprod_{i=1}^N U_n$
-of the objects $U_n$ exist.)
+for any simplicial object $U$ of $\mathcal{C}$, see
+Definition \ref{definition-product-with-simplicial-set}.
 Note that $\Delta[0]$ has the property that $\Delta[0]_k = \{*\}$
 is a singleton for all $k \geq 0$. Hence $U \times \Delta[0]
 = U$. Thus $e_i$ above gives rise to morphisms
@@ -3543,8 +3647,9 @@ $$
 
 \begin{definition}
 \label{definition-homotopy}
+Let $\mathcal{C}$ be a category having finite coproducts.
 Suppose that $U$ and $V$ are two simplicial objects
-of $\mathcal{C}$. Assume that $U \times \Delta[1]$ exists.
+of $\mathcal{C}$.
 We say morphisms $a, b : U \to V$ are {\it homotopic}
 if there exists a morphism
 $$
@@ -3554,6 +3659,16 @@ such that $a = h \circ e_0$ and $b = h \circ e_1$.
 In this case $h$ is called a {\it homotopy connecting
 $a$ and $b$}.
 \end{definition}
+
+\noindent
+It is possible to define this notion for pairs of
+maps between simplicial objects in any category.
+To do this you just work out what it means to
+have the morphisms $h_n : U_n \times \Delta[1]_n \to V_n$
+in terms of the mapping property of coproducts.
+Since (for the moment) in our applications the
+category $\mathcal{C}$ has finite coproducts we
+have not worked this out.
 
 
 
