@@ -19,6 +19,7 @@
 \noindent
 This is a minimal introduction to simplicial methods.
 We just add here whenever somthing is needed later on.
+A general reference to this material is perhaps \cite{SimpHom}.
 An example of the things you can do is the paper
 by Quillen on Homotopical Algebra, see \cite{Quillen}
 or the paper on Etale Homotopy by Artin and Mazur, see \cite{ArtinMazur}.
@@ -2917,7 +2918,8 @@ Homology, Section \ref{homology-section-complexes}
 for conventions and notation regarding chain
 complexes.
 Let $U$ be a simplicial object of $\mathcal{A}$.
-The {\it associated chain complex $s(U)$ of $U$} is
+The {\it associated chain complex $s(U)$ of $U$},
+sometimes called the {\it Moore complex}, is
 the chain complex
 $$
 \ldots \to U_2 \to U_1 \to U_0 \to 0 \to 0 \to \ldots
@@ -3064,7 +3066,8 @@ Lemma \ref{lemma-splitting-abelian-category}
 any simplicial object $U$ of $\mathcal{A}$
 is canonically split with
 $N(U_m) = \bigcap_{i = 0}^{m - 1} \text{Ker}(d^m_i)$.
-We define $N(U)$ to be the chain complex
+We define the {\it normalized chain complex $N(U)$}
+to be the chain complex
 $$
 \ldots \to N(U_2) \to N(U_1) \to N(U_0) \to 0 \to 0 \to \ldots
 $$
@@ -3544,8 +3547,9 @@ $$
 In this section we describe $Q$.
 
 \medskip\noindent
-First we define the cochain complex $s(U)$ associated to a cosimplicial
-object $U$. It is the cochain complex with terms zero in
+First we define the
+{\it cochain complex $s(U)$ associated to a cosimplicial
+object $U$}. It is the cochain complex with terms zero in
 negative degrees, and $s(U)^i = U_i$ for $i \geq 0$.
 As differentials we use the maps
 $d^i : s(U)^i \to s(U)^{i + 1}$ defined by
@@ -3560,6 +3564,10 @@ U_2 \ar[r] &
 \ldots
 }
 $$
+This is sometimes also called the {\it Moore complex} associated
+to $U$.
+
+\medskip\noindent
 On the other hand, given a
 cosimplicial object $U$ of $\mathcal{A}$ set
 $Q(U)^0 = U_0$ and 
@@ -3590,6 +3598,8 @@ Thus our cochain complex $Q(U)$ looks like this
 $$
 0 \to Q(U)^0 \to Q(U)^1 \to Q(U)^2 \to \ldots
 $$
+This is called the {\it normalized cochain complex associated
+to $U$}.
 The dual to the Dold-Kan Theorem \ref{theorem-dold-kan} is the following.
 
 \begin{lemma}
@@ -3664,15 +3674,109 @@ $a$ and $b$}.
 It is possible to define this notion for pairs of
 maps between simplicial objects in any category.
 To do this you just work out what it means to
-have the morphisms $h_n : U_n \times \Delta[1]_n \to V_n$
+have the morphisms $h_n : (U \times \Delta[1])_n \to V_n$
 in terms of the mapping property of coproducts.
-Since (for the moment) in our applications the
-category $\mathcal{C}$ has finite coproducts we
-have not worked this out.
 
+\medskip\noindent
+Let $\mathcal{C}$ be a category with finite coproducts.
+Let $U$, $V$ be simplicial objects of $\mathcal{C}$.
+Let $a, b : U \to V$ be morphisms. Further, suppose
+that $h : U \times \Delta[1] \to V$ is a homotopy
+connecting $a$ and $b$. For every $n \geq 0$
+let us write
+$$
+\Delta[1]_n = \{\alpha^n_0, \ldots, \alpha^n_{n + 1}\}
+$$
+where $\alpha_i : [n] \to [1]$ is the map
+such that
+$$
+\alpha^n_i(j)
+=
+\left\{
+\begin{matrix}
+0 & \text{if} & j < i\\
+1 & \text{if} & j \geq i
+\end{matrix}\right.
+$$
+Thus
+$$
+h_n : (U \times \Delta[1])_n = \coprod U_n \cdot \alpha^n_i
+\longrightarrow
+V_n
+$$
+has a component $h_{n,i} : U_n \to V_n$ which is the restriction
+to the summand corresponding to $\alpha^n_i$ for all $i = 0, \ldots, n + 1$.
 
+\begin{lemma}
+\label{lemma-relations-homotopy}
+In the situation above, we have the following relations:
+\begin{enumerate}
+\item We have $h_{n, 0} = b_n$ and $h_{n, n + 1} = a_n$.
+\item We have $d^n_j \circ h_{n, i} = h_{n - 1, i - 1} \circ d^n_j$
+for $i > j$.
+\item We have $d^n_j \circ h_{n, i} = h_{n - 1, i} \circ d^n_j$
+for $i \leq j$.
+\item We have $s^n_j \circ h_{n, i} = h_{n + 1, i + 1} \circ s^n_j$
+for $i > j$.
+\item We have $s^n_j \circ h_{n, i} = h_{n + 1, i} \circ s^n_j$
+for $i \leq j$.
+\end{enumerate}
+Conversely, given a system of maps $h_{n, i}$ satsifying the
+properties listed above, then these define a morphisms
+$h$ which is a homotopy between $a$ and $b$.
+\end{lemma}
 
+\begin{proof}
+Omitted. You can prove the last statement using the fact, 
+see Lemma \ref{lemma-face-degeneracy-category} that
+to give a morphism of simplicial objects is the
+same as giving a sequence of morphisms $h_n$ commuting
+with all $d^n_j$ and $s^n_j$.
+\end{proof}
 
+\section{Homotopies in abelian categories}
+\label{section-homotopy-abelian}
+
+\noindent
+Let $\mathcal{A}$ be an abelian category.
+Let $U$, $V$ be simplicial objects of $\mathcal{A}$.
+Let $a, b : U \to V$ be morphisms. Further, suppose
+that $h : U \times \Delta[1] \to V$ is a homotopy
+connecting $a$ and $b$. Consider the two morphisms
+of chain complexes
+$$
+s(a), s(b) : s(U) \longrightarrow s(V).
+$$
+Using the notation introduced above Lemma \ref{lemma-relations-homotopy}
+we define
+$$
+s(h)_n : U_n \longrightarrow V_{n + 1}
+$$
+by the formula
+$$
+s(h)_n = \sum_{i = 0}^n h_{n + 1, i} \circ s^n_i.
+$$
+Let us compute $d_{n + 1} \circ s(h)_n + s(h)_{n - 1} \circ d_n$.
+Here we go, where the first line is just the definitions
+written out
+$$
+\begin{matrix}
+\sum_{j = 0}^{n + 1} \sum_{i = 0}^n 
+(-1)^{j + i} d^{n + 1}_j \circ h_{n + 1, i} \circ s^n_i
++ 
+\sum_{i = 0}^{n - 1} \sum_{j = 0}^n
+(-1)^{i + j} h_{n, i} \circ s^{n - 1}_i \circ d^n_j \\
+= \\
+\sum_{j = 0}^{n + 1} \sum_{i = j + 1}^n
+(-1)^{j + i} h_{n, i - 1} \circ d^n_j \circ s^n_i
++
+\sum_{j = 0}^{n + 1} \sum_{i = 0}^j 
+(-1)^{j + i} h_{n, i} \circ d^n_j \circ s^n_i \\
++ \\
+\sum_{i = 0}^{n - 1} \sum_{j = 0}^n
+(-1)^{i + j} h_{n, i} \circ s^{n - 1}_i \circ d^n_j
+\end{matrix}
+$$
 
 
 
