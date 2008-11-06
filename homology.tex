@@ -652,7 +652,10 @@ isomorphism $S \circ N \to \text{id}_\mathcal{A}$.
 \noindent
 Of course the notions of a chain complex and a cochain complex
 are dual and you only have to read one of the two parts of
-this section. So pick the one you like.
+this section. So pick the one you like. (Actually, this doesn't
+quite work right since the conventions on numbering things
+are not adapted to an easy transition between chain and cochain
+complexes.)
 
 \medskip\noindent
 A {\it chain complex $A_\bullet$} in an abelian category $\mathcal{A}$
@@ -996,6 +999,233 @@ Omitted. The maps come from the Snake Lemma \ref{lemma-snake}.
 
 
 
+
+
+
+
+\section{Homotopy and the shift functor}
+\label{section-homotopy-shift}
+
+\noindent
+It is an annoying feature that signs and indices
+have to be part of any discussion of homological
+algebra\footnote{I am sure you think that my conventions
+are wrong. If so and if you feel strongly about it
+then drop me an email with an explanation.}.
+
+\begin{definition}
+\label{definition-shift}
+Let $\mathcal{A}$ be an abelian category.
+Let $A_\bullet$ be a chain complex
+with boundary maps $d_{A, n} : A_n \to A_{n - 1}$.
+For any $k \in \mathbf{Z}$ we define the
+{\it $k$-shifted chain complex $A[k]_\bullet$}
+as follows: 
+\begin{enumerate}
+\item we set $A[k]_n = A_{n + k}$, and
+\item We set $d_{A[k], n} : A[k]_n \to A[k]_{n - 1}$
+equal to $d_{A[k], n} = (-1)^k d_{A, n + k}$.
+\end{enumerate}
+If $f : A_\bullet \to B_\bullet$ is a morphism of
+chain complexes, then we let
+$f[k] : A[k]_\bullet \to B[k]_\bullet$ be the
+morphism of chain complexes with
+$f[k]_n = f_{k + n}$.
+\end{definition}
+
+\noindent
+Of course this means we have functors
+$[k] : \text{Ch}(\mathcal{A}) \to \text{Ch}(\mathcal{A})$
+which mutually commute (on the nose, without
+any intervening isomorphisms of functors) and
+with $[0] = \text{id}_{\text{Ch}(\mathcal{A})}$.
+
+\medskip\noindent
+Let $\mathcal{A}$ be an abelian category.
+Suppose that $A_\bullet$ and $B_\bullet$ are
+chain complexes, $a, b : A_\bullet \to B_\bullet$ are
+morphsms of chain complexes, and $\{h_i : A_i \to B_{i + 1}\}$
+is a homotopy between $a$ and $b$. Recall that this means
+that
+$a_i - b_i = d_{i + 1} \circ h_i + h_{i - 1} \circ d_i$.
+What if $a = b$? Then we obtain the formula
+$0 = d_{i + 1} \circ h_i + h_{i - 1} \circ d_i$,
+in other words, $ - d_{i + 1} \circ h_i = h_{i - 1} \circ d_i$.
+By definition above this means the collection $\{h_i\}$
+above defines a morphism of chain complexes
+$$
+A_\bullet \longrightarrow B[1]_\bullet.
+$$
+Such a thing is the same as a morphism $A[-1]_\bullet \to B_\bullet$
+by our remarks above. This proves the following lemma.
+
+\begin{lemma}
+\label{lemma-homotopy-shift}
+Let $\mathcal{A}$ be an abelian category.
+Suppose that $A_\bullet$ and $B_\bullet$ are
+chain complexes. Given any morphism of chain
+complexes $a : A_\bullet \to B_\bullet$ there
+is a bijection between the set of homotopies
+from $a$ to $a$ and
+$\text{Mor}_{\text{Ch}(\mathcal{A})}(A_\bullet, B[1]_\bullet)$.
+More generally, the set of homotopies between
+$a$ and $b$ is either empty or a principal homogenous
+space under the group
+$\text{Mor}_{\text{Ch}(\mathcal{A})}(A_\bullet, B[1]_\bullet)$.
+\end{lemma}
+
+\begin{proof}
+See above.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-represent-homotopy}
+Let $\mathcal{A}$ be an abelian category.
+Let $A_\bullet$ be a chain complex.
+Consider the covariant functor
+$$
+B_\bullet \longmapsto
+\{
+(a, b, h)
+\mid
+a, b : A_\bullet \to B_\bullet,\ 
+h\text{ homotopy between }a,b
+\}
+$$
+There exists a chain complex $\tilde A_\bullet$
+such that $\text{Mor}_{\text{Ch}(\mathcal{A})}(\tilde A_\bullet, -)$
+is isomorphic to the displayed functor.
+\end{lemma}
+
+\begin{proof}
+We set $\tilde A_n = A_n \oplus A_n \oplus A_{n - 1}$,
+and we define $d_{\tilde A, n}$ by the matrix
+$$
+d_{\tilde A, n}
+=
+\left(
+\begin{matrix}
+d_{A, n} & 0 & \text{id}_{A_{n - 1}} \\
+0 & d_{A, n} & -\text{id}_{A_{n - 1}} \\
+0 & 0 & -d_{A, n - 1}
+\end{matrix}
+\right).
+$$
+(If $\mathcal{A}$ is the category of abelian groups,
+and $(x, y, z) \in A_n \oplus A_n \oplus A_{n - 1}$
+then $d_{\tilde A, n}(x, y, z) = (d_n(x) + z, d_n(y) - z, -d_{n - 1}(z))$.)
+It is easy to verify that $d^2 = 0$. Clearly,
+there are two maps $\tilde a, \tilde b : A_\bullet \to \tilde A$
+(first summand and second summand),
+and a map $\tilde A_\bullet \to A[-1]_\bullet$ which give
+a short exact sequence
+$$
+0 \to
+A_\bullet \oplus A_\bullet \to
+\tilde A_\bullet \to
+A[-1]_\bullet \to
+0
+$$
+which is termwise split. Moreover, there is a sequence
+of maps $\tilde h_n : A_n \tilde A_{n + 1}$, namely
+the identity from $A_n$ to the summand $A_n$ of $\tilde A_{n + 1}$,
+such that $\tilde h$ is a homotopy between $\tilde a$ and $\tilde b$.
+
+\medskip\noindent
+We conclude that any morphism $f : \tilde A_\bullet \to B_\bullet$
+gives rise to a triple $(a, b, h)$ by setting $a = f \circ \tilde a$,
+$b = f \circ \tilde b$ and $h_n = f_{n + 1} \circ \tilde h_n$.
+Conversely, given a triple $(a, b, h)$ we get a morphism
+$f : \tilde A_\bullet \to B_\bullet$ by taking
+$$
+f_n = (a_n, b_n, h_{n - 1}).
+$$
+To see that this is a morphism of chain complexes you have
+to do a calculation. We only do this in case $\mathcal{A}$
+is the category of abelian groups:
+Say $(x, y, z) \in \tilde A_n = A_n \oplus A_n \oplus A_{n - 1}$.
+Then
+\begin{eqnarray*}
+f_{n - 1}(d_n(x, y, z)) & = &
+f_{n - 1}(d_n(x) + z, d_n(y) - z, -d_{n - 1}(z)) \\
+& = &
+a_n(d_n(x)) + a_n(z) + b_n(d_n(y)) - b_n(z) - h_{n - 2}(d_{n - 1}(z))
+\end{eqnarray*}
+and
+\begin{eqnarray*}
+d_n(f_n(x, y, z) & = &
+d_n(a_n(x) + b_n(y) + h_{n - 1}(z)) \\
+& = &
+d_n(a_n(x)) + d_n(b_n(y)) + d_n(h_{n - 1}(z))
+\end{eqnarray*}
+which are the same by definition of a homotopy.
+\end{proof}
+
+
+\begin{definition}
+\label{definition-shift-cochain}
+Let $\mathcal{A}$ be an abelian category.
+Let $A^\bullet$ be a cochain complex
+with boundary maps $d_A^n : A^n \to A^{n - 1}$.
+For any $k \in \mathbf{Z}$ we define the
+{\it $k$-shifted chain complex $A[k]^\bullet$}
+as follows: 
+\begin{enumerate}
+\item we set $A[k]^n = A^{n + k}$, and
+\item We set $d_{A[k]}^n : A[k]^n \to A[k]^{n - 1}$
+equal to $d_{A[k]}^n = (-1)^k d_A^{n + k}$.
+\end{enumerate}
+If $f : A^\bullet \to B^\bullet$ is a morphism of
+cochain complexes, then we let
+$f[k] : A[k]^\bullet \to B[k]^\bullet$ be the
+morphism of cochain complexes with
+$f[k]^n = f^{k + n}$.
+\end{definition}
+
+\noindent
+Of course this means we have functors
+$[k] : \text{CoCh}(\mathcal{A}) \to \text{CoCh}(\mathcal{A})$
+which mutually commute (on the nose, without
+any intervening isomorphisms of functors) and
+with $[0] = \text{id}_{\text{CoCh}(\mathcal{A})}$.
+
+\medskip\noindent
+Let $\mathcal{A}$ be an abelian category.
+Suppose that $A^\bullet$ and $B^\bullet$ are
+chain complexes, $a, b : A_\bullet \to B_\bullet$ are
+morphsms of chain complexes, and $\{h^i : A^i \to B^{i - 1}\}$
+is a homotopy between $a$ and $b$. Recall that this means
+that
+$a^i - b^i = d^{i - 1} \circ h^i + h^{i + 1} \circ d^i$.
+What if $a = b$? Then we obtain the formula
+$0 = d^{i - 1} \circ h^i + h^{i + 1} \circ d^i$,
+in other words, $ - d^{i - 1} \circ h^i = h^{i + 1} \circ d^i$.
+By definition above this means the collection $\{h^i\}$
+above defines a morphism of chain complexes
+$$
+A^\bullet \longrightarrow B[-1]^\bullet.
+$$
+Such a thing is the same as a morphism $A[1]^\bullet \to B^\bullet$
+by our remarks above. This proves the following lemma.
+
+\begin{lemma}
+\label{lemma-homotopy-shift-cochain}
+Let $\mathcal{A}$ be an abelian category.
+Suppose that $A^\bullet$ and $B^\bullet$ are
+cochain complexes. Given any morphism of cochain
+complexes $a : A^\bullet \to B^\bullet$ there
+is a bijection between the set of homotopies
+from $a$ to $a$ and
+$\text{Mor}_{\text{CoCh}(\mathcal{A})}(A^\bullet, B[-1]^\bullet)$.
+More generally, the set of homotopies between
+$a$ and $b$ is either empty or a principal homogenous
+space under the group
+$\text{Mor}_{\text{CoCh}(\mathcal{A})}(A^\bullet, B[-1]^\bullet)$.
+\end{lemma}
+
+\begin{proof}
+See above.
+\end{proof}
 
 
 
