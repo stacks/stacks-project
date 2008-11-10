@@ -17,15 +17,240 @@
 \label{section-introduction}
 
 \noindent
-Hypercoverings can be used to compute cohomology of abelian sheaves on sites
-without recourse to injective resolutions. See \cite[Expose V, Sec. 7]{SGA4}.
-A nice manuscript on cohomological descent is the text by Brian Conrad,
-see \url{http://www.math.lsa.umich.edu/~bdconrad/papers/hypercover.pdf}.
-This text follows the exposition in \cite[Expose Vbis]{SGA4}, and in
+Let $\mathcal{C}$ be a site, see Sites, Definition \ref{sites-definition-site}.
+Let $X$ be an object of $\mathcal{C}$.
+Given an abelian sheaf $\mathcal{F}$
+on $\mathcal{C}$ we would like to compute
+its cohomology groups
+$$
+H^i(X, \mathcal{F}).
+$$
+According to our general definitions
+(insert future reference here)
+this cohomology group is computed by
+choosing an injective resolution
+$$
+0 \to \mathcal{F} \to \mathcal{I}^0 \to \mathcal{I}^1 \to \ldots
+$$
+and setting
+$$
+H^i(X, \mathcal{F})
+=
+H^i(
+\Gamma(X, \mathcal{I}^0) \to
+\Gamma(X, \mathcal{I}^1) \to
+\Gamma(X, \mathcal{I}^2)\to \ldots)
+$$
+We will have to do quite a bit of work to prove that we
+may also compute these cohomology groups without
+choosing an injective resolution. Also, we will only do this
+in case the site $\mathcal{C}$ has fibre products.
+
+\medskip\noindent
+A hypercovering in a site is a generalization of a covering.
+See \cite[Expose V, Sec. 7]{SGA4}. A hypercovering is a special
+case of a simplicial augmentation where one has cohomological
+descent, see \cite[Expose Vbis]{SGA4}. A nice manuscript on
+cohomological descent is the text by Brian Conrad, see
+\url{http://math.stanford.edu/~conrad/papers/hypercover.pdf}.
+Brian's text follows the exposition in \cite[Expose Vbis]{SGA4}, and in
 particular discusses a more general kind of hypercoverings, such as
-proper hypercoverings. Probably it is useless to try to improve on
-Brian's article, so we discuss the particular case of hypercoverings
-in a site.
+proper hypercoverings of schemes used to compute etale cohomology
+for example. A proper hypercovering can be seen as a hypercovering
+in the category of schemes endowed with a different topology than
+the etale topology, but still they can be used to compute the etale
+cohomology.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Hypercoverings}
+\label{section-hypercoverings}
+
+\noindent
+In order to start we make the following definition.
+The letters ``SR'' stand for Semi-Representable.
+
+\begin{definition}
+\label{definition-SR}
+Let $\mathcal{C}$ be a site with fibre products.
+Let $X \in \text{Ob}(\mathcal{C})$ be an object of $\mathcal{C}$.
+We denote $\text{SR}(\mathcal{C}, X)$ the category with
+\begin{enumerate}
+\item objects are families of morphisms
+$\{U_i \to X\}_{i \in I}$, and
+\item morphisms $\{U_i \to X\}_{i \in I} \to
+\{V_j \to X\}_{j \in J}$ are given by
+a map $\alpha : I \to J$ and for each $i \in I$
+a morphism $f_i : U_i \to V_{\alpha(i)}$ over $X$.
+\end{enumerate}
+\end{definition}
+
+\noindent
+This definition is different from the one in
+\cite[Expose V, Sec. 7]{SGA4}, but it seems flexible
+enough to do all the required arguments.
+Note that this is a ``big'' category. We will later
+``bound'' the size of the index sets $I$ that we need
+and we can then redefine $\text{SR}(\mathcal{C}, X)$ 
+to become a category.
+
+\begin{lemma}
+\label{lemma-coprod-prod-SR}
+Let $\mathcal{C}$ be a site with fibre products.
+Let $X \in \text{Ob}(\mathcal{C})$ be an object of $\mathcal{C}$.
+The category $\text{SR}(\mathcal{C}, X)$ has
+coproducts and finite limits.
+\end{lemma}
+
+\begin{proof}
+It is clear that the coproduct of
+$\{U_i \to X\}_{i \in I}$ and $\{V_j \to X\}_{j \in J}$
+is $\{U_i \to X\}_{i \in I} \coprod \{V_j \to X\}_{j \in J}$
+and similarly for coproducts of
+families of families of morphisms with target $X$.
+The object $\{X \to X\}$ is a final
+object of $\text{SR}(\mathcal{C}, X)$.
+Suppose given a morphism
+$(\alpha, f_i) : \{U_i \to X\}_{i \in I} \to \{V_j \to X\}_{j \in J}$
+and a morphism
+$(\beta, g_k) : \{W_k \to X\}_{k \in K} \to \{V_j \to X\}_{j \in J}$.
+The fibred product of these morphisms is given by
+$$
+\{ U_i \times_{f_i, V_j, g_k} W_k \to X \}_{(i,j,k) \in I\times J\times K
+\text{ such that } k = \alpha(i) = \beta(j)}
+$$
+The fibre products exist by the assumption that
+$\mathcal{C}$ has fibre products.
+Thus $\text{SR}(\mathcal{C}, X)$ has finite limits,
+see Categories, Lemma \ref{categories-lemma-finite-limits-exist}.
+\end{proof}
+
+\begin{definition}
+\label{definition-covering-SR}
+Let $\mathcal{C}$ be a site with fibred products.
+Let $X \in \text{Ob}(\mathcal{C})$ be an object of $\mathcal{C}$.
+Let $f = (\alpha, f_i) : \{U_i \to X\}_{i \in I} \to \{V_j \to X\}_{j \in J}$
+be a morphism in the category $\text{SR}(\mathcal{C}, X)$.
+We say that $f$ is a {\it covering} if for every $j \in J$ the
+family of morphisms $\{U_i \to V_j\}_{i \in I, \alpha(i) = j}$
+is a covering for the site $\mathcal{C}$.
+\end{definition}
+
+\noindent
+According to the results in the chapter on simplicial methods the
+coskelet of a truncated simplicial object of
+$\text{SR}(\mathcal{C}, X)$ exists. Hence the following
+definition makes sense.
+
+\begin{definition}
+\label{definition-hypercovering}
+Let $\mathcal{C}$ be a site.
+Let $X \in \text{Ob}(\mathcal{C})$ be an object of $\mathcal{C}$.
+A {\it hypercovering} of $X$ is a simplicial object
+$K$ in the category $\text{SR}(\mathcal{C}, X)$ such that
+\begin{enumerate}
+\item The object $K_0$ is a covering of $X$ for the site $\mathcal{C}$.
+\item
+For every $n \geq 0$ the canonical morphism
+$$
+K_{n + 1} \longrightarrow (\text{cosk}_n \text{sk}_n K)_{n + 1}
+$$
+is a covering in the sense defined above.
+\end{enumerate}
+\end{definition}
+
+\noindent
+Condition (1) makes sense since each object of
+$\text{SR}(\mathcal{C}, X)$ is after all a family
+of morphisms with target $X$.
+
+\begin{example}
+\label{example-cech}
+Let $\{U_i \to X\}_{i \in I}$ be a covering of the site $\mathcal{C}$.
+Set $K_0 = \{U_i \to X\}_{i \in I}$.
+Then $K_0$ is a $0$-truncated simplicial object of
+$\text{SR}(\mathcal{C}, X)$. Hence we may form
+$$
+K = \text{cosk}_0 K_0.
+$$
+Clearly $K$ passes condition (1) of Definition \ref{definition-hypercovering}.
+Since all the morphisms $K_{n + 1} \to (\text{cosk}_n \text{sk}_n K)_{n + 1}$
+are isomorphisms it also passes condition (2). Note that
+the terms $K_n$ are the usual
+$$
+K_n = \{
+U_{i_0} \times_X U_{i_1} \times_X \ldots \times_X U_{i_n} \to X
+\}_{(i_0, i_1, \ldots, i_n) \in I^{n + 1}}
+$$
+\end{example}
+
+\begin{lemma}
+\label{lemma-hypercoverings-set}
+Let $\mathcal{C}$ be a site.
+Let $X \in \text{Ob}(\mathcal{C})$ be an object of $\mathcal{C}$.
+The collection of all hypercoverings of $X$ forms a set.
+\end{lemma}
+
+\begin{proof}
+Since $\mathcal{C}$ is a site, the set of all coverings of
+$S$ forms a set. Thus we see that the collection
+of possible $K_0$ forms a set. Suppose we have shown that
+the collection of all possible $K_0, \ldots, K_n$ form
+a set. Then it is enough to show that given
+$K_0, \ldots, K_n$ the collection of all possible
+$K_{n + 1}$ forms a set. And this is clearly true since
+we have to choose $K_{n + 1}$ among all possible coverings
+of $(\text{cosk}_n \text{sk}_n K)_{n + 1}$.
+\end{proof}
+
+\begin{remark}
+\label{remark-hypercoverings-really-set}
+The lemma does not just say that there is a cofinal
+system of choices of hypercoverings that is a set,
+but that really the hypercoverings form a set.
+\end{remark}
+
+\section{Acyclicity}
+\label{section-acyclicity}
+
+\noindent
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -98,200 +323,6 @@ of the morphism $V \to U_n$.
 
 
 
-
-
-
-
-
-
-
-
-
-
-\section{Hypercoverings}
-\label{section-hypercoverings}
-
-\noindent
-Let $\mathcal{C}$ be a site, see
-Sites Definition \ref{sites-definition-site}.
-Let $X$ be an object of $\mathcal{C}$.
-Given an abelian sheaf $\mathcal{F}$
-on $\mathcal{C}$ we would like to compute
-its cohomology groups
-$$
-H^i(X, \mathcal{F}).
-$$
-According to our general definitions
-(insert future reference here)
-this cohomology group is computed by
-choosing an injective resolution
-$$
-0 \to \mathcal{F} \to \mathcal{I}^0 \to \mathcal{I}^1 \to \ldots
-$$
-and setting
-$$
-H^i(X, \mathcal{F})
-=
-H^i(\ \Gamma(X, \mathcal{I}^0) \to \Gamma(X, \mathcal{I}^1) \to \ldots\ )
-$$
-We will have to do quite a bit of work to prove that we
-may also compute these cohomology groups without
-choosing an injective resolution. In order to do
-so we make the following definition.
-
-\begin{definition}
-\label{definition-SR}
-Let $\mathcal{C}$ be a site.
-Let $X \in \text{Ob}(\mathcal{C})$ be an object of $\mathcal{C}$.
-We denote $\text{SR}(\mathcal{C}, X)$ the category with
-\begin{enumerate}
-\item objects are families of morphisms
-$\{U_i \to X\}_{i \in I}$ where each $U_i \to X$ is
-representable, and
-\item morphisms $\{U_i \to X\}_{i \in I} \to
-\{V_j \to X\}_{j \in J}$ are given by
-a map $\alpha : I \to J$ and for each $i \in I$
-a representable morphism $f_i : U_i \to V_{\alpha(i)}$ over $X$.
-\end{enumerate}
-\end{definition}
-
-\noindent
-This is a category because the composition of
-representable morphisms is representable, see
-Categories, Lemma \ref{categories-lemma-composition-representable}.
-This definition is different from the one in
-\cite[Expose V, Sec. 7]{SGA4}, but it seems flexible
-enough to do all the required arguments.
-Note that this is a ``big'' category. We will later
-``bound'' the size of the index sets $I$ that we need
-and we can then redefine $\text{SR}(\mathcal{C}, X)$ 
-to become a category.
-
-\begin{lemma}
-\label{lemma-coprod-prod-SR}
-Let $\mathcal{C}$ be a site.
-Let $X \in \text{Ob}(\mathcal{C})$ be an object of $\mathcal{C}$.
-The category $\text{SR}(\mathcal{C}, X)$ has
-coproducts and finite limits.
-\end{lemma}
-
-\begin{proof}
-It is clear that the coproduct of
-$\{U_i \to X\}_{i \in I}$ and $\{V_j \to X\}_{j \in J}$
-is $\{U_i \to X\}_{i \in I} \coprod \{V_j \to X\}_{j \in J}$
-and similarly for coproducts of
-families of families of representable morphisms with target $X$.
-The object $\{X \to X\}$ is a final
-object of $\text{SR}(\mathcal{C}, X)$.
-Suppose given a morphism
-$(\alpha, f_i) : \{U_i \to X\}_{i \in I} \to \{V_j \to X\}_{j \in J}$
-and a morphism
-$(\beta, g_k) : \{W_k \to X\}_{k \in K} \to \{V_j \to X\}_{j \in J}$.
-The fibred product of these morphisms is given by
-$$
-\{ U_i \times_{f_i, V_j, g_k} W_k \to X \}_{(i,j,k) \in I\times J\times K
-\text{ such that } k = \alpha(i) = \beta(j)}
-$$
-The fibre products exist by the assumption that the morphisms
-$f_i$ and $g_j$ are representable. In addition, it follows
-from Categories, Lemmas
-\ref{categories-lemma-composition-representable} and
-\ref{categories-lemma-base-change-representable}
-that $U_i \times_{f_i, V_j, g_k} W_k \to X$ is representable.
-Thus $\text{SR}(\mathcal{C}, X)$ has finite limits,
-see Categories, Lemma \ref{categories-lemma-finite-limits-exist}.
-\end{proof}
-
-\begin{definition}
-\label{definition-covering-SR}
-Let $\mathcal{C}$ be a site.
-Let $X \in \text{Ob}(\mathcal{C})$ be an object of $\mathcal{C}$.
-Let $f = (\alpha, f_i) : \{U_i \to X\}_{i \in I} \to \{V_j \to X\}_{j \in J}$
-be a morphism in the category $\text{SR}(\mathcal{C}, X)$.
-We say that $f$ is a {\it covering} if for every $j \in J$ the
-family of morphisms $\{U_i \to V_j\}_{i \in I, \alpha(i) = j}$
-is a covering for the site $\mathcal{C}$.
-\end{definition}
-
-\noindent
-According to the results earlier in this chapter the
-coskelet of a truncated simplicial object of
-$\text{SR}(\mathcal{C}, X)$ exists. Hence the following
-definition makes sense.
-
-\begin{definition}
-\label{definition-hypercovering}
-Let $\mathcal{C}$ be a site.
-Let $X \in \text{Ob}(\mathcal{C})$ be an object of $\mathcal{C}$.
-A {\it hypercovering} of $X$ is a simplicial object
-$U$ in the category $\text{SR}(\mathcal{C}, X)$ such that
-\begin{enumerate}
-\item The object $U_0$ is a covering of $X$ for the site $\mathcal{C}$.
-\item
-For every $n \geq 0$ the canonical morphism
-$$
-U_{n + 1} \longrightarrow (\text{cosk}_n \text{sk}_n U)_{n + 1}
-$$
-is a covering in the sense defined above.
-\end{enumerate}
-\end{definition}
-
-\noindent
-Condition (1) makes sense since each object of
-$\text{SR}(\mathcal{C}, X)$ is after all a family
-of morphisms with target $X$.
-
-\begin{example}
-\label{example-cech}
-Let $\{U_i \to X\}_{i \in I}$ be a covering of the site $\mathcal{C}$.
-Set $U_0 = \{U_i \to X\}_{i \in I}$. Note that
-$U_0 \in \text{Ob}(\text{SR}(\mathcal{C}, X))$ since every
-$U_i \to X$ is representable by the axioms of a site.
-Then $U_0$ is a $0$-truncated simplicial object of
-$\text{SR}(\mathcal{C}, X)$. Hence we may form
-$$
-U = \text{cosk}_0 U_0.
-$$
-Clearly $U$ passes condition (1) of Definition \ref{definition-hypercovering}.
-Since all the morphisms $U_{n + 1} \to (\text{cosk}_n \text{sk}_n U)_{n + 1}$
-are isomorphisms it also passes condition (2). Note that
-the terms $U_n$ are the usual
-$$
-U_n = \{
-U_{i_0} \times_X U_{i_1} \times_X \ldots \times_X U_{i_n} \to X
-\}_{(i_0, i_1, \ldots, i_n) \in I^{n + 1}}
-$$
-\end{example}
-
-\begin{lemma}
-\label{lemma-hypercoverings-set}
-Let $\mathcal{C}$ be a site.
-Let $X \in \text{Ob}(\mathcal{C})$ be an object of $\mathcal{C}$.
-The collection of all hypercoverings of $X$ forms a set.
-\end{lemma}
-
-\begin{proof}
-Since $\mathcal{C}$ is a site, we see that the collection
-of possible $U_0$ forms a set. Suppose we have shown that
-the collection of all possible $U_0, \ldots, U_n$ form
-a set. Then it is enough to show that given
-$U_0, \ldots, U_n$ the collection of all possible
-$U_{n + 1}$ forms a set. And this is clearly true since
-we have to choose $U_{n + 1}$ among all possible coverings
-of $(\text{cosk}_n \text{sk}_n U)_{n + 1}$.
-\end{proof}
-
-\begin{remark}
-\label{remark-hypercoverings-really-set}
-The lemma does not just say that there is a cofinal
-system of choices of hypercoverings that is a set,
-but that really the hypercoverings form a set.
-\end{remark}
-
-\section{Acyclicity}
-\label{section-acyclicity}
-
-\noindent
 
 
 
