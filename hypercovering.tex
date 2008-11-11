@@ -120,12 +120,36 @@ Note that this is a ``big'' category. We will later
 and we can then redefine $\text{SR}(\mathcal{C}, X)$ 
 to become a category.
 
+\begin{definition}
+\label{definition-SR-F}
+Let $\mathcal{C}$ be a site with fibre products.
+Let $X \in \text{Ob}(\mathcal{C})$ be an object of $\mathcal{C}$.
+We denote $F$ the functor
+\begin{eqnarray*}
+F : \text{SR}(\mathcal{C}, X) & \longrightarrow & \text{PSh}(\mathcal{C}) \\
+\{U_i \to X\}_{i \in I} & \longmapsto & \coprod\nolimits_{i\in I} h_{U_i}
+\end{eqnarray*}
+where $h_U$ denotes the representable presheaf associated to
+the object $U$.
+\end{definition}
+
+\noindent
+Given a morphism $U \to X$ we obtain a morphism
+$h_U \to h_X$ of representable presheaves.
+Thus it makes more sense to think of $F$ as a functor
+into the category of presheaves of sets over $h_X$,
+namely $\textit{PSh}(\mathcal{C})/h_X$.
+
 \begin{lemma}
 \label{lemma-coprod-prod-SR}
 Let $\mathcal{C}$ be a site with fibre products.
 Let $X \in \text{Ob}(\mathcal{C})$ be an object of $\mathcal{C}$.
 The category $\text{SR}(\mathcal{C}, X)$ has
-coproducts and finite limits.
+coproducts and finite limits. Moreover, the functor $F$ commutes
+with coproducts and fibre products, and transforms products
+into fibre products over $h_X$. In other words, it commutes
+with finite limits when thought of as a functor into
+$\textit{PSh}(\mathcal{C})/h_X$.
 \end{lemma}
 
 \begin{proof}
@@ -149,6 +173,8 @@ The fibre products exist by the assumption that
 $\mathcal{C}$ has fibre products.
 Thus $\text{SR}(\mathcal{C}, X)$ has finite limits,
 see Categories, Lemma \ref{categories-lemma-finite-limits-exist}.
+The statements on the functor $F$ are clear from the constructions
+above.
 \end{proof}
 
 \begin{definition}
@@ -236,27 +262,63 @@ system of choices of hypercoverings that is a set,
 but that really the hypercoverings form a set.
 \end{remark}
 
+\noindent
+The category of presheaves on $\mathcal{C}$ has
+finite (co)limits. Hence the functors $\text{cosk}_n$
+exists for presheaves of sets.
+
 \begin{lemma}
-\label{lemma-structure-hypercovering}
+\label{lemma-hypercovering-F}
 Let $\mathcal{C}$ be a site with fibre products.
 Let $X \in \text{Ob}(\mathcal{C})$ be an object of $\mathcal{C}$.
-Consider the following types of constructions
+Let $K$ be a hypercovering of $X$.
+Consider the simplicial object $F(K)$ of $\textit{PSh}(\mathcal{C})$.
 \begin{enumerate}
-\item Choose a covering $K_0 = \{U_i \to X\}_{i \in I}$
-of the site $\mathcal{C}$ and set $K = \text{cosk}_0 K_0$.
-\item Consider morphisms $K' \to K$ such that
-\begin{enumerate}
-\item $K'_i = K_i$ for $i < n$,
-\item $K'_n \to K_n$ is a covering (see
-Definition \ref{definition-covering-SR}), and
-\item $K' \to \text{cosk}_n \text{sk}_n K'$ and 
-$K \to \text{cosk}_n \text{sk}_n K$ are isomorphisms.
-\end{enumerate}
+\item The morphism of presheaves $F(K)_0 \to h_X$ becomes
+a surjection after sheafification.
+\item For every $n \geq 0$ the morphism
+$$
+F(K)_{n + 1} \longrightarrow (\text{cosk}_n \text{sk}_n F(K))_{n + 1}
+$$
+turns into a surjection after sheafification.
 \end{enumerate}
 \end{lemma}
 
-
-
+\begin{proof}
+We will use the fact that if
+$\{U_i \to U\}_{i \in I}$ is a covering of the site
+$\mathcal{C}$, then the morphism
+$$
+\coprod\nolimits_{i \in I} h_{U_i} \to h_U
+$$
+becomes surjective after sheafification, see
+Sites, Lemma \ref{sites-lemma-covering-surjective-after-sheafification}.
+Thus the first assertion follows immediately.
+For the second, we claim that
+$\text{cosk}_n \text{sk}_n F(K) =
+F(\text{cosk}_n \text{sk}_n K)$.
+To prove this, denote temporarily $F'$ the functor
+$\text{SR}(\mathcal{C}, X) \to \text{PSh}(\mathcal{C})/h_X$.
+By Lemma \ref{lemma-coprod-prod-SR} the functor
+$F'$ commutes with finite limits.
+By our description of the $\text{cosk}_n$ functor in 
+Simplicial, Section \ref{simplicial-section-skelet}
+we see that $\text{cosk}_n \text{sk}_n F'(K) =
+F'(\text{cosk}_n \text{sk}_n K)$.
+Recall that the category used in the description of
+$(\text{cosk}_n U)_m$ in
+Simplicial, Lemma \ref{simplicial-lemma-existence-cosk}
+is the category $(\Delta/[m])^{opp}_{\leq n}$. This is
+a connected category. Hence,
+Categories, Lemma \ref{categories-lemma-connected-limit-over-X}
+shows that $F'(\text{cosk}_n \text{sk}_n K) =
+F(\text{cosk}_n \text{sk}_n K)$ as a presheaf of sets. Whence the claim.
+Property (2) follows from this, because now we see that
+the morphism in (2) is the result of applying the
+functor $F$ to a covering as in Definition \ref{definition-covering-SR},
+and the result follows from the first fact mentioned
+in this proof.
+\end{proof}
 
 
 
@@ -264,17 +326,73 @@ $K \to \text{cosk}_n \text{sk}_n K$ are isomorphisms.
 \label{section-acyclicity}
 
 \noindent
+Let $\mathcal{C}$ be a site.
+For a presheaf of sets $\mathcal{F}$ we denote $\mathbf{Z}_\mathcal{F}$
+the presheaf of abelian groups defined by the rule
+$$
+\mathbf{Z}_\mathcal{F}(U) = \text{free abelian group on }\mathcal{F}(U).
+$$
+Of course the construction $\mathcal{F} \mapsto \mathbf{Z}_\mathcal{F}$
+is a functor and it is left adjoint to the forgetful functor
+$\textit{PAb}(\mathcal{C}) \to \textit{PSh}(\mathcal{C})$.
+Of course the sheafification $\mathbf{Z}_\mathcal{F}^\#$ is
+a sheaf of abelian groups, and the functor
+$\mathcal{F} \mapsto \mathbf{Z}_\mathcal{F}^\#$ is a
+left adjoint as well.
+
+\begin{definition}
+\label{definition-homology}
+Let $\mathcal{C}$ be a site.
+Let $K$ be a simplicial object of $\text{PSh}(\mathcal{C})$.
+By the above we get a simplicial object $\mathbf{Z}_K^\#$ of
+$\textit{Ab}(\mathcal{C})$. We can take its associated
+complex of abelian presheaves $s(\mathbf{Z}_K^\#)$, see
+Simplicial, Section \ref{simplicial-section-complexes}.
+The {\it homology of $K$} is the homology of the
+complex of abelian sheaves $s(\mathbf{Z}_K^\#)$.
+\end{definition}
+
+\noindent
+In other words, the {\it $i$th homology $H_i(K)$ of $K$}
+is the sheaf of abelian groups $H_i(K) = H_i(s(\mathbf{Z}_K^\#))$.
+In this section we worry about the homology in case $K$
+is a hypercovering of an object $X$ of $\mathcal{C}$.
 
 \begin{lemma}
-\label{lemma-compare-two}
-
-
+\label{lemma-compare-cosk0}
+Let $\mathcal{C}$ be a site.
+Let $\mathcal{F} \to \mathcal{G}$ be a morphism
+of presheaves of sets. Denote $K$ the simplicial
+object of $\text{PSh}(\mathcal{C})$ whose $n$th
+term is the $(n + 1)$st fibre product of $\mathcal{F}$
+over $\mathcal{G}$, see
+Simplicial, \ref{simplicial-example-fibre-products-simplicial-object}.
+Then, if $\mathcal{F} \to \mathcal{G}$ is surjective after
+sheafification, we have
+$$
+H_i(K) = 
+\left\{
+\begin{matrix}
+0 & \text{if} & i > 0\\
+\mathbf{Z}_\mathcal{G}^\# & \text{if} & i = 0
+\end{matrix}
+\right.
+$$
 \end{lemma}
 
+\begin{proof}
+Let $\mathcal{G}' \subset \mathcal{G}$ be the image of
+the morphism $\mathcal{F} \to \mathcal{G}$. Note that
+for every $U \in \text{Ob}(\mathcal{C})$, if we set
+$A = \mathcal{F}(U)$ and $B = \mathcal{G}'(U)$,
+then the simplicial set $K(U)$ is equal to the simplicial
+set with $n$-simplices given by
+$$
+A \times_B A \times_B \ldots \times_B A\ (n + 1 \text{ factors)}.
+$$
 
 
-
-
+\end{proof}
 
 
 
