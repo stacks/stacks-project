@@ -16,7 +16,7 @@ PSS = $(patsubst %,%.ps,$(LIJST_FDL))
 FUNNYS = $(patsubst %,%.funny,$(LIJST_FDL))
 
 # Files in INSTALLDIR will be overwritten.
-INSTALLDIR=/home/johan/OpenSourceMath/test
+INSTALLDIR=/home/dejong/html/algebraic_geometry/stacks-git
 
 # Make all the funny targets first so crossreferences work.
 .PHONY: all
