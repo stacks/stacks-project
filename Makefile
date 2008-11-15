@@ -1,5 +1,5 @@
 # Known suffixes.
-.SUFFIXES: .aux .bbl .bib .blg .dvi .html .log .out .pdf .ps .tex .toc .funny
+.SUFFIXES: .aux .bbl .bib .blg .dvi .htm .html .css .log .out .pdf .ps .tex .toc .funny
 
 # Master list of stems of tex files in the project.
 # This should be in order.
@@ -9,14 +9,14 @@ LIJST = introduction conventions sets categories topology sheaves algebra sites 
 LIJST_FDL = $(LIJST) fdl
 
 # Different extensions.
+TEXS = $(patsubst %,%.tex,$(LIJST_FDL))
 PDFS = $(patsubst %,%.pdf,$(LIJST_FDL))
 DVIS = $(patsubst %,%.dvi,$(LIJST_FDL))
 PSS = $(patsubst %,%.ps,$(LIJST_FDL))
 FUNNYS = $(patsubst %,%.funny,$(LIJST_FDL))
-HTMLS = stacks.html contents.html downloads.html
 
 # Files in INSTALLDIR will be overwritten.
-INSTALLDIR=/home/dejong/html/algebraic_geometry/stacks-git
+INSTALLDIR=/home/johan/OpenSourceMath/test
 
 # Make all the funny targets first so crossreferences work.
 .PHONY: all
@@ -74,19 +74,19 @@ clean:
 
 .PHONY: backup
 backup: clean
-	cd .. ; tar -cjvf stacks-git.tar.bz2 stacks-git/
+	cd .. ; tar -cjvf stacks-git_backup.tar.bz2 stacks-git/
 
-# The script scripts/name_html.sh creates name.html in src directory.
-# We do not want an index.html in src! So we concatenate these into
-# $(INSTALLDIR)/index.html in the install target.
-#
-# FIXME: For contents.html We should really do some sanity checking to
-# see if the .toc files are up to date.
-%.html:
-	echo "./scripts/$*_html.sh" >> logfile.log
-	./scripts/$*_html.sh
+.PHONY: tarball
+tarball:
+	tar -cjf stacks-git.tar.bz2 $(TEXS) CONTRIBUTORS \
+		COPYING Makefile amsart.cls my.bib \
+		stacks-git.css stacks-git.htm
 
 .PHONY: install
-install: $(FUNNYS) $(PDFS) $(DVIS)
+install: $(FUNNYS) $(PDFS) $(DVIS) tarball
 	cp *.tex *.pdf *.dvi $(INSTALLDIR)
-	cp COPYING CONTRIBUTORS my.bib Makefile $(INSTALLDIR)
+	cp CONTRIBUTORS COPYING Makefile amsart.cls my.bib $(INSTALLDIR)
+	cp stacks-git.htm $(INSTALLDIR)/index.html
+	cp stacks-git.htm $(INSTALLDIR)
+	cp stacks-git.css $(INSTALLDIR)
+	mv stacks-git.tar.bz2 $(INSTALLDIR)
