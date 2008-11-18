@@ -90,3 +90,4 @@ install: $(FUNNYS) $(PDFS) $(DVIS) tarball
 	cp stacks-git.htm $(INSTALLDIR)
 	cp stacks-git.css $(INSTALLDIR)
 	mv stacks-git.tar.bz2 $(INSTALLDIR)
+	cat .git/refs/heads/master > $(INSTALLDIR)/VERSION
