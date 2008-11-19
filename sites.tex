@@ -1009,10 +1009,16 @@ properties.
 
 \begin{definition}
 \label{definition-morphism-coverings}
-Let $\mathcal{C}$ be a site. A {\it morphism of coverings} of
-$\mathcal{C}$ from  $\mathcal{U}=\{U_i \to U\}_{i\in I}$ to
-$\mathcal{V}=\{V_j \to V\}_{j\in J}$ is given by a morphism
-$U \to V$, a map of sets $\alpha : I \to J$ and for each $i\in I$
+Let $\mathcal{C}$ be a category.
+Let $\mathcal{U} : \{U_i \to U\}_{i\in I}$, and
+$\mathcal{V} : \{V_j \to V\}_{j\in J}$ be families of morphisms
+with the same target.
+\begin{enumerate}
+\item 
+A {\it morphism of families of maps with the same target}
+of $\mathcal{C}$ from  $\mathcal{U}$ to $\mathcal{V}$
+is given by a morphism $U \to V$, a map of sets
+$\alpha : I \to J$ and for each $i\in I$
 a morphism $U_i \to V_{\alpha(i)}$ such that the diagram
 $$
 \xymatrix{
@@ -1025,11 +1031,19 @@ U \ar[r]
 V
 }
 $$
-is commutative. In the special case that $U=V$ and $U\to V$ is the identity
-we call $\mathcal{U}$ a {\it refinement} of the covering $\mathcal{V}$.
+is commutative.
+\item In the special case that $U = V$ and $U \to V$ is the identity
+we call $\mathcal{U}$ a {\it refinement} of the family $\mathcal{V}$.
+\end{enumerate}
 \end{definition}
 
 \noindent
+A trivial but important remark is that if $\{U_i \to U\}_{i \in I}$
+is the {\it empty family of maps}, i.e., if $I = \emptyset$, then no
+family $\mathcal{V} : \{V_j \to V\}_{j\in J}$ with $J \not = \emptyset$
+can map to $\mathcal{U}$!
+
+\medskip\noindent
 Let $\mathcal{F}$ be a presheaf of sets on $\mathcal{C}$, and let
 $\mathcal{U}$ be a covering in $\mathcal{C}$ as above. Let us use the
 notation $\mathcal{F}(\mathcal{U})$ to indicate the equalizer
@@ -2141,10 +2155,21 @@ $$
 As a limit there are projection maps
 $c(\psi) : {}_pu(\mathcal{F})(V) \to \mathcal{F}(U)$
 for every object $(U, \psi)$ of ${}_V\mathcal{I}$.
-In fact an element $s$ of ${}_pu(\mathcal{F})(V)$ is nothing
-but a compatible system of elements
-$c(\psi)(s) = s_{(U,\psi)} \in \mathcal{F}(U)$
-for $(U, \psi)$ ranging over ${}_V\mathcal{I}$.
+In fact,
+$$
+{}_pu(\mathcal{F})(V)
+=
+\left\{
+\begin{matrix}
+\text{collections }
+s_{(U,\psi)} \in \mathcal{F}(U) \\
+\forall \beta : (U_1, \psi_1) \to (U_2, \psi_2)
+\text{ in }{}_V\mathcal{I} \\
+\text{ we have } \beta^*s_{(U_2,\psi_2)} = s_{(U_1,\psi_1)}
+\end{matrix}
+\right\},\ 
+s \mapsto s_{(U, \psi)} = c(\psi)(s).
+$$
 We leave it to the reader to define the restriction mappings
 ${}_pu(\mathcal{F})(V) \to {}_pu(\mathcal{F})(V')$
 associated to any morphism $V' \to V$ of $\mathcal{D}$.
@@ -2217,14 +2242,24 @@ follows.
 \begin{definition}
 \label{definition-cocontinuous}
 Let $\mathcal{C}$ and $\mathcal{D}$ be sites.
-A functor $u : \mathcal{C} \to \mathcal{D}$ is called
-{\it cocontinuous} if for every $U \in \text{Ob}(\mathcal{C})$
-and every covering
-$\{V_j \to u(U)\}_{j \in J}$ there exists a
-covering
+Let $u : \mathcal{C} \to \mathcal{D}$ be a functor.
+The functor $u$ is called {\it cocontinuous\footnote{The definition
+of cocontinuous in \cite[Expos\'e III, Definition 2.1]{SGA4} translated
+into the language of sites seems to only require (1). But it seems that
+we really need (2) as well.}}
+if for every $U \in \text{Ob}(\mathcal{C})$
+and every covering $\{V_j \to u(U)\}_{j \in J}$
+we have
+\begin{enumerate}
+\item there exists a covering
 $\{U_i \to U\}_{i\in I} \in \text{Cov}(\mathcal{C})$
 such that the family of maps $\{u(U_i) \to u(U)\}_{i \in I}$
-refines the covering $\{V_j \to u(U)\}_{j \in J}$.
+refines the covering $\{V_j \to u(U)\}_{j \in J}$, and
+\item if $\{U_i \to U\}_{i \in I}$ is a family of maps
+such that the family of maps $\{u(U_i) \to u(U)\}_{i \in I}$
+is refined by the covering $\{V_j \to u(U)\}_{j \in J}$, then
+$\{U_i \to U\}$ can be refined by a covering of $U$ in $\mathcal{C}$.
+\end{enumerate}
 \end{definition}
 
 \noindent
@@ -2247,7 +2282,9 @@ such that $s_j$ and $s_{j'}$ restrict to the same element
 of ${}_pu\mathcal{F}(V_j \times_V V_{j'})$ for all $j, j'$.
 We will show there exists a unique element $s$ of
 ${}_pu\mathcal{F}(V)$ which restricts to $s_j$ for all $j$.
-To do this it suffices to show that for any object $(U, \psi)$
+
+\medskip\noindent
+Claim: It suffices to show that for any object $(U, \psi)$
 of ${}_V\mathcal{I}$ there exists a unique section
 $s_{(U, \psi)} \in \mathcal{F}(U)$ with the following property:
 For any commutative diagram
@@ -2263,7 +2300,71 @@ projection mappings $c(-)$ introduced in
 Section \ref{section-more-functoriality-PSh}.
 
 \medskip\noindent
-So let us pick a $(U, \psi) \in \text{Ob}({}_V\mathcal{I})$.
+Let us first prove the claim. This we will do in three steps.
+Step 1: We first show that the
+elements $s_{(U, \psi)}$ form an element $s$ of the limit
+defining ${}_pu\mathcal{F}(V)$. To see this we
+have to show, given any morphism
+$\beta : (U_1, \psi_1) \to (U_2, \psi_2)$ in the category
+${}_V\mathcal{I}$
+we have $s_{(U_1, \psi_1)} = \beta^*s_{(U_2, \psi_2)}$.
+Using condition (1) of Definition \ref{definition-cocontinuous}
+we can find a covering 
+$\{U_{2, i} \to U_2\}_{i \in I}$ such that
+$\{u(U_{2, i}) \to u(U_2)\}$
+refines the covering
+$\{u(U_2) \times_{\psi_2, V} V_j \to u(U_2)\}_{j \in J}$.
+Hence we may pick a map $\gamma : I \to J$ and morphisms
+$\psi_{2, i} : u(U_i) \to V_{\gamma(j)}$ such that 
+the diagrams
+$$
+\xymatrix{
+u(U_{2, i}) \ar[r]_{\psi_{2,i}} \ar[d] &  V_{\gamma(i)} \ar[d] \\
+u(U_2) \ar[r]^\psi & V
+}
+$$
+commute. We may define $U_{1, i} = U_1 \times_{U_2} U_{2, i}$
+and extend the diagram as follows
+$$
+\xymatrix{
+u(U_{1, i}) \ar[r]_{u(\beta_i)} \ar[d] &
+u(U_{2, i}) \ar[r]_{\psi_{2,i}} \ar[d] &  V_{\gamma(i)} \ar[d] \\
+u(U_1) \ar[r]^{u(\beta)} & u(U_2) \ar[r]^\psi & V
+}
+$$
+OK, and now the element $s_{(U_1, \psi_1)}$ pulls back to
+$c(\psi_{2, i} \circ u(\beta_i))(s_j)$ which is equal to
+$\beta_i^* c(\psi_{2, i})(s_j)$ by the fact that the $s_j$
+give an element of the limit. This is the same element that
+$\beta^*s_{(U_2, \psi_2)}$ pulls back to.
+Hence
+$s_{(U_1, \psi_1)} = \beta^*s_{(U_2, \psi_2)}$
+by the sheaf condition for $\mathcal{F}$.
+
+\medskip\noindent
+Step 2 of proof of the claim: The element $s \in {}_pu\mathcal{F}(V)$
+so obtained restricts to $s_j$ in ${}_pu\mathcal{F}(V_j)$.
+Take any morphism $\psi' : u(U') \to V_j$.
+Consider the diagram
+$$
+\xymatrix{
+u(U') \ar[rr]_{\psi'} \ar[d]_{u(\text{id})} & & V_j \ar[d] \\
+u(U') \ar[rr]^{(V_j \to V) \circ \psi'} &  & V
+}
+$$
+By the property in the claim we see that $s_{(U', (V_j \to V) \circ \psi')}$
+is equal to $c(\psi')(s_j)$. This and the definition of the restriction
+mappings of ${}_pu\mathcal{F}$ show that $s|_{V_j} = s_j$.
+
+\medskip\noindent
+Step 3 of proof of the claim: The element $s \in {}_pu\mathcal{F}(V)$
+is unique. For this it is enough to show that each element
+$s_{(U, \psi)}$ is unique, and this is part of the claim.
+
+\medskip\noindent
+Finally, we have to construct the elements $s_{(U, \psi)}$
+as in the claim. So let us pick a
+$(U, \psi) \in \text{Ob}({}_V\mathcal{I})$.
 Because $u$ is cocontinuous the covering
 $\{V_j \times_V u(U) \to u(U)\}$ can be refined by
 a family $\{u(U_i) \to u(U)\}_{i \in I}$, where 
@@ -2279,17 +2380,29 @@ $$
 Note that this clearly induces morphisms
 $\psi_{i, i'} : u(U_i \times_U U_{i'}) \to
 V_{\gamma(i)} \times_V V_{\gamma(i')}$
-as well. Hence the family of elements
-$\sigma_i = c(\psi_i)(s_{\gamma(i)}) \in \mathcal{F}(U_i)$
-form a system of elements such that $\sigma_i$ and $\sigma_{i'}$ agree on 
+as well. Consider the family of elements
+$\sigma_i = c(\psi_i)(s_{\gamma(i)}) \in \mathcal{F}(U_i)$.
+Then
+$$
+\sigma_i |_{U_i \times_U U_{i'}}
+=
+c(\psi_{i, i'})(s_{\gamma(i)}|_{V_i \times_V V_{i'}})
+=
+c(\psi_{i, i'})(s_{\gamma(i')}|_{V_i \times_V V_{i'}})
+=
+\sigma_{i'} |_{U_i \times_U U_{i'}}
+$$
+Thus the collection $\sigma_i$ forms a system of elements
+such that $\sigma_i$ and $\sigma_{i'}$ agree on 
 $U_i \times_U U_{i'}$ for all pairs $(i, i')$. We conclude
 that there exists a unique section $\sigma \in \mathcal{F}(U)$
 restricting to $\sigma_i$ on $U_i$ by the sheaf condition
-for $\mathcal{F}$. This is the desired element $s_{(U, \psi)}$.
-Details left to the reader.
+for $\mathcal{F}$. This gives an element $s_{(U, \psi)}$ of
+$\mathcal{F}(U)$. Thus uniqueness of $s$ is clear, even by just
+considering the diagrams displayed in this paragraph.
 
 \medskip\noindent
-A bit more clarification could be added here. FIXME.
+It remains to show that ....
 \end{proof}
 
 \begin{lemma}
@@ -2301,7 +2414,8 @@ $\textit{Sh}(\mathcal{D}) \to \textit{Sh}(\mathcal{C})$,
 $\mathcal{G} \mapsto (u^p\mathcal{G})^\#$
 is a left adjoint to the functor ${}_su$ introduced
 in Lemma \ref{lemma-pu-sheaf} above. Moreover, it 
-is left exact. \end{lemma}
+is left exact.
+\end{lemma}
 
 \begin{proof}
 Let us prove the adjointness property as follows
@@ -2316,13 +2430,15 @@ Let us prove the adjointness property as follows
 (\mathcal{G}, {}_pu\mathcal{F}) \\
 & = & 
 \text{Mor}_{\textit{Sh}(\mathcal{D})}
-(\mathcal{G}, {}_su\mathcal{F})
+(\mathcal{G}, {}_su\mathcal{F}).
 \end{eqnarray*}
+Thus it is a left adjoint and hence left exact.
+
 We have seen that sheafification is left exact,
 see Lemma \ref{lemma-sheafification-exact}.
-Moreover, the inclusion $i : \textit{Sh}(\mathcal{D})
-\to \textit{PSh}(\mathcal{D})$ is left exact by
-Lemma \ref{lemma-limit-sheaf}. Finally, the functor
+Moreover, the inclusion
+$i : \textit{Sh}(\mathcal{D}) \to \textit{PSh}(\mathcal{D})$
+is left exact by Lemma \ref{lemma-limit-sheaf}. Finally, the functor
 $u^p$ is left exact because it is a rght adjoint
 (namely to $u_p$). Thus the functor is the compostion
 ${}^\# \circ u^p \circ i$ of left exact functors,
