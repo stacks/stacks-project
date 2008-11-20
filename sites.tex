@@ -471,8 +471,9 @@ Let $\mathcal{C}$ be a category, see
 Conventions, Section \ref{conventions-section-categories}. 
 In the following the notation $\{U_i \to U\}_{i\in I}$ means that 
 $U \in \text{Ob}(\mathcal{C})$, that $I$ is a set and that for each $i\in I$ 
-we are given a morphism $U_i \to U$ of $\mathcal{C}$ with target $U$. This
-notation suggests an open covering as in topology.
+we are given a morphism $U_i \to U$ of $\mathcal{C}$ with target $U$.
+It can happen that the set $I$ is empty! This
+notation is meant to suggest an open covering as in topology.
 
 \begin{definition}
 \label{definition-site}
@@ -547,21 +548,28 @@ desires.
 \end{remark}
 
 \begin{example}
-\label{example-site-toplogical}
+\label{example-site-topological}
 Let $X$ be a topological space. Let $\mathcal{T}_X$ be the category whose
 objects consist of all the open sets $U$ in $X$ and whose morphisms
 are just the inclusion maps. That is, there is at most one morphism
 between any two objects in $\mathcal{T}_X$. Now define
-$\{U_i \to U\}\in \text{Cov}(\mathcal{T}_X)$ if
-$\bigcup U_i = U$. Conditions (1) and (2) above are clear, and (3) is also
+$\{U_i \to U\}_{i \in I}\in \text{Cov}(\mathcal{T}_X)$ if
+and only if $\bigcup U_i = U$.
+Conditions (1) and (2) above are clear, and (3) is also
 clear once we realize that in $\mathcal{T}_X$ we have
-$U \times V = U \cap V$. We turn $\mathcal{T}_X$ into a site
+$U \times V = U \cap V$. Note that in particular the empty
+set has to be an element of $\mathcal{T}_X$ since otherwise
+this would not work in general. Furthermore, it is equally important,
+as we will see later, to allow the {\it empty covering of the empty
+set as a covering}!
+We turn $\mathcal{T}_X$ into a site
 by choosing a suitable limit ordinal $\alpha$ and using as 
 set of coverings $\text{Cov}(\mathcal{T}_X) \cap V_\alpha$,
 see Sets, Section \ref{sets-section-coverings-site}.
 Presheaves and sheaves (as defined below)
 on the site $\mathcal{T}_X$ will agree exactly with the usual notion of
-a presheaves and sheaves on a topological space.
+a presheaves and sheaves on a topological space, as defined
+in chapter on Sheaves on Spaces, see \ref{sheaves-section-introduction}.
 \end{example}
 
 \begin{example}
@@ -704,6 +712,43 @@ $$
 in $\mathcal{F}(U_i \times_U U_j)$ for all pairs $(i,j) \in I\times I$
 then there exists a unique $s \in \mathcal{F}(U)$ such
 that $s_i = s|_{U_i}$.
+
+\begin{example}
+\label{example-sheaves-topological}
+Let $X$ be a topological space. Let $\mathcal{T}_X$ be the
+site constructed in Example \ref{example-site-topological}.
+The notion of a sheaf on $\mathcal{T}_X$ coincides
+with the notion of a sheaf on $X$ introduced in
+Sheaves, Definition \ref{sheaves-definition-sheaf}. 
+\end{example}
+
+\begin{example}
+\label{example-topological-wrong}
+Let $X$ be a topological space.
+Let us consider the site $\mathcal{T}_X'$ which is
+the same as the site $\mathcal{T}_X$ of
+Example \ref{example-site-topological} except that
+we disallow the empty covering of the empty set.
+In other words, we do allow the covering $\{\emptyset \to \emptyset\}$
+but we do not allow the covering whose index set is empty.
+It is easy to show that this still defines a site. However,
+we claim that the sheaves on $\mathcal{T}_X'$ are different
+from the sheaves on $\mathcal{T}_X$. For example, as an extreme
+case consider the situation where $X = \{p\}$ is a singleton.
+Then the objects of $\mathcal{T}_X'$ are $\emptyset, X$
+and the coverings are $\{\{\emptyset \to \emptyset\}, \{X \to X\}\}$.
+Clearly, a sheaf on this is given by any choice of
+a set $\mathcal{F}(\emptyset)$ and any choice of a
+set $\mathcal{F}(X)$, together with any restricion map
+$\mathcal{F}(X) \to \mathcal{F}(\emptyset)$. Thus sheaves
+on $\mathcal{T}'_X$ are the same as usual sheaves on the two point space
+$\{\eta, p\}$ with open sets $\{\emptyset, \{\eta\}, \{p, \eta\}\}$.
+In general sheaves on $\mathcal{T}'_X$ are the same as sheaves
+on the space $X \amalg \{\eta\}$, with opens given by
+the empty set and any set of the form $U \cup \{\eta\}$ for
+$U \subset X$ open.
+\end{example}
+
 
 \begin{definition}
 \label{definition-category-sheaves-sets}
@@ -1908,7 +1953,7 @@ example.
 \label{example-continuous-map}
 Let $f : X  \to Y$ be a continuous map of topological spaces.
 Recall that we have sites $\mathcal{T}_X$ and $\mathcal{T}_Y$,
-see Example \ref{example-site-toplogical}. Consider the functor
+see Example \ref{example-site-topological}. Consider the functor
 $u : \mathcal{T}_Y \to \mathcal{T}_X$, $V \mapsto f^{-1}(V)$.
 This functor is clearly continuous because inverse images of
 open coverings are open coverings. (Actually, this depends on how
@@ -2243,23 +2288,13 @@ follows.
 \label{definition-cocontinuous}
 Let $\mathcal{C}$ and $\mathcal{D}$ be sites.
 Let $u : \mathcal{C} \to \mathcal{D}$ be a functor.
-The functor $u$ is called {\it cocontinuous\footnote{The definition
-of cocontinuous in \cite[Expos\'e III, Definition 2.1]{SGA4} translated
-into the language of sites seems to only require (1). But it seems that
-we really need (2) as well.}}
+The functor $u$ is called {\it cocontinuous}
 if for every $U \in \text{Ob}(\mathcal{C})$
-and every covering $\{V_j \to u(U)\}_{j \in J}$
-we have
-\begin{enumerate}
-\item there exists a covering
-$\{U_i \to U\}_{i\in I} \in \text{Cov}(\mathcal{C})$
+and every covering $\{V_j \to u(U)\}_{j \in J}$ of $\mathcal{D}$
+there exists a covering
+$\{U_i \to U\}_{i\in I}$ of $\mathcal{C})$
 such that the family of maps $\{u(U_i) \to u(U)\}_{i \in I}$
-refines the covering $\{V_j \to u(U)\}_{j \in J}$, and
-\item if $\{U_i \to U\}_{i \in I}$ is a family of maps
-such that the family of maps $\{u(U_i) \to u(U)\}_{i \in I}$
-is refined by the covering $\{V_j \to u(U)\}_{j \in J}$, then
-$\{U_i \to U\}$ can be refined by a covering of $U$ in $\mathcal{C}$.
-\end{enumerate}
+refines the covering $\{V_j \to u(U)\}_{j \in J}$.
 \end{definition}
 
 \noindent
@@ -2308,7 +2343,7 @@ have to show, given any morphism
 $\beta : (U_1, \psi_1) \to (U_2, \psi_2)$ in the category
 ${}_V\mathcal{I}$
 we have $s_{(U_1, \psi_1)} = \beta^*s_{(U_2, \psi_2)}$.
-Using condition (1) of Definition \ref{definition-cocontinuous}
+Using the condition in Definition \ref{definition-cocontinuous}
 we can find a covering 
 $\{U_{2, i} \to U_2\}_{i \in I}$ such that
 $\{u(U_{2, i}) \to u(U_2)\}$
@@ -2402,7 +2437,39 @@ $\mathcal{F}(U)$. Thus uniqueness of $s$ is clear, even by just
 considering the diagrams displayed in this paragraph.
 
 \medskip\noindent
-It remains to show that ....
+It remains to show that for any diagram as in the claim
+the restriction $\alpha^*s_{(U, \psi)}$ of $s_{(U, \psi)}$ to $U'$
+is equal to the element $c(\psi')(s_j)$. For this consider
+the commutative diagrams (for all $i\in I$)
+$$
+\xymatrix{
+u(U_i\times_U U') \ar[r] \ar[d]_{u(\alpha_i)} &
+u(U') \ar[r]_{\psi'} \ar[d]_{u(\alpha)} &
+V_j \ar[d] \\
+u(U_i) \ar[r] \ar[rd]_{\psi_i} &
+u(U) \ar[r]^\psi &
+V \\
+&
+V_{\gamma(i)} \ar[ru]
+&
+}
+$$
+This diagram shows there is a canonical morphism
+$\psi'_i : u(U_i\times_U U') \to V_{\gamma(i)}\times_V V_j$
+fitting into it. The element $s_{(U, \psi)}$ was constructed above as
+the unique section pulling back to $c(\psi_i)(s_{\gamma(i)})$ for all $i$.
+We have
+$$
+c(\psi_i)(s_{\gamma(i)})|_{U_i \times_U U'} =
+c(\psi_i')(s_{\gamma(i)}|_{V_{\gamma(i)}\times_V V_j}) =
+c(\psi_i')(s_j|_{V_{\gamma(i)}\times_V V_j}) =
+c(\psi')(s_j)|_{U_i \times_U U'}
+$$
+which proves that $\alpha_i^*c(\psi_i)(s_{\gamma(i)})$
+is the same as the pull back of $c(\psi')(s_j)$ to $U_i \times_U U'$.
+Again by the sheaf condition for $\mathcal{F}$ this allows us
+to conclude that $\alpha^*s_{(U, \psi)} = c(\psi')(s_j)$.
+The proof of Lemma \ref{lemma-pu-sheaf} is done.
 \end{proof}
 
 \begin{lemma}
@@ -2432,8 +2499,8 @@ Let us prove the adjointness property as follows
 \text{Mor}_{\textit{Sh}(\mathcal{D})}
 (\mathcal{G}, {}_su\mathcal{F}).
 \end{eqnarray*}
-Thus it is a left adjoint and hence left exact.
-
+Thus it is a left adjoint and hence right exact,
+see Categories, Lemma \ref{categories-lemma-exact-adjoint}.
 We have seen that sheafification is left exact,
 see Lemma \ref{lemma-sheafification-exact}.
 Moreover, the inclusion
@@ -2469,7 +2536,66 @@ $g$ from  $\textit{Sh}(\mathcal{C})$ to $\textit{Sh}(\mathcal{D})$.
 This is exactly the content of Lemma \ref{lemma-exact-cocontinuous}.
 \end{proof}
 
+\begin{example}
+\label{example-open-map-cocontinuous}
+Let $X$ be a topological space.
+Let $j : U  \to X$ be the inclusion of an open subspace.
+Recall that we have sites $\mathcal{T}_X$ and $\mathcal{T}_U$,
+see Example \ref{example-site-topological}.
+Recall that we have the functor $u : \mathcal{T}_X \to \mathcal{T}_U$
+associated to $j$ which is continuous and gives rise
+to a morphism of sites $\mathcal{T}_U \to \mathcal{T}_X$,
+see Example \ref{example-continuous-map}.
+This also gives a morphism of topoi $(j_*, j^{-1})$.
+Next, consider the functor
+$v : \mathcal{T}_U \to \mathcal{T}_X$, $V \mapsto v(V) = V$
+(just the same open but now thought of as an object of $\mathcal{T}_X$).
+This functor is cocontinuous. Namely, if $v(V) = \bigcup_{j \in J} W_j$
+is an open covering in $X$, then each $W_j$ must be a subset of
+$U$ and hence is of the form $v(V_j)$,
+and trivially $V = \bigcup_{j \in J} V_j$ is an open covering in $U$.
+We conclude by Lemma \ref{lemma-cocontinuous-morphism-topoi} above
+that there is a morphism of topoi associated to $v$ 
+$$
+\textit{Sh}(U) \longrightarrow \textit{Sh}(X)
+$$
+given by ${}_sv$ and $(v^p\ )^\#$. We claim that
+actually $(v^p\ )^\# = j^{-1}$ and that ${}_sv = j_*$,
+in other words, that this is the same morphism of topoi
+as the one given above. Perhaps the easiest way to see
+this is to realize that for any sheaf
+$\mathcal{G}$ on $X$ we have
+$v^p\mathcal{G}(V) = \mathcal{G}(V)$ which according to
+Sheaves, Lemma \ref{sheaves-lemma-j-pullback} is a description
+of $j^{-1}\mathcal{G}$ (and hence sheafification is superfluous
+in this case). The equality of ${}_sv$ and $j_*$ follows by
+uniqueness of adjoint functors (but may also be computed directly).
+\end{example}
 
+
+\begin{example}
+\label{example-closed-map-cocontinuous-false}
+Let $X$ be a topological space.
+Let $i : Z  \to X$ be the inclusion of a subset (with induced
+topology). Consider the functor $u : \mathcal{T}_X \to \mathcal{T}_Z$,
+$U \mapsto u(U) = Z \cap U$.
+It may appear at first that this functor is cocontinuous as
+well. After all, since $Z$ has the induced topology,
+shouldn't any covering of $U\cap Z$ it come from a covering
+of $U$ in $X$? Not so! Namely, what if $U \cap Z = \emptyset$?
+In that case, the empty covering is a covering of
+$U \cap Z$, and the empty covering can only be refined by
+the empty covering. Thus we conclude that
+$u$ cocontinuous $\Rightarrow$ every nonempty open $U$
+of $X$ has nonempty intersection with $Z$.
+But this is not sufficient. For example, if
+$X = \mathbf{R}$ the real number line with the usual
+topology, and $Z = \mathbf{R} \setminus \{0\}$, then
+there is an open covering of $Z$, namely
+$Z = \{x < 0\} \cup \bigcup_n \{1/n < x\}$ which
+cannot be refined by the restriction of any
+open covering of $X$.
+\end{example}
 
 
 
@@ -2834,7 +2960,7 @@ when checking that $u$ commutes with fibred products.
 \label{example-point-topological}
 Let $X$ be a topological space.
 Let $\mathcal{T}_X$ be the site
-of Example \ref{example-site-toplogical}.
+of Example \ref{example-site-topological}.
 Let $x \in X$ be a point. Consider the functor
 $$
 u : \mathcal{T}_X \longrightarrow \textit{Sets},\ 
