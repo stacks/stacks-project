@@ -32,7 +32,8 @@ Basic references are \cite{EGA} and \cite{SGA4}.
 \noindent
 Let $(X, \mathcal{O}_X)$ be a ringed space, see
 Sheaves, Definition \ref{sheaves-definition-ringed-space}.
-Let $\mathcal{F}$, $\mathcal{G}$ be sheaves of $\mathcal{O}_X$-modules.
+Let $\mathcal{F}$, $\mathcal{G}$ be sheaves of $\mathcal{O}_X$-modules, see
+Sheaves, Definition \ref{sheaves-definition-sheaf-modules}.
 Let $\varphi, \psi : \mathcal{F} \to \mathcal{G}$
 be morphisms of sheaves of $\mathcal{O}_X$-modules.
 We define $\varphi + \psi : \mathcal{F} \to \mathcal{G}$
@@ -48,10 +49,13 @@ category, see Homology, Definition \ref{homology-definition-preadditive}.
 We will denote $0$ the sheaf of $\mathcal{O}_X$-modules
 which has constant value $\{0\}$ for all open $U \subset X$.
 Clearly this is both a final and an initial object of
-$\textit{Mod}(\mathcal{O}_X)$. Note that a morphism
+$\textit{Mod}(\mathcal{O}_X)$. Given a morphism
 of $\mathcal{O}_X$-modules $\varphi : \mathcal{F} \to \mathcal{G}$
-factors through $0$ if and only if $\varphi$ is zero on sections
-over each open $U$.
+the following are equivalent:
+(a) $\varphi$ is zero, (b) $\varphi$ factors through $0$,
+(c) $\varphi$ is zero on sections over each open $U$, and
+(d) $\varphi_x = 0$ for all $x \in X$. See 
+Sheaves, Lemma \ref{sheaves-lemma-points-exactness}.
 
 \medskip\noindent
 Moreover, given a pair
@@ -77,6 +81,8 @@ for all open $U \subset X$. It is easy to see that this is indeed
 a kernel in the category of $\mathcal{O}_X$-modules. In other words,
 a morphism $\alpha : \mathcal{H} \to \mathcal{F}$ factors
 through $\text{Ker}(\varphi)$ if and only if $\varphi \circ \alpha = 0$.
+Moreover, on the level of stalks we have
+$\text{Ker}(\varphi)_x = \text{Ker}(\varphi_x)$.
 
 \medskip\noindent
 On the other hand, we define
@@ -84,11 +90,17 @@ $\text{Coker}(\varphi)$ as the sheaf of $\mathcal{O}_X$-modules
 associated to the presheaf of $\mathcal{O}_X$-modules defined
 by the rule
 $$
-U \longmapsto \mathcal{G}(U)/\varphi(\mathcal{F}(U)).
+U
+\longmapsto
+\text{Coker}(\mathcal{G}(U)\to \mathcal{F}(U)) =
+\mathcal{F}(U)/\varphi(\mathcal{G}(U)).
 $$
-The map $\mathcal{G} \to \text{Coker}(\varphi)$ is surjective,
-for example by looking at stalks (which may be computed before
-taking sheafification).
+Since taking stalks commutes with taking sheafification, see
+Sheaves, Lemma \ref{sheaves-lemma-stalk-sheafification} we
+see that $\text{Coker}(\varphi)_x = \text{Coker}(\varphi_x)$.
+Thus the map $\mathcal{G} \to \text{Coker}(\varphi)$ is surjective
+(as a map of sheaves of sets),
+see Sheaves, Section \ref{sheaves-section-exactness-points}.
 To show that this is a cokernel, note that if
 $\beta : \mathcal{G} \to \mathcal{H}$ is a morphism of $\mathcal{O}_X$-modules
 such that $\beta \circ \varphi$ is zero, then you get for every
@@ -100,23 +112,124 @@ we obtain a canonical map $\text{Coker}(\varphi) \to \mathcal{H}$
 such that the original $\beta$ is equal to 
 the composition
 $\mathcal{G} \to \text{Coker}(\varphi) \to \mathcal{H}$.
+The morphism $\text{Coker}(\varphi) \to \mathcal{H}$ is unique
+because of the surjectivity mentioned above.
 
 \begin{lemma}
 \label{lemma-abelian}
 Let $(X, \mathcal{O}_X)$ be a ringed space. The category
-$\textit{Mod}(\mathcal{O})$ is an abelian category.
+$\textit{Mod}(\mathcal{O})$ is an abelian category. Moreover
+a complex 
+$$
+\mathcal{F} \to \mathcal{G} \to \mathcal{H}
+$$
+is exact at $\mathcal{G}$ if and only if for all $x \in X$ the
+complex
+$$
+\mathcal{F}_x \to \mathcal{G}_x \to \mathcal{H}_x
+$$
+is exact at $\mathcal{G}_x$.
 \end{lemma}
 
 \begin{proof}
-See discussion above, and 
-Homology, Definition \ref{homology-definition-abelian-category}.
+By Homology, Definition \ref{homology-definition-abelian-category}
+we have to show that image and coimage agree. By Sheaves,
+Lemma \ref{sheaves-lemma-points-exactness} it is enough to show
+that image and coimage have the same stalk at every $x \in X$.
+By the constructions of kernels and cokernels above these stalks
+are the coimage and image in the categories of $\mathcal{O}_{X,x}$-modules.
+Thus we get the result from the fact that the category of modules
+over a ring is abelian.
 \end{proof}
 
-\section{Injectives}
-\label{section-injectives}
+\noindent
+Actually the category $\textit{Mod}(\mathcal{O}_X)$ has many more properties.
+Here are a two constructions we can do.
+\begin{enumerate}
+\item Given any set $I$ and for each $i \in I$ a $\mathcal{O}_X$-module
+we can form the product
+$$
+\prod\nolimits_{i \in I} \mathcal{F}_i
+$$
+which is the sheaf that associates to each open $U$ the
+product of the modules $\mathcal{F}_i(U)$. This is also the
+categorical product, as in
+Categories, Definition \ref{categories-definition-product}.
+\item Given any set $I$ and for each $i \in I$ a $\mathcal{O}_X$-module
+we can form the direct sum
+$$
+\bigoplus\nolimits_{i \in I} \mathcal{F}_i
+$$
+which is the {\it sheafification} of the presheaf
+that associates to each open $U$ the
+direct sum of the modules $\mathcal{F}_i(U)$.
+This is also the categorical coproduct, as in
+Categories, Definition \ref{categories-definition-coproduct}.
+To see this you use the universal property of sheafification.
+\end{enumerate}
+Since any abelian category has equalizers and coequalizers
+we conclude that all limits and colimits exist in
+$\textit{Mod}(\mathcal{O}_X)$, see
+Categories, Lemmas
+\ref{categories-lemma-limits-products-equalizers} and
+\ref{categories-lemma-colimits-coproducts-coequalizers}.
+
+\begin{lemma}
+\label{lemma-limits-colimits}
+All limits and colimits exist in $\textit{Mod}(\mathcal{O}_X)$.
+\end{lemma}
+
+\begin{proof}
+See discussion above.
+\end{proof}
+
+
+
+\section{Quasi-coherent sheaves}
+\label{section-quasi-coherent}
 
 \noindent
-See Injectives, Section \ref{injectives-section-sheaves-modules}.
+Let $(X, \mathcal{O}_X)$ be a ringed space.
+In this and the following section we will often restrict
+sheaves to open subspaces $U \subset X$, see
+Sheaves, Section \ref{sheaves-section-open-immersions}.
+In particular, we will often denote the open subspace
+by $(U, \mathcal{O}_U)$ instead of the more correct
+notation $(U, \mathcal{O}_X|_U)$, see 
+Sheaves, Definition \ref{sheaves-definition-restriction}.
+
+\medskip\noindent
+Let $\mathcal{F}$ be a sheaf of $\mathcal{O}_X$-modules.
+Let $s \in \Gamma(X, \mathcal{F}) = \mathcal{F}(X)$ be a
+global section. There is a unique {\it map of $\mathcal{O}_X$-modules
+$$
+\mathcal{O}_X \longrightarrow \mathcal{F},\ f \longmapsto fs
+$$
+associated to $s$}. The notation above signifies that a local
+section $f$ of $\mathcal{O}_X$, i.e., a section $f$ over some open $U$,
+is mapped to the multiplication of $f$ with the restriction of $s$ to
+$U$.
+
+\begin{definition}
+\label{definition-generated-by-global-sections}
+Let $(X, \mathcal{O}_X)$ be a ringed space.
+Let $\mathcal{F}$ be a sheaf of $\mathcal{O}_X$-modules.
+We say that {\it $\mathcal{F}$ is generated by global
+sections} if there exist a set $I$, and
+global sections $s_i \in \Gamma(X, \mathcal{F})$, $i \in I$
+such that the map
+$$
+\bigoplus\nolimits_{i \in I}
+\mathcal{O}_X \longrightarrow \mathcal{F}
+$$
+which is the map associated to $s_i$ on the summand corresponding to $i$,
+is surjective.
+\end{definition}
+
+
+
+
+
 
 
 \section{Ringed topoi}
