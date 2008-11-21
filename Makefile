@@ -3,7 +3,7 @@
 
 # Master list of stems of tex files in the project.
 # This should be in order.
-LIJST = introduction conventions sets categories topology sheaves algebra sites homology simplicial modules injectives schemes etale spaces stacks stacks-groupoids algebraic flat desirables hypercovering coding
+LIJST = introduction conventions sets categories topology sheaves algebra sites homology simplicial modules injectives cohomology schemes etale spaces stacks stacks-groupoids algebraic flat desirables hypercovering coding
 
 # Add fdl to get license latexed as well.
 LIJST_FDL = $(LIJST) fdl
