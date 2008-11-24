@@ -4415,9 +4415,9 @@ If $S \subset S'$ and if the elements of
 $E$ correspond, via this map, to relations 
 in $E'$, then there is an obvious map
 $M_{S,E} \to M_{S', E'}$ commuting with the
-maps to $M$. Thus $I$ is the set of pairs 
+maps to $M$. Let $I$ be the set of pairs 
 $(S,E)$ with ordering by inclusion as above.
-It is clear that the limit of this directed system is $M$.
+It is clear that the colimit of this directed system is $M$.
 \end{proof}
 
 \begin{definition}
@@ -11697,14 +11697,15 @@ such that $R[t_1,\ldots,t_n] \to S$ is quasi-finite.
 
 \begin{lemma}
 \label{lemma-dimension-quasi-finite-over-polynomial-algebra}
-Let $k$ be a field, and let
-$k[t_1,\ldots,t_n] \subset S$ be
-quasi-finite. Then $\dim(S) \leq n$.
+Let $k$ be a field. Let $S$ be a finite type $k$-algebra.
+Suppose there is a quasi-finite $k$-algebra map
+$k[t_1,\ldots,t_n] \subset S$. Then $\dim(S) \leq n$.
 \end{lemma}
 
 \begin{proof}
-By Proposition \ref{proposition-main-theorem} we may assume
-that $S$ is integral over $k[t_1,\ldots,t_n]$. 
+By Proposition \ref{proposition-main-theorem} (see also
+Lemma \ref{lemma-quasi-finite-open-integral-closure})
+we may assume that $S$ is integral over $k[t_1,\ldots,t_n]$. 
 The result follows from Lemmas \ref{lemma-integral-dim-up}
 and \ref{lemma-dim-affine-space}.
 \end{proof}
@@ -11744,8 +11745,8 @@ Lemma \ref{lemma-dimension-quasi-finite-over-polynomial-algebra}.
 
 
 
-\section{Limits and maps of finite presentation}
-\label{section-limits-flat}
+\section{Colimits and maps of finite presentation}
+\label{section-colimits-flat}
 
 \noindent
 In this section we prove some preliminary lemmas
@@ -11780,11 +11781,104 @@ These morphisms have to satisfy the rule that
 $R_\lambda \to R_\mu \to R_\nu$ is equal to the map
 $R_\lambda \to R_\nu$ for all $\lambda \leq \mu \leq \nu$.
 See Categories, Section \ref{categories-section-posets-limits}.
-We will often assume that $(I, \leq)$ is a directed
-partially ordered set.
+We will often assume that $(I, \leq)$ is {\it directed},
+which means that $\Lambda$ is nonempty and
+given $\lambda, \mu \in \Lambda$
+there exists a $\nu \in \Lambda$ with $\lambda \leq \nu$ and $\mu \leq \nu$.
 Recall that the colimit $\text{colim}_\lambda\ R_\lambda$
 is sometimes called a ``direct limit'' in this case
 (but we will not use this terminology).
+
+\begin{lemma}
+\label{lemma-ring-colimit-fp}
+Let $R \to A$ be a ring map.
+There exists a directed system $A_\lambda$ of
+$R$-algebras of finite presentation such that
+$A = \text{colim}_\lambda\ A_\lambda$.
+If $A$ is of finite type over $R$ we may
+arrange it so that all the transition maps
+are surjective.
+\end{lemma}
+
+\begin{proof}
+Compare with the proof of Lemma \ref{lemma-module-colimit-fp}.
+Consider any finite subset $S \subset A$, and any finite
+collection of polynomial relations $E$ among the elements of $S$.
+So each $s \in S$ corresponds to $x_s \in A$ and
+each $e \in E$ consists of a polynomial
+$f_{e} \in R[X_s; s\in S]$ such that $f_e(x_s) = 0$.
+Let $A_{S,E} = R[X_s; s\in S]/(f_e; e\in E)$
+which is a finitely presented $R$-algebra.
+There are canonical maps $A_{S,E} \to A$.
+If $S \subset S'$ and if the elements of
+$E$ correspond, via the map $R[X_s; s \in S] \to R[X_s; s\in S']$,
+to a subset of $E'$, then there is an obvious map
+$A_{S,E} \to A_{S', E'}$ commuting with the
+maps to $A$. Thus, setting $\Lambda$ equal the set of pairs 
+$(S,E)$ with ordering by inclusion as above, we get a
+directed partially ordered set.
+It is clear that the colimit of this directed system is $A$.
+
+\medskip\noindent
+For the last statement, suppose $A = R[x_1, \ldots, x_n]/I$.
+In this case, consider the subset $\Lambda' \subset \Lambda$
+consisting of those systems $(S, E)$ above
+with $S = \{x_1, \ldots, x_n\}$. It is easy to see that
+still $A = \text{colim}_{\lambda' \in \Lambda'} A_{\lambda'}$.
+Moreover, the transition maps are clearly surjective.
+\end{proof}
+
+\noindent
+It turns out that we can characterize ring maps of finite
+presentation as follows. This in some sense says that the
+algebras of finite presentation are the ``compact'' objects
+in the category of $R$-algebras.
+
+\begin{lemma}
+\label{lemma-characterize-finite-presentation}
+Let $\varphi : R \to S$ be a ring map.
+Then $\varphi$ is of finite presentation if and only if
+for every direct system $A_\lambda$ of $R$-algebras
+we have
+$$
+\text{colim}_\lambda\ \text{Hom}_R(S, A_\lambda)
+=
+\text{Hom}_R(S, \text{colim}_\lambda\ A_\lambda)
+$$
+\end{lemma}
+
+\begin{proof}
+Suppose $S = R[x_1, \ldots, x_n] / (f_1, \ldots, f_m)$.
+If $\chi : S \to \text{colim} A_\lambda$ is a map, then each
+$x_i$ maps to some element in the image of some $A_{\lambda_i}$.
+We may pick $\mu \geq \lambda_i$, $i = 1, \ldots, n$ and
+assume $\chi(x_i)$ is the image of $y_i \in A_\mu$ for
+$i = 1, \ldots, n$. Consider $z_j = f_j(y_1, \ldots, y_n) \in A_\mu$.
+Since $\chi$ is a homomorphism the image of $z_j$ in
+$\text{colim}_\lambda A_\lambda$ is zero. Hence there exists a
+$\mu_j \geq \mu$ such that $z_j$ maps to zero in $A_{\mu_j}$.
+Pick $\nu \geq \mu_j$, $j = 1, \ldots, m$. Then the
+images of $z_1, \ldots, z_m$ are zero in $A_\nu$. This
+exactly means that the $y_i$ map to elements
+$y'_i \in A_\nu$ which satsify the relations $f_j(y'_1, \ldots, y'_n) = 0$.
+Thus we obtain a ring map $S \to A_\nu$ as desired.
+
+\medskip\noindent
+Conversely, suppose the displayed formula holds always.
+By Lemma \ref{lemma-ring-colimit-fp} we may write
+$S = \text{colim}_\lambda S_\lambda$ with $S_\lambda$
+of finite presentation over $R$. Then the identity map
+factors as
+$$
+S \to S_\lambda \to S
+$$
+for some $\lambda$. Hence we see that $S$ is finitely generated
+over $R$ (because $S_\lambda$ is). Thus we may choose the system
+such that all transition maps are surjective. In this case
+a factorization of the identity as above can only exist if
+$S = S_\lambda$.
+\end{proof}
+
 
 \begin{lemma}
 \label{lemma-limit-essentially-finite-type}
@@ -12505,7 +12599,81 @@ flat. This proves the theorem in the Noetherian case.
 
 
 
+\section{Local complete intersections}
+\label{section-lci}
 
+\noindent
+The property of being a local complete intersection is
+somehow an intrinsic property of a Noetherian local ring.
+However, for the moment we just define this property for
+finite type algebras over a field.
+
+\begin{definition}
+\label{definition-lci-field}
+Let $k$ be a field.
+Let $S$ be a finite type $k$-algebra.
+\begin{enumerate}
+\item We say that {\it $S$ is a global complete intersection over $k$}
+if there exists a presentation $S = k[x_1, \ldots, x_n]/(f_1, \ldots, f_c)$
+such that $\dim(S) = n - c$.
+\item We say that {\it $S$ is a local complete intersection over $k$}
+if there exists a covering $\text{Spec}(S) = \bigcup D(g_i)$ such
+that each of the rings $S_{g_i}$ is a global complete intersection
+over $k$.
+\end{enumerate}
+\end{definition}
+
+\begin{lemma}
+\label{lemma-lci-CM}
+Let $k$ be a field.
+Let $S$ be a finite type $k$-algebra.
+If $S$ is a local complete intersection, then
+$S$ is a Cohen-Macaulay ring.
+\end{lemma}
+
+\begin{proof}
+Choose a maximal prime $\mathfrak m$ of $S$.
+We have to show that $S_\mathfrak m$ is Cohen-Macaulay.
+By assumption we may assume $S = k[x_1, \ldots, x_n]/(f_1, \ldots, f_c)$
+with $\dim(S) = n - c$. Let $\mathfrak m' \subset k[x_1, \ldots, x_n]$
+be the maximal ideal corresponding to $\mathfrak m$.
+According to Proposition \ref{proposition-finite-gl-dim-polynomial-ring}
+the local ring
+$k[x_1, \ldots, x_n]_{\mathfrak m'}$ is regular local of
+dimension $n$. Hence, by dimension theory
+(see Section \ref{section-dimension})
+the ring
+$S_{\mathfrak m} = k[x_1, \ldots, x_n]_{\mathfrak m'}/(f_1, \ldots, f_c)$
+has dimension $\geq n - c$. By assumption $\dim(S_{\mathfrak m}) \leq n - c$.
+Thus we get equality. This implies that $f_1, \ldots, f_c$ is a regular
+sequence in $k[x_1, \ldots, x_n]_{\mathfrak m'}$ and that
+$S_{\mathfrak m}$ is Cohen-Macaulay, see Proposition 
+\ref{proposition-CM-module}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-conormal-independent}
+
+
+\begin{lemma}
+\label{lemma-lci}
+Let $k$ be a field.
+Let $S$ be a finite type $k$-algebra.
+Let $\mathfrak q$ be a prime of $S$.
+Choose any presentation $S = k[x_1, \ldots, x_n]/I$.
+Let $\mathfrak q'$ be the prime of $k[x_1, \ldots, x_n]$ corresponding
+to $\mathfrak q$.
+The following are equivalent
+\begin{enumerate}
+\item There exists a $g \in S$, $g \not \in \mathfrak q$
+such that $S_g$ is a global complete intersection over $k$.
+\item The ideal $I_{\mathfrak q'} \subset k[x_1, \ldots, x_n]_{\mathfrak q'}$
+can be generated by $\text{height}(\mathfrak q') - \text{height}(\mathfrak q)$
+elements.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
 
 
 
@@ -13136,7 +13304,7 @@ f(\varphi'(x_1) + h_1,\ldots, \varphi'(x_n) + h_n) =
 f(\varphi'(x_1),\ldots, \varphi'(x_n)) + 
 \sum_i h_i \partial f/\partial x_i + $ terms in 
 $J^2$. Hence the map $h : \bigoplus S\text{d}x_i \to J/J^2$,
-$x_i \to h_i$ gives the desired homoropy.
+$x_i \to h_i$ gives the desired homotopy.
 \end{proof}
 
 
