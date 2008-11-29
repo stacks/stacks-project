@@ -14031,7 +14031,7 @@ every nonempty fibre has dimension $n - c$.
 \end{definition}
 
 \begin{lemma}
-\label{lemma-global-complete-intersection}
+\label{lemma-relative-global-complete-intersection}
 A relative global complete intersection is syntomic.
 \end{lemma}
 
@@ -14052,7 +14052,9 @@ $R[x_1, \ldots, x_n]_{\mathfrak q'}\otimes \kappa(\mathfrak p)$.
 Moreover, the local ring $R[x_1, \ldots, x_n]_{\mathfrak q'}$
 is flat over $R_{\mathfrak p}$. 
 By Lemma \ref{lemma-grothendieck} the local ring
-$R[x_1, \ldots, x_n]_{\mathfrak q'}/(f_1)$ is flat over $R_{\mathfrak p}$.
+$R[x_1, \ldots, x_n]_{\mathfrak q'}/(f_1)$ is flat
+FIXME
+over $R_{\mathfrak p}$.
 We may apply Lemma \ref{lemma-grothendieck} again because
 $f_2$ is not a zero divisor in the ring
 $R[x_1, \ldots, x_n]_{\mathfrak q'}/(f_1) \otimes \kappa(\mathfrak p)$.
@@ -14089,6 +14091,24 @@ Assertion (3) follows from (1) since under the assumptions of (3) we have
 $R_f \otimes_R S \cong S$.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-localize-relative-complete-intersection}
+Let $R$ be a ring.
+Let $S = R[x_1, \ldots, x_n]/(f_1, \ldots, f_c)$.
+Let $\mathfrak q \subset S$ be a prime lying over
+$\mathfrak p \subset R$.
+If $\dim_{\mathfrak q}(S/R) = n - c$, then there
+exists a $g \in S$, $g \not \in \mathfrak q$
+such that $S_g$ is a relative global complete
+intersection over $R$.
+\end{lemma}
+
+\begin{proof}
+This follows from
+Lemma \ref{lemma-dimension-fibres-bounded-open-upstairs}
+and the defininitions.
+\end{proof}
+
 \noindent
 The following technical lemma says that you can lift any sequence
 of relations from a fibre to the whole space of a ring
@@ -14106,7 +14126,7 @@ Assume given
 \item a prime $\mathfrak a \subset \kappa(\mathfrak p)[x_1, \ldots, x_n]$,
 \item a surjective $\kappa(\mathfrak p)$-homomorphism
 $$
-\psi : \kappa(\mathfrak p)[x_1, \ldots, x_n]_{\mathfrak a}
+\psi : (\kappa(\mathfrak p)[x_1, \ldots, x_n])_{\mathfrak a}
 \longrightarrow
 S_{\mathfrak q}/\mathfrak p S_{\mathfrak q},
 $$
@@ -14135,19 +14155,22 @@ $$
 \xymatrix{
 R[x_1, \ldots, x_{n + m}] \ar[d]_\Psi
 \ar[rr]_-{x_{n + j} \mapsto 0} & &
-\kappa(\mathfrak p)[x_1, \ldots, x_n]_{\mathfrak a} \ar[d]^\psi \\
+(\kappa(\mathfrak p)[x_1, \ldots, x_n])_{\mathfrak a} \ar[d]^\psi \\
 S_g \ar[rr] & &
 S_{\mathfrak q}/\mathfrak p S_{\mathfrak q}
-}
+},
 $$
-\item for $m \geq j \geq 1$ the element $f_j$ maps to
-$x_{n + j}$ in $\kappa(\mathfrak p)[x_1, \ldots, x_{n + m}]$, and
-\item the element $f_i$ maps to a unit times
+\item the element $f_i$, $i \leq n$ maps to a unit times
 $\overline{f}_i$ in the local ring
 $$
-\kappa(\mathfrak p)[x_1, \ldots, x_{n + m}]_{
-(\mathfrak a, x_{n + 1}, \ldots, x_{n + m})}.
+(\kappa(\mathfrak p)[x_1, \ldots, x_{n + m}])_{
+(\mathfrak a, x_{n + 1}, \ldots, x_{n + m})},
 $$
+\item the element $f_{e + j}$ maps to
+a unit times $x_{n + j}$ in the same local ring, and
+\item the induced map $R[x_1, \ldots, x_{n + m}]_{\mathfrak b}
+\to S_{\mathfrak q}$ is surjective, where
+$\mathfrak b = \Psi^{-1}(\mathfrak qS_g)$.
 \end{enumerate}
 \end{lemma}
 
@@ -14156,14 +14179,14 @@ We claim that it suffices to prove the lemma in case $R$
 and $S$ are local with maximal ideals $\mathfrak p$ and $\mathfrak q$.
 Namely, suppose we have constructed
 $$
-\Psi' : R_{\mathfrak p}[x_1, \ldots, x_n]
+\Psi' : R_{\mathfrak p}[x_1, \ldots, x_{n + m}]
 \longrightarrow
 S_{\mathfrak q}
 $$
-and $f_1', \ldots, f_e' \in R_{\mathfrak p}[x_1, \ldots, x_n]$
+and $f_1', \ldots, f_{e + m}' \in R_{\mathfrak p}[x_1, \ldots, x_{n + m}]$
 with all the required properties. Then there exists an element
-$f \in R$, $f \not \in \mathfrak p$ such that
-$ff_j'$ comes from an element $f_j \in R[x_1, \ldots, x_n]$.
+$f \in R$, $f \not \in \mathfrak p$ such that each
+$ff_k'$ comes from an element $f_k \in R[x_1, \ldots, x_{n + m}]$.
 Moreover, for a suitable $g \in S$, $g \not \in \mathfrak q$
 the elements $\Psi'(x_i)$ are the image of elements
 $y_i \in S_g$. Let $\Psi$ be the $R$-algebra map defined
@@ -14174,48 +14197,53 @@ replacing $g$ assume that $\Psi(f_i) = 0$. This proves the claim.
 \medskip\noindent
 Thus we may assume $R$ and $S$ are local
 with maximal ideals $\mathfrak p$ and $\mathfrak q$.
-We may write $R \to S$ as a colimit of local ring maps
-$\text{colim}_{\lambda \in \Lambda}\ (R_\lambda \to S_\lambda)$
-as in Lemma \ref{lemma-limit-no-condition-local}.
-Denote $\mathfrak p_\lambda$ the maximal ideal of $R_\lambda$
-and denote $\mathfrak q_\lambda$ the maximal ideal of $S_\lambda$.
-Let $\mathfrak n_\lambda \subset \kappa(\mathfrak p_\lambda)[x_1, \ldots, x_n]$
-be the inverse image of $\mathfrak n$.
-We may pick $\lambda$ large enough so that
-\begin{enumerate}
-\item $\psi(x_i)$ corresponds to an element
-of $S_\lambda/\mathfrak p_\lambda S_\lambda$,
-\item each $\overline{f}_i$ corresponds to an element
-of $\kappa(\mathfrak p_\lambda)[x_1, \ldots, x_n]_{\mathfrak n_\lambda}$, and
-\item each $\overline{f}_i$ maps to zero under the induced map
-$$
-\psi_\lambda :
-\kappa(\mathfrak p_\lambda)[x_1, \ldots, x_n]_{\mathfrak n_\lambda}
-\longrightarrow
-S_\lambda/\mathfrak p_\lambda S_\lambda
-$$
-\end{enumerate}
-The induced map $\psi_\lambda$ may not be surjective.
-Choose elements $y_1, \ldots, y_m \in S_\lambda$
-such that $S_\lambda$ is a localization of the
-$R_\lambda$-sub algebra generated by $y_1, \ldots, y_m$.
-We may write $y_j = y'_j + \psi_\lambda(h_j)$ with
-$y'_j \in \mathfrak p_\lambda S_\lambda$. The induced homomorphism
-\begin{eqnarray*}
-\left(
-\kappa(\mathfrak p_\lambda)[x_1, \ldots, x_n, x_{n + 1}, \ldots, x_{n + m}]
-\right)_{\mathfrak n_\lambda, x_{n + 1}, \ldots, x_{n + m}}
-& \longrightarrow &
-S_\lambda/\mathfrak p_\lambda S_\lambda \\
-x_i & \longmapsto & \psi_\lambda(x_i) \\
-x_{n + j} & \longmapsto & y_j'
-\end{eqnarray*}
-is surjective. 
+Pick $y_1, \ldots, y_n \in S$ such that
+$y_i \bmod \mathfrak pS = \psi(x_i)$.
+Let $y_{n + 1}, \ldots, y_{n + m} \in S$ be elements which generate
+an $R$-subalgebra of which $S$ is the localization.
+These exist by the assumption that $S$ is essentially of
+finite type over $R$. Since $\psi$ is surjective we
+may write $y_{n + j} \bmod \mathfrak pS = \psi(h_j)$ for
+some $h_j \in \kappa(\mathfrak p)[x_1, \ldots, x_n]_{\mathfrak a}$.
+Write $h_j = g_j/d$, $g_j \in \kappa(\mathfrak p)[x_1, \ldots, x_n]$
+for some common denominator $d \in \kappa(\mathfrak p)[x_1, \ldots, x_n]$,
+$d \not \in \mathfrak a$. Choose lifts $G_j, D \in R[x_1, \ldots, x_n]$
+of $g_j$ and $d$. Set
+$y_{n + j}' = D(y_1, \ldots, y_n) y_{n + j} - G_j(y_1, \ldots, y_n)$.
+By construction $y_{n + j}' \in \mathfrak p S$.
+It is clear that $y_1, \ldots, y_n, y_n', \ldots, y_{n + m}'$
+generate an $R$-subalgebra of $S$ whose localization is $S$.
+We define $\Psi : R[x_1, \ldots, x_{n + m}] \to S$ to be
+the map that sends $x_i$ to $y_i$ for $i = 1, \ldots, n$
+and $x_{n + j}$ to $y'_{n + j}$ for $j = 1, \ldots, m$. Properties
+(1) and (4) are clear by construction. Moreover the ideal
+$\mathfrak b$ maps onto the ideal
+$(\mathfrak a, x_{n + 1}, \ldots, x_{n + m})$
+in the polynomial ring $\kappa(\mathfrak p)[x_1, \ldots, x_{n + m}]$.
 
-
+\medskip\noindent
+Denote $J = \text{Ker}(\Psi)$. We have a short exact sequence
+$$
+0 \to J_{\mathfrak b}
+\to R[x_1, \ldots, x_{n + m}]_{\mathfrak b}
+\to S_{\mathfrak q} 
+\to 0.
+$$
+The surjectivity comes from our choice of 
+$y_1, \ldots, y_n, y_n', \ldots, y_{n + m}'$ above.
+This implies that
+$$
+J_{\mathfrak b}/ \mathfrak pJ_{\mathfrak b}
+\to \kappa(\mathfrak p)[x_1, \ldots, x_{n + m}]_{
+(\mathfrak a, x_{n + 1}, \ldots, x_{n + m})}
+\to S_{\mathfrak q}/\mathfrak pS_{\mathfrak q} 
+\to 0
+$$
+is exact. By construction $x_i$ maps to $\psi(x_i)$ and
+$x_{n + j}$ maps to zero under the last map.
+Thus it is easy to choose $f_i$ as in
+(2) and (3) of the lemma.
 \end{proof}
-
-
 
 \begin{lemma}
 \label{lemma-syntomic}
@@ -14228,7 +14256,8 @@ The following are equivalent:
 $R \to S_g$ is syntomic.
 \item There exists an element $g \in S$, $g \not \in \mathfrak q$
 such that $S_g$ is a relative global complete intersection over $R$.
-\item The ring map $R \to S$ is of finite presentation,
+\item There exists an element $g \in S$, $g \not \in \mathfrak q$,
+such that $R \to S_g$ is of finite presentation,
 the local ring map $R_{\mathfrak p} \to S_{\mathfrak q}$ is flat, and
 $\kappa(\mathfrak p) \to S \otimes_R \kappa(\mathfrak p)$
 satisfies any of the conditions (1) - (5) of Lemma \ref{lemma-lci}
@@ -14237,19 +14266,48 @@ at the prime corresponding to $\mathfrak q$.
 \end{lemma}
 
 \begin{proof}
-Let $S = R[x_1, \ldots, x_n]/I$ be an arbitrary presentation.
-Let $\mathfrak q' \subset R[x_1, \ldots, x_n]$
-be the prime corresponding to $\mathfrak q$.
-
-\medskip\noindent
-The implication (1) $\Rightarrow$ (3) is clear.
+The implications (1) $\Rightarrow$ (3) is clear.
+The implication (2) $\Rightarrow$ (1) follows from
+Lemma \ref{lemma-relative-global-complete-intersection}.
 Let us prove the converse. Assume (3).
-By Theorem \ref{theorem-openess-flatness} there exists a
-$g \in S$, $g \not \in \mathfrak q$ such that
-$S_g$ is flat over $R$. By condition 
-
-
-
+After replacing $S$ by $S_g$ for some $g \in S$, $g\not\in \mathfrak q$
+we may assume $S$ is finitely presented over $R$.
+By the last statement of Lemma \ref{lemma-lci}
+we may find a surjection
+$\psi : \kappa(\mathfrak p)[x_1, \ldots, x_n]_{\mathfrak a}
+\to S_{\mathfrak q}/\mathfrak pS_{\mathfrak q}$ whose
+kernel is generated by a regular sequence
+$\overline{f}_1, \ldots, \overline{f}_c$ of
+$\kappa(\mathfrak p)[x_1, \ldots, x_n]_{\mathfrak a}$.
+We apply Lemma \ref{lemma-lift-elements-ideal}.
+Thus we find a $g \in S$, $g \not \in \mathfrak q$,
+a map $\Psi : R[x_1, \ldots, x_{n + m}] \to S_g$ 
+and elements $f_1, \ldots, f_{c + m}$ in the kernel
+of $\Psi$ which (up to units) give the elements
+$\overline{f}_1, \ldots, \overline{f}_c, x_{n + 1}, \ldots, x_{n + m})$
+in the local ring
+$\kappa(\mathfrak p)[x_1, \ldots, x_{n + m}]_{
+(\mathfrak a, x_{n + 1}, \ldots, x_{n + m})}$.
+Moreover, the referenced lemma shows the induced map
+$R[x_1, \ldots, x_{n + m}]_{\mathfrak b} \to S_{\mathfrak q}$
+is surjective. Consider the induced map
+$$
+\overline{\Psi} :
+R[x_1, \ldots, x_{n + m}]/(f_1, \ldots, f_{c + m})
+\longrightarrow
+S_g.
+$$
+By construction it induces an surjection between the localizations
+at the primes $\mathfrak b/(f_i)$ and $\mathfrak qS_g$.
+On the other hand, both sides are flat over $R_{\mathfrak p}$.
+FIXME.
+This on the one hand implies that
+a localization of
+$R[x_1, \ldots, x_{n + m}]/(f_1, \ldots, f_{c + m})$ is
+a relative global complete intersection, and on the other hand
+that $\overline{\Psi}$ becomes an isomorphism after localizing
+both sides at suitable elements (because both sides are
+of finite presentation over $R$).
 \end{proof}
 
 
