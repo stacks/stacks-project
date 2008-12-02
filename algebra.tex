@@ -8774,11 +8774,26 @@ the result above to $u \bmod I$, and we win.
 Suppose that $R \to S$ is a flat and local ring homomorphism of Noetherian
 local rings. Denote $\mathfrak m$ the maximal ideal of $R$.
 Suppose $f \in S$ is a nonzero divisor in $S/{\mathfrak m}S$.
-Then $S/fS$ is flat over $R$.
+Then $S/fS$ is flat over $R$, and $f$ is a nonzero divisor in $S$.
 \end{lemma}
 
 \begin{proof}
 Follows directly from Lemma \ref{lemma-mod-injective}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-grothendieck-regular-sequence}
+Suppose that $R \to S$ is a flat and local ring homomorphism of Noetherian
+local rings. Denote $\mathfrak m$ the maximal ideal of $R$.
+Suppose $f_1, \ldots, f_c$ is a sequence of elements of
+$S$ such that the images $\overline{f}_1, \ldots, \overline{f}_c$
+form a regular sequence in $S/{\mathfrak m}S$.
+Then $f_1, \ldots, f_c$ is a regular sequence in $S$ and each
+of the quotients $S/(f_1, \ldots, f_i)$ is flat over $R$.
+\end{lemma}
+
+\begin{proof}
+Induction and Lemma \ref{lemma-grothendieck} above.
 \end{proof}
 
 \begin{lemma}
@@ -14197,41 +14212,26 @@ Thus Lemma \ref{lemma-lci-field-change} applies.
 \begin{definition}
 \label{definition-relative-global-complete-intersection}
 Let $R \to S$ be a ring map. We say that $R \to S$ is
-a {\it relative global complete intersection} if
-$S = R[x_1, \ldots, x_n]/(f_1, \ldots, f_c)$ such that
+a {\it relative global complete intersection} if we are
+given a presentation $S = R[x_1, \ldots, x_n]/(f_1, \ldots, f_c)$ such that
 every nonempty fibre has dimension $n - c$.
 \end{definition}
 
 \begin{lemma}
-\label{lemma-relative-global-complete-intersection-conormal}
-Let $R$ be a ring. Let $S = R[x_1, \ldots, x_n]/(f_1, \ldots, f_c)$
-be a relative global complete intersection.
-Then $f_1, \ldots, f_c$ is a regular sequence in the ring
-$R[x_1, \ldots, x_n]$.
-\end{lemma}
-
-\begin{proof}
-Let $1 \leq i \leq c$. Assume, to get a contradiction,
-that $a \in R[x_1, \ldots, x_n]$ with $a \not \in (f_1, \ldots, f_{i - 1})$
-but $f_ia \in (f_1, \ldots, f_{i - 1})$. Choose a prime ideal
-$\mathfrak q \subset S$ such that $a$ maps to a nonzero
-element of $S_{\mathfrak q}$. 
-
-
-\end{proof}
-
-\begin{lemma}
 \label{lemma-base-change-relative-global-complete-intersection}
-Let $R \to S$ be a ring map.
-Assume that $R \to S$ is a relative global complete intersection.
+Let $S = R[x_1, \ldots, x_n]/(f_1, \ldots, f_c)$ be a
+relative global complete intersection over $R$.
 \begin{enumerate}
 \item For any $R \to R'$ the base change
-$R' \to R' \otimes_R S$ is a relative
+$R' \otimes_R S = R'[x_1, \ldots, x_n]/(f_1, \ldots, f_c)$ is a relative
 global complete intersection.
-\item For any $g \in S$ the map $R \to S_g$ is a relative
-global complete intersection.
+\item For any $g \in S$ which is the image of $h \in R[x_1, \ldots, x_n]$
+the ring
+$S_g = R[x_1, \ldots, x_n, x_{n + 1}]/(f_1, \ldots, f_c, hx_{n + 1} - 1)$
+is a relative global complete intersection.
 \item If $R \to S$ factors as $R \to R_f \to S$ for some $f \in R$.
-Then $R_f \to S$ is a relative global complete intersection.
+Then the ring $S = R_f[x_1, \ldots, x_n]/(f_1, \ldots, f_c)$
+is a relative global complete intersection over $R_f$.
 \end{enumerate}
 \end{lemma}
 
@@ -14241,11 +14241,9 @@ the fibres of a base change have the same dimension as the
 fibres of the original map. Moreover
 $R' \otimes_R R[x_1, \ldots, x_n]/(f_1, \ldots, f_c)
 = R'[x_1, \ldots, x_n]/(f_1, \ldots, f_c)$. Thus (1) follows.
-For (2) we use that if $S$ is isomorphic to
-$R[x_1, \ldots, x_n]/(f_1, \ldots, f_c)$
-and $g$ is the image of $g' \in R[x_1, \ldots, x_n]$
-then
-$S_g \cong R[x_1, \ldots, x_n, x_{n + 1}]/(f_1, \ldots, f_c, x_{n + 1}g' - 1)$.
+The proof of (2) is that
+the localization at one element can be described as
+$S_g \cong S[x_{n + 1}]/(gx_{n + 1} - 1)$.
 Assertion (3) follows from (1) since under the assumptions of (3) we have
 $R_f \otimes_R S \cong S$.
 \end{proof}
@@ -14254,40 +14252,44 @@ $R_f \otimes_R S \cong S$.
 \label{lemma-localize-relative-complete-intersection}
 Let $R$ be a ring.
 Let $S = R[x_1, \ldots, x_n]/(f_1, \ldots, f_c)$.
-Let $\mathfrak q \subset S$ be a prime lying over
-$\mathfrak p \subset R$.
+Let $\mathfrak q \subset S$ be a prime lying over $\mathfrak p \subset R$.
 If $\dim_{\mathfrak q}(S/R) = n - c$, then there
-exists a $g \in S$, $g \not \in \mathfrak q$
-such that $S_g$ is a relative global complete
-intersection over $R$.
+exists a $h \in R[x_1, \ldots, x_n]$ which maps to $g \in S$,
+$g \not \in \mathfrak q$ such that
+$S_g = R[x_1, \ldots, x_n, x_{n + 1}]/(f_1, \ldots, f_c, hx_{n + 1} - 1)$
+is a relative global complete intersection over $R$.
 \end{lemma}
 
 \begin{proof}
 By Lemma \ref{lemma-dimension-fibres-bounded-open-upstairs}
 there exists a $g \in S$, $g \not \in \mathfrak q$
 such that all nonempty fibres of $R \to S_g$
-have dimension $\leq n - c$. Let $g' \in R[x_1, \ldots, x_n]$
+have dimension $\leq n - c$. Let $h \in R[x_1, \ldots, x_n]$
 be an element that maps to $g$.
 Then $S_g \cong R[x_1, \ldots, x_n, x_{n + 1}]/(f_1, \ldots, f_c, f_{c + 1})$
-with $f_{c + 1} = g' x_{n + 1} - 1$. Thus $S_g$ is a 
+with $f_{c + 1} = h x_{n + 1} - 1$. Thus $S_g$ is a 
 relative global complete intersection.
 \end{proof}
 
 \begin{lemma}
 \label{lemma-relative-global-complete-intersection-Noetherian}
-Let $R$ be a ring.
-Let $S$ be a relative global complete intersection.
-Let $\mathfrak q \subset S$ be a prime.
-There exist an element $g \in S$, $g \not \in \mathfrak q$,
-a Noetherian ring $R_0$, a ring map $R_0 \to R$,
-and a relative global complete intersection $S_0$ over $R_0$
-such that $S_g \cong R\otimes_{R_0} S_0$ as
-$R$-algebras.
+Let $R$ be a ring. Let $S$ be a relative global complete intersection
+with presentation $S = R[x_1, \ldots, x_n]/(f_1, \ldots, f_c)$.
+Let $\mathfrak q \subset S$ be a prime. There exist
+\begin{enumerate}
+\item  a finite type $\mathbf{Z}$-subalgebra $R_0 \subset R$
+such that $f_i \in R_0[x_1, \ldots, x_n]$, and
+\item an element $h \in R_0[x_1, \ldots, x_n]$
+\end{enumerate}
+such that with $f_{c + 1} = h x_{n + 1} - 1$ we have
+\begin{enumerate}
+\item $h$ maps to an element $g$ of $S$ which is not in $\mathfrak q$, and
+\item $R_0[x_1, \ldots, x_n, x_{n + 1}]/(f_1, \ldots, f_c, f_{c + 1})$
+is a relative global complete intersection over $R_0$.
+\end{enumerate}
 \end{lemma}
 
 \begin{proof}
-Write $S = R[x_1, \ldots, x_n]/(f_1, \ldots, f_c)$ as in
-Definition \ref{definition-relative-global-complete-intersection}.
 Let $R_0 \subset R$ be the $\mathbf{Z}$-algebra of $R$
 generated by all the coefficients of the polynomials
 $f_1, \ldots, f_c$. Let $S_0 = R_0[x_1, \ldots, x_n]/(f_1, \ldots, f_c)$.
@@ -14302,7 +14304,100 @@ see Lemma \ref{lemma-dimension-preserved-field-extension} for example.
 By Lemma \ref{lemma-localize-relative-complete-intersection} we
 conclude that there exists a $g \in S_0$, $g \not \in \mathfrak q_0$
 such that $R_0 \to (S_0)_g$ is a relative global complete
-intersection. Since $R \otimes_{R_0} (S_0)_g \cong S_g$ we win.
+intersection. Let $h \in R_0[x_1, \ldots, x_n]$ be any element
+mapping to $g$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-relative-global-complete-intersection-conormal}
+Let $R$ be a ring. Let $S = R[x_1, \ldots, x_n]/(f_1, \ldots, f_c)$
+be a relative global complete intersection. For every prime
+$\mathfrak q$ of $S$, let $\mathfrak q'$ denote the corresponding
+prime of $R[x_1, \ldots, x_n]$. Then
+\begin{enumerate}
+\item $f_1, \ldots, f_c$ is a regular sequence in the local ring
+$R[x_1, \ldots, x_n]_{\mathfrak q'}$,
+\item each of the rings
+$R[x_1, \ldots, x_n]_{\mathfrak q'}/(f_1, \ldots, f_i)$ is flat over $R$, and
+\item the $S$-module $(f_1, \ldots, f_c)/(f_1, \ldots, f_c)^2$
+is free with basis given by the elements $f_i \bmod (f_1, \ldots, f_c)^2$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+First, by Lemma \ref{lemma-regular-quasi-regular}, the last stament
+follows from the first.
+
+\medskip\noindent
+We first reduce (1) and (2) to the Noetherian case.
+Namely, assume the lemma holds in the Noetherian case.
+For every $\mathfrak q$ we may choose $R_0$, $h$,
+$f_{c + 1} = hx_{n + 1} - 1$ and $g$
+as in Lemma \ref{lemma-relative-global-complete-intersection-Noetherian}.
+Denote $\mathfrak q'' \subset R[x_1, \ldots, x_{n + 1}]$ the unique
+prime containing $\mathfrak q$ and $f_{c + 1}$, i.e., the one that
+corresponds to the prime $\mathfrak qS_g$ via the isomorphism
+$S_g = R[x_1, \ldots, x_n, x_{n + 1}]/(f_1, \ldots, f_c, f_{c + 1})$.
+Denote $\mathfrak q_0'' \subset R_0[x_1, \ldots, x_n, x_{n + 1}]$
+the prime corresponding to $q''$. Because
+$S_0 = R_0[x_1, \ldots, x_n, x_{n + 1}]/(f_1, \ldots, f_c, f_{c + 1})$
+is a relative global complete intersection over a Noetherian ring
+we see that $f_{c + 1}, f_1, \ldots, f_c$ is a regular sequence
+in $R_0[x_1,\ldots, x_{n + 1}]_{\mathfrak q_0''}$. Since after all
+we may reorder the elements at will without destroying the
+property of being a relative global complete intersection.
+Similarly each ring
+$R_0[x_1,\ldots, x_{n + 1}]_{\mathfrak q_0''}/(f_{c + 1}, f_1, \ldots, f_i)$
+is flat over $R_0$. Thus each short exact sequence
+$$
+0 \to
+(P_0)_{\mathfrak q_0''}/(f_{c + 1}, f_1, \ldots, f_{i - 1})
+\to
+(P_0)_{\mathfrak q_0''}/(f_{c + 1}, f_1, \ldots, f_{i - 1})
+\to
+(P_0)_{\mathfrak q_0''}/(f_{c + 1}, f_1, \ldots, f_i)
+\to
+0
+$$
+and the short exact sequence
+$$
+0 \to
+(P_0)_{\mathfrak q_0''}
+\to
+(P_0)_{\mathfrak q_0''}
+\to
+(P_0)_{\mathfrak q_0''}/(f_{c + 1})
+\to
+0
+$$
+with $P_0 = R_0[x_1, \ldots, x_n, x_{n + 1}]$ remains exact upon tensoring
+over $R_0$ with $R$, see Lemma \ref{lemma-flat-tor-zero}.
+Since $R[x_1, \ldots, x_n, x_{n + 1}]_{\mathfrak q''}$ is a
+localization of $R \otimes_{R_0} P_0$ we conclude that
+$f_{c + 1}, f_1, \ldots, f_c$ form a regular sequence in the local ring
+$R[x_1, \ldots, x_n, x_{n + 1}]_{\mathfrak q''}$.
+Finally we use the obvious isomorphism
+$R[x_1, \ldots, x_{n + 1}]_{\mathfrak q''}/(f_{c + 1})
+\cong R[x_1, \ldots, x_n]_{\mathfrak q'}$, to conclude that
+$f_1, \ldots, f_c$ form a regular sequence in the local ring
+$R[x_1, \ldots, x_n]_{\mathfrak q'}$. Similarly
+the quotients
+$$
+R[x_1, \ldots, x_n, x_{n + 1}]_{\mathfrak q''}/(f_{c + 1}, f_1, \ldots, f_i)
+\cong R[x_1, \ldots, x_n]_{\mathfrak q'}/(f_1, \ldots, f_i)
+$$
+are flat over $R$ as desired.
+
+\medskip\noindent
+It remains to show (1) and (2) in case $R$ is Noetherian.
+By Lemma \ref{lemma-lci} for example we see that $f_1, \ldots, f_c$
+form a regular sequence in the local ring
+$R[x_1, \ldots, x_n]_{\mathfrak q'}\otimes_R \kappa(\mathfrak p)$.
+Moreover, the local ring $R[x_1, \ldots, x_n]_{\mathfrak q'}$
+is flat over $R_{\mathfrak p}$. Since $R$, and hence
+$R[x_1, \ldots, x_n]_{\mathfrak q'}$ is Noetherian we
+may apply Lemma \ref{lemma-grothendieck-regular-sequence}
+to conclude.
 \end{proof}
 
 \begin{lemma}
@@ -14315,47 +14410,8 @@ Let $R \to S$ be a relative global complete intersection.
 The fibres are global complete intersections, and
 $S$ is of finite presentation over $R$.
 Thus the only thing to prove is that $R \to S$ is flat.
-
-\medskip\noindent
-We first reduce to the case that $R$ is Noetherian.
-Write $S = R[x_1, \ldots, x_n]/(f_1, \ldots, f_c)$ as in
-Definition \ref{definition-relative-global-complete-intersection}.
-Let $R_0 \subset R$ be the $\mathbf{Z}$-algebra of $R$
-generated by all the coefficients of the polynomials
-$f_1, \ldots, f_c$. Let $S_0 = R_0[x_1, \ldots, x_n]/(f_1, \ldots, f_n)$.
-Clearly, $S = R \otimes_{R_0} S_0$.
-Let $\mathfrak q \subset S$ be a prime of $S$ lying over
-the prime  $\mathfrak p \subset R$, and
-let $\mathfrak q_0 \subset S_0$ be the corresponding prime
-lying over the prime $\mathfrak p_0$ of $R_0$.
-Because $\dim (S \otimes_R \kappa(\mathfrak p) ) = n - c$
-we also have $\dim (S_0 \otimes_{R_0} \kappa(\mathfrak p_0)) = n - c$,
-see Lemma \ref{lemma-dimension-preserved-field-extension} for example.
-By Lemma \ref{lemma-localize-relative-complete-intersection} we
-conclude that there exists a $g \in S_0$, $g \not \in \mathfrak q_0$
-such that $R_0 \to (S_0)_g$ is a relative global complete
-intersection. If we show that $R_0 \to (S_0)_g$ is flat at
-$\mathfrak q_0$, then $R \to S$ will be flat at $\mathfrak q$,
-see Lemma \ref{lemma-flat-base-change}. Thus we have reduced
-to the case where $R$ is Noetherian.
-
-\medskip\noindent
-Let $\mathfrak q \subset S$ be a prime of $S$ lying over
-$\mathfrak p \subset R$, and let $\mathfrak q'$
-be the corresponding prime of $R[x_1, \ldots, x_n]$.
-We will show that $S_{\mathfrak q}$ is flat over $R_{\mathfrak p}$.
-By Lemma \ref{lemma-lci} for example we see that $f_1, \ldots, f_c$
-form a regular sequence in the local ring
-$R[x_1, \ldots, x_n]_{\mathfrak q'}\otimes \kappa(\mathfrak p)$.
-Moreover, the local ring $R[x_1, \ldots, x_n]_{\mathfrak q'}$
-is flat over $R_{\mathfrak p}$. 
-By Lemma \ref{lemma-grothendieck} the local ring
-$R[x_1, \ldots, x_n]_{\mathfrak q'}/(f_1)$ is flat
-over $R_{\mathfrak p}$. (This is where we use $R$ is Noetherian.)
-We may apply Lemma \ref{lemma-grothendieck} again because
-$f_2$ is not a zero divisor in the ring
-$R[x_1, \ldots, x_n]_{\mathfrak q'}/(f_1) \otimes \kappa(\mathfrak p)$.
-And so on.
+This is true by (2) of
+Lemma \ref{lemma-relative-global-complete-intersection-conormal} above.
 \end{proof}
 
 
