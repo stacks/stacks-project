@@ -11099,7 +11099,46 @@ map $K[y_1, \ldots, y_d] \to K\otimes_k S$.
 The result follows from Lemma \ref{lemma-integral-sub-dim-equal}.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-dimension-preserved-field-extension}
+Let $k$ be a field.
+Let $S$ be a finite type $k$-algebra.
+Set $X = \text{Spec}(S)$.
+Let $k \subset K$ be a field extension.
+Set $X_K = \text{Spec}(K \otimes_k S)$.
+Let $\mathfrak q \subset S$ be a prime corresponding to $x \in X$
+and let $\mathfrak q_K \subset K \otimes_k S$ be a prime corresponding
+to $x_K \in X_K$ lying over $\mathfrak q$.
+Then $\dim_x X = \dim_{x_K} X_K$.
+\end{lemma}
 
+\begin{proof}
+Choose a presentation $S = k[x_1, \ldots, x_n]/I$.
+This gives a presentation
+$K \otimes_k S = K[x_1, \ldots, x_n]/(K\otimes_k I)$.
+Let $\mathfrak q_K' \subset K[x_1, \ldots, x_n]$,
+resp.\ $\mathfrak q' \subset k[x_1, \ldots, x_n]$ be
+the corresponding primes. Consider the following
+commutative diagram of Noetherian local rings
+$$
+\xymatrix{
+K[x_1, \ldots, x_n]_{\mathfrak q_K'} \ar[r] &
+(K \otimes_k S)_{\mathfrak q_K} \\
+k[x_1, \ldots, x_n]_{\mathfrak q'} \ar[r] \ar[u] &
+S_{\mathfrak q} \ar[u]
+}
+$$
+Since both vertical arrows are flat and since they have
+the same fibre rings, we see from
+Lemma \ref{lemma-dimension-base-fibre-equals-total} that
+$\text{height}(\mathfrak q') - \text{height}(\mathfrak q)
+= \text{height}(\mathfrak q_K') - \text{height}(\mathfrak q_K)$.
+Denote
+
+
+
+
+\end{proof}
 
 
 
@@ -15209,15 +15248,18 @@ at every prime $\mathfrak q$ of $S$.
 \begin{proof}
 The direct implication is trivial. Suppose that $R \to S$ is smooth
 at every prime $\mathfrak q$ of $S$. Since $\text{Spec}(S)$ is
-quasi-compact, see Lemma \ref{}, there exists a finite covering
+quasi-compact, see Lemma \ref{lemma-quasicompact},
+there exists a finite covering
 $\text{Spec}(S) = \bigcup D(g_i)$ such that each $S_{g_i}$ is
 smooth. By Lemma \ref{lemma-cover-upstairs} this implies that
 $S$ is of finite presentation over $R$. Let $NL(\alpha)$ be
 the naive cotangent complex of $S$ over $R$ with respect to some
-presentation $\alpha$. According to Lemma \ref{} we see that
+presentation $\alpha$. According to Lemma \ref{lemma-localize-NL}
+we see that
 $NL(\alpha)_{g_i}$ is quasi-isomorphic to a finite projective
-$S_{g_i}$-module. 
-
+$S_{g_i}$-module. By Lemma \ref{lemma-finite-projective}
+this implies that $NL(\alpha)$ is quasi-isomorphic to a finite
+projective $S$-module.
 \end{proof}
 
 
@@ -15302,15 +15344,478 @@ $\kappa(\mathfrak p) \to S \otimes_R \kappa(\mathfrak p)$.
 \end{proof}
 
 
+\section{Formally smooth maps}
+\label{section-formally-smooth}
+
+\begin{definition}
+\label{definition-formally-smooth}
+Let $R \to S$ be a ring map.
+We say {\it $S$ is formally smooth over $R$} if for every
+commutative solid diagram
+$$
+\xymatrix{
+S \ar[r] \ar@{-->}[rd] & A/I \\
+R \ar[r] \ar[u] & A \ar[u]
+}
+$$
+where $I \subset A$ is an ideal of square zero, the dotted
+arrow exists.
+\end{definition}
+
 \begin{lemma}
-\label{lemma-smooth-formally-smooth}
-
-
+\label{lemma-base-change-fs}
+Let $R \to S$ be a formally smooth ring map.
+Let $R \to R'$ be any ring map.
+Then the base change $S' = R' \otimes_R S$ is formally smooth over $R'$.
 \end{lemma}
 
+\begin{proof}
+Let a solid diagram
+$$
+\xymatrix{
+S \ar[r] \ar@{-->}[rrd] & R' \otimes_R S \ar[r] \ar@{-->}[rd] & A/I \\
+R  \ar[u] \ar[r] & R' \ar[r] \ar[u] & A \ar[u]
+}
+$$
+as in Definition \ref{definition-formally-smooth} be given.
+By assumption the longer dotted arrow exists. By the universal
+property of tensor product we obtain the shorter dotted arrow.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-polynomial-ring-formally-smooth}
+A polynomial ring over $R$ is formally smooth over $R$.
+\end{lemma}
+
+\begin{proof}
+Suppose we have a diagram as in Definition \ref{definition-formally-smooth}
+with $S = R[x_j; j \in J]$. Then there exists a dotted arrow
+simply by choosing lifts $a_j \in A$ of the elements in $A/I$
+to which the elements $x_j$ map to under the top horizontal arrow.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-characterize-formally-smooth}
+Let $R \to S$ be a ring map.
+Let $P \to S$ be a surjective $R$-algebra map from a
+polynomial ring $P$ onto $S$. Denote $J \subset P$ the
+kernel. Then $R \to S$ is formally smooth if and only
+if there exists an $R$-algebra map $\sigma : S \to P/J^2$
+which is a right inverse to the surjection
+$P/J^2 \to S$.
+\end{lemma}
+
+\begin{proof}
+Assume $R \to S$ is formally smooth.
+Consider the commutative diagram
+$$
+\xymatrix{
+S \ar[r] \ar@{-->}[rd] & P/J \\
+R \ar[r] \ar[u] &  P/J^2\ar[u]
+}
+$$
+By assumption the dotted arrow exists. This proves that
+$\sigma$ exists.
+
+\medskip\noindent
+Conversely, suppose we have a $\sigma$ as in the lemma.
+Let a solid diagram
+$$
+\xymatrix{
+S \ar[r] \ar@{-->}[rd] & A/I \\
+R \ar[r] \ar[u] & A \ar[u]
+}
+$$
+as in Definition \ref{definition-formally-smooth} be given.
+Because $P$ is formally smooth by
+Lemma \ref{lemma-polynomial-ring-formally-smooth},
+there exists an $R$-algebra homomorphism
+$\psi : P \to A$ which lifts the map $P \to S \to A/I$.
+Clearly $\psi(J) \subset I$ and since $I^2 = 0$ we conclude that
+$\psi(J^2) = 0$. Hence $\psi$ factors as
+$\overline{\psi} : P/J^2 \to A$. The desired dotted arrow
+is the composition $\overline{\psi} \circ \sigma : S \to A$.
+\end{proof}
+
+\begin{remark}
+\label{remark-lemma-characterize-formally-smooth}
+Lemma \ref{lemma-characterize-formally-smooth} above holds more
+generally whenever $P$ is formally smooth over $R$.
+\end{remark}
+
+\begin{lemma}
+\label{lemma-smooth-formally-smooth}
+Let $R \to S$ be a smooth ring map.
+Then $R \to S$ is formally smooth.
+\end{lemma}
+
+\begin{proof}
+Let $S = R[x_1, \ldots, x_n]/I$ with $I = (f_1, \ldots, f_m)$.
+By Definition \ref{definition-smooth}
+and the discussion directly below it, we have
+a (noncanonical) direct sum decomposition
+$$
+\Omega_{R[x_1, \ldots, x_n]/R} \otimes_{R[x_1, \ldots, x_n]} S
+= \bigoplus_{i = 1}^n S \text{d}x_i 
+= I/I^2 \oplus \Omega_{S/R}.
+$$
+For each $i$ use the given decomposition to write
+$\text{d}x_i = \sum_j g_{ij} f_j + \theta_i$ for some (nonunique)
+$g_{ij} \in S$ and $\theta_i \in \Omega_{S/R}$.
+Choose $h_{ij} \in R[x_1, \ldots, x_n]$ mapping to $g_{ij} \in S$.
+By definition of the map
+$I/I^2 \to \Omega_{R[x_1, \ldots, x_n]/R} \otimes_{R[x_1, \ldots, x_n]} S$
+and its linearity, we see that for any $k$ we have
+$$
+f_k = 
+\sum\nolimits_{i,j}
+\frac{\partial f_k}{\partial x_i}(x_1, \ldots, x_n) h_{ij} f_j
+\bmod I^2.
+$$
+(We also get some relation among the $\theta_i$ which we will
+not need.)
+Consider the $R$-algebra homomorphism
+$$
+\Psi :
+R[x_1, \ldots, x_n] \to R[x_1, \ldots, x_n],\ 
+x_i \mapsto x_i - \sum h_{ij} f_j
+$$
+Let us compute the image of $f_k$ as follows
+\begin{eqnarray*}
+\Psi(f_k) & = &
+f_k(x_1 - \sum h_{1j} f_j,\ \ldots,\ x_n - \sum h_{nj} f_j) \\
+& = &
+f_k(x_1, \ldots, x_n) -
+\sum \frac{\partial f_k}{\partial x_i}(x_1, \ldots, x_n) h_{ij} f_j
+\bmod I^2 \\
+& = & f_k - f_k \bmod I^2 = 0 \bmod I^2
+\end{eqnarray*}
+by what was said above. Thus $\Psi$ factors as a map
+$\sigma : S \to R[x_1, \ldots, x_n]/I^2$. The lemma follows
+from this and Lemma \ref{lemma-characterize-formally-smooth} above.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-formally-smooth-finite-type-field}
+Let $k$ be a field. Let $S$ be a $k$-algebra.
+If $S$ is of finite type and formally smooth over $k$
+then $S$ is smooth over $k$.
+\end{lemma}
+
+\begin{proof}
+We work backwards through the proof of
+Lemma \ref{lemma-smooth-formally-smooth} above.
+Choose a presentation $S = R[x_1, \ldots, x_n]/I$.
+Write $I = (f_1, \ldots, f_m)$.
+Let $\sigma : R[x_1, \ldots, x_n]/I \to R[x_1, \ldots, x_n]/I^2$
+be as in Lemma \ref{lemma-characterize-formally-smooth}. Write
+$\sigma(x_i \bmod I) = x_i - \sum h_{ij} f_j \bmod I^2$
+for some (nonunique) $h_{ij} \in R[x_1, \ldots, x_n]$.
+Since $\sigma$ is a ring map we have
+\begin{eqnarray*}
+0 & = & \sigma(f_k) \\
+& = & 
+f_k(x_1 - \sum h_{1j} f_j,\ \ldots,\ x_n - \sum h_{nj} f_j) \bmod I^2 \\
+& = &
+f_k - \sum \frac{\partial f_k}{\partial x_i} h_{ij} f_j \bmod I^2
+\end{eqnarray*}
+Thus we see that if we define
+\begin{eqnarray*}
+\Omega_{R[x_1, \ldots, x_n]/R} \otimes_R S
+=
+\bigoplus\nolimits_{i = 1}^n S \text{d}x_i
+& \longrightarrow &
+I/I^2 \\
+\text{d}x_i & \longmapsto & \sum\nolimits_j h_{ij} f_j \bmod I^2
+\end{eqnarray*}
+then the composition
+$$
+I/I^2 \longrightarrow
+\Omega_{R[x_1, \ldots, x_n]/R} \otimes_R S
+\longrightarrow
+I/I^2
+$$
+is the identity. This proves that the naive cotangent complex
+is quasi-isomorphic to a direct summand of
+$\Omega_{R[x_1, \ldots, x_n]/R} \otimes_R S$ and hence we win.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-finite-presentation-fs-Noetherian}
+Let $R \to S$ be a ring map of finite presentation which is
+also formally smooth. Then there exists a subring $R_0 \subset R$
+of finite type over $\mathbf{Z}$ and a formally smooth
+ring map $R_0 \to S_0$ such that $S \cong R \otimes_{R_0} S_0$.
+\end{lemma}
+
+\begin{proof}
+Write $S = R[x_1, \ldots, x_n]/(f_1, \ldots, f_m)$
+and denote $I = (f_1, \ldots, f_m)$.
+Choose a right inverse
+$\sigma : S \to R[x_1, \ldots, x_n]/I^2$
+to the projection to $S$ as in
+Lemma \ref{lemma-characterize-formally-smooth}.
+Choose $h_i \in R[x_1, \ldots, x_n]$ such that
+$\sigma(x_i \bmod I) = h_i \bmod I^2$.
+The fact that $\sigma$ is an $R$-algebra homomorphism
+$R[x_1, \ldots, x_n]/I \to R[x_1, \ldots, x_n]/I^2$
+is equivalent to the condition that
+$$
+f_j(h_1, \ldots, h_n) = \sum\nolimits_{j_1 j_2} a_{j_1 j_2} f_{j_1} f_{j_2}
+$$
+for certain $a_{kl} \in R[x_1, \ldots, x_n]$.
+Let $R_0 \subset R$ be the subring generated over $\mathbf{Z}$
+by all the coefficients of the polynomials $f_j, h_i, a_{kl}$. 
+Set $S_0 = R_0[x_1, \ldots, x_n]/(f_1, \ldots, f_m)$,
+with $I_0 = (f_1, \ldots, f_m)$.
+Let $\sigma_0 : S_0 \to R_0[x_1, \ldots, x_n]/I_0^2$ defined by
+the rule $x_i \mapsto h_i \bmod I_0^2$; this works since the
+$a_{lk}$ are defined over $R_0$ and satisfy the same relations.
+Thus by Lemma \ref{lemma-characterize-formally-smooth}
+the ring $S_0$ is formally smooth over $R_0$.
+\end{proof}
+
+\section{Smoothness and differentials}
+\label{section-smooth-differential}
+
+\noindent
+Warning: The following two lemmas do not hold over nonperfect
+fields in general.
+
+\begin{lemma}
+\label{lemma-rank-omega}
+Let $k$ be an algebraically closed field.
+Let $S$ be a finite type $k$-algebra.
+Let $\mathfrak m \subset S$ be a maximal ideal.
+Then
+$$
+\dim_{\kappa(\mathfrak m)} \Omega_{S/k} \otimes_S \kappa(\mathfrak m)
+=
+\dim_{\kappa(\mathfrak m)} \mathfrak m/\mathfrak m^2.
+$$
+\end{lemma}
+
+\begin{proof}
+Since $k$ is algebraically closed we have $\kappa(\mathfrak m) = k$.
+We may choose a presentation
+$0 \to I \to k[x_1, \ldots, x_n] \to S\to 0$ such that
+all $x_i$ end up in $\mathfrak m$. Write $I = (f_1, \ldots, f_m)$.
+Note that each $f_i$ is contained in $(x_1, \ldots, x_n)$, i.e., each
+$f_i$ has zero constant term. Hence we may write
+$$
+f_j = \sum a_{ij} x_i + \text{h.o.t.}
+$$
+By Lemma \ref{lemma-differential-seq} there is an exact sequence
+$$
+\bigoplus S \cdot f_j
+\to
+\bigoplus S \cdot \text{d}x_i
+\to 
+\Omega_{S/k}
+\to 
+0.
+$$
+Tensoring with $\kappa(\mathfrak m) = k$ we get
+an exact sequence
+$$
+\bigoplus k \cdot f_j
+\to
+\bigoplus k \cdot \text{d}x_i
+\to 
+\Omega_{S/k} \otimes \kappa(\mathfrak m)
+\to 
+0.
+$$
+The matrix of the map is given by the partial derivatives of
+the $f_j$ evaluated at $0$. In other words by the matrix $(a_{ij})$.
+Similarly there is a short exact sequence
+$$
+(f_1, \ldots, f_m)/(x_1 f_1, \ldots, x_n f_m)
+\to
+(x_1, \ldots, x_n)/(x_1, \ldots, x_n)^2
+\to
+\mathfrak m/\mathfrak m^2
+\to
+0.
+$$
+Note that the first map is given by expanding the $f_j$
+in terms of the $x_i$, i.e., by the same matrix $(a_{ij})$.
+Hence the two numbers are the same.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-characterize-smooth-kbar}
+Let $k$ be an algebraically closed field.
+Let $S$ be a finite type $k$-algebra.
+Let $\mathfrak m \subset S$ be a maximal ideal.
+The following are equivalent:
+\begin{enumerate}
+\item The ring $S_{\mathfrak m}$ is a regular local ring.
+\item There exists a $g \in S$, $g \not \in \mathfrak m$
+such that $S_g$ is smooth over $k$. In other words $S/k$
+is smooth at $\mathfrak m$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Assume that $S$ is smooth at $\mathfrak q$.
+By Lemma \ref{lemma-smooth-syntomic} we see that
+$S_g$ is standard smooth over $k$
+for a suitable $g \in S$, $g \not \in \mathfrak m$.
+Hence by Lemma \ref{lemma-standard-smooth}
+we see that $\Omega_{S_g/k}$ is free of rank $\dim(S_g)$.
+Hence by Lemma \ref{lemma-rank-omega}
+we see that $\dim(S_m) = \dim (\mathfrak m/\mathfrak m^2)$
+in other words $S_\mathfrak m$ is regular.
+
+\medskip\noindent
+Conversely, suppose that $S_{\mathfrak m}$ is regular.
+Let $d = \dim(S_{\mathfrak m}) = \dim \mathfrak m/\mathfrak m^2$.
+Choose a presentation $S = k[x_1, \ldots, x_n]/I$
+such that $x_i$ maps to an element of $\mathfrak m$ for
+all $i$. In other words, $\mathfrak m'' = (x_1, \ldots, x_n)$
+is the corresponding maximal ideal of $k[x_1, \ldots, x_n]$.
+Note that we have a short exact sequence
+$$
+I/\mathfrak m''I \to \mathfrak m''/(\mathfrak m'')^2
+\to \mathfrak m/(\mathfrak m)^2 \to 0
+$$
+Pick $c = n - d$ elements $f_1, \ldots, f_d \in I$ such that
+their images in $\mathfrak m''/(\mathfrak m'')^2$ span the
+kernel of the map to $\mathfrak m/(\mathfrak m)^2$. This is clearly
+possible. Denote $J = (f_1, \ldots, f_c)$. So $J \subset I$.
+Denote $S' = k[x_1, \ldots, x_n]/J$ so there is a surjection
+$S' \to S$. Denote $\mathfrak m' = \mathfrak m''S'$ the corresponding
+maximal ideal of $S'$. Hence we have
+$$
+\xymatrix{
+k[x_1, \ldots, x_n] \ar[r] & S' \ar[r] & S \\
+\mathfrak m'' \ar[u] \ar[r] & \mathfrak m' \ar[r] \ar[u] &
+\mathfrak m \ar[u]
+}
+$$
+By our choice of $J$ the exact sequence
+$$
+J/\mathfrak m''J \to \mathfrak m''/(\mathfrak m'')^2
+\to \mathfrak m'/(\mathfrak m')^2 \to 0
+$$
+shows that $\dim( \mathfrak m'/(\mathfrak m')^2 ) = d$.
+Since $S'_{\mathfrak m'}$ surjects onto $S_{\mathfrak m}$
+we see that $\dim(S_{\mathfrak m'}) \geq d$. Hence by
+the discussion preceding Definition \ref{definition-regular-local}
+we conclude that $S'_{\mathfrak m'}$ is
+regular of dimension $d$ as well. Because $S'$ was cut out
+by $c = n - d$ equations we
+conclude that there exists a $g' \in S'$, $g' \not \in \mathfrak m'$
+such that $S'_{g'}$ is a global complete intersection over $k$,
+see Lemma \ref{lemma-lci}.
+Also the map $S'_{\mathfrak m'} \to S_{\mathfrak m}$
+is a surjection of Noetherian local domains of the same
+dimension and hence an isomorphism. By Lemma \ref{lemma-local-isomorphism}
+we see that $S'_{g''} \cong S_{g''}$ for some $g'' \in S'$,
+$g'' \not \in \mathfrak m'$. All in all we conclude that
+after replacing $S$ by a principal localization we may
+assume that $S$ is a global complete intersection.
+
+\medskip\noindent
+At this point we may write $S = k[x_1, \ldots, x_n]/(f_1, \ldots, f_c)$
+with $\dim S = n - c$. Recall that the naive cotangent complex
+of this algebra is given by
+$$
+\bigoplus S \cdot f_j
+\to
+\bigoplus S \cdot \text{d}x_i
+$$
+see Lemma \ref{lemma-relative-global-complete-intersection-smooth}.
+By this same lemma in order to show that $S$ is smooth at
+$\mathfrak m$ we have to show that one of the $c \times c$
+minors $g_I$ of the matrix ``$A$'' giving the map above
+does not vanish at $\mathfrak m$. By Lemma \ref{lemma-rank-omega}
+the matrix $A \bmod \mathfrak m$ has rank $c$. Thus we win.
+\end{proof}
+
+\begin{lemma}
+Let $k$ be a field.
+Let $S$ be a finite type $k$-algebra.
+Let $X = \text{Spec}(S)$.
+Let $\mathfrak q \subset S$ be a prime
+corresponding to $x \in X$.
+Let $d \geq 0$ be an integer.
+Assume that
+\begin{enumerate}
+\item $\dim_x X = d$,
+\item $\Omega_{S/k, \mathfrak q}$ is free of rank $d$.
+\end{enumerate}
+Then $S$ is smooth at $\mathfrak q$ over $k$.
+\end{lemma}
+
+\begin{proof}
+We may replace $S$ by $S_g$ for some $g \in S$, $g \not \in \mathfrak q$
+such that $\dim(X) = d$, all irreducible components of $X$ pass through
+$x$ and $\Omega_{S/k}$ is free of rank $d$.
+Let $K \supset k$ be an algebraically closed field extension
+such that there exists a $k$-algebra map $\psi : \kappa(\mathfrak q) \to K$.
+Consider $S_K = K \otimes_k S$. Let $\mathfrak m \subset S_K$
+be the maximal ideal corresponding to the surjection
+$$
+\xymatrix{
+S_K = K \otimes_k S
+\ar[r] &
+K \otimes_k \kappa(\mathfrak q)
+\ar[r]^-{\text{id}_K \otimes \psi} &
+K.
+}
+$$
+By Lemma \ref{lemma-differentials-base-change}
+the module of differentials of $S_K$ over $K$ is
+the base change of $\Omega_{S/k}$, hence free of rank $d$ over $S_K$.
+By Lemma \ref{lemma-dimension-preserved-field-extension}
+the dimension of $X_K = \text{Spec}(S_K)$ is $d$.
+
+Moreover, $S \cap \mathfrak m = \mathfrak q$. 
 
 
 
+
+
+
+
+\end{proof}
+
+
+
+
+
+
+
+
+\begin{lemma}
+\label{lemma-smooth-differentials}
+Let $R \to S$ be a ring map.
+Let $\mathfrak q \subset S$ be a prime.
+Let $d \geq 0$ be an integer.
+Assume that
+\begin{enumerate}
+\item there exists a $g \in S$, $g \not \in \mathfrak q$
+such that $S_g$ is of finite presentation over $R$,
+\item $\dim_{\mathfrak q}(S/R) = d$,
+\item $\Omega_{S/R, \mathfrak q}$ is free of rank
+$d$ over $S_{\mathfrak q}$.
+\end{enumerate}
+The $S/R$ is smooth at $\mathfrak q$.
+\end{lemma}
+
+\begin{proof}
+By Lemmas \ref{} and \ref{} we may find a $g \in S$,
+$g \not \in \mathfrak q$ such that
+after replacing $S$ by $S_g$ we have
+$\dim(S/R) = d$, and $\Omega_{S/R}$ free of rank $d$.
+
+
+
+
+
+\end{proof}
 
 
 
