@@ -10144,6 +10144,27 @@ R^{n_2} \to \text{Coker}(\varphi)$ which is easily seen to be
 an isomorphism. If $D(f) \subset V$ the argument is even easier.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-finite-projective-descends}
+Let $R \to S$ be a flat local homomorphism of local rings.
+Let $M$ be a finite $R$-module. Then $M$ is finite projective
+over $R$ if and only if $M \otimes_R S$ is finite projective
+over $S$.
+\end{lemma}
+
+\begin{proof}
+Suppose that $M\otimes_R S$ is finite projective
+over $S$. By Lemma \ref{lemma-finite-projective} 
+it is finite free. Pick $x_1, \ldots, x_r \in M$ whose
+residue classes generate $M/\mathfrak m_RM$. Clearly
+we see that $x_1 \otimes 1, \ldots, x_r \otimes 1$
+are a basis for $M \otimes_R S$. This implies that
+the map $R^{\oplus r} \to M, (a_i) \mapsto \sum a_i x_i$
+becomes an isomorphism after tensoring with $S$.
+By faithful flatness of $R \to S$, see Lemma \ref{lemma-local-flat-ff}
+we see that it is an isomorphism.
+\end{proof}
+
 
 
 
@@ -11100,14 +11121,14 @@ The result follows from Lemma \ref{lemma-integral-sub-dim-equal}.
 \end{proof}
 
 \begin{lemma}
-\label{lemma-dimension-preserved-field-extension}
+\label{lemma-dimension-at-a-point-preserved-field-extension}
 Let $k$ be a field.
 Let $S$ be a finite type $k$-algebra.
 Set $X = \text{Spec}(S)$.
 Let $k \subset K$ be a field extension.
-Set $X_K = \text{Spec}(K \otimes_k S)$.
+Set $S_K = K \otimes_k S$, and $X_K = \text{Spec}(S_K)$.
 Let $\mathfrak q \subset S$ be a prime corresponding to $x \in X$
-and let $\mathfrak q_K \subset K \otimes_k S$ be a prime corresponding
+and let $\mathfrak q_K \subset S_K$ be a prime corresponding
 to $x_K \in X_K$ lying over $\mathfrak q$.
 Then $\dim_x X = \dim_{x_K} X_K$.
 \end{lemma}
@@ -11128,16 +11149,27 @@ k[x_1, \ldots, x_n]_{\mathfrak q'} \ar[r] \ar[u] &
 S_{\mathfrak q} \ar[u]
 }
 $$
-Since both vertical arrows are flat and since they have
-the same fibre rings, we see from
+Both vertical arrows are flat because they are localizations of
+the flat ring maps $S \to S_K$ and
+$k[x_1, \ldots, x_n] \to K[x_1, \ldots, x_n]$.
+Moreover, the vertical arrows have the same fibre rings.
+Hence, we see from
 Lemma \ref{lemma-dimension-base-fibre-equals-total} that
 $\text{height}(\mathfrak q') - \text{height}(\mathfrak q)
 = \text{height}(\mathfrak q_K') - \text{height}(\mathfrak q_K)$.
-Denote
-
-
-
-
+Denote $x' \in X' = \text{Spec}(k[x_1, \ldots, x_n])$
+and $x'_K \in X'_K = \text{Spec}(K[x_1, \ldots, x_n])$
+the points corresponding to $\mathfrak q'$ and
+$\mathfrak q_K'$. By Lemma \ref{lemma-codimension} and what we showed
+above we have
+\begin{eqnarray*}
+n - \dim_x X & = & \dim_{x'} X' - \dim_x X \\
+& = & \text{height}(\mathfrak q') - \text{height}(\mathfrak q) \\
+& = & \text{height}(\mathfrak q_K') - \text{height}(\mathfrak q_K) \\
+& = & \dim_{x'_K} X'_K - \dim_{x_K} X_K \\
+& = & n - \dim_{x_K} X_K
+\end{eqnarray*}
+and the lemma follows.
 \end{proof}
 
 
@@ -14052,8 +14084,9 @@ Let $\mathfrak q$ be a prime of $S$.
 Choose any presentation $S = k[x_1, \ldots, x_n]/I$.
 Let $\mathfrak q'$ be the prime of $k[x_1, \ldots, x_n]$ corresponding
 to $\mathfrak q$. Set
-$c = \text{height}(\mathfrak q') - \text{height}(\mathfrak q)$.
-The following are equivalent
+$c = \text{height}(\mathfrak q') - \text{height}(\mathfrak q)$,
+in other words $\dim_{\mathfrak q}(S) = n - c$
+(see Lemma \ref{lemma-codimension}). The following are equivalent
 \begin{enumerate}
 \item There exists a $g \in S$, $g \not \in \mathfrak q$
 such that $S_g$ is a global complete intersection over $k$.
@@ -14070,7 +14103,6 @@ In this case any $c$ elements of $I_{\mathfrak q'}$
 which generate $I_{\mathfrak q'}/\mathfrak q'I_{\mathfrak q'}$
 form a regular sequence in the local
 ring $k[x_1, \ldots, x_n]_{\mathfrak q'}$.
-Moreover, $\dim_{\mathfrak q}(S) = n - c$.
 \end{lemma}
 
 \begin{proof}
@@ -14148,35 +14180,26 @@ Thus we obtain (4).
 \label{lemma-lci-field-change-local}
 Let $k \subset K$ be a field extension.
 Let $S$ be a finite type algebra over $k$.
-Let $\mathfrak q_K$ be a prime of $K \otimes_k S$
+Let $\mathfrak q_K$ be a prime of $S_K = K \otimes_k S$
 and let $\mathfrak q$ be the corresponding prime of $S$.
 Any of the conditions (1) - (5) of Lemma \ref{lemma-lci}
 holds for the pair $(S, \mathfrak q)$ if and only if
-they hold for the pair $(K\otimes_k S, \mathfrak q_K)$.
+they hold for the pair $(S_K, \mathfrak q_K)$.
 \end{lemma}
 
 \begin{proof}
 Choose a presentation $S = k[x_1, \ldots, x_n]/I$.
 This gives a presentation
-$K \otimes_k S = K[x_1, \ldots, x_n]/(K\otimes_k I)$.
+$S_K = K[x_1, \ldots, x_n]/I_K$ where $I_K = K\otimes_k I$.
 Let $\mathfrak q_K' \subset K[x_1, \ldots, x_n]$,
 resp.\ $\mathfrak q' \subset k[x_1, \ldots, x_n]$ be
-the corresponding prime. Consider the following
-commutative diagram of Noetherian local rings
-$$
-\xymatrix{
-K[x_1, \ldots, x_n]_{\mathfrak q_K'} \ar[r] &
-(K \otimes_k S)_{\mathfrak q_K} \\
-k[x_1, \ldots, x_n]_{\mathfrak q'} \ar[r] \ar[u] &
-S_{\mathfrak q} \ar[u]
-}
-$$
-Since both vertical arrows are flat and since they have
-the same fibre rings, we see from
-Lemma \ref{lemma-dimension-base-fibre-equals-total} that
-$c = \text{height}(\mathfrak q') - \text{height}(\mathfrak q)
-= \text{height}(\mathfrak q_K') - \text{height}(\mathfrak q_K)$.
-Since
+the corresponding prime. By
+Lemma \ref{lemma-dimension-at-a-point-preserved-field-extension} we have
+$\dim_{\mathfrak q} S = \dim_{\mathfrak q_K} S_K$.
+Hence the integer $c$ occuring in Lemma \ref{lemma-lci}
+is the same for the pair $(S = k[x_1, \ldots, x_n]/I, \mathfrak q)$
+as for the pair $(S_K = K[x_1, \ldots, x_n]/I_K, \mathfrak q_K)$.
+On the other hand we have
 \begin{eqnarray*}
 I \otimes_{k[x_1, \ldots, x_n]} \kappa(\mathfrak q')
 \otimes_{\kappa(\mathfrak q')} \kappa(\mathfrak q_K')
@@ -14186,14 +14209,20 @@ I \otimes_{k[x_1, \ldots, x_n]} \kappa(\mathfrak q_K') \\
 I \otimes_{k[x_1, \ldots, x_n]} K[x_1, \ldots, x_n]
 \otimes_{K[x_1, \ldots, x_n]} \kappa(\mathfrak q_K') \\
 & = &
-(K \otimes_k I) \otimes_{K[x_1, \ldots, x_n]} \kappa(\mathfrak q_K')
+(K \otimes_k I) \otimes_{K[x_1, \ldots, x_n]} \kappa(\mathfrak q_K') \\
+& = &
+I_K \otimes_{K[x_1, \ldots, x_n]} \kappa(\mathfrak q'_K).
 \end{eqnarray*}
-we have
+Therefore,
 $\dim_{\kappa(\mathfrak q')}
 I \otimes_{k[x_1, \ldots, x_n]} \kappa(\mathfrak q')
 =
 \dim_{\kappa(\mathfrak q'_K)}
-(K \otimes_k I) \otimes_{K[x_1, \ldots, x_n]} \kappa(\mathfrak q_K')$.
+I_K \otimes_{K[x_1, \ldots, x_n]} \kappa(\mathfrak q_K')$.
+Thus it follows from
+Nakayama's Lemma \ref{lemma-NAK} that the minimal number
+of generators of $I_{\mathfrak q'}$ is the same as the minimal
+number of generators of $(I_K)_{\mathfrak q'_K}$.
 Thus the lemma follows from characterization (2) of Lemma \ref{lemma-lci}.
 \end{proof}
 
@@ -15343,6 +15372,54 @@ both to $R \to S$ and to
 $\kappa(\mathfrak p) \to S \otimes_R \kappa(\mathfrak p)$.
 \end{proof}
 
+\noindent
+Note that the sets $U, V$ in the following lemma
+are open by definition.
+
+\begin{lemma}
+\label{lemma-flat-base-change-locus-smooth}
+Let $R \to S$ be a ring map of finite presentation.
+Let $R \to R'$ be a flat ring map.
+Denote $S' = R' \otimes_R S$ the base change.
+Let $U \subset \text{Spec}(S)$ be the set of primes at
+which $R \to S$ is smooth.
+Let $V \subset \text{Spec}(S')$ the set of primes at
+which $R' \to S'$ is smooth.
+Then $V$ is the inverse image of $U$ under the
+map $f : \text{Spec}(S') \to \text{Spec}(S)$.
+\end{lemma}
+
+\begin{proof}
+Choose a presentation $\alpha$ of $S$ over $R$ and
+let $\alpha'$ be the associated presentation of $S'$
+over $R'$, see Lemma \ref{lemma-change-base-NL}.
+By that lemma we see that
+$NL(\alpha) \otimes_S S' = NL(\alpha')$.
+This already implies that $f^{-1}(U) \subset V$.
+
+\medskip\noindent
+Let $\mathfrak q' \subset S'$ be a prime lying over
+$\mathfrak q \subset S$. Assume $\mathfrak q' \in V$.
+We have to show that $\mathfrak q \in U$.
+Since $S \to S'$ is flat,
+we have that $S_{\mathfrak q} \to S'_{\mathfrak q'}$
+is faithfully flat. Thus the vanishing of
+$H^{-1}(NL(\alpha'))_{\mathfrak q'}$ implies the
+vanishing of $H^{-1}(NL(\alpha))_{\mathfrak q}$.
+The result then follows by applying
+Lemma \ref{lemma-finite-projective-descends}
+to the $S_{\mathfrak q}$-module $H^0(NL(\alpha))$
+and the map $S_{\mathfrak q} \to S'_{\mathfrak q'}$.
+\end{proof}
+
+
+
+
+
+
+
+
+
 
 \section{Formally smooth maps}
 \label{section-formally-smooth}
@@ -15651,6 +15728,12 @@ Let $\mathfrak m \subset S$ be a maximal ideal.
 The following are equivalent:
 \begin{enumerate}
 \item The ring $S_{\mathfrak m}$ is a regular local ring.
+\item We have
+$\dim_{\kappa(\mathfrak m)} \Omega_{S/k} \otimes_S \kappa(\mathfrak m)
+\leq \dim(S_{\mathfrak m})$.
+\item We have
+$\dim_{\kappa(\mathfrak m)} \Omega_{S/k} \otimes_S \kappa(\mathfrak m)
+= \dim(S_{\mathfrak m})$.
 \item There exists a $g \in S$, $g \not \in \mathfrak m$
 such that $S_g$ is smooth over $k$. In other words $S/k$
 is smooth at $\mathfrak m$.
@@ -15658,6 +15741,10 @@ is smooth at $\mathfrak m$.
 \end{lemma}
 
 \begin{proof}
+Note that (1), (2) and (3) are equivalent by Lemma \ref{lemma-rank-omega}
+and Definition \ref{definition-regular}.
+
+\medskip\noindent
 Assume that $S$ is smooth at $\mathfrak q$.
 By Lemma \ref{lemma-smooth-syntomic} we see that
 $S_g$ is standard smooth over $k$
@@ -15740,82 +15827,50 @@ Let $S$ be a finite type $k$-algebra.
 Let $X = \text{Spec}(S)$.
 Let $\mathfrak q \subset S$ be a prime
 corresponding to $x \in X$.
-Let $d \geq 0$ be an integer.
 Assume that
-\begin{enumerate}
-\item $\dim_x X = d$,
-\item $\Omega_{S/k, \mathfrak q}$ is free of rank $d$.
-\end{enumerate}
+$\dim_{\kappa(\mathfrak q)} \Omega_{S/k} \otimes_S \kappa(\mathfrak q)
+\leq \dim_x X$.
 Then $S$ is smooth at $\mathfrak q$ over $k$.
 \end{lemma}
 
 \begin{proof}
+By Nakayama's Lemma \ref{lemma-NAK} we see that
+$\Omega_{S/k, \mathfrak q}$ can be generated by
+$\leq \dim_x X$ elements.
 We may replace $S$ by $S_g$ for some $g \in S$, $g \not \in \mathfrak q$
-such that $\dim(X) = d$, all irreducible components of $X$ pass through
-$x$ and $\Omega_{S/k}$ is free of rank $d$.
+such that $\Omega_{S/k}$ is generated by at most
+$\dim_x X$ elements.
 Let $K \supset k$ be an algebraically closed field extension
 such that there exists a $k$-algebra map $\psi : \kappa(\mathfrak q) \to K$.
 Consider $S_K = K \otimes_k S$. Let $\mathfrak m \subset S_K$
 be the maximal ideal corresponding to the surjection
 $$
 \xymatrix{
-S_K = K \otimes_k S
-\ar[r] &
+S_K = K \otimes_k S \ar[r] &
 K \otimes_k \kappa(\mathfrak q)
 \ar[r]^-{\text{id}_K \otimes \psi} &
 K.
 }
 $$
+Note that $\mathfrak m \cap S = \mathfrak q$, in other words
+$\mathfrak m$ lies over $\mathfrak q$.
+By Lemma \ref{lemma-dimension-at-a-point-preserved-field-extension}
+the dimension of $X_K = \text{Spec}(S_K)$ at the point corresponding
+to $\mathfrak m$ is $\dim_x X$. By
+Lemma \ref{lemma-dimension-closed-point-finite-type-field}
+this is equal to $\dim((S_K)_{\mathfrak m})$.
 By Lemma \ref{lemma-differentials-base-change}
 the module of differentials of $S_K$ over $K$ is
-the base change of $\Omega_{S/k}$, hence free of rank $d$ over $S_K$.
-By Lemma \ref{lemma-dimension-preserved-field-extension}
-the dimension of $X_K = \text{Spec}(S_K)$ is $d$.
-
-Moreover, $S \cap \mathfrak m = \mathfrak q$. 
-
-
-
-
-
-
-
+the base change of $\Omega_{S/k}$, hence also
+generated by at most $\dim_x X = \dim((S_K)_{\mathfrak m})$
+elements. By Lemma \ref{lemma-characterize-smooth-kbar}
+we see that $S_K$ is smooth at $\mathfrak m$ over $K$.
+By Lemma \ref{lemma-flat-base-change-locus-smooth} this
+implies that $S$ is smooth at
+$\mathfrak q$ over $k$.
 \end{proof}
 
 
-
-
-
-
-
-
-\begin{lemma}
-\label{lemma-smooth-differentials}
-Let $R \to S$ be a ring map.
-Let $\mathfrak q \subset S$ be a prime.
-Let $d \geq 0$ be an integer.
-Assume that
-\begin{enumerate}
-\item there exists a $g \in S$, $g \not \in \mathfrak q$
-such that $S_g$ is of finite presentation over $R$,
-\item $\dim_{\mathfrak q}(S/R) = d$,
-\item $\Omega_{S/R, \mathfrak q}$ is free of rank
-$d$ over $S_{\mathfrak q}$.
-\end{enumerate}
-The $S/R$ is smooth at $\mathfrak q$.
-\end{lemma}
-
-\begin{proof}
-By Lemmas \ref{} and \ref{} we may find a $g \in S$,
-$g \not \in \mathfrak q$ such that
-after replacing $S$ by $S_g$ we have
-$\dim(S/R) = d$, and $\Omega_{S/R}$ free of rank $d$.
-
-
-
-
-
-\end{proof}
 
 
 
