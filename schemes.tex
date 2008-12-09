@@ -1645,6 +1645,43 @@ and the fact that the spectrum of ring is quasi-compact, see
 Algebra, Lemma \ref{algebra-lemma-quasicompact}.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-standard-open-two-affines}
+Let $X$ be a scheme.
+Let $U, V$ be affine opens of $X$, and let $x \in U \cap V$.
+There exists an affine open neighbourhood $W$ of $x$
+such that $W$ is a standard open of both $U$ and $V$.
+\end{lemma}
+
+\begin{proof}
+Write $U = \text{Spec}(A)$ and $V = \text{Spec}(B)$.
+Say $x$ corresponds to the prime $\mathfrak p \subset A$
+and the prime $\mathfrak q \subset B$.
+We may choose a $f \in A$, $f \not \in \mathfrak p$ such that
+$D(f) \subset U \cap V$. Note that any standard open of $D(f)$
+is a standard open of $\text{Spec}(A) = U$. Hence we may assume
+that $U \subset V$. In other words, now we may think of $U$
+as an affine open of $V$. Next we choose a
+$g \in B$, $g \not \in \mathfrak q$ such that
+$D(g) \subset U$. In this case we see that $D(g) = D(g_A)$
+where $g_A \in A$ denotes the image of $g \in A$. Thus the lemma
+is proved.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3047,11 +3084,38 @@ Algebra, Lemma \ref{algebra-lemma-image-stable-specialization-closed}.
 A morphism of schemes $f : X \to S$ is quasi-compact if and
 only the inverse image of every affine open is quasi-compact.
 In fact, it suffices if there exists some affine open covering
-$S = \bigcup U_i$ such that all $f^{-1}(U_i)$ are quasi-compact.
+$S = \bigcup_{i \in I} U_i$ such that all $f^{-1}(U_i)$ are quasi-compact.
 \end{lemma}
 
 \begin{proof}
-Omitted.
+Suppose we are given a covering $X = \bigcup_{i \in I} U_i$ as in the lemma.
+First, let $U \subset S$ be any affine open. For any $u \in U$
+we can find an index $i(u) \in I$ such that $u \in U_{i(u)}$.
+By Lemma \ref{lemma-standard-open-two-affines} we can find
+an affine open $W_u \subset U \cap U_{i(u)}$
+which is standard open in both $U$ and $U_{i(u)}$.
+By compactness we can find finitely many points $u_1, \ldots, u_n \in U$
+such that $U = \bigcup_{j = 1}^n W_{u_j}$. For each $j$ write
+$f^{-1}U_{i(u_j)} = \bigcup_{k \in K_j} V_{jk}$ as a finite
+union of affine opens. Since $W_{u_j} \subset U_{i(u)}$ is a standard
+open we see that $f^{-1}(W_{u_j}) \cap V_{jk}$ is a standard
+open of $V_{jk}$, see Algebra, Lemma \ref{algebra-lemma-spec-functorial}.
+Hence $f^{-1}(W_{u_j}) \cap V_{jk}$ is affine, and so
+$f^{-1}(W_{u_j})$ is a finite union of affines. This proves that the
+inverse image of any affine open is a finite union of affine opens.
+
+\medskip\noindent
+Next, assume that the inverse image of every affine open is a finite
+union of affine opens.
+Let $K \subset X$ be any quasi-compact open. Since $X$ has a basis
+of the topology consisting of affine opens we see that $K$ is a finite
+union of affine opens. Hence the inverse image of $K$ is a finite
+union of affine opens. Hence $f$ is quasi-compact.
+
+\medskip\noindent
+Finally, assume that $f$ is quasi-compact. In this case the argument
+of the previous paragraph shows that the inverse image of any affine
+is a finite union of affine opens.
 \end{proof}
 
 \begin{lemma}
@@ -3355,12 +3419,13 @@ under arbitrary base change (Lemmas
 \noindent
 You may have been wondering whether the condition
 of only considering pairs of affine opens whose image is contained
-in an affine open is really necessary. Usually it isn't!
+in an affine open is really necessary to be able to conclude
+that their intersection is affine. Often it isn't!
 
 \begin{lemma}
 \label{lemma-curiosity}
-Let $X \to S$ be a morphism.
-Assume $S$ is a separated scheme.
+Let $f : X \to S$ be a morphism.
+Assume $f$ is separated and $S$ is a separated scheme.
 Suppose $U \subset X$ and $V \subset X$ are affine.
 Then $U \cap V$ is affine (and a closed subscheme of $U \times V$).
 \end{lemma}
@@ -3372,13 +3437,36 @@ applying Lemma \ref{lemma-characterize-separated} to the
 morphism $X \to \text{Spec}(\mathbf{Z})$.
 \end{proof}
 
+\noindent
+On the other hand, the following example shows that we cannot
+expect the image of an affine to be contained in an affine.
+
+\begin{example}
+\label{example-image-affine-projective}
+Consider the nonaffine scheme
+$U = \text{Spec}(k[x, y]) \setminus \{(x, y)\}$ of
+Example \ref{example-not-affine}. On the other hand, consider the
+scheme
+$$
+\mathbf{GL}_{2, k} = \text{Spec}(k[a,b,c,d, 1/ad - bc]).
+$$
+There is a morphism $\mathbf{GL}_{2, k} \to U$ corresponding
+to the ring map $x \mapsto a$, $y \mapsto b$. It is easy to see that
+this is a surjective morphism, and hence the image is not contained
+in any affine open of $U$. In fact, the affine scheme
+$\mathbf{GL}_{2, k}$ also surjects onto $\mathbf{P}^1_k$, and
+$\mathbf{P}^1_k$ does not even have an immersion into {\it any} affine scheme.
+\end{example}
+
 \begin{lemma}
 \label{lemma-compose-after-separated}
 Let $f : X \to Y$ and $g : Y \to Z$ be morphisms of schemes.
 If $g \circ f$ is separated then so is $f$.
+If $g \circ f$ is quasi-separated then so is $f$.
 \end{lemma}
 
 \begin{proof}
+Assume that $g \circ f$ is separated.
 Consider the factorization $X \to X \times_Y X \to X \times_Z X$
 of the diagonal morphism of $g \circ f$.
 By Lemma \ref{lemma-fibre-product-after-map}
@@ -3386,6 +3474,15 @@ the last morphism is an immersion. By assumption the image
 of $X$ in $X \times_Z X$ is closed. Hence it is also closed
 in $X \times_Y X$. Thus we see that $X \to X \times_Y X$
 is a closed immersion by Lemma \ref{lemma-immersion-when-closed}.
+
+\medskip\noindent
+Assume that $g \circ f$ is quasi-separated.
+Let $V \subset Y$ be an affine open which maps into an affine
+open of $Z$. Let $U_1, U_2 \subset X$ be affine opens which
+map into $V$. Then $U_1 \cap U_2$ is a finite union of affine
+opens because $U_1, U_2$ map into a common affine open
+of $Z$. Since we may cover $Y$ by affine opens like $V$ we
+deduce the lemma from Lemma \ref{lemma-characterize-quasi-separated}.
 \end{proof}
 
 
