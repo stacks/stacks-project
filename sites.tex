@@ -2050,6 +2050,33 @@ to $\phi_1 : V \to u(U_1)$ in $\mathcal{I}_V$.
 By construction it equalizes the morphisms $a$, $b$.
 \end{proof}
 
+\noindent
+We interrupt the flow of the arguments for a technical lemma
+that will be usefull later on.
+
+\begin{lemma}
+\label{lemma-almost-directed}
+Let $u : \mathcal{C} \to \mathcal{D}$ be a functor between categories.
+Suppose that $\mathcal{C}$ has fibre products, and that
+$u$ commutes with them. Then the categories $(\mathcal{I}_V^u)^{opp}$ of
+Section \ref{section-functoriality-PSh} satisfy the hypotheses of
+Categories, Lemma \ref{categories-lemma-split-into-directed}.
+\end{lemma}
+
+\begin{proof}
+We have to show that given three objects
+$\phi : V \to u(U)$, $\phi' : V \to u(U')$, $\phi'' : V \to u(U'')$
+and morphisms $a : U' \to U$, $b : U'' \to U$ such that
+$u(a) \circ \phi = \phi'$ and $u(b) \circ \phi = \phi''$ there
+exists another object $\phi''' : V \to u(U''')$ and morphisms
+$c : U''' \to U'$ and $d : U''' \to U''$ such that
+$u(c) \circ \phi = \phi'''$, $u(d) \circ \phi = \phi'''$ and
+$a \circ c = b \circ d$. Of course we take
+$U''' = U' \times_U U''$ with $c$ and $d$ the projection morphisms.
+We leave it to the reader to see that this works.
+\end{proof}
+
+
 \begin{lemma}
 \label{lemma-directed-morphism}
 Let $\mathcal{C}$ and $\mathcal{D}$ be sites. Let
@@ -2704,9 +2731,33 @@ The functor $g_!$ is {\it not} exact in general, because it does
 not transform a final object of $\textit{Sh}(\mathcal{C})$
 into a final object of $\textit{Sh}(\mathcal{D})$ in general.
 See Sheaves, Remark \ref{sheaves-remark-j-shriek-not-exact}.
+On the other hand, in the topological setting the functor
+$j_!$ is exact on abelian sheaves, see
+Modules, Lemma \ref{modules-lemma-j-shriek-exact}. The following lemma gives
+the generalization to the case of sites.
 
+\begin{lemma}
+\label{lemma-preserve-equalizers}
+Let $\mathcal{C}$ and $\mathcal{D}$ be sites.
+Let $u : \mathcal{C} \to \mathcal{D}$ be a functor.
+Assume that (a) $u$ is cocontinuous, (b) $u$ is continuous,
+and (c) fibre products exist in $\mathcal{C}$ and
+$u$ commutes with them. In this case the functor
+$g_!$ above commutes with equalizers.
+\end{lemma}
 
-
+\begin{proof}
+We have $g_! = (u_p\ )^\#$.
+Recall that the equalizer of a pair of maps between sheaves
+is equal to the corresponding equalizer as presheaves.
+And sheafification commutes with equalizers as well. Thus it
+suffices to show that $u_p$ commutes with equalizers in this case.
+To do this it suffices that colimits over the categories
+$(\mathcal{I}_V^u)^{opp}$
+of Section \ref{section-functoriality-PSh} commute
+with equalizers. This follows from Lemma \ref{lemma-almost-directed} and
+Categories, Lemma \ref{categories-lemma-almost-directed-commutes-equalizers}.
+\end{proof}
 
 \begin{example}
 \label{example-closed-map-cocontinuous-false}
@@ -2774,8 +2825,78 @@ the sheaf $j_{U!}\mathcal{G}$ is called the
 {\it extension of $\mathcal{G}$ by the empty set}.
 \end{definition}
 
+\noindent
+Note that $j_{U!}(*) = h_U^\#$, and hence for every sheaf
+$\mathcal{F}$ over $\mathcal{C}/U$ there is a canonical map
+of sheaves $j_{U!}\mathcal{F} \to h_U^\#$. This characterizes
+sheaves in the essential image of $j_{U!}$.
 
+\begin{lemma}
+\label{lemma-essential-image-j-shriek}
+Let $\mathcal{C}$ be a site.
+Let $U \in \text{Ob}(\mathcal{C})$.
+The functor $j_{U!}$ gives an equivalence of categories
+$$
+\textit{Sh}(\mathcal{C}/U)
+\longrightarrow
+\textit{Sh}(\mathcal{C})/h_U^\#
+$$
+\end{lemma}
 
+\medskip\noindent
+Suppose that $\mathcal{C}$ has fibre products.
+In this case the functor $j_U$ clearly commutes with
+fibre products, and Lemma \ref{lemma-preserve-equalizers} applies.
+Hence under this
+hypothesis the functor $j_{U!}$ commutes with
+equalizers. In particular, if $\mathcal{F} \subset \mathcal{F}'$
+in $\textit{Sh}(\mathcal{C}/U)$,
+then $j_{U!}\mathcal{F} \subset j_{U!}\mathcal{F}'$.
+
+\medskip\noindent
+A fundamental property of an open immersion is
+that the resriction of the pushforward and the restriction
+of the extension by the empty set produces back the original sheaf.
+This is not always true for the functors associated to $j_U$
+above. It is true when $U$ is a ``subobject of the final object''.
+
+\begin{lemma}
+\label{lemma-restrict-back}
+Let $\mathcal{C}$ be a site.
+Let $U \in \text{Ob}(\mathcal{C})$.
+Assume that every $X$ in $\mathcal{C}$ has at most
+one morphism to $U$. Let $\mathcal{F}$ be a sheaf on $\mathcal{C}/U$.
+The canonical maps $\mathcal{F} \to j_U^{-1}j_{U!}\mathcal{F}$
+and $j_U^{-1}j_{U*}\mathcal{F} \to \mathcal{F}$ are
+isomorphisms.
+\end{lemma}
+
+\begin{proof}
+Let $X \to U$ be an object over $U$.
+In Lemmas \ref{lemma-pu-sheaf} and \ref{lemma-when-shriek} we have seen that
+sheafification is not necessary for the functors
+$j_U^{-1} = (u^p\ )^\#$ and $j_{U*} = ({}_pu )^\#$.
+We may compute
+$(j_U^{-1}j_{U*}\mathcal{F})(X \to U) = j_{U*}\mathcal{F}(X)
+= \text{colim} \mathcal{F}(Y \to U)$, where the colimit
+is over pairs $(Y \to U, X \to Y)$
+where the morphisms $X \to Y$ are not required to be over $U$.
+By our assumption however we see that they are automatically
+morphisms over $U$ and we deduce that the colimit is the
+value on $\text{id}_X$, i.e., $\mathcal{F}(X \to U)$.
+On the other hand,
+$(j_U^{-1}j_{U!}\mathcal{F})(X \to U) =
+j_{U!}\mathcal{F}(X) = (u_p\mathcal{F})^\#(X)$, and
+$u_p\mathcal{F}(X) = \text{colim} \mathcal{F}(Y \to U)$
+where the colimit is over pairs $(Y \to U, Y \to X)$
+where the morphisms $Y \to X$ are not required to be over $U$.
+By our assumption however we see that they are automatically
+morphisms over $U$ and we deduce that the colimit is the
+value on $\text{id}_X$, i.e., $\mathcal{F}(X \to U)$.
+This shows that the sheafification is not necessary (since any
+object over $X$ is automatically in a unique way an object over $U$)
+and the result follows.
+\end{proof}
 
 
 
