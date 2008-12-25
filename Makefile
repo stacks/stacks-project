@@ -80,12 +80,14 @@ backup: clean
 tarball:
 	tar -cjf stacks-git.tar.bz2 $(TEXS) CONTRIBUTORS \
 		COPYING Makefile amsart.cls my.bib \
+		preamble.tex chapters.tex \
 		stacks-git.css stacks-git.htm
 
 .PHONY: install
 install: $(FUNNYS) $(PDFS) $(DVIS) tarball
 	cp *.tex *.pdf *.dvi $(INSTALLDIR)
 	cp CONTRIBUTORS COPYING Makefile amsart.cls my.bib $(INSTALLDIR)
+	cp preamble.tex chapters.tex $(INSTALLDIR)
 	cp stacks-git.htm $(INSTALLDIR)/index.html
 	cp stacks-git.htm $(INSTALLDIR)
 	cp stacks-git.css $(INSTALLDIR)
