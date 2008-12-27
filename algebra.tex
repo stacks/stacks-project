@@ -1113,24 +1113,23 @@ the functor $Hom$:
 \label{lemma-hom-from-tensor-product}
 For any three $R$-modules $M,N,P$,
 \begin{align}
-\text{Hom}(M\otimes N, P)\cong \text{Hom}(M,\text{Hom}(N,P))
+\text{Hom}_R(M\otimes_R N, P)\cong \text{Hom}_R(M,\text{Hom}_R(N,P))
 \end{align}
 \end{lemma}
 
 \begin{proof}
-An $R$-linear map $\hat{f}\in \text{Hom}(M\otimes N, P)$ corresponds to an 
+An $R$-linear map $\hat{f}\in \text{Hom}_R(M\otimes_R N, P)$ corresponds to an 
 $R$-bilinear map $f:M\times N\rightarrow P$. For
 each $x\in M$ the mapping $y\mapsto f(x,y)$ is $R$-linear by the universal 
 property. Thus $f$ corresponds to a
-map $\phi_f:M\rightarrow \hom_R(N,P)$. This map is $R$-linear since
-\begin{center} 
-$\phi_f(ax+y)(z)=f(ax+y,z)=af(x,z)+f(y,z)=(a\phi_f(x)+\phi_f(y))(z)$,
-\end{center}
+map $\phi_f:M\rightarrow \text{Hom}_R(N,P)$. This map is $R$-linear since
+$$
+\phi_f(ax+y)(z)=f(ax+y,z)=af(x,z)+f(y,z)=(a\phi_f(x)+\phi_f(y))(z),
+$$
 $\forall y\in N$ and $\forall a\in R, x,z\in M$. Conversely, any 
-$f\in\text{Hom}(M,\text{Hom}(N,P))$ defines an $R$-bilinear
+$f\in\text{Hom}_R(M,\text{Hom}_R(N,P))$ defines an $R$-bilinear
 map $M\times N\rightarrow P$, namely $(x,y)\mapsto f(x)(y)$.
-So this is a natural 
-one-to-one correspondence between the
+So this is a natural one-to-one correspondence between the
 two modules.
 \end{proof}
 
@@ -1450,7 +1449,17 @@ $$
 Omitted.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-colimit-tensor-algebra}
+Let $R$ be a ring. Let $M_i$ be a directed system of
+$R$-modules. Then
+$\text{colim}_i\ \text{T}(M) = \text{T}(\text{colim}_i\ M_i)$
+and similarly for the symmetric and exterior algebras.
+\end{lemma}
 
+\begin{proof}
+Omitted.
+\end{proof}
 
 
 
@@ -6558,27 +6567,49 @@ as desired.
 A {\it graded ring} will be for us a ring $S$ endowed
 with a direct sum decomposition $S = \bigoplus_{d \geq 0} S_d$
 such that $S_d \cdot S_e \subset S_{d+e}$.
-Note that we do not allow (nonzero) elements in negative degrees.
+Note that we do not allow nonzero elements in negative degrees.
 The {\it irrelevant ideal} is the ideal $S_{+} = \bigoplus_{d > 0} S_d$.
 A {\it graded module}
 will be an $S$-module $M$ endowed with a direct sum decomposition
 $M = \bigoplus_{n\in \mathbf{Z}} M_n$ such that $S_d \cdot M_e
 \subset M_{d+e}$. Note that for modules we do allow
 nonzero elements in negative degrees.
-An element $x$ (resp.\ $f$) of $M$ (resp.\ $S$) is called
+We think of $S$ as a graded $S$-module by setting $S_{-k} = (0)$
+for $k > 0$. An element $x$ (resp.\ $f$) of $M$ (resp.\ $S$) is called
 {\it homogeneous}
 if $x \in M_d$ (resp.\ $f \in S_d$) for some $d$.
 A {\it map of graded $S$-modules} is a map of $S$-modules
-$\varphi : M \to M'$ such that $\varphi(M_d) \subset M'_d$.\footnote{We do not 
-allow maps to shift degrees. Later we will define twisting and then we can 
-express such maps in terms of the twisted modules.}
+$\varphi : M \to M'$ such that $\varphi(M_d) \subset M'_d$.
+We do not allow maps to shift degrees. Let us denote
+$\text{GrHom}_0(M, N)$ the $S_0$-module of homomorphisms
+of graded modules from $M$ to $N$.
 
 \medskip\noindent
 At this point there are the notions of graded ideal,
-graded quotient ring, graded submodule, graded quotient
-module, etc. We leave it to the reader to find the
+graded quotient ring, graded submodule, graded quotient module,
+graded tensor product, etc. We leave it to the reader to find the
 relevant definitions, and lemmas. For example: A short exact sequence
 of graded modules is short exact in every degree.
+
+\medskip\noindent
+Given a graded ring $S$, a graded $S$-module $M$ and $n \in \mathbf{Z}$
+we denote $M(n)$ the graded $S$-module with $M(n)_d = M_{n + d}$.
+This is called the {\it twist of $M$ by $n$}. In particular we get
+modules $S(n)$, $n \in \mathbf{Z}$ which will play an important
+role in the study of projective schemes. There are some obvious
+functorial isomorphisms such as
+$(M \oplus N)(n) = M(n) \oplus N(n)$,
+$(M \otimes_S N)(n) = M \otimes_S N(n) = M(n) \otimes_S N$.
+In addition we can define a graded $S$-module structure on
+the $S_0$-module
+$$
+\text{GrHom}(M, N) = 
+\bigoplus\nolimits_{n \in \mathbf{Z}} \text{GrHom}_n(M, N),\ \ 
+\text{GrHom}_n(M, N) = \text{GrHom}_0(M, N(n)).
+$$
+We omit the definition.
+
+
 
 
 
@@ -6662,18 +6693,7 @@ maps onto the set $\bigcup D(g_i^d/f^i)$ which is open.
 \end{proof}
 
 \noindent
-If $\mathfrak p \in \text{Proj}(S)$, then we
-define $S_{(\mathfrak p)} \subset S_{\mathfrak p}$ the subring
-of elements of the form $r/f$ where $r, f \in S$ are homogeneous
-elements of the same degree such that $f \not\in \mathfrak p$.
-Given a graded $S$-module $M$ we let
-$M_{(\mathfrak p)}$ be the $S_{(\mathfrak p)}$-module
-which is a submodule of $M_{\mathfrak p}$ consisting of elements
-of the form $x/f$ with $x \in M$ and $f \in S$ homogeneous
-of the same degree such that $f \not \in \mathfrak p$.
-
-\medskip\noindent
-Furthermore, for $f \in S$ homogenenous of degree $> 0$ we define
+For $f \in S$ homogenenous of degree $> 0$ we define
 $$
 D_{+}(f) = \{ \mathfrak p \in \text{Proj}(S) \mid f \not\in \mathfrak p \}.
 $$
@@ -6708,13 +6728,24 @@ D(g_0) \cap \text{Proj}(S)
 $$
 \item The collection of open sets $\{D_{+}(f)\}$ forms a
 basis for the topology of $\text{Proj}(S)$.
-\item The ring maps $S \to S_f \leftarrow S_{(f)}$ induce
-a homeomorphism $D_{+}(f) \to \text{Spec}(S_{(f)})$.
+\item Let $f \in S$ be homogeneous of positive degree.
+The ring $S_f$ has a natural $\mathbf{Z}$-grading.
+The ring maps $S \to S_f \leftarrow S_{(f)}$ induce
+homeomorphisms
+$$
+D_{+}(f)
+\leftarrow
+\{\mathbf{Z}\text{-graded primes of }S_f\}
+\rightarrow
+\text{Spec}(S_{(f)}).
+$$
 \item There exists an $S$ such that $\text{Proj}(S)$ is not
 quasi-compact.
 \item The sets $V_{+}(I)$ are closed.
 \item Any closed subset $T \subset \text{Proj}(S)$ is of
-the form $V_{+}(I)$ for some homogenous ideal $I \subset S$.
+the form $V_{+}(I)$ for some homogeneous ideal $I \subset S$.
+\item For any graded ideal $I \subset S$ we have
+$V_{+}(I) = \emptyset$ if and only if $S_{+} \subset \sqrt{I}$.
 \end{enumerate}
 \end{lemma}
 
@@ -6772,6 +6803,25 @@ $$
 \text{Proj}(S) = \bigcup\nolimits_{i = 1}^\infty D_{+}(X_i)
 $$
 does not have a finite refinement.
+
+\medskip\noindent
+Let $I \subset S$ be a graded ideal.
+If $\sqrt{I} \supset S_{+}$ then $V_{+}(I) = \emptyset$ since
+every prime $\mathfrak p \in \text{Proj}(S)$ does not contain
+$S_{+}$ by definition. Conversely, suppose that
+$S_{+} \not \subset \sqrt{I}$. Then we can find an element
+$f \in S_{+}$ such that $f$ is not nilpotent modulo $I$.
+Clearly this means that one of the homogeneous parts of $f$
+is not nilpotent modulo $I$, in other words we may (and do)
+assume that $f$ is homogeneous. This implies that
+$I S_f \not = 0$, in other words that $(S/I)_f$ is not
+zero. Hence $(S/I)_{(f)} \not = 0$ since it is a ring
+which maps into $(S/I)_f$. Pick a prime
+$\mathfrak q \subset (S/I)_{(f)}$. This corresponds to
+a graded prime of $S/I$, not containing the irrelevant ideal
+$(S/I)_{+}$. And this in turn corresponds to a graded prime
+ideal $\mathfrak p$ of $S$, containing $I$ but not containing $S_{+}$
+as desired.
 \end{proof}
 
 \begin{example}
@@ -6784,6 +6834,47 @@ Thus if $aX^n \in \mathfrak p$ with $a \in R$ and $n > 0$, then
 $a \in \mathfrak p$. It follows that $\mathfrak p = \mathfrak p_0S$
 with $\mathfrak p_0 = \mathfrak p \cap R$.
 \end{example}
+
+\noindent
+If $\mathfrak p \in \text{Proj}(S)$, then we
+define $S_{(\mathfrak p)}$ to be the ring whose 
+elements are fractions $r/f$ where $r, f \in S$ are homogeneous
+elements of the same degree such that $f \not\in \mathfrak p$.
+As usual we say $r/f = r'/f'$ if and only if there exists
+some $f'' \in S$ homogeneous, $f'' \not \in \mathfrak p$ such
+that $f''(rf' - r'f) = 0$.
+Given a graded $S$-module $M$ we let
+$M_{(\mathfrak p)}$ be the $S_{(\mathfrak p)}$-module
+whose elements are fractions $x/f$ with $x \in M$
+and $f \in S$ homogeneous of the same degree such that
+$f \not \in \mathfrak p$. We say $x/f = x'/f'$
+if and only if there exists some $f'' \in S$ homogeneous,
+$f'' \not \in \mathfrak p$ such that $f''(xf' - x'f) = 0$.
+
+\begin{lemma}
+\label{lemma-proj-prime}
+Let $S$ be a graded ring. Let $M$ be a graded $S$-module.
+Let $\mathfrak p$ be an element of $\text{Proj}(S)$.
+Let $f \in S$ be a homogeneous element of positive degree
+such that $f \not \in \mathfrak p$, i.e., $\mathfrak p \in D_{+}(f)$.
+Let $\mathfrak p' \subset S_{(f)}$ be the element of
+$\text{Spec}(S_{(f)})$ corresponding to $\mathfrak p$ as in
+Lemma \ref{lemma-topology-proj}. Then
+$S_{(\mathfrak p)} = (S_{(f)})_{\mathfrak p'}$
+and compatibly
+$M_{(\mathfrak p)} = (M_{(f)})_{\mathfrak p'}$.
+\end{lemma}
+
+\begin{proof}
+We define a map $\psi : M_{(\mathfrak p)} \to (M_{(f)})_{\mathfrak p'}$.
+Let $x/g \in M_{(\mathfrak p)}$. We set
+$\psi(x/g) = (x^{\deg(f)}/f^{\deg(x)})/(g^{\deg(f)}/f^{\deg(g)})$.
+This makse sense since $\deg(x) = \deg(g)$, and since
+$g^{\deg(f)}/f^{\deg(g)} \not \in \mathfrak p'$.
+We omit the verification that $\psi$ is well defined, a module map
+and an isomorphism.
+\end{proof}
+
 
 
 
