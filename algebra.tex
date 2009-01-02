@@ -2402,6 +2402,7 @@ then $M$ is a finite $R$-module.
 then $M$ is a finitely presented $R$-module.
 \item Let $M \to N$ be a map of $R$-modules. If $M_{f_i} \to N_{f_i}$
 is an isomorphism for each $i$ then $M \to N$ is an isomorphism.
+\item If each $R_{f_i}$ is Noetherian, then $R$ is Noetherian.
 \end{enumerate}
 \end{lemma}
 
@@ -2543,7 +2544,6 @@ Omitted.
 \end{proof}
 
 
-
 \begin{lemma}
 \label{lemma-minimal-prime-reduced-ring}
 Let $\mathfrak p$ be a minimal prime of a ring $R$.
@@ -2559,6 +2559,26 @@ Lemma \ref{lemma-Zariski-topology}. This contradicts
 the minimality of $\mathfrak p$. If $R$ is reduced,
 then ${\mathfrak p}R_{\mathfrak p} = 0$ and
 hence it is a field.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-standard-open-containing-maximal-point}
+Let $R$ be a ring.
+Let $\mathfrak p$ be a minimal prime of $R$.
+Let $W \subset \text{Spec}(R)$ be a quasi-compact open
+not containing the point $\mathfrak p$. Then there
+exists an $f \in R$, $f \not \in \mathfrak p$ such
+that $D(f) \cap W = \emptyset$.
+\end{lemma}
+
+\begin{proof}
+Since $W$ is quasi-compact we may write it as a finite union
+of standard affine opens $D(g_i)$, $i = 1, \ldots, n$.
+Since $\mathfrak p \not \in W$ we have $g_i \in \mathfrak p$ for
+all $i$. By Lemma \ref{lemma-minimal-prime-reduced-ring} above
+each $g_i$ is nilpotent in $R_{\mathfrak p}$. Hence we can find
+an $f \in R$, $f \not \in \mathfrak p$ such that for all $i$ we have
+$f g_i^{n_i} = 0$ for some $n_i > 0$. Then $D(f)$ works.
 \end{proof}
 
 \begin{lemma}
@@ -5224,26 +5244,34 @@ M''\otimes_R I
 \end{matrix}
 $$
 with exact rows. This immediately proves the first assertion.
-The second follows because if $M''$ is flat then the lower left 
+The second follows because if $M''$ is flat then the lower left
 horizontal arrow is injective by Lemma \ref{lemma-flat-tor-zero}.
 \end{proof}
 
 \begin{lemma}
 \label{lemma-characterize-zero-local}
-An $R$-module $M$ is zero if and only if $M_{\mathfrak p}$ is
-zero for all $\mathfrak p \in \text{Spec}(R)$.
+Let $R$ be a ring.
+Let $M$ be an $R$-module. The following are equivalent:
+\begin{enumerate}
+\item $M$ is zero,
+\item $M_{\mathfrak p}$ is zero for all $\mathfrak p \in \text{Spec}(R)$,
+\item $M_{\mathfrak m}$ is zero for all maximal ideals $\mathfrak m$ of $R$.
+\end{enumerate}
+In particular, $M \to \prod_{\mathfrak m} M_{\mathfrak m}$ is injective.
 \end{lemma}
 
 \begin{proof}
-Suppose $M_{\mathfrak p} = 0$ for all primes. 
-Let $m \in M$. Let $I = \{f \in R \mid fm = 0\}$.
+Suppose $M_{\mathfrak m} = 0$ for all maximal ideals $\mathfrak m$.
+Let $x \in M$. Let $I = \{f \in R \mid fx = 0\}$.
 It is easy to see that $I$ is an ideal (it is the
-annihilator of $m$). The condition means that for
-all primes $\mathfrak p$ there exists an $f \in R \setminus
-\mathfrak p$ such that $fm =0$. In other words,
-we have $V(I) = \emptyset$. According to Lemma 
-\ref{lemma-Zariski-topology} $I$ is the unit ideal.
-Hence $m$ is zero.
+annihilator of $x$). The condition means that for
+all maximal ideals $\mathfrak m$ there exists an
+$f \in R \setminus \mathfrak m$ such that $fx =0$.
+In other words, $V(I)$ does not contain a closed point.
+According to Lemma \ref{lemma-Zariski-topology} $I$ is the unit ideal.
+Hence $x$ is zero. The final statement of the lemma follows
+from this and the fact that localization is exact (hint: apply the
+lemma to the kernel of the map).
 \end{proof}
 
 \begin{lemma}
@@ -5656,11 +5684,70 @@ $x \in A$ (and we're done) or $x^{-1} \in A$. In the second case
 we see that $x = - \sum a_i x^{i - d} \in A$ as well.
 \end{proof}
 
+\noindent
+An {\it totally ordered abelian group} is a pair $(\Gamma, \geq)$
+consisting of an abelian group $\Gamma$ endowed with a total
+ordering $\geq$ such that $\gamma \geq \gamma' \Rightarrow
+\gamma + \gamma'' \geq \gamma' + \gamma''$ for all
+$\gamma, \gamma', \gamma'' \in \Gamma$. 
 
+\begin{lemma}
+\label{lemma-valuation-group}
+Let $A$ be a valuation ring with field of fractions $K$.
+Set $\Gamma = K^*/A^*$ (with group law written additively).
+For $\gamma, \gamma' \in \Gamma$
+define $\gamma \geq \gamma'$ if and only if
+$\gamma - \gamma'$ is in the image of $A - \{0\} \to \Gamma$.
+Then $(\Gamma, \geq)$ is a totally ordered abelian group.
+\end{lemma}
 
+\begin{proof}
+Omitted, but follows easily from
+Lemma \ref{lemma-valuation-ring-x-or-x-inverse} above.
+\end{proof}
 
+\begin{definition}
+\label{definition-value-group}
+Let $A$ be a valuation ring. The totally ordered abelian group
+$(\Gamma, \geq)$ is called the {\it value group} of the valuation
+ring $A$. The map $v : A - \{0\} \to \Gamma$ and also
+$v : K^* \to \Gamma$ is called the {\it valuation} associated to $A$.
+\end{definition}
 
+\begin{lemma}
+\label{lemma-properties-valuation}
+Let $A$ be a valuation ring. The valution $v : A -\{0\} \to \Gamma_{\geq 0}$
+has the following properties:
+\begin{enumerate}
+\item $v(a) = 0 \Leftrightarrow a \in A^*$,
+\item $v(ab) = v(a) + v(b)$,
+\item $v(a + b) \geq \text{min}(v(a), v(b))$.
+\end{enumerate}
+\end{lemma}
 
+\begin{proof}
+Omitted.
+\end{proof}
+
+\noindent
+Let $(\Gamma, \geq)$ be a totally ordered abelian group.
+An {\it ideal of $\Gamma$} is a subset $I \subset \Gamma$ such
+that all elements of $I$ are $\geq 0$ and $\gamma \in I$,
+$\gamma' \geq \gamma$ implies $\gamma' \in I$. We say that such
+an ideal is {\it prime} if $\gamma + \gamma' \in I, \gamma, \gamma' \geq 0
+\Rightarrow \gamma \in I \text{ or } \gamma' \in I$.
+
+\begin{lemma}
+\label{lemma-ideals-valuation-ring}
+Let $A$ be a valuation ring.
+Ideals in $A$ correspond $1 - 1$ with ideals of $\Gamma$.
+This bijection is inclusion preserving, and maps prime
+ideals to prime ideals.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
 
 
 

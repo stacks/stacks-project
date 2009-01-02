@@ -6,48 +6,180 @@
 
 \title{Topologies on Schemes}
 
-\begin{abstract}
-In this Chapter, we study \'etale morphisms of schemes. Our principal goal is
-to equip the reader with enough (commutative) algebraic tools to approach a
-treatise on \'etale cohomology. An auxiliary goal is to provide enough evidence
-to ensure that the reader stops calling the phrase ``the \'etale topology of
-schemes'' an exercise in general nonsense, if (s)he does indulge in such
-blasphemy. 
-\end{abstract}
-
 \maketitle
 
 \tableofcontents
+
+
 
 \section{Introduction}
 \label{section-introduction}
 
 \noindent
-Almost all the material presented here is taken, without too many
-modifications, from \cite{SGA1} and \cite{Ner}. Assuming certain standard
-results in algebraic geometry (and therefore commutative algebra), we have
-tried to provide detailed proofs of most of the claims we make. However, as is
-the bane of the subject, it's almost impossible to provide fully detailed
-proofs (say, as seen in early undergraduate courses) while maintaining
-brevity. It is nevertheless hoped that the proofs provided here give more than
-enough to the reader to reconstruct the entire proof.
+In this document we explain what the different topologies on the
+category of schemes are. Some references are \cite{SGA1} and \cite{Ner}.
+Before doing so we would like to point out that there are many
+different choices of sites (as defined in
+Sites, Definition \ref{sites-definition-site}) which give rise to
+the same notion of sheaf on the underlying category. Hence
+our choices may be slightly different from those in the references
+but ultimately lead to the same cohomology groups, etc.
 
-\section{Notation and conventions}
-\label{section-notation}
+\section{The general procedure}
+\label{section-procedure}
 
 \noindent
-All rings will be commutative with $1$ and, more restrictively, Noetherian.
-Therefore all schemes will be assumed to be locally Noetherian. If $A$ is a
-local ring, we will denote its maximal ideal by $r(A)$ and its residue class
-field by $k(A)$. A morphism of local rings $f:A \to B$ is a ring homomorphism
-such that $f(r(A)) \subset r(B)$. The completion of a local ring $A$ with the
-$r(A)$-adic topology is denoted by $\widehat{A}$.
+In this section we explain a general procedure for producing the
+sites we will be working with. Suppose we want to study sheaves
+over schemes with
+respect to some topology $\tau$. In each section of this chapter
+we will proceed as follows:
+\begin{enumerate}
+\item We define a class $\text{Cov}_\tau$ of coverings of schemes
+satisfying the axioms of Sites, Definition \ref{sites-definition-site}.
+It will always be the case that a Zariski open covering of
+a scheme is a covering for $\tau$.
+\item\label{affine-covering}
+We single out a notion of $\tau$-covering within the category
+of affine schemes.
+\item For any scheme $S$ we define a big $\tau$-site
+$(\textit{Sch}/S)_\tau$ and sometimes a small $\tau$-site
+$S_\tau$ by appropriately choosing a set of schemes over $S$
+and a set of coverings as in Sets, Sections
+\ref{sets-section-fibre-product-schemes} and
+\ref{sets-section-coverings-site}.
+\item In addition there is a site $(\textit{Aff}/S)_\tau$ using the
+notion of $\tau$-covering (\ref{affine-covering}) of affines whose
+category of sheaves
+is equivalent to the category of sheaves on $(\textit{Sch}/S)_\tau$.
+\end{enumerate}
+The above is a little clumsy in that we do not end up with a canonical
+choice for the big $\tau$-site of a scheme, or even the small
+$\tau$-site of a scheme. If you are willing to ignore set theoretic
+difficulties, then you can work with classes and end up with
+canonical big and small sites...
 
-\medskip\noindent
-FIXME: Remove Noetherian hypotheses.
 
-\section{Unramified morphisms}
-\label{section-unramified}
+
+
+
+
+
+
+
+
+
+\section{The fppf topology}
+\label{section-fppf}
+
+\noindent
+Let $S$ be a scheme. We would like to define the fppf-topology\footnote{
+The letters fppf stand for ``fid\`element plat de pr\'esentation finie''.} on
+the category of schemes over $S$. According to our general principle
+we first introduce the notion of an fppf-covering.
+
+\begin{definition}
+\label{definition-fppf-covering}
+Let $T$ be a scheme. An {\it fppf covering of $T$} is a family
+of morphisms $\{f_i : T_i \to T\}_{i \in I}$ of schemes
+such that each $f_i$ is flat, of finite presentation and such
+that $T = \bigcup f_i(T_i)$.
+\end{definition}
+
+\noindent
+Next, we show that this notion satisfies the conditions of
+Sites, Definition \ref{sites-definition-site}.
+
+\begin{lemma}
+\label{lemma-fppf}
+Let $T$ be a scheme.
+\begin{enumerate}
+\item If $T' \to T$ is an isomorphism then $\{T' \to T\}$
+is an fppf covering of $T$.
+\item If $\{T_i \to T\}_{i\in I}$ is an fppf covering and for each
+$i$ we have an fppf covering $\{T_{ij} \to T_i\}_{j\in J_i}$, then
+$\{T_{ij} \to T\}_{i \in I, j\in J_i}$ is an fppf covering.
+\item If $\{T_i \to T\}_{i\in I}$ is an fppf covering
+and $T' \to T$ is a morphism of schemes then
+$\{T' \times_T T_i \to T'\}_{i\in I}$ is an fppf covering.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+The first assertion is clear.
+The second follows as the composition of flat morphisms is flat
+(see Morphisms, Lemma \ref{morphisms-lemma-composition-flat})
+and the composition of morphisms of finite presentation is
+of finite presentation
+(see Morphisms, Lemma \ref{morphisms-lemma-composition-finite-presentation}).
+The third follows as the base change of a flat morphism is flat
+(see Morphisms, Lemma \ref{morphisms-lemma-base-change-flat})
+and the base change of a morphism of finite presentation is
+of finite presentation
+(see Morphisms, Lemma \ref{morphisms-lemma-base-change-finite-presentation}).
+Moreover, the base change of a surjective family of morphisms is surjective
+(proof omitted).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-fppf-affine}
+Let $T$ be an affine scheme.
+Let $\{T_i \to T\}_{i \in I}$ be an fppf covering of $T$.
+Then there exists an fppf covering
+$\{U_j \to T\}_{j = 1, \ldots, m}$ which is a refinement
+of $\{T_i \to T\}_{i \in I}$ such that each $U_j$ is an affine
+scheme. Moreover, we may choose each $U_j$ to be open affine
+in one of the $T_i$.
+\end{lemma}
+
+\begin{proof}
+This follows directly from the definitions using that a
+morphism which is flat and locally of finite presentation is open,
+see Morphisms, Lemma \ref{morphisms-lemma-fppf-open}.
+\end{proof}
+
+\begin{definition}
+\label{definition-big-fppf-site}
+A {\it big fppf site} is given by a pair $(\text{Ob}, \text{Cov})$ of sets
+with the following properties
+\begin{enumerate}
+\item Every element of $\text{Ob}$ is a scheme.
+Denote $\textit{Sch}_{fppf}$ the full subcategory of the
+category of schemes whose objects are the elements of
+$\text{Ob}$.
+\item Fibre products in $\textit{Sch}_{fppf}$ exist and are
+the same as fibre product in the category of schemes.
+\item Every element of $\text{Cov}$ is a family
+$\{U_i \to U\}_{i\in I}$ of morphisms of schemes
+with the same target, and with $U \in \text{Ob}$ as well as
+$U_i \in \text{Ob}$ for all $i \in I$.
+\item Every element of $\text{Cov}$ is an fppf covering.
+\item For every $T \in \text{Ob} = \text{Ob}(\textit{Sch}_{fppf})$
+and every fppf covering $\{T_i \to T\}_{i\in I}$ there exists
+an element $\{U_j \to T\}_{j \in J} \in \text{Cov}$ which
+is tautologically equivalent to $\{T_i \to T\}_{i\in I}$.
+\item The pair $(\textit{Sch}_{fppf}, \text{Cov})$ is a site as in
+Sites, Definition \ref{sites-definition-site}.
+\item For every scheme $T$ in $\textit{Sch}_{fppf}$
+and every finite type morphism of schemes $Y \to T$
+the scheme $Y$ is isomorphic to 
+\end{enumerate}
+\end{definition}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \section{Definition and sorites}
 \label{section-unramified-definition}
