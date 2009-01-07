@@ -18,9 +18,9 @@
 
 \noindent
 We need some set theory every now and then. We use Zermelo-Fraenkel set theory
-with the axiom of choice as described in \cite{Kunen} and \cite{Jech}. Since
-we are talking about potentially large objects (categories and categories of
-categories) we should be carefull.
+with the axiom of choice (ZFC) as described in \cite{Kunen} and \cite{Jech}.
+Since we are talking about potentially large objects
+(categories and categories of categories) we should be careful.
 
 \section{Everything is a set}
 \label{section-sets-everything}
@@ -114,7 +114,20 @@ Every set is an element of $V_\alpha$ for some ordinal $\alpha$.
 
 \noindent
 In \cite[Chapter III]{Kunen} it is explained that this lemma is
-more or less the same as the axiom of foundation.
+equivalent to the axiom of foundation.
+
+\section{Cardinality}
+\label{section-cardinals}
+
+\noindent
+The {\it cardinality} of a set $A$ is the least ordinal $\alpha$
+such that there exists a bijection between $A$ and $\alpha$.
+We say an ordinal $\alpha$ is a {\it cardinal} if and only
+if it occurs as the cardinality of some set, i.e.,
+$\alpha = |\alpha|$. We use the greek letters $\kappa$, $\lambda$
+for cardinals. The first infinite ordinal is denoted $\omega$; it is
+also the first inifinite cardinal, and in this context it is
+denoted $\aleph_0$.
 
 \section{Reflection principle}
 \label{section-reflection-principle}
@@ -127,8 +140,7 @@ Some of this material is in the chapter of \cite{Kunen} called
 Let $\phi(x_1,\ldots,x_n)$ be a formula of set theory.
 Let us use the convention that this notation implies that
 all the free variables in $\phi$ occur among $x_1, \ldots, x_n$.
-Let $M$ be a set\footnote{The relativization of $\phi$ can be defined
-more generally when $M$ is a class}.
+Let $M$ be a set.
 The formula $\phi^M(x_1, \ldots, x_n)$ is the
 formula obtained from $\phi(x_1, \ldots, x_n)$ by replacing all the
 $\forall x$ and $\exists x$ by $\forall x\in M$ and $\exists x\in M$.
@@ -164,19 +176,239 @@ $x_1, \ldots, x_n \in M$ the formulas hold with the bound variables ranging
 through all sets if and only if they hold for the bound variables ranging
 through elements of $V_\alpha$. This theorem is a meta-theorem, since
 it deals with the formulas of set theory directly.
-It actually says that the existence of $M = V_\alpha$ with the property
-above is provable in ZFC given any formulas $\phi_1, \ldots, \phi_m$.
+It actually says that given the finite list of formulas
+$\phi_1, \ldots, \phi_m$ with at most free variables $x_1, \ldots, x_n$
+the sentence
+$$
+\begin{matrix}
+\forall M_0\ \exists M,\ M_0 \subset M\ \forall x_1, \ldots, x_n \in M \\
+\phi_1(x_1,\ldots,x_n) \wedge \ldots \wedge \phi_m(x_1,\ldots,x_n)
+\leftrightarrow
+\phi_1^M(x_1,\ldots,x_n) \wedge \ldots \wedge \phi_m^M(x_1,\ldots,x_n)
+\end{matrix}
+$$
+is provable in ZFC. In other words, whenever we actually write down
+a finite list of formulas $\phi_i$ we get a theorem.
 
-\section{Fibre products of schemes}
+\section{Constructing categories of schemes}
 \label{section-fibre-product-schemes}
 
 \noindent
 We will discuss how to apply this to produce, given an initial
 set of schemes, a ``small'' category of schemes closed under
-fibre products, and finite type morphisms (in a suitable strong sense).
-This discussion will apply, mutatis mutandis, much more generally to
-other ``big'' categories so we are a bit more careful here than is
-really needed for the case of the category of schemes.
+a list of natural operations. Before we do so we introduce the
+size of a scheme. Given a scheme $S$ we define
+$$
+\text{size}(S) = \max(\aleph_0, \kappa_1, \kappa_2)
+$$
+where we define the cardinal numbers $\kappa_1$ and $\kappa_2$ as follows
+\begin{enumerate}
+\item We let $\kappa_1$ be the cardinality of the set of affine opens of $S$.
+\item We let $\kappa_2$ be the supremum of all the cardinalities of
+all $\Gamma(U, \mathcal{O}_S)$ for all $U \subset S$ open.
+\end{enumerate}
+
+\begin{lemma}
+\label{lemma-bounded-size}
+For every cardinal $\kappa$ there exists a set $A$ such
+that every element of $A$ is a scheme, and such that for every
+scheme $S$ with $\text{Size}(S) \leq \kappa$ there is
+an element $X \in A$ such that $X \cong S$ (isomorphism
+of schemes).
+\end{lemma}
+
+\begin{proof}
+Omitted. Hint: think about how any scheme is isomorphic to a scheme
+obtained by glueing affines.
+\end{proof}
+
+\noindent
+We denote $Bound$ the function which to each
+cardinal $\kappa$ associates $Bound(\kappa) = \kappa^{\aleph_0}$.
+We could make this function grow much more rapidly, e.g., we could
+set $Bound(\kappa) = \kappa^\kappa$, and the result below would still hold.
+For any ordinal $\alpha$ we denote $\textit{Sch}_\alpha$ the full
+subcategory of category of schemes whose objects are elements of
+$V_\alpha$. Here is the result we are going to prove.
+
+\begin{lemma}
+\label{lemma-construct-category}
+With notations $\text{size}$, $f$ and $\textit{Sch}_\alpha$ as above.
+Let $S_0$ be a set of schemes. There exists a limit ordinal
+$\alpha$ with the following properties:
+\begin{enumerate}
+\item We have $S_0 \subset V_\alpha$, in other words
+$S_0 \subset \text{Ob}(\textit{Sch}_\alpha)$.
+\label{inclusion}
+\item For any $S \in \text{Ob}(\textit{Sch}_\alpha)$ and any
+scheme $T$ with $\text{size}(T) \leq Bound(\text{size}(S))$
+there exists a scheme $S' \in \text{Ob}(\textit{Sch}_\alpha)$
+such that $T \cong S'$.
+\label{bounded}
+\item For any countable diagram\footnote{Both the set of objects and
+the morphism sets are countable.} category $\mathcal{I}$ and
+any functor $F : \mathcal{I} \to \textit{Sch}_\alpha$ the limit
+$\text{lim}_\mathcal{I} F$ exists in $\textit{Sch}_\alpha$ if and
+only if it exists in $\textit{Sch}$ and moreover in this case
+the natural morphism between them is an isomorphism.
+\label{limit}
+\item For any countable diagram category $\mathcal{I}$ and
+any functor $F : \mathcal{I} \to \textit{Sch}_\alpha$ the colimit
+$\text{colim}_\mathcal{I} F$ exists in $\textit{Sch}_\alpha$ if and
+only if it exists in $\textit{Sch}$ and moreover in this case
+the natural morphism between them is an isomorphism.
+\label{colimit}
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+This is really a direct application of the reflection theorem and
+likely completely trivial to anybody willing to read more.
+We indicate the steps. First we define our formulas. Each
+time we indicate the free variables.
+\begin{enumerate}
+\item The formula $\phi_1(X)$ is the formula $\phi_{scheme}(X)$
+discussed in Section \ref{section-sets-everything}.
+\item The formula $\phi_2(A, X, Y)$ is the formula
+expressing that $A = \text{Mor}_{\textit{Sch}}(X, Y)$.
+In words, it expresses the condition that $X$ and $Y$ are schemes
+and that $A$ is the set of morphisms of schemes from $X$ to $Y$.
+\item We set $\phi_3(X, Y) = \exists A, \phi_2(A, X, Y)$.
+\item The formula $\phi_4(A, X)$ is the formula expressing
+that $X$ is a scheme and that $A$ is a set of schemes such
+that for any scheme $Y$ with
+$\text{size}(Y) \leq Bound(\text{size}(X))$ there
+exists a $Z \in A$ with $Z \cong Y$.
+\item We set $\phi_5(X) = \exists A, \phi_4(A, X)$.
+\item The formula $\phi_6(A, f, B)$ expresses that
+$A$, $B$ are set, $f : A \to B$ is a set map, and
+$f(A) = B$.
+\item We set $\phi_7(A, f) = \exists B, \phi_6(A, f, B)$.
+\item The formula $\phi_6(A, \mathcal{I}, B)$
+is the formula expressing that $\mathcal{I}$
+is a countable category, $A$ is a set whose elements are schemes,
+$B$ is the set whose elements are exactly the functors
+$F$ from $\mathcal{I}$ to the category of schemes
+such that $F(i) \in A$ for all $i \in \text{Ob}(\mathcal{I})$.
+\item We set $\phi_7(A, \mathcal{I}) =
+\exists B, \phi_6(A, \mathcal{I}, B)$.
+\item The formula $\phi_6(\mathcal{I}, F, X, t)$ is the formula
+expressing that $\mathcal{I}$ is a countable category, $F$ is 
+a functor from $\mathcal{I}$ to the category of schemes,
+$X$ is a scheme, and $t : \underline{X} \to F$
+is a transformation of functors from the constant
+functor $\underline{X} : \mathcal{I} \to \textit{Sch}$,
+$i \mapsto X$ to $F$ which induces an isomorphism
+$X \to \text{lim}_{\mathcal{I}} F$.
+\item We set
+$\phi_7(\mathcal{I}, F) = \exists X, \exists t, \phi_6(\mathcal{I}, F, X, t)$.
+\item The formula $\phi_8(\mathcal{I}, F, X, t)$ is the formula
+expressing that $\mathcal{I}$ is a countable category, $F$ is 
+a functor from $\mathcal{I}$ to the category of schemes,
+$X$ is a scheme, and $t : F \to \underline{X}$
+is a transformation of functors from $F$ to the constant
+functor $\underline{X} : \mathcal{I} \to \textit{Sch}$,
+$i \mapsto X$ which induces an isomorphism
+$\text{colim}_{\mathcal{I}} F \to X$.
+\item We set
+$\phi_9(\mathcal{I}, F) = \exists X, \exists t, \phi_6(\mathcal{I}, F, X, t)$.
+\end{enumerate}
+We let $CountCat$ be a set all of whose elements are categories
+such that every countable category is isomorphic to an element
+of $CountCat$. (Such a set exists; proof omitted.)
+By Theorem \ref{theorem-reflection-principle} there exists a
+limit ordinal $\alpha$
+such that $S_0 \cup CountCat \subset V_\alpha$ and such that
+for all $A$, $X$, $Y$, $\mathcal{I}$, $F$, $t$ in $V_\alpha$ we
+have
+\begin{equation}
+\label{equation-equivalence}
+\phi_i(A, X, Y, \mathcal{I}, F, t)
+\leftrightarrow
+\phi_i^{V_\alpha}(A, X, Y, \mathcal{I}, F, t),\ \  i = 1, \ldots, 9.
+\end{equation}
+What does this mean? For example for $\phi_1$ it means that
+any $X \in V_\alpha$ is a scheme if and only if $\phi_1^{V_\alpha}(X)$
+holds. This is just an example which is not useful because we have
+no other way of interpreting the formula $\phi_1^{V_\alpha}(X)$.
+It is only when you combine two or more of the formulas
+that the result is meaningful.
+
+\medskip\noindent
+For example, consider $\phi_2$ and $\phi_3$.
+The equivalence (\ref{equation-equivalence}) above
+for $\phi_2$ means that given $A, X, Y \in V_\alpha$ we see that
+$X$ and $Y$ are schemes, and
+$A$ is the set of morphisms of schemes from $X$ to $Y$ if and only
+if $\phi_2^{V_\alpha}(A, X, Y)$ holds. On the other hand,
+suppose that $X, Y \in V_\alpha$ are schemes. Then
+$\phi_2(X, Y)$ holds, since it just expresses the fact that
+the collection of morphisms of schemes from $X$ to $Y$ is a set.
+Hence from (\ref{equation-equivalence}) we conclude that
+$\phi_3^{V_\alpha}(X, Y) =
+\exists A \in V_\alpha, \phi_2^{V_\alpha}(A, X, Y)$ holds.
+Because of what we said above about $\phi_2^{V_\alpha}(A, X, Y)$
+we conclude that $\text{Mor}_{\textit{Sch}}(X, Y)$ is an
+element of $V_\alpha$. Since $V_\alpha$ is a transitive set,
+see \cite[III Lemma 2.3]{Kunen}, we see that also 
+all morphisms between $X$ and $Y$ are elements of $V_\alpha$.
+Allthough this is pleasing it is not strictly speaking necessary for the
+following, and we could have omitted $\phi_1$, $\phi_2$, and
+$\phi_3$ from the list of formulas.
+
+\medskip\noindent
+Next, consider $\phi_4$ and $\phi_5$. Then (\ref{equation-equivalence})
+for $\phi_4$ means that 
+for all $A, X \in V_\alpha$ we have that $X$ is a scheme
+and $A$ is a set of schemes containing at least one
+element out of each isomorphism class of schemes of 
+size at most $Bound(\text{size}(X))$ if and only
+if $\phi_4^{V_\alpha}(A, X)$ holds.  Suppose that
+$X\in V_\alpha$ is a scheme. Then $\phi_5(X)$ holds,
+since it just expresses the fact that
+the collection of isomorphism classes of schemes
+of bounded size is a set, see Lemma \ref{lemma-bounded-size}.
+Hence from (\ref{equation-equivalence}) we conclude that
+$\phi_5^{V_\alpha}(X) =
+\exists A \in V_\alpha, \phi_4^{V_\alpha}(A, X)$ holds.
+Thus we conclude that for any scheme $X$, $X \in V_\alpha$
+there is a set $A \in V_\alpha$ whose elements are schemes
+and containing at least one
+element out of each isomorphism class of schemes of 
+size at most $Bound(\text{size}(X))$. Again since
+$V_\alpha$ is a transitive set we conclude that
+property (\ref{bounded}) of the lemma holds.
+
+\medskip\noindent
+The rest of the proof of the lemma simply repeats this argument
+over and over again. We suggest skipping the rest of the proof.
+
+\medskip\noindent
+We consider $\phi_6$ and $\phi_7$. Then (\ref{equation-equivalence})
+for $\phi_6$ means that for all $A, f, B \in V_\alpha$ we have that
+$f$ is a set map from $A$ to $B$ and $f(A) = B$
+if and only if $\phi_6^{V_\alpha}(A, f, B)$ holds.
+Note that $\phi_7(A, f)$ is true whenever $A$ is a set
+and $f$ is a map of sets with source $A$. Thus we see that
+for $A, f \in V_\alpha$ also the image of $f$ is an element
+of $V_\alpha$.
+
+
+
+
+
+
+
+
+
+
+\end{proof}
+
+
+
+
+
+
 
 \medskip\noindent
 Consider the following statement: ``Let $X$ be a scheme.''
