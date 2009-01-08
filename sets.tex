@@ -19,8 +19,6 @@
 \noindent
 We need some set theory every now and then. We use Zermelo-Fraenkel set theory
 with the axiom of choice (ZFC) as described in \cite{Kunen} and \cite{Jech}.
-Since we are talking about potentially large objects
-(categories and categories of categories) we should be careful.
 
 \section{Everything is a set}
 \label{section-sets-everything}
@@ -96,8 +94,22 @@ a {\it limit ordinal} and we have
 $$
 \alpha 
 =
-\bigcup\nolimits_{\gamma \in \alpha} \gamma
+\bigcup\nolimits_{\gamma \in \alpha} \gamma.
 $$
+The smallest ordinal is $\emptyset$ which is also denoted $0$.
+The first limit ordinal is $\omega$ and it is also the first
+infinite ordinal. The collection of all ordinals is a proper class.
+It is well-ordered by $\in$ in the following sense: any nonempty set
+(or even class) of ordinals has a least element.
+Given a set $A$ of ordinals we define the {\it supremum}
+of $A$ to be $\text{sup}_{\alpha \in A} \alpha = 
+\bigcup_{\alpha \in A} \alpha$. It is the least ordinal bigger
+or equal to all $\alpha \in A$.
+Given any well ordered set $(S, \geq)$ there is a unique ordinal
+$\alpha$ such that $(S, \geq) \cong (\alpha, \in)$; this is
+called the {\it order type} of the well ordered set.
+
+\medskip\noindent
 We define, by transfinite induction, $V_0 = \emptyset$,
 $V_{\alpha + 1} = P(V_\alpha)$ (power set),
 and for a limit ordinal $\alpha$,
@@ -114,7 +126,8 @@ Every set is an element of $V_\alpha$ for some ordinal $\alpha$.
 
 \noindent
 In \cite[Chapter III]{Kunen} it is explained that this lemma is
-equivalent to the axiom of foundation.
+equivalent to the axiom of foundation. The {\it rank} of
+a set $S$ is the least ordinal $\alpha$ such that $S \in V_\alpha$.
 
 \section{Cardinality}
 \label{section-cardinals}
@@ -123,11 +136,26 @@ equivalent to the axiom of foundation.
 The {\it cardinality} of a set $A$ is the least ordinal $\alpha$
 such that there exists a bijection between $A$ and $\alpha$.
 We say an ordinal $\alpha$ is a {\it cardinal} if and only
-if it occurs as the cardinality of some set, i.e.,
+if it occurs as the cardinality of some set, in other words, if
 $\alpha = |\alpha|$. We use the greek letters $\kappa$, $\lambda$
-for cardinals. The first infinite ordinal is denoted $\omega$; it is
-also the first inifinite cardinal, and in this context it is
-denoted $\aleph_0$.
+for cardinals. The first infinite cardinal is $\omega$, and in this
+context it is denoted $\aleph_0$. A set is {\it countable} if its cardinality
+is $\leq \aleph_0$.
+Given any set $K$ of cardinals the {\it supremum} of $K$
+is $\text{sup}_{\kappa \in K} \kappa = \bigcup_{\kappa \in K} \kappa$.
+This is a cardinal.
+
+\section{Cofinality}
+\label{section-cofinality}
+
+\noindent
+A {\it cofinal subset} $S$ of a partially ordered set $T$ is a subset
+$S \subset T$ such that $\forall t \in T \exists s\in S (t \leq s)$.
+Note that a subset of a well-ordered set is a well-ordered set
+(with induced ordering). Given an ordinal $\alpha$ the {\it cofinality}
+$\text{cf}(\alpha)$ of $\alpha$ is the least ordinal $\beta$
+which occurs as the order type of some cofinal subset of $\alpha$.
+The cofinality of an ordinal is always a cardinal.
 
 \section{Reflection principle}
 \label{section-reflection-principle}
@@ -190,6 +218,12 @@ $$
 is provable in ZFC. In other words, whenever we actually write down
 a finite list of formulas $\phi_i$ we get a theorem.
 
+\medskip\noindent
+It is somewhat hard to use this theorem in ``ordinary mathematics''
+since the meaning of the formulas $\phi_i^M(x_1, \ldots, x_n)$
+is not so clear! Instead we will use the idea of the proof of the
+reflection principle to prove the existence results we need directly.
+
 \section{Constructing categories of schemes}
 \label{section-fibre-product-schemes}
 
@@ -233,7 +267,7 @@ $V_\alpha$. Here is the result we are going to prove.
 
 \begin{lemma}
 \label{lemma-construct-category}
-With notations $\text{size}$, $f$ and $\textit{Sch}_\alpha$ as above.
+With notations $\text{size}$, $Bound$ and $\textit{Sch}_\alpha$ as above.
 Let $S_0$ be a set of schemes. There exists a limit ordinal
 $\alpha$ with the following properties:
 \begin{enumerate}
@@ -246,7 +280,9 @@ there exists a scheme $S' \in \text{Ob}(\textit{Sch}_\alpha)$
 such that $T \cong S'$.
 \label{bounded}
 \item For any countable diagram\footnote{Both the set of objects and
-the morphism sets are countable.} category $\mathcal{I}$ and
+the morphism sets are countable. In fact you can prove the lemma with
+$\aleph_0$ replaced by any cardinal whatsoever in (3) and (4).}
+category $\mathcal{I}$ and
 any functor $F : \mathcal{I} \to \textit{Sch}_\alpha$ the limit
 $\text{lim}_\mathcal{I} F$ exists in $\textit{Sch}_\alpha$ if and
 only if it exists in $\textit{Sch}$ and moreover in this case
@@ -262,459 +298,169 @@ the natural morphism between them is an isomorphism.
 \end{lemma}
 
 \begin{proof}
-This is really a direct application of the reflection theorem and
-likely completely trivial to anybody willing to read more.
-We indicate the steps. First we define our formulas. Each
-time we indicate the free variables.
+We define, by transfinite induction, a function $f$ which associates
+to every ordinal an ordinal as follows. Let $f(0) = 0$.
+Given $f(\alpha)$ we define $f(\alpha + 1)$ to be the least
+ordinal $\beta$ such that the following hold:
 \begin{enumerate}
-\item The formula $\phi_1(X)$ is the formula $\phi_{scheme}(X)$
-discussed in Section \ref{section-sets-everything}.
-\item The formula $\phi_2(A, X, Y)$ is the formula
-expressing that $A = \text{Mor}_{\textit{Sch}}(X, Y)$.
-In words, it expresses the condition that $X$ and $Y$ are schemes
-and that $A$ is the set of morphisms of schemes from $X$ to $Y$.
-\item We set $\phi_3(X, Y) = \exists A, \phi_2(A, X, Y)$.
-\item The formula $\phi_4(A, X)$ is the formula expressing
-that $X$ is a scheme and that $A$ is a set of schemes such
-that for any scheme $Y$ with
-$\text{size}(Y) \leq Bound(\text{size}(X))$ there
-exists a $Z \in A$ with $Z \cong Y$.
-\item We set $\phi_5(X) = \exists A, \phi_4(A, X)$.
-\item The formula $\phi_6(A, f, B)$ expresses that
-$A$, $B$ are set, $f : A \to B$ is a set map, and
-$f(A) = B$.
-\item We set $\phi_7(A, f) = \exists B, \phi_6(A, f, B)$.
-\item The formula $\phi_6(A, \mathcal{I}, B)$
-is the formula expressing that $\mathcal{I}$
-is a countable category, $A$ is a set whose elements are schemes,
-$B$ is the set whose elements are exactly the functors
-$F$ from $\mathcal{I}$ to the category of schemes
-such that $F(i) \in A$ for all $i \in \text{Ob}(\mathcal{I})$.
-\item We set $\phi_7(A, \mathcal{I}) =
-\exists B, \phi_6(A, \mathcal{I}, B)$.
-\item The formula $\phi_6(\mathcal{I}, F, X, t)$ is the formula
-expressing that $\mathcal{I}$ is a countable category, $F$ is 
-a functor from $\mathcal{I}$ to the category of schemes,
-$X$ is a scheme, and $t : \underline{X} \to F$
-is a transformation of functors from the constant
-functor $\underline{X} : \mathcal{I} \to \textit{Sch}$,
-$i \mapsto X$ to $F$ which induces an isomorphism
-$X \to \text{lim}_{\mathcal{I}} F$.
-\item We set
-$\phi_7(\mathcal{I}, F) = \exists X, \exists t, \phi_6(\mathcal{I}, F, X, t)$.
-\item The formula $\phi_8(\mathcal{I}, F, X, t)$ is the formula
-expressing that $\mathcal{I}$ is a countable category, $F$ is 
-a functor from $\mathcal{I}$ to the category of schemes,
-$X$ is a scheme, and $t : F \to \underline{X}$
-is a transformation of functors from $F$ to the constant
-functor $\underline{X} : \mathcal{I} \to \textit{Sch}$,
-$i \mapsto X$ which induces an isomorphism
-$\text{colim}_{\mathcal{I}} F \to X$.
-\item We set
-$\phi_9(\mathcal{I}, F) = \exists X, \exists t, \phi_6(\mathcal{I}, F, X, t)$.
+\item We have $\alpha + 1 \leq \beta$ and $f(\alpha) \leq \beta$.
+\item For any $S \in \text{Ob}(\textit{Sch}_{f(\alpha)})$ and any
+scheme $T$ with $\text{size}(T) \leq Bound(\text{size}(S))$
+there exists a scheme $S' \in \text{Ob}(\textit{Sch}_\beta)$
+such that $T \cong S'$.
+\item For any countable diagram category $\mathcal{I}$ and
+any functor $F : \mathcal{I} \to \textit{Sch}_{f(\alpha)}$ if 
+the limit $\text{lim}_\mathcal{I} F$ or the colimit
+$\text{colim}_{\mathcal{I}} F$ exists in $\textit{Sch}$
+then it is isomorphic to a scheme in $\textit{Sch}_\beta$.
 \end{enumerate}
-We let $CountCat$ be a set all of whose elements are categories
-such that every countable category is isomorphic to an element
-of $CountCat$. (Such a set exists; proof omitted.)
-By Theorem \ref{theorem-reflection-principle} there exists a
-limit ordinal $\alpha$
-such that $S_0 \cup CountCat \subset V_\alpha$ and such that
-for all $A$, $X$, $Y$, $\mathcal{I}$, $F$, $t$ in $V_\alpha$ we
-have
-\begin{equation}
-\label{equation-equivalence}
-\phi_i(A, X, Y, \mathcal{I}, F, t)
-\leftrightarrow
-\phi_i^{V_\alpha}(A, X, Y, \mathcal{I}, F, t),\ \  i = 1, \ldots, 9.
-\end{equation}
-What does this mean? For example for $\phi_1$ it means that
-any $X \in V_\alpha$ is a scheme if and only if $\phi_1^{V_\alpha}(X)$
-holds. This is just an example which is not useful because we have
-no other way of interpreting the formula $\phi_1^{V_\alpha}(X)$.
-It is only when you combine two or more of the formulas
-that the result is meaningful.
+To see $\beta$ exists we argue as follows. Since
+$\text{Ob}(\textit{Sch}_{f(\alpha)})$ is a set we see that
+$\kappa =
+\text{sup}_{S \in \text{Ob}(\textit{Sch}_{f(\alpha)})} Bound(\text{size}(S))$
+exists and is a cardinal.
+Let $A$ be a set of schemes obtained starting with $\kappa$
+as in Lemma \ref{lemma-bounded-size}.
+There is a set $CountCat$ of countable
+categories such that any countable category is isomorphic to 
+an element of $CounCat$. Hence in (3) above we may assume
+that $\mathcal{I}$ is an element in $CountCat$. This means that
+the pairs $(\mathcal{I}, F)$ in (3) range over a set.
+Thus there exists a set $B$ whose elements are schemes 
+such that for every $(\mathcal{I}, F)$ as in (3) if the
+limit or colimit exists, then it is isomorphic to an element in $B$.
+Hence if we pick any $\beta$ such that $A \cup B \subset V_\beta$
+and $\beta > \max\{\alpha + 1, f(\alpha)\}$ then (1)-(3) hold.
+Since every nonempty collection of ordinals has a least element
+we see that $f(\alpha + 1)$ is well defined. Finally, if $\alpha$
+is a limit ordinal, then we set
+$f(\alpha) = \text{sup}_{\alpha' < \alpha} f(\alpha')$.
 
 \medskip\noindent
-For example, consider $\phi_2$ and $\phi_3$.
-The equivalence (\ref{equation-equivalence}) above
-for $\phi_2$ means that given $A, X, Y \in V_\alpha$ we see that
-$X$ and $Y$ are schemes, and
-$A$ is the set of morphisms of schemes from $X$ to $Y$ if and only
-if $\phi_2^{V_\alpha}(A, X, Y)$ holds. On the other hand,
-suppose that $X, Y \in V_\alpha$ are schemes. Then
-$\phi_2(X, Y)$ holds, since it just expresses the fact that
-the collection of morphisms of schemes from $X$ to $Y$ is a set.
-Hence from (\ref{equation-equivalence}) we conclude that
-$\phi_3^{V_\alpha}(X, Y) =
-\exists A \in V_\alpha, \phi_2^{V_\alpha}(A, X, Y)$ holds.
-Because of what we said above about $\phi_2^{V_\alpha}(A, X, Y)$
-we conclude that $\text{Mor}_{\textit{Sch}}(X, Y)$ is an
-element of $V_\alpha$. Since $V_\alpha$ is a transitive set,
-see \cite[III Lemma 2.3]{Kunen}, we see that also 
-all morphisms between $X$ and $Y$ are elements of $V_\alpha$.
-Allthough this is pleasing it is not strictly speaking necessary for the
-following, and we could have omitted $\phi_1$, $\phi_2$, and
-$\phi_3$ from the list of formulas.
+Pick $\beta_0$ such that $S_0 \subset V_{\beta_0}$.
+By construction $f(\beta) \geq \beta$ and we see that
+also $S_0 \subset V_{f(\beta_0)}$. Moreover, as $f$ is
+nondecreasing this remains true for any $\beta \geq \beta_0$.
+Next, choose any ordinal $\beta_1 > \beta_0$ with cofinality
+$\text{cf}(\beta_1) > \omega = \aleph_0$. This is possible
+since the cofinality of ordinals gets arbitrarily large,
+see. For example, given a cardinal $\kappa$,
+the cofinality of $2^\kappa$ is bigger than $\kappa$, see
+\cite[Chapter I, Corollary 10.41]{Kunen}. We claim that
+$\alpha = f(\beta_1)$ is a solution to the problem posed in the lemma.
 
 \medskip\noindent
-Next, consider $\phi_4$ and $\phi_5$. Then (\ref{equation-equivalence})
-for $\phi_4$ means that 
-for all $A, X \in V_\alpha$ we have that $X$ is a scheme
-and $A$ is a set of schemes containing at least one
-element out of each isomorphism class of schemes of 
-size at most $Bound(\text{size}(X))$ if and only
-if $\phi_4^{V_\alpha}(A, X)$ holds.  Suppose that
-$X\in V_\alpha$ is a scheme. Then $\phi_5(X)$ holds,
-since it just expresses the fact that
-the collection of isomorphism classes of schemes
-of bounded size is a set, see Lemma \ref{lemma-bounded-size}.
-Hence from (\ref{equation-equivalence}) we conclude that
-$\phi_5^{V_\alpha}(X) =
-\exists A \in V_\alpha, \phi_4^{V_\alpha}(A, X)$ holds.
-Thus we conclude that for any scheme $X$, $X \in V_\alpha$
-there is a set $A \in V_\alpha$ whose elements are schemes
-and containing at least one
-element out of each isomorphism class of schemes of 
-size at most $Bound(\text{size}(X))$. Again since
-$V_\alpha$ is a transitive set we conclude that
-property (\ref{bounded}) of the lemma holds.
+The first property of the lemma holds by our choice
+of $\beta_1 > \beta_0$ above.
 
 \medskip\noindent
-The rest of the proof of the lemma simply repeats this argument
-over and over again. We suggest skipping the rest of the proof.
+Since $\beta_1$ is a limit ordinal (as its cofinality is infinite)
+we see that $f(\beta_1) = \text{sup}_{\beta < \beta_1} f(\beta)$.
+Hence $\{f(\beta) \mid \beta < \beta_1\} \subset f(\beta_1)$ is a
+confinal subset. Hence we see that
+$$
+V_\alpha = V_{f(\beta_1)} = \bigcup\nolimits_{\beta < \beta_1} V_{f(\beta)}.
+$$
+Now, let $S \in \text{Ob}(\textit{Sch}_\alpha)$. We define
+$\beta(S)$ to be the least ordinal $\beta$ such that
+$S \in \text{Ob}(\textit{Sch}_{f(\beta)})$. By the above we see
+that always $\beta(S) < \beta_1$. Since
+$\text{Ob}(\textit{Sch}_{f(\beta + 1)}) \subset
+\text{Ob}(\textit{Sch}_\alpha)$, we
+see by construction of $f$ above that the second property of the lemma
+is satisfied.
 
 \medskip\noindent
-We consider $\phi_6$ and $\phi_7$. Then (\ref{equation-equivalence})
-for $\phi_6$ means that for all $A, f, B \in V_\alpha$ we have that
-$f$ is a set map from $A$ to $B$ and $f(A) = B$
-if and only if $\phi_6^{V_\alpha}(A, f, B)$ holds.
-Note that $\phi_7(A, f)$ is true whenever $A$ is a set
-and $f$ is a map of sets with source $A$. Thus we see that
-for $A, f \in V_\alpha$ also the image of $f$ is an element
-of $V_\alpha$.
-
-
-
-
-
-
-
-
-
-
+Suppose that $\{S_1, S_2, \ldots\} \subset \text{Ob}(\textit{Sch}_\alpha)$
+is a countable collection. Consider the function
+$\omega \to \beta_1$, $n \mapsto \beta(S_n)$. Since the cofinality
+of $\beta_1$ is $> \omega$ the image of this function cannot be a
+cofinal subset. Hence there exists a $\beta < \beta_1$ such
+that $\{S_1, S_2, \ldots\} \subset \text{Ob}(\textit{Sch}_{f(\beta)})$.
+It follows that any functor $F : \mathcal{I} \to \textit{Sch}_\alpha$
+factors through one of the subcategories $\textit{Sch}_{f(\beta)}$.
+Thus, if there exists a scheme $X$ which is the colimit or limit
+of the diagram $F$, then by construction of $f$ we see
+$X$ is isomorphic to an object
+of $\textit{Sch}_{f(\beta + 1)}$ which is a subcategory of
+$\textit{Sch}_\alpha$. This proves the last two assertions of
+the lemma.
 \end{proof}
-
-
-
-
-
-
-
-\medskip\noindent
-Consider the following statement: ``Let $X$ be a scheme.''
-As discussed in Section \ref{section-sets-everything}
-there is a set theoretic formula expressing this.
-Say it is $\phi_{scheme}(X)$.
-This has one free variable, namely $X$, and some bound variables.
-Similarly, let us denote
-$\varphi_{mor}(f, X, Y)$ the set theoretic formula
-which expresses that $f$ is a morphism of schemes
-from $X$ to $Y$. We also can encode the statement
-``$A$ is the set of morphisms between the schemes $X$ and $Y$''.
-Formally, the corresponding set theoretic formula would look
-like
-$$
-\phi_{set-mor}(A, X, Y) = 
-\phi_{scheme}(X) \wedge \phi_{scheme}(Y) \wedge
-(\forall f (f \in A \leftrightarrow \phi_{mor}(f, X, Y)))
-$$
-Clearly, this formula has free variables $X$, $Y$, $A$ and bound variable
-$f$ and other bound variables occuring in $\phi_{scheme}$ and
-$\phi_{mor}$. Let $\phi_{mor-set-exists}(X, Y)$
-be the settheoretic formula expressing the mathematical sentence
-``Let $X$, $Y$ be schemes. There exists a set $A$ such that
-$\phi_{set-mor}(A, X, Y)$''. In a formula
-$$
-\phi_{mor-set-exists}(X, Y) = \exists A \phi_{set-mor}(A, X, Y).
-$$
-Consider the following sentence: ``The scheme $Z$ together
-with the morphisms of schemes $p : Z \to X$, and $q : Z \to Y$ is a
-fibre product of the morphisms of schemes $f : X \to S$ and
-$g : Y \to S$.'' Let $\phi_{prod}(Z, X, Y, S, p, q, f, g)$ denote
-a formula of set theory which is a translation of the above.
-The free variables of $\phi_{prod}$ are $Z, X, Y, S, p, q, f, g$
-as indicated.
-Consider the following sentence: ``For every pair of morphisms of
-schemes $f : X \to S$ and $g : Y \to S$ with the same target scheme $S$
-there exists a fibre product $(Z, p, q)$ of $f$ and $g$.''
-The free variables in this formula are $X$, $Y$, $S$.
-The corresponding set theory formula is by the above
-equal to
-$$
-\phi_{fib-prods-exist}(X, Y, S)
-=
-\forall f\ \forall g\ \exists Z\ \exists p\ \exists q\ 
-\phi_{prod}(Z, X, Y, S, p, q, f, g)
-$$
-In addition to the above, let us consider the sentence:
-``$Y$ is a scheme, $F$ is a set of schemes, for all schemes $X$,
-for all morphisms of schemes $g : X \to Y$ of finite type, there exists a
-$T \in F$ such that $X \cong T$.'' Denote this formula
-$\phi_{set-ft}(F, Y)$. Moreover, set
-$\phi_{exist-set-ft}(Y) = \exists F \phi_{set-ft}(F, Y)$.
-
-\medskip\noindent
-For an ordinal $\alpha$ we denote $\textit{Sch}_\alpha$ the subcategory
-of the ``big'' category $\textit{Sch}$ of all schemes, whose
-objects and morphisms are elements of $V_\alpha$.
-Suppose given an initial set of schemes $\mathcal{C}_0$.
-Apply the reflection theorem with $M_0 = \mathcal{C}_0$
-and the sentences
-$\phi_{scheme}(X)$,
-$\phi_{mor}(f, X, Y)$,
-$\phi_{set-mor}(A, X, Y)$,
-$\phi_{mor-set-exists}(X, Y)$,
-$\phi_{prod}(Z, X, Y, S, p, q, f, g)$,
-$\phi_{fib-prods-exist}(X, Y, S)$,
-$\phi_{set-ft}(F, Y)$, and
-$\phi_{exist-set-ft}(Y)$. The theorem implies
-there exists a limit ordinal $\alpha$ such that
-whenever we choose $X, Y, A, Z, S, p, q, f, g$ in
-$V_\alpha$ then the assertions $\phi_{scheme}^{V_\alpha}(X)$, etc
-hold if and only if the assertions $\phi_{scheme}(X)$, etc hold.
-We work out formula by formula the significance.
-\begin{enumerate}
-\item For the formula $\phi_{scheme}$ this means that for
-all $X \in V_\alpha$ to check that $X$ is a scheme,
-it is the same to check that $\phi_{scheme}^{V_\alpha}(X)$ holds.
-\item For the formula $\phi_{mor}$ it similarly states that
-given $f, X, Y \in V_\alpha$ to see $f$ is a morphism
-between $X$ and $Y$ we check whether
-$\phi_{mor}^{V_\alpha}(f, X, Y)$ holds.
-\item For the formula $\phi_{set-mor}$ it implies that given $X$, $Y$ and
-$A$ in $V_\alpha$ we have that $A$ is the set of all morphisms of schemes
-from $X$ to $Y$ if and only if $A$ is the set of morphisms of schemes
-$f : X \to Y$ with $f \in V_\alpha$!
-\item The formula $\phi_{mor-set-exists}(X, Y)$ is true, no matter
-what $X$ and $Y$ we choose.
-Hence for all $X, Y$ in $\textit{Sch}_\alpha$ the
-formula $\phi_{mor-set-exists}^{V_\alpha}(X, Y)$ is true.
-Thus given $X, Y$ in $\textit{Sch}_\alpha$
-there is a set $A$ in $V_\alpha$ whose elements are the morphisms
-of schemes between $X$ and $Y$ in $V_\alpha$.
-\item Combining (3) and (4) we see, given $X, Y$ in $\textit{Sch}_\alpha$,
-the set $\text{Mor}_{\textit{Sch}}(X, Y) \in V_\alpha$
-and all its elements are elements of $V_\alpha$ as well.
-In particular the embedding
-$\textit{Sch}_\alpha \subset \textit{Sch}$ is fully faithful.
-\item Let $Z, X, Y, S, p, q, f, g \in V_\alpha$.
-The equivalence of $\phi_{prod}(Z, X, Y, S, p, q, f, g)$
-and $\phi_{prod}^{V_\alpha}(Z, X, Y, S, p, q, f, g)$ means that
-$Z, p ,q$ form a fibre product of $f : X \to S$ and $g : Y \to S$
-in $\textit{Sch}$ if and only if
-$\phi_{prod}^{V_\alpha}(Z, X, Y, S, p, q, f, g)$ holds.%
-\footnote{At this point in the discussion we do not know
-what, if anything, $\phi^{V_\alpha}_{prod}$ signifies in terms of the
-category $\textit{Sch}_\alpha$. It may very well depend on
-the precise shape of the formula chosen.}
-\item The formula $\phi_{fib-prods-exist}(X, Y, S)$ is true
-for any triple of schemes $X, Y, S$, see Schemes,
-Lemma \ref{schemes-lemma-fibre-products}. Hence we see that if
-we choose $X, Y, S$ in $\textit{Sch}_\alpha$ then we have
-$$
-\forall f\in V_\alpha\ \forall g\in V_\alpha\ 
-\exists Z\in V_\alpha\ \exists p\in V_\alpha\ \exists q\in V_\alpha\ 
-\phi_{prod}^{V_\alpha}(Z, X, Y, S, p, q, f, g)
-$$
-\item Let $X$, $Y$, $S$ be objects of $\textit{Sch}_\alpha$.
-Combining (5), (6) and (7) we see that no matter which morphisms
-of schemes $f : X \to S$ and $g : Y \to S$ we choose there exist
-$Z, p, q \in V_\alpha$ which are a fibre product in the
-category $\textit{Sch}$ of all schemes. We conclude that
-$\textit{Sch}_\alpha$ has fibre products and the embedding
-$\textit{Sch}_\alpha \subset \textit{Sch}$ commutes with
-taking fibre products.
-\item Let $F, Y \in V_\alpha$. The equivalence of
-$\phi_{set-ft}(F, Y)$ and $\phi^{V_\alpha}_{set-ft}(F, Y)$
-means that ``$F$ is a set of schemes such that for any finite
-type morphism of schemes $g : X \to Y$ there is at least one
-$T \in F$ such that $T \cong X$'' is equivalent to
-$\phi^{V_\alpha}_{set-ft}(F, Y)$.
-\item For every scheme $Y$ the formula $\phi_{exist-set-ft}(Y)$
-is true, see Morphisms, Lemma \ref{morphisms-lemma-set-finite-type-over}.
-Thus we see that if $Y \in V_\alpha$, then
-$\exists F \in V_\alpha\ \phi^{V_\alpha}_{set-ft}(F, Y)$ holds.
-\item Combining (9), (10) we conclude that given any
-$Y$ object of $\textit{Sch}_\alpha$ there exists a set of schemes
-$F \in V_\alpha$ such that for any finite type scheme
-$X \to Y$ over $Y$, then $X$ is isomorphic to an element
-of $F$. In particular, since $V_\alpha$ is a transitive set,
-we also see that $X$ is isomorphic to an object of $\textit{Sch}_\alpha$.%
-\footnote{This use of the transitivity of $V_\alpha$ can easily be
-avoided by adding a suitable sentence to the list considered.}
-\end{enumerate}
-Note that (6), (7), and (8) are proved in exactly the same way
-as (9), (10), and (11).
-Summarizing we see the following.
-
-\begin{lemma}
-\label{lemma-create-category-schemes}
-Given an initial set of schemes $\mathcal{C}_0$ we can find a limit ordinal
-$\alpha$ such that
-\begin{enumerate}
-\item we have $\mathcal{C}_0 \subset \text{Ob}(\textit{Sch}_\alpha)$,
-\item the embedding $\textit{Sch}_\alpha \subset \textit{Sch}$ is
-fully faithful,
-\item fibre products exist in $\textit{Sch}_\alpha$ and satisfy
-the universal property of fibre products in the class of {\it all} schemes, and
-\item given any finite type morphism of schemes $g : X \to S$
-whose target is in $\textit{Sch}_\alpha$ there exists an
-object $Y$ of $\textit{Sch}_\alpha$ which is isomorphic to $X$.
-\end{enumerate}
-\end{lemma}
-
-\begin{proof}
-See discussion above.
-\end{proof}
-
-\noindent
-It would not be hard to construct a ``small'' category of schemes
-having the properties listed in the lemma directly. The appeal of
-using the reflection principle is that it garantees you can find
-$\alpha$ no matter what the constraints are. For example
-suppose we have are given a ``big'' category which has fibre products.
-Clearly exactly the same reasoning applies, and we can always
-find arbitrarily large ``small'' subcategories having fibre
-products.
 
 \begin{remark}
-\label{remark-more-schemes}
-It would be easy to show that we can choose $\alpha$ with the following
-list of additional properties:
-\begin{enumerate}
-\item Finite coproducts in $\textit{Sch}_\alpha$
-exist and are the same as in $\textit{Sch}$.
-\item Given $X$ in $\textit{Sch}_\alpha$ all locally closed subschemes
-of $X$ are in $\textit{Sch}_\alpha$ (the collection of locally closed
-subschemes of $X$ forms a set, see
-Schemes, Section \ref{schemes-section-immersions}).
-\item Given a cardinal $\kappa$ any affine scheme $\text{Spec}(R)$ 
-with $|R| \leq \kappa$ is isomorphic to an object of $V_\alpha$.
-\item Etc.
-\end{enumerate}
-However, this does not seem particularly useful.
+\label{remark-how-to-use-reflection}
+The lemma above can also be proved using the reflection principle.
+However, one has to be careful. Namely, suppose the sentence
+$\phi_{scheme}(X)$ expresses the property ``$X$ is a scheme'', then
+what does the formula $\phi_{scheme}^{V_\alpha}(X)$ mean?
+It is true that the reflection principle says we can find $\alpha$ such that
+for all $X \in V_\alpha$ we have
+$\phi_{scheme}(X) \leftrightarrow \phi_{scheme}^{V_\alpha}(X)$
+but this is entirely useless. It is only by combining two such
+statements that something interesting happens. For example suppose
+$\phi_{red}(X, Y)$ expresses the property ``$X$, $Y$ are schemes,
+and $Y$ is the reduction of $X$'' (see
+Schemes, Definition \ref{schemes-definition-reduced-induced-scheme}).
+Suppose we apply the reflection principle to the pair of
+formulas $\phi_1(X, Y) = \phi_{red}(X, Y)$,
+$\phi_2(X) = \exists Y, \phi_1(X, Y)$. Then it is easy to see that
+any $\alpha$ produced by the reflection principle has the property that
+given $X \in \text{Ob}(\textit{Sch}_\alpha)$ the reduction of
+$X$ is also an object of $\textit{Sch}_\alpha$ (left as an exercise).
 \end{remark}
-
-\section{Injective modules}
-\label{section-injective-modules}
-
-\noindent
-Let $R$ be a ring and let $M$ be an $R$-module.
-Consider the sentence: ``The $R$-module $M$ is injective.''
-This can be formulated symbolically as follows
-\begin{eqnarray*}
-\text{Let }M \text{ be an $R$-module},\\
-\forall\ X,Y\ \text{$R$-modules},\\
-\forall\ j : X\to Y\ \text{injective $R$-module map},\\
-\forall\ x : X\to M\ \text{$R$-module map},\\
-\exists\ y : Y\to M\ \text{$R$-module map}\\
-y \circ j = x
-\end{eqnarray*}
-Note that this formula does have a free variable (namely $M$).
-Let $\mathcal{A}_0$ denote an initial set of $R$-modules.
-(For example we could choose $\mathcal{A}_0$ to be the set
-consisting of all cokernels of maps of free modules -- this
-clearly is a set.)
-The reflection principle says that we can find a set
-of $R$-modules $\mathcal{A}$ (which we think of as a full subcategory
-of the category of $R$-modules) containing the given set $\mathcal{A}_0$
-such that $M \in \mathcal{A}$ is an injective
-object in the category $\mathcal{A}$ if and only if
-it is injective as an $R$-module. 
-
-\section{Categories of modules}
-\label{section-categories-modules}
-
-\noindent
-We continue with the discussion above.
-Consider the assertion: ``Given a category $\mathcal{I}$
-and a functor $F$ from $\mathcal{I}$ to $R$-modules,
-denoted $i \mapsto M_i = F(i)$. Both the limit $\lim_{i\in \mathcal{I}} M_i$
-and the colimit $\text{colim}_{i \in \mathcal{I}} M_i$ exist.'' 
-This we can turn into a set theoretic formula with free
-variables for $I$ and $F$. Next pick some ordinal $\alpha$.
-Using the reflection principle
-we can find a category of $R$-modules
-in which all limits and colimits whose index category 
-have cardinality at most that of $\alpha$ exist and
-are equal to the corresponding limits in the ``big''
-category of all $R$-modules.
 
 \section{Sets with group action}
 \label{section-sets-with-group-action}
 
 \noindent
-Let $G$ be a group and let $\mathcal{S}$ be a 
-set of $G$-sets. For any ordinal $\alpha$ we denote
-$G\textit{-Sets}_\alpha$ the subcategory of $G$-sets
-whose objects and morphisms are in $V_\alpha$.
-We claim there exists a limit ordinal $\alpha$ such that
+Let $G$ be a group. We denote $G\textit{-Sets}$ the ``big'' category
+of $G$-sets. For any ordinal $\alpha$ we denote
+$G\textit{-Sets}_\alpha$ the full subcategory of $G\textit{-Sets}$
+whose objects are in $V_\alpha$. As a notion for size of a $G$-set
+we take $\text{size}(S) = |S|$ (the cardinality of the underlying
+set $S$). As above we use the function $Bound(\kappa) = \kappa^{\aleph_0}$.
+
+\begin{lemma}
+\label{lemma-sets-with-group-action}
+We notations $G$, $G\textit{-Sets}_\alpha$, $\text{size}$,
+and $Bound$ as above. Let $S_0$ be a set of $G$-sets.
+There exists a limit ordinal $\alpha$ with the following properties:
 \begin{enumerate}
-\item $\mathcal{S} \subset \text{Ob}(G\textit{-Sets}_\alpha)$,
-\item the embedding $G\textit{-Sets}_\alpha \subset G\textit{-Sets}$
-is fully faithful,
-\item fibred product exist in $G\textit{-Sets}_\alpha$
-and are the same as in $G\textit{-Sets}$,
-\item given $U$ in $G\textit{-Sets}_\alpha$, and any monomorphism
-$V \to U$ in $G\textit{-Sets}$ there exists a
-$V' \in \text{Ob}(G\textit{-Sets})$ isomorphic to $V$,
-\item given $U$ in $G\textit{-Sets}_\alpha$, and any epimorphism
-$U \to V$ in $G\textit{-Sets}$ there exists a
-$V' \in \text{Ob}(G\textit{-Sets})$ isomorphic to $V$, and
-\item the left $G$-set corresponding to $G$ is an object of
-$G\textit{-Sets}_\alpha$.
+\item We have $S_0 \subset \text{Ob}(G\textit{-Sets}_\alpha)$.
+\item For any $S \in \text{Ob}(G\textit{-Sets}_\alpha)$ and any
+$G$-set $T$ with $\text{size}(T) \leq Bound(\text{size}(S))$
+there exists a $S' \in \text{Ob}(G\textit{-Sets}_\alpha)$
+which is isomorphic to $T$.
+\item For any countable diagram category $\mathcal{I}$ and
+any functor $F : \mathcal{I} \to G\textit{-Sets}_\alpha$ the
+limit $\text{lim}_{\mathcal{I}} F$ and colimit
+$\text{colim}_\mathcal{I} F$ exist in $G\textit{-Sets}_\alpha$
+and are the same as in $G\textit{-Sets}$.
 \end{enumerate}
-We are going to produce $\alpha$ by applying the reflection
-principle, with a suitable finite list of set theoretic formulas
-for each property. Properties (1) and (6) are clear.
-We have already discussed how to formulate set
-theoretic formulas that produce $\alpha$ having property (2), (3)
-see Section \ref{section-fibre-product-schemes}. In order to 
-get property (4) consider the sentence: ``Let $U$ be a $G$-set
-and let $Q$ be a set. The elements of $Q$ are epimorphisms
-$f : U \to V_f$, and for every epimorphism $U \to V$
-there exists some $f \in Q$ such that $V \cong V_f$.''
-Write this as $\phi_{set-epis}(U, Q)$. Consider also
-the formula $\phi_{set-epis-exists}(U) = \exists Q, \phi_{set-epis}(U, Q)$.
-We add these two to the list of formulas when applying the
-reflection theorem. Exactly as in Section \ref{section-fibre-product-schemes}
-one can argue that in this case, given $U$ in $G\textit{-Sets}_\alpha$
-and $Q \in V_\alpha$ we have that $Q$ is an exhaustive list of
-isomorphism types of targets of epimorphisms if and only if
-$\phi_{set-epis}^{V_\alpha}(U, Q)$. Moreover, the truth of
-$\phi_{set-epis-exists}(U)$ for any $U$ implies that for
-any $U$ in $G\textit{-Sets}_\alpha$ there exists a 
-$Q \in V_\alpha$ such that $\phi_{set-epis}^{V_\alpha}(U, Q)$ holds.
-Hence for any $U$ in $G\textit{-Sets}_\alpha$ there exists a
-$Q \in V_\alpha$ which is an exhaustive list of
-isomorphism types of targets of epimorphisms in $G\textit{-sets}$.
-Thus the reflection theorem will assure that
-the formula above (together with the others) produces an $\alpha$
-with property (5). Similarly for property (4).
+\end{lemma}
+
+\begin{proof}
+Omitted. Similar to but easier than the proof of
+Lemma \ref{lemma-construct-category} above.
+\end{proof}
 
 \section{Coverings of a site}
 \label{section-coverings-site}
 
 \noindent
-Suppose that $\mathcal{C}$ is a category and
+Suppose that $\mathcal{C}$ is a category (as in
+Categories, Definition \ref{categories-definition-category}) and
 that $\text{Cov}(\mathcal{C})$ is a proper class of coverings
 satisfying properties (1), (2) and (3) of Sites,
 Definition \ref{sites-definition-site}.
-Moreover, let $\text{Cov}_0 \subset \text{Cov}(\mathcal{C})$
-be a set contained in $\text{Cov}(\mathcal{C})$.
-In this section we show how to replace $\text{Cov}(\mathcal{C})$
-by $\text{Cov}(\mathcal{C}) \cap V_\alpha$ to get a site
-with a set of coverings.
+For an ordinal $\alpha$ we set
+$\text{Cov}(\mathcal{C})_\alpha = \text{Cov}(\mathcal{C}) \cap V_\alpha$.
+Given an ordinal $\alpha$ and a cardinal $\kappa$ we set
+$\text{Cov}(\mathcal{C})_{\kappa, \alpha}$ equal to the set
+of elements
+$\mathcal{U} =
+\{\varphi_i : U_i \to U\}_{i\in I} \in \text{Cov}(\mathcal{C})_\alpha$
+such that $|I| \leq \kappa$.
 
 \medskip\noindent
 We recall the following notion, see Sites, Definition
@@ -726,56 +472,171 @@ $\alpha : I \to J$ and $\beta : J\to I$ such that
 $\varphi_i = \psi_{\alpha(i)}$ and $\psi_j = \varphi_{\beta(j)}$.
 This defines an equivalence relation on families of morphisms
 having a fixed target.
-We will use the reflection principle to show the following.
 
 \begin{lemma}
 \label{lemma-coverings-site}
-In the situation above. There is a limit ordinal $\alpha$ such that
+With notations as above.
+Let $\text{Cov}_0 \subset \text{Cov}(\mathcal{C})$
+be a set contained in $\text{Cov}(\mathcal{C})$.
+There is a cardinal $\kappa$ and a limit ordinal $\alpha$ such that
 \begin{enumerate}
-\item we have $\text{Cov}_0 \subset \text{Cov}(\mathcal{C}) \cap V_\alpha$,
+\item we have $\text{Cov}_0 \subset \text{Cov}(\mathcal{C})_{\kappa, \alpha}$,
 \item the set of coverings
-$\text{Cov}(\mathcal{C}) \cap V_\alpha$ satisfies
-(1), (2) and (3) of Sites, Definition \ref{sites-definition-site}
-as well, and
+$\text{Cov}(\mathcal{C})_{\kappa, \alpha}$ satisfies
+(1), (2) and (3) of Sites, Definition \ref{sites-definition-site},
+in other words $(\mathcal{C}, \text{Cov}(\mathcal{C})_{\kappa, \alpha})$
+is a site, and
 \item every covering in $\text{Cov}(\mathcal{C})$
 is combinatorially equivalent
-to a covering in $\text{Cov}(\mathcal{C}) \cap V_\alpha$.
+to a covering in $\text{Cov}(\mathcal{C})_{\kappa, \alpha}$.
 \end{enumerate}
 \end{lemma}
 
 \begin{proof}
 To prove this, we first consider the set $\mathcal{S}$ of all
-families of morphisms with fixed target. In other words, an element of
-$\mathcal{S}$ is a subset $T$ of the set $\text{Arrows}(\mathcal{C})$
-such that all elements of $T$ have the same target. Next, we define
-$\mathcal{S}_\tau \subset \mathcal{S}$ to be the subset of those
-$T$ which are combinatorially equivalent to some covering
-$\xi = \{\varphi_i : U_i \to U\}_{i\in I} \in \text{Cov}(\mathcal{C})$.
-In other words, $T \in \mathcal{S}_\tau$ if and only if $T$
-is the image of the map $supp_\xi : I \to \text{Arrows}(\mathcal{C})$,
-$i\mapsto \varphi_i$ for some covering
-$\xi = \{\varphi_i : U_i \to U\}_{i\in I}$
-of $\text{Cov}(\mathcal{C})$. Thus $\mathcal{S}_\tau$
-is a set. Consider the set theoretical formula: ``For all $T \in \mathcal{S}$
-then $T\in \mathcal{S}_\tau$ if and only if there exists
-a covering $\xi$ in $\text{Cov}(\mathcal{C})$ such that
-$T$ is the image of $supp_\xi$.'' By construction of $\mathcal{S}_\tau$
-this formula holds. As a first application of the
-reflection principle we find an limit ordinal $\alpha_0$ such that
-this formula holds in $V_{\alpha_0}$. At this point already every
-covering in $\text{Cov}(\mathcal{C})$ is combinatorially equivalent
-to a covering in $\text{Cov}(\mathcal{C}) \cap V_{\alpha_0}$.
+sets of morphisms of $\mathcal{C}$ with fixed target.
+In other words, an element of $\mathcal{S}$ is a subset $T$
+of $\text{Arrows}(\mathcal{C})$ such that all
+elements of $T$ have the same target. Given a family
+$\mathcal{U} = \{\varphi_i : U_i \to U\}_{i\in I}$ of morphisms with fixed
+target, we define
+$Supp(\mathcal{U}) = \{ \varphi \in \text{Arrows}(\mathcal{C})
+\mid \exists i\in I, \varphi = \varphi_i\}$.
+Note that two families $\mathcal{U} =  \{\varphi_i : U_i \to U\}_{i\in I}$
+and $\mathcal{V} = \{V_j \to V\}_{j \in J}$ are combinatorially
+equivalent if and only if $Supp(\mathcal{U}) = Supp(\mathcal{V})$.
+Next, we define
+$\mathcal{S}_\tau \subset \mathcal{S}$ to be the subset
+$\mathcal{S}_\tau = \{ T \in \mathcal{S} \mid
+\exists\ \mathcal{U} \in \text{Cov}(\mathcal{C}) \ T = Supp(\mathcal{U})\}$.
+For every element $T \in \mathcal{S}_\tau$ set
+$\beta(T)$ equal to the least ordinal $\beta$ such that
+there exists a $\mathcal{U} \in \text{Cov}(\mathcal{C})_\beta$
+such that $T = \text{Supp}(\mathcal{U})$. Finally, set
+$\beta_0 = \text{sup}_{T \in S_\tau} \beta(T)$.
+At this point it follows that every $\mathcal{U} \in \text{Cov}(\mathcal{C})$
+is combinatorially equivalent to some element
+of $\text{Cov}(\mathcal{C})_{\beta_0}$.
 
 \medskip\noindent
-The second and final step is to rewrite properties (1), (2) and (3) of
-Sites, Definition \ref{sites-definition-site} as set theoretic formulas.
-This is similar to the arguments in the sections above and is
-left to the reader. Apply the reflection
-principle Theorem \ref{theorem-reflection-principle} using these formulas
-with the initial set $T$ of the statement of the theorem being equal to
-$V_{\alpha_0}$.
+Let $\kappa$ be the maximum of $\aleph_0$,
+the cardinality $|\text{Arrows}(\mathcal{C})|$,
+$$
+\text{sup}_{\{U_i \to U\}_{i\in I} \in \text{Cov}(\mathcal{C})_{\beta_0}} |I|
+\ \ \text{ and }\ \ 
+\text{sup}_{\{U_i \to U\}_{i\in I} \in \text{Cov}_0} |I|.
+$$
+Since $\kappa$ is an infinite cardinal we have
+$\kappa \otimes \kappa = \kappa$. Note that obviously
+$\text{Cov}(\mathcal{C})_{\beta_0} =
+\text{Cov}(\mathcal{C})_{\kappa, \beta_0}$.
+
+\medskip\noindent
+We define, by transfinite induction, a function $f$ which associates
+to every ordinal an ordinal as follows. Let $f(0) = 0$.
+Given $f(\alpha)$ we define $f(\alpha + 1)$ to be the least
+ordinal $\beta$ such that the following hold:
+\begin{enumerate}
+\item We have $\alpha + 1 \leq \beta$ and $f(\alpha) \leq \beta$.
+\item If $\{U_i \to U\}_{i\in I}
+\in \text{Cov}(\mathcal{C})_{\kappa, f(\alpha)}$
+and for each $i$ we have
+$\{W_{ij} \to U_i\}_{j\in J_i}
+\in \text{Cov}(\mathcal{C})_{\kappa, f(\alpha)}$,
+then
+$\{W_{ij} \to U\}_{i \in I, j\in J_i}
+\in \text{Cov}(\mathcal{C})_{\kappa, \beta}$.
+\item If $\{U_i \to U\}_{i\in I}
+\in \text{Cov}(\mathcal{C})_{\kappa, \alpha}$
+and $W \to U$ is a morphism of $\mathcal{C}$ then
+$\{U_i \times_U W \to W \}_{i\in I}
+\in \text{Cov}(\mathcal{C})_{\kappa, \beta}$.
+\end{enumerate}
+To see $\beta$ exists we note that clearly the collection of all
+coverings $\{W_{ij} \to U\}$ and $\{U_i \times_U W \to W \}$ that occur in
+(2) and (3) form a set. Hence there is some ordinal $\beta$ such that
+$V_\beta$ contains all of these coverings. Moreover, the index set
+of the covering $\{W_{ij} \to U\}$ has cardinality
+$\sum_{i \in I} |J_i| \leq \kappa \otimes \kappa = \kappa$, and
+hence these coverings are contained in
+$\text{Cov}(\mathcal{C})_{\kappa, \beta}$.
+Since every nonempty collection of ordinals has a least element
+we see that $f(\alpha + 1)$ is well defined. Finally, if $\alpha$
+is a limit ordinal, then we set
+$f(\alpha) = \text{sup}_{\alpha' < \alpha} f(\alpha')$.
+
+\medskip\noindent
+Pick an ordinal $\beta_1$ such that
+$\text{Arrows}(\mathcal{C}) \subset V_{\beta_1}$,
+$\text{Cov}_0 \subset V_{\beta_0}$,
+and $\beta_1 \geq \beta_0$.
+By construction $f(\beta_1) \geq \beta_1$ and we see that
+the same properties hold for $V_{f(\beta_1)}$. Moreover, as $f$ is
+nondecreasing this remains true for any $\beta \geq \beta_1$.
+Next, choose any ordinal $\beta_2 > \beta_1$ with
+cofinality $\text{cf}(\beta_2) > \kappa$. This is possible
+since the cofinality of ordinals gets arbitrarily large.
+For example, given a cardinal $\lambda$,
+the cofinality of $2^\lambda$ is bigger than $\lambda$, see
+\cite[Chapter I, Corollary 10.41]{Kunen}. We claim that
+the pair $\kappa$,
+$\alpha = f(\beta_2)$ is a solution to the problem posed in the lemma.
+
+\medskip\noindent
+The first and third property of the lemma holds by our choices
+of $\kappa$, $\beta_2 > \beta_1 > \beta_0$ above.
+
+\medskip\noindent
+Since $\beta_2$ is a limit ordinal (as its cofinality is infinite)
+we see that $f(\beta_2) = \text{sup}_{\beta < \beta_2} f(\beta)$.
+Hence $\{f(\beta) \mid \beta < \beta_2\} \subset f(\beta_2)$ is a
+confinal subset. Hence we see that
+$$
+V_\alpha = V_{f(\beta_2)} = \bigcup\nolimits_{\beta < \beta_2} V_{f(\beta)}.
+$$
+Now, let $\mathcal{U} \in \text{Cov}_{\kappa, \alpha}$.
+We define $\beta(\mathcal{U})$ to be the least ordinal $\beta$ such that
+$\mathcal{U} \in \text{Cov}_{\kappa, f(\beta)}$. By the above we see
+that always $\beta(\mathcal{U}) < \beta_2$.
+
+\medskip\noindent
+We have to show properties (1), (2) and (3) of
+Sites, Definition \ref{sites-definition-site}.
+The first holds because by our choice of $\beta_2$ 
+all arrows of $\mathcal{C}$ are contained in $V_{f(\beta_2)}$.
+For the third, we use that given a covering
+$\mathcal{U} = \{U_i \to U\}_{i \in I}
+\in \text{Cov}(\mathcal{C})_{\kappa, \alpha}$
+we have $\beta(\mathcal{U}) < \beta_2$ and hence
+any base change of $\mathcal{U}$ is by construction of
+$f$ contained in $\text{Cov}(\mathcal{C})_{\kappa, f(\beta + 1)}$
+and hence in $\text{Cov}(\mathcal{C})_{\kappa, \alpha}$.
+
+\medskip\noindent
+Finally, for the second condition, suppose that $\{U_i \to U\}_{i\in I}
+\in \text{Cov}(\mathcal{C})_{\kappa, f(\alpha)}$
+and for each $i$ we have
+$\mathcal{W}_i = \{W_{ij} \to U_i\}_{j\in J_i}
+\in \text{Cov}(\mathcal{C})_{\kappa, f(\alpha)}$.
+Consider the function
+$I \to \beta_2$, $i \mapsto \beta(\mathcal{W}_i)$. Since the cofinality
+of $\beta_2$ is $> \kappa \geq |I|$ the image of this function cannot be a
+cofinal subset. Hence there exists a $\beta < \beta_1$ such
+that $\mathcal{W}_i \in \text{Cov}_{\kappa, f(\beta)}$ for all $i \in I$.
+It follows that the covering $\{W_{ij} \to U\}_{i\in I, j \in J_i}$
+is an element of $\text{Cov}(\mathcal{C})_{\kappa, f(\beta + 1)}
+\subset \text{Cov}(\mathcal{C})_{\kappa, \alpha}$ as desired.
 \end{proof}
 
+\begin{remark}
+\label{remark-better}
+It is likely the case that for some limit ordinal
+the set of coverings $\text{Cov}(\mathcal{C})_\alpha$ satisfies
+the conditions of the lemma. This is after all what an application
+of the reflection principle would appear to give (modulo caveats as
+described at the end of Section \ref{section-reflection-principle}
+and in Remark \ref{remark-how-to-use-reflection}).
+\end{remark}
 
 \input{chapters}
 
