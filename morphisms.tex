@@ -131,6 +131,91 @@ the inverse image of every affine open of $S$ is an affine
 open of $X$.
 \end{definition}
 
+\begin{lemma}
+\label{lemma-affine-separated}
+An affine morphism is separated.
+\end{lemma}
+
+\begin{proof}
+Let $f : X \to S$ be affine. We will show $f$ is separated using
+Schemes, Lemma \ref{schemes-lemma-characterize-separated}. Let
+$x_1, x_2 \in X$ be points of $X$ which map to the same point $s \in S$.
+Choose any affine open $W \subset S$ containing $s$. By assumption
+$f^{-1}(W)$ is affine. Apply the lemma cited with $U = V = f^{-1}(W)$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-characterize-affine}
+Let $f : X \to S$ be a morphism of schemes.
+If there exists an affine open covering $S = \bigcup W_j$
+such that each $f^{-1}(W_j)$ is affine then $f$ is affine.
+\end{lemma}
+
+\begin{proof}
+Assume $S = \bigcup_{j \in J} W_j$ is an affine open covering such that
+each $f^{-1}(W_j)$ is affine. By
+Schemes, Lemma \ref{schemes-lemma-quasi-compact-affine} this implies
+that $f$ is quasi-compact. By
+Schemes, Lemma \ref{schemes-lemma-characterize-quasi-separated}
+the morphism $f$ is quasi-separated. Hence by
+Schemes, Lemma \ref{schemes-lemma-push-forward-quasi-coherent} the
+sheaf $\mathcal{A} = f_*\mathcal{O}_X$ is a quasi-coherent sheaf
+of $\mathcal{O}_X$-algebras.
+
+\medskip\noindent
+Let $\text{Spec}(R) = V \subset S$ be affine open.
+We have to show that $f^{-1}(V)$ is affine. Set
+$A = \mathcal{A}(V) = f_*\mathcal{O}_X(V) = \mathcal{O}_X(f^{-1}(V))$.
+By Schemes, Lemma \ref{schemes-lemma-morphism-into-affine} there is
+a canonical morphism $\psi : f^{-1}(V) \to \text{Spec}(A)$ over
+$\text{Spec}(R) = V$.
+By Schemes, Lemma \ref{schemes-lemma-good-subcover} there exists
+an integer $n \geq 0$, a standard open covering
+$V = \bigcup_{i = 1, \ldots, n} D(h_i)$, $h_i \in R$, and a map
+$a : \{1, \ldots, n\} \to J$ such that each $D(h_i)$ is also
+a standard open of the affine scheme $W_{a(i)}$. The inverse image
+of a standard open under a morphism of affine schemes is standard open, see
+Algebra, Lemma \ref{algebra-lemma-spec-functorial}. Hence we see
+that $f^{-1}(D(h_i))$ is a standard open of $f^{-1}(W_{a(i)})$,
+in particular that $f^{-1}(D(h_i))$ is affine. Because $\mathcal{A}$
+is quasi-coherent we have
+$A_{h_i} = \mathcal{A}(D(h_i)) = \mathcal{O}_X(f^{-1}(D(h_i)))$,
+so $f^{-1}(D(h_i))$ is the spectrum of $A_{h_i}$.
+It follows that the morphism $\psi$ induces an isomorphism of the open
+$f^{-1}(D(h_i))$ with the open $\text{Spec}(A_{h_i})$ of
+$\text{Spec}(A)$. Since $f^{-1}(V) = \bigcup f^{-1}(D(h_i))$
+and $\text{Spec}(A) = \bigcup \text{Spec}(A_{h_i})$ we win.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-composition-affine}
+The composition of affine morphisms is affine.
+\end{lemma}
+
+\begin{proof}
+Let $f : X \to Y$ and $g : Y \to Z$ be affine morphisms.
+Let $U \subset Z$ be affine open. Then $g^{-1}(U)$ is affine
+by assumption on $g$. Whereupon $f^{-1}(g^{-1}(U))$ is affine
+by assumption on $f$. Hence $(g \circ f)^{-1}(U)$ is affine.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-base-change-affine}
+The base change of an affine morphism is affine.
+\end{lemma}
+
+\begin{proof}
+Let $f : X \to S$ be an affine morphism. Let $S' \to S$ be any morphism.
+Denote $f' : X_{S'} = S' \times_S X \to S'$ the base change of $f$.
+For every $s' \in S'$ there exists an open affine neighbourhood
+$s' \in V \subset S'$ which maps into some open affine $U \subset S$.
+By assumption $f^{-1}(U)$ is affine. By the material in
+Schemes, Section \ref{schemes-section-fibre-products} we see
+that $f^{-1}(U)_{V} = V \times_U f^{-1}(U)$ is affine and equal
+to $(f')^{-1}(V)$. This proves that $S'$ has an open covering by
+affines whose inverse image under $f'$ is affine. We conclude
+by Lemma \ref{lemma-characterize-affine} above.
+\end{proof}
 
 
 
@@ -159,6 +244,316 @@ of $S$ is a quasi-affine scheme.
 
 
 
+
+
+
+
+
+\section{Types of morphisms defined by properties of ring maps}
+\label{section-properties-ring-maps}
+
+\noindent
+In this section we study what properties of ring maps
+allow one to define local properties of morphisms of schemes.
+
+\begin{definition}
+\label{definition-property-local}
+Let $P$ be a property of ring maps.
+\begin{enumerate}
+\item We say that $P$ is {\it local} if the following hold:
+\begin{enumerate}
+\item For any ring map $R \to A$, and any $f \in R$ we have
+$P(R \to A) \Rightarrow P(R_f \to A_f)$.
+\item For any rings $R$, $A$, any $f \in R$, $a\in A$, and any ring map
+$R_f \to A$ we have $P(R_f \to A) \Rightarrow P(R \to A_a)$.
+\item For any ring map $R \to A$, and $a_i \in A$ such that
+$(a_1, \ldots, a_n) = A$ then
+$\forall i, P(R \to A_{a_i}) \Rightarrow P(R \to A)$.
+\end{enumerate}
+\item We say that $P$ is {\it stable under base change} if for any
+ring maps $R \to A$, $R \to R'$ we have
+$P(R \to A) \Rightarrow P(R' \to R' \otimes_R A)$.
+\item We say that $P$ is {\it stable under composition} if for any
+ring maps $A \to B$, $B \to C$ we have
+$P(A \to B) \wedge P(B \to C) \Rightarrow P(A \to C)$.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}
+\label{definition-locally-P}
+Let $P$ be a property of ring maps.
+Let $f : X \to S$ be a morphisms of schemes.
+We say $f$ {\it is locally of type $P$} if for any $x \in X$
+there exists an affine open neighbourhood $U$ of $x$
+in $X$ which maps into an affine open $V \subset S$ such that
+the induced ring map $\mathcal{O}_S(V) \to \mathcal{O}_X(U)$
+has property $P$.
+\end{definition}
+
+\noindent
+This is not a ``good'' definition unless the property $P$ is
+a local property. Even if $P$ is a local property we will not
+automatically use this definition to say that a morphism is
+``locally of type $P$'' unless we also explicitly state the
+definition elsewhere.
+
+\begin{lemma}
+\label{lemma-locally-P}
+Let $f : X \to S$ be a morphism of schemes.
+Let $P$ be a property of ring maps.
+Let $\text{Spec}(A) = U$ be an affine open of $X$,
+and $\text{Spec}(R) = V$ an affine open of $S$ such that
+$f(U) \subset V$. Let $R \to A$ be the induced ring map.
+If $f$ is locally of type $P$ and $P$ is local,
+then $P(R \to A)$ holds.
+\end{lemma}
+
+\begin{proof}
+By definition there exists an affine open covering
+$U = \bigcup_{i \in I} U_i$, $U_i = \text{Spec}(A_i)$ such that each $f(U_i)$
+is contained in an affine open $V_i = \text{Spec}(R_i)$ of $S$
+and such $P(R_i \to A_i)$ holds for all $i$.
+(Warning: $V_i$ may not be contained in $V$.)
+For any $u \in U_i$ we may choose an open neighbourhood
+$V_{iu} \subset V \cap V_i$ of $f(u)$ which is a standard affine
+open in both $V$ and $V_i$, see
+Schemes, Lemma \ref{schemes-lemma-standard-open-two-affines}. 
+Note that $u \in f^{-1}(V_{i, u})$.
+Because $U_i$ is quasi-compact we may choose a finite
+collection $V_{ij} \subset V \cap V_i$, $j \in I_i$ of such affine opens
+such that $f(U_i) \subset \bigcup_{j \in I_j} V_{ij}$.
+Write $V_{ij} = \text{Spec}(R_{ij})$, so that
+$R_{ij} \cong R_{r_{ij}} \cong (R_i)_{r_{ij}'}$ for certain
+$r_{ij} \in R$, $r_{ij}' \in R_i$.
+We may cover each $U_i \cap f^{-1}(V_{ij})$
+by finitely many standard opens of $U = \text{Spec}(A)$.
+Say $U_i \cap f^{-1}(V_{ij}) = \bigcup_{k \in K_{ij}} D(a_{ijk})$,
+with $a_{ijk} \in A$. We have $A_{a_{ijk}} \cong (A_i)_{a_{ijk}}$.
+The open subschemes and their inclusion relations give rise
+to the following commutative diagram or rings:
+$$
+\xymatrix{
+& R_i \ar[r] \ar[d]^{r_{ij}'} & A_i \ar[d]^{r_{ij}'}
+& A \ar[l] \ar[d]^{a_{ijk}}\\
+R \ar[r]^{r_{ij}} & R_{ij} \ar[r] & A_i \otimes_{R_i} R_{ij} \ar[r]^-{a_{ijk}}
+& A_{a_{ijk}}
+}
+$$
+Here we have labeled each arrow which is a principal localization with
+the element at which the source of the arrow is being localized.
+Since we have $P(R_i \to A_i)$ we have
+$P(R_{ij} \to A_i \otimes_{R_i} R_{ij})$ by
+Definition \ref{definition-property-local} (1)(a).
+Then we conclude $P(R \to A_{a_{ijk}})$ by
+Definition \ref{definition-property-local} (1)(b).
+Because the opens $D(a_{ijk})$ cover all the opens
+$U_i \cap f^{-1}(D(r_{ij})$ which cover the opens $U_i$
+which cover all of $U$ we see that $U = \bigcup_{ijk} D(a_{ijk})$.
+Hence $P(R \to A)$ by Definition \ref{definition-property-local} (1)(c).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-locally-P-characterize}
+Let $P$ be a local property of ring maps.
+Let $f : X \to S$ be a morphism of schemes.
+The following are equivalent
+\begin{enumerate}
+\item The morphism $f$ is locally of type $P$.
+\item For every affine opens $U \subset X$, $V \subset S$
+with $f(U) \subset V$ we have $P(\mathcal{O}_S(V) \to \mathcal{O}_X(U))$.
+\item There exists an open covering $S = \bigcup_{j \in J} V_j$
+and open coverings $f^{-1}(V_j) = \bigcup_{i \in I_j} U_i$ such
+that each of the morphisms $U_i \to V_j$, $j\in J, i\in I_j$
+is locally of type $P$.
+\item There exists an affine open covering $S = \bigcup_{j \in J} V_j$
+and affine open coverings $f^{-1}(V_j) = \bigcup_{i \in I_j} U_i$ such
+that $P(\mathcal{O}_S(V_j) \to \mathcal{O}_X(U_i))$ holds, for all
+$j\in J, i\in I_j$.
+\end{enumerate}
+Moreover, if $f$ is locally of type $P$ then for
+any open subschemes $U \subset X$, $V \subset S$ with $f(U) \subset V$
+the restriction $f|_U : U \to V$ is locally of type $P$.
+\end{lemma}
+
+\begin{proof}
+This follows from Lemma \ref{lemma-locally-P} above.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-composition-type-P}
+Let $P$ be a property of ring maps. 
+Assume $P$ is local and stable under composition.
+The composition of morphisms locally of type $P$ is
+locally of type $P$.
+\end{lemma}
+
+\begin{proof}
+Let $f : X \to Y$ and $g : Y \to Z$ be morphisms locally of type $P$.
+Let $x \in X$. Choose an affine open neighbourhood $W \subset Z$ of
+$g(f(x))$. Choose an affine open neighbourhood $V \subset g^{-1}(W)$
+of $f(x)$. Choose an affine open neighbourhood $U \subset f^{-1}(V)$
+of $x$. By Lemma \ref{lemma-locally-P-characterize} the ring maps
+$\mathcal{O}_Z(W) \to \mathcal{O}_Y(V)$ and
+$\mathcal{O}_Y(V) \to \mathcal{O}_X(U)$ satisfy $P$.
+Hence $\mathcal{O}_Z(W) \to \mathcal{O}_X(U)$ satisfies $P$
+as $P$ is assumed stable under composition.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-base-change-type-P}
+Let $P$ be a property of ring maps. 
+Assume $P$ is local and stable under base change.
+The base change of a morphism locally of type $P$
+is locally of type $P$.
+\end{lemma}
+
+\begin{proof}
+Let $f : X \to S$ be a morphism locally of type $P$.
+Let $S' \to S$ be any morphism. Denote
+$f' : X_{S'} = S' \times_S X \to S'$ the base change of $f$.
+For every $s' \in S'$ there exists an open affine neighbourhood
+$s' \in V' \subset S'$ which maps into some open affine $V \subset S$.
+By Lemma \ref{lemma-locally-P-characterize} the open $f^{-1}(V)$ is a
+union of affines $U_i$ such that the ring maps
+$\mathcal{O}_S(V) \to \mathcal{O}_X(U_i)$ all satisfy $P$.
+By the material in Schemes, Section \ref{schemes-section-fibre-products}
+we see that $f^{-1}(U)_{V'} = V' \times_V f^{-1}(V)$ is
+the union of the affine opens $V' \times_V U_i$.
+Since $\mathcal{O}_{X_{S'}}(V' \times_V U_i) =
+\mathcal{O}_{S'}(V') \otimes_{\mathcal{O}_S(V)} \mathcal{O}_X(U_i)$
+we see that the ring maps
+$\mathcal{O}_{S'}(V') \to \mathcal{O}_{X_{S'}}(V' \times_V U_i)$
+satisfy $P$ as $P$ is assumed stable under base change.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-properties-local}
+The following properties of a ring map $R \to A$ are local.
+\begin{enumerate}
+\item (Finite type.)
+The ring map $R \to A$ is of finite type.
+\item (Finite presentation.)
+The ring map $R \to A$ is of finite presentation.
+\item (Isomorphism on local rings.)
+For every prime $\mathfrak q$ of $A$ lying over $\mathfrak p \subset R$
+the ring map $R \to A$ induces an isomorphism
+$R_{\mathfrak p} \to A_{\mathfrak q}$.
+\item (Open immersion.)
+For every prime $\mathfrak q$ of $A$ there exists an $f \in R$,
+$\varphi(f) \not \in \mathfrak q$ such that the ring map $\varphi : R \to A$ 
+induces an isomorphism $R_f \to A_f$.
+\item (Reduced fibres.) 
+For every prime $\mathfrak p$ of $R$ the fibre ring
+$A \otimes_R \kappa(\mathfrak p)$ is reduced.
+\item (Fibres of dimension at most $n$.)
+For every prime $\mathfrak p$ of $R$ the fibre ring
+$A \otimes_R \kappa(\mathfrak p)$ has Krull dimension at most $n$.
+\item (Flat.)
+The ring map $R \to A$ is flat.
+\item (Quasi-finite.)
+The ring map $R \to A$ is quasi-finite,
+see Algebra, Definition \ref{algebra-definition-quasi-finite}.
+\item (Syntomic.)
+The ring map $R \to A$ is syntomic, see
+Algebra, Definition \ref{algebra-definition-lci}.
+\item (Smooth.)
+The ring map $R \to A$ is smooth, see
+Algebra, Definition \ref{algebra-definition-smooth}.
+\item (Locally Noetherian on the target.)
+The ring map $R \to A$ has the property that $A$ is Noetherian.
+\item Add more here as needed.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-properties-base-change}
+The following properties of ring maps are stable under base change.
+\begin{enumerate}
+\item (Finite type.)
+The ring map $R \to A$ is of finite type.
+\item (Finite presentation.)
+The ring map $R \to A$ is of finite presentation.
+\item (Isomorphism on local rings.)
+For every prime $\mathfrak q$ of $A$ lying over $\mathfrak p \subset R$
+the ring map $R \to A$ induces an isomorphism
+$R_{\mathfrak p} \to A_{\mathfrak q}$.
+\item (Open immersion.)
+For every prime $\mathfrak q$ of $A$ there exists an $f \in R$,
+$\varphi(f) \not \in \mathfrak q$ such that the ring map $\varphi : R \to A$ 
+induces an isomorphism $R_f \to A_f$.
+\item (Reduced fibres.) 
+For every prime $\mathfrak p$ of $R$ the fibre ring
+$A \otimes_R \kappa(\mathfrak p)$ is reduced.
+\item (Fibres of dimension at most $n$.)
+For every prime $\mathfrak p$ of $R$ the fibre ring
+$A \otimes_R \kappa(\mathfrak p)$ has Krull dimension at most $n$.
+\item (Flat.)
+The ring map $R \to A$ is flat.
+\item (Quasi-finite.)
+The ring map $R \to A$ is quasi-finite,
+see Algebra, Definition \ref{algebra-definition-quasi-finite}.
+\item (Syntomic.)
+The ring map $R \to A$ is syntomic, see
+Algebra, Definition \ref{algebra-definition-lci}.
+\item (Smooth.)
+The ring map $R \to A$ is smooth, see
+Algebra, Definition \ref{algebra-definition-smooth}.
+\item Add more here as needed.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-properties-composition}
+The following properties of ring maps are stable under composition.
+\begin{enumerate}
+\item (Finite type.)
+The ring map $R \to A$ is of finite type.
+\item (Finite presentation.)
+The ring map $R \to A$ is of finite presentation.
+\item (Isomorphism on local rings.)
+For every prime $\mathfrak q$ of $A$ lying over $\mathfrak p \subset R$
+the ring map $R \to A$ induces an isomorphism
+$R_{\mathfrak p} \to A_{\mathfrak q}$.
+\item (Open immersion.)
+For every prime $\mathfrak q$ of $A$ there exists an $f \in R$,
+$\varphi(f) \not \in \mathfrak q$ such that the ring map $\varphi : R \to A$ 
+induces an isomorphism $R_f \to A_f$.
+\item (Flat.)
+The ring map $R \to A$ is flat.
+\item (Quasi-finite.)
+The ring map $R \to A$ is quasi-finite,
+see Algebra, Definition \ref{algebra-definition-quasi-finite}.
+\item (Syntomic.)
+The ring map $R \to A$ is syntomic, see
+Algebra, Definition \ref{algebra-definition-lci}.
+\item (Smooth.)
+The ring map $R \to A$ is smooth, see
+Algebra, Definition \ref{algebra-definition-smooth}.
+\item (Locally Noetherian on the target.)
+The ring map $R \to A$ has the property that $A$ is Noetherian.
+\item Add more here as needed.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+
+
+
+
+
+
+
 \section{Finite type morphisms}
 \label{section-finite-type}
 
@@ -167,8 +562,8 @@ of $S$ is a quasi-affine scheme.
 Let $f : X \to S$ be a morphism of schemes.
 \begin{enumerate}
 \item We say that $f$ is {\it of finite type at $x \in X$} if 
-there exists a affine open neighbourhood $\text{Spec}(A) = U \subset X$
-of $x$ and and affine open $\text{Spec}(R) = V \subset S$
+there exists an affine open neighbourhood $\text{Spec}(A) = U \subset X$
+of $x$ and and an affine open $\text{Spec}(R) = V \subset S$
 with $f(U) \subset V$ such that the induced ring map
 $R \to A$ is of finite type.
 \item We say that $f$ is {\it locally of finite type} if it is 
@@ -178,21 +573,50 @@ finite type and quasi-compact.
 \end{enumerate}
 \end{definition}
 
+\noindent
+According to Lemmas \ref{lemma-properties-local},
+\ref{lemma-properties-base-change}, and
+\ref{lemma-properties-composition} the property of a ring map
+being of finite type is local, stable under base change,
+and stable under composition.  Hence
+Lemma \ref{lemma-locally-P} gives some properties
+of morphisms locally of finite type which we will use in the following
+without further mention.
+
 \begin{lemma}
-\label{lemma-set-finite-type-over}
-Let $S$ be a scheme. There exists a set $F = \{f : X_f \to S\}$ of
-morphisms with target $S$ such that for every finite type morphism
-$g : X \to S$ there exists an $f \in F$ and an isomorphism
-$X_f \to X$ over $S$.
+\label{lemma-composition-finite-type}
+The composition of morphisms (locally) of finite type is
+(locally) of finite type.
 \end{lemma}
 
 \begin{proof}
-Omitted, but this basically follows from the fact that given a
-ring $R$ there is a set of isomorphism classes of finite type
-$R$-algebras.
+By the above and the fact that compositions of quasi-compact morphisms
+are quasi-compact, see
+Schemes, Lemma \ref{schemes-lemma-composition-quasi-compact}.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-base-change-finite-type}
+The base change of a morphism (locally) of finite type
+is (locally) of finite type.
+\end{lemma}
 
+\begin{proof}
+By the above and the fact that a base change of a quasi-compact morphism
+is quasi-compact, see
+Schemes, Lemma \ref{schemes-lemma-quasi-compact-preserved-base-change}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-finite-type-noetherian}
+Let $f : X \to S$ be a morphism.
+If $S$ is (locally) Noetherian and $f$ (locally) of finite type
+then $X$ is (locally) Noetherian.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
 
 
 
@@ -220,14 +644,32 @@ Let $f : X \to S$ be a morphism of schemes.
 \item We say that {\it $f$ is quasi-finite at a point $x \in X$} if there
 exist an affine neighbourhood $\text{Spec}(A) = U \subset X$
 and an affine open $\text{Spec}(R) = V \subset S$ such that
-(a) $f(U) \subset V$, (b) $A$ is a finite type $R$-algebra,
-and (c) $x$ is an isolated point of its fibre $X_{f(x)}$.
+$f(U) \subset V$ and the ring map $R \to A$ is quasi-finite,
+see Algebra, Definition \ref{algebra-definition-quasi-finite}.
 \item We say {\it $f$ is locally quasi-finite} if $f$ is
 quasi-finite at every point $x$ of $X$.
 \item We say that {\it $f$ is quasi-finite} if $f$ is of finite type
 and every point $x$ is an isolated point of its fibre.
 \end{enumerate}
 \end{definition}
+
+\noindent
+According to Lemmas \ref{lemma-properties-local},
+\ref{lemma-properties-base-change}, and
+\ref{lemma-properties-composition} the property of a ring map
+being quasi-finite is local, stable under base change,
+and stable under composition.  Hence
+Lemma \ref{lemma-locally-P} gives some properties
+of locally quasi-finite morphisms which we will use in the following
+without further mention.
+
+
+
+
+
+
+
+
 
 
 
@@ -251,6 +693,16 @@ of finite presentation at every point of $X$.
 finite presentation, quasi-compact and quasi-separated.
 \end{enumerate}
 \end{definition}
+
+\noindent
+According to Lemmas \ref{lemma-properties-local},
+\ref{lemma-properties-base-change}, and
+\ref{lemma-properties-composition} the property of a ring map
+being of finite presentation is local, stable under base change,
+and stable under composition.  Hence
+Lemma \ref{lemma-locally-P} gives some properties
+of morphisms locally of finite presentation which we will use in the following
+without further mention.
 
 \begin{lemma}
 \label{lemma-composition-finite-presentation}
@@ -279,6 +731,24 @@ A morphism of finite presentation is of finite type.
 
 \begin{proof}
 Omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-finite-type-presentation}
+Let $f : X \to S$ be a morphism of schemes.
+Assume $S$ (locally) Noetherian.
+Then $f$ is (locally) of finite presentation
+if and only if $f$ is (locally) of finite type.
+\end{lemma}
+
+\begin{proof}
+This follows from the above except for the implication
+$S$ Noetherian \& $f$ finite type $\Rightarrow$ 
+$f$ finite presentation. And even here everything is clear
+except for the question of why $f$ is quasi-separated.
+This follows by combining Properties,
+Lemma \ref{properties-lemma-locally-Noetherian-quasi-separated}
+and Schemes, Lemma \ref{schemes-lemma-compose-after-separated}.
 \end{proof}
 
 \begin{lemma}
