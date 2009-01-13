@@ -2120,7 +2120,9 @@ for every object $V$ of $\mathcal{C}$.
 
 \begin{lemma}
 \label{lemma-pushforward-sheaf}
-If $\mathcal{F}$ is a sheaf and $u$ is continuous then
+Let $\mathcal{C}$ and $\mathcal{D}$ be sites.
+Let $u : \mathcal{C} \to \mathcal{D}$ be a continuous functor.
+If $\mathcal{F}$ is a sheaf on $\mathcal{D}$ then
 $u^p\mathcal{F}$ is a sheaf as well.
 \end{lemma}
 
@@ -2146,6 +2148,7 @@ the functor $u^p$ restricted to the subcategory of sheaves of sets.
 
 \begin{lemma}
 \label{lemma-adjoint-sheaves}
+In the situation of Lemma \ref{lemma-pushforward-sheaf}.
 The functor $u_s : \mathcal{G} \mapsto (u_p \mathcal{G})^\#$
 is a left adjoint to $u^s$.
 \end{lemma}
@@ -2154,6 +2157,32 @@ is a left adjoint to $u^s$.
 Follows directly from Lemma \ref{lemma-adjoints-u} and
 Proposition \ref{proposition-sheafification-adjoint}.
 \end{proof}
+
+\begin{lemma}
+\label{lemma-technical-up}
+In the situation of Lemma \ref{lemma-pushforward-sheaf}.
+For any presheaf $\mathcal{G}$ on $\mathcal{C}$
+we have $(u_p\mathcal{G})^\# = ((u_p(\mathcal{G}^\#))^\#$.
+\end{lemma}
+
+\begin{proof}
+For any sheaf $\mathcal{F}$ on $\mathcal{D}$ we have
+\begin{eqnarray*}
+\text{Mor}_{\textit{Sh}(\mathcal{D})}(u_s(\mathcal{G}^\#), \mathcal{F})
+& = & 
+\text{Mor}_{\textit{Sh}(\mathcal{C})}(\mathcal{G}^\#, u^s\mathcal{F}) \\
+& = & 
+\text{Mor}_{\textit{PSh}(\mathcal{C})}(\mathcal{G}^\#, u^p\mathcal{F}) \\
+& = & 
+\text{Mor}_{\textit{PSh}(\mathcal{C})}(\mathcal{G}, u^p\mathcal{F}) \\
+& = & 
+\text{Mor}_{\textit{PSh}(\mathcal{D})}(u_p\mathcal{G}, \mathcal{F}) \\
+& = & 
+\text{Mor}_{\textit{Sh}(\mathcal{D})}((u_p\mathcal{G})^\#, \mathcal{F})
+\end{eqnarray*}
+and the result follows from the Yoneda lemma.
+\end{proof}
+
 
 \begin{remark}
 \label{remark-quasi-continuous}
@@ -2955,6 +2984,32 @@ ${}^\# \circ u^p \circ i$ of left exact functors,
 hence left exact.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-technical-pu}
+In the situation of Lemma \ref{lemma-exact-cocontinuous}.
+For any presheaf $\mathcal{G}$ on $\mathcal{D}$
+we have $(u^p\mathcal{G})^\# = (u^p(\mathcal{G}^\#))^\#$.
+\end{lemma}
+
+\begin{proof}
+For any sheaf $\mathcal{F}$ on $\mathcal{C}$ we have
+\begin{eqnarray*}
+\text{Mor}_{\textit{Sh}(\mathcal{C})}((u^p(\mathcal{G}^\#))^\#, \mathcal{F})
+& = & 
+\text{Mor}_{\textit{Sh}(\mathcal{D})}(\mathcal{G}^\#, {}_su\mathcal{F}) \\
+& = & 
+\text{Mor}_{\textit{PSh}(\mathcal{D})}(\mathcal{G}^\#, {}_pu\mathcal{F}) \\
+& = & 
+\text{Mor}_{\textit{PSh}(\mathcal{D})}(\mathcal{G}, {}_pu\mathcal{F}) \\
+& = & 
+\text{Mor}_{\textit{PSh}(\mathcal{C})}(u^p\mathcal{G}, \mathcal{F}) \\
+& = & 
+\text{Mor}_{\textit{Sh}(\mathcal{C})}((u^p\mathcal{G})^\#, \mathcal{F})
+\end{eqnarray*}
+and the result follows from the Yoneda lemma.
+\end{proof}
+
+
 
 \section{The morphism of topoi associated to a cocontinuous functor}
 \label{section-cocontinuous-morphism-topoi}
@@ -3072,9 +3127,9 @@ Let $(g_*, g^{-1}) : \textit{Sh}(\mathcal{C}) \to \textit{Sh}(\mathcal{D})$
 be the associated morphism of topoi.
 Suppose the functor $u$ is also continuous.
 Then sheafification in the formula $g^{-1} = (u^p\ )^\#$ is
-unnecessary, and $g^{-1}$ has a left adjoint
-$g_{!} = (u_p\ )^\#$. Also, $g^{-1}$ commutes with
-arbitrary limits and colimits.
+unnecessary, in other words $g^{-1}(\mathcal{G})(U) = \mathcal{G}(u(U))$.
+Furthermore, $g^{-1}$ has a left adjoint $g_{!} = (u_p\ )^\#$.
+Also, $g^{-1}$ commutes with arbitrary limits and colimits.
 \end{lemma}
 
 \begin{proof}
@@ -3136,6 +3191,30 @@ of Section \ref{section-functoriality-PSh} commute
 with fibre products and equalizers. This follows from
 Lemma \ref{lemma-almost-directed} and
 Categories, Lemma \ref{categories-lemma-almost-directed-commutes-equalizers}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-have-functor-other-way}
+Let $\mathcal{C}$ and $\mathcal{D}$ be sites.
+Let $u : \mathcal{C} \to \mathcal{D}$, and $v : \mathcal{D} \to \mathcal{C}$
+be functors. Assume that $u$ is cocontinuous, $u$ is continuous,
+and that $v$ is a right adjoint to $u$.
+Then (a) $v$ gives rise to a morphism of sites
+$f$ from $\mathcal{C}$ to $\mathcal{C}$, and (b) the
+morphisms of topoi $g$ and $f$ are identical.
+\end{lemma}
+
+\begin{proof}
+Let $V$ be an object of $\mathcal{D}$. We have $u^ph_V = h_{v(V)}$ because
+$u^ph_V(U) = \text{Mor}_{\mathcal{D}}(u(U), V) =
+\text{Mor}_{\mathcal{C}}(U, v(V)$
+by assumption.
+Hence for any sheaf $\mathcal{F}$ on $\mathcal{C}$ we have
+
+
+
+
+
 \end{proof}
 
 \noindent
