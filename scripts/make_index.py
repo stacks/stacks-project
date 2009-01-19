@@ -45,10 +45,6 @@ for name in lijstje:
 	def_text = ""
 	for line in tex_file:
 		line_nr = line_nr + 1
-		beginning_of_line("\\begin{", line)
-		beginning_of_line("\\end{", line)
-		beginning_of_line("$$", line)
-		beginning_of_line("\\label{", line)
 		if not have_title and is_title(line):
 			have_title = 1
 			print_section_title(line)
