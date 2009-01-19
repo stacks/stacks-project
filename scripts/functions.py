@@ -74,24 +74,25 @@ def is_label(env_text):
 def find_label(env_text):
 	n = env_text.find("\\label{")
 	if n < 0:
-		print_where_we_are()
 		raise Exception('No label in environment')
 	n = n + 6
 	m = find_sub_clause(env_text, n)
 	label = env_text[n : m + 1]
 	return label
 
-def check_defined_notions(def_text):
+def check_def_text(def_text):
+	n = env_text.find("\\label{")
+	if n < 0:
+		return "No label in environment."
 	n = def_text.find("{\\it ")
 	if n < 0:
-		print_where_we_are()
-		raise Exception('Nothing defined in definition')
+		return "Nothing defined in definition."
+	return ""
 
 def find_defined_notions(def_text):
 	n = def_text.find("{\\it ")
 	def_notions = []
 	if n < 0:
-		print_where_we_are()
 		raise Exception('Nothing defined in definition')
 	while n >= 0:
 		m = find_sub_clause(def_text, n)

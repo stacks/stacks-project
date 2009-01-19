@@ -37,7 +37,7 @@ for name in lijstje:
 			def_text = def_text + " " + line.rstrip()
 			if end_of_definition(line) == 1:
 				in_definition = 0
-				check_defined_notions(def_text)
+				check_def_text(def_text)
 		else:
 			in_definition = beginning_of_definition(line)
 			if in_definition == 1:
