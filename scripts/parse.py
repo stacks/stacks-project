@@ -1,6 +1,6 @@
 from functions import *
 
-labels = {}
+labels = []
 
 lijstje = list_text_files()
 
@@ -9,7 +9,6 @@ ext = ".tex"
 for name in lijstje:
 	filename = path + name + ext
 	tex_file = open(filename, 'r')
-	labels[name] = []
 	have_title = 0
 	in_proof = 0
 	in_definition = 0
@@ -19,14 +18,22 @@ for name in lijstje:
 	def_text = ""
 	for line in tex_file:
 
-		# update line number
+		# Update line number
 		line_nr = line_nr + 1
 
-		# These we always want at the beginning of the line
-		beginning_of_line("\\begin{", line)
-		beginning_of_line("\\end{", line)
-		beginning_of_line("$$", line)
-		beginning_of_line("\\label{", line)
+		# These we always want at the start of a line by themselves
+		error_text = only_on_line("\\begin{", 7, line)
+		if error_text:
+			print_error(error_text, line, name, line_nr)
+		error_text = only_on_line("\\end{", 5, line)
+		if error_text:
+			print_error(error_text, line, name, line_nr)
+		error_text = only_on_line("\\label{", 7, line)
+		if error_text:
+			print_error(error_text, line, name, line_nr)
+		error_text = check_double_dollar(line)
+		if error_text:
+			print_error(error_text, line, name, line_nr)
 
 		# Have we found a title?
 		if not have_title and is_title(line):
@@ -37,11 +44,18 @@ for name in lijstje:
 			def_text = def_text + " " + line.rstrip()
 			if end_of_definition(line) == 1:
 				in_definition = 0
-				check_defined_notions(def_text)
+				error_text = check_defined_notions(def_text)
+				if error_text:
+					print_error(error_text, def_text, name, line_nr)
 		else:
 			in_definition = beginning_of_definition(line)
 			if in_definition == 1:
 				def_text = line.rstrip()
+
+		# Find label if there is one
+		label = 
+
+		# Check for forward references in proofs
 
 	# Check for title in the file
 	if not have_title:

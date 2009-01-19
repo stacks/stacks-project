@@ -9,9 +9,11 @@ def list_text_files():
 	lijst = lijst.rstrip()
 	return lijst.split(" ")
 
-def print_where_we_are():
+def print_error(error_text, line, name, line_nr):
 	print "In file " + name + ".tex"
 	print "On line", line_nr
+	print "Line: " + line
+#	raise Exception(error_text)
 
 def beginning_of_line(pattern, line):
 	n = line.find(pattern)
@@ -22,6 +24,18 @@ def beginning_of_line(pattern, line):
 		print line
 		raise Exception('Not at the beginning of the line')
 	return
+
+def only_on_line(pattern, spot, line):
+	line = line.rstrip()
+	n = line.find(pattern)
+	if n > 0:
+		return "Pattern: " + pattern + "not at the start of the line."
+	if n == 0:
+		m = find_sub_clause(line, spot, "{", "}")
+		m = rest_clauses(line, m)
+		if not m + 1 == len(line):
+			return "Pattern: " + pattern + "*} not only on the line."
+	return ""
 
 def beginning_of_definition(line):
 	n = line.find("\\begin{definition}")
@@ -37,15 +51,46 @@ def end_of_definition(line):
 	else:
 		return 0
 
-def find_sub_clause(text, spot):
+def rest_clauses(text, spot):
+	n = next_clause(text, spot)
+	while n > spot:
+		spot = n
+		n = next_clause(text, spot)
+	return n
+
+def next_clause(text, spot):
+	open = ""
+	if spot + 1 == len(text):
+		return spot
+	if text[spot + 1] == "[":
+		open = "["
+		close = "]"
+	if text[spot + 1] == "{":
+		open = "{"
+		close = "}"
+	if open:
+		spot = find_sub_clause(text, spot + 1, open, close)
+	return spot
+
+def find_sub_clause(text, spot, open, close):
 	nr_braces = 0
 	while nr_braces >= 0:
 		spot = spot + 1
-		if text[spot] == "{":
+		if text[spot] == open:
 			nr_braces = nr_braces + 1
-		if text[spot] == "}":
+		if text[spot] == close:
 			nr_braces = nr_braces - 1
 	return spot
+
+def check_double_dollar(line):
+	n = line.find("$$")
+	if n < 0:
+		return ""
+	if n > 0:
+		return "Double dollar not at start of line."
+	line = line.rstrip()
+	if not len(line) == 2:
+		return "Double dollar not by itself on line."
 
 def is_title(line):
 	n = line.find("\\title{")
@@ -60,43 +105,43 @@ def find_title(line):
 		print_where_we_are()
 		raise Exception('No title on line')
 	n = n + 6
-	m = find_sub_clause(line, n)
+	m = find_sub_clause(line, n, "{", "}")
 	title = line[n : m + 1]
 	return title
 
 def is_label(env_text):
 	n = env_text.find("\\label{")
 	if n < 0:
-		return 0
+		return ""
 	else:
 		return 1
 
 def find_label(env_text):
 	n = env_text.find("\\label{")
 	if n < 0:
-		print_where_we_are()
 		raise Exception('No label in environment')
 	n = n + 6
-	m = find_sub_clause(env_text, n)
+	m = find_sub_clause(env_text, n, "{", "}")
 	label = env_text[n : m + 1]
 	return label
 
 def check_defined_notions(def_text):
 	n = def_text.find("{\\it ")
 	if n < 0:
-		print_where_we_are()
-		raise Exception('Nothing defined in definition')
+		return "Nothing defined in definition."
+	else:
+		return ""
 
 def find_defined_notions(def_text):
 	n = def_text.find("{\\it ")
 	def_notions = []
 	if n < 0:
-		print_where_we_are()
 		raise Exception('Nothing defined in definition')
 	while n >= 0:
-		m = find_sub_clause(def_text, n)
+		m = find_sub_clause(def_text, n, "{", "}")
 		def_notions.append(def_text[n : m + 1])
 		n = def_text.find("{\\it ", m)
 	return def_notions
 
-
+def begin_environment(line):
+	n = line.find
