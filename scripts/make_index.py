@@ -3,7 +3,8 @@ from functions import *
 def print_section_title(line):
 	title = find_title(line)
 	print
-	print "\\medskip\\noindent {\\bf " + title + "}"
+	print "\\medskip\\noindent"
+	print "{\\bf " + title + "}"
 	print
 	print "\\medskip"
 	return
@@ -14,14 +15,15 @@ def print_def_notions(def_text):
 	label = "{" + name + "-" + label
 	def_notions = find_defined_notions(def_text)
 	print
-	print "\\noindent In \\ref" + label + ": "
+	print "\\noindent"
+	print "In \\ref" + label + ": "
 	n = len(def_notions)
 	m = 0
 	while m < n:
 		print def_notions[m],
 		m = m + 1
 		if m < n:
-			print ", ",
+			print ","
 	print
 	return
 
