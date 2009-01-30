@@ -21,6 +21,11 @@ for name in lijstje:
 		# Update line number
 		line_nr = line_nr + 1
 
+		# Check length of line
+		error_text = length_of_line(line)
+		if error_text:
+			print_error(error_text, line, name, line_nr)
+
 		# These we always want at the start of a line by themselves
 		error_text = only_on_line("\\begin{", 7, line)
 		if error_text:

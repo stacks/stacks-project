@@ -17,6 +17,12 @@ def print_error(error_text, line, name, line_nr):
 	print
 #	raise Exception(error_text)
 
+def length_of_line(line):
+	n = len(line)
+	if n > 81:
+		return "More than 80 characters on a line."
+	return ""
+
 def beginning_of_line(pattern, line):
 	n = line.find(pattern)
 	if n > 0:
