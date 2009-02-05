@@ -23,7 +23,7 @@ descent, descent data, effective descent data, in the less formal
 setting of descent questions for quasi-coherent sheaves, schemes, etc.
 
 
-\section{Descent datum for schemes}
+\section{Descent data for schemes over schemes}
 \label{section-descent-datum}
 
 \begin{definition}
@@ -66,17 +66,28 @@ commutes.
 
 \begin{lemma}
 \label{lemma-pullback}
-Let $X' \to X$ be a morphism of schemes over $S$.
-The construction
-$(V, \varphi) \mapsto
-(X' \times_X V, \varphi')$
-where $\varphi'$ is defined as the composition
+Let
 $$
 \xymatrix{
-(X' \times_S V) \times_S X' \ar@{=}[r] &
-(X' \times_S X') \times_{X \times_S X} V \times_S X
+X' \ar[r] \ar[d] & X \ar[d] \\
+S' \ar[r] & S
+}
+$$
+be a commutative diagram of morphisms of schemes over $S$.
+The construction
+$$
+(V \to X, \varphi) \longmapsto (V' \to X', \varphi')
+$$
+where $V' = X' \times_X V$ and where
+$\varphi'$ is defined as the composition
+$$
+\xymatrix{
+V' \times_{S'} X' \ar@{=}[r] &
+(X' \times_X V) \times_{S'} X' \ar@{=}[r] &
+(X' \times_{S'} X') \times_{X \times_S X} V \times_S X
 \ar[d]^{\text{id} \times \varphi} \\
-X' \times_S (X' \times_S V) &
+X' \times_{S'} V' \ar@{=}[r] &
+X' \times_{S'} (X' \times_X V) &
 (X' \times_S X') \times_{X \times_S X} X \times_S V \ar@{=}[l]
 }
 $$
@@ -90,11 +101,12 @@ Omitted.
 \end{proof}
 
 \noindent
-Given a scheme $U$ over $S$ we have the trivial
-descent datum of $U$ relative to $\text{id} : S \to S$,
+Given a scheme $U$ over $S$ we have the {\it trivial
+descent datum} of $U$ relative to $\text{id} : S \to S$,
 namely the identity morphism.
-For any morphism $X \to S$ this gives a canonical descent
-datum $can$ on $X \times_S U$ relative to $X \to S$.
+For any morphism $X \to S$ we get by Lemma \ref{lemma-pullback} above
+a {\it canonical descent datum} on $X \times_S U$
+relative to $X \to S$. We denote $(X \times_S U, can)$ this descent datum.
 
 \begin{definition}
 \label{definition-effective}
@@ -114,21 +126,23 @@ X \times_S V
 }
 $$
 In other words, $(V, \varphi)$ is effective if it is
-isomorphic to the pullback $(X \times_S U, can)$ of the trivial descent datum
-for some scheme $U$ over $S$.
+isomorphic to the canonical descent datum
+$(X \times_S U, can)$ for some scheme $U$ over $S$.
 \end{definition}
 
 \begin{lemma}
 \label{lemma-fully-faithful}
-Suppose that $X' \to X$ is a faithfully flat morphism of schemes over $S$.
-Then the pullback functor is fully faithful.
+In the situation of Lemma \ref{lemma-pullback}
+assume that $S' = S$ that $X' \to X$ is a faithfully flat quasi-compact
+morphism of schemes over $S$. Then the pullback
+functor is fully faithful.
 \end{lemma}
 
 \begin{proof}
 Let $(V, \varphi)$ and $(W, \psi)$ be two descent data relative
 to $X \to S$. Set $V' = X' \times_X V$ and $W' = X' \times_X W$.
 Let $f' : V' \to W'$ be a morphism of descent data for $X' \to S$.
-The fact that the diagram 
+By assumption the diagram
 $$
 \xymatrix{
 V' \times_S X' \ar[r]_{\varphi'} \ar[d]_{f' \times \text{id}} &
@@ -136,18 +150,57 @@ X' \times_S V' \ar[d]^{\text{id} \times f'} \\
 W' \times_S X' \ar[r]^{\psi'} & X' \times_S W'
 }
 $$
-commutes, implies in particular that the two compositions
+commutes. We claim the two compositions
 $$
-V' \times_V V' \to V' \to W' \to W
+\xymatrix{
+V' \times_V V' \ar[r]^-{\text{pr}_i} &
+V' \ar[r]^{f'} &
+W' \ar[r] &
+W
+}
 $$
-are the same. To see this note that
-$V' \times_V V' = X' \times_X V \times_V X' \times_X V
-= (X' \times_X X') \times_X V$ which is subobject
-of $V' \times_S X'$ and of $X' \times_S V'$.
-Details omitted. Thus the morphism $V' \to W$ descends to
-a morphism $V \to W$ because faithfully flat morphisms
-are effective epimorphisms, see Descent, 
+are the same. The reader is advised to prove this by themselves rather
+than read the rest of this paragraph. (Please email if you find a 
+nice clean argument.) Let $v_1, v_2$ be points of $V'$ which map to the same
+point $v \in V$. Let $x_i \in X'$ be the image of $v_i$, and let
+$x$ be the point of $X$ which is the image of $v$ in $X$. In other words,
+$v_i = (x_i, v)$ in $V' = X' \times_X V$. Write
+$\varphi(v, x) = (x, v')$, which is possible because $\varphi$ is
+a morphism over $X \times_S X$. Denote
+$v_i' = (x_i, v')$. Then a calculation shows that
+$\varphi'(v_i, x_j) = (x_i, v'_j)$. Denote
+$w_i = f'(v_i)$ and $w'_i = f'(v_i')$.
+Now we may write $w_i = (x_i, u_i)$ for some point $u_i$ of $V$,
+and $w_i' = (x_i, u'_i)$ for some point $u_i'$ of $V$.
+The claim is equivalent to the assertion: $u_1 = u_2$.
+A formal calculation using the definition of $\psi'$ shows
+that the commutativity of the diagram displayed above says that
+$$
+((x_i, x_j), \psi(u_i, x)) = ((x_i, x_j), (x, u'_j))
+$$
+for all $i, j \in \{1, 2\}$. This clearly shows that
+$u_1 = u_2$ by taking $\psi^{-1}$ of the second entry
+in the above. This proves the claim because we can take
+scheme points in the arguments above.
+
+\medskip\noindent
+At this point we can use
 Lemma \ref{fpqc-descent-lemma-fpqc-universal-effective-epimorphisms}.
+Namely, since $V' \to V$ is faithfully flat and quasi-compact as
+the base change of such a morphism we see that the morphism
+$V' \to W' \to W$ factors through a unique morphism $f : V \to W$
+whose base change is necessarily $f'$.
+Finally, we see the diagram
+$$
+\xymatrix{
+V \times_S X \ar[r]_{\varphi} \ar[d]_{f \times \text{id}} &
+X \times_S V \ar[d]^{\text{id} \times f} \\
+W \times_S X \ar[r]^{\psi} & X \times_S W
+}
+$$
+commutes because its base change to $X' \times_S X'$ commutes.
+Hence $f$ is a morphism of descent data $(V, \varphi) \to (W, \psi)$
+as desired.
 \end{proof}
 
 
