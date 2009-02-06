@@ -49,7 +49,7 @@ We say that the pair $(V/X, \varphi)$ is
 
 \begin{definition}
 \label{definition-morphism-descent-data}
-Let $f : X \to S$ be a morphism of schemes.
+Let $X \to S$ be a morphism of schemes.
 A {\it morphism $f : (V/X, \varphi) \to (V'/X, \varphi')$ of
 descent data relative to $X \to S$} is a morphism
 $f : V \to V'$ of schemes over $X$ such that 
@@ -69,14 +69,14 @@ commutes.
 Let
 $$
 \xymatrix{
-X' \ar[r] \ar[d] & X \ar[d] \\
+X' \ar[r]_f \ar[d] & X \ar[d] \\
 S' \ar[r] & S
 }
 $$
 be a commutative diagram of morphisms of schemes over $S$.
 The construction
 $$
-(V \to X, \varphi) \longmapsto (V' \to X', \varphi')
+(V \to X, \varphi) \longmapsto f^*(V \to X, \varphi) = (V' \to X', \varphi')
 $$
 where $V' = X' \times_X V$ and where
 $\varphi'$ is defined as the composition
@@ -84,11 +84,11 @@ $$
 \xymatrix{
 V' \times_{S'} X' \ar@{=}[r] &
 (X' \times_X V) \times_{S'} X' \ar@{=}[r] &
-(X' \times_{S'} X') \times_{X \times_S X} V \times_S X
+(X' \times_{S'} X') \times_{X \times_S X} (V \times_S X)
 \ar[d]^{\text{id} \times \varphi} \\
 X' \times_{S'} V' \ar@{=}[r] &
 X' \times_{S'} (X' \times_X V) &
-(X' \times_S X') \times_{X \times_S X} X \times_S V \ar@{=}[l]
+(X' \times_S X') \times_{X \times_S X} (X \times_S V) \ar@{=}[l]
 }
 $$
 defines a functor from the category of descent data
@@ -131,6 +131,17 @@ $(X \times_S U, can)$ for some scheme $U$ over $S$.
 \end{definition}
 
 \begin{lemma}
+\label{lemma-faithful}
+In the situation of Lemma \ref{lemma-pullback}
+assume that $S' \to S$ and $X' \to X$ are surjective
+and flat. Then the pullback functor is faithful.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-fully-faithful}
 In the situation of Lemma \ref{lemma-pullback}
 assume that $S' = S$ that $X' \to X$ is a faithfully flat quasi-compact
@@ -159,7 +170,7 @@ W' \ar[r] &
 W
 }
 $$
-are the same. The reader is advised to prove this by themselves rather
+are the same. The reader is advised to prove this themselves rather
 than read the rest of this paragraph. (Please email if you find a 
 nice clean argument.) Let $v_1, v_2$ be points of $V'$ which map to the same
 point $v \in V$. Let $x_i \in X'$ be the image of $v_i$, and let
@@ -170,24 +181,27 @@ a morphism over $X \times_S X$. Denote
 $v_i' = (x_i, v')$. Then a calculation shows that
 $\varphi'(v_i, x_j) = (x_i, v'_j)$. Denote
 $w_i = f'(v_i)$ and $w'_i = f'(v_i')$.
-Now we may write $w_i = (x_i, u_i)$ for some point $u_i$ of $V$,
-and $w_i' = (x_i, u'_i)$ for some point $u_i'$ of $V$.
+Now we may write $w_i = (x_i, u_i)$ for some point $u_i$ of $W$,
+and $w_i' = (x_i, u'_i)$ for some point $u_i'$ of $W$.
 The claim is equivalent to the assertion: $u_1 = u_2$.
-A formal calculation using the definition of $\psi'$ shows
+A formal calculation using the definition of $\psi'$
+(see Lemma \ref{lemma-pullback}) shows
 that the commutativity of the diagram displayed above says that
 $$
 ((x_i, x_j), \psi(u_i, x)) = ((x_i, x_j), (x, u'_j))
 $$
+as points of $(X' \times_S X') \times_{X \times_S X} (X \times_S V)$
 for all $i, j \in \{1, 2\}$. This clearly shows that
 $u_1 = u_2$ by taking $\psi^{-1}$ of the second entry
 in the above. This proves the claim because we can take
-scheme points in the arguments above.
+scheme points in the arguments above (in other words, we may
+take $(v_1, v_2) = \text{id}_{V' \times_V V'}$).
 
 \medskip\noindent
-At this point we can use
+At this point we can use Descent,
 Lemma \ref{fpqc-descent-lemma-fpqc-universal-effective-epimorphisms}.
-Namely, since $V' \to V$ is faithfully flat and quasi-compact as
-the base change of such a morphism we see that the morphism
+Namely, since $V' \to V$ is faithfully flat and quasi-compact (as
+the base change of such a morphism) we see that the morphism
 $V' \to W' \to W$ factors through a unique morphism $f : V \to W$
 whose base change is necessarily $f'$.
 Finally, we see the diagram
@@ -202,6 +216,75 @@ commutes because its base change to $X' \times_S X'$ commutes.
 Hence $f$ is a morphism of descent data $(V, \varphi) \to (W, \psi)$
 as desired.
 \end{proof}
+
+\begin{lemma}
+\label{lemma-pullback-selfmap}
+Let $X \to S$ be a morphism of schemes.
+Let $f : X \to X$ be a selfmap of $X$ over $S$.
+In this case pullback by $f$ is isomorphic to the
+identity functor on the category of descent data 
+relative to $X \to S$.
+\end{lemma}
+
+\begin{proof}
+Let $(V, \varphi)$ be a descent datum relative to $X \to S$.
+Consider the morphism
+$$
+\xymatrix{
+V &
+V \times_S X \ar[l] &
+X \times_S V \ar[l]_-{\varphi^{-1}} &
+X \times_{f, X} V \ar[l]
+}
+$$
+We claim this gives an isomorphism
+$(
+\end{proof}
+
+\section{Descent in terms of simplicial schemes}
+\label{section-simplicial}
+
+\noindent
+A {\it simplicial scheme} is a simplicial object in the category of schemes,
+see Simplicial, Definition \ref{simplicial-definition-simplicial-object}.
+In this chapter we will use the a subscript $\bullet$ to denote simplicial
+objects.
+
+\begin{definition}
+\label{definition-cartesian-morphism}
+Let $a : V_\bullet \to X_\bullet$ be a morphism of simplicial schemes.
+We say $a$ is {\it cartesian}, or that {\it $V_\bullet$ is cartesian over
+$X_\bullet$}, if for every morphism
+$\varphi : [n] \to [m]$ of $\Delta$ the corresponding diagram
+$$
+\xymatrix{
+V_m \ar[r]_{a} \ar[d]_{V(\varphi)} & X_m \ar[d]^{X(\varphi)}\\
+V_n \ar[r]^{a} & X_n
+}
+$$
+is a fibre square.
+\end{definition}
+
+\begin{definition}
+\label{definition-fibre-products-simplicial-scheme}
+Let $f : X \to S$ be a morphism of schemes.
+The simplicial scheme {\it associated to $f$}, denoted $(X/S)_\bullet$,
+is the functor $\Delta^{opp} \to \textit{Sch}$,
+$[n] \mapsto X\times_S \ldots \times_S X$ ($n + 1$ factors)
+described in
+Simplicial, Example \ref{simplicial-example-fibre-products-simplicial-object}.
+\end{definition}
+
+\begin{lemma}
+\label{lemma-cartesian-over}
+Let $f : X \to S$ be a morphism of schemes.
+Let $V_\bullet \to (X/S)_\bullet$ be a cartesian morphism.
+
+
+
+\end{lemma}
+
+
 
 
 \section{Lemmas}
