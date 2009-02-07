@@ -753,6 +753,767 @@ the $V_j$ glue. Similarly for effectiveness. Details omitted.
 
 
 
+\section{Descent data for schemes over schemes}
+\label{section-descent-datum}
+
+\noindent
+Most of the arguments in this section are formal relying only
+on the definition of a descent datum. In Section \ref{section-simplicial}
+we will examine the relationship with simplicial schemes which will
+somewhat clarify the situation. Hopefully the reader will be convinced
+by the end of Section \ref{section-simplicial} that the language of descent
+is awkward and the setting of simplicial schemes is natural for the
+questions being considered here.
+
+\begin{definition}
+\label{definition-descent-datum}
+Let $f : X \to S$ be a morphism of schemes.
+\begin{enumerate}
+\item Let $V \to X$ be a scheme over $X$.
+A {\it descent datum for $V/X/S$} is an isomorphism
+$\varphi : V \times_S X \to X \times_S V$ of schemes over
+$X \times_S X$ such that the diagram
+$$
+\xymatrix{
+V \times_S X \times_S X \ar[rd]^{\varphi_{01}} \ar[rr]_{\varphi_{02}} &
+&
+X \times_S X \times_S V\\
+&
+X \times_S V \times_S X \ar[ru]^{\varphi_{12}}
+}
+$$
+commutes (with obvious notation).
+\item We also say that the pair $(V/X, \varphi)$ is
+{\it a descent datum relative to $X \to S$}.
+\item A {\it morphism $f : (V/X, \varphi) \to (V'/X, \varphi')$ of
+descent data relative to $X \to S$} is a morphism
+$f : V \to V'$ of schemes over $X$ such that 
+the diagram
+$$
+\xymatrix{
+V \times_S X \ar[r]_{\varphi} \ar[d]_{f \times \text{id}_X} &
+X \times_S V \ar[d]^{\text{id}_X \times f} \\
+V' \times_S X \ar[r]^{\varphi'} & X \times_S V'
+}
+$$
+commutes.
+\end{enumerate}
+\end{definition}
+
+\noindent
+There are all kinds of ``miraculous'' identities which arise out of the
+definition above. For example the pullback of $\varphi$ via the diagonal
+morphism $\Delta : X \to X \times_S X$ can be seen as a morphism
+$\Delta^*\varphi : V \to V$.
+This because $X \times_{\Delta, X \times_S X} (V \times_S X) = V$
+and also $X \times_{\Delta, X \times_S X} (X \times_S V) = V$.
+In fact, $\Delta^*\varphi$ is equal to the identity.
+This is a good exercise if you are unfamiliar with this material.
+
+\medskip\noindent
+Here is the definition in case you have a family of morphisms
+with fixed target.
+
+\begin{definition}
+\label{definition-descent-datum-for-family-of-morphisms}
+Let $S$ be a scheme.
+Let $\{X_i \to S\}_{i \in I}$ be a family of morphisms with target $S$.
+\begin{enumerate}
+\item A {\it descent datum $(V_i, \varphi_{ij})$ relative to the
+family $\{X_i \to S\}$} is given by a scheme $V_i$ over $X_i$
+for each $i \in I$, an isomorphism
+$\varphi_{ij} : V_i\times_S X_j \to X_i \times_S X_j$
+of schemes over $X_i \times_S X_j$ for each pair $(i, j) \in I^2$
+such that for every triple of indices $(i, j, k) \in I^3$
+the diagram
+$$
+\xymatrix{
+V_i \times_S X_j \times_S X_k
+\ar[rd]^{\text{pr}_{01}^*\varphi_{ij}}
+\ar[rr]_{\text{pr}_{02}^*\varphi_{ik}} &
+&
+X_i \times_S X_j \times_S V_k\\
+&
+X_i \times_S V_j \times_S X_k
+\ar[ru]^{\text{pr}_{12}^*\varphi_{jk}}
+}
+$$
+of schemes over $X_i \times_S X_j \times_S X_k$ commutes
+(with obvious notation).
+\item A {\it morphism
+$\psi : (V_i, \varphi_{ij}) \to (V'_i, \varphi'_{ij})$
+of descent data} is given by a family
+$\psi = (\psi_i)_{i \in I}$ of morphisms of
+$X_i$-schemes $\psi_i : V_i \to V'_i$ such that all the diagrams
+$$
+\xymatrix{
+V_i \times_S X_j \ar[r]_{\varphi_{ij}} \ar[d]_{\psi_i \times \text{id}} &
+X_i \times_S V_j \ar[d]^{\text{id} \times \psi_j} \\
+V'_i \times_S X_j \ar[r]^{\varphi'_{ij}} & X_i \times_S V'_j
+}
+$$
+commute.
+\end{enumerate}
+\end{definition}
+
+\noindent
+This is the notion that comes up naturally for example when answering
+whether the fibred category of relative curves is a stack in the
+fpqc topology (it isn't -- at least not if you stick to schemes).
+The reason we will usually stick with the version of a family consisting
+of a single morphism is the following lemma.
+
+\begin{lemma}
+\label{lemma-family-is-one}
+Let $S$ be a scheme.
+Let $\{X_i \to S\}_{i \in I}$ be a family of morphisms with target $S$.
+Set $X = \coprod_{i \in I} X_i$, and consider it as an $S$-scheme.
+There is a canonical equivalence of categories
+$$
+\begin{matrix}
+\text{category of descent data } \\
+\text{relative to the family } \{X_i \to S\}_{i \in I}
+\end{matrix}
+\longrightarrow
+\begin{matrix}
+\text{ category of descent data} \\
+\text{ relative to } X/S
+\end{matrix}
+$$
+which maps $(V_i, \varphi_{ij})$ to $(V, \varphi)$ with
+$V = \coprod_{i\in I} V_i$ and $\varphi = \coprod \varphi_{ij}$.
+\end{lemma}
+
+\begin{proof}
+Observe that $X \times_S X = \coprod_{ij} X_i \times_S X_j$
+and similarly for higher fibre products.
+Giving a morphism $V \to X$ is exactly the same as
+giving a family $V_i \to X_i$. And giving a descent datum
+$\varphi$ is exactly the same as giving a family $\varphi_{ij}$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-pullback}
+Let
+$$
+\xymatrix{
+X' \ar[r]_f \ar[d] & X \ar[d] \\
+S' \ar[r] & S
+}
+$$
+be a commutative diagram of morphisms of schemes.
+The construction
+$$
+(V \to X, \varphi) \longmapsto f^*(V \to X, \varphi) = (V' \to X', \varphi')
+$$
+where $V' = X' \times_X V$ and where
+$\varphi'$ is defined as the composition
+$$
+\xymatrix{
+V' \times_{S'} X' \ar@{=}[r] &
+(X' \times_X V) \times_{S'} X' \ar@{=}[r] &
+(X' \times_{S'} X') \times_{X \times_S X} (V \times_S X)
+\ar[d]^{\text{id} \times \varphi} \\
+X' \times_{S'} V' \ar@{=}[r] &
+X' \times_{S'} (X' \times_X V) &
+(X' \times_S X') \times_{X \times_S X} (X \times_S V) \ar@{=}[l]
+}
+$$
+defines a functor from the category of descent data
+relative to $X \to S$ to the category of descent data
+relative to $X' \to S$.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\noindent
+Given a scheme $U$ over $S$ we have the {\it trivial descent datum} of $U$
+relative to $\text{id} : S \to S$, namely the identity morphism.
+For any morphism $X \to S$ we get by Lemma \ref{lemma-pullback} above
+a {\it canonical descent datum} on $X \times_S U$
+relative to $X \to S$. We denote $(X \times_S U, can)$ this descent datum.
+
+\medskip\noindent
+Similarly, suppose we are given a family of morphisms
+$\{X_i \to S\}$ with target $S$. Given a scheme $U$ over $S$
+we have a {\it canonical descent datum} on the family of
+schemes $X_i \times_S U$. Compare with the discussion in
+Descent, Section \ref{fpqc-descent-section-equivalence}.
+We denote this descent datum $(X_i \times_S U, can)$.
+
+\begin{definition}
+\label{definition-effective}
+Let $S$ be a scheme.
+\begin{enumerate}
+\item Let $f : X \to S$ be a morphism of schemes.
+A descent datum $(V, \varphi)$ relative to $X/S$ is
+is called {\it effective} if there exists a 
+scheme $U \to S$ and an isomorphism $\psi : V \to X \times_S U$
+of $X$-schemes such that $\varphi$ is equal to the composition
+$$
+\xymatrix{
+V \times_S X \ar[r]^-{\psi \times \text{id}_X} &
+X \times_S U \times_S X \ar@{=}[r] &
+X \times_S X \times_S U 
+\ar[r]^-{\text{id}_X \times \psi^{-1}} &
+X \times_S V
+}
+$$
+In other words, $(V, \varphi)$ is effective if it is
+isomorphic to the canonical descent datum
+$(X \times_S U, can)$ for some scheme $U$ over $S$.
+\item Let $\{X_i \to S\}$ be a family of morphisms
+with target $S$. A descent datum $(V_i, \varphi_{ij})$
+relative to $\{X_i \to S\}$ is called {\it effective}
+if there exists a scheme $U$ over $S$ such that
+$(V_i, \varphi_{ij})$ is isomorphic to $(X_i \times_S U, can)$.
+\end{enumerate}
+\end{definition}
+
+\begin{lemma}
+\label{lemma-faithful}
+In the situation of Lemma \ref{lemma-pullback}
+assume that $S' \to S$ and $X' \to X$ are surjective
+and flat. Then the pullback functor is faithful.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-fully-faithful}
+In the situation of Lemma \ref{lemma-pullback}
+assume that $S' = S$ that $X' \to X$ is a faithfully flat quasi-compact
+morphism of schemes over $S$. Then the pullback
+functor is fully faithful.
+\end{lemma}
+
+\begin{proof}
+Let $(V, \varphi)$ and $(W, \psi)$ be two descent data relative
+to $X \to S$. Set $V' = X' \times_X V$ and $W' = X' \times_X W$.
+Let $f' : V' \to W'$ be a morphism of descent data for $X' \to S$.
+By assumption the diagram
+$$
+\xymatrix{
+V' \times_S X' \ar[r]_{\varphi'} \ar[d]_{f' \times \text{id}} &
+X' \times_S V' \ar[d]^{\text{id} \times f'} \\
+W' \times_S X' \ar[r]^{\psi'} & X' \times_S W'
+}
+$$
+commutes. We claim the two compositions
+$$
+\xymatrix{
+V' \times_V V' \ar[r]^-{\text{pr}_i} &
+V' \ar[r]^{f'} &
+W' \ar[r] &
+W
+}
+$$
+$i = 0, 1$ are the same. The reader is advised to prove this themselves rather
+than read the rest of this paragraph. (Please email if you find a 
+nice clean argument.) Let $v_0, v_1$ be points of $V'$ which map to the same
+point $v \in V$. Let $x_i \in X'$ be the image of $v_i$, and let
+$x$ be the point of $X$ which is the image of $v$ in $X$. In other words,
+$v_i = (x_i, v)$ in $V' = X' \times_X V$. Write
+$\varphi(v, x) = (x, v')$, which is possible because $\varphi$ is
+a morphism over $X \times_S X$. Denote
+$v_i' = (x_i, v')$. Then a calculation shows that
+$\varphi'(v_i, x_j) = (x_i, v'_j)$. Denote
+$w_i = f'(v_i)$ and $w'_i = f'(v_i')$.
+Now we may write $w_i = (x_i, u_i)$ for some point $u_i$ of $W$,
+and $w_i' = (x_i, u'_i)$ for some point $u_i'$ of $W$.
+The claim is equivalent to the assertion: $u_0 = u_1$.
+A formal calculation using the definition of $\psi'$
+(see Lemma \ref{lemma-pullback}) shows
+that the commutativity of the diagram displayed above says that
+$$
+((x_i, x_j), \psi(u_i, x)) = ((x_i, x_j), (x, u'_j))
+$$
+as points of $(X' \times_S X') \times_{X \times_S X} (X \times_S V)$
+for all $i, j \in \{0, 1\}$. This clearly shows that
+$u_0 = u_1$ by taking $\psi^{-1}$ of the second entry
+in the above. This proves the claim because we can take
+scheme points in the arguments above (in other words, we may
+take $(v_0, v_1) = \text{id}_{V' \times_V V'}$).
+
+\medskip\noindent
+At this point we can use Descent,
+Lemma \ref{fpqc-descent-lemma-fpqc-universal-effective-epimorphisms}.
+Namely, since $V' \to V$ is faithfully flat and quasi-compact (as
+the base change of such a morphism) we see that the morphism
+$V' \to W' \to W$ factors through a unique morphism $f : V \to W$
+whose base change is necessarily $f'$.
+Finally, we see the diagram
+$$
+\xymatrix{
+V \times_S X \ar[r]_{\varphi} \ar[d]_{f \times \text{id}} &
+X \times_S V \ar[d]^{\text{id} \times f} \\
+W \times_S X \ar[r]^{\psi} & X \times_S W
+}
+$$
+commutes because its base change to $X' \times_S X'$ commutes.
+Hence $f$ is a morphism of descent data $(V, \varphi) \to (W, \psi)$
+as desired.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-pullback-selfmap}
+Let $X \to S$ be a morphism of schemes.
+Let $f : X \to X$ be a selfmap of $X$ over $S$.
+In this case pullback by $f$ is isomorphic to the
+identity functor on the category of descent data 
+relative to $X \to S$.
+\end{lemma}
+
+\begin{proof}
+Let $(\pi : V \to X, \varphi)$ be a descent datum relative to $X \to S$.
+Consider the morphism
+$$
+\xymatrix{
+V &
+V \times_S X \ar[l] &
+X \times_S V \ar[l]_-{\varphi^{-1}} &
+X \times_{f, X} V = f^*V \ar[l]
+}
+$$
+of schemes over $X$. The morphism $\varphi : V \times_S X \to X \times_S V$
+is a morphism over the scheme $X \times_S X$ and we can
+pull it back by $\text{id}_X \times f : X \times_S X \to X\times_S X$.
+This gives a morphism $\tilde\varphi : V \times_S X \to X \times_S f^*V$.
+Consider the morphism
+$$
+\xymatrix{
+V \ar[r] &
+V \times_S X \ar[r]^{\tilde\varphi} &
+X \times_S f^*V \ar[r] &
+f^*V
+}
+$$
+where the first morphism is $v \mapsto (v, \pi(v))$.
+We omit the verification that the morphisms
+$V \to f^*V$ and $f^*V \to V$ so constructed are 
+mutually inverse isomorphisms of descent data relative to
+$X \to S$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-morphism-with-section-equivalence}
+Let $f : X' \to X$ be a morphism of schemes over a base scheme $S$.
+If there exists a morphism $g : X \to X'$ over $S$, for example
+if $f$ has a section, then the pullback functor
+of Lemma \ref{lemma-pullback} defines an equivalence of
+categories between the category of descent data relative to
+$X/S$ and $X'/S$.
+\end{lemma}
+
+\begin{proof}
+Let $g : X \to X'$ be a morphism over $S$.
+Lemma \ref{lemma-pullback-selfmap} above shows that the functors
+$f^* \circ g^* = (g \circ f)^*$ and $g^* \circ f^* = (f \circ g)^*$
+are isomorphic
+to the respective identity functors as desired.
+\end{proof}
+
+
+
+
+\section{Descending affine morphisms}
+\label{section-affine}
+
+\begin{lemma}
+\label{lemma-affine}
+Let $S$ be a scheme.
+Let $\{X_i \to S\}_{i\in I}$ be an fpqc covering, see
+Topologies, Definition \ref{topologies-definition-fpqc-covering}.
+Let $(V_i/X_i, \varphi_{ij})$ be a descent datum
+relative to $\{X_i \to S\}$. If each morphism
+$V_i \to X_i$ is affine, then the descent datum is
+effective.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+
+
+\section{Descending quasi-affine morphisms}
+\label{section-quasi-affine}
+
+\begin{lemma}
+\label{lemma-quasi-affine}
+Let $S$ be a scheme.
+Let $\{X_i \to S\}_{i\in I}$ be an fpqc covering, see
+Topologies, Definition \ref{topologies-definition-fpqc-covering}.
+Let $(V_i/X_i, \varphi_{ij})$ be a descent datum
+relative to $\{X_i \to S\}$. If each morphism
+$V_i \to X_i$ is quasi-affine, then the descent datum is
+effective.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+
+
+\section{Descent in terms of simplicial schemes}
+\label{section-simplicial}
+
+\noindent
+A {\it simplicial scheme} is a simplicial object in the category of schemes,
+see Simplicial, Definition \ref{simplicial-definition-simplicial-object}.
+In this chapter we will use the a subscript $\bullet$ to denote simplicial
+objects. Recall that a simplicial scheme looks like
+$$
+\xymatrix{
+X_2
+\ar@<2ex>[r]
+\ar@<0ex>[r]
+\ar@<-2ex>[r]
+&
+X_1 
+\ar@<1ex>[r]
+\ar@<-1ex>[r]
+\ar@<1ex>[l]
+\ar@<-1ex>[l]
+&
+X_0
+\ar@<0ex>[l]
+}
+$$
+Here there are two morphisms $d^1_0, d^1_1 : X_1 \to X_0$
+and a single morphism $s^0_0 : X_0 \to X_1$, etc.
+It is important to remember that $d^n_i : X_n \to X_{n - 1}$
+should be thought of as a ``projection forgetting the
+$i$th coordinate''.
+
+\begin{definition}
+\label{definition-cartesian-morphism}
+Let $a : V_\bullet \to X_\bullet$ be a morphism of simplicial schemes.
+We say $a$ is {\it cartesian}, or that {\it $V_\bullet$ is cartesian over
+$X_\bullet$}, if for every morphism
+$\varphi : [n] \to [m]$ of $\Delta$ the corresponding diagram
+$$
+\xymatrix{
+V_m \ar[r]_{a} \ar[d]_{V_\bullet(\varphi)} & X_m \ar[d]^{X_\bullet(\varphi)}\\
+V_n \ar[r]^{a} & X_n
+}
+$$
+is a fibre square in the category of schemes.
+\end{definition}
+
+\begin{definition}
+\label{definition-fibre-products-simplicial-scheme}
+Let $f : X \to S$ be a morphism of schemes.
+The {\it simplicial scheme associated to $f$}, denoted $(X/S)_\bullet$,
+is the functor $\Delta^{opp} \to \textit{Sch}$,
+$[n] \mapsto X\times_S \ldots \times_S X$
+described in
+Simplicial, Example \ref{simplicial-example-fibre-products-simplicial-object}.
+\end{definition}
+
+\noindent
+Thus $(X/S)_n$ is the $(n + 1)$-fold fibre product of $X$ over $S$.
+The morphism $d^1_0 : X \times_S X \to X$ is the map
+$(x_0, x_1) \mapsto x_1$ and the morphism $d^1_1$ is the other
+projection. The morphism $s^0_0$ is the diagonal morphism
+$X \to X \times_S X$.
+
+\begin{lemma}
+\label{lemma-cartesian-over}
+Let $f : X \to S$ be a morphism of schemes.
+Let $\pi : V_\bullet \to (X/S)_\bullet$ be a cartesian morphism.
+Set $V = V_0$ considered as a scheme over $X$.
+The morphisms $d^1_0, d^1_1 : V_1 \to V_0$ and the morphism
+$\pi_1 : V_1 \to X \times_S X$ induce isomorphisms
+$$
+\xymatrix{
+V \times_S X & &
+V_1 \ar[ll]_-{(d^1_1, \text{pr}_1 \circ \pi_1)}
+\ar[rr]^-{(\text{pr}_0 \circ \pi_1, d^1_0)} & &
+X \times_S V.
+}
+$$
+Denote $\varphi : V \times_S X \to X \times_S V$ the
+resulting isomorphism.
+Then the pair $(V, \varphi)$ is a descent datum relative
+to $X \to S$.
+\end{lemma}
+
+\begin{proof}
+The statement that the displayed morphisms are isomorphisms
+is exactly the cartesian property for the maps
+$\delta^1_0, \delta^1_1 : [0] \to [1]$. The fact that the diagram
+of Definition \ref{definition-descent-datum} (1) commutes
+follows from the fact that each of the induced morphisms
+$V_2 \to V \times_{X, \text{pr}_i} (X \times_S X \times_S X)$
+associated to $[0] \to [2]$, $0 \mapsto i$
+is an isomorphism. Details omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-cartesian-equivalent-descent-datum}
+Let $f : X \to S$ be a morphism of schemes. The construction
+$$
+\begin{matrix}
+\text{category of cartesian } \\
+\text{schemes over } (X/S)_\bullet 
+\end{matrix}
+\longrightarrow
+\begin{matrix}
+\text{ category of descent data} \\
+\text{ relative to } X/S
+\end{matrix}
+$$
+of Lemma \ref{lemma-cartesian-over}
+is an equivalence of categories.
+\end{lemma}
+
+\begin{proof}
+Here you have to show that given a descent datum
+$(V, \varphi)$ you can canonically construct a
+cartesian morphism of simplicial schemes
+$V_\bullet \to (X/S)_\bullet$ so that if you apply
+the construction of Lemma \ref{lemma-cartesian-over}
+then you get back $(V, \varphi)$. This we did carefully
+in Descent, Section \ref{fpqc-descent-section-descent-modules}
+for the case of descent data for modules over rings
+and their associated cosimplicial rings, see especially
+Descent, Lemma \ref{fpqc-descent-lemma-descent-datum-cosimplicial}.
+We can easily translate this to the current context.
+Namely, set
+$$
+V_n = X \times_S \ldots \times_S X \times_S V.
+$$
+Given a point $(x_0, \ldots, x_{n - 1}, v)$ of $V_n$
+we use the convention that $x_n = \pi(v)$. Using this
+convention, given a morphism $\beta : [m] \to [n]$
+the associated morphism
+$$
+V_\bullet(\beta) : V_n \longrightarrow V_m
+$$
+maps $(x_0, \ldots, x_{n - 1}, v)$ to
+$(x_{\beta(0)}, \ldots, x_{\beta(m - 1)}, v')$
+where $\varphi^{-1}(x_{\beta(m)}, v) = (v', x_n)$.
+(It is a fact that $v' = v$ if $n = \beta(m)$; see discussion
+following Definition \ref{definition-descent-datum}.)
+We omit the verification that this defines a
+simplicial scheme which is cartesian over
+$(X/S)_\bullet$.
+\end{proof}
+
+\noindent
+We may reinterpret the pullback of Lemma \ref{lemma-pullback} as follows.
+Suppose given a commutative diagram of morphisms of schemes
+$$
+\xymatrix{
+X' \ar[r]_f \ar[d] & X \ar[d] \\
+S' \ar[r] & S.
+}
+$$
+This gives rise to a morphism of simplicial schemes
+$$
+f_\bullet : (X'/S')_\bullet \longrightarrow (X/S)_\bullet.
+$$
+It is a pleasant exercise to check that given any morphism
+of simplical schemes $f_\bullet : Y_\bullet \to X_\bullet$ and a 
+cartesian simplicial scheme $V_\bullet \to X_\bullet$
+the fibre product
+$$
+f_\bullet^*V_\bullet = Y_\bullet \times_{X_\bullet} V_\bullet
+$$
+is a cartesian simplicial scheme over $Y_\bullet$. We omit
+the verification that this applied to the morphism
+$(X'/S')_\bullet \to (X/S)_\bullet$ corresponds via
+Lemma \ref{lemma-cartesian-equivalent-descent-datum}
+with the pullback defined in terms of descent data.
+
+
+
+\section{Descent data give equivalence relations}
+\label{section-equivalence-relation}
+
+\begin{lemma}
+\label{lemma-equivalence-relation}
+Let $f : X \to S$ be a morphism of schemes.
+Let $\pi : V_\bullet \to (X/S)_\bullet$ be a cartesian morphism.
+Then the morphism
+$$
+j = (d^1_1, d^1_0) : V_1 \to V_0 \times_S V_0
+$$
+defines an equivalence relation on $V_0$ over $S$,
+see Groupoids, Definition \ref{groupoids-definition-equivalence-relation}.
+\end{lemma}
+
+\begin{proof}
+Note that $j$ is a monomorphism. Namely the
+composition $V_1 \to V_0 \times_S V_0 \to V_0 \times_S X$
+is an isomorphism as $\pi$ is cartesian.
+
+\medskip\noindent
+Consider the morphism
+$$
+(d^2_2, d^2_0) : V_2 \to V_1 \times_{d^1_0, V_0, d^1_1} V_1.
+$$
+This works because $d_0 \circ d_2 = d_1 \circ d_0$,
+see Simplicial, Remark \ref{simplicial-remark-relations}.
+Also, it is a morphism over $(X/S)_2$. It is an isomorphism
+because $V_\bullet \to (X/S)_\bullet$ is cartesian.
+Note for example that the
+right hand side is isomorphic to
+$V_0 \times_{\pi_0, X, \text{pr}_1} (X \times_S X \times_S X) =
+X \times_S V_0 \times_S X$
+because $\pi$ is cartesian. Details omitted.
+
+\medskip\noindent
+As usual, see
+Groupoids, Definition \ref{groupoids-definition-equivalence-relation}
+we denote $t = \text{pr}_0 \circ j = d^1_1$ and
+$s = \text{pr}_1 \circ j = d^1_0$.
+The isomorphism above, combined with the morphism
+$d^2_1 : V_2 \to V_1$ give us a composition morphism
+$$
+c : V_1 \times_{s, V_0, t} V_1 \longrightarrow V_1
+$$
+over $V_0 \times_S V_0$. This immediately implies
+that for any scheme $T/S$ the relation
+$V_1(T) \subset V_0(T) \times V_0(T)$ is transitive.
+
+\medskip\noindent
+Reflexivity follows from the fact that the
+restriction of the morphism $j$ to the diagonal
+$\Delta : X \to X\times_S X$ is an isomorphism
+(again use the cartesian property of $\pi$).
+
+\medskip\noindent
+To see symmetry we consider the morphism
+$$
+(d^2_2, d^2_1) : V_2 \to V_1 \times_{d^1_1, V_0, d^1_1} V_1.
+$$
+This works because $d_1 \circ d_2 = d_1 \circ d_1$,
+see Simplicial, Remark \ref{simplicial-remark-relations}.
+It is an isomorphism
+because $V_\bullet \to (X/S)_\bullet$ is cartesian.
+Note for example that the
+right hand side is isomorphic to
+$V_0 \times_{\pi_0, X, \text{pr}_0} (X \times_S X \times_S X) =
+V_0 \times_S X \times_S X$
+because $\pi$ is cartesian. Details omitted.
+
+\medskip\noindent
+Let $T/S$ be a scheme. Let $a \sim b$ for $a, b \in V_0(T)$
+be synonymous with $(a, b) \in V_1(T)$.
+The isomorphism $(d^2_2, d^2_1)$ above
+implies that if $a \sim b$ and $a \sim c$, then $b \sim c$.
+Combined with reflexivity this shows that $\sim$ is
+an equivalence relation.
+\end{proof}
+
+
+
+
+
+
+
+\section{An example case}
+\label{section-example}
+
+\noindent
+In this section we show that disjoint unions of spectra
+of Artinian rings can be descended along a quasi-compact
+surjective flat morphism of schemes.
+
+\begin{lemma}
+\label{lemma-equivalence-classes-points}
+Let $X \to S$ be a morphism of schemes.
+Suppose $V_\bullet \to (X/S)_\bullet$ is cartesian.
+For $v \in V_0$ a point define
+$$
+T_v = \{v' \in V \mid \exists\ v_1 \in V_1:
+d^1_1(v_1) = v, d^1_0(v_1) = v'\}
+$$
+as a subset of $V_0$. Then $v \in T_v$ and
+$T_v \cap T_{v'} \not = \emptyset \Rightarrow T_v = T_{v'}$.
+\end{lemma}
+
+\begin{proof}
+Combine Lemma \ref{lemma-equivalence-relation} and
+Groupoids,
+Lemma \ref{groupoids-lemma-pre-equivalence-equivalence-relation-points}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-quasi-compact}
+Let $X \to S$ be a morphism of schemes.
+Suppose $V_\bullet \to (X/S)_\bullet$ is cartesian.
+Let $v \in V_0$ be a point. If $X \to S$ is quasi-compact, then
+$$
+T_v = \{v' \in V \mid \exists\ v_1 \in V_1:
+d^1_1(v_1) = v, d^1_0(v_1) = v'\}
+$$
+is a quasi-compact subset of $V_0$.
+\end{lemma}
+
+\begin{proof}
+Let $F_v$ be the scheme theoretic fibre of $d^1_1 : V_1 \to V_0$
+at $v$. Then we see that $T_v$ is the image of the morphism
+$$
+\xymatrix{
+F_v \ar[r] \ar[d] &
+V_1 \ar[r]^{d^1_0} \ar[d]^{d^1_1} &
+V_0 \\
+v \ar[r] &
+V_0 &
+}
+$$
+Note that $F_v$ is quasi-compact. This proves the lemma.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-descent-disjoint-union-Artinian-along-fields}
+Let $X \to S$ be a quasi-compact flat surjective morphism.
+Let $(V, \varphi)$ be a descent datum relative
+to $X \to S$. If $V$ is a disjoint union of
+spectra of Artinian rings, then $(V, \varphi)$
+is effective.
+\end{lemma}
+
+\begin{proof}
+We may write $V = \coprod_{i \in I} \text{Spec}(A_i)$
+with each $A_i$ local Artinian. Moreover, let
+$v_i \in V$ be the unique closed point of $\text{Spec}(A_i)$
+for all $i \in I$. Write $i \sim j$ if and only if
+$v_i \in T_{v_j}$ with notation as in
+Lemma \ref{lemma-equivalence-classes-points} above.
+By this lemma and  Lemma \ref{lemma-quasi-compact}
+this is an equivalence relation with finite equivalence
+classes. Let $\overline{I} = I/\sim$. Then we can write
+$V = \coprod_{\overline{i} \in \overline{I}} V_{\overline{i}}$
+with
+$V_{\overline{i}} = \coprod_{i \in \overline{i}} \text{Spec}(A_i)$.
+By construction we see that
+$\varphi : V \times_S X \to X \times_S V$ maps 
+the open and closed subspaces $V_{\overline{i}} \times_S X$
+into the open and closed subspaces $X \times_S V_{\overline{i}}$.
+In other words, we get descent data 
+$(V_{\overline{i}}, \varphi_{\overline{i}})$, and
+$(V, \varphi)$ is the coproduct of them in the category of
+descent data.
+Since each of the $V_{\overline{i}}$ is a finite union of
+spectra of Artinian local rings the morphism $V_{\overline{i}} \to X$
+is affine, see Morphisms, Lemma \ref{morphisms-lemma-Artinian-affine}.
+Since $\{X \to S\}$ is an fpqc covering we see that all
+the descent data $(V_{\overline{i}}, \varphi_{\overline{i}})$ are effective
+by Lemma \ref{lemma-affine}.
+Hence we win.
+\end{proof}
+
+\noindent
+To be sure, the lemma above has very limited applicability!
 
 
 
