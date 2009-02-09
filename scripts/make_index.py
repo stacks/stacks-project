@@ -20,10 +20,11 @@ def print_def_notions(def_text):
 	n = len(def_notions)
 	m = 0
 	while m < n:
-		print def_notions[m],
+		if m + 1 < n:
+			print def_notions[m] + ","
+		else:
+			print def_notions[m]
 		m = m + 1
-		if m < n:
-			print ","
 	print
 	return
 
@@ -34,6 +35,7 @@ print "\\begin{document}"
 print "\\title{Auto generated index of definitions}"
 print "\\maketitle"
 print
+print "\\frenchspacing"
 print "\\begin{multicols}{2}"
 path = "../"
 ext = ".tex"
