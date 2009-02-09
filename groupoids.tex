@@ -22,6 +22,37 @@ See for example the beautiful paper \cite{K-M} by Keel and Mori.
 
 
 
+\section{Notation}
+\label{section-notation}
+
+\noindent
+Let $S$ be a scheme. If $U$, $T$ are schemes over $S$ we denote
+$U(T)$ for the set of $T$-valued points of $U$ {\it over} $S$. In a formula:
+$U(T) = \text{Mor}_S(T, U)$. We try to reserve the letter $T$ to denote
+a ``test scheme'' over $S$, as in the discussion that follows.
+Suppose we are given schemes $X$, $Y$ over
+$S$ and a morphism of schemes $f : X \to Y$ over $S$.
+For any scheme $T$ over $S$ we get an induced map of sets
+$$
+f : X(T) \longrightarrow Y(T)
+$$
+which as indicated we denote by $f$ also. In fact this construction
+is functorial in the scheme $T/S$. Yoneda's Lemma, see Categories,
+Lemma \ref{categories-lemma-yoneda}, says that $f$ determines and is
+determined by this transformation of functors $f : h_X \to h_Y$.
+More generally, we use the same notation for maps between fibre
+products. For example, if
+$X$, $Y$, $Z$ are schemes over $S$, and if
+$m : X \times_S Y \to Z \times_S Z$ is
+a morphism of schemes over $S$, then we think of $m$ as corresponding
+to a collection of maps between $T$-valued points
+$$
+X(T) \times Y(T) \longrightarrow Z(T) \times Z(T).
+$$
+And so on and so forth.
+
+
+
 
 
 
@@ -29,29 +60,45 @@ See for example the beautiful paper \cite{K-M} by Keel and Mori.
 \label{section-equivalence-relations}
 
 \noindent
-Given a(n equivalence) relation $R$ on a set $A$ we denote
-$A/R$ the set of equivalence classes.
+Recall that a {\it relation} $R$ on a set $A$ is just a subset
+of $R \subset A \times A$.We usually write $a R b$ to indicate
+$(a, b) \in R$. We say the relation is {\it transitive} if
+$a R b, b R c \Rightarrow a R c$. We say the relation is
+{\it reflexive} if $a R a$ for all $a \in A$. We say the relation is
+{\it symmetric} if $a R b \Rightarrow b R a$.
+An relation is called an {\it equivalence relation} if
+it is transitive, reflexive and symmetric.
+
+\medskip\noindent
+In the setting of schemes we are going to relax the notion of a
+relation a little bit and just require $R \to A \times A$ to
+be a map. Here is the definition.
 
 \begin{definition}
 \label{definition-equivalence-relation}
 Let $S$ be a scheme. Let $U$ be a scheme over $S$.
 \begin{enumerate}
-\item A {\it relation} on $U$ over $S$ is any morphism
+\item A {\it relation}\footnote{Maybe a morphism $j : R \to U\times_S U$
+should be called a {\it pre-relation} and when $j$ is a monomorphism
+it should be called a {\it relation}?}
+on $U$ over $S$ is any morphism
 of schemes $j : R \to U \times_S U$. In this case we set
 $t = \text{pr}_0 \circ j$ and $s = \text{pr}_1 \circ j$.
 \item A {\it pre-equivalence relation} is a relation
 $j : R \to U\times_SU$ such that the image of
-$j(T) : R(T) \to U(T) \times U(T)$ is an equivalence relation for
+$j : R(T) \to U(T) \times U(T)$ is an equivalence relation for
 all $T/S$.
 \item We say a morphism $R \to U \times_S U$ is
 an {\it equivalence relation on $U$ over $S$}
 if and only if for every $T/S$ the $T$-valued
 points of $R$ define an equivalence relation
 on the set of $T$-valued points of $U$.
-(So it is a pre-equivalence relation such that $j(T)$
-is injective for all $T$.)
 \end{enumerate}
 \end{definition}
+
+\noindent
+In other words, an equivalence relation is a pre-equivalence relation
+such that $j$ is a monomorphism.
 
 \begin{lemma}
 \label{lemma-pre-equivalence-equivalence-relation-points}
@@ -115,6 +162,253 @@ The proof that $\sim$ is reflexive and symmetric is omitted.
 
 
 
+
+
+
+
+\section{Group schemes}
+\label{section-group-schemes}
+
+\noindent
+Let us recall that a {\it group} is a pair
+$(G, m)$ where $G$ is a set, and $m : G \times G \to G$ is
+a map of sets with the following properties:
+\begin{enumerate}
+\item (associativity) $m(g, m(g', g'')) = m(m(g, g'), g'')$
+for all $g, g', g'' \in G$,
+\item (identity) there exists a unique element $e \in G$
+(called the {\it identity}, {\it unit}, or $1$ of $G$) such that
+$m(g, e) = m(e, g) = g$ for all $g \in G$, and
+\item (inverse) for all $g \in G$ there exists a $i(g) \in G$
+such that $m(g, i(g)) = m(i(g), g) = e$, where $e$ is the
+identity.
+\end{enumerate}
+Thus we obtain a map $e : \{*\} \to G$ and a map
+$i : G \to G$ so that the quadruple $(G, m, e, i)$
+satisfies the axioms listed above.
+
+\medskip\noindent
+A {\it homomorphism of groups} $\psi : (G, m) \to (G', m')$
+is a map of sets $\psi : G \to G'$ such that
+$m'(\psi(g), \psi(g')) = \psi(m(g, g'))$. This automatically
+insures that $\psi(e) = e'$ and $i'(\psi(g)) = \psi(i(g))$.
+(Obvious notation.) We will use this below.
+
+\begin{definition}
+\label{definition-group-scheme}
+Let $S$ be a scheme.
+\begin{enumerate}
+\item A {\it group scheme over $S$} is a pair $(G, m)$, where
+$G$ is a scheme over $S$ and $m : G \times_S G \to G$ is
+a morphism of schemes over $S$ with the following property:
+For every scheme $T$ over $S$ the pair $(G(T), m)$
+is a group.
+\item A {\it morphism $\psi : (G, m) \to (G', m')$ of group schemes over $S$}
+is a morphism $\psi : G \to G'$ of schemes over $S$ such that for
+every $T/S$ the induced map $\psi : G(T) \to G'(T)$ is a homomorphism
+of groups.
+\end{enumerate}
+\end{definition}
+
+\noindent
+Let $(G, m)$ be a group scheme over the scheme $S$.
+By the discussion above (and the discussion in Section \ref{section-notation})
+we obtain morphisms of schemes over $S$:
+(identity) $e : S \to G$ and (inverse) $i : G \to G$ such that
+for every $T$ the quadruple $(G(T), m, e, i)$ satsifies the
+axioms of a group listed above.
+
+\medskip\noindent
+Let $(G, m)$, $(G', m')$ be group schemes over $S$.
+Let $f : G \to G'$ be a morphism of schemes over $S$.
+It follows from the definition that $f$ is a morphism
+of group schemes over $S$ if and only if the following diagram
+is commutative:
+$$
+\xymatrix{
+G \times_S G \ar[r]_-{f \times f} \ar[d]_m &
+G' \times_S G' \ar[d]^m \\
+G \ar[r]^f & G'
+}
+$$
+
+\begin{lemma}
+\label{lemma-base-change-group-scheme}
+Let $(G, m)$ be a group scheme over $S$.
+Let $S' \to S$ be a morphism of schemes.
+The pullback $(G_{S'}, m_{S'})$ is a group scheme over $S'$.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\begin{example}
+\label{example-multiplicative-group}
+(Multiplicative group scheme.)
+Consider the functor which associates
+to any scheme $T$ the group $\Gamma(T, \mathcal{O}_T^*)$
+of units in the global sections of the structure sheaf.
+This is representable by the scheme
+$$
+\mathbf{G}_m = \text{Spec}(\mathbf{Z}[x, x^{-1}])
+$$
+The morphism giving the group structure is the morphism
+\begin{eqnarray*}
+\mathbf{G}_m \times \mathbf{G}_m & \to & \mathbf{G}_m \\
+\text{Spec}(\mathbf{Z}[x, x^{-1}] \otimes_{\mathbf{Z}} \mathbf{Z}[x, x^{-1}])
+& \to &
+\text{Spec}(\mathbf{Z}[x, x^{-1}]) \\
+\mathbf{Z}[x, x^{-1}] \otimes_{\mathbf{Z}} \mathbf{Z}[x, x^{-1}]
+& \leftarrow &
+\mathbf{Z}[x, x^{-1}] \\
+x \otimes x & \leftarrow & x
+\end{eqnarray*}
+Hence we see that $\mathbf{G}_m$ is a group scheme over $\mathbf{Z}$.
+For any scheme $S$ the base change $\mathbf{G}_{m, S}$ is a
+group scheme over $S$ whose functor of points is
+$$
+T/S
+\longmapsto
+\mathbf{G}_{m, S}(T) = \mathbf{G}_m(T) = \Gamma(T, \mathcal{O}_T^*)
+$$
+as before.
+\end{example}
+
+\begin{example}
+\label{example-additive-group}
+(Additive group scheme.)
+Consider the functor which associates
+to any scheme $T$ the group $\Gamma(T, \mathcal{O}_T)$
+of global sections of the structure sheaf.
+This is representable by the scheme
+$$
+\mathbf{G}_a = \text{Spec}(\mathbf{Z}[x])
+$$
+The morphism giving the group structure is the morphism
+\begin{eqnarray*}
+\mathbf{G}_a \times \mathbf{G}_a & \to & \mathbf{G}_a \\
+\text{Spec}(\mathbf{Z}[x] \otimes_{\mathbf{Z}} \mathbf{Z}[x])
+& \to &
+\text{Spec}(\mathbf{Z}[x]) \\
+\mathbf{Z}[x] \otimes_{\mathbf{Z}} \mathbf{Z}[x]
+& \leftarrow &
+\mathbf{Z}[x] \\
+x \otimes 1 + 1 \otimes x & \leftarrow & x
+\end{eqnarray*}
+Hence we see that $\mathbf{G}_a$ is a group scheme over $\mathbf{Z}$.
+For any scheme $S$ the base change $\mathbf{G}_{a, S}$ is a
+group scheme over $S$ whose functor of points is
+$$
+T/S
+\longmapsto
+\mathbf{G}_{a, S}(T) = \mathbf{G}_a(T) = \Gamma(T, \mathcal{O}_T)
+$$
+as before.
+\end{example}
+
+\begin{example}
+\label{example-general-linear-group}
+(General linear group scheme.)
+Let $n \geq 1$.
+Consider the functor which associates
+to any scheme $T$ the group
+$$
+\text{GL}_n(\Gamma(T, \mathcal{O}_T))
+$$
+of invertible $n \times n$ matrices over
+the global sections of the structure sheaf.
+This is representable by the scheme
+$$
+\text{GL}_n = \text{Spec}(\mathbf{Z}[\{x_{ij}\}_{1 \leq i,j \leq n}][1/d])
+$$
+where $d = \det((x_{ij}))$ with $(x_{ij})$ the $n \times n$ matrix
+with entry $x_{ij}$ in the $(i, j)$-spot.
+The morphism giving the group structure is the morphism
+\begin{eqnarray*}
+\text{GL}_n \times \text{GL}_n & \to & \text{GL}_n \\
+\text{Spec}(\mathbf{Z}[x_{ij}, 1/d] \otimes_{\mathbf{Z}}
+\mathbf{Z}[x_{ij}, 1/d])
+& \to &
+\text{Spec}(\mathbf{Z}[x_{ij}, 1/d]) \\
+\mathbf{Z}[x_{ij}, 1/d] \otimes_{\mathbf{Z}} \mathbf{Z}[x_{ij}, 1/d]
+& \leftarrow &
+\mathbf{Z}[x_{ij}, 1/d] \\
+\sum x_{ik} \otimes x_{kj} & \leftarrow & x_{ij}
+\end{eqnarray*}
+Hence we see that $\text{GL}_n$ is a group scheme over $\mathbf{Z}$.
+For any scheme $S$ the base change $\text{GL}_{n, S}$ is a
+group scheme over $S$ whose functor of points is
+$$
+T/S
+\longmapsto
+\text{GL}_{n, S}(T) = \text{GL}_n(T) =\text{GL}_n(\Gamma(T, \mathcal{O}_T))
+$$
+as before.
+\end{example}
+
+\begin{example}
+\label{example-determinant}
+The determinant defines a morphisms of group schemes
+$$
+\det : \text{GL}_n \longrightarrow \mathbf{G}_m
+$$
+over $\mathbf{Z}$. By base change it gives a morphism
+of group schemes $\text{GL}_{n, S} \to \mathbf{G}_{m, S}$
+over any base scheme $S$.
+\end{example}
+
+
+
+
+
+\section{Actions of group schemes}
+\label{section-action-grou-scheme}
+
+\noindent
+Let $(G, m)$ be a group and let $V$ be a set.
+Recall that a {\it (left) action} of $G$ on $V$ is given
+by a map $a : G \times V \to V$ such that
+\begin{enumerate}
+\item (associativity) $a(m(g, g'), v) = a(g, a(g', v))$ for all
+$g, g' \in G$ and $v \in V$, and
+\item (identity) $a(e, v) = v$ for all $v \in V$.
+\end{enumerate}
+We also say that $V$ is a {\it $G$-set} (this usually means we
+drop the $a$ from the notation -- which is abuse of notation).
+A {\it map of $G$-sets} $\psi : V \to V'$ is any set map
+such that $\psi(a(g, v)) = a(g, \psi(v))$ for all $v \in V$.
+
+\begin{definition}
+\label{definition-action-group-scheme}
+Let $S$ be a scheme. Let $(G, m)$ be a group scheme over $S$.
+\begin{enumerate}
+\item An {\it action of $G$ on the scheme $X/S$} is
+a morphism $a : G \times_S X \to X$ over $S$ such that
+for every $T/S$ the map $a : G(T) \times X(T) \to X(T)$
+defines the structure of a $G(T)$-set on $X(T)$.
+\item Suppose that $X$, $Y$ are schemes over $S$ each endowed
+with an action of $G$. A {\it $G$-equivariant morphism
+$\psi : X \to Y$} is a morphism of schemes over $S$ such
+that for every $T/S$ the map $\psi : X(T) \to Y(T)$ is
+a morphism of $G(T)$-sets.
+\end{enumerate}
+\end{definition}
+
+\noindent
+So in the situation of (2) this just means that the diagram
+$$
+\xymatrix{
+G \times_S X \ar[r]_-{\text{id} \times f} \ar[d]_a &
+G \times_S Y \ar[d]^a \\
+X \ar[r]^f & Y
+}
+$$
+commutes.
+
+
+
+
 \section{Groupoids}
 \label{section-groupoids}
 
@@ -124,61 +418,98 @@ is an isomorphism, see
 Categories, Definition \ref{categories-definition-groupoid}.
 Hence a groupoid has a set of objects $\text{Ob}$,
 a set of arrows $\text{Arrows}$, a {\it source} and {\it target}
-map $s, t : \text{Arrows} \to \text{Ob}$,
-an {\it identity} $e : \text{Ob} \to \text{Arrows}$,
-and  a {\it composition law}
+map $s, t : \text{Arrows} \to \text{Ob}$, and a {\it composition law}
 $c : \text{Arrows} \times_{s, \text{Ob}, t} \text{Arrows}
 \to \text{Arrows}$.
 These maps satisfy exactly the following axioms
 \begin{enumerate}
-\item $s \circ e = t \circ e = \text{id}$ as maps $\text{Ob} \to \text{Ob}$,
-\item $c \circ (1, c) = c \circ (c, 1)$ as maps
+\item (associativity) $c \circ (1, c) = c \circ (c, 1)$ as maps
 $\text{Arrows} \times_{s, \text{Ob}, t}
 \text{Arrows} \times_{s, \text{Ob}, t}
 \text{Arrows} \to \text{Arrows}$,
+\item (identity) there exists a map $e : \text{Ob} \to \text{Arrows}$
+such that
+\begin{enumerate}
+\item $s \circ e = t \circ e = \text{id}$ as maps $\text{Ob} \to \text{Ob}$,
 \item $c \circ (1, e \circ s) = c \circ (e \circ t, 1) = 1$
 as maps $\text{Arrows} \to \text{Arrows}$,
-\item there exists a map $i : \text{Arrows} \to \text{Arrows}$
-called the {\it inverse} such that $s \circ i = t$, $t \circ i = s$ and
-$c \circ (1, i) = e \circ t$ and
-$c \circ (i, 1) = e \circ s$.
 \end{enumerate}
-If this is the case the map $i$ is uniquely determined and
-is a bijection.
+\item (inverse) there exists a map $i : \text{Arrows} \to \text{Arrows}$
+such that
+\begin{enumerate}
+\item $s \circ i = t$, $t \circ i = s$ as maps $\text{Arrows} \to \text{Ob}$,
+and
+\item $c \circ (1, i) = e \circ s$ and $c \circ (i, 1) = e \circ t$
+as maps $\text{Arrows} \to \text{Arrows}$.
+\end{enumerate}
+\end{enumerate}
+If this is the case the maps $e$ and $i$ are uniquely determined and
+$i$ is a bijection. Note that if $(\text{Ob}', \text{Arrows}', s', t', c')$
+is a second groupoid category, then a functor
+$f : (\text{Ob}, \text{Arrows}, s, t, c) \to 
+(\text{Ob}', \text{Arrows}', s', t', c')$
+is given by a pair of set maps $f : \text{Ob} \to \text{Ob}'$ and
+$f : \text{Arrows} \to \text{Arrows}'$ such that
+$s' \circ f = f \circ s$, $t' \circ f = f \circ t$, and
+$c' \circ (f, f) = f \circ c$. The compatibility with identity and
+inverse is automatic. We will use this below.
+(Warning: The compatibility with identity
+has to be imposed in the case of general categories.)
 
 \begin{definition}
 \label{definition-groupoid}
 Let $S$ be a scheme.
-A {\it groupoid scheme over $S$}, or simply a
+\begin{enumerate}
+\item A {\it groupoid scheme over $S$}, or simply a
 {\it groupoid over $S$} is a
-sixtuple $(U, R, s, t, c, e)$ where
-$U$ and $R$ are schemes over $S$,
-$s, t : R \to U$, $c : R \times_{s, U, t} R \to R$,
-$e : U \to R$ are morphisms
-of schemes over $S$ such that for any scheme
-$T$ over $S$ the sixtuple
+quintuple $(U, R, s, t, c)$ where
+$U$ and $R$ are schemes over $S$, and
+$s, t : R \to U$ and $c : R \times_{s, U, t} R \to R$
+are morphisms of schemes over $S$ with the
+following property: For any scheme
+$T$ over $S$ the quintuple
 $$
-(U(T), R(T), s, t, c, e)
+(U(T), R(T), s, t, c)
 $$
 is a groupoid category in the sense described above.
+\item A {\it morphism
+$f : (U, R, s, t, c) \to (U', R', s', t', c')$
+of groupoid schemes over $S$} is given by morphisms
+of schemes $f : U \to U'$ and $f : R \to R'$ with the
+following property:  For any scheme
+$T$ over $S$ the maps $f$ define a functor from the
+groupoid category $(U(T), R(T), s, t, c)$ to the
+groupoid category $(U'(T), R'(T), s', t', c')$.
+\end{enumerate}
 \end{definition}
 
 \noindent
-Note that this implies in particular, via the Yoneda lemma,
-that there is a unique morphism of schemes
+Let $(U, R, s, t, c)$ be a groupoid over $S$.
+Note that, by the remarks preceding the definition and the Yoneda lemma,
+there are unique morphisms of schemes
+$e : U \to R$ and
 $i : R \to R$ over $S$ such that for every scheme $T$ over $S$
-the induced map $i : R(T) \to R(T)$ is the inverse of
-the groupoid category. Note that $i$ is an isomorphism.
+the induced map $e : U(T) \to R(T)$ is the identity, and
+$i : R(T) \to R(T)$ is the inverse of
+the groupoid category. The septuple $(U, R, s, t, c, e, i)$
+satisfies commutative diagrams corresponding to each of the
+axioms (1), (2)(a), (2)(b), (3)(a) and (3)(b) above, and conversely
+given a septuple with this property the quintuple $(U, R, s, t, c)$
+is a groupoid scheme. Note that $i$ is an isomorphism,
+and $e$ is a section of both $s$ and $t$.
 Moreover, given a groupoid scheme over $S$ we denote
 $$
 j = (t, s) : R \longrightarrow U \times_S U
 $$
 which is compatible with our conventions in Section
 \ref{section-equivalence-relations} above.
+We sometimes say ``let $(U, R, s, t, c, e, i)$ be a
+groupoid over $S$'' to stress the existence of identity and
+inverse.
 
 \begin{lemma}
 \label{lemma-groupoid-pre-equivalence}
-Given a groupoid scheme $(U, R, s, t, c, e)$ over $S$
+Given a groupoid scheme $(U, R, s, t, c)$ over $S$
 the morphism $j : R \to U\times_S U$ is a pre-equivalence
 relation.
 \end{lemma}
@@ -192,7 +523,7 @@ This is a nice exercise in the definitions.
 \label{lemma-equivalence-groupoid}
 Given an equivalence relation $j : R \to U$ over $S$
 there is a unique way to extend it to a groupoid
-$(U, R, s, t, c, e)$ over $S$.
+$(U, R, s, t, c)$ over $S$.
 \end{lemma}
 
 \begin{proof}
@@ -200,12 +531,100 @@ Omitted.
 This is a nice exercise in the definitions.
 \end{proof}
 
+\noindent
+There are many ways to construct a groupoid out of an action $a$
+of a group $G$ on a set $V$. We choose the one where we think
+of an element $g \in G$ as an arrow with source $v$ and target $a(g, v)$.
+This leads to the following construction for group actions of
+schemes.
 
+\begin{lemma}
+\label{lemma-groupoid-from-action}
+Let $S$ be a scheme.
+Let $Y$ be a scheme over $S$
+Let $(G, m)$ be a group scheme over $Y$ with
+identity $e_G$ and inverse $i_G$.
+Let $X/Y$ be a scheme over $Y$ and let $a : G \times_Y X \to X$
+be an action of $G$ on $X/Y$.
+Then we get a groupoid scheme $(U, R, s, t, c, e, i)$ over $S$
+in the following manner:
+\begin{enumerate}
+\item We set $U = X$, and $R = G \times_Y X$.
+\item We set $s : R \to U$ equal to $(g, x) \mapsto x$.
+\item We set $t : R \to U$ equal to $(g, x) \mapsto a(g, x)$.
+\item We set $c : R \times_{s, U, t} R \to R$ equal to
+$((g, a(g', x)), (g', x)) \mapsto (m(g, g'), x)$.
+\item We set $e : U \to R$ equal to $x \mapsto (e_G(x), x)$.
+\item We set $i : R \to R$ equal to $(g, x) \mapsto (i_G(g), a(g, x))$.
+\end{enumerate}
+\end{lemma}
 
+\begin{proof}
+Omitted. Hint: It is enough to show that this works on the set
+level. For this use the description above the lemma describing
+$g$ as an arrow from $v$ to $a(g, v)$.
+\end{proof}
 
+\noindent
+On the other hand, given a groupoid scheme we get a group scheme as
+follows.
 
+\begin{lemma}
+\label{lemma-groupoid-stabilizer}
+Let $S$ be a scheme.
+Let $(U, R, s, t, c)$ be a groupoid over $S$.
+The scheme $G$ defined by the cartesian square
+$$
+\xymatrix{
+G \ar[r] \ar[d] & R \ar[d]^{j = (t, s)} \\
+U \ar[r]^-{\Delta} & U \times_S U
+}
+$$
+is a group scheme over $U$ with compostion law
+$m$ induced by the composition law $c$.
+\end{lemma}
 
+\begin{proof}
+This is true because in a groupoid category the
+set of self maps of any object forms a group.
+\end{proof}
 
+\noindent
+Since $\Delta$ is an immersion we see that $G = j^{-1}(\Delta_{U/S})$
+is a locally closed subscheme of $R$.Thinking of it in this way,
+the structural morphism $j^{-1}(\Delta_{U/S}) \to U$ is induced by
+either $s$ or $t$ (it is the same), and $m$ is induced by $c$.
+
+\begin{definition}
+\label{definition-stabilizer-groupoid}
+Let $S$ be a scheme.
+Let $(U, R, s, t, c)$ be a groupoid over $S$.
+The group scheme $j^{-1}(\Delta_{U/S})\to U$
+is called the {\it stabilizer of the groupoid scheme
+$(U, R, s, t, c)$}.
+\end{definition}
+
+\noindent
+In the literature the group scheme $G$ is often denoted $S$
+(because the word stabilizer starts with an s presumably);
+we cannot do this since we have already used $S$ for the base scheme.
+
+\begin{lemma}
+\label{lemma-groupoid-action-stabilizer}
+Let $S$ be a scheme.
+Let $(U, R, s, t, c)$ be a groupoid over $S$, and let $G/U$ be its stabilizer.
+Denote $R_t/U$ the scheme $R$ seen as a scheme over $U$ via the
+morphism $t : R \to U$.
+There is a canonical left action
+$$
+a : G \times_U R_t \longrightarrow R_t
+$$
+induced by the composition law $c$.
+\end{lemma}
+
+\begin{proof}
+In terms of points over $T/S$ we define $a(g, r) = c(g, r)$.
+\end{proof}
 
 
 
