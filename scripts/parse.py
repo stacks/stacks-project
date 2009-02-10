@@ -58,17 +58,22 @@ for name in lijstje:
 				def_text = line.rstrip()
 
 		# Find label if there is one
-		label = find_label(line)
+		label = find_label(line, name)
 		if label:
-			label = label.rstrip("}")
+			if not standard_label(label):
+				print_error("Nonstandard label.",
+				line, name, line_nr)
 			label = label.lstrip("{")
+			label = "{" + name + "-" + label
 			labels.append(label)
 
 		# Check for forward references in proofs
 		if in_proof:
-			refs = find_refs(line)
+			refs = find_refs(line, name)
 			error_text = check_refs(refs, labels)
 			if error_text:
+				error_text = "Forward reference "\
+				+ error_text + " in proof."
 				print_error(error_text, line, name, line_nr)
 			if end_of_proof(line):
 				in_proof = 0
@@ -79,11 +84,31 @@ for name in lijstje:
 	if not have_title:
 		print "No title in " + name
 		raise Exception('No title present.')
-	
+
 	tex_file.close()
 
+print "------------------------------------------------"
+print
 
+# Pass through all the files again to see if all references point to labels
+for name in lijstje:
+	filename = path + name + ext
+	tex_file = open(filename, 'r')
+	line_nr = 0
+	for line in tex_file:
 
+		# Update line number
+		line_nr = line_nr + 1
+
+		# Check for references
+		refs = find_refs(line, name)
+		error_text = check_refs(refs, labels)
+		if error_text:
+			error_text = "Reference " + error_text +\
+			" not found."
+			print_error(error_text, line, name, line_nr)
+
+	tex_file.close()
 
 
 

@@ -138,7 +138,7 @@ def is_label(env_text):
 	else:
 		return 1
 
-def find_label(env_text):
+def find_label(env_text, name):
 	n = env_text.find("\\label{")
 	if n < 0:
 		return ""
@@ -147,12 +147,55 @@ def find_label(env_text):
 	label = env_text[n : m + 1]
 	return label
 
-def find_refs(line):
+def standard_label(ref):
+	n = ref.find("{lemma-")
+	if n >= 0:
+		return 1
+	n = ref.find("{proposition-")
+	if n >= 0:
+		return 1
+	n = ref.find("{theorem-")
+	if n >= 0:
+		return 1
+	n = ref.find("{remark-")
+	if n >= 0:
+		return 1
+	n = ref.find("{remarks-")
+	if n >= 0:
+		return 1
+	n = ref.find("{example-")
+	if n >= 0:
+		return 1
+	n = ref.find("{exercise-")
+	if n >= 0:
+		return 1
+	n = ref.find("{situation-")
+	if n >= 0:
+		return 1
+	n = ref.find("{equation-")
+	if n >= 0:
+		return 1
+	n = ref.find("{definition-")
+	if n >= 0:
+		return 1
+	n = ref.find("{section-")
+	if n >= 0:
+		return 1
+	n = ref.find("{item-")
+	if n >= 0:
+		return 1
+	return 0
+
+def find_refs(line, name):
 	refs = []
 	n = line.find("\\ref{")
 	while n >= 0:
 		m = find_sub_clause(line, n + 4, "{", "}")
-		refs.append(line[n + 4: m + 1])
+		ref = line[n + 4: m + 1]
+		if standard_label(ref):
+			ref = ref.lstrip("{")
+			ref = "{" + name + "-" + ref
+		refs.append(ref)
 		n = line.find("\\ref{", m)
 	return refs
 
@@ -181,9 +224,10 @@ def check_refs(refs, labels):
 		m = 0
 		found = -1
 		while found == -1 and m < len(labels):
-			found = ref.find(labels[m])
+			if ref == labels[m]:
+				found = 1
 			m = m + 1
 		if found == -1:
-			return "Reference " + ref + " not found."
+			return ref
 		n = n + 1
 	return ""

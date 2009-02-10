@@ -11,8 +11,6 @@ def print_section_title(line):
 
 def print_def_notions(def_text):
 	label = find_label(def_text)
-	label = label.lstrip("{")
-	label = "{" + name + "-" + label
 	def_notions = find_defined_notions(def_text)
 	print
 	print "\\noindent"
