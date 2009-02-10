@@ -138,7 +138,7 @@ def is_label(env_text):
 	else:
 		return 1
 
-def find_label(env_text, name):
+def find_label(env_text):
 	n = env_text.find("\\label{")
 	if n < 0:
 		return ""

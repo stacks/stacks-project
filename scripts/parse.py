@@ -58,7 +58,7 @@ for name in lijstje:
 				def_text = line.rstrip()
 
 		# Find label if there is one
-		label = find_label(line, name)
+		label = find_label(line)
 		if label:
 			if not standard_label(label):
 				print_error("Nonstandard label.",
