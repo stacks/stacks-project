@@ -488,7 +488,9 @@ Recall from Modules, Lemma \ref{modules-lemma-s-open}
 that given an invertible sheaf $\mathcal{L}$ on a locally ringed
 space $X$, and given a global section $s$ of $\mathcal{L}$
 the set $X_s = \{x \in X \mid s \not \in \mathfrak m_x\mathcal{L}_x\}$
-is open.
+is open. A general remark is that
+$X_s \cap X_{s'} = X_{ss'}$, where $ss'$ denote
+the section $s \otimes s' \in \Gamma(X, \mathcal{L}\otimes \mathcal{L}')$.
 
 \begin{definition}
 \label{definition-ample}
@@ -498,6 +500,105 @@ We say {\it $\mathcal{L}$ is ample} if $X$ is quasi-compact, and
 if the open sets $X_s$, where $s \in \Gamma(X, \mathcal{L}^{\otimes n})$
 and $n \geq 1$, form a basis for the topology on $X$.
 \end{definition}
+
+\begin{lemma}
+\label{lemma-affine-cap-s-open}
+Let $X$ be a scheme. Let $\mathcal{L}$ be an invertible $\mathcal{O}_X$-module.
+Let $s \in \Gamma(X, \mathcal{L})$. For any affine $U \subset X$
+the intersection $U \cap X_s$ is affine.
+\end{lemma}
+
+\begin{proof}
+This translates into the following algebra problem.
+Let $R$ be a ring. Let $N$ be an invertible $R$-module
+(i.e., locally free of rank 1). Let $s \in N$ be an element.
+Then $U = \{\mathfrak p \mid s \not \in \mathfrak p N\}$ is
+an affine open subset of $\text{Spec}(R)$. This you can see
+as follows. Think of $s$ as an $R$-module map $R \to N$.
+This gives rise to $R$-module maps $N^{\otimes k} \to N^{\otimes k + 1}$.
+Consider
+$$
+R' = \text{colim}_n\ N^{\otimes n}
+$$
+with transition maps as above. Define an $R$-algebra structure on $R'$ by
+the rule $x \cdot y = x \otimes y \in N^{\otimes n + m}$
+if $x \in N^{\otimes n}$ and $y \in N^{\otimes m}$. We claim that
+$\text{Spec}(R') \to \text{Spec}(R)$ is an open immersion with
+image $U$.
+
+\medskip\noindent
+To prove this is a local question on $\text{Spec}(R)$.
+Let $\mathfrak p \in \text{Spec}(R)$. Pick $f \in R$,
+$f \not \in \mathfrak p$ such that $N_f \cong R_f$ as a module.
+Replacing $R$ by $R_f$, $N$ by $N_f$ and $R'$ by
+$R'_f = \text{colim} N_f^{\otimes n}$ we may assume that $N \cong R$.
+Say $N = R$. In this case $s$ is an element of $R$ and it is
+easy to see that $R' \cong R_s$. Thus the lemma follows.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-affine-s-opens}
+Let $X$ be a scheme. Let $\mathcal{L}$ be an invertible $\mathcal{O}_X$-module.
+Assume the open sets $X_s$, where $s \in \Gamma(X, \mathcal{L}^{\otimes n})$
+and $n \geq 1$, form a basis for the topology on $X$.
+Then among those opens, the open sets $X_s$ which are affine
+form a basis for the topology on $X$.
+\end{lemma}
+
+\begin{proof}
+Let $x \in X$. Choose an affine open neighbourhood
+$\text{Spec}(R) = U \subset X$ of $x$ such that
+there exists a trivialization $\mathcal{O}_U \to \mathcal{L}|_U$.
+By assumption, there exists
+a $n \geq 1$ and a $s \in \Gamma(X, \mathcal{L}^{\otimes n})$
+such that $X_s \subset U$. Let $f \in R$ correspond to
+$s|_U$ via the trivialization chosen above.
+Then clearly $X_s = X_s \cap U = D(f)$ is affine.
+Since $U$ can be chosen arbitrarily small we win.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-s-opens-basis-quasi-separated}
+Let $X$ be a scheme. Let $\mathcal{L}$ be an invertible $\mathcal{O}_X$-module.
+Assume every point of $X$ is contained in an affine open subset
+of the form $X_s$, where $s \in \Gamma(X, \mathcal{L}^{\otimes n})$ and
+$n \geq 1$. Then $X$ is quasi-separated.
+\end{lemma}
+
+\begin{proof}
+By assumption we can find a covering of $X$ by affine opens of the form $X_s$.
+By Schemes, Lemma \ref{schemes-lemma-characterize-quasi-separated}
+it suffices to show that $X_s \cap X_{s'}$ is quasi-compact
+whenever $X_s$ is affine. This is true by Lemma \ref{lemma-affine-cap-s-open}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-map-into-proj}
+Let $X$ be a scheme. Let $\mathcal{L}$ be an invertible $\mathcal{O}_X$-module.
+Set $S = \bigoplus_{n \geq 0} \Gamma(X, \mathcal{L}^{\otimes n})$
+as a graded ring. If every point of $X$ is contained in one of the
+open subschemes $X_s$, for some $s \in S_{+}$ homogeneous, then
+there is a canonical morphism of schemes
+$$
+f : X \longrightarrow \text{Proj}(S),
+$$
+see Constructions, Lemma \ref{constructions-lemma-proj-scheme}.
+This morphism has the property that $f^{-1}(D_{+}(s)) = X_s$.
+\end{lemma}
+
+\begin{proof}
+For any integer $d \geq 1$ set $X_d = \bigcup_{s \in S_d} X_s$.
+By assumption we have $X = \bigcup_{d \geq 1} X_d$.
+Clearly we have a graded ring map
+$\psi^d : S^{(d)} \to \Gamma_*(X_d, \mathcal{L}^{\otimes d})$ as
+in Constructions, Section \ref{constructions-section-morphisms-proj}.
+This corresponds to a morphism of schemes $X_d \to \text{Proj}(S)$.
+Clearly, the morphisms $X_d \to \text{Proj}(S)$ agree on the
+overlaps $X_d \cap X_{d'}$ as discussed in the material preceding
+Constructions, Lemma \ref{constructions-lemma-proj-functor}.
+Hence we get the morphism as desired.
+\end{proof}
+
 
 
 
