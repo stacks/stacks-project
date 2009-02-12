@@ -536,6 +536,58 @@ Say $N = R$. In this case $s$ is an element of $R$ and it is
 easy to see that $R' \cong R_s$. Thus the lemma follows.
 \end{proof}
 
+\noindent
+Recall that given a scheme $X$ and an invertible sheaf $\mathcal{L}$
+on $X$ we get a graded ring
+$\Gamma_*(X, \mathcal{L}) =
+\bigoplus_{n \geq 0} \Gamma(X, \mathcal{L}^{\otimes n})$,
+see Modules, Definition \ref{modules-definition-gamma-star}.
+
+\begin{lemma}
+\label{lemma-invert-s-sections}
+Let $X$ be a scheme. Let $\mathcal{L}$ be an invertible sheaf on $X$.
+Let $s \in \Gamma(X, \mathcal{L})$.
+If $X$ is quasi-compact and quasi-separated, the canonical map
+$$
+\Gamma_*(X, \mathcal{L})_{(s)}
+\longrightarrow
+\Gamma(X_s, \mathcal{O})
+$$
+which maps $a/s^n$ to $a \otimes s^{-n}$ is an isomorphism.
+\end{lemma}
+
+\begin{proof}
+Consider the scheme
+$$
+\pi :
+L^* = \underline{\text{Spec}}_X\left(
+\bigoplus\nolimits_{n \in \mathbf{Z}} \mathcal{L}^{\otimes n}
+\right)
+\longrightarrow
+X
+$$
+see Constructions, Section \ref{constructions-section-spec}.
+Since $\pi$ is affine, it is quasi-compact and separated,
+and hence $L^*$ is quasi-compact and quasi-separated since $X$ is
+assumed quasi-compact and separated.
+Note that $s$ gives rise to an element $f \in \Gamma(L^*, \mathcal{O})$, via
+$\pi_*\mathcal{O}_{L^*} =
+\bigoplus_{n \in \mathbf{Z}} \mathcal{L}^{\otimes n}$.
+Note that $(L^*)_f = \pi^{-1}(X_s)$. Hence we have
+\begin{eqnarray*}
+(\bigoplus\nolimits_{n \in \mathbf{Z}} \Gamma(X, \mathcal{L}^{\otimes n}))_s
+& = &
+\Gamma(L^*, \mathcal{O}_{L^*})_f \\
+& = &
+\Gamma((L^*)_f, \mathcal{O}_{L^*}) \\
+& = &
+\bigoplus\nolimits_{n \in \mathbf{Z}} \Gamma(X_s, \mathcal{L}^{\otimes n})
+\end{eqnarray*}
+where the middle ``$=$'' is Lemma \ref{lemma-invert-f-sections}.
+The result of the lemma follows from this equality by looking at
+degree zero terms.
+\end{proof}
+
 \begin{lemma}
 \label{lemma-affine-s-opens}
 Let $X$ be a scheme. Let $\mathcal{L}$ be an invertible $\mathcal{O}_X$-module.
@@ -547,18 +599,16 @@ form a basis for the topology on $X$.
 
 \begin{proof}
 Let $x \in X$. Choose an affine open neighbourhood
-$\text{Spec}(R) = U \subset X$ of $x$ such that
-there exists a trivialization $\mathcal{O}_U \to \mathcal{L}|_U$.
+$\text{Spec}(R) = U \subset X$ of $x$.
 By assumption, there exists
 a $n \geq 1$ and a $s \in \Gamma(X, \mathcal{L}^{\otimes n})$
-such that $X_s \subset U$. Let $f \in R$ correspond to
-$s|_U$ via the trivialization chosen above.
-Then clearly $X_s = X_s \cap U = D(f)$ is affine.
+such that $X_s \subset U$. By Lemma \ref{lemma-affine-cap-s-open} above
+the intersection $X_s = U \cap X_s$ is affine.
 Since $U$ can be chosen arbitrarily small we win.
 \end{proof}
 
 \begin{lemma}
-\label{lemma-s-opens-basis-quasi-separated}
+\label{lemma-affine-s-opens-cover-quasi-separated}
 Let $X$ be a scheme. Let $\mathcal{L}$ be an invertible $\mathcal{O}_X$-module.
 Assume every point of $X$ is contained in an affine open subset
 of the form $X_s$, where $s \in \Gamma(X, \mathcal{L}^{\otimes n})$ and
@@ -582,7 +632,8 @@ there is a canonical morphism of schemes
 $$
 f : X \longrightarrow \text{Proj}(S),
 $$
-see Constructions, Lemma \ref{constructions-lemma-proj-scheme}.
+to the homogeneous spectrum of $S$ (see
+Constructions, Section \ref{constructions-section-proj}).
 This morphism has the property that $f^{-1}(D_{+}(s)) = X_s$.
 \end{lemma}
 
@@ -599,11 +650,71 @@ Constructions, Lemma \ref{constructions-lemma-proj-functor}.
 Hence we get the morphism as desired.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-map-into-proj-quasi-compact}
+Let $X$ be a scheme. Let $\mathcal{L}$ be an invertible $\mathcal{O}_X$-module.
+Set $S = \bigoplus_{n \geq 0} \Gamma(X, \mathcal{L}^{\otimes n})$.
+Assume (a) every point of $X$ is contained in one of the
+open subschemes $X_s$, for some $s \in S_{+}$ homogeneous, 
+and (b) $X$ is quasi-compact. Then the canonical morphism of schemes
+$f : X \longrightarrow \text{Proj}(S)$ of Lemma \ref{lemma-map-into-proj}
+above is quasi-compact.
+\end{lemma}
 
+\begin{proof}
+It suffices to show that $f^{-1}(D_{+}(s))$ is quasi-compact
+for any $s \in S_{+}$ homogeneous. Write
+$X = \bigcup_{i = 1, \ldots, n} X_i$ as a finite union of
+affine opens. By Lemma \ref{lemma-affine-cap-s-open} each intersection 
+$X_s \cap X_i$ is affine. Hence $X_s = \bigcup_{i = 1, \ldots, n} X_s \cap X_i$
+is quasi-compact.
+\end{proof}
 
+\begin{lemma}
+\label{lemma-map-into-proj-many-affines}
+Let $X$ be a scheme. Let $\mathcal{L}$ be an invertible $\mathcal{O}_X$-module.
+Set $S = \bigoplus_{n \geq 0} \Gamma(X, \mathcal{L}^{\otimes n})$.
+Assume (a) every point of $X$ is contained in an
+open subschemes $X_s$ which is affine, for some $s \in S_{+}$ homogeneous, 
+and (b) $X$ is quasi-compact. Then the canonical morphism of schemes
+$f : X \longrightarrow \text{Proj}(S)$ of Lemma \ref{lemma-map-into-proj}
+above is an open immersion.
+\end{lemma}
 
+\begin{proof}
+By Lemma \ref{lemma-affine-s-opens-cover-quasi-separated} we see
+that $X$ is quasi-separated. Choose finitely many
+$s_1, \ldots, s_n \in S_{+}$ homogeneous
+such that $X_{s_i}$ are affine, and $X = \bigcup X_{s_i}$.
+Say $s_i$ has degree $d_i$. The inverse image of
+$D_{+}(s_i)$ under $f$ is $X_{s_i}$, see Lemma \ref{lemma-map-into-proj}.
+By Lemma \ref{lemma-invert-s-sections} the ring map
+$$
+(S^{(d_i)})_{(s_i)} = \Gamma(D_{+}(s_i), \mathcal{O}_{\text{Proj}(S)})
+\longrightarrow
+\Gamma(X_{s_i}, \mathcal{O}_X)
+$$
+is an isomorphism. Hence $f$ induces an isomorphism
+$X_{s_i} \to D_{+}(s_i)$. Thus $f$ is an isomorphism of $X$ onto the open
+subscheme $\bigcup_{i = 1, \ldots, n} D_{+}(s_i)$ of $\text{Proj}(S)$.
+\end{proof}
 
+\begin{lemma}
+\label{lemma-open-in-proj-ample}
+Let $X$ be a scheme.
+Let $\mathcal{L}$ be an invertible sheaf on $X$.
+Let $S$ be a graded ring. Assume $X$ is quasi-compact,
+and there exists an open immersion
+$$
+j : X \longrightarrow Y = \text{Proj}(S)
+$$
+such that $\mathcal{L}^{\otimes n} \cong j^*\mathcal{O}_Y(n)$ compatible
+with the multiplication maps. Then $\mathcal{L}$ is ample.
+\end{lemma}
 
+\begin{proof}
+Omitted.
+\end{proof}
 
 
 
