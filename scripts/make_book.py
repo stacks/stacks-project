@@ -7,8 +7,8 @@ def print_chapter_title(line):
 	print
 	return
 
-def print_preamble():
-	preamble = open("../preamble.tex", 'r')
+def print_preamble(path):
+	preamble = open(path + "preamble.tex", 'r')
 	for line in preamble:
 		if line.find("%") == 0:
 			continue
@@ -37,22 +37,35 @@ def replace_refs(line, name):
 	line = line.replace("\\ref{item-", "\\ref{" + name + "-item-")
 	return line
 
-print_preamble()
+def print_chapters(path):
+	chapters = open(path + "chapters.tex", 'r')
+	for line in chapters:
+		print line,
+	return
+
+path = get_path()
+
+print_preamble(path)
 
 print "\\begin{document}"
 print "\\title{Stacks project}"
 print "\\maketitle"
 print "\\tableofcontents"
 
-lijstje = list_text_files()
+lijstje = list_text_files(path)
 
-path = "../"
 ext = ".tex"
 for name in lijstje:
 	filename = path + name + ext
 	tex_file = open(filename, 'r')
-
+	verbatim = 0
 	for line in tex_file:
+		verbatim = verbatim + beginning_of_verbatim(line)
+		if verbatim:
+			if end_of_verbatim(line):
+				verbatim = 0
+			print line,
+			continue
 		if line.find("\\input{preamble}") == 0:
 			continue
 		if line.find("\\begin{document}") == 0:
@@ -77,6 +90,7 @@ for name in lijstje:
 		print line,
 
 	tex_file.close()
+	print_chapters(path)
 
 print "\\bibliography{my}"
 print "\\bibliographystyle{alpha}"

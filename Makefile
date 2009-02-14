@@ -74,17 +74,24 @@ clean:
 
 .PHONY: backup
 backup: clean
-	cd .. ; tar -cjvf stacks-git_backup.tar.bz2 stacks-git/
+	git archive --prefix=stacks-git/ HEAD | bzip2 > ../stacks-git_backup.tar.bz2
 
 .PHONY: tarball
 tarball:
-	tar -cjf stacks-git.tar.bz2 $(TEXS) CONTRIBUTORS \
-		COPYING Makefile amsart.cls my.bib \
-		preamble.tex chapters.tex \
-		stacks-git.css stacks-git.htm
+	git archive --prefix=stacks-git/ HEAD | bzip2 > stacks-git.tar.bz2
+
+.PHONY: book
+book:
+	python ./scripts/make_book.py $(PWD) > tmp/book.tex
+	latex tmp/book.tex
+	latex tmp/book.tex
+	bibtex book
+	latex tmp/book.tex
+	latex tmp/book.tex
+	pdflatex tmp/book.tex
 
 .PHONY: install
-install: $(FUNNYS) $(PDFS) $(DVIS) tarball
+install: $(FUNNYS) $(PDFS) $(DVIS) tarball book
 	cp *.tex *.pdf *.dvi $(INSTALLDIR)
 	cp CONTRIBUTORS COPYING Makefile amsart.cls my.bib $(INSTALLDIR)
 	cp preamble.tex chapters.tex $(INSTALLDIR)

@@ -28,7 +28,9 @@ def print_def_notions(def_text):
 	print
 	return
 
-lijstje = list_text_files()
+path = get_path()
+
+lijstje = list_text_files(path)
 
 print "\\input{preamble}"
 print "\\begin{document}"
@@ -37,7 +39,6 @@ print "\\maketitle"
 print
 print "\\frenchspacing"
 print "\\begin{multicols}{2}"
-path = "../"
 ext = ".tex"
 for name in lijstje:
 	filename = path + name + ext

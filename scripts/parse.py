@@ -1,10 +1,11 @@
 from functions import *
 
+path = get_path()
+
 labels = []
 
-lijstje = list_text_files()
+lijstje = list_text_files(path)
 
-path = "../"
 ext = ".tex"
 for name in lijstje:
 	filename = path + name + ext
@@ -15,6 +16,7 @@ for name in lijstje:
 	in_environment = 0
 	in_math_mode = 0
 	line_nr = 0
+	verbatim = 0
 	def_text = ""
 	for line in tex_file:
 
@@ -25,6 +27,14 @@ for name in lijstje:
 		error_text = length_of_line(line)
 		if error_text:
 			print_error(error_text, line, name, line_nr)
+
+		# Check for verbatim, because we do not check correctness
+		# inside verbatim environment.
+		verbatim = verbatim + beginning_of_verbatim(line)
+		if verbatim:
+			if end_of_verbatim(line):
+				verbatim = 0
+			continue
 
 		# These we always want at the start of a line by themselves
 		error_text = only_on_line("\\begin{", 7, line)
@@ -95,10 +105,19 @@ for name in lijstje:
 	filename = path + name + ext
 	tex_file = open(filename, 'r')
 	line_nr = 0
+	verbatim = 0
 	for line in tex_file:
 
 		# Update line number
 		line_nr = line_nr + 1
+
+		# Check for verbatim, because we do not check references
+		# inside verbatim environment
+		verbatim = verbatim + beginning_of_verbatim(line)
+		if verbatim:
+			if end_of_verbatim(line):
+				verbatim = 0
+			continue
 
 		# Check for references
 		refs = find_refs(line, name)

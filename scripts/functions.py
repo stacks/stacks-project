@@ -1,5 +1,18 @@
-def list_text_files():
-	Makefile_file = open('../Makefile', 'r')
+def get_path():
+	from sys import argv
+	if not len(argv) == 2:
+		print
+		print "This script needs exactly one argument"
+		print "namely the path to the stacks project directory"
+		print
+		raise Exception('Wrong arguments')
+	path = argv[1]
+	path.rstrip("/")
+	path = path + "/"
+	return path
+
+def list_text_files(path):
+	Makefile_file = open(path + "Makefile", 'r')
 	for lijst in Makefile_file:
 		n = lijst.find("LIJST = ")
 		if n == 0:
@@ -7,6 +20,7 @@ def list_text_files():
 	Makefile_file.close()
 	lijst = lijst.replace("LIJST = ", "")
 	lijst = lijst.rstrip()
+	lijst = lijst + " fdl"
 	return lijst.split(" ")
 
 def print_error(error_text, line, name, line_nr):
@@ -68,6 +82,20 @@ def beginning_of_proof(line):
 
 def end_of_proof(line):
 	n = line.find("\\end{proof}")
+	if n == 0:
+		return 1
+	else:
+		return 0
+
+def beginning_of_verbatim(line):
+	n = line.find("\\begin{verbatim}")
+	if n == 0:
+		return 1
+	else:
+		return 0
+
+def end_of_verbatim(line):
+	n = line.find("\\end{verbatim}")
 	if n == 0:
 		return 1
 	else:
