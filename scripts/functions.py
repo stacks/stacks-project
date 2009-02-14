@@ -134,7 +134,14 @@ def find_title(line):
 def is_label(env_text):
 	n = env_text.find("\\label{")
 	if n < 0:
-		return ""
+		return 0
+	else:
+		return 1
+
+def contains_ref(line):
+	n = line.find("\\ref{")
+	if n < 0:
+		return 0
 	else:
 		return 1
 
