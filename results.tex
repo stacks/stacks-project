@@ -63,7 +63,7 @@ Let $(S_i, f_{ii'})$ be an inverse system of
 schemes over $I$. If all the morphisms $f_{ii'} : S_i \to S_{i'}$
 are affine, then the limit $\text{lim}_i\ S_i$ exists
 in the category of schemes.
-Moreover, each of the morphisms $S \to S_i$ is affine.
+Moreover, each of the morphisms $f_i : S \to S_i$ is affine.
 \end{lemma}
 
 \begin{proof}
@@ -72,13 +72,15 @@ For convenience write $S_0 = S_{i_0}$ and $i_0 = 0$.
 For every $i \geq 0$ consider the quasi-coherent sheaf of
 $\mathcal{O}_{S_0}$-algebras $\mathcal{A}_i = f_{i0,*}\mathcal{O}_{S_i}$.
 Recall that $S_i = \underline{\text{Spec}}_{S_0}(\mathcal{A})$,
-see Morphisms, Lemma \ref{lemma-affine-equivalence-algebras}.
+see Morphisms, Lemma \ref{morphisms-lemma-characterize-affine}.
 Set $\mathcal{A} = \text{colim}_{i \geq 0}\ \mathcal{A}_i$.
 This is a quasi-coherent sheaf of $\mathcal{O}_{S_0}$-algebras,
 see Schemes, Section \ref{schemes-section-quasi-coherent}.
 Set $S = \underline{\text{Spec}}_{S_0}(\mathcal{A})$.
-By the lemma referenced above we get for $i \geq 0$ affine morphisms
-$f_i : S \to S_i$ compatible with the transition morphisms.
+By Morphisms, Lemma \ref{morphisms-lemma-affine-equivalence-algebras}
+we get for $i \geq 0$ morphisms $f_i : S \to S_i$ compatible with
+the transition morphisms. Note that the morphisms $f_i$ are
+affine by Morphisms, Lemma \ref{morphisms-lemma-affine-permanence} for example.
 By Lemma \ref{lemma-directed-inverse-system-affine schemes-has-limit} above
 we see that for any affine open $U_0 \subset S_0$ the
 inverse image $U = f_0^{-1}(U_0) \subset S$ is the limit of the
@@ -96,7 +98,7 @@ be an affine open neighbourhood containing $t$.
 By the remarks above we obtain a unique morphism
 $g_V : V \to U = f_0^{-1}(U_0)$ such that $f_i \circ g_V = g_i|_{U_i}$
 for all $i$. The open sets $V \subset T$ so constructed form
-a basis for the topology of $T$. Hence the morphisms $g_V$ glue to a morphism
+a basis for the topology of $T$. The morphisms $g_V$ glue to a morphism
 $g : T \to S$ because of the uniqueness property. This gives the
 desired morphism $g : T \to S$.
 \end{proof}
@@ -127,6 +129,63 @@ is an open subscheme of the limit we win.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-descend-section}
+Let $I$ be a directed partially ordered set.
+Let $(S_i, f_{ii'})$ be an inverse system of schemes over $I$.
+Assume
+\begin{enumerate}
+\item all the morphisms $f_{ii'} : S_i \to S_{i'}$ are affine,
+\item all the schemes $S_i$ are quasi-compact and quasi-separated.
+\end{enumerate}
+Let $S = \text{lim}_i\ S_i$. Let $i \in I$.
+Suppose that $\mathcal{F}_i$ is a quasi-coherent sheaf on $S_i$.
+Set $\mathcal{F}_j = f_{ji}^*\mathcal{F}_i$ for $j \geq i$ and set
+$\mathcal{F} = f_i^*\mathcal{F}_i$.
+Then
+$$
+\Gamma(S, \mathcal{F}) = \text{colim}_{j \geq i}\ \Gamma(S_j, \mathcal{F}_j)
+$$
+\end{lemma}
+
+\begin{proof}
+Write $\mathcal{A}_j = f_{ji, *} \mathcal{O}_{S_j}$.
+This is a quasi-coherent sheaf of $\mathcal{O}_{S_i}$-algebras
+(see Morphisms, Lemma \ref{morphisms-lemma-affine-equivalence-algebras})
+and $S_j$ is the relative spectrum of $\mathcal{A}_j$ over $S_i$.
+In the proof of Lemma \ref{lemma-directed-inverse-system-has-limit}
+we constructed $S$ as the relative spectrum of
+$\mathcal{A} = \text{colim}_{j \geq i}\ \mathcal{A}_j$
+over $S_i$. Set
+$$
+\mathcal{M}_j = \mathcal{F}_i \otimes_{\mathcal{O}_{S_i}} \mathcal{A}_j
+$$
+and
+$$
+\mathcal{M} = \mathcal{F}_i \otimes_{\mathcal{O}_{S_i}} \mathcal{A}.
+$$
+Then we have $f_{ji, *} \mathcal{F}_j = \mathcal{M}_j$
+and $f_{i, *}\mathcal{F} = \mathcal{M}$. Since $\mathcal{A}$
+is the colimit of the sheaves $\mathcal{A}_j$ and since tensor
+product commutes with directed colimits, we conclude that
+$\mathcal{M} = \text{colim}_{j \geq i}\ \mathcal{M}_j$.
+Since $S_i$ is quasi-compact and quasi-separated we see that
+\begin{eqnarray*}
+\Gamma(S, \mathcal{F})
+& = &
+\Gamma(S_i, \mathcal{M}) \\
+& = &
+\Gamma(S_i, \text{colim}_{j \geq i} \ \mathcal{M}_j) \\
+& = &
+\text{colim}_{j \geq i}\ \Gamma(S_i, \mathcal{M}_j) \\
+& = &
+\text{colim}_{j \geq i}\ \Gamma(S_j, \mathcal{F}_j)
+\end{eqnarray*}
+see Sheaves, Lemma \ref{sheaves-lemma-directed-colimits-sections} and
+Topology, Lemma \ref{topology-lemma-topology-quasi-separated-scheme}
+for the middle equality.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-descend-opens}
 Let $I$ be a directed partially ordered set.
 Let $(S_i, f_{ii'})$ be an inverse system of
@@ -135,12 +194,20 @@ schemes over $I$. Assume
 \item all the morphisms $f_{ii'} : S_i \to S_{i'}$ are affine,
 \item all the schemes $S_i$ are quasi-compact and quasi-separated.
 \end{enumerate}
-Given any quasi-compact open $V \subset S = \text{lim}_i\ S_i$
+Then we have the following:
+\begin{enumerate}
+\item Given any quasi-compact open $V \subset S = \text{lim}_i\ S_i$
 there exists an $i \in I$ and a quasi-compact open $V_i \subset S_i$
 such that $f_i^{-1}(V_i) = V$.
-Moreover, given a second such pair $(i', V_{i'} \subset S_{i'})$
+\item Given $V_i \subset S_i$ and $V_{i'} \subset S_{i'}$
+quasi-compact opens such that $f_i^{-1}(V_i) = f_{i'}^{-1}(V_{i'})$
 there exists an index $i'' \geq i, i'$ such that
 $f_{i''i}^{-1}(V_i) = f_{i''i'}^{-1}(V_{i'})$.
+\item If $V_{1, i}, \ldots, V_{n, i} \subset S_i$ are quasi-compact
+opens and $S = f_i^{-1}(V_{1, i}) \cup \ldots \cup f_i^{-1}(V_{n, i})$
+then $S_{i'} = f_{i'i}^{-1}(V_{1, i}) \cup \ldots \cup f_{i'i}^{-1}(V_{n, i})$
+for some $i' \geq i$.
+\end{enumerate}
 \end{lemma}
 
 \begin{proof}
@@ -150,14 +217,14 @@ Choose an affine open covering $S_0 = U_{1, 0} \cup \ldots \cup U_{m, 0}$.
 Denote $U_{j, i} \subset S_i$ the inverse image of $U_{j, 0}$
 under the transition morphism for $i \geq 0$.
 Denote $U_j$ the inverse image of $U_{j, 0}$ in $S$.
-Note that $U_j = \text{lim}_i U_{j, i}$ is a limit of affine
+Note that $U_j = \text{lim}_i\ U_{j, i}$ is a limit of affine
 schemes.
 
 \medskip\noindent
 We first prove the uniqueness statement: Let
-$(i, V_i)$ and $(i', V_{i'})$ be two solutions to the problem
-posed in the lemma. It suffices to show that
-$f_{i''i}^{-1}(V_i \cap U_{j, i''})$ and
+$V_i \subset S_i$ and $V_{i'} \subset S_{i'}$
+quasi-compact opens such that $f_i^{-1}(V_i) = f_{i'}^{-1}(V_{i'})$.
+It suffices to show that $f_{i''i}^{-1}(V_i \cap U_{j, i''})$ and
 $f_{i''i'}^{-1}(V_{i'} \cap U_{j, i''})$ become equal
 for $i''$ large enough. Hence we reduce to the case
 of a limit of affine schemes. In this case write
@@ -166,20 +233,33 @@ We may write $V_i = S_i \setminus V(h_1, \ldots, h_m)$
 and $V_{i'} = S_{i'} \setminus V(g_1, \ldots, g_n)$.
 The assumption means that the ideals
 $\sum g_jR$ and $\sum h_jR$ have the same radical
-in $R$. It is easy to see that this implies that
+in $R$. This means that $g_j^N = \sum a_{jj'}h_{j'}$ and
+$h_j^N = \sum b_{jj'} g_{j'}$ for some $N \gg 0$ and $a_{jj'}$
+and $b_{jj'}$ in $R$.
+Since $R = \text{colim}_i R_i$ we can chose an index
+$i'' \geq i$ such that the equations
+$g_j^N = \sum a_{jj'}h_{j'}$ and
+$h_j^N = \sum b_{jj'} g_{j'}$ hold in $R_{i''}$ for some
+$a_{jj'}$ and $b_{jj'}$ in $R_{i''}$. This implies that
 the ideals $\sum g_jR_{i''}$ and $\sum h_jR_{i''}$ have the same radical
-in $R_{i''}$ for some $i'' \geq i, i'$.
+in $R_{i''}$ as desired.
 
 \medskip\noindent
-We prove existence.
-By the uniqueness and
-our decompositions $S_i = U_{1, i} \cup \ldots \cup S_{m, i}$
-imply that it is enough to prove existence in the affine case.
+We prove existence. We may apply the uniqueness statement to
+the limit of schemes
+$U_{j_1} \cap U_{j_2} = \text{lim}_i\ U_{j_1, i} \cap U_{j_2, i}$
+since these are still quasi-compact due to the fact that the
+$S_i$ were assumed quasi-separated.
+Hence it is enough to prove existence in the affine case.
 In this case write $S = \text{Spec}(R)$ and $S_i = \text{Spec}(R_i)$
 for all $i \in I$. Then $V = S \setminus V(g_1, \ldots, g_n)$
 for some $g_1, \ldots, g_n \in R$. Choose any $i$ large enough
 so that each of the $g_j$ comes from an element $g_{j, i} \in R_i$
 and take $V_i = S_i \setminus V(g_{1, i}, \ldots, g_{n, i})$.
+
+\medskip\noindent
+The statement on coverings follows from the uniqueness statement
+for the opens $V_{1, i} \cup \ldots \cup V_{n, i}$ and $S_i$ of $S_i$.
 \end{proof}
 
 \begin{lemma}
@@ -199,23 +279,12 @@ are quasi-affine.
 \begin{proof}
 Choose $i_0 \in I$. Note that $I$ is nonempty as the limit is directed.
 For convenience we write $S_0 = S_{i_0}$ and $i_0 = 0$.
-In the proof of Lemma \ref{} we constructed
-$S$ as the relative spectrum of
-$\text{colim}_{i \geq 0}\ f_{i0,*}\mathcal{O}_{S_i}$.
-Each morphism $f_i : S \to S_i$ is affine, in particular $f_0 : S \to S_0$
-is affine.
 For any $s \in S$ we may choose an affine open
 $U_0 \subset S_0$ containing $f_0(s)$. Since $S$ is quasi-affine
 we may choose an element $a_s \in \Gamma(S, \mathcal{O}_S)$ such
 that $s \in D(a_s) \subset f_0^{-1}(U_0)$, and such that
-$D(a_s)$ is affine.
-Since $S_0$ is quasi-compact and quasi-separated we see that
-$\Gamma(S, \mathcal{O}_S) = 
-\Gamma(S_0, \text{colim}_i\ f_{i0,*}\mathcal{O}_{S_i}) =
-\text{colim}_i\ \Gamma(S_0, f_{i0,*}\mathcal{O}_{S_i}) =
-\text{colim}_i\ \Gamma(S_i, \mathcal{O}_{S_i})$,
-see Modules, Lemma \ref{}.
-Hence there exists an $i \geq 0$ such that $a_s$
+$D(a_s)$ is affine. By Lemma \ref{lemma-descend-section}
+there exists an $i \geq 0$ such that $a_s$
 comes from an element $a_{s, i} \in \Gamma(S_i, \mathcal{O}_{S_i})$.
 For any index $j \geq i$ we denote $a_{s, j}$
 the image of $a_{s, i}$ in the global sections of the
@@ -223,16 +292,13 @@ structure sheaf of $S_j$.
 Consider the opens $D(a_{s, j}) \subset S_j$
 and $U_j = f_{j0}^{-1}(U_0)$. Note that
 $U_j$ is affine and $D(a_{s, j})$ is a quasi-compact open of $S_j$,
-see Properties, Lemma \ref{}.
-Consider the reduced closed subschemes 
-$D(a_{s,j}) \setminus U_j$ of $D(a_{s, j})$.
-These form an inverse system over $\{j \in I\mid j \geq i\}$
-whose limit is the reduced closed subscheme
-$D(a_s) \setminus U_j = \emptyset$. Hence by Lemma \ref{} above
-we conclude that $D(a_{s, j}) \subset U_j$ for some 
-$j \geq i$. Thus for such an index $j$ we see that
-$D(a_{s, j}) \subset S_j$ is an affine open
-(see Properties, Lemma \ref{}) containing the image $f_j(s)$.
+see Properties, Lemma \ref{properties-lemma-affine-cap-s-open}
+for example. Hence we may apply Lemma \ref{lemma-descend-opens} to the opens
+$U_j$ and $U_j \cup D(a_{s, j})$ to conclude that
+$D(a_{s, j}) \subset U_j$ for some  $j \geq i$.
+For such an index $j$ we see that $D(a_{s, j}) \subset S_j$ is an affine open
+(because $D(a_{s, j})$ is a standard affine open of the affine open $U_j$)
+containing the image $f_j(s)$.
 
 \medskip\noindent
 We conclude that for every $s \in S$ there exist
@@ -246,13 +312,16 @@ such that each $D(a_j) \subset S_i$ is affine open
 and such that $f_i : S \to S_i$ has image contained
 in the union $W_i = \bigcup_{j = 1, \ldots, m} D(a_j)$.
 For $i' \geq i$ set $W_{i'} = f_{i'i}^{-1}(W_i)$.
-As before we see that $\text{lim}_{i' \geq i} S_{i'} \setminus W_{i'}$
-is empty and hence that for a suitable $i' \geq i$ we
+Since $f_i^{-1}(W_i)$ is all of $S$ we see
+(by Lemma \ref{lemma-descend-opens} again)
+that for a suitable $i' \geq i$ we
 have $S_{i'} = W_{i'}$. Thus we may replace $i$ by
 $i'$ and assume that $S_i = \bigcup_{j = 1, \ldots, m} D(a_j)$.
 This implies that $\mathcal{O}_{S_i}$ is an ample invertible
-sheaf on $S_i$ and hence that $S_i$ is quasi-affine
-(insert future reference here). Hence we win.
+sheaf on $S_i$ (see Properties, Definition \ref{properties-definition-ample})
+and hence that $S_i$ is quasi-affine, see
+Properties, Lemma \ref{properties-lemma-quasi-affine-O-ample}.
+Hence we win.
 \end{proof}
 
 \begin{lemma}
@@ -272,14 +341,19 @@ are affine.
 \begin{proof}
 By Lemma \ref{lemma-limit-quasi-affine} we may assume that
 $S_i$ is quasi-affine for all $i$. Set $R_i = \Gamma(S_i, \mathcal{O}_{S_i})$.
-Write $S = \text{Spec}(R)$. We have $R = \text{colim}_i R_i$
-(compare with the proof of Lemma \ref{}).
+Write $S = \text{Spec}(R)$. We have $R = \text{colim}_i\ R_i$
+by Lemma \ref{lemma-descend-section}.
 Write $\overline{S_i} = \text{Spec}(R_i)$, so that also
-$S = \text{lim}_i\ \overline{S_i}$. Write $Z_i = \overline{S_i} \setminus S_i$
-as reduced closed subschemes of $\overline{S_i}$.
-Then $\text{lim}_i\ Z_i = \emptyset$. Hence by Lemma \ref{} above
-we conclude that $Z_i = \emptyset$ for all large enough $i$ which
-proves the lemma.
+$S = \text{lim}_i\ \overline{S_i}$. Let $Z_i \subset \overline{S_i}$
+be the reduced closed subscheme such that
+$\overline{S_i} = Z_i \coprod S_i$ (see Schemes,
+Definition \ref{schemes-definition-reduced-induced-scheme}).
+We have to show that $Z_i$ is empty for some $i$.
+Assume $Z_i$ is nonempty for all $i$ to get a contradiction.
+Note that $Z_i$ is affine. Hence Lemma \ref{lemma-limit-nonempty} applies
+and we conclude that $\text{lim}_i\ Z_i$ is nonempty.
+But a point of $\text{lim}\ Z_i$ corresponds to a point of
+$S = \text{lim}_i\ S_i$ which is a contradiction.
 \end{proof}
 
 \begin{lemma}
@@ -303,7 +377,8 @@ $R_i$ over $\mathbf{Z}$.
 Pick an $N \gg 0$ such that each $f_i^Nx_{ij}$ comes from an
 element of $R$, say $y_{ij} \in R$.
 Set $A$ equal to the $\mathbf{Z}$-algebra generated by
-the $f_i$ and the $y_{ij}$. Details omitted.
+the $f_i$ and the $y_{ij}$ and (optionally) finitely many
+additional elements of $R$. Then $A$ works. Details omitted.
 \end{proof}
 
 \begin{lemma}
@@ -320,7 +395,7 @@ and $f \in R'$ are such that $s(g) = t(f)$.
 Then the diagram
 $$
 \xymatrix{
-B_g \ar[r]_s & R_{s(g)} = R_{t(f)} \\
+B_g \ar[r]_-s & R_{s(g)} = R_{t(f)} \\
 (B')_h \ar[u] \ar[r] & (R')_f \ar[u]_{t}
 }
 $$
@@ -368,7 +443,7 @@ $(B')_{h_i} \cong (R')_{f_i}$ as desired.
 
 \begin{lemma}
 \label{lemma-approximate}
-Let $S$ be a quasi-compact and quasi-separate scheme.
+Let $S$ be a quasi-compact and quasi-separated scheme.
 There exist a directed partially ordered set $I$
 and an inverse system of schemes $(S_i, f_{ii'})$ over $I$
 such that
@@ -389,12 +464,13 @@ directed colimit of its finitely generated $\mathbf{Z}$-subalgebras.
 Thus we may assume that $S = U \cup V$ with $U$, $V$ quasi-compact
 opens, $U$ affine and such that $V = \text{lim}_i\ V_i$ with
 each $V_i$ of finite type over $\mathbf{Z}$. Set $W = U \cap V$.
-By Lemma \ref{}
+By Lemma \ref{lemma-descend-opens}
 (and after shrinking $I$) we may assume that there exists
 an open $W_i \subset V_i$ such that $f_{ij}^{-1}(W_j) = W_i$
 and such that $f_i^{-1}(W_i) = W$. Since $W = U \cap V$
 is quasi-affine we may assume (after shrinking $I$)
-that $W_i$ is quasi-affine for all $i$, see Lemma \ref{}.
+that $W_i$ is quasi-affine for all $i$, see
+Lemma \ref{lemma-limit-quasi-affine}.
 
 \medskip\noindent
 Write $U = \text{Spec}(B)$. Write $R = \Gamma(W, \mathcal{O}_W)$.
@@ -404,6 +480,7 @@ open. Say $W_j = \text{Spec}(B_{g_j})$ for some $g_j \in B$.
 
 \medskip\noindent
 Write $R_i = \Gamma(W_i, \mathcal{O}_{W_i})$.
+By Lemma \ref{lemma-descend-section} we have $R = \text{colim}_i\ R_i$.
 Now we have the maps of rings
 $$
 \xymatrix{
@@ -413,9 +490,13 @@ B \ar[r]_s & R \\
 $$
 We set $B_i = \{(b, r) \in B \times R_i \mid s(b) = t_i(t)\}$.
 We can (after shrinking $I$) assume that the elements
-$s(g_j) \in R$ come from $g_{j, i} \in R_i$.
-Moreover, by Lemma \ref{} we can assume the corresponding
-opens $D(g_{j, i}) \subset W_i$ are affine and cover $W_i$.
+$s(g_j) \in R$ come from $g_{j, i} \in R_i$, i.e., that
+$s(g_j) = t_i(g_{j, i})$. Of course we choose the $g_{j, i}$
+such that $g_{j, i}$ maps to $g_{j, i'}$ under the transition mappings.
+Then, by Lemmas \ref{lemma-limit-affine} and \ref{lemma-descend-opens}
+we can assume the corresponding
+opens $D(g_{j, i}) \subset W_i$, $j = 1, \ldots, m$
+are affine and cover $W_i$.
 
 \medskip\noindent
 At this point we may apply Lemma \ref{lemma-diagram}
@@ -423,13 +504,29 @@ to conclude that the morphism
 $W_i \to \text{Spec}(R_i) \to \text{Spec}(B_i)$
 is an open immersion.
 By Lemma \ref{lemma-quasi-affine-finite-type-over-Z}
-we can write $B_i$ as a filtered limit of subalgebras $A_{i, l} \subset B_i$
+we can write $B_i$ as a directed limit of subalgebras
+$A_{i, l} \subset B_i$, $l \in L_i$
 of finite type over $\mathbf{Z}$ such that $W_i$ is
-identified with an open subscheme of $\text{Spec}(A_{i, l})$.
+identified with an open subscheme of $\text{Spec}(A_{i, l})$
+for all $l \in L_i$.
 Let $S_{i, l}$ be the scheme obtained by glueing
-$V_i$ and $\text{Spec}(A_{i, l})$ along $W_i$.
+$V_i$ and $\text{Spec}(A_{i, l})$ along the open $W_i$, see
+Schemes, Section \ref{schemes-section-glueing-schemes}.
+Note that $S_{i, l}$ is of finite type over $\mathbf{Z}$ since
+it has a finite affine open covering whose members are
+spectram of finite type $\mathbf{Z}$-algebras.
+We define a partial ordering on $J = \coprod_{i \in I} L_i$
+by the rule $(i', l') \geq (i, l)$ if and only if
+$i' \geq i$ and the map $B_i \to B_{i'}$ sends $A_{i, l}$ into
+$A_{i', l'}$. This is exactly the condition needed to
+define a morphism $S_{i', l'} \to S_{i, l}$: namely just glue
+the transition morphism $V_{i'} \to V_i$ to the morphism
+$\text{Spec}(A_{i', l'}) \to \text{Spec}(A_{i, l})$ induced
+by the ring map $A_{i, l} \to A_{i', l'}$. We omit the verification
+that these morphisms agree agree over $W_{i'}$ as a morphism
+into $S_{i, l}$.
 It is easy to show that $S$ is the directed limit
-of the schemes $S_{i, l}$.
+of the schemes $S_{i, l}$ as desired.
 \end{proof}
 
 
