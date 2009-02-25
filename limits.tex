@@ -4,7 +4,7 @@
 %
 \begin{document}
 
-\title{Results on Schemes}
+\title{Limits of Schemes}
 
 
 \maketitle
@@ -21,25 +21,11 @@ A basic reference is \cite{EGA}.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-\section{Absolute Noetherian Approximation}
-\label{section-approximation}
+\section{Directed limits of schemes with affine transition maps}
+\label{section-limits}
 
 \noindent
-A nice reference for this section is Appendix C of the article
-by Thomason and Trobaugh \cite{TT}.
-See Categories, Section \ref{categories-section-posets-limits}
-for our conventions regarding directed systems.
+In this section we construct the limit.
 
 \begin{lemma}
 \label{lemma-directed-inverse-system-affine schemes-has-limit}
@@ -63,9 +49,17 @@ that $S$ is the limit even in the category of locally ringed spaces.
 Let $I$ be a directed partially ordered set.
 Let $(S_i, f_{ii'})$ be an inverse system of
 schemes over $I$. If all the morphisms $f_{ii'} : S_i \to S_{i'}$
-are affine, then the limit $\text{lim}_i\ S_i$ exists
+are affine, then the limit $S = \text{lim}_i\ S_i$ exists
 in the category of schemes.
-Moreover, each of the morphisms $f_i : S \to S_i$ is affine.
+Moreover,
+\begin{enumerate}
+\item each of the morphisms $f_i : S \to S_i$ is affine,
+\item for any $i \in I$ and any open subscheme $U_i \subset S_i$
+we have
+$$
+f_i^{-1}(U_i) = \text{lim}_{i' \geq i}\ f_{i'i}^{-1}(U_i).
+$$
+\end{enumerate}
 \end{lemma}
 
 \begin{proof}
@@ -105,6 +99,30 @@ $g : T \to S$ because of the uniqueness property. This gives the
 desired morphism $g : T \to S$.
 \end{proof}
 
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Absolute Noetherian Approximation}
+\label{section-approximation}
+
+\noindent
+A nice reference for this section is Appendix C of the article
+by Thomason and Trobaugh \cite{TT}.
+See Categories, Section \ref{categories-section-posets-limits}
+for our conventions regarding directed systems.
+We will use the existence result and properties of the limit
+from Section \ref{section-limits} without furhter mention.
+
+
 \begin{lemma}
 \label{lemma-limit-nonempty}
 Let $I$ be a directed partially ordered set.
@@ -131,7 +149,7 @@ is an open subscheme of the limit we win.
 \end{proof}
 
 \begin{lemma}
-\label{lemma-limit-closed}
+\label{lemma-limit-closed-nonempty}
 Let $I$ be a directed partially ordered set.
 Let $(S_i, f_{ii'})$ be an inverse system of
 schemes over $I$. Assume
@@ -381,15 +399,13 @@ Write $S = \text{Spec}(R)$. We have $R = \text{colim}_i\ R_i$
 by Lemma \ref{lemma-descend-section}.
 Write $\overline{S_i} = \text{Spec}(R_i)$, so that also
 $S = \text{lim}_i\ \overline{S_i}$. Let $Z_i \subset \overline{S_i}$
-be the reduced closed subscheme such that
-$\overline{S_i} = Z_i \coprod S_i$ (see Schemes,
-Definition \ref{schemes-definition-reduced-induced-scheme}).
+be the closed subset such that
+$\overline{S_i} = Z_i \coprod S_i$.
 We have to show that $Z_i$ is empty for some $i$.
 Assume $Z_i$ is nonempty for all $i$ to get a contradiction.
-Note that $Z_i$ is affine. Hence Lemma \ref{lemma-limit-nonempty} applies
-and we conclude that $\text{lim}_i\ Z_i$ is nonempty.
-But a point of $\text{lim}\ Z_i$ corresponds to a point of
-$S = \text{lim}_i\ S_i$ which is a contradiction.
+By Lemma \ref{lemma-limit-closed-nonempty} there exists
+a point $s$ of $S$ which maps to a point of $Z_i$ for every $i$.
+But $S = \text{lim}_i\ S_i$, and hence we get a contradiction.
 \end{proof}
 
 \begin{lemma}
@@ -477,8 +493,8 @@ Lemma \ref{lemma-diagram-localize} above shows that
 $(B')_{h_i} \cong (R')_{f_i}$ as desired.
 \end{proof}
 
-\begin{lemma}
-\label{lemma-approximate}
+\begin{proposition}
+\label{proposition-approximate}
 Let $S$ be a quasi-compact and quasi-separated scheme.
 There exist a directed partially ordered set $I$
 and an inverse system of schemes $(S_i, f_{ii'})$ over $I$
@@ -488,7 +504,7 @@ such that
 \item each $S_i$ is of finite type over $\mathbf{Z}$, and
 \item $S = \text{lim}_i\ S_i$.
 \end{enumerate}
-\end{lemma}
+\end{proposition}
 
 \begin{proof}
 Choose an affine open covering $S = \bigcup_{j = 1, \ldots, m} U_j$
@@ -570,14 +586,15 @@ of the schemes $S_{i, l}$ as desired.
 
 
 
-\section{A functorial characterization}
+\section{Limits and morphisms of finite presentation}
 \label{section-finite-presentation}
 
 \noindent
-The following is the main result of this section.
+The following is a generalization of
+Algebra, Lemma \ref{algebra-lemma-characterize-finite-presentation}.
 
-\begin{lemma}
-\label{lemma-characterize-locally-finite-presentation}
+\begin{proposition}
+\label{proposition-characterize-locally-finite-presentation}
 Let $f : X \to S$ be a morphism of schemes.
 The following are equivalent:
 \begin{enumerate}
@@ -598,7 +615,7 @@ $$
 \text{colim}_i\ \text{Mor}_S(T_i, X)
 $$
 \end{enumerate}
-\end{lemma}
+\end{proposition}
 
 \begin{proof}
 It is clear that (3) implies (2).
@@ -644,67 +661,352 @@ $$
 Hence it suffices to prove that given a morphism $g_i : T_i \to X$ over $S$
 such that the composition $T \to T_i \to X$ ends up in $U$ there exists some
 $i' \geq i$ such that the composition $g_{i'} : T_{i'} \to T_i \to X$ ends up
-in $U$. Denote $Z_{i'} \subset T_{i'}$ the reduced closed subscheme whose
-support is $g_{i'}^{-1}(X \setminus U)$. Assume to get a contradiction that
-each $Z_{i'}$ is nonempty. Then $\text{lim}_{i' \geq i}\ Z_{i'}$ is nonempty
-by Lemma \ref{lemma-limit-nonempty}. But any point of
-$\text{lim}_{i' \geq i}\ Z_{i'}$ corresponds to a point of $T$
-which is not mapped into $U$. A contradiction.
+in $U$. Denote $Z_{i'} = g_{i'}^{-1}(X \setminus U)$.
+Assume each $Z_{i'}$ is nonempty
+to get a contradiction. By Lemma \ref{lemma-limit-closed-nonempty}
+there exists a point $t$ of $T$ which is mapped into $Z_{i'}$ for all
+$i' \geq i$. Such a point is not mapped into $U$. A contradiction.
 
 \medskip\noindent
 Finally, let us prove that (1) implies (3). Assume (1). Let an inverse directed
 system $(T_i, f_{ii'})$ of $S$-schemes be given. Assume the morphisms $f_{ii'}$
 are affine and each $T_i$ is quasi-compact and quasi-separated as a scheme. Let
 $T = \text{lim}_i\ T_i$. Denote $f_i : T \to T_i$ the projection morphisms.
-We have to show: (a) given morphisms $g_i, g'_i : T_i \to X$ such that
+We have to show: (a) given morphisms $g_i, g'_i : T_i \to X$ over $S$ such that
 $g_i \circ f_i = g'_i \circ f_i$, then there exists an $i' \geq i$
 such that $g_i \circ f_{i'i} = g'_i \circ f_{i'i}$, and (b) given any morphism
-$g : T \to X$ there exists an $i \in I$ and a morphism $g_i : T_i \to X$
-such that $g = f_i \circ g_i$.
+$g : T \to X$ over $S$ there exists an $i \in I$ and a morphism
+$g_i : T_i \to X$ such that $g = f_i \circ g_i$.
 
 \medskip\noindent
 First let us prove the uniqueness part (a). Let $g_i, g'_i : T_i \to X$ be
-morphisms such that $g_i \circ f_i = g'_i \circ f_i$. Consider the morphism
-$(g_i, g'_i) : T_i \to X\times_S X$.
+morphisms such that $g_i \circ f_i = g'_i \circ f_i$. For any $i' \geq i$
+we set $g_{i'} = g_i \circ f_{i'i}$ and $g'_{i'} = g'_i \circ f_{i'i}$.
+We also set $g = g_i \circ f_i = g'_i \circ f_i$.
+Consider the morphism
+$(g_i, g'_i) : T_i \to X\times_S X$. Set
+$$
+W =
+\bigcup\nolimits_{U \subset X\text{ affine open},
+V \subset S\text{ affine open}, f(U) \subset V}
+U \times_V U.
+$$
+This is an open in $X \times_S X$, with the property that the morphism
+$\Delta_{X/S}$ factors through a closed immersion into $W$, see the proof
+of Schemes, Lemma \ref{schemes-lemma-diagonal-immersion}.
+Note that the composition
+$(g_i, g'_i) \circ f_i : T \to X \times_S X$ is a morphism into $W$
+because it factors through the diagonal by assumption.
+Set $Z_{i'} = (g_{i'}, g'_{i'})^{-1}(X \times_S X \setminus W)$.
+If each $Z_{i'}$ is nonempty, then by Lemma \ref{lemma-limit-closed-nonempty}
+there exists a point $t \in T$ which maps to $Z_{i'}$ for all
+$i' \geq i$. This is a contradiction with the fact that $T$ maps into $W$.
+Hence we may increase $i$ and assume that $(g_i, g'_i) : T_i \to X \times_S X$
+is a morphism into $W$. By construction of $W$, and since $T_i$ is
+quasi-compact we can find a finite affine open covering
+$T_i = T_{1, i} \cup \ldots \cup T_{n, i}$ such that
+$(g_i, g'_i)|_{T_{j, i}}$ is a morphism into $U \times_V U$ for
+some pair $(U, V)$ as in the definition of $W$ above.
+Since it suffices to prove that $g_{i'}$ and $g'_{i'}$ agree
+on each of the $f_{i'i}^{-1}(T_{j, i})$ this reduces us to the affine case.
+The affine case follows from
+Algebra, Lemma \ref{algebra-lemma-characterize-finite-presentation}.
 
-
-
-
-
-We can find a finite
-affine open covering $T_i = W_{1, i} \cup \ldots \cup W_{k, i}$ such that for
-each $l \in \{1, \ldots, k\}$ there exist $a_l, a'_l \in A$ with
-$g_i(W_l) \subset U_{a_l}$ and $g'_i(W_l) \subset U_{a'_l}$.
-
-
-
-
-
-
-
-Suppose $g_i : T \to X$ is a morphism of schemes.
-Since $T$ is quasi-compact there exist finitely many pairs $(a_j, b_j)$,
-$j = 1, \ldots, m$ with $a_j \in A$ and $b_j \in B_{a_j}$ such that
-$g(T) \subset \bigcup U_{b_j}$. Thus we can find a finite affine open covering
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+\medskip\noindent
+Finally, we prove the existence part (b).
+Let $g : T \to X$ be a morphism of schemes over $S$.
+We can find a finite affine open covering
+$T = W_1 \cup \ldots \cup W_n$ such that for
+each $j \in \{1, \ldots, n\}$ there exist affine opens
+$U_j \subset X$ and $V_j \subset S$ with $f(U_j) \subset V_j$
+and $g(W_j) \subset U_j$. By Lemmas \ref{lemma-descend-opens}
+and \ref{lemma-limit-affine}
+(after possibly shrinking $I$) we may assume that
+there exist affine open coverings $T_i = W_{1, i} \cup \ldots \cup W_{n, i}$
+compatible with transition maps such that $W_j = \text{lim}_i\ W_{j, i}$.
+By Algebra, Lemma \ref{algebra-lemma-characterize-finite-presentation}
+again (applied to the rings corresponding to the affine schemes
+$U_j, V_j, W_{j, i}$ and $W_j$
+we can find for each $j$ an index $i_j \in I$ and a morphism
+$g_{j, i_j} : W_{j, i_j} \to X$ such that
+$g_{j, i_j} \circ f_i|_{W_j} : W_j \to W_{j, i} \to X$
+equals $g|_{W_j}$. By part (a) proved above, using the quasi-compactness of
+$W_{j_1, i} \cap W_{j_2, i}$ which follows as $T_i$ is quasi-separated,
+we can find an index $i' \in I$ larger than all $i_j$ such that
+$$
+g_{j_1, i_{j_1}} \circ f_{i'i_{j_1}}|_{W_{j_1, i'} \cap W_{j_2, i'}} =
+g_{j_2, i_{j_2}} \circ f_{i'i_{j_2}}|_{W_{j_1, i'} \cap W_{j_2, i'}}
+$$
+for all $j_1, j_2 \in \{1, \ldots, n\}$. Hence the morphisms
+$g_{j, i_j} \circ f_{i'i_j}|_{W_{j, i'}}$ glue to given the
+desired morphism $T_{i'} \to X$.
 \end{proof}
+
+
+
+
+
+
+
+\section{Finite type closed in finite presentation}
+\label{section-finite-type-closed-in-finite-presentation}
+
+\noindent
+A reference is \cite{Conrad-Nagata}.
+
+\begin{lemma}
+\label{lemma-locally-finite-type-in-finite-presentation}
+Let $f : X \to S$ be a morphism of schemes.
+Assume:
+\begin{enumerate}
+\item The morphism $f$ is locally of finite type.
+\item The scheme $X$ is quasi-compact and quasi-separated.
+\end{enumerate}
+Then there exists a morphism of finite presentation
+$f' : X' \to S$ and an immersion $X \to X'$ of schemes over $S$.
+\end{lemma}
+
+\begin{proof}
+By Propostion \ref{proposition-approximate} we can write
+$X = \text{lim}_i\ X_i$ with each $X_i$ of finite type over $\mathbf{Z}$ and
+with transition morphisms $f_{ii'} : X_i \to X_{i'}$ affine.
+Consider the commutative diagram
+$$
+\xymatrix{
+X \ar[r] \ar[rd] & X_{i, S} \ar[r] \ar[d] & X_i \ar[d] \\
+& S \ar[r] & \text{Spec}(\mathbf{Z})
+}
+$$
+Note that $X_i$ is of finite presentation over $\text{Spec}(\mathbf{Z})$, see
+Morphisms,
+Lemma \ref{morphisms-lemma-noetherian-finite-type-finite-presentation}.
+Hence the base change $X_{i, S} \to S$ is of finite presentation by
+Morphisms, Lemma \ref{morphisms-lemma-base-change-finite-presentation}.
+Thus it suffices to show that the arrow $X \to X_{i, S}$ is an
+immersion for some $i$ sufficiently large.
+
+\medskip\noindent
+To do this we choose a finite affine open covering
+$X = V_1 \cup \ldots \cup V_n$ such that
+$f$ maps each $V_j$ into an affine open $U_j \subset S$.
+Let $h_{j, a} \in \mathcal{O}_X(V_j)$ be a finite
+set of elements which generate $\mathcal{O}_X(V_j)$ as
+an $\mathcal{O}_S(U_j)$-algebra, see
+Morphisms, Lemma \ref{morphisms-lemma-locally-finite-type-characterize}.
+By Lemmas \ref{lemma-descend-opens} and \ref{lemma-limit-affine}
+(after possibly shrinking $I$) we may assume that
+there exist affine open coverings
+$X_i = V_{1, i} \cup \ldots \cup V_{n, i}$
+compatible with transition maps such that $V_j = \text{lim}_i\ V_{j, i}$.
+By Lemma \ref{lemma-descend-section} we can choose $i$ so large that each
+$h_{j, a}$ comes from an element
+$h_{j, a, i} \in \mathcal{O}_{X_i}(V_{j, i})$.
+At this point it is clear that
+$$
+V_j \longrightarrow U_j \times_{\text{Spec}(\mathbf{Z})} V_{j, i} =
+(V_{j, i})_{U_j} \subset (V_{j, i})_S \subset X_{i, S}
+$$
+is a closed immersion. Since the union of the schemes which appear as
+the targets of these morphisms form an open of $X_{i, S}$ we win.
+\end{proof}
+
+\begin{remark}
+\label{remark-cannot-do-better}
+We cannot do better than this if we do not assume
+more on $S$ and the morphism $f : X \to S$.
+For example, in general it will not be possible to
+find a {\it closed} immersion $X \to X'$ as in the lemma.
+The reason is that this would imply that $f$ is quasi-compact which
+may not be the case. An example is to take $S$ to be infinite
+dimensional affine space with $0$ doubled and $X$ to be one of
+the two infinite dimensional affine spaces.
+\end{remark}
+
+\begin{lemma}
+\label{lemma-finite-type-closed-in-finite-presentation}
+Let $f : X \to S$ be a morphism of schemes.
+Assume:
+\begin{enumerate}
+\item The morphism $f$ is of locally of finite type.
+\item The scheme $X$ is quasi-compact and quasi-separated, and
+\item The scheme $S$ is quasi-separated.
+\end{enumerate}
+Then there exists a morphism of finite presentation
+$f' : X' \to S$ and a closed immersion $X \to X'$ of schemes over $S$.
+\end{lemma}
+
+\begin{proof}
+By Lemma \ref{lemma-locally-finite-type-in-finite-presentation} above
+there exists a morphism $Y \to S$ of finite presentation and an
+immersion $i : X \to Y$ of schemes over $S$.
+For every point $x \in X$, there exists an affine open
+$V_x \subset Y$ such that $i^{-1}(V_x) \to V_x$ is a
+closed immersion. Since $X$ is quasi-compact we can find
+finitely may affine opens $V_1, \ldots, V_n \subset Y$
+such that $i(X) \subset V_1 \cup \ldots \cup V_n$ and
+$i^{-1}(V_j) \to V_j$ is a closed immersion. In other words
+such that $i : X \to X' = V_1 \cup \ldots \cup V_n$ is a
+closed immersion of schemes over $S$.
+Since $S$ is quasi-separated and $Y$ is quasi-separated over $S$
+we deduce that $Y$ is quasi-separated, see
+Schemes, Lemma \ref{schemes-lemma-separated-permanence}.
+Hence the open immersion $X' = V_1 \cup \ldots \cup V_n \to Y$
+is quasi-compact. This implies that
+$X' \to Y$ is of finite presentation, see
+Morphisms,
+Lemma \ref{morphisms-lemma-quasi-compact-open-immersion-finite-presentation}.
+We conclude since then $X' \to Y \to S$ is a composition of morphisms
+of finite presentation, and hence of finite presentation (see
+Morphisms, Lemma \ref{morphisms-lemma-composition-finite-presentation}).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-eventually-separated}
+Let $S$ be a scheme.
+Let $I$ be a directed partially ordered set.
+Let $(X_i, f_{ii'})$ be an inverse system of schemes over $S$ indexed by $I$.
+Assume
+\begin{enumerate}
+\item the scheme $S$ is quasi-separated,
+\item each $X_i$ is locally of finite type over $S$,
+\item all the morphisms $f_{ii'} : X_i \to X_{i'}$ are affine,
+\item all the schemes $X_i$ are quasi-compact and quasi-separated,
+\item the morphism $X = \text{lim}_i\ X_i \to S$ is separated.
+\end{enumerate}
+Then $X_i \to S$ is separated for all $i$ large enough.
+\end{lemma}
+
+\begin{proof}
+Let $i_0 \in I$. Note that $I$ is nonempty as the limit is directed.
+For convenience write $X_0 = X_{i_0}$ and $i_0 = 0$.
+As $X_0$ is quasi-compact we can find finitely many
+affine opens $U_1, \ldots, U_n \subset S$ such that
+$X_0 \to S$ maps into $U_1 \cup \ldots \cup U_n$.
+Denote $h_i : X_i \to S$ the structural morphism.
+It suffices to check that for some $i \geq 0$ the morphisms
+$h_i^{-1}(U_j) \to U_j$ are separated for all $j = 1, \ldots,  n$.
+Since $S$ is quasi-separated the morphisms $U_j \to S$ are quasi-compact.
+Hence $h_i^{-1}(U_j)$ is quasi-compact and quasi-separated.
+In this way we reduce to the case $S$ affine.
+
+\medskip\noindent
+Assume $S$ affine. Choose a finite affine open covering
+$X_0 = V_{1, 0} \cup \ldots \cup V_{m, 0}$. As usual we denote
+$V_{j, i}$ the inverse image of $V_{j, 0}$ in $X_i$ for
+$i \geq 0$. We also denote $V_j$ the inverse image of
+$V_{j, 0}$ in $X$. By assumption the intersections
+$V_{j_1, i} \cap V_{j_2, i}$ are quasi-compact opens.
+Since $X$ is separated we see that $V_{j_1} \cap V_{j_2}$
+is affine. Hence we see that $V_{j_1, i} \cap V_{j_2, i}$
+are all affine for $i$ big enough by Lemma \ref{lemma-limit-affine}.
+After increasing $i_0 = 0$ we may assume this holds for
+all $i \geq 0$.
+By Schemes, Lemma \ref{schemes-lemma-characterize-separated}
+we have to show that for some
+$i$ big enough the ring map
+$$
+\mathcal{O}_{X_i}(V_{j_1, i})
+\otimes_{\mathcal{O}_S(S)}
+\mathcal{O}_{X_i}(V_{j_2, i})
+\longrightarrow
+\mathcal{O}_{X_i}(V_{j_1, i} \cap V_{j_2, i})
+$$
+is surjective. Since $V_{j, i}$ is the inverse image of
+$V_{j, 0}$ under the affine transition maps $f_{i0}$ we
+see that
+$$
+V_{j_1, i} \cap V_{j_2, i} =
+V_{j_1, i} \times_{V_{j_1, 0}} (V_{j_1, 0} \cap V_{j_2, 0})
+$$
+Choose generators
+$x_{j_1, j_2, \alpha} \in \mathcal{O}_{X_0}(V_{j_1, 0} \cap V_{j_2, 0})$
+as an algebra over $\mathcal{O}_{X_0}(V_{j_1, 0})$.
+We can choose finitely many of these since
+$\mathcal{O}_{X_0}(V_{j_1, 0} \cap V_{j_2, 0})$
+is a finite type $\mathcal{O}_S(S)$-algebra, see
+Morphisms, Lemma \ref{morphisms-lemma-locally-finite-type-characterize}.
+By the displayed equality of fibre products,
+the images of $x_{j_1, j_2, \alpha}$ generate
+$\mathcal{O}_{X_i}(V_{j_1, i} \cap V_{j_2, i})$ as an algebra over
+$\mathcal{O}_{X_i}(V_{j_1, i})$ also.
+Since $X$ is separated the ring maps
+$$
+\mathcal{O}_{X}(V_{j_1})
+\otimes_{\mathcal{O}_S(S)}
+\mathcal{O}_{X}(V_{j_2, i})
+\longrightarrow
+\mathcal{O}_{X}(V_{j_1} \cap V_{j_2})
+$$
+are surjective. Hence we can find finite sums
+$$
+\sum y_{j_1, j_2, \alpha, \beta} \otimes z_{j_1, j_2, \alpha, \beta}
+$$
+in the left hand side which map to the elements
+$x_{j_1, j_2, \alpha}$ of the right hand side.
+Using Lemma \ref{lemma-descend-section} we may choose
+$i$ large enough so that each of the (finitely many)
+elements $y_{j_1, j_2, \alpha, \beta}$ (resp.\ 
+$z_{j_1, j_2, \alpha, \beta}$) comes from a corresponding element
+$y_{j_1, j_2, \alpha, \beta, i}$ (resp.\ 
+$z_{j_1, j_2, \alpha, \beta, i}$) of
+$\mathcal{O}_{X_i}(V_{j_1, i})$ (resp.\ 
+$\mathcal{O}_{X_i}(V_{j_2, i})$ and moreover such that the image
+of
+$$
+\sum y_{j_1, j_2, \alpha, \beta, i} \otimes z_{j_1, j_2, \alpha, \beta, i}
+$$
+is the image of the element $x_{j_1, j_2, \alpha}$
+in $\mathcal{O}_{X_i}(V_{j_1, i} \cap V_{j_2, i})$.
+This clearly implies the desired surjectivity and we win.
+\end{proof}
+
+\begin{remark}
+\label{remark-question-finite-type-necessary}
+Is there an easy example to show that the finite type condition
+for the morphisms $X_i \to S$ is necessary? Email if you have
+one.
+\end{remark}
+
+\noindent
+A less technical version of the results above is the following.
+
+\begin{proposition}
+\label{proposition-separated-closed-in-finite-presentation}
+Let $f : X \to S$ be a morphism of schemes.
+Assume:
+\begin{enumerate}
+\item The morphism $f$ is of of finite type and separated.
+\item The scheme $S$ is quasi-compact and quasi-separated.
+\end{enumerate}
+Then there exists a separated morphism of finite presentation
+$f' : X' \to S$ and a closed immersion $X \to X'$ of schemes over $S$.
+\end{proposition}
+
+\begin{proof}
+We have seen that there is a closed immersion $X \to Y$ with $Y/S$ of
+finite presentation. Let $\mathcal{I} \subset \mathcal{O}_Y$
+be the quasi-coherent sheaf of ideals defining $X$ as a closed
+subscheme of $Y$. By
+Properties, Lemma \ref{properties-lemma-quasi-coherent-colimit-finite-type} 
+we can write $\mathcal{I}$ as a directed colimit
+$\mathcal{I} = \text{colim}_{a \in A}\ \mathcal{I}_a$ of its
+quasi-coherent sheaves of ideals of finite type.
+Let $X_a \subset Y$ be the closed subscheme defined by $\mathcal{I}_a$.
+These form an inverse system of schemes indexed by $A$.
+The transition morphisms $X_a \to X_{a'}$ are affine because
+they are closed immersions. Each $X_a$ is quasi-compact and quasi-separated
+since it is a closed subscheme of $Y$ and $Y$ is quasi-compact and
+quasi-separated by our assumptions.
+We have $X = \text{lim}_a\ X_a$ as follows directly from the
+fact that $\mathcal{I} = \text{colim}_{a \in A}\ \mathcal{I}_a$.
+Each of the morphisms $X_a \to Y$ is of finite presentation, see
+Morphisms, Lemma \ref{morphisms-lemma-closed-immersion-finite-presentation}.
+Hence the morphisms $X_a \to S$ are of finite presentation.
+Thus it suffices to show that $X_a \to S$ is separated for some
+$a \in A$. This follows from Lemma \ref{lemma-eventually-separated} as we have
+assumed that $X \to S$ is separated.
+\end{proof}
+
 
 
 
