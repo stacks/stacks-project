@@ -89,6 +89,7 @@ book:
 	latex tmp/book.tex
 	latex tmp/book.tex
 	pdflatex tmp/book.tex
+	pdflatex tmp/book.tex
 
 .PHONY: install
 install: $(FUNNYS) $(PDFS) $(DVIS) tarball book
