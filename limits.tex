@@ -99,6 +99,103 @@ $g : T \to S$ because of the uniqueness property. This gives the
 desired morphism $g : T \to S$.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-scheme-over-limit}
+Let $I$ be a directed partially ordered set.
+Let $(S_i, f_{ii'})$ be an inverse system of schemes over $I$.
+Assume all the morphisms $f_{ii'} : S_i \to S_{i'}$ are affine,
+Let $S = \text{lim}_i\ S_i$. Let $i \in I$.
+Suppose that $X_i$ is a scheme over $S_i$.
+Set $X_j = S_j \times_{S_i} X_i$ for $j \geq i$ and set
+$X = S \times_{S_i} X_i$.
+Then
+$$
+X = \text{colim}_{j \geq i}\ X_j
+$$
+\end{lemma}
+
+\begin{proof}
+The transition morphisms of the system $\{X_j\}_{j \geq i}$ are
+affine as they are base changes of the affine morphisms between
+the $S_j$, see Morphisms, Lemma \ref{morphisms-lemma-base-change-affine}.
+Hence we know the limit of the system $\{X_j\}_{j \geq i}$
+exists. There is a canonical morphism $X \to \text{lim} X_j$.
+To see that it is an isomorphism we may work locally.
+Hence we may assume that $X_i = \text{Spec}(B_i)$ is an affine such that
+the morphism $X_i \to S_i$ has image contained in an affine open
+subscheme $U$ of $S_i$. In this case we may also replace each $S_j$
+by the inverse image of $U$ in $S_j$, in other words we may assume
+all the $S_j = \text{Spec}(A_j)$ are affine. Then we have
+$X_j = \text{Spec}(A_j \otimes_{A_i} B_i)$. In this case the statement
+becomes the equality
+$$
+\text{colim}_{j \geq i}\ (A_j \otimes_{A_i} B_i) =
+(\text{colim}_{j \geq i}\ A_j) \otimes_{A_i} B_i
+$$
+which follows from
+Algebra, Lemma \ref{algebra-lemma-tensor-products-commute-with-limits}.
+\end{proof}
+
+
+\begin{lemma}
+\label{lemma-descend-section}
+Let $I$ be a directed partially ordered set.
+Let $(S_i, f_{ii'})$ be an inverse system of schemes over $I$.
+Assume
+\begin{enumerate}
+\item all the morphisms $f_{ii'} : S_i \to S_{i'}$ are affine,
+\item all the schemes $S_i$ are quasi-compact and quasi-separated.
+\end{enumerate}
+Let $S = \text{lim}_i\ S_i$. Let $i \in I$.
+Suppose that $\mathcal{F}_i$ is a quasi-coherent sheaf on $S_i$.
+Set $\mathcal{F}_j = f_{ji}^*\mathcal{F}_i$ for $j \geq i$ and set
+$\mathcal{F} = f_i^*\mathcal{F}_i$.
+Then
+$$
+\Gamma(S, \mathcal{F}) = \text{colim}_{j \geq i}\ \Gamma(S_j, \mathcal{F}_j)
+$$
+\end{lemma}
+
+\begin{proof}
+Write $\mathcal{A}_j = f_{ji, *} \mathcal{O}_{S_j}$.
+This is a quasi-coherent sheaf of $\mathcal{O}_{S_i}$-algebras
+(see Morphisms, Lemma \ref{morphisms-lemma-affine-equivalence-algebras})
+and $S_j$ is the relative spectrum of $\mathcal{A}_j$ over $S_i$.
+In the proof of Lemma \ref{lemma-directed-inverse-system-has-limit}
+we constructed $S$ as the relative spectrum of
+$\mathcal{A} = \text{colim}_{j \geq i}\ \mathcal{A}_j$
+over $S_i$. Set
+$$
+\mathcal{M}_j = \mathcal{F}_i \otimes_{\mathcal{O}_{S_i}} \mathcal{A}_j
+$$
+and
+$$
+\mathcal{M} = \mathcal{F}_i \otimes_{\mathcal{O}_{S_i}} \mathcal{A}.
+$$
+Then we have $f_{ji, *} \mathcal{F}_j = \mathcal{M}_j$
+and $f_{i, *}\mathcal{F} = \mathcal{M}$. Since $\mathcal{A}$
+is the colimit of the sheaves $\mathcal{A}_j$ and since tensor
+product commutes with directed colimits, we conclude that
+$\mathcal{M} = \text{colim}_{j \geq i}\ \mathcal{M}_j$.
+Since $S_i$ is quasi-compact and quasi-separated we see that
+\begin{eqnarray*}
+\Gamma(S, \mathcal{F})
+& = &
+\Gamma(S_i, \mathcal{M}) \\
+& = &
+\Gamma(S_i, \text{colim}_{j \geq i} \ \mathcal{M}_j) \\
+& = &
+\text{colim}_{j \geq i}\ \Gamma(S_i, \mathcal{M}_j) \\
+& = &
+\text{colim}_{j \geq i}\ \Gamma(S_j, \mathcal{F}_j)
+\end{eqnarray*}
+see Sheaves, Lemma \ref{sheaves-lemma-directed-colimits-sections} and
+Topology, Lemma \ref{topology-lemma-topology-quasi-separated-scheme}
+for the middle equality.
+\end{proof}
+
+
+
 
 
 
@@ -180,63 +277,6 @@ subscheme of a quasi-compact scheme. Hence we may apply
 Lemma \ref{lemma-limit-nonempty} to see that
 $Z = \text{lim}_i\ Z_i$ is nonempty. Since there is a
 canonical morphism $Z \to S$ we win.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-descend-section}
-Let $I$ be a directed partially ordered set.
-Let $(S_i, f_{ii'})$ be an inverse system of schemes over $I$.
-Assume
-\begin{enumerate}
-\item all the morphisms $f_{ii'} : S_i \to S_{i'}$ are affine,
-\item all the schemes $S_i$ are quasi-compact and quasi-separated.
-\end{enumerate}
-Let $S = \text{lim}_i\ S_i$. Let $i \in I$.
-Suppose that $\mathcal{F}_i$ is a quasi-coherent sheaf on $S_i$.
-Set $\mathcal{F}_j = f_{ji}^*\mathcal{F}_i$ for $j \geq i$ and set
-$\mathcal{F} = f_i^*\mathcal{F}_i$.
-Then
-$$
-\Gamma(S, \mathcal{F}) = \text{colim}_{j \geq i}\ \Gamma(S_j, \mathcal{F}_j)
-$$
-\end{lemma}
-
-\begin{proof}
-Write $\mathcal{A}_j = f_{ji, *} \mathcal{O}_{S_j}$.
-This is a quasi-coherent sheaf of $\mathcal{O}_{S_i}$-algebras
-(see Morphisms, Lemma \ref{morphisms-lemma-affine-equivalence-algebras})
-and $S_j$ is the relative spectrum of $\mathcal{A}_j$ over $S_i$.
-In the proof of Lemma \ref{lemma-directed-inverse-system-has-limit}
-we constructed $S$ as the relative spectrum of
-$\mathcal{A} = \text{colim}_{j \geq i}\ \mathcal{A}_j$
-over $S_i$. Set
-$$
-\mathcal{M}_j = \mathcal{F}_i \otimes_{\mathcal{O}_{S_i}} \mathcal{A}_j
-$$
-and
-$$
-\mathcal{M} = \mathcal{F}_i \otimes_{\mathcal{O}_{S_i}} \mathcal{A}.
-$$
-Then we have $f_{ji, *} \mathcal{F}_j = \mathcal{M}_j$
-and $f_{i, *}\mathcal{F} = \mathcal{M}$. Since $\mathcal{A}$
-is the colimit of the sheaves $\mathcal{A}_j$ and since tensor
-product commutes with directed colimits, we conclude that
-$\mathcal{M} = \text{colim}_{j \geq i}\ \mathcal{M}_j$.
-Since $S_i$ is quasi-compact and quasi-separated we see that
-\begin{eqnarray*}
-\Gamma(S, \mathcal{F})
-& = &
-\Gamma(S_i, \mathcal{M}) \\
-& = &
-\Gamma(S_i, \text{colim}_{j \geq i} \ \mathcal{M}_j) \\
-& = &
-\text{colim}_{j \geq i}\ \Gamma(S_i, \mathcal{M}_j) \\
-& = &
-\text{colim}_{j \geq i}\ \Gamma(S_j, \mathcal{F}_j)
-\end{eqnarray*}
-see Sheaves, Lemma \ref{sheaves-lemma-directed-colimits-sections} and
-Topology, Lemma \ref{topology-lemma-topology-quasi-separated-scheme}
-for the middle equality.
 \end{proof}
 
 \begin{lemma}
@@ -1072,6 +1112,140 @@ Thus it suffices to show that $X_a \to S$ is separated for some
 $a \in A$. This follows from Lemma \ref{lemma-eventually-separated} as we have
 assumed that $X \to S$ is separated.
 \end{proof}
+
+
+
+
+
+
+
+
+
+
+\section{Descending relative objects}
+\label{section-descending-relative}
+
+\noindent
+The following lemma is typical of the type of results in this section.
+
+\begin{lemma}
+\label{lemma-descend-finite-presentation}
+Let $I$ be a directed partially ordered set.
+Let $(S_i, f_{ii'})$ be an inverse system of schemes over $I$.
+Assume
+\begin{enumerate}
+\item all the morphisms $f_{ii'} : S_i \to S_{i'}$ are affine,
+\item all the schemes $S_i$ are quasi-compact and quasi-separated.
+\end{enumerate}
+Let $S = \text{lim}_i\ S_i$. Then we have the following:
+\begin{enumerate}
+\item For any morphism of finite presentation $X \to S$
+there exists an index $i \in I$ and a morphism of finite
+presentation $X_i \to S_i$ such that $X \cong X_{i, S}$ as
+schemes over $S$.
+\item Suppose given an index $i \in I$, schemes
+$X_i$, $Y_i$ of finite presentation over $S_i$ and a morphism
+$\varphi : X_{i, S} \to Y_{i, S}$ over $S$. Then there exists an index
+$i' \geq i$ and a morphism
+$\varphi_{i'} : X_{i, S_{i'}} \to Y_{i, S_{i'}}$
+whose base change to $S$ is $\varphi$.
+\item Suppose given an index $i \in I$, schemes
+$X_i$, $Y_i$ of finite presentation over $S_i$ and a pair of morphisms
+$\varphi_i, \psi_i : X_i \to Y_i$.
+Assume that the base changes are equal: $\varphi_{i, S} = \psi_{i, S}$.
+Then there exists an index $i' \geq i$ such that
+$\varphi_{i, S_{i'}} = \psi_{i, S_{i'}}$.
+\end{enumerate}
+In other words, the category of schemes of finite presentation over
+$S$ is the colimit over $I$ of the categories of schemes of finite
+presentation over $S_i$.
+\end{lemma}
+
+\begin{proof}
+Suppose that $A = \text{colim}_{i \in I}\ A_i$ is a directed
+colimit of rings. If $B$ is a finitely presented $A$-algebra,
+then there exists an index $i \in I$ and a finitely generated
+$A_i$-algebra $B_i$ such that $B = A \otimes_{A_i} B_i$. Namely,
+suppose that $B = A[x_1, \ldots, x_n]/(f_1, \ldots, f_m)$.
+Then take $i$ so large that each coefficient of any $f_j$ is
+in the image of $A_i \to A$. In other words, there exist
+elements $f_{1, i}, \ldots, f_{m, i} \in A_i[x_1, \ldots, x_n]$
+whose images in $A[x_1, \ldots, x_n]$ are equal to $f_1, \ldots, f_n$.
+Then $B_i = A_i[x_1, \ldots, x_n]/(f_{1, i}, \ldots, f_{m, i})$
+is a finitely presented $A_i$-algebra with the desired property.
+This is the algebraic formulation of property (1) above
+in case each of the schemes $S_i$ is affine, and we consider
+only affine schemes of finite presentation over $S_i$, resp.\ $S$.
+
+\medskip\noindent
+The analogue of (2) in this setting is the following:
+Suppose given an index $i \in I$ and two $A_i$-algebras
+$B_i, C_i$ of finite presentation over $A_i$ and an $A$-algebra
+homomorphism $\varphi : A \otimes_{A_i} B_i \to A \otimes_{A_i} C_i$.
+Then there exists an index $i' \geq i$ and an $A_{i'}$-algebra
+homomorphism
+$\varphi_{i'} : A_{i'} \otimes_{A_i} B_i \to A_{i'} \otimes_{A_i} C_i$
+which gives back $\varphi$ upon further tensoring with $A$ over $A_{i'}$.
+To see this write $B_i = A_i[x_1, \ldots, x_n]/(f_{1, i}, \ldots, f_{m, i})$.
+For $i' \geq i$ we denote $f_{j, i'} \in A_{i'}[x_1, \ldots, x_n]$
+the image of $f_{j, i}$ and we similarly denote $f_j$ the image in
+$A[x_1, \ldots, x_n]$. Thus we see that
+$A_{i'} \otimes_{A_i} B_i =
+A_{i'}[x_1, \ldots, x_n]/(f_{1, i'}, \ldots, f_{m, i'})$
+and
+$A \otimes_{A_i} B_i = A[x_1, \ldots, x_n]/(f_{1, i'}, \ldots, f_{m, i'})$.
+Since $\otimes$ commutes with directed colimits we see that
+$A \otimes_{A_i} C_i = \text{colim}_{i' \geq i}\ A_{i'} \otimes_{A_i} C_i$.
+Using this we may choose an index $i' \geq i$
+such that $\varphi(x_j)$ is the image of an element $z_{j, i'}$
+of $A_{i'} \otimes_{A_i} C_i$. Denote $z_{j, i''}$ the image
+of $z_{j, i'}$ in $A_{i''} \otimes_{A_i} C_i$. By the statement
+on colimits above we see that for some $i'' \geq i'$ the
+elements $f_{k, i''}(z_{1, i''}, \ldots, z_{1, i''})$ is zero.
+Hence for such an index $i''$ we get the desired ring homomorphism
+$$
+A_{i''} \otimes_{A_i} B_i =
+A_{i''}[x_1, \ldots, x_n]/(f_{1, i''}, \ldots, f_{m, i''})
+\longrightarrow
+A_{i''} \otimes_{A_i} C_i
+$$
+by mapping $x_j$ to $z_{j, i''}$.
+
+\medskip\noindent
+It is similarly completely mechanical to prove assertion (3) in this
+affine setting. To finish the proof we claim that the affine case implies
+the lemma in general.
+
+\medskip\noindent
+Let us prove (3). Suppose given an index $i \in I$, schemes
+$X_i$, $Y_i$ of finite presentation over $S_i$ and a pair of morphisms
+$\varphi_i, \psi_i : X_i \to Y_i$. Assume that the base changes are
+equal: $\varphi_{i, S} = \psi_{i, S}$. Pick an affine open covering
+$Y_i = \bigcup V_{j, i}$ such that each $V_{j, i}$ maps into
+an affine open of $S$. Since $Y_i$ and $X_i$ are of finite presentation
+over $S_i$, and since $S_i$ is quasi-compact and quasi-separated, also
+$X_i$ and $Y_i$ are quasi-compact and quasi-separated. Hence the immersions
+$V_{j, i} \to Y_i$ are quasi-compact, and the inverse images
+$U_{j, i} = \varphi_i^{-1}(V_{j, i})$ and $U_{j, i}' = \psi_i^{-1}(V_{j, i})$
+are quasi-compact opens of $X_i$.
+
+
+
+
+
+
+
+
+
+
+
+
+\end{proof}
+
+
+
+
+
 
 
 
