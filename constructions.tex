@@ -26,8 +26,11 @@ A basic reference is \cite{EGA}.
 \label{section-relative-glueing}
 
 \noindent
-The following lemma is relevant in case we have a construction that
-is easier to understand over the affine opens of a base scheme $S$.
+The following lemma is relevant in case we are trying to construct a
+scheme $X$ over $S$, and we already know how to construct the restriction
+of $X$ to the affine opens of $S$. The actual result is completely general
+and works in the setting of (locally) ringed spaces, allthough our proof
+is written in the language of schemes.
 
 \begin{lemma}
 \label{lemma-relative-glueing}
@@ -151,21 +154,128 @@ is an isomorphism as desired. The lemma is proved.
 
 
 
+\section{Relative spectrum via glueing}
+\label{section-spec-via-glueing}
 
-
-
-
-
-\section{Relative spectrum}
-\label{section-spec}
-
-
+\begin{situation}
+\label{situation-relative-spec}
+Here $S$ is a scheme, and $\mathcal{A}$
+is a quasi-coherent $\mathcal{O}_S$-algebra.
+\end{situation}
 
 \noindent
-Let $S$ be a scheme.
-Let $\mathcal{A}$ be a quasi-coherent sheaf of $\mathcal{O}_S$-algebras.
-This means that $\mathcal{A}$ is a sheaf of $\mathcal{O}_S$-algebras
-which is quasi-coherent as an $\mathcal{O}_S$-module.
+In this section we outline how to construct a morphism
+of schemes
+$$
+\underline{\text{Spec}}_S(\mathcal{A}) \longrightarrow S
+$$
+by glueing the spectra $\text{Spec}(\Gamma(U, \mathcal{A}))$
+where $U$ ranges over the affine opens of $S$. We first show that the
+spectra of the values of $\mathcal{A}$ over affines form a
+suitable collection of schemes, as in Lemma \ref{lemma-relative-glueing}.
+
+\begin{lemma}
+\label{lemma-spec-inclusion}
+In Situation \ref{situation-relative-spec}.
+Suppose $U \subset U' \subset S$ are affine opens.
+Let $A = \mathcal{A}(U)$ and $A' = \mathcal{A}(U')$.
+The map of rings $A' \to A$ induces a morphism
+$\text{Spec}(A) \to \text{Spec}(A')$, and the diagram
+$$
+\xymatrix{
+\text{Spec}(A) \ar[r] \ar[d] &
+\text{Spec}(A') \ar[d] \\
+U \ar[r] &
+U'
+}
+$$
+is cartesian.
+\end{lemma}
+
+\begin{proof}
+Let $R = \mathcal{O}_S(U)$ and $R' = \mathcal{O}_S(U')$.
+Note that the map $R \otimes_{R'} A' \to A$ is an isomorphism as
+$\mathcal{A}$ is quasi-coherent
+(see Schemes, Lemma \ref{schemes-lemma-widetilde-pullback} for example).
+The result follows from the description of the fibre product of
+affine schemes in
+Schemes, Lemma \ref{schemes-lemma-fibre-product-affine-schemes}.
+\end{proof}
+
+\noindent
+In particular the morphism $\text{Spec}(A) \to \text{Spec}(A')$
+of the lemma is an open immersion.
+
+\begin{lemma}
+\label{lemma-transitive-spec}
+In Situation \ref{situation-relative-spec}.
+Suppose $U \subset U' \subset U'' \subset S$ are affine opens.
+Let $A = \mathcal{A}(U)$, $A' = \mathcal{A}(U')$ and $A'' = \mathcal{A}(U'')$.
+The composition of the morphisms
+$\text{Spec}(A) \to \text{Spec}(A')$, and
+$\text{Spec}(A') \to \text{Spec}(A'')$ of
+Lemma \ref{lemma-spec-inclusion} gives the
+morphism $\text{Spec}(A) \to \text{Spec}(A'')$
+of Lemma \ref{lemma-spec-inclusion}.
+\end{lemma}
+
+\begin{proof}
+This follows as the map $A'' \to A$ is the composition of $A'' \to A'$ and
+$A' \to A$ (because $\mathcal{A}$ is a sheaf).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-glue-relative-spec}
+In Situation \ref{situation-relative-spec}.
+There exists a morphism of schemes
+$$
+\pi : \underline{\text{Spec}}_S(\mathcal{A}) \longrightarrow S
+$$
+with the following properties:
+\begin{enumerate}
+\item for every affine open $U \subset S$ there exists an isomorphism
+$i_U : \pi^{-1}(U) \to \text{Spec}(\mathcal{A}(U))$, and
+\item for $U \subset U' \subset S$ affine open the composition
+$$
+\xymatrix{
+\text{Spec}(\mathcal{A}(U)) \ar[r]^{i_U^{-1}} &
+\pi^{-1}(U) \ar[rr]^{inclusion} & &
+\pi^{-1}(U') \ar[r]^{i_{U'}} &
+\text{Spec}(\mathcal{A}(U'))
+}
+$$
+is the open immersion of Lemma \ref{lemma-spec-inclusion} above.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Follows immediately from Lemmas
+\ref{lemma-relative-glueing},
+\ref{lemma-spec-inclusion}
+and
+\ref{lemma-transitive-spec}.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Relative spectrum as a functor}
+\label{section-spec}
+
+\noindent
+We place ourselves in Situation \ref{situation-relative-spec}.
+So $S$ is a scheme and $\mathcal{A}$ is a quasi-coherent sheaf of
+$\mathcal{O}_S$-algebras. (This means that $\mathcal{A}$ is a
+sheaf of $\mathcal{O}_S$-algebras which is quasi-coherent as an
+$\mathcal{O}_S$-module.)
 
 \medskip\noindent
 For any $f : T \to S$ the pullback
@@ -201,8 +311,8 @@ T & \longmapsto & F(T) = \{\text{pairs }(f, \varphi) \text{ as above}\}
 
 \begin{lemma}
 \label{lemma-spec-base-change}
-Let $S$ be a scheme. Let $\mathcal{A}$ be a quasi-coherent
-sheaf of $\mathcal{O}_S$-algebras. Let $F$ be the functor
+In Situation \ref{situation-relative-spec}.
+Let $F$ be the functor
 associated to $(S, \mathcal{A})$ above.
 Let $g : S' \to S$ be a morphism of schemes.
 Set $\mathcal{A}' = g^*\mathcal{A}$. Let $F'$ be the
@@ -225,9 +335,8 @@ Hence the lemma.
 
 \begin{lemma}
 \label{lemma-spec-affine}
-Let $S$ be a scheme. Let $\mathcal{A}$ be a quasi-coherent
-sheaf of $\mathcal{O}_S$-algebras. Let $F$ be the functor
-associated to $(S, \mathcal{A})$ above.
+In Situation \ref{situation-relative-spec}.
+Let $F$ be the functor associated to $(S, \mathcal{A})$ above.
 If $S$ is affine, then $F$ is representable by the
 affine scheme $\text{Spec}(\Gamma(S, \mathcal{A}))$.
 \end{lemma}
@@ -283,6 +392,7 @@ displayed above is omitted.
 
 \begin{lemma}
 \label{lemma-spec}
+In Situation \ref{situation-relative-spec}.
 The functor $F$ is representable by a scheme.
 \end{lemma}
 
@@ -335,13 +445,53 @@ is an open covering of $T$. Moreover $(f, \varphi)|_{V_i} \in F_i(V_i)$.
 This finishes the proof of the lemma.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-glueing-gives-functor-spec}
+In Situation \ref{situation-relative-spec}.
+The scheme $\pi : \underline{\text{Spec}}_S(\mathcal{A}) \to S$
+constructed in Lemma \ref{lemma-glue-relative-spec}
+and the scheme representing the functor $F$ are
+canonically isomorphic as schemes over $S$.
+\end{lemma}
+
+\begin{proof}
+Let $X \to S$ be the scheme representing the functor $F$.
+Consider the sheaf of $\mathcal{O}_S$-algebras
+$\mathcal{R} = \pi_*\mathcal{O}_{\underline{\text{Spec}}_S(\mathcal{A})}$.
+By construction of $\underline{\text{Spec}}_S(\mathcal{A})$
+we have isomorphisms $\mathcal{A}(U) \to \mathcal{R}(U)$
+for every affine open $U \subset S$; this follows from
+Lemma \ref{lemma-glue-relative-spec} part (1).
+For $U \subset U' \subset S$ open these isomorphisms are
+compatible with the restriction mappings; this follows from
+Lemma \ref{lemma-glue-relative-spec} part (2).
+Hence by Sheaves, Lemma \ref{sheaves-lemma-restrict-basis-equivalence-modules}
+these isomorphisms result from an isomorphism of $\mathcal{O}_S$-algebras
+$\varphi : \mathcal{A} \to \mathcal{R}$. Hence this gives an element
+$(\underline{\text{Spec}}_S(\mathcal{A}), \varphi)
+\in F(\underline{\text{Spec}}_S(\mathcal{A}))$.
+Since $X$ represents the functor $F$ we get a corresponding
+morphism of schemes $can : \underline{\text{Spec}}_S(\mathcal{A}) \to X$
+over $S$.
+
+\medskip\noindent
+Let $U \subset S$ be any affine open. Let $F_U \subset F$ be
+the subfunctor of $F$ corresponding to pairs $(f, \varphi)$ over
+schemes $T$ with $f(T) \subset U$. Clearly the base change
+$X_U$ represents $F_U$. Moreover, $F_U$ is represented by
+$\text{Spec}(\mathcal{A}(U)) = \pi^{-1}(U)$ according to
+Lemma \ref{lemma-spec-affine}. In other words $X_U \cong \pi^{-1}(U)$.
+We omit the verification that this identification is brought about
+by the base change of the morphism $can$ to $U$.
+\end{proof}
+
 \begin{definition}
 \label{definition-spec}
 Let $S$ be a scheme. Let $\mathcal{A}$ be a quasi-coherent
 sheaf of $\mathcal{O}_S$-algebras. We denote
 $\underline{\text{Spec}}_S(\mathcal{A})$ a scheme
 representing the functor $F$ introduced in Equation
-\ref{equation-spec} above. This is called the {\it relative
+(\ref{equation-spec}) above. This is called the {\it relative
 spectrum of $\mathcal{A}$ over $S$}. The universal family
 is a pair $f_{univ} : \underline{\text{Spec}}_S(\mathcal{A}) \to S$
 and a morphism of $\mathcal{O}_S$-algebras
@@ -1314,7 +1464,7 @@ Set $X = \text{Proj}(A)$ and $Y = \text{Proj}(B)$.
 Let $\varphi : A \to B$ be a graded ring map.
 Set
 $$
-V(\varphi)
+U(\varphi)
 =
 \bigcup\nolimits_{f \in A_{+}\ \text{homogeneous}} D_{+}(\varphi(f))
 \subset Y.
@@ -1322,7 +1472,7 @@ $$
 Then there is a canonical morphism of schemes
 $$
 \text{Proj}(\varphi) :
-V(\varphi)
+U(\varphi)
 \longrightarrow
 X
 $$
@@ -1332,7 +1482,7 @@ $$
 A_d \ar[d] \ar[rr]_{\varphi} & &
 B_d \ar[d] \\
 \Gamma(X, \mathcal{O}_X(d)) \ar[r] &
-\Gamma(V(\varphi), \mathcal{O}_Y(d)) &
+\Gamma(U(\varphi), \mathcal{O}_Y(d)) &
 \Gamma(Y, \mathcal{O}_Y(d)) \ar[l]
 }
 $$
@@ -1347,9 +1497,31 @@ Omitted.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-morphism-proj-transitive}
+Let $A$, $B$, and $C$ be graded rings.
+Set $X = \text{Proj}(A)$, $Y = \text{Proj}(B)$ and $Z = \text{Proj}(C)$.
+Let $\varphi : A \to B$, $\psi : B \to C$ be graded ring maps.
+Then we have
+$$
+U(\psi \circ \varphi) = \text{Proj}(\varphi)^{-1}(U(\psi))
+$$
+and
+$$
+\text{Proj}(\psi \circ \varphi)
+=
+\text{Proj}(\varphi) \circ \text{Proj}(\psi)|_{U(\psi \circ \varphi)}
+$$
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+
+\begin{lemma}
 \label{lemma-surjective-graded-rings-map-proj}
 With hypotheses as in Lemma \ref{lemma-morphism-proj} above.
-If $A \to B$ is surjective then $V(\varphi) = Y$ and
+If $A \to B$ is surjective then $U(\varphi) = Y$ and
 $\text{Proj}(\varphi) : Y \to X$ is a closed immersion.
 \end{lemma}
 
@@ -1361,7 +1533,7 @@ Omitted.
 \label{lemma-localization-map-proj}
 With hypotheses as in Lemma \ref{lemma-morphism-proj} above.
 If $B \cong A_g$ as $A$-algebras for some $g \in A_0$
-then $V(\varphi) = Y$ and $\text{Proj}(\varphi) : Y \to X$ is an open
+then $U(\varphi) = Y$ and $\text{Proj}(\varphi) : Y \to X$ is an open
 immersion. Moreover the diagram
 $$
 \xymatrix{
@@ -1836,20 +2008,17 @@ $$
 \underline{\text{Proj}}_S(\mathcal{A}) \longrightarrow S
 $$
 by glueing the homogeneous spectra $\text{Proj}(\Gamma(U, \mathcal{A}))$
-where $U$ ranges over the affine opens of $S$. Glueing (without an a priori
-defined functor) is bothersome since one has to check various diagrams commute
-by ``bookkeeping''. See the proof of Lemma \ref{lemma-glue-relative-proj}
-below. We first show that the homogeneous spectra
-of the values of $\mathcal{A}$ over affines form a suitable
-collection of schemes.
+where $U$ ranges over the affine opens of $S$. We first show that the
+homogeneous spectra of the values of $\mathcal{A}$ over affines form a
+suitable collection of schemes, as in Lemma \ref{lemma-relative-glueing}.
 
 \begin{lemma}
-\label{lemma-affine-inclusion}
+\label{lemma-proj-inclusion}
 In Situation \ref{situation-relative-proj}.
 Suppose $U \subset U' \subset S$ are affine opens.
 Let $A = \mathcal{A}(U)$ and $A' = \mathcal{A}(U')$.
 The map of graded rings $A' \to A$ induces a morphism
-$\text{Proj}(A') \to \text{Proj}(A)$, and the diagram
+$\text{Proj}(A) \to \text{Proj}(A')$, and the diagram
 $$
 \xymatrix{
 \text{Proj}(A) \ar[r] \ar[d] &
@@ -1870,7 +2039,7 @@ $R \otimes_{R'} A' \to A$ is an isomorphism as
 $\mathcal{A}$ is quasi-coherent
 (see Schemes, Lemma \ref{schemes-lemma-widetilde-pullback} for example).
 It follows that $A'_{+}$ generates the ideal $A_{+}$.
-Hence the open subset $V(\varphi)$ of Lemma \ref{lemma-morphism-proj}
+Hence the open subset $U(\varphi)$ of Lemma \ref{lemma-morphism-proj}
 is all of $\text{Proj}(A')$. Since the bottom arrow
 is an open immersion, to show that the diagram is
 cartesian it suffices to show that the top arrow
@@ -1880,8 +2049,27 @@ case, using Lemma \ref{lemma-localization-map-proj} twice.
 \end{proof}
 
 \noindent
-In particular the morphism of the lemma is an open
-immersion.
+In particular the morphism $\text{Proj}(A) \to \text{Proj}(A')$
+of the lemma is an open immersion.
+
+\begin{lemma}
+\label{lemma-transitive-proj}
+In Situation \ref{situation-relative-proj}.
+Suppose $U \subset U' \subset U'' \subset S$ are affine opens.
+Let $A = \mathcal{A}(U)$, $A' = \mathcal{A}(U')$ and $A'' = \mathcal{A}(U'')$.
+The composition of the morphisms
+$\text{Proj}(A) \to \text{Proj}(A')$, and
+$\text{Proj}(A') \to \text{Proj}(A'')$ of
+Lemma \ref{lemma-proj-inclusion} gives the
+morphism $\text{Proj}(A) \to \text{Proj}(A'')$
+of Lemma \ref{lemma-proj-inclusion}.
+\end{lemma}
+
+\begin{proof}
+This follows from Lemma \ref{lemma-morphism-proj-transitive} since
+the map $A'' \to A$ is the composition of $A'' \to A'$ and
+$A' \to A$.
+\end{proof}
 
 \begin{lemma}
 \label{lemma-glue-relative-proj}
@@ -1903,60 +2091,16 @@ $$
 \text{Proj}(\mathcal{A}(U'))
 }
 $$
-is the open immersion of Lemma \ref{lemma-affine-inclusion} above.
+is the open immersion of Lemma \ref{lemma-proj-inclusion} above.
 \end{enumerate}
 \end{lemma}
 
 \begin{proof}
-Here is a standard glueing argument which first deals with the
-case where $S$ is separated, and then does the general case.
-Let $S = \bigcup V_i$ be an affine open covering.
-Set $X_i = \text{Proj}(\mathcal{A}(V_i))$ and
-$\pi_i : X_i \to V_i$ the structural morphism.
-Set $U_{ij} = \pi_i^{-1}(V_i \cap V_j) \subset X_i$.
-We are going to construct $X = \underline{\text{Proj}}_S(\mathcal{A})$
-by glueing the schemes $X_i$ along the open subschemes
-$U_{ij}$ as in Schemes, Section \ref{schemes-section-glueing-schemes}.
-
-\medskip\noindent
-First, let us assume that $S$ is separated.
-In this case all the pairwise intersections
-$V_i \cap V_j$ are affine as well. Hence by
-Lemma \ref{lemma-affine-inclusion} we see that
-$$
-U_{ij} = \pi_i^{-1}(V_i \cap V_j) =
-\text{Proj}(\mathcal{A}(V_i \cap V_j)) =
-\pi_j^{-1}(V_i \cap V_j) = U_{ji}.
-$$
-This gives us the glueing morphisms
-$\varphi_{ij} : U_{ij} \to U_{ji}$. At this point we have to
-show that
-(1) $\varphi_{ij}^{-1}(U_{ji} \cap U_{jk}) =  U_{ij} \cap U_{ik}$,
-and (2) the cocycle condition. Part (1) follows from
-the identity of opens $V_i \cap V_j \cap V_k = V_j \cap V_i \cap V_k$
-in $S$ after pulling back by $\pi_i$.
-We claim that the cocycle condition follows from the
-assertion that for any $V \subset V' \subset V''$ affine open
-in $S$ the composition
-$$
-\text{Proj}(\mathcal{A}(V))
-\longrightarrow
-\text{Proj}(\mathcal{A}(V'))
-\longrightarrow
-\text{Proj}(\mathcal{A}(V''))
-$$
-of the morphisms of Lemma \ref{lemma-affine-inclusion} associated
-to the unclusions $V \subset V'$ and $V' \subset V''$ is the morphism
-of Lemma \ref{lemma-affine-inclusion} associated to the inclusion
-$V \subset V''$. Details omitted.
-
-\medskip\noindent
-In the general case we use that the schemes $V_i$,
-$V_i \cap V_j$, $V_i \cap V_j \cap V_k$ are all separated.
-Hence since the construction is known in each of those cases
-we get the glueing morphisms $\varphi_{ij}$ and the
-cocycle condition from the lemma in the separated case.
-Details omitted.
+Follows immediately from Lemmas
+\ref{lemma-relative-glueing},
+\ref{lemma-proj-inclusion}
+and
+\ref{lemma-transitive-proj}.
 \end{proof}
 
 
@@ -1966,11 +2110,11 @@ Details omitted.
 \label{section-relative-proj}
 
 \noindent
-Let $S$ be a scheme.
-Let $\mathcal{A} = \bigoplus_{d \geq 0} \mathcal{A}_d$
-be a quasi-coherent graded $\mathcal{O}_S$-algebra.
+We place ourselves in Situation \ref{situation-relative-proj}.
+So $S$ is a scheme and $\mathcal{A} = \bigoplus_{d \geq 0} \mathcal{A}_d$
+is a quasi-coherent graded $\mathcal{O}_S$-algebra.
 In this section we relativize the construction of
-$\text{Proj}$ by writing a functor which the relatve
+$\text{Proj}$ by constructing a functor which the relative
 homogeneous spectrum will represent.
 As a result we will construct a morphism of schemes
 $$
@@ -1981,7 +2125,8 @@ of a graded ring. The discussion will be modeled after our
 discussion of the relative spectrum in Section \ref{section-spec}.
 The easier method using glueing schemes of the form
 $\text{Proj}(A)$, $A = \Gamma(U, \mathcal{A})$, $U \subset S$
-affine open, is explained in Section \ref{section-relative-proj-via-glueing}.
+affine open, is explained in Section \ref{section-relative-proj-via-glueing},
+and the result in this section will be shown to be isomorphic to that one.
 
 \medskip\noindent
 Fix for the moment an integer $d \geq 1$.
@@ -1999,9 +2144,9 @@ $\psi : f^*\mathcal{A}^{(d)} \to \bigoplus_{n \geq 0}\mathcal{L}^{\otimes n}$
 is a homomorphism of graded $\mathcal{O}_T$-algebras
 such that $f^*\mathcal{A}_d \to \mathcal{L}$ is surjective.
 \end{enumerate}
-Given a morphism $h : Y' \to Y$ and a quadruple
-$(d, f, \mathcal{L}, \psi)$ over $Y$ we can pull it back to the
-triple $(d, f \circ h, h^*\mathcal{L}, h^*\psi)$.
+Given a morphism $h : T' \to T$ and a quadruple
+$(d, f, \mathcal{L}, \psi)$ over $T$ we can pull it back to the
+quadruple $(d, f \circ h, h^*\mathcal{L}, h^*\psi)$ over $T'$.
 Given two quadruples $(d, f, \mathcal{L}, \psi)$ and
 $(d, f', \mathcal{L}', \psi')$ over $T$ with the same integer $d$
 we say they are {\it strictly equivalent} if $f = f'$ and there exists
@@ -2022,8 +2167,7 @@ with pullbacks as defined above.
 
 \begin{lemma}
 \label{lemma-proj-base-change}
-Let $S$ be a scheme. Let $\mathcal{A}$ be a quasi-coherent
-sheaf of graded $\mathcal{O}_S$-algebras. Let $d \geq 1$.
+In Situation \ref{situation-relative-proj}. Let $d \geq 1$.
 Let $F_d$ be the functor
 associated to $(S, \mathcal{A})$ above.
 Let $g : S' \to S$ be a morphism of schemes.
@@ -2054,8 +2198,7 @@ f^*\mathcal{A}^{(d)}$. Hence the lemma.
 
 \begin{lemma}
 \label{lemma-relative-proj-affine}
-Let $S$ be a scheme. Let $\mathcal{A}$ be a quasi-coherent
-sheaf of graded $\mathcal{O}_S$-algebras. Let $F_d$ be the functor
+In Situation \ref{situation-relative-proj}. Let $F_d$ be the functor
 associated to $(d, S, \mathcal{A})$ above.
 If $S$ is affine, then $F_d$ is representable by the open subscheme
 $U_d$ (see Section \ref{section-morphisms-proj})
@@ -2095,6 +2238,7 @@ of functors $F_d = F_d^{triples}$.
 
 \begin{lemma}
 \label{lemma-relative-proj-d}
+In Situation \ref{situation-relative-proj}.
 The functor $F_d$ is representable by a scheme.
 \end{lemma}
 
@@ -2188,18 +2332,18 @@ Let $\mathcal{M} = \bigoplus_{n \in \mathbf{Z}} \mathcal{M}_n$
 be a graded $\mathcal{A}$-module, quasi-coherent as an $\mathcal{O}_S$-module.
 Given a quadruple $(d, f : T \to S, \mathcal{L}, \psi)$
 as above we define a quasi-coherent sheaf
-$\widetilde{\mathcal{M}}$ of $\mathcal{O}_T$-modules
+$\widetilde{\mathcal{M}}_T$ of $\mathcal{O}_T$-modules
 as follows
 \begin{equation}
 \label{equation-widetilde-M}
-\widetilde{\mathcal{M}} =
+\widetilde{\mathcal{M}}_T =
 \left(
 f^*\mathcal{M}^{(d)}
 \otimes_{f^*\mathcal{A}^{(d)}}
 \left(\bigoplus\nolimits_{n \in \mathbf{Z}} \mathcal{L}^{\otimes n}\right)
 \right)_0
 \end{equation}
-In words: $\widetilde{\mathcal{M}}$ is the degree $0$ part
+In words: $\widetilde{\mathcal{M}}_T$ is the degree $0$ part
 of the tensor product of the graded $f^*\mathcal{A}^{(d)}$-modules
 $\mathcal{M}^{(d)}$ and
 $\bigoplus\nolimits_{n \in \mathbf{Z}} \mathcal{L}^{\otimes n}$.
@@ -2208,10 +2352,10 @@ means over an affine open $\text{Spec}(B) = V \subset T$.
 Namely, suppose that $f^*\mathcal{M}|_V$ corresponds to the
 graded $B$-module $M$, that $\mathcal{L}|_V$ corresponds to the
 invertible $B$-module $L$, and that $f^*\mathcal{A}|_V$ corresponds
-to the graded $B$-algebra $A$. Then $\widetilde{\mathcal{M}}|_V$
+to the graded $B$-algebra $A$. Then $(\widetilde{\mathcal{M}}_T)|_V$
 is the quasi-coherent sheaf associated to the $B$-module
 $$
-\widetilde M = 
+M_B = 
 (M^{(d)} \otimes_{A^{(d)}} \bigoplus L^{\otimes n})_0
 $$
 By assumption we may even cover $T$ by affine opens
@@ -2220,11 +2364,11 @@ $\psi(a) \in L$ is a $B$-basis for the module $L$.
 In that case any element of $\widetilde M$ is a sum
 of pure tensors $\sum m_i \otimes \psi(a)^{-n_i}$ with $m \in M_{n_id}$.
 In fact we may multiply each $m_i$ with a suitable positive power
-of $a$ and collect terms to see that each element of $\widetilde M$
+of $a$ and collect terms to see that each element of $M_B$
 can be written as $m \otimes \psi(a)^{-n}$ with $m \in M_{nd}$ and
 $n \gg 0$. In other words we see that in this case
 $$
-\widetilde M = M_{(a)}\otimes_{A_{(a)}} B
+M_B = M_{(a)}\otimes_{A_{(a)}} B
 $$
 where the map $A_{(a)} \to B$ is the map $x/a^n \mapsto \psi(x)/\psi(a)^n$.
 
@@ -2259,20 +2403,19 @@ $\mathcal{O}_S$-algebras. There exist
 \item a scheme
 $$
 \pi :
-\underline{\text{Proj}}(\mathcal{A}) =
 \underline{\text{Proj}}_S(\mathcal{A})
 \longrightarrow
 S
 $$
 over $S$,
 \item a quasi-coherent $\mathbf{Z}$-graded sheaf
-of $\mathcal{O}_{\underline{\text{Proj}}(\mathcal{A})}$-algebras
-$\bigoplus_n \mathcal{O}_{\underline{\text{Proj}}(\mathcal{A})}(n)$, and
+of $\mathcal{O}_{\underline{\text{Proj}}_S(\mathcal{A})}$-algebras
+$\bigoplus_n \mathcal{O}_{\underline{\text{Proj}}_S(\mathcal{A})}(n)$, and
 \item a morphism of graded $\mathcal{O}_S$-algebras
 $$
 \mathcal{A} \longrightarrow 
 \pi_*\left(\bigoplus\nolimits_{n \geq 0}
-\mathcal{O}_{\underline{\text{Proj}}(\mathcal{A})}(n)\right)
+\mathcal{O}_{\underline{\text{Proj}}_S(\mathcal{A})}(n)\right)
 $$
 \end{enumerate}
 with the following properties:
@@ -2282,25 +2425,25 @@ letting $A = \Gamma(U, \mathcal{A})$,
 there exist an isomorphism
 $\varphi : \text{Proj}(A) \to \pi^{-1}(U)$,
 and isomorphisms
-$\varphi^*\mathcal{O}_{\underline{\text{Proj}}(\mathcal{A})}(n) \to
+$\varphi^*\mathcal{O}_{\underline{\text{Proj}}_S(\mathcal{A})}(n) \to
 \mathcal{O}_{\text{Proj}(A)}(n)$ 
 such that the multiplication in (2) above corresponds to
 Equation (\ref{equation-multiply}) and the map (3) corresponds
 to Lemma \ref{lemma-proj-sheaves} part (\ref{item-map}).
 \item If $T$ is a quasi-compact scheme then the set of morphisms
-from $T$ into $\underline{\text{Proj}}(\mathcal{A})$ correspond
+from $T$ into $\underline{\text{Proj}}_S(\mathcal{A})$ correspond
 to equivalence classes of quadruples
 $(d, f : T \to S, \mathcal{L}, \psi :
 f^*\mathcal{A}^{(d)} \to \bigoplus_{n \geq 0}\mathcal{L}^{\otimes n})$
 as above.
 \item For any quasi-coherent sheaf of graded $\mathcal{A}$-modules
 $\mathcal{M}$ on $S$, there exists a canonical associated sheaf
-of $\mathcal{O}_{\underline{\text{Proj}}(\mathcal{A})}$-modules.
+of $\mathcal{O}_{\underline{\text{Proj}}_S(\mathcal{A})}$-modules.
 This sheaf $\widetilde{\mathcal{M}}$ agrees on affine opens, as in (1)
 above, with the usual construction $\widetilde{M}$,
 $M = \Gamma(U, \mathcal{M})$ on $\text{Proj}(A)$. For $T$ quasi-compact
 as in (2) above, the pullback of $\widetilde{\mathcal{M}}$ to
-$T$ via a morphism $T \to \underline{\text{Proj}}(\mathcal{A})$
+$T$ via a morphism $T \to \underline{\text{Proj}}_S(\mathcal{A})$
 agrees with the construction of $\widetilde{\mathcal{M}}$ on $T$
 in Equation (\ref{equation-widetilde-M}).
 \end{enumerate}
@@ -2328,13 +2471,13 @@ correspond to the inclusions of opens in $\text{Proj}(A)$.
 Thus we conclude that $U_d \to U_{d'}$ is an open immersion.
 
 \medskip\noindent
-This allows us to construct $\underline{\text{Proj}}(\mathcal{A})$
+This allows us to construct $\underline{\text{Proj}}_S(\mathcal{A})$
 by glueing the schemes $U_d$ along the open immersions $U_d \to U_{d'}$.
 Technically, it is convenient to choose a sequence
 $d_1 | d_2 | d_3 | \ldots$ such that every positive integer 
 divides one of the $d_i$ and to glue the schemes $U_{d_i}$
 along the open immersions constructed above. The resulting
-scheme $\underline{\text{Proj}}(\mathcal{A}) \to S$ is identified
+scheme $\underline{\text{Proj}}_S(\mathcal{A}) \to S$ is identified
 over each affine open of $S$ with the homogeneous spectrum
 of the sections of $\mathcal{A}$ over that open, since this was
 true for the opens $U_d$. Also, property (2) of the statement
@@ -2351,15 +2494,15 @@ via $U_d \to U_{d'}$ is identified with
 $\mathcal{O}_{U_d}(n)$ compatibly with what happens over
 an affine open of $S$ as in Lemma \ref{lemma-quasi-coherent-sheaf-proj}
 (verification omitted). Hence we obtain quasi-coherent sheaves
-of $\mathcal{O}_{\underline{\text{Proj}}(\mathcal{A})}$-modules
+of $\mathcal{O}_{\underline{\text{Proj}}_S(\mathcal{A})}$-modules
 $\mathcal{O}_{\underline{\text{Proj}}(\mathcal{A})}(n)$ for all
 $n \in \mathbf{Z}$.
 
 \medskip\noindent
-We omit the definition of the multiplication maps
-which turn $\bigoplus_n \mathcal{O}_{\underline{\text{Proj}}(\mathcal{A})}(n)$
+We omit the definition of the multiplication maps which turn
+$\bigoplus_n \mathcal{O}_{\underline{\text{Proj}}_S(\mathcal{A})}(n)$
 into a quasi-coherent $\mathbf{Z}$-graded sheaf of
-$\mathcal{O}_{\underline{\text{Proj}}(\mathcal{A})}$-algebras.
+$\mathcal{O}_{\underline{\text{Proj}}_S(\mathcal{A})}$-algebras.
 With this definitions the verification of assertion (1) of the
 lemma is a matter of unwiding the definitions. Omitted.
 
@@ -2375,7 +2518,7 @@ of schemes. Then there is a canonical isomorphism
 $$
 \underline{\text{Proj}}_{S'}(g^*\mathcal{A})
 \longrightarrow
-S' \times_S \underline{\text{Proj}}_{S}(\mathcal{A})
+S' \times_S \underline{\text{Proj}}_S(\mathcal{A})
 $$
 \end{lemma}
 
