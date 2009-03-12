@@ -80,6 +80,14 @@ backup: clean
 tarball:
 	git archive --prefix=stacks-git/ HEAD | bzip2 > stacks-git.tar.bz2
 
+.PHONY: index
+index: all pdfs
+	python ./scripts/make_index.py $(PWD) > tmp/index.tex
+	latex tmp/index.tex
+	latex tmp/index.tex
+	pdflatex tmp/index.tex
+	pdflatex tmp/index.tex
+
 .PHONY: book
 book:
 	python ./scripts/make_book.py $(PWD) > tmp/book.tex
