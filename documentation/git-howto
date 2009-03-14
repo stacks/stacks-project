@@ -1,0 +1,105 @@
+How to use git with the stacks project
+--------------------------------------
+
+I assume you have cloned the git repository using the command
+
+	git clone git://paard.math.columbia.edu/var/git/stacks
+
+Then you will have a directory called stacks. In the rest of this howto we
+assume that you have changed directory into stacks.
+
+
+Warning
+-------
+
+It is easy to make mistakes using git, so it is a good idea to back up your
+changes by simply compying them somewhere safe before trying something tricky.
+
+
+Pulling updates
+---------------
+
+From time to time type
+
+	git pull
+
+to automatically pull new updates from the server paard.math.columbia.edu
+
+
+Working on the project (simplest version)
+-----------------------------------------
+
+Create a new branch that you will use to make changes to the project.
+
+	git branch newbranch
+
+The reason for doing this is that it is a bit confusing to deal with the
+consequences of pulling updates when you have edited the master branch. Switch
+to the new branch by using the command
+
+	git checkout newbranch
+
+Of course you can switch back to the master branch by executing
+
+	git checkout master
+
+whenever you want. Making sure that you are on newbranch can be done by typing
+
+	git branch
+
+the branch that has a * next to it is the one you are currently on. Assuming
+you are on newbranch, make edits, etc. Whenever you want to add your changes to
+newbranch you type
+
+	git commit -a
+
+It brings up an editor where you can write a short commit message. Keep going
+like this until you are happy with the result and want to submit your changes.
+To do this, make sure you have committed your latest changes, and the type
+
+	git format-patch -n master..newbranch > /tmp
+
+This should create one or more files in /tmp which you can email for inclusion
+in the project. If there are a lot of them look into using git send-email to
+email them all at once.
+
+
+Keeping in sync with paard.math.columbia.edu
+--------------------------------------------
+
+If you are worried about keeping in sync with the repository at
+paard.math.columbia.edu you can do the following steps
+
+	git checkout master
+	git pull changes
+	git checkout newbranch
+	git rebase master
+	
+The result of these steps is that the master branch is synced with the master
+branch at paard.math.columbia.edu and that your branch newbranch is rebased on
+this synced version of the master branch. Actually the last step may lead to
+``conflicts''. This means that you have edited some lines that have also been
+changed in the origin repository (but in a different way). Whenever this
+happens you have to ``resolve'' the conflicts. This is done by editing the
+affected files A, B,... (you can find them by grepping for <<<< and >>>>),
+editing the troublesome spots in A, B,..., marking the file done by
+
+	git add A,
+	git add B,
+	...
+
+and then continuing with the rebase procedure typing
+
+	git rebase --continue
+
+until done. Create and email patches using git format-patch as explained above.
+(In fact this is the reason for using git rebase instead of git merge.)
+
+
+More information
+----------------
+
+There is a lot more you can do with git. For example you can set it up so that
+the maintainer of the stacks project can pull changes directly from your own
+repository. To learn more see http://git-scm.com and
+http://www.kernel.org/pub/software/scm/git/docs/
