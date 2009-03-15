@@ -13,15 +13,21 @@ def get_path():
 
 def list_text_files(path):
 	Makefile_file = open(path + "Makefile", 'r')
-	for lijst in Makefile_file:
-		n = lijst.find("LIJST = ")
+	for line in Makefile_file:
+		n = line.find("LIJST = ")
 		if n == 0:
 			break
+	lijst = ""
+	while line.find("\\") >= 0:
+		line = line.rstrip()
+		line = line.rstrip("\\")
+		lijst = lijst + " " + line
+		line = Makefile_file.next()
 	Makefile_file.close()
+	lijst = lijst + " " + line
 	lijst = lijst.replace("LIJST = ", "")
-	lijst = lijst.rstrip()
 	lijst = lijst + " fdl"
-	return lijst.split(" ")
+	return lijst.split()
 
 def print_error(error_text, line, name, line_nr):
 	print "In file " + name + ".tex"

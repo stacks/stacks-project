@@ -53,10 +53,14 @@ print "\\maketitle"
 print "\\tableofcontents"
 
 lijstje = list_text_files(path)
+lijstje.append("index")
 
 ext = ".tex"
 for name in lijstje:
-	filename = path + name + ext
+	if name == "index":
+		filename = path + "tmp/index.tex"
+	else:
+		filename = path + name + ext
 	tex_file = open(filename, 'r')
 	verbatim = 0
 	for line in tex_file:

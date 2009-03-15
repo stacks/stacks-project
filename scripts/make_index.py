@@ -34,8 +34,11 @@ lijstje = list_text_files(path)
 
 print "\\input{preamble}"
 print "\\begin{document}"
-print "\\title{Auto generated index of definitions}"
+print "\\title{Auto generated index}"
 print "\\maketitle"
+print
+print "\\phantomsection"
+print "\\label{section-begin}"
 print
 print "\\frenchspacing"
 print "\\begin{multicols}{2}"
