@@ -37,7 +37,7 @@ default: $(AUXS)
 	@echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
 
 %.aux: %.tex
-	$(LATEX) $<
+	$(LATEX) -src $<
 
 # Target which creates all dvi files of chapters
 .PHONY: dvis
