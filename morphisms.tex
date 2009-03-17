@@ -468,15 +468,26 @@ normal sheaf later (insert future reference here).
 \begin{lemma}
 \label{lemma-affine-conormal}
 Let $i : Z \to X$ be an immersion. The conormal sheaf
-of $i$ has the following property:
+of $i$ has the following properties:
+\begin{enumerate}
+\item Let $U \subset X$ be any open such that $i(Z)$ is
+a closed subset of $U$. Let $\mathcal{I} \subset \mathcal{O}_U$
+be the sheaf of ideals corresponding to the closed subscheme
+$i(Z) \subset U$. Then
+$$
+\mathcal{C}_{Z/X} = i^*\mathcal{I} = i^{-1}(\mathcal{I}/\mathcal{I}^2)
+$$
+\item
 For any affine open $\text{Spec}(R) = U \subset X$
 such that $Z \cap U = \text{Spec}(R/I)$ there is a
 canonical isomorphism
 $\Gamma(Z \cap U, \mathcal{C}_{Z/X}) = I/I^2$.
+\end{enumerate}
 \end{lemma}
 
 \begin{proof}
-Clear from the definitions.
+Mostly clear from the definitions. Note that given a ring $R$ and
+an ideal $I$ of $R$ we have $I/I^2 = I \otimes_R R/I$. Details omitted.
 \end{proof}
 
 \begin{lemma}
@@ -3090,6 +3101,11 @@ Algebra, Definition \ref{algebra-definition-lci-local-ring}).
 \end{enumerate}
 \end{lemma}
 
+\begin{proof}
+Follows from the definitions and
+Algebra, Lemma \ref{algebra-lemma-syntomic}.
+\end{proof}
+
 \begin{lemma}
 \label{lemma-syntomic-flat-fibres}
 Let $f : X \to S$ be a morphism of schemes.
@@ -3107,11 +3123,6 @@ $$
 \mathcal{O}_{X_s, x}
 $$
 and Algebra, Lemma \ref{algebra-lemma-lci-local} for example.
-\end{proof}
-
-\begin{proof}
-Follows from the definitions and
-Algebra, Lemma \ref{algebra-lemma-syntomic}.
 \end{proof}
 
 \begin{lemma}
@@ -3168,7 +3179,7 @@ Hence the lemma follows from
 Lemma \ref{lemma-composition-type-P} combined
 with the fact that being syntomic is a property of ring maps that is
 stable under base change, see
-Algebra, Lemma \ref{algebra-lemma-composition-syntomic}.
+Algebra, Lemma \ref{algebra-lemma-base-change-syntomic}.
 \end{proof}
 
 \begin{lemma}
@@ -3279,6 +3290,56 @@ of standard opens of $X$). Details omitted.
 \end{proof}
 
 \noindent
+Here is a particular situation where derivations come up
+naturally.
+
+\begin{lemma}
+\label{lemma-double-structure-gives-derivation}
+Let $f : X \to S$ be a morphism of schemes.
+Consider a short exact sequence
+$$
+0 \to \mathcal{F} \to \mathcal{A} \to \mathcal{O}_X \to 0
+$$
+Here $\mathcal{A}$ is a sheaf of $f^{-1}\mathcal{O}_S$-algebras,
+$\pi : \mathcal{A} \to \mathcal{O}_X$ is a surjection
+of sheaves of $f^{-1}\mathcal{O}_S$-algebras, and
+$\mathcal{F} = \text{Ker}(\pi)$ is its kernel. Assume $\mathcal{F}$ an ideal
+sheaf with square zero in $\mathcal{A}$. So $\mathcal{F}$
+has a natural structure of an $\mathcal{O}_X$-module.
+A section $s : \mathcal{O}_X \to \mathcal{F}$ of $\pi$
+is a $f^{-1}\mathcal{O}_S$-algebra map such that $\pi \circ s = \text{id}$.
+Given any section $s : \mathcal{O}_X \to \mathcal{F}$
+of $\pi$ and any $S$-derivation $D : \mathcal{O}_X \to \mathcal{F}$
+the map
+$$
+s + D : \mathcal{O}_X \to \mathcal{A}
+$$
+is a section of $\pi$ and every section $s'$ is of the form $s + D$
+for a unique $S$-derivation $D$.
+\end{lemma}
+
+\begin{proof}
+Recall that the $\mathcal{O}_X$-module structure on $\mathcal{F}$
+is given by $h \tau = \tilde h \tau$ (multiplication in $\mathcal{A}$)
+where $h$ is a local section of $\mathcal{O}_X$, and
+$\tilde h$ is a local lift of $h$ to a local
+section of $\mathcal{A}$, and $\tau$ is a local section of $\mathcal{F}$.
+In particular, given $s$, we may use $\tilde h = s(h)$.
+To verify that $s + D$ is a homomorphism of sheaves of rings we
+compute
+\begin{eqnarray*}
+(s + D)(ab) & = & s(ab) + D(ab) \\
+& = & s(a)s(b) + aD(b) + D(a)b \\
+& = & s(a) s(b) + s(a)D(b) + D(a)s(b) \\
+& = & (s(a) + D(a))(s(b) + D(b))
+\end{eqnarray*}
+by the Leibniz rule. In the same manner one shows
+$s$ is a $f^{-1}\mathcal{O}_S$-algebra
+map because $D$ is an $S$-derivation. Conversely, given $s'$ we set
+$D = s' - s$. Details omitted.
+\end{proof}
+
+\noindent
 Let $f : X \to S$ be a morphism of schemes.
 We now esthablish the existence of a couple of ``global'' sheaves
 and maps of sheaves, and in the next paragraph we describe
@@ -3289,9 +3350,9 @@ Recall that $\Delta = \Delta_{X/S} : X \to X \times_S X$
 is an immersion, see Schemes, Lemma \ref{schemes-lemma-diagonal-immersion}.
 Let $\mathcal{J}$ be the ideal sheaf of the immersion
 It lives over any open subscheme $U$ of $X \times_S X$
-such that $\Delta(X) \subset U$ is closed
-(for example the one from the proof of the lemma just cited;
-if $f$ is separated then we can take $U = X \times_S X$).
+such that $\Delta(X) \subset U$ is closed. For example the one from
+the proof of the lemma just cited;
+if $f$ is separated then we can take $U = X \times_S X$.
 Note that the sheaf of rings $\mathcal{O}_U/\mathcal{J}^2$
 is supported on $\Delta(X)$. Moreover it sits in a
 short exact sequence of sheaves
@@ -3301,23 +3362,33 @@ $$
 \to \Delta_*\mathcal{O}_X
 \to 0.
 $$
-The projection morphisms
-$p_i : X \times_S X \to X$, $i = 1, 2$ induce
-maps of sheaves of rings $p_i^{-1}\mathcal{O}_X \to \mathcal{O}_{X\times_S X}$.
+Using $\Delta^{-1}$ we can think of this as a surjection of
+sheaves of $f^{-1}\mathcal{O}_S$-algebras with kernel the
+conormal sheaf of $\Delta$ (see Definition \ref{definition-conormal-sheaf}
+and Lemma \ref{lemma-affine-conormal}).
+$$
+0 \to \mathcal{C}_{X/X\times_SX}
+\to \Delta^{-1}(\mathcal{O}_U/\mathcal{J}^2)
+\to \mathcal{O}_X
+\to 0
+$$
+This places us in the sitation of
+Lemma \ref{lemma-double-structure-gives-derivation}.
+The projection morphisms $p_i : X \times_S X \to X$, $i = 1, 2$ induce
+maps of sheaves of rings
+$p_i^\sharp : p_i^{-1}\mathcal{O}_X \to \mathcal{O}_{X\times_S X}$.
 We may restrict to $U$ and divide by $\mathcal{J}^2$ to get
 $p_i^{-1}\mathcal{O}_X \to \mathcal{O}_U/\mathcal{J}^2$.
-Since $\mathcal{O}_U/\mathcal{J}^2$ is supported on $\Delta(X)$
-and since $p_i^{-1}\mathcal{O}_X|_{\Delta(X)} = \Delta_*\mathcal{O}_X$
+Since $\Delta^{-1}p_i^{-1}\mathcal{O}_X = \mathcal{O}_X$
 we get maps
 $$
-s_i : \Delta_*\mathcal{O}_X \to \mathcal{O}_U/\mathcal{J}^2.
+s_i : \mathcal{O}_X \to \Delta^{-1}(\mathcal{O}_U/\mathcal{J}^2).
 $$
-Both $s_1$ and $s_2$ are sections to the last map in the short exact sequence
-above. In particular we get an $\mathcal{O}_U$-module map
-$s_2 - s_1 : \Delta_*\mathcal{O}_X \to \mathcal{J}/\mathcal{J}^2$.
-Hence this corresponds to a map
-$\text{d} : \mathcal{O}_X \to \mathcal{C}_{X/X\times_S X}$
-by Lemma \ref{lemma-i-star-equivalence}.
+Both $s_1$ and $s_2$ are sections to the map
+$\Delta^{-1}(\mathcal{O}_U/\mathcal{J}^2) \to \mathcal{O}_X$,
+as in Lemma \ref{lemma-double-structure-gives-derivation}.
+Thus we get an $S$-derivation
+$\text{d} = s_2 - s_1 : \mathcal{O}_X \to \mathcal{C}_{X/X\times_SX}$.
 
 \medskip\noindent
 Let us work this out on a suitable affine open.
@@ -3346,7 +3417,8 @@ to $U \times_V U$ is the quasi-coherent sheaf associated to the
 $A$-module $J/J^2$. Comparing with
 Algebra, Lemma \ref{algebra-lemma-differentials-diagonal}
 (or by a direct computation)
-we see that $\text{d}$ is an $S$-derivation.
+we see that the induced map $\text{d} : A \to J/J^2$
+is isomorphic to the universal $R$-derivation on $A$.
 Thus the following definition makes sense.
 
 \begin{definition}
@@ -3522,16 +3594,145 @@ be a commutative diagram of schemes. The canonical map
 $\mathcal{O}_X \to f_*\mathcal{O}_{X'}$ composed with the map
 $f_*\text{d}_{X'/S'} : f_*\mathcal{O}_{X'} \to f_*\Omega_{X'/S'}$ is a
 $S$-derivation. Hence we obtain a canonical map of $\mathcal{O}_X$-modules
-$\Omega_{X/S} \to f_*\Omega_{X'/S'}$, and by adjointness of $f_*$ and $f^*$ a
-canonical map
+$\Omega_{X/S} \to f_*\Omega_{X'/S'}$, and by
+adjointness of $f_*$ and $f^*$ a
+canonical $\mathcal{O}_{X'}$-module homomorphism
 $$
-f^*\Omega_{X/S} \longrightarrow \Omega_{X'/S'}.
+c_f : f^*\Omega_{X/S} \longrightarrow \Omega_{X'/S'}.
 $$
+It is uniquely characterized by the property that
+$f^*\text{d}_{X/S}(h)$ mapsto $\text{d}_{X'/S'}(f^\sharp h)$
+for any local section $h$ of $\mathcal{O}_X$.
 \end{lemma}
 
 \begin{proof}
-Omitted.
+Omitted. We can use the functoriality of the conormal sheaves
+(see Lemma \ref{lemma-conormal-functorial}) to define this or
+we can use the characterization
+at the end of the lemma to glue maps defined on affine patches
+(see Algebra, Equation (\ref{algebra-equation-functorial-omega})).
 \end{proof}
+
+\begin{lemma}
+\label{lemma-check-functoriality-differentials}
+Let
+$$
+\xymatrix{
+X'' \ar[d] \ar[r]_g & X' \ar[d] \ar[r]_f & X \ar[d] \\
+S'' \ar[r] & S' \ar[r] & S
+}
+$$
+be a commutative diagram of schemes. Then we have
+$$
+c_{f \circ g} = c_g \circ g^* c_f
+$$
+as maps $(f \circ g)^*\Omega_{X/S} \to \Omega_{X''/S''}$.
+\end{lemma}
+
+\begin{proof}
+Omitted. One way to see this is to restrict to affine opens.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-triangle-differentials}
+Let $f : X \to Y$ $g : Y \to S$ be morphisms of schemes.
+Then there is a canonical exact sequence
+$$
+f^*\Omega_{Y/S} \to \Omega_{X/S} \to \Omega_{X/Y} \to 0
+$$
+where the maps come from applications of
+Lemma \ref{lemma-functoriality-differentials}.
+\end{lemma}
+
+\begin{proof}
+This is the sheafified version of
+Algebra, Lemma \ref{algebra-lemma-exact-sequence-differentials}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-immersion-differentials}
+If $X \to S$ is an immersion, or more generally a monomorphism, then
+$\Omega_{X/S}$ is zero.
+\end{lemma}
+
+\begin{proof}
+This is true because $\Delta_{X/S}$ is an isomorphism in this case
+and hence has trivial conormal sheaf. The algebraic version is
+Algebra, Lemma \ref{algebra-lemma-trivial-differential-surjective}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-differentials-relative-immersion}
+Let $i : Z \to X$ be an immersion of schemes over $S$.
+There is a canonical exact sequence
+$$
+\mathcal{C}_{Z/X} \to i^*\Omega_{X/S} \to \Omega_{Z/S} \to 0
+$$
+where the first arrow is induced by $\text{d}_{X/S}$
+and the second arrow comes from Lemma \ref{lemma-functoriality-differentials}.
+\end{lemma}
+
+\begin{proof}
+This is the sheafified version of
+Algebra, Lemma \ref{algebra-lemma-differential-seq}. However
+we should make sure we can define the first arrow globally.
+Hence we explain the meaning of ``induced by $\text{d}_{X/S}$'' here.
+Namely, we may assume that $i$ is a closed immersion by
+shrinking $X$. Let $\mathcal{I} \subset \mathcal{O}_X$
+be the sheaf of ideals corresponding to $Z \subset X$.
+Then $\text{d}_{X/S} : \mathcal{I} \to \Omega_{X/S}$
+maps the subsheaf $\mathcal{I}^2 \subset \mathcal{I}$ to
+$\mathcal{I}\Omega_{X/S}$. Hence it induces a map
+$\mathcal{I}/\mathcal{I}^2 \to \Omega_{X/S}/\mathcal{I}\Omega_{X/S}$
+which is $\mathcal{O}_X/\mathcal{I}$-linear.
+By Lemma \ref{lemma-i-star-equivalence} this corresponds to a map
+$\mathcal{C}_{Z/X} \to i^*\Omega_{X/S}$ as desired.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-base-change-differentials}
+Let $X \to S$ be a morphism of schemes.
+Let $g : S' \to S$ be a morphism of schemes.
+Let $X' = X_{S'}$ be the base change of $X$.
+Denote $g' : X' \to X$ the projection.
+Then the map
+$$
+(g')^*\Omega_{X/S} \to \Omega_{X'/S'}
+$$
+of Lemma \ref{lemma-functoriality-differentials} is an isomorphism.
+\end{lemma}
+
+\begin{proof}
+This is the sheafified version of
+Algebra, Lemma \ref{algebra-lemma-differentials-base-change}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-differential-product}
+Let $f : X \to S$ and $g : Y \to S$ be morphisms of schemes with the same
+target. Let $p : X \times_S Y \to X$ and $q : X \times_S Y \to Y$ be the
+projection morphisms. The maps from
+Lemma \ref{lemma-functoriality-differentials}
+$$
+p^*\Omega_{X/S} \oplus q^*\Omega_{Y/S}
+\longrightarrow
+\Omega_{X \times_S Y/S}
+$$
+give an isomorphism.
+\end{lemma}
+
+\begin{proof}
+By Lemma \ref{lemma-base-change-differentials} the composition
+$p^*\Omega_{X/S} \to \Omega_{X \times_S Y/S} \to \Omega_{X \times_S Y/Y}$
+is an isomorphism, and similarly for $q$. Moreover, the cokernel
+of $p^*\Omega_{X/S} \to \Omega_{X \times_S Y/S}$ is
+$\Omega_{X \times_S Y/X}$ by
+Lemma \ref{lemma-triangle-differentials}. The result follows.
+\end{proof}
+
+
+
+
 
 \begin{lemma}
 \label{lemma-finite-type-differentials}
@@ -3593,6 +3794,14 @@ where $B_d(0, 1) \subset \mathbf{R}^d$ is a ball of radius $1$ around $0$.
 Smooth morphisms are the analogue of such morphisms in the category
 of schemes.
 
+\medskip\noindent
+Contrary to expectations (perhaps) the notion
+of a smooth ring map is not defined solely in terms
+of the module of differentials. Namely, recall that
+$R \to A$ is a smooth ring map if $A$ is of finite presentation over $R$
+and if the naive cotangent complex of $A$ over $R$ is quasi-isomorphic
+to a projective module placed in degree $0$.
+
 \begin{definition}
 \label{definition-smooth}
 Let $f : X \to S$ be a morphism of schemes.
@@ -3614,45 +3823,168 @@ $$
 \end{enumerate}
 \end{definition}
 
-
-
 \noindent
-Note that smooth $=$ locally smooth.
-According to Lemmas \ref{lemma-properties-local},
-\ref{lemma-properties-base-change}, and
-\ref{lemma-properties-composition} the property of a ring map
-being smooth is local, stable under base change,
-and stable under composition.  Hence
-Lemma \ref{lemma-locally-P} gives some properties
-of smooth morphisms which we will use in the following
-without further mention.
+Note that there is no separation or quasi-compactness hypotheses in the
+definition. Hence the question of being smooth is local in nature on
+the source. Here is the precise result.
 
 \begin{lemma}
-\label{lemma-composition-smooth}
-The composition of smooth morphisms is smooth.
+\label{lemma-smooth-characterize}
+Let $f : X \to S$ be a morphism of schemes.
+The following are equivalent
+\begin{enumerate}
+\item The morphism $f$ is smooth.
+\item For every affine opens $U \subset X$, $V \subset S$
+with $f(U) \subset V$ the ring map
+$\mathcal{O}_S(V) \to \mathcal{O}_X(U)$ is smooth.
+\item There exists an open covering $S = \bigcup_{j \in J} V_j$
+and open coverings $f^{-1}(V_j) = \bigcup_{i \in I_j} U_i$ such
+that each of the morphisms $U_i \to V_j$, $j\in J, i\in I_j$
+is smooth.
+\item There exists an affine open covering $S = \bigcup_{j \in J} V_j$
+and affine open coverings $f^{-1}(V_j) = \bigcup_{i \in I_j} U_i$ such
+that the ring map $\mathcal{O}_S(V_j) \to \mathcal{O}_X(U_i)$ is
+smooth, for all $j\in J, i\in I_j$.
+\end{enumerate}
+Moreover, if $f$ is smooth then for
+any open subschemes $U \subset X$, $V \subset S$ with $f(U) \subset V$
+the restriction $f|_U : U \to V$ is smooth.
 \end{lemma}
 
 \begin{proof}
-Omitted.
+This follows from Lemma \ref{lemma-locally-P} if we show that
+the property ``$R \to A$ is smooth'' is local.
+We check conditions (a), (b) and (c) of Definition
+\ref{definition-property-local}.
+By Algebra, Lemma \ref{algebra-lemma-base-change-smooth}
+being smooth is stable under base change and hence
+we conclude (a) holds. By
+Algebra, Lemma \ref{algebra-lemma-compose-smooth}
+being smooth is stable under composition and trivially for any ring
+$R$ the ring map $R \to R_f$ is smooth.
+We conclude (b) holds. Finally, property (c) is true
+according to Algebra, Lemma \ref{algebra-lemma-locally-smooth}.
+\end{proof}
+
+\noindent
+The following lemma says locally any smooth morphism is standard smooth.
+Hence we can use standard smooth morphisms as a {\it local model}
+for a smooth morphism.
+
+\begin{lemma}
+\label{lemma-smooth-locally-standard-smooth}
+Let $f : X  \to S$ be a morphism of schemes.
+Let $x \in X$ be a point.
+Set $s = f(x)$.
+The following are equivalent
+\begin{enumerate}
+\item The morphism $f$ is smooth at $x$.
+\item There exist affine opens $U \subset X$,
+and $V \subset S$ such that $x \in U$, $f(U) \subset V$ and the 
+induced morphism $f|_U : U \to V$ is standard smooth.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Follows from the definitions and
+Algebra, Lemmas \ref{algebra-lemma-standard-smooth}
+and \ref{algebra-lemma-smooth-syntomic}.
+\end{proof}
+
+\noindent
+We can characterize a smooth morphism as a flat, finitely presented
+morphism with smooth fibres. Later we will see ``more local'' characterizations
+of smoothness.
+
+\begin{lemma}
+\label{lemma-smooth-flat-smooth-fibres}
+Let $f : X \to S$ be a morphism of schemes.
+If $f$ is flat, locally of finite presentation, and all
+fibres $X_s$ are smooth, then $f$
+is smooth.
+\end{lemma}
+
+\begin{proof}
+Follows from Algebra, Lemma \ref{algebra-lemma-flat-fibre-smooth}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-composition-smooth}
+The composition of two morphisms which are smooth is smooth.
+\end{lemma}
+
+\begin{proof}
+In the proof of Lemma \ref{lemma-smooth-characterize}
+we saw that being smooth is a local property of ring maps.
+Hence the first statement of the lemma follows from
+Lemma \ref{lemma-composition-type-P} combined
+with the fact that being smooth is a property of ring maps that is
+stable under composition, see
+Algebra, Lemma \ref{algebra-lemma-compose-smooth}.
 \end{proof}
 
 \begin{lemma}
 \label{lemma-base-change-smooth}
-The base change of a smooth morphism is smooth.
+The base change of a morphism which is smooth is smooth.
 \end{lemma}
 
 \begin{proof}
-Omitted.
+In the proof of Lemma \ref{lemma-smooth-characterize}
+we saw that being smooth is a local property of ring maps.
+Hence the lemma follows from
+Lemma \ref{lemma-composition-type-P} combined
+with the fact that being smooth is a property of ring maps that is
+stable under base change, see
+Algebra, Lemma \ref{algebra-lemma-base-change-smooth}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-open-immersion-smooth}
+Any open immersion is smooth.
+\end{lemma}
+
+\begin{proof}
+This is true because an open immersion is a local isomorphism.
 \end{proof}
 
 \begin{lemma}
 \label{lemma-smooth-syntomic}
-A smooth morphism is syntomic, and hence locally of finite presentation.
+A smooth morphism is syntomic.
 \end{lemma}
 
 \begin{proof}
-Omitted.
+See Algebra, Lemma \ref{algebra-lemma-smooth-syntomic}.
 \end{proof}
+
+\begin{lemma}
+\label{lemma-smooth-locally-finite-presentation}
+A smooth morphism is locally of finite presentation.
+\end{lemma}
+
+\begin{proof}
+True because a smooth ring map is of finite presentation by
+definition.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-smooth-flat}
+A smooth morphism is flat.
+\end{lemma}
+
+\begin{proof}
+Combine Lemmas \ref{lemma-syntomic-flat} and \ref{lemma-smooth-syntomic}.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
