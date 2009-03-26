@@ -150,4 +150,4 @@ install: all
 	cp *.pdf *.dvi $(INSTALLDIR)
 	cp stacks-git.htm $(INSTALLDIR)/index.html
 	mv stacks-git.tar.bz2 $(INSTALLDIR)
-	cat .git/refs/heads/master > $(INSTALLDIR)/VERSION
+	git log --pretty=oneline -1 > $(INSTALLDIR)/VERSION
