@@ -2413,7 +2413,7 @@ $D^{+}(\mathcal{A})$, namely a set of ``distinguished triangles''.
 The result is the notion of a triangulated category which is an
 additive category, endowed with translation functors $[n]$
 and a set of triangles subject to a list of axioms.
-See \cite{Verdier} and (insert future reference here).
+See \cite{Verdier} and Section \ref{section-triangulated-categories}.
 One reason for introducing trianglulated categories is to be able to speak
 about exact functors between derived categories (especially derived
 functors).
@@ -2525,7 +2525,7 @@ $(X, Y, Q_1, f, p_1, d_1) \to (X, Z, Q_2, g \circ f, p_2, d_2)$, and
 $(X, Z, Q_2, g \circ f, p_2, d_2) \to (Y, Z, Q_3, g, p_3, d_3)$.
 \end{enumerate}
 \end{enumerate}
-We will call $(\mathcal{D}, [], \mathcal{T})$ a
+We will call $(\mathcal{D}, [\ ], \mathcal{T})$ a
 {\it pre-triangulated category} if TR1, TR2 and TR3 hold.
 \end{definition}
 
@@ -2575,11 +2575,22 @@ is exact in the abelian category $\mathcal{A}$.
 \noindent
 As TR2 says that if we rotate a distinguished triangle (either way) we get
 another we see that we get a long exact sequence
-$$
-\ldots \to H(Z[-1]) \to
-H(X) \to H(Y) \to H(Z) \to
-H(X[1]) \to \ldots
-$$
+\begin{equation}
+\label{equation-long-exact-cohomology-sequence}
+\xymatrix{
+H(Z[-1]) \ar[r]^{h[-1]} &
+H(X) \ar[r]^f &
+H(Y) \ar[r]^g &
+H(Z) \ar[r]^h &
+H(X[1])
+}
+\end{equation}
+This will be called the {\it long exact sequence} associated to the
+distinguished triangle and the homological functor. As indicated
+we will not use any signs for the morphisms in the long exact
+sequence. This has the side effect that maps in the long exact sequence
+associated to the rotation (TR2) of a distinguished triangle differ
+from the maps in the sequence above by some signs.
 
 \begin{lemma}
 \label{lemma-representable-homological}
@@ -2596,16 +2607,16 @@ Suppose $a : W \to Y$ is a morphism such that $g \circ a = 0$.
 Then we get a commutative diagram
 $$
 \xymatrix{
-W \ar[r] \ar@{-->}[d]^b &
+W \ar[r]_1 \ar@{..>}[d]^b &
 W \ar[r] \ar[d]^a &
 0 \ar[r] \ar[d]^0 &
-W[1] \ar@{-->}[d]^{b[1]} \\
+W[1] \ar@{..>}[d]^{b[1]} \\
 X \ar[r] & Y \ar[r] & Z \ar[r] & X[1]
 }
 $$
-Both rows are distinguished triangles.
-Hence we can fill the dotted arrow $b$ (first rotate using TR2
-and then apply TR3). This proves the lemma.
+Both rows are distinguished triangles (use TR1 for the top row).
+Hence we can fill the dotted arrow $b$ (first rotate using TR2,
+then apply TR3, and then rotate back). This proves the lemma.
 \end{proof}
 
 \begin{lemma}
@@ -3094,27 +3105,6 @@ we may assume that $f$ is a termwise split injection.
 In this case the result follows from part (1).
 \end{proof}
 
-\noindent
-Since we want our boundary maps in long exact sequences of cohomology
-to be given by the maps in the snake lemma without signs we define
-distinguished triangles as follows.
-
-\begin{definition}
-\label{definition-distinguished-triangle}
-Let $\mathcal{A}$ be an additive category.
-A triangle $(X, Y, Z, f, g, h)$ of $K(\mathcal{A})$ is
-called a {\it disinguished triangle of $K(\mathcal{A})$}
-if it is isomorphic to the triangle associated to
-a termwise split exact sequence of complexes, see Definition
-\ref{definition-split-ses}.
-\end{definition}
-
-\noindent
-Note that according to Lemma \ref{lemma-the-same-up-to-isomorphisms}
-a triangle of the form $(K^\bullet, L^\bullet, C(f)^\bullet, f, i, -p)$
-is a distinguished triangle.
-This does indeed lead to a triangulated category, see
-Proposition \ref{lemma-the-same-up-to-isomorphisms}.
 
 \begin{lemma}
 \label{lemma-sequence-maps-split}
@@ -3148,6 +3138,87 @@ the composition $B_{n - 1} \to A_{n - 1} \to A_n$.
 The result is a factorization $B_{n - 1} \to \tilde B_n \to A_n$
 as desired.
 \end{proof}
+
+
+\begin{lemma}
+\label{lemma-rotate-triangle}
+Let $\mathcal{A}$ be an additive category. Let
+$(\alpha : A^\bullet \to B^\bullet, \beta : B^\bullet \to C^\bullet, s^n,
+\pi^n)$ be a termwise split sequence of complexes.
+Let $(A^\bullet, B^\bullet, C^\bullet, \alpha, \beta, \delta)$
+be the associated triangle.
+Then the triangle
+$(C^\bullet[-1], A^\bullet, B^\bullet, \delta[-1], \alpha, \beta)$
+is isomorphic to the triangle
+$(C^\bullet[-1], A^\bullet, C(\delta[-1])^\bullet, \delta[-1], i, p)$.
+\end{lemma}
+
+\begin{proof}
+We write $B^n = A^n \oplus C^n$ and we identify $\alpha^n$ and $\beta^n$
+with the natural inclusion and projection maps. By construction of $\delta$ we
+have
+$$
+d_B^n = 
+\left(
+\begin{matrix}
+d_A^n & \delta^n \\
+0 & d_C^n
+\end{matrix}
+\right)
+$$
+On the other hand the cone of $\delta[-1] : C^\bullet[-1] \to A^\bullet$
+is given as $C(\delta[-1])^n = A^n \oplus C^n$ with differential identical
+with the matrix above! Whence the lemma.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-rotate-cone}
+Let $\mathcal{A}$ be an additive category.
+Let $f : K^\bullet \to L^\bullet$ be a morphism of complexes.
+The triangle $(L^\bullet, C(f)^\bullet, K^\bullet[1], i, p, f[1])$ is
+the triangle associated to the termwise split sequence
+$$
+0 \to L^\bullet \to C(f)^\bullet \to K^\bullet[1] \to 0
+$$
+coming from the definition of the cone of $f$.
+\end{lemma}
+
+\begin{proof}
+Immediate from the definitions.
+\end{proof}
+
+
+
+
+
+
+
+\section{The homotopy category as a triangulated category}
+\label{section-homotopy-triangulated}
+
+\noindent
+Since we want our boundary maps in long exact sequences of cohomology
+to be given by the maps in the snake lemma without signs we define
+distinguished triangles as follows.
+
+\begin{definition}
+\label{definition-distinguished-triangle}
+Let $\mathcal{A}$ be an additive category.
+A triangle $(X, Y, Z, f, g, h)$ of $K(\mathcal{A})$ is
+called a {\it disinguished triangle of $K(\mathcal{A})$}
+if it is isomorphic to the triangle associated to
+a termwise split exact sequence of complexes, see Definition
+\ref{definition-split-ses}.
+\end{definition}
+
+\noindent
+Note that according to Lemma \ref{lemma-the-same-up-to-isomorphisms}
+a triangle of the form $(K^\bullet, L^\bullet, C(f)^\bullet, f, i, -p)$
+is a distinguished triangle.
+This does indeed lead to a triangulated category, see
+Proposition \ref{lemma-the-same-up-to-isomorphisms}.
+Before we can prove the proposition we need one more lemma
+in order to be able to prove TR4.
 
 \begin{lemma}
 \label{lemma-two-split-injections}
@@ -3212,53 +3283,6 @@ $$
 $$
 is equal to the composition $Q_3^\bullet \to B^\bullet[1] \to Q_1^\bullet[1]$.
 Hence we get a structure as in the conclusion of axiom TR4.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-rotate-triangle}
-Let $\mathcal{A}$ be an additive category. Let
-$(\alpha : A^\bullet \to B^\bullet, \beta : B^\bullet \to C^\bullet, s^n,
-\pi^n)$ be a termwise split sequence of complexes.
-Let $(A^\bullet, B^\bullet, C^\bullet, \alpha, \beta, \delta)$
-be the associated triangle.
-Then the triangle
-$(C^\bullet[-1], A^\bullet, B^\bullet, \delta[-1], \alpha, \beta)$
-is isomorphic to the triangle
-$(C^\bullet[-1], A^\bullet, C(\delta[-1])^\bullet, \delta[-1], i, p)$.
-\end{lemma}
-
-\begin{proof}
-We write $B^n = A^n \oplus C^n$ and we identify $\alpha^n$ and $\beta^n$
-with the natural inclusion and projection maps. By construction of $\delta$ we
-have
-$$
-d_B^n = 
-\left(
-\begin{matrix}
-d_A^n & \delta^n \\
-0 & d_C^n
-\end{matrix}
-\right)
-$$
-On the other hand the cone of $\delta[-1] : C^\bullet[-1] \to A^\bullet$
-is given as $C(\delta[-1])^n = A^n \oplus C^n$ with differential identical
-with the matrix above! Whence the lemma.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-rotate-cone}
-Let $\mathcal{A}$ be an additive category.
-Let $f : K^\bullet \to L^\bullet$ be a morphism of complexes.
-The triangle $(L^\bullet, C(f)^\bullet, K^\bullet[1], i, p, f[1])$ is
-the triangle associated to the termwise split sequence
-$$
-0 \to L^\bullet \to C(f)^\bullet \to K^\bullet[1] \to 0
-$$
-coming from the definition of the cone of $f$.
-\end{lemma}
-
-\begin{proof}
-Immediate from the definitions.
 \end{proof}
 
 \begin{proposition}
