@@ -2428,6 +2428,9 @@ functors).
 \section{Triangulated categories}
 \label{section-triangulated-categories}
 
+\noindent
+Some references are \cite{Verdier} and \cite{Neeman}.
+
 \begin{definition}
 \label{definition-triangle}
 Let $\mathcal{D}$ be an additive category.
@@ -2476,7 +2479,7 @@ where
 be a collection of additive functors indexed by $n \in \mathbf{Z}$ such that
 $[n] \circ [m] = [n + m]$ and $[0] = \text{id}$ (equality as functors), and
 \item $\mathcal{T}$ is a set of triangles called the
-{\it distinghuished triangles}
+{\it distinguished triangles}
 \end{enumerate}
 subject to the following conditions
 \begin{enumerate}
@@ -2522,6 +2525,8 @@ $(X, Y, Q_1, f, p_1, d_1) \to (X, Z, Q_2, g \circ f, p_2, d_2)$, and
 $(X, Z, Q_2, g \circ f, p_2, d_2) \to (Y, Z, Q_3, g, p_3, d_3)$.
 \end{enumerate}
 \end{enumerate}
+We will call $(\mathcal{D}, [], \mathcal{T})$ a
+{\it pre-triangulated category} if TR1, TR2 and TR3 hold.
 \end{definition}
 
 \noindent
@@ -2529,15 +2534,18 @@ The explanation of TR4 is that if you think of $Q_1$ as
 $Y/X$, $Q_2$ as $Z/X$ and $Q_3$ as $Z/Y$, then TR4(a) expresses
 the isomorphism $(Z/X)/(Y/Z) \cong Z/Y$ and TR(b) and TR(c)
 express that we can compare the triangles $X \to Y \to Q_1 \to X[1]$
-etc with morphisms of triangles. For a slightly more precise reformuation
-of this idea see Remark \ref{remark-two-split-injections}.
-As usual we abuse notation and we simply speak of a triangulated
-category $\mathcal{D}$ without explicitly introducing
-notation for the additional data.
+etc with morphisms of triangles. For a more precise reformuation
+of this idea see the proof of Lemma \ref{lemma-two-split-injections}.
+
+\medskip\noindent
+As usual we abuse notation and we simply speak of a (pre-)triangulated
+category $\mathcal{D}$ without explicitly introducing notation for the
+additional data. The notion of a pre-triangulated category is useful in
+finding statements equivalent to TR4.
 
 \begin{lemma}
 \label{lemma-composition-zero}
-Let $\mathcal{D}$ be a triangulated category.
+Let $\mathcal{D}$ be a pre-triangulated category.
 Let $(X, Y, Z, f, g, h)$ be a distinguished triangle.
 Then $g \circ f = 0$,
 $h \circ g = 0$ and $f[1] \circ h = 0$.
@@ -2550,6 +2558,143 @@ The existence of the arrow $?$ which gives a morphism of
 triangles will imply that $g \circ f = 0$. For the other cases
 rotate the triangle, i.e., apply TR2.
 \end{proof}
+
+\begin{definition}
+\label{definition-homological}
+Let $\mathcal{D}$ be a pre-triangulated category.
+Let $\mathcal{A}$ be an abelian category.
+An additive functor $H : \mathcal{D} \to \mathcal{A}$ is called
+{\it homological} if for every distinguished triangle
+$(X, Y, Z, f, g, h)$ the sequence
+$$
+H(X) \to H(Y) \to H(Z)
+$$
+is exact in the abelian category $\mathcal{A}$.
+\end{definition}
+
+\noindent
+As TR2 says that if we rotate a distinguished triangle (either way) we get
+another we see that we get a long exact sequence
+$$
+\ldots \to H(Z[-1]) \to
+H(X) \to H(Y) \to H(Z) \to
+H(X[1]) \to \ldots
+$$
+
+\begin{lemma}
+\label{lemma-representable-homological}
+Let $\mathcal{D}$ be a pre-triangulated category.
+For any object $W$ of $\mathcal{D}$ the functor
+$\text{Hom}_{\mathcal{D}}(W, -)$ is homological.
+\end{lemma}
+
+\begin{proof}
+Consider a distinguished triangle $(X, Y, Z, f, g, h)$.
+We have already seen that $g \circ f = 0$, see
+Lemma \ref{lemma-composition-zero}.
+Suppose $a : W \to Y$ is a morphism such that $g \circ a = 0$.
+Then we get a commutative diagram
+$$
+\xymatrix{
+W \ar[r] \ar@{-->}[d]^b &
+W \ar[r] \ar[d]^a &
+0 \ar[r] \ar[d]^0 &
+W[1] \ar@{-->}[d]^{b[1]} \\
+X \ar[r] & Y \ar[r] & Z \ar[r] & X[1]
+}
+$$
+Both rows are distinguished triangles.
+Hence we can fill the dotted arrow $b$ (first rotate using TR2
+and then apply TR3). This proves the lemma.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-third-isomorphism-triangle}
+Let $\mathcal{D}$ be a pre-triangulated category.
+Let $(a, b, c) : (X, Y, Z, f, g, h) \to (X', Y', Z', f', g', h')$
+be a morphism of distinguished triangles. If two among $a, b, c$
+are isomorphisms so is the third.
+\end{lemma}
+
+\begin{proof}
+Assume that $a$ and $c$ are isomorphisms.
+For any object $W$ of $\mathcal{D}$ write
+$H_W( - ) = \text{Hom}_{\mathcal{D}}(W, -)$.
+Then we get a commutative diagram of abelian groups
+$$
+\xymatrix{
+H_W(Z[-1]) \ar[r] \ar[d] &
+H_W(X) \ar[r] \ar[d] &
+H_W(Y) \ar[r] \ar[d] &
+H_W(Z) \ar[r] \ar[d] &
+H_W(X[1]) \ar[d] \\
+H_W(Z'[-1]) \ar[r] &
+H_W(X') \ar[r] &
+H_W(Y') \ar[r] &
+H_W(Z') \ar[r] &
+H_W(X'[1])
+}
+$$
+By assumption the right two and left two vertical arrows are bijective.
+Hence the middle vertical arrow is an isomorphism. Hence by the Yoneda
+Lemma \ref{categories-lemma-yoneda} we see that $b$ is an isomorphism.
+This implies the other cases by rotating (using TR2).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-cone-triangle-unique-isomorphism}
+Let $\mathcal{D}$ be a pre-triangulated category.
+Let $f : X \to Y$ be a morphism of $\mathcal{D}$.
+There exists a distinguished triangle $(X, Y, Z, f, g, h)$ which
+is unique up to (nonunique) isomorphism of triangles.
+More precisely, given a second such distinguished triangle
+$(X, Y, Z', f, g', h')$ there exists an isomorphism
+$$
+(1, 1, c) : (X, Y, Z, f, g, h) \longrightarrow (X, Y, Z', f, g', h')
+$$
+\end{lemma}
+
+\begin{proof}
+Existence by TR1. Uniqueness up to isomorphism by TR3 and
+Lemma \ref{lemma-third-isomorphism-triangle}.
+\end{proof}
+
+\noindent
+The following lemma makes it slightly easier to prove that a
+pre-triangulated category is triangulated.
+
+\begin{lemma}
+\label{lemma-easier-axiom-four}
+Let $\mathcal{D}$ be a pre-triangulated category.
+In order to prove TR4 it suffices to show that given
+any pair of composable morphisms
+$f : X \to Y$ and $g : Y \to Z$ there exist
+\begin{enumerate}
+\item isomorphisms $i : X' \to X$, $j : Y' \to Y$ and
+$k : Z' \to Z$, and then setting $f' = j^{-1}fi : X' \to Y'$ and
+$g' = k^{-1}gj : Y' \to Z'$ there exist
+\item
+some choices of distinguished triangles
+$(X', Y', Q_1, f', p_1, d_1)$,
+$(X', Z', Q_2, g' \circ f', p_2, d_2)$
+and
+$(Y', Z', Q_3, g', p_3, d_3)$,
+such that the assertion of TR4 holds.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+The replacement of $X, Y, Z$ by $X', Y', Z'$ is harmless by our
+definition of distinguished triangles and their isomorphisms.
+The lemma follows from the fact that the distinguished triangles
+$(X', Y', Q_1, f', p_1, d_1)$,
+$(X', Z', Q_2, g' \circ f', p_2, d_2)$
+and
+$(Y', Z', Q_3, g', p_3, d_3)$
+are unique up to isomorphism by
+Lemma \ref{lemma-cone-triangle-unique-isomorphism}.
+\end{proof}
+
 
 
 
@@ -2722,7 +2867,7 @@ split sequence of complexes}.
 \begin{lemma}
 \label{lemma-make-commute}
 Let $\mathcal{A}$ be an additive category.
-Let $A_i^\bullet \to B_i^\bullet \to C_i^\bullet$, $i = 1, 2$
+Let $0 \to A_i^\bullet \to B_i^\bullet \to C_i^\bullet \to 0$, $i = 1, 2$
 be termwise split exact sequences. Suppose that
 $a : A_1^\bullet \to A_2^\bullet$,
 $b : B_1^\bullet \to B_2^\bullet$, and 
@@ -3004,36 +3149,30 @@ The result is a factorization $B_{n - 1} \to \tilde B_n \to A_n$
 as desired.
 \end{proof}
 
-\begin{proposition}
-\label{proposition-homotopy-category-triangulated}
-Let $\mathcal{A}$ be an additive category.
-The category $K(\mathcal{A})$ of complexes up to
-homotopy with its natural translation functors
-and distinguished triangles as defined above
-is a triangulated category.
-\end{proposition}
+\begin{lemma}
+\label{lemma-two-split-injections}
+Let $\mathcal{A}$ be an additive category. Suppose that
+$\alpha : A^\bullet \to B^\bullet$ and $\beta : B^\bullet \to C^\bullet$
+are split injections of complexes. Then there exist distinguished triangles
+$(A^\bullet, B^\bullet, Q_1^\bullet, \alpha, p_1, d_1)$,
+$(A^\bullet, C^\bullet, Q_2^\bullet, \beta \circ \alpha, p_2, d_2)$
+and
+$(B^\bullet, C^\bullet, Q_3^\bullet, \beta, p_3, d_3)$
+for which TR4 holds.
+\end{lemma}
 
 \begin{proof}
-Omitted. Todo: TR4 and TR2 are not clear yet.
-\end{proof}
-
-\begin{remark}
-\label{remark-two-split-injections}
-Let $\mathcal{A}$ be an additive category.
-Suppose that $A^\bullet \to B^\bullet \to C^\bullet$ 
-are split injections of complexes. Say $\pi^n : B^n \to A^n$,
-and $\chi^n : C^n \to B^n$ are the splittings.
-Then also
-$A^\bullet \to C^\bullet$ is a split injection with
-splittings $\pi^n \circ \chi^n$.
-Let us write
-$Q_1^\bullet$, $Q_2^\bullet$ and $Q_3^\bullet$
-for the ``quotient'' complexes. Then we see that
-$B^n = A^n \oplus Q_1^n$ and $C_n = B^n \oplus Q_3^n$,
-and, by our choice for the splitting of $A^\bullet \to C^\bullet$,
-this gives $C^n = A^n \oplus Q_1^n \oplus Q_3^n$
-so that $Q_2^n = Q_1^n \oplus Q_3^n$. Consider the commutative
-diagram
+Say $\pi_1^n : B^n \to A^n$, and $\pi_3^n : C^n \to B^n$ are the splittings.
+Then also $A^\bullet \to C^\bullet$ is a split injection with splittings
+$\pi_2^n = \pi_1^n \circ \pi_3^n$. Let us write $Q_1^\bullet$, $Q_2^\bullet$
+and $Q_3^\bullet$ for the ``quotient'' complexes. In other words,
+$Q_1^n = \text{Ker}(\pi_1^n)$, $Q_3^n = \text{Ker}(\pi_3^n)$ and
+$Q_2^n = \text{Ker}(\pi_2^n)$. Note that the kernels exist. Then
+$B^n = A^n \oplus Q_1^n$ and $C_n = B^n \oplus Q_3^n$, where we think of $A^n$
+as a subobject of $B^n$ and so on. This implies
+$C^n = A^n \oplus Q_1^n \oplus Q_3^n$. Note that
+$\pi_2^n = \pi_1^n \circ \pi_3^n$ is zero on both $Q_1^n$ and $Q_3^n$. Hence
+$Q_2^n = Q_1^n \oplus Q_3^n$. Consider the commutative diagram
 $$
 \begin{matrix}
 0 & \to & A^\bullet & \to & B^\bullet & \to & Q_1^\bullet & \to & 0 \\
@@ -3046,7 +3185,7 @@ $$
 The rows of this diagram are termwise split exact sequences, and
 hence determine distinguished triangles by
 definition. Moreover downward arrows in the diagram above
-are compatible with the chose splittings and hence
+are compatible with the chosen splittings and hence
 define morphisms of triangles
 $$
 (A^\bullet \to B^\bullet \to Q_1^\bullet \to A^\bullet[1])
@@ -3061,7 +3200,7 @@ $$
 $$
 by our specific choice of the splitting of the middle row
 in the large displayed diagram above.
-Note that the splittings $s^n : Q_3^n \to C^n$
+Note that the splittings $Q_3^n \to C^n$
 of the bottom split sequence in the diagram provides a splitting
 for the split sequence
 $0 \to Q_1^\bullet \to Q_2^\bullet \to Q_3^\bullet \to 0$
@@ -3073,7 +3212,127 @@ $$
 $$
 is equal to the composition $Q_3^\bullet \to B^\bullet[1] \to Q_1^\bullet[1]$.
 Hence we get a structure as in the conclusion of axiom TR4.
-\end{remark}
+\end{proof}
+
+\begin{lemma}
+\label{lemma-rotate-triangle}
+Let $\mathcal{A}$ be an additive category. Let
+$(\alpha : A^\bullet \to B^\bullet, \beta : B^\bullet \to C^\bullet, s^n,
+\pi^n)$ be a termwise split sequence of complexes.
+Let $(A^\bullet, B^\bullet, C^\bullet, \alpha, \beta, \delta)$
+be the associated triangle.
+Then the triangle
+$(C^\bullet[-1], A^\bullet, B^\bullet, \delta[-1], \alpha, \beta)$
+is isomorphic to the triangle
+$(C^\bullet[-1], A^\bullet, C(\delta[-1])^\bullet, \delta[-1], i, p)$.
+\end{lemma}
+
+\begin{proof}
+We write $B^n = A^n \oplus C^n$ and we identify $\alpha^n$ and $\beta^n$
+with the natural inclusion and projection maps. By construction of $\delta$ we
+have
+$$
+d_B^n = 
+\left(
+\begin{matrix}
+d_A^n & \delta^n \\
+0 & d_C^n
+\end{matrix}
+\right)
+$$
+On the other hand the cone of $\delta[-1] : C^\bullet[-1] \to A^\bullet$
+is given as $C(\delta[-1])^n = A^n \oplus C^n$ with differential identical
+with the matrix above! Whence the lemma.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-rotate-cone}
+Let $\mathcal{A}$ be an additive category.
+Let $f : K^\bullet \to L^\bullet$ be a morphism of complexes.
+The triangle $(L^\bullet, C(f)^\bullet, K^\bullet[1], i, p, f[1])$ is
+the triangle associated to the termwise split sequence
+$$
+0 \to L^\bullet \to C(f)^\bullet \to K^\bullet[1] \to 0
+$$
+coming from the definition of the cone of $f$.
+\end{lemma}
+
+\begin{proof}
+Immediate from the definitions.
+\end{proof}
+
+\begin{proposition}
+\label{proposition-homotopy-category-triangulated}
+Let $\mathcal{A}$ be an additive category.
+The category $K(\mathcal{A})$ of complexes up to
+homotopy with its natural translation functors
+and distinguished triangles as defined above
+is a triangulated category.
+\end{proposition}
+
+\begin{proof}
+Proof of TR1. By definition every triangle isomorphic to a distinguished
+one is distinguished. Also, any triangle $(A^\bullet, A^\bullet, 0, 1, 0, 0)$
+is distinguished since $0 \to A^\bullet \to A^\bullet \to 0 \to 0$ is
+a termwise split sequence of complexes. Finally, given any morphism of
+complexes $f : K^\bullet \to L^\bullet$ the triangle
+$(K, L, C(f), f, i, -p)$ is distinguished by
+Lemma \ref{lemma-the-same-up-to-isomorphisms}.
+
+\medskip\noindent
+Proof of TR2.
+Let $(X, Y, Z, f, g, h)$ be a triangle.
+Suppose that $(Y, Z, X[1], g, h, -f[1])$ is distinguished.
+Then there exists a termwise split sequence of complexes
+$A^\bullet \to B^\bullet \to C^\bullet$ such that the associated
+triangle $(A^\bullet, B^\bullet, C^\bullet, \alpha, \beta, \delta)$
+is isomorphic to $(Y, Z, X[1], g, h, -f[1])$. Rotating back we see
+that $(X, Y, Z, f, g, h)$ is isomorphic to
+$(C^\bullet[-1], A^\bullet, B^\bullet, -\delta[-1], \alpha, \beta)$.
+By Lemma \ref{lemma-rotate-triangle} the triangle
+$(C^\bullet[-1], A^\bullet, B^\bullet, \delta[-1], \alpha, \beta)$
+is isomorphic to
+$(C^\bullet[-1], A^\bullet, C(\delta[-1])^\bullet, \delta[-1], i, p)$.
+It is easy to see this means $(X, Y, Z, f, g, h)$
+is isomorphic to
+$(C^\bullet[-1], A^\bullet, C(\delta[-1])^\bullet, \delta[-1], i, -p)$.
+Hence it is distinguished by 
+Lemma \ref{lemma-the-same-up-to-isomorphisms}.
+On the other hand, suppose that $(X, Y, Z, f, g, h)$ is distinguished.
+By Lemma \ref{lemma-the-same-up-to-isomorphisms} this means that it is
+isomorphic to $(K^\bullet, L^\bullet, C(f), f, i, -p)$ for some morphism of
+complexes $f$. Then the rotated triangle $(Y, Z, X[1], g, h, -f[1])$ is
+isomorphic to $(L^\bullet, C(f), K^\bullet[1], i, -p, -f[1])$ which is
+isomorphic to the triangle $(L^\bullet, C(f), K^\bullet[1], i, p, f[1])$.
+By Lemma \ref{lemma-rotate-cone} this triangle is distinguished.
+Hence $(Y, Z, X[1], g, h, -f[1])$ is distinguished as desired.
+
+\medskip\noindent
+Proof of TR3. Let
+$(X, Y, Z, f, g, h)$ and $(X', Y', Z', f', g', h')$
+be distinguished triangles of $K(\mathcal{A})$
+and let $a : X \to X'$ and $b : Y \to Y'$ be morphisms
+such that $f' \circ a = b \circ f$. By Lemma \ref{lemma-functorial-cone}
+we may assume that
+$(X, Y, Z, f, g, h) = (X, Y, C(f), f, i, p)$ and
+$(X', Y', Z', f', g', h') = (X', Y', C(f'), f', i', p')$.
+At this point we simply apply Lemma \ref{lemma-functorial-cone}
+to the commutative diagram given by $f, f', a, b$.
+
+\medskip\noindent
+Proof of TR4. At this point we know that $K(\mathcal{A})$
+is a pre-triangulated category. Hence we can use
+Lemma \ref{lemma-easier-axiom-four}. Let $A^\bullet \to B^\bullet$
+and $B^\bullet \to C^\bullet$ be composable morphisms of
+$K(\mathcal{A})$. By Lemma \ref{lemma-sequence-maps-split} we may assume that
+$A^\bullet \to B^\bullet$ and $B^\bullet \to C^\bullet$
+are split injective morphisms. In this case the result follows
+from Lemma \ref{lemma-two-split-injections}.
+\end{proof}
+
+
+
+
 
 
 
