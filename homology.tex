@@ -1610,6 +1610,114 @@ Omitted.
 
 
 
+\section{Double complexes}
+\label{section-double-complexes}
+
+\begin{definition}
+Let $\mathcal{A}$ be an additive category.
+A {\it double complex} in $\mathcal{A}$ is given
+by a system $(\{A^{p, q}, d_1^{p, q}, d_2^{p, q}\}_{p, q\in \mathbf{Z}})$,
+where each $A^{p, q}$ is an object of $\mathcal{A}$ and
+$d_1^{p, q} : A^{p, q} \to A^{p + 1, q}$ and
+$d_2^{p, q} : A^{p, q} \to A^{p, q + 1}$ are morphisms of $\mathcal{A}$
+such that the following rules hold:
+\begin{enumerate}
+\item $d_1^{p + 1, q} \circ d_1^{p, q} = 0$
+\item $d_2^{p, q + 1} \circ d_2^{p, q} = 0$
+\item $d_1^{p, q + 1} \circ d_2^{p, q} = d_2^{p + 1, q} \circ d_1^{p, q}$
+\end{enumerate}
+for all $p, q \in \mathbf{Z}$.
+\end{definition}
+
+\noindent
+This is just the cochain version of the definition.
+It says that each $A^{p, \bullet}$ is a cochain complex
+and that each $d_1^{p, \bullet}$ is a morphism of complexes
+$A^{p, \bullet} \to A^{p + 1, \bullet}$ such that
+$d_1^{p + 1, \bullet} \circ d_1^{p, \bullet} = 0$ as morphisms
+of complexes. In other words a double complex can be seen as
+a complex of complexes. So in the diagram
+$$
+\xymatrix{
+\ldots &
+\ldots &
+\ldots &
+\ldots \\
+\ldots \ar[r] &
+A^{p, q + 1} \ar[r]^{d_1^{p, q + 1}} \ar[u] &
+A^{p + 1, q + 1} \ar[r] \ar[u] &
+\ldots \\
+\ldots \ar[r] &
+A^{p, q} \ar[r]^{d_1^{p, q}} \ar[u]^{d_2^{p, q}} &
+A^{p + 1, q} \ar[r] \ar[u]_{d_2^{p + 1, q}} &
+\ldots \\
+\ldots &
+\ldots \ar[u] &
+\ldots \ar[u] &
+\ldots
+}
+$$
+any square commutes.
+Warning: In the literature one encouters sees a different definition
+where a ``bicomplex'' or  a ``double complex'' has the property that
+the squares in the diagram anti-commute.
+
+\begin{definition}
+\label{definition-associated-simple-complex}
+Let $\mathcal{A}$ be an additive category.
+Let $A^{\bullet, \bullet}$ be a double complex.
+The {\it associated simple complex $sA^{\bullet, \bullet}$}, also
+sometimes called the {\it associated total complex} is
+given by
+$$
+sA^n = \bigoplus\nolimits_{n = p + q} A^{p, q}
+$$
+(if it exists) with differential
+$$
+d_{sA}^n = \sum\nolimits_{n = p + q} (d_1^{p, q} + (-1)^p d_2^{p, q})
+$$
+\end{definition}
+
+\noindent
+If countable direct sums exist in $\mathcal{A}$ or if for each $n$ at most
+finitely many $A^{p, n - p}$ are nonzero, then $sA$ exists. Note that the
+definition is {\it not} symmetric in the indices $(p, q)$.
+
+\begin{lemma}
+\label{lemma-double-complex-gives-resolution}
+Let $\mathcal{A}$ be an abelian category.
+Let $K^\bullet$ be a complex.
+Let $A^{\bullet, \bullet}$ be a double complex.
+Let $\alpha^p : K^p \to A^{p, 0}$ be morphisms.
+Assume that
+\begin{enumerate}
+\item There exists a $B \in \mathbf{Z}$ such that
+$K^p = A^{p, q} = 0$ for all $p < B$ and all $q$.
+\item We have $A^{p, q} = 0$ if $q < 0$.
+\item The morphisms $\alpha^p$ give rise to a morphism
+of complexes $\alpha : K^\bullet \to A^{\bullet, 0}$.
+\item The complex $A^{p, \bullet}$ is exact in all degrees
+$q \not = 0$ and the morphism $K^p \to A^{p, 0}$ induces
+an isomorphism $K^p \to \text{Ker}(d_2^{p, 0})$.
+\end{enumerate}
+Then $\alpha$ induces a quasi-isomorphism
+$$
+K^\bullet \longrightarrow sA^\bullet
+$$
+\end{lemma}
+
+\begin{proof}
+Omitted. Hints: Using the spectral sequence associated to a double
+complex (insert future reference here) this is trivial. You can also
+prove this directly using zig-zags as in the proof of
+Algebra, Lemma \ref{algebra-lemma-no-spectral-sequence}.
+\end{proof}
+
+
+
+
+
+
 
 
 \section{Injectives}
@@ -2340,7 +2448,7 @@ by restricting the above $H^n$.
 \label{lemma-into-derived-category}
 Let $\mathcal{A}$ be an abelian category.
 Assume $\mathcal{A}$ has enough injectives.
-There exists a canonical functor
+There exists a functor
 $$
 j : K^{+}(\mathcal{A}) \longrightarrow D^{+}(\mathcal{A})
 $$
@@ -2350,12 +2458,17 @@ with the following properties:
 then $j(I^\bullet) = I^\bullet$.
 \item If $\alpha : I_1^\bullet \to I_2^\bullet$ is a morphism of
 bounded below complexes of injectives, then $j(\alpha) = \alpha$.
+\item For every $K^\bullet \in K^{+}(\mathcal{A})$ there
+is a quasi-isomorphism $K^\bullet \to j(K^\bullet)$.
 \item There are canonical isomorphisms $H^n \circ j = H^n$.
 \item Given a morphism of complexes $\alpha : K^\bullet \to L^\bullet$
 then $j(\alpha)$ is invertible if and only if $\alpha$ is a
 quasi-isomorphism.
+\item For any $K^\bullet$ we have $j(K^\bullet) \cong 0$ if and only
+if $K^\bullet$ is acyclic.
 \item Add more here as needed.
 \end{enumerate}
+Any second functor with these properties is isomorphic to $j$.
 \end{lemma}
 
 \begin{proof}
@@ -2407,13 +2520,13 @@ that they are equal up
 to homotopy, i.e., equal as morphisms in $D^{+}(\mathcal{A})$.
 
 \medskip\noindent
-Properties (1) and (2) are true by construction.
+Properties (1), (2) and (3) are true by construction.
 The isomorphism $H^n = H^n \circ j$ comes from the
 quasi-isomorphisms $K^\bullet \to j(K^\bullet)$ which
-are compatible with morphisms.
+are compatible with morphisms. Also, part (6) follows from part (5).
 
 \medskip\noindent
-Let us prove (4). It is clear that if $j(\alpha)$ is invertible,
+Let us prove (5). It is clear that if $j(\alpha)$ is invertible,
 then $\alpha$ is a quasi-isomorphism, by property (3).
 Suppose that $\alpha$ is a quasi-isomorphism. Then we apply
 Lemma \ref{lemma-morphisms-lift} to get the dotted arrow
@@ -2437,6 +2550,7 @@ object but no kernels and cokernels in general. Hence it not possible to define
 the notion of a short exact sequence in $D^{+}(\mathcal{A})$. The solution to
 this conundrum is to add additional structure to the category
 $D^{+}(\mathcal{A})$, namely a set of ``distinguished triangles''.
+See Definition \ref{definition-derived-triangulated} below.
 The result is the notion of a triangulated category which is an
 additive category, endowed with translation functors $[n]$
 and a set of triangles subject to a list of axioms.
@@ -2445,6 +2559,160 @@ One reason for introducing trianglulated categories is to be able to speak
 about exact functors between derived categories (especially derived
 functors).
 \end{remark}
+
+
+
+
+
+\section{Functorial injective resolutions}
+\label{section-functorial-injective-resolutions}
+
+\noindent
+In this section we redo the construction of the functor
+$K^{+}(\mathcal{A}) \to D^{+}(\mathcal{A})$ in case the
+category $\mathcal{A}$ has functorial injective embeddings.
+There are two reasons for this: First of all the proofs are easier.
+Second, the proof also works if $\mathcal{A}$ is a ``big'' abelian
+category. See Remark \ref{remark-big-abelian-category} below.
+
+\medskip\noindent
+Let $\mathcal{A}$ be an abelian category.
+Consider the category $\text{InjRes}(\mathcal{A})$
+of arrows $\alpha : K^\bullet \to I^\bullet$
+where $K^\bullet$ is a bounded below complex of $\mathcal{A}$,
+$I^\bullet$ is a bounded below complex of injectives of $\mathcal{A}$
+and $\alpha$ is a quasi-isomorphism. In other words, $\alpha$ is
+an injective resolution and $K^\bullet$ is bounded below.
+There is an obvious functor
+$$
+s : \text{InjRes}(\mathcal{A}) \longrightarrow \text{Comp}^{+}(\mathcal{A})
+$$
+defined by $(\alpha : K^\bullet \to I^\bullet) \mapsto K^\bullet$.
+If $\mathcal{A}$ has enough injectives, then there is also
+a functor
+$$
+t : \text{InjRes}(\mathcal{A}) \longrightarrow D^{+}(\mathcal{A})
+$$
+defined by $(\alpha : K^\bullet \to I^\bullet) \mapsto I^\bullet$.
+
+\begin{lemma}
+\label{lemma-functorial-injective-resolutions}
+Let $\mathcal{A}$ be an abelian category.
+Assume $\mathcal{A}$ has functorial injective embeddings.
+Then there exists a functor
+$inj : \text{Comp}^{+}(\mathcal{A}) \to \text{InjRes}(\mathcal{A})$
+such that $s \circ j = \text{id}$. Moreover, the composition
+$t \circ inj : \text{Comp}^{+}(\mathcal{A}) \to D^{+}(\mathcal{A})$
+factors through $\text{Comp}^{+}(\mathcal{A}) \to K^{+}(\mathcal{A})$
+to give a functor
+$$
+j = \overline{t \circ inj} :
+K^{+}(\mathcal{A})
+\longrightarrow
+D^{+}(\mathcal{A})
+$$
+satisfying all the numbered properties listed in
+Lemma \ref{lemma-into-derived-category}.
+\end{lemma}
+
+\begin{proof}
+Let $A \mapsto (A \to J(A))$ be a functorial injective embedding,
+see Definition \ref{definition-functorial-injective-embedding}.
+We first note that we may assume $J(0) = 0$. Namely, if not then
+for any object $A$ we have $0 \to A \to 0$ which gives
+a direct sum decomposition $J(A) = J(0) \oplus \text{Ker}(J(A) \to J(0))$.
+Note that the functorial morphism $A \to J(A)$ has to map
+into the second summand. Hence we can replace our functor
+by $J'(A) = \text{Ker}(J(A) \to J(0))$ if needed.
+
+\medskip\noindent
+Let $K^\bullet$ be a bounded below complex of $\mathcal{A}$.
+Say $K^p = 0$ if $p < B$.
+We are going to construct a double complex $I^{\bullet, \bullet}$
+of injectives, together with a map $\alpha : K^\bullet \to I^{\bullet, 0}$
+to which we will apply Lemma \ref{lemma-double-complex-gives-resolution}.
+First we set $I^{p, q} = 0$ whenever $q < 0$.
+Next, we set $I^{p, 0} = J(K^p)$ and $\alpha^p : K^p \to I^{p, 0}$
+the functorial embedding. Since $J$ is a functor we see that
+$I^{\bullet, 0}$ is a complex and that $\alpha$ is a
+morphism of complexes. Each $\alpha^p$ is injective. And
+$I^{p, 0} = 0$ for $p < B$ because $J(0) = 0$. Next, we set
+$I^{p, 1} = J(\text{Coker}(K^p \to I^{p, 0}))$. Again by functoriality
+we see that $I^{\bullet, 1}$ is a complex. And again we get
+that $I^{p, 1} = 0$ for $p < B$. It is also clear that
+$K^p$ maps isomorphically onto $\text{Ker}(I^{p, 0} \to I^{p, 1})$.
+As our third step we take $I^{p, 2} = J(\text{Coker}(I^{p, 0} \to I^{p, 1}))$.
+And so on and so forth.
+
+\medskip\noindent
+At this point we can apply Lemma \ref{lemma-double-complex-gives-resolution}
+to get that the map
+$$
+\alpha : K^\bullet \to sI^\bullet
+$$
+is a quasi-isomorphism. To prove we get a functor $inj$ it
+rests to show that the construction above
+is functorial. This verification is omitted.
+
+\medskip\noindent
+Suppose we have a functor $inj$ such that $s \circ inj = \text{id}$.
+Set $j = t \circ inj$. Hence we will use the notation
+$K^\bullet \mapsto inj(K^\bullet) = (K^\bullet \to j(K^\bullet))$
+(similarly to
+Definition \ref{definition-functorial-injective-embedding}).
+Suppose $\alpha , \beta : K^\bullet \to L^\bullet$ are two homotopic
+maps of bounded below complexes of maps. Consider the maps
+$inj(\alpha), inj(\beta)$ in the category $\text{InjRes}(\mathcal{A})$.
+They induce a commutative diagram
+$$
+\xymatrix{
+K^\bullet
+\ar@<1ex>[r]^-{\alpha} \ar@<-1ex>[r]_-{\beta}
+\ar[d] &
+L^\bullet \ar[d] \\
+j(K)^\bullet
+\ar@<1ex>[r]^-{j(\alpha)} \ar@<-1ex>[r]_-{j(\beta)}
+&
+j(L)^\bullet
+}
+$$
+Since the vertical arrows are quasi-isomorphisms, and $\alpha$ and $\beta$
+are homotopic we see that
+the morphisms $j(\alpha)$ and $j(\beta)$ are homotopic
+by Lemma \ref{lemma-morphisms-equal-up-to-homotopy}. Hence
+simply taking the $j$ of the class of a morphism up to 
+homotopy gives a well-defined class of morphisms between
+$j(K^\bullet)$ and $j(L^\bullet)$. (Note that we are not
+making any choices here.) The other statements of
+Lemma \ref{lemma-morphisms-equal-up-to-homotopy}
+are proved in exactly the same way as their corresponding proofs
+in that lemma.
+\end{proof}
+
+\begin{remark}
+\label{remark-big-abelian-category}
+Let $\text{Mod}(\mathcal{O}_X)$ be the category of $\mathcal{O}_X$-modules
+on a ringed space $(X, \mathcal{O}_X)$ (or more generally on a
+ringed site). We will see later that $\text{Mod}(\mathcal{O}_X)$ has enough
+injectives and in fact functorial injective embeddings, see
+Injectives, Theorem \ref{injectives-theorem-sheaves-modules-injectives}.
+Note that the proof of Lemma \ref{lemma-into-derived-category} does
+not apply to $\text{Mod}(\mathcal{O}_X)$. But the proof of
+Lemma \ref{lemma-functorial-injective-resolutions} does apply
+to $\text{Mod}(\mathcal{O}_X)$ hence
+we do get the desired functor
+$$
+j : K^{+}(\text{Mod}(\mathcal{O}_X))
+\longrightarrow 
+D^{+}(\text{Mod}(\mathcal{O}_X))
+$$
+\end{remark}
+
+
+
+
+
+
 
 
 
@@ -2829,7 +3097,6 @@ Note that the morphism $c : C(f_1)^\bullet \to C(f_2)^\bullet$
 constructed in the
 proof of Lemma \ref{lemma-functorial-cone} in general depends on the
 chosen homotopy $h$ between $f_2 \circ a$ and $b \circ f_1$.
-Here is another construction of triangles.
 
 \begin{definition}
 \label{definition-termwise-split-map}
@@ -3236,6 +3503,7 @@ called a {\it disinguished triangle of $K(\mathcal{A})$}
 if it is isomorphic to the triangle associated to
 a termwise split exact sequence of complexes, see Definition
 \ref{definition-split-ses}.
+Same definition for $K^{+}(\mathcal{A})$.
 \end{definition}
 
 \noindent
@@ -3318,7 +3586,8 @@ Let $\mathcal{A}$ be an additive category.
 The category $K(\mathcal{A})$ of complexes up to
 homotopy with its natural translation functors
 and distinguished triangles as defined above
-is a triangulated category.
+is a triangulated category. Same statement for
+$K^{+}(\mathcal{A})$.
 \end{proposition}
 
 \begin{proof}
@@ -3379,8 +3648,352 @@ $K(\mathcal{A})$. By Lemma \ref{lemma-sequence-maps-split} we may assume that
 $A^\bullet \to B^\bullet$ and $B^\bullet \to C^\bullet$
 are split injective morphisms. In this case the result follows
 from Lemma \ref{lemma-two-split-injections}.
+
+\medskip\noindent
+For the proof of the stament on $K^{+}(\mathcal{A})$, note that
+the cone construction applied to a morphism of bounded below
+complexes produces a bounded below complex. Similarly, given a termwise
+split sequence of complexes such that two out of the three complexes
+are bounded below then the third one is as well. In this way
+we see that the arguments for the case of $K(\mathcal{A})$ apply
+to $K^{+}(\mathcal{A})$ as well. Details omitted.
 \end{proof}
 
+
+
+
+
+
+
+
+
+\section{The derived category as a triangulated category}
+\label{section-derived-triangulated}
+
+\noindent
+Let $\mathcal{A}$ be an abelian category.
+Assume $\mathcal{A}$ has enough injectives.
+Denote $\mathcal{I} \subset \mathcal{A}$ the full subcategory consisting
+of all injective objects of $\mathcal{A}$. Note that $\mathcal{I}$
+is an additive category. Hence the derived category
+$D^{+}(\mathcal{A}) = K^{+}(\mathcal{I})$ is the
+homotopy category of bounded below complexes in an additive category.
+Hence by Definition \ref{definition-distinguished-triangle}
+there is a notion of a distinguished triangle, and by
+Proposition \ref{proposition-homotopy-category-triangulated}
+it is a triangulated category.
+Note that any short exact sequence
+$0 \to I^\bullet \to B^\bullet \to C^\bullet \to 0$
+of complexes of $\mathcal{A}$ with $I^\bullet$ a complex of injectives
+is termwise split (see Lemma \ref{lemma-characterize-injectives}).
+
+\begin{definition}
+\label{definition-derived-triangulated}
+Let $\mathcal{A}$ be an abelian category.
+Assume $\mathcal{A}$ has enough injectives.
+The structure of a triangulated category on
+the derived category $D^{+}(\mathcal{A})$ is the one where
+a {\it distinguished triangle in the derived category}
+$D^{+}(\mathcal{A})$ is any triangle of $D^{+}(\mathcal{A})$
+isomorphic to the triangle associated to a short exact sequence
+of complexes of injectives (see Definition \ref{definition-split-ses}).
+\end{definition}
+
+\noindent
+This makes sense by the discussion above.
+Next we would like to show that the canonical
+functor $j : K^{+}(\mathcal{A}) \to D^{+}(\mathcal{A})$
+is compatible with the given structures of triangulated 
+categories. In order to do this we need a definition.
+
+\begin{definition}
+\label{definition-exact-functor-triangulated-categories}
+Let $\mathcal{D}$, $\mathcal{D}'$ be triangulated
+categories. An {\it exact functor} from $\mathcal{D}$ to $\mathcal{D}'$
+is a functor $F : \mathcal{D} \to \mathcal{D}'$ together
+with given functorial isomorphisms $\xi_X : F(X[1]) \to F(X)[1]$
+such that for every distinguished triangle
+$(X, Y, Z, f, g, h)$ of $\mathcal{D}$ the triangle
+$(F(X), F(Y), F(Z), F(f), F(g), \xi_X \circ F(h))$
+is a distinguished triangle of $\mathcal{D}$.
+\end{definition}
+
+\begin{lemma}
+\label{lemma-j-is-exact}
+Let $\mathcal{A}$ be an abelian category.
+Assume $\mathcal{A}$ has enough injectives (resp.\ has
+functorial injective embeddings). The functor
+$j : K^{+}(\mathcal{A}) \to D^{+}(\mathcal{A})$
+constructed in
+Lemma \ref{lemma-into-derived-category} (resp.\ 
+Lemma \ref{lemma-functorial-injective-resolutions})
+is exact.
+\end{lemma}
+
+\begin{proof}
+First we discuss the existence of the functorial isomorphism
+$j(K^\bullet[1]) \to j(K^\bullet)[1]$. In the case where we only
+assume that $\mathcal{A}$ has enough injectives, we constructed
+$j$ in Lemma \ref{lemma-into-derived-category} by simply choosing
+an injective resolution $K^\bullet \to j(K^\bullet)$ for every object
+of $K^{+}(\mathcal{A})$. In this case we choose
+for each bounded below complex $K^\bullet$ of $\mathcal{A}$ a morphism
+of complexes $j(K^\bullet[1]) \to j(K^\bullet)[1]$ such that
+the diagram
+$$
+\xymatrix{
+K^\bullet[1] \ar[d] \ar[rd] & \\
+j(K^\bullet[1]) \ar[r] & j(K^\bullet)[1]
+}
+$$
+commutes, using Lemmas \ref{lemma-morphisms-lift}
+and \ref{lemma-morphisms-equal-up-to-homotopy}
+for existence and uniqueness up to homotopy. We omit the verification
+that this gives a functorial isomorphism. (Hint: use
+Lemma \ref{lemma-morphisms-equal-up-to-homotopy} again.)
+
+\medskip\noindent
+In the case where $\mathcal{A}$ has functorial injective resolutions
+and the functor $j$ is the one constructed in the proof of
+Lemma \ref{lemma-functorial-injective-resolutions} we actually have that
+$j(K^\bullet[1]) = j(K^\bullet)[1]$ functorially on the nose. This requires
+some care with signs whose verification we omit. Moreover, the
+displayed diagram above commutes in this case as well.
+
+\medskip\noindent
+Let $(X, Y, Z, f, g, h)$ be a distinguished triangle of $K^{+}(\mathcal{A})$.
+We have to show that $(j(X), j(Y), j(Z), j(f), j(g), j(h))$ is
+a distinguished triangle of $D^{+}(\mathcal{A})$. To see this, since
+$j$ is a functor, we may replace $(X, Y, Z, f, g, h)$ by any triangle
+isomorphic to it and prove it for that triangle. Hence we may and do
+assume that $(X, Y, Z, f, g, h)$ is the distinguished triangle
+associated to a termwise split sequence of complexes
+$$
+0 \to A^\bullet \to B^\bullet \to C^\bullet \to 0.
+$$
+Choose splittings $(s^n, \pi^n)$ and denote
+$\delta : C^\bullet \to A^\bullet[1]$ the associated 
+morphism. Set
+$$
+J^n = j(A)^n \oplus j(C)^n
+$$
+and define a differential by the matrix
+$$
+d_J^n =
+\left(
+\begin{matrix}
+d_{I_1}^n & j(\delta)^n \\
+0 & d_{I_2}^n 
+\end{matrix}
+\right).
+\text{ Also, note that: }
+d_B^n =
+\left(
+\begin{matrix}
+d_{A}^n & \delta^n \\
+0 & d_{B}^n 
+\end{matrix}
+\right)
+$$
+Thus we get a morphism of termwise split
+sequences of complexes
+$$
+\xymatrix{
+0 \ar[r] &
+A^\bullet \ar[r]_\alpha \ar[d] &
+B^\bullet \ar[r]_\beta \ar[d] &
+C^\bullet \ar[r] \ar[d] &
+0 \\
+0 \ar[r] &
+j(A^\bullet) \ar[r]^a &
+J^\bullet \ar[r]^b &
+j(C^\bullet) \ar[r] &
+0
+}
+$$
+where the middle vertical arrow is compatible with the
+splittings of both the top row and the bottom row.
+Since the left and right vertical arrows are quasi-isomorphisms
+also the middle vertical arrow is a quasi-isomorphism.
+Hence we see that $J^\bullet \cong j(B^\bullet)$ in a manner which
+identifies $a$ with $j(\alpha)$
+and $b$ with $j(\beta)$.
+The lower short exact sequence of the diagram implies that the
+triangle
+$(j(A^\bullet), J^\bullet, j(C^\bullet), a, b, j(\delta))$
+is distinguished in $D^{+}(\mathcal{A})$. By definition of
+a triangulated category and using the isomorphism
+$J^\bullet \to j(B^\bullet)$ above we deduce that
+the triangle
+$$
+(j(A^\bullet), j(B^\bullet), j(C^\bullet), j(\alpha), j(\beta), j(\delta))
+$$
+is distinguished as desired. Some details omitted.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+\section{The canonical $\delta$-functor}
+\label{section-canonical-delta-functor}
+
+\noindent
+The derived category should be the receptacle for the universal
+cohomology functor. Hence in particular a short exact sequence
+in the abelian category $\mathcal{A}$ should lead to a triangle
+in the derived category. In order to state the result we need to
+define the notion of a $\delta$-functor from an abelian category
+into a triangulated category.
+
+\begin{definition}
+\label{definition-delta-functor}
+Let $\mathcal{A}$ be an abelian category.
+Let $\mathcal{D}$ be a triangulated category.
+A {\it $\delta$-functor from $\mathcal{A}$ to $\mathcal{D}$} is
+given by a functor $G : \mathcal{A} \to \mathcal{D}$ and
+a rule which assigns to every short exact sequence
+$$
+0 \to A \xrightarrow{a} B \xrightarrow{b} C \to 0
+$$
+a morphism $\delta = \delta_{A \to B \to C} : G(C) \to G(A)[1]$
+such that
+\begin{enumerate}
+\item the triangle $(G(A), G(B), G(C), G(a), G(b), \delta)$
+is distinguished for any short exact sequence as above, and
+\item for every morphism $(A \to B \to C) \to (A' \to B' \to C')$
+of short exact sequences the diagram
+$$
+\xymatrix{
+G(C) \ar[d] \ar[rr]_{\delta_{A \to B \to C}} & &
+G(A)[1] \ar[d] \\
+G(C') \ar[rr]^{\delta_{A' \to B' \to C'}} & &
+G(A')[1]
+}
+$$
+is commutative.
+\end{enumerate}
+\end{definition}
+
+\noindent
+Note how a $\delta$-functor comes equipped with additional structure.
+Strictly speaking it does not make sense to say that a given
+functor $\mathcal{A} \to \mathcal{D}$ is a $\delta$-functor, but one
+often does.
+
+\medskip\noindent
+Let $\mathcal{A}$ be an abelian category with enough injectives.
+We would like to consider the functors
+$$
+\mathcal{A} \to \text{Comp}^{+}(\mathcal{A})
+\to K^{+}(\mathcal{A}) \to D^{+}(\mathcal{A})
+$$
+one more time. The first two categories $\mathcal{A}$,
+$\text{Comp}^{+}(\mathcal{A})$ are abelian
+(see Lemma \ref{lemma-cat-cochain-abelian}) and the functor
+between them is exact. The last two are trianglulated and the
+functor between them is exact (see Lemma \ref{lemma-j-is-exact}).
+
+\medskip\noindent
+Consider the functor
+$\text{Comp}^{+}(\mathcal{A}) \to K^{+}(\mathcal{A})$.
+This functor is not a $\delta$-functor in general.
+The easiest way to see this is to consider a nonsplit
+short exact sequence $0 \to A \to B \to C \to 0$
+of objects of $\mathcal{A}$. Since
+$\text{Hom}_{K^{+}(\mathcal{A})}(C[0], A[1]) = 0$
+we see that any distinguished triangle arising from
+this short exact sequence would look like
+$(A[0], B[0], C[0], a, b, 0)$. But the existence of such a
+distinguished triangle in $K^{+}(\mathcal{A})$ implies
+that the extension is split (left as exercise). A contradiction.
+
+\medskip\noindent
+It turns out that the functor
+$\text{Comp}^{+}(\mathcal{A}) \to D^{+}(\mathcal{A})$ is a
+$\delta$-functor. In order to see this we have to define
+the morphisms $\delta$ associated to a short exact sequence
+$$
+0 \to A^\bullet \xrightarrow{a} B^\bullet \xrightarrow{b} C^\bullet \to 0
+$$
+of bounded below complexes in the abelian category $\mathcal{A}$.
+Consider the cone $C(a)^\bullet$ of the morphism $a$.
+We have $C(a)^n = B^n \oplus A^{n + 1}$ and we define
+$(\tilde b)^n : C(a)^n \to C^n$ via the projection to $B^n$ followed
+by $b ^n$. Hence a morphism of complexes
+$$
+\tilde b : C(a)^\bullet \longrightarrow C^\bullet.
+$$
+It is clear that $\tilde b \circ i = b$ where $i$ is as in
+Definition \ref{definition-cone}.
+Note that the kernel of $\tilde b$ is identified with
+the cone of $\text{id}_{A^\bullet}$ which is acyclic.
+Hence we see that $\tilde b$ is a quasi-isomorphism.
+According to Lemma \ref{lemma-the-same-up-to-isomorphisms} the triangle
+$$
+(A, B, C(a), a, i, -p)
+$$
+is a distinguished triangle in $K^{+}(\mathcal{A})$.
+As $j : K^{+}(\mathcal{A}) \to D^{+}(\mathcal{A})$ is
+exact (see Lemma \ref{lemma-j-is-exact}) we see that
+$(j(A), j(B), j(C(a)), j(a), j(i), -j(p))$ is a distinguished
+triangle in $D^{+}(\mathcal{A})$. Since $\tilde b$ is a quasi-isomorphism
+we see that $j(\tilde b)$ is an isomorphism in $D^{+}(\mathcal{A})$.
+Hence we deduce that
+$$
+(j(A), j(B), j(C), j(a), j(b), -j(p) \circ j(\tilde b)^{-1})
+$$
+is a distinguished triangle of $D^{+}(\mathcal{A})$.
+This suggests the following lemma.
+
+\begin{lemma}
+\label{lemma-canonical-delta-functor}
+Let $\mathcal{A}$ be an abelian category.
+Assume $\mathcal{A}$ has enough injectives (resp.\ has
+functorial injective embeddings). The functor
+$\text{Comp}^{+}(\mathcal{A}) \to D^{+}(\mathcal{A})$
+defined using the functor $j$ constructed in
+Lemma \ref{lemma-into-derived-category} (resp.\ 
+Lemma \ref{lemma-functorial-injective-resolutions})
+has the natural structure of a $\delta$-functor, with
+$$
+\delta_{A^\bullet \to B^\bullet \to C^\bullet} = -j(p) \circ j(\tilde b)^{-1}
+$$
+as explained above.
+\end{lemma}
+
+\begin{proof}
+We have already seen that this choice leads to a distinguished
+triangle whenever given a short exact sequence of complexes.
+We have to show that given a commutative diagram
+$$
+\xymatrix{
+0 \ar[r] &
+A^\bullet \ar[r]_a \ar[d]_f &
+B^\bullet \ar[r]_b \ar[d]_g &
+C^\bullet \ar[r] \ar[d]_h &
+0 \\
+0 \ar[r] &
+(A')^\bullet) \ar[r]^{a'} &
+(B')^\bullet \ar[r]^{b'} &
+(C')^\bullet \ar[r] &
+0
+}
+$$
+we get the desired commutative diagram of
+Definition \ref{definition-delta-functor} (2).
+By Lemma \ref{lemma-functorial-cone}
+the pair $(f, g)$ induces a canonical morphism
+$c : C(a)^\bullet \to C(a')^\bullet$. It is a simple computation
+to show that $\tilde b' \circ c = h \circ \tilde b$ and
+$f[1] \circ p = p' \circ c$. From this the result follows directly.
+\end{proof}
 
 
 
@@ -3598,6 +4211,8 @@ $$
 \to \text{CF}^{+}(\mathcal{A}) \to KF^{+}(\mathcal{A})
 $$
 
+\medskip\noindent
+To be continued.
 
 
 
