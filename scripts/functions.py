@@ -272,3 +272,27 @@ def check_refs(refs, labels):
 			return ref
 		n = n + 1
 	return ""
+
+def find_commands(line):
+	commands = []
+	n = line.find("\\")
+	while n >= 0:
+		m = n + 1
+		while m < len(line):
+			if line[m] == "(" or line[m] == " " or line[m] == "\\" or line[m] == "{" or line[m] == "_" or line[m] == "\n" or line[m] == "$" or line[m] == "[" or line[m] == "," or line[m] == "'" or line[m] == "}" or line[m] == "]" or line[m] == ")" or line[m] == "^" or line[m] == "/" or line[m] == "=" or line[m] == "." or line[m] == "|" or line[m] == "+" or line[m] == "-" or line[m] == ":" or line[m] == "&" or line[m] == "\"" or line[m] == "@" or line[m] == ";":
+				break
+			m = m + 1
+		if m == n + 1:
+			m = m + 1
+		commands.append(line[n : m])
+		n = line.find("\\", m)
+	return commands
+
+def new_command(new, commands):
+	m = 0
+	while m < len(commands):
+		if new == commands[m]:
+			return 0;
+		m = m + 1
+	return 1
+
