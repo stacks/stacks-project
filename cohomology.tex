@@ -48,16 +48,17 @@ how it is the same as the cohomology of the underlying abelian sheaf.
 
 
 
-\section{Cech cohomology}
+\section{The Cech complex and Cech cohomology}
 \label{section-cech}
 
 \noindent
 Let $X$ be a topological space.
-Let $\mathcal{U} : U = \bigcup_{i \in I} U_i$ be an open covering.
+Let $\mathcal{U} : U = \bigcup_{i \in I} U_i$ be an open covering,
+see Topology, Basic notion (\ref{topology-item-covering}).
 As is customary we denote
 $U_{i_0\ldots i_p} = U_{i_0} \cap \ldots \cap U_{i_p}$ for the
 $(p + 1)$-fold intersection of members of $\mathcal{U}$.
-Let $\mathcal{F}$ be an abelian sheaf on $X$.
+Let $\mathcal{F}$ be an abelian presheaf on $X$.
 Set
 $$
 \check{\mathcal{C}}^p(\mathcal{U}, \mathcal{F})
@@ -65,14 +66,15 @@ $$
 \prod\nolimits_{(i_0, \ldots, i_p) \in I^{p + 1}}
 \mathcal{F}(U_{i_0\ldots i_p}).
 $$
-This is an abelian group. If we write
-$s \in \check{\mathcal{C}}^p(\mathcal{U}, \mathcal{F})$ then we denote
+This is an abelian group. For
+$s \in \check{\mathcal{C}}^p(\mathcal{U}, \mathcal{F})$ we denote
 $s_{i_0\ldots i_p}$ its value in $\mathcal{F}(U_{i_0\ldots i_p})$.
 Note that if $s \in \check{\mathcal{C}}^2(\mathcal{U}, \mathcal{F})$
 and $i, j \in I$ then $s_{ij}$ and $s_{ji}$ are both elements
 of $\mathcal{F}(U_i \cap U_j)$ but there is no imposed
 relation between $s_{ij}$ and $s_{ji}$. In other words, we are {\it not}
-working with alternating cochains. We define
+working with alternating cochains (these will be defined
+insert future reference here). We define
 $$
 d : \check{\mathcal{C}}^p(\mathcal{U}, \mathcal{F})
 \longrightarrow
@@ -93,7 +95,7 @@ $\check{\mathcal{C}}^\bullet(\mathcal{U}, \mathcal{F})$ is a complex.
 \label{definition-cech-complex}
 Let $X$ be a topological space.
 Let $\mathcal{U} : U = \bigcup_{i \in I} U_i$ be an open covering.
-Let $\mathcal{F}$ be an abelian sheaf on $X$.
+Let $\mathcal{F}$ be an abelian presheaf on $X$.
 The complex $\check{\mathcal{C}}^\bullet(\mathcal{U}, \mathcal{F})$
 is the {\it Cech complex} associated to $\mathcal{F}$ and the
 open covering $\mathcal{U}$. Its cohomology groups
@@ -102,6 +104,299 @@ called the {\it Cech cohomology groups} associated to
 $\mathcal{F}$ and the covering $\mathcal{U}$.
 They are denoted $\check H^i(\mathcal{U}, \mathcal{F})$.
 \end{definition}
+
+\noindent
+Note that if $X$ is a ringed space, and if $\mathcal{F}$ is a presheaf
+of $\mathcal{O}_X$-modules, then the Cech complex
+$\check{\mathcal{C}}^\bullet(\mathcal{U}, \mathcal{F})$
+of $\mathcal{F}$ makes sense (just by thinking of $\mathcal{F}$
+as a sheaf of abelian groups). In this case however, each term
+$\check{\mathcal{C}}^p(\mathcal{U}, \mathcal{F})$ has a natural
+structure of a $\mathcal{O}_X(U)$-module and the differential is given by
+$\mathcal{O}_X(U)$-module maps.
+
+\medskip\noindent
+In the formulation of the following lemma we use the functor $j_!$ of
+extension by $0$ for an open immersion $j : U \to X$. See
+Sheaves, Section \ref{sheaves-section-open-immersions}. Note that
+if we are given $U \subset V \subset X$, then we have a canonical
+map $(j_U)_!\mathcal{O}_U \to (j_V)_!\mathcal{O}_V$ which is the
+identity on all stalks of both sheaves at points in $U$.
+
+\begin{lemma}
+\label{lemma-cech-map-into}
+Let $X$ be a ringed space.
+Let $\mathcal{U} : U = \bigcup_{i \in I} U_i$ be a covering.
+Denote $j_{i_0\ldots i_p} : U_{i_0 \ldots i_p} \to X$ the open immersion.
+Consider the chain complex of $\mathcal{O}_X$-modules
+$$
+K(\mathcal{U})_\bullet :
+\ldots
+\to
+\bigoplus_{i_0i_1i_2} (j_{i_0i_1i_2})_!\mathcal{O}_{U_{i_0i_1i_2}}
+\to
+\bigoplus_{i_0i_1} (j_{i_0i_1})_!\mathcal{O}_{U_{i_0i_1}}
+\to
+\bigoplus_{i_0} (j_{i_0})_!\mathcal{O}_{U_{i_0}}
+\to 0 \to \ldots
+$$
+where the last nonzero term is placed in degree $0$
+and where the map
+$$
+(j_{i_0\ldots i_{p + 1}})_!\mathcal{O}_{U_{i_0\ldots i_{p + 1}}}
+\longrightarrow
+(j_{i_0\ldots \hat i_j \ldots i_{p + 1}})_!
+\mathcal{O}_{U_{i_0\ldots \hat i_j \ldots i_{p + 1}}}
+$$
+is given by $(-1)^j$ times the canonical map.
+Then there is a functorial isomorphism
+$$
+\text{Hom}_{\mathcal{O}_X}(K(\mathcal{U})_\bullet, \mathcal{F})
+=
+\check{\mathcal{C}}^\bullet(\mathcal{U}, \mathcal{F})
+$$
+\end{lemma}
+
+\begin{proof}
+Note that by adjointness of extension by zero and pullback,
+see Sheaves, Lemma \ref{sheaves-lemma-j-shriek-modules}, we have
+$$
+\text{Hom}_{\mathcal{O}_X}(
+(j_{i_0\ldots i_p})_!\mathcal{O}_{U_{i_0\ldots i_p}},
+\mathcal{F})
+=
+\mathcal{F}(U_{i_0\ldots i_p}).
+$$
+Hence we see that it is indeed the case that the direct sum
+$$
+\bigoplus_{i_0 \ldots i_p}
+(j_{i_0 \ldots i_p})_!\mathcal{O}_{U_{i_0 \ldots i_p}}
+$$
+represents the functor
+$$
+\mathcal{F} \longmapsto \prod_{i_0\ldots i_p} \mathcal{F}(U_{i_0\ldots i_p}).
+$$
+Hence by Categories, Yoneda Lemma \ref{categories-lemma-yoneda}
+we see that there is a complex $K(\mathcal{U})_\bullet$ with terms
+as given. It is a simple matter to see that the maps are as given
+in the lemma.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-homology-complex}
+Let $X$ be a ringed space.
+Let $\mathcal{U} : U = \bigcup_{i \in I} U_i$ be a covering.
+The chain complex $K(\mathcal{U})_\bullet$ of Lemma \ref{lemma-cech-map-into}
+above has homology sheaves
+$$
+H_i(K(\mathcal{U})_\bullet) =
+\left\{
+\begin{matrix}
+0 & \text{if} & i \not = 0 \\
+j_!\mathcal{O}_U & \text{if} & i = 0
+\end{matrix}
+\right.
+$$
+\end{lemma}
+
+\begin{proof}
+Consider the extended complex $K^{ext}_\bullet$ one gets by putting
+$j_!\mathcal{O}_U$ in degree $-1$ with the obvious map
+$\bigoplus_{i_0} (j_{i_0})_!\mathcal{O}_{U_{i_0}} \to j_!\mathcal{O}_U$.
+It suffice to show that taking stalks of this complex leads to an
+acyclic complex for all $x \in X$. In fact, we claim that for every $x \in X$
+the complex of $\mathcal{O}_{X, x}$-modules
+$K^{ext}_{\bullet, x}$ is homotopy equivalent to the zero complex.
+If $x \not \in U$ then it is the zero complex so there is nothing to
+prove. If $x \in U$, then choose an $i \in I$ such that
+$x \in U_i$. Define a map
+$$
+h : K^{ext}_{p, x} \longrightarrow K^{ext}_{p + 1, x}
+$$
+by the rule
+$$
+h(s)_{i_0 \ldots i_{p + 1}} =
+\left\{
+\begin{matrix}
+0 & \text{if} & i_0 \not = i \\
+s_{i_1 \ldots i_{p + 1}} & \text{if} & i_0 = i
+\end{matrix}
+\right.
+$$
+We will use the shorthand
+$h(s)_{i_0 \ldots i_{p + 1}} = (i = i_0) s_{i_1 \ldots i_p}$ for this.
+Then we compute
+\begin{eqnarray*}
+(dh + hd)(s)_{i_0 \ldots i_p}
+& = &
+\sum_j \sum_{i' \in I} (-1)^j h(s)_{i_0 \ldots i_{j - 1} i' i_j \ldots i_p}
++
+(i = i_0) d(s)_{i_1 \ldots i_p} \\
+& = &
+s_{i_0 \ldots i_p} +
+\sum_{j \geq 1}\sum_{i' \in I}
+(-1)^j (i = i_0) s_{i_1 \ldots i_{j - 1} i' i_j \ldots i_p}
++
+(i = i_0) d(s)_{i_1 \ldots i_p}
+\end{eqnarray*}
+which is equal to $s_{i_0 \ldots i_p}$ as desired.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-injective-trivial-cech}
+Let $X$ be a ringed space.
+Let $\mathcal{U} : U = \bigcup_{i \in I} U_i$ be a covering.
+Let $\mathcal{I}$ be an injective $\mathcal{O}_X$-module.
+Then
+$$
+\check{H}^p(\mathcal{U}, \mathcal{I}) =
+\left\{
+\begin{matrix}
+\mathcal{I}(U) & \text{if} & p = 0 \\
+0 & \text{if} & p > 0
+\end{matrix}
+\right.
+$$
+\end{lemma}
+
+\begin{proof}
+Since $\mathcal{I}$ is an injective $\mathcal{O}_X$-module we see
+that the functor $\text{Hom}_{\mathcal{O}_X}(-, \mathcal{I})$
+is exact. By Lemma \ref{lemma-cech-map-into}
+the Cech complex $\check{\mathcal{C}}^\bullet(\mathcal{U}, \mathcal{F})$
+is the same as
+$\text{Hom}_{\mathcal{O}_X}(K(\mathcal{U})_\bullet, \mathcal{I})$.
+By Lemma \ref{lemma-homology-complex} and the exactness noted above this
+is quasi-isomorphic to 
+$$
+\text{Hom}_{\mathcal{O}_X}(j_!\mathcal{O}_U, \mathcal{I}) =
+\mathcal{I}(U)
+$$
+as desired.
+\end{proof}
+
+
+
+
+
+
+
+
+
+\section{The alternating Cech complex}
+\label{section-alternating-cech}
+
+\noindent
+Let $X$ be a topological space.
+Let $\mathcal{U} : U = \bigcup_{i \in I} U_i$ be an open covering,
+see Topology, Basic notion (\ref{topology-item-covering}).
+Choose an total ordering $<$ on $I$.
+As is customary we denote
+$U_{i_0\ldots i_p} = U_{i_0} \cap \ldots \cap U_{i_p}$ for the
+$(p + 1)$-fold intersection of members of $\mathcal{U}$.
+Let $\mathcal{F}$ be an abelian sheaf on $X$.
+Set
+$$
+\check{\mathcal{C}}_{alt}^p(\mathcal{U}, \mathcal{F})
+=
+\prod\nolimits_{(i_0, \ldots, i_p) \in I^{p + 1}, i_0 < \ldots < i_p}
+\mathcal{F}(U_{i_0\ldots i_p}).
+$$
+This is an abelian group. For
+$s \in \check{\mathcal{C}}_{alt}^p(\mathcal{U}, \mathcal{F})$ we denote
+$s_{i_0\ldots i_p}$ its value in $\mathcal{F}(U_{i_0\ldots i_p})$.
+We define
+$$
+d : \check{\mathcal{C}}_{alt}^p(\mathcal{U}, \mathcal{F})
+\longrightarrow
+\check{\mathcal{C}}_{alt}^{p + 1}(\mathcal{U}, \mathcal{F})
+$$
+by the formula
+$$
+d(s)_{i_0\ldots i_{p + 1}}
+=
+\sum\nolimits_{j = 0}^{p + 1}
+(-1)^j
+s_{i_0\ldots \hat i_j \ldots i_p}|_{U_{i_0\ldots i_{p + 1}}}
+$$
+for any $i_0 < \ldots < i_{p + 1}$.
+It is straightforward to see that $d \circ d = 0$. In other words
+$\check{\mathcal{C}}_{alt}^\bullet(\mathcal{U}, \mathcal{F})$ is a complex.
+
+\begin{definition}
+\label{definition-alternating-cech-complex}
+Let $X$ be a topological space.
+Let $\mathcal{U} : U = \bigcup_{i \in I} U_i$ be an open covering.
+Let $\mathcal{F}$ be an abelian sheaf on $X$.
+The complex $\check{\mathcal{C}}_{alt}^\bullet(\mathcal{U}, \mathcal{F})$
+is the {\it alternating Cech complex} associated to $\mathcal{F}$ and the
+open covering $\mathcal{U}$ (and the given total ordering on $I$).
+\end{definition}
+
+\noindent
+The adjective alternating comes from the comparison between the alternating
+Cech complex and the usual Cech complex. Namely, consider the map
+$$
+c :
+\check{\mathcal{C}}_{alt}^\bullet(\mathcal{U}, \mathcal{F})
+\longrightarrow
+\check{\mathcal{C}}^\bullet(\mathcal{U}, \mathcal{F})
+$$
+given by the rule
+$$
+c(s)_{i_0\ldots i_p} = 
+\left\{
+\begin{matrix}
+0 &
+\text{if} &
+i_n = i_m \text{ for some } n \not = m\\
+\text{sgn}(\sigma) s_{i_{\sigma(0)}\ldots i_{\sigma(p)}} &
+\text{if} &
+i_{\sigma(0)} < i_{\sigma(1)} < \ldots < i_{\sigma(p)}
+\end{matrix}
+\right.
+$$
+Here $\sigma$ denotes a permutation of $\{0, \ldots, p\}$ and
+$\text{sgn}(\sigma)$ denotes its sign. Note that the image of
+$c$ in degree $p$ clearly consists exactly of those
+$s \in \check{\mathcal{C}}^p(\mathcal{U}, \mathcal{F})$
+such that $s_{i_0 \ldots i_p} = 0$ if two indices are equal
+and such that
+$$
+s_{i_0\ldots i_n \ldots i_m \ldots i_p}
+=
+-s_{i_0\ldots i_m \ldots i_n \ldots i_p}.
+$$
+In other words we may think of the complex
+$\check{\mathcal{C}}_{alt}^p(\mathcal{U}, \mathcal{F})$
+as consisting of the {\it alternating cochains} (defined by the rules
+just given) inside the usual Cech complex. There is also a map
+$$
+\pi :
+\check{\mathcal{C}}^\bullet(\mathcal{U}, \mathcal{F})
+\longrightarrow
+\check{\mathcal{C}}_{alt}^\bullet(\mathcal{U}, \mathcal{F})
+$$
+which is described by the rule
+$$
+\pi(s)_{i_0\ldots i_p} = s_{i_0\ldots i_p}
+$$
+whenever $i_0 < i_1 < \ldots < i_p$.
+
+\begin{lemma}
+\label{lemma-alternating-usual}
+The maps $c$ and $\pi$ are morphisms of complexes.
+We have $\pi \circ c = \text{id}$.
+Moreover the map $c \circ \pi$ is homotopic to the identity on
+$\check{\mathcal{C}}^\bullet(\mathcal{U}, \mathcal{F})$.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+
+
 
 
 
