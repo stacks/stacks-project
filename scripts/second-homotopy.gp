@@ -109,7 +109,7 @@ while(a <= n,
 	if(((a == 1) || (m[a - 1] < m[a])) && (nrequal(m, a) > 1),
 		if(s == 0,
 			t = doublei(m, a);
-			uit = concat(uit, [[(-1)^a, t]])
+			uit = concat(uit, [[(-1)^(a - 1), t]])
 		);
 		s = s + 1
 	);
@@ -176,7 +176,7 @@ while(i < n,
 	if(m[i] == m[i + 1], e = 0);
 	i = i + 1
 );
-if(e == 0, lijst = [[1, m]], lijst = []);
+if(e == 0, lijst = [[-1, m]], lijst = []);
 return(reduce(concat(lijst, concat(h(diff_single(m)), diff(h_single(m))))))
 }
 
