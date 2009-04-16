@@ -48,6 +48,95 @@ how it is the same as the cohomology of the underlying abelian sheaf.
 
 
 
+\section{Cohomology of sheaves}
+\label{section-cohomology-sheaves}
+
+\noindent
+Let $X$ be a topological space.
+Let $\mathcal{F}$ be a abelian sheaf.
+We know that the category of abelian sheaves on $X$ has enough injectives,
+see Injectives, Lemma \ref{injectives-lemma-abelian-sheaves-space}.
+Hence we can choose an injective resolution
+$\mathcal{F}[0] \to \mathcal{I}^\bullet$.
+As is customary we define
+$$
+H^i(X, \mathcal{F}) = H^i(\Gamma(X, \mathcal{I}^\bullet))
+$$
+to be the {\it $i$th cohomology group of the abelian sheaf $\mathcal{F}$}.
+
+\medskip\noindent
+We want to generalize this just a little bit. Namely, suppose that $X$
+is a ringed space. (The case of abelian sheaves will be included
+by thinking about the case $\mathcal{O}_X = \underline{\mathbf{Z}}_X$.)
+By Homology, Remark \ref{homology-remark-big-abelian-category} there exists a
+localization functor
+$$
+j : K^{+}(\textit{Mod}(\mathcal{O}_X))
+\longrightarrow
+D^{+}(\mathcal{O}_X).
+$$
+For any left exact functor $F : \textit{Mod}(\mathcal{O}_X) \to \mathcal{B}$
+into any abelian category $\mathcal{B}$ we will denote $RF$ the
+right derived functor constructed in
+Homology, Section \ref{homology-section-right-derived-functor}
+using the localization functor $j$ just described.
+Note that we may think of $RF$ as defined on $\textit{Mod}(\mathcal{O}_X)$,
+$\text{Comp}^{+}(\textit{Mod}(\mathcal{O}_X))$,
+$K^{+}(\textit{Mod}(\mathcal{O}_X))$, or $D^{+}(\textit{Mod}(\mathcal{O}_X))$
+depending on the situation. In addition, in many cases we actually think of
+$RF$ as a functor into $D^{+}(\mathcal{B})$, see
+Homology, Remark \ref{homology-remark-right-derived-functor}.
+
+\medskip\noindent
+In particular, we have
+$$
+\Gamma(X, -) :
+\textit{Mod}(\mathcal{O}_X)
+\longrightarrow
+\text{Mod}(\mathcal{O}_X(X))
+$$
+which gives rise to $R\Gamma(X, -)$ and $H^i(X, -) = R^i\Gamma(X, -)$.
+Slightly more generally, for any open $U \subset X$ we have
+$$
+\Gamma(U, -) :
+\textit{Mod}(\mathcal{O}_X)
+\longrightarrow
+\text{Mod}(\mathcal{O}_X(U))
+$$
+which gives rise to $R\Gamma(U, -)$ and $H^i(U, -) = R^i\Gamma(U, -)$.
+If $f : X \to Y$ is a morphism of ringed spaces, then we have
+the functor
+$$
+f_* :
+\textit{Mod}(\mathcal{O}_X)
+\longrightarrow
+\textit{Mod}(\mathcal{O}_Y)
+$$
+which gives rise to $Rf_*$ and $R^if_*$. These are called the
+{\it derived pushforward} and the {\it higher direct images} respectively.
+According to the remarks made above we often think of
+$Rf_*$ as a functor
+$$
+Rf_* :
+D^{+}(\textit{Mod}(\mathcal{O}_X))
+\longrightarrow
+D^{+}(\textit{Mod}(\mathcal{O}_Y))
+$$
+and whenever applying the functor $Rf_*$ to a sheaf $\mathcal{F}$ or a complex
+of sheaves it is understood that the localization functor $j$ has
+been applied first, i.e., that $\mathcal{F}$ has been replaced by
+an injective resultion of $\mathcal{F}$.
+
+
+
+
+
+
+
+
+
+
+
 \section{The Cech complex and Cech cohomology}
 \label{section-cech}
 
@@ -74,7 +163,7 @@ and $i, j \in I$ then $s_{ij}$ and $s_{ji}$ are both elements
 of $\mathcal{F}(U_i \cap U_j)$ but there is no imposed
 relation between $s_{ij}$ and $s_{ji}$. In other words, we are {\it not}
 working with alternating cochains (these will be defined
-insert future reference here). We define
+in Section \ref{section-alternating-cech}). We define
 $$
 d : \check{\mathcal{C}}^p(\mathcal{U}, \mathcal{F})
 \longrightarrow
@@ -106,76 +195,187 @@ $\mathcal{F}$ and the covering $\mathcal{U}$.
 They are denoted $\check H^i(\mathcal{U}, \mathcal{F})$.
 \end{definition}
 
+
+
+
+
+\section{Cech cohomology as a functor on presheaves}
+\label{section-cech-functor}
+
 \noindent
-Note that if $X$ is a ringed space, and if $\mathcal{F}$ is a presheaf
-of $\mathcal{O}_X$-modules, then the Cech complex
-$\check{\mathcal{C}}^\bullet(\mathcal{U}, \mathcal{F})$
-of $\mathcal{F}$ makes sense (just by thinking of $\mathcal{F}$
-as a sheaf of abelian groups). In this case however, each term
-$\check{\mathcal{C}}^p(\mathcal{U}, \mathcal{F})$ has a natural
-structure of a $\mathcal{O}_X(U)$-module and the differential is given by
-$\mathcal{O}_X(U)$-module maps.
+Warning: In this section we work almost exclusively with presheaves and
+categories of presheaves and the results are completely wrong in the
+setting of sheaves and categories of sheaves!
 
 \medskip\noindent
-In the formulation of the following lemma we use the functor $j_!$ of
-extension by $0$ for an open immersion $j : U \to X$. See
-Sheaves, Section \ref{sheaves-section-open-immersions}. Note that
-if we are given $U \subset V \subset X$, then we have a canonical
-map $(j_U)_!\mathcal{O}_U \to (j_V)_!\mathcal{O}_V$ which is the
-identity on all stalks of both sheaves at points in $U$.
+Let $X$ be a ringed space.
+Let $\mathcal{U} : U = \bigcup_{i \in I} U_i$ be an open covering.
+Let $\mathcal{F}$ be a presheaf of $\mathcal{O}_X$-modules.
+We have the Cech complex
+$\check{\mathcal{C}}^\bullet(\mathcal{U}, \mathcal{F})$
+of $\mathcal{F}$ just by thinking of $\mathcal{F}$
+as a sheaf of abelian groups. However, each term
+$\check{\mathcal{C}}^p(\mathcal{U}, \mathcal{F})$ has a natural
+structure of a $\mathcal{O}_X(U)$-module and the differential is given by
+$\mathcal{O}_X(U)$-module maps. Moreover, it is clear that the
+construction
+$$
+\mathcal{F} \longmapsto \check{\mathcal{C}}^\bullet(\mathcal{U}, \mathcal{F})
+$$
+is functorial in $\mathcal{F}$. In fact, it is a functor
+\begin{equation}
+\label{equation-cech-functor}
+\check{\mathcal{C}}^\bullet(\mathcal{U}, -) :
+\textit{PMod}(\mathcal{O}_X)
+\longrightarrow
+\text{Comp}^{+}(\text{Mod}(\mathcal{O}_X(U)))
+\end{equation}
+see Homology, Definition \ref{homology-definition-complexes-notation}
+for notation. Recall that the category of bounded below complexes
+in an abelian category is an abelian category, see
+Homology, Lemma \ref{homology-lemma-cat-cochain-abelian}.
+
+\begin{lemma}
+\label{lemma-cech-exact-presheaves}
+The functor given by Equation (\ref{equation-cech-functor})
+is an exact functor (see Homology, Lemma \ref{homology-lemma-exact-functor}).
+\end{lemma}
+
+\begin{proof}
+For any open $W \subset U$ the functor
+$\mathcal{F} \mapsto \mathcal{F}(W)$ is an additive exact functor
+from $\text{PMod}(\mathcal{O}_X)$ to $\text{Mod}(\mathcal{O}_X(U))$.
+The terms
+$\check{\mathcal{C}}^p(\mathcal{U}, \mathcal{F})$
+of the complex are products of these exact functors and hence exact.
+Moreover a sequence of complexes is exact if and only if the sequence
+of terms in a given degree is exact. Hence the lemma follows.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-cech-cohomology-delta-functor-presheaves}
+Let $X$ be a ringed space.
+Let $\mathcal{U} : U = \bigcup_{i \in I} U_i$ be an open covering.
+The functors $\mathcal{F} \mapsto \check{H}^n(\mathcal{U}, \mathcal{F})$
+form a $\delta$-functor from the abelian category of
+presheaves of $\mathcal{O}_X$-modules to the category
+of $\mathcal{O}_X(U)$-modules (see
+Homology, Definition \ref{homology-definition-cohomological-delta-functor}).
+\end{lemma}
+
+\begin{proof}
+By the previous lemma a short exact sequence of presheaves of
+$\mathcal{O}_X$-modules
+$0 \to \mathcal{F}_1 \to \mathcal{F}_2 \to \mathcal{F}_3 \to 0$
+is turned into a short exact sequence of complexes of
+$\mathcal{O}_X(U)$-modules. Hence we can use
+Homology, Lemma \ref{homology-lemma-long-exact-sequence-cochain}
+to get the boundary maps
+$\delta_{\mathcal{F}_1 \to \mathcal{F}_2 \to \mathcal{F}_3} :
+\check{H}^n(\mathcal{U}, \mathcal{F}_3) \to 
+\check{H}^{n + 1}(\mathcal{U}, \mathcal{F}_1)$
+and a corresponding long exact sequence. We omit the verification
+that these maps are compatible with maps between short exact
+sequences of presheaves.
+\end{proof}
+
+
+\noindent
+In the formulation of the following lemma we use the functor $j_{p!}$ of
+extension by $0$ for presheaves of modules
+relative to an open immersion $j : U \to X$.
+See Sheaves, Section \ref{sheaves-section-open-immersions}. For any open
+$W \subset X$ and any presheaf $\mathcal{G}$ of $\mathcal{O}_X|_U$-modules
+we have
+$$
+(j_{p!}\mathcal{G})(W) = 
+\left\{
+\begin{matrix}
+\mathcal{G}(W) & \text{if } W \subset U \\
+0 & \text{else.}
+\end{matrix}
+\right.
+$$
+Moreover, the functor $j_{p!}$ is a left adjoint to the restriction functor
+see Sheaves, Lemma \ref{sheaves-lemma-j-shriek-modules}.
+In particular we have the following formula
+$$
+\text{Hom}_{\mathcal{O}_X}(j_{p!}\mathcal{O}_U, \mathcal{F})
+=
+\text{Hom}_{\mathcal{O}_U}(\mathcal{O}_U, \mathcal{F}|_U)
+=
+\mathcal{F}(U).
+$$
+Since the functor $\mathcal{F} \mapsto \mathcal{F}(U)$ is an exact functor
+on the category of presheaves we conclude that the presheaf
+$j_{p!}\mathcal{O}_U$ is a projective object in the category
+$\textit{PMod}(\mathcal{O}_X)$, see
+Homology, Lemma \ref{homology-lemma-characterize-projectives}.
+
+\medskip\noindent
+Note that if we are given open subsets $U \subset V \subset X$
+with associated open immersions $j_U, j_V$, then we have a canonical
+map $(j_U)_{p!}\mathcal{O}_U \to (j_V)_{p!}\mathcal{O}_V$. It is the
+identity on sections over any open $W \subset U$ and $0$ else.
+In terms of the identification
+$\text{Hom}_{\mathcal{O}_X}((j_U)_{p!}\mathcal{O}_U, (j_V)_{p!}\mathcal{O}_V) =
+(j_V)_{p!}\mathcal{O}_V(U) = \mathcal{O}_V(U)$ it corresponds to
+the element $1 \in \mathcal{O}_V(U)$.
 
 \begin{lemma}
 \label{lemma-cech-map-into}
 Let $X$ be a ringed space.
 Let $\mathcal{U} : U = \bigcup_{i \in I} U_i$ be a covering.
 Denote $j_{i_0\ldots i_p} : U_{i_0 \ldots i_p} \to X$ the open immersion.
-Consider the chain complex of $\mathcal{O}_X$-modules
+Consider the chain complex $K(\mathcal{U})_\bullet$
+of presheaves of $\mathcal{O}_X$-modules
 $$
-K(\mathcal{U})_\bullet :
 \ldots
 \to
-\bigoplus_{i_0i_1i_2} (j_{i_0i_1i_2})_!\mathcal{O}_{U_{i_0i_1i_2}}
+\bigoplus_{i_0i_1i_2} (j_{i_0i_1i_2})_{p!}\mathcal{O}_{U_{i_0i_1i_2}}
 \to
-\bigoplus_{i_0i_1} (j_{i_0i_1})_!\mathcal{O}_{U_{i_0i_1}}
+\bigoplus_{i_0i_1} (j_{i_0i_1})_{p!}\mathcal{O}_{U_{i_0i_1}}
 \to
-\bigoplus_{i_0} (j_{i_0})_!\mathcal{O}_{U_{i_0}}
+\bigoplus_{i_0} (j_{i_0})_{p!}\mathcal{O}_{U_{i_0}}
 \to 0 \to \ldots
 $$
 where the last nonzero term is placed in degree $0$
 and where the map
 $$
-(j_{i_0\ldots i_{p + 1}})_!\mathcal{O}_{U_{i_0\ldots i_{p + 1}}}
+(j_{i_0\ldots i_{p + 1}})_{p!}\mathcal{O}_{U_{i_0\ldots i_{p + 1}}}
 \longrightarrow
-(j_{i_0\ldots \hat i_j \ldots i_{p + 1}})_!
+(j_{i_0\ldots \hat i_j \ldots i_{p + 1}})_{p!}
 \mathcal{O}_{U_{i_0\ldots \hat i_j \ldots i_{p + 1}}}
 $$
 is given by $(-1)^j$ times the canonical map.
-Then there is a functorial isomorphism
+Then there is an isomorphism
 $$
 \text{Hom}_{\mathcal{O}_X}(K(\mathcal{U})_\bullet, \mathcal{F})
 =
 \check{\mathcal{C}}^\bullet(\mathcal{U}, \mathcal{F})
 $$
+functorial in $\mathcal{F} \in \text{Ob}(\textit{PMod}(\mathcal{O}_X))$.
 \end{lemma}
 
 \begin{proof}
-Note that by adjointness of extension by zero and pullback,
-see Sheaves, Lemma \ref{sheaves-lemma-j-shriek-modules}, we have
+We saw in the discussion just above the lemma that
 $$
 \text{Hom}_{\mathcal{O}_X}(
-(j_{i_0\ldots i_p})_!\mathcal{O}_{U_{i_0\ldots i_p}},
+(j_{i_0\ldots i_p})_{p!}\mathcal{O}_{U_{i_0\ldots i_p}},
 \mathcal{F})
 =
 \mathcal{F}(U_{i_0\ldots i_p}).
 $$
 Hence we see that it is indeed the case that the direct sum
 $$
-\bigoplus_{i_0 \ldots i_p}
-(j_{i_0 \ldots i_p})_!\mathcal{O}_{U_{i_0 \ldots i_p}}
+\bigoplus\nolimits_{i_0 \ldots i_p}
+(j_{i_0 \ldots i_p})_{p!}\mathcal{O}_{U_{i_0 \ldots i_p}}
 $$
 represents the functor
 $$
-\mathcal{F} \longmapsto \prod_{i_0\ldots i_p} \mathcal{F}(U_{i_0\ldots i_p}).
+\mathcal{F}
+\longmapsto
+\prod\nolimits_{i_0\ldots i_p} \mathcal{F}(U_{i_0\ldots i_p}).
 $$
 Hence by Categories, Yoneda Lemma \ref{categories-lemma-yoneda}
 we see that there is a complex $K(\mathcal{U})_\bullet$ with terms
@@ -187,14 +387,17 @@ in the lemma.
 \label{lemma-homology-complex}
 Let $X$ be a ringed space.
 Let $\mathcal{U} : U = \bigcup_{i \in I} U_i$ be a covering.
-The chain complex $K(\mathcal{U})_\bullet$ of Lemma \ref{lemma-cech-map-into}
-above has homology sheaves
+Let $\mathcal{O}_{\mathcal{U}} \subset \mathcal{O}_X$
+be the image presheaf of the map
+$\bigoplus j_{p!}\mathcal{O}_{U_i} \to \mathcal{O}_X$.
+The chain complex $K(\mathcal{U})_\bullet$ of presheaves
+of Lemma \ref{lemma-cech-map-into} above has homology presheaves
 $$
 H_i(K(\mathcal{U})_\bullet) =
 \left\{
 \begin{matrix}
 0 & \text{if} & i \not = 0 \\
-j_!\mathcal{O}_U & \text{if} & i = 0
+\mathcal{O}_{\mathcal{U}} & \text{if} & i = 0
 \end{matrix}
 \right.
 $$
@@ -202,17 +405,42 @@ $$
 
 \begin{proof}
 Consider the extended complex $K^{ext}_\bullet$ one gets by putting
-$j_!\mathcal{O}_U$ in degree $-1$ with the obvious map
-$\bigoplus_{i_0} (j_{i_0})_!\mathcal{O}_{U_{i_0}} \to j_!\mathcal{O}_U$.
-It suffice to show that taking stalks of this complex leads to an
-acyclic complex for all $x \in X$. In fact, we claim that for every $x \in X$
-the complex of $\mathcal{O}_{X, x}$-modules
-$K^{ext}_{\bullet, x}$ is homotopy equivalent to the zero complex.
-If $x \not \in U$ then it is the zero complex so there is nothing to
-prove. If $x \in U$, then choose an $i \in I$ such that
-$x \in U_i$. Define a map
+$\mathcal{O}_{\mathcal{U}}$ in degree $-1$ with the obvious map
+$K(\mathcal{U})_0 =
+\bigoplus_{i_0} (j_{i_0})_{p!}\mathcal{O}_{U_{i_0}} \to
+\mathcal{O}_{\mathcal{U}}$.
+It suffices to show that taking sections of this extended complex over
+any open $W \subset X$ leads to an acyclic complex.
+In fact, we claim that for every $W \subset X$ the complex
+$K^{ext}_\bullet(W)$ is homotopy equivalent to the zero complex.
+Write $I = I_1 \sqcup I_2$ where $W \subset U_i$ if and only
+if $i \in I_1$.
+
+\medskip\noindent
+If $I_1 = \emptyset$, then the complex $K^{ext}_\bullet(W) = 0$ so there is
+nothing to prove.
+
+\medskip\noindent
+If $I_1 \not = \emptyset$, then
+$\mathcal{O}_{\mathcal{U}}(W) = \mathcal{O}_X(W)$
+and
 $$
-h : K^{ext}_{p, x} \longrightarrow K^{ext}_{p + 1, x}
+K^{ext}_p(W) =
+\bigoplus\nolimits_{i_0 \ldots i_p \in I_1} \mathcal{O}_X(W).
+$$
+This is true because of the simple description of the presheaves
+$(j_{i_0 \ldots i_p})_{p!}\mathcal{O}_{U_{i_0 \ldots i_p}}$.
+Moreover, the differential of the complex $K^{ext}_\bullet(W)$
+is given by
+$$
+d(s)_{i_0 \ldots i_p} =
+\sum\nolimits_{j = 0, \ldots, p + 1} \sum\nolimits_{i \in I_1}
+(-1)^j s_{i_0 \ldots i_{j - 1} i i_j \ldots i_p}.
+$$
+The sum is finite as the element $s$ has finite support.
+Fix an element $i_{\text{fix}} \in I_1$. Define a map
+$$
+h : K^{ext}_p(W) \longrightarrow K^{ext}_{p + 1}(W)
 $$
 by the rule
 $$
@@ -220,28 +448,146 @@ h(s)_{i_0 \ldots i_{p + 1}} =
 \left\{
 \begin{matrix}
 0 & \text{if} & i_0 \not = i \\
-s_{i_1 \ldots i_{p + 1}} & \text{if} & i_0 = i
+s_{i_1 \ldots i_{p + 1}} & \text{if} & i_0 = i_{\text{fix}}
 \end{matrix}
 \right.
 $$
 We will use the shorthand
-$h(s)_{i_0 \ldots i_{p + 1}} = (i = i_0) s_{i_1 \ldots i_p}$ for this.
+$h(s)_{i_0 \ldots i_{p + 1}} = (i_0 = i_{\text{fix}}) s_{i_1 \ldots i_p}$ for this.
 Then we compute
 \begin{eqnarray*}
-(dh + hd)(s)_{i_0 \ldots i_p}
+& & (dh + hd)(s)_{i_0 \ldots i_p} \\
 & = &
-\sum_j \sum_{i' \in I} (-1)^j h(s)_{i_0 \ldots i_{j - 1} i' i_j \ldots i_p}
+\sum_j \sum_{i \in I_1} (-1)^j h(s)_{i_0 \ldots i_{j - 1} i i_j \ldots i_p}
 +
 (i = i_0) d(s)_{i_1 \ldots i_p} \\
 & = &
 s_{i_0 \ldots i_p} +
-\sum_{j \geq 1}\sum_{i' \in I}
-(-1)^j (i = i_0) s_{i_1 \ldots i_{j - 1} i' i_j \ldots i_p}
+\sum_{j \geq 1}\sum_{i \in I_1}
+(-1)^j (i_0 = i_{\text{fix}}) s_{i_1 \ldots i_{j - 1} i i_j \ldots i_p}
 +
-(i = i_0) d(s)_{i_1 \ldots i_p}
+(i_0 = i_{\text{fix}}) d(s)_{i_1 \ldots i_p}
 \end{eqnarray*}
 which is equal to $s_{i_0 \ldots i_p}$ as desired.
 \end{proof}
+
+\begin{lemma}
+\label{lemma-cech-cohomology-derived-presheaves}
+Let $X$ be a ringed space.
+Let $\mathcal{U} : U = \bigcup_{i \in I} U_i$
+be an open covering of $U \subset X$.
+The Cech cohomology functors $\check{H}^p(\mathcal{U}, -)$
+are canonically isomomorphic (as a $\delta$-functor) to
+the right derived functors of the functor
+$$
+\check{H}^0(\mathcal{U}, -) :
+\textit{PMod}(\mathcal{O}_X)
+\longrightarrow
+\text{Mod}(\mathcal{O}_X(U)).
+$$
+Moreover, there is a functorial quasi-isomorphism
+$$
+\check{\mathcal{C}}^\bullet(\mathcal{U}, \mathcal{F})
+\longrightarrow 
+R\check{H}^0(\mathcal{U}, \mathcal{F})
+$$
+where the right hand side indicates the derived functor
+$R\check{H}^0(\mathcal{U}, -) :
+\textit{PMod}(\mathcal{O}_X)
+\to
+D^{+}(\mathcal{O}_X(U))$, see
+Homology, Remark \ref{homology-remark-right-derived-functor}.
+\end{lemma}
+
+\begin{proof}
+Note that the category of presheaves of $\mathcal{O}_X$-modules
+has enough injectives, see
+Injectives, Proposition \ref{injectives-proposition-presheaves-modules}.
+Note that $\check{H}^0(\mathcal{U}, -)$ is a left exact functor
+from the category of presheaves of $\mathcal{O}_X$-modules
+to the category of $\mathcal{O}_X(U)$-modules.
+Hence the derived functor and the right derived fuctor exist,
+see Homology, Section \ref{homology-section-right-derived-functor}.
+
+\medskip\noindent
+Let $\mathcal{I}$ be a injective presheaf of $\mathcal{O}_X$-modules.
+In this case the functor $\text{Hom}_{\mathcal{O}_X}(-, \mathcal{I})$
+is exact on $\textit{PMod}(\mathcal{O}_X)$. By
+Lemma \ref{lemma-cech-map-into} we have
+$$
+\text{Hom}_{\mathcal{O}_X}(K(\mathcal{U})_\bullet, \mathcal{I})
+=
+\check{\mathcal{C}}^\bullet(\mathcal{U}, \mathcal{I}).
+$$
+By Lemma \ref{lemma-homology-complex} we have that $K(\mathcal{U})_\bullet$ is
+quasi-isomorphic to $\mathcal{O}_{\mathcal{U}}[0]$. Hence by
+the exactness of Hom into $\mathcal{I}$ mentioned above we see
+that $\check{H}^i(\mathcal{U}, \mathcal{I}) = 0$ for all
+$i > 0$. Thus the $\delta$-functor $(\check{H}^n, \delta)$
+(see Lemma \ref{lemma-cech-cohomology-delta-functor-presheaves})
+satisfies the assumptions of
+Homology, Lemma \ref{homology-lemma-efface-implies-universal},
+and hence is a universal $\delta$-functor.
+
+\medskip\noindent
+By Homology, Lemma \ref{homology-lemma-higher-derived-functors}
+also the sequence $R^i\check{H}^0(\mathcal{U}, -)$
+forms a universal $\delta$-functor. By the uniqueness of universal
+$\delta$-functors, see
+Homology, Lemma \ref{homology-lemma-uniqueness-universal-delta-functor}
+we conclude that
+$R^i\check{H}^i(\mathcal{U}, -) = \check{H}^i(\mathcal{U}, -)$.
+This is enough for most applications
+and the reader is suggested to skip the rest of the proof.
+
+\medskip\noindent
+Let $\mathcal{F}$ be any presheaf of $\mathcal{O}_X$-modules.
+Choose an injective resolution $\mathcal{F} \to \mathcal{I}^\bullet$
+in the category $\textit{PMod}(\mathcal{O}_X)$.
+Consider the double complex $A^{\bullet, \bullet}$ with terms
+$$
+A^{p, q} =
+\check{\mathcal{C}}^p(\mathcal{U}, \mathcal{I}^q).
+$$
+Consider the simple complex $sA^\bullet$ associated to this double
+complex. There is a map of complexes
+$$
+\check{\mathcal{C}}^\bullet(\mathcal{U}, \mathcal{F})
+\longrightarrow
+sA^\bullet
+$$
+coming from the maps
+$\check{\mathcal{C}}^p(\mathcal{U}, \mathcal{F})
+\to A^{p, 0} = \check{\mathcal{C}}^\bullet(\mathcal{U}, \mathcal{I}^0)$
+and there is a map of complexes
+$$
+\check{H}^0(\mathcal{U}, \mathcal{I}^\bullet)
+\longrightarrow
+sA^\bullet
+$$
+coming from the maps
+$\check{H}^0(\mathcal{U}, \mathcal{I}^q) \to
+A^{0, q} = \check{\mathcal{C}}^0(\mathcal{U}, \mathcal{I}^q)$.
+Both of these maps are quasi-isomorphisms by an application of
+Homology, Lemma \ref{homology-lemma-double-complex-gives-resolution}.
+Namely, the columns of the double complex are exact in positive degrees
+because the Cech complex as a functor is exact
+(Lemma \ref{lemma-cech-exact-presheaves})
+and the rows of the double complex are exact in positive degrees
+since as we just saw the higher Cech cohomology groups of the injective
+presheaves $\mathcal{I}^q$ are zero.
+Since quasi-isomorphisms become invertible
+in $D^{+}(\mathcal{O}_X(U))$ this gives the last displayed morphism
+of the lemma. We omit the verification that this morphism is
+functorial.
+\end{proof}
+
+
+
+
+
+\section{Cech cohomology for sheaves of modules}
+\label{section-cech-cohomology-sheaves}
 
 \begin{lemma}
 \label{lemma-injective-trivial-cech}
@@ -261,20 +607,19 @@ $$
 \end{lemma}
 
 \begin{proof}
-Since $\mathcal{I}$ is an injective $\mathcal{O}_X$-module we see
-that the functor $\text{Hom}_{\mathcal{O}_X}(-, \mathcal{I})$
-is exact. By Lemma \ref{lemma-cech-map-into}
-the Cech complex $\check{\mathcal{C}}^\bullet(\mathcal{U}, \mathcal{F})$
-is the same as
-$\text{Hom}_{\mathcal{O}_X}(K(\mathcal{U})_\bullet, \mathcal{I})$.
-By Lemma \ref{lemma-homology-complex} and the exactness noted above this
-is quasi-isomorphic to 
-$$
-\text{Hom}_{\mathcal{O}_X}(j_!\mathcal{O}_U, \mathcal{I}) =
-\mathcal{I}(U)
-$$
-as desired.
+An injective $\mathcal{O}_X$-module is also injective as an object in
+the category $\textit{PMod}(\mathcal{O}_X)$ (for example since
+sheafification is an exact left adjoint to the inclusion functor,
+using Homology, Lemma \ref{homology-lemma-adjoint-preserve-injectives}).
+Hence we can apply Lemma \ref{lemma-cech-cohomology-derived-presheaves}
+(or its proof) to see the result.
 \end{proof}
+
+
+
+
+
+
 
 
 
@@ -591,14 +936,14 @@ $$
 for the operator given by the rule
 $$
 \kappa(s)_{i_0 \ldots i_p} =
-\text{sign}(\sigma) s_{i_{\sigma(0)} \ldots i_{\sigma(p)}}
+\text{sign}(\sigma^{i_0 \ldots i_p}) s_{i_{\sigma(0)} \ldots i_{\sigma(p)}}.
 $$
-where $\sigma = \sigma^{i_0 \ldots i_p}$. The claim above implies
-that $\kappa$ is homotopic to the identity map of the Cech complex.
+The claim above implies that $\kappa$ is a morphism of complexes and that
+$\kappa$ is homotopic to the identity map of the Cech complex.
 This does not immediately imply the lemma since
 the image of the operator $\kappa$ is not the alternating subcomplex.
 Namely, the image of $\kappa$ is the ``semi-alternating'' complex
-$\check{\mathcal{C}}_{semi-alt}^p(\mathcal{U}, \mathcal{F})$
+$\check{\mathcal{C}}_{semi\text{-}alt}^p(\mathcal{U}, \mathcal{F})$
 where $s$ is a $p$-cochain of this complex if and only if
 $$
 s_{i_0 \ldots i_p} = \text{sign}(\sigma) s_{i_{\sigma(0)} \ldots i_{\sigma(p)}}
@@ -608,18 +953,18 @@ $\sigma = \sigma^{i_0 \ldots i_p}$.
 We introduce yet another variant Cech complex, namely the semi-ordered
 Cech complex defined by
 $$
-\check{\mathcal{C}}_{semi-ord}^p(\mathcal{U}, \mathcal{F})
+\check{\mathcal{C}}_{semi\text{-}ord}^p(\mathcal{U}, \mathcal{F})
 =
-\prod_{i_0 \leq i_1 \leq \ldots \leq i_p}
+\prod\nolimits_{i_0 \leq i_1 \leq \ldots \leq i_p}
 \mathcal{F}(U_{i_0 \ldots i_p})
 $$
 It is easy to see that Equation (\ref{equation-d-cech}) also defines
 a differential and hence that we get a complex. It is also clear
 (analogous to Lemma \ref{lemma-project-to-ordered}) that the projection map
 $$
-\check{\mathcal{C}}_{semi-alt}^p(\mathcal{U}, \mathcal{F})
+\check{\mathcal{C}}_{semi\text{-}alt}^\bullet(\mathcal{U}, \mathcal{F})
 \longrightarrow
-\check{\mathcal{C}}_{semi-ord}^p(\mathcal{U}, \mathcal{F})
+\check{\mathcal{C}}_{semi\text{-}ord}^\bullet(\mathcal{U}, \mathcal{F})
 $$
 is an isomorphism of complexes.
 
@@ -628,7 +973,7 @@ Hence the Lemma follows if we can show that the obvious inclusion map
 $$
 \check{\mathcal{C}}_{ord}^p(\mathcal{U}, \mathcal{F})
 \longrightarrow
-\check{\mathcal{C}}_{semi-ord}^p(\mathcal{U}, \mathcal{F})
+\check{\mathcal{C}}_{semi\text{-}ord}^p(\mathcal{U}, \mathcal{F})
 $$
 is a homotopy equivalence. To see this we use the homotopy
 \begin{equation}
@@ -659,14 +1004,14 @@ finitely many instances of this claim.
 We wrote this script to make sure the signs are correct.)
 The claim clearly shows that the composition
 $$
-\check{\mathcal{C}}_{semi-ord}^p(\mathcal{U}, \mathcal{F})
+\check{\mathcal{C}}_{semi\text{-}ord}^\bullet(\mathcal{U}, \mathcal{F})
 \longrightarrow
-\check{\mathcal{C}}_{ord}^p(\mathcal{U}, \mathcal{F})
+\check{\mathcal{C}}_{ord}^\bullet(\mathcal{U}, \mathcal{F})
 \longrightarrow
-\check{\mathcal{C}}_{semi-ord}^p(\mathcal{U}, \mathcal{F})
+\check{\mathcal{C}}_{semi\text{-}ord}^\bullet(\mathcal{U}, \mathcal{F})
 $$
 of the projection with the natural inclusion
-is homotopic to the identiy map as desired.
+is homotopic to the identity map as desired.
 \end{proof}
 
 
