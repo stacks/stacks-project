@@ -1805,6 +1805,8 @@ In addition we sometimes have a system $(E_r, d_r)_{r \geq r_0}$
 for some $r_0$ satsifying the properties of the definition above
 for indices $\geq r$. We will also call this a spectral sequence since by
 a simple renumbering it falls under the definition anyway.
+In fact, sometimes it makes sense to allow $r_0 = 0$ or even $r_0 = -1$
+due to conventions in the literature.
 
 \medskip\noindent
 Given a spectral sequence $(E_r, d_r)_{r \geq 1}$ we define
@@ -1822,7 +1824,8 @@ And so on and so forth. In particular we have
 $$
 E_r = Z_r/B_r
 $$
-for all $r \geq 1$.
+for all $r \geq 1$. I case the spectral sequence starts at $r = r_0$
+then we can similarly construct $B_i$, $Z_i$ as subobjects in $E_{r_0}$.
 
 \begin{definition}
 \label{definition-limit-spectral-sequence}
@@ -1835,8 +1838,9 @@ the {\it limit} of the spectral sequence to be the object
 $$
 E_{\infty} = Z_{\infty}/B_{\infty}.
 $$
-\item We say that the spectral sequence {\it collapses at $E_r$}
-if the differentials $d_r, d_{r + 1}, \ldots$ are all zero.
+\item We say that the spectral sequence {\it collapses at $E_r$}, or
+{\it degenerates at $E_r$} if the differentials $d_r, d_{r + 1}, \ldots$ are
+all zero.
 \end{enumerate}
 \end{definition}
 
@@ -1960,22 +1964,91 @@ Omitted.
 \noindent
 Note that in the situation of the lemma we obviously have
 $$
-Z_\infty = g\left(\bigcup\nolimits_r \text{Ker}(\alpha^r)\right)
+B_\infty = g\left(\bigcup\nolimits_r \text{Ker}(\alpha^r)\right)
 \subset
-B_\infty = f^{-1}\left(\bigcap\nolimits_r \text{Im}(\alpha^r)\right)
+Z_\infty = f^{-1}\left(\bigcap\nolimits_r \text{Im}(\alpha^r)\right)
 $$
 provided this exist and in this case $E_\infty = Z_\infty / B_\infty$.
+Here is an important example.
+
+\begin{example}
+\label{example-differential-object-self-map}
+Let $\mathcal{A}$ be an abelian category.
+Let $(A, d)$ be a {\it differential object} of $\mathcal{A}$, i.e., an
+object endowed with a selfmap $d$ such that $d \circ d = 0$.
+Let $\alpha : (A, d) \to (A, d)$ be an endomorphism of this differential
+object. If we assume $\alpha$ injective, then we get a short exact sequence
+$$
+0 \to (A, d) \to (A, d) \to (A/\alpha A, d) \to 0
+$$
+of differential objects. For a differential object $(A, d)$ we denote
+$H(A, d) = \text{Ker}(d)/\text{Im}(d)$ its {\it homology}. By the
+Snake Lemma \ref{lemma-snake} we get an exact couple
+$$
+\xymatrix{
+H(A, d) \ar[rr]_{\overline{\alpha}} & & H(A, d) \ar[ld]^g \\
+& H(A/\alpha A, d) \ar[lu]^f &
+}
+$$
+where $g$ is the canonical map and $f$ is the map defined in the snake lemma.
+Thus we get an associated spectral sequence!
+Since in this case we have $E_1 = H(A/\alpha A, d)$ we
+see that it makes sense to define $E_0 = A/\alpha A$
+and $d_0 = d$. In other words, we start the spectral sequence
+with $r = 0$. According to our conventions in
+Section \ref{section-spectral-sequence} we define a sequence of subobjects
+$$
+0 = B_0 \subset \ldots \subset B_r \subset \ldots
+\subset Z_r \subset \ldots \subset Z_0 = E_0
+$$
+with the property that $E_r = Z_r/B_r$. Namely we have
+for $r \geq 1$ that
+\begin{enumerate}
+\item $B_r$ is the image of $(\alpha^{r - 1})^{-1}(d A)$
+under the natural map $A \to A/\alpha A$,
+\item $Z_r$ is the image of $d^{-1}(\alpha^r A)$
+under the natural map $A \to A/\alpha A$, and
+\item $d_r : E_r \to E_r$ is given as follows: given an element $z \in Z_r$
+choose an element $y \in A$ such that $d(z) = \alpha^r(y)$. Then
+$d_r(z + B_r + \alpha A) = y + B_r + \alpha A$.
+\end{enumerate}
+Warning: It is not necessarily the case that
+$\alpha A \subset (\alpha^{r - 1})^{-1}(dA)$, nor
+$\alpha A \subset d^{-1}(\alpha^r A)$. It is true that
+$(\alpha^{r - 1})^{-1}(dA) \subset d^{-1}(\alpha^r A)$.
+Thus we have
+$$
+E_r
+=
+\frac{d^{-1}(\alpha^r A) + \alpha A}{(\alpha^{r - 1})^{-1}(dA) + \alpha A}
+=
+\frac{d^{-1}(\alpha^r A)}
+{(\alpha^{r - 1})^{-1}(dA) + \alpha A \cap d^{-1}(\alpha^r A)}.
+$$
+It is not hard to verify directly that (1) -- (3) give a spectral sequence.
+\end{example}
 
 
-
-
-
+\begin{definition}
+\label{definition-differential-object-selfmap}
+Let $\mathcal{A}$ be an abelian category.
+Let $(A, d)$ be a differential object of $\mathcal{A}$.
+Let $\alpha : A \to A$ be an injective selfmap of $A$ which
+commutes with $d$. The {\it spectral sequence associated to
+$(A, d, \alpha)$} is the spectral sequence
+$(E_r, d_r)_{r \geq 0}$ described in
+Example \ref{example-differential-object-self-map} above.
+\end{definition}
 
 
 
 
 \section{Filtrations}
 \label{section-filtrations}
+
+\noindent
+A nice reference for this material is \cite[Section 1]{HodgeII}.
+(Note that our conventions regarding abelian categories are different.)
 
 \begin{definition}
 \label{definition-filtered}
@@ -1993,6 +2066,11 @@ and a decreasing filtration $F$ on $A$.
 is given by a morphism $\varphi : A \to B$ of $\mathcal{A}$
 such that $\varphi(F^iA) \subset F^iB$ for all $i \in \mathbf{Z}$.
 \item The category of filtered objects is denoted $\text{Fil}(\mathcal{A})$.
+\item Given a filtered object $(A, F)$ and a subobject $X \subset A$ the
+{\it induced filtration} on $X$ is the filtration with $F^nX = X \cap F^nA$.
+\item Given a filtered object $(A, F)$ and a surjection
+$\pi : A \to Y$ the {\it quotient filtration} is the filtration with
+$F^nY = \pi(F^nA)$.
 \item A filtration $F$ on an object $A$ is said to be {\it finite}
 if there exist $n, m$ such that $F^nA = A$ and $F^mA = 0$.
 \item  The filtration on a filtered object $(A, F)$ is said to be
@@ -2036,6 +2114,21 @@ all $i \in \mathbf{Z}$.
 This also equivalent to requiring that $f^{-1}(F^iB) = F^iA + \text{Ker}(f)$
 for all $i \in \mathbf{Z}$. We will characterize strict morphisms in
 Lemma \ref{lemma-characterize-strict} below.
+
+\begin{lemma}
+\label{lemma-induced-and-quotient-strict}
+Let $\mathcal{A}$ be an abelian category.
+Let $(A, F)$, $(B, F)$ be filtered objects.
+Let $u : A \to B$ be a morphism of filtered objects.
+If $u$ is injective then $u$ is strict if and only if the filtration
+on $A$ is the induced filtration.
+If $u$ is surjective then $u$ is strict if and only if the filtration
+on $B$ is the quotient filtration.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
 
 \begin{definition}
 \label{definition-graded}
@@ -2084,6 +2177,7 @@ $$
 \text{Gr}(\mathcal{A}), \ \ 
 (A, F)
 \mapsto
+\text{gr}(A) =
 \bigoplus\nolimits_{i \in \mathbf{Z}} F^iA/F^{i + 1}A.
 $$
 We sometimes denote $\text{gr}^i_F(A)$ the object
@@ -2122,6 +2216,470 @@ is exact.
 \begin{proof}
 Omitted.
 \end{proof}
+
+\begin{lemma}
+\label{lemma-filtered-complex}
+Let $\mathcal{A}$ be an abelian category. Let $A \to B \to C$ be a complex
+of filtered objects of $\mathcal{A}$. Assume $\alpha : A \to B$ and
+$\beta : B \to C$ are strict morphisms of filtered objects. Then
+$\text{gr}(\text{Ker}(\beta)/\text{Im}(\alpha)) =
+\text{Ker}(\text{gr}(\beta))/\text{Im}(\text{gr}(\alpha)))$.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\noindent
+The following lemma says that subobjects of a filtered object have a well
+defined filtration independent of a choice of writing the object as a
+cokernel.
+
+\begin{lemma}
+\label{lemma-filtration-subobject}
+Let $\mathcal{A}$ be an abelian category.
+Let $(A, F)$ be a filtered object of $\mathcal{A}$.
+Let $X \subset Y \subset A$ be subobjects of $A$.
+On the object
+$$
+Y/X = \text{Ker}(A/X \to A/Y)
+$$
+the quotient filtration coming from the induced filtration on $Y$ and the
+induced filtration coming from the quotient filtration on $A/X$ agree.
+Any of the morphisms $X \to Y$, $X \to A$, $Y \to A$, $Y \to A/X$,
+$Y \to Y/X$, $Y/X \to A/X$ are strict (with induced/quotient filtrations).
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+\section{The spectral sequence of a filtered differential object}
+\label{section-filtered-differential}
+
+\begin{definition}
+\label{definition-filtered-differential}
+Let $\mathcal{A}$ be an abelian category.
+A {\it filtered differential object} $(K, F, d)$ is a filtered object
+$(K, F)$ of $\mathcal{A}$ endowed with an endomorphism
+$d : (K, F) \to (K, F)$ whose square is zero: $d \circ d = 0$.
+\end{definition}
+
+\noindent
+Let $\mathcal{A}$ be an abelian category.
+Let $(K, F, d)$ be a filtered differential object of $\mathcal{A}$.
+Note that each $F^nK$ is a differential object by itself.
+Assume $\mathcal{A}$ has countable direct sums.
+In this case set $A = \bigoplus F^nK$ and endow it with a differential
+$d$ by using $d$ on each summand. Consider the map
+$$
+\alpha : A \to A
+$$
+which maps the summand $F^nA$ into the summand
+$F^{n - 1}A$. This is clearly an injective morphism of differential
+modules $\alpha : (A, d) \to (A, d)$. Hence, by
+Example \ref{example-differential-object-self-map} we get a spectral sequence.
+We will call this {\it the spectral sequence associated to
+the filtered differential object $(K, F, d)$}.
+
+\medskip\noindent
+Let us figure out the terms of this spectral sequence.
+First, note that $A/\alpha A = \text{gr}(K)$
+endowed with its differential $d = \text{gr}(d)$. Hence we see that
+$$
+E_0 = \text{gr}(K), \quad d_0 = \text{gr}(d).
+$$
+Hence the homology of the graded differential object $\text{gr}(K)$
+is the next term:
+$$
+E_1 = H(\text{gr}(K), \text{gr}(d)).
+$$
+In addition we see that $E_0$ is a graded object of $\mathcal{A}$
+and that $d_0$ is compatible with the grading. Hence clearly $E_1$
+is a graded object as well. But it turns out that the differential
+$d_1$ does not preserve this grading; instead it shifts the degree by $1$.
+
+\medskip\noindent
+To work this out precisely, we define
+$$
+Z_r^p =
+\frac{F^pK \cap d^{-1}(F^{p + r}K) + F^{p + 1}K}{F^{p + 1}K}
+$$
+and
+$$
+B_r^p =
+\frac{F^pK \cap d(F^{p - r + 1}K) + F^{p + 1}K}{F^{p + 1}K}.
+$$
+(This notation seems quite natural, but seems to be different from the
+notation in most places in the literature. Moreover, the literature does
+not seem to have a consistent choice of notation either.)
+With these choices we see that $B_r \subset E_0$, resp.\ $Z_r \subset E_0$
+(as defined in Example \ref{example-differential-object-self-map}) is
+equal to
+$\bigoplus_p B_r^p$, resp.\ $\bigoplus_p Z_r^p$.
+Hence if we define
+$$
+E_r^p = Z_r^p/B_r^p
+$$
+for $r \geq 0$ and $p \in \mathbf{Z}$, then we have $E_r = \bigoplus_p E_r^p$.
+We can define a differential $d_r^p : E_r^p \to E_r^{p + r}$
+by the rule
+$$
+z + F^{p + 1}K
+\longmapsto
+dz + F^{p + r + 1}K
+$$
+where $z \in F^pK \cap d^{-1}(F^{p + r}K)$.
+
+\begin{lemma}
+\label{lemma-spectral-sequence-filtered-differential}
+Let $\mathcal{A}$ be an abelian category.
+Let $(K, F, d)$ be a filtered differential object of $\mathcal{A}$.
+Assume $\mathcal{A}$ has countable direct sums.
+The spectral sequence $(E_r, d_r)_{r \geq 0}$
+associated to $(K, F, d)$ has terms
+$$
+E_r = \bigoplus\nolimits_{p \in \mathbf{Z}} E_r^p,
+\quad
+d_r = \bigoplus\nolimits_{p \in \mathbf{Z}} d_r^p.
+$$
+Furthermore, we have
+$E_0^p = \text{gr}^p K$, $d_0 = \text{gr}(d)$,
+and $E_1^p = H(\text{gr}^p(K), d)$.
+\end{lemma}
+
+\begin{proof}
+Follows from the discussion above.
+\end{proof}
+
+\begin{definition}
+\label{definition-filtration-cohomology-filtered-differential}
+Let $\mathcal{A}$ be an abelian category.
+Let $(K, F, d)$ be a filtered differential object of $\mathcal{A}$.
+The {\it induced filtration} on $H(K, d)$ is the filtration defined
+by $F^pH(K, d) = \text{Im}(H(F^pK, d) \to H(K, d))$.
+\end{definition}
+
+\begin{lemma}
+\label{lemma-compute-filtered-cohomology}
+Let $\mathcal{A}$ be an abelian category.
+Let $(K, F, d)$ be a filtered differential object of $\mathcal{A}$.
+The associated graded $\text{gr}(H(K))$ of the cohomology of
+$K$ is a graded subquotient of the graded object
+$E_\infty = \bigoplus E_\infty^p$.
+\end{lemma}
+
+\begin{proof}
+Recall that $E_\infty = Z_\infty/B_\infty$ by definition, with
+$B_\infty = \bigcup B_r$ and $Z_\infty = \bigcap Z_r$. Hence
+$E_\infty = \bigoplus E_\infty^p$ with $E_\infty^p = Z_\infty^p/B_\infty^p$
+with $B_\infty^p = \bigcup B_r^p$ and $Z_\infty^p = \bigcap Z_r^p$. Thus
+$$
+E_\infty^p =
+\frac{\bigcap_r (F^pK \cap d^{-1}(F^{p + r}K) + F^{p + 1}K)}
+{\bigcup_r (F^pK \cap d(F^{p - r + 1}K) + F^{p + 1}K)}.
+$$
+On the other hand, we have
+$$
+\text{gr}^p H(K) =
+\frac{\text{Ker}(d) \cap F^pK + F^{p + 1}K}
+{\text{Im}(d) \cap F^pK + F^{p + 1}K}
+$$
+The result follows since
+\begin{equation}
+\label{equation-on-top}
+\text{Ker}(d) \cap F^pK + F^{p + 1}K
+\subset
+\bigcup\nolimits_r \left(F^pK \cap d^{-1}(F^{p + r}K) + F^{p + 1}K\right)
+\end{equation}
+and
+\begin{equation}
+\label{equation-at-bottom}
+\bigcap\nolimits_r \left(F^pK \cap d(F^{p - r + 1}K) + F^{p + 1}K\right)
+\subset
+\text{Im}(d) \cap F^pK + F^{p + 1}K.
+\end{equation}
+\end{proof}
+
+\begin{definition}
+\label{definition-filtered-differential-ss-converges}
+Let $\mathcal{A}$ be an abelian category.
+Let $(K, F, d)$ be a filtered differential object of $\mathcal{A}$.
+We say the spectral sequence associated to $(K, F, d)$
+{\it converges} if $\text{gr} H(K) = E_{\infty}$.
+\end{definition}
+
+\begin{lemma}
+\label{lemma-filtered-differential-ss-converges}
+Let $\mathcal{A}$ be an abelian category.
+Let $(K, F, d)$ be a filtered differential object of $\mathcal{A}$.
+The associated spectral sequence converges if and only if for every
+$p \in \mathbf{Z}$ we have equality in equations
+(\ref{equation-at-bottom}) and (\ref{equation-on-top}).
+\end{lemma}
+
+\begin{proof}
+Immediate from the discussions above.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{The spectral sequence of a filtered complex}
+\label{section-filtered-complex}
+
+\begin{definition}
+\label{definition-filtered-complex}
+Let $\mathcal{A}$ be an abelian category.
+A {\it filtered complex $K^\bullet$ of $\mathcal{A}$}
+is a complex of $\text{Fil}(\mathcal{A})$ (see
+Definition \ref{definition-filtered}).
+\end{definition}
+
+\noindent
+We will denote the filtration on the objects by $F$. Thus
+$F^pK^n$ denotes the $p$th step in the filtration of the $n$th term of the
+complex. Note that each $F^pK^\bullet$ is a complex of $\mathcal{A}$.
+Hence we could also have defined a filtered complex as a filtered object
+in the (abelian) category of complexes of $\mathcal{A}$.
+In particular $\text{gr} K^\bullet$ is a graded object of the
+category of complexes of $\mathcal{A}$.
+
+\medskip\noindent
+Let us denote $d$ the differential of $K$. Forgetting the grading
+we can think of $\bigoplus K^n$ as a filtered differential object of
+$\mathcal{A}$. Hence according to Section \ref{section-filtered-differential}
+we obtain a spectral sequence $(E_r, d_r)_{r \geq 0}$.
+In this section we work out the terms
+of this spectral sequence, and we endow the terms of this spectral seqeunce
+with additional structure coming from the grading of $K$.
+
+\medskip\noindent
+First we point out that $E_0^p = \text{gr}^p K^\bullet$ is a
+complex and hence is graded. Thus $E_0$ is bigraded in a natural
+way. It is customary to use the bigrading
+$$
+E_0 = \bigoplus_{p, q} E_0^{p, q},
+\quad
+E_0^{p, q} = \text{gr}^p K^{p + q}
+$$
+The idea is that $p + q$ should be thought of as the {\it total degree} of
+the (co)homology classes. Also, $p$ is called the {\it filtration degree},
+and $q$ is called the {\it complementary degree}.
+The differential $d_0$ is compatible with this
+bigrading in the following way
+$$
+d_0  = \bigoplus d_0^{p, q},
+\quad
+d_0^{p, q} : E_0^{p, q} \to E_0^{p, q + 1}.
+$$
+Namely, $d_0^p$ is just the differential on the complex
+$\text{gr}^p K^\bullet$ (which occurs as $\text{gr}^pE_0$ just shifted
+a bit).
+
+\medskip\noindent
+To go further we identify the objects $B_r^p$ and $Z_r^p$ introduced
+in Section \ref{section-filtered-differential} as graded objects and
+we work out the corresponding decompositions of the differentials.
+We do this in a completely straightforward manner, but again we warn
+the reader that our notation is not the same as notation found
+elsewhere. We define
+$$
+Z_r^{p, q} =
+\frac{F^pK^{p + q} \cap d^{-1}(F^{p + r}K^{p + q + 1}) + F^{p + 1}K^{p + q}}
+{F^{p + 1}K^{p + q}}
+$$
+and
+$$
+B_r^{p, q} =
+\frac{F^pK^{p + q} \cap d(F^{p - r + 1}K^{p + q - 1}) + F^{p + 1}K^{p + q}}
+{F^{p + 1}K^{p + q}}.
+$$
+and of course $E_r^{p, q} = Z_r^{p, q}/B_r^{p, q}$.
+With these definitions it is completely clear that
+$Z_r^p = \bigoplus_q Z_r^{p, q}$,
+$B_r^p = \bigoplus_q B_r^{p, q}$, and
+$E_r^p = \bigoplus_q E_r^{p, q}$. Moreover,
+$$
+0 \subset \ldots \subset B_r^{p, q} \subset
+\ldots
+\subset Z_r^{p, q} \subset \ldots \subset E_0^{p, q}
+$$
+and hence it makes sense to define $Z_\infty^{p, q} = \bigcap_r Z_r^{p, q}$
+and $B_\infty^{p, q} = \bigcup_r B_r^{p, q}$ and
+$E_\infty^{p, q} = Z_\infty^{p, q}/B_\infty^{p, q}$.
+Also, the map $d_r^p$ decomposes as the direct sum of the maps
+$$
+d_r^{p, q} : E_r^{p, q} \longrightarrow E_r^{p + r, q - r + 1},
+\quad
+z + F^{p + 1}K^{p + q}
+\mapsto
+dz + F^{p + r + 1}K^{p + q + 1}
+$$
+where $z \in F^pK^{p + q} \cap d^{-1}(F^{p + r}K^{p + q + 1})$.
+
+\begin{lemma}
+\label{lemma-spectral-sequence-filtered-complex}
+Let $\mathcal{A}$ be an abelian category.
+Let $(K^\bullet, F)$ be a filtered complex of $\mathcal{A}$.
+Assume $\mathcal{A}$ has countable direct sums.
+The spectral sequence $(E_r, d_r)_{r \geq 0}$
+associated to $(K^\bullet, F)$ has bigraded terms
+$$
+E_r = \bigoplus E_r^{p, q},
+\quad
+d_r = \bigoplus d_r^{p, q}.
+$$
+with $d_r$ of bidegree $(r, - r + 1)$.
+Furthermore, we have
+$E_0^{p, q} = \text{gr}^p K^{p + q}$,
+and $E_1^{p, q} = H^{p + q}(\text{gr}^p(K^\bullet))$.
+\end{lemma}
+
+\begin{proof}
+Follows from the discussion above.
+\end{proof}
+
+\begin{definition}
+\label{definition-filtration-cohomology-filtered-complex}
+Let $\mathcal{A}$ be an abelian category.
+Let $(K^\bullet, F)$ be a filtered complex of $\mathcal{A}$.
+The {\it induced filtration} on $H^n(K^\bullet)$ is the filtration defined
+by $F^pH^n(K^\bullet) = \text{Im}(H^n(F^pK^\bullet) \to H^n(K^\bullet))$.
+\end{definition}
+
+\begin{lemma}
+\label{lemma-compute-cohomology-filtered-complex}
+Let $\mathcal{A}$ be an abelian category.
+Let $(K^\bullet, F)$ be a filtered complex of $\mathcal{A}$.
+The associated graded $\text{gr}(H^n(K^\bullet))$ of the cohomology of
+$K^\bullet$ is a graded subquotient of the graded object
+$\bigoplus_{p + q = n} E_\infty^{p, q}$.
+\end{lemma}
+
+\begin{proof}
+Let $q = n - p$. As in the proof of
+Lemma \ref{lemma-compute-filtered-cohomology} we see that
+$$
+E_\infty^{p, q} =
+\frac{\bigcap_r (F^pK^{n} \cap d^{-1}(F^{p + r}K^{n + 1})
++ F^{p + 1}K^{n})}
+{\bigcup_r (F^pK^{n} \cap d(F^{p - r + 1}K^{n - 1})
++ F^{p + 1}K^{n})}.
+$$
+On the other hand, we have
+$$
+\text{gr}^p H^{n}(K) =
+\frac{\text{Ker}(d) \cap F^pK^{n} + F^{p + 1}K^{n}}
+{\text{Im}(d) \cap F^pK^{n} + F^{p + 1}K^{n}}
+$$
+The result follows since
+\begin{equation}
+\label{equation-on-top-bigraded}
+\text{Ker}(d) \cap F^pK^{n} + F^{p + 1}K^{n}
+\subset
+\bigcup\nolimits_r
+\left(
+F^pK^{n} \cap d^{-1}(F^{p + r}K^{n + 1}) + F^{p + 1}K^{n}
+\right)
+\end{equation}
+and
+\begin{equation}
+\label{equation-at-bottom-bigraded}
+\bigcap\nolimits_r
+\left(
+F^pK^{n} \cap d(F^{p - r + 1}K^{n - 1}) + F^{p + 1}K^{n}
+\right)
+\subset
+\text{Im}(d) \cap F^pK^{n} + F^{p + 1}K^{n}.
+\end{equation}
+\end{proof}
+
+\begin{definition}
+\label{definition-filtered-complex-ss-converges}
+Let $\mathcal{A}$ be an abelian category.
+Let $(K^\bullet, F)$ be a filtered complex of $\mathcal{A}$.
+We say the spectral sequence associated to $(K^\bullet, F)$
+{\it converges} if
+$\text{gr} H^n(K^\bullet) = \bigoplus_{p + q = n} E_{\infty}^{p, q}$
+for every $n \in \mathbf{Z}$.
+\end{definition}
+
+\noindent
+This is often symbolized by the notation
+$E_r^{p, q} \Rightarrow H^{p + q}(K^\bullet)$
+
+\begin{lemma}
+\label{lemma-filtered-complex-ss-converges}
+Let $\mathcal{A}$ be an abelian category.
+Let $(K^\bullet, F)$ be a filtered complex of $\mathcal{A}$.
+The associated spectral sequence converges if and only if for every
+$p, q \in \mathbf{Z}$ we have equality in equations
+(\ref{equation-at-bottom-bigraded}) and (\ref{equation-on-top-bigraded}).
+\end{lemma}
+
+\begin{proof}
+Immediate from the discussions above.
+\end{proof}
+
+\begin{definition}
+\label{definition-biregular}
+Let $\mathcal{A}$ be an abelian category.
+Let $(K^\bullet, F)$ be a filtered complex of $\mathcal{A}$.
+We say the filtration on $K^\bullet$ is {\it biregular} if
+for every $n \in \mathbf{Z}$ the filtration $F$ on $K^n$ is
+finite (see Definition \ref{definition-filtered}).
+\end{definition}
+
+\noindent
+This definition helps to single out a trivial case where the
+spectral sequence converges.
+
+\begin{lemma}
+\label{lemma-biregular-ss-converges}
+Let $\mathcal{A}$ be an abelian category.
+Let $(K^\bullet, F)$ be a filtered complex of $\mathcal{A}$.
+The associated spectral sequence converges if
+$K^\bullet$ is biregular.
+\end{lemma}
+
+\begin{proof}
+We will use Lemma \ref{lemma-filtered-complex-ss-converges}.
+Fix $p, n \in \mathbf{Z}$. Look at the left hand side of
+Equation (\ref{equation-at-bottom-bigraded}). The expression is
+equal to the right hand side since $F^mK^{n - 1} = 0$ for
+$m \ll 0$. Similarly, use $F^mK^{n + 1} = K^{n + 1}$ for
+$m \gg 0$ to prove equality in Equation (\ref{equation-on-top-bigraded}).
+\end{proof}
+
+
+
+
+
+
+
+
 
 
 
@@ -2188,7 +2746,7 @@ A^{p + 1, q} \ar[r] \ar[u]_{d_2^{p + 1, q}} &
 }
 $$
 any square commutes.
-Warning: In the literature one encouters sees a different definition
+Warning: In the literature one encouters a different definition
 where a ``bicomplex'' or  a ``double complex'' has the property that
 the squares in the diagram anti-commute.
 
