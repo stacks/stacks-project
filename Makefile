@@ -1,6 +1,6 @@
 # Known suffixes.
 .SUFFIXES: .aux .bbl .bib .blg .dvi .htm .html .css .log .out .pdf .ps .tex \
-	.toc .funny
+	.toc
 
 # Master list of stems of tex files in the project.
 # This should be in order.
@@ -11,19 +11,21 @@ LIJST = introduction conventions sets categories topology sheaves algebra \
 	stacks-groupoids algebraic flat exercises desirables coding
 
 # Add index and fdl to get index and license latexed as well.
-LIJST_FDL = $(LIJST) fdl index
+LIJST_FDL = $(LIJST) index fdl
 
-# Different extensions.
+# Different extensions
+SOURCES = $(patsubst %,%.tex,$(LIJST))
+TEXS = $(SOURCES) tmp/index.tex fdl.tex
+AUXS = $(patsubst %,%.aux,$(LIJST_FDL))
+BBLS = $(patsubst %,%.bbl,$(LIJST_FDL))
 PDFS = $(patsubst %,%.pdf,$(LIJST_FDL))
 DVIS = $(patsubst %,%.dvi,$(LIJST_FDL))
-FUNNYS = $(patsubst %,%.funny,$(LIJST_FDL))
-AUXS = $(patsubst %,%.aux,$(LIJST))
 
 # Files in INSTALLDIR will be overwritten.
 INSTALLDIR=/home/dejong/html/algebraic_geometry/stacks-git
 
 # Change this into pdflatex if you want the default target to produce pdf
-LATEX=latex
+LATEX=latex -src
 
 # Currently the default target runs latex once for each updated tex file.
 # This is what you want if you are just editing a single tex file and want
@@ -36,16 +38,13 @@ default: $(AUXS)
 	@echo "% See the file documentation/make-project for others. %"
 	@echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
 
-%.aux: %.tex
-	$(LATEX) -src $<
-
 # Target which creates all dvi files of chapters
 .PHONY: dvis
-dvis: $(DVIS)
+dvis: $(AUXS) $(BBLS) $(DVIS)
 
 # Target which creates all pdf files of chapters
 .PHONY: pdfs
-pdfs: $(PDFS)
+pdfs: $(AUXS) $(BBLS) $(PDFS)
 
 # We need the following to cancel the built-in rule for
 # dvi files (which uses tex not latex).
@@ -58,75 +57,64 @@ tmp/index.tex: *.tex
 tmp/book.tex: *.tex tmp/index.tex
 	python ./scripts/make_book.py $(PWD) > tmp/book.tex
 
-# fld.funny is different because there is no bibliography
-# nor is there a table of contents...
-fdl.funny: fdl.tex
-	latex fdl.tex
-	touch fdl.funny
+# Creating aux files
+index.aux: tmp/index.tex
+	$(LATEX) tmp/index.tex
 
-# index.funny is different too.
-index.funny: tmp/index.tex
-	latex tmp/index.tex
-	touch index.funny
+book.aux: tmp/book.tex
+	$(LATEX) tmp/book.tex
 
-# book.funny is different too.
-book.funny: tmp/book.tex
-	latex tmp/book.tex
+%.aux: %.tex
+	$(LATEX) $<
+
+# Creating bbl files
+index.bbl: tmp/index.tex index.aux
+	@echo "Do not need to bibtex index.tex"
+	touch index.bbl
+
+fdl.bbl: fdl.tex fdl.aux
+	@echo "Do not need to bibtex fdl.tex"
+	touch fdl.bbl
+
+book.bbl: tmp/book.tex book.aux
 	bibtex book
-	latex tmp/book.tex
-	touch book.funny
 
-# Funny target to prepare %.aux, %.toc and %.bbl.
-# The latex command creates %.aux and %.toc,
-# the bibtex command creates %.bbl, and finally
-# the touch command creates %.funny with a newer
-# modification time then any of %.dvi, %.aux, %.toc,
-# %.bbl, %.blg, %.log and %.out.
-%.funny: %.tex
-	latex $<
+%.bbl: %.tex %.aux
 	bibtex $*
-	latex $<
-	touch $@
 
-# Pdf file creation
-# index.pdf is different
-index.pdf: tmp/index.tex $(FUNNYS)
+# Creating pdf files
+index.pdf: tmp/index.tex index.aux index.bbl
 	pdflatex tmp/index.tex
 	pdflatex tmp/index.tex
 
-# book.pdf is different
-book.pdf: tmp/book.tex book.funny
+book.pdf: tmp/book.tex book.aux book.bbl
 	pdflatex tmp/book.tex
 	pdflatex tmp/book.tex
 
-# Generic rule
-%.pdf: %.tex $(FUNNYS)
+%.pdf: %.tex %.bbl $(AUXS)
 	pdflatex $<
 	pdflatex $<
 
-# Dvi file creation
-# index.dvi is different
-index.dvi: tmp/index.tex $(FUNNYS)
+# Creating dvi files
+index.dvi: tmp/index.tex index.aux index.bbl
 	latex tmp/index.tex
 	latex tmp/index.tex
 
-# book.dvi is different
-book.dvi: tmp/book.tex book.funny
+book.dvi: tmp/book.tex book.aux book.bbl
 	latex tmp/book.tex
 	latex tmp/book.tex
 
-# Generic rule
-%.dvi : %.tex $(FUNNYS)
-	latex $<
+%.dvi : %.tex %.bbl $(AUXS)
+	latex -src $<
 	latex -src $<
 
+# Additional targets
 .PHONY: book
 book: book.dvi book.pdf
 
 .PHONY: clean
 clean:
-	rm -f *.aux *.bbl *.blg *.dvi *.log *.pdf *.ps *.out *.toc *.html \
-		*.funny
+	rm -f *.aux *.bbl *.blg *.dvi *.log *.pdf *.ps *.out *.toc *.html
 	rm -f tmp/book.tex tmp/index.tex
 	rm -f stacks-git.tar.bz2
 
