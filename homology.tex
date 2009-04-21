@@ -2574,6 +2574,49 @@ and $E_1^{p, q} = H^{p + q}(\text{gr}^p(K^\bullet))$.
 Follows from the discussion above.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-spectral-sequence-filtered-complex-d1}
+Let $\mathcal{A}$ be an abelian category.
+Let $(K^\bullet, F)$ be a filtered complex of $\mathcal{A}$.
+Assume $\mathcal{A}$ has countable direct sums.
+Let $(E_r, d_r)_{r \geq 0}$ be the spectral sequence
+associated to $(K^\bullet, F)$. 
+Assume that $d(F^pK) \subset F^{p + 1}K$ for all $p \in \mathbf{Z}$.
+Then $d$ induces the zero differential on $\text{gr}^p(K^\bullet)$
+and hence
+$E_1^{p, q} = \text{gr}^p(K^\bullet)^{p + q}$.
+Furthermore, in this case
+$$
+d_1^{p, q} :
+E_1^{p, q} = \text{gr}^p(K^\bullet)^{p + q}
+\longrightarrow
+E_1^{p, q} = \text{gr}^{p + 1}(K^\bullet)^{p + q + 1}
+$$
+is the morphism induced by $d$.
+\end{lemma}
+
+\begin{proof}
+Follows from the discussion above.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-spectral-sequence-filtered-complex-functorial}
+Let $\mathcal{A}$ be an abelian category.
+Let $\alpha : (K^\bullet, F) \to (L^\bullet, F)$ be a morphism of
+filtered complexes of $\mathcal{A}$. Assume $\mathcal{A}$ has
+countable direct sums. Let $(E_r(K), d_r)_{r \geq 0}$, resp.\ 
+$(E_r(L), d_r)_{r \geq 0}$ be the spectral sequence associated
+to $(K^\bullet, F)$, resp.\ $(L^\bullet, F)$.
+The morphism $\alpha$ induces a canonical morphism of spectral
+sequences $\{\alpha_r : E_r(K) \to E_r(L)\}_{r \geq 0}$ compatible
+with the bigradings.
+\end{lemma}
+
+\begin{proof}
+Obvious from the explicit representation of the terms of the
+spectral sequences.
+\end{proof}
+
 \begin{definition}
 \label{definition-filtration-cohomology-filtered-complex}
 Let $\mathcal{A}$ be an abelian category.
@@ -5801,7 +5844,10 @@ $({}'E_r, {}'d_r)_{r \geq 0}$ and $({}''E_r, {}''d_r)_{r \geq 0}$
 associated to the double complex $F(I^{\bullet, \bullet})$
 satisfy the relations
 $$
-{}'E_2^{p, q} = H^p(R^qF(K^\bullet))
+{}'E_2^{p, q} = H^p(R^qF(K^\bullet))\footnote{This notation sucks!
+It really means the $p$th cohomology group of the complex with
+terms $R^qF(K^n)$. Not the $p$th cohomology of the $q$th derived
+functor of $F$ applied to $K^\bullet$...}
 \quad
 \text{and}
 \quad
@@ -5824,7 +5870,7 @@ properties of Cartan-Eilenberg resolutions. On the other hand, they are
 both examples of a more general spectral sequence which may be associated
 to a filtered complex of $\mathcal{A}$. The functoriality will follow from
 its construction. We will return to this in the section on the filtered
-derived category (insert future reference here).
+derived category, see Remark \ref{remark-final-functorial}.
 \end{remark}
 
 
@@ -5908,51 +5954,397 @@ Details omitted.
 
 \noindent
 A reference for this section is \cite[I, Chapter V]{cotangent}.
+The goal is to understand the derived category $DF^{+}(\mathcal{A})$
+of bounded below complexes of finitely filtered objects.
+We are less general than the discussion in Illusie in that we
+assume the abelian category $\mathcal{A}$ to have enough injectives.
+We will slightly generalize Illusie's discussion by allowing our
+filtered complexes to have infinitely many nonzero $\text{gr}^p(K^\bullet)$
+(but retaining the requirement that each term has a finite filtration).
+The rational for this generalization is that it is not essentially
+harder and it allows us to apply the discussion to the spectral sequences of
+Lemma \ref{lemma-two-ss-complex-functor}, see also
+Remark \ref{remark-functorial-ss}.
+
+\medskip\noindent
+Note that some of this discussion can more generally be done in any
+``exact category'' with enough injectives. Compare \cite{Buhler}, \cite{Keller}.
 
 \begin{definition}
 \label{definition-filtered-complexes-notation}
 Let $\mathcal{A}$ be an abelian category.
 \begin{enumerate}
-\item We denote $\text{CF}(\mathcal{A})$ the {\it category of filtered
-complexes} whose objects are complexes $K^\bullet$ of
-$\text{Fil}(\mathcal{A})$.
-\item A filtered complex $K^\bullet$ is said to be
-{\it bounded below} if $K^n = 0$ for all $n \ll 0$.
-\item We let $\text{CF}^{+}(\mathcal{A})$ be the full subcategory
-of $\text{CF}(\mathcal{A})$ whose objects are the complexes
-which are bounded below.
-\item We let $KF(\mathcal{A})$ be the category with the same objects
-as $\text{CF}(\mathcal{A})$ but as morphisms homotopy classes of
+\item Let $\alpha : K^\bullet \to L^\bullet$ be a morphism of
+complexes of $\text{Fil}(\mathcal{A})$. We say that
+$\alpha$ is a {\it filtered quasi-isomorphism} if
+for each $p \in \mathbf{Z}$ the morphism
+$\text{gr}^p(K^\bullet) \to \text{gr}^p(L^\bullet)$ is
+a quasi-isomorphism.
+\item We denote $\text{Fil}^f(\mathcal{A})$ the full subcategory
+of $\text{Fil}(\mathcal{A})$ whose objects consist of
+those $A \in \text{Ob}(\text{Fil}(\mathcal{A}))$
+whose filtration is finite (see Definition \ref{definition-filtered}).
+\item We say an object $I$ of $\text{Fil}^f(\mathcal{A})$
+is {\it filtered injective} if each $\text{gr}^p(I)$ is
+an injective object of $\mathcal{A}$.
+\item Let $K^\bullet$ be a complex of $\text{Fil}^f(\mathcal{A})$.
+We say that $K^\bullet$ is {\it filtered acyclic} if
+for each $p \in \mathbf{Z}$ the complex $\text{gr}^p(K^\bullet)$ is
+acyclic.
+\item We denote $\text{Comp}^{+}(\text{Fil}^f(\mathcal{A}))$ the
+{\it category of bounded below complexes of finite filtered objects}
+whose objects are bounded below complexes
+$K^\bullet$ of $\text{Fil}^f(\mathcal{A})$.
+\item We let $KF^{+}(\mathcal{A})$ be the category with the same objects
+as $\text{Comp}^{+}(\text{Fil}^f(\mathcal{A}))$
+but as morphisms homotopy classes of
 maps of complexes (see Lemma \ref{lemma-compose-homotopy-cochain}).
-\item We let $KF^{+}(\mathcal{A})$ be the full subcategory of
-$KF(\mathcal{A})$ whose objects are bounded below complexes
-of $\mathcal{A}$.
+This is a triangulated category, see
+Proposition \ref{proposition-homotopy-category-triangulated}.
+\item Assume $\mathcal{A}$ has enough injectives.
+We let $DF^{+}(\mathcal{A})$ be the
+{\it filtered derived category (bounded below version)}
+of $\mathcal{A}$ whose objects are bounded below complexes
+whose terms are filtered injective objects of $\text{Fil}^f(\mathcal{A})$.
+This is a triangulated category, because the category of filtered
+injective objects of $\text{Fil}^f(\mathcal{A})$ is additive.
+In other words, using
+Proposition \ref{proposition-homotopy-category-triangulated}
+once again.
 \end{enumerate}
 \end{definition}
 
 \noindent
-Given an object $A$ of $\text{Fil}(\mathcal{A})$ whose filtration is
-finite we get a complex
+Hence there are functors $\text{gr}^p$ fitting
+into a commutative diagram
 $$
-A[0] = ( \ldots \to 0 \to A \to 0 \to \ldots )
+\xymatrix{
+\text{Fil}^f(\mathcal{A}) \ar[r] \ar[d]_{\text{gr}^p} &
+\text{Comp}^{+}(\text{Fil}^f(\mathcal{A})) \ar[r] \ar[d]_{\text{gr}^p} &
+KF^{+}(\mathcal{A}) \ar[d]_{\text{gr}^p} &
+DF^{+}(\mathcal{A}) \ar[d]_{\text{gr}^p} \\
+\mathcal{A} \ar[r] &
+\text{Comp}^{+}(\mathcal{A}) \ar[r] &
+K^{+}(\mathcal{A}) &
+D^{+}(\mathcal{A})
+}
 $$
-where $A$ is placed in degree zero. Hence a natural functor
-$\text{Fil}^f(\mathcal{A}) \to \text{CF}(\mathcal{A})$,
-$A \mapsto A[0]$ from the category of finitely filtered objects
-to the category of filtered complexes.
-Sofar we have defined categories and functors
-$$
-\text{Fil}^f(\mathcal{A})
-\to \text{CF}(\mathcal{A}) \to KF(\mathcal{A})
-$$
-and
-$$
-\text{Fil}^f(\mathcal{A})
-\to \text{CF}^{+}(\mathcal{A}) \to KF^{+}(\mathcal{A})
-$$
+There is a similar diagram corresponding to the forgetful
+functor $\text{Fil}^f(\mathcal{A}) \to \mathcal{A}$.
+Note that the functors $KF^{+}(\mathcal{A}) \to K^{+}(\mathcal{A})$
+and $DF^{+}(\mathcal{A}) \to D^{+}(\mathcal{A})$
+are exact functors of triangulated categories,
+see Lemma \ref{lemma-additive-exact-homotopy-category}.
+We will fill in the ``missing'' horizontal arrows in a moment.
 
 \medskip\noindent
-To be continued.
+In Exercises, Section \ref{exercises-section-filtered-derived}
+we provide the correct statements regarding the uniqueness and
+existence of injective resolutions in the filtered sense.
+Briefly, assume the abelian category $\mathcal{A}$ has enough injectives.
+An {\it filtered injective resolution} of an object $K^\bullet$
+of $\text{Comp}^{+}(\text{Fil}^f(\mathcal{A}))$
+is given by a filtered quasi-isomorphism
+$$
+K^\bullet \longrightarrow I^\bullet
+$$
+into an object $I^\bullet$ of $\text{Comp}^{+}(\text{Fil}^f(\mathcal{A}))$
+all of whose terms are filtered injective. The first result is that such
+an injective resolution always exists.
+See Exercise \ref{exercises-exercise-injective-resolution-complex}.
+The second result is that given a solid diagram
+$$
+\xymatrix{
+K^\bullet \ar[r]_\alpha \ar[d]_\gamma & L^\bullet \ar@{-->}[dl]^\beta \\
+I^\bullet
+}
+$$
+of complexes of $\text{Fil}^f(\mathcal{A})$, with $K^\bullet$, $L^\bullet$
+and $I^\bullet$ are bounded below, each $I^n$ a filtered injective object,
+and $\alpha$ a filtered quasi-isomorphism there is a dotted arrow, then there
+exists a dotted arrow making the diagram commute up to homotopy.
+See Exercise \ref{exercises-exercise-morphisms-lift}.
+And finally the third result is that any two dotted arrows in the diagram
+above making the diagram commute up to homotopy differ by a homotopy.
+See Exercise \ref{exercises-exercise-morphisms-equal-up-to-homotopy}.
+This in particular implies that given
+$K^\bullet, I^\bullet \in \text{Comp}^{+}(\text{Fil}^f(\mathcal{A}))$,
+$K^\bullet$ filtered acyclic, $I^\bullet$ consisting of injectives,
+then $\text{Hom}_{KF^{+}(\mathcal{A})}(K^\bullet, I^\bullet) = 0$.
+
+\begin{lemma}
+\label{lemma-filtered-localization-functor}
+Let $\mathcal{A}$ be an abelian category.
+Assume $\mathcal{A}$ has enough injectives.
+There exists a {\it localization functor}
+$$
+j : KF^{+}(\mathcal{A}) \longrightarrow DF^{+}(\mathcal{A})
+$$
+together with for each $K^\bullet \in \text{Ob}(KF^{+}(\mathcal{A}))$
+a morphism $i_K : K^\bullet \to j(K^\bullet)$ with the following properties.
+\begin{enumerate}
+\item For every $K^\bullet$ the morphism $i_K : K^\bullet \to j(K^\bullet)$
+is a filtered quasi-isomorphism.
+\item For every morphism $\alpha : K^\bullet \to L^\bullet$ of
+$KF^{+}(\mathcal{A})$ we have $j(\alpha) \circ i_K = i_L \circ \alpha$.
+\item Given a morphism of complexes $\alpha : K^\bullet \to L^\bullet$
+then $j(\alpha)$ is invertible if and only if $\alpha$ is a
+filtered quasi-isomorphism.
+\item For any $K^\bullet$ we have $j(K^\bullet) \cong 0$ if and only
+if $K^\bullet$ is filtered acyclic.
+\end{enumerate}
+Furthermore, $j$ is an exact functor of triangulated categories,
+and the diagrams
+$$
+\xymatrix{
+KF^{+}(\mathcal{A}) \ar[d]_{\text{gr}^p} \ar[r]_j &
+DF^{+}(\mathcal{A}) \ar[d]_{\text{gr}^p} \\
+K^{+}(\mathcal{A}) \ar[r]^j &
+D^{+}(\mathcal{A})
+}
+\quad
+\xymatrix{
+KF^{+}(\mathcal{A}) \ar[d]^{\text{forget }F} \ar[r]_j &
+DF^{+}(\mathcal{A}) \ar[d]^{\text{forget }F} \\
+K^{+}(\mathcal{A}) \ar[r]^j &
+D^{+}(\mathcal{A})
+}
+$$
+are commutative up to a canonical isomorphisms of functors.
+\end{lemma}
+
+\begin{proof}
+Omitted. Hint: Argue exactly as in the proof of
+Lemma \ref{lemma-into-derived-category}
+using the results discussed above the lemma.
+For the last statement argue as in the proof of
+Lemma \ref{lemma-canonical-delta-functor}.
+\end{proof}
+
+\begin{remark}
+\label{remark-filtered-localization-big}
+We claim this result only if $\mathcal{A}$ is a category in our sense,
+namely if it has a set of objects. However, suppose given a big abelian
+category $\mathcal{A}$ with enough injectives, such as
+$\text{Mod}(\mathcal{O}_X)$ for example. Then for any given set of objects
+$\{A_i\}_{i\in I}$ there is an abelian subcategory
+$\mathcal{A}' \subset \mathcal{A}$ containing all of them
+and having enough injectives, see
+Sets, Lemma \ref{sets-lemma-abelian-injectives}.
+Thus we may use the lemma above for $\mathcal{A}'$.
+This essentially means that if we use a set worth of diagrams, etc 
+then we will never run into trouble using the lemma.
+\end{remark}
+
+\noindent
+Let $\mathcal{A}, \mathcal{B}$ be abelian categories.
+Let $T : \mathcal{A} \to \mathcal{B}$ be a left exact functor.
+(We cannot use the letter $F$ for the functor since this would
+conflict too much with our use of the letter $F$ to indicate
+filtrations.)
+Assume $\mathcal{A}$ has enough injectives.
+At this point we can redo the discussion of 
+Section \ref{section-right-derived-functor} to define the
+{\it right filtered derived functors}
+\begin{equation}
+\label{equation-filtered-derived-functor}
+RT : DF^{+}(\mathcal{A}) \longrightarrow KF^{+}(\mathcal{B})
+\end{equation}
+of our functor $T$. Namely, given a bounded below complex $I^\bullet$
+consisting of filtered injective objects we set
+$RT(I^\bullet) = T(I^\bullet)$ as a complex, with filtration
+$F^p(RT(I^\bullet)) := T(F^p(I^\bullet))$. Note that by
+Exercise \ref{exercises-exercise-split-injective} every term
+\begin{equation}
+\label{equation-decompose}
+I^n \cong \bigoplus\nolimits_{p \in \mathbf{Z}} \text{gr}^p(I^n)
+\end{equation}
+compatible with filtrations. Hence it is clear that
+$\text{gr}^p(T(I^\bullet)) = T(\text{gr}^p(I^\bullet))$.
+This implies that
+\begin{equation}
+\label{equation-commute-gr}
+\text{gr}^p \circ RT \cong RT \circ \text{gr}^p
+\end{equation}
+and
+\begin{equation}
+\label{equation-commute-forget}
+(\text{forget }F) \circ RT \cong RT \circ (\text{forget }F)
+\end{equation}
+as functors $DF^{+}(\mathcal{A}) \to K^{+}(\mathcal{B})$.
+Here the functor $RT$ on the left hand side is the one from
+Definition \ref{definition-right-derived-functor}.
+As in Remark \ref{remark-right-derived-functor} we point out that it
+is customary (and usefull) to think of the filtered derived functor
+as a functor $DF^{+}(\mathcal{A}) \to DF^{+}(\mathcal{B})$
+by postcomposing by a localization functor
+$j : KF^{+}(\mathcal{B}) \to DF^{+}(\mathcal{B})$ as in
+Lemma \ref{lemma-filtered-localization-functor}
+in those cases where $\mathcal{B}$ has enough injectives.
+
+\medskip\noindent
+Precomposing with a localization functor $j$ for $\mathcal{A}$
+we also get derived functors
+$$
+RT : \text{Fil}^f(\mathcal{A}) \to KF^{+}(\mathcal{B}),
+\quad
+RT : \text{Comp}^{+}(\text{Fil}^f(\mathcal{A})) \to KF^{+}(\mathcal{B}),
+$$
+and finally
+$$
+RT : KF^{+}(\mathcal{A}) \to KF^{+}(\mathcal{B}).
+$$
+Note that since $\text{Fil}^f(\mathcal{A})$, and
+$\text{Comp}^{+}(\text{Fil}^f(\mathcal{A}))$ are no longer
+abelian it does not make sense to say that $RT$ restricts to
+a $\delta$-functor on them. (As mentioned before this can be
+repaired by thinking of these categories as exact categories and
+formulating the notion of a $\delta$-functor from an exact category
+into a triangulated category.)
+But it does make sense, and it is true
+by construction, that $RT$ is an exact functor of triangulated
+categories on the categories $DF^{+}(\mathcal{A})$ and
+$KF^{+}(\mathcal{A})$.
+
+\medskip\noindent
+Actually, this is somewhat besides the point since we are going
+to use the filtered derived functor mainly to prove things about
+the actual right derived functors of $T$. In fact, mainly we will
+use the following lemma.
+
+\begin{lemma}
+\label{lemma-ss-filtered-derived}
+Let $\mathcal{A}, \mathcal{B}$ be abelian categories.
+Let $T : \mathcal{A} \to \mathcal{B}$ be a left exact functor.
+Assume $\mathcal{A}$ has enough injectives.
+Let $(K^\bullet, F)$ be an object of
+$\text{Comp}^{+}(\text{Fil}^f(\mathcal{A}))$.
+There exists a spectral sequence $(E_r^{p, q}, d_r)_{r\geq 0}$
+which is the spectral sequence
+associated to an object of
+$\text{Comp}^{+}(\text{Fil}^f(\mathcal{B}))$
+with
+$$
+E_1^{p, q} = R^{p + q}T(\text{gr}^p(K^\bullet))
+$$
+which converges to $R^{p + q}T(K^\bullet)$ inducing a finite
+filtration on each $R^nT(K^\bullet)$. Moreover the construction
+of this spectral sequence is functorial in the object
+$K^\bullet$ of $\text{Comp}^{+}(\text{Fil}^f(\mathcal{A}))$.
+In fact the terms $(E_r, d_r)$ for $r \geq 2$ do not depend
+on any choices.
+\end{lemma}
+
+\begin{proof}
+Instead of quoting the abstract constructions above we
+show how the existence of filtered injective resolutions gives
+rise to this spectral sequence.
+Choose a filtered injective resolution $K^\bullet \to I^\bullet$.
+Consider the complex $RT(K^\bullet) = T(I^\bullet)$, filtered as
+in the definition of $RT$, see
+Equation (\ref{equation-filtered-derived-functor}).
+Thus we can consider the spectral sequence
+$(E_r, d_r)_{r \geq 0}$ associated to
+this as a filtered complex in $\mathcal{B}$, see
+Section \ref{section-filtered-complex}.
+By Lemma \ref{lemma-spectral-sequence-filtered-complex}
+we have $E_1^{p, q} = H^{p + q}(\text{gr}^p(T(I^\bullet)))$.
+By Equation (\ref{equation-decompose}) we have
+$E_1^{p, q} = H^{p + q}(T(\text{gr}^p(I^\bullet)))$, and
+by definition of a filtered injective resolution the
+map $\text{gr}^p(K^\bullet) \to \text{gr}^p(I^\bullet)$
+is an injective resolution. Hence
+$E_1^{p, q} = R^{p + q}T(\text{gr}^p(K^\bullet))$.
+
+\medskip\noindent
+On the other hand, each $I^n$ has a finite filtration and hence
+each $T(I^n)$ has a finite filtration. Thus we may apply
+Lemma \ref{lemma-biregular-ss-converges} to conclude that the
+spectral sequence converges to $H^n(T(I^\bullet)) = R^nT(K^\bullet)$
+moreover inducing finite filtrations on each of the terms.
+
+\medskip\noindent
+Suppose that $K^\bullet \to L^\bullet$ is a morphism of
+$\text{Comp}^{+}(\text{Fil}^f(\mathcal{A}))$. By our results above,
+for example Lemma \ref{lemma-filtered-localization-functor}, there
+exists a commutative diagram
+$$
+\xymatrix{
+K^\bullet \ar[r] \ar[d] & L^\bullet \ar[d] \\
+I^\bullet \ar[r] & J^\bullet
+}
+$$
+where the vertical arrows are filtered injective resolutions.
+Hence we get a morphism of filtered complexes
+$T(I^\bullet) \to T(J^\bullet)$ which gives rise to the
+morphism of spectral sequences, see
+Lemma \ref{lemma-spectral-sequence-filtered-complex-functorial}.
+The last statement follows from this easily.
+\end{proof}
+
+\begin{remark}
+\label{remark-final-functorial}
+As promised in Remark \ref{remark-functorial-ss} we discuss the
+connection of the lemma
+above with the constructions using Cartan-Eilenberg resolutions.
+Namely, assume the notations of Lemma \ref{lemma-two-ss-complex-functor}.
+In particular $K^\bullet$ is a bounded below complex of
+$\mathcal{A}$ and $T : \mathcal{A} \to \mathcal{B}$ is a
+left exact functor. We give an alternative construction of the
+spectral sequences ${}'E$ and ${}''E$ 
+
+\medskip\noindent
+First spectral sequence. Consider the ``stupid'' filtration
+on $K^\bullet$
+obtained by setting $F^p(K^\bullet) = \sigma_{\geq p}(K^\bullet)$,
+see Section \ref{section-truncations}.
+Note that this stupid in the sense that
+$d(F^p(K^\bullet)) \subset F^{p + 1}(K^\bullet)$, compare
+Lemma \ref{lemma-spectral-sequence-filtered-complex-d1}.
+Note that $\text{gr}^p(K^\bullet) = K^p[p]$ with this filtration.
+According to the above there is a spectral sequence
+with $E_1$ term $E_1^{p, q} = R^{p + q}T(K^p[p])$.
+Then the $E_2$ term is clearly $E_2^{p, q} = H^p(R^{p + q}T(K^\bullet))$
+as in the spectral sequence ${}'E_r$.
+
+\medskip\noindent
+Second spectral sequence. Consider the filtration on $K^\bullet$
+obtained by setting $F^p(K^\bullet) = \tau_{\leq -p}(K^\bullet)$,
+see Section \ref{section-truncations}. The minus sign is necessary
+to get a decreasing filtration. Note that
+$\text{gr}^p(K^\bullet)$ is quasi-isomorphic to $H^{-p}(K^\bullet)[-p]$
+with this filtration. According to the above there is a spectral sequence
+with $E_1$ term
+$$
+E_1^{p, q}
+= R^{p + q}T(H^{-p}(K^\bullet)[-p])
+= R^{2p + q}T(H^{-p}(K^\bullet)) = {}''E_2^{i, j}
+$$
+with $i = 2p + q$ and $j = -p$. (This looks unnatural, but note that we
+could just have well developped the whole theory of filtered complexes
+using increasing filtrations, with the end result that this then looks
+natural, but the other one doesn't.) We leave it to the reader to see
+that the differentials match up.
+
+\medskip\noindent
+Actually, given a Cartan-Eilenberg resolution
+$K^\bullet \to I^{\bullet, \bullet}$ the induced morphism
+$K^\bullet \to sI^\bullet$ into the associated simple complex
+will be a filtered injective resolution for either filtration
+using suitable filtrations on $sI^\bullet$. This can be used
+to match up the spectral sequences exactly.
+\end{remark}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
