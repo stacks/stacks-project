@@ -38,7 +38,7 @@ print "\\title{Auto generated index}"
 print "\\maketitle"
 print
 print "\\phantomsection"
-print "\\label{section-begin}"
+print "\\label{section-phantom}"
 print
 print "\\frenchspacing"
 print "\\begin{multicols}{2}"
