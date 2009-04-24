@@ -6,9 +6,9 @@
 # This should be in order.
 LIJST = introduction conventions sets categories topology sheaves algebra \
 	sites homology simplicial modules injectives cohomology hypercovering \
-	schemes constructions properties morphisms limits varieties \
-	topologies groupoids fpqc-descent etale spaces stacks \
-	stacks-groupoids algebraic flat exercises desirables coding
+	schemes constructions properties morphisms divisors coherent \
+	limits varieties topologies groupoids fpqc-descent etale spaces \
+	stacks stacks-groupoids algebraic flat exercises desirables coding
 
 # Add index and fdl to get index and license latexed as well.
 LIJST_FDL = $(LIJST) index fdl
