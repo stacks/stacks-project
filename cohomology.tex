@@ -325,6 +325,29 @@ which is equal to $H^i(f^{-1}(V), \mathcal{F})$
 and we win.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-localize-higher-direct-images}
+Let $f : X \to Y$ be a morphism of ringed spaces.
+Let $\mathcal{F}$ be an $\mathcal{O}_X$-module.
+Let $V \subset Y$ be an open subspace.
+Denote $g : f^{-1}(V) \to V$ the restriction of $f$.
+Then we have
+$$
+R^pg_*(\mathcal{F}|_{f^{-1}(V)}) = (R^pf_*\mathcal{F})|_V
+$$
+There is a similar statement for the
+derived image $Rf_*\mathcal{F}^\bullet$ where $\mathcal{F}^\bullet$
+is a bounded below complex of $\mathcal{O}_X$-modules.
+\end{lemma}
+
+\begin{proof}
+First proof. Apply Lemmas \ref{lemma-describe-higher-direct-images}
+and \ref{lemma-cohomology-of-open} to see the displayed equality.
+Second proof. Choose an injective resolution
+$\mathcal{F} \to \mathcal{I}^\bullet$
+and use that $\mathcal{F}|_{f^{-1}(V)} \to \mathcal{I}^\bullet|_{f^{-1}(V)}$
+is an injective resolution also.
+\end{proof}
 
 
 
@@ -332,8 +355,149 @@ and we win.
 
 
 
+\section{Mayer-Vietoris}
+\label{section-mayer-vietoris}
 
+\noindent
+Below will construct the Cech-to-cohomology spectral sequence, see
+Lemma \ref{lemma-cech-spectral-sequence}.
+A special case of that spectral sequence is the Mayer-Vietoris
+long exact sequence. Since it is such a basic, useful and easy to understand
+variant of the spectral sequence we treat it here separately.
 
+\begin{lemma}
+\label{lemma-injective-restriction-surjective}
+Let $X$ be a ringed space.
+Let $U' \subset U \subset X$ be open subspaces.
+For any injective $\mathcal{O}_X$-module $\mathcal{I}$ the
+restriction mapping
+$\mathcal{I}(U) \to \mathcal{I}(U')$ is surjective.
+\end{lemma}
+
+\begin{proof}
+Let $j : U \to X$ and $j' : U' \to X$ be the open immersions.
+Recall that $j_!\mathcal{O}_U$ is the extension by zero of
+$\mathcal{O}_U = \mathcal{O}_X|_U$, see
+Sheaves, Section \ref{sheaves-section-open-immersions}.
+Since $j_!$ is a left adjoint to restriction we see that
+for any sheaf $\mathcal{F}$ of $\mathcal{O}_X$-modules
+$$
+\text{Hom}_{\mathcal{O}_X}(j_!\mathcal{O}_U, \mathcal{F})
+=
+\text{Hom}_{\mathcal{O}_U}(\mathcal{O}_U, \mathcal{F}|_U)
+=
+\mathcal{F}(U)
+$$
+see Sheaves, Lemma \ref{sheaves-lemma-j-shriek-modules}.
+Similarly, the sheaf $j'_!\mathcal{O}_{U'}$ represents the
+functor $\mathcal{F} \mapsto \mathcal{F}(U')$.
+Moreover there
+is an obvious canonical map of $\mathcal{O}_X$-modules
+$$
+j'_!\mathcal{O}_{U'} \longrightarrow j_!\mathcal{O}_U
+$$
+which corresponds to the restriction mapping
+$\mathcal{F}(U) \to \mathcal{F}(U')$ via Yonda's lemma
+(Categories, Lemma \ref{categories-lemma-yoneda}). By the description
+of the stalks of the sheaves
+$j'_!\mathcal{O}_{U'}$, $j_!\mathcal{O}_U$
+we see that the displayed map above is injective (see lemma cited above).
+Hence if $\mathcal{I}$ is an injective $\mathcal{O}_X$-module,
+then the map
+$$
+\text{Hom}_{\mathcal{O}_X}(j_!\mathcal{O}_U, \mathcal{F})
+\longrightarrow
+\text{Hom}_{\mathcal{O}_X}(j'_!\mathcal{O}_{U'}, \mathcal{F})
+$$
+is surjective, see
+Homology, Lemma \ref{homology-lemma-characterize-injectives}.
+Putting everything together we obtain the lemma.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-mayer-vietoris}
+(Mayer-Vietoris.)
+Let $X$ be a ringed space. Suppose that $X = U \cup V$ is a
+union of two open subsets. For every $\mathcal{O}_X$-module $\mathcal{F}$
+there exists a long exact cohomology sequence
+$$
+0 \to
+H^0(X, \mathcal{F}) \to
+H^0(U, \mathcal{F}) \oplus H^0(V, \mathcal{F}) \to
+H^0(U \cap V, \mathcal{F}) \to
+H^1(X, \mathcal{F}) \to \ldots
+$$
+This long exact sequence is functorial in $\mathcal{F}$.
+\end{lemma}
+
+\begin{proof}
+The sheaf condition says that the kernel of
+$(1, -1) : \mathcal{F}(U) \oplus \mathcal{F}(V) \to \mathcal{F}(U \cap V)$
+is equal to the image of $\mathcal{F}(X)$ by the first map
+for any abelian sheaf $\mathcal{F}$.
+Lemma \ref{lemma-injective-restriction-surjective} above implies that the map
+$(1, -1) : \mathcal{I}(U) \oplus \mathcal{I}(V) \to \mathcal{I}(U \cap V)$
+is surjective whenever $\mathcal{I}$ is an injective $\mathcal{O}_X$-module.
+Hence if $\mathcal{F} \to \mathcal{I}^\bullet$ is an injective resolution
+of $\mathcal{F}$, then we get a short exact sequence of complexes
+$$
+0 \to
+\mathcal{I}^\bullet(X) \to
+\mathcal{I}^\bullet(V) \oplus \mathcal{I}^\bullet(V) \to
+\mathcal{I}^\bullet(U \cap V) \to
+0.
+$$
+Taking cohomology gives the result (use
+Homology, Lemma \ref{homology-lemma-long-exact-sequence-cochain}).
+We omit the proof of the functoriality of the sequence.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-relative-mayer-vietoris}
+(Relative Mayer-Vietoris.)
+Let $f : X \to Y$ be a morphism of ringed spaces.
+Suppose that $X = U \cup V$ is a union of two open subsets.
+Denote $a = f|_U : U \to Y$, $b = f|_V : V \to Y$, and
+$c = f|_{U \cap V} : U \cap V \to Y$.
+For every $\mathcal{O}_X$-module $\mathcal{F}$
+there exists a long exact sequence
+$$
+0 \to
+f_*\mathcal{F} \to
+a_*(\mathcal{F}|_U) \oplus b_*(\mathcal{F}|_V) \to
+c_*(\mathcal{F}|_{U \cap V}) \to
+R^1f_*\mathcal{F} \to \ldots
+$$
+This long exact sequence is functorial in $\mathcal{F}$.
+\end{lemma}
+
+\begin{proof}
+Let $\mathcal{F} \to \mathcal{I}^\bullet$ be an injective resolution
+of $\mathcal{F}$. We claim that we 
+get a short exact sequence of complexes
+$$
+0 \to
+f_*\mathcal{I}^\bullet \to
+a_*\mathcal{I}^\bullet|_V \oplus b_*\mathcal{I}^\bullet|_V \to
+c_*\mathcal{I}^\bullet|_{U \cap V} \to
+0.
+$$
+Namely, for any open $W \subset Y$, and for any $n \geq 0$ the
+corresponding sequence of groups of sections over $W$
+$$
+0 \to
+\mathcal{I}^n(f^{-1}(W)) \to
+\mathcal{I}^n(V \cap f^{-1}(W))
+\oplus \mathcal{I}^n(V \cap f^{-1}(W)) \to
+\mathcal{I}^n(U \cap V \cap f^{-1}(W)) \to
+0
+$$
+was shown to be short exact in the proof of Lemma \ref{lemma-mayer-vietoris}.
+The lemma follows by taking cohomology sheaves and using the fact that
+$\mathcal{I}^\bullet|_U$ is an injective resolution of $\mathcal{F}|_U$
+and similarly for $\mathcal{I}^\bullet|_V$, $\mathcal{I}^\bullet|_{U \cap V}$
+see Lemma \ref{lemma-cohomology-of-open}.
+\end{proof}
 
 
 
