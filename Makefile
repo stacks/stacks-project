@@ -16,6 +16,7 @@ LIJST_FDL = $(LIJST) index fdl
 # Different extensions
 SOURCES = $(patsubst %,%.tex,$(LIJST))
 TEXS = $(SOURCES) tmp/index.tex fdl.tex
+AUX_SOURCES = $(patsubst %,%.aux,$(LIJST))
 AUXS = $(patsubst %,%.aux,$(LIJST_FDL))
 BBLS = $(patsubst %,%.bbl,$(LIJST_FDL))
 PDFS = $(patsubst %,%.pdf,$(LIJST_FDL))
@@ -32,7 +33,7 @@ LATEX=latex -src
 # to look at the resulting dvi file. It does latex the license of the index.
 # We use the aux file to keep track of whether the tex file has been updated.
 .PHONY: default
-default: $(AUXS)
+default: $(AUX_SOURCES)
 	@echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
 	@echo "% This target latexs each updated tex file just once. %"
 	@echo "% See the file documentation/make-project for others. %"
