@@ -368,6 +368,31 @@ Schemes, Section \ref{schemes-section-quasi-coherent} to see
 this is sufficient to conclude.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-quasi-coherence-higher-direct-images-application}
+Let $f : X \to S$ be a morphism of schemes.
+Assume that $f$ is quasi-separated and quasi-compact.
+Assume $S$ is affine.
+For any quasi-coherent $\mathcal{O}_X$-module $\mathcal{F}$
+we have
+$$
+H^q(X, \mathcal{F}) = H^0(S, R^qf_*\mathcal{F})
+$$
+for all $q \in \mathbf{Z}$.
+\end{lemma}
+
+\begin{proof}
+Consider the Leray spectral sequence $E_2^{p, q} = H^p(S, R^qf_*\mathcal{F})$
+converging to $H^{p + q}(X, \mathcal{F})$, see
+Cohomology, Lemma \ref{cohomology-lemma-Leray}.
+By Lemma \ref{lemma-quasi-coherence-higher-direct-images}
+we see that the sheaves $R^qf_*\mathcal{F}$ are quasi-coherent.
+By Lemma \ref{lemma-quasi-coherent-affine-cohomology-zero}
+we see that $E_2^{p, q} = 0$ when $p > 0$.
+Hence the spectral sequence degenerates at $E_2$ and we win.
+\end{proof}
+
+
 
 
 
@@ -498,11 +523,379 @@ Any quasi-coherent quotient module of $\mathcal{F}$ is coherent.
 \begin{proof}
 We may assume that $X$ is affine, say $X = \text{Spec}(A)$.
 Properties, Lemma \ref{properties-lemma-locally-Noetherian}
-implies that $A$ is Noetherian. The algebraic counter part of
+implies that $A$ is Noetherian. Lemma \ref{lemma-coherent-Noetherian}
+turns this into algebra. The algebraic counter part of
 the lemma is that a quotient, or a submodule of a finite $A$-module
 is a finite $A$-module, see for example
-Algebra, Section \ref{algebra-lemma-Noetherian-basic}.
+Algebra, Lemma \ref{algebra-lemma-Noetherian-basic}.
 \end{proof}
+
+\begin{lemma}
+\label{lemma-finite-pushforward-coherent}
+Let $f : X \to Y$ be a morphism of schemes.
+Assume $f$ is finite and $X$, $Y$ locally Noetherian.
+Then $f_*\mathcal{F}$ is coherent if $\mathcal{F}$ is
+coherent.
+\end{lemma}
+
+\begin{proof}
+Let $\text{Spec}(A) = V \subset Y$ be an affine open subset.
+By Morphisms, Definition \ref{morphisms-definition-integral}
+we see that $f^{-1}(V) = \text{Spec}(B)$ with $A \to B$ finite.
+Lemma \ref{lemma-coherent-Noetherian}
+turns the statement of the lemma into the following algebra
+fact: If $M$ is a finite $B$-module, then $M$ is also finite
+viewed as a $A$-module, see
+Algebra, Lemma \ref{algebra-lemma-finite-module-over-finite-extension}.
+\end{proof}
+
+\noindent
+In the situation of the lemma also the higher direct images are
+coherent since they vanish, see Lemma \ref{lemma-relative-affine-vanishing}.
+Our next goal is the show that this is always the case for a proper morphism
+between locally Noetherian schemes.
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Cohomology of projective space}
+\label{section-cohomology-projective-space}
+
+\noindent
+In this section we compute the cohomology of the twists of the
+structure sheaf on $\mathbf{P}^n_S$ over a scheme $S$.
+Recall that $\mathbf{P}^n_S$ was defined as the fibre product
+$
+\mathbf{P}^n_S = S \times_{\text{Spec}(\mathbf{Z})} \mathbf{P}^n_{\mathbf{Z}}
+$
+in Constructions, Definition \ref{constructions-definition-projective-space}.
+It was shown to be equal to
+$$
+\mathbf{P}^n_S = \underline{\text{Proj}}_S(\mathcal{O}_S[T_0, \ldots, T_n])
+$$
+in Constructions, Section \ref{constructions-section-projective-bundle}.
+In particular, projective space is a particular case of a projective bundle.
+If $S = \text{Spec}(R)$ is affine then we have
+$$
+\mathbf{P}^n_S = \mathbf{P}^n_R = \text{Proj}(R[T_0, \ldots, T_n]).
+$$
+All these identifications are compatible and compatible with the constructions
+of the twisted structure sheaves $\mathcal{O}_{\mathbf{P}^n_S}(d)$.
+
+\medskip\noindent
+Before we state the result we need some notation.
+Let $R$ be a ring.
+Recall that $R[T_0, \ldots, T_n]$ is a graded
+$R$-algebra where each $T_i$ is homogenous of degree $1$.
+Denote $(R[T_0, \ldots, T_n])_d$ the degree $d$ summand.
+It is a finite free $R$-module of rank $\binom{n + d}{d}$
+when $d \geq 0$ and zero else.
+It has a basis consisting of monomials $T_0^{e_0} \ldots T_n^{e_n}$
+with $\sum e_i = d$. We will also use the following notation:
+$R[\frac{1}{T_0}, \ldots, \frac{1}{T_n}]$ denotes the $\mathbf{Z}$-graded
+ring with $\frac{1}{T_i}$ in degree $-1$. In particular the
+$\mathbf{Z}$-graded $R[\frac{1}{T_0}, \ldots, \frac{1}{T_n}]$ module
+$$
+\frac{1}{T_0 \ldots T_n} R[\frac{1}{T_0}, \ldots, \frac{1}{T_n}]
+$$
+which shows up in the statement below is zero in degrees
+$\geq -n$, is free on the generator $\frac{1}{T_0 \ldots T_n}$
+in degree $-n - 1$ and is free of rank $(-1)^n\binom{n + d}{d}$ for
+$d \leq -n - 1$.
+
+\begin{lemma}
+\label{lemma-cohomology-projective-space-over-ring}
+Let $R$ be a ring.
+Let $n \geq 0$ be an integer.
+We have
+$$
+H^q(\mathbf{P}^n, \mathcal{O}_{\mathbf{P}^n_R}(d)) =
+\left\{
+\begin{matrix}
+(R[T_0, \ldots, T_n])_d & \text{if} & q = 0 \\
+0 & \text{if} & q \not = 0, n \\
+\left(\frac{1}{T_0 \ldots T_n} R[\frac{1}{T_0}, \ldots, \frac{1}{T_n}]\right)_d
+& \text{if} & q = n
+\end{matrix}
+\right.
+$$
+\end{lemma}
+
+\begin{proof}
+We will use the standard affine open convering
+$$
+\mathcal{U} : \mathbf{P}^n_R = \bigcup\nolimits_{i = 0}^n D_{+}(T_i)
+$$
+to compute the cohomology using the Cech complex.
+This is permissible by Lemma \ref{lemma-cech-cohomology-quasi-coherent}
+since any intersection of finitely many affine $D_{+}(T_i)$ is also a
+standard affine open (see
+Constructions, Section \ref{constructions-section-proj}).
+In fact, we can use the alternating or ordered Cech complex according to
+Cohomology, Lemmas \ref{cohomology-lemma-ordered-alternating} and
+\ref{cohomology-lemma-alternating-usual}.
+
+\medskip\noindent
+The ordering we will use on $\{0, \ldots, n\}$ is the usual one.
+Hence the complex we are looking at has terms
+$$
+\check{\mathcal{C}}_{ord}^p(\mathcal{U}, \mathcal{O}_{\mathbf{P}_R}(d))
+=
+\bigoplus\nolimits_{i_0 < \ldots < i_p}
+(R[T_0, \ldots, T_n, \frac{1}{T_{i_0} \ldots T_{i_p}}])_d
+$$
+Moreover, the maps are given by the usual formula
+$$
+d(s)_{i_0 \ldots i_{p + 1}} =
+\sum\nolimits_{j = 0}^{p + 1} (-1)^j s_{i_0 \ldots \hat i_j \ldots i_{p + 1}}
+$$
+see Cohomology, Section \ref{cohomology-section-alternating-cech}.
+Note that each term of this complex has a natural
+$\mathbf{Z}^{n + 1}$-grading. Namely, we get this by declaring a monomial
+$T_0^{e_0} \ldots T_n^{e_n}$ to be homogeneous with weight
+$(e_0, \ldots, e_n) \in \mathbf{Z}^{n + 1}$. It is clear that the differential
+given above respects the grading. In a formula we have
+$$
+\check{\mathcal{C}}_{ord}^\bullet(\mathcal{U}, \mathcal{O}_{\mathbf{P}_R}(d))
+=
+\bigoplus\nolimits_{\vec{e} \in \mathbf{Z}^{n + 1}}
+\check{\mathcal{C}}^\bullet(\vec{e})
+$$
+where not all summand on the right hand side occur (see below).
+Hence in order to compute the cohomology
+modules of the complex it suffices to compute the cohomology of the graded
+pieces and take the direct sum at the end.
+
+\medskip\noindent
+Fix $\vec{e} = (e_0, \ldots, e_n) \in \mathbf{Z}^{n + 1}$. In order for this
+weight to occur in the complex above we need to assume
+$e_0 + \ldots + e_n = d$ (if not then it occurs for a different twist of
+the structure sheaf of course). Assuming this set
+$$
+NEG(\vec{e}) = \{i \in \{0, \ldots, n\} \mid e_i < 0\}.
+$$
+With this notation the weight $\vec{e}$ summand
+$\check{\mathcal{C}}^\bullet(\vec{e})$ of the Cech complex above has
+the following terms
+$$
+\check{\mathcal{C}}^p(\vec{e})
+=
+\bigoplus\nolimits_{i_0 < \ldots < i_p,
+\ NEG(\vec{e}) \subset \{i_0, \ldots, i_p\}}
+R \cdot T_0^{e_0} \ldots T_n^{e_n}
+$$
+In other words, the terms corresponding to $i_0 < \ldots < i_p$ such
+that $NEG(\vec{e})$ is not contained in $\{i_0 \ldots i_p\}$ are zero.
+The differential of the complex $\check{\mathcal{C}}^\bullet(\vec{e})$
+is still given by the exact same formula as above.
+
+\medskip\noindent
+Suppose that $NEG(\vec{e}) = \{0, \ldots, n\}$, i.e., that all
+exponents $e_i$ are negative.
+In this case the complex $\check{\mathcal{C}}^\bullet(\vec{e})$ has
+only one term, namely $\check{\mathcal{C}}^n(\vec{e}) = 
+R \cdot \frac{1}{T^{-e_0} \ldots T^{-e_n}}$. Hence in this
+case
+$$
+H^q(\check{\mathcal{C}}^\bullet(\vec{e})) =
+\left\{
+\begin{matrix}
+R \cdot \frac{1}{T^{-e_0} \ldots T^{-e_n}} & \text{if} & q = n \\
+0 & \text{if} & \text{else}
+\end{matrix}
+\right.
+$$
+The direct sum of all of these terms clearly gives the value
+$$
+\left(\frac{1}{T_0 \ldots T_n} R[\frac{1}{T_0}, \ldots, \frac{1}{T_n}]\right)_d
+$$
+in degree $n$ as stated in the lemma. Moreover these terms do not contribute
+to cohomology in other degrees (also in accordance with the statement of the
+lemma).
+
+\medskip\noindent
+Assume $NEG(\vec{e}) = \emptyset$. In this case the complex
+$\check{\mathcal{C}}^\bullet(\vec{e})$ has a summand $R$ corresponding
+to all $i_0 < \ldots < i_p$.
+Let us compare the complex $\check{\mathcal{C}}^\bullet(\vec{e})$
+to another complex. Namely, consider the affine open open covering
+$$
+\mathcal{V} : \text{Spec}(R) = \bigcup\nolimits_{i \in \{0, \ldots, n\}} V_i
+$$
+where $V_i = \text{Spec}(R)$ for all $i$. Consider the alternating
+Cech complex
+$$
+\check{\mathcal{C}}_{ord}^\bullet(\mathcal{V}, \mathcal{O}_{\text{Spec}(R)})
+$$
+By the same reasoning as above this computes the cohomology of the
+structure sheaf on $\text{Spec}(R)$. Hence we see that
+$H^p(
+\check{\mathcal{C}}_{ord}^\bullet(\mathcal{V}, \mathcal{O}_{\text{Spec}(R)})
+) = R$ if $p = 0$ and is $0$ whenever $p > 0$.
+For these facts, see
+Lemma \ref{lemma-cech-cohomology-quasi-coherent-trivial} and its proof.
+Note that also
+$\check{\mathcal{C}}_{ord}^\bullet(\mathcal{V}, \mathcal{O}_{\text{Spec}(R)})$
+has a summand $R$ for every $i_0 < \ldots < i_p$ and has exactly the same
+differential as $\check{\mathcal{C}}^\bullet(\vec{e})$. In other words
+these complexes are isomorphic complexes and hence have the same cohomology.
+We conclude that
+$$
+H^q(\check{\mathcal{C}}^\bullet(\vec{e})) =
+\left\{
+\begin{matrix}
+R \cdot T^{e_0} \ldots T^{e_n} & \text{if} & q = 0 \\
+0 & \text{if} & \text{else}
+\end{matrix}
+\right.
+$$
+in the case that $NEG(\vec{e}) = \emptyset$.
+The direct sum of all of these terms clearly gives the value
+$$
+(R[T_0, \ldots, T_n])_d
+$$
+in degree $0$ as stated in the lemma. Moreover these terms do not contribute
+to cohomology in other degrees (also in accordance with the statement of the
+lemma).
+
+\medskip\noindent
+To finish the proof of the lemma we have to show that the complexes
+$\check{\mathcal{C}}^\bullet(\vec{e})$ are acyclic when
+$NEG(\vec{e})$ is neither empty nor equal to $\{0, \ldots, n\}$.
+Pick an index $i_{\text{fix}} \not \in NEG(\vec{e})$ (such an index exists).
+Consider the map
+$$
+h :
+\check{\mathcal{C}}^{p + 1}(\vec{e})
+\to
+\check{\mathcal{C}}^p(\vec{e})
+$$
+given by the rule
+$$
+h(s)_{i_0 \ldots i_p} = s_{i_{\text{fix}} i_0 \ldots i_p}
+$$
+(compare with the proof of
+Lemma \ref{lemma-cech-cohomology-quasi-coherent-trivial}).
+It is clear that this is well defined since
+$$
+NEG(\vec{e}) \subset \{i_0, \ldots, i_p\}
+\Leftrightarrow
+NEG(\vec{e}) \subset \{i_{\text{fix}}, i_0, \ldots, i_p\}
+$$
+Also $\check{\mathcal{C}}^0(\vec{e}) = 0$ so that this
+formula does work for all $p$ including $p = - 1$.
+The exact same (combinatorial) computation as in the
+proof of Lemma \ref{lemma-cech-cohomology-quasi-coherent-trivial}
+shows that
+$$
+(hd + dh)(s)_{i_0 \ldots i_p}
+=
+s_{i_0 \ldots i_p}
+$$
+Hence we see that the identity map of the complex
+$\check{\mathcal{C}}^\bullet(\vec{e})$ is homotopic to zero
+which implies that it is acyclic.
+\end{proof}
+
+\noindent
+Before we state the relative version we need some notation.
+Namely, recall that $\mathcal{O}_S[T_0, \ldots, T_n]$ is a graded
+$\mathcal{O}_S$-module where each $T_i$ is homogenous of degree $1$.
+Denote $(\mathcal{O}_S[T_0, \ldots, T_n])_d$ the degree $d$ summand.
+It is a finite locally free sheaf of rank $\binom{n + d}{d}$ on $S$.
+
+\begin{lemma}
+\label{lemma-cohomology-projective-space-over-base}
+Let $S$ be a scheme.
+Let $n \geq 0$ be an integer.
+Consider the structure morphism
+$$
+f : \mathbf{P}^n_S \longrightarrow S.
+$$
+We have
+$$
+R^qf_*(\mathcal{O}_{\mathbf{P}^n_S}(d)) =
+\left\{
+\begin{matrix}
+(\mathcal{O}_S[T_0, \ldots, T_n])_d & \text{if} & q = 0 \\
+0 & \text{if} & q \not = 0, n \\
+\textit{Hom}_{\mathcal{O}_S}(
+(\mathcal{O}_S[T_0, \ldots, T_n])_{- n - 1 - d}, \mathcal{O}_S)
+& \text{if} & q = n
+\end{matrix}
+\right.
+$$
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\noindent
+Next we state the version for projective bundles associated to finite locally
+free sheaves. Let $S$ be a scheme. Let $\mathcal{E}$ be a finite locally
+free $\mathcal{O}_S$-module of constant rank $n + 1$, see
+Modules, Section \ref{modules-section-locally-free}.
+In this case we think of $\text{Sym}(\mathcal{E})$ as a graded
+$\mathcal{O}_S$-module where $\mathcal{E}$ is the graded part of degree $1$.
+And $\text{Sym}^d(\mathcal{E})$ is the degree $d$ summand.
+It is a finite locally free sheaf of rank $\binom{n + d}{d}$ on $S$.
+Recall that our normalization is that
+$$
+\pi :
+\mathbf{P}(\mathcal{E})
+=
+\underline{\text{Proj}}_S(\text{Sym}(\mathcal{E}))
+\longrightarrow
+S
+$$
+and that there are natural maps
+$\text{Sym}^d(\mathcal{E}) \to \pi_*\mathcal{O}_{\mathbf{P}(\mathcal{E})}(d)$.
+
+\begin{lemma}
+\label{lemma-cohomology-projective-bundle}
+Let $S$ be a scheme.
+Let $\mathcal{E}$ be a finite locally
+free $\mathcal{O}_S$-module of constant rank $n + 1$.
+Consider the structure morphism
+$$
+\pi : \mathbf{P}(\mathcal{E}) \longrightarrow S.
+$$
+We have
+$$
+R^q\pi_*(\mathcal{O}_{\mathbf{P}(\mathcal{E})}(d)) =
+\left\{
+\begin{matrix}
+\text{Sym}^d(\mathcal{E}) & \text{if} & q = 0 \\
+0 & \text{if} & q \not = 0, n \\
+\textit{Hom}_{\mathcal{O}_S}(
+\text{Sym}^{- n - 1 - d}(\mathcal{E})
+\otimes_{\mathcal{O}_S}
+\wedge^{n + 1}\mathcal{E},
+\mathcal{O}_S)
+& \text{if} & q = n
+\end{matrix}
+\right.
+$$
+These identifications are compatible with base change and
+isomorphism between locally free sheaves.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+
+
+
 
 
 
