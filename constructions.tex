@@ -152,6 +152,76 @@ displayed above) we see that $i_W : f^{-1}(W) \to X_W$
 is an isomorphism as desired. The lemma is proved.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-relative-glueing-sheaves}
+Let $S$ be a scheme.
+Let $\mathcal{B}$ be a basis for the topology of $S$.
+Suppose given the following data:
+\begin{enumerate}
+\item For every $U \in \mathcal{B}$ a scheme $f_U : X_U \to U$ over $U$.
+\item For every $U \in \mathcal{B}$ a quasi-coherent sheaf $\mathcal{F}_U$
+over $X_U$.
+\item For every pair $U, V \in \mathcal{B}$ such that
+$V \subset U$ a morphism $\rho^U_V : X_V \to X_U$.
+\item  For every pair $U, V \in \mathcal{B}$ such that
+$V \subset U$ a morphism
+$\theta^U_V : (\rho^U_V)^*\mathcal{F}_U \to \mathcal{F}_V$.
+\end{enumerate}
+Assume that
+\begin{enumerate}
+\item[(a)] each $\rho^U_V$ induces an isomorphism
+$X_V \to f_U^{-1}(V)$ of schemes over $V$,
+\item[(b)] each $\theta^U_V$ is an isomorphism,
+\item[(c)] whenever $W, V, U \in \mathcal{B}$, with
+$W \subset V \subset U$ we have $\rho^U_W = \rho^U_V \circ \rho ^V_W$,
+\item[(d)] whenever $W, V, U \in \mathcal{B}$, with
+$W \subset V \subset U$ we have
+$\theta^U_W = \theta^V_W \circ (\rho^V_W)^*\theta^U_V$.
+\end{enumerate}
+Then there exists a unique scheme $f : X \to S$ over $S$
+together with a unique quasi-coherent sheaf $\mathcal{F}$ on $X$
+and isomorphisms $i_U : f^{-1}(U) \to X_U$ and
+$\theta_U : i_U^*\mathcal{F}_U \to \mathcal{F}|_{f^{-1}(U)}$
+over $U$ such that
+for $V \subset U \subset S$ affine open the composition
+$$
+\xymatrix{
+X_V \ar[r]^{i_V^{-1}} &
+f^{-1}(V) \ar[rr]^{inclusion} & &
+f^{-1}(U) \ar[r]^{i_{U}} &
+X_U
+}
+$$
+is the morphism $\rho^U_V$, and the composition
+$$
+(\rho^U_V)^*\mathcal{F}_U
+=
+(i_V^{-1})^*(i_U^*\mathcal{F}_U|_{f^{-1}(V)})
+\xrightarrow{\theta_U}
+(i_V^{-1})^*(\mathcal{F}|_{f^{-1}(V)})
+\xrightarrow{\theta_V^{-1}}
+\mathcal{F}_V
+$$
+is equal to $\theta^U_V$.
+\end{lemma}
+
+\begin{proof}
+Omitted. Hint: Use Lemma \ref{lemma-relative-glueing}
+to produce $X$ and use glueing of sheaves (see
+Sheaves, Section \ref{sheaves-section-glueing-sheaves})
+to produce $\mathcal{F}$ on $X$.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2300,7 +2370,7 @@ Moreover, for any $d \geq 1$ and any open subscheme $V \subset T$
 such that the sections in $\psi(A_d)$ generate $\mathcal{L}^{\otimes d}|_V$
 the morphism $r_{\mathcal{L}, \psi}|_V$ agrees with the morphism
 $\varphi : V \to \text{Proj}(A)$ and the map $\theta|_V$ agrees with the map
-$\alpha : \varphi^*\mathcal{O}_X(d) \to \mathcal{L}^{\otimes d}$
+$\alpha : \varphi^*\mathcal{O}_X(d) \to \mathcal{L}^{\otimes d}|_V$
 where $(\varphi, \alpha)$ is the pair 
 of Lemma \ref{lemma-converse-construction}
 associated to
@@ -3124,8 +3194,10 @@ Then $(\widetilde{\mathcal{M}}_T)|_V$
 is the quasi-coherent sheaf associated to the $C$-module
 $$
 N_{R, C, A, M, \gamma} =
-(M^{(d)} \otimes_{A^{(d)}}
-\bigoplus\nolimits_{n \in \mathbf{Z}} L^{\otimes n})_0
+\left(
+M^{(d)} \otimes_{A^{(d)}, \gamma}
+\left(\bigoplus\nolimits_{n \in \mathbf{Z}} L^{\otimes n}\right)
+\right)_0
 $$
 By assumption we may even cover $T$ by affine opens
 $V$ such that there exists some $a \in A_d$ such that
@@ -3140,7 +3212,10 @@ $$
 N_{R, C, A, M, \gamma} = M_{(a)}\otimes_{A_{(a)}} C
 $$
 where the map $A_{(a)} \to C$ is the map
-$x/a^n \mapsto \gamma(x)/\gamma(a)^n$.
+$x/a^n \mapsto \gamma(x)/\gamma(a)^n$. In other words, this is
+the value of $\widetilde{M}$ on $D_{+}(a) \subset \text{Proj}(A)$
+pulled back to $\text{Spec}(C)$ via the morphism
+$\text{Spec}(C) \to D_{+}(a)$ coming from $\gamma$.
 
 \begin{lemma}
 \label{lemma-relative-proj-modules}
@@ -3184,7 +3259,7 @@ $$
 \widetilde{\mathcal{M}(n)}
 $$
 generalizing (\ref{equation-global-sections-more-generally}).
-\item The formation of $\widetilde{M}$ commutes with base change.
+\item The formation of $\widetilde{\mathcal{M}}$ commutes with base change.
 \end{enumerate}
 \end{lemma}
 
@@ -3270,8 +3345,8 @@ is commutative.
 such that $\psi|_W : f^*\mathcal{A}_d|_W \to \mathcal{L}^{\otimes d}|_W$
 is surjective the restriction of the morphism $r_{\mathcal{L}, \psi}$
 agrees with the morphism $W \to \underline{\text{Proj}}_S(\mathcal{A})$
-which exists by the construction of the relative homogeneous spectrum
-in Lemma \ref{lemma-relative-proj}.
+which exists by the construction of the relative homogeneous spectrum,
+see Definition \ref{definition-relative-proj}.
 \item For any affine open $V \subset S$, the restriction
 $$
 (U(\psi) \cap f^{-1}(V), r_{\mathcal{L}, \psi}|_{U(\psi) \cap f^{-1}(V)},
