@@ -96,7 +96,7 @@ print "\\section{Alphabetized definitions}"
 print "\\label{section-alphabetized}"
 print
 print "\\begin{multicols}{2}"
-terms.sort()
+terms.sort(cmp=lambda x,y: cmp(x[0].lower(), y[0].lower()))
 n = 0
 while n < len(terms):
 	print "\\noindent"
