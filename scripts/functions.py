@@ -296,3 +296,97 @@ def new_command(new, commands):
 		m = m + 1
 	return 1
 
+# Structure of tags:
+#	Already created tags are listed in the file tags/tags
+#	Each line of tags/tags is of the form
+#		tag,full_label
+#	with no spaces and where
+#		tag: the actual tag
+#		full_label: label with "name-" prepended if the label occurs
+#			in the file name.tex
+#	See also the file tags/tags for an example.
+#	We can also have lines starting with a hash # marking comments.
+#	We may want to change the name/label if a result moves from one file to
+#	another, or if we split a long file into two pieces. We may also
+#	sometimes change the label of a result (eg if there is a typo in the
+#	label itself). But the tags should never change.
+
+# The first tag is 0000 and the last tag is ZZZZ
+def next_tag(tag):
+	next = list(tag)
+	S = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	i = 3
+	while i >= 0:
+		n = S.find(next[i])
+		if n == 35:
+			next[i] = '0'
+		else:
+			next[i] = S[n + 1]
+			break
+		i = i - 1
+	return next[0] + next[1] + next[2] + next[3]
+
+def get_tag_line(line):
+	line = line.rstrip()
+	return line.split(",")
+
+def get_tags(path):
+	tags = []
+	tag_file = open(path + "tags/tags", 'r')
+	for line in tag_file:
+		if not line.find("#") == 0:
+			tags.append(get_tag_line(line))
+	tag_file.close()
+	return tags
+
+def new_label(tags, label):
+	n = 0
+	new = 1
+	while new and n < len(tags):
+		if tags[n][1] == label:
+			new = 0
+		n = n + 1
+	return new
+
+def get_all_labels(path, name):
+	labels = []
+	tex_file = open(path + name + ".tex", 'r')
+	for line in tex_file:
+		label = find_label(line)
+		if label:
+			label = label.rstrip("}")
+			label = label.lstrip("{")
+			label = name + "-" + label
+			labels.append(label)
+	tex_file.close()
+	return labels
+
+def get_new_tags(path, tags):
+	last_tag = tags[-1][0]
+	lijstje = list_text_files(path)
+	new_tags = []
+	for name in lijstje:
+		labels = get_all_labels(path, name)
+		n = 0
+		while n < len(labels):
+			if new_label(tags, labels[n]):
+				last_tag = next_tag(last_tag)
+				new_tags.append([last_tag, labels[n]])
+			n = n + 1
+	return new_tags
+
+def print_new_tags(new_tags):
+	n = 0
+	while n < len(new_tags):
+		print new_tags[n][0] + "," + new_tags[n][1]
+		n = n + 1
+	return
+
+def write_new_tags(path, new_tags):
+	tag_file = open(path + "tags/tags", 'a')
+	n = 0
+	while n < len(new_tags):
+		tag_file.write(new_tags[n][0] + "," + new_tags[n][1] + "\n")
+		n = n + 1
+	tag_file.close()
+	return
