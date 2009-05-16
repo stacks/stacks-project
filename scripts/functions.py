@@ -249,14 +249,14 @@ def check_def_text(def_text):
 		return "Nothing defined in definition."
 	return ""
 
-def find_defined_notions(def_text):
-	def_notions = []
+def find_defined_terms(def_text):
+	def_terms = []
 	n = def_text.find("{\\it ")
 	while n >= 0:
 		m = find_sub_clause(def_text, n, "{", "}")
-		def_notions.append(def_text[n : m + 1])
+		def_terms.append(def_text[n : m + 1])
 		n = def_text.find("{\\it ", m)
-	return def_notions
+	return def_terms
 
 def check_refs(refs, labels):
 	n = 0
