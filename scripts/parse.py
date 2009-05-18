@@ -45,6 +45,11 @@ for name in lijstje:
 		error_text = only_on_line("\\label{", 7, line)
 		if error_text:
 			print_error(error_text, line, name, line_nr)
+		error_text = only_on_line("\\title{", 7, line)
+		if error_text:
+			print_error(error_text, line, name, line_nr)
+
+		# Check double dollar signs
 		error_text = check_double_dollar(line)
 		if error_text:
 			print_error(error_text, line, name, line_nr)

@@ -1,7 +1,6 @@
 from functions import *
 
-def print_section_title(line):
-	title = find_title(line)
+def print_section_title(title):
 	print
 	print "\\medskip\\noindent"
 	print "{\\bf " + title + "}"
@@ -59,7 +58,7 @@ for name in lijstje:
 		line_nr = line_nr + 1
 		if not have_title and is_title(line):
 			have_title = 1
-			titles.append(line)
+			titles.append(find_title(line))
 		if in_definition == 1:
 			def_text = def_text + " " + line.rstrip()
 			nr_lines_def = nr_lines_def + 1

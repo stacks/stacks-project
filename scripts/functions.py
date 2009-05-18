@@ -188,7 +188,7 @@ def is_title(line):
 def find_title(line):
 	n = line.find("\\title{")
 	if n < 0:
-		raise Exception('No title on line')
+		return ""
 	n = n + 6
 	m = find_sub_clause(line, n, "{", "}")
 	title = line[n + 1 : m]
@@ -391,6 +391,25 @@ def new_label(tags, label):
 			new = 0
 		n = n + 1
 	return new
+
+def get_title(path, name):
+	labels = []
+	tex_file = open(path + name + ".tex", 'r')
+	verbatim = 0
+	for line in tex_file:
+		title = find_title(line)
+		if title:
+			break
+	tex_file.close()
+	return title
+
+def all_titles(path):
+	titles = {}
+	lijstje = list_text_files(path)
+	for name in lijstje:
+		extra = get_title(path, name)
+		titles[name] = extra
+	return titles
 
 def get_all_labels(path, name):
 	labels = []

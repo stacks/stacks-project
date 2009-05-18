@@ -8,6 +8,7 @@ path = get_path()
 tags = get_tags(path)
 
 labels = all_labels(path)
+titles = all_titles(path)
 
 print "\\input{preamble}"
 print "\\begin{document}"
@@ -70,16 +71,32 @@ while n < len(tags):
 	print "\\vfill\\eject"
 	print
 	print "\\medskip\\noindent"
-	print "TAG: " + tags[n][0]
+	print "{\\bf TAG: " + tags[n][0] + "}"
 	print
 	print "\\medskip\\noindent"
 	
 	if check_ref(tags[n][1], labels):
-		print "This tag points to"
 		split = split_label(tags[n][1])
-		print_type(split[1])
-		print "\\ref*{" + tags[n][1] + "}"
-		print "in the chapter"
+		print "{\\bf 1.} This tag corresponds to the full label"
+		print
+		print "\\smallskip"
+		print "{\\tt " + tags[n][1] + "}"
+		print
+		print "\\medskip\\noindent"
+		print "{\\bf 2.} This tag corresponds to the label"
+		print
+		print "\\smallskip"
+		print "{\\tt " + split[1] + "-" + split[2] + "}"
+		print 
+		print "\\smallskip\\noindent"
+		print "in the file {\\it " + split[0] + ".tex}"
+		print
+		print "\\medskip\\noindent"
+		if split[2] == "phantom":
+			print "{\\bf 3.} This tag points to a"
+			print "\hyperref[" + tags[n][1] + "]{phantom section}{}"
+			print "at the beginning of the chapter entitled"
+			print titles[split[0]]
 	else:
 		print "This tag points nowhere."
 		print "This may be because the result it pointed to was"
