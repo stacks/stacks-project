@@ -12,7 +12,7 @@ def print_section_title(line):
 def print_def_terms(label, def_terms):
 	print
 	print "\\noindent"
-	print "In \\ref" + label + ": "
+	print "In \\ref{" + label + "}: "
 	n = len(def_terms)
 	m = 0
 	while m < n:
@@ -36,7 +36,7 @@ def add_defs(defs, label, def_terms):
 	return
 
 def find_name(name, label):
-	if label.find("{" + name + "-definition") >= 0:
+	if label.find(name + "-definition") >= 0:
 		return 1
 	else:
 		return 0
@@ -66,8 +66,7 @@ for name in lijstje:
 			if end_of_definition(line) == 1:
 				in_definition = 0
 				label = find_label(def_text)
-				label = label.lstrip("{")
-				label = "{" + name + "-" + label
+				label = name + "-" + label
 				def_terms = find_defined_terms(def_text)
 				add_def_terms(terms, label, def_terms)
 				add_defs(defs, label, def_terms)
@@ -101,7 +100,7 @@ n = 0
 while n < len(terms):
 	print "\\noindent"
 	print terms[n][0]
-	print "in \\ref" + terms[n][1]
+	print "in \\ref{" + terms[n][1] + "}"
 	print
 	n = n + 1
 print "\\end{multicols}"

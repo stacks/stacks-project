@@ -13,10 +13,9 @@ for name in lijstje:
 	have_title = 0
 	in_proof = 0
 	in_definition = 0
-	in_environment = 0
-	in_math_mode = 0
 	line_nr = 0
 	verbatim = 0
+	next_labeled = 0
 	def_text = ""
 	for line in tex_file:
 
@@ -50,6 +49,30 @@ for name in lijstje:
 		if error_text:
 			print_error(error_text, line, name, line_nr)
 
+		# Find label if there is one
+		label = find_label(line)
+		if label:
+			if not standard_label(label):
+				print_error("Nonstandard label.",
+				line, name, line_nr)
+			label = name + "-" + label
+			labels.append(label)
+		else:
+			# check if there is a label if there should be one
+			if next_labeled:
+				error_text = "No label for environment."
+				print_error(error_text, line, name, line_nr)
+		# Reset boolean
+		next_labeled = 0
+
+		# Beginning environment?
+		if beginning_of_env(line):
+			if not standard_env(line):
+				error_text = 'Not a standard environment.'
+				print_error(error_text, line, name, line_nr)
+			if labeled_env(line):
+				next_labeled = 1
+
 		# Have we found a title?
 		if not have_title and is_title(line):
 			have_title = 1
@@ -66,16 +89,6 @@ for name in lijstje:
 			in_definition = beginning_of_definition(line)
 			if in_definition == 1:
 				def_text = line.rstrip()
-
-		# Find label if there is one
-		label = find_label(line)
-		if label:
-			if not standard_label(label):
-				print_error("Nonstandard label.",
-				line, name, line_nr)
-			label = label.lstrip("{")
-			label = "{" + name + "-" + label
-			labels.append(label)
 
 		# Check for forward references in proofs
 		if in_proof:

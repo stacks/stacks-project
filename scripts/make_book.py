@@ -1,12 +1,6 @@
 from functions import *
 
-def print_chapter_title(line):
-	title = find_title(line)
-	print
-	print "\\chapter{" + title + "}"
-	print
-	return
-
+# Preamble for the book does not have external references
 def print_preamble(path):
 	preamble = open(path + "preamble.tex", 'r')
 	for line in preamble:
@@ -22,21 +16,17 @@ def print_preamble(path):
 	preamble.close()
 	return
 
+# Use full labels everywhere in book.tex
 def replace_refs(line, name):
-	line = line.replace("\\ref{lemma-", "\\ref{" + name + "-lemma-")
-	line = line.replace("\\ref{proposition-", "\\ref{" + name + "-proposition-")
-	line = line.replace("\\ref{theorem-", "\\ref{" + name + "-theorem-")
-	line = line.replace("\\ref{remark-", "\\ref{" + name + "-remark-")
-	line = line.replace("\\ref{remarks-", "\\ref{" + name + "-remarks-")
-	line = line.replace("\\ref{example-", "\\ref{" + name + "-example-")
-	line = line.replace("\\ref{exercise-", "\\ref{" + name + "-exercise-")
-	line = line.replace("\\ref{situation-", "\\ref{" + name + "-situation-")
-	line = line.replace("\\ref{equation-", "\\ref{" + name + "-equation-")
-	line = line.replace("\\ref{definition-", "\\ref{" + name + "-definition-")
-	line = line.replace("\\ref{section-", "\\ref{" + name + "-section-")
-	line = line.replace("\\ref{item-", "\\ref{" + name + "-item-")
+	n = 0
+	while n < len(list_of_standard_labels):
+		text = "\\ref{" + list_of_standard_labels[n] + "-"
+		repl = "\\ref{" + name + "-" + list_of_standard_labels[n] + "-"
+		line = line.replace(text, repl)
+		n = n + 1
 	return line
 
+# Chapters unmodified
 def print_chapters(path):
 	chapters = open(path + "chapters.tex", 'r')
 	for line in chapters:
