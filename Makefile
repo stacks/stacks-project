@@ -14,9 +14,16 @@ LIJST = introduction conventions sets categories topology sheaves algebra \
 # Add index and fdl to get index and license latexed as well.
 LIJST_FDL = $(LIJST) index fdl
 
+# Add book and long to get all stems of tex files needed for tags
+LIJST_TAGS = $(LIJST_FDL) book long
+
 # Different extensions
 SOURCES = $(patsubst %,%.tex,$(LIJST))
 TEXS = $(SOURCES) tmp/index.tex fdl.tex
+TAGS = $(patsubst %,tags/tmp/%.tex,$(LIJST_TAGS))
+TAG_EXTRAS = tags/tmp/my.bib tags/tmp/hyperref.cfg tags/tmp/amsart.cls \
+	tags/tmp/amsbook.cls tags/tmp/Makefile tags/tmp/chapters.tex \
+	tags/tmp/preamble.tex
 AUX_SOURCES = $(patsubst %,%.aux,$(LIJST))
 AUXS = $(patsubst %,%.aux,$(LIJST_FDL))
 BBLS = $(patsubst %,%.bbl,$(LIJST_FDL))
@@ -109,6 +116,52 @@ book.dvi: tmp/book.tex book.aux book.bbl
 %.dvi : %.tex %.bbl $(AUXS)
 	latex -src $<
 	latex -src $<
+
+#
+#
+# Tags stuff
+#
+#
+tags/tmp/book.tex: tmp/book.tex
+	python ./scripts/tag_up.py $(PWD) book > tags/tmp/book.tex
+	patch -i tags/book.patch tags/tmp/book.tex
+
+tags/tmp/index.tex: tmp/index.tex
+	cp tmp/index.tex tags/tmp/index.tex
+
+tags/tmp/long.tex: tags/tags
+	python ./scripts/make_tags.py $(PWD) > tags/tmp/long.tex
+
+tags/tmp/preamble.tex: preamble.tex
+	cp preamble.tex tags/tmp/preamble.tex
+	patch -i tags/preamble.patch tags/tmp/preamble.tex
+
+tags/tmp/chapters.tex: chapters.tex
+	cp chapters.tex tags/tmp/chapters.tex
+
+tags/tmp/%.tex: %.tex
+	python ./scripts/tag_up.py $(PWD) $* > tags/tmp/$*.tex
+
+tags/tmp/amsart.cls: amsart.cls
+	cp amsart.cls tags/tmp/amsart.cls
+
+tags/tmp/amsbook.cls: amsbook.cls
+	cp amsbook.cls tags/tmp/amsbook.cls
+
+tags/tmp/hyperref.cfg: hyperref.cfg
+	cp hyperref.cfg tags/tmp/hyperref.cfg
+
+tags/tmp/my.bib: my.bib
+	cp my.bib tags/tmp/my.bib
+
+tags/tmp/Makefile: tags/Makefile
+	cp tags/Makefile tags/tmp/Makefile
+
+# Target dealing with tags
+.PHONY: tags
+tags: $(TAGS) $(TAG_EXTRAS)
+	@echo "TAGS TARGET"
+	make -C tags/tmp
 
 # Additional targets
 .PHONY: book
