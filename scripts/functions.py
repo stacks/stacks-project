@@ -4,8 +4,17 @@ list_of_labeled_envs = ['lemma', 'proposition', 'theorem', 'remark', 'remarks', 
 
 list_of_standard_labels = ['definition', 'lemma', 'proposition', 'theorem', 'remark', 'remarks', 'example', 'exercise', 'situation', 'equation', 'section', 'item']
 
-
-
+# Get file name
+def get_name():
+	from sys import argv
+	if not len(argv) == 2:
+		print
+		print "This script needs exactly one argument"
+		print "namely the path to the file"
+		print
+		raise Exception('Wrong arguments')
+	name = argv[1]
+	return name
 
 # Find location of repository
 def get_path():
@@ -482,3 +491,6 @@ def write_new_tags(path, new_tags):
 		n = n + 1
 	tag_file.close()
 	return
+
+def cap_type(type):
+	return type[0].capitalize() + type[1:]

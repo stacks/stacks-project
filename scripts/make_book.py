@@ -31,6 +31,7 @@ def print_chapters(path):
 	chapters = open(path + "chapters.tex", 'r')
 	for line in chapters:
 		print line,
+	chapters.close()
 	return
 
 path = get_path()

@@ -20,3 +20,5 @@ for line in file:
 			dark = 1
 	else:
 		print line,
+
+file.close()

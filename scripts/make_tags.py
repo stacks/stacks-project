@@ -1,8 +1,5 @@
 from functions import *
 
-def print_type(type):
-	print type[0].capitalize() + type[1:],
-
 path = get_path()
 
 tags = get_tags(path)
@@ -29,7 +26,7 @@ print "project to be referenceable. These tags don't change even if the lemma"
 print "(or theorem, etc.) moves within the text. To look up a lemma, theorem"
 print "etc.\ using a tag, just go to the page:"
 print "\\begin{center}"
-print "\\url{http://math.columbia.edu/algebraic_geometry/stacks-git/query}"
+print "\\url{http://math.columbia.edu/algebraic_geometry/stacks-git/query.php}"
 print "\\end{center}"
 print "and input the tag in the box."
 print
@@ -89,7 +86,8 @@ while n < len(tags):
 	print "\\vfill\\eject"
 	print
 	print "\\medskip\\noindent"
-	print "{\\bf TAG: " + tag + "}"
+	print "\\section*{TAG: " + tag + "}"
+	print "\\label{" + tag + "}"
 	print
 	print "\\medskip\\noindent"
 	
@@ -116,11 +114,9 @@ while n < len(tags):
 		print "\\hyperref[section-tags]{here}."
 		continue
 
-	print "Use this tag to reference"
-	print_type(split[1])
+	print "Use this tag to reference " + cap_type(type)
 	print "\\ref{" + label + "} in ``" + titles[name] + "'', or the"
-	print "identical"
-	print_type(split[1])
+	print "identical " + cap_type(type)
 	print "\\ref{book-" + label + "} in the corresponding chapter"
 	print "of the book version. For more on tags click"
 	print "\\hyperref[section-tags]{here}."
