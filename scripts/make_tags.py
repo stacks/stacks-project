@@ -10,7 +10,9 @@ tags = get_tags(path)
 labels = all_labels(path)
 titles = all_titles(path)
 
+
 print "\\input{preamble}"
+print "\\externaldocument[book-]{book}"
 print "\\begin{document}"
 print "\\title{Tags}"
 print "\\maketitle"
@@ -18,20 +20,38 @@ print
 print "\\phantomsection"
 print "\\label{section-phantom}"
 print
-print "\\section{The tag system}"
+print "\\section*{The tag system}"
+print "\\label{section-tags}"
+print 
+print "\\noindent"
+print "Each tag refers to a unique lemma, theorem, etc.\ in order for this"
+print "project to be referenceable. These tags don't change even if the lemma"
+print "(or theorem, etc.) moves within the text. To look up a lemma, theorem"
+print "etc.\ using a tag, just go to the page:"
+print "\\begin{center}"
+print "\\url{http://math.columbia.edu/algebraic_geometry/stacks-git/query}"
+print "\\end{center}"
+print "and input the tag in the box."
+print
+print "\\medskip\\noindent"
+print "For more information click \hyperref[section-more-tags]{here}."
+print "\\vfill\\eject"
+print
+print "\\section*{More on the tag system}"
+print "\\label{section-more-tags}"
 print
 print "\\noindent"
 print "The tag system provides stable references to definitions, lemmas,"
 print "propositions, theorems, remarks, examples, exercises, situations and"
 print "even equations, sections and items."
 print "During development, each of these gets a tag which will always point"
-print "to the same, mathematically speaking, result. The place of the lemma"
+print "to the same mathematical result. The place of the lemma"
 print "in the document may change, the lemma may be moved to a different"
 print "chapter, but its tag always keeps pointing to it."
 print
 print "\\medskip\\noindent"
 print "This is accomplished in the following manner. There is a file called"
-print "tags in the tags subdirectory which has on each line the tag followed"
+print "tags (in the tags subdirectory) which has on each line the tag followed"
 print "by the current full label of the tag. Example:"
 print "\\noindent"
 print "\\begin{verbatim}"
@@ -52,57 +72,59 @@ print "\\medskip\\noindent"
 print "If it ever turns out that a lemma/proposition/theorem was wrong"
 print "then we may remove it from the project. However, we will keep"
 print "the corresponding line in the file tags and put in a comment explaining"
-print "its dissappearance. For example see tag 02C0."
+print "its dissappearance. For an example see tag 02C0."
 print
 print "\\medskip\\noindent"
 print "New tags are assigned by the maintainer of the project every once in a"
 print "while using the python script add\\_tags.py. A tag is a four character"
 print "string made up out of digits and capital letters. They are ordered"
 print "lexicographically between 0000 and ZZZZ giving 1679616 possible tags."
-print
-print "\\medskip\\noindent"
-print "The purpose of the document you are reading now is to be a human"
-print "readable version of the tags file with hyperlinks from the each"
-print "tag to the corresponding spot in the project. It will serve as a kind"
-print "of dictionary between tags and mathematical results in the project."
 
 n = 0
 while n < len(tags):
+	tag = tags[n][0]
+	label = tags[n][1]
+	n = n + 1
+
 	print "\\vfill\\eject"
 	print
 	print "\\medskip\\noindent"
-	print "{\\bf TAG: " + tags[n][0] + "}"
+	print "{\\bf TAG: " + tag + "}"
 	print
 	print "\\medskip\\noindent"
 	
-	if check_ref(tags[n][1], labels):
-		split = split_label(tags[n][1])
-		print "{\\bf 1.} This tag corresponds to the full label"
-		print
-		print "\\smallskip"
-		print "{\\tt " + tags[n][1] + "}"
-		print
-		print "\\medskip\\noindent"
-		print "{\\bf 2.} This tag corresponds to the label"
-		print
-		print "\\smallskip"
-		print "{\\tt " + split[1] + "-" + split[2] + "}"
-		print 
-		print "\\smallskip\\noindent"
-		print "in the file {\\it " + split[0] + ".tex}"
-		print
-		print "\\medskip\\noindent"
-		if split[2] == "phantom":
-			print "{\\bf 3.} This tag points to a"
-			print "\hyperref[" + tags[n][1] + "]{phantom section}{}"
-			print "at the beginning of the chapter entitled"
-			print titles[split[0]]
-	else:
+	split = split_label(label)
+	name = split[0]
+	type = split[1]
+	short = split[2]
+
+	if not label in labels:
 		print "This tag points nowhere."
 		print "This may be because the result it pointed to was"
 		print "found to be wrong. In any case you can find a"
 		print "comment about it in the file tags/tags."
-	n = n + 1
+		print "For more on tags click"
+		print "\\hyperref[section-tags]{here}."
+		continue
+
+	if label in labels and short == "phantom":
+		print "Use this tag to refer to a"
+		print "\hyperref[" + label + "]{phantom section}{}"
+		print "at the beginning of"
+		print "``" + titles[name] + "''."
+		print "For more on tags click"
+		print "\\hyperref[section-tags]{here}."
+		continue
+
+	print "Use this tag to reference"
+	print_type(split[1])
+	print "\\ref{" + label + "} in ``" + titles[name] + "'', or the"
+	print "identical"
+	print_type(split[1])
+	print "\\ref{book-" + label + "} in the corresponding chapter"
+	print "of the book version. For more on tags click"
+	print "\\hyperref[section-tags]{here}."
+
 
 print "\\input{chapters}"
 print "\\end{document}"

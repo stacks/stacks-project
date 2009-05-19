@@ -247,6 +247,19 @@ def split_label(label):
 	type = pieces[1]
 	rest = pieces[2]
 	n = 3
+	# Exceptions...
+	if name == "fpqc" and type == "descent":
+		name = "fpqc-descent"
+		type = pieces[2]
+		n = 4
+	if name == "sites" and type == "cohomology":
+		name = "sites-cohomology"
+		type = pieces[2]
+		n = 4
+	if name == "stacks" and type == "groupoids":
+		name = "stacks-groupoids"
+		type = pieces[2]
+		n = 4
 	while n < len(pieces):
 		rest = rest + "-" + pieces[n]
 		n = n + 1
