@@ -171,7 +171,7 @@ tags_install: tags
 	cp tags/tmp/*.php $(INSTALLDIR)
 	cp tags/tmp/*.html $(INSTALLDIR)
 	git archive --format=tar HEAD | (cd $(INSTALLDIR) && tar xf -)
-	cp stacks-git.htm $(INSTALLDIR)/index.html
+	cp stacks-git.html $(INSTALLDIR)/index.html
 	git log --pretty=oneline -1 > $(INSTALLDIR)/VERSION
 
 # Additional targets
