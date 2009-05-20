@@ -59,7 +59,7 @@ print "</head>"
 print "<body>"
 print
 print "<p align=left>"
-print "<a href=\"http://math.columbia.edu/algebraic_geometry/stacks-git\">stacks project</a> | <a href=query.php>search</a> | <a href=\"tags.html\">tags explained</a>"
+print "<a href=\"index.html\">stacks project</a> | <a href=query.php>search</a> | <a href=\"tags.html\">tags explained</a>"
 print "</p>"
 print
 print "<?php"
