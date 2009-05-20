@@ -1,8 +1,23 @@
 from functions import *
 
-path = get_path()
 
-filename = path + "stacks-git.htm"
+from sys import argv
+if not len(argv) == 3:
+	print
+	print "This script needs exactly two arguments"
+	print "namely the path to the stacks project"
+	print "and the stem of the tex file"
+	print
+	raise Exception('Wrong arguments')
+
+path = argv[1]
+path.rstrip("/")
+path = path + "/"
+
+name = argv[2]
+
+
+filename = path + name
 
 file = open(filename, 'r')
 

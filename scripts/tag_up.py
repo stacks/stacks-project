@@ -15,6 +15,31 @@ path = path + "/"
 
 name = argv[2]
 
+def replace_newtheorem(line):
+	if not line.find("\\newtheorem{") == 0:
+			return line
+	line = line.replace("]{", "]{\\href{http://math.columbia.edu/algebraic_geometry/stacks-git/locate.php?tag=\\TAG}{",1)
+	line = line.rstrip()
+	return line + "}"
+
+
+
+
+
+# File preamble.tex is a special case and we do it separately
+if name == "preamble":
+	tex_file = open(path + name + ".tex", 'r')
+	for line in tex_file:
+		print replace_newtheorem(line)
+
+	tex_file.close()
+
+	from sys import exit
+	exit()
+
+
+
+
 tags = get_tags(path)
 
 label_tags = dict((tags[n][1], tags[n][0]) for n in range(0, len(tags)))
@@ -24,7 +49,7 @@ if name == "book":
 else:
 	tex_file = open(path + name + ".tex", 'r')
 
-TAG_def = 0
+document = 0
 verbatim = 0
 for line in tex_file:
 	
@@ -36,12 +61,17 @@ for line in tex_file:
 		print line,
 		continue
 
-	if not TAG_def and line.find("\\begin{document}") == 0:
+	# Do stuff in preamble or just after \begin{document}
+	if not document:
+		if name == "book":
+			line = replace_newtheorem(line)
 		print line,
-		print "\\newcommand{\\TAG}{long-ZZZ}"
-		TAG_def = 1
+		if line.find("\\begin{document}") == 0:
+			print "\\newcommand{\\TAG}{ZZZ}"
+			document = 1
 		continue
-	
+
+	# Lines with labeled environments
 	if beginning_of_env(line) and labeled_env(line):
 		oldline = line
 		line = tex_file.next()
@@ -54,7 +84,7 @@ for line in tex_file:
 			print oldline,
 			print line
 			continue
-		print "\\renewcommand{\\TAG}{long-" + label_tags[label] + "}"
+		print "\\renewcommand{\\TAG}{" + label_tags[label] + "}"
 		print oldline,
 		print line,
 		print "\\hypertarget{" + label_tags[label] + "}{}"

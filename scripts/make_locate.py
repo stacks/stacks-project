@@ -1,8 +1,11 @@
 from functions import *
 
+# Only use this script after running
+#	make tags
+#
 def parse_aux_file(name):
 	label_loc = {}
-	aux_file = open(name + ".aux", 'r')
+	aux_file = open("tags/tmp/" + name + ".aux", 'r')
 	for line in aux_file:
 		if line.find("\\newlabel{") < 0:
 			continue
@@ -56,7 +59,7 @@ print "</head>"
 print "<body>"
 print
 print "<p align=left>"
-print "<a href=\"http://math.columbia.edu/algebraic_geometry/stacks-git\">stacks-git</a> | <a href=query.php>query</a> | <a href=\"tags.pdf\">more on tags</a>"
+print "<a href=\"http://math.columbia.edu/algebraic_geometry/stacks-git\">stacks project</a> | <a href=query.php>search</a> | <a href=\"tags.html\">tags explained</a>"
 print "</p>"
 print
 print "<?php"
@@ -87,23 +90,32 @@ while n < len(tags):
 print "\"ZZZ\" => \"Does not exist yet.\");"
 
 # Text the reader sees
+print "if (array_key_exists($_GET[\"tag\"], $tag_loc)) {"
 print "echo \"<p align=center>\";"
-print "echo \"Your tag \";"
+print "echo \"Use tag \";"
 print "echo $_GET[\"tag\"];"
-print "echo \" points to </p>\\n\";"
-
-print "echo \"<p align=center>\";"
+print "echo \" to reference <br>\\n\";"
 print "echo \"<a href=\\\"\";"
 print "echo $tag_loc_chap[$_GET[\"tag\"]];"
-print "echo \" or the identical</a></p>\\n\";"
-
-print "echo \"<p align=center>\";"
+print "echo \" or the identical</a><br>\\n\";"
 print "echo \"<a href=\\\"book.pdf#\";"
 print "echo $_GET[\"tag\"];"
 print "echo \"\\\">\";"
 print "echo $tag_loc[$_GET[\"tag\"]];"
 print "echo \"</a> of the book version.</p>\\n\";"
-
+print "}"
+print "else"
+print "{"
+print "echo \"<p align=center>\";"
+print "echo \"This tag does not exist.<br>\";"
+print "echo \"This may be because you mistyped<br>\";"
+print "echo \"or the result it pointed to was<br>\";"
+print "echo \"found to be wrong.<br>\";"
+print "echo \"For more on tags click \";"
+print "echo \"<a href=\\\"tags.html\\\">here</a>.<br>\";"
+print "echo \"To try again click \";"
+print "echo \"<a href=\\\"tags.html\\\">here</a>.\";"
+print "}"
 print "?>"
 print
 print "</body>"

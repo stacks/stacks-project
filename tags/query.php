@@ -5,7 +5,7 @@
 <body>
 
 <p align=left>
-<a href="http://math.columbia.edu/algebraic_geometry/stacks-git">stacks-git</a>
+<a href="http://math.columbia.edu/algebraic_geometry/stacks-git">stacks project</a>
 </p>
 
 <p align=center>
@@ -19,7 +19,7 @@ Tag: <input type="text" name="tag" />
 </p>
 </form> 
 <p align=center> For more on the tag system, click
-<a href="tags.pdf">here</a></p>
+<a href="tags.html">here</a></p>
 
 
 </body>

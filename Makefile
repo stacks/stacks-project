@@ -14,8 +14,8 @@ LIJST = introduction conventions sets categories topology sheaves algebra \
 # Add index and fdl to get index and license latexed as well.
 LIJST_FDL = $(LIJST) index fdl
 
-# Add book and long to get all stems of tex files needed for tags
-LIJST_TAGS = $(LIJST_FDL) book long
+# Add book to get all stems of tex files needed for tags
+LIJST_TAGS = $(LIJST_FDL) book
 
 # Different extensions
 SOURCES = $(patsubst %,%.tex,$(LIJST))
@@ -24,6 +24,7 @@ TAGS = $(patsubst %,tags/tmp/%.tex,$(LIJST_TAGS))
 TAG_EXTRAS = tags/tmp/my.bib tags/tmp/hyperref.cfg tags/tmp/amsart.cls \
 	tags/tmp/amsbook.cls tags/tmp/Makefile tags/tmp/chapters.tex \
 	tags/tmp/preamble.tex
+TAG_WEB = tags/tmp/query.php tags/tmp/locate.php tags/tmp/tags.html
 AUX_SOURCES = $(patsubst %,%.aux,$(LIJST))
 AUXS = $(patsubst %,%.aux,$(LIJST_FDL))
 BBLS = $(patsubst %,%.bbl,$(LIJST_FDL))
@@ -124,17 +125,12 @@ book.dvi: tmp/book.tex book.aux book.bbl
 #
 tags/tmp/book.tex: tmp/book.tex
 	python ./scripts/tag_up.py $(PWD) book > tags/tmp/book.tex
-	patch -i tags/book.patch tags/tmp/book.tex
 
 tags/tmp/index.tex: tmp/index.tex
 	cp tmp/index.tex tags/tmp/index.tex
 
-tags/tmp/long.tex: tags/tags
-	python ./scripts/make_tags.py $(PWD) > tags/tmp/long.tex
-
 tags/tmp/preamble.tex: preamble.tex
-	cp preamble.tex tags/tmp/preamble.tex
-	patch -i tags/preamble.patch tags/tmp/preamble.tex
+	python ./scripts/tag_up.py $(PWD) preamble > tags/tmp/preamble.tex
 
 tags/tmp/chapters.tex: chapters.tex
 	cp chapters.tex tags/tmp/chapters.tex
@@ -162,6 +158,21 @@ tags/tmp/Makefile: tags/Makefile
 tags: $(TAGS) $(TAG_EXTRAS)
 	@echo "TAGS TARGET"
 	make -C tags/tmp
+	cp tags/tags.html tags/tmp/tags.html
+	cp tags/query.php tags/tmp/query.php
+	python ./scripts/make_locate.py $(PWD) > tags/tmp/locate.php
+
+tags_clean:
+	rm tags/tmp/*
+
+tags_install: tags
+	cp tags/tmp/*.pdf $(INSTALLDIR)
+	cp tags/tmp/*.dvi $(INSTALLDIR)
+	cp tags/tmp/*.php $(INSTALLDIR)
+	cp tags/tmp/*.html $(INSTALLDIR)
+	git archive --format=tar HEAD | (cd $(INSTALLDIR) && tar xf -)
+	cp stacks-git.htm $(INSTALLDIR)/index.html
+	git log --pretty=oneline -1 > $(INSTALLDIR)/VERSION
 
 # Additional targets
 .PHONY: book
@@ -169,7 +180,7 @@ book: book.dvi book.pdf
 
 .PHONY: clean
 clean:
-	rm -f *.aux *.bbl *.blg *.dvi *.log *.pdf *.ps *.out *.toc *.html
+	rm -f *.aux *.bbl *.blg *.dvi *.log *.pdf *.ps *.out *.toc
 	rm -f tmp/book.tex tmp/index.tex
 	rm -f stacks-git.tar.bz2
 

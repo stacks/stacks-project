@@ -12,7 +12,7 @@ LIJST = introduction conventions sets categories topology sheaves algebra \
 	fpqc-descent etale spaces stacks stacks-groupoids algebraic flat \
 	examples exercises desirables coding
 
-LIJST_TAGS = $(LIJST) index fdl book long
+LIJST_TAGS = $(LIJST) index fdl book
 
 AUXS = $(patsubst %,%.aux,$(LIJST_TAGS))
 FOOS = $(patsubst %,%.foo,$(LIJST_TAGS))
