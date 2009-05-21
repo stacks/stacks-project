@@ -40,9 +40,6 @@ index.bar:
 fdl.bar:
 	touch fdl.bar
 
-long.bar:
-	touch long.bar
-
 # Make bbl file from aux file
 %.bar: %.foo
 	bibtex $*

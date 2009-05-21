@@ -1,6 +1,6 @@
 # Known suffixes.
 .SUFFIXES: .aux .bbl .bib .blg .dvi .htm .html .css .log .out .pdf .ps .tex \
-	.toc
+	.toc .foo .bar
 
 # Master list of stems of tex files in the project.
 # This should be in order.
@@ -25,9 +25,11 @@ TAG_EXTRAS = tags/tmp/my.bib tags/tmp/hyperref.cfg tags/tmp/amsart.cls \
 	tags/tmp/amsbook.cls tags/tmp/Makefile tags/tmp/chapters.tex \
 	tags/tmp/preamble.tex
 TAG_WEB = tags/tmp/query.php tags/tmp/locate.php tags/tmp/tags.html
-AUX_SOURCES = $(patsubst %,%.aux,$(LIJST))
+FOO_SOURCES = $(patsubst %,%.foo,$(LIJST))
 AUXS = $(patsubst %,%.aux,$(LIJST_FDL))
+FOOS = $(patsubst %,%.foo,$(LIJST_FDL))
 BBLS = $(patsubst %,%.bbl,$(LIJST_FDL))
+BARS = $(patsubst %,%.bar,$(LIJST_FDL))
 PDFS = $(patsubst %,%.pdf,$(LIJST_FDL))
 DVIS = $(patsubst %,%.dvi,$(LIJST_FDL))
 
@@ -42,7 +44,7 @@ LATEX=latex -src
 # to look at the resulting dvi file. It does latex the license of the index.
 # We use the aux file to keep track of whether the tex file has been updated.
 .PHONY: default
-default: $(AUX_SOURCES)
+default: $(FOO_SOURCES)
 	@echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
 	@echo "% This target latexs each updated tex file just once. %"
 	@echo "% See the file documentation/make-project for others. %"
@@ -50,11 +52,11 @@ default: $(AUX_SOURCES)
 
 # Target which creates all dvi files of chapters
 .PHONY: dvis
-dvis: $(AUXS) $(BBLS) $(DVIS)
+dvis: $(FOOS) $(BARS) $(DVIS)
 
 # Target which creates all pdf files of chapters
 .PHONY: pdfs
-pdfs: $(AUXS) $(BBLS) $(PDFS)
+pdfs: $(FOOS) $(BARS) $(PDFS)
 
 # We need the following to cancel the built-in rule for
 # dvi files (which uses tex not latex).
@@ -68,53 +70,58 @@ tmp/book.tex: *.tex tmp/index.tex
 	python ./scripts/make_book.py $(PWD) > tmp/book.tex
 
 # Creating aux files
-index.aux: tmp/index.tex
+index.foo: tmp/index.tex
 	$(LATEX) tmp/index.tex
+	touch index.foo
 
-book.aux: tmp/book.tex
+book.foo: tmp/book.tex
 	$(LATEX) tmp/book.tex
+	touch book.foo
 
-%.aux: %.tex
+%.foo: %.tex
 	$(LATEX) $<
+	touch $*.foo
 
 # Creating bbl files
-index.bbl: tmp/index.tex index.aux
+index.bar: tmp/index.tex index.foo
 	@echo "Do not need to bibtex index.tex"
-	touch index.bbl
+	touch index.bar
 
-fdl.bbl: fdl.tex fdl.aux
+fdl.bar: fdl.tex fdl.foo
 	@echo "Do not need to bibtex fdl.tex"
-	touch fdl.bbl
+	touch fdl.bar
 
-book.bbl: tmp/book.tex book.aux
+book.bar: tmp/book.tex book.foo
 	bibtex book
+	touch book.bar
 
-%.bbl: %.tex %.aux
+%.bar: %.tex %.foo
 	bibtex $*
+	touch $*.bar
 
 # Creating pdf files
-index.pdf: tmp/index.tex index.aux index.bbl
+index.pdf: tmp/index.tex index.bar $(FOOS)
 	pdflatex tmp/index.tex
 	pdflatex tmp/index.tex
 
-book.pdf: tmp/book.tex book.aux book.bbl
+book.pdf: tmp/book.tex book.bar
 	pdflatex tmp/book.tex
 	pdflatex tmp/book.tex
 
-%.pdf: %.tex %.bbl $(AUXS)
+%.pdf: %.tex %.bar $(FOOS)
 	pdflatex $<
 	pdflatex $<
 
 # Creating dvi files
-index.dvi: tmp/index.tex index.aux index.bbl
+index.dvi: tmp/index.tex index.bar $(FOOS)
 	latex tmp/index.tex
 	latex tmp/index.tex
 
-book.dvi: tmp/book.tex book.aux book.bbl
+book.dvi: tmp/book.tex book.bar
 	latex tmp/book.tex
 	latex tmp/book.tex
 
-%.dvi : %.tex %.bbl $(AUXS)
+%.dvi : %.tex %.bar $(FOOS)
 	latex -src $<
 	latex -src $<
 
@@ -165,22 +172,23 @@ tags: $(TAGS) $(TAG_EXTRAS)
 tags_clean:
 	rm tags/tmp/*
 
-tags_install: tags
+tags_install: tags tarball
 	cp tags/tmp/*.pdf $(INSTALLDIR)
 	cp tags/tmp/*.dvi $(INSTALLDIR)
 	cp tags/tmp/*.php $(INSTALLDIR)
 	cp tags/tmp/*.html $(INSTALLDIR)
 	git archive --format=tar HEAD | (cd $(INSTALLDIR) && tar xf -)
 	cp stacks-git.html $(INSTALLDIR)/index.html
+	mv stacks-git.tar.bz2 $(INSTALLDIR)
 	git log --pretty=oneline -1 > $(INSTALLDIR)/VERSION
 
 # Additional targets
 .PHONY: book
-book: book.dvi book.pdf
+book: book.foo book.bar book.dvi book.pdf
 
 .PHONY: clean
 clean:
-	rm -f *.aux *.bbl *.blg *.dvi *.log *.pdf *.ps *.out *.toc
+	rm -f *.aux *.bbl *.blg *.dvi *.log *.pdf *.ps *.out *.toc *.foo *.bar
 	rm -f tmp/book.tex tmp/index.tex
 	rm -f stacks-git.tar.bz2
 
