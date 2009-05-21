@@ -4,7 +4,7 @@ path = get_path()
 
 downloads = open(path + "downloads", 'r')
 
-odd = 1
+odd = 0
 for line in downloads:
 	if not line.find("INSERT HERE") == 0:
 		print line,

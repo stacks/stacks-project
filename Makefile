@@ -172,15 +172,20 @@ tags: $(TAGS) $(TAG_EXTRAS)
 tags_clean:
 	rm tags/tmp/*
 
-tags_install: tags tarball
+tags_install: tags tarball tmp/downloads.html
 	cp tags/tmp/*.pdf $(INSTALLDIR)
 	cp tags/tmp/*.dvi $(INSTALLDIR)
 	cp tags/tmp/*.php $(INSTALLDIR)
 	cp tags/tmp/*.html $(INSTALLDIR)
 	git archive --format=tar HEAD | (cd $(INSTALLDIR) && tar xf -)
 	cp stacks-git.html $(INSTALLDIR)/index.html
+	cp tmp/downloads.html $(INSTALLDIR)
 	mv stacks-git.tar.bz2 $(INSTALLDIR)
 	git log --pretty=oneline -1 > $(INSTALLDIR)/VERSION
+
+# Web site targets
+tmp/downloads.html: downloads
+	python scripts/make_downloads.py . > tmp/downloads.html
 
 # Additional targets
 .PHONY: book
@@ -189,7 +194,7 @@ book: book.foo book.bar book.dvi book.pdf
 .PHONY: clean
 clean:
 	rm -f *.aux *.bbl *.blg *.dvi *.log *.pdf *.ps *.out *.toc *.foo *.bar
-	rm -f tmp/book.tex tmp/index.tex
+	rm -f tmp/book.tex tmp/index.tex tmp/downloads.html
 	rm -f stacks-git.tar.bz2
 
 .PHONY: backup
