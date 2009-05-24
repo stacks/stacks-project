@@ -1,5 +1,6 @@
 <html>
 <head>
+<link rel="icon" type="image/vnd.microsoft.icon" href="stacks.ico" />
 <title> Tag query page </title>
 </head>
 <body>

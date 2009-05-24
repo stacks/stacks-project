@@ -54,6 +54,7 @@ label_loc = parse_aux_file("book")
 
 print "<html>"
 print "<head>"
+print "<link rel=\"icon\" type=\"image/vnd.microsoft.icon\" href=\"stacks.ico\" />"
 print "<title> Location of tag </title>"
 print "</head>"
 print "<body>"

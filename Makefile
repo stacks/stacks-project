@@ -35,6 +35,7 @@ DVIS = $(patsubst %,%.dvi,$(LIJST_FDL))
 
 # Files in INSTALLDIR will be overwritten.
 INSTALLDIR=/home/dejong/html/algebraic_geometry/stacks-git
+#INSTALLDIR=/mnt/data/APACHE/htdocs/stacks-git
 
 # Change this into pdflatex if you want the default target to produce pdf
 LATEX=latex -src
@@ -170,13 +171,15 @@ tags: $(TAGS) $(TAG_EXTRAS)
 	python ./scripts/make_locate.py $(PWD) > tags/tmp/locate.php
 
 tags_clean:
-	rm tags/tmp/*
+	rm -f tags/tmp/*
 
 tags_install: tags tarball tmp/downloads.html
 	cp tags/tmp/*.pdf $(INSTALLDIR)
 	cp tags/tmp/*.dvi $(INSTALLDIR)
 	cp tags/tmp/*.php $(INSTALLDIR)
 	cp tags/tmp/*.html $(INSTALLDIR)
+	tar -c -f $(INSTALLDIR)/stacks-pdfs.tar --exclude book.pdf --transform=s@tags/tmp@stacks-pdfs@ tags/tmp/*.pdf
+	tar -c -f $(INSTALLDIR)/stacks-dvis.tar --exclude book.dvi --transform=s@tags/tmp@stacks-dvis@ tags/tmp/*.dvi
 	git archive --format=tar HEAD | (cd $(INSTALLDIR) && tar xf -)
 	cp stacks-git.html $(INSTALLDIR)/index.html
 	cp tmp/downloads.html $(INSTALLDIR)
