@@ -269,6 +269,10 @@ def split_label(label):
 		name = "stacks-groupoids"
 		type = pieces[2]
 		n = 4
+	if name == "more" and type == "morphisms":
+		name = "more-morphisms"
+		type = pieces[2]
+		n = 4
 	while n < len(pieces):
 		rest = rest + "-" + pieces[n]
 		n = n + 1

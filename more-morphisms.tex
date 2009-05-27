@@ -1,0 +1,701 @@
+\input{preamble}
+
+% OK, start here.
+%
+\begin{document}
+
+\title{More on Morphisms}
+
+
+\maketitle
+
+\phantomsection
+\label{section-phantom}
+
+\tableofcontents
+
+\section{Introduction}
+\label{section-introduction}
+
+\noindent
+In this chapter we continue our study of properties of morphisms of schemes.
+A fundamental reference is \cite{EGA}.
+
+
+
+
+
+
+
+
+
+\section{Formally smooth morphisms}
+\label{section-formally-smooth}
+
+\noindent
+Mike Artin's position on differential criteria of smoothness (e.g.,
+Morphisms, Lemma \ref{morphisms-lemma-smooth-at-point}) is that they are
+basically useless (in practice). It turns out that it is
+often possible to prove that a morphism $X \to S$ is smooth by considering
+infinitesimal deformations of $T$-valued points of $X$ over $S$. In this
+section we introduce to relevant terminology and we show that this leads
+to the same notion as before in the case of morphisms which are locally
+of finite presentation, see Lemma \ref{lemma-smooth-formally-smooth}.
+
+\medskip\noindent
+Recall that a ring map $R \to A$ is called {\it formally smooth}
+(see Algebra, Definition \ref{algebra-definition-formally-smooth})
+if for every commutative solid diagram
+$$
+\xymatrix{
+A \ar[r] \ar@{-->}[rd] & B/I \\
+R \ar[r] \ar[u] & B \ar[u]
+}
+$$
+where $I \subset B$ is an ideal of square zero, a dotted
+arrow exists which makes the diagram commute. This motivates
+the following analogue for morphisms of schemes.
+
+\begin{definition}
+\label{definition-formally-smooth}
+Let $f : X \to S$ be a morphism of schemes.
+We say $f$ is {\it formally smooth} if given any solid commutative diagram
+$$
+\xymatrix{
+X \ar[d]_f & T \ar[d]^i \ar[l] \\
+S & T' \ar[l] \ar@{-->}[lu]
+}
+$$
+where $T$ and $T'$ are affine and $i$ is a closed immersion defined
+by an ideal of square zero there exists a dotted arrow making the diagram
+commute.
+\end{definition}
+
+\begin{lemma}
+\label{lemma-composition-formally-smooth}
+A composition of formally smooth morphisms is formally smooth.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-base-change-formally-smooth}
+A base change of a formally smooth morphism is formally smooth.
+\end{lemma}
+
+\begin{proof}
+Omitted, but see Algebra, Lemma \ref{algebra-lemma-base-change-fs}
+for the algebraic version.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-formally-smooth-on-opens}
+Let $f : X \to S$ be a morphism of schemes.
+Let $U \subset X$ and $V \subset S$ be open subschemes such that
+$f(U) \subset V$. If $f$ is formally smooth, so is $f|_U : U \to V$.
+\end{lemma}
+
+\begin{proof}
+Consider a solid diagram
+$$
+\xymatrix{
+U \ar[d]_{f|_U} & T \ar[d]^i \ar[l]^a \\
+V & T' \ar[l] \ar@{-->}[lu]
+}
+$$
+as in Definition \ref{definition-formally-smooth}. If $f$ is formally
+smooth, then there exists an $S$-morphism $a' : T' \to X$ such that
+$a'|_T = a$. Since the underlying sets of $T$ and $T'$ are the same
+we see that $a'$ is a morphism into $U$ (see Schemes, Section
+\ref{schemes-section-open-immersion}). And it clearly is a $V$-morphism
+as well. Hence the dotted arrow above as desired.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-affine-formally-smooth}
+Let $f : X \to S$ be a morphism of schemes.
+Assume $X$ and $S$ are affine.
+Then $f$ is formally smooth if and only if
+$\mathcal{O}_S(S) \to \mathcal{O}_X(X)$ is a formally smooth
+ring map.
+\end{lemma}
+
+\begin{proof}
+This is immediate from the definitions
+(Definition \ref{definition-formally-smooth} and
+Algebra, Definition \ref{algebra-definition-formally-smooth})
+by the equivalence of categories of rings and affine schemes,
+see
+Schemes, Lemma \ref{schemes-lemma-category-affine-schemes}.
+\end{proof}
+
+\noindent
+To prove more we need a preliminary lemma.
+
+\medskip\noindent
+Let $i : T \to T'$ be a closed immersion defined by an ideal of
+square zero. Note that the underlying topological spaces defined
+by $T$ and $T'$ are identified via $i$. We will use the following
+abuse of language in this section. Given an open $U \subset T$ we
+let $U' \subset T'$ denote the corresponding open of $T'$, and
+conversely of course. Note that we often think of $U$ and $U'$ as
+schemes (by the abuse of language introduced in Schemes,
+Section \ref{schemes-section-open-immersion}). And then we think of $U$ as
+a closed subscheme of $U'$ (also defined by an ideal of square zero).
+Using this identification we have a short exact sequence
+$$
+0 \to \mathcal{I} \to \mathcal{O}_{T'} \to \mathcal{O}_T \to 0
+$$
+of quasi-coherent $\mathcal{O}_{T'}$-modules
+where $\mathcal{I}^2 = 0$. This in particular gives $\mathcal{I}$
+the structure of a $\mathcal{O}_T$-module, see
+Morphisms, Section \ref{morphisms-section-closed-immersions-quasi-coherent}.
+
+\begin{lemma}
+\label{lemma-action-by-derivations}
+Let $S$ be a scheme. Let $i : T \to T'$ be a closed immersion of
+schemes over $S$ defined by an ideal $\mathcal{I}$ of square zero
+(notation as above). Let $X$ be a scheme over $S$ and let
+$a : T \to X$ be a morphism of schemes over $S$.
+\begin{enumerate}
+\item The rule
+$$
+U \mapsto \{a' \in \text{Mor}_S(U', X) \text{ such that } a'|_U = a|_U\}
+$$
+defines a sheaf of sets $\mathcal{F}$ on $T$.
+\item There is an action of the sheaf
+$$
+\mathcal{H} = \textit{Hom}_{\mathcal{O}_T}(a^*\Omega^1_{X/S}, \mathcal{I})
+$$
+on the sheaf $\mathcal{F}$.
+\item Moreover, the action
+$\mathcal{H}(U) \times \mathcal{F}(U) \to \mathcal{F}(U)$
+is simply transitive for any open $U \subset T$ such that
+$\mathcal{F}(U) \not = \emptyset$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+The restriction mapping $\mathcal{F}(U) \to \mathcal{F}(V)$ for
+$V \subset U \subset T$
+of $\mathcal{F}$ is really the restriction map $a' \mapsto a'|_{V'}$.
+With this definition in place it is clear that $\mathcal{F}$ is a
+sheaf since morphisms are defined locally. This proves the first assertion.
+
+\medskip\noindent
+Let us define the action. Let $U \subset T$ be open. Let
+$(a', (a')^\sharp) : U' \to X$ be an element of $\mathcal{F}(U)$.
+Since $a' = a$ on underlying topological spaces we may as well
+write this element as $(a|_U, (a')^\sharp)$. We think of $(a')^\sharp$
+as a map
+$$
+(a')^\sharp : (a|_U)^{-1}\mathcal{O}_X \longrightarrow \mathcal{O}_{U'}.
+$$
+Let $\theta : a^*\Omega_{X/S}|_U \to \mathcal{I}|_U$ be an element of
+$\mathcal{H}(U)$. We can think of $\theta$ also as a
+$a^{-1}\mathcal{O}_X$-linear map
+$\theta : a^{-1}\Omega_{X/S}|_U \to \mathcal{I}|_U$.
+We define
+$\theta \cdot (a, (a')^\sharp) = (a, (a'')^\sharp)$ where
+$$
+(a'')^\sharp = (a')^\sharp + \theta \circ a^{-1} \text{d}_{X/S} :
+(a|_U)^{-1}\mathcal{O}_X \longrightarrow \mathcal{O}_{U'}.
+$$
+This makes sense since $\text{d}_{X/S} : \mathcal{O}_X \to \Omega_{X/S}$.
+We have to check the following
+\begin{enumerate}
+\item $(a'')^\sharp$ is a homomorphism of sheaves of rings,
+\item it is a homomorphism of sheaves of $p^{-1}\mathcal{O}_S$-algebras
+where $p : T \to S$ is the structure morphism, and
+\item $(a'')^\sharp \bmod \mathcal{I}$ is equal to $(a|_U)^\sharp$.
+\end{enumerate}
+One way to check these assertions is to argue as in the proof of
+Morphisms, Lemma \ref{morphisms-lemma-double-structure-gives-derivation}
+(and we encourage the reader to do so).
+
+\medskip\noindent
+Another possibility is to translate the above into algebra by choosing
+an affine open covering $U = \bigcup U_i$ such that $a(U_i)$ is
+contained in an affine open $W_i \subset X$ which in turn maps into an
+affine open $V_i \subset S$. It is enough to prove the three assertions
+on sections of the corresponding sheaves over each affine, and hence it
+is enough to prove the three assertions
+when $X = \text{Spec}(A)$, $U' = T' = \text{Spec}(B)$,
+$U = T = \text{Spec}(B/I)$ and $S = \text{Spec}(R)$. In this case
+we have a commutative diagram
+$$
+\xymatrix{
+A \ar[r]_a \ar[rd]_{a'} & B/I \\
+R \ar[r] \ar[u] & B \ar[u]
+}
+$$
+and $\theta : \Omega_{A/R} \to I$ is $A$-linear. We have to check that
+$$
+a'' = a' + \theta \circ \text{d}_{A/R}
+$$
+is an $R$-algebra map from $A \to B$ which agrees with $a$ as a map into
+$B/I$. This is proved using the Leibniz rule for the derivation
+$D = \theta \circ \text{d}_{A/R}$ exactly as in the proof of the aforementioned
+Morphisms, Lemma \ref{morphisms-lemma-double-structure-gives-derivation}.
+This proves (2).
+
+\medskip\noindent
+Proof of (3). Consider a pair $a', a'' \in \mathcal{F}(U)$.
+We have to show there exists a unique $\theta$ such that
+$\theta \cdot a' = a''$. Let us first prove this in the algebraic
+situation described above. Suppose given therefore two
+commutative diagrams
+$$
+\xymatrix{
+A \ar[r]_a \ar[rd]_{a'} & B/I \\
+R \ar[r] \ar[u] & B \ar[u]
+}
+\quad \text{and} \quad
+\xymatrix{
+A \ar[r]_a \ar[rd]_{a''} & B/I \\
+R \ar[r] \ar[u] & B \ar[u]
+}
+$$
+The difference $D = a'' - a'$ is a map from $A$ to $I$ (obviously).
+All we have to show that it is an $R$-derivation, since then it will
+be of the form $D = \theta \circ \text{d}_{A/r}$ for some unique
+$\theta$. It is clear that $D(r) = 0$ for $r \in R$ since both $a'$
+and $a''$ are $R$-algebra homomorphsms. Finally
+$$
+D(xy) =
+a''(xy) - a'(xy) = a''(x) a''(y) - a'(x) a'(y) =
+a''(x)D(y) + D(x) a'(y).
+$$
+Since $a'$ and $a''$ agree with $a$ as maps into $B/I$ we see that
+this is equal to $a(x) D(y) + D(x) a(y)$ as desired.
+
+\medskip\noindent
+One can use this algebraic result and a suitable choice of affine
+open coverings to prove (3). A more global argument would be the following.
+Suppose that $(a|_U, (a')^\sharp)$ and $(a|_U, (a'')^\sharp)$ are
+two elements of $\mathcal{F}(U)$. Consider the difference
+$$
+D = (a'')^\sharp - (a')^\sharp : 
+(a|_U)^{-1}\mathcal{O}_X \longrightarrow \mathcal{O}_{U'}.
+$$
+Since $(a')^\sharp$ and $(a'')^\sharp$ are equal to $(a|_U)^\sharp$
+after composing with the map $\mathcal{O}_{U'} \to \mathcal{O}_{U}$
+we see that $D : (a|_U)^{-1}\mathcal{O}_X \to \mathcal{I}|_U$.
+Arguing in exactly the same way as before we see that this is
+a $p^{-1}\mathcal{O}_S$-derivation.
+Thinking of $D$ as a map $\mathcal{O}_X \to (a|_U)_*(\mathcal{I}|_U)$
+by adjunction it is still a $q^{-1}\mathcal{O}_S$-derivation
+where $q : X \to S$ is the structural morphism.
+Hence it is of the form
+$\theta \circ \text{d}_{X/S}$ for some unique
+$\theta : \Omega_{X/S} \to (a|_U)_*(\mathcal{I}|_U)$.
+Using adjunction again we obtain a $\theta$ as desired.
+\end{proof}
+
+\noindent
+The following lemma is the main result of this section. It is a victory of the
+functorial point of view in that it implies (combined with 
+Limits,
+Proposition \ref{limits-proposition-characterize-locally-finite-presentation})
+that we can recognize whether a morphism $f : X \to S$ is smooth in terms of
+``simple'' properties of the functor $h_X : \textit{Sch}/S \to \textit{Sets}$.
+
+\begin{lemma}
+\label{lemma-smooth-formally-smooth}
+Let $f : X \to S$ be a morphism of schemes.
+The following are equivalent:
+\begin{enumerate}
+\item The morphism $f$ is smooth, and
+\item the morphism $f$ is locally of finite presentation and
+formally smooth.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Assume $f : X \to S$ is locally of finite presentation and formally smooth.
+Consider a pair of affine opens $\text{Spec}(A) = U \subset X$ and
+$\text{Spec}(R) = V \subset S$
+such that $f(U) \subset V$. By Lemma \ref{lemma-formally-smooth-on-opens}
+we see that $U \to V$ is formally smooth. By Lemma
+\ref{lemma-affine-formally-smooth} we see that $R \to A$ is formally
+smooth. By
+Morphisms, Lemma \ref{morphisms-lemma-locally-finite-presentation-characterize}
+we see that $R \to A$ is of finite presentation.
+By Algebra, Lemma \ref{algebra-lemma-formally-smooth-smooth}
+we see that $R \to A$ is smooth.
+Hence by the definition of a smooth morphism we see that $X \to S$ is smooth.
+
+\medskip\noindent
+Conversely, assume that $f : X \to S$ is smooth. Consider a solid commutative
+diagram
+$$
+\xymatrix{
+X \ar[d]_f & T \ar[d]^i \ar[l]^a \\
+S & T' \ar[l] \ar@{-->}[lu]
+}
+$$
+where $T$ and $T'$ are affine and $i$ is a closed immersion defined
+by an ideal of square zero. We will show the dotted arrow exists thereby
+proving that $f$ is formally smooth.
+
+\medskip\noindent
+Let $\mathcal{F}$ be the sheaf of sets, and $\mathcal{H}$ be the sheaf
+of $\mathcal{O}_T$-modules on $T$ introduced
+in Lemma \ref{lemma-action-by-derivations}. Our goal is simply
+to show that $\mathcal{F}(T) \not = \emptyset$. In other words we
+are trying to show that $\mathcal{F}$ is a trivial $\mathcal{H}$-torsor
+on $T$ (see Cohomology, Section \ref{cohomology-section-h1-torsors}).
+There are two steps: (I) To show that $\mathcal{F}$ is a torsor
+we have to show that $\mathcal{F}$ is a torsor we have to show
+that $\mathcal{F}_t \not = \emptyset$ for all $t \in T$ (see
+Cohomology, Definition \ref{cohomology-definition-torsor}).
+(II) To show that $\mathcal{F}$ is the trivial torsor it suffices
+to show that $H^1(T, \mathcal{H}) = 0$ (see
+Cohomology, Lemma \ref{cohomology-lemma-torsors-h1} --
+we may use either cohomology
+of $\mathcal{H}$ as an abelian sheaf or as an $\mathcal{O}_T$-module,
+see Cohomology, Lemma \ref{cohomology-lemma-modules-abelian}).
+
+\medskip\noindent
+First we prove (I). To see this, for every $t \in T$ we can
+choose an affine open $U \subset T$ neighbourhood of $t$
+such that $a(U)$ is contained
+in an affine open $\text{Spec}(A) = W \subset X$
+which maps to an affine open $\text{Spec}(R) = V \subset S$.
+By Morphisms, Lemma \ref{morphisms-lemma-smooth-characterize}
+the ring map $R \to A$ is smooth.
+Hence by Algebra, Lemma \ref{algebra-lemma-formally-smooth-smooth}
+the ring map $R \to A$ is formally smooth.
+Lemma \ref{lemma-affine-formally-smooth}
+in turn implies that $W \to V$ is formally smooth.
+Hence we can lift $a|_U : U \to W$ to a $V$-morphism
+$a' : U' \to W \subset X$ showing that $\mathcal{F}(U) \not = \emptyset$.
+
+\medskip\noindent
+Finally we prove (II).
+By Morphisms, Lemma \ref{morphisms-lemma-finite-presentation-differentials}
+we see that $\Omega_{X/S}$ is of finite presentation
+(it is even finite locally free by
+Morphisms, Lemma \ref{morphisms-lemma-smooth-omega-finite-locally-free}).
+Hence $a^*\Omega_{X/S}$ is of finite presentation (see
+Modules, Lemma \ref{modules-lemma-pullback-finite-presentation}).
+Hence the sheaf
+$\mathcal{H} = \textit{Hom}_{\mathcal{O}_T}(a^*\Omega^1_{X/S}, \mathcal{I})$
+is quasi-coherent by the discussion in
+Schemes, Section \ref{schemes-section-quasi-coherent}.
+Thus by
+Coherent, Lemma \ref{coherent-lemma-quasi-coherent-affine-cohomology-zero}
+we have $H^1(X, \mathcal{H}) = 0$ as desired.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Formally unramified morphisms}
+\label{section-formally-unramified}
+
+\noindent
+Recall that a ring map $R \to A$ is called {\it formally unramified}
+(see Algebra, Definition \ref{algebra-definition-formally-unramified})
+if for every commutative solid diagram
+$$
+\xymatrix{
+A \ar[r] \ar@{-->}[rd] & B/I \\
+R \ar[r] \ar[u] & B \ar[u]
+}
+$$
+where $I \subset B$ is an ideal of square zero, at most one dotted
+arrow exists which makes the diagram commute. This motivates
+the following analogue for morphisms of schemes.
+
+\begin{definition}
+\label{definition-formally-unramified}
+Let $f : X \to S$ be a morphism of schemes.
+We say $f$ is {\it formally unramified} if given any solid commutative diagram
+$$
+\xymatrix{
+X \ar[d]_f & T \ar[d]^i \ar[l] \\
+S & T' \ar[l] \ar@{-->}[lu]
+}
+$$
+where $T$ and $T'$ are affine and $i$ is a closed immersion defined
+by an ideal of square zero there exists at most one
+dotted arrow making the diagram commute.
+\end{definition}
+
+\noindent
+Here is a characterization in terms of the sheaf of differentials.
+
+\begin{lemma}
+\label{lemma-formally-unramified-differentials}
+Let $f : X \to S$ be a morphism of schemes.
+Then $f$ is formally unramified if and only if $\Omega_{X/S} = 0$.
+\end{lemma}
+
+\begin{proof}
+We recall some of the arguments of
+Morphisms, Section \ref{morphisms-section-sheaf-differentials}.
+Let $U \subset X \times_S X$ be an open such that
+$\Delta : X \to X \times_S X$ induces a closed immersion into $U$.
+Let $\mathcal{J} \subset \mathcal{O}_U$ be the ideal sheaf of this
+closed immersion. Let $X' \subset U$ be the closed subscheme
+defined by the quasi-coherent sheaf of ideals $\mathcal{J}^2$.
+Consider the two morphisms $p_1, p_2 : X' \to X$ induced by
+the two projections $X \times_S X \to X$.
+Note that $p_1$ and $p_2$ agree when composed with $\Delta : X \to X'$
+and that $X \to X'$ is a closed immersion defined by a an ideal
+whose square is zero. Moreover there is a short exact sequence
+$$
+0 \to \mathcal{J}/\mathcal{J}^2 \to \mathcal{O}_{X'} \to \mathcal{O}_X \to 0
+$$
+and $\Omega_{X/S} = \mathcal{J}/\mathcal{J}^2$ is generated by the local
+sections $p_1^\sharp(f) - p_2^\sharp(f)$ for $f$ a local section of
+$\mathcal{O}_X$.
+
+\medskip\noindent
+Suppose that $f : X \to S$ is formally unramified.
+By assumption this means that $p_1 = p_2$ when restricted to any
+affine open $T' \subset X'$. Hence $p_1 = p_2$. By what was said above
+we conclude that $\Omega_{X/S} = 0$.
+
+\medskip\noindent
+Conversely, suppose that $\Omega_{X/S} = 0$.
+Then it is clear from Lemma \ref{lemma-action-by-derivations}
+that there is always at most one morphism fitting into the diagram of
+Definition \ref{definition-formally-unramified}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-composition-formally-unramified}
+A composition of formally unramified morphisms is formally unramified.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-base-change-formally-unramified}
+A base change of a formally unramified morphism is formally unramified.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-formally-unramified-on-opens}
+Let $f : X \to S$ be a morphism of schemes.
+Let $U \subset X$ and $V \subset S$ be open subschemes such that
+$f(U) \subset V$. If $f$ is formally unramified, so is $f|_U : U \to V$.
+\end{lemma}
+
+\begin{proof}
+Consider a solid diagram
+$$
+\xymatrix{
+U \ar[d]_{f|_U} & T \ar[d]^i \ar[l]^a \\
+V & T' \ar[l] \ar@{-->}[lu]
+}
+$$
+as in Definition \ref{definition-formally-unramified}. If $f$ is formally
+ramified, then there exists at most one
+$S$-morphism $a' : T' \to X$ such that $a'|_T = a$.
+Hence clearly there exists at most one such morphism into $U$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-affine-formally-unramified}
+Let $f : X \to S$ be a morphism of schemes.
+Assume $X$ and $S$ are affine.
+Then $f$ is formally unramified if and only if
+$\mathcal{O}_S(S) \to \mathcal{O}_X(X)$ is a formally unramified
+ring map.
+\end{lemma}
+
+\begin{proof}
+This is immediate from the definitions
+(Definition \ref{definition-formally-unramified} and
+Algebra, Definition \ref{algebra-definition-formally-unramified})
+by the equivalence of categories of rings and affine schemes,
+see
+Schemes, Lemma \ref{schemes-lemma-category-affine-schemes}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-unramified-formally-unramified}
+Let $f : X \to S$ be a morphism of schemes.
+The following are equivalent:
+\begin{enumerate}
+\item The morphism $f$ is unramified, and
+\item the morphism $f$ is locally of finite presentation and
+formally unramified.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Use Lemma \ref{lemma-formally-unramified-differentials} and
+Morphisms, Lemma \ref{morphisms-lemma-unramified-omega-zero}.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Formally etale morphisms}
+\label{section-formally-etale}
+
+\noindent
+Recall that a ring map $R \to A$ is called {\it formally etale}
+(see Algebra, Definition \ref{algebra-definition-formally-etale})
+if for every commutative solid diagram
+$$
+\xymatrix{
+A \ar[r] \ar@{-->}[rd] & B/I \\
+R \ar[r] \ar[u] & B \ar[u]
+}
+$$
+where $I \subset B$ is an ideal of square zero, there exists
+exactly one dotted arrow which makes the diagram commute. This motivates
+the following analogue for morphisms of schemes.
+
+\begin{definition}
+\label{definition-formally-etale}
+Let $f : X \to S$ be a morphism of schemes.
+We say $f$ is {\it formally etale} if given any solid commutative diagram
+$$
+\xymatrix{
+X \ar[d]_f & T \ar[d]^i \ar[l] \\
+S & T' \ar[l] \ar@{-->}[lu]
+}
+$$
+where $T$ and $T'$ are affine and $i$ is a closed immersion defined
+by an ideal of square zero there exists exactly one
+dotted arrow making the diagram commute.
+\end{definition}
+
+\noindent
+This in particular garantees that $\Omega_{X/S}$ is zero since
+this is the case for formally unramified morphisms.
+
+\begin{lemma}
+\label{lemma-formally-etale-unramfied-smooth}
+Let $f : X \to S$ be a morphism of schemes.
+Then $f$ is formally etale if and only if
+$f$ is formally smooth and formally unramified.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-composition-formally-etale}
+A composition of formally etale morphisms is formally etale.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-base-change-formally-etale}
+A base change of a formally etale morphism is formally etale.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-formally-etale-on-opens}
+Let $f : X \to S$ be a morphism of schemes.
+Let $U \subset X$ and $V \subset S$ be open subschemes such that
+$f(U) \subset V$. If $f$ is formally etale, so is $f|_U : U \to V$.
+\end{lemma}
+
+\begin{proof}
+Combine Lemmas \ref{lemma-formally-etale-unramfied-smooth},
+\ref{lemma-formally-smooth-on-opens}, and
+\ref{lemma-formally-unramified-on-opens}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-affine-formally-etale}
+Let $f : X \to S$ be a morphism of schemes.
+Assume $X$ and $S$ are affine.
+Then $f$ is formally etale if and only if
+$\mathcal{O}_S(S) \to \mathcal{O}_X(X)$ is a formally etale
+ring map.
+\end{lemma}
+
+\begin{proof}
+This is immediate from the definitions
+(Definition \ref{definition-formally-etale} and
+Algebra, Definition \ref{algebra-definition-formally-etale})
+by the equivalence of categories of rings and affine schemes,
+see
+Schemes, Lemma \ref{schemes-lemma-category-affine-schemes}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-etale-formally-etale}
+Let $f : X \to S$ be a morphism of schemes.
+The following are equivalent:
+\begin{enumerate}
+\item The morphism $f$ is etale, and
+\item the morphism $f$ is locally of finite presentation and
+formally etale.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Formally etale is the same as formally smooth and formally unramified
+(see Lemma \ref{lemma-formally-etale-unramfied-smooth}).
+Being etale is the same as being smooth and unramified
+(see Morphisms, Lemma \ref{morphisms-lemma-etale-smooth-unramified}).
+Hence this follows from Lemmas \ref{lemma-smooth-formally-smooth}
+and \ref{lemma-unramified-formally-unramified}.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\input{chapters}
+
+\bibliography{my}
+\bibliographystyle{alpha}
+
+\end{document}
