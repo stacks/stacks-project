@@ -336,6 +336,8 @@ def check_refs(refs, labels):
 	n = 0
 	while n < len(refs):
 		ref = refs[n]
+		if ref == "":
+			return "empty reference"
 		if not check_ref(ref, labels):
 			return ref
 		n = n + 1
