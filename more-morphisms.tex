@@ -820,9 +820,7 @@ that $f(v) = u$.
 \end{definition}
 
 \noindent
-Note that $\kappa(s) \subset \kappa(u)$ is a finite separable extension
-in this case, see Morphisms, Lemma \ref{morphisms-lemma-etale-at-point}.
-Note also that if $f : (V, v) \to (U, u)$ is a morphism of etale
+If $f : (V, v) \to (U, u)$ is a morphism of etale
 neighbourhoods, then $f$ is automatically etale, see
 Morphisms, Lemma \ref{morphisms-lemma-etale-permanence}.
 Hence it turns $(V, v)$ into an etale neighbourhood of
@@ -830,8 +828,35 @@ $(U, u)$. Of course, since the composition of etale morphisms
 is etale (Morphisms, Lemma \ref{morphisms-lemma-composition-etale})
 we see that conversely any etale neighbourhood $(V, v)$ of
 $(U, u)$ is an etale neighbourhood of $(S, s)$ as well.
+We also remark that if $U \subset S$ is an open neighbourood
+of $s$, then $(U, s) \to (S, s)$ is an etale neighbourhood.
+This follows from the fact that an open immersion is
+etale (Morphisms, Lemma \ref{morphisms-lemma-open-immersion-etale}).
+We will use these remarks without further mention throughout this
+section.
 
 \medskip\noindent
+Note that $\kappa(s) \subset \kappa(u)$ is a finite separable extension
+if $(U, u) \to (S, s)$ is an etale neighbourhood,
+see Morphisms, Lemma \ref{morphisms-lemma-etale-at-point}.
+
+\begin{lemma}
+\label{lemma-realize-presecribed-residue-field-extension-etale}
+Let $S$ be a scheme.
+Let $s \in S$.
+Let $\kappa(s) \subset k$ be a finite separable field extension.
+Then there exists an etale neighbourhood $(U, u) \to (S, s)$
+such that the field extension $\kappa(s) \subset \kappa(u)$ is
+isomorphic to $\kappa(s) \subset k$.
+\end{lemma}
+
+\begin{proof}
+We may assume $S$ is affine.
+In this case the lemma follows from
+Algebra, Lemma \ref{algebra-lemma-make-etale-map-prescribed-residue-field}.
+\end{proof}
+
+\noindent
 Let us translate some of the statements obtained in the algebra chapter
 into the language of schemes.
 
@@ -908,6 +933,23 @@ for an affine scheme $X$, see \cite{Hoobler}.
 \noindent
 Now we come to a series of lemmas around the theme
 ``quasi-finite morphisms become finite after etale localization''.
+The general idea is the following. Suppose given a morphism
+of schemes $f : X \to S$ and a point $s \in S$. Let
+$\varphi : (U, u) \to (S, s)$ be an etale neighbourhood of $s$ in $S$.
+Consider the fibre product $X_U = U \times_S X$ and the
+basic diagram
+\begin{equation}
+\label{equation-basic-diagram}
+\xymatrix{
+V \ar[r] \ar[dr] & X_U \ar[d] \ar[r] & X \ar[d]^f \\
+& U \ar[r]^\varphi & S
+}
+\end{equation}
+where $V \subset X_U$ is open.
+Is there some standard model for the morphism $f_U : X_U \to U$, or for
+the morphism $V \to U$ for suitable opens $V$?
+Of course the answer is no in general. But for quasi-finite morphisms
+we can say something.
 
 \begin{lemma}
 \label{lemma-etale-makes-quasi-finite-finite-at-point}
@@ -916,7 +958,8 @@ Let $x \in X$. Set $s = f(x)$.
 Assume that
 \begin{enumerate}
 \item $f$ is locally of finite type, and
-\item $x \in X_s$ is isolated\footnote{This means that $f$ is
+\item $x \in X_s$ is isolated\footnote{In the presence of (1)
+this means that $f$ is
 quasi-finite at $x$, see
 Morphisms, Lemma \ref{morphisms-lemma-quasi-finite-at-point-characterize}.}.
 \end{enumerate}
@@ -925,27 +968,20 @@ Then there exist
 \item[(a)] an etale neighbourhood $(U, u) \to (S, s)$
 with $\kappa(s) = \kappa(u)$,
 \item[(b)] an open subscheme $V \subset X_U$
+(see \ref{equation-basic-diagram})
 \end{enumerate}
 such that
 \begin{enumerate}
 \item[(\romannumeral1)] $V \to U$ is a finite morphism,
 \item[(\romannumeral2)] there is a unique point $v$ of $V$
 mapping to $u$ in $U$, and
-\item[(\romannumeral3)] the point $v$ maps to $x$ in $X$ and
-$\kappa(x) = \kappa(v)$.
+\item[(\romannumeral3)] the point $v$ maps to $x$
+under the morphism $X_U \to X$, inducing $\kappa(x) = \kappa(v)$.
 \end{enumerate}
 Moreover, for any etale neighbourhood $(U', u') \to (U, u)$
 with $\kappa(u) = \kappa(u')$ the triple $(U', u', V')$
 with $V' = U' \times_U V \subset X_{U'}$ satisfies the properties
 (\romannumeral1), (\romannumeral2), and (\romannumeral3) as well.
-Diagram:
-$$
-\xymatrix{
-v \ar[d] & V \ar[d] \ar@{^{(}->}[r] &
-X_U = U \times_S X \ar[d] \ar[r] & X \ar[d] & x \ar[d] \\
-u & U \ar@{=}[r] & U \ar[r] & S & s
-}
-$$
 \end{lemma}
 
 \begin{proof}
@@ -957,6 +993,14 @@ theorem follows for $f$. Hence we reduce to the case where
 $f$ is a morphism of affine schemes. This case is
 Algebra, Lemma \ref{algebra-lemma-etale-makes-quasi-finite-finite-one-prime}.
 \end{proof}
+
+\noindent
+In the preceding and following lemma we do not assume that the morphism
+$f$ is separated. This means that the opens $V$, $V_i$ created
+in them are not necessarily closed in $X_U$. Moreover, if we choose
+the neighbourhood $U$ to be affine, then each $V_i$ is affine, but
+the intersections $V_i \cap V_j$ need not be affine (in the nonseparated
+case).
 
 \begin{lemma}
 \label{lemma-etale-makes-quasi-finite-finite-multiple-points}
@@ -988,16 +1032,22 @@ We will use induction on $n$.
 Namely, suppose $(U,u) \to (S, s)$ and $V_i \subset X_U$,
 $i = 1, \ldots, n - 1$ work for $x_1, \ldots, x_{n - 1}$. Since
 $\kappa(s) = \kappa(u)$ the fibre $(X_U)_u = X_s$. Hence there
-exists a unique point $x' \in X_u \subset X_U$ corresponding to
-$x \in X_s$. Also $x'$ is isolated in $X_u$. Hence by
+exists a unique point $x'_n \in X_u \subset X_U$ corresponding to
+$x_n \in X_s$. Also $x'_n$ is isolated in $X_u$. Hence by
 Lemma \ref{lemma-etale-makes-quasi-finite-finite-at-point} there
 exists an etale neighbourhood $(U', u') \to (U, u)$
-and an open $V_n \subset X_{U'}$ which works for $x_n$.
+and an open $V_n \subset X_{U'}$ which works for $x'_n$ and hence
+for $x_n$.
 By the final assertion of
 Lemma \ref{lemma-etale-makes-quasi-finite-finite-at-point}
-the subschemes $V'_i = U'\times_U V_i$ for $i = 1, \ldots, n - 1$ still
+the open subschemes $V'_i = U'\times_U V_i$ for $i = 1, \ldots, n - 1$ still
 work with respect to $x_1, \ldots, x_{n - 1}$. Hence we win.
 \end{proof}
+
+\noindent
+If we allow a nontrivial field extension
+$\kappa(s) \subset \kappa(u)$, then we can
+split the points as follows.
 
 \begin{lemma}
 \label{lemma-etale-makes-quasi-finite-finite-multiple-points-variant}
@@ -1019,24 +1069,67 @@ such that we have
 \item[(\romannumeral1)] each $V_{i, j} \to U$ is a finite morphism,
 \item[(\romannumeral2)] there is a unique point $v_{i, j}$ of $V_{i, j}$
 mapping to $u$ in $U$ with $\kappa(u) \subset \kappa(v_{i, j})$
-purely inseparable, and
+finite purely inseparable, and
 \item[(\romannumeral3)] the points $v_{i, j}$ map to $x_i$ in $X$ and
-no other points map to $x_i$.
+no other points of $(X_U)_u$ map to $x_i$.
 \end{enumerate}
 \end{lemma}
 
 \begin{proof}
-Omitted.
+This proof is a variant of the proof of
+Algebra, Lemma \ref{algebra-lemma-etale-makes-quasi-finite-finite-variant}
+in the language of schemes.
+By Morphisms, Lemma \ref{morphisms-lemma-quasi-finite-at-point-characterize}
+the morphism $f$ is quasi-finite at each of the points $x_i$.
+Hence $\kappa(s) \subset \kappa(x_i)$ is finite for each $i$
+(Morphisms, Lemma \ref{morphisms-lemma-residue-field-quasi-finite}).
+For each $i$, let $\kappa(s) \subset L_i \subset \kappa(x_i)$
+be the subfield such that $L_i/\kappa(s)$ is separable, and
+$\kappa(x_i)/L_i$ is purely inseparable. Choose a finite Galois
+extension $\kappa(s) \subset L$ such that there exist
+$\kappa(s)$-embeddings $L_i \to L$ for $i = 1, \ldots, n$.
+Choose an etale neighbourhood $(U, u) \to (S, s)$ such that
+$L \cong \kappa(u)$ as $\kappa(s)$-extensions
+(Lemma \ref{lemma-realize-presecribed-residue-field-extension-etale}).
+
+\medskip\noindent
+Let $y_{i, j}$, $j = 1, \ldots, m_i$ be the points of $X_U$
+lying over $x_i \in X$ and $u \in U$. By
+Schemes, Lemma \ref{schemes-lemma-points-fibre-product}
+these points $y_{i, j}$ correspond exactly to the primes in the rings
+$\kappa(u) \otimes_{\kappa(s)} \kappa(x_i)$. This also
+explains why there are finitely many; in fact
+$m_i = [L_i : \kappa(s)]$ but we do not need this.
+By our choice of
+$L$ (and elementary field theory)
+we see that $\kappa(u) \subset \kappa(y_{i, j})$ is
+finite purely inseparable for each pair $i, j$.
+Also, by Morphisms, Lemma \ref{morphisms-lemma-base-change-quasi-finite}
+for example, the morphism
+$X_U \to U$ is quasi-finite at the points $y_{i, j}$ for
+all $i, j$.
+
+\medskip\noindent
+Apply Lemma \ref{lemma-etale-makes-quasi-finite-finite-multiple-points}
+to the morphism $X_U \to U$, the point $u \in U$
+and the points $y_{i, j} \in (X_U)_u$. This gives an etale neighbourhood
+$(U', u') \to (U, u)$ with $\kappa(u) = \kappa(u')$ and
+opens $V_{i, j} \subset X_{U'}$ with the properties
+(\romannumeral1), (\romannumeral2), and (\romannumeral3)
+of that lemma. We claim that the etale neighbourhood
+$(U', u') \to (S, s)$ and the opens $V_{i, j} \subset X_{U'}$
+are a solution to the problem posed by the lemma.
+We omit the verifications.
 \end{proof}
 
 \begin{lemma}
 \label{lemma-etale-splits-off-quasi-finite-part}
 Let $f : X \to S$ be a morphism of schemes.
-Let $s \in S$. Assume that
+Let $s \in S$. Let $x_1, \ldots, x_n \in X_s$. Assume that
 \begin{enumerate}
 \item $f$ is locally of finite type,
 \item $f$ is separated, and
-\item the set of isolated points of $X_s$ is finite.
+\item $x_1, \ldots, x_n$ are pairwise distinct isolated points of $X_s$.
 \end{enumerate}
 Then there exists an etale neighbourhood $(U, u) \to (S, s)$
 with $\kappa(s) = \kappa(u)$ and a decomposition
@@ -1045,11 +1138,22 @@ U \times_S X = V_1 \coprod \ldots \coprod V_n \coprod W
 $$
 into open and closed subschemes such that the morphisms
 $V_i \to U$ are finite, the fibres of $V_i \to U$ over $u$ are
-singletons and the fibre of $W \to U$ over $u$ contains no isolated points.
+singletons $\{v_i\}$, each $v_i$ maps to $x_i$ with
+$\kappa(x_i) = \kappa(v_i)$, and the fibre of $W \to U$
+over $u$ contains no points mapping to any of the $x_i$.
 \end{lemma}
 
 \begin{proof}
-Omitted.
+Choose $(U, u) \to (S, s)$ and $V_i \subset X_U$ as in
+Lemma \ref{lemma-etale-makes-quasi-finite-finite-multiple-points}.
+Since $X_U \to U$ is separated and $V_i \to U$ is finite
+hence proper we see that $V_i \subset X_U$ is closed.
+Hence $V_i \cap V_j$ is a closed subset of $V_i$ which
+does not contain $v_i$. Hence the image of $V_i \cap V_j$
+in $U$ is a closed set (because $V_i \to U$ proper) not
+containing $u$. After shrinking $U$ we may therefore assume
+that $V_i \cap V_j = \emptyset$ for all $i, j$. This gives the
+decomposition as in the lemma.
 \end{proof}
 
 
