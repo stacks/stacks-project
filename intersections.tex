@@ -29,13 +29,14 @@ No attempt is made to keep the exposition short.
 \label{section-setup}
 
 \noindent
-We will throughout work over a Noetherian universally
+We will throughout work over a locally Noetherian universally
 catenary base $S$ endowed with a dimension function $\delta$.
 Allthough it is likely possible to generalize (parts of) the
 discussion in the chapter, it seems that this is a good first
-approximation. In particular we do not assume our schemes are
-separated. The reason is that algebraic stacks are rarely separated
-and we would like to develop a reasonable theory for those as well.
+approximation. We usually do not assume our schemes are
+separated or quasi-compact. Many interesting algebraic stacks
+are non-separated and/or non-quasi-compact and this is a good
+case study to see how to develop a reasonable theory for those as well.
 In order to reference these hypotheses we give it a number.
 
 \begin{situation}
@@ -65,7 +66,11 @@ $$
 associated to $(f : X \to S, \delta)$ given by the rule
 $\delta_{X/S}(x) = \delta(f(x)) + \text{trdeg}_{\kappa(f(x))}\kappa(x)$.
 See Morphisms, Lemma \ref{morphisms-lemma-dimension-function-propagates}.
-We will freely use this function in the following.
+Moreover, if $h : X \to Y$ is a morphism of schemes locally of finite
+type over $S$, and $x \in X$, $y = h(x)$,
+then obviously
+$\delta_{X/S}(x) = \delta_{Y/S}(y) + \text{trdeg}_{\kappa(y)}\kappa(x)$.
+We will freely use this function and its properties in the following.
 
 \medskip\noindent
 Here are the basic examples of setups as above.
@@ -103,28 +108,30 @@ In good cases $\delta$ corresponds to the dimension function.
 Let $(S, \delta)$ be as in Situation \ref{situation-setup}.
 Assume in addition $S$ is a Jacobson scheme, and $\delta(s) = 0$ for every
 closed point $s$ of $S$. Let $X$ be locally of finite type over $S$.
-Let $x \in X$. Then $\delta_{X/S}(x) = \dim(\overline{\{x\}})$.
+Let $Z \subset X$ be an irreducible closed subset and let
+$\xi \in Z$ be its generic point.
+Then $\delta_{X/S}(\xi) = \dim(Z)$.
 \end{lemma}
 
 \begin{proof}
-Let $X \to S$, $x \in X$ be as in the lemma.
-Set $Z = \overline{\{x\}}$.
+Let $X \to S$, $\xi \in Z \subset X$ be as in the lemma.
 Since $X$ is locally of finite type over $S$ we see that
 $X$ is Jacobson, see
 Morphisms, Lemma \ref{morphisms-lemma-Jacobson-universally-Jacobson}.
-Hence closed points of $X$ are dense in (every closed subset of) $Z$
-and map to closed points of $S$. It follows that
-$\dim(Z) = \text{sup} \dim_z Z$ where $z \in Z$ runs over the closed points
-of $Z$. For each such $z \in Z$ the field extension
+Hence closed points of $X$ are dense in every closed subset of $Z$
+and map to closed points of $S$. Hence every maximal chain
+of irreducible closed subsets of $Z$ ends with a closed point of $Z$.
+It follows that $\dim(Z) = \text{sup}_z(\delta(\xi) - \delta(z))$
+where $z \in Z$ runs over the closed points of $Z$, by the properties
+of a dimension function. For each closed $z \in Z$ the field extension
 $\kappa(z) \supset \kappa(f(z))$ is finite, see Morphisms,
 Lemma \ref{morphisms-lemma-jacobson-finite-type-points}.
-Hence $\delta_{X/S}(z) = \delta(f(z)) = 0$
-for $z \in Z$ closed. It follows that $\dim(Z) = \delta(x)$ from
-the properties of a dimension function.
+Hence $\delta_{X/S}(z) = \delta(f(z)) = 0$ for $z \in Z$ closed.
+It follows that $\dim(Z) = \delta(x)$ as desired.
 \end{proof}
 
 \noindent
-In other words, in the situation of the lemma above the
+In the situation of the lemma above the
 value of $\delta$ at the generic point of a closed irreducible subset
 is the dimension of the irreducible closed subset.
 However, in general we cannot expect the equality to hold.
@@ -159,20 +166,53 @@ of its irreducible components.
 \section{Cycles}
 \label{section-cycles}
 
+\noindent
+Since we are not assuming our schemes are quasi-compact we have
+to be a little careful when defining cycles. We have to allow
+infinite sums because a rational function may have infinitely many
+poles for example. In any case, if $X$ is quasi-compact then a
+cycle is a finite sum as usual.
+
 \begin{definition}
 \label{definition-cycles}
 Let $(S, \delta)$ be as in Sitation \ref{situation-setup}.
 Let $X$ be locally of finite type over $S$.
 Let $k \in \mathbf{Z}$.
-A {\it cycle}, or more precisely a {\it $k$-cycle}, on $X$ is
-a finite formal sum
+\begin{enumerate}
+\item A collection of closed subschemes $\{Z_i\}_{i \in I}$ of $X$
+is said to be {\it locally finite} if for every quasi-compact open
+$U \subset X$ the set
 $$
-\sum n_i [Z_i]
+\# \{i\in I \mid Z_i \cap U \not = \emptyset\}
 $$
-where each $Z_i \subset X$ is an integral closed subscheme
-of $\delta$-dimension $k$ and each $n_i \in \mathbf{Z}$.
-The abelian group of all $k$-cycles on $X$ is denoted $Z_k(X)$.
+is finite.
+\item A {\it cycle on $X$} is a formal sum
+$$
+\alpha = \sum n_Z [Z]
+$$
+where the sum is over integral closed subschemes $Z \subset X$,
+each $n_Z \in \mathbf{Z}$, and the collection
+$\{Z; n_Z \not = 0\}$ is locally finite.
+\item A {\it $k$-cycle}, on $X$ is
+a cycle
+$$
+\alpha = \sum n_Z [Z]
+$$
+where $n_Z \not = 0 \Rightarrow \dim_\delta(Z) = k$.
+\item The abelian group of all $k$-cycles on $X$ is denoted $Z_k(X)$.
+\end{enumerate}
 \end{definition}
+
+\noindent
+In other words, a $k$-cycle on $X$
+is a locally finite formal $\mathbf{Z}$-linear
+combination of integral closed subschemes of $\delta$-dimension $k$.
+Addition of $k$-cycles $\alpha = \sum n_Z[Z]$ and 
+$\beta = \sum m_Z[Z]$ is given by
+$$
+\alpha + \beta = \sum (n_Z + m_Z)[Z],
+$$
+i.e., by adding the coefficients.
 
 
 
@@ -182,14 +222,22 @@ The abelian group of all $k$-cycles on $X$ is denoted $Z_k(X)$.
 
 \begin{lemma}
 \label{lemma-multiplicity-finite}
-Let $X$ be a locally Noetherian scheme.
+Let $(S, \delta)$ be as in Sitation \ref{situation-setup}.
+Let $X$ be locally of finite type over $S$.
 Let $Z \subset X$ be a closed subscheme.
-Let $Z' \subset Z$ be an irreducible component and
+\begin{enumerate}
+\item The collection of irreducible components of $Z$
+is locally finite.
+\item Let $Z' \subset Z$ be an irreducible component and
 let $\xi \in Z'$ be its generic point.
 Then
 $$
 \text{length}_{\mathcal{O}_{X, \xi}} \mathcal{O}_{Z, \xi} < \infty
 $$
+\item If $\dim_\delta(Z) \leq k$ and $\xi \in Z$ with
+$\delta(\xi) = k$, then $\xi$ is a generic point of an
+irreducible component of $Z$.
+\end{enumerate}
 \end{lemma}
 
 \begin{proof}
@@ -197,116 +245,328 @@ Omitted.
 \end{proof}
 
 \begin{definition}
-\label{definition-multiplicity}
-In the situation of Lemma \ref{lemma-multiplicity-finite} the
-integer $\text{length}_{\mathcal{O}_{X, \xi}} \mathcal{O}_{Z, \xi}$
+\label{definition-cycle-associated-to-closed-subscheme}
+Let $(S, \delta)$ be as in Sitation \ref{situation-setup}.
+Let $X$ be locally of finite type over $S$.
+Let $Z \subset X$ be a closed subscheme.
+\begin{enumerate}
+\item For any irreducible component $Z' \subset Z$ with generic point $\xi$
+the integer
+$m_{Z', Z} = \text{length}_{\mathcal{O}_{X, \xi}} \mathcal{O}_{Z, \xi}$
+(Lemma \ref{lemma-multiplicity-finite})
 is called the {\it multiplicity of $Z'$ in $Z$}.
-\end{definition}
-
-\begin{lemma}
-\label{lemma-top-dimension-generic}
-Let $(S, \delta)$ be as in Sitation \ref{situation-setup}.
-Let $X$ be locally of finite type over $S$.
-Let $Z \subset X$ be a closed subscheme.
-Assume $\dim_\delta(Z) \leq k$ and $\xi \in Z$ with
-$\delta(\xi) = k$. Then $\xi$ is a generic point of
-an irreducible component of $Z$.
-\end{lemma}
-
-\begin{proof}
-Omitted.
-\end{proof}
-
-\begin{definition}
-\label{definition-cycle-associated-to}
-Let $(S, \delta)$ be as in Sitation \ref{situation-setup}.
-Let $X$ be locally of finite type over $S$.
-Let $Z \subset X$ be a closed subscheme.
-Assume $\dim_\delta(Z) \leq k$.
+\item Assume $\dim_\delta(Z) \leq k$.
 The {\it $k$-cycle associated to $Z$} is
 $$
 [Z]_k
 =
-\sum m_{Z'}[Z']
+\sum m_{Z', Z}[Z']
 $$
 where the sum is over the irreducible components of $Z$
-of $\delta$-dimension $k$.
+of $\delta$-dimension $k$. (This is a $k$-cycle by
+Lemma \ref{lemma-multiplicity-finite}.)
+\end{enumerate}
 \end{definition}
 
+\noindent
+It is important to note that we only define $[Z]_k$ if the $\delta$-dimension
+of $Z$ does not exceed $k$. In other words, by convention, if we write
+$[Z]_k$ then this implies that $\dim_\delta(Z) \leq k$.
 
 
-Suppose that $X$ is a variety and that $Z \subset X$ is a closed
-subscheme with $\dim(Z) \leq k$. Let $Z_i$ be the irreducible
-components of $Z$ of dimension $k$ and let
-$$
-n_i = \text{length}_{\mathcal{O}_{X, \xi_i}} \mathcal{O}_{Z, \xi_i}
-$$
-be the length of the local ring of $Z$ at the generic point
-$\xi_i$ of $Z_i$.
-We define the {\it $k$-cycle associated to $Z$} to be the $k$-cycle
-$$
-[Z]_k = \sum n_i [Z_i].
-$$
-We stress that it is important that $\dim(Z) \leq k$ and that we
-only sum over the $k$-dimensional irreducible closed subvarieties
-$Z_i$ here.
 
 \section{Cycle associated to a coherent sheaf}
 \label{section-cycle-of-coherent-sheaf}
 
-\noindent
-Suppose that $X$ is a 
-nonsingular projective variety and that ${\mathcal F}$ is a coherent
-${\mathcal O}_X$-module on $X$ with $\dim(\text{Supp}({\mathcal F})) \leq k$.
-Let $Z_i$ be the irreducible components of $\text{Supp}({\mathcal F})$
-of dimension $k$ and let
-$$
-n_i = \text{length}_{\mathcal{O}_{X, \xi_i}} \mathcal{F}_{\xi_i}
-$$
-be the length of the stalk
-of ${\mathcal F}$ at the generic point $\xi_i$ of $Z_i$. We define the
-{\it $k$-cycle associated to ${\mathcal F}$} to be the $k$-cycle
-$$
-[{\mathcal F}]_k = \sum n_i [Z_i].
-$$
-We stress that it is important that $\dim(\text{Supp}(\mathcal{F})) \leq k$
-and that we only sum over the $k$-dimensional irreducible closed subvarieties
-$Z_i$ here.
+
 
 \begin{lemma}
-\label{lemma-cycle-closed-coherent}
-Let $X$ be a variety and let $Z \subset X$ be a closed subscheme.
-If $\dim(Z) \leq k$, then $[Z]_k = [{\mathcal O}_Z]_k$.
+\label{lemma-length-finite}
+Let $(S, \delta)$ be as in Sitation \ref{situation-setup}.
+Let $X$ be locally of finite type over $S$.
+Let $\mathcal{F}$ be a coherent $\mathcal{O}_X$-module.
+\begin{enumerate}
+\item The collection of irreducible components of the support of
+$\mathcal{F}$ is locally finite.
+\item Let $Z' \subset \text{Supp}(\mathcal{F})$
+be an irreducible component and
+let $\xi \in Z'$ be its generic point.
+Then
+$$
+\text{length}_{\mathcal{O}_{X, \xi}} \mathcal{F}_\xi < \infty
+$$
+\item If $\dim_\delta(\text{Supp}(\mathcal{F})) \leq k$
+and $\xi \in Z$ with $\delta(\xi) = k$, then $\xi$ is a
+generic point of an irreducible component of $\text{Supp}(\mathcal{F})$.
+\end{enumerate}
 \end{lemma}
 
 \begin{proof}
 Omitted.
 \end{proof}
 
+\begin{definition}
+\label{definition-cycle-associated-to-coherent-sheaf}
+Let $(S, \delta)$ be as in Sitation \ref{situation-setup}.
+Let $X$ be locally of finite type over $S$.
+Let $\mathcal{F}$ be a coherent $\mathcal{O}_X$-module.
+\begin{enumerate}
+\item For any irreducible component $Z' \subset \text{Supp}(\mathcal{F})$
+with generic point $\xi$ the integer
+$m_{Z', \mathcal{F}} = \text{length}_{\mathcal{O}_{X, \xi}} \mathcal{F}_\xi$
+(Lemma \ref{lemma-length-finite})
+is called the {\it multiplicity of $Z'$ in $\mathcal{F}$}.
+\item Assume $\dim_\delta(\text{Supp}(\mathcal{F})) \leq k$.
+The {\it $k$-cycle associated to $\mathcal{F}$} is
+$$
+[\mathcal{F}]_k
+=
+\sum m_{Z', \mathcal{F}}[Z']
+$$
+where the sum is over the irreducible components of
+$\text{Supp}(\mathcal{F})$ of $\delta$-dimension $k$.
+(This is a $k$-cycle by Lemma \ref{lemma-length-finite}.)
+\end{enumerate}
+\end{definition}
+
+\noindent
+It is important to note that we only define $[\mathcal{F}]_k$
+if $\mathcal{F}$ is coherent and the $\delta$-dimension
+of $\text{Supp}(\mathcal{F})$ does not exceed $k$. In other words,
+by convention, if we write $[\mathcal{F}]_k$ then this implies that
+$\mathcal{F}$ is coherent on $X$ and
+$\dim_\delta(\text{Supp}(\mathcal{F})) \leq k$.
+
+\begin{lemma}
+\label{lemma-cycle-closed-coherent}
+Let $(S, \delta)$ be as in Sitation \ref{situation-setup}.
+Let $X$ be locally of finite type over $S$.
+Let $Z \subset X$ be a closed subscheme.
+If $\dim_\delta(Z) \leq k$, then $[Z]_k = [{\mathcal O}_Z]_k$.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+
+
+
+
+\section{Degrees of maps between integral schemes}
+\label{section-degrees}
+
+\noindent
+Here is a lemma characterizing maps between integral schemes
+which are locally of finite type and which are ``generically finite''.
+
+\begin{lemma}
+\label{lemma-finite-degree}
+Let $X$, $Y$ be integral schemes.
+Let $f : X \to Y$ be locally of finite type.
+Assume $f$ is dominant.
+The following are equivalent:
+\begin{enumerate}
+\item the extension $R(Y) \subset R(X)$ has
+transcendence degree $0$,
+\item the extension $R(Y) \subset R(X)$ is finite,
+\item there exists nonempty affine opens $U \subset X$
+and $V \subset Y$ such that $f(U) \subset V$
+and $f|_U : U \to V$ is finite, and
+\item the generic point of $X$ is the only point of $X$ mapping to
+the generic point of $Y$.
+\end{enumerate}
+If $f$ is separated, or if $f$ is quasi-compact, then these are
+also equivalent to
+\begin{enumerate}
+\item[(5)] there exists a nonempty affine open $V \subset Y$ such
+that $f^{-1}(V) \to V$ is finite.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Choose any affine opens $\text{Spec}(A) = U \subset X$
+and $\text{Spec}(R) = V \subset Y$ such that $f(U) \subset V$.
+Then $R$ and $A$ are domains by definition. The ring map
+$R \to A$ is of finite type
+(Morphisms, Lemma \ref{morphisms-lemma-locally-finite-type-characterize}).
+Let $K = f.f.(R) = R(Y)$ and $L = f.f.(A) = R(X)$. Then $K \subset L$
+is a finitely generated field extension. Hence we see that
+(1) is equivalent to (2).
+
+\medskip\noindent
+Suppose (2) holds. Let $x_1, \ldots, x_n \in A$ be generators
+of $A$ over $R$. By assumption there exist nonzero polynomials
+$P_i(X) \in R[X]$ such that $P_i(x_i) = 0$. Let $f_i \in R$ be the
+leading coefficient of $P_i$. Then we conclude that
+$R_{f_1 \ldots f_n} \to A_{f_1 \ldots f_n}$ is finite, i.e., (3) holds.
+Note that (3) implies (2). So now we see that (1), (2) and (3) are all
+equivalent.
+
+\medskip\noindent
+Let $\eta$ be the generic point of $X$, and let $\eta' \in Y$ be the
+generic point of $Y$. Assume (4). Then
+$\dim_\eta(X_{\eta'}) = 0$ and we see that $R(X) = \kappa(\eta)$ has
+transcendence degree $0$ over $R(Y) = \kappa(\eta')$ by
+Morphisms, Lemma \ref{morphisms-lemma-dimension-fibre-at-a-point}.
+In other words (1) holds. Assume the equivalent conditions (1), (2) and
+(3). Suppose that $x \in X$ is a point mapping to $\eta'$.
+As $x$ is a specialization of $\eta$,
+this gives inclusions $R(Y) \subset \mathcal{O}_{X, x} \subset R(X)$,
+which implies $\mathcal{O}_{X, x}$ is a field, see
+Algebra, Lemma \ref{algebra-lemma-integral-over-field}.
+Hence $x = \eta$. Thus we see that (1) -- (3)
+are all equivalent.
+
+\medskip\noindent
+Assume $U, V$ as in (3) and assume $f$ is separated.
+Then $U \to f^{-1}(V)$ is a morphism from a scheme proper over $V$
+(Morphisms, Lemma \ref{morphisms-lemma-finite-proper})
+into a scheme separated over $V$.
+Hence $U \subset f^{-1}(V)$ is closed
+(Morphisms, Lemma \ref{morphisms-lemma-image-proper-scheme-closed}).
+Since $X$ is irreducible we conclude $U = f^{-1}(V)$. This
+proves (5).
+
+\medskip\noindent
+Assume $f$ is quasi-compact. Let $U, V$ be as in (3).
+Write $f^{-1}(V) = U_1 \cup \ldots \cup U_n$ as a finite union
+of affines. Consider the proper closed set $Z_i = U_i \setminus U$.
+Since $Z_i$ does not contain the generic point of $X$ we see that
+$f : Z_i \to Y$ is not dominant (use property (4) and
+Morphisms, Lemma \ref{morphisms-lemma-quasi-compact-dominant}).
+Hence after shrinking $V$ we may assume that $U_i \subset U$
+which implies that (5) holds.
+\end{proof}
+
+\begin{definition}
+\label{definition-degree}
+Let $X$ and $Y$ be integral schemes.
+Let $f : X \to Y$ be locally of finite type and dominant.
+Assume $[R(X) : R(Y)] < \infty$, or any other of the equivalent
+conditions (1) -- (4) of Lemma \ref{lemma-finite-degree}.
+Then the positive integer
+$$
+\text{deg}(X/Y) = [R(X) : R(Y)]
+$$
+is called the {\it degree of $X$ over $Y$}.
+\end{definition}
+
+\begin{lemma}
+\label{lemma-degree-composition}
+Let $X$, $Y$, $Z$ be integral schemes.
+Let $f : X \to Y$ and $g : Y \to Z$ be dominant morphisms locally
+of finite type. Assume that $[R(X) : R(Y)] < \infty$ and
+$[R(Y) : R(Z)] < \infty$. Then
+$$
+\deg(X/Z) = \deg(X/Y) \deg(Y/Z).
+$$
+\end{lemma}
+
+\begin{proof}
+This comes from the multiplicativity of the degree in towers
+of finite field extensions.
+\end{proof}
+
+
+
+
 \section{Proper Pushforward}
 \label{section-pushforward}
 
-\noindent
-Suppose that $f : X \to Y$ is a proper morphism of varieties.
-Let $Z \subset X$ be a $k$-dimensional closed subvariety.
-We define
+\begin{lemma}
+\label{lemma-equal-dimension}
+Let $(S, \delta)$ be as in Sitation \ref{situation-setup}.
+Let $X$, $Y$ be locally of finite type over $S$.
+Let $f : X \to Y$ be a morphism.
+Assume $X$, $Y$ integral and $\dim_\delta(X) = \dim_\delta(Y)$.
+Then either $f(X)$ is contained in a proper closed subscheme
+of $Y$, or $f$ is dominant and the extension of function fields
+$R(Y) \subset R(X)$ is finite.
+\end{lemma}
+
+\begin{proof}
+The closure $\overline{f(X)} \subset Y$ is irreducible as $X$
+is irreducible. If $\overline{f(X)} \not = Y$, then we are done.
+If $\overline{f(X)} = Y$, then $f$ is dominant and by
+Morphisms,
+Lemma \ref{morphisms-lemma-dominant-finite-number-irreducible-components}
+we see that the generic point $\eta_Y$ of $Y$ is in the image of $f$.
+Of course this implies that $f(\eta_X) = \eta_Y$, where $\eta_X \in X$
+is the generic point of $X$. Since $\delta(\eta_X) = \delta(\eta_Y)$
+we see that $R(Y) = \kappa(\eta_Y) \subset \kappa(\eta_X) = R(X)$
+is an extension of transcendence degree $0$.
+Hence Lemma \ref{lemma-finite-degree} applies.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-quasi-compact-locally-finite}
+Let $(S, \delta)$ be as in Sitation \ref{situation-setup}.
+Let $X$, $Y$ be locally of finite type over $S$.
+Let $f : X \to Y$ be a morphism.
+Assume $f$ is quasi-compact, and $\{Z_i\}_{i \in I}$ is a locally
+finite collection of closed subsets of $X$.
+Then $\{\overline{f(Z_i)}\}_{i \in I}$ is a locally finite
+collection of closed subsets of $Y$.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\begin{definition}
+\label{definition-proper-pushforward}
+Let $(S, \delta)$ be as in Sitation \ref{situation-setup}.
+Let $X$, $Y$ be locally of finite type over $S$.
+Let $f : X \to Y$ be a morphism.
+Assume $f$ is proper.
+\begin{enumerate}
+\item Let $Z \subset X$ be an integral closed subscheme
+with $\dim_\delta(Z) = k$. We define
 $$
 f_*[Z] =
 \left\{
 \begin{matrix}
-0 & \text{if} & \dim(f(Z))< k, \\
-d [f(Z)] & \text{if} & \dim(f(Z)) = k.
+0 & \text{if} & \dim_\delta(f(Z))< k, \\
+\deg(Z/f(Z)) [f(Z)] & \text{if} & \dim_\delta(f(Z)) = k.
 \end{matrix}
 \right.
 $$
-Here $d=[{\bf C}(Z): {\bf C}(f(Z))]$
-is the degree of the dominant morphism $Z \to f(Z)$.
-Let $\alpha = \sum n_i [Z_i]$ be a $k$-cycle on $X$. The
-{\it pushforward} of $\alpha$ is the sum
+Here we think of $f(Z) \subset Y$ as an integral closed subscheme.
+The degree of $Z$ over $f(Z)$ is finite if
+$\dim_\delta(f(Z)) = \dim_\delta(Z)$
+by Lemma \ref{lemma-equal-dimension}.
+\item Let $\alpha = \sum n_Z [Z]$ be a $k$-cycle on $X$. The
+{\it pushforward} of $\alpha$ as the sum
 $$
-f_* \alpha = \sum n_i f_*[Z_i]
+f_* \alpha = \sum n_Z f_*[Z]
 $$
-where each $f_*[Z_i]$ is defined as above.
+where each $f_*[Z]$ is defined as above. The sum is locally finite
+by Lemma \ref{lemma-quasi-compact-locally-finite} above.
+\end{enumerate}
+\end{definition}
+
+\noindent
+By definition the proper pushforward of cycles
+$$
+f_* : Z_k(X) \longrightarrow Z_k(Y)
+$$
+is a homomorphism of abelian groups. It turns $X \mapsto Z_k(X)$
+into a contravariant functor on the category of schemes locally of
+finite type over $S$ with morphisms equal to proper morphisms.
+
+\begin{lemma}
+\label{lemma-compose-pushforward}
+Let $(S, \delta)$ be as in Sitation \ref{situation-setup}.
+Let $X$, $Y$, and $Z$ be locally of finite type over $S$.
+Let $f : X \to Y$ and $g : Y \to Z$ be proper morphisms.
+Then $g_* \circ f_* = (g \circ f)_*$ as maps $Z_k(X) \to Z_k(Z)$.
+\end{lemma}
+
+\begin{proof}
+Omitted, but see Lemma \ref{lemma-degree-composition}.
+\end{proof}
+
 
 \begin{lemma}
 \label{lemma-cycle-push-sheaf}
@@ -378,20 +638,6 @@ $$
 Omitted.
 \end{proof}
 
-\begin{lemma}
-\label{lemma-compose-pushforward}
-Let $f : X \to Y$ and $g : Y \to Z$ be proper morphisms of varieties.
-Then $g_* \circ f_* = (g \circ f)_*$ as maps $Z_k(X) \to Z_k(Z)$.
-\end{lemma}
-
-\begin{proof}
-Suppose that $Z \subset X$ is a closed subvariety of dimension $k$.
-By Lemma \ref{lemma-cycle-push-sheaf} part (1) we have $f_*[Z] = [f_*\mathcal{O}_Z]_k$.
-By Lemma \ref{lemma-cycle-push-sheaf} part (2) we have $g_*f_*[Z] = [g_*f_*\mathcal{O}_Z]_k$.
-Since $g_*f_* = (g \circ f)_*$ on sheaves we see that
-$g_*f_*[Z] = [(g \circ f)_*\mathcal{O}_Z]_k = (g \circ f)_*[Z]$
-by Lemma \ref{lemma-cycle-push-sheaf} part (1) again.
-\end{proof}
 
 
 
