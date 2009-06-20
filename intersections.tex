@@ -4,7 +4,7 @@
 %
 \begin{document}
 
-\title{Intersection Theory}
+\title{Chow homology and Chern classes}
 
 \begin{abstract}
 Incomplete version of document! Reader beware!
@@ -12,9 +12,7 @@ Goal: Get a reasonably complete setup of
 cycles class group module rational equivalence
 over a universally catenary base endowed with a dimension
 function. Moreover, define capping with chern classes of
-vector bundles. Finally define intersection products using
-the Tor formula, and a moving lemma (if such exists).
-No attempt is made to keep the exposition short.
+vector bundles. No attempt is made to keep the exposition short.
 \end{abstract}
 
 \maketitle
@@ -24,6 +22,32 @@ No attempt is made to keep the exposition short.
 
 
 \tableofcontents
+
+
+
+\section{Introduction}
+\label{section-introduction}
+
+\noindent
+Some references discussion related material are \cite{Serre_local_algebra},
+\cite{Serre_algebre_locale}, \cite{Samuel}, \cite{ChevalleyI},
+and \cite{ChevalleyII}. Of course there are many others.
+We follow the first few chapters of \cite{F} to set up basic notions.
+
+\medskip\noindent
+To make the material a little bit more challenging we decided
+to treat a somewhat more general case than is usually done.
+Namely we assume our schemes $X$ are locally of finite type
+over a fixed locally Noetherian base scheme which is universally
+catenary and has a given dimension function. This seems to be
+all that is needed to be able to define the Chow homology
+groups $A_*(X)$ and the action of capping with chern classes
+on them.
+
+\medskip\noindent
+In another chapter we will define the intersection products
+on $A_*(X)$ using Serre's Tor-formula in case $X$ is nonsingular
+and we have a good moving lemma. See (insert future reference here).
 
 
 
@@ -182,6 +206,40 @@ where $\text{ord}$ is defined as in Definition \ref{definition-ord}.
 Omitted.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-relative-effective-cartier-algebra}
+Let $A \to B$ be a ring map. Let $f \in B$. Assume that
+\begin{enumerate}
+\item $A \to B$ is flat,
+\item $f$ is a nonzero divisor, and
+\item $A \to B/fB$ is flat.
+\end{enumerate}
+Then for every ideal $I \subset A$ the map
+$f : B/IB \to B/IB$ is injective.
+\end{lemma}
+
+\begin{proof}
+Note that $IB = I \otimes_A B$ and $I(B/fB) = I\otimes_A B/fB$
+by the flatness of $B$ and $B/fB$ over $A$.
+In particular $IB/fIB \cong I \otimes_A B/fB$ maps injectively
+into $B/fB$. Hence the result follows from the snake lemma applied
+to the diagram
+$$
+\xymatrix{
+0 \ar[r] &
+I \otimes_A B \ar[r] \ar[d]^f &
+B \ar[r] \ar[d]^f &
+B/IB \ar[r] \ar[d]^f &
+0 \\
+0 \ar[r] &
+I \otimes_A B \ar[r] &
+B \ar[r] &
+B/IB \ar[r] &
+0
+}
+$$
+with exact rows.
+\end{proof}
 
 
 
@@ -2023,6 +2081,26 @@ only finitely many blow-ups (this is the result of loc.\ cit.).
 \section{Intersecting with effective Cartier divisors}
 \label{section-intersecting-effective-Cartier}
 
+
+\begin{lemma}
+\label{lemma-relative-effective-cartier}
+Let $(S, \delta)$ be as in Sitation \ref{situation-setup}.
+Let $X$, $Y$ be locally of finite type over $S$.
+Let $p : X \to Y$ be a flat morphism of relative dimension $r$.
+Let $i : D \to X$ be an effective Cartier divisor with the property
+that $p|_D : D \to Y$ is flat of relative dimension $r - 1$.
+Let $\mathcal{L} = \mathcal{O}_X(D)$.
+Then
+$$
+c_1(\mathcal{L}) \cap p^*\alpha = i_* ((p|_D)^*\alpha)
+$$
+in $A_{k + r - 1}(X)$ for every $\alpha \in A_k(Y)$.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
 \begin{lemma}
 \label{lemma-support-cap-effective-Cartier}
 Let $(S, \delta)$ be as in Sitation \ref{situation-setup}.
@@ -2179,11 +2257,13 @@ Thus the result follows from Lemma \ref{lemma-commutativity-effective-Cartier}.
 
 \begin{lemma}
 \label{lemma-factors}
+Let $(S, \delta)$ be as in Sitation \ref{situation-setup}.
+Let $X$ be locally of finite type over $S$.
+Let $\mathcal{L}$ be invertible on $X$.
 The operation $\alpha \mapsto c_1(\mathcal{L}) \cap \alpha$
 factors through rational equivalence to give an operation
 $$
-c_1(\mathcal{L}) \cap - :
-A_{k + 1}(X) \to A_k(X)
+c_1(\mathcal{L}) \cap - : A_{k + 1}(X) \to A_k(X)
 $$
 \end{lemma}
 
@@ -2204,8 +2284,9 @@ This makes sense by the lemma above.
 
 \begin{lemma}
 \label{lemma-cap-commutative}
-Let $X$ be a variety.
-Let $\mathcal{L}$, $\mathcal{N}$ be invertible sheaves on $X$.
+Let $(S, \delta)$ be as in Sitation \ref{situation-setup}.
+Let $X$ be locally of finite type over $S$.
+Let $\mathcal{L}$, $\mathcal{N}$ be invertible on $X$.
 For any $\alpha \in A_{k + 2}(X)$ we have
 $$
 c_1(\mathcal{L}) \cap c_1(\mathcal{N}) \cap \alpha
@@ -2227,131 +2308,26 @@ Omitted. Hint: use Lemma \ref{lemma-commutativity-on-integral}.
 
 
 
-\section{Affine and vector bundles}
+\section{Affine bundles}
 \label{section-affine-vector}
 
 \begin{lemma}
-\label{lemma-cap-P1}
-Let $X = Y \times \mathbf{P}^1$ with projection morphisms
-$p : X \to Y$ and $q : X \to \mathbf{P}^1$.
-Let $\mathcal{L}$ be the pullback by $q$ of $\mathcal{O}(1)$ on $\mathbf{P}^1$.
-The composition
-$$
-p_* \circ c_1(\mathcal{L}) \cap - \circ p^*
-$$
-is the identity morphism on $A_k(Y)$ for all $k$.
+\label{lemma-pullback-affine-fibres-surjective}
+Let $(S, \delta)$ be as in Sitation \ref{situation-setup}.
+Let $X$, $Y$ be locally of finite type over $S$.
+Let $f : X \to Y$ be a flat morphism of relative dimension $r$.
+Assume that for every $y \in Y$, there exists an open neighbourhood
+$U \subset Y$ such that $f|_{f^{-1}(U)} : f^{-1}(U) \to U$
+is identified with the morphism $U \times \mathbf{A}^r \to U$.
+Then $f^* : A_k(Y) \to A_{k + r}(X)$ is surjective for all
+$k \in \mathbf{Z}$.
 \end{lemma}
 
 \begin{proof}
-To see this let
-$Z \subset X$ be a closed subvariety of $X$. Then it is clear that
-$p^*[Z] = [Z \times \mathbf{P}^1]$. Let
-$s \in \Gamma(\mathbf{P}^1, \mathcal{O}(1))$ be any nonzero global
-section. There is a single rational point $t \in \mathbf{P}^1$
-where $s$ vanishes exactly to order $1$. Hence the pullback of
-$s$ to a section of $\mathcal{L}$ over $Z \times \mathbf{P}^1$ has
-zero scheme exactly $Z \times \{t\}$. In other words, we see that
-$$
-c_1(\mathcal{L}) \cap p^*[Z] = [Z \times \{t\}]
-$$
-in $A_k(X)$. Since $p|_{Z \times \{t\}} : Z \times \{t\} \to Z$
-is an isomorphism we see that also
-$$
-p_*(c_1(\mathcal{L}) \cap p^*[Z]) = [Z]
-$$
-in $A_k(Y)$ as desired.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-affine-over-variety}
-The projection $p : Y \times \mathbf{A}^1 \to Y$ induces an isomorphism
-$$
-p^* : A_k(Y) \to A_{k + 1}(Y \times \mathbf{A}^1)
-$$
-More generally $A_k(Y) \cong A_{k + r}(Y \times \mathbf{A}^r)$
-for all $r \geq 0$.
-\end{lemma}
-
-\begin{proof}
-Hints: Argue directly this map is surjective.
-Denote $\overline{p} : Y \times \mathbf{P}^1 \to Y$ the projection
-morphism. Suppose that $p^*\alpha = 0$. Then $\overline{p}^*\alpha$
-restricts to zero on $Y \times \mathbf{A}^1$, hence is rationally
-equivalent to a cycle $\beta$ supported in $Y \times \{\infty\}$ by
-Lemma \ref{lemma-restrict-to-open}.
-Choose $s \in \Gamma(\mathbf{P}^1, \mathcal{O}(1))$
-whose unique zero is $0 \in \mathbf{P}^1$. Since the zero set of $s$
-misses $\beta$ we conclude that $c_1(\mathcal{O}(1)) \cap \beta = 0$.
-Hence $p_*(c_1(\mathcal{O}(1)) \cap \beta) = 0$. This contradicts
-Lemma \ref{lemma-cap-P1}.
+Omitted.
 \end{proof}
 
 
-\begin{lemma}
-\label{lemma-relative-effective-cartier}
-Let $X$, $Y$ be varieties.
-Let $p : X \to Y$ be a flat morphism of relative dimension $r$.
-Let $i : D \to X$ be an effective Cartier divisor such that
-$p|_D : D \to Y$ is flat of relative dimension $r - 1$. Assume that
-$D$ is a variety. Let $\mathcal{L} = \mathcal{O}_X(D)$.
-Then
-$$
-c_1(\mathcal{L}) \cap p^*\alpha = i_* ((p|_D)^*\alpha)
-$$
-in $A_{k + r - 1}(X)$ for every $\alpha \in A_k(Y)$.
-\end{lemma}
-
-\begin{proof}
-Let $Z \subset Y$ be a closed subvariety of dimension $k$.
-Then $p^{-1}(Z) \subset X$ is a closed subscheme of dimension
-$k + r$. Also the scheme theoretic intersection $f^{-1}(Z) \cap D$ is
-the zero scheme of the canonical section of $\mathcal{L} = \mathcal{O}_X(D)$
-restricted to $f^{-1}(Z)$. Moreover, $f^{-1}(Z) \cap D \to Z$ is an
-effective Cartier divisor by the algebra lemma below. Hence
-Lemma \ref{lemma-geometric-cap} applies and we see that
-$$
-c_1(\mathcal{L}) \cap [f^{-1}(Z)]_{k + r} =
-[f^{-1}(Z) \cap D]_{k + r - 1}.
-$$
-Clearly the cycle $[f^{-1}(Z) \cap D]_{k + r - 1}$ is the
-pushforward of the cycle $[(p|_D)^{-1}(Z)]_{k + r - 1}$ on $D$.
-The result follows from the definition of flat pullback.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-relative-effective-cartier-algebra}
-Let $A \to B$ be a ring map. Let $f \in B$. Assume that
-\begin{enumerate}
-\item $A \to B$ is flat,
-\item $f$ is a nonzero divisor, and
-\item $A \to B/fB$ is flat.
-\end{enumerate}
-Then for every ideal $I \subset A$ the map
-$f : B/IB \to B/IB$ is injective.
-\end{lemma}
-
-\begin{proof}
-Note that $IB = I \otimes_A B$ and $I(B/fB) = I\otimes_A B/fB$
-by the flatness of $B$ and $B/fB$ over $A$.
-In particular $IB/fIB \cong I \otimes_A B/fB$ maps injectively
-into $B/fB$. Hence the result follows from the snake lemma applied
-to the diagram
-$$
-\xymatrix{
-0 \ar[r] &
-I \otimes_A B \ar[r] \ar[d]^f &
-B \ar[r] \ar[d]^f &
-B/IB \ar[r] \ar[d]^f &
-0 \\
-0 \ar[r] &
-I \otimes_A B \ar[r] &
-B \ar[r] &
-B/IB \ar[r] &
-0
-}
-$$
-with exact rows.
-\end{proof}
 
 
 
@@ -2360,38 +2336,44 @@ with exact rows.
 \label{section-projective-space-bundle-formula}
 
 \noindent
-Consider a variety $X$ and a finite locally free
-${\mathcal O}_X$-module ${\mathcal E}$ of rank $r$.
+Let $(S, \delta)$ be as in Sitation \ref{situation-setup}.
+Let $X$ be locally of finite type over $S$.
+Consider a finite locally free $\mathcal{O}_X$-module
+$\mathcal{E}$ of rank $r$.
 Our convention is that
 $$
 \xymatrix{
-{\bf P}({\mathcal E}) = Proj(Sym^*({\mathcal E}))
+\mathbf{P}(\mathcal{E})
+=
+\underline{\text{Proj}}_X(\text{Sym}^*(\mathcal{E}))
 \ar[r]^-\pi
 & X
 }
 $$
-over $X$ with ${\mathcal O}_{{\bf P}({\mathcal E}}(1)$ normalized so that
-$\pi_*({\mathcal O}_{{\bf P}({\mathcal E})}(1)) = {\mathcal E}$.
+over $X$ with
+$\mathcal{O}_{\mathbf{P}(\mathcal{E}}(1)$ normalized so that
+$\pi_*(\mathcal{O}_{\mathbf{P}(\mathcal{E})}(1)) = \mathcal{E}$.
 In particular there is a surjection
-$\pi^*{\mathcal E} \to {\mathcal O}_{{\bf P}({\mathcal E})}(1)$.
+$\pi^*\mathcal{E} \to \mathcal{O}_{\mathbf{P}(\mathcal{E})}(1)$.
 
 \begin{lemma}
 \label{lemma-cap-projective-bundle}
 With notation as above the composition
 $$
-\pi_* \circ c_1(\mathcal{O}_{\mathbf{P}(\mathcal{E})}(1))^s \cap -
-\circ \pi^*
+\pi_*\left(
+c_1(\mathcal{O}_{\mathbf{P}(\mathcal{E})}(1))^s \cap \pi^*\alpha
+\right)
 $$
-is $0$ if $s < r - 1$ and is the identity on $A_k(X)$ for all $k$
-when $s = r - 1$.
+is $0$ if $s < r - 1$ and is equal to $\alpha$
+for any $\alpha \in A_k(X)$ for all $k$ when $s = r - 1$.
 \end{lemma}
 
 \begin{proof}
-Let $Z \subset X$ be a subvariety of dimension $k$.
+Let $Z \subset X$ be an integral closed subscheme of $\delta$-dimension $k$.
 Note that $\pi^*[Z] = [\mathbf{P}(\mathcal{E}|_Z)]$.
 If $s < r - 1$, then by construction
 $c_1(\mathcal{O}_{\mathbf{P}(\mathcal{E})}(1))^s \cap \pi^*[Z]$
-is represented by a $k + r - 1 - s$ cycle supported on
+is represented by a $(k + r - 1 - s)$-cycle supported on
 $\mathbf{P}(\mathcal{E}|_Z)$. Hence the pushforward of this cycle
 is zero for dimension reasons.
 Let $\xi$ be the generic point of $Z$.
@@ -2431,9 +2413,11 @@ is an isomorphism where $r = rank({\mathcal E})$.
 \end{lemma}
 
 \begin{proof}
+Fix $k \in \mathbf{Z}$.
 By the result of the previous lemma this map is injective.
 We have to show it is surjective. We do this by induction
-on $\dim(X)$. Let $\beta \in A_k(\mathbf{P}(\mathcal{E}))$.
+on $\dim_\delta(X)$. The result is clear if $\dim_\delta(X) + r - 1 < k$.
+Let $\beta \in A_k(\mathbf{P}(\mathcal{E}))$.
 If for some nonempty open $U \subset X$ we have $\beta|_U \sim_{rat} 0$
 then by Lemma \ref{lemma-restrict-to-open} we see that $\beta$
 is rationally equivalent to
@@ -2479,7 +2463,9 @@ as desired.
 \end{proof}
 
 \begin{lemma}
-Let $X$ be a variety.
+\label{lemma-vectorbundle}
+Let $(S, \delta)$ be as in Sitation \ref{situation-setup}.
+Let $X$ be locally of finite type over $S$.
 Let $\mathcal{E}$ be a finite locally free sheaf of rank $r$ on $X$.
 Let
 $$
@@ -2493,26 +2479,7 @@ Then $p^* : A_k(X) \to A_{k + r}(E)$ is an isomorphism for all $k$.
 \end{lemma}
 
 \begin{proof}
-Consider the open immersion
-$j : E \to \mathbf{P}(\mathcal{E} \oplus \mathcal{O}_X)$.
-Note that 
-$$
-j^*\mathcal{O}_{\mathbf{P}(\mathcal{E} \oplus \mathcal{O}_X)}(1)
-\cong \mathcal{O}_E.
-$$
-The map $j^*$ is surjective (Lemma \ref{lemma-exact-sequence-open}).
-By the projective space bundle formula every
-cycle on $\mathbf{P}(\mathcal{E} \oplus \mathcal{O}_X)$ is a
-sum of terms of the form 
-$$
-c_1(\mathcal{O}_{\mathbf{P}(\mathcal{E} \oplus \mathcal{O}_X)}(1))^s
-\cap
-\pi^*\alpha_s
-$$
-By the displayed equality for the pullback of this invertible sheaf
-to $E$ and Lemma \ref{lemma-flat-pullback-divisor-invertible-sheaf}
-we see that all of these restrict to zero on $E$ except those where
-$s = 0$. We conclude that $p^*$ is surjective.
+For surjectivity see Lemma \ref{lemma-pullback-affine-fibres-surjective}.
 
 \medskip\noindent
 For injectivity we use that the kernel of
@@ -2540,8 +2507,10 @@ formula). Details omitted.
 \label{section-chern-classes-vector-bundles}
 
 \noindent
-Let $X$ be a variety. Let $\mathcal{E}$ be a finite locally free sheaf
-of rank $r$ as follows. We define the Chern classes of $\mathcal{E}$
+Let $(S, \delta)$ be as in Sitation \ref{situation-setup}.
+Let $X$ be locally of finite type over $S$.
+Let $\mathcal{E}$ be a finite locally free sheaf of rank $r$ on $X$.
+We define the {\it Chern classes of $\mathcal{E}$}
 as follows. By Lemma \ref{lemma-chow-ring-projective-bundle} there are
 elements $c_i \in A_{\dim(X) - i}(X)$, $i=0, \ldots, r$
 such that $c_0 = [X]$, and
@@ -2917,491 +2886,29 @@ We win by induction on $r$.
 
 
 
-\section{Intersection multiplicities using Tor formula}
-\label{section-tor-formula}
+
+\section{The splitting princliple}
+\label{section-splitting-principle}
 
 \noindent
-Suppose that $X$ is a {\bf nonsingular} variety and that
-$W,V \subset X$ are closed subvarieties with $\dim(W)=s$ and $\dim(V)=r$.
-Assume that $\dim(W \cap V) \leq r + s - \dim(X)$. We say that $W$ and $V$
-{\it intersect properly} if this holds. In this case the
-sheaves $Tor_j^{{\mathcal O}_X}({\mathcal O}_W, {\mathcal O}_V)$ are coherent,
-supported on $V\cap W$, and zero if $j < 0$ or $j > \dim(X)$.
-In this situation we define
-$$
-W \cdot V =
-\sum\nolimits_i (-1)^i
-[Tor_i^{{\mathcal O}_X}({\mathcal O}_W, {\mathcal O}_V)]_{r+s-\dim(X)}.
-$$
-With this notation, the cycle $V \cdot W$ is a formal linear
-combination $\sum e_i Z_i$ of the irreducible components $Z_i$
-of the intersection $V \cap W$. The integers $e_i$ are called
-the {\it intersection multiplicities}
-$$
-e_i = e(X, V \cdot W, Z_i).
-$$
-They satisfy many good properties, see [Serre].
-
-\begin{lemma}
-\label{lemma-formula-leading-coeff}
-Notation as above.
-Let $Z = Z_i$ be one of the irreducible components.
-Let $A$ be the local ring of $X$ at the generic point
-of $Z$. Suppose that the ideal of $V$ in $A$ is cut out by
-a regular sequence $x_1,\ldots,x_c$ and suppose that the local
-ring of $W$ at the generic point of $Z$ corresponds to the quotient
-map  $A \to B$. In this case $e(X, V\cdot W, Z)$ is equal to
-$c!$ times the leading coefficient in the Hilbert polynomial
-$$
-t \mapsto \hbox{length}_A(B/(x_1,\ldots,x_c)^tB), \ \ t>>0.
-$$
-\end{lemma}
-
-\begin{proof}
-Omitted.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-e-when-divisor}
-Consider the case that $c=1$, i.e., $V$ is a(n effective) Cartier divisor.
-Then $x_1$ is a nonzero divisor on $B$ by properness of intersection
-of $V$ and $W$. Then
-$$
-e(X, V \cdot W, Z) = \hbox{length}_A(B/x_1B).
-$$
-\end{lemma}
-
-\begin{proof}
-Omitted.
-\end{proof}
-
-
-\section{Intersection product using Tor formula}
-\label{section-tor-formula-intersection-product}
-
-\noindent
-Suppose that $X$ is a {\bf nonsingular} variety. Suppose
-$\alpha = \sum n_i [W_i]$ is an $r$-cycle,
-and $\beta = \sum_j m_j [V_j]$ is an $s$-cycle on $X$. We say
-that $\alpha$ and $\beta$ {\it intersect properly} if 
-$W_i$ and $V_j$ intersect properly for all $i$ and $j$.
-In this case we define
-$$
-\alpha \cdot \beta = \sum_{i,j} n_i m_j W_i \cdot V_j.
-$$
-where $W_i \cdot V_j$ is as defined above using the Tor-formula.
-
-\begin{lemma}
-\label{lemma-tor-sheaves}
-Situation as above.
-Suppose ${\mathcal F}$ and ${\mathcal G}$ are coherent sheaves on $X$ with
-$\dim(Supp({\mathcal F})) \leq s$, $\dim(Supp({\mathcal G})) \leq r$
-and $\dim( Supp({\mathcal F}) \cap Supp({\mathcal G}) ) \leq r+s-\dim X$.
-In this case
-$$
-[{\mathcal F}]_s \cdot [{\mathcal G}]_r = \sum (-1)^i 
-[ Tor_i^{{\mathcal O}_X}({\mathcal F}, {\mathcal G}) ]_{r+s-\dim X}.
-$$
-\end{lemma}
-
-\begin{proof}
-See [Serre, Chapter V].
-\end{proof}
-
-
-\begin{lemma}
-\label{lemma-associativity}
-Let $X$ be a nonsingular variety.
-Let $U, V, W$ be closed subvarieties. Assume that
-$(U, V)$ and $([U] \cdot [V], W)$ intesect properly.
-Then
-$$
-([U] \cdot [V]) \cdot [W] = [U] \cdot ( [V] \cdot [W] )
-$$
-\end{lemma}
-
-\begin{proof}
-Omitted.
-\end{proof}
-
-
-
-\section{Exterior Product}
-\label{section-exterior-product}
-
-\noindent
-Let $X$ and $Y$ be nonsingular projective vareities.
-Let $V$, resp.\ $W$ be a closed subvariety of $X$, resp.\ $Y$.
-The product $V\times W$ is a closed subscheme of $X\times Y$.
-It is a subvariety because the ground field is algebraically closed.
-For a $k$-cycle $\alpha = \sum n_i [V_i]$ and a $l$-cycle
-$\beta = \sum m_j [V_j]$ on $Y$ we define
-$\alpha \times \beta = \sum n_i m_j [V_i \times W_j]$. 
-
-\medskip\noindent
-Consider the subvariety $X \subset X$ with class $[X]$.
-Note that $pr_Y^*(\beta) = [X]\times \beta$.
-Note that $\alpha \times [Y]$ and $[X]\times \beta$
-intersect properly on $X\times Y$. With the definitions
-above we have $\alpha \times \beta = 
-(\alpha \times [Y])\cdot ([X]\times\beta) =
-pr_Y^*(\alpha) \cdot pr_X^*(\beta)$.
-
-
-
-
-\section{Reduction to the diagonal}
-\label{section-reduction-diagonal}
-
-\noindent
-Let $X$ be a nonsingular projective
-variety. Let $\Delta \subset X \times X$ denote the diagonal. 
-We will identify $\Delta$ with $X$.
-Let $\alpha$, resp.\ $\beta$ be $r$-cycles, resp.\ $s$-cycles
-on $X$. Assume $\alpha$ and $\beta$ intersect properly. In this case
-$\alpha \times \beta$ and $[\Delta]$ intersect properly. Note that
-the cycle $\Delta \cdot \alpha\times\beta$ is supported on the diagonal
-and hence we can think of it as a cycle on $X$. With this convention
-we have $\alpha \cdot \beta = \Delta \cdot \alpha\times\beta$.
-See [Serre, Chapter V]. 
-
-\medskip\noindent
-Perhaps a less confusing formulation would be that
-$pr_{1,*}( \Delta \cdot \alpha\times\beta ) = \alpha\cdot\beta$,
-where $pr_1 : X\times X \to X$ is the projection.
-
-
-
-
-\section{Flat pullback and intersection products}
-\label{section-flat-pullback-intersections}
-
-\noindent
-Suppose that $f : X \to Y$ is a flat morphism of nonsingular
-projective varieties. Suppose that $\alpha$ is a $k$-cycle
-on $Y$ and that $\beta$ is a $l$-cycle on $Y$. Assume that
-$\alpha$ and $\beta$ intersect properly. Then $f^*\alpha$
-and $f^*\beta$ intersect properly and $f^*( \alpha \cdot \beta )
-= f^*\alpha \cdot f^*\beta$. This is not hard to see from
-the material above.
-
-
-
-
-\section{Projection formula for flat maps}
-\label{section-projection-formula-flat}
-
-\noindent
-Let $f : X \to Y$ be a flat morphism
-of relative dimension $r$ of nonsingular projective varieties.
-Let $\alpha$ be an $k$-cycle on $X$ and let $\beta$ be a $l$-cycle
-on $Y$. Assume that $f_*(\alpha)$ and $\beta$ intersect properly,
-and that $\alpha$ and $f^*(\beta)$ intersect properly. The projection
-formula says that $f_*(\alpha) \cdot \beta =
-f_*( \alpha \cdot f^*\beta)$ in this case.
-See [Serre, Chapter V, Section 7, formula (10)] for a more general formula. 
-
-\medskip\noindent
-We explain how to prove the projection formula in the flat case.
-Let $W \subset X$ be a closed subvariety of dimension $k$.
-Let $V \subset Y$ be a closed subvariety of dimension $l$,
-so $f^{-1}(V)$ has pure dimension $l+r$.
-Assume that $W$ and $[f^{-1}(V)]$ intersect properly. Note that
-$f(W \cap f^{-1}(V)) = f(W) \cap V$. Hence it follows
-that $f(W)$ and $V$ intersect properly as well. Let
-$Z \subset f(W) \cap V$ be an irreducible component
-of dimension $k+l-\dim Y$. Let $Z_i \subset W\cap f^{-1}(V)$
-be the irreducible components of $W\cap f^{-1}(V)$
-dominating $Z$. 
-Let $A$ be the local ring of $X$ at the generic point of $Z$.
-Let $A_i$ be the local ring of $Y$ at the generic point of $Z_i$.
-Let $B$ be the local ring of $f(W)$ at the generic point of $Z$.
-Let $B'$ be the stalk of $f_*({\mathcal O}_W)$ at the generic point
-of $Z$. Then $B \to B'$ is finite, $B'$ is semi-local, and the
-localizations $B'_i$ of $B'$ are the local rings of $W$ at the generic
-point of the $Z_i$. Thus they are quotients $A_i \to B_i'$.
-Let $C$ be the local ring of $V$ at the generic point of $Z$.
-The multiplicity of $Z$ in $f_*([W])\cdot V$ is by definition
-$$
-(I) = [B' : B] \sum (-1)^j \hbox{length}_{A}(Tor^A_j(B,C)).
-$$
-Here $[B':B]$ is the rank of the $B$-module $B'$.
-The multiplicity of $Z$ in $f_*( W \cdot f^*[V])$ is
-by definition
-$$
-(II) = \sum\nolimits_{i,j} (-1)^j
-\hbox{length}_{A_i}(Tor^{A_i}_j(B'_i, A_i\otimes_A C))
-[\kappa(A_i):\kappa(A)]
-$$
-Here $\kappa(-)$ indicates the residue field.
-The first thing is to note that
-$\hbox{length}_A(M) = [\kappa(A_i):\kappa(A)]\hbox{length}_{A_i}(M)$
-for a finite length $A_i$-module $M$.
-We can compute all the Tor groups by choosing a free resolution
-of $C$ as an $A$-module. Doing this it is easy to see that
-(I) equals $\sum (-1)^j \hbox{length}_{A}(Tor^A_j(B', C))$.
-Finally, note that, by definition, there is an $A$-module map
-$B^{\oplus [B':B]} \to B'$ whose kernel and cokernel are
-supported in a proper closed subset of $Spec(B)$. From the
-additivity properties of the Tor-formula, see [Serre, Chapter V],
-it follows that $\sum (-1)^j \hbox{length}_{A}(Tor^A_j(B', C)) =
-[B':B] \sum (-1)^j \hbox{length}_{A}(Tor^A_j(B, C))$ as desired.
-
-\section{Rational Equivalence Revisted}
-\label{section-equivalence-revisited}
-
-\noindent
-Let $X$ be a nonsingular projective variety.
-Let $\alpha = \sum n_i [W_i]$ be a $(k+1)$-cycle on $X \times {\bf P}^1$,
-and let $a,b$ be two closed points of ${\bf P}^1$. Assume
-that $X \times a$ and $\alpha$ intersect properly, and that
-$X \times b$ and $\alpha$ intersect properly. This will be the
-case if each $W_i$ dominates ${\bf P}^1$ for example. Let
-$pr_X : X \times {\bf P}^1 \to X$ be the projection morphism.
-A {\it cycle rationally equivalent to zero} is any cycle
-of the form 
-$$
-pr_{X,*}( \alpha \cdot X\times a - \alpha \cdot X\times b).
-$$
-This is a $k$-cycle.
-Note that these cycles are easy to compute in practice (given $\alpha$)
-because they are obtained by proper intersection with Cartier divisors
-(see formula above). It is a fact that the collection of $k$-cycles rationally
-equivalent to zero is a additive subgroup of the group of $k$-cycles.
-We say two $k$ cycles are {\it rationally equivalent}, notation
-$\alpha \sim_{rat} \alpha'$ if $\alpha - \alpha'$ is a cycle rationally
-equivalent to zero. See Chapter I of [Fulton].
-
-\section{Pushforward and rational equivalence revisited}
-\label{section-pushforward-rational-equivalence}
-
-\noindent
-Suppose that $f : X \to Y$ is a morphism
-of projective smooth varieties. 
-Let $\alpha \sim_{rat} 0$ be a $k$-cycle on
-$X$ rationally equivalent to $0$. Then the {pushforward}
-of $\alpha$ is rationally equivalent to zero:
-$f_* \alpha \sim_{rat} 0$. See Chapter I of [Fulton].
-
-
-\section{Pullback and rational equivalence}
-\label{section-pullback-rational-equivalence}
-
-\noindent
-Suppose that $f : X \to Y$ is a flat morphism of relative dimension $r$
-of projective smooth varieties. 
-Let $\alpha \sim_{rat} 0$ be a $k$-cycle on
-$Y$ rationally equivalent to $0$. Then the pullback
-of $\alpha$ is rationally equivalent to zero:
-$f^* \alpha \sim_{rat} 0$. See Chapter I of [Fulton].
-
-\section{Moving Lemma}
-\label{section-moving-lemma}
-
-\noindent
-The moving lemma states that given an $r$-cycle
-$\alpha$ and a $s$ cycle $\beta$ there exists $\alpha'$, $\alpha' \sim_{rat}
-\alpha$ such that $\alpha$ and $\beta$ intersect properly.
-See [Samuel], [Chevalley], or [Fulton, Example 11,4,1].
-
-
-
-\section{Intersection product and rational equivalence}
-\label{section-intersection-product-rational-equivalence}
-
-\noindent
-With definitions as above we show that
-the intersection product is well defined modulo rational
-equivalence. Let $X$ be a nonsingular projective algebraic
-variety. Let $\alpha$, resp.\ $\beta$ be a $s$, resp.\ $r$
-cycle on $X$. Assume that $\alpha$ and $\beta$ intersect
-properly so that $\alpha \cdot \beta$ is defined. Finally,
-assume that $\alpha \sim_{rat} 0$. Goal: show that
-$\alpha \cdot \beta \sim_{rat} 0$.
-
-\medskip\noindent
-After some formal arguments this amounts to showing the
-following statement. Let $W \subset X \times {\bf P}^1$
-be a $(s+1)$-dimensional subvariety dominating ${\bf P}^1$.
-Let $W_a$, resp.\ $W_b$ be the fibre of $W \to {\bf P}^1$
-over $a$, resp.\ $b$. Let $V$ be a $r$-dimensional
-subvariety of $X$ such that $V$ intersects both $W_a$ and
-$W_b$ properly. Then $V \cdot [W_a] \sim_{rat} V \cdot [W_b]$.
-
-\medskip\noindent
-In order to see this, note first that
-$[W_a] = pr_{X,*}( W \cdot X\times a)$ and similar for $[W_b]$.
-Thus we reduce to showing
-$$
-V \cdot pr_{X,*}( W \cdot X\times a) \sim_{rat} V \cdot 
-pr_{X,*}( W \cdot X\times b).
-$$
-The projection formula -- which may be applied -- says
-$V \cdot pr_{X,*}( W \cdot X\times a) =
-pr_{X,*}(V \times {\bf P}^1 \cdot (W \cdot X\times a))$,
-and similar for $b$. Thus we reduce to showing
-$$
-pr_{X,*}(V \times {\bf P}^1 \cdot (W \cdot X\times a))
-\sim_{rat} 
-pr_{X,*}(V \times {\bf P}^1 \cdot (W \cdot X\times b))
-$$
-Associativity for the intersection multiplicities (see [Serre,
-Chapter V]) implies that $V \cdot (W \cdot X\times a) =
-(V \times {\bf P}^1 \cdot W) \cdot X \times a$
-and similar for $b$.  Thus we reduce to showing
-$$
-pr_{X,*}((V \times {\bf P}^1 \cdot W) \cdot X\times a)
-\sim_{rat} 
-pr_{X,*}((V \times {\bf P}^1 \cdot W) \cdot X\times b)
-$$
-which is true by definition of rational equivalence.
-
-\medskip\noindent
-{\bf Upshot: Chow rings.} Using the above, for any nonsingular
-projective $X$ we set $A_k(X)$ equal to the group of $k$-cycles
-on $X$ modulo rational equivalence. Since it is more convenient
-we also use $A^c(X)=A_{\dim X -c}(X)$ to denote the group of
-codimension $c$ cycles modulo rational equivalence. The intersection product
-defines a product
-$$
-A^k(X) \times A^l(X) \longrightarrow A^{k+l}(X)
-$$
-defined as follows: for $a \in A^k(X)$ and $b \in A^l(X)$
-we can find a codimension $k$ cycle $\alpha$ representing $\alpha$,
-a codimension $l$ cycle $\beta$ representing $b$ such that $\alpha$
-and $\beta$ intersect properly.
-We define $a\cdot b$ to be the rational equivalence
-class of $\alpha \cdot \beta$. End result: A commutative and associative
-graded ring $A^*(X)$ with unit $1=[X]$.
-
-\medskip\noindent
-{\bf Pullback for a general morphism.} 
-Let $X$ and $Y$ be nonsingular projective varieties,
-and let $f : X \to Y$ be a morphism. We define 
-$$
-f^* : A_k(Y) \to A_{k+\dim X - \dim Y}(X)
-$$
-by the rule
-$$
-f^*(\alpha) = pr_{X,*}(\Gamma_f \cdot pr_{Y}^*(\alpha))
-$$
-where $\Gamma_f \subset X\times Y$ is the graph of $f$.
-Note that it is defined only on cycle classes and not
-on cylces. This pullback satisfies:
-\begin{enumerate}
-\item $f^* : A^*(Y) \to A^*(X)$ is a ring map,
-\item $(f \circ g)^* = g^* \circ f^*$ for a composable
-pair $f,g$,
-\item the projection formula holds: $f_*(\alpha) \cdot \beta =
-f_*( \alpha \cdot f^*\beta)$, and
-\item if $f$ is flat then it agrees with the previous definition.
-\end{enumerate}
-
-\medskip\noindent
-All of these follow easily from the above. For (1) you have to show that
-$pr_{X,*}( \Gamma_f \cdot \alpha \cdot \beta) =
-pr_{X,*}(\Gamma_f \cdot \alpha) \cdot
-pr_{X,*}(\Gamma_f \cdot \beta)$. It is easy to see that
-if $\alpha$ intersects $\Gamma_f$ properly, then
-$\Gamma_f \cdot \alpha =  
-\Gamma_f \cdot pr_X^*(pr_{X,*}(\Gamma_f \cdot \alpha))$ as cycles
-because $\Gamma_f$ is a graph. Thus we get
-\begin{align}
-pr_{X,*}( \Gamma_f \cdot \alpha \cdot \beta) & =
-pr_{X,*}( \Gamma_f \cdot
-pr_X^*(pr_{X,*}(\Gamma_f \cdot \alpha)) \cdot \beta) \\
-& = pr_{X,*}( pr_X^*(pr_{X,*}(\Gamma_f \cdot \alpha))
-\cdot (\Gamma_f \cdot \beta)) \cr
-& = pr_{X,*}(\Gamma_f \cdot \alpha) \cdot pr_{X,*}(\Gamma_f \cdot \beta)
-\end{align}
-the last step by the projection formula in the flat case. Properties
-(2) and (3) are formal [for (3) use the flat projection formula twice].
-Property (4) rests on identifying the intersection product
-$\Gamma_f \cdot \alpha$ in the case $f$ is flat.
-
-\medskip\noindent
-{\bf Pullback of cycles.} Suppose that $X$ and $Y$ be nonsingular
-projective varieties, and let $f : X \to Y$ be a morphism. 
-Suppose that $Z \subset Y$ is a closed subvariety. Let $f^{-1}(Z)$
-be the scheme theoretic inverse image:
-$$
-\begin{matrix}
-f^{-1}(Z) & \rightarrow & Z \\
-\downarrow & & \downarrow \\
-X & \rightarrow & Y
-\end{matrix}
-$$
-is a fibre product diagram of schemes. In particular $f^{-1}(Z) \subset X$
-is a closed subscheme of $X$. In this case we always have
-$$
-\dim f^{-1}(Z) \geq \dim Z + \dim X - \dim Y.
-$$
-If equality holds in the formula above, then
-$f^*[Z] = [f^{-1}(Z)]_{\dim Z + \dim X - \dim Y}$.
-This follows by identifying $f^{-1}(Z)$ with the
-scheme theoretic intersection of $\Gamma_f$ and $X\times Z$.
-
-
-\medskip\noindent
-{\bf Alterations and the projection formula.}
-Suppose that $f : X \to Y$ is an alteration of smooth projective
-varieties. In other words $f$ is dominant and generically finite.
-Then for any $k$-cycle $\alpha$ on $Y$ we have
-$$
-f_*f^*\alpha = d\alpha
-$$
-where $d = [\mathbf{C}(X) : \mathbf{C}(Y)]$ is the degree of the
-morphism $f$. This follows from the projection formula and the
-(obvious) fact that $f_*f^*[Y] = d[Y]$.
-
-
-\section{Chow groups of projective space}
-\label{section-chow-projective}
-
-\noindent
-We claim that for every $n \geq 1$
-there is a unique $h \in A^1({\bf P}^n)$ such that
-\begin{enumerate}
-\item $h$ is the class of a linear hypersurface in $\mathbf{P}^n$,
-\item
-for every linear map ${\bf P}^n \to {\bf P}^m$
-the class $h$ pulls back to $h$, and
-\item
-the Segre map 
-$
-{\bf P}^n \times {\bf P}^m 
-\longrightarrow
-{\bf P}^{nm+n+m}
-$
-pulls $h$ back to $1\otimes h + h \otimes 1$.
-\end{enumerate}
-
-\medskip\noindent
-{\bf The chow ring of ${\bf P}^n$.}
-We have
-$$
-A^*(\mathbf{P}^n) = 
-\mathbf{Z}[h]/(h^{n+1})
-$$
-where $h$ is as above.
-
-
-
-
-\medskip\noindent
-{\bf Splitting princliple.} 
-For any finite locally free sheaf ${\mathcal E}$ on any nonsingular projective
-variety $X$ over $\mathbf{C}$ there exists a smooth projective morphism
+For any finite locally free sheaf ${\mathcal E}$ on any $X$
+over $S$ there exists a smooth projective morphism
 $f : Y \to X$ such that
 \begin{enumerate}
-\item $f^* : A^*(X) \to A^*(Y)$ is injective, and
+\item $f^* : A_*(X) \to A_*(Y)$ is injective, and
 \item $f^*{\mathcal E}$ has a filtration
 with succesive quotients ${\mathcal L}_1, \ldots, {\mathcal L}_r$
 for some invertible ${\mathcal O}_Y$-modules ${\mathcal L}_i$.
 \end{enumerate}
 
-\medskip\noindent
-{\bf Additivity of chern classes.} Suppose that ${\mathcal E}$ sits in an
+
+
+
+\section{Additivity of chern classes}
+\label{section-additivity-chern-classes}
+
+\noindent
+Suppose that ${\mathcal E}$ sits in an
 exact sequence
 $$
 0
@@ -3419,8 +2926,14 @@ $$
 c({\mathcal E}) = c({\mathcal E}_1) \cup c({\mathcal E}_2)
 $$
 
-\medskip\noindent
-{\bf Splitting principle revisited.} Using the above
+
+
+
+\section{Splitting principle revisited}
+\label{section-splitting-revisited}
+
+\noindent
+Using the above
 we formally write
 $$
 c({\mathcal E}) = \prod\nolimits (1+x_i)
@@ -3446,8 +2959,14 @@ $ \prod_{i=1}^r (T - x_i) =  T^r - c_1({\mathcal E}) T^{r-1}+ \ldots
 of the projective space bundle formula. (And of course there
 is a corresponding statement for the odd cohomology.)
 
-\medskip\noindent
-{\bf Chern classes and tensor product.}
+
+
+
+
+\section{Chern classes and tensor product}
+\label{section-chern-classes-tensor}
+
+\noindent
 We define the {\it Chern character} of a finite locally free
 sheaf of rank $r$ to be the expression
 $$
@@ -3475,8 +2994,14 @@ ch({\mathcal E}_1) \cup ch({\mathcal E}_2)
 $$
 The proof follows directly from the splitting principle.
 
-\medskip\noindent
-{\bf Tiny bit of K-theory.} Let $X$ be a {\it smooth}
+
+
+
+\section{Tiny bit of K-theory}
+\label{section-bit-K-theory}
+
+\noindent
+Let $X$ be a {\it smooth}
 quasi-projective variety over $k$. We will use the
 following facts:
 \begin{enumerate}
@@ -3635,8 +3160,11 @@ The desired result $\sum_i (-1)^i[{\mathcal F}_1^i]
 = \sum_i (-1)^i[{\mathcal F}_2^i]$ follows.
 
 
-\medskip\noindent
-{\bf The Chern character of a coherent sheaf.}
+
+\section{The Chern character of a coherent sheaf}
+\label{section-chern-coherent}
+
+\noindent
 For any quasi-projective variety $X$ over $k$ we can extend the 
 Chern character to a homomorphism
 $$
@@ -3737,114 +3265,6 @@ ch^{dR}( {\mathcal O}(-i)^{\binom{n}{i}} )
 $$
 because $\xi^{n+1} = 0$.
 
-\medskip\noindent
-{\bf Chern character in flat families.} 
-Suppose that $T$ is a smooth quasi-projective connected variety over $k$.
-Let $X$ be a smooth projective variety over $k$. 
-Suppose ${\mathcal F}$ is a coherent ${\mathcal O}_{X\times T}$-module
-which is flat over $T$. Finally, let $a,b\in T(k)$ be rational
-points and let ${\mathcal F}_a$ be the pullback of ${\mathcal F}$
-via the morphism $X \to X\times a \to X\times T$, and
-similarly for ${\mathcal F}_b$. We claim that
-$$
-ch^{dR}({\mathcal F}_a) = ch^{dR}({\mathcal F}_b).
-$$
-This would be completely clear if ${\mathcal F}$ were a locally
-free ${\mathcal O}_{X\times T}$-module, by an argument similar 
-to the one proving ``homotopy invariance''. In general,
-flatness of ${\mathcal F}$ over $T$ implies that if
-${\mathcal F}^* \to {\mathcal F}[0]$ is a resolution (as in (1) above)
-then ${\mathcal F}^*_a \to {\mathcal F}_a$ is a resolution as well.
-Detail left to the reader.
-
-\medskip\noindent
-{\bf The Chern character of a skyscraper sheaf.} 
-Suppose that $x$, $x'$ are closed points in the smooth
-quasi-projective variety $X$ over $k$. Set $d =\deg_k(x)$
-and $d' = \deg_k(x')$. Denote $\kappa(x)$, $\kappa(x')$
-the skyscraper sheaves (of residue fields). We claim that
-$$
-d'\ ch^{dR}( \kappa(x) ) = d\ ch^{dR}( \kappa(x') ).
-$$
-Of course this follows from the above because the family
-of all zero cycles of a given degree form an irreducible
-family, and we have invariance of Chern character in flat
-families. The details are slightly harder than you would
-think at first since we do not assume a variety is
-geometrically irreducible. Observe that the structure
-morphism $X \to Spec(k)$ factors as
-$$
-X \longrightarrow Spec( k' ) \longrightarrow Spec(k)
-$$
-where $k'$ is the algebraic closure of $k$ in the function
-field $k(X)$. Recall that $k' \supset k$ is a finite extension.
-Set $e=[k':k]$. Since the characteristic of $k$ is zero, since
-$X$ is irreducible, and since $X$ is smooth over $k$ we conclude
-that $X$ is geometrically irrreducible over $k'$. Hence we
-can find a smooth curve $C \subset X$ with $x, x' \in C$ which
-is geometrically irreducible over $k'$ as well. (Using Bertini
-over $k$, see the excellent book ``Theoremes de Bertini et
-Applications'' by Jouanolou.) In this case $x$ and $x'$ give
-rise to effective Cartier divisors $(x')$ and $(x)$ on $C$
-of degree $d/e$, respectively $d'/e$ over $k'$. Then $d'(x)$ and $d(x')$
-correspond to $k'$-points $a', b'$ of the smooth geometrically irreducible
-variety $Sym^{dd'/e}_{k'}(C)$ over $k'$. Consider the restriction
-of scalars
-$$
-T := Res_{k'/k}\Big(Sym^{dd'/e}_{k'}(C)\Big).
-$$
-A $R$-point $t$ of $T$ is by definition a $R\otimes k'$ point
-of $Sym^{dd'/e}_{k'}(C)$ for any $k$-algebra $R$. In particular
-there is a canonical morphism $T \times_{Spec(k)} Spec(k') \to 
-Sym^{dd'/e}_{k'}(C)$. From general properties of restrictions
-of scalars we get that $T$ is smooth and geometrically irreducible
-over $k$. Also, $a', b'$ correspond to $k$-points $a,b$ of $T$.
-Let $D' \subset Sym^{dd'/e}_{k'}(C) \times_{Spec(k')} C$ be the
-universal degree $dd'/e$ divisor over $k'$. Let
-$D \subset T \times_{Spec(k)} C$ be the divisor which is the inverse
-image of $D'$ under
-$$
-T \times_{Spec(k)} C
-=
-T \times_{Spec(k)} Spec(k') \times_{Spec(k')} C
-\longrightarrow
-Sym^{dd'/e}_{k'}(C) \times_{Spec(k')} C
-$$
-Then $D$ is a flat family of closed subschemes of $C$ of length
-$dd'$ over $k$ and $D_a = d'(x)$ and $D_b = d(x')$ as closed
-subschemes over $k$. Thus we conclude that
-$ch^{dR}({\mathcal O}_{d'(x)}) = ch^{dR}({\mathcal O}_{d(x')})$ in the
-cohomology of $X$. We leave it as an exercise to show that
-$ch^{dR}({\mathcal O}_{d'(x)}) = d' ch^{dR}( \kappa(x) )$
-and similarly for the other side. (Hint: Use additivity of
-the Chern character.)
-
-\medskip\noindent
-{\bf The cohomology class of a point.}
-The upshot is that the element
-$$
-u_X := \frac{ 1 }{ \deg_k(x) } ch^{dR}( \kappa(x) )
-$$
-for any closed point $x \in X$ is a canonical element
-of $H^{2\dim X}(X)(\dim X)$. If $f : X \to Y$ is a
-generically finite morphism of smooth
-projective varieties of the {\it same} dimension
-then $f^* u_Y = \deg(f) u_X$. Namely we can find a 
-point $y \in Y$ such that $f^{-1}(y) = \{x_1,\ldots,x_t\}$
-is finite and such that $f$ is flat and unramified in all points
-of $f^{-1}(y)$ (uses characteristic zero).
-Since in this case $\deg(f) \deg_k(y) = \sum \deg_k(x_i)$
-we conclude.
-
-\medskip\noindent
-{\bf Nonvanishing.}
-Sofar we have not argued that $u_X$ is nonzero. 
-The reason that it is nonvanishing is that it is 
-equal to $\xi^n \not=0$ in the case of ${\bf P}^n$,
-and by the fact that choosing a finite surjective
-morphism $\pi : X \to {\bf P}^{\dim X}$ gives
-an {\it injection} $H^*_{dR}({\bf P}^{\dim X})
-\to H^*_{dR}(X)$ (by the trace map for $\pi$, see above).
 
 
 
@@ -3864,17 +3284,6 @@ an {\it injection} $H^*_{dR}({\bf P}^{\dim X})
 
 
 
-\medskip\noindent
-{\bf References}
-
-\medskip\noindent
-[Serre] = \cite{Serre_local_algebra}, or \cite{Serre_algebre_locale}.
-\hfill\break
-[Samuel] = \cite{Samuel}.
-\hfill\break
-[Chevalley] =  \cite{ChevalleyI} and \cite{ChevalleyII}.
-\hfill\break
-[Fulton] = \cite{F}.
 
 \input{chapters}
 
