@@ -3,9 +3,9 @@ from functions import *
 # Only use this script after running
 #	make tags
 #
-def parse_aux_file(name):
+def parse_aux_file(name, path):
 	label_loc = {}
-	aux_file = open("tags/tmp/" + name + ".aux", 'r')
+	aux_file = open(path + "tags/tmp/" + name + ".aux", 'r')
 	for line in aux_file:
 		if line.find("\\newlabel{") < 0:
 			continue
@@ -47,10 +47,10 @@ lijstje = list_text_files(path)
 
 list_dict = {}
 for name in lijstje:
-	label_loc = parse_aux_file(name)
+	label_loc = parse_aux_file(name, path)
 	list_dict[name] = label_loc
 
-label_loc = parse_aux_file("book")
+label_loc = parse_aux_file("book", path)
 
 print "<html>"
 print "<head>"
@@ -74,7 +74,7 @@ while n < len(tags):
 	if label in label_loc:
 		print "\"" + tag + "\" => \"" + label_loc[label] + "\","
 	n = n + 1
-print "\"ZZZ\" => \"Does not exist yet.\");"
+print "\"ZZZZ\" => \"does not exist yet\");"
 print "$tag_loc_chap = array("
 n = 0
 while n < len(tags):
@@ -88,7 +88,7 @@ while n < len(tags):
 		text = text + "</a> in ``" + titles[name] + "''"
 		print "\"" + tag + "\" => \"" + text + "\","
 	n = n + 1
-print "\"ZZZ\" => \"Does not exist yet.\");"
+print "\"ZZZZ\" => \"introduction.pdf#ZZZZ\\\">does not exist yet</a>\");"
 
 # Text the reader sees
 print "if (array_key_exists($_GET[\"tag\"], $tag_loc)) {"
