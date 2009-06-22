@@ -929,7 +929,34 @@ Algebra, Lemma \ref{algebra-lemma-image-dense-generic-points}.
 \end{proof}
 
 \noindent
-There is another case where this holds.
+Here is a slightly more useful variant of the lemma above.
+
+\begin{lemma}
+\label{lemma-quasi-compact-generic-point-not-in-image}
+Let $f : X \to S$ be a quasi-compact morphism of schemes.
+Let $\eta \in S$ be a generic point of an irreducible
+component of $S$. If $\eta \not \in f(X)$ then there
+exists an open neighbourhood $V \subset S$ of $\eta$
+such that $f^{-1}(V) = \emptyset$.
+\end{lemma}
+
+\begin{proof}
+Let $Z \subset S$ be the scheme theoretic image of $f$.
+By Lemma \ref{lemma-quasi-compact-scheme-theoretic-image}
+the morphism $X \to Z$ is dominant, which by
+Lemma \ref{lemma-quasi-compact-dominant}
+means all the generic points of all irreducible components of $Z$
+are in the image of $X \to Z$. By assumption we see that
+$\eta \not \in Z$ (since $\eta$ would be the generic 
+point of some irreducible component of $Z$ if it were in $Z$).
+Hence there exists an open neighbourhood $V$ of $\eta$ in $Y$
+such that $V \cap Z = \emptyset$. For this $V$ we have
+$f^{-1}(V) = \emptyset$.
+\end{proof}
+
+\noindent
+There is another case where dominant is the same as having all
+generic points of irreducible components in the image.
 
 \begin{lemma}
 \label{lemma-dominant-finite-number-irreducible-components}
@@ -952,7 +979,7 @@ $$
 S = \overline{f(X)} = \bigcup \overline{f(Z_i)} =
 \bigcup \overline{\{f(\xi_i)\}}
 $$
-is a finite union if irreducible subsets whose generic
+is a finite union of irreducible subsets whose generic
 points are in the image of $f$. The lemma follows.
 \end{proof}
 
@@ -1091,7 +1118,8 @@ addition and multiplication as just described.
 \label{lemma-integral-scheme-rational-functions}
 Let $X$ be an irreducible scheme. Let $\eta \in X$ be the generic point
 of $X$. There is a canonical identification
-$R(X) \cong \mathcal{O}_{X, \eta}$. If $X$ is integral then $R(X)$ is
+$R(X) \cong \mathcal{O}_{X, \eta}$. If $X$ is integral then
+$R(X) = \kappa(\eta) = \mathcal{O}_{X, \eta}$ is
 a field.
 \end{lemma}
 
@@ -3252,6 +3280,80 @@ Lemma \ref{algebra-lemma-dimension-fibres-bounded-quasi-compact-open-upstairs}
 
 
 
+\section{Morphisms of given relative dimension}
+\label{section-relative-dimension}
+
+\noindent
+In order to be able to speak comfortably about morphisms of a
+given relative dimension we introduce the following notion.
+
+\begin{definition}
+\label{definition-relative-dimension-d}
+Let $f : X \to S$ be a morphism of schemes.
+Assume $f$ is locally of finite type.
+We say $f$ is of {\it relative dimension $d$} if
+all nonempty fibres $X_s$ are equidimensional of dimension $d$.
+\end{definition}
+
+\noindent
+This is not a particularly well behaved notion, but it works well
+in a number of situations.
+
+\begin{lemma}
+\label{lemma-base-change-relative-dimension-d}
+Let $f : X \to S$ be a locally finite type morphism.
+If $f$ has relative dimension $d$, then so does any base
+change of $f$.
+\end{lemma}
+
+\begin{proof}
+This is immediate from
+Lemma \ref{lemma-dimension-fibre-after-base-change}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-composition-relative-dimension-d}
+Let $f : X \to Y$, $g : Y \to Z$ be locally of finite type.
+Assume
+\begin{enumerate}
+\item $f$ has relative dimension $d$,
+\item $g$ has relative dimension $e$, and
+\item $f$ is flat.
+\end{enumerate}
+Then $g \circ f$ has relative dimension $d + e$.
+\end{lemma}
+
+\begin{proof}
+This is immediate from Lemma \ref{lemma-dimension-fibre-at-a-point-additive}.
+\end{proof}
+
+\noindent
+In general it is not possible to decompose a morphism
+into its pieces where the relative dimension is a given
+one. However, it is possible if the morphism has Cohen-Macaulay
+fibres and is flat of finite presentation.
+
+\begin{lemma}
+\label{lemma-flat-finite-presentation-CM-fibres-relative-dimension}
+Let $f : X \to S$ be a morphism of schemes.
+Assume that
+\begin{enumerate}
+\item $f$ is flat,
+\item $f$ is locally of finite presentation, and
+\item for every $s \in S$ the fibre $X_s$ is Cohen-Macaulay
+(see Properties, Definition \ref{properties-definition-Cohen-Macaulay})
+\end{enumerate}
+Then there exist open and closed subschemes $X_d \subset X$
+such that $X = \coprod_{d \geq 0} X_d$ and $f|_{X_d} : X_d \to S$
+has relative dimension $d$.
+\end{lemma}
+
+\begin{proof}
+This is immediate from
+Algebra,
+Lemma
+\ref{algebra-lemma-relative-dimension-CM}.
+\end{proof}
 
 
 
@@ -7236,6 +7338,217 @@ Omitted.
 \end{proof}
 
 
+\section{Generically finite morphisms}
+\label{section-generically-finite}
+
+\noindent
+In this section we characterize maps between schemes
+which are locally of finite type and which are ``generically finite''
+in some sense.
+
+\begin{lemma}
+\label{lemma-generically-finite}
+Let $X$, $Y$ be schemes.
+Let $f : X \to Y$ be locally of finite type.
+Let $\eta \in Y$ be a generic point of an irreducible component
+of $Y$. The following are equivalent:
+\begin{enumerate}
+\item the set $f^{-1}(\{\eta\})$ is finite,
+\item there exist affine opens $U_i \subset X$, $i = 1, \ldots, n$
+and $V \subset Y$ with $f(U_i) \subset V$,
+$\eta \in V$ and $f^{-1}(\{\eta\}) \subset \bigcup U_i$
+such that each $f|_{U_i} : U_i \to V$ is finite.
+\end{enumerate}
+If $f$ is quasi-separated, then these are also equivalent to
+\begin{enumerate}
+\item[(3)] there exist affine opens $V \subset Y$,
+and $U \subset X$ with $f(U) \subset V$,
+$\eta \in V$ and $f^{-1}(\{\eta\}) \subset U$
+such that $f|_U : U \to V$ is finite.
+\end{enumerate}
+If $f$ is quasi-compact and quasi-separated,
+then these are also equivalent to
+\begin{enumerate}
+\item[(4)] there exists an affine open $V \subset Y$, $\eta \in V$
+such that $f^{-1}(V) \to V$ is finite.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+The question is local on the base. Hence we may replace $Y$ by an
+affine neighbourhood of $\eta$, and we may and do assume throughout
+the proof below that $Y$ is affine, say $Y = \text{Spec}(R)$.
+
+\medskip\noindent
+It is clear that (2) implies (1).
+Assume that $f^{-1}(\{\eta\}) = \{\xi_1, \ldots, \xi_n\}$ is finite.
+Choose affine opens $U_i \subset$ with $\xi_i \in U_i$.
+By Algebra, Lemma \ref{algebra-lemma-generically-finite} we see
+that after replacing $Y$ by a standard open in
+$Y$ each of the morphisms $U_i \to Y$ is finite.
+In other words (2) holds.
+
+\medskip\noindent
+It is clear that (3) implies (1).
+Assume $f^{-1}(\{\eta\}) = \{\xi_1, \ldots, \xi_n\}$ and assume
+that $f$ is quasi-separated.
+Since $Y$ is affine this implies that $X$ is quasi-separated.
+Since each $\xi_i$ maps to a generic point of an irreducible component
+of $Y$, we see that each $\xi_i$ is a generic point of an irreducible
+component of $X$.
+By Properties, Lemma \ref{properties-lemma-maximal-points-affine}
+we can find an affine open $U \subset X$ containing each $\xi_i$.
+By Algebra, Lemma \ref{algebra-lemma-generically-finite} we see
+that after replacing $Y$ by a standard open in
+$Y$ each of the morphisms $U \to Y$ is finite.
+In other words (3) holds.
+
+\medskip\noindent
+It is clear that (4) implies all of (1) -- (3) with no further assumptions
+on $f$. Suppose that $f$ is quasi-compact and quasi-separated. We have to
+show that the equivalent conditions (1) -- (3) imply (4).
+Let $U$, $V$ be as in (3). Replace $Y$ by $V$. Since $f$ is quasi-compact
+and $Y$ is quasi-compact (being affine) we see that $X$ is quasi-compact.
+Hence $Z = X \setminus U$ is quasi-compact, hence the morphism
+$f|_Z : Z \to Y$ is quasi-compact. By construction of $Z$ we see that
+$\eta \not \in f(Z)$. Hence by
+Lemma \ref{lemma-quasi-compact-generic-point-not-in-image}
+we see that there exists an affine open
+neighbourhood $V'$ of $\eta$ in $Y$ such that $f^{-1}(V') \cap Z = \emptyset$.
+Then we have $f^{-1}(V') \subset U$ and this means
+that $f^{-1}(V') \to V'$ is finite.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-finite-degree}
+Let $X$, $Y$ be integral schemes.
+Let $f : X \to Y$ be locally of finite type.
+Assume $f$ is dominant.
+The following are equivalent:
+\begin{enumerate}
+\item the extension $R(Y) \subset R(X)$ has
+transcendence degree $0$,
+\item the extension $R(Y) \subset R(X)$ is finite,
+\item there exist nonempty affine opens $U \subset X$
+and $V \subset Y$ such that $f(U) \subset V$
+and $f|_U : U \to V$ is finite, and
+\item the generic point of $X$ is the only point of $X$ mapping to
+the generic point of $Y$.
+\end{enumerate}
+If $f$ is separated, or if $f$ is quasi-compact, then these are
+also equivalent to
+\begin{enumerate}
+\item[(5)] there exists a nonempty affine open $V \subset Y$ such
+that $f^{-1}(V) \to V$ is finite.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Choose any affine opens $\text{Spec}(A) = U \subset X$
+and $\text{Spec}(R) = V \subset Y$ such that $f(U) \subset V$.
+Then $R$ and $A$ are domains by definition. The ring map
+$R \to A$ is of finite type
+Lemma \ref{lemma-locally-finite-type-characterize}).
+Let $K = f.f.(R) = R(Y)$ and $L = f.f.(A) = R(X)$. Then $K \subset L$
+is a finitely generated field extension. Hence we see that
+(1) is equivalent to (2).
+
+\medskip\noindent
+Suppose (2) holds. Let $x_1, \ldots, x_n \in A$ be generators
+of $A$ over $R$. By assumption there exist nonzero polynomials
+$P_i(X) \in R[X]$ such that $P_i(x_i) = 0$. Let $f_i \in R$ be the
+leading coefficient of $P_i$. Then we conclude that
+$R_{f_1 \ldots f_n} \to A_{f_1 \ldots f_n}$ is finite, i.e., (3) holds.
+Note that (3) implies (2). So now we see that (1), (2) and (3) are all
+equivalent.
+
+\medskip\noindent
+Let $\eta$ be the generic point of $X$, and let $\eta' \in Y$ be the
+generic point of $Y$. Assume (4). Then
+$\dim_\eta(X_{\eta'}) = 0$ and we see that $R(X) = \kappa(\eta)$ has
+transcendence degree $0$ over $R(Y) = \kappa(\eta')$ by
+Lemma \ref{lemma-dimension-fibre-at-a-point}.
+In other words (1) holds. Assume the equivalent conditions (1), (2) and
+(3). Suppose that $x \in X$ is a point mapping to $\eta'$.
+As $x$ is a specialization of $\eta$,
+this gives inclusions $R(Y) \subset \mathcal{O}_{X, x} \subset R(X)$,
+which implies $\mathcal{O}_{X, x}$ is a field, see
+Algebra, Lemma \ref{algebra-lemma-integral-over-field}.
+Hence $x = \eta$. Thus we see that (1) -- (4)
+are all equivalent.
+
+\medskip\noindent
+It is clear that (5) implies (3) with no additional assumptions on
+$f$. What remains is to prove that if $f$ is either separated or
+quasi-compact, then the equivalent conditions (1) -- (4) imply (5).
+
+\medskip\noindent
+Assume $U, V$ as in (3) and assume $f$ is separated.
+Then $U \to f^{-1}(V)$ is a morphism from a scheme proper over $V$
+Lemma \ref{lemma-finite-proper})
+into a scheme separated over $V$.
+Hence $U \subset f^{-1}(V)$ is closed
+Lemma \ref{lemma-image-proper-scheme-closed}.
+Since $X$ is irreducible we conclude $U = f^{-1}(V)$. This
+proves (5).
+
+\medskip\noindent
+Assume $f$ is quasi-compact. Let $U, V$ be as in (3).
+Then $f^{-1}(V)$ is quasi-compact. Consider the closed subset
+$Z = f^{-1}(V) \setminus U$. Since $Z$ does not contain the
+generic point of $X$ we see that the quasi-compact morphism
+$f : Z \to V$ is not dominant by
+Lemma \ref{lemma-quasi-compact-dominant}.
+Hence after shrinking $V$ we may assume that $f^{-1}(V) = U$
+which implies that (5) holds.
+\end{proof}
+
+\begin{definition}
+\label{definition-degree}
+Let $X$ and $Y$ be integral schemes.
+Let $f : X \to Y$ be locally of finite type and dominant.
+Assume $[R(X) : R(Y)] < \infty$, or any other of the equivalent
+conditions (1) -- (4) of Lemma \ref{lemma-finite-degree}.
+Then the positive integer
+$$
+\text{deg}(X/Y) = [R(X) : R(Y)]
+$$
+is called the {\it degree of $X$ over $Y$}.
+\end{definition}
+
+\noindent
+It is possible to extend this notion to a morphism
+$f : X \to Y$ if (a) $Y$ is integral with generic point $\eta$,
+(b) $f$ is locally of finite type, and (c) $f^{-1}(\{\eta\})$ is finite.
+Namely, in this case we can define
+$$
+\deg(X/Y)
+=
+\sum\nolimits_{\xi \in X,\ f(\xi) = \eta}
+\dim_{R(Y)} (\mathcal{O}_{X, \xi}).
+$$
+Namely, given that $R(Y) = \kappa(\eta) = \mathcal{O}_{Y, \eta}$
+(Lemma \ref{lemma-integral-scheme-rational-functions})
+the dimensions above are finite by
+Lemma \ref{lemma-generically-finite} above.
+However, for most applications the definition given above
+is the right one.
+
+\begin{lemma}
+\label{lemma-degree-composition}
+Let $X$, $Y$, $Z$ be integral schemes.
+Let $f : X \to Y$ and $g : Y \to Z$ be dominant morphisms locally
+of finite type. Assume that $[R(X) : R(Y)] < \infty$ and
+$[R(Y) : R(Z)] < \infty$. Then
+$$
+\deg(X/Z) = \deg(X/Y) \deg(Y/Z).
+$$
+\end{lemma}
+
+\begin{proof}
+This comes from the multiplicativity of degrees in towers
+of finite extensions of fields.
+\end{proof}
 
 
 
