@@ -234,6 +234,10 @@ def find_refs(line, name):
 	while n >= 0:
 		m = find_sub_clause(line, n + 4, "{", "}")
 		ref = line[n + 5: m]
+		if ref.find(name) == 0:
+			new = ref[len(name) + 1: len(ref)]
+			if standard_label(new):
+				ref = name + "-" + ref
 		if standard_label(ref):
 			ref = name + "-" + ref
 		refs.append(ref)
