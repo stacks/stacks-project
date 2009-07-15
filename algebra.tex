@@ -7185,7 +7185,8 @@ Hence the lemma follows from the Artin-Tate Lemma \ref{lemma-Artin-Tate}.
 \section{Length}
 \label{section-length}
 
-\noindent
+\begin{definition}
+\label{definition-length}
 Let $R$ be a ring. For any $R$-module $M$
 we define the {\it length} of $M$ over $R$ by the
 formula
@@ -7200,6 +7201,9 @@ n
 \text{ }M_i \not= M_{i + 1}
 \}.
 $$
+\end{definition}
+
+\noindent
 In other words it is the supremum of the lengths of chains
 of submodules. There is an obvious notion of when a chain
 of submodules is a refinement of another. This gives a partial
@@ -7210,6 +7214,17 @@ We note the obvious fact that if the length of
 $M$ is finite, then every chain can be refined to a
 maximal chain. But it is not as obvious that all maximal
 chains have the same length (as we will see later).
+
+\begin{lemma}
+\label{lemma-finite-length-finite}
+Let $R$ be a ring.
+Let $M$ be an $R$-module.
+If $\text{length}_R(M) < \infty$ then $M$ is a finite $R$-module.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
 
 \begin{lemma}
 \label{lemma-length-additive}
@@ -7238,16 +7253,24 @@ Combined with the earlier result we win.
 \begin{lemma}
 \label{lemma-length-infinite}
 Let $R$ be a local ring with maximal ideal $\mathfrak m$.
-If $M$ is a finite $R$-module such that
+Let $M$ be an $R$-module.
+\begin{enumerate}
+\item If $M$ is a finite and
 $\mathfrak m^n M \not = 0$ for all $n\geq 0$,
 then $\text{length}_R(M) = \infty$.
+\item If $M$ has finite length then $\mathfrak m^nM = 0$
+for some $n$.
+\end{enumerate}
 \end{lemma}
 
 \begin{proof}
+Assume $M$ is finite and $\mathfrak m^n M \not = 0$ for all $n\geq 0$.
 By NAK, Lemma \ref{lemma-NAK} all the steps in the filtration
 $0 \subset \mathfrak m^n M
 \subset \mathfrak m^{n-1} M \subset \ldots \subset
-\mathfrak m M \subset M$ are distinct.
+\mathfrak m M \subset M$ are distinct. Hence the length is infinite,
+i.e., (1) holds.
+Combine (1) and Lemma \ref{lemma-finite-length-finite} to see (2).
 \end{proof}
 
 \begin{lemma}
@@ -7409,8 +7432,93 @@ $$
 This we leave to the reader.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-pushdown-module}
+Let $A$ be a local ring with maximal ideal $\mathfrak m$.
+Let $B$ be a semi-local ring with maximal ideals $\mathfrak m_i$,
+$i = 1, \ldots, n$.
+Suppose that $A \to B$ is a homomorphism such that each $\mathfrak m_i$
+lies over $\mathfrak m$ and such that
+$$
+[\kappa(\mathfrak m_i) : \kappa(\mathfrak m)] < \infty.
+$$
+Let $M$ be a $B$-module of finite length.
+Then
+$$
+\text{length}_A(M) = \sum\nolimits_{i = 1, \ldots, n}
+[\kappa(\mathfrak m_i) : \kappa(\mathfrak m)]
+\text{length}_{B_{\mathfrak m_i}}(M_{\mathfrak m_i}),
+$$
+in particular $\text{length}_A(M) < \infty$.
+\end{lemma}
 
+\begin{proof}
+Choose a maximal chain
+$$
+0 = M_0
+\subset M_1
+\subset M_2
+\subset \ldots
+\subset M_n = M
+$$
+by $B$-submodules as in Lemma \ref{lemma-simple-pieces}.
+Then each quotient $M_i/M_{i - 1}$ is isomorphic to
+$\kappa(\mathfrak m_{j(i)})$ for some $j(i) \in \{1, \ldots, n\}$.
+Moreover
+$\text{length}_A(\kappa(\mathfrak m_i)) =
+[\kappa(\mathfrak m_i) : \kappa(\mathfrak m)]$ by
+Lemma \ref{lemma-dimension-is-length}. The lemma follows
+by additivity of lengths (Lemma \ref{lemma-length-additive}).
+\end{proof}
 
+\begin{lemma}
+\label{lemma-pullback-module}
+Let $A \to B$ be a flat local homomorphism of local rings.
+Then for any $A$-module $M$ we have
+$$
+\text{length}_A(M) \text{length}_B(B/\mathfrak m_AB)
+=
+\text{length}_B(M \otimes_A B).
+$$
+In particular, if $\text{length}_B(B/\mathfrak m_AB) < \infty$
+then $M$ has finite length if and only if $M \otimes_A B$ has finite length.
+\end{lemma}
+
+\begin{proof}
+The ring map $A \to B$ is faithfully flat by
+Lemma \ref{lemma-local-flat-ff}.
+Hence if $0 = M_0 \subset M_1 \subset \ldots \subset M_n = M$
+is a chain of length $n$ in $M$, then the corresponding chain
+$0 = M_0 \otimes_A B \subset M_1 \otimes_A B \subset
+\ldots \subset M_n \otimes_A B = M \otimes_A B$ has length $n$
+also. This proves
+$\text{length}_A(M) = \infty \Rightarrow
+\text{length}_B(M \otimes_A B) = \infty$.
+Next, assume $\text{length}_A(M) < \infty$. In this case we see
+that $M$ has a filtration of length $\ell = \text{length}_A(M)$
+whose quotients are $A/\mathfrak m_A$. Arguing as above
+we see that $M \otimes_A B$ has a filtration of length $\ell$
+whose quotients are isomorphic to
+$B \otimes_A A/\mathfrak m_A =  B/\mathfrak m_AB$.
+Thus the lemma follows.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-pullback-transitive}
+Let $A \to B \to C$ be flat local homomorphisms of local rings.
+Let $M$ be an $A$-module of finite length. Then
+$$
+\text{length}_B(B/\mathfrak m_A B)
+\text{length}_C(C/\mathfrak m_B C)
+=
+\text{length}_C(C/\mathfrak m_A C)
+$$
+\end{lemma}
+
+\begin{proof}
+Follows from Lemma \ref{lemma-pullback-module} applied to the ring map
+$B \to C$ and the $B$-module $M = B/\mathfrak m_A B$
+\end{proof}
 
 
 
@@ -13360,6 +13468,38 @@ $\dim(R[x]_{\mathfrak q'}/\mathfrak n) = \dim(R[x]_{\mathfrak q'}) - 1$
 as desired.
 \end{proof}
 
+\noindent
+The following lemma says that generically finite maps
+tend to be quasi-finite in codimension $1$.
+
+\begin{lemma}
+\label{lemma-finite-in-codim-1}
+Let $A \to B$ be a ring map.
+Assume
+\begin{enumerate}
+\item $A \subset B$ is an extension of domains.
+\item $A$ is Noetherian,
+\item $A \to B$ is of finite type, and
+\item the extension $f.f.(A) \subset f.f.(B)$ is finite.
+\end{enumerate}
+Let $\mathfrak p \subset A$ be a prime such that $\dim(A_\mathfrak p) = 1$.
+Then there are at most finitely many primes of $B$ lying over $\mathfrak p$.
+\end{lemma}
+
+\begin{proof}
+By the dimension formula (Lemma \ref{lemma-dimension-formula})
+for any prime $\mathfrak q$ lying over $\mathfrak p$ we have
+$$
+\dim(B_{\mathfrak q}) \leq
+\dim(A_{\mathfrak p}) - \text{trdeg}_{\kappa(\mathfrak p)} \kappa(\mathfrak q).
+$$
+Since $\dim(B_{\mathfrak q})$ is clearly at least $1$ we conclude that
+it is $1$ and that the extension
+$\kappa(\mathfrak p) \subset \kappa(\mathfrak q)$ is algebraic.
+Hence every such prime $\mathfrak q$ is an isolated point of its fibre.
+Since the fibre $\text{Spec}(B \otimes_A \kappa(\mathfrak p))$
+is quasi-compact we see that it is finite.
+\end{proof}
 
 
 
@@ -14344,6 +14484,128 @@ valuation ring dominating $R$ as desired.
 \end{proof}
 
 
+
+
+
+
+
+
+
+
+\section{Orders of vanishing}
+\label{section-orders-of-vanishing}
+
+\begin{lemma}
+\label{lemma-ord-additive}
+Let $R$ be a semi-local Noetherian ring of dimension $1$.
+If $a, b \in R$ are not zero divisors then
+$$
+\text{length}_R(R/(ab)) =
+\text{length}_R(R/(a)) +
+\text{length}_R(R/(b))
+$$
+and these lengths are finite.
+\end{lemma}
+
+\begin{proof}
+We saw the finiteness in Lemma \ref{lemma-finite-length-global}.
+Additivity holds since there is a short exact sequence
+$0 \to R/(a) \to R/(ab) \to R/(b) \to 0$ where the first map
+is given by multiplication by $b$. (Use length is additive,
+see Lemma \ref{lemma-length-additive}.)
+\end{proof}
+
+\begin{definition}
+\label{definition-ord}
+Suppose that $K$ is a field, and $R \subset K$ is a
+local\footnote{We could also define this when $R$ is only
+semi-local but this is probably never really what you want!}
+Noetherian subring of dimension $1$ with fraction field $K$.
+In this case we define the {\it order of vanishing along $R$}
+$$
+\text{ord}_R : K^* \longrightarrow \mathbf{Z}
+$$
+by the rule
+$$
+\text{ord}_R(x) = \text{length}_R(R/(x))
+$$
+if $x \in R$ and we set
+$\text{ord}_R(x/y) = \text{ord}_R(x) - \text{ord}_R(y)$
+for $x, y \in R$ both nonzero.
+\end{definition}
+
+\begin{lemma}
+\label{lemma-finite-extension-dim-1}
+Let $A \to B$ be a ring map.
+Assume
+\begin{enumerate}
+\item $A \subset B$ is an extension of domains,
+\item $A$ is Noetherian,
+\item $B$ is finite over $A$,
+\item $A$ is a local of dimension $1$.
+\end{enumerate}
+Let $K = f.f.(A)$ and $L = f.f.(B)$ so that $L$ is a
+finite field extension of $K$.
+Let $y \in L^*$ and $x = \text{Nm}_{L/K}(y)$.
+Let $\mathfrak m_i$, $i = 1, \ldots, n$ be the maximal ideals of $B$.
+Then
+$$
+\text{ord}_A(x) =
+\sum\nolimits_i
+[\kappa(\mathfrak m_i) : \kappa(\mathfrak m_A)]
+\text{ord}_{B_{\mathfrak m_i}}(y)
+$$
+where $\text{ord}$ is defined as in Definition \ref{definition-ord}.
+\end{lemma}
+
+\begin{proof}
+Write $y = b/b'$ for some $b, b' \in B$.
+By the additivity of $\text{ord}$ and multiplicativity of
+$\text{Nm}$ it suffices to prove the lemma for
+$y = b$ or $y = b'$. In other words we may assume $y \in B$.
+In this case, if $x \not \in B$, then we can find a $t \in A$
+such that $tx \in A$ and we see that it suffices to prove the
+lemma for $ty$ (with $Nm(ty) = t^{[L : k]}x \in A$ and $t$
+(with norm in $A$ also). Hence we may assume $y \in B$
+such that $x \in A$. In this case
+the left hand side of the formula is
+$$
+\sum [\kappa(\mathfrak m_i) : \kappa(\mathfrak m_A)]
+\text{length}_{B_{\mathfrak m_i}}((B/yB)_{\mathfrak m_i})
+$$
+By Lemma \ref{lemma-pushdown-module} this is equal to
+$\text{length}_A(B/yB)$.
+
+\end{proof}
+
+\begin{lemma}
+\label{lemma-quasi-finite-extension-dim-1}
+Let $A \subset B$ be an extension of domains.
+Assume
+\begin{enumerate}
+\item $A$ is a local Noetherian ring of dimension $1$,
+\item $A \to B$ is of finite type, and
+\item setting $K = f.f.(A)$ and $L = B \otimes_A K$
+we have that $L$ is a finite field extension of $K$.
+\end{enumerate}
+Then $B$ is semi-local. Moreover, Let $y \in L^*$ and
+$x = \text{Nm}_{L/K}(y)$. Let $\mathfrak m_i$, $i = 1, \ldots, n$
+be the maximal ideals of $B$. Then
+$$
+\text{ord}_A(x)
+\geq
+\sum\nolimits_i
+[\kappa(\mathfrak m_i) : \kappa(\mathfrak m_A)]
+\text{ord}_{B_{\mathfrak m_i}}(y)
+$$
+where $\text{ord}$ is defined as in Definition \ref{definition-ord}.
+If for some $y \in \text{Im}(\mathfrak m_A \to L)$ we have equality,
+then $A \to B$ is finite.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
 
 
 
