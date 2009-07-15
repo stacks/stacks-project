@@ -147,8 +147,25 @@ for name in lijstje:
 
 	tex_file.close()
 
+print "------------------------------------------------"
+print
 
+# Check the tags file for correctness
+tags = get_tags(path)
+nr = len(tags)
+print "There are",
+print nr,
+print "tags. Checking tags..."
+n = 0
+while n < nr:
+	if not check_ref(tags[n][1], labels):
+		# Exceptional case...
+		if not tags[n][0] == '02C0':
+			print "Tag pointing nowhere: ",
+			print tags[n]
+	n = n + 1
 
+print "All done."
 
 
 
