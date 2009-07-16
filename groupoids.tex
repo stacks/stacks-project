@@ -69,7 +69,7 @@ $(a, b) \in R$. We say the relation is {\it transitive} if
 $a R b, b R c \Rightarrow a R c$. We say the relation is
 {\it reflexive} if $a R a$ for all $a \in A$. We say the relation is
 {\it symmetric} if $a R b \Rightarrow b R a$.
-An relation is called an {\it equivalence relation} if
+A relation is called an {\it equivalence relation} if
 it is transitive, reflexive and symmetric.
 
 \medskip\noindent
@@ -81,13 +81,13 @@ be a map. Here is the definition.
 \label{definition-equivalence-relation}
 Let $S$ be a scheme. Let $U$ be a scheme over $S$.
 \begin{enumerate}
-\item A {\it relation}\footnote{Maybe a morphism $j : R \to U\times_S U$
-should be called a {\it pre-relation} and when $j$ is a monomorphism
-it should be called a {\it relation}?}
-on $U$ over $S$ is any morphism
-of schemes $j : R \to U \times_S U$. In this case we set
-$t = \text{pr}_0 \circ j$ and $s = \text{pr}_1 \circ j$.
-\item A {\it pre-equivalence relation} is a relation
+\item A {\it pre-relation} on $U$ over $S$ is any morphism
+$j : R \to U \times_S U$. In this case we set
+$t = \text{pr}_0 \circ j$ and $s = \text{pr}_1 \circ j$, so
+that $j = (t, s)$.
+\item A {\it relation} on $U$ over $S$ is a monomorphism
+$j : R \to U \times_S U$.
+\item A {\it pre-equivalence relation} is a pre-relation
 $j : R \to U\times_SU$ such that the image of
 $j : R(T) \to U(T) \times U(T)$ is an equivalence relation for
 all $T/S$.
@@ -101,11 +101,44 @@ on the set of $T$-valued points of $U$.
 
 \noindent
 In other words, an equivalence relation is a pre-equivalence relation
-such that $j$ is a monomorphism.
+such that $j$ is a relation.
+
+\begin{lemma}
+\label{lemma-restrict-relation}
+Let $S$ be a scheme.
+Let $U$ be a scheme over $S$.
+Let $j : R \to U \times_S U$ be a pre-relation.
+Let $g : U' \to U$ be a morphism of schemes.
+Finally, set
+$$
+R' = (U' \times_S U')\times_{U \times_S U} R
+\xrightarrow{j'}
+U' \times_S U'
+$$
+Then $j'$ is a pre-relation on $U'$ over $S$.
+If $j$ is a relation, then $j'$ is a relation.
+If $j$ is a pre-equivalence relation, then $j'$ is a pre-equivalence relation.
+If $j$ is an equivalence relation, then $j'$ is an equivalence relation.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\begin{definition}
+\label{definition-restrict-relation}
+Let $S$ be a scheme.
+Let $U$ be a scheme over $S$.
+Let $j : R \to U \times_S U$ be a pre-relation.
+Let $g : U' \to U$ be a morphism of schemes.
+The pre-relation $j' : R' \to U' \times_S U'$ is called
+the {\it restriction}, or {\it pullback} of the pre-relation $j$ to $U'$.
+In this situation we sometimes write $R' = R|_{U'}$.
+\end{definition}
 
 \begin{lemma}
 \label{lemma-pre-equivalence-equivalence-relation-points}
-Let $j : R \to U\times_S U$ be a relation.
+Let $j : R \to U\times_S U$ be a pre-relation.
 Consider the relation on points of the scheme $U$ defined by
 the rule
 $$
@@ -630,6 +663,218 @@ induced by the composition law $c$.
 In terms of points over $T/S$ we define $a(g, r) = c(g, r)$.
 \end{proof}
 
+
+
+
+
+
+
+
+\section{Restricting groupoids}
+\label{section-restrict-groupoid}
+
+\noindent
+Consider a (usual) groupoid
+$\mathcal{C} = (\text{Ob}, \text{Arrows}, s, t, c)$.
+Suppose we have a map of sets $g : \text{Ob}' \to \text{Ob}$.
+Then we can construct a groupoid
+$\mathcal{C}' = (\text{Ob}', \text{Arrows}', s', t', c')$
+by thinking of a morphism between elements $x', y'$ of $\text{Ob}'$
+as a morphisms in $\mathcal{C}$ between $g(x'), g(y')$.
+In other words we set
+$$
+\text{Arrows}' =
+\text{Ob}'
+\times_{g, \text{Ob}, t}
+\text{Arrows}
+\times_{s, \text{Ob}, g}
+\text{Ob}'.
+$$
+with obvious choices for $s'$, $t'$, and $c'$. There is a canonical
+funcor $\mathcal{C}' \to \mathcal{C}$ which is fully faithful,
+but not necessarily essentially surjective. This groupoid $\mathcal{C}'$
+is called the {\it restriction} of the groupoid $\mathcal{C}$ to $\text{Ob}'$.
+
+\begin{lemma}
+\label{lemma-restrict-groupoid}
+Let $S$ be a scheme.
+Let $(U, R, s, t, c)$ be a groupoid scheme over $S$.
+Let $g : U' \to U$ be a morphism of schemes.
+Consider the following diagram
+$$
+\xymatrix{
+R' \ar[d] \ar[r] \ar@/_3pc/[dd]_{t'} \ar@/^1pc/[rr]^{s'}&
+R \times_{s, U} U' \ar[r] \ar[d] &
+U' \ar[d]^g \\
+U' \times_{U, t} R \ar[d] \ar[r] &
+R \ar[r]^s \ar[d]_t &
+U \\
+U' \ar[r]^g &
+U
+}
+$$
+where all the squares are fibre product squares. Then there is a
+canonical composition law $c' : R' \times_{s', U', t'} R' \to R'$
+such that $(U', R', s', t', c')$ is a groupoid scheme over
+$S$ and such that $U' \to U$, $R' \to R$ defines a morphism
+$(U', R', s', t', c') \to (U, R, s, t, c)$ of groupoid schemes over $S$.
+Moreover, for any scheme $T$ over $S$ the functor of groupoids
+$$
+(U'(T), R'(T), s', t', c') \to (U(T), R(T), s, t, c)
+$$
+is the restriction (see above) of $(U(T), R(T), s, t, c)$ via the map
+$U'(T) \to U(T)$.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\begin{definition}
+\label{definition-restrict-groupoid}
+Let $S$ be a scheme.
+Let $(U, R, s, t, c)$ be a groupoid scheme over $S$.
+Let $g : U' \to U$ be a morphism of schemes.
+The morphism of groupoids
+$(U', R', s', t', c') \to (U, R, s, t, c)$
+constructed in Lemma \ref{lemma-restrict-groupoid} is called
+the {\it restriction of $(U, R, s, t, c)$ to $U'$}.
+We sometime use the notation $R' = R|_{U'}$ in this case.
+\end{definition}
+
+\begin{lemma}
+\label{lemma-restrict-groupoid-relation}
+The notions of restricting groupoids and 
+(pre-)equivalence relations defined in Definitions
+\ref{definition-restrict-groupoid} and \ref{definition-restrict-relation}
+agree via the constructions of
+Lemmas \ref{lemma-groupoid-pre-equivalence} and
+\ref{lemma-equivalence-groupoid}.
+\end{lemma}
+
+\begin{proof}
+What we are saying here is that $R'$ of
+Lemma \ref{lemma-restrict-groupoid} is also
+equal to
+$$
+R' = (U' \times_S U')\times_{U \times_S U} R
+\longrightarrow
+U' \times_S U'
+$$
+In fact this might have been a clearer way to state that lemma.
+\end{proof}
+
+
+
+
+
+
+\section{Representable quotients of groupoids}
+\label{section-representable-quotients}
+
+\noindent
+Let $\tau \in \{Zariski, etale, fppf, smooth, syntomic\}$.
+Let $S$ be a scheme.
+Let $j : R \to U\times_S U$ be a pre-equivalence relation over $S$.
+Say $U, R, S$ are objects of a $\tau$-site $\textit{Sch}_\tau$
+(see Topologies, Section \ref{topologies-section-procedure}).
+Then we can consider the functors
+$$
+h_U, h_R :
+(\textit{Sch}/S)_\tau^{opp}
+\longrightarrow
+\textit{Sets}.
+$$
+These are sheaves, see
+Descent, Lemma \ref{fpqc-descent-lemma-fpqc-universal-effective-epimorphisms}.
+The morphism $j$ induces a map $j : h_R \to h_U \times h_U$.
+For each object $T \in \text{Ob}((\textit{Sch}/S)_\tau)$
+we can take the equivalence relation $\sim_T$ generated by
+$j(T) : R(T) \to U(T) \times U(T)$ and consider the quotient.
+Hence we get a presheaf
+\begin{equation}
+\label{equation-quotient-presheaf}
+(\textit{Sch}/S)_\tau^{opp}
+\longrightarrow
+\textit{Sets},\quad
+T \longmapsto U(T)/\sim_T
+\end{equation}
+
+\begin{definition}
+\label{definition-quotient-sheaf}
+Let $j : R \to U \times_S U$ be a pre-relation as above.
+In this setting the {\it quotient sheaf $U/R$} associated
+to $j$ is the sheafification of the presheaf
+(\ref{equation-quotient-presheaf}) in the $\tau$-topology.
+\end{definition}
+
+\noindent
+This means exactly that the diagram
+$$
+\xymatrix{
+h_R \ar@<1ex>[r] \ar@<-1ex>[r] &
+h_U \ar[r] &
+U/R
+}
+$$
+is a coequalizer diagram in the category of sheaves of sets
+on $(\textit{Sch}/S)_\tau$. Using the Yoneda embedding we
+may view $(\textit{Sch}/S)_\tau$ as a full subcategory of
+sheaves on $(\textit{Sch}/S)_\tau$ and hence identify schemes
+with representable functors. Using this abuse of notation
+we will often depict the diagram above simply
+$$
+\xymatrix{
+R \ar@<1ex>[r]^s \ar@<-1ex>[r]_t &
+U \ar[r] &
+U/R
+}
+$$
+We will mostly work with the fppf topology when considering
+quotient sheaves of groupoids/equivalence relations.
+
+\medskip\noindent
+We say that the pre-equivalence relation $j$ has a {\it representable}
+quotient if the sheaf $U/R$ is representable. We will say a
+groupoid $(U, R, s, t, c)$ has a {\it representable} quotient
+if the quotient $U/R$ with $j = (t, s)$ is representable.
+
+\begin{lemma}
+\label{lemma-quotient-groupoid-restrict}
+Let $\tau \in \{Zariski, etale, fppf, smooth, syntomic\}$.
+Let $S$ be a scheme.
+Let $j : R \to U\times_S U$ be a pre-relation over $S$
+and $g : U' \to U$ a morphism of schemes over $S$.
+Assume  $U, U', R, S$ are objects of a $\tau$-site $\textit{Sch}_\tau$.
+The map of quotient sheaves
+$$
+U'/R' \longrightarrow U/R
+$$
+is injective. If $\{g : U' \to U\}$ is a $\tau$-covering, then
+$U'/R' \to U/R$ is an isomorphism.
+\end{lemma}
+
+\begin{proof}
+In this proof we will use the abuse of notation introduced
+in the paragraphs above the lemma. Consider the commutative
+diagram of sheaves
+$$
+\xymatrix{
+R' \ar@<1ex>[r] \ar@<-1ex>[r] \ar[d] &
+U' \ar[r] \ar[d] &
+U'/R' \ar[d] \\
+R \ar@<1ex>[r] \ar@<-1ex>[r] &
+U \ar[r] &
+U/R
+}
+$$
+By construction $R' = R \times_{U \times U} (U' \times U')$ as
+sheaves. It is easy to see this implies formally that
+$U'/R' \to U/R$ is injective. If $\{g : U' \to U\}$ is a $\tau$-covering, then
+the map of sheaves $U' \to U$ is surjective, see
+Sites, Lemma \ref{sites-lemma-covering-surjective-after-sheafification}.
+Hence $U'/R' \to U/R$ is surjective also in this case.
+\end{proof}
 
 
 
