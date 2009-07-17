@@ -603,12 +603,11 @@ space.
 
 \noindent
 Suppose given a scheme $U$ over $S$
-and an equivalence relation $R$ on $U/S$ such that the two
-projection morphisms $s, t : R \to U$ are etale.
+and an etale equivalence relation $R$ on $U$ over $S$.
 We would like this to define an algebraic space.
-Actually this may not always be the case.
-The problem is that it is not clear that the sheafification
-of the quotient sheaf $U/R$ has all the properties required
+The problem is to show that the quotient sheaf $U/R$
+(see Groupoids, Definition \ref{groupoids-definition-quotient-sheaf})
+has all the properties required
 of it in Definition \ref{definition-algebraic-space}.
 
 \begin{lemma}
@@ -633,28 +632,29 @@ and \ref{morphisms-lemma-composition-etale}).
 \end{proof}
 
 \begin{lemma}
-\label{lemma-pre-presentation}
+\label{lemma-finding-opens}
 Let $S$ be a scheme.
 Let $U$ be a scheme over $S$.
-Let $j = (s, t) : R \to U \times_S U$ be an equivalence relation
-on $U$ over $S$.
-Let $g : U' \to U$ be a morphism, and let $R' = R|_{U'}$ be the
-restriction of $R$ to $U$.
-If $s, t : R \to U$ are universally open, and $g$ is flat and
-locally of finite presentation, then $R'/U' \to R/U$ is
-representable, and is an open immersion.
+Let $j = (s, t) : R \to U \times_S U$ be a pre-relation.
+Let $g : U' \to U$ be a morphism.
+Assume
+\begin{enumerate}
+\item $j$ is an equivalence relation,
+\item $s, t : R \to U$ are surjective, flat and
+locally of finite presentation,
+\item $g$ is flat and locally of finite presentation.
+\end{enumerate}
+Let $R' = R|_{U'}$ be the restriction of $R$ to $U$. Then
+$R'/U' \to R/U$ is representable, and is an open immersion.
 \end{lemma}
 
 \begin{proof}
 By Groupoids, Lemma \ref{groupoids-lemma-restrict-relation}
 the morphism $j' = (t', s') : R' \to U' \times_S U'$
-defines an equivalence relation.
-Since $g$ is flat and locally of
+defines an equivalence relation. Since $g$ is flat and locally of
 finite presentation we see that $g$ is universally open as well
 (Morphisms, Lemma \ref{morphisms-lemma-fppf-open}).
-Hence, by the description of $R'$ in
-Groupoids, Lemma \ref{groupoids-lemma-restrict-groupoid}
-we see that $s', t'$ are universally open as well.
+For the same reason $s, t$ are universally open as well.
 Let $W^1 = g(U') \subset U$, and let $W = t(s^{-1}(W^1))$.
 Then $W^1$ and $W$ are open in $U$. Moreover, as $j$ is an
 equivalence relation we have $t(s^{-1}(W)) = W$.
@@ -682,7 +682,7 @@ $(a_j)$ corresponds to $a$ in the sense that the diagrams
 $$
 \xymatrix{
 T_j \ar[r]_{a_j} \ar[d] & U \ar[d] \\
-T \ar[r]^a & U/R
+T \ar[r]^a & F
 }
 $$
 commute.
@@ -695,29 +695,163 @@ W_j \times_T T_{j'} =
 r_{jj'}^{-1}(t^{-1}(W)) = r_{jj'}^{-1}(s^{-1}(W)) =
 T_j \times_T W_{j'}.
 $$
-By Descent, Lemma \ref{} this means there exists a unique open
-$W_T \subset T$ such that $\varphi_j^{-1}(W_T) = W_j$.
-Since $T_j \to T$ is flat and of finite presentation the image $\varphi_j(W_j) \subset T$
-is open (see Morphisms, Lemma \ref{morphisms-lemma-fppf-open}).
-Set $W = \bigcup \varphi_j(W_j) \subset T$. Thinking of $W$ as
-an open subscheme of $T$ we see that $a|_W$ factors through
-$U'/R'$. Namely $\{\varphi_j|_{W_j} : W_j \to W\}$
-is an fppf covering, each $a_j|_{W_j} : W_j \to U'$ and
-of course $r_{jj'}|_{W_j \times_S W_{j'}}$ factors through $R'$.
-We claim that for any morphism of schemes $f : T' \to T$
-the element $a|_{T'} \in F(T')$ lies in $F'(T')$ if and
-only if $f$ factors through $W$.
+By Morphisms, Lemma \ref{morphisms-lemma-fpqc-quotient-topology}
+and Descent, Lemma \ref{fpqc-descent-lemma-equiv-fibre-product}
+applied to $\coprod T_j \to T$ this means there exists an open
+$W_T \subset T$ such that $\varphi_j^{-1}(W_T) = W_j$ for all $j \in J$.
+We claim that $W_T \to T$ represents $T \times_F F' \to T$.
 
 \medskip\noindent
-We have seen the ``if'' part above.
-On the other hand, if $a|_{T'} \in F'(T')$, then
-there exists a refinement $\{T'_i \to T'\}_{i \in I}$ of
-the covering $\{T' \times_T T_j \to T\}$, given by a map
-$\alpha : I \to J$ and morphisms
-$g_i : T'_i \to T' \times_T T_{\alpha(i)}$ over $T'$,
-and morphisms $b_i : T'_i \to U'$ such
-that $(g_i \circ a_{\alpha(i)}, b_i) : T'_i \to U \times_S U$
-lifts to $R$.
+First, let us show that $W_T \to T \to F$ is an element of
+$F'(W_T)$. Since $\{W_j \to W_T\}_{j \in J}$ is an
+fppf covering of $W_T$, it is enough to show that
+each $W_j \to U \to F$ is an element of $F'(W_j)$ (as $F'$ is a sheaf
+for the fppf topology). Consider the commutative diagram
+$$
+\xymatrix{
+W'_j \ar[rr] \ar[dd] \ar[rd] & & U' \ar[d]^g \\
+& s^{-1}(W^1) \ar[r]_s \ar[d]^t & W^1 \ar[d] \\
+W_j \ar[r]^{a_j|_{W_j}} & W \ar[r] & F
+}
+$$
+where $W'_j = W_j \times_{W} s^{-1}(W^1) \times_{W^1} U'$.
+Since $t$ and $g$ are surjective, flat and locally of finite
+presentation, so is $W'_j \to W_j$. Hence the restriction of
+the element $W_j \to U \to F$ to $W'_j$ is an element of $F'$
+as desired.
+
+\medskip\noindent
+Suppose that $f : T' \to T$ is a morphism of schemes
+such that $a|_{T'} \in F'(T')$. We have to show that
+$f$ factors through the open $W_T$. Since
+$\{T' \times_T T_j \to T\}$ is an fppf covering of $T'$
+it is enough to show each $T' \times_T T_j \to T$
+factors through $W_T$. Hence we may assume $f$ factors
+as $\varphi_j \circ f_j : T' \to T_j \to T$ for some $j$.
+In this case the condition $a|_{T'} \in F'(T')$ means that there exists
+some fppf covering $\{\psi_i : T'_i \to T'\}_{i \in I}$ and some
+morphisms $b_i : T'_i \to U'$ such that
+$$
+\xymatrix{
+T'_i \ar[r]_{b_i} \ar[d]_{f_j \circ \psi_i} & U' \ar[r]_g & U \ar[d] \\
+T_j \ar[r]^{a_j} & U \ar[r] & F
+}
+$$
+is commutative. This commutativity means that there exists a
+morphism $r'_i : T'_i \to R$ such that
+$t \circ r'_i = a_j \circ f_j \circ \psi_i$, and
+$s \circ r'_i = g \circ b_i$. This implies that
+$\text{Im}(f_j \circ \psi_i) \subset W_j$ and we win.
+\end{proof}
+
+\noindent
+The following lemma is not completely trivial although it looks
+like it should be trivial.
+
+\begin{lemma}
+\label{lemma-when-it-works-it-works}
+Let $S$ be a scheme. Let $U$ be a scheme over $S$.
+Let $j = (s, t) : R \to U \times_S U$
+be an etale equivalence relation on $U$ over $S$.
+If the quotient $U/R$ is an algebraic space, then
+$U \to U/R$ is etale and surjective. Hence
+$(U, R, U \to U/R)$ is a presentation of the algebraic
+space $U/R$.
+\end{lemma}
+
+\begin{proof}
+Denote $c : U \to R/U$ the morphism in question.
+Let $T$ be a scheme and let $a : T \to U/R$ be a morphism.
+We have to show that the morphism (of schemes)
+$\pi : T \times_{a, R/U, c} U \to T$ is etale and surjective.
+The morphism $a$ corresponds to an fppf covering
+$\{\varphi_i : T_i \to T\}$ and morphisms $a_i : T_i \to U$ such
+that
+$a_i \times a_{i'} : T_i \times_T T_{i'} \to U\times_S U$
+factors through $R$, and such that $c \circ a_i = \varphi_i \circ a$.
+Hence
+$$
+T_i \times_{\varphi_i, T} T \times_{a, R/U, c} U =
+T_i \times_{c \circ a_i, R/U, c} U =
+T_i \times_{a_i, U} U \times_{c, R/U, c} U = T_i \times_{a_i, U, t} R.
+$$
+Since $t$ is etale and surjective we conclude that
+the base change of $\pi$ to $T_i$ is surjective and etale.
+Since the property of being surjective and etale is local
+on the base in the fpqc topology (see
+Remark \ref{remark-list-properties-relative-representable-transformations})
+we win.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-presentation-quasi-compact}
+Let $S$ be a scheme.
+Let $U$ be a scheme over $S$.
+Let $j = (s, t) : R \to U \times_S U$
+be an etale equivalence relation on $U$ over $S$.
+Assume that $U$ is affine and maps into an affine of $S$.
+Then the quotient $F = U/R$
+is an algebraic space, and $U \to F$ is a etale and surjective.
+\end{lemma}
+
+\begin{proof}
+Since $j : R \to U \times_S U$ is a monomorphism we see that
+$j$ is separated. Since $U$ is affine and maps into an affine
+we see that $U \times_S U$ is affine. Hence we see that $R$ is
+separated. In particular the morphisms $s, t$ are separated as
+well as etale.
+
+\medskip\noindent
+Our first step is to show that the quotient map
+$c : U \to F$ is representable.
+Consider a scheme $T$ and a morphism $a : T \to F$.
+We have to show that $T \times_{a, F, c} U$ is representable.
+Suppose that $T = \bigcup V_i$ is an affine open covering of $T$.
+If we can show that each
+$$
+V_i \times_{a|_{V_i}, F, c} U
+$$
+is representable, then we can apply
+Schemes, Lemma \ref{schemes-lemma-glue-functors} and
+conclude that $T \times_{a, F, c} U$ is representable (some
+details omitted). Hence we may assume that $T$ is affine.
+
+\medskip\noindent
+As seen in the proofs of Lemmas
+\ref{lemma-finding-opens} and
+\ref{lemma-when-it-works-it-works}
+there exists an fppf covering
+$\{\varphi_i : T_i \to T\}_{i \in I}$ and
+morphisms $a_i : T_i \to U$ such that
+that
+$a_i \times a_{i'} : T_i \times_T T_{i'} \to U\times_S U$
+factors through $R$, and such that $c \circ a_i = \varphi_i \circ a$.
+However, since $T$ is affine, we can assume that the covering
+is a standard fppf covering, see
+Topologies, Lemma \ref{topologies-lemma-fppf-affine} and
+Definition \ref{topologies-definition-standard-fppf}.
+This means that $I$ is finite and each $T_i$ is affine.
+Setting $T' = \coprod_{i \in I} T_i$,
+$\varphi = \coprod \varphi_i$ and $a' = \coprod a_i$ we
+see that we reduce to a covering
+$\{T' \to T\}$ consisting of a single affine scheme $T'$ and
+a surjective, flat morphism $\varphi : T' \to T$
+of finite presentation and a morphism $a' : T' \to U$ such
+that $a' \times a' : T' \times_T T' \to U \times_S U$ factors
+through $R$ and such that $c \circ a' = a \circ \varphi$.
+
+\medskip\noindent
+In this situation note that
+$$
+T' \times_{\varphi, T} T \times_{a, F, c} U =
+T' \times_{c \circ a', F, c} U =
+T' \times_{a', U, 1} U \times_{c, F, c} U =
+T' \times_{a', U, t} R
+$$
+is representable.
+
+
+
 
 
 
@@ -726,15 +860,13 @@ lifts to $R$.
 
 
 
-
 \begin{lemma}
-\label{lemma-presentation-quasi-compact}
+\label{lemma-presentation}
 Let $S$ be a scheme. Let $U$ be a scheme over $S$.
 Let $j = (s, t) : R \to U \times_S U$
 be an etale equivalence relation on $U$ over $S$.
 Then the quotient $U/R$
-(see Groupoids, Definition \ref{groupoids-definition-quotient-sheaf})
-is an algebraic space.
+is an algebraic space, and $U \to F$ is a etale and surjective.
 \end{lemma}
 
 \begin{proof}
@@ -744,14 +876,9 @@ Let $R'$ be the restriction of $R$ to $U'$, see
 Groupoids, Definition \ref{groupoids-definition-restrict-relation}.
 According to
 Groupoids, Lemma \ref{groupoids-lemma-quotient-groupoid-restrict}
-we see that $U/R \cong U'/R'$. Moreover, it is clear from the
-description of $s', t'$ in
-Groupoids, Lemma \ref{groupoids-lemma-restrict-groupoid}
-that $s' , t' : R' \to U'$ are etale
-as compositions of base changes of etale morphisms
-(see Morphisms, Lemma \ref{morphisms-lemma-base-change-etale}
-and \ref{morphisms-lemma-composition-etale}).
-Thus we may replace $U$ by $U'$.
+we see that $U/R \cong U'/R'$.
+By Lemma \ref{lemma-pullback-etale-equivalence-relation} $R'$ is an
+etale equivalence relation on $U'$. Thus we may replace $U$ by $U'$.
 
 \medskip\noindent
 We apply the previous remark to $U' = \coprod U_i$, where
@@ -762,16 +889,18 @@ each $U_i$ maps into some affine open of $S$.
 
 \medskip\noindent
 Consider the restriction $R_i$ of $R$ to $U_i$.
+By Lemma \ref{lemma-pullback-etale-equivalence-relation}
+this is an etale equivalence relation. 
 It is clear that $\coprod F_i \to F$ is surjective.
-We claim that each $U_i/R_i \to U/R$ is representable, and
-an open immersion.
-
-
-
-
-
-
-
+By Lemma \ref{lemma-finding-opens} each $U_i/R_i \to U/R$
+is representable, and an open immersion.
+Suppose we can prove the lemma for each $(U_i, R_i)$.
+Then by Lemma \ref{lemma-when-it-works-it-works} we see that
+$U_i \to F_i$ is etale and surjective. It follows from
+this that $\prod F_i$ is an algebraic space and
+$U \to \coprod F_i$ is etale and surjective.
+Hence by Lemma \ref{lemma-coproduct-representable-sheaf}
+it follows that $F = U/R$ is an algebraic space.
 \end{proof}
 
 
