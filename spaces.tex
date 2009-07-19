@@ -166,7 +166,28 @@ consequence of Lemmas \ref{lemma-composition-representable-transformations}
 and \ref{lemma-base-change-representable-transformations}.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-representable-transformation-to-sheaf}
+Let $S$ be a scheme contained in $\textit{Sch}_{fppf}$.
+Let $F, G : (\textit{Sch}/S)_{fppf}^{opp} \to \textit{Sets}$.
+Let $a : F \to G$ be a representable transformation of functors.
+If $G$ is a sheaf, then so is $F$.
+\end{lemma}
 
+\begin{proof}
+Let $\{\varphi_i : T_i \to T\}$ be a covering of the site
+$(\textit{Sch}/S)_{fppf}$.
+Let $s_i \in F(T_i)$ which satisfy the sheaf condition.
+Then $\sigma_i = a(s_i) \in G(T_i)$ satisfy the sheaf condition
+also. Hence there exists a unique $\sigma \in G(T)$ such
+that $\sigma_i = \sigma|_{T_i}$. By assumption
+$F' = h_{T} \times_{\sigma, G, a} F$ is a representable presheaf
+and hence (see remarks in Section \ref{section-general}) a sheaf.
+Note that $(\varphi_i, s_i) \in F'(T_i)$ satisfy the
+sheaf condition also, and hence come from some unique
+$(\text{id}_T, s) \in F'(T)$. Clearly $s$ is the section of
+$F$ we are looking for.
+\end{proof}
 
 
 
@@ -867,7 +888,8 @@ where the quotient $U/R$ is as defined in
 Groupoids, Section \ref{groupoids-section-representable-quotients}.
 To construct algebraic spaces we will study the converse question, namely,
 for which pairs $(U, R)$ the quotient sheaf $U/R$ is an algebraic space.
-See Theorem \ref{theorem-presentation} for the end result. 
+It will finally turn out this is always the case,
+see Theorem \ref{theorem-presentation}. 
 
 
 
@@ -904,7 +926,7 @@ See Theorem \ref{theorem-presentation} for the end result.
 Suppose given a scheme $U$ over $S$
 and an etale equivalence relation $R$ on $U$ over $S$.
 We would like to show this defines an algebraic space.
-The problem is to show that the quotient sheaf $U/R$
+We will produce a series of lemmas that prove the quotient sheaf $U/R$
 (see Groupoids, Definition \ref{groupoids-definition-quotient-sheaf})
 has all the properties required
 of it in Definition \ref{definition-algebraic-space}.
@@ -1266,6 +1288,299 @@ Finally, we have verified all
 hypotheses of Lemma \ref{lemma-glueing-algebraic-spaces}
 and it follows that $F = U/R$ is an algebraic space.
 \end{proof}
+
+
+
+
+
+
+
+
+
+
+\section{Algebraic spaces, retrofitted}
+\label{section-algebraic-spaces-retrofitted}
+
+\noindent
+We start building our arsenal of lemmas dealing with algebraic spaces.
+
+\begin{lemma}
+\label{lemma-representable-over-space}
+Let $S$ be a scheme contained in $\textit{Sch}_{fppf}$.
+Let $F$ be an algebraic space over $S$.
+Let $G \to F$ be a representable transformation of functors.
+Then $G$ is an algebraic space.
+\end{lemma}
+
+\begin{proof}
+By Lemma \ref{lemma-representable-transformation-to-sheaf}
+we see that $G$ is a sheaf. The diagram
+$$
+\xymatrix{
+G \ar[r] \ar[d]_{\Delta_G} & F \ar[d]^{\Delta_F} \\
+G \times G \ar[r] & F \times F
+}
+$$
+is cartesian. Hence we see that $\Delta_G$ is representable by
+Lemma \ref{lemma-base-change-representable-transformations}.
+Finally, let $U$ be an object of $(\textit{Sch}/S)_{fppf}$
+and let $U \to F$ be surjective and etale. By assumption
+$U \times_F G$ is representable by a scheme $U'$. By
+Lemma \ref{lemma-base-change-representable-transformations-property}
+the morphism $U' \to G$ is surjective and etale. This verifies
+the final condition of Definition \ref{definition-algebraic-space} and we win.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-representable-morphisms-spaces-property}
+Let $S$ be a scheme contained in $\textit{Sch}_{fppf}$.
+Let $F$, $G$ be algebraic spaces over $S$.
+Let $G \to F$ be a representable morphism.
+Let $U \in \text{Ob}((\textit{Sch}/S)_{fppf})$, and $q : U \to F$
+surjective and etale. Set $V = G \times_F U$.
+Finally, let $\mathcal{P}$ be a property of morphisms
+of schemes as in Definition \ref{definition-relative-representable-property}.
+Then $G \to F$ has property $\mathcal{P}$ if and only if
+$V \to U$ has property $\mathcal{P}$.
+\end{lemma}
+
+\begin{proof}
+It is clear from the definitions that if $G \to F$ has property
+$\mathcal{P}$, then $V \to U$ has property $\mathcal{P}$.
+Conversely, assume $V \to U$ has property $\mathcal{P}$.
+Let $T \to F$ be a morphism from a scheme to $F$.
+Let $T' = T \times_F G$ which is a scheme since $G \to F$ is
+representable. We have to show that $T' \to T$ has property $T$.
+Consider the commutative diagram of schemes
+$$
+\xymatrix{
+V \ar[d] & T \times_F V \ar[d] \ar[l] \ar[r] &
+T \times_F G \ar[d] & \ar@{=}[l] T' \\
+U & T \times_F U \ar[l] \ar[r] & T
+}
+$$
+where both squares are fibre product squares. Hence we conclude
+the middle arrow has property $\mathcal{P}$ as a base change
+of $V \to U$. Finally, $\{T \times_F U \to T\}$ is a fppf covering
+as it is surjective etale, and hence we conclude that
+$T' \to T$ has property $\mathcal{P}$ as it is local on the
+base in the fppf topology.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-product-spaces}
+Let $S$ be a scheme contained in $\textit{Sch}_{fppf}$.
+Let $F, G$ be algebraic spaces over $S$.
+Then $F \times G$ is an algebraic space, and is a product
+in the category of algebraic spaces over $S$.
+\end{lemma}
+
+\begin{proof}
+It is clear that $H = F \times G$ is a sheaf.
+The diagonal of $H$ is simply the product of the
+diagonals of $F$ and $G$. Hence it is representable by
+Lemma \ref{lemma-product-representable-transformations}.
+Finally, if $U \to F$ and $V \to G$ are surjective
+etale morphisms, with $U, V \in \text{Ob}((\textit{Sch}/S)_{fppf})$,
+then $U \times V \to F \times G$ is surjective etale
+by Lemma \ref{lemma-product-representable-transformations-property}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-lift-morphism-presentations}
+Let $S$ be a scheme contained in $\textit{Sch}_{fppf}$.
+Let $F, G$ be algebraic spaces over $S$.
+Let $a : F \to G$ be a morphism.
+Given any $V \in \text{Ob}((\textit{Sch}/S)_{fppf})$
+and a surjective etale morphism $q : V \to G$ there exists
+a $U \in \text{Ob}((\textit{Sch}/S)_{fppf})$
+and a commutative diagram
+$$
+\xymatrix{
+U \ar[d]_p \ar[r]_\alpha &
+V \ar[d]^q \\
+F \ar[r]^a & G
+}
+$$
+with $p$ surjective and etale.
+\end{lemma}
+
+\begin{proof}
+First choose $W \in \text{Ob}((\textit{Sch}/S)_{fppf})$
+with surjective etale morphism $W \to F$.
+Next, put $U = W \times_G V$. Since $G$ is an algebraic space
+we see that $U$ is isomorphic to an object of $(\textit{Sch}/S)_{fppf}$.
+As $q$ is surjective etale, we see that $U \to W$ is surjective
+etale (see
+Lemma \ref{lemma-base-change-representable-transformations-property}).
+Thus $U \to F$ is surjective etale as a composition of surjective
+etale morphisms (see
+Lemma \ref{lemma-composition-representable-transformations-property}).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-fibre-product-spaces}
+Let $S$ be a scheme contained in $\textit{Sch}_{fppf}$.
+Let $F, G, H$ be algebraic spaces over $S$.
+Let $a : F \to H$, $b : G \to H$ be morphisms of algebraic spaces.
+Then $F \times_H G$ is an algebraic space, and is a fibre product
+in the category of algebraic spaces over $S$.
+\end{lemma}
+
+\begin{proof}
+It is clear that $E = F \times_H G$ is a sheaf.
+The diagonal of $E$ is the left vertical arrow in
+$$
+\xymatrix{
+F \times_H G \ar[r] \ar[d]_\Delta &
+F \times G \ar[d]^\Delta \\
+(F \times F) \times_{(H \times H)} (G \times G) \ar[r] &
+(F \times F) \times (G \times G)
+}
+$$
+which is cartesian. Hence the diagonal $\Delta_E$ is
+representable as the base change of the morphism
+on the right which is representable (use Lemmas
+\ref{lemma-product-representable-transformations} and
+\ref{lemma-base-change-representable-transformations}).
+Finally, let $W \in \text{Ob}((\textit{Sch}/S)_{fppf})$
+and $q : W \to H$ be surjective and etale.
+By Lemma \ref{lemma-lift-morphism-presentations} there exist
+$U, V \in \text{Ob}((\textit{Sch}/S)_{fppf})$,
+morphisms $\alpha : U \to W$ and $\beta : V \to W$
+and surjective etale morphisms $p : U \to F$ and $r : V \to G$
+such that $q \circ \alpha = a \circ p$, and
+$q \circ \beta = b \circ r$.
+We claim that the morphism
+$U \times_{\alpha, W, \beta} V \to F \times_{a, H, b} G$
+is surjective and etale. OK, and now we see that the diagrams
+$$
+\xymatrix{
+U \times_H V \ar[r] \ar[d] &
+U \times V
+\ar[d] \\
+F \times_H G
+\ar[r] &
+F \times G
+}
+\quad
+\quad
+\xymatrix{
+U \times_W V \ar[r] \ar[d] &
+W \ar[d] \\
+U \times_H V \ar[r] &
+W \times_H W
+}
+$$
+are cartesian. Hence it suffices (by
+Lemmas \ref{lemma-base-change-representable-transformations-property} and
+Lemmas \ref{lemma-composition-representable-transformations-property})
+to show that $U \times V \to F \times G$ and
+$W \to W \times_H W$ are surjective and etale. For the first we use
+Lemma \ref{lemma-product-representable-transformations-property}.
+Denote $R = W \times_H W$. Then $R$ is an etale equivalence relation
+on $W$ over $S$, see Lemma \ref{lemma-space-presentation}.
+Each of the morphisms $s, t : R \to W$ is etale and the
+composition $W \to R \to W$ is the identity. Hence $W \to R$
+is etale by Morphisms, Lemma \ref{morphisms-lemma-etale-permanence}.
+This proves that $E$ is an algebraic space.
+It is clear that $E$ is a fibre product in the category of algebraic
+spaces over $S$ since that is a full subcategory of the category
+of (pre)sheaves of sets on $(\textit{Sch}/S)_{fppf}$.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Separation conditions on algebraic spaces}
+\label{section-separation}
+
+\noindent
+A separation condition on an algebraic space $F$ is a condition
+on the diagonal morphism $F \to F \times F$. Let us first
+list the properties the diagonal has automatically.
+Since the diagonal is representable by definition the following lemma
+makes sense (through
+Definition \ref{definition-relative-representable-property}).
+
+\begin{lemma}
+\label{lemma-properties-diagonal}
+Let $S$ be a scheme contained in $\textit{Sch}_{fppf}$.
+Let $F$ be an algebraic space over $S$.
+Let $\Delta : F \to F \times F$ be the diagonal morphism.
+Then
+\begin{enumerate}
+\item $\Delta$ is locally of finite type,
+\item $\Delta$ is a monomorphism,
+\item $\Delta$ is separated, and
+\item $\Delta$ is locally quasi-finite.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Let $F = U/R$ be a presentation of $F$.
+As in the proof of Lemma \ref{lemma-presentation-quasi-compact} the diagram
+$$
+\xymatrix{
+R \ar[r] \ar[d]_j & F \ar[d]^\Delta \\
+U \times_S U \ar[r] & F \times F
+}
+$$
+is cartesian. Hence according to
+Lemma \ref{lemma-representable-morphisms-spaces-property}
+it suffices to show that $j$ has the properties listed in the lemma.
+(Note that each of the properties (1) -- (4) occur in the lists
+of Remarks \ref{remark-list-properties-stable-base-change}
+and \ref{remark-list-properties-fpqc-local-base}.)
+Since $j$ is an equivalence relation it is a monomorphism.
+Hence it is separated by
+Schemes, Lemma \ref{schemes-lemma-monomorphism-separated}.
+As $R$ is an etale equivalence relation we see that
+$s, t : R \to U$ are etale. Hence $s, t$ are locally of finite
+type. Then it follows from
+Morphisms, Lemma \ref{morphisms-lemma-permanence-finite-type} that
+$f$ is locally of finite type. Finally, as it is a monomorphism
+its fibres are finite. Thus we conclude that it is locally quasi-finite by
+Morphisms, Lemma \ref{morphisms-lemma-finite-fibre}.
+\end{proof}
+
+\noindent
+Here are some common types of separation conditions.
+We will later discuss the relative version (insert future
+reference here).
+
+\begin{definition}
+\label{definition-separated}
+Let $S$ be a scheme contained in $\textit{Sch}_{fppf}$.
+Let $F$ be an algebraic space over $S$.
+Let $\Delta : F \to F \times F$ be the diagonal morphism.
+\begin{enumerate}
+\item We say $F$ is {\it separated} if $\Delta$ is a closed immersion.
+\item We say $F$ is {\it locally separated} if $\Delta$ is a
+quasi-compact immersion.
+\item We say $F$ is {\it quasi-separated} if $\Delta$ is quasi-compact.
+\end{enumerate}
+\end{definition}
+
+\noindent
+In each of these cases the diagonal is actually quasi-finite
+and separated, hence quasi-affine (by More on Morphisms,
+Lemma \ref{more-morphisms-lemma-quasi-finite-separated-quasi-affine}).
+
+
+
+
 
 
 
