@@ -67,7 +67,7 @@ for line in tex_file:
 			line = replace_newtheorem(line)
 		print line,
 		if line.find("\\begin{document}") == 0:
-			print "\\newcommand{\\TAG}{ZZZ}"
+			print "\\newcommand{\\TAG}{ZZZZ}"
 			document = 1
 		continue
 
@@ -81,6 +81,8 @@ for line in tex_file:
 		else:
 			label = name + "-" + short
 		if not label in label_tags:
+			# ZZZZ is used as pointer to nonexistent tags
+			print "\\renewcommand{\\TAG}{ZZZZ}"
 			print oldline,
 			print line
 			continue

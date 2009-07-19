@@ -115,7 +115,7 @@ print "echo \"found to be wrong.<br>\";"
 print "echo \"For more on tags click \";"
 print "echo \"<a href=\\\"tags.html\\\">here</a>.<br>\";"
 print "echo \"To try again click \";"
-print "echo \"<a href=\\\"tags.html\\\">here</a>.\";"
+print "echo \"<a href=\\\"query.php\\\">here</a>.\";"
 print "}"
 print "?>"
 print
