@@ -2,6 +2,8 @@ list_of_standard_envs = ['abstract', 'verbatim', 'quote', 'itemize', 'list', 'ce
 
 list_of_labeled_envs = ['lemma', 'proposition', 'theorem', 'remark', 'remarks', 'example', 'exercise', 'situation', 'definition']
 
+list_of_proof_envs = ['lemma', 'proposition', 'theorem']
+
 list_of_standard_labels = ['definition', 'lemma', 'proposition', 'theorem', 'remark', 'remarks', 'example', 'exercise', 'situation', 'equation', 'section', 'item']
 
 # Get file name
@@ -300,6 +302,17 @@ def labeled_env(env):
 	n = 0
 	while n < len(list_of_labeled_envs):
 		if env.find('{' + list_of_labeled_envs[n] + '}') >= 0:
+			return 1
+		n = n + 1
+	return 0
+
+# Check if environment should have a proof
+# The input should be a line from latex file containing the
+# \begin{environment} statement
+def proof_env(env):
+	n = 0
+	while n < len(list_of_proof_envs):
+		if env.find('{' + list_of_proof_envs[n] + '}') >= 0:
 			return 1
 		n = n + 1
 	return 0
