@@ -153,14 +153,15 @@ print
 # Check the tags file for correctness
 tags = get_tags(path)
 nr = len(tags)
+# Exceptional cases...
+exceptions = ['02C0', '003W', '003X']
 print "There are",
 print nr,
 print "tags. Checking tags..."
 n = 0
 while n < nr:
 	if not check_ref(tags[n][1], labels):
-		# Exceptional case...
-		if not tags[n][0] == '02C0':
+		if not tags[n][0] in exceptions:
 			print "Tag pointing nowhere: ",
 			print tags[n]
 	n = n + 1
