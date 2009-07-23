@@ -18,7 +18,386 @@
 \label{section-introduction}
 
 \noindent
-Stacks are defined in this document. See \cite{DM}.
+In this very short chapter we introduce stacks in groupoids. See \cite{DM}.
+
+
+\section{Presheaves of morphisms associated to fibred categories}
+\label{section-morphisms}
+
+\noindent
+Let $\mathcal{C}$ be a category.
+Let $p : \mathcal{S} \to \mathcal{C}$ be a fibred category,
+see Categories, Section \ref{categories-section-fibred-categories}.
+Suppose that $x, y\in \text{Ob}(\mathcal{S}_U)$ are
+objects in the fibre category over $U$. We are going to define
+a functor
+$$
+\mathit{Mor}(x, y) : (\mathcal{C}/U)^{opp} \longrightarrow \textit{Sets}.
+$$
+In other words this will be a presheaf on $\mathcal{C}/U$, see
+Sites, Definition \ref{sites-definition-presheaf}.
+Choose pullbacks as in Categories, Lemma \ref{categories-lemma-fibred}.
+Then, for $f : V \to U$ we set
+$$
+\mathit{Mor}(x, y)(f : V \to U) =
+\text{Mor}_{\mathcal{S}_V}(f^\ast x, f^\ast y).
+$$
+Let $f' : V' \to U$ be a second object of $\mathcal{C}/U$.
+We also have to define the restriction map corresponding to a
+morphism $g : V'/U  \to V/U$ in $\mathcal{C}/U$,
+in other words $g : V' \to V$ and $f' = f \circ g$.
+This will be a map
+$$
+\text{Mor}_{\mathcal{S}_V}(f^\ast x, f^\ast y)
+\longrightarrow
+\text{Mor}_{\mathcal{S}_{V'}}({f'}^\ast x, {f'}^\ast y),\quad
+\phi \longmapsto \phi|_{V'}
+$$
+This map will basically be $g^\ast$, except that this transforms
+an element $\phi$ of the left hand side into an element
+$g^\ast \phi$
+of $\text{Mor}_{\mathcal{S}_{V'}}(g^\ast f^\ast x, g^\ast f^\ast y)$.
+At this point we use the transformation $\alpha_{g, f}$ of
+Categories, Lemma \ref{categories-lemma-fibred}.
+In a formula, the restriction map is described by
+$$
+\phi|_{V'} =
+(\alpha_{g, f})_y^{-1} \circ
+g^\ast \phi \circ
+(\alpha_{g, f})_x.
+$$
+Of course, nobody thinks of this restriction map in this way.
+We will only do this once in order to verify the following
+lemma.
+
+\begin{lemma}
+\label{lemma-painfull}
+This actually does give a presheaf.
+\end{lemma}
+
+\begin{proof}
+Let $g : V'/U \to V/U$ be as above and similarly
+$g' : V''/U \to V'/U$ be morphisms in $\mathcal{C}/U$.
+So $f' = f \circ g$ and $f'' = f' \circ g' = f \circ g \circ g'$.
+Let $\phi \in {Mor}_{\mathcal{S}_V}(f^\ast x, f^\ast y)$.
+Then we have
+\begin{eqnarray*}
+& &
+(\alpha_{g \circ g', f})_y^{-1} \circ
+(g \circ g')^\ast \phi \circ
+(\alpha_{g \circ g', f})_x
+\\
+& = &
+(\alpha_{g \circ g', f})_y^{-1} \circ
+(\alpha_{g', g})_{f^*y}^{-1} \circ
+(g')^*g^\ast \phi \circ
+(\alpha_{g', g})_{f^*x} \circ
+(\alpha_{g \circ g', f})_x
+\\
+& = &
+(\alpha_{g', f'})_y^{-1} \circ
+(g')^*(\alpha_{g, f})_y^{-1} \circ
+(g')^* g^\ast \phi \circ
+(g')^*(\alpha_{g, f})_x
+\circ
+(\alpha_{g', f'})_x
+\\
+& = &
+(\alpha_{g', f'})_y^{-1} \circ
+(g')^*\Big(
+(\alpha_{g, f})_y^{-1} \circ
+g^\ast \phi \circ
+(\alpha_{g, f})_x
+\Big) \circ
+(\alpha_{g', f'})_x
+\end{eqnarray*}
+which is what we want. The first equality holds because
+$\alpha_{g', g}$ is a transformation of functors, and hence
+$$
+\xymatrix{
+(g \circ g')^*f^*x
+\ar[rr]_{(g \circ g')^\ast \phi}
+\ar[d]_{(\alpha_{g', g})_{f^*x}} & &
+(g \circ g')^*f^*y
+\ar[d]^{(\alpha_{g', g})_{f^*y}} \\
+(g')^*g^*f^*x
+\ar[rr]^{(g')^*g^\ast \phi} & &
+(g')^*g^*f^*x
+}
+$$
+commutes. The second equality holds because of property (d) of
+a pseudo functor since $f' = f \circ g$ (see
+Categories, Definition \ref{categories-definition-functor-into-2-category}).
+The last equality follows from the fact that $(g')^*$ is a functor.
+\end{proof}
+
+\begin{remark}
+\label{remark-alternative}
+Suppose that $p : \mathcal{S} \to \mathcal{C}$ is fibred in groupoids.
+In this case we can argue using
+Categories, Lemma \ref{categories-lemma-fibred-strict}
+which says that $\mathcal{S} \to \mathcal{C}$ is equivalent to the
+category associated to a contravariant function
+$F : \mathcal{C} \to \text{Groupoids}$.
+In the case of the fibred category associated to $F$
+we have $g^* \circ f^* = (f \circ g)^*$ on the nose
+and there is no need to use the maps $\alpha_{g, f}$.
+In this case the lemma is (even more) trivial. Of course then
+one has to show that the $\mathit{Hom}(x, y)$ presheaf is
+unchanged when passing to an equivalent fibred category (details
+omitted).
+\end{remark}
+
+\noindent
+We formalize the construction in a definition.
+
+\begin{definition}
+\label{definition-mor-presheaf}
+Let $\mathcal{C}$ be a category.
+Let $p : \mathcal{S} \to \mathcal{C}$ be a fibred category,
+see Categories, Section \ref{categories-section-fibred-categories}.
+Given an object $U$ of $\mathcal{C}$ and objects
+$x$, $y$ of the fibre category, the {\it presheaf
+of morphisms from $x$ to $y$} is the presheaf
+$$
+(f : V \to U) \longmapsto \text{Mor}_{\mathcal{S}_V}(f^*x, f^*y)
+$$
+described above. It is denoted $\mathit{Mor}(x, y)$.
+The sub-presheaf $\mathit{Isom}(x, y)$ whose values
+over $V$ is the set of isomorphisms
+$f^*x \to f^*y$ in the fibre category $\mathcal{S}_V$
+is called the {\it presheaf of isomorphisms from $x$ to $y$}.
+\end{definition}
+
+\noindent
+If $\mathcal{S}$ is fibred in groupoids then of course
+$\mathit{Isom}(x, y) = \mathit{Mor}(x, y)$, and it is
+customary to use the $\mathit{Isom}$ notation.
+From now on we often omit mentioning the transformations
+$\alpha_{g, f}$ and we simply identify the functors
+$g^* \circ f^*$ and $(f \circ g)^*$.
+
+
+
+\section{Descent data in fibred categories}
+\label{section-descent-data}
+
+\noindent
+In this section we define the notion of a descent datum
+in the abstract setting of a fibred category. Before we
+do so we point out that this is completely analogous to
+descent data for quasi-coherent sheaves
+(Descent, Section \ref{fpqc-descent-section-equivalence})
+and descent data for schemes over schemes
+(Descent, Section \ref{fpqc-descent-section-descent-datum}).
+
+\medskip\noindent
+We will use the convention where the projection maps
+$\text{pr}_i : X \times \ldots \times X \to X$
+are labeled starting with $i = 0$. Hence we have
+$\text{pr}_0, \text{pr}_1 : X \times X  \to X$,
+$\text{pr}_0, \text{pr}_1, \text{pr}_2 : X \times X \times X  \to X$,
+etc.
+
+\begin{definition}
+\label{definition-descent-data}
+Let $\mathcal{C}$ be a category.
+Let $p : \mathcal{S} \to \mathcal{C}$ be a fibred category.
+Choose pullbacks as in Categories, Lemma \ref{categories-lemma-fibred}.
+Let $\{f_i : U_i \to U\}_{i \in I}$ be a family of morphisms of $\mathcal{C}$.
+Assume all the fibre products
+$U_i \times_U U_j$, and $U_i \times_U U_j \times_U U_k$ exist.
+\begin{enumerate}
+\item A {\it descent datum $(X_i, \varphi_{ij})$ in $\mathcal{S}$
+relative to the family $\{f_i : U_i \to U\}$} is given by an object $X_i$
+of $\mathcal{S}_{U_i}$ for each $i \in I$, an isomorphism
+$\varphi_{ij} : \text{pr}_0^*X_i \to \text{pr}_1^*X_j$
+in $\mathcal{S}_{U_i \times_U U_j}$ for each pair $(i, j) \in I^2$
+such that for every triple of indices $(i, j, k) \in I^3$ the
+diagram
+$$
+\xymatrix{
+\text{pr}_0^*X_i \ar[rd]_{\text{pr}_{01}^*\varphi_{ij}}
+\ar[rr]_{\text{pr}_{02}^*\varphi_{ik}} & &
+\text{pr}_2^*X_k \\
+& \text{pr}_1^*X_j \ar[ru]_{\text{pr}_{12}^*\varphi_{jk}} &
+}
+$$
+in the category $\mathcal{S}_{U_i \times_U U_j \times_U U_k}$-modules
+commutes. This is called the {\it cocycle condition}.
+\item A {\it morphism $\psi : (X_i, \varphi_{ij}) \to
+(X'_i, \varphi'_{ij})$ of descent data} is given
+by a family $\psi = (\psi_i)_{i\in I}$ of morphisms
+$\psi_i : \mathcal{F}_i \to \mathcal{F}'_i$ in $\mathcal{S}_{U_i}$
+such that all the diagrams
+$$
+\xymatrix{
+\text{pr}_0^*X_i \ar[r]_{\varphi_{ij}} \ar[d]_{\text{pr}_0^*\psi_i}
+& \text{pr}_1^*X_j \ar[d]^{\text{pr}_1^*\psi_j} \\
+\text{pr}_0^*X'_i \ar[r]^{\varphi'_{ij}} &
+\text{pr}_1^*X'_j \\
+}
+$$
+in the categories $\mathcal{S}_{U_i \times_U U_j}$ commute.
+\end{enumerate}
+\end{definition}
+
+\noindent
+The fibre products $U_i \times_U U_j$ and $U_i \times_U U_j \times_U U_k$
+will exist if each of the morphisms $f_i : U_i \to U$ is {\it representable},
+see Categories, Definition \ref{categories-definition-representable-morphism}.
+Recall that in a site one of the conditions for a covering $\{U_i \to U\}$ is
+that each of the morphisms is representable, see
+Sites, Definition \ref{sites-definition-site} part (3).
+In fact the main interest in the definition above is where $\mathcal{C}$
+is a site and $\{U_i \to U\}$ is a covering of $\mathcal{C}$. However,
+a descent datum is just an abstract gadget that can be defined as above.
+This is useful: for example, given a fibred category over $\mathcal{C}$
+one can look at the collection of families with respect to which descent data
+are effective, and try to use these as the family of coverings for a site.
+
+\begin{remarks}
+\label{remarks-definition-descent-datum}
+Two remarks Definition \ref{definition-descent-data} are in order.
+Let $p : \mathcal{S} \to \mathcal{C}$ be a fibred category.
+Let $\{f_i : U_i \to U\}_{i \in I}$, and $(X_i, \varphi_{ij})$
+be as in Definition \ref{definition-descent-data}.
+\begin{enumerate}
+\item There is a diagonal morphism $\Delta : U_i \to U_i \times_U U_i$.
+We can pull back $\varphi_{ii}$ via this morphism to get an automorphism
+$\Delta^\ast \varphi_{ii} \in \text{Aut}_{U_i}(x_i)$.
+On pulling back the cocycle condition for the triple $(i, i, i)$
+by $\Delta_{123} : U_i \to U_i\times_U U_i \times_U U_i$ we deduce that
+$\Delta^\ast \varphi_{ii} \circ \Delta^\ast \varphi_{ii} =
+\Delta^\ast \varphi_{ii}$; thus $\Delta^\ast \varphi_{ii} =
+\text{id}_{x_i}$.
+\item There is a morphism
+$\Delta_{13}: U_i \times_U U_j \to U_i \times_U U_j \times_U U_i$
+and we can pull back the
+cocycle condition for the triple $(i, j, i)$ to get the
+identity $(\sigma^\ast \varphi_{ji}) \circ \varphi_{ij} =
+\text{id}_{\text{pr}_0^\ast x_i}$, where
+$\sigma: U_i \times_U U_j \to U_j \times_U U_i$ is the switching morphism.
+\end{enumerate}
+\end{remarks}
+
+\begin{lemma}
+\label{lemma-pullback}
+(Pullback of descent data.)
+Let $\mathcal{C}$ be a category.
+Let $p : \mathcal{S} \to \mathcal{C}$ be a fibred category.
+Choose pullbacks as in Categories, Lemma \ref{categories-lemma-fibred}.
+Let $\mathcal{U} = \{f_i : U_i \to U\}_{i \in I}$, and
+$\mathcal{V} = \{V_j \to V\}_{j \in J}$ 
+be a families of morphisms of $\mathcal{C}$ with fixed target.
+Assume all the fibre products
+$U_i \times_U U_{i'}$, $U_i \times_U U_{i'} \times_U U_{i''}$,
+$V_j \times_V V_{j'}$, and $V_j \times_V V_{j'} \times_V V_{j''}$ exist.
+Let $\alpha : I \to J$, $h : U \to V$ and
+$g_i : U_i \to V_{\alpha(i)}$ be a morphism of families
+of maps with fixed target, see
+Sites, Definition \ref{sites-definition-morphism-coverings}.
+\begin{enumerate}
+\item Let $(Y_j, \varphi_{jj'})$ be a descent datum relative to the
+family $\{V_j \to V\}$. The system
+$$
+\left(
+g_i^*Y_{\alpha(i)},
+(g_i \times g_{i'})^*\varphi_{\alpha(i)\alpha(i')}
+\right)
+$$
+is a descent datum relative to $\mathcal{U}$.
+\item This construction defines a functor between descent data relative
+to $\mathcal{V}$ and descent data relative to $\mathcal{U}$.
+\item Given a second $\alpha' : I \to J$, $h' : U \to V$ and
+$g'_i : U_i \to V_{\alpha'(i)}$ morphism of families
+of maps with fixed target, then if $h = h'$ the two resulting functors
+between descent data are canonically isomorphic.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\begin{definition}
+\label{definition-pullback-functor}
+With $\mathcal{U} = \{U_i \to U\}_{i \in I}$,
+$\mathcal{V} = \{V_j \to V\}_{j \in J}$,
+$\alpha : I \to J$, $h : U \to V$,
+and $g_i : U_i \to V_{\alpha(i)}$ as in Lemma \ref{lemma-pullback}
+the functor
+$$
+(Y_j, \varphi_{jj'}) \longmapsto
+(g_i^*Y_{\alpha(i)}, (g_i \times g_{i'})^*\varphi_{\alpha(i)\alpha(i')})
+$$
+constructed in that lemma
+is called the {\it pullback functor} on descent data.
+\end{definition}
+
+\noindent
+Given $h : U \to V$, if there exists a morphism
+$\tilde h : \mathcal{U} \to \mathcal{V}$ covering $h$
+then $\tilde h^*$ is independent of the choice of
+$\tilde h$ as we saw in Lemma \ref{lemma-pullback}.
+Hence we will sometimes simply write $h^*$ to indicate
+the pullback functor.
+
+\begin{definition}
+\label{definition-effective-descent-datum}
+Let $\mathcal{C}$ be a category.
+Let $p : \mathcal{S} \to \mathcal{C}$ be a fibred category.
+Choose pullbacks as in Categories, Lemma \ref{categories-lemma-fibred}.
+Let $\mathcal{U} = \{f_i : U_i \to U\}_{i \in I}$ be a family of morphisms
+with target $U$. Assume all the fibre products
+$U_i \times_U U_j$ and $U_i \times_U U_j \times_U U_k$ exist.
+\begin{enumerate}
+\item Given an object $X$ of $\mathcal{S}_U$ the {\it trivial descent datum}
+is the descent datum $(X, \text{id}_X)$ with respect to the family
+$\{\text{id}_U : U \to U\}$.
+\item Given an object $X$ of $\mathcal{S}_U$
+we have a {\it canonical descent datum} on the family of
+objects $f_i^*X$ by pulling back the trivial
+descent datum $(X, \text{id}_X)$ via the
+obvious map $\{f_i : U_i \to U\} \to \{\text{id}_U : U \to U\}$.
+We denote this descent datum $(f_i^*X, can)$.
+\item A descent datum $(X_i, \varphi_{ij})$
+relative to $\{f_i : U_i \to U\}$ is called {\it effective}
+if there exists an object $X$ of $\mathcal{S}_U$ such that
+$(X_i, \varphi_{ij})$ is isomorphic to $(f_i^*X, can)$.
+\end{enumerate}
+\end{definition}
+
+\noindent
+Let us make explicit the canonical descent datum as follows.
+
+\begin{lemma}
+\label{lemma-trivial-cocycle}
+In the situation of
+Definition \ref{definition-effective-descent-datum} part (2) the maps
+$can_{ij} : \text{pr}_0^*f_i^*X \to \text{pr}_1^*f_j^*X$ are equal to
+$(\alpha_{\text{pr}_1, f_j})_X \circ (\alpha_{\text{pr}_0, f_i})_X^{-1}$
+where $\alpha_{\cdot, \cdot}$ is as in
+Categories, Lemma \ref{categories-lemma-fibred}
+and where we
+use the equality $f_i \circ \text{pr}_0 = f_j \circ \text{pr}_1$
+as maps $U_i \times_U U_j \to U$.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
 
 \section{Definition}
 \label{section-definition}
@@ -45,85 +424,10 @@ in groupoids, see Categories, Definition
 \noindent
 To explain this, we choose a collection of pullback functors as in
 Categories, Lemma \ref{categories-lemma-fibred-groupoids}. Another approach
-is to use Categories, Lemma~\ref*{categories-lemma-fibred-strict}.
+is to use Categories, Lemma \ref{categories-lemma-fibred-strict}.
 
 \medskip\noindent
-First, suppose that $x, y\in \text{Ob}(\mathcal{S}_U)$ are
-objects in the fibre category over $U$. We are going to define
-a contravariant functor
-$$
-\text{Isom}(x, y) : \mathcal{C}/U \longrightarrow \text{Sets}.
-$$
-In other words this will be a presheaf on $\mathcal{C}/U$, see
-Sites, Definition \ref{sites-definition-presheaf}. Namely, for
-$f : V \to U$ we set
-$$
-\text{Isom}(x, y)(f : V\to U) =
-\text{Mor}_{\mathcal{S}_V}(f^\ast x, f^\ast y).
-$$
-We also have to define the restriction map corresponding to a
-morphism $(g, \text{id}_U) : (f' : V' \to U)  \to (f : V\to U)$
-in $\mathcal{C}/U$ (in other words $f' = f \circ g$). This will be a map
-$$
-\text{Mor}_{\mathcal{S}_V}(f^\ast x, f^\ast y) \longrightarrow
-\text{Mor}_{\mathcal{S}_{V'}}({f'}^\ast x, {f'}^\ast y).
-$$
-This map will basically be $g^\ast$, except that this transforms
-an element $\phi$ of the left hand side into an element
-$g^\ast \phi$
-of $\text{Mor}_{\mathcal{S}_{V'}}(g^\ast f^\ast x, g^\ast f^\ast y)$.
-At this point we use the transformation $t$ of
-Categories, Lemma \ref*{categories-lemma-fibred-groupoids}.
-In a formula, the restriction map maps $\phi$ to
-$$
-t_y \circ g^\ast \phi \circ (t_x)^{-1}.
-$$
 
-\begin{lemma}
-\label{lemma-painfull}
-This actually does give a presheaf.
-\end{lemma}
-
-\begin{proof}
-Let $(g', \text{id}_U) : (f' : V' \to U)  \to (f : V\to U)$ and
-$(g'', \text{id}_U) : (f'' : V'' \to U)  \to (f' : V' \to U)$ be morphisms in
-$\mathcal{C}/U$, and let $\phi \in {Mor}_{\mathcal{S}_V}(f^\ast x, f^\ast y)$.
-It suffices to show that
-$$
-[(\text{Isom}(x, y))(g' \circ g'')](\phi) =
-[(\text{Isom}(x, y))(g'')]([(\text{Isom}(x, y))(g')](\phi))
-$$
-By Lemma
-\ref{categories-lemma-fibred-groupoids} there are pullback functors
-$r: (g' \circ g'')^\ast f'^\ast \longrightarrow f''^\ast$,
-$t': g'^\ast f^\ast \longrightarrow f'^\ast$,
-$t'': g''^\ast f'^\ast \longrightarrow f''^\ast$ and
-$u: g''^\ast g'^\ast \longrightarrow (g' \circ g'')^\ast$.  It follows from the
-uniqueness part of the lemma that
-$t''_{y} \circ g''^\ast t'_{y} = r_{y} \circ u_{f^\ast y}$ and
-$g''^\ast t'^{-1}_{x} \circ t''^{-1}_{x} = u^{-1}_{f^\ast x} \circ r^{-1}_{x}$.
-We now have that
-\begin{eqnarray*}
-[(\text{Isom}(x, y))(g' \circ g'')](\phi) & = &
-r_{y} \circ (g' \circ g'')^\ast \phi \circ r^{-1}_{x}\\
-& = & r_{y} \circ u_{f^\ast y} \circ
-g''^\ast g'^\ast \phi \circ u^{-1}_{f^\ast x} \circ r^{-1}_{x} \\
-& = & t''_{y} \circ g''^\ast t'_{y} \circ
-g''^\ast g'^\ast \phi \circ g''^\ast t'^{-1}_{x} \circ t''^{-1}_{x} \\
-& = & t''_{y} \circ g''^\ast (t'_{y} \circ
-g'^\ast \phi \circ t'^{-1}_{x}) \circ t''^{-1}_{x} \\
-& = & [(\text{Isom}(x, y))(g'')]([(\text{Isom}(x, y))(g')](\phi)).
-\end{eqnarray*}
-
-\noindent
-Alternatively we can argue with Lemma \ref{categories-lemma-fibred-strict}
-which says that $\mathcal{S}\to\mathcal{C}$ is equivalent to the
-category assoicated to a contravariant function $F\colon
-\mathcal{C}\to \text{Groupoids}$.  Then $t_y$ is the identity
-transformation for all $y$ so the restriction map is $g\mapsto g^*\phi
-= F(g)\phi$ which is clearly functorial making $\text{Isom}(x, y)$ a
-presheaf.
-\end{proof}
 
 \noindent
 OK, so the second condition listed in Section \ref{section-definition}
@@ -131,137 +435,6 @@ is simply the condition that $\text{Isom}(x, y)$ is a sheaf on the site
 $\mathcal{C}/U$!
 
 \medskip\noindent
-In order to explain the meaning of the third condition, we must define a
-descent datum. First, we introduce some notation. Suppose that
-$\{f_i : U_i \to U\}_{i\in I}$ is a covering in the site $\mathcal{C}$.
-We will be looking at fibre products $U_{ij} = U_i \times_U U_j$ and
-$U_{ijk} = U_i \times_U U_j \times_U U_k$. It is very important to allow
-$i = j$ and even $i = j = k$ in the following. The projection maps from
-$U_{ij}$ to $U_i$, resp.\ $U_j$ are denoted $\text{pr}_1$, resp.\ 
-$\text{pr}_2$. The projection maps from $U_{ijk}$ to the twofold fibre
-products are $\text{pr}_{12} : U_{ijk} \to U_{ij}$,
-$\text{pr}_{13} : U_{ijk} \to U_{ik}$, and
-$\text{pr}_{23} : U_{ijk} \to U_{jk}$. The projection maps from
-$U_{ijk}$ to $U_{i}$, $U_{j}$, and $U_{k}$ are $\text{pr}_1$,
-$\text{pr}_2$, and $\text{pr}_3$, respectively.
-
-\medskip\noindent
-This notation is potentially ambiguous, but it is standard in the
-literature. For an example of the ambiguity: note the relations
-$\text{pr}_1 = \text{pr}_{1} \circ \text{pr}_{12} =
-\text{pr}_1 \circ \text{pr}_{13}$, $\text{pr}_2 =
-\text{pr}_2 \circ \text{pr}_{12} = \text{pr}_1 \circ \text{pr}_{23}$,
-and $\text{pr}_3 = \text{pr}_2 \circ \text{pr}_{13} =
-\text{pr}_3 \circ \text{pr}_{23}$.
-
-\medskip\noindent
-Let $x_i \in \text{Ob}(\mathcal{S}_{U_i})$, $i\in I$ be a collection of
-objects, and let
-$$
-\phi_{ij} : \text{pr}_{1}^\ast x_i \longrightarrow
-\text{pr}_{2}^\ast x_j \qquad (i, j \in I)
-$$
-be a collection of morphisms in the fibre categories
-$\mathcal{S}_{U_{ij}}$. In the definition that follows we will
-identify, for instance, $\text{pr}_1^\ast x_i$ on $U_{ijk}$ with both
-$\text{pr}_{12}^\ast \text{pr}_{1}^\ast x_i$ and
-$\text{pr}_{13}^\ast \text{pr}_{1}^\ast x_i$.
-
-\begin{definition}
-\label{definition-descent-data}
-The collection $\{x_i, \phi_{ij}\}$ is a {\it descent datum} if
-the following cocycle condition is satisfied: For every
-triple $(i, j, k)\in I^3$ the diagram
-$$
-\xymatrix{
-\text{pr}_1^\ast x_i
-	\ar[rr]^{\text{pr}_{13}^\ast \phi_{ik}}
-	\ar[rd]_{\text{pr}_{12}^\ast \phi_{ij}}
-& &
-\text{pr}_3^\ast x_k \\
-& \text{pr}_2^\ast x_j \ar[ru]_{\text{pr}_{23}^\ast \phi_{jk}}
-}
-$$
-in the fibre category $\mathcal{S}_{U_{ijk}}$ is commutative.
-\end{definition}
-
-\begin{remarks}
-\label{remarks-definition-descent-datum}
-Two remarks about this definition are in order.
-
-\medskip\noindent
-(1) There is a diagonal morphism $\Delta_i : U_i \to U_{ii}$. We can pull back
-$\phi_{ii}$ via this morphism to get an automorphism
-${\Delta_i}^\ast \phi_{ii} \in \text{Aut}_{U_i}(x_i)$.
-On pulling back the cocycle condition for the triple $(i, i, i)$
-by $\Delta_{123} : U_i \to U_{iii}$ we deduce that
-${\Delta_i}^\ast \phi_{ii} \circ {\Delta_i}^\ast \phi_{ii} =
-{\Delta_i}^\ast \phi_{ii}$; thus ${\Delta_i}^\ast \phi_{ii} =
-\text{id}_{x_i}$.
-
-\medskip\noindent
-(2) There is a morphism
-$\Delta_{13}: U_{ij} \to U_{iji}$ and we can pull back the
-cocycle condition for the triple $(i, j, i)$ to get the
-identity $(\sigma^\ast \phi_{ji}) \circ \phi_{ij} =
-\text{id}_{\text{pr}_{1/2}^\ast x_i}$, where $\sigma: U_{ij} \to U_{ji}$ is the
-switching morphism.
-\end{remarks}
-
-\noindent
-A morphism of descent data
-$\alpha : \{x_i, \phi_{ij}\} \rightarrow \{y_i, \psi_{ij}\}$ is given by a
-collection of morphisms $\alpha_i : x_i \to y_i$ in the fibre category
-over $U_i$ such that the following diagrams
-$$
-\xymatrix{
-\text{pr}_1^\ast x_i
-	\ar[r]^{\text{pr}_1^\ast \alpha_i}
-	\ar[d]_{\phi_{ij}}
-&
-\text{pr}_1^\ast y_i
-	\ar[d]^{\psi_{ij}}
-\\
-\text{pr}_2^\ast x_j
-	\ar[r]_{\text{pr}_2^\ast \alpha_j}
-&
-\text{pr}_2^\ast y_j
-}
-$$
-commute. Note that every morphism of descent data is an isomorphism.
-
-\medskip\noindent
-An object $x \in \text{Ob}(\mathcal{S}_U)$ gives rise to a descent
-datum in the following manner. First we set $x_i = f_i^\ast x$.
-Then we set $\phi_{ij} = {t_{j}}^{-1} \circ t_{i}$, where
-$t_{i}: \text{pr}_1^\ast f_i^\ast x \to (f_i \circ \text{pr}_1)^\ast x$
-and $t_{j}: \text{pr}_2^\ast f_j^\ast x \to (f_j \circ \text{pr}_2)^\ast x$
-are the canonical isomorphisms guaranteed by Categories,
-Lemma \ref{categories-lemma-fibred-groupoids}.
-The lemma below shows this is a descent datum; we will call
-this the {\it canonical descent datum} associated to $x$.
-
-\begin{lemma}
-\label{lemma-trivial-cocycle}
-The cocycle condition holds for the datum described above.
-\end{lemma}
-
-\begin{proof}
-First, note that $f_i \circ\text{pr}_1 = f_j \circ \text{pr}_2=
-f_k\circ \text{pr}_3$. Then note that $\text{pr}_{13}^\ast \phi_{ik}$,
-$\text{pr}_{23}^\ast \phi_{jk}$ and $\text{pr}_{12}^\ast \phi_{ij}$ factor
-uniquely through $(f_i\circ\text{pr}_1)^\ast x =
-(f_j \circ\text{pr}_2)^\ast x = (f_k \circ\text{pr}_3)^\ast x$
-by Lemma 3.1.3.
-\end{proof}
-
-\begin{definition}
-\label{definition-effective-descent-datum}
-A descent datum $\{x_i, \phi_{ij}\}$ is said to be {\it effective}
-when there exists an $x\in \text{Ob}(\mathcal{S}_U)$
-such that $\{x_i, \phi_{ij}\}$ is isomorphic to the
-canonical descent datum associated to $x$.
-\end{definition}
 
 \noindent
 At this point we are ready to give the definition of a
