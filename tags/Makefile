@@ -10,7 +10,7 @@ LIJST = introduction conventions sets categories topology sheaves algebra \
 	sites-cohomology hypercovering schemes constructions properties \
 	morphisms coherent divisors limits varieties chow topologies \
 	groupoids fpqc-descent more-morphisms etale spaces stacks \
-	stacks-groupoids algebraic flat examples exercises desirables coding
+	algebraic flat examples exercises desirables coding
 
 LIJST_TAGS = $(LIJST) index fdl book
 

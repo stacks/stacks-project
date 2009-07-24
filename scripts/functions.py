@@ -271,10 +271,6 @@ def split_label(label):
 		name = "sites-cohomology"
 		type = pieces[2]
 		n = 4
-	if name == "stacks" and type == "groupoids":
-		name = "stacks-groupoids"
-		type = pieces[2]
-		n = 4
 	if name == "more" and type == "morphisms":
 		name = "more-morphisms"
 		type = pieces[2]

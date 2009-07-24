@@ -154,7 +154,7 @@ print
 tags = get_tags(path)
 nr = len(tags)
 # Exceptional cases...
-exceptions = ['02C0', '003W', '003X', '0269', '026H']
+exceptions = ['02C0', '003W', '003X', '0269', '026H', '026I', '026J']
 print "There are",
 print nr,
 print "tags. Checking tags..."
