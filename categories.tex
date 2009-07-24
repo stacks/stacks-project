@@ -2966,19 +2966,23 @@ functor $ f^\ast : \mathcal{S}_U \to \mathcal{S}_V$.
 \begin{definition}
 \label{definition-pullback-functor-fibred-category}
 Assume $p : \mathcal{S} \to \mathcal{C}$ is a fibred category.
-Choose strongly cartesian morphisms
-$f^\ast x \to x$ lying over $f$ for all $f: V \to U = p(x)$.
-For any morphism $f : V \to U$ of $\mathcal{C}$ the
-functor $f^* : \mathcal{S}_U \to \mathcal{S}_V$ described
+\begin{enumerate}
+\item A {\it choice of pullbacks} for $p : \mathcal{S} \to \mathcal{C}$
+is given by a choice of a strongly cartesian morphism
+$f^\ast x \to x$ lying over $f$ for any morphism
+$f: V \to U$ of $\mathcal{C}$ and any $x \in \text{Ob}(\mathcal{S}_U)$.
+\item Given a choice of pullbacks,
+for any morphism $f : V \to U$ of $\mathcal{C}$
+the functor $f^* : \mathcal{S}_U \to \mathcal{S}_V$ described
 above is called a {\it pullback functor} (associated to the choices
 $f^*x \to x$ made above).
+\end{enumerate}
 \end{definition}
 
 \begin{lemma}
 \label{lemma-fibred}
 Assume $p : \mathcal{S} \to \mathcal{C}$ is a fibred category.
-Choose strongly cartesian morphisms
-$f^\ast x \to x$ lying over $f$ for all $f: V \to U = p(x)$.
+Assume given a choice of pullbacks for $p : \mathcal{S} \to \mathcal{C}$.
 \begin{enumerate}
 \item For any pair of composable morphisms $f : V \to U$,
 $g : W \to V$ there is a unique isomorphism
@@ -3584,6 +3588,168 @@ Omitted.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Presheaves of categories}
+\label{section-presheaves-categories}
+
+\noindent
+In this section we compare the notion of fibred categories
+with the closely related notion of a ``presheaf of categories''.
+The basic construction is explained in the following example.
+
+\begin{example}
+\label{example-functor-categories}
+Let $\mathcal{C}$ be a category.
+Suppose that $F : \mathcal{C}^{opp} \to \textit{Cat}$ is a functor
+to the $2$-category of categories, see
+Definition \ref{definition-functor-into-2-category}.
+For $f : V \to U$ in $\mathcal{C}$ we will
+suggestively write $F(f) = f^\ast$ for the functor from $F(U)$ to $F(V)$.
+From this we can construct a fibred category over $\mathcal{C}$
+as follows. Define
+$$
+\text{Ob}(\mathcal{S}) =
+\{(U, x) \mid U\in \text{Ob}(\mathcal{C}), x\in \text{Ob}(F(U)\}.
+$$
+For $(U, x), (V, y) \in \text{Ob}(\mathcal{S})$ we define
+$$
+\text{Mor}_\mathcal{S}((V, y), (U, x)) =
+\{ (f, \phi) \mid f\in \text{Mor}_\mathcal{C}(V, U),
+\phi \in \text{Mor}_{F(V)}(y, f^\ast x)\}.
+$$
+In order to define composition we use that $g^\ast \circ f^\ast =
+(f \circ g)^\ast$ for a pair of composable morphisms of $\mathcal{C}$
+(by definition of a functor into a $2$-category).
+Namely, we define the composition of $\psi : z \to g^\ast y$ and
+$ \phi : y \to f^\ast x$ to be $ g^\ast(\phi) \circ \psi$. It is clear
+what the functor $p : \mathcal{S} \to \mathcal{C}$ is.
+Let us check that this is indeed a fibred category.
+Given $f: V \to U$ in $\mathcal{C}$ and $(U, x)$ a lift of $U$, then
+we claim $(f, id_{f^\ast x}): (V, {f^\ast x}) \to (U, x)$ is a 
+strongly cartesian lift of $f$.
+We have to show a $h$ in the diagram on the left
+determines $(h, \nu)$ on the right:
+$$
+\xymatrix{
+V \ar[r]^f &
+U &
+(V, f^*x) \ar[r]^{(f, \text{id}_{f^*x})} &
+(U, x) \\
+W \ar@{-->}[u]^h \ar[ru]_g & &
+(W, z) \ar@{-->}[u]^{(h, \nu)} \ar[ru]_{(g, \psi)} &
+}
+$$
+Just take $\nu = \psi$ which works because $f \circ h = g$
+and hence $g^*x = h^*f^*x$. Moreover, this is the only lift
+making the diagram (on the right) commute.
+\end{example}
+
+\begin{definition}
+\label{definition-split-fibred-category}
+Let $\mathcal{C}$ be a category.
+Suppose that $F : \mathcal{C}^{opp} \to \textit{Cat}$ is a functor
+to the $2$-category of categories.
+We will write $p_F : \mathcal{S}_F \to \mathcal{C}$ for the
+fibred category constructed in Example \ref{example-functor-categories}.
+A {\it split fibred category} is a fibred category isomorphic (!)
+over $\mathcal{C}$ to one of these categories.
+\end{definition}
+
+\begin{lemma}
+\label{lemma-when-split}
+Let $\mathcal{C}$ be a category.
+Let $\mathcal{S}$ be a fibred category over $\mathcal{C}$.
+Then $\mathcal{S}$ is split if and only if for some choice
+of pullbacks (see Definition \ref{definition-pullback-functor-fibred-category})
+the pullback functors
+$(f \circ g)^*$ and $g^* \circ f^*$ are equal.
+\end{lemma}
+
+\begin{proof}
+This is immediate from the definitions.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-fibred-strict}
+Let $ p : \mathcal{S} \to \mathcal{C}$ be a fibred category.
+There exists a functor $F : \mathcal{C} \to \textit{Cat}$ such that
+$\mathcal{S}$ is equivalent to $\mathcal{S}_F$
+in the $2$-category of fibred categories over $\mathcal{C}$. In other
+words, every fibred category is equivalent to a split one.
+\end{lemma}
+
+\begin{proof}
+Let us make a choice of pullbacks (see
+Definition \ref{definition-pullback-functor-fibred-category}).
+By Lemma \ref{lemma-fibred} we get pullback functors $f^*$ for
+every morphism $f$ of $\mathcal{C}$.
+
+\medskip\noindent
+We construct a new category $\mathcal{S}'$ as follows.
+The objects of $\mathcal{S}'$ are pairs $(x, f)$
+consisting of a morphism $f : V \to U$ of $\mathcal{C}$
+and an object $x$ of $\mathcal{S}$ over $U$, i.e.,
+$x\in \text{Ob}(\mathcal{S}_U)$. The functor
+$p' : \mathcal{S}' \to \mathcal{C}$ will map the pair $(x, f)$ to the source
+of the morphism $f$, in other words $p'(x, f : V\to U) = V$. A morphism
+$\varphi : (x_1, f_1: V_1 \to U_1) \to (x_2, f_2 : V_2 \to U_2)$ is given by a
+pair $(\varphi, g)$ consisting of a morphism $g : V_1 \to V_2$ and a morphism
+$\varphi : f_1^\ast x_1 \to f_2^\ast x_2$ with $p(\varphi) = g$. It is no
+problem to define the composition law: $(\varphi, g) \circ (\psi, h) =
+(\varphi \circ \psi, g\circ h)$ for any pair of composable morphisms.
+There is a natural functor $\mathcal{S} \to \mathcal{S}'$ which simply maps
+$x$ over $U$ to the pair $(x, \text{id}_x)$.
+
+\medskip\noindent
+At this point we need to check that $p'$ makes $\mathcal{S}'$ into a
+fibred category over $\mathcal{C}$, and we need to check that
+$\mathcal{S} \to \mathcal{S}'$ is an equivalence of categories over
+$\mathcal{C}$ which maps strongly cartesian morphisms to strongly
+cartesian morphisms. We omit the verifications.
+
+\medskip\noindent
+Finally, we can define pullback functors on $\mathcal{S}'$
+by setting $g^\ast(x, f) = (x, f \circ g)$ on objects if
+$g : V' \to V$ and $f : V \to U$. On morphisms
+$(\varphi, \text{id}_V) : (x_1, f_1) \to (x_2, f_2)$
+between morphisms in $\mathcal{S}'_V$ we set $g^\ast(\varphi, \text{id}_V) =
+(g^\ast\varphi, \text{id}_{V'})$ where we use the unique identifications
+$g^\ast f_i^\ast x_i = (f_i \circ g)^\ast x_i$ from Lemma
+\ref{lemma-fibred} to think of $g^\ast\varphi$ as a morphism from
+$(f_1 \circ g)^\ast x_1$ to $(f_2 \circ g)^\ast x_2$. Clearly, these pullback
+functors $g^\ast$ have the property that
+$g_1^\ast \circ g_2^\ast = (g_2\circ g_1)^\ast$, in other words $\mathcal{S}'$
+is split as desired.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \section{Presheaves of groupoids}
 \label{section-presheaves-groupoids}
 
@@ -3641,7 +3807,7 @@ is a {\it split} category fibred in groupoids.
 \end{example}
 
 \begin{lemma}
-\label{lemma-fibred-strict}
+\label{lemma-fibred-groupoids-strict}
 Let $ p : \mathcal{S} \to \mathcal{C}$ be a category fibred in groupoids.
 There exists a functor $F : \mathcal{C} \to \text{Groupoids}$ such that
 $\mathcal{S}$ is equivalent to $\mathcal{S}_F$ over $\mathcal{C}$. In other
@@ -3649,9 +3815,8 @@ words, every category fibred in groupoids is equivalent to a split one.
 \end{lemma}
 
 \begin{proof}
-Since $\mathcal{S}$ is fibred in groupoids we can choose
-for every morphism $f : V \to U$ of $\mathcal{C}$ and every object $x$
-of $\mathcal{S}$ a morphism $f^*x \to x$ lying over $f$.
+Make a choice of pullbacks (see
+Definition \ref{definition-pullback-functor-fibred-category}).
 By Lemmas \ref{lemma-fibred} and \ref{lemma-fibred-groupoids}
 we get pullback functors $f^*$ for
 every morphism $f$ of $\mathcal{C}$.
