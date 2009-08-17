@@ -5137,6 +5137,18 @@ Omitted.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-integral-closure-transitive}
+Let $A \to B \to C$ be ring maps.
+Let $B'$ be the integral closure of $A$ in $B$,
+let $C'$ be the integral closure of $B'$ in $C$. Then
+$C'$ is the integral closure of $A$ in $C$.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-integral-overring-surjective}
 Suppose that $R \to S$ is an integral
 ring extension with $R \subset S$.
@@ -11629,33 +11641,59 @@ Suppose that $R$ is a ring and $I$ is an ideal.
 We define the {\it completion of $R$ with respect to $I$}
 to be the limit
 $$
-\hat R = \lim\nolimits_{n} R/I^n.
+R^\wedge = \lim\nolimits_{n} R/I^n.
 $$
-An element of $\hat R$ is simply given by a sequence
-of elements $f_n \in R/I^n$ such that $f_n \cong f_{n + 1} \bmod I^n$
+An element of $R^\wedge$ is simply given by a sequence
+of elements $f_n \in R/I^n$ such that $f_n \equiv f_{n + 1} \bmod I^n$
 for all $n$. Similarly, if $M$ is an $R$-module then we define the
 {\it completion of $M$ with respect to $I$}
 to be the limit
 $$
-\hat M = \lim\nolimits_{n} M/I^nM.
+M^\wedge = \lim\nolimits_{n} M/I^nM.
 $$
-An element of $\hat M$ is simply given by a sequence of
-elements $m_n \in M/I^nM$ such that $m_n \cong m_{n + 1} \bmod I^nM$
+An element of $M^\wedge$ is simply given by a sequence of
+elements $m_n \in M/I^nM$ such that $m_n \equiv m_{n + 1} \bmod I^nM$
 for all $n$. From this description it is clear that there
 is always a natural map
 $$
-M \otimes_R \hat R
+M \otimes_R R^\wedge
 \longrightarrow
-\hat M.
+M^\wedge.
 $$
+
+\begin{lemma}
+\label{lemma-ses-completion}
+Let $R$ be a ring. Let $I \subset R$ be an ideal.
+\begin{enumerate}
+\item Let $M \to N$ be a surjective map of $R$-modules. Then
+$M^\wedge \to N^\wedge$ is surjective.
+\item The canonical map $M \otimes_R R^\wedge \to M^\wedge$ is
+surjective for any $R$-module $M$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Let $K = \text{Ker}(M \to N)$ be the kernel of a surjective
+map $M \to N$ of $R$-modules.. For every $n$ the sequence
+$$
+K/I^nK \to M/I^nM \to N/I^nN \to 0
+$$
+is exact. Denote $A_n = \text{Im}(K/I^nK \to M/I^nM)$.
+Note that the maps $A_{n + 1} \to A_n$ are surjective.
+Apply Homology, Lemma \ref{homology-lemma-Mittag-Leffler} to
+see (1). To see (2) choose generators $x_i \in M$, $i \in I$.
+Then the map $\bigoplus_{i \in I} R \to M$ is surjective.
+Hence by (1) we see $\bigoplus R^\wedge \to M^\wedge$ is surjective.
+\end{proof}
+
 
 \begin{lemma}
 \label{lemma-completion-tensor}
 Suppose $R$ is Noetherian.
 \begin{enumerate}
 \item If $N \to M$ is an injective map of finite $R$-modules,
-then $\hat N \to \hat M$ is injective.
-\item If $M$ is a finite $R$-module, then $\hat M = M \otimes_R \hat R$.
+then $N^\wedge \to M^\wedge$ is injective.
+\item If $M$ is a finite $R$-module, then $M^\wedge = M \otimes_R R^\wedge$.
 \end{enumerate}
 \end{lemma}
 
@@ -11663,14 +11701,14 @@ then $\hat N \to \hat M$ is injective.
 For the first statement, by the Artin-Rees Lemma \ref{lemma-Artin-Rees},
 we have a constant $c$ such that $I^nM \cap N$
 equals $I^{n-c}(I^cM \cap N) \subset I^{n-c}N$.
-Thus if $(n_i) \in \hat N$ maps to zero in
-$\hat M$, then each $n_i$ maps to zero in $N/I^{i-c}N$.
-And hence $n_{i-c} = 0$. Thus $\hat N \to \hat M$ is injective.
+Thus if $(n_i) \in N^\wedge$ maps to zero in
+$M^\wedge$, then each $n_i$ maps to zero in $N/I^{i-c}N$.
+And hence $n_{i-c} = 0$. Thus $N^\wedge \to M^\wedge$ is injective.
 
 \medskip\noindent
 For the second statement let $0\to K \to R^t \to M \to 0$
 be a presentation of $M$, corresponding the the generators
-$x_1, \ldots, x_t$ of $M$. Let $(m_n) \in \hat M$.
+$x_1, \ldots, x_t$ of $M$. Let $(m_n) \in M^\wedge$.
 We will inductively choose lifts $x_n \in (R/I^n)^t$ of
 $m_n \in M/I^nM$ such that $x_n \cong x_{n-1} \bmod (I^n)^t$.
 Namely, given $x_1, \ldots, x_n$ choose some $y \in R^t$
@@ -11680,15 +11718,15 @@ Hence we can write the difference as
 $\overline{y} - m_{n + 1} = \sum h_j x_j$ with
 $h_j \in I^n$. Take $x_{n + 1} = y - \sum h_j e_j$, where
 $e_j$ is the standard basis element of $R^t$.
-This shows that $\hat R^t \to \hat M$ is surjective,
+This shows that $(R^t)^\wedge \to M^\wedge$ is surjective,
 and hence for any finitely generated $R$-module the
-canonical map $M \otimes_R \hat R \to \hat M$ is surjective.
+canonical map $M \otimes_R R^\wedge \to M^\wedge$ is surjective.
 Hence to prove the second statement it suffices
-to prove the the kernel of $\hat R^t \to \hat M$ is
-exactly $\hat K$.
+to prove the the kernel of $(R^t)^\wedge \to M^\wedge$ is
+exactly $K^\wedge$.
 
 \medskip\noindent
-Let $(x_n) \in \hat R^t$ be in the kernel. Note that
+Let $(x_n) \in (R^t)^\wedge$ be in the kernel. Note that
 each $x_n$ is in the image of the map $K/I^nK \to (R/I^n)^t$.
 Choose $c$ as in the Artin-Rees
 Lemma \ref{lemma-Artin-Rees} such that $(I^n)^t \cap K
@@ -11704,14 +11742,14 @@ $z_{n + 1} \cong z_n \bmod I^nK$ by the choice of $c$ above.
 \label{lemma-completion-flat}
 Let $R$ be a Noetherian ring.
 Let $I \subset R$ be an ideal.
-The ring map $R \to \hat R$ is flat.
+The ring map $R \to R^\wedge$ is flat.
 \end{lemma}
 
 \begin{proof}
 Let $I \subset R$ be an ideal.
-Consider $I \otimes_R \hat R \to R\otimes_R \hat R = \hat R$.
+Consider $I \otimes_R R^\wedge \to R\otimes_R R^\wedge = R^\wedge$.
 According to Lemma \ref{lemma-completion-tensor} this
-is identified with $\hat I \to \hat R$ and this is injective.
+is identified with $I^\wedge \to R^\wedge$ and this is injective.
 The result follows from Lemma \ref{lemma-flat}.
 \end{proof}
 
@@ -11720,17 +11758,17 @@ The result follows from Lemma \ref{lemma-flat}.
 Let $R$ be a Noetherian local ring.
 Let $\mathfrak m \subset R$ be the maximal ideal.
 Let $I \subset \mathfrak m$ be an ideal.
-The ring map $R \to \hat R$ is faithfully flat.
+The ring map $R \to R^\wedge$ is faithfully flat.
 In particular the completion with respect to $\mathfrak m$,
 namely $\lim_n R/\mathfrak m^n$ is faithfully flat.
 \end{lemma}
 
 \begin{proof}
 By Lemma \ref{lemma-completion-flat} it is flat.
-The composition $R \to \hat R \to R/\mathfrak m$ where
-the last map is the projection map $\hat R \to R/I$
+The composition $R \to R^\wedge \to R/\mathfrak m$ where
+the last map is the projection map $R^\wedge \to R/I$
 combined with $R/I \to R/\mathfrak m$ shows that
-$\mathfrak m$ is in the image of $\text{Spec}(\hat R)
+$\mathfrak m$ is in the image of $\text{Spec}(R^\wedge)
 \to \text{Spec}(R)$. Hence the map is faithfully
 flat by Lemma \ref{lemma-ff}.
 \end{proof}
@@ -11739,7 +11777,7 @@ flat by Lemma \ref{lemma-ff}.
 \label{lemma-completion-Noetherian}
 Let $R$ be a Noetherian ring.
 Let $I$ be an ideal of $R$.
-The completion $\hat R$ of $R$ with respect to $I$ is
+The completion $R^\wedge$ of $R$ with respect to $I$ is
 Noetherian.
 \end{lemma}
 
@@ -11747,7 +11785,7 @@ Noetherian.
 Choose generators $f_1, \ldots, f_n$ of $I$.
 Consider the map
 $$
-R[[x_1, \ldots, x_n]] \longrightarrow \hat R,
+R[[x_1, \ldots, x_n]] \longrightarrow R^\wedge,
 \quad
 x_i \longmapsto f_i.
 $$
@@ -11756,6 +11794,100 @@ This is a well defined and surjective ring map
 Since $R[[x_1, \ldots, x_n]]$ is Noetherian (see
 Lemma \ref{lemma-Noetherian-power-series}) we win.
 \end{proof}
+
+\begin{definition}
+\label{definition-complete}
+Let $R$ be a ring. Let $I \subset R$ be an ideal.
+Let $M$ be an $R$-module. We say $M$ is {\it $I$-adically complete}
+if the map
+$$
+M \longrightarrow M^\wedge = \lim\nolimits_n M/I^nM
+$$
+is an isomorphism\footnote{This includes the condition that
+$\bigcap I^nM = (0)$.}. We say $R$ is {\it $I$-adically complete}
+if $R$ is complete as an $R$-module.
+\end{definition}
+
+\noindent
+It is not true that the completion of an $R$-module $M$ with respect
+to $I$ is $I$-adically complete. Here is a lemma from a unpublished note
+of Lenstra and de Smit.
+
+\begin{lemma}
+\label{lemma-hathat}
+Let $R$ be a ring. Let $I \subset R$ be an ideal. Let $M$ be an $R$-module.
+Denote $K_n = \text{Ker}(M^\wedge \to M/I^nM)$. Then $M^\wedge$ is $I$-adically
+complete if and only if $K_n$ is equal to $I^nM^\wedge$.
+\end{lemma}
+
+\begin{proof}
+The module $I^n M^\wedge$ is contained in $K_n$.
+Thus for each $n \geq 1$ there is a canonical exact sequence
+$$
+0 \to K_n/I^nM^\wedge \to M^\wedge/I^nM^\wedge \to M/I^nM \to 0.
+$$
+As $I^nM^\wedge$ maps onto $I^nM/I^{n + 1}M$ we see that
+$K_{n + 1} + I^n M^\wedge = K_n$. Thus the inverse system
+$\{K_n/I^n M^\wedge\}_{n \geq 1}$ has surjective transition maps.
+By Homology, Lemma \ref{homology-lemma-Mittag-Leffler} we see that
+there is a short exact sequence
+$$
+0 \to
+\lim\nolimits_n K_n/I^n M^\wedge \to
+(M^\wedge)^\wedge \to
+M^\wedge \to 0
+$$
+Hence the lemma is clear.
+\end{proof}
+
+\noindent
+To use this lemma note that $I^nM^\wedge$ is the completion of
+the module $I^nM$ with respect to $I$. The reason is that
+$I^m I^n M = I^{m + n}M$.
+
+\begin{lemma}
+\label{lemma-completion-complete}
+Let $R$ be a Noetherian ring.
+Let $I$ be an ideal of $R$.
+Let $M$ be a finite $R$-module.
+Then the completion $M^\wedge$
+of $M$ with respect to $I$ is $I$-adically complete.
+\end{lemma}
+
+\begin{proof}
+For each $n$ we have a short exact sequence of $R$-modules
+$$
+0 \to I^nM \to M \to M/I^nM \to 0
+$$
+Since completion is exact on the category of finite $R$-modules
+we see that the kernel of $M^\wedge \to M/I^nM$ is equal
+to $(I^nM)^\wedge = I^n M^\wedge$ (see remark above the lemma).
+Hence $M^\wedge$ is complete according to Lemma \ref{lemma-hathat}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-finite-over-complete-ring}
+Let $R$ be a ring. Let $I \subset R$ be an ideal. Let $M$ be an $R$-module.
+Assume
+\begin{enumerate}
+\item $R$ is $I$-adically complete,
+\item $\bigcap_{n \geq 1} I^nM = (0)$, and
+\item $M/IM$ is a finite $R/I$-module.
+\end{enumerate}
+Then $M$ is a finite $R$-module.
+\end{lemma}
+
+\begin{proof}
+Let $x_1, \ldots, x_n \in M$ be elements whose images in $M/IM$ generate
+$M/IM$ as a $R/I$-module. Denote $M' \subset M$ the $R$-submodule
+generated by $x_1, \ldots, x_n$.
+
+
+
+
+\end{proof}
+
+
 
 
 
@@ -11814,10 +11946,11 @@ $\overline{u}\otimes \text{id}_{{\mathfrak m}^n/{\mathfrak m}^{n + 1}}$ are.
 Note that $\lim_n M/{\mathfrak m}^nM$ is the completion
 of the module $M$ with respect to the ideal $I = {\mathfrak m}S$,
 and similarly for $N$. Since $M$ and $N$ are finite $S$-modules
-we have $\hat M = M \otimes \hat S$ and similarly for $N$, see Lemma
+we have $M^\wedge = M \otimes S^\wedge$ and similarly for $N$, see Lemma
 \ref{lemma-completion-tensor}.
-We conclude that $u \otimes 1 : M \otimes \hat S
-\to N \otimes \hat S$ is injective. Since $\hat S$ is faithfully
+We conclude that
+$u \otimes 1 : M \otimes S^\wedge \to N \otimes S^\wedge$
+is injective. Since $S^\wedge$ is faithfully
 flat over $S$, see Lemma \ref{lemma-completion-faithfully-flat},
 we conclude that $u$ is injective, see Lemma \ref{lemma-flat}.
 
@@ -14911,11 +15044,11 @@ A =
 \right\}
 $$
 Then $A$ is a discrete valuation ring and its completion is
-$\hat A = k[[x]]$. Note that the field extension $f.f.(A) \subset
+$A^\wedge = k[[x]]$. Note that the field extension $f.f.(A) \subset
 f.f.(k[[x]])$ is infinite purely inseparable.
 Choose any $f \in k[[x]]$, $f \not \in A$. Let $R = A[f] \subset k[[x]]$.
 Then $R$ is a Noetherian local domain of dimension $1$ whose
-completion $\hat R$ is nonreduced (think!).
+completion $R^\wedge$ is nonreduced (think!).
 \end{example}
 
 \begin{remark}
@@ -15074,6 +15207,30 @@ Hence we see that $\text{length}_R(M'/xM') \geq k$. By the
 finite case we conclude $k \leq r\text{length}_R(R/xR)$
 as desired.
 \end{proof}
+
+\noindent
+Here is a first application.
+
+\begin{lemma}
+\label{lemma-finite-extension-residue-fields-dimension-1}
+Let $(R, \mathfrak m) \to (S, \mathfrak n)$
+be a local homomorphism of local domains
+with fraction fields $K \subset L$. If
+$R$ is Noetherian of dimension $1$, and $[L : K] < \infty$
+then $[\kappa(\mathfrak n) : \kappa(\mathfrak m)] < \infty$.
+\end{lemma}
+
+\begin{proof}
+This is clear on applying Lemma \ref{lemma-finite-length}
+to the submodule $S \subset L \cong K^{\oplus n}$ where
+$n = [L : K]$.
+Namely, this shows that for any nonzero $x \in \mathfrak m$
+the ring $S/xS$ has finite length over $R$, which shows
+that $\kappa(\mathfrak n)$ has finite length over $R$,
+which implies that $\dim_{\kappa(\mathfrak m)} \kappa(\mathfrak n)$
+is finite (Lemma \ref{lemma-dimension-is-length}).
+\end{proof}
+
 
 \begin{lemma}
 \label{lemma-finite-length-global}
@@ -19526,7 +19683,8 @@ $f_1, \ldots, f_c \in \mathfrak m_R$ such that
 \end{definition}
 
 \noindent
-By the Cohen structure theorem (insert future reference here) any complete
+By the Cohen structure theorem (see
+Theorem \ref{theorem-cohen-structure-theorem}) any complete
 Noetherian local ring may be written as the quotient of some regular complete
 local ring. Hence we may use the definition above to define the notion of
 a complete intersection ring for any complete Noetherian local ring.
@@ -24583,6 +24741,9 @@ Lemmas \ref{lemma-characterize-separable-field-extensions},
 \section{The Cohen structure theorem}
 \label{section-cohen-structure}
 
+\noindent
+Here is a fundamental notion in commutative algebra.
+
 \begin{definition}
 \label{definition-complete-local-ring}
 Let $(R, \mathfrak m)$ be a local ring. We say $R$ is a
@@ -24593,12 +24754,11 @@ $$
 to the completion of $R$ with respect to $\mathfrak m$ is an
 isomorphism\footnote{This includes the condition
 that $\bigcap \mathfrak m^n = (0)$; in some texts this may be indicated
-by saying that $R$ is complete and separated.}.
+by saying that $R$ is complete and separated. Warning: It can happen
+that the completion $\text{lim}_n\ R/\mathfrak m^n$ of a local ring is
+non-complete. This does not happen for Noetherian rings, see
+Section \ref{section-completion}.}
 \end{definition}
-
-\noindent
-Warning: It can happen that the completion $\text{lim}_n\ R/\mathfrak m^n$
-of a local ring is non-complete (this does not happen for Noetherian rings).
 
 \begin{definition}
 \label{definition-coefficient-ring}
@@ -24680,7 +24840,7 @@ details omitted.)
 
 \medskip\noindent
 Suppose that $I$ is a directed partially ordered set, and
-$((\lambda_i, k_i, \phi_i), \psi_{ii'})$ is a system over $I$, see
+$((\Lambda_i, k_i, \phi_i), \psi_{ii'})$ is a system over $I$, see
 Categories, Section \ref{categories-section-posets-limits}.
 In this case we can consider
 $$
@@ -24689,7 +24849,7 @@ $$
 This is a discrete valuation ring with uniformizer $p$ and
 residue field $k' = \bigcup_{i \in I} k_i$. Hence we see that
 the completion of $\Lambda'$ is a Cohen ring for $k'$, and
-that $(\hat\Lambda', k', \phi')$ is an ``upper bound'' for the
+that $((\Lambda')^\wedge, k', \phi')$ is an ``upper bound'' for the
 system. An application of Zorn's Lemma finishes the proof of the
 lemma. (Details omitted. Hint: Apply Zorn's lemma to the set of
 totally ordered systems as above, not to subfields of $k$.)
@@ -24722,7 +24882,8 @@ and the ideal $I = (p^n) \subset \mathbf{Z}/p^{n + 1}\mathbf{Z}$.
 (Cohen structure theorem)
 Let $(R, \mathfrak m)$ be a complete local ring.
 \begin{enumerate}
-\item $R$ has a coefficient ring $\Lambda$,
+\item $R$ has a coefficient ring (see
+Definition \ref{definition-coefficient-ring}),
 \item if $\mathfrak m$ is a finitely generated ideal, then
 $R$ is isomorphic to a quotient
 $$
@@ -24809,6 +24970,23 @@ This map is surjective on each $R/\mathfrak m^n$ and hence
 is surjective as $R$ is complete. Some details omitted.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-complete-local-ring-Noetherian}
+Let $(R, \mathfrak m)$ be a complete local ring.
+If $\mathfrak m$ is a finitely generated ideal then
+$R$ is Noetherian.
+\end{lemma}
+
+\begin{proof}
+A field is Noetherian, and a Cohen ring $\Lambda$ is Noetherian since
+it is a discrete valuation ring. Hence the ring $\Lambda[[x_1, \ldots, x_n]]$
+is Noetherian by Lemma \ref{lemma-Noetherian-power-series}.
+Thus the lemma follows from the Cohen
+structure theorem \ref{theorem-cohen-structure-theorem}.
+\end{proof}
+
+
+
 
 
 
@@ -24818,6 +24996,8 @@ is surjective as $R$ is complete. Some details omitted.
 
 \noindent
 In this section we discuss finiteness of integral closure.
+It turns out that this is closely related to the relationship
+between a local ring and its completion.
 
 \begin{definition}
 \label{definition-N}
@@ -24831,6 +25011,10 @@ is finite over $R$.
 \end{enumerate}
 \end{definition}
 
+\noindent
+In the literature these conditions are sometimes denoted
+J-1 and J-2, where J stands for ``Japanese'' presumably.
+
 \begin{lemma}
 \label{lemma-localize-N}
 Let $R$ be a domain.
@@ -24842,6 +25026,127 @@ Same for N-2.
 These statements hold because taking integral closure commutes
 with localization, see Lemma \ref{lemma-integral-closure-localize}.
 \end{proof}
+
+\begin{lemma}
+\label{lemma-Noetherian-normal-domain-finite-separable-extension}
+Let $R$ be a Noetherian normal domain with fraction field $K$.
+Let $K \subset L$ be a finite separable field extension.
+Then the integral closure of $R$ in $L$ is finite over $R$.
+\end{lemma}
+
+\begin{proof}
+Consider the trace pairing
+$$
+L \times L \longrightarrow K,
+\quad (x, y) \longmapsto \langle x, y\rangle := \text{Tr}_{L/K}(xy).
+$$
+Since $L/K$ is separable this is nondegenerate (exercise in Galois theory).
+Moreover, if $x \in L$ is integral over $R$, then
+$\text{Tr}_{L/K}(x)$ is integral over $R$ also, and since $R$ is
+normal we see $\text{Tr}_{L/K}(x) \in R$.
+Pick $x_1, \ldots, x_n \in L$ which are integral over $R$
+and which form a $K$-basis of $L$. Then the integral closure
+$S \subset L$ is contained in the $R$-module
+$$
+M = \{y \in L \mid \langle x_i, y\rangle \in R,\ i = 1, \ldots, n\}
+$$
+By linear algebra we see that $M \cong R^{\oplus n}$ as an $R$-module.
+Hence $S \subset R^{\oplus n}$ is a finitely generated $R$-module
+as $R$ is Noetherian.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-domain-char-zero-N-1-2}
+A Noetherian domain of characteristic zero is N-1 if and only if
+it is N-2 (i.e., Japanese).
+\end{lemma}
+
+\begin{proof}
+This is clear from
+Lemma \ref{lemma-Noetherian-normal-domain-finite-separable-extension}
+since every field extension in characteristic zero is separable.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-domain-char-p-N-1-2}
+Let $R$ be a Noetherian domain with fraction field $K$ of
+characteristic $p > 0$. Then $R$ is Japanese if and only if
+for every finite purely inseparable extension $K \subset L$ the integral
+closure of $R$ in $L$ is finite over $R$.
+\end{lemma}
+
+\begin{proof}
+Assume the integral closure of $R$ in every finite purely inseparable
+field extension of $K$ is finite.
+Let $K \subset L$ be any finite extension. We have to show the
+integral closure of $R$ in $L$ is finite over $R$.
+Choose a finite normal field extension $K \subset M$
+containing $L$. As $R$ is Noetherian it suffices to show that
+the integral closure of $R$ in $M$ is finite over $R$.
+By Lemma \ref{lemma-normal-case}
+there exists a subextension $K \subset M_{insep} \subset M$
+such that $M_{insep}/K$ is purely inseparable, and $M/M_{insep}$
+is separable. By assumption the integral closure $R'$ of $R$ in
+$M_{insep}$ is finite over $R$. By
+Lemma \ref{lemma-Noetherian-normal-domain-finite-separable-extension}
+the integral
+closure $R''$ of $R'$ in $M$ is finite over $R'$. Then $R''$ is finite
+over $R$ by Lemma \ref{lemma-finite-transitive}.
+Since $R''$ is also the integral closure
+of $R$ in $M$ (see Lemma \ref{lemma-integral-closure-transitive}) we win.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-tate-japanese}
+(Tate)
+Let $R$ be a ring.
+Let $x \in R$.
+Assume
+\begin{enumerate}
+\item $R$ is a normal Noetherian domain,
+\item $R/xR$ is a Japanese domain,
+\item $R \cong \lim_n R/x^nR$ is complete with respect to $x$.
+\end{enumerate}
+Then $R$ is Japanese.
+\end{lemma}
+
+\begin{proof}
+We may assume $x \not = 0$ since otherwise the lemma is trivial.
+Let $K$ be the fraction field of $R$. If the characteristic of $K$
+is zero the lemma follows from (1), see
+Lemma \ref{lemma-domain-char-zero-N-1-2}. Hence we may assume
+that the characteristic of $K$ is $p > 0$, and we may apply
+Lemma \ref{lemma-domain-char-p-N-1-2}. Thus given $K \subset L$
+be a finite purely inseparable field extension we have to show
+that the integral closure $S$ of $R$ in $L$ is finite over $R$.
+
+\medskip\noindent
+Let $q$ be a power of $p$ such that $L^q \subset K$.
+By enlarging $L$ if necessary we may assume there exists
+an element $y \in L$ such that $y^q = x$. Since $R \to S$
+induces a homeomorphism of spectra (see Lemma \ref{lemma-p-ring-map})
+there is a unique prime ideal $\mathfrak q \subset S$ lying
+over the prime ideal $\mathfrak p = xR$. It is clear that
+$$
+\mathfrak q = \{f \in S \mid f^q \in xR = \mathfrak p\} = yS
+$$
+since $y^q = x$. Hence $R_{\mathfrak p}$ and $S_{\mathfrak q}$
+are discrete valuation rings, see Lemma \ref{lemma-characterize-dvr}.
+By Lemma \ref{lemma-finite-extension-residue-fields-dimension-1} we
+see that $\kappa(\mathfrak p) \subset \kappa(\mathfrak q)$ is
+a finite field extension. Hence the integral closure
+$S' \subset \kappa(\mathfrak q)$ of $R/xR$ is finite over
+$R/xR$ by assumption (2). Since $S/yS \subset S'$ this implies
+that $S/yS$ is finite over $R$. Note that $S/y^nS$ has a finite
+filtration whose subquotients are the modules
+$y^iS/y^{i + 1}S \cong S/yS$. Hence we see that each $S/y^nS$
+is finite over $R$.
+
+
+\end{proof}
+
+
+
 
 \begin{definition}
 \label{definition-nagata}
