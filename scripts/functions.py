@@ -263,10 +263,6 @@ def split_label(label):
 	rest = pieces[2]
 	n = 3
 	# Exceptions...
-	if name == "fpqc" and type == "descent":
-		name = "fpqc-descent"
-		type = pieces[2]
-		n = 4
 	if name == "sites" and type == "cohomology":
 		name = "sites-cohomology"
 		type = pieces[2]
