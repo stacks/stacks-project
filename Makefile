@@ -23,7 +23,7 @@ TEXS = $(SOURCES) tmp/index.tex fdl.tex
 TAGS = $(patsubst %,tags/tmp/%.tex,$(LIJST_TAGS))
 TAG_EXTRAS = tags/tmp/my.bib tags/tmp/hyperref.cfg tags/tmp/amsart.cls \
 	tags/tmp/amsbook.cls tags/tmp/Makefile tags/tmp/chapters.tex \
-	tags/tmp/preamble.tex
+	tags/tmp/preamble.tex tags/tmp/log.log
 TAG_WEB = tags/tmp/query.php tags/tmp/locate.php tags/tmp/tags.html
 FOO_SOURCES = $(patsubst %,%.foo,$(LIJST))
 AUXS = $(patsubst %,%.aux,$(LIJST_FDL))
@@ -161,6 +161,9 @@ tags/tmp/my.bib: my.bib
 tags/tmp/Makefile: tags/Makefile
 	cp tags/Makefile tags/tmp/Makefile
 
+tags/tmp/log.log:
+	git log -n10 --date=short --format=format:"Version %h %ad: %s" > tags/tmp/log.log
+
 # Target dealing with tags
 .PHONY: tags
 tags: $(TAGS) $(TAG_EXTRAS)
@@ -178,6 +181,7 @@ tags_install: tags tarball tmp/downloads.html
 	cp tags/tmp/*.dvi $(INSTALLDIR)
 	cp tags/tmp/*.php $(INSTALLDIR)
 	cp tags/tmp/*.html $(INSTALLDIR)
+	cp tags/tmp/log.log $(INSTALLDIR)
 	tar -c -f $(INSTALLDIR)/stacks-pdfs.tar --exclude book.pdf --transform=s@tags/tmp@stacks-pdfs@ tags/tmp/*.pdf
 	tar -c -f $(INSTALLDIR)/stacks-dvis.tar --exclude book.dvi --transform=s@tags/tmp@stacks-dvis@ tags/tmp/*.dvi
 	git archive --format=tar HEAD | (cd $(INSTALLDIR) && tar xf -)
