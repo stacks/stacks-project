@@ -10,7 +10,10 @@ path = get_path()
 
 labels = []
 
-lijstje = list_text_files(path)
+
+#lijstje = list_text_files(path)
+# file gets too big using all tex files. Just pick one:
+lijstje = ['schemes']
 
 # Check the tags file for correctness
 tags = get_tags(path)
@@ -18,9 +21,13 @@ label_tags = dict((tags[n][1], tags[n][0]) for n in range(0, len(tags)))
 
 print "digraph dependencies {"
 print
-print "node [shape=point]"
-print "edge [dir=none]"
+print "edge [dir=back]"
 print
+n = 0
+while n < len(tags):
+	print "a" + tags[n][0] + "a",
+	print "[label=\"" + tags[n][0] + "\", color=green, fontcolor=blue, shape=rectangle]"
+	n = n + 1
 
 ext = ".tex"
 for name in lijstje:
@@ -30,6 +37,7 @@ for name in lijstje:
 	line_nr = 0
 	verbatim = 0
 	next_proof = 0
+	refs_proof = []
 	for line in tex_file:
 
 		# Update line number
@@ -60,15 +68,19 @@ for name in lijstje:
 
 		# In proofs
 		if in_proof:
-			refs = find_refs(line, name)
-			n = 0
-			while n < len(refs):
-				ref_tag = find_tag(refs[n], label_tags)
-				print "a" + proof_tag + "a",
-				print "->",
-				print "a" + ref_tag + "a"
-				n = n + 1
+			if not proof_tag == 'ZZZZ':
+				refs = find_refs(line, name)
+				refs_proof.extend(refs)
 			if end_of_proof(line):
+				refs_proof = list(set(refs_proof))
+				n = 0
+				while n < len(refs_proof):
+					ref_tag = find_tag(refs_proof[n], label_tags)
+					print "a" + proof_tag + "a",
+					print "->",
+					print "a" + ref_tag + "a"
+					n = n + 1
+				refs_proof = []
 				in_proof = 0
 		else:
 			in_proof = beginning_of_proof(line)
