@@ -162,7 +162,7 @@ tags/tmp/Makefile: tags/Makefile
 	cp tags/Makefile tags/tmp/Makefile
 
 tags/tmp/log.log:
-	git log -n10 --date=short --format=format:"Version %h %ad: %s" > tags/tmp/log.log
+	git log -n50 --date=short --format=format:"Version %h %ad: %s" > tags/tmp/log.log
 
 # Target dealing with tags
 .PHONY: tags
