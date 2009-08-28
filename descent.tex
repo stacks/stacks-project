@@ -694,11 +694,9 @@ morphism $\text{Spec}(R) \to S$.
 \noindent
 Another application of flat descend for modules is the following
 amusing and useful result. There is an algebraic version and a
-scheme theoretic version. Loosely formulated these lemmas say
-that a ``representable algebraic stack of finite presentation over 
-$S$ is represented by a scheme of finite presentation over $S$''.
-This bizarre phrase really means that two possible notions of
-being of finite presentation agree.
+scheme theoretic version. (The ``Noetherian'' reader should
+consult Lemma \ref{lemma-finite-type-local-source-fppf-algebra}
+instead of the next lemma.)
 
 \begin{lemma}
 \label{lemma-flat-finitely-presented-permanence-algebra}
@@ -787,6 +785,43 @@ see that $S_\lambda$ is the equalizer of $p_\lambda$ and $q_\lambda$.
 Thus we get the desired ring map $A \to S_\lambda$ and we win.
 \end{proof}
 
+\noindent
+Here is an easier version of this dealing with the property
+of being of finite type.
+
+\begin{lemma}
+\label{lemma-finite-type-local-source-fppf-algebra}
+Let $R \to A \to B$ be ring maps.
+Assume $R \to B$ is of finite type and
+$A \to B$ faithfully flat and of finite presentation.
+Then $R \to A$ is of finite type.
+\end{lemma}
+
+\begin{proof}
+By
+Algebra, Lemma \ref{algebra-lemma-descend-faithfully-flat-finite-presentation}
+there exists a commtutative diagram
+$$
+\xymatrix{
+R \ar[r] \ar@{=}[d] &
+A_0 \ar[d] \ar[r] &
+B_0 \ar[d] \\
+R \ar[r] & A \ar[r] & B
+}
+$$
+with $R \to A_0$ of finite presentation,
+$A_0 \to B_0$ faithfully flat of finite presentation
+and $B = A \otimes_{A_0} B_0$. Since $R \to B$ is of finite
+type by assumption, we may add some elements to $A_0$ and assume
+that the map $B_0 \to B$ is surjective!
+In this case, since $A_0 \to B_0$ is faithfully flat, we see
+that as
+$$
+(A_0 \to A) \otimes_{A_0} B_0 \cong (B_0 \to B)
+$$
+is surjective, also $A_0 \to A$ is surjective. Hence we win.
+\end{proof}
+
 \begin{lemma}
 \label{lemma-flat-finitely-presented-permanence}
 Let
@@ -799,8 +834,8 @@ Y \ar[dl]^q \\
 $$
 be a commutative diagram of morphisms of schemes. Assume that $f$ is 
 surjective, flat and locally of finite presentation and assume
-that $p$ is locally of finite presentation.
-Then $q$ is locally of finite presentation.
+that $p$ is locally of finite presentation (resp.\ locally of finite type).
+Then $q$ is locally of finite presentation (resp.\ locally of finite type).
 \end{lemma}
 
 \begin{proof}
@@ -813,7 +848,9 @@ $X_i \subset X$ such that $Y = \bigcup f(X_i)$.
 Clearly we may replace $X$ by $\coprod X_i$, and hence we
 may assume $X$ is affine as well.
 In this case the lemma is equivalent to
-Lemma \ref{lemma-flat-finitely-presented-permanence-algebra} above.
+Lemma \ref{lemma-flat-finitely-presented-permanence-algebra}
+(resp. Lemma \ref{lemma-finite-type-local-source-fppf-algebra})
+above.
 \end{proof}
 
 \noindent
@@ -864,8 +901,9 @@ this in the following definition.
 
 \begin{definition}
 \label{definition-property-local}
-Let $\mathcal{P}$ be a property of schemes.
-Let $\tau \in \{Zariski, fpqc, fppf, etale, smooth, syntomic\}$.
+Let $\mathcal{P}$ be a property of schemes. Let
+$\tau \in \{Zariski,\linebreak[0] fpqc,\linebreak[0] fppf,\linebreak[0]
+etale,\linebreak[0] smooth,\linebreak[0] syntomic\}$.
 We say $\mathcal{P}$ is {\it local in the $\tau$-topology} if for any
 $\tau$ covering $\{S_i \to S\}_{i \in I}$ (see
 Topologies, Section \ref{topologies-section-procedure})
@@ -904,7 +942,8 @@ This follows from Topologies, Lemmas \ref{topologies-lemma-zariski-etale},
 \begin{lemma}
 \label{lemma-descending-properties}
 Let $\mathcal{P}$ be a property of schemes.
-Let $\tau \in \{fpqc, fppf, etale, smooth, syntomic\}$.
+Let $\tau \in \{fpqc,\linebreak[0] fppf,\linebreak[0] etale,\linebreak[0]
+smooth,\linebreak[0] syntomic\}$.
 Assume that
 \begin{enumerate}
 \item the property is local in the Zariski topology,
@@ -1243,6 +1282,7 @@ this in the following definition.
 Let $\mathcal{P}$ be a property of morphisms of schemes over a base.
 Let $\tau \in \{Zariski, fpqc, fppf, etale, smooth, syntomic\}$.
 We say $\mathcal{P}$ is {\it $\tau$ local on the base}, or
+{\it $\tau$ local on the target}, or
 {\it local on the base for the $\tau$-topology} if for any
 $\tau$ covering $\{S_i \to S\}_{i \in I}$ (see
 Topologies, Section \ref{topologies-section-procedure})
@@ -2119,6 +2159,288 @@ Lemma \ref{lemma-descending-property-isomorphism}.
 
 
 
+
+\section{Properties of morphisms which are local on the source}
+\label{section-properties-morphisms-local-source}
+
+\noindent
+It often happens one can prove a morphism has a certain property
+after precomposing with some other morphism. In many cases this
+implies the morphism has the property too. We formalize
+this in the following definition.
+
+\begin{definition}
+\label{definition-property-morphisms-local-source}
+Let $\mathcal{P}$ be a property of morphisms of schemes.
+Let $\tau \in \{Zariski,\linebreak[0] fpqc,\linebreak[0] fppf,\linebreak[0]
+etale,\linebreak[0] smooth,\linebreak[0] syntomic\}$.
+We say $\mathcal{P}$ is
+{\it $\tau$ local on the source}, or
+{\it local on the source for the $\tau$-topology} if for
+any morphism of schemes $f : X \to Y$ over $S$, and any
+$\tau$-covering $\{X_i \to X\}_{i \in I}$ we
+have
+$$
+f \text{ has }\mathcal{P}
+\Leftrightarrow
+\text{each }X_i \to Y\text{ has }\mathcal{P}.
+$$
+\end{definition}
+
+\noindent
+To be sure, since isomorphisms are always coverings
+we see (or require) that property $\mathcal{P}$ holds for $X \to Y$
+if and only if it holds for any arrow $X' \to Y'$ isomorphic to $X \to Y$.
+
+\begin{lemma}
+\label{lemma-properties-morphisms-local-source}
+Let $\mathcal{P}$ be a property of morphisms of schemes.
+Let $\tau \in \{fpqc,\linebreak[0] fppf,\linebreak[0] etale,\linebreak[0]
+smooth,\linebreak[0] syntomic\}$.
+Assume that
+\begin{enumerate}
+\item the property is preserved under precomposing with
+flat, flat locally of finite presentation, etale, smooth or syntomic morphisms
+depending on whether $\tau$ is fpqc, fppf, etale, smooth, or syntomic,
+\item the property is Zariski local on the source,
+\item the property is Zariski local on the target,
+\item for any morphism of affine schemes $X \to Y$, and
+any surjective morphism of affine schemes $X' \to X$
+which is flat, flat of finite presentation,
+etale, smooth or syntomic depending on whether $\tau$ is
+fpqc, fppf, etale, smooth, or syntomic, property
+$\mathcal{P}$ holds for $f$ if property $\mathcal{P}$
+holds for the composition $f' : X' \to Y$.
+\end{enumerate}
+Then $\mathcal{P}$ is $\tau$ local on the source.
+\end{lemma}
+
+\begin{proof}
+This follows almost immediately from the definition of
+a $\tau$ covering, see
+Topologies, Definition
+\ref{topologies-definition-fpqc-covering}
+\ref{topologies-definition-fppf-covering}
+\ref{topologies-definition-etale-covering}
+\ref{topologies-definition-smooth-covering}, or
+\ref{topologies-definition-syntomic-covering}
+and Topologies, Lemma
+\ref{topologies-lemma-fpqc-affine},
+\ref{topologies-lemma-fppf-affine},
+\ref{topologies-lemma-etale-affine},
+\ref{topologies-lemma-smooth-affine}, or
+\ref{topologies-lemma-syntomic-affine}.
+Details omitted. (Hint: Use locality on the source and target to
+reduce the verification of property $\mathcal{P}$ to the case of
+a morphism between affines. Then apply (1) and (4).)
+\end{proof}
+
+\begin{remark}
+\label{remark-properties-morphisms-local-source-standard}
+(This is a repeat of
+Remarks \ref{remark-descending-properties-standard}
+and \ref{remark-descending-properties-morphisms-standard} above.)
+In Lemma \ref{lemma-properties-morphisms-local-source} above if
+$\tau = smooth$ then in condition (4) we may assume that
+the morphism is a (surjective) standard smooth morphism.
+Similarly, when $\tau = syntomic$ or $\tau = etale$.
+\end{remark}
+
+
+
+\section{Properties of morphisms fpqc local on the source}
+\label{section-fpqc-local-source}
+
+\noindent
+Here are some properties of morphisms that are fpqc local on the source.
+
+\begin{lemma}
+\label{lemma-flat-fpqc-local-source}
+The property $\mathcal{P}(f)=$``$f$ is flat'' is fpqc local on the source.
+\end{lemma}
+
+\begin{proof}
+Since flatness is defined in terms of the maps of local rings
+(Morphisms, Definition \ref{morphisms-definition-flat})
+what has to be shown is the following
+algebraic fact: Suppose $A \to B \to C$ are local homomorphisms of local
+rings, and assume $A \to C$ and $B \to C$ are flat. Then $A \to B$ is
+flat. This is true because $B \to C$ is faithfully flat, see
+Algebra, Lemma \ref{algebra-lemma-local-flat-ff}.
+See also Morphisms, Lemma \ref{morphisms-lemma-flat-permanence}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-injective-local-rings-fpqc-local-source}
+Then property
+$\mathcal{P}(f : X \to Y)=$``for every $x \in X$ the map of local
+rings $\mathcal{O}_{Y, f(x)} \to \mathcal{O}_{X, x}$ is injective''
+is fpqc local on the source.
+\end{lemma}
+
+\begin{proof}
+Omitted. This is just a (probably misguided) attempt to be playful.
+\end{proof}
+
+
+
+
+
+\section{Properties of morphisms fppf local on the source}
+\label{section-fppf-local-source}
+
+\noindent
+Here are some properties of morphisms that are fppf local on the source.
+
+\begin{lemma}
+\label{lemma-locally-finite-presentation-fppf-local-source}
+The property $\mathcal{P}(f)=$``$f$ is locally of finite presentation''
+is fppf local on the source.
+\end{lemma}
+
+\begin{proof}
+Being locally of finite presentation is Zariski local on the source
+and the target, see Morphisms,
+Lemma \ref{morphisms-lemma-locally-finite-presentation-characterize}.
+It is a property which is preserved under composition, see
+Morphisms, Lemma \ref{morphisms-lemma-composition-finite-presentation}.
+This proves
+(1), (2) and (3) of Lemma \ref{lemma-properties-morphisms-local-source}.
+The final condition (4) is
+Lemma \ref{lemma-flat-finitely-presented-permanence-algebra}. Hence we win.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-locally-finite-type-fppf-local-source}
+The property $\mathcal{P}(f)=$``$f$ is locally of finite type''
+is fppf local on the source.
+\end{lemma}
+
+\begin{proof}
+Being locally of finite type is Zariski local on the source
+and the target, see Morphisms,
+Lemma \ref{morphisms-lemma-locally-finite-type-characterize}.
+It is a property which is preserved under composition, see
+Morphisms, Lemma \ref{morphisms-lemma-composition-finite-type}, and
+a flat morphism locally of finite presentation is locally of finite type, see
+Morphisms, Lemma \ref{morphisms-lemma-finite-presentation-finite-type}.
+This proves
+(1), (2) and (3) of Lemma \ref{lemma-properties-morphisms-local-source}.
+The final condition (4) is
+Lemma \ref{lemma-finite-type-local-source-fppf-algebra}. Hence we win.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-open-fppf-local-source}
+The property $\mathcal{P}(f)=$``$f$ is open''
+is fppf local on the source.
+\end{lemma}
+
+\begin{proof}
+Being an open morphism is clearly Zariski local on the source and the target.
+It is a property which is preserved under composition, see
+Morphisms, Lemma \ref{morphisms-lemma-composition-open}, and
+a flat morphism of finite presentation is open, see
+Morphisms, Lemma \ref{morphisms-lemma-fppf-open}
+This proves
+(1), (2) and (3) of Lemma \ref{lemma-properties-morphisms-local-source}.
+The final condition (4) follows from
+Morphisms, Lemma \ref{morphisms-lemma-fpqc-quotient-topology}.
+Hence we win.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-universally-open-fppf-local-source}
+The property $\mathcal{P}(f)=$``$f$ is universally open''
+is fppf local on the source.
+\end{lemma}
+
+\begin{proof}
+Let $f : X \to Y$ be a morphism of schemes.
+Let $\{X_i \to X\}_{i \in I}$ be an fppf covering.
+Denote $f_i : X_i \to X$ the compositions.
+We have to show that $f$ is universally open if and only if
+each $f_i$ is universally open. If $f$ is universally open,
+then also each $f_i$ is universally open since the maps
+$X_i \to X$ are universally open and compositions
+of universally open morphisms are universally open
+(Morphisms, Lemmas \ref{morphisms-lemma-fppf-open}
+and \ref{morphisms-lemma-composition-open}).
+Conversely, assume each $f_i$ is universally open.
+Let $Y' \to Y$ be a morphism of schemes.
+Denote $X' = Y' \times_Y X$ and $X'_i = Y' \times_Y X_i$.
+Note that $\{X_i' \to X'\}_{i \in I}$ is an fppf covering also.
+The morphisms $f'_i : X_i' \to Y'$ are open by assumption.
+Hence by the Lemma \ref{lemma-open-fppf-local-source}
+above we conclude that $f' : X' \to Y'$ is open as desired.
+\end{proof}
+
+
+
+\section{Properties of morphisms syntomic local on the source}
+\label{section-syntomic-local-source}
+
+\noindent
+Here are some properties of morphisms that are syntomic local on the source.
+
+\begin{lemma}
+\label{lemma-syntomic-syntomic-local-source}
+The property $\mathcal{P}(f)=$``$f$ is syntomic''
+is syntomic local on the source.
+\end{lemma}
+
+\begin{proof}
+Combine Lemma \ref{lemma-properties-morphisms-local-source} with
+Morphisms, Lemma \ref{morphisms-lemma-syntomic-characterize}
+(local for Zariski on source and target),
+Morphisms, Lemma \ref{morphisms-lemma-composition-syntomic} (pre-composing),
+and Lemma \ref{lemma-syntomic-smooth-etale-permanence} (part (4)).
+\end{proof}
+
+
+
+
+\section{Properties of morphisms smooth local on the source}
+\label{section-smooth-local-source}
+
+\noindent
+Here are some properties of morphisms that are smooth local on the source.
+
+\begin{lemma}
+\label{lemma-smooth-smooth-local-source}
+The property $\mathcal{P}(f)=$``$f$ is smooth''
+is smooth local on the source.
+\end{lemma}
+
+\begin{proof}
+Combine Lemma \ref{lemma-properties-morphisms-local-source} with
+Morphisms, Lemma \ref{morphisms-lemma-smooth-characterize}
+(local for Zariski on source and target),
+Morphisms, Lemma \ref{morphisms-lemma-composition-smooth} (pre-composing), and
+Lemma \ref{lemma-syntomic-smooth-etale-permanence} (part (4)).
+\end{proof}
+
+
+
+\section{Properties of morphisms etale local on the source}
+\label{section-etale-local-source}
+
+\noindent
+Here are some properties of morphisms that are etale local on the source.
+
+\begin{lemma}
+\label{lemma-etale-etale-local-source}
+The property $\mathcal{P}(f)=$``$f$ is etale''
+is etale local on the source.
+\end{lemma}
+
+\begin{proof}
+Combine Lemma \ref{lemma-properties-morphisms-local-source} with
+Morphisms, Lemma \ref{morphisms-lemma-etale-characterize}
+(local for Zariski on source and target),
+Morphisms, Lemma \ref{morphisms-lemma-composition-etale} (pre-composing), and
+Lemma \ref{lemma-syntomic-smooth-etale-permanence} (part (4)).
+\end{proof}
 
 
 
