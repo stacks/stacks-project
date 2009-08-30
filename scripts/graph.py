@@ -82,7 +82,7 @@ for name in lijstje:
 				refs_proof_set = set(refs_proof)
 				refs_proof_set.discard('ZZZZ')
 				refs_proof = list(refs_proof_set)
-				nr = 0
+				nr = -1
 				tags_proof = []
 				n = 0
 				while n < len(refs_proof):
@@ -201,23 +201,37 @@ def print_graph_tag(mytag):
 	print
 	n = tags_nr[mytag]
 	mylist = [mytag]
+	print "a" + mytag + "a",
+	print "[label=\"" + mytag + "\", color=green, fontcolor=blue, shape=rectangle, width=0.5, height=0.25]"
 	oldset = set()
 	while n >= 0 and len(mylist) > 0:
 		m = 0
-		while m < len(mylist):
-			print "a" + mylist[m] + "a",
-			print "[label=\"" + mylist[m] + "\", color=green, fontcolor=blue, shape=rectangle, fixedsize=true, width=0.5, height=0.25]"
-			m = m + 1
 		newlist = []
 		m = 0
 		while m < len(mylist):
+			prelims = ""
+			prelims_txt = ""
 			newlist = newlist + tags_refs[mylist[m]]
 			k = 0
 			while k < len(tags_refs[mylist[m]]):
+				if tags_nr[tags_refs[mylist[m]][k]] == 0:
+					if not prelims == "":
+						prelims_txt = prelims_txt + ", "
+					prelims = prelims + tags_refs[mylist[m]][k]
+					prelims_txt = prelims_txt + tags_refs[mylist[m]][k]
+				else:
+					print "a" + tags_refs[mylist[m]][k] + "a",
+					print "[label=\"" + tags_refs[mylist[m]][k] + "\", color=green, fontcolor=blue, shape=rectangle, width=0.5, height=0.25]"
+					print "a" + mylist[m] + "a",
+					print "->",
+					print "a" + tags_refs[mylist[m]][k] + "a"
+				k = k + 1
+			if not prelims == "":
+				print "a" + prelims + "a",
+				print "[label=\"" + prelims_txt + "\", color=green, fontcolor=blue, shape=rectangle, width=0.5, height=0.25]"
 				print "a" + mylist[m] + "a",
 				print "->",
-				print "a" + tags_refs[mylist[m]][k] + "a"
-				k = k + 1
+				print "a" + prelims + "a"
 			m = m + 1
 		newset = set(newlist)
 		newset -= oldset
