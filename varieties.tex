@@ -224,12 +224,17 @@ and the definition of a perfect field
 \label{lemma-geometrically-reduced-any-base-change}
 Let $k$ be a field.
 Let $X$, $Y$ be schemes over $k$.
-Assume $X$ geometrically reduced over $k$ and $Y$ reduced.
+\begin{enumerate}
+\item If $X$ is geometrically reduced at $x$, and $Y$ reduced,
+then $X \times_k Y$ is reduced at every point lying over $x$.
+\item If $X$ geometrically reduced over $k$ and $Y$ reduced.
 Then $X \times_k Y$ is reduced.
+\end{enumerate}
 \end{lemma}
 
 \begin{proof}
-Combine, Lemma \ref{lemma-geometrically-reduced} and Algebra,
+Combine, Lemmas \ref{lemma-geometrically-reduced-at-point}
+and \ref{lemma-geometrically-reduced} and Algebra,
 Lemma \ref{algebra-lemma-geometrically-reduced-any-reduced-base-change}.
 \end{proof}
 
@@ -299,10 +304,12 @@ if the scheme $X_{k'}$ is connected\footnote{An empty scheme is connected.}
 for every field extension $k'$ of $k$.
 \end{definition}
 
+\noindent
+Here is an example of a variety which is not geometrically connected.
 
 \begin{example}
 \label{example-not-geometrically-irreducible}
-Let $k = \mathbf{Q}$. By our definition above the scheme
+Let $k = \mathbf{Q}$. The scheme
 $X = \text{Spec}(\mathbf{Q}(i))$ is a variety over $\text{Spec}(\mathbf{Q})$.
 But the base change $X_{\mathbf{C}}$ is the spectrum of
 $\mathbf{C} \otimes_{\mathbf{Q}} \mathbf{Q}(i) \cong
@@ -311,6 +318,44 @@ two copies of $\text{Spec}(\mathbf{C})$. So in fact, this is an
 example of a non-geometrically connected variety.
 \end{example}
 
+\begin{lemma}
+\label{lemma-bijection-connected-components}
+Let $k$ be a field.
+Let $X$, $Y$ be schemes over $k$.
+Assume $X$ is geometrically connected over $k$.
+Then the projection morphism
+$$
+p : X \times_k Y \longrightarrow Y
+$$
+induces a bijection between connected components.
+\end{lemma}
+
+\begin{proof}
+First, note that the scheme theoretic fibres of $p$ are connected
+and nonempty, since they
+are base changes of the geometrically connected scheme $X$ by
+field extensions. Moreover the scheme theoretic fibres are
+homeomorphic to the set theoretic fibres, see
+Schemes, Lemma \ref{schemes-lemma-fibre-topological}.
+By Morphisms, Lemma \ref{morphisms-lemma-scheme-over-field-universally-open}
+the map $p$ is open.
+Thus we may apply Topology,
+Lemma \ref{topology-lemma-connected-fibres-connected-components}
+to conclude.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-affine-geometrically-connected}
+Let $k$ be a field.
+Let $A$ be a $k$-algebra.
+Then $X = \text{Spec}(A)$ is geometrically connected over $k$
+if and only if $A$ is geometrically connected over $k$ (see
+Algebra, Definition \ref{algebra-definition-geometrically-connected}).
+\end{lemma}
+
+\begin{proof}
+Immediate from the definitions.
+\end{proof}
 
 \begin{lemma}
 \label{lemma-separably-closed-field-connected-components}
@@ -322,8 +367,79 @@ components.
 \end{lemma}
 
 \begin{proof}
-
+Since $k$ is separably algebraically closed we see that
+$k'$ is geometrically connected over $k$, see Algebra,
+Lemma \ref{algebra-lemma-separably-closed-connected-implies-geometric}.
+Hence $Z = \text{Spec}(k')$ is geometrically connected over $k$.
+by Lemma \ref{lemma-affine-geometrically-connected} above.
+Since $X' = Z \times_k X$ the result is a special case
+of Lemma \ref{lemma-bijection-connected-components}.
 \end{proof}
+
+\begin{lemma}
+\label{lemma-characterize-geometrically-connected}
+Let $k$ be a field.
+Let $X$ be a scheme over $k$.
+Let $\overline{k}$ be a separable algebraic closure of $k$.
+Then $X$ is geometrically connected if and only if the base change
+$X_{\overline{k}}$ is connected.
+\end{lemma}
+
+\begin{proof}
+Assume $X_{\overline{k}}$ is connected.
+Let $k \subset k'$ be a field extension.
+There exists a field extension $\overline{k} \subset \overline{k}'$
+such that $k'$ embeds into $\overline{k}'$ as an extension of $k$.
+By Lemma \ref{lemma-separably-closed-field-connected-components}
+we see that $X_{\overline{k}'}$ is connected.
+Since $X_{\overline{k}'} \to X_{k'}$ is surjective we conclude
+that $X_{k'}$ is connected as desired.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-characterize-geometrically-connected-quasi-compact}
+Let $k$ be a field. Let $X$ be a scheme over $k$.
+Assume $X$ is quasi-compact. The following are
+equivalent:
+\begin{enumerate}
+\item $X$ is geometrically connected over $k$, and
+\item for every finite separable field extension $k \subset k'$
+the scheme $X_{k'}$ is connected.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Let $k \subset \overline{k}$ be a separable algebraic closure of $k$.
+By Lemma \ref{lemma-characterize-geometrically-connected} it suffices
+to prove the following statement:
+If $X_{\overline{k}}$ is disconnected, then also $X_{k'}$ is
+disconnected for some finite subextension $k \subset k' \subset \overline{k}$.
+Let $X = U_1 \cup \ldots \cup U_n$ be a finite affine open
+covering. Say $U_i = \text{Spec}(A_i)$. If $X_{\overline{k}}$ is disconnected
+then there exist an open and closed subscheme
+$\overline{V} \subset X_{\overline{k}}$ which is neither empty
+nor equal to $X_{\overline{k}}$. For each $i$ we see that
+$\overline{V} \cap U_{i, \overline{k}}$ corresponds to an
+idempotent $e_i \in A_i \otimes_k \overline{k}$, see
+Algebra, Lemma \ref{algebra-lemma-disjoint-decomposition}. Moreover, at
+least for one $i$ the idempotent $e_i$ is a nontrivial idempotent.
+Clearly, we can find a finite subextension $k \subset k' \subset \overline{k}$
+such that each $e_i$ is actually an element of $A_i \otimes_k k'$.
+Then it is clear that $\overline{U}$ comes from the open and closed
+subscheme $U' \subset X_{k'}$ corresponding to the elements $e_i$.
+This proves the lemma.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -338,9 +454,9 @@ for geometrically irreducible schemes.
 \begin{definition}
 \label{definition-geometrically-irreducible}
 Let $X$ be a scheme over the field $k$.
-We say $X$ is {\it geometrically irreducible} over $k$
-if the scheme $X_{k'}$ is irreducible for any field extension $k'$
-of $k$.
+We say $X$ is {\it geometrically irreducible} over $k$ if the scheme
+$X_{k'}$ is irreducible\footnote{An irreducible space is nonempty.}
+for any field extension $k'$ of $k$.
 \end{definition}
 
 
