@@ -12,23 +12,20 @@ LIJST = introduction conventions sets categories topology sheaves algebra \
 	algebraic flat examples exercises desirables coding
 
 # Add index and fdl to get index and license latexed as well.
-LIJST_FDL = $(LIJST) index fdl
+LIJST_FDL = $(LIJST) fdl index
 
 # Add book to get all stems of tex files needed for tags
 LIJST_TAGS = $(LIJST_FDL) book
 
 # Different extensions
 SOURCES = $(patsubst %,%.tex,$(LIJST))
-TEXS = $(SOURCES) tmp/index.tex fdl.tex
 TAGS = $(patsubst %,tags/tmp/%.tex,$(LIJST_TAGS))
 TAG_EXTRAS = tags/tmp/my.bib tags/tmp/hyperref.cfg tags/tmp/amsart.cls \
 	tags/tmp/amsbook.cls tags/tmp/Makefile tags/tmp/chapters.tex \
-	tags/tmp/preamble.tex tags/tmp/log.log
-TAG_WEB = tags/tmp/query.php tags/tmp/locate.php tags/tmp/tags.html
+	tags/tmp/preamble.tex tags/tmp/downloads.html tags/tmp/log.log \
+	tags/tmp/tags.html tags/tmp/query.php
 FOO_SOURCES = $(patsubst %,%.foo,$(LIJST))
-AUXS = $(patsubst %,%.aux,$(LIJST_FDL))
 FOOS = $(patsubst %,%.foo,$(LIJST_FDL))
-BBLS = $(patsubst %,%.bbl,$(LIJST_FDL))
 BARS = $(patsubst %,%.bar,$(LIJST_FDL))
 PDFS = $(patsubst %,%.pdf,$(LIJST_FDL))
 DVIS = $(patsubst %,%.dvi,$(LIJST_FDL))
@@ -164,19 +161,24 @@ tags/tmp/Makefile: tags/Makefile
 tags/tmp/log.log:
 	git log -n50 --date=short --format=format:"Version %h %ad: %s" > tags/tmp/log.log
 
+tags/tmp/downloads.html: downloads
+	python scripts/make_downloads.py . > tags/tmp/downloads.html
+
+tags/tmp/tags.html:
+	cp tags/tags.html tags/tmp/tags.html
+
+tags/tmp/query.php:
+	cp tags/query.php tags/tmp/query.php
+
 # Target dealing with tags
 .PHONY: tags
 tags: $(TAGS) $(TAG_EXTRAS)
 	@echo "TAGS TARGET"
 	make -C tags/tmp
-	cp tags/tags.html tags/tmp/tags.html
-	cp tags/query.php tags/tmp/query.php
 	python ./scripts/make_locate.py $(PWD) > tags/tmp/locate.php
 
-tags_clean:
-	rm -f tags/tmp/*
-
-tags_install: tags tarball tmp/downloads.html
+.PHONY: tags_install
+tags_install: tags tarball
 	cp tags/tmp/*.pdf $(INSTALLDIR)
 	cp tags/tmp/*.dvi $(INSTALLDIR)
 	cp tags/tmp/*.php $(INSTALLDIR)
@@ -186,13 +188,13 @@ tags_install: tags tarball tmp/downloads.html
 	tar -c -f $(INSTALLDIR)/stacks-dvis.tar --exclude book.dvi --transform=s@tags/tmp@stacks-dvis@ tags/tmp/*.dvi
 	git archive --format=tar HEAD | (cd $(INSTALLDIR) && tar xf -)
 	cp stacks-git.html $(INSTALLDIR)/index.html
-	cp tmp/downloads.html $(INSTALLDIR)
-	mv stacks-git.tar.bz2 $(INSTALLDIR)
+	cp stacks-git.tar.bz2 $(INSTALLDIR)
 	git log --pretty=oneline -1 > $(INSTALLDIR)/VERSION
 
-# Web site targets
-tmp/downloads.html: downloads
-	python scripts/make_downloads.py . > tmp/downloads.html
+tags_clean:
+	rm -f tags/tmp/*
+	rm -f tmp/book.tex tmp/index.tex
+	rm -f stacks-git.tar.bz2
 
 # Additional targets
 .PHONY: book
@@ -201,7 +203,7 @@ book: book.foo book.bar book.dvi book.pdf
 .PHONY: clean
 clean:
 	rm -f *.aux *.bbl *.blg *.dvi *.log *.pdf *.ps *.out *.toc *.foo *.bar
-	rm -f tmp/book.tex tmp/index.tex tmp/downloads.html
+	rm -f tmp/book.tex tmp/index.tex
 	rm -f stacks-git.tar.bz2
 
 .PHONY: backup
@@ -213,15 +215,13 @@ backup:
 tarball:
 	git archive --prefix=stacks-git/ HEAD | bzip2 > stacks-git.tar.bz2
 
-# Target which forces everything to rebuild in the correct order to
-# make sure crossreferences work when installing
+# Target which makes all dvis and all pdfs, as well as the tarball
 .PHONY: all
 all: dvis pdfs book tarball
 
 .PHONY: install
-install: all
-	git archive --format=tar HEAD | (cd $(INSTALLDIR) && tar xf -)
-	cp *.pdf *.dvi $(INSTALLDIR)
-	cp stacks-git.htm $(INSTALLDIR)/index.html
-	mv stacks-git.tar.bz2 $(INSTALLDIR)
-	git log --pretty=oneline -1 > $(INSTALLDIR)/VERSION
+install:
+	@echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
+	@echo "% To install the project, use the tags_install target %"
+	@echo "% Be sure to change INSTALLDIR value in the Makefile! %"
+	@echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
