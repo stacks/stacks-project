@@ -71,12 +71,12 @@ globalise it to get one for arbitrary schemes.
 \label{definition-unramified-rings}
 Let $A$, $B$ be Noetherian local rings. A local homomorphism $A \to B$
 is said to be a {\it unramified homomorphism of local rings}\footnote{%
-This is nonstandard notation. The correct terminology is
+This is nonstandard notation and should only be used
+for local ring maps essentially of finite type. In reality the
+definition given here corresponds to maps which are
 ``formally unramified for the $\mathfrak m$-adic topologies''
 (insert future reference here). However, it is convenient for a quick
-discussion as in this section. After
-Lemma \ref{lemma-characterize-unramified-completions}, we can instead say
-that $A \to B$ induces an unramified ring map on completions.}
+discussion as in this chapter.}
 if
 \begin{enumerate}
 \item $\mathfrak m_AB = \mathfrak m_B$, and
@@ -716,7 +716,13 @@ See also \cite[Section 20]{MatCA}.
 \label{definition-flat-schemes}
 (See Morphisms, Definition \ref{morphisms-definition-flat}).
 Let $f : X \to Y$ be a morphism of schemes.
+Let $\mathcal{F}$ be a quasi-coherent $\mathcal{O}_X$-module.
 \begin{enumerate}
+\item Let $x \in X$. We say $\mathcal{F}$ is
+{\it flat over $Y$ at $x \in X$} if $\mathcal{F}_x$
+is a flat $\mathcal{O}_{Y, f(x)}$-module.
+This uses the map $\mathcal{O}_{Y, f(x)} \to \mathcal{O}_{X, x}$ to
+think of $\mathcal{F}_x$ as a $\mathcal{O}_{Y, f(x)}$-module.
 \item Let $x \in X$. We say $f$ is {\it flat at $x \in X$}
 if $\mathcal{O}_{Y, f(x)} \to \mathcal{O}_{X, x}$ is flat.
 \item We say $f$ is {\it flat} if it is flat at all points of $X$.
@@ -755,22 +761,26 @@ We ``recall'' below some openness properties that flat morphisms enjoy.
 
 \begin{theorem}
 \label{theorem-flat-open}
-For a morphism of finite type $f : X \to Y$, the set of points in $X$ where $f$
-is flat is an open set. Moreover, if $f$ is flat at all points of $X$, it is
-an open map. Thus, a flat morphism can be factored as a faithfully flat
-morphism followed by an open immersion.
+Let $Y$ be a locally Noetherian scheme.
+Let $f : X \to Y$ be a morphism which is locally of finite type.
+Let $\mathcal{F}$ be a coherent $\mathcal{O}_X$-module.
+The set of points in $X$ where $\mathcal{F}$ is flat over $S$ is an open set.
+In particular the set of points where $f$ is flat is open in $X$.
 \end{theorem}
 
 \begin{proof}
-A proof of the first claim can be found in \cite{EGA}, IV, Section 11 or in
-\cite{SGA1}, Expos\'e IV, Section 6. The second claim depends on three
-results. The first one is Chevalley's theorem which states that $f$ preserves
-constructible sets (this doesn't require flatness); the second one is the
-easy fact that constructible sets (of a noetherian scheme) are open if and
-only they are stable under generalisation; the last one is the fact that the
-``going-down'' theorem holds for faithfully flat morphisms of rings. A proof
-of all three of these facts and how they imply the claim can be found in
-section 6 of \cite{MatCA}
+See More on Morphisms, Theorem \ref{more-morphisms-theorem-openess-flatness}.
+\end{proof}
+
+\begin{theorem}
+\label{theorem-flat-map-open}
+Let $Y$ be a locally Noetherian scheme.
+Let $f : X \to Y$ be a morphism which is flat and locally of finite type.
+Then $f$ is (universally) open.
+\end{theorem}
+
+\begin{proof}
+See Morphisms, Lemma \ref{morphisms-lemma-fppf-open}.
 \end{proof}
 
 \begin{theorem}
@@ -780,22 +790,14 @@ the Zariski topology.
 \end{theorem}
 
 \begin{proof}
-If $f : X \to Y$ is a surjective flat quasi-compact morphism, then $f$ sends
-constructible sets to pro-constructible sets (application of Chevalley's
-theorem using the fact that, over a ring $R$, any $R$-algebra is a direct
-limit of finitely generated $R$-algebras). Such sets are closed if and only
-if they are stable under specialisation. Using this fact, the surjectivity
-of $f$, and the fact that the ``going-down'' theorem holds for faithfully
-flat morphisms of rings, one can easily show that $f$ is a quotient map for
-the Zariski topology. Like the previous theorem, a proof of this theorem too
-can be found in section 6 of \cite{MatCA}.
+See Morphisms, Lemma \ref{morphisms-lemma-fpqc-quotient-topology}.
 \end{proof}
 
 \noindent
 An important reason to study flat morphisms is that they provide the adequate
 framework for capturing the notion of a family of schemes parametrised by the
 points of another scheme. Naively one may think that any morphism $f : X \to S$
-should be thought of as a family parametrised by the points of $S$. However,
+should be thought of as a family parametrized by the points of $S$. However,
 without a flatness restriction on $f$, really bizarre things can happen in
 this so-called family. For instance, we aren't guaranteed that relative
 dimension (dimension of the fibres) is constant in a family. Other numerical
@@ -803,78 +805,209 @@ invariants, such as the Hilbert polynomial, too may change from fibre to
 fibre. Flatness prevents such things from happening and, therefore, provides
 some ``continuity'' to the fibres.
 
-\section{\'Etale morphisms}
+
+\section{Etale morphisms}
 \label{section-etale-moprhisms}
 
 \noindent
-In this section, we will define \'etale morphisms and prove a number of
+In this section, we will define etale morphisms and prove a number of
 important properties about them. The most important one, no doubt, is the
 functorial characterisation presented in Theorem \ref{theorem-formally-etale}.
 Following this, we will also discuss a few properties of rings which are
-insensitive to an \'etale extension (i.e: properties which hold for a ring
-if and only if they hold for all its \'etale extensions) to motivate the basic
-tenet of \'etale cohomology -- \'etale morphisms are the algebraic analogue of
+insensitive to an etale extension (properties which hold for a ring
+if and only if they hold for all its etale extensions) to motivate the basic
+tenet of etale cohomology -- etale morphisms are the algebraic analogue of
 local isomorphisms.
 
 \medskip\noindent
-As the title suggests, we will define the class of \'etale morphisms -- the
+As the title suggests, we will define the class of etale morphisms -- the
 class of morphisms (whose surjective families) we shall deem to be coverings
 in the category of schemes over a base scheme $S$ in order to define the
-\'etale site $S_{et}$. Intuitively, an \'etale morphism is supposed to
+etale site $S_{et}$. Intuitively, an etale morphism is supposed to
 capture the idea of a covering space and, therefore, should be close to a
 local isomorphism. If we're working with varieties over algebraically closed
 fields, this last statement can be made into a definition provided we replace
 ``local isomorphism'' with ``formal local isomorphism'' (isomorphism after
 completion). One can then give a definition over any base field by asking
-that the base change to the algebraic closure be \'etale (in the
+that the base change to the algebraic closure be etale (in the
 aforementioned sense). But, rather than proceeding via such aesthetically
 displeasing constructions, we will adopt a cleaner, albeit slightly more
 abstract, algebraic approach.
 
 \begin{definition}
 \label{definition-etale-ring}
-A morphism $f : A \to B$ of local rings is
-{\it \'etale} if it is flat and unramified.
+Let $A$, $B$ be Noetherian local rings.
+A local homomorphism $f : A \to B$ is said to be a
+{\it etale homomorphism of local rings}\footnote{This is nonstandard
+notation and should only be used for local ring maps which are
+essentially of finite type. In reality the definition given here
+corresponds to maps which are ``formally etale for the
+$\mathfrak m$-adic topologies'' (insert future reference here).
+In fact, we will run into trouble with this definition later,
+see remarks preceding Proposition \ref{proposition-etale-reduced}.
+However, it is convenient for a quick discussion as in this chapter.}
+if it is an unramified homomorphism of local rings and flat.
 \end{definition}
 
 \noindent
-As we have already discussed the sorites for flat and unramified morphisms,
-there's not much more to discuss here. One thing that we would like to point
-out, however, is that \'etaleness can be checked after completion. Moreover,
-by combining flatness with basic properties of complete local rings, we see
-that if $f : A \to B$ is \'etale, then, in fact, $\widehat{B}$ is a finite flat
-$\widehat{A}$-module and, hence, $\widehat{B} \cong \big(\widehat{A}\big)^n$.
-The integer $n$ is nothing other than the (separable) degree $[k(B) : k(A)]$.
-In particular, if $k(A)$ is separably closed, we obtain that
-$\widehat{A} \to \widehat{B}$ is an isomorphism, which vindicates our earlier
-claims. Lastly, if $f : A \to B$ is \'etale, the unramifiedness forces
-$\dim(B) \leq  \dim(A)$ while (faithful) flatness forces the other
-inequality. Thus, we obtain that $\dim(B) = \dim(A)$.
+This notion is different from the definition of a ``global'' etale ring map
+in Algebra, Section \ref{algebra-definition-etale}. The exact definition
+given in that section is that it is a smooth ring map of relative
+dimension $0$. Then it is shown (in
+Algebra, Lemma \ref{algebra-lemma-etale-standard-smooth} after some work)
+that an etale $R$-algebra $S$ always has a presentation
+$$
+S = R[x_1, \ldots, x_n]/(f_1, \ldots, f_n)
+$$
+such that
+$$
+g =
+\det
+\left(
+\begin{matrix}
+\partial f_1/\partial x_1 &
+\partial f_2/\partial x_1 &
+\ldots &
+\partial f_n/\partial x_1 \\
+\partial f_1/\partial x_2 &
+\partial f_2/\partial x_2 &
+\ldots &
+\partial f_n/\partial x_2 \\
+\ldots & \ldots & \ldots & \ldots \\
+\partial f_1/\partial x_n &
+\partial f_2/\partial x_n &
+\ldots &
+\partial f_n/\partial x_n
+\end{matrix}
+\right)
+$$
+maps to an invertible element in $S$. The following two lemmas link the two
+notions.
+
+\begin{lemma}
+\label{lemma-characterize-etale-Noetherian}
+Let $A \to B$ be of finite type with $A$ a Noetherian ring.
+Let $\mathfrak q$ be a prime of $B$ lying over $\mathfrak p \subset A$.
+Then $A \to B$ is etale at $\mathfrak q$ if and only if
+$A_{\mathfrak p} \to B_{\mathfrak q}$ is an etale homomorphism
+of local rings.
+\end{lemma}
+
+\begin{proof}
+See Algebra, Lemmas \ref{algebra-lemma-etale} (flatness of etale maps),
+\ref{algebra-lemma-etale-at-prime} (etale maps are unramified)
+and \ref{algebra-lemma-characterize-etale} (flat and unramified maps
+are etale).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-characterize-etale-completions}
+Let $A$, $B$ be Noetherian local rings.
+Let $A \to B$ be a local homomorphism.
+The following are equivalent
+\begin{enumerate}
+\item $A \to B$ is an etale homomorphism of local rings
+\item $A^\wedge \to B^\wedge$ is an etale homomorphism of local rings, and
+\item $A^\wedge \to B^\wedge$ is etale.
+\end{enumerate}
+Moreover, in this case $B^\wedge \cong (A^\wedge)^{\oplus n}$ as
+$A^\wedge$-modules for some $n \geq 1$.
+\end{lemma}
+
+\begin{proof}
+To see the equivalences of (1), (2) and (3), as we have the corresponding
+results for unramified ring maps
+(Lemma \ref{lemma-characterize-unramified-completions})
+it suffices to prove that
+$A \to B$ is flat if and only if $A^\wedge \to B^\wedge$ is flat.
+This is clear from our lists of properties of flat maps since
+the ring maps $A \to A^\wedge$ and $B \to B^\wedge$ are faithfully flat.
+For the final statement, by Lemma \ref{lemma-unramified-completions}
+we see that $B^\wedge$ is a finite flat $A^\wedge$ module.
+Hence it is finite free by our list
+of properties on flat modules in Section \ref{section-flat-moprhisms}.
+\end{proof}
+
+\noindent
+The integer $n$ which occurs in the lemma above
+is nothing other than the degree
+$[\kappa(\mathfrak m_B) : \kappa(\mathfrak m_A)]$ of the residue field
+extension. In particular, if $\kappa(\mathfrak m_A)$
+is separably closed, we see that $A^\wedge \to B^\wedge$
+is an isomorphism, which vindicates our earlier claims.
 
 \begin{definition}
 \label{definition-etale-schemes-1}
-A morphism $f : X \to Y$ of schemes is said to
-{\it \'etale at $x \in X$} if it is
-flat and unramified at $x$ (and, therefore, of finite type in a neighbourhood
-of $x$). The morphism is said to be
-{\it \'etale} if it is \'etale at all its points.
+(See Morphisms, Definition \ref{morphisms-definition-etale}.)
+Let $Y$ be a locally Noetherian scheme.
+Let $f : X \to Y$ be a morphism of schemes which is locally of finite type.
+\begin{enumerate}
+\item Let $x \in X$. We say $f$ is {\it etale at $x \in X$} if
+$\mathcal{O}_{Y, f(x)} \to \mathcal{O}_{X, x}$ is an
+etale homomorphism of local rings.
+\item The morphism is said to be {\it etale} if it is etale at all its points.
+\end{enumerate}
 \end{definition}
 
 \noindent
-Note that the unramifiedness hypothesis forces \'etale morphisms to be
-locally of finite type; flatness then forces such morphisms to be open.
-Since unramifiedness and flatness are both open properties, the \'etale
-locus of a morphism is open. Moreover, it's trivially verified that
-\'etaleness, besides being local on the source and the target, is stable
-under base change and composition.
+Let us prove that this definition agrees with the definition in the
+chapter on morphisms of schemes. This in particular garantees that the
+set of points where a morphism is etale is open.
 
-\section{The structure theorem for \'etale morphisms}
+\begin{lemma}
+\label{lemma-etale-defintion}
+Let $Y$ be a locally Noetherian scheme.
+Let $f : X \to Y$ be locally of finite type.
+Let $x \in X$. The morphism $f$ is etale at $x$ in
+the sense of Definition \ref{definition-etale-schemes-1}
+if and only if it is unramified at $x$ in
+the sense of Morphisms, Definition \ref{morphisms-definition-etale}.
+\end{lemma}
+
+\begin{proof}
+This follows from Lemma \ref{lemma-characterize-etale-Noetherian}
+and the definitions.
+\end{proof}
+
+\noindent
+Here are some results on etale morphisms.
+The formulations as given in this list apply only to
+morphisms locally of finite type between locally Noetherian schemes.
+In each case we give a reference to the general result as
+proved earlier in the project, but in some cases one can
+prove the result more easily in the Noetherian case.
+Here is the list:
+\begin{enumerate}
+\item An etale morphism is unramified. (Clear from our definitions.)
+\item Etaleness is local on the source and the target in the Zariski
+topology.
+\item Etale morphisms are stable under base change and composition.
+See Morphisms, Lemmas \ref{morphisms-lemma-base-change-etale}
+and \ref{morphisms-lemma-composition-etale}.
+\item Etale morphisms of schemes are locally quasi-finite
+and quasi-compact etale morphisms are quasi-finite. (This is
+true because it holds for unramfied morphisms as seen earlier.)
+\item Etale morphisms have relative dimension $0$. See
+Morphisms, Definition \ref{morphisms-definition-relative-dimension-d}
+and
+Morphisms, Lemma \ref{morphisms-lemma-locally-quasi-finite-rel-dimension-0}.
+\item A morphism is etale if and only if it is flat and
+all its fibres are etale. See
+Morphisms, Lemma \ref{morphisms-lemma-etale-flat-etale-fibres}.
+\item Etale morphisms are open. This is true because an etale
+morphism is flat, and Theorem \ref{theorem-flat-map-open}.
+\end{enumerate}
+
+
+
+
+\section{The structure theorem for etale morphisms}
 \label{section-structure-etale-map}
 
 \noindent
-We present a theorem which describes the local structure of \'etale morphisms
+We present a theorem which describes the local structure of etale morphisms
 with great clarity. Besides its obvious independent importance, this theorem
-also allows us to make the transition to another definition of \'etale
+also allows us to make the transition to another definition of etale
 morphisms that captures the geometric intuition better than the one we've
 used so far.
 
@@ -1136,98 +1269,119 @@ be lifted uniquely through nilpotent thickenings.
 \label{section-properties-permanence}
 
 \noindent
-We have already seen that the Krull dimension is insensitive to an \'etale
-extension. In what follows, we present a few other such ``permanence''
-properties of \'etale morphisms.
+In what follows, we present a few ``permanence''
+properties of etale homomorphisms of Noetherian local rings
+(as defined in Definition \ref{definition-etale-ring}).
 
-\begin{proposition}
-\label{proposition-etale-dimension}
-Let $f : A \to B$ be an \'etale map of local rings. Then
-$\mathrm{depth}(A) = \mathrm{depth}(B)$
-\end{proposition}
+\begin{lemma}
+\label{lemma-etale-dimension}
+Let $A$, $B$ be Noetherian local rings.
+Let $A \to B$ be a etale homomorphism of local rings.
+Then $\dim(A) = \dim(B)$.
+\end{lemma}
 
 \begin{proof}
-This follows fairly easily from the observation that, on tensoring with
-$B$, the Koszul complex of the ideal $r(A)$ of $A$ gives the Koszul complex
-of the ideal $r(B)$ of $B$, and that $A \to B$ is faithfully flat.
+See for example
+Algebra, Lemma \ref{algebra-lemma-dimension-base-fibre-equals-total}.
 \end{proof}
 
 \begin{proposition}
-\label{proposition-etale-regular}
-Let $f : A \to B$ be an \'etale map of local rings. Then $A$ is regular if and
-only if $B$ is so.
+\label{proposition-etale-depth}
+Let $A$, $B$ be Noetherian local rings.
+Let $f : A \to B$ be an etale homomorphism of local rings.
+Then $\text{depth}(A) = \text{depth}(B)$
 \end{proposition}
 
 \begin{proof}
-By the \'etaleness of $A \to B$ and the local flatness criterion
-(\cite{MatCA}, theorem 49), one sees that
-$gr^*(B) \cong gr^*(A) \otimes_{k(A)} k(B)$ as graded algebras. Thus,
-by looking at the degree $1$ components, we see that the embedded
-dimensions of $A$ and $B$ co-incide. By the \'etaleness of $A \to B$,
-the (Krull) dimensions of the two rings co-incide as well. Thus, $A$ is
-regular if and only if $B$ is so.
-\end{proof}
-
-\begin{proposition}
-\label{proposition-etale-reduced}
-Let $f : A \to B$ be an \'etale map of local rings. Then $A$ is reduced if and
-only if $B$ is so.
-\end{proposition}
-
-\begin{proof}
-It's clear from the faithful flatness of $A \to B$ that if $B$ is reduced, so
-is $A$. Conversely, lets assume $A$ is reduced and show that $B$ is so. By
-assumption, if $\{p_i\}$ is the set of minimal primes of $A$, the natural map
-$A \to \prod_i A/p_i$ is injective. By the flatness of $B$,
-$B \to \prod_i B/p_iB$ is also injective; hence, it suffices to show that each
-of $B/p_iB$ is reduced. Thus, after base changing to an irreducible component,
-we may assume that $A$ is a domain with field of fractions $K$. By the
-flatness of $B$, the natural map $B \to B \otimes_A K$ is injective; hence,
-it suffices to show the latter is reduced. Since $K \to B \otimes_A K$ is
-\'etale, we are reduced to the case where $A$ is a field. By virtue of
-Example \ref{example-etale-field-extensions}, we see that $B$ is a product of
-fields,
-and therefore reduced.
-\end{proof}
-
-
-\begin{proposition}
-\label{proposition-etale-normal}
-Let $f : A \to B$ be an \'etale map of local rings. Then $A$ is normal if and
-only if $B$ is so.
-\end{proposition}
-
-\begin{proof}
-We use Serre's normality criterion for a noetherian local ring $A$ of
-dimension $\neq 0$. Recall that this says that $A$ is normal if and only if
-it is regular in codimension $1$, and for every prime $p$ of height $\geq 2$,
-$\mathrm{depth}(A_p) \geq 2$. Since $A \to B$ is an \'etale map of local
-rings, it's faithfully flat. Moreover, if $p \in \text{Spec}(B)$ lies over
-$q \in \text{Spec}(A)$, then $A_q \to B_p$ is \'etale. Hence, the height $1$
-(resp. $\geq 2$) primes of $B$ lie over all the height $1$ (resp. $\geq 2$)
-primes of $A$. The result now follows from the permanence of regularity and
-depth for \'etale extensions.
+See Algebra, Lemma \ref{algebra-lemma-apply-grothendieck}. 
 \end{proof}
 
 \begin{proposition}
 \label{proposition-etale-CM}
-Let $f : A \to B$ be an \'etale map of local rings. Then $A$ is Cohen-Macaulay
-if and only if $B$ is so.
+Let $A$, $B$ be Noetherian local rings.
+Let $f : A \to B$ be an etale homomorphism of local rings.
+Then $A$ is Cohen-Macaulay if and only if $B$ is so.
 \end{proposition}
+
 \begin{proof}
-A local ring $A$ is Cohen-Macaulay if and only
-$\mathrm{dim}(A) = \mathrm{depth}(A)$. As each of these invariants is
-preserved under an \'etale extension, the claim follows.
+A local ring $A$ is Cohen-Macaulay if and only $\dim(A) = \text{depth}(A)$.
+As both of these invariants is preserved under an etale extension,
+the claim follows.
+\end{proof}
+
+\begin{proposition}
+\label{proposition-etale-regular}
+Let $A$, $B$ be Noetherian local rings.
+Let $f : A \to B$ be an etale homomorphism of local rings.
+Then $A$ is regular if and only if $B$ is so.
+\end{proposition}
+
+\begin{proof}
+If $B$ is regular, then $A$ is regular by
+Algebra, Lemma \ref{algebra-lemma-flat-under-regular}.
+Assume $A$ is regular. Let $\mathfrak m$ be the maximal ideal
+of $A$. Then $\dim_{\kappa(\mathfrak m)} \mathfrak m/\mathfrak m^2 =
+\dim(A) = \dim(B)$ (see Lemma \ref{lemma-etale-dimension}).
+On the other hand, $\mathfrak mB$ is the maximal ideal of
+$B$ and hence $\mathfrak m_B/\mathfrak m_B = \mathfrak mB/\mathfrak m^2B$
+is generated by at most $\dim(B)$ elements. Thus $B$ is regular.
+(You can also use the slightly more general
+Algebra, Lemma \ref{algebra-lemma-flat-over-regular-with-regular-fibre}.)
+\end{proof}
+
+\noindent
+The result on ``reducedness'' does not hold with our
+(nonstandard) definition of ``etale homomorphisms of local rings''.
+Namely, it can happen that a Noetherian local domain $A$ has nonreduced
+completion $A^\wedge$, see
+Examples, Section \ref{examples-section-local-completion-nonreduced}.
+But the ring map $A \to A^\wedge$ is an etale homomorphism of local rings
+by our definitions. Here is a correct version.
+
+\begin{proposition}
+\label{proposition-etale-reduced}
+Let $A$, $B$ be Noetherian local rings.
+Let $f : A \to B$ be an etale homomorphism of local rings,
+and assume that $B$ is essentially of finite type over $A$.
+Then $A$ is reduced if and only if $B$ is so.
+\end{proposition}
+
+\begin{proof}
+It is clear from the faithful flatness of $A \to B$ that if $B$ is reduced, so
+is $A$. See also Algebra, Lemma \ref{algebra-lemma-descent-reduced}.
+Conversely, assume $A$ is reduced. By assumption $B$ is a localization
+of a finite type $A$-algebra $B'$ at some prime $\mathfrak q$.
+After replacing $B'$ by a localization we may assume that $B'$
+is etale over $A$, see Lemma \ref{lemma-characterize-etale-Noetherian}.
+Then we see that Algebra, Lemma \ref{algebra-lemma-reduced-goes-up} applies to
+$A \to B'$ and $B'$ is reduced. Hence $B$ is reduced.
+\end{proof}
+
+\begin{proposition}
+\label{proposition-etale-normal}
+Let $A$, $B$ be Noetherian local rings.
+Let $f : A \to B$ be an etale homomorphism of local rings,
+and assume that $B$ is essentially of finite type over $A$.
+Then $A$ is normal if and only if $B$ is so.
+\end{proposition}
+
+\begin{proof}
+See Algebra, Lemma \ref{algebra-lemma-descent-normal} for descending normality.
+Conversely, assume $A$ is reduced. By assumption $B$ is a localization
+of a finite type $A$-algebra $B'$ at some prime $\mathfrak q$.
+After replacing $B'$ by a localization we may assume that $B'$
+is etale over $A$, see Lemma \ref{lemma-characterize-etale-Noetherian}.
+Then we see that Algebra, Lemma \ref{algebra-lemma-normal-goes-up} applies to
+$A \to B'$ and $B'$ is reduced. Hence $B$ is reduced.
 \end{proof}
 
 \noindent
 The preceeding propositions give some indication as to why we'd like to think
-of \'etale maps as ``local isomorphisms''. Another property that gives an
+of etale maps as ``local isomorphisms''. Another property that gives an
 excellent indication that we have the ``right'' definition is the fact that
-for $\mathbf{C}$-schemes of finite type, a morphism is \'etale if and only if
-the
-associated morphism on analytic spaces (the $\mathbf{C}$-valued points given the
-complex topology) is a local isomorphism in the analytic sense (open
+for $\mathbf{C}$-schemes of finite type, a morphism is etale if and only if the
+associated morphism on analytic spaces (the $\mathbf{C}$-valued points given
+the complex topology) is a local isomorphism in the analytic sense (open
 embedding locally on the source). This fact can be proven with the aid of the
 structure theorem and the fact that the analytification commutes with the
 formation of the completed local rings -- the details are left to the reader.
