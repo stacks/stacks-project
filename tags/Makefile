@@ -6,7 +6,7 @@
 # Master list of stems of tex files in the project.
 # Should be the same as in the main Makefile
 LIJST = introduction conventions sets categories topology sheaves algebra \
-	sites homology simplicial modules injectives cohomology \
+	sites homology simplicial modules sites-modules injectives cohomology \
 	sites-cohomology hypercovering schemes constructions properties \
 	morphisms coherent divisors limits varieties chow topologies \
 	groupoids descent more-morphisms etale spaces stacks \
