@@ -271,6 +271,10 @@ def split_label(label):
 		name = "sites-modules"
 		type = pieces[2]
 		n = 4
+	if name == "spaces" and type == "properties":
+		name = "spaces-properties"
+		type = pieces[2]
+		n = 4
 	if name == "more" and type == "morphisms":
 		name = "more-morphisms"
 		type = pieces[2]
