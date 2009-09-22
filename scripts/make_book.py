@@ -39,7 +39,7 @@ path = get_path()
 print_preamble(path)
 
 print "\\begin{document}"
-print "\\title{Stacks project}"
+print "\\title{Stacks Project}"
 print "\\maketitle"
 print "\\tableofcontents"
 
@@ -88,5 +88,5 @@ for name in lijstje:
 	print_chapters(path)
 
 print "\\bibliography{my}"
-print "\\bibliographystyle{alpha}"
+print "\\bibliographystyle{amsalpha}"
 print "\\end{document}"
