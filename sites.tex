@@ -3491,8 +3491,11 @@ $$
 j_U : \mathcal{C}/U \longrightarrow \mathcal{C}.
 $$
 This is clearly cocontinuous and continuous. Hence by the
-results of the previous section we obtain three functors
-$j_{U!}$, $j_{U}^{-1}$ and $j_{U*}$.
+results of the previous sections we obtain a morphism of topoi
+$$
+j_U : \textit{Sh}(\mathcal{C}/U) \longrightarrow \textit{Sh}(\mathcal{C})
+$$
+given by $j_{U}^{-1}$ and $j_{U*}$, as well as a functor $j_{U!}$.
 
 \begin{definition}
 \label{definition-localization}
@@ -3566,7 +3569,45 @@ with fibre products and equalizers. In particular, if
 $\mathcal{F} \subset \mathcal{F}'$ in $\textit{Sh}(\mathcal{C}/U)$, then
 $j_{U!}\mathcal{F} \subset j_{U!}\mathcal{F}'$.
 
-\medskip\noindent
+\begin{lemma}
+\label{lemma-localization-given-products}
+Let $\mathcal{C}$ be a site.
+Let $U \in \text{Ob}(\mathcal{C})$.
+Assume $\mathcal{C}$ has products of pairs of objects.
+Then
+\begin{enumerate}
+\item the functor $j_U$ has a continuous right adjoint,
+namely the functor $v(X) = X \times U / U$,
+\item the functor $v$ defines a morphism of sites
+$\mathcal{C}/U \to \mathcal{C}$ whose associated morphism of topoi equals
+$j_U : \textit{Sh}(\mathcal{C}/U) \to \textit{Sh}(\mathcal{C})$, and
+\item we have $j_{U*}\mathcal{F}(X) = \mathcal{F}(X \times U/U)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+The functor $v$ being right adjoint to $j_U$ means that given $Y/U$ and $X$
+we have
+$$
+\text{Mor}_{\mathcal{C}}(Y, X)
+=
+\text{Mor}_{\mathcal{C}/U}(Y/U, X\times U/U)
+$$
+which is clear. To check that $v$ is continous let $\{X_i \to X\}$ be
+a convering of $\mathcal{C}$. By the third axiom of a site
+(Definition \ref{definition-site})
+we see that
+$$
+\{X_i \times_X (X \times U) \to X \times_X (X \times U)\}
+=
+\{X_i \times U \to X \times U\}
+$$
+is a covering of $\mathcal{C}$ also. Hence $v$ is continuous. The other
+statements of the lemma follow from Lemmas \ref{lemma-have-functor-other-way}
+and \ref{lemma-have-functor-other-way-morphism}.
+\end{proof}
+
+\noindent
 A fundamental property of an open immersion is
 that the restriction of the pushforward and the restriction
 of the extension by the empty set produces back the original sheaf.
@@ -3640,13 +3681,13 @@ Assume that
 \begin{enumerate}
 \item $u$ is cocontinuous,
 \item $u$ is continuous,
-\item given $a, b : U \to U'$ in $\mathcal{C}$ such that
-$u(a) = u(b)$, then there exists a covering $\{f_i : U_i \to U\}$
-in $\mathcal{C}$ such that $a \circ f_i = b \circ f_i$, 
-\item given $U, U' \in \text{Ob}(\mathcal{C})$ and
-a morphism $c : u(U) \to u(U')$ in $\mathcal{D}$ there exists
-a covering $\{f_i : U_i \to U\}$ in $\mathcal{C}$
-and morphisms $c_i : U_i \to U'$ such that $u(c_i) = c \circ u(f_i)$, and
+\item given $a, b : U' \to U$ in $\mathcal{C}$ such that
+$u(a) = u(b)$, then there exists a covering $\{f_i : U'_i \to U'\}$
+in $\mathcal{C}$ such that $a \circ f_i = b \circ f_i$,
+\item given $U', U \in \text{Ob}(\mathcal{C})$ and
+a morphism $c : u(U') \to u(U)$ in $\mathcal{D}$ there exists
+a covering $\{f_i : U_i' \to U'\}$ in $\mathcal{C}$
+and morphisms $c_i : U_i' \to U$ such that $u(c_i) = c \circ u(f_i)$, and
 \item given $V \in \text{Ob}(\mathcal{D})$ there exists a covering
 of $V$ in $\mathcal{D}$ of the form $\{u(U_i) \to V\}_{i \in I}$.
 \end{enumerate}
@@ -3684,32 +3725,170 @@ $u(\alpha)$. The category of such pairs $(U', \psi)$ has a final
 object, namely $(U, \text{id})$, which gives rise to the map from
 the limit into $\mathcal{F}(U)$. Let $(s_{(U', \psi)})$ be an element
 of the limit. We want to show that $s_{(U', \psi)}$ is uniquely determined
-by the value $s_{(U, \text{id})} \in \mathcal{F}(U)$. By property (3) given
+by the value $s_{(U, \text{id})} \in \mathcal{F}(U)$. By property (4) given
 any $(U', \psi)$ there exists a covering $\{U'_i \to U'\}$ such that the
-compositions $u(U'_i) \to u(U') \to u(U)$ are of the form $u(\alpha_i)$
-for some $\alpha_i : U'_i \to U$. Hence
+compositions $u(U'_i) \to u(U') \to u(U)$ are of the form $u(c_i)$
+for some $c_i : U'_i \to U$ in $\mathcal{C}$. Hence
 $$
-s_{(U', \psi)}|_{U'_i} = \alpha_i^*s_{U, \text{id}}.
+s_{(U', \psi)}|_{U'_i} = c_i^*(s_{U, \text{id}}).
 $$
 Since $\mathcal{F}$ is a sheaf it follows that indeed $s_{(U', \psi)}$
-is determined by $s_{(U, \text{id})}$. By a similar argument, using
-property (4), we see given any
-$s \in \mathcal{F}(U)$ there exists a (unique) element
-$(s_{(U', \psi)})$ of the limit with $s_{(U, \psi)} = s$
-(some details omitted). This proves
+is determined by $s_{(U, \text{id})}$. This proves uniqueness.
+For existence, assume given any
+$s \in \mathcal{F}(U)$, $\psi : u(U') \to u(U)$, $\{f_i : U_i' \to U'\}$
+and $c_i : U_i' \to U$ such that $\psi \circ u(f_i) = u(c_i)$ as above.
+We claim there exists a (unique) element
+$s_{(U', \psi)} \in \mathcal{F}(U')$ such that
+$$
+s_{(U', \psi)}|_{U'_i} = c_i^*(s).
+$$
+Namely, a priori it is not clear the elements
+$c_i^*(s)|_{U_i' \times_{U'} U_j'}$
+and $c_j^*(s)|_{U_i' \times_{U'} U_j'}$ agree, since
+the diagram
+$$
+\xymatrix{
+U_i' \times_{U'} U_j' \ar[r]_-{\text{pr}_2} \ar[d]_{\text{pr}_1} &
+U_j' \ar[d]^{c_j} \\
+U_i' \ar[r]^{c_i} & U}
+$$
+need not commute. But condition (3) of the lemma garantees that there
+exist coverings
+$\{f_{ijk} : U'_{ijk} \to U_i' \times_{U'} U_j'\}_{k \in K_{ij}}$ such that
+$c_i \circ \text{pr}_1 \circ f_{ijk} = c_j \circ \text{pr}_2 \circ f_{ijk}$.
+Hence
+$$
+f_{ijk}^* \left(c_i^*s|_{U_i' \times_{U'} U_j'}\right)
+=
+f_{ijk}^* \left(c_j^*s|_{U_i' \times_{U'} U_j'}\right)
+$$
+Hence $c_i^*(s)|_{U_i' \times_{U'} U_j'} = c_j^*(s)|_{U_i' \times_{U'} U_j'}$
+by the sheaf condition for $\mathcal{F}$ and hence the existence of
+$s_{U', \psi}$ also by the sheaf condition for $\mathcal{F}$. The uniqueness
+garantees that the collection $(s_{U', \psi})$ so obtained is an element
+of the limit with $s_{(U, \psi)} = s$. This proves
 that $g^{-1}g_*\mathcal{F} \to \mathcal{F}$ is an isomorphism.
 
 \medskip\noindent
-Let $\mathcal{G}$ be a sheaf on $\mathcal{D}$ and let $V$ be an
+Let $\mathcal{G}$ be a sheaf on $\mathcal{D}$. Let $V$ be an
 object of $\mathcal{D}$. Then we see that
 $$
 g_*g^{-1}\mathcal{G}(V) = \text{lim}_{U, \psi : u(U) \to V}\ \mathcal{G}(u(U))
 $$
-An element of this limit will be indicated $(s_{(U, \psi)})$.
-The map $\mathcal{G}(V) \to g_*g^{-1}\mathcal{G}(V)$ is
-given by $s \mapsto (\psi^*s)_{(U, \psi)}$. Since by axiom (5) there
+By the preceding paragraph we see that the value of the sheaf
+$g_*g^{-1}\mathcal{G}$ on an object $V$ of the form $V = u(U)$
+is equal to $\mathcal{G}(u(U))$. (Formally, this holds because
+we have $g^{-1}g_*g^{-1} \cong g^{-1}$, and the description
+of $g^{-1}$ given at the beginning of the proof; informally just by
+comparing limits here and above.)
+Hence the adjunction mapping $\mathcal{G} \to g_*g^{-1}\mathcal{G}$ has
+the property that it is a bijection on sections over any object of the
+form $u(U)$. Since by axiom (5) there
 exists a covering of $V$ by objects of the form $u(U)$ we see
-easily that this map is bijective.
+easily that the adjunction map is an isomorphism.
+\end{proof}
+
+\noindent
+It will be convenient to give cocontinuous functors as in
+Lemma \ref{lemma-equivalence} a name.
+
+\begin{definition}
+\label{definition-special-cocontinuous-functor}
+Let $\mathcal{C}$, $\mathcal{D}$ be sites.
+A {\it special cocontinuous functor $u$ from $\mathcal{C}$ to $\mathcal{D}$}
+is a cocontinuous functor $u : \mathcal{C} \to \mathcal{D}$ satisfying
+the assumptions and conclusions of Lemma \ref{lemma-equivalence}.
+\end{definition}
+
+\begin{lemma}
+\label{lemma-special-cocontinuous-localization}
+Let $\mathcal{C}$, $\mathcal{D}$ be sites.
+Let $u : \mathcal{C} \to \mathcal{D}$ be a special cocontinuous functor.
+For every object $U$ of $\mathcal{C}$ we have a commutative diagram
+$$
+\xymatrix{
+\mathcal{C}/U \ar[r]_{j_U} \ar[d] & \mathcal{C} \ar[d]^u \\
+\mathcal{D}/u(U) \ar[r]^-{j_{u(U)}} & \mathcal{D}
+}
+$$
+and the left vertical arrow is a special cocontinuous functor.
+In particular we get a commutative diagram of topoi
+$$
+\xymatrix{
+\textit{Sh}(\mathcal{C}/U) \ar[r]_{j_U} \ar[d] &
+\textit{Sh}(\mathcal{C}) \ar[d]^u \\
+\textit{Sh}(\mathcal{D}/u(U)) \ar[r]^-{j_{u(U)}} &
+\textit{Sh}(\mathcal{D})
+}
+$$
+where the vertical arrows are equivalences.
+\end{lemma}
+
+\begin{proof}
+The commutativity of the diagram is clear. We have to check
+hypotheses (1) -- (5) of Lemma \ref{lemma-equivalence} for the
+induced functor $u : \mathcal{C}/U \to \mathcal{D}/u(U)$.
+This is completely mechanical.
+
+\medskip\noindent
+Property (1). Let $U'/U$ be an object of $\mathcal{C}/U$.
+Let $\{V_j/u(U) \to u(U')/u(U)\}_{j \in J}$ be a covering of $u(U')/u(U)$
+in $\mathcal{D}/u(U)$. Since $u$ is cocontinuous there exists a
+covering $\{U_i' \to U'\}_{i \in I}$ such that the family
+$\{u(U_i') \to u(U')\}$ refines the covering
+$\{V_j \to u(U')\}$ in $\mathcal{D}$. In other words, there exists
+a map of index sets $\alpha : I \to J$ and morphisms
+$\phi_i : u(U_i') \to V_{\alpha(i)}$ over $U'$.
+Think of $U_i'$ as an object over
+$U$ via the composition $U'_i \to U' \to U$. Then
+$\{U'_i/U \to U'/U\}$ is a covering of $\mathcal{C}/U$ such that
+$\{u(U_i')/u(U) \to u(U')/u(U)\}$ refines $\{V_j/u(U) \to u(U')/u(U)\}$
+(use the same $\alpha$ and the same maps $\phi_i$). Hence (1) holds
+for $u : \mathcal{C}/U \to \mathcal{D}/u(U)$.
+
+\medskip\noindent
+Property (2). Let $\{U_i'/U' \to U'/U\}_{i \in I}$ be a covering
+of $U'/U$ in $\mathcal{C}/U$. Because $u$ is continuous we see that
+$\{u(U_i')/u(U') \to u(U')/u(U)\}_{i \in I}$ is a covering
+of $u(U')/u(U)$ in $\mathcal{D}/u(U)$. Hence (2) holds
+for $u : \mathcal{C}/U \to \mathcal{D}/u(U)$.
+
+\medskip\noindent
+Property (3). Let $a, b : U''/U \to U'/U$ in $\mathcal{C}/U$
+be morphisms such that $u(a) = u(b)$ in $\mathcal{D}/u(U)$.
+Because $u$ satisfies (3) we see there exists a covering
+$\{f_i : U''_i \to U''\}$ in $\mathcal{C}$ such that
+$a \circ f_i = b \circ f_i$. This gives a covering
+$\{f_i : U''_i/U \to U''/U\}$ in $\mathcal{C}/U$ such that
+$a \circ f_i = b \circ f_i$. Hence (3) holds
+for $u : \mathcal{C}/U \to \mathcal{D}/u(U)$.
+
+\medskip\noindent
+Property (4). Let $U''/U, U'/U \in \text{Ob}(\mathcal{C}/U)$ and
+a morphism $c : u(U'')/u(U) \to u(U')/u(U)$ in $\mathcal{D}/u(U)$
+be given. Because $u$ satisfies property (4) there exists
+a covering $\{f_i : U_i'' \to U''\}$ in $\mathcal{C}$
+and morphisms $c_i : U_i'' \to U'$ such that $u(c_i) = c \circ u(f_i)$.
+We think of $U_i''$ as an object over $U$ via the composition
+$U_i'' \to U'' \to U$.
+It may not be true that $c_i$ is a morphism over $U$!
+But since $u(c_i)$ is a morphism over $u(U)$ we may apply
+property (3) for $u$ and find coverings $\{f_{ik} : U''_{ik} \to U''_i\}$
+such that $c_{ik} = c_i \circ f_{ik} : U''_{ik} \to U'$ are morphisms over $U$.
+Hence $\{f_i \circ f_{ik} : U''_{ik}/U \to U''/U\}$ is a covering
+in $\mathcal{C}/U$ such that $u(c_{ik}) = c \circ u(f_{ik})$.
+Hence (4) holds
+for $u : \mathcal{C}/U \to \mathcal{D}/u(U)$.
+
+\medskip\noindent
+Property (5). Let $h : V \to u(U)$ be an object of $\mathcal{D}/u(U)$.
+Because $u$ saitisfies property (5) there exists a covering
+$\{c_i : u(U_i) \to V\}$ in $\mathcal{D}$. By property (3) we can find
+coverings $\{f_{ij} : U_{ij} \to U_i\}$ and morphisms
+$c_{ij} : U_{ij} \to U$ such that $u(c_{ij}) = h \circ c_i \circ u(f_{ij})$.
+Hence $\{u(U_{ij})/u(U) \to V/u(U)\}$ is a covering in
+$\mathcal{D}/u(U)$ of the desired shape and we conclude that
+(5) holds for $u : \mathcal{C}/U \to \mathcal{D}/u(U)$.
 \end{proof}
 
 \begin{lemma}
@@ -3734,8 +3913,7 @@ choosing a set of coverings, see Sets, Lemma \ref{sets-lemma-coverings-site}),
 (i.e., the topology on $\mathcal{C}'$ is weaker than the
 canonical topology),
 \item the functor $v : \mathcal{C} \to \mathcal{C}'$,
-$U \mapsto h_U^\#$ satisfies the assumptions of
-Lemma \ref{lemma-equivalence}, hence induces an
+$U \mapsto h_U^\#$ is a special cocontinuous functor, hence induces an
 equivalence $g : \textit{Sh}(\mathcal{C}) \to \textit{Sh}(\mathcal{C}')$,
 \item for any $\mathcal{F} \in \text{Ob}(\mathcal{C}')$ we have
 $g^{-1}h_\mathcal{F} = \mathcal{F}$, and
@@ -3827,9 +4005,8 @@ all finite limits.
 Let $\textit{Sh}(\mathcal{C})$ be a topos.
 There exists an equivalence of topoi
 $g : \textit{Sh}(\mathcal{C}) \to \textit{Sh}(\mathcal{C}')$
-induced by a cocontinuous functor $u : \mathcal{C} \to \mathcal{C}'$
-as in Lemma \ref{lemma-equivalence} such that
-$\mathcal{C}'$ is a site having fibre products and a final object
+induced by a special cocontinuous functor $u : \mathcal{C} \to \mathcal{C}'$
+such that $\mathcal{C}'$ is a site having fibre products and a final object
 (in other words, $\mathcal{C}'$ has all finite limits).
 \end{lemma}
 
@@ -3865,8 +4042,7 @@ $$
 $$
 such that
 \begin{enumerate}
-\item the functor $v$ satisfies the hypotheses of
-Lemma \ref{lemma-equivalence},
+\item the functor $v$ is a special cocontinuous functor,
 \item the functor $u$ commutes with fibre products, is
 continuous and defines a morphism of sites
 $\mathcal{C}' \to \mathcal{D}'$, and
@@ -3954,10 +4130,9 @@ $$
 \textit{Sh}(\mathcal{D}') \leftarrow
 \textit{Sh}(\mathcal{D})
 $$
-where the first and  the last arrow are equivalences given by cocontinuous
-functors $\mathcal{C} \to \mathcal{C}'$ and
-$\mathcal{D} \to \mathcal{D}'$
-as in Lemma \ref{lemma-equivalence} and the middle arrow comes from
+where the first and  the last arrow are equivalences given by
+special cocontinuous functors $\mathcal{C} \to \mathcal{C}'$ and
+$\mathcal{D} \to \mathcal{D}'$ and the middle arrow comes from
 a morphism of sites $f : \mathcal{C}' \to \mathcal{D}'$ corresponding to a
 functor $u : \mathcal{D}' \to \mathcal{C}'$ to which
 Proposition \ref{proposition-get-morphism} applies.
