@@ -3597,6 +3597,18 @@ $\mathcal{F} \subset \mathcal{F}'$ in $\textit{Sh}(\mathcal{C}/U)$, then
 $j_{U!}\mathcal{F} \subset j_{U!}\mathcal{F}'$.
 
 \begin{lemma}
+\label{lemma-compute-j-shriek-restrict}
+Let $\mathcal{C}$ be a site. Let $U \in \text{Ob}(\mathcal{C})$.
+For any sheaf $\mathcal{F}$ on $\mathcal{C}$ we have
+$j_{U!}j_U^{-1}\mathcal{F} = \mathcal{F} \times h_U^\#$.
+\end{lemma}
+
+\begin{proof}
+This is clear from the description of $j_{U!}$ in
+Lemma \ref{lemma-describe-j-shriek}.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-localization-given-products}
 Let $\mathcal{C}$ be a site.
 Let $U \in \text{Ob}(\mathcal{C})$.
@@ -3688,47 +3700,208 @@ and the result follows.
 \end{proof}
 
 \noindent
-The following lemma can no doubt be strengthened.
+The following lemma is a special case of the more general
+Lemma \ref{lemma-morphism-sites-localization} below.
 
 \begin{lemma}
-\label{lemma-morphism-sites-localization}
-Let $f : \mathcal{C} \to \mathcal{D}$ be a morphism of sites
-given by a functor $u : \mathcal{D} \to \mathcal{C}$ satisfying the
-assumptions of Proposition \ref{proposition-get-morphism}.
-Assume also that $\mathcal{C}$ has fibre products.
-Let $V \in \text{Ob}(\mathcal{D})$. Set $U = u(V)$. There exists
-a commutative diagram of morphisms of sites
+\label{lemma-morphism-sites-localization-strong}
+Let $\mathcal{C}$, $\mathcal{D}$ be sites.
+Let $u : \mathcal{D} \to \mathcal{C}$ be a functor.
+Let $V \in \text{Ob}(\mathcal{D})$. Set $U = u(V)$.
+Assume that
+\begin{enumerate}
+\item $\mathcal{C}$ and $\mathcal{D}$ have
+all finite limits,
+\item $u$ is continuous, and
+\item $u$ commutes with finite limits.
+\end{enumerate}
+There exists a commutative diagram of morphisms of sites
 $$
 \xymatrix{
 \mathcal{C}/U \ar[r]_{j_U} \ar[d]_{f'} & \mathcal{C} \ar[d]^f \\
 \mathcal{D}/V \ar[r]^{j_V} & \mathcal{D}
 }
 $$
-where the left vertical arrow corresponds to the induced
-functor $u' : \mathcal{D}/V \to \mathcal{C}/U$, $V'/V \mapsto u(V')/u(V)$.
+where the right vertical arrow corresponds to $u$,
+the left vertical arrow corresponds to the
+functor $u' : \mathcal{D}/V \to \mathcal{C}/U$, $V'/V \mapsto u(V')/u(V)$
+and the horizontal arrows correspond to the functors
+$\mathcal{C} \to \mathcal{C}/U$, $X \mapsto X \times U$
+and $\mathcal{D} \to \mathcal{D}/V$, $Y \mapsto Y \times V$
+as in Lemma \ref{lemma-localization-given-products}.
 \end{lemma}
 
 \begin{proof}
+Note that $u$ satisfies the assumptions of
+Proposition \ref{proposition-get-morphism} and hence induces
+a morphism of sites $f : \mathcal{C} \to \mathcal{D}$ by that proposition.
 It is clear that $u$ induces a functor $u'$ as indicated.
-It is clear that this functor is continuous, and that
-it also satisfies the assumptions of
+It is clear that this functor also satisfies the assumptions of
 Proposition \ref{proposition-get-morphism}.
-Hence we get a morphism of sites $\mathcal{C}/U \to \mathcal{D}/V$.
-The diagram commutes because we have
-$f_* \circ j_{U*} = j_{V*} \circ f'_*$.
-Namely, we may use Lemma \ref{lemma-localization-given-products}
-upstairs and downstairs (because we have final objects and fibre product
-so also products) and hence for a sheaf $\mathcal{F}$
-on $\mathcal{C}/U$ and an object $Y$ of $\mathcal{D}$ we have
-\begin{eqnarray*}
-f_*(j_{U*}(\mathcal{F}))(Y) & = j_{U*}(\mathcal{F})(u(Y)) \\
-& = \mathcal{F}(u(Y) \times U) \\
-& = \mathcal{F}(u'(Y \times V)) \\
-& = f'_*(\mathcal{F})(Y \times V) \\
-& = j_{V*}(f'_*\mathcal{F}))(Y)
-\end{eqnarray*}
-as desired.
+Hence we get a morphism of sites $f' : \mathcal{C}/U \to \mathcal{D}/V$.
+The diagram commutes by our definition of composition of morphisms of
+sites (see Definition \ref{definition-composition-morphisms-sites})
+and because
+$$
+u(Y \times V) = u(Y) \times u(V) = u(Y) \times U
+$$
+which shows that the diagram of categories and functors opposite to
+the diagram of the lemma commutes.
 \end{proof}
+
+\noindent
+Here is a version of the preceding lemma where we assume less.
+
+\begin{lemma}
+\label{lemma-morphism-sites-localization}
+Let $f : \mathcal{C} \to \mathcal{D}$ be a morphism of sites
+corresponding to the continuous functor $u : \mathcal{C} \to \mathcal{D}$.
+Let $V \in \text{Ob}(\mathcal{D})$ and set $U = u(V)$.
+Then the functor $u' : \mathcal{D}/V \to \mathcal{C}/U$,
+$V'/V \mapsto u(V')/u(V)$ corresponds to a morphism of sites
+$f' : \mathcal{C}/U \to \mathcal{D}/V$ and we get
+a commutative diagram of topoi
+$$
+\xymatrix{
+\textit{Sh}(\mathcal{C}/U) \ar[r]_{j_U} \ar[d]_{f'} &
+\textit{Sh}(\mathcal{C}) \ar[d]^f \\
+\textit{Sh}(\mathcal{D}/V) \ar[r]^{j_V} &
+\textit{Sh}(\mathcal{D})
+}
+$$
+\end{lemma}
+
+\begin{proof}
+It is clear that $u'$ is continuous, and hence we get functors
+$f'_* = (u')^s = (u')^p$ (see
+Sections \ref{section-functoriality-PSh}
+and \ref{section-continuous-functors})
+and an adjoint
+$(f')^{-1} = (u')_s = ((u')_p\ )^\#$. What isn't clear a priori is
+that $(f')^{-1}$ is exact and that the diagram commutes.
+
+\medskip\noindent
+Let $\mathcal{H}$ be a sheaf on $\mathcal{D}/V$.
+Let us compute $j_{U!}(f')^{-1}\mathcal{H}$. We have
+\begin{eqnarray*}
+j_{U!}(f')^{-1}\mathcal{H}
+& =
+((j_U)_p(u'_p\mathcal{H})^\#)^\# \\
+& =
+((j_U)_pu'_p\mathcal{H})^\# \\
+& =
+(u_p(j_V)_p\mathcal{H})^\# \\
+& =
+f^{-1}j_{V!}\mathcal{H}
+\end{eqnarray*}
+The first equality by unwinding the definitions.
+The second equality by Lemma \ref{lemma-technical-up}.
+The third equality because $u \circ j_V = j_U \circ u'$.
+The fourth equality by Lemma \ref{lemma-technical-up} again.
+All of the equalities above are isomorphisms of functors, and
+hence we may interpret this as saying that the following
+diagram of categories and functors is commutative
+$$
+\xymatrix{
+\textit{Sh}(\mathcal{C}/U) \ar[r]_{j_{U!}} &
+\textit{Sh}(\mathcal{C})/h_U^\# \ar[r] &
+\textit{Sh}(\mathcal{C}) \\
+\textit{Sh}(\mathcal{D}/V) \ar[r]^{j_{V!}} \ar[u]^{(f')^{-1}} &
+\textit{Sh}(\mathcal{D})/h_V^\# \ar[r] \ar[u]^{f^{-1}} &
+\textit{Sh}(\mathcal{D}) \ar[u]^{f^{-1}}
+}
+$$
+(Note that $f^{-1}h_V^\# = h_{u(V)}^\# = h_U^\#$.)
+Since by Lemma \ref{lemma-essential-image-j-shriek}
+the left horizontal arrows are equivalences
+and since $f^{-1}$ is exact by assumption we conclude that
+$(f')^{-1} = u'_s$ is exact. Namely, because it is a left adjoint
+it is already right exact
+(Categories, Lemma \ref{categories-lemma-adjoint-exact}).
+Hence we only need to show that
+it transforms a final object into a final object and commutes
+with fibre products
+(Categories, Lemma \ref{categories-lemma-characterize-left-exact}).
+Both are clear for the induced functor
+$\textit{Sh}(\mathcal{D})/h_V^\# \to \textit{Sh}(\mathcal{C})/h_U^\#$.
+This proves that $f'$ is a morphism of sites.
+
+\medskip\noindent
+We still have to verify that $(f')^{-1}j_V^{-1} = j_U^{-1}f^{-1}$.
+To see this use the formula above and the description
+in Lemma \ref{lemma-compute-j-shriek-restrict}. Namely,
+combined these give, for any sheaf $\mathcal{G}$ on $\mathcal{D}$, that
+$$
+j_{U!}(f')^{-1}j_V^{-1}\mathcal{G}
+=
+f^{-1}j_{V!}j_V^{-1}\mathcal{G}
+=
+f^{-1}(\mathcal{G} \times h_V^\#)
+=
+f^{-1}\mathcal{G} \times h_U^\#
+=
+j_{U!}j_U^{-1}f^{-1}\mathcal{G}.
+$$
+Since the functor $j_{U!}$ induces an equivalence
+$\textit{Sh}(\mathcal{C}/U) \to \textit{Sh}(\mathcal{C})/h_U^\#$
+we conclude.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-cocontinuous-localization}
+Let $\mathcal{C}$, $\mathcal{D}$ be sites.
+Let $u : \mathcal{C} \to \mathcal{D}$ be a cocontinuous functor.
+Let $U$ be an object of $\mathcal{C}$, and set $V = u(U)$.
+We have a commutative diagram
+$$
+\xymatrix{
+\mathcal{C}/U \ar[r]_{j_U} \ar[d]_{u'} & \mathcal{C} \ar[d]^u \\
+\mathcal{D}/V \ar[r]^-{j_V} & \mathcal{D}
+}
+$$
+where the left vertical arrow is
+$u' : \mathcal{C}/U \to \mathcal{D}/V$, $U'/U \mapsto V'/V$.
+Then $u'$ is cocontinuous also and we get a commutative diagram of topoi
+$$
+\xymatrix{
+\textit{Sh}(\mathcal{C}/U) \ar[r]_{j_U} \ar[d]_{f'} &
+\textit{Sh}(\mathcal{C}) \ar[d]^f \\
+\textit{Sh}(\mathcal{D}/V) \ar[r]^-{j_V} &
+\textit{Sh}(\mathcal{D})
+}
+$$
+where $f$ (resp.\ $f'$) corresponds to $u$ (resp.\ $u'$).
+\end{lemma}
+
+\begin{proof}
+The commutativity of the first diagram is clear.
+It implies the commutativity of the second diagram provided we
+show that $u'$ is cocontinuous.
+
+\medskip\noindent
+Let $U'/U$ be an object of $\mathcal{C}/U$.
+Let $\{V_j/V \to u(U')/V\}_{j \in J}$ be a covering of $u(U')/V$
+in $\mathcal{D}/V$. Since $u$ is cocontinuous there exists a
+covering $\{U_i' \to U'\}_{i \in I}$ such that the family
+$\{u(U_i') \to u(U')\}$ refines the covering
+$\{V_j \to u(U')\}$ in $\mathcal{D}$. In other words, there exists
+a map of index sets $\alpha : I \to J$ and morphisms
+$\phi_i : u(U_i') \to V_{\alpha(i)}$ over $U'$.
+Think of $U_i'$ as an object over
+$U$ via the composition $U'_i \to U' \to U$. Then
+$\{U'_i/U \to U'/U\}$ is a covering of $\mathcal{C}/U$ such that
+$\{u(U_i')/V \to u(U')/V\}$ refines $\{V_j/V \to u(U')/V\}$
+(use the same $\alpha$ and the same maps $\phi_i$). Hence
+$u' : \mathcal{C}/U \to \mathcal{D}/V$ is cocontinuous.
+\end{proof}
+
+
+
+
+
+
+
+
 
 
 
@@ -3882,8 +4055,9 @@ $$
 \mathcal{D}/u(U) \ar[r]^-{j_{u(U)}} & \mathcal{D}
 }
 $$
-and the left vertical arrow is a special cocontinuous functor.
-In particular we get a commutative diagram of topoi
+as in Lemma \ref{lemma-cocontinuous-localization}.
+The left vertical arrow is a special cocontinuous functor.
+Hence in the commutative diagram of topoi
 $$
 \xymatrix{
 \textit{Sh}(\mathcal{C}/U) \ar[r]_{j_U} \ar[d] &
@@ -3892,30 +4066,18 @@ $$
 \textit{Sh}(\mathcal{D})
 }
 $$
-where the vertical arrows are equivalences.
+the vertical arrows are equivalences.
 \end{lemma}
 
 \begin{proof}
-The commutativity of the diagram is clear. We have to check
+We have seen the existence and commutativity of the diagrams in
+Lemma \ref{lemma-cocontinuous-localization}. We have to check
 hypotheses (1) -- (5) of Lemma \ref{lemma-equivalence} for the
 induced functor $u : \mathcal{C}/U \to \mathcal{D}/u(U)$.
 This is completely mechanical.
 
 \medskip\noindent
-Property (1). Let $U'/U$ be an object of $\mathcal{C}/U$.
-Let $\{V_j/u(U) \to u(U')/u(U)\}_{j \in J}$ be a covering of $u(U')/u(U)$
-in $\mathcal{D}/u(U)$. Since $u$ is cocontinuous there exists a
-covering $\{U_i' \to U'\}_{i \in I}$ such that the family
-$\{u(U_i') \to u(U')\}$ refines the covering
-$\{V_j \to u(U')\}$ in $\mathcal{D}$. In other words, there exists
-a map of index sets $\alpha : I \to J$ and morphisms
-$\phi_i : u(U_i') \to V_{\alpha(i)}$ over $U'$.
-Think of $U_i'$ as an object over
-$U$ via the composition $U'_i \to U' \to U$. Then
-$\{U'_i/U \to U'/U\}$ is a covering of $\mathcal{C}/U$ such that
-$\{u(U_i')/u(U) \to u(U')/u(U)\}$ refines $\{V_j/u(U) \to u(U')/u(U)\}$
-(use the same $\alpha$ and the same maps $\phi_i$). Hence (1) holds
-for $u : \mathcal{C}/U \to \mathcal{D}/u(U)$.
+Property (1). This is Lemma \ref{lemma-cocontinuous-localization}.
 
 \medskip\noindent
 Property (2). Let $\{U_i'/U' \to U'/U\}_{i \in I}$ be a covering
