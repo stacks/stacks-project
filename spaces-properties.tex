@@ -530,6 +530,7 @@ to $x \in |X|$.
 
 
 
+
 \section{Quasi-compact spaces}
 \label{section-quasi-compact}
 
@@ -640,16 +641,13 @@ Noetherian according to the definition above.
 
 
 
-
-
-\section{The etale site of an algebraic space}
-\label{section-etale-site}
+\section{Etale morphisms of algebraic spaces}
+\label{section-etale-morphisms}
 
 \noindent
-In this section we define the small etale site of an algebraic space.
-This is the analogue of the small etale site $S_{etale}$ of a scheme.
-Before we do so let us make some preliminary remarks on etale morphisms
-from schemes to algebraic spaces.
+Before we can define the small etale site of an algebraic space we need
+to do some preliminary work on etale morphisms from schemes to
+algebraic spaces, and etale morphisms between algebraic spaces.
 
 \begin{lemma}
 \label{lemma-etale-over-space}
@@ -700,10 +698,198 @@ Descent, Lemma \ref{descent-lemma-syntomic-smooth-etale-permanence}
 we conclude that $U \to U'$ is etale.
 \end{proof}
 
+\begin{definition}
+\label{definition-etale}
+Let $S$ be a scheme.
+A morphism $f : X \to Y$ between algebraic spaces over $S$ is
+called {\it etale} if and only if for every etale morphism
+$\varphi : U \to X$ where $U$ is a scheme, the composition
+$\varphi \circ f$ is etale also.
+\end{definition}
+
 \noindent
-This lemma implies that in the definition below any morphism between
-objects of the etale site of $X$ is etale, and that any scheme
-etale over an object of $X_{etale}$ is also an object of $X_{etale}$.
+Here is the obligatory lemma which tells us this definition makes sense.
+
+\begin{lemma}
+\label{lemma-etale-local}
+Let $S$ be a scheme.
+Let $f : X \to Y$ be a morphism of algebraic spaces over $S$.
+The following are equivalent:
+\begin{enumerate}
+\item $f$ is etale,
+\item there exists a surjective etale morphism $\varphi : U \to X$,
+where $U$ is a scheme, such that the composition $f \circ \varphi$ is
+etale (as a morphism of algebraic spaces),
+\item there exists a surjective etale morphism $\psi : V \to Y$,
+where $V$ is a scheme, such that the base change $V \times_X Y \to V$
+is etale (as a morphism of algebraic spaces),
+\item there exists a commutative diagram
+$$
+\xymatrix{
+U \ar[d] \ar[r] & V \ar[d] \\
+X \ar[r] & Y
+}
+$$
+where $U$, $V$ are schemes and the vertical arrows are surjective etale
+such that the horizontal arrow is etale.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Let us prove that (4) implies (1). Assume a diagram as in (4) given.
+Let $W \to X$ be an etale morphism with $W$ a scheme. Then we see
+that $W \times_X U \to U$ is etale. Hence $W \times_X U \to V$ is etale,
+and also $W \times_X U \to Y$ is etale by
+Lemma \ref{lemma-etale-over-space} (1). Since also
+the projection $W \times_X U \to W$ is surjective and etale, we conclude
+from Lemma \ref{lemma-etale-over-space} (2) that $W \to Y$ is etale.
+
+\medskip\noindent
+Let us prove that (1) implies (4). Assume (1). Choose a commutative diagram
+$$
+\xymatrix{
+U \ar[d] \ar[r] & V \ar[d] \\
+X \ar[r] & Y
+}
+$$
+where $U \to X$ and $V \to Y$ are surjective and etale, see
+Spaces, Lemma \ref{spaces-lemma-lift-morphism-presentations}.
+By assumption the morphism $U \to Y$ is etale,
+and hence $U \to V$ is etale by Lemma \ref{lemma-etale-over-space} (2).
+
+\medskip\noindent
+We omit the proof that (2) and (3) are also equivalent to (1).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-composition-etale}
+The composition of two etale morphisms of algebraic spaces
+is etale.
+\end{lemma}
+
+\begin{proof}
+This is immediate from the definition.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-base-change-etale}
+The base change of an etale morphism of algebraic spaces
+by any morphism of algebraic spaces is etale.
+\end{lemma}
+
+\begin{proof}
+Let $X \to Y$ be an etale morphism of algebraic spaces over $S$.
+Let $Z \to Y$ be a morphism of algebraic spaces.
+Choose a scheme $U$ and a surjective etale morphism $U \to X$.
+Choose a scheme $W$ and a surjective etale morphism $W \to Z$.
+Then $U \to Y$ is etale, hence in the diagram
+$$
+\xymatrix{
+W \times_Y U \ar[d] \ar[r] & W \ar[d] \\
+Z \times_Y X \ar[r] & Z
+}
+$$
+the top horizontal arrow is etale.
+Moreover, the left vertical arrow is surjective
+and etale (verification omitted). Hence we conclude that the lower
+horizontal arrow is etale by Lemma \ref{lemma-etale-local}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-etale-permanence}
+Let $S$ be a scheme. Let $X, Y, Z$ be algebraic spaces.
+Let $g : X \to Z$, $h : Y \to Z$ be etale morphisms and let
+$f : X \to Y$ be a morphism such that $h \circ f = g$.
+Then $f$ is etale.
+\end{lemma}
+
+\begin{proof}
+Choose a commutative diagram
+$$
+\xymatrix{
+U \ar[d] \ar[r]_\chi & V \ar[d] \\
+X \ar[r] & Y
+}
+$$
+where $U \to X$ and $V \to Y$ are surjective and etale, see
+Spaces, Lemma \ref{spaces-lemma-lift-morphism-presentations}.
+By assumption the morphisms $\varphi : U \to X \to Z$ and
+$\psi : V \to Y \to Z$ are etale. Moreover, $\psi \circ \chi = \varphi$
+by our assumption on $f, g, h$.
+Hence $U \to V$ is etale by Lemma \ref{lemma-etale-over-space}
+part (2).
+\end{proof}
+
+
+\section{Special coverings}
+\label{section-special-coverings}
+
+\noindent
+In this section we collect some straightforward lemmas on the existence
+of etale surjective coverings of algebraic spaces.
+
+\begin{lemma}
+\label{lemma-cover-by-union-affines}
+Let $S$ be a scheme.
+Let $X$ be an algebraic space over $S$.
+There exists a surjective etale morphism $U \to X$ where
+$U$ is a disjoint union of affine schemes.
+\end{lemma}
+
+\begin{proof}
+Let $V \to X$ be a surjective etale morphism.
+Let $V = \bigcup_{i \in I}$ be a Zariksi open covering.
+Then set $U = \coprod_{i \in I} V_i$ with induced morphism
+$U \to V \to X$. This is etale according to
+Lemma \ref{lemma-etale-over-space} and it is clearly surjective.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-union-of-quasi-compact}
+Let $S$ be a scheme.
+Let $X$ be an algebraic space over $S$.
+There exists a Zariski covering $X = \bigcup X_i$
+such that each algebraic space $X_i$ has a surjective
+etale covering by an affine scheme.
+\end{lemma}
+
+\begin{proof}
+By Lemma \ref{lemma-cover-by-union-affines} we can find a surjective
+etale morphism $U = \coprod U_i \to X$, with $U_i$ affine.
+According to
+Spaces, Lemma \ref{spaces-lemma-space-presentation},
+$R$ is an etale equivalence relation on $U$ and we have $X = U/R$. Set
+$R_i = U_i \times_X U_i$; this is also the restriction $R|_{U_i}$ of $R$
+to $U_i$. By
+Spaces, Lemma \ref{spaces-lemma-finding-opens}
+we see that $X_i = U_i/R_i$ is an open subspace of $X$. Since clearly
+$X = \bigcup X_i$ is a Zariski covering, we win.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-algebraic-space-affine-cover}
+Let $S$ be a scheme.
+Let $X$ be an algebraic space over $S$.
+Let $U$ be an affine scheme, and $U \to X$ surjective etale.
+Then $R = U \times_X U$ is a separated scheme.
+\end{lemma}
+
+\begin{proof}
+See Spaces, Lemma \ref{spaces-lemma-properties-diagonal}.
+\end{proof}
+
+
+
+\section{The etale site of an algebraic space}
+\label{section-etale-site}
+
+\noindent
+In this section we define the small etale site of an algebraic space.
+This is the analogue of the small etale site $S_{etale}$ of a scheme.
+Lemma \ref{lemma-etale-over-space} implies that in the definition below
+any morphism between objects of the etale site of $X$ is etale, and that
+any scheme etale over an object of $X_{etale}$ is also an object of
+$X_{etale}$.
 
 \begin{definition}
 \label{definition-etale-site}
@@ -727,21 +913,255 @@ is a covering of $(\textit{Sch}/S)_{etale}$.
 \end{definition}
 
 \noindent
-There are several other choices we could have made here. For example
-we could have considered all {\it algebraic spaces} $U$ which are etale
-over $X$. We decided not to do so, since we like to think of schemes as
-the fundamental objects of algebraic geometry. Moreover, we introduce
-this site here because we want to use it in order to define the category
-of quasi-coherent sheaves on $X$, and at the moment we only have results
-on the category of quasi-coherent sheaves over schemes. Another possibility is
-to consider all affine schemes $U$ which are etale over $X$. This we will
-consider later (insert future reference here), and will be denoted
-$(\textit{Aff}/X)_{etale}$.
-
-\medskip\noindent
 A consequence of our choice is that the etale site of an algebraic space
 in general does not have a final object!
 
+\medskip\noindent
+There are several other choices we could have made here. For example
+we could have considered all {\it algebraic spaces} $U$ which are etale
+over $X$. We decided not to do so, since we like to think of schemes as
+the fundamental objects of algebraic geometry. On the other hand, we
+do need this notion also, since the small etale site of an algebraic
+space is not sufficiently flexible, especially when discussing functoriality
+of the small etale site, see Lemma \ref{lemma-functoriality-etale-site}
+below.
+
+\begin{definition}
+\label{definition-spaces-etale-site}
+Let $S$ be a scheme.
+Let $\textit{Sch}_{fppf}$ be a big fppf site containing $S$,
+and let $\textit{Sch}_{etale}$ be the corresponding big etale site
+(i.e., having the same underlying category).
+Let $X$ be an algebraic space over $S$.
+The site {\it $X_{spaces, etale}$} of $X$ is defined as follows:
+\begin{enumerate}
+\item An object of $X_{etale}$ is a morphism $\varphi : U \to X$
+where $U$ is an algebraic space over $S$ and
+$\varphi$ is an etale morphism of algebraic spaces over $S$,
+\item a morphism $(\varphi : U \to X) \to (\varphi' : U' \to X)$
+is given by a morphism of algebraic spaces $\chi : U \to U'$ such that
+$\varphi = \varphi' \circ \chi$, and
+\item a family of morphisms
+$\{\varphi_i : (U_i \to X) \to (U \to X)\}_{i \in I}$
+of $X_{etale}$ is a covering if and only if
+$U = \bigcup \varphi_i(U_i)$.
+\end{enumerate}
+(As usual we choose a set of coverings of this type, including at least
+the coverings in $X_{etale}$, as in Sets, Lemma \ref{sets-lemma-coverings-site}
+to turn $X_{spaces, etale}$ into a site.)
+\end{definition}
+
+\noindent
+Let us show right away that the corresponding topos equals the
+small etale topos of $X$.
+
+\begin{lemma}
+\label{lemma-compare-etale-sites}
+The functor
+$$
+X_{etale} \longrightarrow X_{spaces, etale}, \quad
+U/X \longmapsto U/X
+$$
+is a special cocontinuous functor
+(Sites, Definition \ref{sites-definition-special-cocontinuous-functor})
+and hence induces an equivalence of topoi
+$\textit{Sh}(X_{etale}) \to \textit{Sh}(X_{spaces, etale})$.
+\end{lemma}
+
+\begin{proof}
+We have to show that the functor satisfies the assumptions (1) -- (5) of
+Sites, Lemma \ref{sites-lemma-equivalence}.
+It is clear that the functor is continuous and cocontinuous, which
+proves assumptions (1) and (2).
+Assumptions (3) and (4) hold simply because the functor is fully faithful.
+Assumption (5) holds, because an algebraic space by definition has
+a covering by a scheme.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-functoriality-etale-site}
+Let $S$ be a scheme.
+Let $f : X \to Y$ be a morphism of algebraic spaces over $S$.
+\begin{enumerate}
+\item The continuous functor
+$$
+Y_{spaces, etale} \longrightarrow X_{spaces, etale}, \quad
+V \longmapsto X \times_Y V
+$$
+induces a morphism of sites
+$$
+f_{spaces, etale} : X_{spaces, etale} \to Y_{spaces, etale}.
+$$
+\item The rule $f \mapsto f_{spaces, etale}$ is compatible with
+compositions, in other words $(f \circ g)_{spaces, etale}
+= f_{spaces, etale} \circ g_{spaces, etale}$ (see
+Sites, Definition \ref{sites-definition-composition-morphisms-sites}).
+\item There is an associated morphism of topoi
+$f_{small} : \textit{Sh}(X_{etale}) \to \textit{Sh}(Y_{etale})$
+whose construction is compatible with compositions.
+\item If $f$ is a representable morphism of algebraic spaces,
+then $f_{small}$ comes from a morphism of sites $X_{etale} \to Y_{etale}$,
+corresponding to the continuous functor $V \mapsto X \times_Y V$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Let us show that the functor described in (1) satisfies the assumptions
+of Sites, Proposition \ref{sites-proposition-get-morphism}.
+Thus we have to show that
+$Y_{spaces, etale}$ has a final object (namely $Y$) and that
+the functor transforms this into a final object in $X_{spaces, etale}$
+(namely $X$). This is clear as $X \times_Y Y = X$ in any category.
+Next, we have to show that $Y_{spaces, etale}$ has fibre products.
+This is true since the category of algebraic spaces has fibre products,
+and since $V \times_Y V'$ is etale over $Y$ if $V$ and $V'$ are etale
+over $Y$ (see Lemmas \ref{lemma-composition-etale} and
+\ref{lemma-base-change-etale} above).
+OK, so the proposition applies and we see that we get a morphism
+of sites as described in (1).
+
+\medskip\noindent
+Part (2) you get by unwinding the definitions.
+Part (3) is clear by using the equivalences for $X$ and $Y$
+from Lemma \ref{lemma-compare-etale-sites} above.
+Part (4) follows, because if $f$ is representable, then the
+functors above fit into a commutative diagram
+$$
+\xymatrix{
+X_{etale} \ar[r] &
+X_{spaces, etale} \\
+Y_{etale} \ar[r] \ar[u] &
+Y_{spaces, etale} \ar[u]
+}
+$$
+of categories.
+\end{proof}
+
+\noindent
+We can do a little bit better than the lemma above in describing
+the relationship between sheaves on $X$ and sheaves on $Y$.
+Namely, we can formulate this in turns of $f$-maps, compare
+Sheaves, Definition \ref{sheaves-definition-f-map}, as follows.
+
+\begin{definition}
+\label{definition-f-map}
+Let $S$ be a scheme.
+Let $f : X \to Y$ be a morphism of algebraic spaces over $S$.
+Let $\mathcal{F}$ be a sheaf of sets on $X_{etale}$ and
+let $\mathcal{G}$ be a sheaf of sets on $Y_{etale}$.
+An {\it $f$-map $\varphi : \mathcal{G} \to \mathcal{F}$}
+is a collection of maps
+$\varphi_{(U,V,g)} : \mathcal{G}(V) \to \mathcal{F}(U)$
+indexed by commutative diagrams
+$$
+\xymatrix{
+U \ar[d]_g \ar[r] & X \ar[d]^f \\
+V \ar[r] & Y
+}
+$$
+where $U \in X_{etale}$, $V \in Y_{etale}$ such that whenever given
+an extended diagram
+$$
+\xymatrix{
+U' \ar[r] \ar[d]_{g'} & U \ar[d]_g \ar[r] & X \ar[d]^f \\
+V' \ar[r] & V \ar[r] & Y
+}
+$$
+with $V' \to V$ and $U' \to U$ etale morphisms of schemes the diagram
+$$
+\xymatrix{
+\mathcal{G}(V)
+\ar[rr]_{\varphi_{(U, V, g)}}
+\ar[d]_{\text{restriction of }\mathcal{G}} & &
+\mathcal{F}(U)
+\ar[d]^{\text{restriction of }\mathcal{F}} \\
+\mathcal{G}(V')
+\ar[rr]^{\varphi_{(U', V', g')}} & &
+\mathcal{F}(U')
+}
+$$
+commutes.
+\end{definition}
+
+\begin{lemma}
+\label{lemma-f-map}
+Let $S$ be a scheme.
+Let $f : X \to Y$ be a morphism of algebraic spaces over $S$.
+Let $\mathcal{F}$ be a sheaf of sets on $X_{etale}$ and
+let $\mathcal{G}$ be a sheaf of sets on $Y_{etale}$.
+There are canonical bijections between the following three sets:
+\begin{enumerate}
+\item The set of maps $\mathcal{G} \to f_{small, *}\mathcal{F}$.
+\item The set of maps $f_{small}^{-1}\mathcal{G} \to \mathcal{F}$.
+\item The set of $f$-maps $\varphi : \mathcal{G} \to \mathcal{F}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Note that (1) and (2) are the same because the functors $f_{small, *}$
+and $f_{small}^{-1}$ are a pair of adjoint functors.
+Suppose that $\alpha : f_{small}^{-1}\mathcal{G} \to \mathcal{F}$
+is a map of sheaves on $Y_{etale}$. Let a diagram
+$$
+\xymatrix{
+U \ar[d]_g \ar[r]_{j_U} & X \ar[d]^f \\
+V \ar[r]^{j_V} & Y
+}
+$$
+as in Definition \ref{definition-f-map} be given.
+By the commutativity of the diagram we also get a map
+$g_{small}^{-1}(j_V)^{-1}\mathcal{G} \to (j_U)^{-1}\mathcal{F}$
+(compare Sites, Section \ref{sites-section-localization} for the
+description of the localization functors). Hence we certainly
+get a map
+$\varphi_{(V, U, g)} :
+\mathcal{G}(V) = (j_V)^{-1}\mathcal{G}(V) 
+\to
+(j_U)^{-1}\mathcal{F}(U) = \mathcal{F}(U)$.
+We omit the verification that this rule is compatible with
+further restrictions and defines an $f$-map from $\mathcal{G}$ to
+$\mathcal{F}$.
+
+\medskip\noindent
+Conversely, suppose that we are given an $f$-map
+$\varphi = (\varphi_{(U, V, g)})$.
+Let $\mathcal{G}'$ (resp.\ $\mathcal{F}'$) denote the extension of
+$\mathcal{G}$ (resp.\ $\mathcal{F}$) to $Y_{spaces, etale}$
+(resp.\ $X_{spaces, etale}$), see Lemma \ref{lemma-compare-etale-sites}.
+Then we have to construct a map of sheaves
+$$
+\mathcal{G}' \longrightarrow (f_{spaces, etale})_*\mathcal{F}'
+$$
+To do this, let $V \to Y$ be an etale morphism of algebraic spaces.
+We have to construct a map of sets
+$$
+\mathcal{G}'(V) \to \mathcal{F}'(X \times_Y V)
+$$
+Choose an etale surjective morphism $V' \to V$ with $V'$ a scheme,
+and after that choose an etale surjective morphsm
+$U' \to X \times_U V'$ with $U'$ a scheme. We get a morphism of
+schemes $g' : U' \to V'$ and also a morphism of schemes
+$$
+g'' : U' \times_{X \times_Y V} U' \longrightarrow V' \times_V V'
+$$
+Consider the following diagram
+$$
+\xymatrix{
+\mathcal{F}'(X \times_Y V) \ar[r] &
+\mathcal{F}(U') \ar@<1ex>[r] \ar@<-1ex>[r] &
+\mathcal{F}(U' \times_{X \times_Y V} U') \\
+\mathcal{G}'(X \times_Y V) \ar[r] \ar@{..>}[u] &
+\mathcal{G}(V') \ar@<1ex>[r] \ar@<-1ex>[r] \ar[u]_{\varphi_{(U', V', g')}} &
+\mathcal{G}(V' \times_V V') \ar[u]_{\varphi_{(U'', V'', g'')}}
+}
+$$
+The compatibility of the maps $\varphi_{...}$
+with restriction shows that the two left squares commute.
+The definition of coverings in $X_{spaces, etale}$ shows that
+the horizontal rows are equalizer diagrams. Hence we get
+the dotted arrow. We leave it to the reader to show that these
+arrows are compatible with the restriction mappings.
+\end{proof}
 
 
 
@@ -749,6 +1169,116 @@ in general does not have a final object!
 
 
 
+\section{Quasi-coherent sheaves on algebraic spaces}
+\label{section-quasi-coherent}
+
+\noindent
+By the results of
+Descent, Section \ref{descent-section-quasi-coherent-sheaves}
+we may think of a quasi-coherent sheaf $\mathcal{F}$ on a scheme
+$X$ as a quasi-coherent sheaf of $\mathcal{O}$-modules on the small
+etale site $X_{etale}$. This is our motivation for the definition of
+a quasi-coherent sheaf on an algebraic space.
+
+\begin{lemma}
+\label{lemma-sheaf-condition-holds}
+Let $S$ be a scheme. Let $X$ be an algebraic space over $S$.
+The rule $U \mapsto \Gamma(U, \mathcal{O}_U)$ defines
+a sheaf of rings on $X_{etale}$.
+\end{lemma}
+
+\begin{proof}
+Immediate from the definition of a covering and
+Descent, Lemma \ref{descent-lemma-sheaf-condition-holds}.
+\end{proof}
+
+\begin{definition}
+\label{definition-structure-sheaf}
+Let $S$ be a scheme.
+Let $X$ be an algebraic space over $S$.
+The {\it structure sheaf} of $X$
+is the sheaf of rings $\mathcal{O}_X$
+on the small etale site $X_{etale}$ described in
+Lemma \ref{lemma-sheaf-condition-holds}.
+\end{definition}
+
+\begin{lemma}
+\label{lemma-morphism-ringed-topoi}
+Let $S$ be a scheme.
+Let $f : X \to Y$ be a morphism of algebraic spaces over $S$.
+Then there is a canonical map $f^\sharp$ such that
+$(f_{small}, f^\sharp) :
+(X_{etale}, \mathcal{O}_X)
+\to
+(Y_{etale}, \mathcal{O}_Y)$
+is a morphism of ringed topoi, and such that the construction
+$f \mapsto (f_{small}, f^\sharp)$ is compatible with compositions.
+\end{lemma}
+
+\begin{proof}
+By Lemma \ref{lemma-f-map} it suffices to give an $f$-map from
+$\mathcal{O}_Y$ to $\mathcal{O}_X$. In other words, for every
+commutative diagram
+$$
+\xymatrix{
+U \ar[d]_g \ar[r] & X \ar[d]^f \\
+V \ar[r] & Y
+}
+$$
+where $U \in X_{etale}$, $V \in Y_{etale}$ we have to give a map of
+rings
+$f^\sharp_{(U, V, g)} :
+\Gamma(V, \mathcal{O}_V)
+\to
+\Gamma(U, \mathcal{O}_U)$.
+Of course we just take $f_{(U, V, g)}^\sharp = g^\sharp$.
+It is clear that this is compatible with restriction mappings
+and hence indeed gives and $f$-map.
+The proof showing compatibility with compositions is omitted.
+\end{proof}
+
+\noindent
+Thus we see that given a morphism $f : X \to Y$ of algebraic spaces
+we get well defined pullback and direct image functors
+$$
+f^* :
+\textit{Mod}(\mathcal{O}_Y)
+\longrightarrow
+\textit{Mod}(\mathcal{O}_X), \quad
+f_* :
+\textit{Mod}(\mathcal{O}_X)
+\longrightarrow
+\textit{Mod}(\mathcal{O}_Y)
+$$
+which are adjoint in the usual way.
+
+\begin{definition}
+\label{definition-quasi-coherent}
+Let $S$ be a scheme.
+Let $X$ be an algebraic space over $S$.
+A {\it quasi-coherent} $\mathcal{O}_X$-module 
+is a quasi-coherent module on the ringed site $(X_{etale}, \mathcal{O}_X)$
+in the sense of
+Modules on Sites,
+Definition \ref{sites-modules-definition-site-local}.
+\end{definition}
+
+\noindent
+As usual, quasi-coherent sheaves behave well with respect to pullback.
+
+\begin{lemma}
+\label{lemma-pullback-quasi-coherent}
+Let $S$ be a scheme.
+Let $f : X \to Y$ be a morphism of algebraic spaces over $S$.
+The pullback functor
+$f^* : \textit{Mod}(\mathcal{O}_Y) \to \textit{Mod}(\mathcal{O}_X)$
+preserves quasi-coherent sheaves.
+\end{lemma}
+
+\begin{proof}
+This is a general fact, see
+Modules on Sites, Lemma \ref{sites-modules-lemma-local-pullback}.
+\end{proof}
 
 
 
