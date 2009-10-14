@@ -9,7 +9,8 @@ LIJST = introduction conventions sets categories topology sheaves algebra \
 	sites-cohomology hypercovering schemes constructions properties \
 	morphisms coherent divisors limits varieties chow topologies \
 	descent groupoids more-morphisms etale spaces spaces-properties \
-	stacks algebraic examples exercises guide desirables coding
+	spaces-morphisms stacks algebraic examples exercises guide desirables \
+	coding
 
 # Add index and fdl to get index and license latexed as well.
 LIJST_FDL = $(LIJST) fdl index

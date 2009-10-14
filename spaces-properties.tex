@@ -166,6 +166,37 @@ This is Schemes, Lemma \ref{schemes-lemma-characterize-points}.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-points-cartesian}
+Let $S$ be a scheme. Let
+$$
+\xymatrix{
+Z \times_Y X \ar[r] \ar[d] & X \ar[d] \\
+Z \ar[r] & Y
+}
+$$
+be a cartesian diagram of algebraic spaces. Then the map of sets
+of points
+$$
+|Z \times_Y X|
+\longrightarrow
+|Z| \times_{|Y|} |X|
+$$
+is surjective.
+\end{lemma}
+
+\begin{proof}
+Namely, suppose given fields $K$, $L$ and morphisms
+$\text{Spec}(K) \to X$, $\text{Spec}(L) \to Y$, then the
+assumption that they agree as elements of $|Y|$ means that
+there is a common extension $K \subset M$ and $L \subset M$
+such that
+$\text{Spec}(M) \to \text{Spec}(K) \to X \to Y$ and
+$\text{Spec}(M) \to \text{Spec}(L) \to Z \to Y$ agree.
+And this is exactly the condition which says you get a
+morphism $\text{Spec}(M) \to Z \times_Y X$.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-points-presentation}
 Let $S$ be a scheme.
 Let $X$ be an algebraic space over $S$.
@@ -176,7 +207,8 @@ and $|X| = |U|/|R|$.
 \end{lemma}
 
 \begin{proof}
-We will use Lemma \ref{lemma-scheme-points} without further mention.
+We will use Lemmas \ref{lemma-scheme-points} and \ref{lemma-points-cartesian}
+without further mention.
 The assumption means that $U$ is a scheme, $p : U \to X$ is a
 surjective, etale morphism, $R = U \times_X U$ is a scheme
 and defines an etale equivalence relation on $U$ such that
@@ -206,20 +238,8 @@ see that $\tilde r$ maps to $(u_1, u_2)$ in $|U| \times |U|$.
 Also, since $U \to X$ equalizes $s, t : R \to U$ we see that
 the map $|U| \to |X|$ factors through $|U|/|R|$. Finally, we have
 to show that if $u_1, u_2 \in |U|$ map to the same point of $X$
-then they come from an element of $|R|$. Let us write this out in
-a little more detail. Namely, choose representatives
-$u_i : \text{Spec}(K_i) \to U$ of $u_i$. The assumption that they map
-to the same point of $X$ means that there exists a commutive diagram
-$$
-\xymatrix{
-\text{Spec}(L) \ar[r] \ar[d] &
-\text{Spec}(K_2) \ar[d]^{p \circ u_2} \\
-\text{Spec}(K_1) \ar[r]^{p \circ u_1} &
-X.
-}
-$$
-Clearly this means that $\text{Spec}(L)$ maps into $R = U \times_X U$
-giving a poitn $r \in |R|$ which maps to $(u_1, u_2) \in |U| \times |U|$.
+then they come from an element of $|R|$.
+This again follows from Lemma \ref{lemma-points-cartesian}.
 \end{proof}
 
 \begin{lemma}
@@ -363,6 +383,41 @@ On the other hand, we see that $|X| = \bigcup |X_i|$ if and only if
 $U = \bigcup U \times_X X_i$ by Lemma \ref{lemma-points-presentation}
 (and the fact that the projections $U \times_X X_i \to X_i$ are surjective
 and etale). Thus the equivalence of (2) follows.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-characterize-surjective}
+Let $S$ be a scheme.
+Let $X$ be an algebraic space over $S$.
+Let $f : T \to X$ be a morphism from a scheme to $X$.
+The following are equivalent
+\begin{enumerate}
+\item $f : T \to X$ is surjective (according to
+Spaces, Definition \ref{spaces-definition-relative-representable-property}),
+and
+\item $|f| : |T| \to |X|$ is surjective.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Assume (1). Let $U \to X$ be a surjective etale morphism, where $U$ is
+a scheme. By assumption (1) we see that $T \times_X U \to U$ is a surjective
+morphism of schemes. Hence for any $u \in |U|$ there exists a 
+$\tilde t \in |T \times_X U|$ which maps to $u$. The image $t$ of $\tilde t$
+in $|T|$ is a point of $|T|$ which maps to the image of $u$ in $|X|$.
+Since $|X|$ is a quotient of $|U|$ we conclude that $|f|$ is surjective.
+
+\medskip\noindent
+Assume (2). Let $U \to X$ be a surjective etale morphism, where $U$ is
+a scheme. Set $R = U \times_X U$. Note that $T \times_X U \to T$ is a
+surjective etale morphism of schemes. Take $u \in |U|$. By assumption (2)
+we can choose a point $t \in |T|$ which maps to the image of $u$ in $|X|$.
+By Lemma \ref{lemma-points-cartesian} there exists a point
+$\tilde t \in |T \times_X U|$ which maps to $t$ and $u$.
+Hence $T \times_X U \to U$ is surjective (as a morphism of schemes,
+see Lemma \ref{lemma-scheme-points}). By
+Spaces, Lemma \ref{spaces-lemma-representable-morphisms-spaces-property}
+this implies that $T \to X$ is surjective.
 \end{proof}
 
 \begin{lemma}
@@ -550,7 +605,14 @@ Then $X$ is quasi-compact if and only if $|X|$ is quasi-compact.
 \end{lemma}
 
 \begin{proof}
-Omitted.
+Choose a scheme $U$ and an etale surjective morphism $U \to X$.
+We will use Lemma \ref{lemma-characterize-surjective}.
+If $U$ is quasi-compact, then since $|U| \to |X|$ is surjective
+we conclude that $|X|$ is quasi-compact.
+If $|X|$ is quasi-compact, then since $|U| \to |X|$ is open
+we see that there exists a quasi-compact open $U' \subset U$
+such that $|U'| \to |X|$ is surjective (and still etale).
+Hence we win.
 \end{proof}
 
 
@@ -645,9 +707,13 @@ Noetherian according to the definition above.
 \label{section-etale-morphisms}
 
 \noindent
-Before we can define the small etale site of an algebraic space we need
-to do some preliminary work on etale morphisms from schemes to
+This section really belongs in the chapter on morphisms of algebraic
+spaces, but we need the notion of an algebraic space etale over another
+in order to define the small etale site of an algebraic space.
+Thus we need to do some preliminary work on etale morphisms from schemes to
 algebraic spaces, and etale morphisms between algebraic spaces.
+For more about etale morphisms of algebraic spaces, see
+(insert future reference here).
 
 \begin{lemma}
 \label{lemma-etale-over-space}
@@ -708,7 +774,12 @@ $\varphi \circ f$ is etale also.
 \end{definition}
 
 \noindent
-Here is the obligatory lemma which tells us this definition makes sense.
+If $X$ and $Y$ are schemes, then this agree with the usual notion of an
+etale morphism of schemes. In fact, whenever $X \to Y$ is a representable
+morphism of algebraic spaces, then this agrees with the notion defined via
+Spaces, Definition \ref{spaces-definition-relative-representable-property}.
+This follows by combining Lemma \ref{lemma-etale-local} below and
+Spaces, Lemma \ref{spaces-lemma-representable-morphisms-spaces-property}.
 
 \begin{lemma}
 \label{lemma-etale-local}
@@ -867,10 +938,34 @@ $X = \bigcup X_i$ is a Zariski covering, we win.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-quasi-compact-affine-cover}
+Let $S$ be a scheme.
+Let $X$ be an algebraic space over $S$.
+Then $S$ is quasi-compact if and only if
+there exists an etale surjective morphism $U \to X$
+with $U$ an affine scheme.
+\end{lemma}
+
+\begin{proof}
+If there exists an etale surjective morphism $U \to X$ with $U$
+affine then $X$ is quasi-compact by Definition \ref{definition-quasi-compact}.
+Conversely, if $X$ is quasi-compact, then $|X|$ is quasi-compact.
+Let $U = \coprod_{i \in I} U_i$ be a disjoint union of affine schemes
+with an etale and surjective map $\varphi : U \to X$
+(Lemma \ref{lemma-cover-by-union-affines}).
+Then $|X| = \bigcup \varphi(|U_i|)$ and
+by quasi-compactness there is a finite subset $i_1, \ldots, i_n$
+such that $|X| = \bigcup \varphi(|U_{i_j}|)$. Hence
+$U_{i_1} \cup \ldots \cup U_{i_n}$ is an affine scheme with a 
+finite surjective morphism towards $X$.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-algebraic-space-affine-cover}
 Let $S$ be a scheme.
 Let $X$ be an algebraic space over $S$.
-Let $U$ be an affine scheme, and $U \to X$ surjective etale.
+Let $U$ be an affine scheme, or a disjoint union of affine schemes,
+and $U \to X$ surjective etale.
 Then $R = U \times_X U$ is a separated scheme.
 \end{lemma}
 
@@ -977,6 +1072,31 @@ Assumptions (3) and (4) hold simply because the functor is fully faithful.
 Assumption (5) holds, because an algebraic space by definition has
 a covering by a scheme.
 \end{proof}
+
+\begin{remark}
+\label{remark-explain-equivalence}
+Let us explain the meaning of Lemma \ref{lemma-compare-etale-sites}.
+Let $S$ be a scheme, and let $X$ be an algebraic space over $S$.
+Let $\mathcal{F}$ be a sheaf on the small etale site $X_{etale}$ of $X$.
+The lemma says that there exists a unique sheaf $\mathcal{F}'$ on
+$X_{spaces, etale}$ which restricts back to $\mathcal{F}$ on the
+subcategory $X_{etale}$. If $U \to X$ is an etale morphism of algebraic
+spaces, then how do we compute $\mathcal{F}'(U)$? Well, by definition
+of an algebraic space there exists a scheme $U'$ and a surjective
+etale morphism $U' \to U$. Then $\{U' \to U\}$ is a covering in
+$X_{spaces, etale}$ and hence we get an equalizer diagram
+$$
+\xymatrix{
+\mathcal{F}'(U) \ar[r] &
+\mathcal{F}(U') \ar@<1ex>[r] \ar@<-1ex>[r] &
+\mathcal{F}(U' \times_U U').
+}
+$$
+Note that $U' \times_U U'$ is a scheme, and hence we may
+write $\mathcal{F}$ and not $\mathcal{F}'$.
+Thus we see how to compute $\mathcal{F}'$
+when given the sheaf $\mathcal{F}$.
+\end{remark}
 
 \begin{lemma}
 \label{lemma-functoriality-etale-site}
@@ -1227,11 +1347,13 @@ V \ar[r] & Y
 $$
 where $U \in X_{etale}$, $V \in Y_{etale}$ we have to give a map of
 rings
-$f^\sharp_{(U, V, g)} :
+$
+(f^\sharp)_{(U, V, g)} :
 \Gamma(V, \mathcal{O}_V)
 \to
-\Gamma(U, \mathcal{O}_U)$.
-Of course we just take $f_{(U, V, g)}^\sharp = g^\sharp$.
+\Gamma(U, \mathcal{O}_U).
+$
+Of course we just take $(f^\sharp)_{(U, V, g)} = g^\sharp$.
 It is clear that this is compatible with restriction mappings
 and hence indeed gives and $f$-map.
 The proof showing compatibility with compositions is omitted.
