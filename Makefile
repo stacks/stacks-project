@@ -160,7 +160,7 @@ tags/tmp/Makefile: tags/Makefile
 	cp tags/Makefile tags/tmp/Makefile
 
 tags/tmp/log.log:
-	git log -n50 --date=short --format=format:"Version %h %ad: %s" > tags/tmp/log.log
+	git log -n50 --stat > tags/tmp/log.log
 
 tags/tmp/downloads.html: downloads
 	python scripts/make_downloads.py . > tags/tmp/downloads.html
