@@ -30,7 +30,11 @@ reference for the case of quasi-separated algebraic spaces is
 The discussion is somewhat awkward at times since we made the design
 descision to first talk about properties of algebraic spaces by
 themselves, and only later about properties of morphisms of algebraic
-spaces.
+spaces. We make an exception for this rule regarding
+{\it etale morphisms} of algebraic spaces, which we introduce in
+Section \ref{section-etale-morphisms}. But until that section whenever
+we say a morphism has a certain property, it automatically means the
+source of the morphism is a scheme (or perhaps the morphism is representable).
 
 
 
@@ -193,8 +197,6 @@ In particular any quasi-separated algebraic space is reasonable.
 \begin{proof}
 By Lemma \ref{lemma-reasonable-Zariski-local}
 it suffices to show that a quasi-separated algebraic space is reasonable.
-Let $S$ be a scheme, and let $X$ be an algebraic space
-over $S$ which is Zariski locally quasi-separated.
 
 \medskip\noindent
 Let $S$ be a scheme, and let $X$ be a quasi-separated algebraic space
@@ -236,7 +238,8 @@ T \times_{\text{Spec}(\mathbf{Z})} U_i
 $$
 The first arrow is quasi-compact by our assumption that $X$ is
 (absolutely) quasi-separated, and the second is quasi-compact because
-it is affine (since $U_i$ was chosen to be affine).
+it is affine (since $U_i$ was chosen to be affine, and
+Morphisms, Lemma \ref{morphisms-lemma-base-change-affine}).
 \end{proof}
 
 \begin{remark}
@@ -605,6 +608,91 @@ this implies that $T \to X$ is surjective.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-points-monomorphism-general}
+Let $S$ be a scheme. Let $X$ be an algebraic space over $S$.
+Consider the map
+$$
+\{\text{Spec}(k) \to X \text{ monomorphism}\}
+\longrightarrow
+|X|
+$$
+This map is injective.
+\end{lemma}
+
+\begin{proof}
+Suppose that $\varphi_i : \text{Spec}(k_i) \to X$ are monomorphisms
+for $i = 1, 2$. If $\varphi_1$ and $\varphi_2$ define the same point
+of $|X|$, then we see that the scheme
+$$
+Y = \text{Spec}(k_1) \times_{\varphi_1, X, \varphi_2} \text{Spec}(k_2)
+$$
+is nonempty. Since the base change of a monomorphism is a monomorphism
+this means that the projection morphisms $Y \to \text{Spec}(k_i)$
+are monomorphisms. Hence $\text{Spec}(k_1) = Y = \text{Spec}(k_2)$
+as schemes over $X$, see
+Schemes, Lemma \ref{schemes-lemma-mono-towards-spec-field}.
+We conclude that $\varphi_1 = \varphi_2$, which proves the lemma.
+\end{proof}
+
+\noindent
+We will see in Lemma \ref{lemma-points-monomorphism} that this map
+is a bijection when $X$ is reasonable.
+
+
+
+
+
+
+
+\section{Points on reasonable spaces}
+\label{section-points-reasonable}
+
+\noindent
+In this section we prove some properties of points on
+reasonable algebraic spaces.
+
+\begin{lemma}
+\label{lemma-characterize-reasonable}
+Let $S$ be a scheme.
+Let $X$ be an algebraic space over $S$.
+The following are equivalent:
+\begin{enumerate}
+\item $X$ is reasonable, and
+\item there exists a Zariski covering $X = \bigcup X_i$ and for
+each $i$ a scheme $U_i$ and a quasi-compact surjective etale
+morphism $U_i \to X_i$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+If (2) holds then the morphisms $U_i \to X_i \to X$ are etale (combine
+Morphisms, Lemma \ref{morphisms-lemma-composition-etale}
+and
+Spaces, Lemmas
+\ref{spaces-lemma-morphism-schemes-gives-representable-transformation-property}
+and
+\ref{spaces-lemma-composition-representable-transformations-property}).
+Moreover, as $U_i \times_X U_i = U_i \times_{X_i} U_i$, and hence
+each the projections $U_i \times_X U_i \to U_i$ are quasi-compact.
+
+\medskip\noindent
+If $X$ is quasi-compact then there exists a surjective etale morphism
+$\coprod U_i \to X$, where each $U_i$ is a scheme, such that
+the projections $U_i \times_X U_i \to U_i$ are quasi-compact.
+Let $X_i \subset X$ be the open subspace corresponding to the image
+of the open map $|U_i| \to |X|$ (use
+Lemmas \ref{lemma-open-subspaces} and \ref{lemma-topology-points}).
+By Lemma \ref{lemma-factor-through-open-subspace}
+we get factorizations $U_i \to X_i$ which are
+surjective by Lemma \ref{lemma-characterize-surjective}.
+Hence $U_i \to X_i$ is surjective etale, and the projections
+$U_i \times_{X_i} U_i \to U_i$ are quasi-compact, again because
+$U_i \times_{X_i} U_i = U_i \times_X U_i$. Thus by
+Spaces, Lemma \ref{spaces-lemma-representable-morphisms-spaces-property}
+the morphisms $U_i \to X_i$ are quasi-compact.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-point-like-spaces}
 Let $S$ be a scheme. Let $k$ be a field.
 Let $X$ be an algebraic space over $S$ and assume that there exists
@@ -650,9 +738,8 @@ It is easy to see that $k'$ is a field.
 \begin{remark}
 \label{remark-cannot-decide-yet}
 It is possible that Lemma \ref{lemma-point-like-spaces}
-also holds when we only assume that
-$X$ is weakly locally separated (and if so maybe we should rename
-``weakly locally separated'' to ``locally separated'').
+also holds when $X$ is weakly locally separated (and if so maybe we should
+rename ``weakly locally separated'' to ``locally separated'').
 To prove this one would have to show that the index set $I$ in the proof of
 Lemma \ref{lemma-point-like-spaces} is
 finite, if we only assume that $R \to \text{Spec}(k) \times_S \text{Spec}(k)$
@@ -668,25 +755,13 @@ $$
 \longrightarrow
 |X|
 $$
-This map is always injective. If $X$ is reasonable (see
-Definition \ref{definition-reasonable}),
-then this map is a bijection.
+This map is always injective. If $X$ is reasonable then this map
+is a bijection.
 \end{lemma}
 
 \begin{proof}
-Suppose that $\varphi_i : \text{Spec}(k_i) \to X$ are monomorphisms
-for $i = 1, 2$. If $\varphi_1$ and $\varphi_2$ define the same point
-of $|X|$, then we see that the scheme
-$$
-Y = \text{Spec}(k_1) \times_{\varphi_1, X, \varphi_2} \text{Spec}(k_2)
-$$
-is nonempty. Since the base change of a monomorphism is a monomorphism
-this means that the projection morphisms $Y \to \text{Spec}(k_i)$
-are monomorphisms. Hence $\text{Spec}(k_1) = Y = \text{Spec}(k_2)$
-as schemes over $X$, see
-Schemes, Lemma \ref{schemes-lemma-mono-towards-spec-field}.
-We conclude that $\varphi_1 = \varphi_2$, which proves the first statement
-of the lemma.
+We have seen in Lemma \ref{lemma-points-monomorphism-general}
+that the map is an injection in general.
 
 \medskip\noindent
 Assume that $X$ is reasonable. Let $\varphi_i : U_i \to X$ be as in
