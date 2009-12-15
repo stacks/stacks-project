@@ -2998,8 +2998,13 @@ Lemma \ref{lemma-functoriality-etale-site} we win.
 
 \noindent
 The lemma above says that the pullback of $\mathcal{G}$ via an etale morphism
-$X \to Y$ of algebraic spaces is simply the restriction of $\mathcal{G}$
-to the category $X_{etale}$. Note that the functor $X_{etale} \to Y_{etale}$
+$f : X \to Y$ of algebraic spaces is simply the restriction of $\mathcal{G}$
+to the category $X_{etale}$. We will often use the short hand
+\begin{equation}
+\label{equation-restrict}
+\mathcal{G}|_{X_{etale}} = f_{small}^{-1}\mathcal{G}
+\end{equation}
+to indicate this. Note that the functor $X_{etale} \to Y_{etale}$
 in this situation is faithful, but not fully faithful in general.
 
 \medskip\noindent
@@ -3054,8 +3059,8 @@ $U \mapsto \mathcal{F}_U(U)$. Details omitted.
 
 
 
-\section{Quasi-coherent sheaves on algebraic spaces}
-\label{section-quasi-coherent}
+\section{Sheaves of modules on algebraic spaces}
+\label{section-modules}
 
 \noindent
 By the results of
@@ -3097,6 +3102,14 @@ sheaf of $U_{etale}$ as introduced in
 Descent, Definition \ref{descent-definition-structure-sheaf}.
 In particular, if $X$ is a scheme we recover the sheaf $\mathcal{O}_X$
 on the small etale site of $X$.
+
+\medskip\noindent
+Via the equivalence $\textit{Sh}(X_{etale}) = \textit{Sh}(X_{spaces, etale})$
+of Lemma \ref{lemma-compare-etale-sites} we may also think of
+$\mathcal{O}_X$ as a sheaf of rings on $X_{spaces, etale}$. It is explained
+in Remark \ref{remark-explain-equivalence} how to compute $\mathcal{O}_X(Y)$,
+and in particular $\mathcal{O}_X(X)$, when $Y \to X$ is an object of
+$X_{spaces, etale}$.
 
 \begin{lemma}
 \label{lemma-morphism-ringed-topoi}
@@ -3150,7 +3163,8 @@ Thus, by
 Modules on Sites, Definition \ref{sites-modules-definition-pushforward}
 we see that given a morphism $f : X \to Y$ of algebraic spaces
 we get well defined pullback and direct image functors
-$$
+\begin{equation}
+\label{equation-push-pull}
 f^* :
 \textit{Mod}(\mathcal{O}_Y)
 \longrightarrow
@@ -3159,16 +3173,20 @@ f_* :
 \textit{Mod}(\mathcal{O}_X)
 \longrightarrow
 \textit{Mod}(\mathcal{O}_Y)
-$$
-which are adjoint in the usual way.
+\end{equation}
+which are adjoint in the usual way. If $g : Y \to Z$ is another morphism
+of algebraic spaces over $S$, then we have
+$(g \circ f)^* = f^* \circ g^*$ and $(g \circ f)_* = g_* \circ f_*$
+simply because the morphisms of ringed topoi compose in the corresponding
+way (by the lemma).
 
 \begin{lemma}
 \label{lemma-etale-exact-pullback}
 Let $S$ be a scheme.
 Let $f : X \to Y$ be an etale morphism of algebraic spaces over $S$.
 Then $f^{-1}\mathcal{O}_Y = \mathcal{O}_X$, and
-$f^*\mathcal{F} = f_{small}^{-1}\mathcal{F}$ for any sheaf of
-$\mathcal{O}_Y$-modules $\mathcal{F}$. In particular,
+$f^*\mathcal{G} = f_{small}^{-1}\mathcal{G}$ for any sheaf of
+$\mathcal{O}_Y$-modules $\mathcal{G}$. In particular,
 $f^* : \textit{Mod}(\mathcal{O}_X) \to \textit{Mod}(\mathcal{O}_Y)$
 is exact.
 \end{lemma}
@@ -3178,19 +3196,70 @@ By the description of inverse image in Lemma \ref{lemma-etale-morphism-topoi}
 and the definition of the structure sheaves it is clear that
 $f_{small}^{-1}\mathcal{O}_Y = \mathcal{O}_X$. Since the pullback
 $$
-f^*\mathcal{F} =
-f_{small}^{-1}\mathcal{F} \otimes_{f_{small}^{-1}\mathcal{O}_Y}
+f^*\mathcal{G} =
+f_{small}^{-1}\mathcal{G} \otimes_{f_{small}^{-1}\mathcal{O}_Y}
 \mathcal{O}_X
 $$
-by definition we conclude that $f^*\mathcal{F} = f_{small}^{-1}\mathcal{F}$.
+by definition we conclude that $f^*\mathcal{G} = f_{small}^{-1}\mathcal{G}$.
 The exactness is clear because $f_{small}^{-1}$ is exact, as $f_{small}$
 is a morphism of topoi.
 \end{proof}
 
+\noindent
+We continue our abuse of notation introduced in
+Equation (\ref{equation-restrict})
+by writing
+\begin{equation}
+\label{equation-restrict-modules}
+\mathcal{G}|_{X_{etale}}
+= f^*\mathcal{G}
+= f_{small}^{-1}\mathcal{G}
+\end{equation}
+in the situation of the lemma above.
+
+\begin{lemma}
+\label{lemma-characterize-module-small-etale}
+Let $S$ be a scheme. Let $X$ be an algebraic space over $S$.
+A sheaf $\mathcal{F}$ of $\mathcal{O}_X$-modules is given by the following
+data:
+\begin{enumerate}
+\item for every $U \in \text{Ob}(X_{etale})$ a sheaf
+$\mathcal{F}_U$ of $\mathcal{O}_U$-modules on $U_{etale}$,
+\item for every $f : U' \to U$ in $X_{etale}$ an isomorphism
+$c_f : f_{small}^*\mathcal{F}_U \to \mathcal{F}_{U'}$.
+\end{enumerate}
+These data are subject to the condition that given any $f : U' \to U$
+and $g : U'' \to U'$ in $X_{etale}$ the composition
+$g_{small}^{-1}c_f \circ c_g$ is equal to $c_{f \circ g}$.
+\end{lemma}
+
+\begin{proof}
+Combine Lemmas \ref{lemma-etale-exact-pullback}
+and \ref{lemma-characterize-sheaf-small-etale}, and use the fact that
+any morphism between objects of $X_{etale}$ is an etale morphism of schemes.
+\end{proof}
+
+
+
+
+
+\section{Quasi-coherent sheaves on algebraic spaces}
+\label{section-quasi-coherent}
+
+\noindent
+In
+Descent, Section \ref{descent-section-quasi-coherent-sheaves}
+we have seen that for a scheme $U$, there is no difference between a
+quasi-coherent $\mathcal{O}_U$-module on $U$, or a quasi-coherent
+$\mathcal{O}$-module on the small etale site of $U$. Hence the following
+definition is compabtible with our original notion of a quasi-coherent sheaf
+on a scheme
+(Schemes, Section \ref{schemes-section-quasi-coherent}),
+when applied to a representable algebraic space.
+
 \begin{definition}
 \label{definition-quasi-coherent}
-Let $S$ be a scheme.
-Let $X$ be an algebraic space over $S$.
+Let $S$ be a scheme. Let $X$ be an algebraic space over $S$.
 A {\it quasi-coherent} $\mathcal{O}_X$-module 
 is a quasi-coherent module on the ringed site $(X_{etale}, \mathcal{O}_X)$
 in the sense of
@@ -3199,6 +3268,12 @@ Definition \ref{sites-modules-definition-site-local}.
 \end{definition}
 
 \noindent
+Note that as being quasi-coherent is an intrinsic notion (see
+Modules on Sites, Lemma \ref{sites-modules-lemma-special-locally-free})
+this is equivalent to saying that the corresponding $\mathcal{O}_X$-module
+on $X_{spaces, etale}$ is quasi-coherent.
+
+\medskip\noindent
 As usual, quasi-coherent sheaves behave well with respect to pullback.
 
 \begin{lemma}
@@ -3215,6 +3290,170 @@ This is a general fact, see
 Modules on Sites, Lemma \ref{sites-modules-lemma-local-pullback}.
 \end{proof}
 
+\noindent
+Here is the obligatory lemma comparing this with quasi-coherent sheaves
+on the objects of the small etale site of $X$.
+
+\begin{lemma}
+\label{lemma-characterize-quasi-coherent-small-etale}
+Let $S$ be a scheme. Let $X$ be an algebraic space over $S$.
+A quasi-coherent $\mathcal{O}_X$-module $\mathcal{F}$
+is given by the following data:
+\begin{enumerate}
+\item for every $U \in \text{Ob}(X_{etale})$ a quasi-coherent
+$\mathcal{O}_U$-module $\mathcal{F}_U$ on $U_{etale}$,
+\item for every $f : U' \to U$ in $X_{etale}$ an isomorphism
+$c_f : f_{small}^*\mathcal{F}_U \to \mathcal{F}_{U'}$.
+\end{enumerate}
+These data are subject to the condition that given any $f : U' \to U$
+and $g : U'' \to U'$ in $X_{etale}$ the composition
+$g_{small}^{-1}c_f \circ c_g$ is equal to $c_{f \circ g}$.
+\end{lemma}
+
+\begin{proof}
+Combine Lemmas \ref{lemma-pullback-quasi-coherent} and
+\ref{lemma-characterize-module-small-etale}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-characterize-quasi-coherent}
+Let $S$ be a scheme. Let $X$ be an algebraic space over $S$.
+Let $\mathcal{F}$ be a sheaf of $\mathcal{O}_X$-modules.
+The following are equivalent
+\begin{enumerate}
+\item $\mathcal{F}$ is a quasi-coherent $\mathcal{O}_X$-module,
+\item there exists a surjective etale morphism $f : Y \to X$ of
+algebraic spaces over $S$ such that $f^*\mathcal{F}$ is quasi-coherent
+on $Y$, and
+\item there exists a scheme $U$ and a surjective etale morphism
+$\varphi : U \to X$ such that $\varphi^*\mathcal{F}$ is a quasi-coherent
+$\mathcal{O}_U$-module.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+By Lemma \ref{lemma-pullback-quasi-coherent} it is clear that (1) implies (2).
+Assume $f : Y \to X$ is as in (2), and let $V \to Y$ be a surjective
+etale morphism from a scheme towards $Y$. Then the composition $V \to X$ is
+surjective etale as well
+and by Lemma \ref{lemma-pullback-quasi-coherent} the pullback of $\mathcal{F}$
+to $V$ is quasi-coherent as well. Hence we see that (2) implies (3).
+
+\medskip\noindent
+Let $U \to X$ be as in (3). Let us use the abuse of notation introduced
+in Equation (\ref{equation-restrict-modules}).
+As $\mathcal{F}|_{U_{etale}}$ is quasi-coherent there exists an etale covering
+$\{U_i \to U\}$ such that $\mathcal{F}|_{U_{i, etale}}$ has a
+global presentation, see
+Modules on Sites, Definition \ref{sites-modules-definition-global} and
+Lemma \ref{sites-modules-lemma-local-final-object}.
+Let $V \to X$ be an object of $X_{etale}$. Since $U \to X$ is surjective and
+etale, the family of maps $\{U_i \times_X V \to V\}$ is an etale covering
+of $V$. Via the morphisms $U_i \times_X V \to U_i$ we can restrict the
+global presentations of $\mathcal{F}|_{U_{i, etale}}$ to get a global
+presentation of $\mathcal{F}|_{(U_i \times_X V)_{etale}}$
+Hence the sheaf $\mathcal{F}$ on $X_{etale}$ satisfies the condition of
+Modules on Sites, Definition \ref{sites-modules-definition-site-local}
+and we win.
+\end{proof}
+
+
+
+
+
+\section{Quasi-coherent sheaves and presentations}
+\label{section-quasi-coherent-presentation}
+
+\noindent
+Let $S$ be a scheme. Let $X$ be an algebraic space over $S$.
+Let $X = U/R$ be a presentation of $X$ coming from any surjective
+etale morphism $\varphi : U \to X$, see
+Spaces, Definition \ref{spaces-definition-presentation}.
+In particular, we obtain a groupoid $(U, R, s, t, c)$, such that
+$j = (t, s) : R \to U \times_S U$, see
+Groupoids, Lemma \ref{groupoids-lemma-equivalence-groupoid}.
+In
+Groupoids, Definition \ref{groupoids-definition-groupoid-module}
+we have the defined the notion of a quasi-coherent sheaf
+on an arbitrary groupoid. With these notions in place we have
+the following observation.
+
+\begin{proposition}
+\label{proposition-quasi-coherent}
+With $S$, $\varphi : U \to X$, and $(U, R, s, t, c)$ as above.
+For any quasi-coherent $\mathcal{O}_X$-module $\mathcal{F}$ the
+sheaf $\varphi^*\mathcal{F}$ comes equipped with a canonical
+isomorphism
+$$
+\alpha : t^*\varphi^*\mathcal{F} \longrightarrow s^*\varphi^*\mathcal{F}
+$$
+which satisfies the conditions of 
+Groupoids, Definition \ref{groupoids-definition-groupoid-module}
+and therefore defines a quasi-coherent sheaf on $(U, R, s, t, c)$.
+The functor $\mathcal{F} \mapsto (\varphi^*\mathcal{F}, \alpha)$
+defines an equivalence of categories
+$$
+\begin{matrix}
+\text{Quasi-coherent} \\
+\mathcal{O}_X\text{-modules}
+\end{matrix}
+\longleftrightarrow
+\begin{matrix}
+\text{Quasi-coherent modules}\\
+\text{on }(U, R, s, t, c)
+\end{matrix}
+$$
+\end{proposition}
+
+\begin{proof}
+In the statement of the lemma above, and in this proof we think of a
+quasi-coherent sheaf on a scheme as a quasi-coherent sheaf on the small
+etale site of that scheme. This is permissible by the results of
+Descent, Section \ref{descent-section-quasi-coherent-sheaves}.
+
+\medskip\noindent
+The existence of $\alpha$ comes from the fact that
+$\varphi \circ t = \varphi \circ s$ and that pullback is
+functorial in the morphism, see discussion surrounding
+Equation (\ref{equation-push-pull}). In exacty the same way, i.e., by
+functoriality of pullback, we see that the isomorphism $\alpha$ satisfies
+condition (1) of
+Groupoids, Definition \ref{groupoids-definition-groupoid-module}.
+To see condition (2) of the definition it suffices to see that $\alpha$
+is an isomorphism which is clear. The construction
+$\mathcal{F} \mapsto (\varphi^*\mathcal{F}, \alpha)$
+is clearly functorial in the quasi-coherent sheaf $\mathcal{F}$.
+Hence we obtain the functor from left to right in the displayed
+formula of the lemma.
+
+\medskip\noindent
+Conversely, suppose that $(\mathcal{F}, \alpha)$ is a quasi-coherent
+sheaf on $(U, R, s, t, c)$. Let $V \to X$ be an object of $X_{etale}$.
+In this case the morphism $V' = U \times_X V \to V$ is a surjective etale
+morphism of schemes, and hence $\{V' \to V\}$ is an etale
+covering of $V$. Moreover, the quasi-coherent sheaf $\mathcal{F}$
+pulls back to a quasi-coherent sheaf $\mathcal{F}'$ on $V'$.
+Since $R = U \times_X U$ with $t = \text{pr}_0$ and $s = \text{pr}_0$
+we see that $V' \times_V V' = R \times_X V$ with projection maps
+$V' \times_V V' \to V'$ equal to the pullbacks of $t$ and $s$. Hence
+$\alpha$ pulls back to an isomorphism
+$\alpha' : \text{pr}_0^*\mathcal{F}' \to \text{pr}_1^*\mathcal{F}'$, and
+the pair $(\mathcal{F}', \alpha')$ is a descend datum for quasi-coherent
+sheaves with respect to $\{V' \to V\}$. By
+Descent, Lemma \ref{descent-proposition-fpqc-descent-quasi-coherent}
+this descent datum is effective, and we obtain a quasi-coherent
+$\mathcal{O}_V$-module $\mathcal{F}_V$ on $V_{etale}$.
+To see that this gives a quasi-coherent sheaf on $X_{etale}$ we have
+to show (by
+Lemma \ref{lemma-characterize-quasi-coherent-small-etale})
+that for any morphism $f : V_1 \to V_2$ in $X_{etale}$
+there is a canonical isomorphism
+$c_f : \mathcal{F}_{V_1} \to \mathcal{F}_{V_2}$
+compatible with compositions of morphisms. We omit the verification.
+We also omit the verification that this defines a functor from the
+category on the right to the category on the left which is inverse
+to the functor described above.
+\end{proof}
 
 
 
