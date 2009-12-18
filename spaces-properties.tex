@@ -89,14 +89,21 @@ exists a Zariski covering $X = \bigcup_{i \in I} X_i$ (see Spaces,
 Definition \ref{spaces-definition-Zariski-open-covering}) such that
 each $X_i$ is quasi-separated.
 \end{enumerate}
-If $S$ is a scheme contained in $\textit{Sch}_{fppf}$, then we say
-an algebraic space $X$ over $S$ is {\it separated},
+Let $S$ is a scheme contained in $\textit{Sch}_{fppf}$, and let
+$X$ be an algebraic space over $S$. Then we say $X$ is {\it separated},
 {\it weakly locally separated}, {\it locally separated},
 {\it quasi-separated}, or {\it Zariski locally quasi-separated}
-if $X$ viewed as an algebraic space over $\text{Spec}(\mathbf{Z})$
-(Spaces, Definition \ref{spaces-definition-base-change})
+if $X$ viewed as an algebraic space over $\text{Spec}(\mathbf{Z})$ (see
+Spaces, Definition \ref{spaces-definition-base-change})
 has the corresponding property.
 \end{definition}
+
+\noindent
+It is true that an algebraic space $X$ over $S$ which is separated
+(in the absolute sense above) is separated over $S$ (and similarly
+for the other absolute separation properties above). This will be discussed
+in great detail in
+Morphisms of Spaces, Section \ref{spaces-morphisms-section-separation-axioms}.
 
 \begin{lemma}
 \label{lemma-trivial-implications}
@@ -2525,11 +2532,14 @@ Let $S$ be a scheme.
 Let $X$ be an algebraic space over $S$.
 There exists a surjective etale morphism $U \to X$ where
 $U$ is a disjoint union of affine schemes.
+We may in addition assume each of these affines
+maps into an affine open of $S$.
 \end{lemma}
 
 \begin{proof}
 Let $V \to X$ be a surjective etale morphism.
-Let $V = \bigcup_{i \in I}$ be a Zariksi open covering.
+Let $V = \bigcup_{i \in I} V_i$ be a Zariski open covering
+such that each $V_i$ maps into an affine open of $S$.
 Then set $U = \coprod_{i \in I} V_i$ with induced morphism
 $U \to V \to X$. This is etale according to
 Lemma \ref{lemma-etale-over-space} and it is clearly surjective.
@@ -2541,27 +2551,30 @@ Let $S$ be a scheme.
 Let $X$ be an algebraic space over $S$.
 There exists a Zariski covering $X = \bigcup X_i$
 such that each algebraic space $X_i$ has a surjective
-etale covering by an affine scheme.
+etale covering by an affine scheme. We may in addition assume
+each $X_i$ maps into an affine open of $S$.
 \end{lemma}
 
 \begin{proof}
 By Lemma \ref{lemma-cover-by-union-affines} we can find a surjective
-etale morphism $U = \coprod U_i \to X$, with $U_i$ affine.
-According to
+etale morphism $U = \coprod U_i \to X$, with $U_i$ affine and mapping
+into an affine open of $S$. According to
 Spaces, Lemma \ref{spaces-lemma-space-presentation},
 $R$ is an etale equivalence relation on $U$ and we have $X = U/R$. Set
 $R_i = U_i \times_X U_i$; this is also the restriction $R|_{U_i}$ of $R$
 to $U_i$. By
 Spaces, Lemma \ref{spaces-lemma-finding-opens}
-we see that $X_i = U_i/R_i$ is an open subspace of $X$. Since clearly
-$X = \bigcup X_i$ is a Zariski covering, we win.
+we see that $X_i = U_i/R_i$ is an open subspace of $X$. Since
+$X = \bigcup X_i$ is a Zariski covering, we get our covering.
+As $U_i \to X_i$ is surjective it follows that $X_i \to S$ maps into
+an affine open of $S$.
 \end{proof}
 
 \begin{lemma}
 \label{lemma-quasi-compact-affine-cover}
 Let $S$ be a scheme.
 Let $X$ be an algebraic space over $S$.
-Then $S$ is quasi-compact if and only if
+Then $X$ is quasi-compact if and only if
 there exists an etale surjective morphism $U \to X$
 with $U$ an affine scheme.
 \end{lemma}
@@ -2586,11 +2599,31 @@ Let $S$ be a scheme.
 Let $X$ be an algebraic space over $S$.
 Let $U$ be an affine scheme, or a disjoint union of affine schemes,
 and $U \to X$ surjective etale.
-Then $R = U \times_X U$ is a separated scheme.
+Then $U \to X$ is separated, and $R = U \times_X U$ is a separated scheme.
 \end{lemma}
 
 \begin{proof}
-See Spaces, Lemma \ref{spaces-lemma-properties-diagonal}.
+Consider the commutative diagram
+$$
+\xymatrix{
+R = U \times_X U \ar[r] \ar[d] & U \ar[d] \\
+U \ar[r] & X
+}
+$$
+In the proof of Spaces, Lemma \ref{spaces-lemma-properties-diagonal}
+we have seen that $j : R \to U \times_S U$ is separated.
+The morphism of schemes $U \to S$ is separated as $U$ is a separated
+scheme, see 
+Schemes, Lemma \ref{schemes-lemma-compose-after-separated}.
+Hence $U \times_S U \to U$ is separated as a base change, see
+Schemes, Lemma \ref{schemes-lemma-separated-permanence}.
+Hence the scheme $U \times_S U$ is separated (by the same lemma).
+Since $j$ is separated we see in the same way that $R$ is separated.
+Hence $R \to U$ is a separated morphism (by
+Schemes, Lemma \ref{schemes-lemma-compose-after-separated}
+again). Thus by
+Spaces, Lemma \ref{spaces-lemma-representable-morphisms-spaces-property}
+and the diagram above we conclude that $U \to X$ is separated.
 \end{proof}
 
 \begin{lemma}
@@ -2620,6 +2653,245 @@ $W' \times_X W' \to W'$ are quasi-compact. This means the family of
 $W' \to X$, where $W \subset U_i$ runs through the members of affine
 open coverings of the $U_i$ gives what we want.
 \end{proof}
+
+\begin{lemma}
+\label{lemma-quasi-separated-quasi-compact-pieces}
+Let $S$ be a scheme.
+Let $X$ be an algebraic space over $S$.
+Assume $X$ is Zariski locally quasi-separated over $S$.
+There exists a Zariski open covering $X = \bigcup X_i$ such
+that for each $i$ there exists an affine scheme
+$U_i$ and a separated quasi-compact surjective etale
+morphism $U_i \to X_i$.
+\end{lemma}
+
+\begin{proof}
+There is an immediate reduction to the case where $X$ is quasi-separated. By
+Lemma \ref{lemma-union-of-quasi-compact}
+we can find a Zariski open covering $X = \bigcup X_i$ such that each
+$X_i$ maps into an affine open of $S$, and such that there exist affine
+schemes $U_i$ and surjective etale morphisms $U_i \to X_i$. By
+Lemma \ref{lemma-algebraic-space-affine-cover}
+the morphisms $U_i \to X_i$ are separated. Since $U_i \to S$ maps into
+an affine open of $S$ we see that $U_i \times_S U_i$ is affine, see
+Schemes, Section \ref{schemes-section-fibre-products}.
+As $X$ is quasi-separated over $S$, the morphisms
+$$
+R_i = U_i \times_{X_i} U_i = U_i \times_X U_i
+\longrightarrow
+U_i \times_S U_i
+$$
+as base changes of $\Delta_{X/S}$ are quasi-compact. Hence we conclude
+that $R_i$ is a quasi-compact scheme. This in turn implies that each
+projection $R_i \to U_i$ is quasi-compact. Hence, applying
+Spaces, Lemma \ref{spaces-lemma-representable-morphisms-spaces-property}
+to the covering $U_i \to X$ and the morphism $U_i \to X$
+we conclude that the morphisms $U_i \to X_i$ are quasi-compact as desired.
+\end{proof}
+
+
+
+
+
+
+
+
+
+\section{Spaces and fpqc coverings}
+\label{section-fpqc}
+
+\noindent
+Let $S$ be a scheme.
+An algebraic space over $S$ is defined as a sheaf in the fppf topology with
+additional properties. Hence it is not clear that it satisfies the sheaf
+property for the fpqc topology (see
+Topologies, Definition \ref{topologies-lemma-sheaf-property-fpqc}).
+In this section we discuss this question. However, when we say that
+the algebraic space $X$ satisfies the sheaf property for the fpqc topology
+we really only consider fpqc coverings $\{f_i : T_i \to T\}_{i \in I}$ such
+that $T, T_i, f_i$ are objects and morphisms of the big site
+$(\textit{Sch}/S)_{fppf}$ (as per our conventions, see
+Section \ref{section-conventions}). We first address the question
+as to whether an algebraic space is separated for the fpqc topology.
+
+\begin{lemma}
+\label{lemma-separated-fpqc}
+Let $S$ be a scheme.
+Let $X$ be an algebraic space over $S$.
+Let $\{f_i : T_i \to T\}_{i \in I}$ be a fpqc covering of schemes over $S$.
+Then the map
+$$
+\text{Mor}_S(T, X)
+\longrightarrow
+\prod\nolimits_{i \in I} \text{Mor}_S(T_i, X)
+$$
+is injective.
+\end{lemma}
+
+\begin{proof}
+Let $a, b : T \to X$ be two morphisms such that $a \circ f_i = b \circ f_i$
+for all $i$. Consider the fibre product
+$$
+T' = X \times_{\Delta_{X/S}, X \times_S X, (a, b)} T.
+$$
+By
+Spaces, Lemma \ref{spaces-lemma-properties-diagonal}
+the morphism $\Delta_{X/S}$ is a representable monomorphism which is
+locally of finite type. Hence $T' \to T$ is a monomorphism of schemes which
+is locally of finite type. Our assumption that $a \circ f_i = b \circ f_i$
+implies that each $T_i \to T$ factors (uniquely) through $T'$. Consider
+the commutative diagram
+$$
+\xymatrix{
+T_i \times_T T' \ar[r] \ar[d] & T' \ar[d] \\
+T_i \ar[r] \ar@/^5ex/[u] \ar[ru] & T
+}
+$$
+Since the projection $T_i \times_T T' \to T_i$ is a monomorphism
+with a section we conclude it is an isomorphism. Hence we conclude that
+$T' \to T$ is an isomorphism by
+Descent, Lemma \ref{descent-lemma-descending-property-isomorphism}.
+This means $a = b$ as desired.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-sheaf-fpqc-open-covering}
+Let $S$ be a scheme.
+Let $X$ be an algebraic space over $S$.
+Let $X = \bigcup_{j \in J} X_j$ be a Zariski covering, see
+Spaces, Definition \ref{spaces-definition-Zariski-open-covering}.
+If each $X_j$ satisfies the sheaf property for the fpqc topology
+then $X$ satsifies the sheaf property for the fpqc topology.
+\end{lemma}
+
+\begin{proof}
+Assume each $X_j$ satisfies the sheaf property for the fpqc topology.
+Let $\{f_i : T_i \to T\}_{i \in I}$ be a fpqc covering of schemes over $S$.
+Let $a_i \in \text{Mor}_S(T_i, X)$ be such that
+$a_i \circ \text{pr}_0 = a_{i'} \circ \text{pr}_1$ as morphisms
+$T_i \times_T T_{i'} \to X$. We have to prove that these morphisms
+come from a morphism $a : T \to X$. Consider the open subsets
+$T_{i, j} = a_i^{-1}(X_j)$. Then it is clear that
+$\text{pr}_0^{-1}(T_{i, j}) = \text{pr}_1^{-1}(T_{i', j})$ as open
+subsets of $T_i \times_T T_{i'}$. Hence there exist open subsets
+$U_j \subset T$ such that $T_{i, j} = f_i^{-1}(U_j)$, see
+Descent, Lemma \ref{descent-lemma-open-fpqc-covering}.
+In particular, $\{T_{i, j} \to U_j\}_{i \in I}$ is a fpqc covering
+of $U_j$, and the morphisms $a_{i, j} = a_i|_{T_{i, j}}$ are morphisms
+into $X_j$. By assumption there exist morphisms $\alpha_j : U_j \to X_j$
+such that $T_{i, j} \to U_j \to X_j$ agrees with $a_{i, j}$.
+By Lemma \ref{lemma-separated-fpqc} we conclude that
+$\alpha_j|_{U_j \cap U_{j'}}$ agrees with $\alpha_{j'}|_{U_j \cap U_{j'}}$.
+Hence, since $X$ is a sheaf for the Zariski topology we conclude that
+the $\alpha_j$ glue to a morphism $a : T \to X$.
+By construction we have $a \circ f_i|_{T_{i, j}} = a_{i, j} = a_i|_{T_{i, j}}$.
+Using the sheaf condition for the Zariski topology one more time we
+conclude that $a \circ f_i = a_i$ as desired.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-sheaf-fpqc-quasi-separated}
+Let $S$ be a scheme.
+Let $X$ be an algebraic space over $S$.
+If $X$ is Zariski locally quasi-separated over $S$, then $X$ satisfies
+the sheaf condition for the fpqc topology.
+\end{lemma}
+
+\begin{proof}
+By
+Lemmas \ref{lemma-quasi-separated-quasi-compact-pieces}
+and \ref{lemma-sheaf-fpqc-open-covering}
+we may assume there exists an affine scheme $U$ and a
+surjective etale separated quasi-compact morphism $\varphi : U \to X$.
+
+\medskip\noindent
+Let $\{f_i : T_i \to T\}_{i \in I}$ be a fpqc covering of schemes over $S$.
+Let $a_i \in \text{Mor}_S(T_i, X)$ be such that
+$a_i \circ \text{pr}_0 = a_j \circ \text{pr}_1$ as morphisms
+$T_i \times_T T_j \to X$. We have to prove that these morphisms
+come from a morphism $a : T \to X$. Consider the schemes
+$$
+W_i = T_i \times_{a_i, X, \varphi} U.
+$$
+The strucure morphisms $W_i \to T_i$ are surjective, separated, quasi-compact
+and etale, in particular also quasi-finite (see Remark \ref{remark-recall}).
+Hence each $W_i \to T_i$ is quasi-affine, see
+More on Morphisms,
+Lemma \ref{more-morphisms-lemma-quasi-finite-separated-quasi-affine}.
+For each pair of indices $i, j \in I$ we have canonical isomorphisms
+\begin{align*}
+W_i \times_T T_j & =
+(T_i \times_{a_i, X, \varphi} U) \times_T T_j \\
+& =
+(T_i \times_T T_j) \times_{a_i \circ \text{pr}_0, X, \varphi} U \\
+& =
+(T_i \times_T T_j) \times_{a_j \circ \text{pr}_1, X, \varphi} U \\
+& =
+T_i \times_T (T_j \times_{a_j, X, \varphi} U) \\
+& =
+T_i \times_T W_j.
+\end{align*}
+These isomorphisms satsify the cocycle condition of
+Descent,
+Definition \ref{descent-definition-descent-datum-for-family-of-morphisms}
+as $a_i$, $a_j$ and $a_k$ agree over $T_i \times_T T_j \times_T T_k$
+(some details omitted). By
+Descent, Lemma \ref{descent-lemma-quasi-affine}
+this descent datum is effective and
+we conclude that there exists a scheme $W \to T$ and isomorphisms
+$T_i \times_T W = W_i$ compatible with the canonical descent datum
+and the one given above. In particular we see that
+$\{W_i \to W\}_{i \in I}$ is the base change of a fpqc covering,
+and hence a fpqc covering. Note that by construction the
+morphisms $b_i : W_i = T_i \times_X U \to U$ have the property
+$b_i \circ \text{pr}_0 = b_j \circ \text{pr}_1$ as morphisms
+$W_i \times_W W_j \to U$. Hence by
+Descent, Lemma \ref{descent-lemma-fpqc-universal-effective-epimorphisms}
+we see that there exists a morphism of schemes $b : W \to U$
+which restricts to $b_i$ on $W_i$ for all $i$.
+
+\medskip\noindent
+By
+Descent, Lemmas \ref{descent-lemma-descending-property-surjective}
+and \ref{descent-lemma-descending-property-etale}
+the morphism $W \to T$ is surjective and etale. Hence, in order to see
+that $b$ gives rise to the morphism $a : T \to X$ we are looking for,
+it suffices to show that $b \circ \text{pr}_0 = b \circ \text{pr}_1$
+as morphisms $W \times_T W \to X$. For this we note that we do know
+that $b_i \circ \text{pr}_0 = b_j \circ \text{pr}_1$ as morphisms
+$W_i \times_T W_j \to X$, because
+$$
+W_i \times_T W_j = (T_i \times_T T_j)
+\times_{(a_i, a_j), X \times_S X} U \times_S U
+$$
+and $(a_i, a_j) : T_i \times_T T_j \to X \times_S X$ factors
+through $\Delta_{X/S}$ by assumption. In other words we conclude that
+over the members of the fpqc covering $\{W_i \times_T W_j \to W \times_T W\}$
+the morphisms $b \circ \text{pr}_0$ and $b \circ \text{pr}_1$ agree,
+and hence by
+Lemma \ref{lemma-separated-fpqc}
+they agree. As $X$ is a sheaf for the fppf topology we obtain a unique
+morphism $a : T \to X$ whose composition with $W \to T$ agrees with $b$.
+We omit the final verification that $a|_{T_i} = a_i$.
+\end{proof}
+
+\begin{remark}
+\label{remark-proof-works-when}
+The proof of
+Lemma \ref{lemma-sheaf-fpqc-quasi-separated}
+works for any algebraic space which has a
+Zariski covering $X = \bigcup X_i$ such that for each $i$ there exists
+a surjective etale separated quasi-compact morphism $U_i \to X_i$
+where $U_i$ is a scheme. This condition is slightly stronger than the
+condition of being reasonable, and the current proof does not work
+even for reasonable spaces. There are results in the literature, see
+David Rydh's paper \cite{rydh_descent} and its references, to remedy this.
+On the other hand, it seems that the question for general algebraic spaces
+as defined in the stacks project is still open. If this is no longer the
+case, please email
+\href{mailto:stacks.project@gmail.com}{stacks.project@gmail.com}
+so we can update this remark.
+\end{remark}
 
 
 
