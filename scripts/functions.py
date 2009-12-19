@@ -283,6 +283,10 @@ def split_label(label):
 		name = "more-morphisms"
 		type = pieces[2]
 		n = 4
+	if name == "etale" and type == "cohomology":
+		name = "etale-cohomology"
+		type = pieces[2]
+		n = 4
 	while n < len(pieces):
 		rest = rest + "-" + pieces[n]
 		n = n + 1
