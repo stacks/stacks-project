@@ -207,6 +207,9 @@ clean:
 	rm -f tmp/book.tex tmp/index.tex
 	rm -f stacks-git.tar.bz2
 
+.PHONY: dist_clean
+dist_clean: clean tags_clean
+
 .PHONY: backup
 backup:
 	git archive --prefix=stacks-git/ HEAD | bzip2 > \
