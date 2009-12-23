@@ -2727,6 +2727,29 @@ An immersion is locally quasi-finite.
 Omitted.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-permanence-quasi-finite}
+Let $S$ be a scheme.
+Let $X \to Y \to Z$ be morphisms of algebraic spaces over $S$.
+If $X \to Z$ is locally quasi-finite, then $X \to Y$
+is locally quasi-finite.
+\end{lemma}
+
+\begin{proof}
+Choose a commutative diagram
+$$
+\xymatrix{
+U \ar[d] \ar[r] & V \ar[d] \ar[r] & W \ar[d] \\
+X \ar[r] & Y \ar[r] & Z
+}
+$$
+with vertical arrows etale and surjective. (See
+Spaces, Lemma \ref{spaces-lemma-lift-morphism-presentations}.)
+Apply
+Morphisms, Lemma \ref{morphisms-lemma-permanence-quasi-finite}
+to the top row.
+\end{proof}
+
 
 
 
@@ -2738,6 +2761,45 @@ Omitted.
 The notion of an etale morphism of algebraic spaces was defined in
 Properties of Spaces, Definition \ref{spaces-properties-definition-etale}.
 In this section we work out some of its properties.
+
+\begin{lemma}
+\label{lemma-etale-local}
+Let $S$ be a scheme.
+Let $f : X \to Y$ be a morphism of algebraic spaces over $S$.
+The following are equivalent:
+\begin{enumerate}
+\item $f$ is etale,
+\item for every scheme $Z$ and any morphism $Z \to Y$ the morphism
+$Z \times_Y X \to Z$ is etale,
+\item for every affine scheme $Z$ and any morphism
+$Z \to Y$ the morphism $Z \times_Y X \to Z$ is etale,
+\item there exists a scheme $V$ and a surjective etale morphism
+$V \to Y$ such that $V \times_Y X \to V$ is an etale morphism,
+\item there exists a scheme $U$ and a surjective etale morphism
+$\varphi : U \to X$ such that the composition $f \circ \varphi$
+is etale, and
+\item there exists a commutative diagram
+$$
+\xymatrix{
+U \ar[d] \ar[r] & V \ar[d] \\
+X \ar[r] & Y
+}
+$$
+where $U$, $V$ are schemes and the vertical arrows are surjective etale
+such that the horizontal arrow is etale.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Combine
+Properties of Spaces, Lemmas
+\ref{spaces-properties-lemma-etale-local},
+\ref{spaces-properties-lemma-base-change-etale} and
+\ref{spaces-properties-lemma-composition-etale}.
+Some details omitted.
+\end{proof}
+
+
 
 \begin{lemma}
 \label{lemma-etale-locally-quasi-finite}
@@ -2797,7 +2859,7 @@ Proposition \ref{proposition-locally-quasi-finite-separated-over-scheme}).
 Let $S$ be a scheme. Consider a commutative diagram
 $$
 \xymatrix{
-V' \ar[r] \ar[rd] & X_{T'} \ar[r] \ar[d] & X \ar[d] \\
+V' \ar[r] \ar[rd] & T' \times_T X \ar[r] \ar[d] & X \ar[d] \\
 & T' \ar[r] & T
 }
 $$
@@ -2806,7 +2868,7 @@ Assume
 \item $T' \to T$ is an etale morphism of affine schemes,
 \item $X$ is an algebraic space,
 \item $X \to T$ is a separated, locally quasi-finite morphism,
-\item $V'$ is an open subspace of $X_{T'}$, and
+\item $V'$ is an open subspace of $T' \times_T X$, and
 \item $V' \to T'$ is quasi-affine.
 \end{enumerate}
 In this situation the image $U$ of $V'$ in $X$ is a quasi-compact
@@ -2814,32 +2876,87 @@ open subspace of $X$ which is representable.
 \end{lemma}
 
 \begin{proof}
+We first make some trivial observations. 
 Note that $V'$ is a representable by Lemma \ref{lemma-quasi-affine-local}.
-It is also quasi-compact (as a quasi-affine scheme over an affine scheme). By
+It is also quasi-compact (as a quasi-affine scheme over an affine scheme, see
+Morphisms, Lemma \ref{morphisms-lemma-quasi-affine-separated}).
+Since $T' \times_T X \to X$ is etale
+(Properties of Spaces, Lemma \ref{spaces-properties-lemma-base-change-etale})
+the map $|T' \times_T X| \to |X|$ is open, see
+Properties of Spaces, Lemma \ref{spaces-properties-lemma-etale-open}.
+Let $U \subset X$ be the open subspace corresponding to the image of
+$|V'|$, see
+Properties of Spaces, Lemma \ref{spaces-properties-lemma-open-subspaces}.
+As $|V'|$ is quasi-compact we see that $|U|$ is quasi-compact, hence
+$U$ is a quasi-compact algebraic spaces, by 
+Properties of Spaces, Lemma \ref{spaces-properties-lemma-quasi-compact-space}.
+
+\medskip\noindent
+By
 Morphisms,
 Lemma \ref{morphisms-lemma-locally-quasi-finite-qc-source-universally-bounded}
 the morphism $T' \to T$ is universally bounded. Hence we can do induction on
-the integer $n$ bounding the degree of the fibres of $T' \to T$.
+the integer $n$ bounding the degree of the fibres of $T' \to T$, see
+Morphisms, Lemma \ref{morphisms-lemma-etale-universally-bounded}
+for a description of this integer in the case of an etale morphism.
 If $n = 1$, then $T' \to T$ is an open immersion (see
 Descent, Lemma \ref{descent-lemma-radicial-etale-open-immersion}),
 and the result is clear. Assume $n > 1$.
 
 \medskip\noindent
 Consider the affine scheme $T'' = T' \times_T T'$.
-As $T' \to T$ is etale we have a decomposition (into affine open subschemes)
-$T'' = \Delta(T') \amalg T^*$.
-Thus degree of the fibres of the projection $p_1|_{T^*} : T^* \to T'$ is $< n$.
-Hence we see by induction hypothesis that $p_1(p_0^{-1}(V') \cap T^*)$ is a
-quasi-compact scheme. By
+As $T' \to T$ is etale we have a decomposition (into open and closed affine
+subschemes) $T'' = \Delta(T') \amalg T^*$. Namely $\Delta = \Delta_{T'/T}$
+is open by
+Morphisms, Lemma \ref{morphisms-lemma-diagonal-unramfied-morphism}
+and closed because $T' \to T$ is separated as a morphism of affines.
+As a base change the degrees of the fibres of the second projection
+$\text{pr}_1 : T' \times_T T' \to T'$ are bounded by $n$, see
+Morphisms, Lemma \ref{morphisms-lemma-base-change-universally-bounded}.
+On the other hand, $\text{pr}_1|_{\Delta(T')} : \Delta(T') \to T'$ is
+an isomorphism and every fibre has exactly one point.
+Thus, on applying
+Morphisms, Lemma \ref{morphisms-lemma-etale-universally-bounded}
+we conclude the degrees of the fibres of the restriction
+$\text{pr}_1|_{T^*} : T^* \to T'$ are bounded by $n - 1$.
+Hence the induction hypothesis applied to the diagram
+$$
+\xymatrix{
+p_0^{-1}(V') \cap X^* \ar[r] \ar[rd] &
+X^* \ar[r]_{p_1|_{X^*}} \ar[d] &
+X' \ar[d] \\
+& T^* \ar[r]^{\text{pr}_1|_{T^*}} & T'
+}
+$$
+gives that $p_1(p_0^{-1}(V') \cap X^*)$
+is a quasi-compact scheme. Here we set
+$X'' = T'' \times_T X$, $X^* = T^* \times_T X$, and $X' = T' \times_T X$,
+and $p_0, p_1 : X'' \to X'$ are the base changes of $\text{pr}_0, \text{pr}_1$.
+Most of the hypotheses of the lemma imply
+by base change the corresponding hypothesis for the diagram above.
+For example $p_0^{-1}(V') = T'' \times_{T'} V'$
+is a scheme quasi-affine over $T''$ as a base change. Some
+verifications omitted.
+
+\medskip\noindent
+By
 Properties of Spaces, Lemma \ref{spaces-properties-lemma-subscheme}
 we conclude that
-$p_1(p_0^{-1}(V')) = V' \cup p_1(p_0^{-1}(V') \cap T^*)$
+$$
+p_1(p_0^{-1}(V')) =
+V' \cup p_1(p_0^{-1}(V') \cap X^*)
+$$
 is a quasi-compact scheme. Moreover, it is clear that
-$p_1(p_0^{-1}(V'))$ is the inverse image of the quasi-compact open
-subspace $U \subset X$ of the lemma. In other words, $T' \times_T U$
-is a scheme! Moreover, since $T' \times_T U$ is quasi-compact and
-separated and locally quasi-finite over $T'$ (as $T' \times_T X \to T'$
-is locally quasi-finite and separated), we see from
+$p_1(p_0^{-1}(V'))$ is the inverse image of the
+quasi-compact open subspace $U \subset X$ discussed in the
+first paragraph of the proof. In other words, $T' \times_T U$ is a scheme!
+Note that $T' \times_T U$ is quasi-compact and
+separated and locally quasi-finite over $T'$, as
+$T' \times_T X \to T'$ is locally quasi-finite and separated
+being a base change of the original morphism $X \to T$ (see
+Lemmas \ref{lemma-base-change-separated} and
+\ref{lemma-base-change-quasi-finite}).
+This implies by
 More on Morphisms,
 Lemma \ref{more-morphisms-lemma-quasi-finite-separated-quasi-affine}
 that $T' \times_T U \to T'$ is quasi-affine.
@@ -2855,7 +2972,7 @@ Descent, Lemma \ref{descent-lemma-quasi-affine}
 that this datum is effective, and by the last part of
 Descent, Lemma \ref{descent-lemma-descent-data-sheaves}
 this implies that $U$ is a scheme as desired.
-Some details omitted.
+Some minor details omitted.
 \end{proof}
 
 \begin{proposition}
@@ -2965,19 +3082,119 @@ This ends the proof.
 \end{proof}
 
 \noindent
-Suppose that $a : F \to G$ is a map of presheaves on
-$(\textit{Sch}/S)_{fppf}$. Suppose $a : F \to G$ is representable by
-algebraic spaces, see
+Before we can state the main result of this section we need to introduce
+a little more notation, very similar to the discussion preceding the
+definition of algebraic spaces in the chapter on algebraic spaces.
+
+\begin{lemma}
+\label{lemma-representable-by-spaces}
+Let $S$ be a scheme.
+Let $a : F \to G$ be a map of presheaves on $(\textit{Sch}/S)_{fppf}$.
+Suppose $a : F \to G$ is representable by algebraic spaces, see
 Spaces, Definition \ref{spaces-definition-morphism-representable-by-spaces}.
-Then we say $a$ is {\it surjective} (resp.\ {\it etale}) if for every
-scheme $T$ and map $\xi : h_T \to G$ the morphism of algebraic spaces
-$h_T \times_{\xi, G} F \to T$ is surjective (resp.\ etale).
+If $X$ is an algebraic space over $S$, and $X \to G$ is a map of presheaves
+then $X \times_G F$ is an algebraic space.
+\end{lemma}
+
+\begin{proof}
+Follows immediately from
+Spaces, Lemma \ref{spaces-lemma-representable-by-spaces-over-space}.
+\end{proof}
+
+\begin{definition}
+\label{definition-surjective-transformation}
+Let $S$ be a scheme.
+Let $a : F \to G$ be a map of presheaves on $(\textit{Sch}/S)_{fppf}$, and
+assume $a : F \to G$ is representable by algebraic spaces, see
+Spaces, Definition \ref{spaces-definition-morphism-representable-by-spaces}.
+We say $a$ is {\it surjective} (resp.\ {\it etale})
+if for every scheme $T$ and map $\xi : T \to G$
+the morphism of algebraic spaces $T \times_{\xi, G} F \to T$
+is surjective (resp.\ etale).
+\end{definition}
+
+\noindent
+By
+Spaces, Lemma \ref{spaces-lemma-morphism-spaces-is-representable-by-spaces}
+any morphism between algebraic spaces over $S$ is representable by algebraic
+spaces. And by
+Lemmas \ref{lemma-surjective-local}
+and \ref{lemma-etale-local}
+the definition of surjective (resp.\ etale)
+above agrees with the already existing definition of morphisms
+of algebraic spaces.
+
+\begin{lemma}
+\label{lemma-base-change-transformation}
+Let $S$ be a scheme.
+Let
+$$
+\xymatrix{
+G' \times_G F \ar[r] \ar[d]^{a'} & F \ar[d]^a \\
+G' \ar[r] & G
+}
+$$
+be a fibre square of presheaves on $(\textit{Sch}/S)_{fppf}$.
+\begin{enumerate}
+\item If $a$ is representable by algebraic spaces so is $a'$,
+\item if $a$ is representable by algebraic spaces and surjective so is $a'$,
+and
+\item if $a$ is representable by algebraic spaces and etale so is $a'$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Omitted. Hint: This is formal.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-composition-transformation}
+Let $S$ be a scheme.
+Let
+$$
+\xymatrix{
+F \ar[r]^a & G \ar[r]^b & H
+}
+$$
+be maps of presheaves on $(\textit{Sch}/S)_{fppf}$.
+\begin{enumerate}
+\item If $a$, $b$ are representable by algebraic spaces so is $b \circ a$,
+\item if $a$, $b$ are representable by algebraic spaces and surjective
+so is $b \circ a$, and
+\item if $a$, $b$ are representable by algebraic spaces and etale so is
+$b \circ a$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Omitted. Hint: Use
+Spaces, Lemma \ref{spaces-lemma-representable-by-spaces-over-space}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-representable-diagonal}
 If $F$ is a presheaf on $(\textit{Sch}/S)_{fppf}$ such that
 $\Delta_F : F \to F \times F$ is representable by algebraic spaces,
 then for every algebraic space $X$ any map $X \to F$ is representable
-by algebraic spaces, see
-Spaces, Lemmas \ref{spaces-lemma-representable-diagonal}, and
-\ref{spaces-lemma-representable-by-spaces-over-space}.
+by algebraic spaces.
+\end{lemma}
+
+\begin{proof}
+Let $X \to F$ be as in the lemma. Let $T$ be a scheme, and let $T \to F$ be
+a morphism. Then we have
+$$
+T \times_F X = (T \times_S X) \times_{F \times F, \Delta} F
+$$
+which is an algebraic space by
+Lemma \ref{lemma-representable-by-spaces}
+and the assumption.
+\end{proof}
+
+\noindent
+In particular if $F$ is a presheaf as in the lemma, then for any
+morphism $X \to F$ where $X$ is an algebraic space it makes sense to
+say that $X \to F$ is surjective (resp.\ etale) by using
+Definition \ref{definition-surjective-transformation}.
 With these preliminaries out of the way we can now state the main
 result of this section.
 
@@ -2997,21 +3214,34 @@ Then $F$ is an algebraic space.
 \end{theorem}
 
 \begin{proof}
+We will use the remarks directly below
+Definition \ref{definition-surjective-transformation}
+without further mention.
 In the situation of the theorem, let $U \to X$ be a surjective etale morphism
-from a scheme towards $X$. Then it is straightforward to see that $U \to F$
-is surjective and etale also. Hence the theorem boils down to proving that
-$\Delta_F$ is representable. Let $U$ be a scheme, and let $U \to F$
-be surjective and etale. Set $R = U \times_F U$, which is now an algebraic
-space. But $R \to U \times_S U$ is a monomorphism, hence separated.
-Moreover, since $U \to F$ is etale, we see that $R \to U$ is etale, in
-particular locally of finite type. We conclude that also $R \to U \times_S U$
-is locally of finite type, and combined with being a monomorphism
-it is locally quasi-finite. Hence
-Propoisition \ref{proposition-locally-quasi-finite-separated-over-scheme}
+from a scheme towards $X$.
+By Lemma \ref{lemma-composition-transformation}
+$U \to F$ is surjective and etale also.
+Hence the theorem boils down to proving that
+$\Delta_F$ is representable.
+
+\medskip\noindent
+Let $U$ be a scheme, and let $U \to F$ be surjective and etale.
+Set $R = U \times_F U$, which is an algebraic space (see
+Lemma \ref{lemma-representable-diagonal}).
+The morphism of algebraic spaces $R \to U \times_S U$ is a monomorphism,
+hence separated (as the diagonal of a monomorphism is an isomorphism).
+Moreover, since $U \to F$ is etale, we see that $R \to U$ is etale, by
+Lemma \ref{lemma-base-change-transformation}. In particular, we see
+that $R \to U$ is locally quasi-finite, see
+Lemma \ref{lemma-etale-locally-quasi-finite}.
+We conclude that also $R \to U \times_S U$ is
+locally quasi-finite by
+Lemma \ref{lemma-permanence-quasi-finite}.
+Hence
+Proposition \ref{proposition-locally-quasi-finite-separated-over-scheme}
 applies and $R$ is a scheme. Hence $F = U/R$ is an algebraic
 space according to
 Spaces, Theorem \ref{spaces-theorem-presentation}.
-Lots of details omitted (to be filled in soon).
 \end{proof}
 
 
