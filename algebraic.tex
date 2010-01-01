@@ -127,7 +127,7 @@ Choose a representing object $V_y$ and an equivalence
 $$
 (\textit{Sch}/V_y)_{fppf}
 \longrightarrow
-(\textit{Sch}/U)_{fppf} \times_\mathcal{Y} \mathcal{X}.
+(\textit{Sch}/U)_{fppf} \times_{y, \mathcal{Y}} \mathcal{X}.
 $$
 By the $2$-Yoneda lemma the projection
 $(\textit{Sch}/V_y)_{fppf} \to
@@ -246,9 +246,9 @@ and \ref{lemma-base-change-representable-transformations}.
 \noindent
 A slightly weaker notion than being representable is the notion of
 being representable by algebraic spaces. This discussion might have
-been avoid had we worked with the category $\textit{Spaces}_{fppf}$
+been avoided had we worked with some category $\textit{Spaces}_{fppf}$
 of algebraic spaces instead of the category $\textit{Sch}_{fppf}$.
-However, it seems to us natural to consider the category of all schemes
+However, it seems to us natural to consider the category of schemes
 as the natural collection of ``test objects'' over which the fibre
 categories of an algebraic stack are defined.
 
@@ -296,7 +296,7 @@ for any $U \in \text{Ob}((\textit{Sch}/S)_{fppf})$
 and any $y : (\textit{Sch}/U)_{fppf} \to \mathcal{Y}$
 the category fibred in groupoids
 $$
-(\textit{Sch}/U)_{fppf} \times_{\mathcal{Y}} \mathcal{X}
+(\textit{Sch}/U)_{fppf} \times_{y, \mathcal{Y}} \mathcal{X}
 $$
 over $(\textit{Sch}/U)_{fppf}$
 is representable by an algebraic space over $U$.
@@ -502,6 +502,39 @@ and \ref{lemma-base-change-representable-by-spaces}.
 
 
 
+\section{Properties of morphisms representable by algebraic spaces}
+\label{section-representable-properties}
+
+\noindent
+Here is the definition that makes this work.
+
+\begin{definition}
+\label{definition-relative-representable-property}
+Let $S$ be a scheme contained in $\textit{Sch}_{fppf}$.
+Let $f : \mathcal{X} \to \mathcal{Y}$ be a $1$-morphism
+of categories fibred in groupoids over $(\textit{Sch}/S)_{fppf}$.
+Assume $f$ is representable by algebraic spaces.
+Let $P$ be a property of morphisms of algebraic spaces which
+\begin{enumerate}
+\item is preserved under any base change, and
+\item is fppf local on the base, see
+Descent and Spaces,
+Definition \ref{spaces-descent-definition-property-morphisms-local}.
+\end{enumerate}
+In this case we say that $f$ has {\it property $P$} if for every
+$U \in \text{Ob}((\textit{Sch}/S)_{fppf})$ and
+any $y \in \mathcal{Y}_U$ the resulting morphism of algebraic spaces
+$f_y : V_y \to U$ has property $P$.
+\end{definition}
+
+\noindent
+It is important to note that we will only use this definition for
+properties of morphisms that are stable under base change, and
+local in the fppf topology on the base. This is
+not because the definition doesn't make sense otherwise; rather it
+is because we may want to give a different definition which is
+better suited to the property we have in mind.
+
 
 
 
@@ -542,20 +575,89 @@ As this may be a new notion we give some examples.
 
 \begin{example}
 \label{example-stack-associated-to-sheaf}
-
-
+Let $S$ be a scheme contained in $\textit{Sch}_{fppf}$.
+Let $F : (\textit{Sch}/S)_{fppf}^{opp} \to \textit{Sets}$ be a sheaf.
+In this case the fibred category
+$p_F : \mathcal{S}_F \to (\textit{Sch}/S)_{fppf}$ 
+is a stack fibred in sets.
 \end{example}
 
+\begin{example}
+\label{example-stack-of-quasi-coherent-sheaves}
+The stack of quasi-coherent sheaves.
+Let $S$ be a scheme contained in $\textit{Sch}_{fppf}$.
+We denote
+$$
+p : \textit{QCoh} \to (\textit{Sch}/S)_{fppf}
+$$
+the category over $(\textit{Sch}/S)_{fppf}$ defined as follows.
+\begin{enumerate}
+\item An object of $\textit{QCoh}$ is a pair $(T, \mathcal{F})$,
+where $T/S$ is an object of $(\textit{Sch}/S)_{fppf}$, and $\mathcal{F}$
+is a quasi-coherent $\mathcal{O}_T$-module, and
+\item a morphism $(f, \varphi) : (T, \mathcal{F}) \to (T', \mathcal{F}')$
+is a pair consisting of a morphism $f : T \to T'$ of schemes over $S$
+and an $f$-map (see
+Sheaves, Definition \ref{sheaves-definition-f-map})
+$\varphi : \mathcal{F}' \to \mathcal{F}$.
+\end{enumerate}
+The composition of morphisms
+$$
+(T, \mathcal{F}) \xrightarrow{(f, \varphi)}
+(T', \mathcal{F}') \xrightarrow{(g, \psi)} (T'', \mathcal{F}'')
+$$
+is $(g \circ f, \varphi \circ \psi)$ where $\varphi \circ \psi$ is
+as in
+Sheaves, Definition \ref{sheaves-definition-composition-f-maps}.
+Thus $\textit{QCoh}$ is a category and $p((T, \mathcal{F})) = T$
+is a functor. Note that the fibre category $\textit{QCoh}_T$ over
+a scheme $T$ is the category $\textit{QCoh}(T)$ of quasi-coherent
+sheaves on $T$. So of course $\textit{QCoh}$ is not a stack in
+groupoids over $(\textit{Sch}/S)_{fppf}$. But it is a stack, see
+Lemma \ref{lemma-stack-of-quasi-coherent-sheaves} below.
+\end{example}
 
+\begin{lemma}
+\label{lemma-stack-of-quasi-coherent-sheaves}
+The functor $p : \textit{QCoh} \to (\textit{Sch}/S)_{fppf}$
+constructed in Example \ref{example-stack-of-quasi-coherent-sheaves}
+defines a stack over $(\textit{Sch}/S)_{fppf}$.
+\end{lemma}
 
+\begin{proof}
+To see this we have to show that (1) $\textit{QCoh}$ is fibred over
+$(\textit{Sch}/S)_{fppf}$ and (2) for any fppf covering
+$\mathcal{U} = \{T_i \to T\}_{i \in I}$ the functor
+$$
+\textit{QCoh}(T) \longrightarrow DD(\mathcal{U})
+$$
+is an equivalence, see
+Stacks, Lemma \ref{stacks-lemma-stack-equivalences}.
+Part (1) follows from the observation that the strongly cartesian morphisms
+of $\textit{QCoh}$ are exactly those morphisms
+$(f, \varphi) : (T, \mathcal{F}) \to (T', \mathcal{F}')$
+such that $\varphi$ induces an isomorphism
+$f^*\mathcal{F}' \to \mathcal{F}$ (details omitted).
+Part (2) follows from
+Descent, Proposition \ref{descent-proposition-fpqc-descent-quasi-coherent}.
+\end{proof}
 
-
-
-
-
-
-
-
+\begin{example}
+\label{example-stack-in-groupoids-of-quasi-coherent-sheaves}
+The stack in groupoids of quasi-coherent sheaves.
+Let $p : \textit{QCoh} \to (\textit{Sch}/S)_{fppf}$ be as in
+Example \ref{example-stack-of-quasi-coherent-sheaves}.
+We can turn this into a stack in groupoids
+$p' : \textit{QCoh}' \to (\textit{Sch}/S)_{fppf}$ by
+the procedure of
+Categories, Lemma \ref{categories-lemma-fibred-gives-fibred-groupoids},
+see
+Stacks, Lemma \ref{stacks-lemma-stack-gives-stack-groupoids}.
+In this particular case this simply means $\textit{QCoh}'$ has
+the same objects as $\textit{QCoh}$ but the morphsms are
+morphisms $(f, \varphi) : (T, \mathcal{F}) \to (T', \mathcal{F}')$
+such that $\varphi$ induces an isomorphism $f^*\mathcal{F}' \to \mathcal{F}$.
+\end{example}
 
 
 
@@ -630,6 +732,146 @@ is representable by algebraic spaces.
 and a $1$-morphism $U \to \mathcal{X}$ which is surjective and smooth.
 \end{enumerate}
 \end{definition}
+
+\noindent
+There are some differences with other definitions found in the literature.
+
+\medskip\noindent
+The first is that we require $\mathcal{X}$ to be a stack in groupoids
+in the fppf topology, whereas in many references the etale topology is
+used. It somehow seems to us that the fppf topology is the natural topology
+to work with. In the end the resulting $2$-category of algebraic spaces
+ends up being ``the same''. Namely, allthough the actual
+stacks $\mathcal{X}$ being considered may be different, in the end the
+category of algebraic stacks defined using sheaves in the etale topology
+is equivalent the the category we define here. This will be clear later
+when we introduce presentations (insert future reference here).
+
+\medskip\noindent
+The second is that we only require the diagonal map of $\mathcal{X}$ to be
+representable by algebraic spaces, whereas in most references some other
+conditions are imposed. Our point of view is to try to prove a certain
+number of the results that follow only assuming that the diagonal
+of $\mathcal{X}$ be representable by algebraic spaces, and simply add
+an additional hypothesis wherever this is necessary. It has the added
+benefit that any algebraic space (as defined in
+Spaces, Definition \ref{spaces-definition-algebraic-space})
+gives rise to an algebraic stack.
+
+\medskip\noindent
+The third is that in some papers it is required that there exists a
+scheme $U$ and a surjective and etale morphism $U \to \mathcal{X}$.
+In the groundbreaking paper \cite{DM} where algebraic stacks were first
+introduced Deligne and Mumford used this definition and showed that
+the moduli stack of stable genus $g > 1$ curves is an algebraic stack 
+which has an etale covering by a scheme. Micheal Artin, see
+\cite{artin_versal}, realized that many
+natural results on algebraic stacks generalize to the case where one
+only assume a smooth covering by a scheme. Hence our choice above.
+To distinguish the two cases one sees the terms ``Deligne-Mumford stack''
+and ``Artin stack'' used in the literature. We will reserve the term
+``Artin stack'' for later use (insert future reference here), and continue
+to use ``algebraic stack'', but we will use ``Deligne-Mumford stack''
+to indicate those algebraic stacks which have an etale covering by a
+scheme.
+
+\begin{definition}
+\label{definition-deligne-mumford}
+Let $S$ be a scheme contained in $\textit{Sch}_{fppf}$.
+Let $\mathcal{X}$ be an algebraic stack over $S$.
+We say $\mathcal{X}$ is a {\it Deligne-Mumford stack} if there exists
+a scheme and a surjective etale morphism $U \to \mathcal{X}$.
+\end{definition}
+
+\noindent
+We will compare our notion of a Deligne-Mumford stack with
+the notion as defined in the paper by Deligne and Mumford later
+(see insert future reference here).
+
+\medskip\noindent
+The category of algebraic stacks over $S$ forms a $2$-category.
+Here is the precise definition.
+
+\begin{definition}
+\label{definition-morphism-algebraic-stacks}
+Let $S$ be a scheme contained in $\textit{Sch}_{fppf}$.
+The {\it $2$-category of algebraic stacks over $S$} is the
+sub $2$-category of the $2$-category of categories fibred in
+groupoids over $(\textit{Sch}/S)_{fppf}$ (see
+Categories,
+Definition \ref{categories-definition-categories-fibred-in-groupoids-over-C})
+defined as follows:
+\begin{enumerate}
+\item Its objects are those categories fibred in groupoids
+over $(\textit{Sch}/S)_{fppf}$ which are algebraic stacks over $S$.
+\item Its $1$-morphisms $f : \mathcal{X} \to \mathcal{Y}$ are
+any functors of categories over $(\textit{Sch}/S)_{fppf}$, as in
+Categories, Definition \ref{categories-definition-categories-over-C}.
+\item Its $2$-morphisms are transformations between functors
+over $(\textit{Sch}/S)_{fppf}$, as in
+Categories, Definition \ref{categories-definition-categories-over-C}.
+\end{enumerate}
+\end{definition}
+
+\noindent
+In other words this $2$-category is the full sub $2$-category of
+$\textit{Cat}/(\textit{Sch}/S)_{fppf}$ whose objects are algebraic stacks.
+Note that every $2$-morphism is automatically an isomorphism.
+Hence this is actually a $(2, 1)$-category and not just a
+$2$-category.
+
+\begin{lemma}
+\label{lemma-equivalent}
+Let $S$ be a scheme contained in $\textit{Sch}_{fppf}$.
+Let $\mathcal{X}$, $\mathcal{Y}$ be fibred in groupoids over $S$.
+Let $f : \mathcal{X} \to \mathcal{Y}$
+\end{lemma}
+
+
+
+
+\section{Algebraic stacks and algebraic spaces}
+\label{section-stacks-spaces}
+
+
+
+
+
+\begin{lemma}
+\label{lemma-representable-algebraic}
+Let $S$ be a scheme contained in $\textit{Sch}_{fppf}$.
+\begin{enumerate}
+\item A category fibred in groupoids
+$p : \mathcal{X} \to (\textit{Sch}/S)_{fppf}$
+which is representable by an algebraic space is an algebraic stack,
+and even a Deligne-Mumford stack.
+\item If $F$ is an algebraic space over $S$, then the associated
+category fibred in groupoids
+$p_F : \mathcal{S}_F \to (\textit{Sch}/S)_{fppf}$
+is a Deligne-Mumford stack.
+\item If $X \in \text{Ob}((\textit{Sch}/S)_{fppf})$, then
+$(\textit{Sch}/X)_{fppf} \to (\textit{Sch}/S)_{fppf}$ is
+a Deligne-Mumford stack.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \input{chapters}
 

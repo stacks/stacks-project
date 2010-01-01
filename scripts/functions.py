@@ -279,6 +279,14 @@ def split_label(label):
 		name = "spaces-morphisms"
 		type = pieces[2]
 		n = 4
+	if name == "spaces" and type == "topologies":
+		name = "spaces-topologies"
+		type = pieces[2]
+		n = 4
+	if name == "spaces" and type == "descent":
+		name = "spaces-descent"
+		type = pieces[2]
+		n = 4
 	if name == "more" and type == "morphisms":
 		name = "more-morphisms"
 		type = pieces[2]
