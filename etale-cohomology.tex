@@ -783,20 +783,21 @@ Injectives, Theorem \ref{injectives-theorem-sheaves-injectives}.
 \end{proof}
 
 \noindent
-So we can define cohomology as the right-derived functors of the global
-sections functor: if $X \in \text{Ob}(\mathcal{C})$ and
+So we can define cohomology as the right-derived functors of the
+sections functor: if $U \in \text{Ob}(\mathcal{C})$ and
 $\mathcal{F} \in \textit{Ab}(\mathcal{C})$,
 $$
-H^p(X, \mathcal{F}) :=
-R^p\Gamma(X, \mathcal{F}) =
-H^p(\Gamma(X, \mathcal{I}^\bullet))
+H^p(U, \mathcal{F}) :=
+R^p\Gamma(U, \mathcal{F}) =
+H^p(\Gamma(U, \mathcal{I}^\bullet))
 $$
 where $\mathcal{F} \to \mathcal{I}^\bullet$ is an injective resolution. To do
-this, we should check that the functor $\Gamma(X, -)$ is left exact. This is
-true (and is part of why the category $\textit{Ab}(\mathcal{C})$ is abelian,
+this, we should check that the functor $\Gamma(U, -)$ is left exact. This is
+true and is part of why the category $\textit{Ab}(\mathcal{C})$ is abelian,
 see
-Modules on Sites, Lemma \ref{sites-modules-lemma-abelian-abelian}).
-For more general discussion of cohomology on sites, see
+Modules on Sites, Lemma \ref{sites-modules-lemma-abelian-abelian}.
+For more general discussion of cohomology on sites (including the
+global sections functor and its right derived functors), see
 Cohomology on Sites, Section \ref{sites-cohomology-section-cohomology-sheaves}.
 
 
@@ -836,6 +837,8 @@ the first condition is unnecessary when the second condition holds.
 Examples of fpqc coverings.
 \begin{enumerate}
 \item Any Zariski open covering of $T$ is an fpqc covering.
+\item A family $\{\text{Spec}(B) \to \text{Spec}(A)\}$ is an fpqc
+covering if and only if $A \to B$ is a faithfully flat ring map.
 \item If $f: X \to Y$ is flat, surjective and quasi-compact, then $\{ f: X\to
 Y\}$ is an fpqc covering.
 \item The morphism
@@ -1392,10 +1395,10 @@ for more details.
 
 \begin{definition}
 \label{definition-cech-complex}
-Let $\mathcal{C}$ be a site,
-$\mathcal{U} = \{U_i \to U\}_{i \in I}$ a covering of $\mathcal{C}$,
-and $\mathcal{F} \in \textit{PAb}(\mathcal{C})$ an abelian presheaf. We define
-the {\it \u Cech complex}
+Let $\mathcal{C}$ be a category,
+$\mathcal{U} = \{U_i \to U\}_{i \in I}$ a family of morphisms of $\mathcal{C}$
+with fixed target, and $\mathcal{F} \in \textit{PAb}(\mathcal{C})$ an abelian
+presheaf. We define the {\it \u Cech complex}
 $\check{\mathcal{C}}^\bullet(\mathcal{U}, \mathcal{F})$ by
 $$
 \prod_{i_0\in I} \mathcal{F}(U_{i_0}) \to
@@ -1875,6 +1878,7 @@ The underlying category of the site $(\textit{Sch}/S)_\tau$ has reasonable
 ``closure'' properties, i.e., given a scheme $T$ in it any locally closed
 subscheme of $T$ is isomorphic to an object of $(\textit{Sch}/S)_\tau$.
 Other such closure properties are: closed under fibre products of schemes,
+taking countable disjoint unions,
 taking finite type schemes over a given scheme, given an affine scheme
 $\text{Spec}(R)$ one can complete, localize, or take the quotient of $R$
 by an ideal while staying inside the category, etc.
@@ -1905,38 +1909,61 @@ We will mostly ignore these issues in this chapter.
 \label{section-cohomology-quasi-coherent}
 %9.22.09
 
+\noindent
+We start with a simple lemma (which holds in greater generality than
+stated). It says that the \u Cech complex of a standard covering is
+equal to the \u Cech complex of an fpqc covering of the form
+$\{\text{Spec}(B) \to \text{Spec}(A)\}$ with $A \to B$ faithfully flat.
+
 \begin{lemma}
 \label{lemma-cech-complex}
-Let $U$ be a scheme and $\mathcal{U} = \{U_i \to U\}_{i \in I}$ an fpqc
-covering of $U$. Let $V = \coprod_{i \in I} U_i$. Then
+Let $\tau \in \{fppf, syntomic, smooth, etale, Zariski\}$.
+Let $S$ be a scheme.
+Let $\mathcal{F}$ be an abelian sheaf on $(\textit{Sch}/S)_\tau$, or on
+$S_\tau$ in case $\tau = etale$, and let
+$\mathcal{U} = \{U_i \to U\}_{i \in I}$
+be a standard $\tau$-covering of this site.
+Let $V = \coprod_{i \in I} U_i$. Then
 \begin{enumerate}
-\item $\mathcal{V} = \{V \to U\}$ is an fpqc covering, and
+\item $V$ is an affine scheme,
+\item $\mathcal{V} = \{V \to U\}$ is an fpqc covering.
 \item the \u Cech complexes
 $\check{\mathcal{C}}^\bullet (\mathcal{U}, \mathcal{F})$ and
-$\check{\mathcal{C}}^\bullet (\mathcal{V}, \mathcal{F})$ agree whenever
-$\mathcal{F}$ is a functor $(\textit{Sch}/S)^{opp} \to \textit{Ab}$
-which satisfies the sheaf condition for the fpqc topology.
+$\check{\mathcal{C}}^\bullet (\mathcal{V}, \mathcal{F})$ agree.
 \end{enumerate}
 \end{lemma}
 
 \begin{proof}
-The proof is straightforward by unwinding the definitions.
-Namely, first note that $\mathcal{U}$ is a refinement of $\mathcal{V}$
+As the covering is a standard $\tau$-covering each of the schemes
+$U_i$ is affine and $I$ is a finite set. Hence $V$ is an affine scheme.
+It is clear that $V \to U$ is flat and surjective, hence
+$\mathcal{V}$ is an fpqc covering, see
+Example \ref{example-fpqc-coverings}.
+Note that $\mathcal{U}$ is a refinement of $\mathcal{V}$
 and hence there is a map of \u Cech complexes
 $\check{\mathcal{C}}^\bullet (\mathcal{V}, \mathcal{F}) \to
 \check{\mathcal{C}}^\bullet (\mathcal{U}, \mathcal{F})$, see
 Cohomology on Sites,
 Equation (\ref{sites-cohomology-equation-map-cech-complexes}).
-Next, we observe that if $\{T_j\}_{j \in J}$ is a family of schemes,
+Next, we observe that if $T = \coprod_{j \in J} T_j$ is a
+disjoint union of schemes in the site on which $\mathcal{F}$ is defined
 then the family of morphisms with fixed target
-$\{T_i \to \coprod_{j \in J} T_j\}_{i \in J}$ is an fpqc covering, and so
+$\{T_j \to T\}_{j \in J}$ is a Zariski covering, and so
 \begin{equation}
 \label{equation-sheaf-coprod}
-\mathcal{F}(\coprod\nolimits_{j \in J} T_j)
-=
-\prod\nolimits_{j \in J} \mathcal{F}(T_j).
+\mathcal{F}(T) =
+\mathcal{F}(\coprod\nolimits_{j \in J} T_j) =
+\prod\nolimits_{j \in J} \mathcal{F}(T_j)
 \end{equation}
-This implies the map of \u Cech complexes above is an isomorphism.
+by the sheaf condition of $\mathcal{F}$.
+This implies the map of \u Cech complexes above is an isomorphism
+in each degree because
+$$
+V \times_U \ldots \times_U V
+=
+\prod\nolimits_{i_0, \ldots i_p} U_{i_0} \times_U \ldots \times_U U_{i_p}
+$$
+as schemes.
 \end{proof}
 
 \noindent
@@ -1985,7 +2012,8 @@ Lemma \ref{sites-cohomology-lemma-kill-cohomology-class-on-covering}.
 \begin{theorem}
 \label{theorem-zariski-fpqc-quasi-coherent}
 Let $S$ be a scheme and $\mathcal{F}$ a quasi-coherent $\mathcal{O}_S$-module.
-Let $\mathcal{C}$ be a site as in Theorem \ref{theorem-quasi-coherent}.
+Let $\mathcal{C}$ be either $(\textit{Sch}/S)_\tau$ for
+$\tau \in \{fppf, syntomic, smooth, etale, Zariski\}$ or $S_{etale}$.
 Then
 $$
 H_{Zar}^p(S, \mathcal{F}) = H^p(S, \mathcal{F}^a)
@@ -2005,7 +2033,9 @@ on the site $\mathcal{C}$.
 \label{remark-right-derived-global-sections}
 Since $S$ is a final object in the category $\mathcal{C}$, the cohomology
 groups on the right-hand side are merely the right derived functors of the
-global sections functor.
+global sections functor. In fact the proof will show that
+$H^p_{Zar}(U, f^*\mathcal{F}) = H^p(\mathcal{C}/U, \mathcal{F}^a)$
+for any object $f : U \to S$ of the site $\mathcal{C}$.
 \end{remark}
 
 \begin{proof}
