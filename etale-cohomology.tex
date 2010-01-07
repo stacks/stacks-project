@@ -2382,6 +2382,8 @@ $B \cong A[x_1, \dots, x_n]/(f_1,\dots,f_n)$
 such that $\Delta = \det \left( \frac{\partial f_i}{\partial x_j} \right)$
 is invertible in $B$.
 \item The base change of an \'etale morphism is \'etale.
+\item Compositions of \'etale morphisms are \'etale.
+\item Fibre products and products of \'etale morphisms are \'etale.
 \item An \'etale morphism has relative dimension 0.
 \item Let $Y \to X$ be an \'etale morphism.
 If $X$ is reduced (respectively regular) then so is $Y$.
@@ -2399,14 +2401,16 @@ Here is a list of references:
 and \ref{morphisms-lemma-flat-unramified-etale}.
 (3) Algebra, Lemma \ref{algebra-lemma-etale-standard-smooth}.
 (4) Morphisms, Lemma \ref{morphisms-lemma-base-change-etale}.
-(5) Morphisms, Lemmas \ref{morphisms-lemma-etale-locally-quasi-finite}
+(5) Morphisms, Lemma \ref{morphisms-lemma-composition-etale}.
+(6) Follows formally from (4) and (5).
+(7) Morphisms, Lemmas \ref{morphisms-lemma-etale-locally-quasi-finite}
 and \ref{morphisms-lemma-locally-quasi-finite-rel-dimension-0}.
-(6) See Algebra, Lemmas \ref{algebra-lemma-reduced-goes-up} and
+(8) See Algebra, Lemmas \ref{algebra-lemma-reduced-goes-up} and
 \ref{algebra-lemma-Rk-goes-up}, see also more results of this kind
 in Etale Morphisms, Section \ref{etale-section-properties-permanence}.
-(7) See Morphisms, Lemma \ref{morphisms-lemma-fppf-open} and
+(9) See Morphisms, Lemma \ref{morphisms-lemma-fppf-open} and
 \ref{morphisms-lemma-etale-flat}.
-(8) See Morphisms, Lemma \ref{morphisms-lemma-etale-permanence}.
+(10) See Morphisms, Lemma \ref{morphisms-lemma-etale-permanence}.
 \end{proof}
 
 \begin{definition}
@@ -2945,157 +2949,263 @@ the Kummer sequence is excact, i.e., uses Lemma \ref{lemma-kummer-sequence}.
 
 \begin{definition}
 \label{definition-geometric-point}
-Let $S$ be a scheme. A {\it geometric point} of $S$ is a morphism $\text{Spec}
-k = \bar s \to S$ (usually denoted $\bar s$ again) where $k$ is separably
-closed. An {\it \'etale neighborhood} of $\bar s$ is a commutative diagram
+Let $S$ be a scheme.
+\begin{enumerate}
+\item A {\it geometric point} of $S$ is a morphism
+$\text{Spec}(k) \to S$ where $k$ is separably closed.
+Such a point is usually denoted $\overline{s}$, i.e., by an overlined
+small case letter, and in this case the scheme $\text{Spec}(k)$ is denoted
+$\overline{s}$ as well.
+\item An {\it \'etale neighborhood} of a geometric point $\overline{s}$
+of $S$ is a commutative diagram
 $$
 \xymatrix{
 & U \ar^{\varphi}[d] \\
 {\bar s} \ar^{\bar s}[r] \ar^{\bar u}[ur] & S
 }
 $$
-where $\varphi$ is \'etale. We write $(\mathcal{U}, \bar u)\to (S, \bar s)$. A
-{\it morphism} of \'etale neighborhoods $(\mathcal{U}, \bar u)\to
-(\mathcal{U}',\bar u')$ is an $S$-morphism $h: \mathcal{U}\to \mathcal{U}'$
-such that $\bar u'=h\circ\bar u$.
+where $\varphi$ is an \'etale morphism of schemes.
+We write $(\mathcal{U}, \overline{u}) \to (S, \overline{s})$.
+\item A {\it morphism of \'etale neighborhoods}
+$(U, \overline{u}) \to (U', \overline{u}')$
+is an $S$-morphism $h: U \to U'$
+such that $\overline{u}' = h \circ \overline{u}$.
+\end{enumerate}
 \end{definition}
 
 \begin{remark}
 \label{remark-etale-between-etale}
-Since $\mathcal{U}$ and $\mathcal{U}'$ are \'etale over $S$, any $S$-morphism
-between them is also \'etale. In particular all morphisms of \'etale
-neighborhoods are \'etale.
+Since $U$ and $U'$ are \'etale over $S$, any $S$-morphism
+between them is also \'etale, see
+Proposition \ref{proposition-etale-morphisms}.
+In particular all morphisms of \'etale neighborhoods are \'etale.
 \end{remark}
 
 \begin{lemma}
 \label{lemma-cofinal-etale}
+Let $S$ be a scheme, and let $\overline{s}$ be a geometric point of $S$.
 The category of \'etale neighborhoods is codirected. More precisely:
 \begin{enumerate}
-\item Let $(\mathcal{U}_i, \bar u_i)_{i=1, 2}$ be two \'etale neighborhoods of
-$\bar s$ in $S$. Then there exists a third \'etale neighborhood $(\mathcal{U},
-\bar u)$ and morphims $(\mathcal{U}, \bar u) \to (\mathcal{U}_i, \bar
-u_i)_{i=1,2}$.
-\item Let $h_1, h_2: (\mathcal{U}, \bar u) \to (\mathcal{U}', \bar u')$ be two
-morphisms between \'etale neighborhoods of $\bar s$. Then there exist an
-\'etale neighborhood and a morphism $h : (\mathcal{U}'', \bar u'')\to
-(\mathcal{U}, \bar u)$ which equalizes $h_1$ and $h_2$, i.e., such that
-$h_1\circ h = h_2\circ h$.		
+\item Let $(U_i, \overline{u}_i)_{i=1, 2}$ be two \'etale neighborhoods of
+$\overline{s}$ in $S$. Then there exists a third \'etale neighborhood
+$(U, \overline{u})$ and morphims $(U, \overline{u}) \to (U_i, \overline{u}_i)$,
+$i = 1, 2$.
+\item Let $h_1, h_2: (U, \overline{u}) \to (U', \overline{u}')$ be two
+morphisms between \'etale neighborhoods of $\overline{s}$. Then there exist an
+\'etale neighborhood $(U'', \overline{u}'')$ and a morphism
+$h : (U'', \overline{u}'') \to (U, \overline{u})$
+which equalizes $h_1$ and $h_2$, i.e., such that
+$h_1 \circ h = h_2 \circ h$.		
 \end{enumerate}
 \end{lemma}
 
 \begin{proof}
-For part {\it i}, consider the fibre product $\mathcal{U} = \mathcal{U}_1
-\times_S \mathcal{U}_2$. It is \'etale over both $\mathcal{U}_1$ and
-$\mathcal{U}_2$ and the map $\bar s \to U$ defined by $(\bar u_1, \bar u_2)$
+For part (1), consider the fibre product $U = U_1 \times_S U_2$.
+It is \'etale over both $U_1$ and $U_2$ because \'etale morphisms are
+preserved under base change, see
+Proposition \ref{proposition-etale-morphisms}.
+The map $\overline{s} \to U$ defined by $(\overline{u}_1, \overline{u}_2)$
 gives it the structure of an \'etale neighborhood mapping to both
-$\mathcal{U}_1$ and $\mathcal{U}_2$. For part {\it ii}, define $\mathcal{U}''$
-as the fibre product
+$U_1$ and $U_2$. For part (2), define $U''$ as the fibre product
 $$
 \xymatrix{
-{\mathcal{U}''} \ar[r] \ar[d] & {\mathcal{U}} \ar^{(h_1,h_2)}[d] \\
-{\mathcal{U}'} \ar^{\Delta \quad}[r] & {\mathcal{U}' \times_S \mathcal{U}'}
+U'' \ar[r] \ar[d] & U \ar^{(h_1,h_2)}[d] \\
+U' \ar^-\Delta[r] & U' \times_S U'.
 }
 $$
-and let $\bar u'' = (\bar u, \bar u')$. Since $\bar u$ and $\bar u'$ agree over
-$S$ with $\bar s$, we see that $\mathcal{U}''\neq\emptyset$. Moreover, since
-$\mathcal{U}$ and $\mathcal{U}'$ are \'etale over $S$, so is the fibre product
-$\mathcal{U}'\times_S \mathcal{U}'$ and therefore $\mathcal{U}''$ by base
-change.
+Since $\overline{u}$ and $\overline{u}'$ agree over $S$ with $\overline{s}$,
+we see that $\overline{u}'' = (\overline{u}, \overline{u}')$ is a geometric
+point of $U''$. In particular $U'' \not = \emptyset$.
+Moreover, since $U'$ is \'etale over $S$, so is the fibre product
+$U'\times_S U'$ (see
+Proposition \ref{proposition-etale-morphisms}).
+Hence the vertical arrow $(h_1, h_2)$ is etale by
+Remark \ref{remark-etale-between-etale} above.
+Therefore $U''$ is \'etale over $U'$ by base change, and hence also
+etale over $S$ (because compositions of \'etale morphisms are \'etale).
+Thus $(U'', \overline{u}'')$ is a solution to the problem.
 \end{proof}
 
 \begin{lemma}
 \label{lemma-geometric-lift-to-cover}
-Let $\bar s$ be a geometric point of $S$, $(\mathcal{U}, \bar u)$ an \'etale
-neighborhood of $\bar s$, and $\mathcal{U} = \left\{\varphi_i : \mathcal{U}_i
-\to \mathcal{U} \right\}_{i\in I}$ an \'etale covering. Then there exist $i\in
-I$ and $\bar u_i: \bar s \to \mathcal{U}_i$ such that $\varphi_i:
-(\mathcal{U}_i, \bar u_i) \to (\mathcal{U}, \bar u)$ is a morphism of \'etale
-neighborhoods.
+Let $S$ be a scheme.
+Let $\overline{s}$ be a geometric point of $S$.
+Let $(U, \overline{u})$ an \'etale neighborhood of $\overline{s}$.
+Let $\mathcal{U} = \{\varphi_i : U_i \to U \}_{i\in I}$ be an \'etale covering.
+Then there exist $i \in I$ and $\overline{u}_i : \overline{s} \to U_i$
+such that $\varphi_i : (U_i, \overline{u}_i) \to (U, \overline{u})$
+is a morphism of \'etale neighborhoods.
 \end{lemma}
 
 \begin{proof}
-As $\mathcal{U} = \bigcup_{i\in I}\varphi_i(\mathcal{U}_i)$, the fibre product
-$\bar s \times_{\bar u, \ \mathcal{U}, \varphi_i} \mathcal{U}_i$ is not empty
+As $U = \bigcup_{i\in I} \varphi_i(U_i)$, the fibre product
+$\overline{s} \times_{\overline{u}, U, \varphi_i} U_i$ is not empty
 for some $i$. Then look at the cartesian diagram
 $$
 \xymatrix{
-{\bar s \times_{\bar u, \ \mathcal{U}, \varphi_i} \mathcal{U}_i}
-\ar^{\text{pr}_1}[d] \ar^{\qquad \text{pr}_2}[r] & {\mathcal{U}_i}
-\ar^{\varphi_i}[d] \\
-{\text{Spec} k = \bar s} \ar@/^1pc/^{\sigma}[u] \ar^{\qquad \bar u}[r] &
-{\mathcal{U}.}
+\overline{s} \times_{\overline{u}, U, \varphi_i} U_i
+\ar[d]^{\text{pr}_1} \ar[r]_-{\text{pr}_2} & U_i
+\ar[d]^{\varphi_i} \\
+\text{Spec}(k) = \overline{s} \ar@/^1pc/[u]^\sigma
+\ar[r]^-{\overline{u}} & U
 }
 $$
 The projection $\text{pr}_1$ is the base change of an \'etale morphisms so it
-is \'etale. Therefore, $\bar s \times_{\bar u , \mathcal{U}, \varphi_i}
-\mathcal{U}_i$ is a disjoint union of finite separable extensions of $k$, where
-$\bar s = \text{Spec} k$. But $k$ is separably closed, so all these extensions
-are trivial, and there exists a section $\sigma$ of $\text{pr}_1$. The
-composition
-$\text{pr}_2 \circ \sigma$ gives a map compatible with $\bar u$.
+is \'etale, see
+Proposition \ref{proposition-etale-morphisms}.
+Therefore, $\overline{s} \times_{\overline{u}, U, \varphi_i} U_i$
+is a disjoint union of finite separable extensions of $k$, by
+Proposition \ref{proposition-etale-morphisms}. Here
+$\overline{s} = \text{Spec}(k)$. But $k$ is separably closed, so all
+these extensions are trivial, and there exists a section $\sigma$ of
+$\text{pr}_1$. The composition
+$\text{pr}_2 \circ \sigma$ gives a map compatible with $\overline{u}$.
 \end{proof}
 
 \begin{definition}
+\label{definition-stalk}
+Let $S$ be a scheme.
+Let $\mathcal{F}$ be a presheaf on $S_{etale}$.
+Let $\overline{s}$ be a geometric point of $S$.
+The {\it stalk} of $\mathcal{F}$ at $\overline{s}$ is
+$$
+\mathcal{F}_{\bar s}
+=
+\text{colim}_{(U, \overline{u})}\ \mathcal{F}(U)
+$$
+where $(U, \overline{u})$ runs over all \'etale
+neighborhoods of $\overline{s}$ in $S$.
+\end{definition}
+
+\noindent
+By lemma \ref{lemma-cofinal-etale}, this colimit is directed.
+In other words, an element of $\mathcal{F}_{\overline{u}}$ can be
+though of as a triple $(U, \overline{u}, s)$ where $s \in \mathcal{F}(U)$.
+Two triples $(U, \overline{u}, s)$, $(U', \overline{u}', s')$
+define the same element of the stalk if there exists a third
+\'etale neighbourhood $(U'', \overline{u}'')$ and morphisms of \'etale
+neighbourhoods $h : (U'', \overline{u}'') \to (U, \overline{u})$,
+$h' : (U'', \overline{u}'') \to (U', \overline{u}')$ such that
+$h^*s = (h')^*s'$ in $\mathcal{F}(U'')$. See
+Categories, Section \ref{categories-section-limit-sets}.
+See
+Sites, Section \ref{sites-section-points}
+for more information of the general notion
+of a stalk functor, and points of a site.
+
+\medskip\noindent
+If $\mathcal{F}$ happens to be a sheaf on the big \'etale site
+of $S$, then we define $\mathcal{F}_{\overline{s}}$ as the stalk
+of the restriction $\mathcal{F}|_{S_{etale}}$ of $\mathcal{F}$
+to the small \'etale site. In particular, in this case we can define
+the stalk of $\mathcal{F}$ at any geometric point of any
+scheme $T/S \in \text{Ob}((\textit{Sch}/S)_{etale})$.
+
+\begin{definition}
 \label{definition-etale-local-rings}
-Let $S$ be a scheme, $\mathcal{F}$ a presheaf (or a sheaf) on $S_{et}$ and
-$\bar s$ a geometric point of $S$. The {\it stalk} of $\mathcal{F}$ at $\bar
-s$ is
+Let $S$ be a scheme, and let $\overline{s}$ be a geometric point of $S$.
+We define the {\it \'etale local ring of $S$ at $\overline{s}$}
+to be the stalk of the sheaf $\mathbf{G}_{a, S} = \mathcal{O}$
+at $\overline{s}$, that is
 $$
-\mathcal{F}_{\bar s} = \text{colim}_{(\mathcal{U}, \bar u) \to (S,\bar s)}
-\mathcal{F}(\mathcal{U})
-$$
-where $(\mathcal{U}, \bar u) \to (S,\bar s)$ runs over all \'etale
-neighborhoods of $\bar s$ in $S$. By lemma \ref{lemma-cofinal-etale},
-this colimit is directed. We also define the {\it \'etale local ring at $\bar
-s$} to be the stalk of the sheaf $\mathbf{G}_a$ at $\bar s$, that is
-$$
-\mathcal{O}_{S, \bar{s}}^\text{sh} := \text{colim}_{(\mathcal{U}, \bar u) \to
-(S,\bar s)} \Gamma(\mathcal{U}, \mathcal{O}_\mathcal{U}).
+\mathcal{O}_{S, \bar{s}}^\text{sh}
+=
+\text{colim}_{(U, \overline{u})}\ \Gamma(U, \mathcal{O}_U).
 $$
 \end{definition}
+
+\noindent
+We will later identify these rings as the strict henselization of
+the local ring of $S$ at the point $s$ (the image of $\overline{s}$).
 
 \begin{lemma}
 \label{lemma-stalk-exact}
 The stalk functor
 $$
 \begin{matrix}
-\textit{PAb}(S_{et}) & \longrightarrow & \textit{Ab}\\
-\mathcal{F} & \longmapsto & \mathcal{F}_{\bar s}
+\textit{PAb}(S_{etale}) & \longrightarrow & \textit{Ab}\\
+\mathcal{F} & \longmapsto & \mathcal{F}_{\overline{s}}
 \end{matrix}
 $$
-is exact. Furthermore, $\left(\mathcal{F}^\sharp\right)_{\bar s} =
-\mathcal{F}_{\bar s}$ and hence it induces an exact functor
-$\textit{Ab}(S_{et})\to \textit{Ab}$.
+is exact. Furthermore,
+$(\mathcal{F}^\#)_{\overline{s}} = \mathcal{F}_{\overline{s}}$
+and hence it induces an exact functor
+$$
+\textit{Ab}(S_{etale})\to \textit{Ab},
+\quad \mathcal{F} \longmapsto \mathcal{F}_{\overline{s}}.
+$$
 \end{lemma}
 
 \begin{proof}
-Exactness as a functor from $\textit{PAb}(S_{et})$ is formal from the fact that
-directed colimits commute with all colimits and with finite limits. The
-identification of the stalks is {\it via} the map
+We first indicate how this follows from the general site-theoretic results of
+Sites, Section \ref{sites-section-points}.
+We will also give a direct proof below.
+Namely, given $\overline{s}$ consider the functor
 $$
-\kappa : \mathcal{F}_{\bar s}\longrightarrow
-\left(\mathcal{F}^\sharp\right)_{\bar s}
+p : S_{etale} \longrightarrow \textit{Sets},
+\quad
+U \longmapsto |U_{\overline{s}}|
 $$
-induced by the natural morphism $\mathcal{F}\to \mathcal{F}^\sharp$. We claim
-that this map is an isomorphism of abelian groups. We will show injectivity
-and omit surjectivity.
-\\
-Let $\sigma\in \mathcal{F}_{\bar s}$. There exists an \'etale neighborhood
-$(\mathcal{U}, \bar u)\to (S, \bar s)$ such that $\sigma$ is the image of some
+Here $|U_{\overline{s}}|$ denotes the underlying set of the geometric fibre
+$U_{\overline{s}}$ of $U$ over $\overline{s}$. In the proof of
+Lemma \ref{lemma-geometric-lift-to-cover} we have seen that the scheme
+$U_{\overline{s}}$ is a disjoint union of schemes isomorphic to $\overline{s}$.
+Thus we can also think of
+$|U_{\overline{s}}|$ as the set of geometric points of $U$ lying over
+$\overline{s}$, i.e., as the collection of morphisms
+$\overline{u} : \overline{s} \to U$ fitting into the diagram of
+Definition \ref{definition-geometric-point}. Having said this we
+see that $p(U \times_V W) = p(U) \times_{p(V)} p(W)$ whenever
+$U \to V$ and $W \to V$ are morphisms in $S_{etale}$. Moreover, given
+a covering $\{U_i \to U\}_{i \in I}$ in $S_{etale}$ we see that
+$\coprod p(U_i) \to p(U)$ is surjective by
+Lemma \ref{lemma-geometric-lift-to-cover}.
+Moreover, it is clear from the definitions that our functor
+$\mathcal{F} \mapsto \mathcal{F}_{\overline{s}}$ is the same as
+the functor $\mathcal{F} \mapsto \mathcal{F}_p$ associated to $p$ in
+Sites, Section \ref{sites-section-points}.
+Hence
+Sites, Remark \ref{sites-remark-improve-proposition-points-limits}
+applies. The discussions in that remark imply our functor defines
+a {\it point} of the site $S_{etale}$
+and that the assertions of the lemma hold.
+
+\medskip\noindent
+Now we turn to a direct proof of the lemma.
+Exactness as a functor on $\textit{PAb}(S_{etale})$ is formal from the
+fact that directed colimits commute with all colimits and with finite
+limits. The identification of the stalks is {\it via} the map
+$$
+\kappa :
+\mathcal{F}_{\overline{s}}
+\longrightarrow
+(\mathcal{F}^\#)_{\overline{s}}
+$$
+induced by the natural morphism $\mathcal{F}\to \mathcal{F}^\#$, see
+Theorem \ref{theorem-sheafification}.
+We claim that this map is an isomorphism of abelian groups. We will show
+injectivity and omit the proof of surjectivity.
+
+\medskip\noindent
+Let $\sigma\in \mathcal{F}_{\overline{s}}$.
+There exists an \'etale neighborhood
+$(U, \overline{u})\to (S, \overline{s})$ such that $\sigma$ is the image of some
 section $s \in \mathcal{F}(U)$. If $\kappa(\sigma) = 0$ in
-$(\mathcal{F}^\sharp)_{\bar s}$ then there exists a morphism of \'etale
-neighborhoods $(\mathcal{U}', \bar u')\to (\mathcal{U}, \bar u)$ such that
-$s|_{\mathcal{U}'}$ is zero in $\mathcal{F}^\sharp(\mathcal{U}')$. Following,
-there exists an \'etale covering $\left\{\mathcal{U}_i'\to
-\mathcal{U}'\right\}_{i\in I}$ such that $s|_{\mathcal{U}_i'}=0$ in
-$\mathcal{F}(\mathcal{U}_i')$ for all $i$. By lemma
-\ref{lemma-geometric-lift-to-cover} there exist $i \in I$ and a morphism $\bar
-u_i': \bar s \to \mathcal{U}_i'$ such that $(\mathcal{U}_i', \bar u_i')\to
-(\mathcal{U}', \bar u')\to (\mathcal{U}, \bar u)$ are morphisms of \'etale
-neighborhoods. Hence for some $\bar u_i'$, we have $s|_{\mathcal{U}'_i}=0$,
-which implies $\sigma = 0$. Therefore, $s|_{\mathcal{U}'_i} = 0 \in
-\mathcal{F}_{\bar s}$ and $\kappa$ is injective.
-\\
+$(\mathcal{F}^\#)_{\overline{s}}$ then there exists a morphism of \'etale
+neighborhoods $(U', \overline{u}')\to (U, \overline{u})$ such that
+$s|_{U'}$ is zero in $\mathcal{F}^\#(U')$. It follows there
+exists an \'etale covering
+$\{U_i'\to U'\}_{i\in I}$ such that $s|_{U_i'}=0$ in
+$\mathcal{F}(U_i')$ for all $i$. By Lemma \ref{lemma-geometric-lift-to-cover}
+there exist $i \in I$ and a morphism
+$\overline{u}_i': \overline{s} \to U_i'$ such that
+$(U_i', \overline{u}_i') \to (U', \overline{u}')\to (U, \overline{u})$
+are morphisms of \'etale neighborhoods. Hence $\sigma = 0$
+since $(U_i', \overline{u}_i') \to (U, \overline{u})$
+is a morphism of etale neighbourhoods such that
+we have $s|_{U'_i}=0$. This proves $\kappa$ is injective.
+
+\medskip\noindent
 To show that the functor $\textit{Ab}(S_{et}) \to \textit{Ab}$ is
 exact, consider any short exact sequence in $\textit{Ab}(S_{et})$:
 $
@@ -3107,42 +3217,80 @@ $$
 0,
 $$
 where $/^p$ denotes the quotient in $\textit{PAb}(S_{et})$. Taking stalks at
-$\bar s$, we see that $(\mathcal H /^p\mathcal{G})_{\bar{s}} = (\mathcal H
+$\overline{s}$, we see that $(\mathcal H /^p\mathcal{G})_{\bar{s}} = (\mathcal H
 /\mathcal{G})_{\bar{s}} = 0$, since the sheafification of $\mathcal
 H/^p\mathcal{G}$ is $0$.
 Therefore,
 $$
-0\to \mathcal{F}_{\bar s	} \to \mathcal{G}_{\bar s} \to
-\mathcal{H}_{\bar s} \to 0 = (\mathcal H/^p\mathcal{G})_{\bar s}
+0\to \mathcal{F}_{\overline{s}	} \to \mathcal{G}_{\overline{s}} \to
+\mathcal{H}_{\overline{s}} \to 0 = (\mathcal H/^p\mathcal{G})_{\overline{s}}
 $$
 is exact, since taking stalks is exact as a functor from presheaves.
 \end{proof}
 
 \begin{theorem}
 \label{theorem-exactness-stalks}
-A sequence of abelian sheaves on
-$S_{et}$ is exact if and only if it is exact on stalks.
+Let $S$ be a scheme. A sequence of abelian sheaves on $S_{etale}$ is exact
+if and only if it is exact on all stalks associated to geometric points of
+$S$.
 \end{theorem}
 
 \begin{proof}
-The necessity of exactness on stalks was proven in the previous lemma. For the
-converse, it suffices to show that a map of sheaves is surjective (respectively
-injective) if and only if it is surjective (resp. injective) on all stalks. We
-only treat the case of surjectivity.
-\\
+The necessity of exactness on stalks follows from
+Lemma \ref{lemma-stalk-exact}.
+For the converse, it suffices to show that a map of sheaves is surjective
+(respectively injective) if and only if it is surjective (resp. injective)
+on all stalks. We prove this in the case of surjectivity, and omit the
+proof in the case of injectivity.
+
+\medskip\noindent
 Let $\alpha : \mathcal{F} \to \mathcal{G}$ be a map of abelian sheaves such
-that $\mathcal{F}_{\bar s} \to \mathcal{G}_{\bar s}$ is surjective for all
-geometric points. Fix $\mathcal{U}\in \text{Ob}(S_{et})$ and $s \in
-\mathcal{G}(\mathcal{U})$. For every $u\in \mathcal{U}$ choose some $\bar u\to
-\mathcal{U}$ lying over $u$ and an \'etale neighborhood $(\mathcal{V}_u , \bar
-v_u)\to (\mathcal{U}, \bar u)$ such that
-$s|_{\mathcal{V}_u}=\alpha(s_{\mathcal{V}_{u}})$ for some $s_{\mathcal{V}_u}\in
-\mathcal{F}(\mathcal{V}_u)$. This is possible since $\alpha$ is surjective on
-stalks. Then $\left\{\mathcal{V}_u\to \mathcal{U}\right\}_{u\in \mathcal{U}}$
-is an \'etale covering on which the restrictions of $s$ are in the image of the
-map $\alpha$. Thus, $\alpha$ is surjective.
+that $\mathcal{F}_{\overline{s}} \to \mathcal{G}_{\overline{s}}$
+is surjective for all geometric points. Fix $U \in \text{Ob}(S_{etale})$
+and $s \in \mathcal{G}(\mathcal{U})$. For every $u \in U$ choose some
+$\overline{u} \to U$ lying over $u$ and an \'etale neighborhood
+$(V_u , \overline{v}_u) \to (U, \overline{u})$ such that
+$s|_{V_u} = \alpha(s_{V_u})$ for some
+$s_{V_u} \in \mathcal{F}(V_u)$.
+This is possible since $\alpha$ is surjective on
+stalks. Then $\{V_u \to U\}_{u \in U}$
+is an \'etale covering on which the restrictions of $s$
+are in the image of the map $\alpha$.
+Thus, $\alpha$ is surjective, see
+Sites, Section \ref{sites-section-sheaves-injective}.
 \end{proof}
 
+\begin{remarks}
+\label{remarks-enough-points}
+On points of the geometric sites.
+\begin{enumerate}
+\item In the terminology of
+Sites, Section \ref{sites-definition-enough-points}
+the proof of
+Theorem \ref{theorem-exactness-stalks}
+can be modified to show that the small \'etale site of $S$ has enough points.
+\item In fact the big \'etale site of $S$ also has enough points, by
+considering all geometric points of all objects of this site (see
+remark following
+Definition \ref{definition-stalk}).
+\item It turns out that the big fppf, syntomic, and smooth sites also have
+enough points. This can be deduced from Deligne's result
+Sites, Proposition \ref{sites-proposition-criterion-points}
+applied to $(\textit{Aff}/S)_{fppf}$ and using that the topos defined by
+this site equals the topos defined by $(\textit{Sch}/S)_{fppf}$, see
+Topologies, Lemma \ref{topologies-lemma-affine-big-site-fppf}
+(similarly for the other cases).
+\item Note that if $\overline{s} : \text{Spec}(k) \to S$ is a geometric
+point with $k$ algebraically closed, then $\overline{s}$ lifts
+to a member of any fppf covering of $S$. Using this one can show, entirely
+as in the first part of the proof of
+Lemma \ref{lemma-stalk-exact},
+that this leads to a point of the fppf site of $S$.
+Then one can argue as in the proof of
+Theorem \ref{theorem-exactness-stalks}
+to show directly that $(\textit{Sch}/S)_{fppf}$ has enough points.
+\end{enumerate}
+\end{remarks}
 
 
 
