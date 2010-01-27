@@ -1113,7 +1113,7 @@ Hence the lemma follows.
 \end{proof}
 
 \begin{lemma}
-\label{lemma-quotient-groupoid-restrict}
+\label{lemma-quotient-pre-relation-restrict}
 Let $S$ be a scheme. Let $B$ be an algebraic space over $S$.
 Let $j : R \to U\times_B U$ be a pre-relation over $B$
 and $g : U' \to U$ a morphism of algebraic spaces over $B$.
@@ -1147,9 +1147,63 @@ $U'/R' \to U/R$ is injective. If $U' \to U$ is a surjective
 map of sheaves, then $U'/R' \to U/R$ is surjective also.
 Finally, if $\{g : U' \to U\}$ is a fppf covering, then
 the map of sheaves $U' \to U$ is surjective, see
-Sites, Lemma \ref{sites-lemma-covering-surjective-after-sheafification}.
+Topologies on Spaces,
+Lemma \ref{spaces-topologies-lemma-fppf-covering-surjective}.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-quotient-groupoid-restrict}
+Let $S$ be a scheme. Let $B$ be an algebraic space over $S$.
+Let $(U, R, s, t, c)$ be a groupoid space over $B$.
+Let $g : U' \to U$ a morphism of algebraic spaces over $B$.
+Let $(U', R', s', t', c')$ be the restriction of $(U, R, s, t, c)$ to $U'$. 
+The map of quotient sheaves
+$$
+U'/R' \longrightarrow U/R
+$$
+is injective. If the composition
+$$
+\xymatrix{
+U' \times_{g, U, t} R \ar[r]_-{\text{pr}_1} \ar@/^3ex/[rr]^h
+& R \ar[r]_s & U
+}
+$$
+is a surjection of fppf sheaves then the map is bijective.
+This holds for example if $\{h : U' \times_{g, U, t} R \to U\}$ is an
+$fppf$-covering, or if $U' \to U$ is a surjection of sheaves, or if
+$\{g : U' \to U\}$ is a covering in the fppf topology.
+\end{lemma}
+
+\begin{proof}
+Injectivity follows immediately from
+Lemma \ref{lemma-quotient-pre-relation-restrict}.
+To see surjectivity (see
+Sites, Section \ref{sites-section-sheaves-injective}
+for a characterization of surjective maps of sheaves) we argue as follows.
+Suppose that $T$ is a scheme and $\sigma \in U/R(T)$.
+There exists a covering $\{T_i \to T\}$ such that $\sigma|_{T_i}$
+is the image of some element $f_i \in U(T_i)$. Hence we
+may assume that $\sigma$ if the image of $f \in U(T)$.
+By the assumption that $h$ is a surjection of sheaves, we
+can find an fppf covering $\{\varphi_i : T_i \to T\}$ and morphisms
+$f_i : T_i \to U' \times_{g, U, t} R$ such that
+$f \circ \varphi_i = h \circ f_i$. Denote
+$f'_i = \text{pr}_0 \circ f_i : T_i \to U'$. Then we see that
+$f'_i \in U'(T_i)$ maps to $g \circ f'_i \in U(T_i)$ and
+that $g \circ f'_i \sim_{T_i} h \circ f_i = f \circ \varphi_i$
+notation as in (\ref{equation-quotient-presheaf}). Namely, the
+element of $R(T_i)$ giving the relation is $\text{pr}_1 \circ f_i$.
+This means that the restriction
+of $\sigma$ to $T_i$ is in the image of $U'/R'(T_i) \to U/R(T_i)$
+as desired.
+
+\medskip\noindent
+If $\{h\}$ is an fppf covering, then it induces a surjection of sheaves, see
+Topologies on Spaces,
+Lemma \ref{spaces-topologies-lemma-fppf-covering-surjective}.
+If $U' \to U$ is surjective, then also $h$ is surjective as $s$ has a section
+(namely the neutral element $e$ of the groupoid scheme).
+\end{proof}
 
 
 
@@ -1460,6 +1514,29 @@ with composition for arbitrary morphisms.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-quotient-stack-functorial}
+Let $S$ be a scheme. Let $B$ be an algebraic space over $S$.
+Let $f : (U, R, s, t, c) \to (U', R', s', t', c')$ be a morphism of
+of groupoid spaces over $B$. Then $f$ induces a canonical $1$-morphism of
+quotient stacks
+$$
+[f] : [U/R] \longrightarrow [U'/R'].
+$$
+\end{lemma}
+
+\begin{proof}
+Denote $[U/_{\!p}R]$ and $[U'/_{\!p}R']$ the categories fibred
+in groupoids over the base site $(\textit{Sch}/S)_{fppf}$ associated to the
+functors (\ref{equation-quotient-stack}). It is clear that $f$ defines
+a $1$-morphism $[U/_{\!p}R] \to [U'/_{\!p}R']$ which we can compose
+with the stackyfication functor for $[U'/R']$ to get $[U/_{\!p}R] \to [U'/R']$.
+Then, by the universal property of the stackyfication functor
+$[U/_{\!p}R] \to [U/R]$, see
+Stacks, Lemma \ref{stacks-lemma-stackify-groupoids-universal-property}
+we get $[U/R] \to [U'/R']$.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-quotient-stack-morphisms}
 Assume $B \to S$, $(U, R, s, t, c)$ and $\pi : \mathcal{S}_U \to [U/R]$
 are as in
@@ -1620,6 +1697,113 @@ We omit the verification of (3).
 Part (4) is a translation of the fact that in a stack all descent data
 are effective.
 We omit the verifications of (5) and (6).
+\end{proof}
+
+
+
+
+
+
+
+
+\section{Restriction and quotient stacks}
+\label{section-quotient-stack-restrict}
+
+\noindent
+In this section we study what happens to the quotient stack
+when taking a restriction.
+
+\begin{lemma}
+\label{lemma-quotient-stack-restrict}
+Let $S$ be a scheme. Let $B$ be an algebraic space over $S$.
+Let $(U, R, s, t, c)$ be a groupoid space over $B$.
+Let $g : U' \to U$ a morphism of algebraic spaces over $B$.
+Let $(U', R', s', t', c')$ be the restriction of $(U, R, s, t, c)$ to $U'$. 
+The morphism of quotient stacks
+$$
+[U'/R'] \longrightarrow [U/R]
+$$
+(see Lemma \ref{lemma-quotient-stack-functorial}) is fully faithful.
+\end{lemma}
+
+\begin{proof}
+Let $x', y'$ be objects of $[U'/R']$ over a scheme $T/S$.
+Let $x, y$ be the images of $x', y'$ in the category $[U/R]_T$.
+We have to show that the map of sheaves
+$$
+\mathit{Isom}(x', y') \longrightarrow \mathit{Isom}(x, y)
+$$
+is an isomorphism. We may do this locally on $T$ (in the fppf topology).
+Hence, by
+Lemma \ref{lemma-quotient-stack-objects}
+we may assume that $x', y'$ come from $a', b' \in U'(T)$.
+In that case we see that $x, y$ correspond to $g \circ a', g \circ b'$. By
+Lemma \ref{lemma-quotient-stack-morphisms}
+the displayed map of sheaves in this case becomes
+$$
+T \times_{(a', b'), U' \times_B U'} R'
+\longrightarrow
+T \times_{g \circ a', g \circ b', U \times_B U} R
+$$
+which is an isomorphism because
+$R' = (U' \times_B U')\times_{U \times_B U} R$, see
+Lemma \ref{lemma-restrict-groupoid-relation}
+and its proof.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-quotient-stack-restrict-equivalence}
+Let $S$ be a scheme. Let $B$ be an algebraic space over $S$.
+Let $(U, R, s, t, c)$ be a groupoid space over $B$.
+Let $g : U' \to U$ a morphism of algebraic spaces over $B$.
+Let $(U', R', s', t', c')$ be the restriction of $(U, R, s, t, c)$ to $U'$.
+Assume
+$$
+\xymatrix{
+U' \times_{g, U, t} R \ar[r]_-{\text{pr}_1} \ar@/^3ex/[rr]^h
+& R \ar[r]_s & U
+}
+$$
+is a surjection of sheaves. Then the $1$-morphism
+$$
+[U'/R'] \longrightarrow [U/R]
+$$
+is an equivalence. This holds for example if
+$\{h : U' \times_{g, U, t} R \to U\}$ is an fppf covering, or
+if $U' \to U$ is a surjection of sheaves, or if
+$\{g : U' \to U\}$ is an fppf covering.
+\end{lemma}
+
+\begin{proof}
+Fully faithfulness follows immediately from
+Lemma \ref{lemma-quotient-stack-restrict}.
+Thus we may use
+Stacks, Lemma \ref{stacks-lemma-characterize-essentially-surjective-when-ff}
+which characterizes equivalences.
+Suppose that $T$ is a scheme and $x \in \text{Ob}([U/R]_T)$.
+There exists a covering $\{f_i : T_i \to T\}$ such that $f_i^*x$
+is the image of some element $f_i \in U(T_i)$, see
+Lemma \ref{lemma-quotient-stack-objects}.
+Hence we may assume that $x$ is the image of $f \in U(T)$.
+By the assumption that $h$ is a surjection of sheaves, we
+can find an fppf covering $\{\varphi_i : T_i \to T\}$ and morphisms
+$f_i : T_i \to U' \times_{g, U, t} R$ such that
+$f \circ \varphi_i = h \circ f_i$. Denote
+$f'_i = \text{pr}_0 \circ f_i : T_i \to U'$. Then we see that
+$f'_i \in U'(T_i)$ maps to $g \circ f'_i \in U(T_i)$ and
+that $g \circ f'_i \cong_{T_i} h \circ f_i = f \circ \varphi_i$,
+where $\cong_{T_i}$ denotes isomorphism in the fibre category
+$[U/R]_{T_i}$. Namely, the element of $R(T_i)$ giving the isomorphism
+is $\text{pr}_1 \circ f_i$. This means that the restriction
+of $x$ to $T_i$ is in the essential image of the functor
+$[U'/R']_{T_i} \to [U/R]_{T_i}$ as desired.
+
+\medskip\noindent
+If $\{h\}$ is an fppf covering, then it induces a surjection of sheaves, see
+Topologies on Spaces,
+Lemma \ref{spaces-topologies-lemma-fppf-covering-surjective}.
+If $U' \to U$ is surjective, then also $h$ is surjective as $s$ has a section
+(namely the neutral element $e$ of the groupoid scheme).
 \end{proof}
 
 
