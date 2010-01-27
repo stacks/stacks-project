@@ -470,6 +470,46 @@ as before.
 
 
 
+\section{Properties of group schemes}
+\label{section-properties-group-schemes}
+
+\noindent
+In this section we collect some simple properties of group schemes.
+
+\begin{lemma}
+\label{lemma-group-scheme-finite-type-field}
+Let $G$ be a group scheme which is locally of finite type over a
+field $k$. Then $G$ is equidimensional and
+$\dim(G) = \dim_g(G)$ for all $g \in G$.
+For any closed point $g \in G$ we have $\dim(G) = \dim(\mathcal{O}_{G, g})$.
+\end{lemma}
+
+\begin{proof}
+Let us first prove that $\dim_g(G) = \dim_{g'}(G)$ for any
+pair of points $g, g' \in G$. By
+Morphisms of Schemes,
+Lemma \ref{morphisms-lemma-dimension-fibre-after-base-change}
+we may extend the ground field at will. Hence we may assume that
+both $g$ and $g'$ are defined over $k$. Hence there exists an
+automorphism of $G$ mapping $g$ to $g'$, whence the equality.
+By
+Morphisms, Lemma \ref{morphisms-lemma-dimension-fibre-at-a-point}
+we have
+$\dim_g(G) = \dim(\mathcal{O}_{G, g}) +
+\text{trdeg}_{k}(\kappa(g))$.
+On the other hand, the dimension of $G$ (or any open subset of $G$)
+is the supremum of the dimensions of the local rings of of $G$,see
+Properties of Schemes, Lemma \ref{properties-lemma-codimension-local-ring}.
+Clearly this is maximal for closed points $g$ in which case
+$\text{trdeg}_{k}(\kappa(g)) = 0$ (by the Hilbert Nullstellensatz, see
+Morphisms, Section \ref{morphisms-section-points-finite-type}).
+Hence the lemma follows.
+\end{proof}
+
+
+
+
+
 \section{Actions of group schemes}
 \label{section-action-group-scheme}
 
@@ -1556,7 +1596,9 @@ $\tau$-topology''.
 The following lemma means that any groupoid $(U, R, s, t, c)$
 with $s, t$ flat and locally of finite presentation is ``equivalent'' to
 a groupoid $(U', R', s', t', c')$ such that $s'$ and $t'$ are
-Cohen-Macaulay morphisms (and locally of finite presentation).
+Cohen-Macaulay morphisms (and locally of finite presentation). See
+More on Morphisms, Section \ref{more-morphisms-section-CM}
+for more information on Cohen-Macaulay morphisms.
 Here ``equivalent'' can be taken to mean that the quotient stacks
 $[U/R]$ and $[U'/R']$ are equivalent stacks, see
 Groupoid Spaces, Section \ref{spaces-groupoids-section-stacks}
@@ -1624,6 +1666,119 @@ Part (5) is a formal consequence of (1) and (2) and the discussion
 of restrictions in Section \ref{section-restrict-groupoid}.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-slice}
+Let $S$ be a scheme.
+Let $(U, R, s, t, c, e, i)$ be a groupoid scheme over $S$.
+Let $G \to U$ be the stabilizer group scheme.
+Assume $s$ and $t$ are Cohen-Macaulay and locally of finite presentation.
+Let $u \in U$. Set $r = e(u)$ and $F_u = s^{-1}(u)$. Set
+$$
+d_1 = \dim(G_u),\quad d_2 = \dim_r(F_u).
+$$
+If $d_2 > d_1$, then there exist an affine scheme $U'$
+and a morphism $g : U' \to U$ such that
+\begin{enumerate}
+\item $g$ is an immersion and locally of finite presentation,
+\item $u \in U'$,
+\item the composition
+$$
+h = s \circ \text{pr}_1 : U' \times_{g, U, t} R \longrightarrow U
+$$
+is Cohen-Macaulay at $(u, r)$, and
+\item letting $R'$ be the restriction of $R$ to $U'$ and setting
+$F'_u = (s')^{-1}(u)$ we have $\dim_r(F'_u) = d_2 - 1$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Let $\text{Spec}(A) \subset U$ be an affine neighbourhood of $u$.
+Let $\text{Spec}(B) \subset R$ be an affine neighbourhood of $r$
+which maps via $j$ into the open
+$\text{Spec}(A) \times_S \text{Spec}(A) \subset U \times_S U$.
+Let $\mathfrak p \subset A$ be the prime ideal corresponding to $u$.
+Let $\mathfrak q \subset B$ be the prime ideal corresponding to $r$.
+Pictures:
+$$
+\vcenter{
+\xymatrix{
+B & A \ar[l]^s \\
+A \ar[u]^t
+}
+}
+\quad\text{and}\quad
+\vcenter{
+\xymatrix{
+B_{\mathfrak q} & A_{\mathfrak p} \ar[l]^s \\
+A_{\mathfrak p} \ar[u]^t
+}
+}
+$$
+Note that $\kappa(\mathfrak p)$ is identified with $\kappa(\mathfrak q)$
+via both arrows as $r = e(u)$. The ring maps $s, t : A \to B$ are
+locally of finite type and flat. By assumption the ring
+$$
+\mathcal{O}_{F_u, r} = B_{\mathfrak q}/s(\mathfrak p)B_{\mathfrak q}
+$$
+is Cohen-Macaulay of dimension $d_2$ (equality of dimension by
+Morphisms, Lemma \ref{morphisms-lemma-dimension-fibre-at-a-point}).
+By assumption the ring
+$$
+\mathcal{O}_{G_u, r}
+=
+B_{\mathfrak q}/(s(\mathfrak p)B_{\mathfrak q} + t(\mathfrak p)B_{\mathfrak q})
+$$
+has dimension $d_1$ (equality of dimension by
+Lemma \ref{lemma-group-scheme-finite-type-field}).
+We claim this implies we can find
+an element $f \in \mathfrak p$ such that
+$$
+\dim(B_{\mathfrak q}/(s(\mathfrak p)B_{\mathfrak q} + fB_{\mathfrak q}) < d_2
+$$
+Namely, suppose $\mathfrak n_j \supset s(\mathfrak p)B_{\mathfrak q}$,
+$j = 1, \ldots, m$ correspond to the minimal primes of the local ring
+$B_{\mathfrak q}/s(\mathfrak p)B_{\mathfrak q}$.
+There are finitely many as this ring is Noetherian (since it is essentially
+of finite type over a field -- but also because a Cohen-Macaulay ring is
+Noetherian). By the Cohen-Macaulay condition we have
+$\dim(B_{\mathfrak q}/\mathfrak n_j) = d_2$, for example by
+Algebra, Lemma \ref{algebra-lemma-CM-dim-formula}.
+Then the conditions $d_1 < d_2$ and
+$\dim(B_{\mathfrak q}/(\mathfrak n_j + t(\mathfrak p)B_{\mathfrak q})) = d_1$
+implies that
+$\mathfrak p \not \subset t^{-1}(\mathfrak n_i)$. Since there are only
+finitely many minimal primes in the Noetherian ring
+$B_{\mathfrak q}/s(\mathfrak p)B_{\mathfrak q}$ we get our desired $f$
+by prime avoidence, see
+Algebra, Lemma \ref{algebra-lemma-silly}.
+
+\medskip\noindent
+Set $A' = A/fA$ and $U' = \text{Spec}(A')$. Then it is clear that
+$U' \to U$ is an immersion, locally of finite presentation
+and that $u \in U'$. Moreover, the morphism
+$$
+U' \times_{g, U, t} R \longrightarrow U
+$$
+factors through $\text{Spec}(A)$ and corresponds to the ring map
+$$
+\xymatrix{
+B/t(f)B \ar@{=}[r] & A/(f) \otimes_{A, t} B & A \ar[l]_-s
+}
+$$
+Now, we see $t(f)$ is not a zero divisor on
+$B_{\mathfrak q}/s(\mathfrak p)B_{\mathfrak q}$ as this is a
+Cohen-Macaulay ring of positive dimension and $f$ is not contained
+in any minimal prime, see for example
+Algebra, Lemma \ref{algebra-lemma-reformulate-CM}.
+Hence by
+Algebra, Lemma \ref{algebra-lemma-grothendieck}
+we conclude that $s : A_{\mathfrak p} \to B_{\mathfrak q}/t(f)B_{\mathfrak q}$
+is flat with fibre ring
+$B_{\mathfrak q}/(s(\mathfrak p)B_{\mathfrak q} + t(f)B_{\mathfrak q})$
+which is Cohen-Macaulay of $1$ lower dimension by
+Algebra, Lemma \ref{algebra-lemma-reformulate-CM}
+again. This implies the final assertion of the lemma and we win.
+\end{proof}
 
 
 
