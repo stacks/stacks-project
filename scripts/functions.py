@@ -299,6 +299,10 @@ def split_label(label):
 		name = "etale-cohomology"
 		type = pieces[2]
 		n = 4
+	if name == "groupoids" and type == "quotients":
+		name = "groupoids-quotients"
+		type = pieces[2]
+		n = 4
 	while n < len(pieces):
 		rest = rest + "-" + pieces[n]
 		n = n + 1
