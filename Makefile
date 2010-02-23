@@ -145,6 +145,10 @@ tags/tmp/chapters.tex: chapters.tex
 tags/tmp/%.tex: %.tex
 	python ./scripts/tag_up.py $(PWD) $* > tags/tmp/$*.tex
 
+tags/tmp/%.tex.html: %.tex
+	vim -n -u NONE -S scripts/vim.vim $*.tex
+	mv tmp/syntax-tex.html tags/tmp/$*.tex.html
+
 tags/tmp/amsart.cls: amsart.cls
 	cp amsart.cls tags/tmp/amsart.cls
 
