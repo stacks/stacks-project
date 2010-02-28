@@ -255,7 +255,7 @@ def standard_label(label):
 		n = n + 1
 	return 0
 
-# Split label into comonents
+# Split label into components
 def split_label(label):
 	pieces = label.split('-')
 	name = pieces[0]
