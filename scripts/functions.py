@@ -260,49 +260,53 @@ def split_label(label):
 	pieces = label.split('-')
 	name = pieces[0]
 	type = pieces[1]
-	rest = pieces[2]
-	n = 3
+	rest = ""
+	n = 2
 	# Exceptions...
 	if name == "sites" and type == "cohomology":
 		name = "sites-cohomology"
 		type = pieces[2]
-		n = 4
+		n = 3
 	if name == "sites" and type == "modules":
 		name = "sites-modules"
 		type = pieces[2]
-		n = 4
+		n = 3
 	if name == "spaces" and type == "properties":
 		name = "spaces-properties"
 		type = pieces[2]
-		n = 4
+		n = 3
 	if name == "spaces" and type == "morphisms":
 		name = "spaces-morphisms"
 		type = pieces[2]
-		n = 4
+		n = 3
 	if name == "spaces" and type == "topologies":
 		name = "spaces-topologies"
 		type = pieces[2]
-		n = 4
+		n = 3
 	if name == "spaces" and type == "descent":
 		name = "spaces-descent"
 		type = pieces[2]
+		n = 3
+	if name == "spaces" and type == "more":
+		name = "spaces-more-morphisms"
+		type = pieces[3]
 		n = 4
 	if name == "spaces" and type == "groupoids":
 		name = "spaces-groupoids"
 		type = pieces[2]
-		n = 4
+		n = 3
 	if name == "more" and type == "morphisms":
 		name = "more-morphisms"
 		type = pieces[2]
-		n = 4
+		n = 3
 	if name == "etale" and type == "cohomology":
 		name = "etale-cohomology"
 		type = pieces[2]
-		n = 4
+		n = 3
 	if name == "groupoids" and type == "quotients":
 		name = "groupoids-quotients"
 		type = pieces[2]
-		n = 4
+		n = 3
 	while n < len(pieces):
 		rest = rest + "-" + pieces[n]
 		n = n + 1
