@@ -2806,94 +2806,150 @@ schemes obtained from descending the opens $W_i$ (details omitted).
 \label{section-exactness-pushforward}
 
 \noindent
-We will use the notion of an almost cocontinuous functor
-between sites introduced in
-Sites, Section \ref{sites-section-almost-cocontinuous}.
+In this section we study some very basic properties of pushforward
+on sheaves for some types of morphisms.
+
+\begin{lemma}
+\label{lemma-integral-etale-cover-from-below}
+Let $f : X \to Y$ be an integral morphism of schemes.
+Let $U \to X$ be etale. Then there exist etale morphisms
+$V_i \to Y$ and morphisms $V_i \times_Y X \to U$ such that
+$\{V_i \times_Y X \to U\}$ is an etale covering of $U$.
+FIXME: THIS IS WRONG.
+\end{lemma}
+
+\begin{proof}
+Supppose that $V \to X$ is etale.
+Then $V \times_Y X \to X$ is etale, and hence any morphism
+from $V \times_Y X \to U$ is etale as well, see
+Morphisms, Lemmas \ref{morphisms-lemma-base-change-etale} and
+\ref{morphisms-lemma-etale-permanence}.
+We will use this remark without further mention.
+Pick $u \in U$. It is enough to construct an etale morphism
+$V \to Y$ and a morphism $V \times_Y X \to U$ such that $v$ is
+in the image. This question is local on $U$. Hence we may assume
+that $U$ is affine and maps into an affine open of $Y$.
+Thus we may assume $Y$ is affine which implies that $X$ is affine too
+(by definition of an integral morphism).
+Say $Y = \text{Spec}(A)$, $X = \text{Spec}(B)$ and $U = \text{Spec}(C)$.
+The ring map $A \to B$ is integral and the ring map $B \to C$ is etale.
+We can find a finite $A$-subalgebra $B' \subset B$ and an etale ring
+map $B' \to C'$ such that $C \cong B \otimes_B' C'$, see
+Algebra, Lemma \ref{algebra-lemma-etale}.
+It follows that it suffices to prove the lemma for
+$\text{Spec}(C') \to \text{Spec}(B') \to \text{Spec}(A)$.
+Hence we may assume that $A \to B$ is a finite ring map.
+In other words we may assume $f$ is a finite morphism of affine schemes
+and $U$ is affine too.
+
+\medskip\noindent
+Let $y \in Y$ be the image of $u$. Apply
+Lemma \ref{lemma-etale-splits-off-quasi-finite-part-technical-variant}
+to $U \to Y$ and the point $u$ (but we pick only one of the finite parts).
+This produces an etale neighbourhood
+$(V, v) \to (Y, y)$ such that
+$$
+V \times_Y U = W \amalg W'
+$$
+with $W \to V$ finite with exactly one point $w$ mapping to $v$
+such that $\kappa(v) \to \kappa(w)$ is purely inseparable.
+Set $X' = V \times_Y X$. Here is a picture
+$$
+\xymatrix{
+W \amalg W' \ar@{=}[r] \ar[d] &
+V \times_Y U \ar[r] \ar[d] &
+U \ar[d] \\
+X' \ar@{=}[r] &
+V \times_Y X \ar[r] \ar[d] &
+X \ar[d] \\
+& V \ar[r] & Y
+}
+$$
+In this situation $W \to X'$ is finite etale (use
+Morphisms, Lemmas \ref{morphisms-lemma-finite-permanence} and
+\ref{morphisms-lemma-base-change-etale}),
+and $\kappa(x') \subset \kappa(w)$ is purely inseparable where $x'$ is
+the image of $w$ in $X'$. Moreover $w$ is the only
+point mapping to $x'$. It follows that $W \to X'$ is an isomorphism in
+an open neighbourhood $(X')^\circ$ of $x'$ in $X'$, see
+Etale Morphisms, Lemma \ref{etale-lemma-finite-etale-one-point}.
+Since $X' \to V$ is finite, the image of $X' \setminus (X')^\circ$ in $V$
+is a closed subset not containing $v$ (because $w$ is the only point
+mapping to $v$). Thus we may remove this image from $V$ and after doing
+so we get $W \cong X'$. For this
+choice of $V$ we see that $X' \to X$ factors through $U$
+as desired.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-prepare-integral-etale-almost-cocontinuous}
+Let $f : X \to Y$ be an integral morphism of schemes.
+Let $\{U_i \to X\}$ be an etale covering.
+There exists an etale covering $\{V_j \to Y\}$ such that
+for each $j$, either $V_j \times_Y X = \emptyset$, or the
+morphism $V_j \times_Y X \to X$ factors through $U_i$ for some $i$.
+\end{lemma}
+
+\begin{proof}
+For each $i$ we can choose etale morphisms
+$g_{ij} : V_{ij} \to Y$ and morphisms $V_{ij} \times_Y X \to U_i$ over $X$,
+such that $\{V_{ij} \times_Y X \to U_i\}$ are etale coverings, see
+Lemma \ref{lemma-integral-etale-cover-from-below}.
+This in particular implies that
+$\bigcup_{ij} g_{ij}(V_{ij})$ contains the closed subset $f(X)$.
+Hence the family of etale maps $g_{ij}$ together with the open immersion
+$Y \setminus f(X) \to Y$ forms the desired etale covering of $Y$.
+\end{proof}
 
 \begin{lemma}
 \label{lemma-integral-etale-almost-cocontinuous}
 Let $f : X \to Y$ be an integral morphism of schemes.
 Then the functor $V \mapsto X \times_Y V$ defines an almost
-cocontinuous functor $Y_{etale} \to X_{etale}$ between small etale sites
+cocontinuous functor (see
+Sites, Definition \ref{sites-definition-almost-cocontinuous})
+$Y_{etale} \to X_{etale}$ between small etale sites
 and an almost cocontinuous functor
 $(\textit{Sch}/Y)_{etale} \to (\textit{Sch}/X)_{etale}$ between
 big etale sites.
 \end{lemma}
 
 \begin{proof}
-We have to show the following:
-given a scheme $U \to X$ over $X$ and any etale covering
-$\{V_j \to Y \times_X U\}$, there exists an etale covering
-$\{U_i \to U\}$ such that for each $i$, either $Y \times_X U_i$ is
-empty, or $Y \times_X U_i \to Y \times_X U$ factors through one of
-the $V_j$. It is clear that the question is local on $U$. Hence we
-may assume that $U$ is an affine scheme. Set $V = Y \times_X U$.
-Then $V$ is affine too, and $V \to U$ is the morphism of affine schemes
-associated to an integral ring map $A \to B$.
-
-\medskip\noindent
-Note that the covering $\{V_j \to V\}$ can be refined by a standard
-etale covering, see
-Topologies, Lemma \ref{topologies-lemma-etale-affine}.
-Hence we may assume $\{V_j \to V\}_{j = 1, \ldots, m}$ is a standard
-etale covering. This means that $V_j = \text{Spec}(B_j)$ and
-$B \to B_j$ is an etale ring map. We can find a finite $A$-subalgebra
-$B' \subset B$ and etale ring maps $B' \to B'_j$ such that
-$B_j \cong B \otimes_{B'} B'_j$ for each $j$. See
-Algebra, Lemma \ref{algebra-lemma-etale}.
-Hence we may assume that $A \to B$ is a finite ring map.
-
-\medskip\noindent
-Pick $u \in U$ which is in the image of $V \to U$. This means there
-exists a $j$ and $v_j \in V_j$ whose image is $u$. Apply
-Lemma \ref{lemma-etale-splits-off-quasi-finite-part-technical-variant}
-to $V_j \to U$ and the point $v_j$ (but we pick only one of the finite parts).
-This produces an etale neighbourhood
-$(U', u') \to (U, u)$ such that
-$$
-U' \times_U V_j = W \amalg W'
-$$
-with $W' \to U$ finite with exactly one point $w'$ mapping to $u'$
-such that $\kappa(u') \to \kappa(w')$ is purely inseparable.
-This implies that $W' \to U' \times_U V$ is finite etale, and that
-$\kappa(v') \subset \kappa(w')$ is purely inseparable where $v'$ is
-the image of $w'$ in $V' = U' \times_U V$. Moreover $w'$ is the only
-point mapping to $v'$. It follows that
-$\kappa(v') = \kappa(w')$ and that $W' \to V'$ is an isomorphism in
-an open neighbourhood of $w'$ in $W'$ (because $W' \to V'$ is finite
-locally free and the degree at $v'$ is $1$ by what we said above).
-Since $W' \to U'$ is finite, after shrinking $U'$ we may arrange it
-so that $W' \cong V'$. For this
-choice of $U'$ we see that $U' \times_U V \to V$ factors through $V_j$!
-
-\medskip\noindent
-The preceding paragraph shows that for any $u \in U$ in the image of $V \to U$
-we can find an etale neighbourhood $(U', u') \to (U, u)$ such that
-$U' \times_U V \to V$ factors through $V_j$ for some $j$. On the other hand,
-the etale morphism $U \setminus Z \to U$ covers all the other points (here
-$Z \subset U$ is the image of $V \to U$ which is a closed subset).
-This proves the lemma.
+We have to show the following: given a morphism $V \to Y$
+and any etale covering $\{U_i \to X \times_Y V\}$, there exists an
+etale covering $\{V_j \to V\}$ such that for each $j$, either
+$X \times_Y V_j$ is empty, or
+$X \times_Y V_j \to Z \times_Y V$ factors through one of
+the $U_i$. This follows on applying
+Lemma \ref{lemma-prepare-integral-etale-almost-cocontinuous}
+above to the integral morphism $X \times_Y V \to V$.
 \end{proof}
 
 \begin{lemma}
 \label{lemma-integral-etale-pushforward-exact}
 Let $f : X \to Y$ be an integral morphism of schemes.
 (For example a finite morphism or a closed immersion.)
+Let $f_{small} : \textit{Sh}(X_{etale}) \to \textit{Sh}(Y_{etale})$
+be the corresponding morphism of small etale topoi. Then
 \begin{enumerate}
-\item The pushforward
-$f_{small, *} : \textit{Sh}(X_{etale}) \to \textit{Sh}(Y_{etale})$
-commutes with coequalizers and pushouts.
-\item The pushforward
-$f_{small, *} : \textit{Ab}(X_{etale}) \to \textit{Ab}(Y_{etale})$
+\item $f_{small, *}$ is faithful and reflects injections, surjections, and
+isomorphisms,
+\item $f_{small}^{-1}f_{small, *}\mathcal{F} \to \mathcal{F}$ is surjective
+for every sheaf $\mathcal{F}$ on $X_{etale}$,
+\item $f_{small, *}$ on sheaves of sets commutes with coequalizers and
+pushouts,
+\item $f_{small, *} : \textit{Ab}(X_{etale}) \to \textit{Ab}(Y_{etale})$
 is exact.
-\item The pushforward
-$f_{big, *} :
+\end{enumerate}
+If 
+$f_{big} :
 \textit{Sh}((\textit{Sch}/X)_{etale})
 \to
 \textit{Sh}((\textit{Sch}/Y)_{etale})$
-commutes with coequalizers and pushouts.
-\item The pushforward
-$f_{big, *} :
+is the associated morphism of big etale topoi, then
+\begin{enumerate}
+\item[(5)] $f_{big, *}$ on sheaves of sets commutes with coequalizers
+and pushouts, and
+\item[(6)] $f_{big, *} :
 \textit{Ab}((\textit{Sch}/X)_{etale})
 \to
 \textit{Ab}((\textit{Sch}/Y)_{etale})$
@@ -2902,13 +2958,80 @@ is exact.
 \end{lemma}
 
 \begin{proof}
-This follows from
-Sites, Lemma \ref{sites-lemma-morphism-of-sites-almost-cocontinuous},
-Modules on Sites,
-Lemma \ref{sites-modules-lemma-morphism-ringed-sites-almost-cocontinuous},
+First, consider the small etale sites. By
+Lemma \ref{lemma-integral-etale-cover-from-below}
+we see that
+Sites, Lemma \ref{sites-lemma-cover-from-below}
+applies, and we get (1) and (2). Parts (3) and (4)
+follows from
+Sites, Lemma \ref{sites-lemma-morphism-of-sites-almost-cocontinuous}
 and
+Modules on Sites,
+Lemma \ref{sites-modules-lemma-morphism-ringed-sites-almost-cocontinuous}
+because
 Lemma \ref{lemma-integral-etale-almost-cocontinuous}
-above.
+garantees that we may apply these abstract results.
+
+\medskip\noindent
+In the case of the big sites the continuous functor
+$V/Y \mapsto X \times_Y V/X$ which induces $f_{big}$ is
+almost cocontinuous by
+Lemma \ref{lemma-integral-etale-almost-cocontinuous}.
+Hence we get properties (5) and (6) from
+Sites, Lemma \ref{sites-lemma-morphism-of-sites-almost-cocontinuous}
+and
+Modules on Sites,
+Lemma \ref{sites-modules-lemma-morphism-ringed-sites-almost-cocontinuous}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-closed-immersion-cover-from-below}
+Let $f : X \to Y$ be a closed immersion of schemes.
+Let $U \to X$ be a syntomic (resp.\ smooth, resp.\ etale) morphism.
+Then there exist syntomic (resp.\ smooth, resp.\ etale) morphisms
+$V_i \to Y$ and morphisms $V_i \times_Y X \to U$ such that
+$\{V_i \times_Y X \to U\}$ is a Zariski covering of $U$.
+\end{lemma}
+
+\begin{proof}
+Let us prove the lemma when $\tau = syntomic$.
+The question is local on $U$. Thus we may assume that $U$ is
+an affine scheme mapping into an affine of $Y$.
+Hence we reduce to proving the following case:
+$Y = \text{Spec}(A)$, $X = \text{Spec}(A/I)$, and
+$U = \text{Spec}(\overline{B})$, where
+$A/I \to \overline{B}$ be a syntomic ring map.
+By Algebra, Lemma \ref{algebra-lemma-lift-syntomic}
+we can find elements $\overline{g}_i \in \overline{B}$
+such that
+$\overline{B}_{\overline{g}_i} = A_i/IA_i$ for certain syntomic ring maps
+$A \to A_i$.
+This proves the lemma in the syntomic case.
+The proof of the smooth case is the same except it uses
+Algebra, Lemma \ref{algebra-lemma-lift-smooth}.
+In the etale case use
+Algebra, Lemma \ref{algebra-lemma-lift-etale}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-prepare-closed-immersion-almost-cocontinuous}
+Let $f : X \to Y$ be a closed immersion of schemes.
+Let $\{U_i \to X\}$ be a syntomic (resp.\ smooth) covering.
+There exists a syntomic (resp.\ smooth) covering $\{V_j \to Y\}$
+such that for each $j$, either $V_j \times_Y X = \emptyset$, or the
+morphism $V_j \times_Y X \to X$ factors through $U_i$ for some $i$.
+\end{lemma}
+
+\begin{proof}
+For each $i$ we can choose syntomic (resp.\ smooth) morphisms
+$g_{ij} : V_{ij} \to Y$ and morphisms $V_{ij} \times_Y X \to U_i$ over $X$,
+such that $\{V_{ij} \times_Y X \to U_i\}$ are Zariski coverings, see
+Lemma \ref{lemma-closed-immersion-cover-from-below}.
+This in particular implies that
+$\bigcup_{ij} g_{ij}(V_{ij})$ contains the closed subset $f(X)$.
+Hence the family of synomtic (resp.\ smooth) maps $g_{ij}$ together
+with the open immersion $Y \setminus f(X) \to Y$ forms the desired
+syntomic (resp.\ smooth) covering of $Y$.
 \end{proof}
 
 \begin{lemma}
@@ -2916,34 +3039,24 @@ above.
 Let $f : X \to Y$ be a closed immersion of schemes.
 Let $\tau \in \{syntomic, smooth, etale\}$.
 The functor $V \mapsto X \times_Y V$ defines an almost
-an almost cocontinuous functor
+an almost cocontinuous functor (see
+Sites, Definition \ref{sites-definition-almost-cocontinuous})
 $(\textit{Sch}/Y)_\tau \to (\textit{Sch}/X)_\tau$ between
-big etale sites.
+big $\tau$ sites.
 \end{lemma}
 
 \begin{proof}
 We have seen this for $\tau = etale$ in
 Lemma \ref{lemma-integral-etale-almost-cocontinuous}.
-Let us prove the lemma when $\tau = syntomic$.
-The question is local on the site $(\textit{Sch}/Y)_{syntomic}$
-hence we reduce to proving the following statement:
-Let $A \to A/I$ be a surjection of rings.
-Let $A/I \to \overline{B}_j$, $j = 1, \ldots, m$ be syntomic
-ring maps such that $\coprod \text{Spec}(\overline{B}_j) \to \text{Spec}(A/I)$
-is surjective. Then we can find a standard syntomic covering
-$\{\text{Spec}(A_i) \to \text{Spec}(A)\}$ such that for each $i$
-either $A_i/IA_i$ is the zero ring, or the ring map
-$A/I \to A_i/IA_i$ factors through $A/I \to \overline{B}_j$ for some $j$.
-
-\medskip\noindent
-By Algebra, Lemma \ref{algebra-lemma-lift-syntomic}
-we may assume (after refining the covering) that
-$\overline{B}_i = A_i/IA_i$ for certain syntomic ring maps
-$A \to A_i$. Combined with the ring maps $A \to A_f$, $f \in I$
-we obtain a syntomic covering of $\text{Spec}(A)$ of the desired
-type. Some details omitted. The proof of the smooth case is omitted.
-(Hint: Use Algebra, Lemma \ref{algebra-lemma-lift-smooth} instead
-of Algebra, Lemma \ref{algebra-lemma-lift-syntomic}.)
+We have to show the following: given a morphism $V \to Y$
+and any syntomic (resp.\ smooth)
+covering $\{U_i \to X \times_Y V\}$, there exists a
+smooth (resp.\ smooth) covering $\{V_j \to V\}$ such that for each $j$, either
+$X \times_Y V_j$ is empty, or
+$X \times_Y V_j \to Z \times_Y V$ factors through one of
+the $U_i$. This follows on applying
+Lemma \ref{lemma-prepare-closed-immersion-almost-cocontinuous}
+above to the closed immersion $X \times_Y V \to V$.
 \end{proof}
 
 \begin{lemma}
@@ -3045,7 +3158,7 @@ in this setting (omitted).
 \begin{lemma}
 \label{lemma-locally-quasi-finite-push-pull-etale}
 Let $f : X \to Y$ be a separated locally quasi-finite morphism of schemes.
-Denote $f_{small} : \textit{Sh}(X_{etale}) \to \textit{Sh}(Y_{etale})$.
+Denote $f_{small} : \textit{Sh}(X_{etale}) \to \textit{Sh}(Y_{etale})$
 the associated morphism of small etale topoi.
 Then the canonical map
 $f_{small}^{-1}f_{small, *}\mathcal{F} \to \mathcal{F}$
@@ -3121,11 +3234,12 @@ just remove the image the inverse image of $R$ in $W'$; this is
 a closed set (as $W' \to V$ is finite) not containing $v$.
 Then $W' \to W$ is finite because both $W \to V$ and $W' \to V$ are finite.
 Hence $W' \to W$ is finite etale, and there is exactly one point in the
-fibre over $w$ with $\kappa(w) = \kappa(w')$. Hence $W' \to W$ is an isomorphism
-in a neighbourhood of $w$ (because $W' \to W$ is finite
-locally free and the degree at $w$ is $1$ by what we said above).
-Since $W \to V$ is finite we may after shrinking
-$V$ (similarly to the above) assume that $W' \to W$ is an isomorphism.
+fibre over $w$ with $\kappa(w) = \kappa(w')$. Hence $W' \to W$ is an
+isomorphism in an open neighbourhood $W^\circ$ of $w$, see
+Etale Morphisms, Lemma \ref{etale-lemma-finite-etale-one-point}.
+Since $W \to V$ is finite the image of $W \setminus W^\circ$ is a closed
+subset $T$ of $V$ not containing $v$. Thus after replacing $V$ by
+$V \setminus T$ we may assume that $W' \to W$ is an isomorphism.
 Now $g : W' \to U$ and $a : W' \to X \times_Y V$ is a pair as above.
 By construction $u \in U$ is in the image of $g$. By varying $u \in U$
 we can find our system $(g_i, U_i, a_i)$ as above and we win.
@@ -3175,14 +3289,15 @@ that $s_1|_{X \times_Y V'} = s_2|_{X \times_Y V'}$ as desired.
 \label{remark-finite-universally-injective}
 Lemma \ref{lemma-closed-immersion-push-pull-etale}
 also holds if $f : X \to Y$ is finite and universally injective.
-In fact the proof works in this case also.
+In fact the proof works in this case also. But the correct generality
+is probably the case where $f$ is integral and universally injective.
 \end{remark}
 
 
 
 
 
-\section{Exactness of lower shriek}
+\section{Exactness of big lower shriek}
 \label{section-exactness-lower-shriek}
 
 \noindent
