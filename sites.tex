@@ -3652,6 +3652,80 @@ This is a special case of Lemma \ref{lemma-continuous-almost-cocontinuous}.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-weaker}
+Let $f : \mathcal{D} \to \mathcal{C}$ be a morphism of sites associated to
+the continuous functor $u : \mathcal{C} \to \mathcal{D}$.
+Assume that for any object $U$ of $\mathcal{C}$ and any covering
+$\{V_j \to u(U)\}$ in $\mathcal{D}$ there exists a covering $\{U_i \to U\}$
+in $\mathcal{C}$ such that the map of sheaves
+$$
+\coprod h_{u(U_i)}^\# \to h_{u(U)}^\#
+$$
+factors through the map of sheaves
+$$
+\coprod h_{V_j}^\# \to h_{u(U)}^\#.
+$$
+Then $f_*$ transforms surjective maps of sheaves into surjective maps of
+sheaves.
+\end{lemma}
+
+\begin{proof}
+Let $a : \mathcal{F} \to \mathcal{G}$ be a surjective map of sheaves on
+$\mathcal{D}$. Let $U$ be an object of $\mathcal{C}$ and let
+$s \in f_*\mathcal{G}(U) = \mathcal{G}(u(U))$. By assumption there exists
+a covering $\{V_j \to u(U)\}$ and sections $s_j \in \mathcal{F}(V_j)$ 
+with $a(s_j) = s|_{V_j}$. Now we may think of the sections $s$,
+$s_j$ and $a$ as giving a commutative diagram of maps of sheaves
+$$
+\xymatrix{
+\coprod h_{V_j}^\# \ar[r]_-{\coprod s_j} \ar[d] & \mathcal{F} \ar[d]^a \\
+h_{u(U)}^\# \ar[r]^s & \mathcal{G}
+}
+$$
+By assumption there exists a covering $\{U_i \to U\}$ such that we can
+enlarge the commutative diagram above as follows
+$$
+\xymatrix{
+& \coprod h_{V_j}^\# \ar[r]_-{\coprod s_j} \ar[d] & \mathcal{F} \ar[d]^a \\
+\coprod h_{u(U_i)}^\# \ar[r] \ar[ur] &
+h_{u(U)}^\# \ar[r]^s & \mathcal{G}
+}
+$$
+Because $\mathcal{F}$ is a sheaf the map from the left lower corner to
+the right upper corner corresponds to a family of sections
+$s_i \in \mathcal{F}(u(U_i))$, i.e., sections $s_i \in f_*\mathcal{F}(U_i)$.
+The commutativity of the diagram implies that $a(s_i)$ is equal to the
+restriction of $s$ to $U_i$. In other words we have shown that $f_*a$ is a
+surjective map of sheaves.
+\end{proof}
+
+\begin{example}
+\label{example-weaker-not-coequalizer}
+Assume $f : \mathcal{D} \to \mathcal{C}$ satisfies the assumptions of
+Lemma \ref{lemma-weaker}.
+Then it is in general not the case that $f_*$ commutes with coequalizers
+or pushouts. Namely, suppose that $f$ is the morphism of sites associated
+to the morphism of topological spaces $X = \{1, 2\} \to Y = \{*\}$ (see
+Example \ref{example-continuous-map}),
+where $Y$ is a singleton space, and $X = \{1, 2\}$ is a discrete
+space with two points. A sheaf $\mathcal{F}$ on $X$ is given by a pair
+$(A_1, A_2)$ of sets. Then $f_*\mathcal{F}$ corresponds to the
+set $A_1 \times A_2$. Hence if
+$a = (a_1, a_2), b = (b_1, b_2) : (A_1, A_2) \to (B_1, B_2)$
+are maps of sheaves on $X$, then the
+coequalizer of $a, b$ is $(C_1, C_2)$ where $C_i$ is the coequalizer of
+$a_i, b_i$, and the coequalizer of $f_*a, f_*b$ is the coequalizer of
+$$
+a_1 \times a_2, b_1 \times b_2 :
+A_1 \times A_2 \longrightarrow B_1 \times B_2
+$$
+which is in general different from $C_1 \times C_2$. Namely, if
+$A_2 = \emptyset$ then $A_1 \times A_2 = \emptyset$, and hence the
+coequalizer of the displayed arrows is $B_1 \times B_2$, but in general
+$C_1 \not = B_1$. A similar example works for pushouts.
+\end{example}
+
+\begin{lemma}
 \label{lemma-cover-from-below}
 Let $\mathcal{C}$, $\mathcal{D}$ be sites.
 Let $u : \mathcal{C} \to \mathcal{D}$ be a functor.
@@ -5399,12 +5473,13 @@ $\mathcal{F} \to \mathcal{F}\times_\mathcal{G}\mathcal{F}$
 is an isomorphism. Hence (1).
 Similarly, $\varphi : \mathcal{F} \to \mathcal{G}$
 is surjective if and only if
-$\mathcal{G} \to \mathcal{G}\coprod_\mathcal{F}\mathcal{G}$
+$\mathcal{G} \amalg_\mathcal{F} \mathcal{G} \to \mathcal{G}$
 is an isomorphism. Hence (2).
 The maps $a, b : \mathcal{F} \to \mathcal{G}$
 are equal if and only if $\mathcal{F}\times_{a, \mathcal{G}, b}\mathcal{F}
 \to \mathcal{F} \times \mathcal{F}$ is an isomorphism. Hence (3).
-The other two are left to the reader.
+The assertions (4) and (5) follow immediately from the definitions
+and the remarks at the start of this proof.
 \end{proof}
 
 \begin{lemma}
@@ -5423,30 +5498,32 @@ Suppose that the family is conservative and that $\mathcal{F}$, $U$, and
 $s, s'$ are as in the lemma. The sections $s$, $s'$ define maps
 $a, a' : (h_U)^\# \to \mathcal{F}$ which are distinct. Hence, by Lemma
 \ref{lemma-exactness-stalks} there is an $i$ such that $a_{p_i}
-\not = a'_{p_i}$. Recall that $(h_U)^\#_{p_i} = u_i(U)$.
-Hence there exists a $x \in u_i(U)$ such that $a_{p_i}(x)
+\not = a'_{p_i}$. Recall that $(h_U)^\#_{p_i} = u_i(U)$, see
+Lemma \ref{lemma-points-recover}.
+Hence there exists an $x \in u_i(U)$ such that $a_{p_i}(x)
 \not = a'_{p_i}(x)$ in $\mathcal{F}_{p_i}$.
 Unwinding the definitions you see that $(U, x, s)$
 and $(U, x, s')$ are as in the statement of the lemma.
 
 \medskip\noindent
 To prove the converse, assume the condition on the existence of
-points of the lemma, and let $\phi : \mathcal{F} \to \mathcal{G}$
+points of the lemma. Let $\phi : \mathcal{F} \to \mathcal{G}$
 be a map of sheaves which is an isomorphism at all the stalks.
 We have to show that $\phi$ is both
 injective and surjective, see Lemma \ref{lemma-mono-epi-sheaves}.
 Injectivity is an immediate consequence of the assumption.
-Let $pt$ denote the final object of the category of sheaves;
-it is the constant sheaf  $U \mapsto pt(U) = \{e\}$ (singleton set with
-unique element $e$). Consider the sheaf $\mathcal{H}
-= \mathcal{G} \coprod_{\mathcal{F}} pt$.
+Let $*$ denote the final object of the category of sheaves, see
+Example \ref{example-singleton-sheaf}.
+Consider the sheaf $\mathcal{H} = \mathcal{G} \coprod_{\mathcal{F}} *$.
 The map $\mathcal{F} \to \mathcal{G}$ is surjective if and only
-if the map $pt \to \mathcal{H}$ is an isomorphism, and by assumption
-all the maps on stalks $\{e\} \to \mathcal{H}_{p_i}$ are bijective.
-Thus if $\phi$ is not surjective,
+if the map $* \to \mathcal{H}$ is an isomorphism. By construction
+all the maps on stalks $*_{p_i} = \{*\} \to \mathcal{H}_{p_i}$
+are bijective. If $\phi$ is not surjective,
 then there exists a $U$ and a section $s \in \mathcal{H}(U)$
-which is not equal to the section $e$. Apply the existence
-of $i$, $x\in u_i(U)$ to get a contradiction.
+which is not equal to the section $*$. By assumption we see there
+exists an index $i$ and $x\in u_i(U)$ such that $(U, x, s)$ and
+$(U, x, *)$ define distinct points of $\mathcal{H}_{p_i}$.
+This is a contradiction.
 \end{proof}
 
 
