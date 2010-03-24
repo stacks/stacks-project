@@ -453,6 +453,27 @@ Moreover, the adjointness of the pair
 $u^p$ and $u_p$ continues to hold in this setting.
 \end{remark}
 
+\begin{lemma}
+\label{lemma-pullback-representable-presheaf}
+Let $u : \mathcal{C} \to \mathcal{D}$ be a functor between categories.
+For any object $U$ of $\mathcal{C}$ we have $u_ph_U = h_{u(U)}$.
+\end{lemma}
+
+\begin{proof}
+By adjointness of $u_p$ and $u^p$ we have
+$$
+\text{Mor}_{\textit{PSh}(\mathcal{D})}(u_ph_U, \mathcal{G})
+=
+\text{Mor}_{\textit{PSh}(\mathcal{C})}(h_U, u^p\mathcal{G})
+=
+u^p\mathcal{G}(U) = 
+\mathcal{G}(u(U))
+$$
+and hence by Yoneda's lemma we see that $u_ph_U = h_{u(U)}$ as
+presheaves.
+\end{proof}
+
+
 
 
 
@@ -2034,8 +2055,9 @@ setting of sites.
 
 \begin{definition}
 \label{definition-weaker-than-canonical}
-We say that the {\it topology on a site $\mathcal{C}$ is
-weaker than the canonical topology} if all the coverings
+We say that the topology on a site $\mathcal{C}$ is
+{\it weaker than the canonical topology}, or that the topology is
+{\it subcanonical} if all the coverings
 of $\mathcal{C}$ are families of universal effective epimorphisms.
 \end{definition}
 
@@ -2226,6 +2248,19 @@ For any sheaf $\mathcal{F}$ on $\mathcal{D}$ we have
 \text{Mor}_{\textit{Sh}(\mathcal{D})}((u_p\mathcal{G})^\#, \mathcal{F})
 \end{eqnarray*}
 and the result follows from the Yoneda lemma.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-pullback-representable-sheaf}
+Let $u : \mathcal{C} \to \mathcal{D}$ be a continuous functor
+between sites.
+For any object $U$ of $\mathcal{C}$ we have $u_sh_U^\# = h_{u(U)}^\#$.
+\end{lemma}
+
+\begin{proof}
+Follows from
+Lemmas \ref{lemma-pullback-representable-presheaf}
+and \ref{lemma-technical-up}.
 \end{proof}
 
 
@@ -2704,11 +2739,84 @@ exactly as in Lemma \ref{lemma-morphism-sites-topoi}.
 
 
 
+\section{G-sets and morphisms}
+\label{section-G-sets-morphisms}
 
+\noindent
+Let $\varphi : G \to H$ be a homomorphism of groups.
+Choose (suitable) sites $\mathcal{T}_G$ and $\mathcal{T}_H$ as in
+Example \ref{example-site-on-group} and
+Section \ref{section-example-sheaf-G-sets}.
+Let $u : \mathcal{T}_H \to \mathcal{T}_G$ be the functor which assigns
+to a $H$-set $U$ the $G$-set $U_\varphi$ which has the same underlying
+set but $G$ action defined by $g \cdot u = \varphi(g)u$.
+It is clear that $u$ commutes with finite limits and is
+continuous\footnote{Set theoretical remark: First choose $\mathcal{T}_H$.
+Then choose $\mathcal{T}_G$ to contain $u(\mathcal{T}_H)$ and such that
+every covering in $\mathcal{T}_H$ corresponds to a covering in
+$\mathcal{T}_G$. This is possible by
+Sets, Lemmas
+\ref{sets-lemma-sets-with-group-action},
+\ref{sets-lemma-what-is-in-it-G-sets} and
+\ref{sets-lemma-coverings-site}.}.
+Applying
+Proposition \ref{proposition-get-morphism}
+and
+Lemma \ref{lemma-morphism-sites-topoi}
+we obtain a morphism of topoi
+$$
+f : \textit{Sh}(\mathcal{T}_G) \longrightarrow \textit{Sh}(\mathcal{T}_H)
+$$
+associated with $\varphi$. Using
+Proposition \ref{proposition-sheaves-on-group}
+we see that we get a pair of adjoint functors
+$$
+f_* : G\textit{-Sets} \longrightarrow H\textit{-Sets},\quad
+f^{-1} : H\textit{-Sets} \longrightarrow G\textit{-Sets}.
+$$
+Let's work out what are these functors in this case.
 
+\medskip\noindent
+We first work out a formula for $f_*$.
+Recall that given a $G$-set $S$ the corresponding sheaf
+$\mathcal{F}_S$ on $\mathcal{T}_G$ is given by the rule 
+$\mathcal{F}_S(U) = \text{Mor}_G(U, S)$. And on the other hand, given
+a sheaf $\mathcal{G}$ on $\mathcal{T}_H$ the corresponding $H$-set
+is given by the rule $\mathcal{G}({}_HH)$. Hence we see that
+$$
+f_*S = \text{Mor}_{G\textit{-Sets}}(({}_HH)_\varphi, S).
+$$
+If we work this out a little bit more then we get
+$$
+f_*S = \{ a : H \to S \mid a(gh) = ga(h) \}
+$$
+with left $H$-action given by
+$(h \cdot a)(h') = a(h'h)$
+for any element $a \in f_*S$.
 
-
-
+\medskip\noindent
+Next, we explicitly compute $f^{-1}$. Note that since the topology
+on $\mathcal{T}_G$ and $\mathcal{T}_H$ is subcanonical, all representable
+presheaves are sheaves. Moreover, given an object $V$ of $\mathcal{T}_H$
+we see that $f^{-1}h_V$ is equal to $h_{u(V)}$ (see
+Lemma \ref{lemma-pullback-representable-sheaf}). Hence we see that
+$f^{-1}S = S_\varphi$ for representable sheaves. Since every sheaf on
+$\mathcal{T}_H$ is a coproduct of representable sheaves we conclude that
+this is true in general. Hence we see that
+for any $H$-set $T$ we have
+$$
+f^{-1}T = T_\varphi.
+$$
+The adjunction between $f^{-1}$ and $f_*$ is evidenced by the formula
+$$
+\text{Mor}_{G\textit{-Sets}}(T_\varphi, S) =
+\text{Mor}_{H\textit{-Sets}}(T, f_*S)
+$$
+with $f_*S$ as above. This can be proved directly. Moreover, it is then clear
+that $(f^{-1}, f_*)$ form an adjoint pair and that $f^{-1}$ is exact.
+So alternatively to the above the morphism of topoi
+$f : G\textit{-Sets} \to H\textit{-Sets}$ can be defined directly in this
+manner.
 
 
 
@@ -3104,7 +3212,7 @@ and the result follows from the Yoneda lemma.
 
 
 
-\section{The morphism of topoi associated to a cocontinuous functor}
+\section{Cocontinuous functors and morphisms of topoi}
 \label{section-cocontinuous-morphism-topoi}
 
 \noindent
@@ -3466,319 +3574,6 @@ open covering of $X$.
 
 
 
-\section{Almost cocontinuous functors}
-\label{section-almost-cocontinuous}
-
-\noindent
-The material in this section will help prove that for a finite (or more
-generally integral) morphism of schemes $f : X \to Y$ the push forward
-on abelian etale sheaves is exact.
-
-\medskip\noindent
-Let $\mathcal{C}$ be a site. The category $\textit{PSh}(\mathcal{C})$ has
-an initial object, namely the presheaf which assigns the empty set
-to each object of $\mathcal{C}$. Let us denote this presheaf by
-$\emptyset$. It follows from the properties of sheafification that the
-sheafification $\emptyset^\#$ of $\emptyset$ is an initial object
-of the category $\textit{Sh}(\mathcal{C})$ of sheaves on $\mathcal{C}$.
-
-\begin{definition}
-\label{definition-empty}
-Let $\mathcal{C}$ be a site. We say an object $U$ of $\mathcal{C}$
-is {\it sheaf theoretically empty} if $\emptyset^\# \to h_U^\#$
-is an isomorphism of sheaves.
-\end{definition}
-
-\noindent
-The following lemma makes this notion more explicit.
-
-\begin{lemma}
-\label{lemma-characterize-empty}
-Let $\mathcal{C}$ be a site. Let $U$ be an object of $\mathcal{C}$.
-The following are equivalent:
-\begin{enumerate}
-\item $U$ is sheaf theoretically empty,
-\item $\mathcal{F}(U)$ is a singleton for each sheaf $\mathcal{F}$,
-\item $\emptyset^\#(U)$ is a singleton,
-\item $\emptyset^\#(U)$ is nonempty, and
-\item the empty family is a covering of $U$ in $\mathcal{C}$.
-\end{enumerate}
-Moreover, if $U$ is sheaf theoretically empty, then for any morphism
-$U' \to U$ of $\mathcal{C}$ the object $U'$ is sheaf theoretically empty.
-\end{lemma}
-
-\begin{proof}
-For any sheaf $\mathcal{F}$ we have
-$\mathcal{F}(U) = \text{Mor}_{\textit{Sh}(\mathcal{C})}(h_U^\#, \mathcal{F})$.
-Hence, we see that (1) and (2) are equivalent.
-It is clear that (2) implies (3) implies (4).
-If every covering of $U$ is given by a nonempty family,
-then $\emptyset^+(U)$ is empty by definition of the plus construction.
-Note that $\emptyset^+ = \emptyset^\#$ as $\emptyset$ is a separated
-presheaf, see
-Theorem \ref{theorem-plus}.
-Thus we see that (4) implies (5). If (5) holds, then
-$\mathcal{F}(U)$ is a singleton for every sheaf $\mathcal{F}$
-by the sheaf condition for $\mathcal{F}$, see
-Remark \ref{remark-sheaf-condition-empty-covering}.
-Thus (5) implies (2) and (1) -- (5) are equivalent. The final
-assertion of the lemma follows from Axiom (3) of
-Definition \ref{definition-site}
-applied the the empty covering of $U$.
-\end{proof}
-
-\begin{definition}
-\label{definition-almost-cocontinuous}
-Let $\mathcal{C}$, $\mathcal{D}$ be sites.
-Let $u : \mathcal{C} \to \mathcal{D}$ be a functor.
-We say $u$ is {\it almost cocontinuous} if for every
-object $U$ of $\mathcal{C}$ and every covering
-$\{V_j \to u(U)\}_{j \in J}$ there exists a covering
-$\{U_i \to U\}_{i \in I}$ in $\mathcal{C}$ such that
-for each $i$ in $I$ we have at least one of the following two conditions
-\begin{enumerate}
-\item $u(U_i)$ is sheaf theoretically empty, or
-\item the morphism $u(U_i) \to u(U)$ factors through $V_j$ for some $j \in J$.
-\end{enumerate}
-\end{definition}
-
-\noindent
-The motivation for this definition comes from a closed immersion
-$i : Z \to X$ of topological spaces. As discussed in
-Example \ref{example-closed-map-cocontinuous-false}
-the continuous functor
-$\mathcal{T}_X \to \mathcal{T}_Z$, $U \mapsto Z \cap U$ is
-not cocontinuous. But it is almost continuous in the sense defined above.
-We know that $i_*$ while not exact on sheaves of sets, is
-exact on sheaves of abelian groups, see
-Sheaves on Spaces, Remark \ref{sheaves-remark-i-star-not-exact}.
-And this holds in general for continuous and almost continuous functors.
-
-\begin{lemma}
-\label{lemma-almost-cocontinuous-sheafification}
-Let $\mathcal{C}$, $\mathcal{D}$ be sites.
-Let $u : \mathcal{C} \to \mathcal{D}$ be a functor.
-Assume that $u$ is continuous and almost continuous.
-Let $\mathcal{G}$ be a presheaf on $\mathcal{D}$ such that $\mathcal{G}(V)$ is
-a singleton whenever $V$ is sheaf theoretically empty.
-Then $(u^p\mathcal{G})^\# = u^p(\mathcal{G}^\#)$.
-\end{lemma}
-
-\begin{proof}
-Let $U \in \text{Ob}(\mathcal{C})$. We have to show that
-$(u^p\mathcal{G})^\#(U) = u^p(\mathcal{G}^\#)(U)$.
-It suffices to show that 
-$(u^p\mathcal{G})^+(U) = u^p(\mathcal{G}^+)(U)$
-since $\mathcal{G}^+$ is another presheaf for which the
-assumption of the lemma holds. We have
-$$
-u^p(\mathcal{G}^+)(U) =
-\mathcal{G}^+(u(U)) =
-\text{colim}_{\mathcal{V}}\ \check H^0(\mathcal{V}, \mathcal{G})
-$$
-where the colimit is over the coverings $\mathcal{V}$ of $u(U)$ in
-$\mathcal{D}$. On the other hand, we see that
-$$
-u^p(\mathcal{G})^+(U) =
-\text{colim}_{\mathcal{U}}\ \check H^0(u(\mathcal{U}), \mathcal{G})
-$$
-where the colimit is over the category of coverings
-$\mathcal{U} = \{U_i \to U\}_{i \in I}$ of $U$ in $\mathcal{C}$ and
-$u(\mathcal{U}) = \{u(U_i) \to u(U)\}_{i \in I}$. The condition
-that $u$ is continuous means that each $u(\mathcal{U})$ is a covering.
-Write $I = I_1 \amalg I_2$, where
-$$
-I_2 = \{i \in I \mid u(U_i)\text{ is sheaf theoretically empty}\}
-$$
-Then $u(\mathcal{U})' = \{u(U_i) \to u(U)\}_{i \in I_1}$ is still a covering of
-because each of the other pieces can be covered by the empty family
-and hence can be dropped by Axiom (2) of
-Definition \ref{definition-site}.
-Moreover,
-$\check H^0(u(\mathcal{U}), \mathcal{G}) =
-\check H^0(u(\mathcal{U})', \mathcal{G})$
-by our assumption on $\mathcal{G}$. Finally, the condition that $u$ is
-almost cocontinuous implies that for every covering $\mathcal{V}$
-of $u(U)$ there exists a covering $\mathcal{U}$ of $U$ such that
-$u(\mathcal{U})'$ refines $\mathcal{V}$. It follows that the two colimits
-displayed above have the same value as desired.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-continuous-almost-cocontinuous}
-Let $\mathcal{C}$, $\mathcal{D}$ be sites.
-Let $u : \mathcal{C} \to \mathcal{D}$ be a functor.
-Assume that $u$ is continuous and almost cocontinuous.
-Then $u^s = u^p : \textit{Sh}(\mathcal{D}) \to \textit{Sh}(\mathcal{C})$
-commutes with pushouts and coequalizers (and more generally
-finite, nonempty, connected colimits).
-\end{lemma}
-
-\begin{proof}
-Let $\mathcal{I}$ be a finite, nonempty, connected index category.
-Let $\mathcal{I} \to \textit{Sh}(\mathcal{D})$,
-$i \mapsto \mathcal{G}_i$ by a diagram. We know that the colimit of
-this diagram is the sheafification of the colimit in the category of
-presheaves, see
-Lemma \ref{lemma-colimit-sheaves}.
-Denote $\text{colim}^{Psh}$ the colimit in the category
-of presheaves. Since $\mathcal{I}$ is finite, nonempty and connected
-we see that $\text{colim}^{Psh}_i\ \mathcal{G}_i$
-is a presheaf satisfying the assumptions of
-Lemma \ref{lemma-almost-cocontinuous-sheafification}
-(because a finite nonempty connected colimit of singleton sets is a
-singleton). Hence that lemma gives
-\begin{align*}
-u^s(\text{colim}_i\ \mathcal{G}_i) & =
-u^s((\text{colim}^{Psh}_i\ \mathcal{G}_i)^\#) \\
-& = (u^p(\text{colim}^{Psh}_i\ \mathcal{G}_i))^\# \\
-& = (\text{colim}^{PSh}_i\ u^p(\mathcal{G}_i))^\# \\
-& = \text{colim}_i\ u^s(\mathcal{G}_i)
-\end{align*}
-as desired.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-morphism-of-sites-almost-cocontinuous}
-Let $f : \mathcal{D} \to \mathcal{C}$ be a morphism of sites
-associated to the continuous functor $u : \mathcal{C} \to \mathcal{D}$.
-If $u$ is almost cocontinuous then $f_*$ commutes with
-pushouts and coequalizers (and more generally
-finite, nonempty, connected colimits).
-\end{lemma}
-
-\begin{proof}
-This is a special case of Lemma \ref{lemma-continuous-almost-cocontinuous}.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-weaker}
-Let $f : \mathcal{D} \to \mathcal{C}$ be a morphism of sites associated to
-the continuous functor $u : \mathcal{C} \to \mathcal{D}$.
-Assume that for any object $U$ of $\mathcal{C}$ and any covering
-$\{V_j \to u(U)\}$ in $\mathcal{D}$ there exists a covering $\{U_i \to U\}$
-in $\mathcal{C}$ such that the map of sheaves
-$$
-\coprod h_{u(U_i)}^\# \to h_{u(U)}^\#
-$$
-factors through the map of sheaves
-$$
-\coprod h_{V_j}^\# \to h_{u(U)}^\#.
-$$
-Then $f_*$ transforms surjective maps of sheaves into surjective maps of
-sheaves.
-\end{lemma}
-
-\begin{proof}
-Let $a : \mathcal{F} \to \mathcal{G}$ be a surjective map of sheaves on
-$\mathcal{D}$. Let $U$ be an object of $\mathcal{C}$ and let
-$s \in f_*\mathcal{G}(U) = \mathcal{G}(u(U))$. By assumption there exists
-a covering $\{V_j \to u(U)\}$ and sections $s_j \in \mathcal{F}(V_j)$ 
-with $a(s_j) = s|_{V_j}$. Now we may think of the sections $s$,
-$s_j$ and $a$ as giving a commutative diagram of maps of sheaves
-$$
-\xymatrix{
-\coprod h_{V_j}^\# \ar[r]_-{\coprod s_j} \ar[d] & \mathcal{F} \ar[d]^a \\
-h_{u(U)}^\# \ar[r]^s & \mathcal{G}
-}
-$$
-By assumption there exists a covering $\{U_i \to U\}$ such that we can
-enlarge the commutative diagram above as follows
-$$
-\xymatrix{
-& \coprod h_{V_j}^\# \ar[r]_-{\coprod s_j} \ar[d] & \mathcal{F} \ar[d]^a \\
-\coprod h_{u(U_i)}^\# \ar[r] \ar[ur] &
-h_{u(U)}^\# \ar[r]^s & \mathcal{G}
-}
-$$
-Because $\mathcal{F}$ is a sheaf the map from the left lower corner to
-the right upper corner corresponds to a family of sections
-$s_i \in \mathcal{F}(u(U_i))$, i.e., sections $s_i \in f_*\mathcal{F}(U_i)$.
-The commutativity of the diagram implies that $a(s_i)$ is equal to the
-restriction of $s$ to $U_i$. In other words we have shown that $f_*a$ is a
-surjective map of sheaves.
-\end{proof}
-
-\begin{example}
-\label{example-weaker-not-coequalizer}
-Assume $f : \mathcal{D} \to \mathcal{C}$ satisfies the assumptions of
-Lemma \ref{lemma-weaker}.
-Then it is in general not the case that $f_*$ commutes with coequalizers
-or pushouts. Namely, suppose that $f$ is the morphism of sites associated
-to the morphism of topological spaces $X = \{1, 2\} \to Y = \{*\}$ (see
-Example \ref{example-continuous-map}),
-where $Y$ is a singleton space, and $X = \{1, 2\}$ is a discrete
-space with two points. A sheaf $\mathcal{F}$ on $X$ is given by a pair
-$(A_1, A_2)$ of sets. Then $f_*\mathcal{F}$ corresponds to the
-set $A_1 \times A_2$. Hence if
-$a = (a_1, a_2), b = (b_1, b_2) : (A_1, A_2) \to (B_1, B_2)$
-are maps of sheaves on $X$, then the
-coequalizer of $a, b$ is $(C_1, C_2)$ where $C_i$ is the coequalizer of
-$a_i, b_i$, and the coequalizer of $f_*a, f_*b$ is the coequalizer of
-$$
-a_1 \times a_2, b_1 \times b_2 :
-A_1 \times A_2 \longrightarrow B_1 \times B_2
-$$
-which is in general different from $C_1 \times C_2$. Namely, if
-$A_2 = \emptyset$ then $A_1 \times A_2 = \emptyset$, and hence the
-coequalizer of the displayed arrows is $B_1 \times B_2$, but in general
-$C_1 \not = B_1$. A similar example works for pushouts.
-\end{example}
-
-\begin{lemma}
-\label{lemma-cover-from-below}
-Let $\mathcal{C}$, $\mathcal{D}$ be sites.
-Let $u : \mathcal{C} \to \mathcal{D}$ be a functor.
-Assume that
-\begin{enumerate}
-\item $u$ is continuous, and
-\item for every object $V$ of $\mathcal{D}$ there exist objects
-$U_i$ of $\mathcal{C}$ and morphisms $u(U_i) \to V$ such that
-$\{u(U_i) \to V\}$ is a covering of $\mathcal{D}$.
-\end{enumerate}
-In this case the functor
-$u^s : \textit{Sh}(\mathcal{D}) \to \textit{Sh}(\mathcal{C})$
-is faithful and reflects isomorphisms, injections and surjections.
-Moreover, for any sheaf $\mathcal{F}$ on $\mathcal{D}$ the canonical
-map $u_su^s\mathcal{F} \to \mathcal{F}$ is surjective.
-\end{lemma}
-
-\begin{proof}
-Let $\alpha, \beta : \mathcal{F} \to \mathcal{G}$ be maps of sheaves
-on $\mathcal{D}$. By assumption for every object $V$ of $\mathcal{D}$
-we get $\mathcal{F}(V) \subset \prod \mathcal{F}(u(U_i)) =
-\prod (u^s\mathcal{F})(u(U_i))$ by the sheaf condition
-for some $U_i$ objects of $\mathcal{C}$ and similarly for $\mathcal{G}$.
-Hence it is clear that if $u^s\alpha = u^s\beta$, then $\alpha = \beta$.
-Similarly, it is clear that if $u^s\alpha$ is injective, then
-$\alpha$ is injective.
-
-\medskip\noindent
-Suppose that $u^s\alpha$ is surjective. Then for $V, U_i, u(U_i) \to V$
-as above and a section $s \in \mathcal{G}(V)$, there exist coverings
-$\{U_{ij} \to U_i\}$ such that $s|_{u(U_{ij})}$ is in the image
-of $\mathcal{F}(u(U_{ij}))$. Since $\{u(U_{ij}) \to V\}$ is a covering
-(as $u$ is continuous and by the axioms of a site) we conclude that
-$s$ is locally in the image. In other words $\alpha$ is surjective.
-
-\medskip\noindent
-Because $u^s$ reflects surjections
-it suffices to prove that $u^su_su^s\mathcal{F} \to u^s\mathcal{F}$
-is surjective. Since $u^s\mathcal{F}(U) = \mathcal{F}(u(U))$
-this means it suffices to prove that for every object $U$ of
-$\mathcal{C}$ the map $u_s(u^s\mathcal{F})(u(U)) \to \mathcal{F}(u(U))$
-is surjective. Recall that $u_s(u^s\mathcal{F})$ is the sheaf associated to
-$u_p(u^s\mathcal{F})$. And
-$$
-u_p(u^s\mathcal{F})(u(U)) =
-\text{colim}_{u(U) \to u(U')} \mathcal{F}(u(U')),
-$$
-see Section \ref{section-functoriality-PSh}.
-The index category of this colimit contains the pair
-$(U, \text{id} : u(U) \to u(U))$ and hence we see that the map
-$u_p(u^s\mathcal{F})(u(U)) \to \mathcal{F}(u(U))$ is surjective
-(as it has a section).
-\end{proof}
 
 
 \section{Cocontinuous functors which have a right adjoint}
@@ -4289,7 +4084,8 @@ $$
 \textit{Sh}(\mathcal{D}) \ar[u]^{f^{-1}}
 }
 $$
-(Note that $f^{-1}h_V^\# = h_{u(V)}^\# = h_U^\#$.)
+(Note that $f^{-1}h_V^\# = (h_{u(V)})^\# = h_U^\#$, see
+Lemma \ref{lemma-pullback-representable-sheaf}.)
 Since by Lemma \ref{lemma-essential-image-j-shriek}
 the left horizontal arrows are equivalences
 and since $f^{-1}$ is exact by assumption we conclude that
@@ -5730,6 +5526,481 @@ commutes with finite limits).
 
 
 
+
+
+
+
+
+
+
+\section{Exactness properties of pushforward}
+\label{section-pushforward}
+
+\noindent
+Let $f$ be a morphism of topoi. The functor $f_*$ in general is only
+left exact. There are many additional conditions one can impose on this
+functor to single out particular classes of morphisms of topoi.
+We collect them here and note some of the logical dependencies.
+Some parts of the following lemma are purely category theoretical (i.e.,
+they do not depend on having a morphism of topoi, just having a pair
+of adjoint functors is enough).
+
+\begin{lemma}
+\label{lemma-exactness-properties}
+Let $f : \textit{Sh}(\mathcal{C}) \to \textit{Sh}(\mathcal{D})$ be
+a morphism of topoi. Consider the following properties (on sheaves
+of sets):
+\begin{enumerate}
+\item $f_*$ is faithful,
+\item $f_*$ is fully faithful,
+\item $f^{-1}f_*\mathcal{F} \to \mathcal{F}$ is surjective for
+all $\mathcal{F}$ in $\textit{Sh}(\mathcal{C})$,
+\item $f_*$ transforms surjections into surjections,
+\item $f_*$ commutes with coequalizers,
+\item $f_*$ commutes with pushouts,
+\item $f^{-1}f_*\mathcal{F} \to \mathcal{F}$ is an isomorphism for
+all $\mathcal{F}$ in $\textit{Sh}(\mathcal{C})$,
+\item $f_*$ reflects injections,
+\item $f_*$ reflects surjections,
+\item $f_*$ reflects bijections, and
+\item for any surjection $\mathcal{F} \to f^{-1}\mathcal{G}$ there
+exists a surjection $\mathcal{G}' \to \mathcal{G}$ such that
+$f^{-1}\mathcal{G}' \to f^{-1}\mathcal{G}$ factors through
+$\mathcal{F} \to f^{-1}\mathcal{G}$.
+\end{enumerate}
+Then we have the following implications
+\begin{enumerate}
+\item[(a)] (2) $\Rightarrow$ (1),
+\item[(b)] (3) $\Rightarrow$ (1),
+\item[(c)] (7) $\Rightarrow$ (1), (2), (3), (8), (9), (10).
+\item[(d)] (3) $\Leftrightarrow$ (9),
+\item[(e)] (6) $\Rightarrow$ (4),
+\item[(f)] (4) $\Leftrightarrow$ (11), and
+\item[(g)] (8) $+$ (9) $\Rightarrow$ (10).
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Proof of (a): This is immediate from the definitions.
+
+\medskip\noindent
+Proof of (b). Suppose that $a, b : \mathcal{F} \to \mathcal{F}'$ are
+maps of sheaves on $\mathcal{C}$. If $f_*a = f_*b$, then
+$f^{-1}f_*a = f^{-1}f_*b$. Consider the commutative diagram
+$$
+\xymatrix{
+\mathcal{F} \ar@<-1ex>[r] \ar@<1ex>[r] & \mathcal{F}' \\
+f^{-1}f_*\mathcal{F} \ar@<-1ex>[r] \ar@<1ex>[r] \ar[u] &
+f^{-1}f_*\mathcal{F}' \ar[u]
+}
+$$
+If the bottom two arrows are equal and the vertical arrows are surjective
+then the top two arrows are equal. Hence (b) follows.
+
+\medskip\noindent
+Proof of (c). Suppose that $a : \mathcal{F} \to \mathcal{F}'$ is a
+map of sheaves on $\mathcal{C}$. Consider the commutative diagram
+$$
+\xymatrix{
+\mathcal{F} \ar[r] & \mathcal{F}' \\
+f^{-1}f_*\mathcal{F} \ar[r] \ar[u] &
+f^{-1}f_*\mathcal{F}' \ar[u]
+}
+$$
+If (7) holds, then the vertical arrows are isomorphisms.
+Hence if $f_*a$ is injective (resp.\ surjective, resp.\ bijective)
+then the bottom arrow is injective (resp.\ surjective, resp.\ bijective) and
+hence the top arrow is injective (resp.\ surjective, resp.\ bijective).
+Thus we see that (7) implies (8), (9), (10). It is clear that (7) implies
+(3) and hence (1). Finally, if $\beta : f_*\mathcal{F} \to f_*\mathcal{F}'$
+is a map of sheaves, then
+$\alpha = f^{-1}\beta : \mathcal{F} = f^{-1}f_*\mathcal{F} \to
+f^{-1}f_*\mathcal{F}' = \mathcal{F}'$ is a map of sheaves on $\mathcal{C}$.
+Chasing diagrams we see that the following diagram
+$$
+\xymatrix{
+f_*\mathcal{F} \ar[r]^{f_*\alpha} & f_*\mathcal{F}' \\
+f_*f^{-1}f_*\mathcal{F} \ar[r]^{f_*f^{-1}\beta} \ar[u] &
+f_*f^{-1}f_*\mathcal{F}' \ar[u] \\
+f_*\mathcal{F} \ar[u] \ar[r]^\beta & f_*\mathcal{F}' \ar[u]
+}
+$$
+is commutative, in other words $f_*\alpha = \beta$.
+Hence we see that (2) holds.
+
+\medskip\noindent
+Proof of (d). Assume (3). Suppose that $a : \mathcal{F} \to \mathcal{F}'$
+is a map of sheaves on $\mathcal{C}$ such that $f_*a$ is surjective.
+As $f^{-1}$ is exact this implies that
+$f^{-1}f_*a : f^{-1}f_*\mathcal{F} \to f^{-1}f_*\mathcal{F}'$
+is surjective. Combined with (3) this implies that $a$ is surjective.
+This means that (9) holds.
+Assume (9). Let $\mathcal{F}$ be a sheaf on $\mathcal{C}$.
+We have to show that the map $f^{-1}f_*\mathcal{F} \to \mathcal{F}$ is
+surjective. It suffices to show that
+$f_*f^{-1}f_*\mathcal{F} \to f_*\mathcal{F}$ is surjective.
+And this is true because there is a canonical map
+$f_*\mathcal{F} \to f_*f^{-1}f_*\mathcal{F}$ which is a one-sided inverse.
+
+\medskip\noindent
+Proof of (e). If $\mathcal{F} \to \mathcal{F}'$ is surjective then the map
+$\mathcal{F}' \amalg_{\mathcal{F}} \mathcal{F}' \to \mathcal{F}'$
+is injective. Hence (6) implies that
+$f_*\mathcal{F}' \amalg_{f_*\mathcal{F}} f_*\mathcal{F}' \to f_*\mathcal{F}'$
+is injective also. And this in turn implies that
+$f_*\mathcal{F} \to f_*\mathcal{F}'$ is surjective.
+Hence we see that (6) implies (4).
+
+\medskip\noindent
+Proof of (f). Assume (4). Let $\mathcal{F} \to f^{-1}\mathcal{G}$ be
+a surjective map of sheaves on $\mathcal{C}$. By (4) we see that
+$f_*\mathcal{F} \to f_*f^{-1}\mathcal{G}$ is surjective. Let
+$\mathcal{G}'$ be the fibre product
+$$
+\xymatrix{
+f_*\mathcal{F} \ar[r] & f_*f^{-1}\mathcal{G} \\
+\mathcal{G}' \ar[u] \ar[r] & \mathcal{G} \ar[u]
+}
+$$
+so that $\mathcal{G}' \to \mathcal{G}$ is surjective also. Consider
+the commutative diagram
+$$
+\xymatrix{
+\mathcal{F} \ar[r] & f^{-1}\mathcal{G} \\
+f^{-1}f_*\mathcal{F} \ar[r] \ar[u] & f^{-1}f_*f^{-1}\mathcal{G} \ar[u] \\
+f^{-1}\mathcal{G}' \ar[u] \ar[r] & f^{-1}\mathcal{G} \ar[u]
+}
+$$
+and we see the required result. Conversely, assume (11).
+Let $a : \mathcal{F} \to \mathcal{F}'$ be surjective map of sheaves
+on $\mathcal{C}$. Consider the fibre product diagram
+$$
+\xymatrix{
+\mathcal{F} \ar[r] & \mathcal{F}' \\
+\mathcal{F}'' \ar[u] \ar[r] & f^{-1}f_*\mathcal{F}' \ar[u]
+}
+$$
+Because the lower horizontal arrow is surjective and by (11) we can
+find a surjection $\gamma : \mathcal{G}' \to f_*\mathcal{F}'$ such
+that $f^{-1}\gamma$ factors through $\mathcal{F}'' \to f^{-1}f_*\mathcal{F}'$:
+$$
+\xymatrix{
+& \mathcal{F} \ar[r] & \mathcal{F}' \\
+f^{-1}\mathcal{G}' \ar[r] & \mathcal{F}'' \ar[u] \ar[r] &
+f^{-1}f_*\mathcal{F}' \ar[u]
+}
+$$
+Pushing this down using $f_*$ we get a commutative diagram
+$$
+\xymatrix{
+& f_*\mathcal{F} \ar[r] & f_*\mathcal{F}' \\
+f_*f^{-1}\mathcal{G}' \ar[r] & f_*\mathcal{F}'' \ar[u] \ar[r] &
+f_*f^{-1}f_*\mathcal{F}' \ar[u] \\
+\mathcal{G}' \ar[u] \ar[rr] & & f_*\mathcal{F}' \ar[u]
+}
+$$
+which proves that (4) holds.
+
+\medskip\noindent
+Proof of (g). This is immediate from the definitions.
+\end{proof}
+
+\noindent
+Here is a condition on a morphism of sites which garantees that
+the functor $f_*$ transforms surjective maps into surjective maps.
+
+\begin{lemma}
+\label{lemma-weaker}
+Let $f : \mathcal{D} \to \mathcal{C}$ be a morphism of sites associated to
+the continuous functor $u : \mathcal{C} \to \mathcal{D}$.
+Assume that for any object $U$ of $\mathcal{C}$ and any covering
+$\{V_j \to u(U)\}$ in $\mathcal{D}$ there exists a covering $\{U_i \to U\}$
+in $\mathcal{C}$ such that the map of sheaves
+$$
+\coprod h_{u(U_i)}^\# \to h_{u(U)}^\#
+$$
+factors through the map of sheaves
+$$
+\coprod h_{V_j}^\# \to h_{u(U)}^\#.
+$$
+Then $f_*$ transforms surjective maps of sheaves into surjective maps of
+sheaves.
+\end{lemma}
+
+\begin{proof}
+Let $a : \mathcal{F} \to \mathcal{G}$ be a surjective map of sheaves on
+$\mathcal{D}$. Let $U$ be an object of $\mathcal{C}$ and let
+$s \in f_*\mathcal{G}(U) = \mathcal{G}(u(U))$. By assumption there exists
+a covering $\{V_j \to u(U)\}$ and sections $s_j \in \mathcal{F}(V_j)$ 
+with $a(s_j) = s|_{V_j}$. Now we may think of the sections $s$,
+$s_j$ and $a$ as giving a commutative diagram of maps of sheaves
+$$
+\xymatrix{
+\coprod h_{V_j}^\# \ar[r]_-{\coprod s_j} \ar[d] & \mathcal{F} \ar[d]^a \\
+h_{u(U)}^\# \ar[r]^s & \mathcal{G}
+}
+$$
+By assumption there exists a covering $\{U_i \to U\}$ such that we can
+enlarge the commutative diagram above as follows
+$$
+\xymatrix{
+& \coprod h_{V_j}^\# \ar[r]_-{\coprod s_j} \ar[d] & \mathcal{F} \ar[d]^a \\
+\coprod h_{u(U_i)}^\# \ar[r] \ar[ur] &
+h_{u(U)}^\# \ar[r]^s & \mathcal{G}
+}
+$$
+Because $\mathcal{F}$ is a sheaf the map from the left lower corner to
+the right upper corner corresponds to a family of sections
+$s_i \in \mathcal{F}(u(U_i))$, i.e., sections $s_i \in f_*\mathcal{F}(U_i)$.
+The commutativity of the diagram implies that $a(s_i)$ is equal to the
+restriction of $s$ to $U_i$. In other words we have shown that $f_*a$ is a
+surjective map of sheaves.
+\end{proof}
+
+\begin{example}
+\label{example-weaker-not-coequalizer}
+Assume $f : \mathcal{D} \to \mathcal{C}$ satisfies the assumptions of
+Lemma \ref{lemma-weaker}.
+Then it is in general not the case that $f_*$ commutes with coequalizers
+or pushouts. Namely, suppose that $f$ is the morphism of sites associated
+to the morphism of topological spaces $X = \{1, 2\} \to Y = \{*\}$ (see
+Example \ref{example-continuous-map}),
+where $Y$ is a singleton space, and $X = \{1, 2\}$ is a discrete
+space with two points. A sheaf $\mathcal{F}$ on $X$ is given by a pair
+$(A_1, A_2)$ of sets. Then $f_*\mathcal{F}$ corresponds to the
+set $A_1 \times A_2$. Hence if
+$a = (a_1, a_2), b = (b_1, b_2) : (A_1, A_2) \to (B_1, B_2)$
+are maps of sheaves on $X$, then the
+coequalizer of $a, b$ is $(C_1, C_2)$ where $C_i$ is the coequalizer of
+$a_i, b_i$, and the coequalizer of $f_*a, f_*b$ is the coequalizer of
+$$
+a_1 \times a_2, b_1 \times b_2 :
+A_1 \times A_2 \longrightarrow B_1 \times B_2
+$$
+which is in general different from $C_1 \times C_2$. Namely, if
+$A_2 = \emptyset$ then $A_1 \times A_2 = \emptyset$, and hence the
+coequalizer of the displayed arrows is $B_1 \times B_2$, but in general
+$C_1 \not = B_1$. A similar example works for pushouts.
+\end{example}
+
+\noindent
+The following lemma gives a criterion for when a morphism of sites
+has a functor $f_*$ which reflects injections and surjections.
+Note that this also implies that $f_*$ is faithful and that the
+map $f^{-1}f_*\mathcal{F} \to \mathcal{F}$ is always surjective.
+
+\begin{lemma}
+\label{lemma-cover-from-below}
+Let $f : \mathcal{D} \to \mathcal{C}$ be a morphism of sites given
+by the functor $u : \mathcal{C} \to \mathcal{D}$ be a functor.
+Assume that for every object $V$ of $\mathcal{D}$ there exist objects
+$U_i$ of $\mathcal{C}$ and morphisms $u(U_i) \to V$ such that
+$\{u(U_i) \to V\}$ is a covering of $\mathcal{D}$.
+In this case the functor $f_*$ reflects injections and surjections.
+\end{lemma}
+
+\begin{proof}
+Let $\alpha : \mathcal{F} \to \mathcal{G}$ be maps of sheaves
+on $\mathcal{D}$. By assumption for every object $V$ of $\mathcal{D}$
+we get $\mathcal{F}(V) \subset \prod \mathcal{F}(u(U_i)) =
+\prod (u^s\mathcal{F})(u(U_i))$ by the sheaf condition
+for some $U_i$ objects of $\mathcal{C}$ and similarly for $\mathcal{G}$.
+Hence it is clear that if $f_*\alpha$ is injective, then
+$\alpha$ is injective. In other words $f_*$ reflects injections.
+
+\medskip\noindent
+Suppose that $f_*\alpha$ is surjective. Then for $V, U_i, u(U_i) \to V$
+as above and a section $s \in \mathcal{G}(V)$, there exist coverings
+$\{U_{ij} \to U_i\}$ such that $s|_{u(U_{ij})}$ is in the image
+of $\mathcal{F}(u(U_{ij}))$. Since $\{u(U_{ij}) \to V\}$ is a covering
+(as $u$ is continuous and by the axioms of a site) we conclude that
+$s$ is locally in the image. Thus $\alpha$ is surjective. In other
+words $f_*$ reflects surjections.
+\end{proof}
+
+
+
+
+
+\section{Almost cocontinuous functors}
+\label{section-almost-cocontinuous}
+
+\noindent
+Let $\mathcal{C}$ be a site. The category $\textit{PSh}(\mathcal{C})$ has
+an initial object, namely the presheaf which assigns the empty set
+to each object of $\mathcal{C}$. Let us denote this presheaf by
+$\emptyset$. It follows from the properties of sheafification that the
+sheafification $\emptyset^\#$ of $\emptyset$ is an initial object
+of the category $\textit{Sh}(\mathcal{C})$ of sheaves on $\mathcal{C}$.
+
+\begin{definition}
+\label{definition-empty}
+Let $\mathcal{C}$ be a site. We say an object $U$ of $\mathcal{C}$
+is {\it sheaf theoretically empty} if $\emptyset^\# \to h_U^\#$
+is an isomorphism of sheaves.
+\end{definition}
+
+\noindent
+The following lemma makes this notion more explicit.
+
+\begin{lemma}
+\label{lemma-characterize-empty}
+Let $\mathcal{C}$ be a site. Let $U$ be an object of $\mathcal{C}$.
+The following are equivalent:
+\begin{enumerate}
+\item $U$ is sheaf theoretically empty,
+\item $\mathcal{F}(U)$ is a singleton for each sheaf $\mathcal{F}$,
+\item $\emptyset^\#(U)$ is a singleton,
+\item $\emptyset^\#(U)$ is nonempty, and
+\item the empty family is a covering of $U$ in $\mathcal{C}$.
+\end{enumerate}
+Moreover, if $U$ is sheaf theoretically empty, then for any morphism
+$U' \to U$ of $\mathcal{C}$ the object $U'$ is sheaf theoretically empty.
+\end{lemma}
+
+\begin{proof}
+For any sheaf $\mathcal{F}$ we have
+$\mathcal{F}(U) = \text{Mor}_{\textit{Sh}(\mathcal{C})}(h_U^\#, \mathcal{F})$.
+Hence, we see that (1) and (2) are equivalent.
+It is clear that (2) implies (3) implies (4).
+If every covering of $U$ is given by a nonempty family,
+then $\emptyset^+(U)$ is empty by definition of the plus construction.
+Note that $\emptyset^+ = \emptyset^\#$ as $\emptyset$ is a separated
+presheaf, see
+Theorem \ref{theorem-plus}.
+Thus we see that (4) implies (5). If (5) holds, then
+$\mathcal{F}(U)$ is a singleton for every sheaf $\mathcal{F}$
+by the sheaf condition for $\mathcal{F}$, see
+Remark \ref{remark-sheaf-condition-empty-covering}.
+Thus (5) implies (2) and (1) -- (5) are equivalent. The final
+assertion of the lemma follows from Axiom (3) of
+Definition \ref{definition-site}
+applied the the empty covering of $U$.
+\end{proof}
+
+\begin{definition}
+\label{definition-almost-cocontinuous}
+Let $\mathcal{C}$, $\mathcal{D}$ be sites.
+Let $u : \mathcal{C} \to \mathcal{D}$ be a functor.
+We say $u$ is {\it almost cocontinuous} if for every
+object $U$ of $\mathcal{C}$ and every covering
+$\{V_j \to u(U)\}_{j \in J}$ there exists a covering
+$\{U_i \to U\}_{i \in I}$ in $\mathcal{C}$ such that
+for each $i$ in $I$ we have at least one of the following two conditions
+\begin{enumerate}
+\item $u(U_i)$ is sheaf theoretically empty, or
+\item the morphism $u(U_i) \to u(U)$ factors through $V_j$ for some $j \in J$.
+\end{enumerate}
+\end{definition}
+
+\noindent
+The motivation for this definition comes from a closed immersion
+$i : Z \to X$ of topological spaces. As discussed in
+Example \ref{example-closed-map-cocontinuous-false}
+the continuous functor
+$\mathcal{T}_X \to \mathcal{T}_Z$, $U \mapsto Z \cap U$ is
+not cocontinuous. But it is almost continuous in the sense defined above.
+We know that $i_*$ while not exact on sheaves of sets, is
+exact on sheaves of abelian groups, see
+Sheaves on Spaces, Remark \ref{sheaves-remark-i-star-not-exact}.
+And this holds in general for continuous and almost continuous functors.
+
+\begin{lemma}
+\label{lemma-almost-cocontinuous-sheafification}
+Let $\mathcal{C}$, $\mathcal{D}$ be sites.
+Let $u : \mathcal{C} \to \mathcal{D}$ be a functor.
+Assume that $u$ is continuous and almost continuous.
+Let $\mathcal{G}$ be a presheaf on $\mathcal{D}$ such that $\mathcal{G}(V)$ is
+a singleton whenever $V$ is sheaf theoretically empty.
+Then $(u^p\mathcal{G})^\# = u^p(\mathcal{G}^\#)$.
+\end{lemma}
+
+\begin{proof}
+Let $U \in \text{Ob}(\mathcal{C})$. We have to show that
+$(u^p\mathcal{G})^\#(U) = u^p(\mathcal{G}^\#)(U)$.
+It suffices to show that 
+$(u^p\mathcal{G})^+(U) = u^p(\mathcal{G}^+)(U)$
+since $\mathcal{G}^+$ is another presheaf for which the
+assumption of the lemma holds. We have
+$$
+u^p(\mathcal{G}^+)(U) =
+\mathcal{G}^+(u(U)) =
+\text{colim}_{\mathcal{V}}\ \check H^0(\mathcal{V}, \mathcal{G})
+$$
+where the colimit is over the coverings $\mathcal{V}$ of $u(U)$ in
+$\mathcal{D}$. On the other hand, we see that
+$$
+u^p(\mathcal{G})^+(U) =
+\text{colim}_{\mathcal{U}}\ \check H^0(u(\mathcal{U}), \mathcal{G})
+$$
+where the colimit is over the category of coverings
+$\mathcal{U} = \{U_i \to U\}_{i \in I}$ of $U$ in $\mathcal{C}$ and
+$u(\mathcal{U}) = \{u(U_i) \to u(U)\}_{i \in I}$. The condition
+that $u$ is continuous means that each $u(\mathcal{U})$ is a covering.
+Write $I = I_1 \amalg I_2$, where
+$$
+I_2 = \{i \in I \mid u(U_i)\text{ is sheaf theoretically empty}\}
+$$
+Then $u(\mathcal{U})' = \{u(U_i) \to u(U)\}_{i \in I_1}$ is still a covering of
+because each of the other pieces can be covered by the empty family
+and hence can be dropped by Axiom (2) of
+Definition \ref{definition-site}.
+Moreover,
+$\check H^0(u(\mathcal{U}), \mathcal{G}) =
+\check H^0(u(\mathcal{U})', \mathcal{G})$
+by our assumption on $\mathcal{G}$. Finally, the condition that $u$ is
+almost cocontinuous implies that for every covering $\mathcal{V}$
+of $u(U)$ there exists a covering $\mathcal{U}$ of $U$ such that
+$u(\mathcal{U})'$ refines $\mathcal{V}$. It follows that the two colimits
+displayed above have the same value as desired.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-continuous-almost-cocontinuous}
+Let $\mathcal{C}$, $\mathcal{D}$ be sites.
+Let $u : \mathcal{C} \to \mathcal{D}$ be a functor.
+Assume that $u$ is continuous and almost cocontinuous.
+Then $u^s = u^p : \textit{Sh}(\mathcal{D}) \to \textit{Sh}(\mathcal{C})$
+commutes with pushouts and coequalizers (and more generally
+finite, nonempty, connected colimits).
+\end{lemma}
+
+\begin{proof}
+Let $\mathcal{I}$ be a finite, nonempty, connected index category.
+Let $\mathcal{I} \to \textit{Sh}(\mathcal{D})$,
+$i \mapsto \mathcal{G}_i$ by a diagram. We know that the colimit of
+this diagram is the sheafification of the colimit in the category of
+presheaves, see
+Lemma \ref{lemma-colimit-sheaves}.
+Denote $\text{colim}^{Psh}$ the colimit in the category
+of presheaves. Since $\mathcal{I}$ is finite, nonempty and connected
+we see that $\text{colim}^{Psh}_i\ \mathcal{G}_i$
+is a presheaf satisfying the assumptions of
+Lemma \ref{lemma-almost-cocontinuous-sheafification}
+(because a finite nonempty connected colimit of singleton sets is a
+singleton). Hence that lemma gives
+\begin{align*}
+u^s(\text{colim}_i\ \mathcal{G}_i) & =
+u^s((\text{colim}^{Psh}_i\ \mathcal{G}_i)^\#) \\
+& = (u^p(\text{colim}^{Psh}_i\ \mathcal{G}_i))^\# \\
+& = (\text{colim}^{PSh}_i\ u^p(\mathcal{G}_i))^\# \\
+& = \text{colim}_i\ u^s(\mathcal{G}_i)
+\end{align*}
+as desired.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-morphism-of-sites-almost-cocontinuous}
+Let $f : \mathcal{D} \to \mathcal{C}$ be a morphism of sites
+associated to the continuous functor $u : \mathcal{C} \to \mathcal{D}$.
+If $u$ is almost cocontinuous then $f_*$ commutes with
+pushouts and coequalizers (and more generally
+finite, nonempty, connected colimits).
+\end{lemma}
+
+\begin{proof}
+This is a special case of Lemma \ref{lemma-continuous-almost-cocontinuous}.
+\end{proof}
 
 
 
