@@ -69,9 +69,9 @@ print "------------------------------------------------"
 print "Fixing tags whose labels got moved."
 print
 
-fixed = 0
-nowhere = 0
-multiple = 0
+fixed_tags = 0
+nowhere_tags = 0
+multiple_tags = 0
 moved_detected_lazy = set()
 
 filename = path + "tags/tags"
@@ -101,11 +101,11 @@ for line in tags_file:
 	if len(matches) == 0:
 		print "Cannot fix tag " + tag
 		print "Tag points nowhere"
-		nowhere = nowhere + 1
+		nowhere_tags = nowhere_tags + 1
 		newline = line
 	
 	if len(set(matches) & set(moved)) == 1:
-		fixed = fixed + 1
+		fixed_tags = fixed_tags + 1
 		for new_name in set(matches) & set(moved): break
 		newline = tag + "," + new_name + "-" + tag_label + "\n"
 	else:
@@ -114,7 +114,7 @@ for line in tags_file:
 		if len(matches) > 1:
 			print "Cannot fix tag " + tag
 			print "Multiple possibilites"
-			multiple = multiple + 1
+			multiple_tags = multiple_tags + 1
 		newline = line
 	
 	tags_out.write(newline)
@@ -131,8 +131,14 @@ print "------------------------------------------------"
 print "Fixing references."
 print
 
-def fix_ref(ref, name):
+fixed_refs = 0
+nowhere_refs = 0
+multiple_refs = 0
 
+
+
+def fix_ref(ref, name):
+	global fixed_refs, nowhere_refs, multiple_refs
 	# short label case
 	if standard_label(ref):
 		if ref in labels[name]:
@@ -143,13 +149,16 @@ def fix_ref(ref, name):
 				nr = nr + 1
 				new_name = other
 		if nr == 1:
+			fixed_refs = fixed_refs + 1
 			return new_name + "-" + ref
 
 		if nr > 1:
+			multiple_refs = multiple_refs + 1
 			print "Cannot fix reference " + ref + " in " + name
 			print "Multiple possibilites"
 
 		if nr == 0:
+			nowhere_refs = nowhere_refs + 1
 			print "Cannot fix reference " + ref + " in " + name
 			print "No corresponding labels found in listed files."
 			for other in lijstje:
@@ -174,13 +183,16 @@ def fix_ref(ref, name):
 			nr = nr + 1
 			new_name = other
 	if nr == 1:
+		fixed_refs = fixed_refs + 1
 		return new_name + "-" + ref_label
 
 	if nr > 1:
+		multiple_refs = multiple_refs + 1
 		print "Cannot fix reference " + ref + " in " + name
 		print "Multiple possibilites"
 
 	if nr == 0:
+		nowhere_refs = nowhere_refs + 1
 		print "Cannot fix reference " + ref + " in " + name
 		print "No corresponding labels found in listed files."
 		for other in lijstje:
@@ -238,11 +250,18 @@ for name in lijstje:
 print "------------------------------------------------"
 print
 print "Fixed tags: ",
-print fixed
+print fixed_tags
 print "Moved tags with multiple choices: ",
-print multiple
+print multiple_tags
 print "Tags pointing nowhere: ",
-print nowhere
+print nowhere_tags
+print
+print "Fixed references: ",
+print fixed_refs
+print "Bad references with multiple choices: ",
+print multiple_refs
+print "References pointing nowhere: ",
+print nowhere_refs
 print
 
 print
