@@ -22,9 +22,12 @@ while n < len(argv):
 	n = n + 1
 
 labels = {}
-refs = []
 
 lijstje = list_text_files(path)
+
+print "------------------------------------------------"
+print "Finding labels."
+print
 
 ext = ".tex"
 for name in lijstje:
@@ -58,99 +61,197 @@ for name in lijstje:
 			labels[name].append(label)
 			continue
 
-		# Find references if there are some
-		refs_line = find_refs(line, name)
-		n = 0
-		while n < len(refs_line):
-			ref = refs_line[n]
-			if ref == "":
-				print_error("Empty reference.",
-				line, name, line_nr)
-			else:
-				refs.append([name, ref, line_nr])
-			n = n + 1
-
 	tex_file.close()
 
+
+
 print "------------------------------------------------"
+print "Fixing tags whose labels got moved."
 print
 
-tags = []
-filename = path + "tags/tags"
-tags_file = open(filename, 'r')
-for line in tags_file:
-	if line.find("#") == 0:
-		continue
-
-	line = line.rstrip()
-	t = line.split(",")
-	tag = t[0]
-	t = split_label(t[1])
-	tags.append([tag, t[0], t[1] + t[2]])
-
-tags_file.close()
-
-nr = len(refs)
-print "There are",
-print nr,
-print "references."
-nr = len(labels)
-print "There are",
-print nr,
-print "files."
-nr = len(tags)
-print "There are",
-print nr,
-print "tags."
-print
-print "------------------------------------------------"
-print
-print "We are going to look for tags whose corresponding labels got moved to new files."
-print
-
-fixable = 0
+fixed = 0
 nowhere = 0
 multiple = 0
 moved_detected_lazy = set()
 
-n = 0
-while n < len(tags):
+filename = path + "tags/tags"
+tags_file = open(filename, 'r')
+tags_out = open(path + "tmp/tags", 'w')
+for line in tags_file:
+	if line.find("#") == 0:
+		tags_out.write(line)
+		continue
 
-	tag = tags[n][0]
-	tag_name = tags[n][1]
-	tag_label = tags[n][2]
+	l = line.rstrip()
+	t = l.split(",")
+	tag = t[0]
+	t = split_label(t[1])
+	tag_name = t[0]
+	tag_label = t[1] + t[2]
 
 	matches = []
 	for name in lijstje:
 		if tag_label in labels[name]:
 			matches.append(name)
+
+	if tag_name in matches:
+		tags_out.write(line)
+		continue
+
+	if len(matches) == 0:
+		print "Cannot fix tag " + tag
+		print "Tag points nowhere"
+		nowhere = nowhere + 1
+		newline = line
 	
-	if not tag_name in matches:
-		if len(matches) == 0:
-			nowhere = nowhere + 1
+	if len(set(matches) & set(moved)) == 1:
+		fixed = fixed + 1
+		for new_name in set(matches) & set(moved): break
+		newline = tag + "," + new_name + "-" + tag_label + "\n"
+	else:
 		if len(matches) == 1:
 			moved_detected_lazy.add(matches[0])
-		if len(set(matches) & set(moved)) == 1:
-			fixable = fixable + 1
-		else:
-			if len(matches) > 1:
-				multiple = multiple + 1
+		if len(matches) > 1:
+			print "Cannot fix tag " + tag
+			print "Multiple possibilites"
+			multiple = multiple + 1
+		newline = line
+	
+	tags_out.write(newline)
 
-	n = n + 1
 
-print "Lazily detected files to use as input"
-for name in moved_detected_lazy:
-	print name
+tags_file.close()
+tags_out.close()
+
+
+
+
 print
-print "Moved fixable tags: ",
-print fixable
+print "------------------------------------------------"
+print "Fixing references."
+print
+
+def fix_ref(ref, name):
+
+	# short label case
+	if standard_label(ref):
+		if ref in labels[name]:
+			return ref
+		nr = 0
+		for other in moved:
+			if ref in labels[other]:
+				nr = nr + 1
+				new_name = other
+		if nr == 1:
+			return new_name + "-" + ref
+
+		if nr > 1:
+			print "Cannot fix reference " + ref + " in " + name
+			print "Multiple possibilites"
+
+		if nr == 0:
+			print "Cannot fix reference " + ref + " in " + name
+			print "No corresponding labels found in listed files."
+			for other in lijstje:
+				if ref in labels[other]:
+					nr = nr + 1
+					new_name = other
+			if nr == 1:
+				moved_detected_lazy.add(new_name)
+
+		return ref
+
+	# long label case
+	t = split_label(ref)
+	ref_name = t[0]
+	ref_label = t[1] + t[2]
+	if ref_label in labels[ref_name]:
+		return ref
+
+	nr = 0
+	for other in moved:
+		if ref_label in labels[other]:
+			nr = nr + 1
+			new_name = other
+	if nr == 1:
+		return new_name + "-" + ref_label
+
+	if nr > 1:
+		print "Cannot fix reference " + ref + " in " + name
+		print "Multiple possibilites"
+
+	if nr == 0:
+		print "Cannot fix reference " + ref + " in " + name
+		print "No corresponding labels found in listed files."
+		for other in lijstje:
+			if ref in labels[other]:
+				nr = nr + 1
+				new_name = other
+		if nr == 1:
+			moved_detected_lazy.add(new_name)
+
+	return ref
+
+
+ext = ".tex"
+for name in lijstje:
+	filename = path + name + ext
+	tex_file = open(filename, 'r')
+	tex_out = open(path + "tmp/" + name + ext, 'w')
+	line_nr = 0
+	verbatim = 0
+	for line in tex_file:
+
+		# Update line number
+		line_nr = line_nr + 1
+
+		# Check for verbatim, because we do not check correctness
+		# inside verbatim environment.
+		verbatim = verbatim + beginning_of_verbatim(line)
+		if verbatim:
+			if end_of_verbatim(line):
+				verbatim = 0
+			tex_out.write(line)
+			continue
+
+		# No references
+		if line.find("\\ref{") < 0:
+			tex_out.write(line)
+			continue
+
+		newline = ""
+		m = 0
+		n = line.find("\\ref{")
+		while n >= 0:
+			newline = newline + line[m: n + 5]
+			m = find_sub_clause(line, n + 4, "{", "}")
+			ref = line[n + 5: m]
+			newline = newline + fix_ref(ref, name)
+			n = line.find("\\ref{", m)
+		newline = newline + line[m: len(line)]
+		tex_out.write(newline)
+
+	tex_file.close()
+	tex_out.close()
+
+
+print "------------------------------------------------"
+print
+print "Fixed tags: ",
+print fixed
 print "Moved tags with multiple choices: ",
 print multiple
 print "Tags pointing nowhere: ",
 print nowhere
+print
 
-if fixable == 0:
-	print "Nothing fixable."
-	exit(0)
-
+print
+print "------------------------------------------------"
+print
+print "Lazily detected files to use as input"
+print
+for name in moved_detected_lazy:
+	print name,
+print
+print
 
