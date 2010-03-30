@@ -2962,6 +2962,8 @@ chapters of the stacks project we may use algebraically closed instead.}.
 Such a point is usually denoted $\overline{s}$, i.e., by an overlined
 small case letter, and in this case the scheme $\text{Spec}(k)$ is denoted
 $\overline{s}$ as well.
+\item We say $\overline{s}$ {\it lies over} $s$
+to indicate that $s \in S$ is the image of $\overline{s}$.
 \item An {\it \'etale neighborhood} of a geometric point $\overline{s}$
 of $S$ is a commutative diagram
 $$
@@ -2971,7 +2973,7 @@ $$
 }
 $$
 where $\varphi$ is an \'etale morphism of schemes.
-We write $(\mathcal{U}, \overline{u}) \to (S, \overline{s})$.
+We write $(U, \overline{u}) \to (S, \overline{s})$.
 \item A {\it morphism of \'etale neighborhoods}
 $(U, \overline{u}) \to (U', \overline{u}')$
 is an $S$-morphism $h: U \to U'$
@@ -3086,25 +3088,29 @@ neighborhoods of $\overline{s}$ in $S$.
 \noindent
 By Lemma \ref{lemma-cofinal-etale}, this colimit is over a filtered
 index category.
-In other words, an element of $\mathcal{F}_{\overline{u}}$ can be
-though of as a triple $(U, \overline{u}, s)$ where $s \in \mathcal{F}(U)$.
-Two triples $(U, \overline{u}, s)$, $(U', \overline{u}', s')$
+In other words, an element of $\mathcal{F}_{\overline{s}}$ can be
+thought of as a triple $(U, \overline{u}, \sigma)$ where
+$\sigma \in \mathcal{F}(U)$. Two triples
+$(U, \overline{u}, \sigma)$, $(U', \overline{u}', \sigma')$
 define the same element of the stalk if there exists a third
 \'etale neighbourhood $(U'', \overline{u}'')$ and morphisms of \'etale
 neighbourhoods $h : (U'', \overline{u}'') \to (U, \overline{u})$,
 $h' : (U'', \overline{u}'') \to (U', \overline{u}')$ such that
-$h^*s = (h')^*s'$ in $\mathcal{F}(U'')$. See
+$h^*\sigma = (h')^*\sigma'$ in $\mathcal{F}(U'')$. See
 Categories, Section \ref{categories-section-directed-colimits}.
 
 \begin{lemma}
 \label{lemma-stalk-gives-point}
 Let $S$ be a scheme. Let $\overline{s}$ be a geometric point of $S$.
 Consider the functor
-$$
-p : S_{etale} \longrightarrow \textit{Sets},
-\quad
-U \longmapsto |U_{\overline{s}}|.
-$$
+\begin{align*}
+p : S_{etale} & \longrightarrow \textit{Sets}, \\
+U & \longmapsto
+|U_{\overline{s}}|
+=
+\{\overline{u} \text{ such that }(U, \overline{u})
+\text{ is an etale neighbourhood of }\overline{s}\}.
+\end{align*}
 Here $|U_{\overline{s}}|$ denotes the underlying set of the geometric fibre.
 Then $p$ defines a point of the site $S_{etale}$
 (Sites, Definition \ref{sites-definition-point})
@@ -3137,6 +3143,44 @@ Sites, Remark \ref{sites-remark-improve-proposition-points-limits}
 applies, so $p$ is a point of the site $S_{etale}$
 \end{proof}
 
+\begin{remark}
+\label{remark-map-stalks}
+Let $S$ be a scheme and let $\overline{s} : \text{Spec}(k) \to S$
+and $\overline{s}' : \text{Spec}(k') \to S$ be two geometric points of
+$S$. A {\it morphism $a : \overline{s} \to \overline{s}'$ of geometric points}
+is simply a morphism $a : \text{Spec}(k) \to \text{Spec}(k')$ such that
+$a \circ \overline{s}' = \overline{s}$. Given such a morphism we obtain
+a functor from the category of etale neighbourhoods of $\overline{s}'$
+to the category of etale neighbourhoods of $\overline{s}$ by the rule
+$(U, \overline{u}') \mapsto (U, a \circ \overline{u}')$. Hence we obtain
+a canonical map
+$$
+\mathcal{F}_{\overline{s}'}
+=
+\text{colim}_{(U, \overline{u}')}\ \mathcal{F}(U)
+\longrightarrow
+\text{colim}_{(U, \overline{u})}\ \mathcal{F}(U)
+=
+\mathcal{F}_{\overline{s}}
+$$
+from Categories, Lemma \ref{categories-lemma-functorial-colimit}. Using the
+description of elements of stalks as triples this maps the element of
+$\mathcal{F}_{\overline{s}'}$ represented by the triple
+$(U, \overline{u}', \sigma)$ to the element of $\mathcal{F}_{\overline{s}}$
+represented by the triple $(U, a \circ \overline{u}', \sigma)$.
+Since the functor above is clearly an equivalence we conclude that this
+canonical map is an isomorphism of stalk functors.
+
+\medskip\noindent
+The point of this remark is to make sure we have the map of stalks
+corresponding to $a$ pointing in the correct direction. Note that the
+above means that according to
+Sites, Definition \ref{sites-definition-morphism-points}
+$a$ defines a morphism $a : p \to p'$ between the points $p, p'$ of
+the site $S_{etale}$ associated to $\overline{s}, \overline{s}'$ by
+Lemma \ref{lemma-stalk-gives-point}.
+\end{remark}
+
 \begin{definition}
 \label{definition-etale-local-rings}
 Let $S$ be a scheme, and let $\overline{s}$ be a geometric point of $S$.
@@ -3156,34 +3200,54 @@ the local ring of $S$ at the point $s$ (the image of $\overline{s}$).
 
 \begin{lemma}
 \label{lemma-stalk-exact}
-The stalk functor
-$$
-\begin{matrix}
-\textit{PAb}(S_{etale}) & \longrightarrow & \textit{Ab}\\
-\mathcal{F} & \longmapsto & \mathcal{F}_{\overline{s}}
-\end{matrix}
-$$
-is exact. Furthermore,
-$(\mathcal{F}^\#)_{\overline{s}} = \mathcal{F}_{\overline{s}}$
-and hence it induces an exact functor
-$$
-\textit{Ab}(S_{etale})\to \textit{Ab},
-\quad \mathcal{F} \longmapsto \mathcal{F}_{\overline{s}}.
-$$
+Let $S$ be a scheme. Let $\overline{s}$ be a geometric point of $S$.
+\begin{enumerate}
+\item The stalk functor
+$\textit{PAb}(S_{etale}) \to \textit{Ab}$,
+$\mathcal{F}  \mapsto  \mathcal{F}_{\overline{s}}$
+is exact.
+\item We have $(\mathcal{F}^\#)_{\overline{s}} = \mathcal{F}_{\overline{s}}$
+for any sheaf of sets $\mathcal{F}$ on $S_{etale}$.
+\item The functor
+$\textit{Ab}(S_{etale}) \to \textit{Ab}$,
+$\mathcal{F} \mapsto \mathcal{F}_{\overline{s}}$ is exact.
+\item Similarly the functors
+$\textit{PSh}(S_{etale}) \to \textit{Sets}$ and
+$\textit{Sh}(S_{etale}) \to \textit{Sets}$ given by the stalk functor
+$\mathcal{F} \mapsto \mathcal{F}_{\overline{x}}$ are exact (see
+Categories, Definition \ref{categories-definition-exact})
+and commute with arbitrary colimits.
+\end{enumerate}
 \end{lemma}
 
 \begin{proof}
+Before discussing this in the setting of etale sheaves
+we first deduce the lemma from the general material in the chapter on
+sites and sheaves, using that $\mathcal{F} \mapsto \mathcal{F}_{\overline{s}}$
+comes from a point of the small etale site of $S$, see
+Lemma \ref{lemma-stalk-gives-point}.
+By
+Sites, Lemmas \ref{sites-lemma-adjoint-point-push-stalk} and
+\ref{sites-lemma-point-pushforward-sheaf}
+we have (2) and we have that
+$\mathcal{F} \mapsto \mathcal{F}_{\overline{s}}$
+is a left adjoint hence commutes with arbitrary colimits (see
+Categories, Lemma \ref{categories-lemma-adjoint-exact}).
 It follows from the definition of a point of a site, see
 Sites, Definition \ref{sites-definition-point}
-that the stalk functor at a point of a site is exact.
-Hence the result follows formally from
-Lemma \ref{lemma-stalk-gives-point}.
-We will also give a direct proof.
+that $\textit{Sh}(S_{etale}) \to \textit{Sets}$,
+$\mathcal{F} \mapsto \mathcal{F}_{\overline{x}}$
+is exact. Since sheafification is exact
+(Sites, Lemma \ref{sites-lemma-sheafification-exact})
+it follows that $\textit{PSh}(S_{etale}) \to \textit{Sets}$,
+$\mathcal{F} \mapsto \mathcal{F}_{\overline{x}}$
+is exact. Assertions (1) and (3) follow formally from (4).
+We will also give a direct proof of (1), (2) and (3).
 
 \medskip\noindent
 Exactness as a functor on $\textit{PAb}(S_{etale})$ is formal from the
 fact that directed colimits commute with all colimits and with finite
-limits. The identification of the stalks is {\it via} the map
+limits. The identification of the stalks in (2) is via the map
 $$
 \kappa :
 \mathcal{F}_{\overline{s}}
@@ -3215,20 +3279,20 @@ is a morphism of etale neighbourhoods such that
 we have $s|_{U'_i}=0$. This proves $\kappa$ is injective.
 
 \medskip\noindent
-To show that the functor $\textit{Ab}(S_{et}) \to \textit{Ab}$ is
-exact, consider any short exact sequence in $\textit{Ab}(S_{et})$:
+To show that the functor $\textit{Ab}(S_{etale}) \to \textit{Ab}$ is
+exact, consider any short exact sequence in $\textit{Ab}(S_{etale})$:
 $
 0\to \mathcal{F}\to \mathcal{G}\to \mathcal H \to 0.
 $
 This gives us the exact sequence of presheaves
 $$
-0 \to \mathcal{F}\to \mathcal{G} \to \mathcal H\to \mathcal H/^p\mathcal{G} \to
-0,
+0 \to \mathcal{F} \to \mathcal{G} \to \mathcal H \to
+\mathcal H/^p\mathcal{G} \to 0,
 $$
-where $/^p$ denotes the quotient in $\textit{PAb}(S_{et})$. Taking stalks at
-$\overline{s}$, we see that $(\mathcal H /^p\mathcal{G})_{\bar{s}} = (\mathcal H
-/\mathcal{G})_{\bar{s}} = 0$, since the sheafification of $\mathcal
-H/^p\mathcal{G}$ is $0$.
+where $/^p$ denotes the quotient in $\textit{PAb}(S_{etale})$. Taking stalks at
+$\overline{s}$, we see that $(\mathcal H /^p\mathcal{G})_{\bar{s}} =
+(\mathcal H /\mathcal{G})_{\bar{s}} = 0$, since the sheafification of
+$\mathcal H/^p\mathcal{G}$ is $0$.
 Therefore,
 $$
 0\to \mathcal{F}_{\overline{s}	} \to \mathcal{G}_{\overline{s}} \to
@@ -3283,6 +3347,7 @@ the proof of
 Theorem \ref{theorem-exactness-stalks}
 shows that the small \'etale site of $S$ has enough points.
 \item Suppose $\mathcal{F}$ is a sheaf on the big \'etale site
+\label{item-stalks-big}
 of $S$. Let $T \to S$ be an object of the big etale site of $S$,
 and let $\overline{t}$ be a geometric point of $T$. Then we define
 $\mathcal{F}_{\overline{t}}$ as the stalk
@@ -3291,8 +3356,8 @@ to the small \'etale site of $T$. In other words, we can define
 the stalk of $\mathcal{F}$ at any geometric point of any
 scheme $T/S \in \text{Ob}((\textit{Sch}/S)_{etale})$.
 \item The big \'etale site of $S$ also has enough points, by
-considering all geometric points of all objects of this site (see
-previous remark).
+considering all geometric points of all objects of this site, see
+(\ref{item-stalks-big}).
 \item It turns out that the big fppf, syntomic, and smooth sites also have
 enough points. This can be deduced from Deligne's result
 Sites, Proposition \ref{sites-proposition-criterion-points}
@@ -3311,6 +3376,138 @@ Theorem \ref{theorem-exactness-stalks}
 to show directly that $(\textit{Sch}/S)_{fppf}$ has enough points.
 \end{enumerate}
 \end{remarks}
+
+
+
+
+
+\section{Supports of abelian sheaves}
+\label{section-support}
+
+\noindent
+First we talk about supports of local sections.
+
+\begin{lemma}
+\label{lemma-zero-over-image}
+Let $S$ be a scheme.
+Let $\mathcal{F}$ be an abelian sheaf on $S_{etale}$.
+Let $\sigma \in \mathcal{F}(U)$ be a local section.
+There exists an open subset $W \subset U$ such that
+\begin{enumerate}
+\item $W \subset U$ is the largest Zariski open subset of $U$ such
+that $\sigma|_W = 0$,
+\item for every $\varphi : V \to U$ in $S_{etale}$ we have
+$$
+\sigma|_V = 0 \Leftrightarrow \varphi(V) \subset W,
+$$
+\item for every geometric point $\overline{u}$ of $U$ we have
+$$
+(U, \overline{u}, \sigma) = 0\text{ in }\mathcal{F}_{\overline{s}}
+\Leftrightarrow
+\overline{u} \in W
+$$
+where $\overline{s} = (U \to S) \circ \overline{u}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Since $\mathcal{F}$ is a sheaf in the etale topology the restriction of
+$\mathcal{F}$ to $U_{Zar}$ is a sheaf on $U$ in the Zariski topology.
+Hence there exists a Zariski open $W$ having property (1), see
+Modules, Lemma \ref{modules-lemma-support-section-closed}. Let
+$\varphi : V \to U$ be an arrow of $S_{etale}$. Note that
+$\varphi(V) \subset U$ is an open subset and that
+$\{V \to \varphi(V)\}$ is an etale covering. Hence if
+$\sigma|_V = 0$, then by the sheaf condition for $\mathcal{F}$ we
+see that $\sigma|_{\varphi(V)} = 0$. This proves (2).
+To prove (3) we have to show that if $(U, \overline{u}, \sigma)$
+defines the zero element of $\mathcal{F}_{\overline{s}}$, then
+$\overline{u} \in W$. This is true because the assumption means
+there exists a morphism of etale neighbourhoods
+$(V, \overline{v}) \to (U, \overline{u})$ such that
+$\sigma|_V = 0$. Hence by (2) we see that $V \to U$ maps into $W$, and
+hence $\overline{u} \in W$.
+\end{proof}
+
+\noindent
+Let $S$ be a scheme. Let $s \in S$.
+Let $\mathcal{F}$ be a sheaf on $S_{etale}$. By
+Remark \ref{remark-map-stalks}
+the isomorphism class of the stalk of the sheaf $\mathcal{F}$
+at a geometric points lying over $s$ is well defined.
+
+\begin{definition}
+\label{definition-support}
+Let $S$ be a scheme. Let $\mathcal{F}$ be an abelian sheaf on $S_{etale}$.
+\begin{enumerate}
+\item The {\it support of $\mathcal{F}$} is the set of
+points $s \in S$ such that $\mathcal{F}_{\overline{s}} \not = 0$
+a geometric point $\overline{s}$ lying over $s$.
+\item Let $\sigma \in \mathcal{F}(U)$ be a section.
+The {\it support of $\sigma$} is the closed subset $U \setminus W$, where
+$W \subset U$ is the largest open subset of $U$ on which $\sigma$
+restricts to zero (see
+Lemma \ref{lemma-zero-over-image}).
+\end{enumerate}
+\end{definition}
+
+\noindent
+In general the support of an abelian sheaf is not closed.
+For example, suppose that $S = \text{Spec}(\mathbf{A}^1_{\mathbf{C}})$.
+Let $i_t : \text{Spec}(\mathbf{C}) \to S$ be the inclusion of the
+point $t \in \mathbf{C}$.
+We will see later that $\mathbf{F}_t = i_{t, *}(\mathbf{Z}/2\mathbf{Z})$
+is an abelian sheaf whose support is exactly $\{t\}$, see
+Section \ref{section-closed-immersions}.
+Then
+$$
+\bigoplus\nolimits_{n \in \mathbf{N}} \mathcal{F}_n
+$$
+is an abelian sheaf with support $\{1, 2, 3, \ldots\} \subset S$.
+This is true because taking stalks commutes with colimits, see
+Lemma \ref{lemma-stalk-exact}.
+Thus an example of an abelian sheaf whose support is not closed.
+Here are some basic facts on supports of sheaves and sections.
+
+\begin{lemma}
+\label{lemma-support-section-closed}
+Let $S$ be a scheme.
+Let $\mathcal{F}$ be an abelian sheaf on $S_{etale}$.
+Let $U \in \text{Ob}(S_{etale})$ and $\sigma \in \mathcal{F}(U)$.
+\begin{enumerate}
+\item The support of $\sigma$ is closed in $U$.
+\item The support of $\sigma + \sigma'$ is contained in the union of
+the supports of $\sigma, \sigma' \in \mathcal{F}(U)$.
+\item If $\varphi : \mathcal{F} \to \mathcal{G}$ is a map of
+abelian sheaves on $S_{etale}$, then the support of $\varphi(\sigma)$ is
+contained in the support of $\sigma \in \mathcal{F}(U)$.
+\item The support of $\mathcal{F}$ is the union of the images of the
+supports of all local sections of $\mathcal{F}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Part (1) holds by definition.
+Parts (2) and (3) hold because they holds for the restriction of
+$\mathcal{F}$ and $\mathcal{G}$ to $U_{Zar}$, see
+Modules, Lemma \ref{lemma-support-section-closed}.
+Part (4) is a direct consequence of
+Lemma \ref{lemma-zero-over-image} part (3).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-support-sheaf-rings-closed}
+The support of a sheaf of rings on $S_{etale}$ is closed.
+\end{lemma}
+
+\begin{proof}
+This is true because (according to our conventions)
+a ring is $0$ if and only if
+$1 = 0$, and hence the support of a sheaf of rings
+is the support of the unit section.
+\end{proof}
+
+
 
 
 
@@ -3467,10 +3664,8 @@ Theorem \ref{theorem-exactness-stalks}.
 \medskip\noindent
 To prove the first statement we argue as follows. Note that by
 Lemma \ref{lemma-stalk-exact}
-(for abelian sheaves, for sheaves of sets see
-Sites, Lemma \ref{sites-lemma-point-pushforward-sheaf}
-and sentence following that lemma) that taking stalks commutes with
-sheafification. Now recall that $f^{-1}\mathcal{G}$ is the sheaf
+taking stalks commutes with sheafification.
+Now recall that $f^{-1}\mathcal{G}$ is the sheaf
 associated to the presheaf
 $$
 U \longrightarrow \text{colim}_{U \to X \times_Y V} \mathcal{G}(V),
