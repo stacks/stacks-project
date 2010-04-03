@@ -429,13 +429,14 @@ def new_command(new, commands):
 #	label itself). But the tags should never change.
 
 # The first tag is 0000 and the last tag is ZZZZ
+# Starting at tag 04E6 we no longer use O
 def next_tag(tag):
 	next = list(tag)
-	S = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	S = "0123456789ABCDEFGHIJKLMNPQRSTUVWXYZ"
 	i = 3
 	while i >= 0:
 		n = S.find(next[i])
-		if n == 35:
+		if n == 34:
 			next[i] = '0'
 		else:
 			next[i] = S[n + 1]
