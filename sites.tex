@@ -1888,7 +1888,8 @@ sheafifications of the colimits in presheaves).
 
 \begin{lemma}
 \label{lemma-sheafification-exact}
-The functor $\mathcal{F} \mapsto \mathcal{F}^\#$ is exact.
+The functor $\textit{PSh}(\mathcal{C}) \to \textit{Sh}(\mathcal{C})$,
+$\mathcal{F} \mapsto \mathcal{F}^\#$ is exact.
 \end{lemma}
 
 \begin{proof}
@@ -2697,23 +2698,46 @@ In a formula $\textit{Sh}(pt) = \textit{Sets}$.
 
 \begin{remark}
 \label{remark-pt-topos}
-There are many sites that give rise to the topos
-$\textit{Sh}(pt)$. For example, suppose that $S$ is a nonempty
-set of sets. Let $\mathcal{S}$ be the category
-whose objects are elements of $S$ and whose morphisms
-are arbitrary set maps. Assume that $\mathcal{S}$ has
-fibre products. For example this
+There are many sites that give rise to the topos $\textit{Sh}(pt)$.
+For example, suppose that $S$ is a set (of sets) which contains at
+least one nonempty element. Let $\mathcal{S}$ be the category whose objects
+are elements of $S$ and whose morphisms are arbitrary set maps. Assume that
+$\mathcal{S}$ has fibre products. For example this
 will be the case if $S = \mathcal{P}(\text{infinite set})$
 is the power set of any infinite set (exercise in set theory).
 Make $\mathcal{S}$ into a site by declaring
 surjective families of maps to be coverings (and choose
 a suitable sufficiently large set of covering families as in Sets,
 Lemma \ref{sets-section-coverings-site}).
-It is a nice exercise to prove that $\textit{Sh}(\mathcal{S})$
-is equivalent to the category of sets. If $s \in S$
-is a singleton set, then the functor
-of evaluation at $s$ gives the equivalence of categories
-$\textit{Sh}(\mathcal{S}) \to \textit{Sets}$.
+We claim that $\textit{Sh}(\mathcal{S})$ is equivalent to the category of
+sets. We first prove this in case $S$ contains $e \in S$ which is a singleton.
+Namely, suppose that $\mathcal{F}$ is a sheaf on $\mathcal{S}$.
+For any $U \in \text{Ob}(\mathcal{S}) = S$ we can find a covering
+$\{\varphi_u : e \to U\}_{u \in U}$, where $\varphi_u$
+maps the unique element of $e$ to $u \in U$. The sheaf condition
+implies in this case that $\mathcal{F}(U) = \prod_{u \in U} \mathcal{F}(e)$.
+In other words
+$\mathcal{F}(U) = \text{Mor}_{\textit{Sets}}(U, \mathcal{F}(e))$.
+Moreover, this rule is compatible with restriction mappings. Hence
+the functor
+$$
+\textit{Sets} \longrightarrow \textit{Sh}(\mathcal{S}),\quad
+E \longmapsto (U \mapsto \text{Mor}_{\textit{Sets}}(U, E))
+$$
+is an equivalence of categories. If $\mathcal{S}$ does not contain a
+singleton, choose any nonempty $\tilde e \in S$ and a map
+$\varphi : \tilde e \to \tilde e$ whose image is a singleton.
+For any sheaf $\mathcal{F}$ set
+$$
+\mathcal{F}(e) :=
+\text{Im}(
+\mathcal{F}(\varphi) :
+\mathcal{F}(\tilde e)
+\longrightarrow 
+\mathcal{F}(\tilde e)
+)
+$$
+and show that the arguments above continue to work. Details omitted.
 \end{remark}
 
 \begin{remark}
@@ -4757,11 +4781,10 @@ $\textit{Sh}(\mathcal{C})$.
 
 \noindent
 We will define a point of a site in terms of a functor
-$u : \mathcal{C} \to \textit{Sets}$. This makes some amount of sense
-because, as we saw in Remark \ref{remark-pt-topos} a suitable
-collection of sets containing $u(\text{Ob}(\mathcal{C}))$ can be turned
-into the objects of a site whose category of sheaves is equivalent
-to $\textit{Sets}$.
+$u : \mathcal{C} \to \textit{Sets}$.
+It will turn out later that $u$ will define a morphism of sites
+which gives rise to a point of the topos associated to $\mathcal{C}$, see
+Lemma \ref{lemma-site-point-morphism}.
 
 \medskip\noindent
 Let $\mathcal{C}$ be a site. Let $p = u$ be
@@ -4825,6 +4848,9 @@ $\mathcal{F} \to \mathcal{F}_p$ is left exact.
 \end{definition}
 
 \noindent
+The conditions should be familiar since they are modeled after those of
+Definitions \ref{definition-continuous} and
+\ref{definition-morphism-sites}.
 Note that (3) implies that $*_p = \{*\}$, see
 Example \ref{example-singleton-sheaf}. Hence $u(U) \not= \emptyset$
 for at least some $U$ (because the empty colimit produces the
@@ -4861,10 +4887,16 @@ is bijective.
 \noindent
 Let $\mathcal{C}$ be a site. Let $p = u : \mathcal{C} \to \textit{Sets}$
 be a functor. In analogy with the constructions in
-Section \ref{section-functoriality-PSh} we define a functor
-$u^p : \textit{Sets} \to \textit{PSh}(\mathcal{C})$, $S \mapsto u^pS$
-where $u^pS$ is the presheaf defined by
-the rule $u^pS(U) = \text{Map}(u(U), S)$.
+Section \ref{section-functoriality-PSh}
+given a set $E$ we define a presheaf $u^pE$ by the rule
+\begin{equation}
+\label{equation-skyscraper}
+U
+\longmapsto
+u^pE(U) = \text{Mor}_{\textit{Sets}}(u(U), E) = \text{Map}(u(U), E).
+\end{equation}
+This defines a functor
+$u^p : \textit{Sets} \to \textit{PSh}(\mathcal{C})$, $E \mapsto u^pE$.
 
 \begin{lemma}
 \label{lemma-adjoint-point-push-stalk}
@@ -4875,14 +4907,16 @@ on presheaves.
 
 \begin{proof}
 Let $\mathcal{F}$ be a presheaf on $\mathcal{C}$.
-Let $S$ be a set. A morphism $\mathcal{F} \to u^pS$
+Let $E$ be a set. A morphism $\mathcal{F} \to u^pE$
 is given by a compatible system of maps
-$\mathcal{F}(U) \to \text{Map}(u(U), S)$, i.e.,
-a compatible system of maps $\mathcal{F}(U) \times u(U) \to S$.
-And by definition of $\mathcal{F}_p$ a map $\mathcal{F}_p \to S$
+$\mathcal{F}(U) \to \text{Map}(u(U), E)$, i.e.,
+a compatible system of maps $\mathcal{F}(U) \times u(U) \to E$.
+And by definition of $\mathcal{F}_p$ a map $\mathcal{F}_p \to E$
 is given by a rule associating with each triple $(U, x, \sigma)$
-an element in $S$. This also means a compatible system of
-maps $\mathcal{F}(U) \times u(U) \to S$.
+an element in $E$ such that equivalent triples map to the same element, see
+discussion surrounding
+Equation (\ref{equation-stalk}).
+This also means a compatible system of maps $\mathcal{F}(U) \times u(U) \to E$.
 \end{proof}
 
 \noindent
@@ -4901,7 +4935,7 @@ $u(U_i \times_U U_j) \to u(U_i) \times_{u(U)} u(U_j)$ are surjective.
 \end{enumerate}
 Then we have
 \begin{enumerate}
-\item the presheaf $u^pS$ is a sheaf for all sets $S$, denote it $u^sS$,
+\item the presheaf $u^pE$ is a sheaf for all sets $E$, denote it $u^sE$,
 \item the stalk functor $\textit{Sh}(\mathcal{C}) \to \textit{Sets}$
 and the functor $u^s: \textit{Sets} \to \textit{Sh}(\mathcal{C})$ are
 adjoint, and
@@ -4912,14 +4946,14 @@ for every presheaf of sets $\mathcal{F}$.
 
 \begin{proof}
 The first assertion is immediate from the definition of a sheaf, and the
-definition of $u^pS$. The second is a restatement of the adjointness
+definition of $u^pE$. The second is a restatement of the adjointness
 of $u^p$ and the stalk functor (but now restricted to sheaves). The third
-assertion follows as, for any set $S$, we have
+assertion follows as, for any set $E$, we have
 $$
-\text{Map}(\mathcal{F}_p, S) =
-\text{Mor}_{\textit{PSh}(\mathcal{C})}(\mathcal{F}, u^pS) =
-\text{Mor}_{\textit{Sh}(\mathcal{C})}(\mathcal{F}^\#, u^sS) =
-\text{Map}(\mathcal{F}^\#_p, S)
+\text{Map}(\mathcal{F}_p, E) =
+\text{Mor}_{\textit{PSh}(\mathcal{C})}(\mathcal{F}, u^pE) =
+\text{Mor}_{\textit{Sh}(\mathcal{C})}(\mathcal{F}^\#, u^sE) =
+\text{Map}(\mathcal{F}^\#_p, E)
 $$
 by the adjointness property of sheafification.
 \end{proof}
@@ -4927,12 +4961,12 @@ by the adjointness property of sheafification.
 \noindent
 In particular Lemma \ref{lemma-point-pushforward-sheaf}
 holds when $p = u$ is a point. In this case we think of the
-sheaf $u^sS$ as the ``skyscraper'' sheaf with value $S$ at $p$.
+sheaf $u^sE$ as the ``skyscraper'' sheaf with value $E$ at $p$.
 
 \begin{definition}
 \label{definition-pushforward-point}
 Let $p$ be a point of the site $\mathcal{C}$ given by the functor $u$.
-For a set $S$ we define $p_*S = u^s S$ the sheaf
+For a set $E$ we define $p_*E = u^sE$ the sheaf
 described in Lemma \ref{lemma-point-pushforward-sheaf} above.
 We sometimes call this a {\it skyscraper sheaf}.
 \end{definition}
@@ -4941,9 +4975,9 @@ We sometimes call this a {\it skyscraper sheaf}.
 In particular we have the following adjointness property
 of skyscraper sheaves and stalks:
 $$
-\text{Mor}_{\textit{Sh}(\mathcal{C})}(\mathcal{F}, p_*S)
+\text{Mor}_{\textit{Sh}(\mathcal{C})}(\mathcal{F}, p_*E)
 =
-\text{Map}(\mathcal{F}_p, S)
+\text{Map}(\mathcal{F}_p, E)
 $$
 This motivates the notation $p^{-1}\mathcal{F} = \mathcal{F}_p$
 which we will sometimes use.
@@ -4958,20 +4992,70 @@ above define a morphism of topoi
 $\textit{Sh}(pt) \to \textit{Sh}(\mathcal{C})$.
 \item Let $p = (p_*, p^{-1})$
 be a point of the topos $\textit{Sh}(\mathcal{C})$.
-Then the functor $U \mapsto p^{-1}(h_U^\#)$ gives
-rise to a point of the site $\mathcal{C}$.
+Then the functor $u : U \mapsto p^{-1}(h_U^\#)$ gives
+rise to a point $p'$ of the site $\mathcal{C}$
+whose associated morphism of topoi $(p'_*, (p')^{-1})$
+is equal to $p$.
 \end{enumerate}
 \end{lemma}
 
 \begin{proof}
-Part (1) is clear from the above. Note that $p^{-1}$ is exact by
-Definition \ref{definition-point}. To prove (2), since
-$u = p^{-1}$ commutes with all colimits and with finite limits
-we get conditions (1) and (2) of Definition \ref{definition-point}.
-To prove condition (3) of the definition
-you show that the stalk functor associated to
-the functor $u$ is canonically isomorphic to $p^{-1}$.
-Omitted, but use the material of Section \ref{section-representable-sheaves}.
+Proof of (1). By the above the functors $p_*$ and $p^{-1}$ are adjoint.
+The functor $p^{-1}$ is required to be exact by
+Definition \ref{definition-point}.
+Hence the conditions imposed in
+Definition \ref{definition-topos}
+are all satisfied and we see that (1) holds.
+
+\medskip\noindent
+Proof of (2). Let $\{U_i \to U\}$ be a covering of $\mathcal{C}$.
+Then $\coprod (h_{U_i})^\# \to h_U^\#$ is surjective, see
+Lemma \ref{lemma-covering-surjective-after-sheafification}.
+Since $p^{-1}$ is exact (by definition of a morphism of topoi) we conclude
+that $\coprod u(U_i) \to u(U)$ is surjective.
+This proves part (1) of
+Definition \ref{definition-point}.
+Sheafification is exact, see
+Lemma \ref{lemma-sheafification-exact}.
+Hence if $U \times_V W$ exists in $\mathcal{C}$, then
+$$
+h_{U \times_V W}^\# =  h_U^\# \times_{h_V^\#} h_W^\#
+$$
+and we see that $u(U \times_V W) = u(U) \times_{u(V)} u(W)$ since $p^{-1}$
+is exact. This proves part (2) of
+Definition \ref{definition-point}.
+Let $p' = u$, and let $\mathcal{F}_{p'}$ be the stalk functor
+defined by Equation (\ref{equation-stalk}) using $u$. There is
+a canonical comparison map
+$c : \mathcal{F}_{p'} \to \mathcal{F}_p = p^{-1}\mathcal{F}$.
+Namely, given a triple $(U, x, \sigma)$ representing an element $\xi$
+of $\mathcal{F}_{p'}$ we think of $\sigma$ as a map
+$\sigma : h_U^\# \to \mathcal{F}$ and we can set
+$c(\xi) = p^{-1}(\sigma)(x)$ since $x \in u(U) = p^{-1}(h_U^\#)$. By
+Lemma \ref{lemma-points-recover}
+we see that $(h_U)_{p'} = u(U)$. Since conditions (1) and (2) of
+Definition \ref{definition-point}
+hold for $p'$ we also have $(h_U^\#)_{p'} = (h_U)_{p'}$ by
+Lemma \ref{lemma-point-pushforward-sheaf}.
+Hence we have
+$$
+(h_U^\#)_{p'} = (h_U)_{p'} = u(U) = p^{-1}(h_U^\#)
+$$
+We claim this bijection equals the comparison map
+$c : (h_U^\#)_{p'} \to p^{-1}(h_U^\#)$ (verification omitted).
+Any sheaf on $\mathcal{C}$ is a coequalizer of maps
+of coproducts of sheaves of the form $h_U^\#$, see
+Lemma \ref{lemma-sheaf-coequalizer-representable}.
+The stalk functor $\mathcal{F} \mapsto \mathcal{F}_{p'}$ and
+the functor $p^{-1}$ commute with arbitrary colimits (as they
+are both left adjoints).
+We conclude $c$ is an isomorphism for every sheaf $\mathcal{F}$.
+Thus the stalk functor $\mathcal{F} \mapsto \mathcal{F}_{p'}$
+is isomorphic to $p^{-1}$ and we in particular see that it is exact.
+This proves condition (3) of
+Definition \ref{definition-point}
+holds and $p'$ is a point. The final assertion has already been shown
+above, since we saw that $p^{-1} = (p')^{-1}$.
 \end{proof}
 
 
@@ -5199,6 +5283,64 @@ which maps a set $S$ to the $G$-set $\text{Map}(G, S)$ with
 action $g \cdot \psi = \psi \circ R_g$ where $R_g$ is right
 multiplication.
 \end{example}
+
+
+
+
+
+
+\section{Localization and points}
+\label{section-localization-points}
+
+\begin{lemma}
+\label{lemma-site-point-morphism}
+Let $\mathcal{C}$ be a site. Let $p$ be a point of $\mathcal{C}$ given by
+$u : \mathcal{C} \to \textit{Sets}$. Let $S_0$ be an infinite set such that
+$u(U) \subset S_0$ for all $U \in \text{Ob}(\mathcal{C})$. Let $\mathcal{S}$
+be the site constructed out of the powerset $S = \mathcal{P}(S_0)$ in
+Remark \ref{remark-pt-topos}.
+Then
+\begin{enumerate}
+\item there is an equivalence $\textit{Sh}(pt) \to \textit{Sh}(\mathcal{S})$,
+\item $u : \mathcal{C} \to \mathcal{S}$ is a continuous functor which induces
+a morphism of sites
+$f : \textit{Sh}(\mathcal{S}) \to \textit{Sh}(\mathcal{C})$, and
+\item the composition
+$$
+\textit{Sh}(pt) \to
+\textit{Sh}(\mathcal{S}) \to
+\textit{Sh}(\mathcal{C})
+$$
+is the morphism of topoi $(p_*, p^{-1})$, see
+Lemma \ref{lemma-point-site-topos}.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Part (1) we saw in 
+Remark \ref{remark-pt-topos}.
+Moreover, recall that the equivalence associates to the set $E$
+the sheaf $\mathcal{F}_E$ on $\mathcal{S}$ defined by the rule
+$V \mapsto \text{Mor}_{\textit{Sets}}(V, E)$.
+Part (2) is clear from the definition of a point of $\mathcal{C}$
+(Definition \ref{definition-point})
+and the definition of a morphism of sites
+(Definition \ref{definition-morphism-sites}).
+Finally, consider $f_*\mathcal{F}_E$. By construction we have
+$$
+f_*\mathcal{F}_E = \mathcal{F}_E(u(U)) = \text{Mor}_{\textit{Sets}}(u(U), E)
+$$
+which is equal to $p_*E(U)$, see
+Equation (\ref{equation-skyscraper}).
+This proves (3).
+\end{proof}
+
+
+
+
+
+
+
 
 \section{Morphisms between points}
 \label{section-morphisms-points}
