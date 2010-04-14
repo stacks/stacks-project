@@ -2960,8 +2960,9 @@ Let $S$ be a scheme.
 $\text{Spec}(k) \to S$ where $k$ is separably closed\footnote{In other
 chapters of the stacks project we may use algebraically closed instead.}.
 Such a point is usually denoted $\overline{s}$, i.e., by an overlined
-small case letter, and in this case the scheme $\text{Spec}(k)$ is denoted
-$\overline{s}$ as well.
+small case letter. We often use $\overline{s}$ to denote the scheme
+$\text{Spec}(k)$ as well as the morphism, and we use $\kappa(\overline{s})$
+to denote $k$.
 \item We say $\overline{s}$ {\it lies over} $s$
 to indicate that $s \in S$ is the image of $\overline{s}$.
 \item An {\it etale neighborhood} of a geometric point $\overline{s}$
@@ -2987,6 +2988,28 @@ Since $U$ and $U'$ are etale over $S$, any $S$-morphism
 between them is also etale, see
 Proposition \ref{proposition-etale-morphisms}.
 In particular all morphisms of etale neighborhoods are etale.
+\end{remark}
+
+\begin{remark}
+\label{remark-etale-neighbourhoods}
+Let $S$ be a scheme and $s \in S$ a point. In
+More on Morphisms,
+Definition \ref{more-morphisms-definition-etale-neighbourhood}
+we defined the notion of an etale neighbourhood $(U, u) \to (S, s)$
+of $(S, s)$. If $\overline{s}$ is a geometric point of $S$ lying over
+$s$, then any etale neighbourhood $(U, \overline{u}) \to (S, \overline{s})$
+gives rise to an etale neighbourhood $(U, u)$ of $(S, s)$ by taking
+$u \in U$ to be the unique point of $U$ such that $\overline{u}$
+lies over $u$. Conversely, given an etale neighbourhood $(U, u)$
+of $(S, s)$ the residue field extension $\kappa(s) \subset \kappa(u)$
+is finite separable (see
+Proposition \ref{proposition-etale-morphisms})
+and hence we can find an embedding $\kappa(u) \subset \kappa(\overline{s})$
+over $\kappa(s)$. In other words, we can find a geometric point
+$\overline{u}$ of $U$ lying over $u$ such that $(U, \overline{u})$
+is an etale neighbourhood of $(S, \overline{s})$.
+We will use these observations to go between the two types of
+etale neighbourhoods.
 \end{remark}
 
 \begin{lemma}
@@ -3363,15 +3386,16 @@ Lemma \ref{lemma-stalk-gives-point}.
 \begin{proof}
 By
 Sites, Proposition \ref{sites-proposition-point-limits}
-the functor $u$ has the following properties
-$u(S) = \{*\}$, $u(U \times_V W) = u(U) \times_{u(V)} u(W)$, and
-if $\{U_i \to U\}$ is an etale covering, then
+the functor $u$ has the following properties:
+(a) $u(S) = \{*\}$, (b) $u(U \times_V W) = u(U) \times_{u(V)} u(W)$, and
+(c) if $\{U_i \to U\}$ is an etale covering, then
 $\coprod u(U_i) \to u(U)$ is surjective.
 In particular, if $U' \subset U$ is an open subscheme,
 then $u(U') \subset u(U)$. Moreover, by
 Sites, Lemma \ref{sites-lemma-point-site-topos}
-we can write $u(U) = p^{-1}(h_U^\#)$. Now, if
-$U = V \amalg W$, then $h_U = (h_V \amalg h_W)^\#$ and we get
+we can write $u(U) = p^{-1}(h_U^\#)$, in other words $u(U)$ is the
+stalk of the representable sheaf $h_U$. If
+$U = V \amalg W$, then we see that $h_U = (h_V \amalg h_W)^\#$ and we get
 $u(U) = u(V) \amalg u(W)$ since $p^{-1}$ is exact.
 
 \medskip\noindent
@@ -3414,57 +3438,107 @@ Hence we obtain
 $$
 u(U) \times u(V) =
 u(U_1) \amalg \ldots \amalg u(U_n) =
-|U_{\overline{v}}| \times u(V)
+\coprod\nolimits_{i = 1, \ldots, n} u(V)
 $$
-Note that the index set $\{1, \ldots, n\}$ is indeed the fibre of
-$U$ over $\overline{s}$ as indicated. Note that
-$u(V) \not = \emptyset$ as $s$ is in the image of $V \to S$.
+Note that $u(V) \not = \emptyset$ as $s$ is in the image of $V \to S$.
+In particular, we see that in this situation $u(U)$ is a finite
+set with $n$ elements.
 
 \medskip\noindent
-We will use the discussion above to construct a functorial bijective map
+Consider the limit
+$$
+\text{lim}_{(V, \overline{v})}\ u(V)
+$$
+over the category of etale neighbourhoods $(V, \overline{v})$ of
+$\overline{s}$. It is clear that we get the same value when taking
+the limit over the subcategory of $(V, \overline{v})$ with $V$ affine.
+By the previous paragraph (applied with the roles of $V$ and $U$ switched)
+we see that in this case $u(V)$ is always a finite nonempty set.
+Moreover, the limit is cofiltered, see
+Lemma \ref{lemma-cofinal-etale}.
+Hence by
+Categories, Section \ref{categories-section-codirected-limits}
+the limit is nonempty. Pick an element $x$ from this limit.
+This means we obtain a $x_{V, \overline{v}} \in u(V)$ for
+every etale neighbourhood $(V, \overline{v})$ of $(S, \overline{s})$
+such that for every morphism of etale neighbourhoods
+$\varphi : (V', \overline{v}') \to (V, \overline{v})$ we have
+$u(\varphi)(x_{V', \overline{v}'}) = x_{V, \overline{v}}$.
+
+\medskip\noindent
+We will use the choice of $x$ to construct a functorial bijective map
 $$
 c : |U_{\overline{s}}| \longrightarrow u(U)
 $$
-for $U \in \text{Ob}(S_{etale})$ which will conclude the proof.
-(Todo: Find a clever construction of this map which doesn't involve the
-choices we make below.) First we
-claim that it suffices to construct the map for $U$ affine. We omit the
-proof of this claim.
-Assume $U \to S$ in $S_{etale}$ with $U$ affine, and let
-$\overline{u} : \overline{s} \to U$ be an element of $|U_{\overline{s}}|$
-(see discussion in
+for $U \in \text{Ob}(S_{etale})$ which will conclude the proof. See
 Lemma \ref{lemma-stalk-gives-point}
-and its proof). Choose a $(V, \overline{v})$ as above.
+and its proof for a description of $|U_{\overline{s}}|$.
+First we claim that it suffices to construct the map for $U$ affine.
+We omit the proof of this claim.
+Assume $U \to S$ in $S_{etale}$ with $U$ affine, and let
+$\overline{u} : \overline{s} \to U$ be an element of $|U_{\overline{s}}|$.
+Choose a $(V, \overline{v})$ such that $U \times_S V$ decomposes
+as in the third paragraph of the proof.
 Then the pair $(\overline{u}, \overline{v})$ gives a geometric point of
 $U \times_S V$ lying over $\overline{v}$ and determines one of the
-components $U_i$ of $U \times_S V$. Pick any $x \in u(V)$.
-Let $x_i \in u(U_i)$ be the element mapping to $x$ via the bijection
-$u(U_i) \to u(V)$. Finally, let
-$c(\overline{u}) \in u(U)$ be the image of $x$ under the map
-$u(U_i) \subset u(U \times_S V) \to u(U)$.
-Why is this independent of the choice of $x \in u(V)$?
-Well, if $x' \in u(V)$ is a second such choice, then since
-$u(V \times_S V) = u(V) \times u(V)$ we can choose a
-$x'' \in u(V \times_S V)$ mapping to $x$ under the first projection and to
-$x'$ under the second projection. Moreover, we have
+components $U_i$ of $U \times_S V$. More precisely, there exists
+a section $\sigma : V \to U \times_S V$ of the projection $\text{pr}_U$
+such that $(\overline{u}, \overline{v}) = \sigma \circ \overline{v}$. Set
+$c(\overline{u}) = u(\text{pr}_U)(u(\sigma)(x_{V, \overline{v}})) \in u(U)$.
+We have to check this is independent of the choice of $(V, \overline{v})$. By
+Lemma \ref{lemma-cofinal-etale}
+the category of etale neighbourhoods is cofiltered.
+Hence it suffice to show
+that given a morphism of etale neighbourhood
+$\varphi : (V', \overline{v}') \to (V, \overline{v})$ and a choice of a
+section $\sigma' : V' \to U \times_S V'$ of the projection such that
+$(\overline{u}, \overline{v'}) = \sigma' \circ \overline{v}'$
+we have $u(\sigma')(x_{V', \overline{v}'}) = u(\sigma)(x_{V, \overline{v}})$.
+Consider the diagram
 $$
-U \times_S V \times_S V =
-(V \times_S V) \amalg \ldots \amalg (V \times_S V) \amalg R
+\xymatrix{
+V' \ar[d]^{\sigma'} \ar[r]_\varphi & V \ar[d]^\sigma \\
+U \times_S V' \ar[r]^{1 \times \varphi} &
+U \times_S V
+}
 $$
-where $R$ has no point lying over $s$
-similarly to the decomposition of $U \times_S V$. And the geometric point
-$(\overline{u}, \overline{v}, \overline{v})$ of this scheme picks out one
-of the components $V \times_S V$ which maps into the component $U_i$
-under both projections $U \times_S V \times_S V \to U \times_S V$.
-It follows from some diagram chasing that the corresponding map
-$u(V \times_S V) \subset u(U \times_S V \times_S V) \to u(U)$
-maps the element $x''$ to the same element as both $x$ and $x'$ are mapped
-to via the maps above. This proves independence of $x$.
-Next, we have to check independence of the choice of $(V, \overline{v})$.
-This is verified using the fact that any two such can be dominated
-by a third (details omitted). By the discussion of the preceding
-paragraph the map is a bijection. Finally, we have to check that
-the map $c$ is functorial in $U$. We omit the verification.
+Now, it may not be the case that this diagram commutes. The reason is
+that the schemes $V'$ and $V$ may not be connected, and hence
+the decompositions used to construct $\sigma'$ and $\sigma$ above may
+not be unique. But we do know that
+$\sigma \circ \varphi \circ \overline{v}' =
+(1 \times \varphi) \circ \sigma' \circ \overline{v}'$
+by construction. Hence, since $U \times_S V$ is etale over $S$,
+there exists an open neighbourhood
+$V'' \subset V'$ of $\overline{v'}$ such that the diagram does
+commute when restricted to $V''$, see
+Morphisms, Lemma \ref{morphisms-lemma-value-at-one-point}.
+This means we may extend the diagram above to
+$$
+\xymatrix{
+V'' \ar[r] \ar[d]^{\sigma'|_{V''}} &
+V' \ar[d]^{\sigma'} \ar[r]_\varphi &
+V \ar[d]^\sigma \\
+U \times_S V'' \ar[r] &
+U \times_S V' \ar[r]^{1 \times \varphi} &
+U \times_S V
+}
+$$
+such that the left square and the outer rectangle commute.
+Since $u$ is a functor this implies that
+$x_{V'', \overline{v}'}$ maps to the same element in
+$u(U \times_S V)$ no matter which route we take through the
+diagram. On the other hand, it maps to the elements
+$x_{V', \overline{v}'}$ and $x_{V, \overline{v}}$ in
+$u(V')$ and $u(V)$. This implies the desired equality
+$u(\sigma')(x_{V', \overline{v}'}) = u(\sigma)(x_{V, \overline{v}})$.
+
+\medskip\noindent
+In a similar manner one proves that the construction
+$c : |U_{\overline{s}}| \to u(U)$ is functorial in $U$;
+details omitted. And finally, by the results of the
+third paragraph it is clear that the map $c$ is bijective
+which ends the proof of the lemma.
 \end{proof}
 
 
@@ -5245,13 +5319,15 @@ $\varphi(\mathfrak n) = \mathfrak m \times A'\subset R\times A'$.
 
 \begin{example}
 \label{example-powerseries}
-In the case $R = \mathbf{C}[[t]]$, the finite henselian $R$-algebras are the
-trivial one $R \to R$ and the extensions
-$\mathbf{C}[[t]] \to \mathbf{C}[[t]][X, X^{-1}]/(X^n-t)$.
-The latter ones always miss the origin, so any
-etale covering contains the identity and thus has the trivial covering as
-refinement. We will see below that this is in fact a somewhat general fact and
-this will give us the vanishing of higher direct images for a finite morphism.
+In the case $R = \mathbf{C}[[t]]$, the etale $R$-algebras are finite products
+of the trivial extension $R \to R$ and the extensions
+$R \to R[X, X^{-1}]/(X^n-t)$.
+The latter ones factor through the open $D(t) \subset \text{Spec}(R)$, so any
+etale covering can be refined by the covering
+$\{\text{id} : \text{Spec}(R) \to \text{Spec}(R)\}$. We will see below that
+this is a somewhat general fact on etale coverings of spectra of henselian
+rings. This will show that higher etale cohomology of the spectrum of a
+henselian ring is zero.
 \end{example}
 
 \begin{lemma}
