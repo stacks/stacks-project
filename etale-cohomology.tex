@@ -1871,8 +1871,8 @@ Topologies, Definitions
 \ref{topologies-definition-big-small-Zariski}.
 \item If $\tau \in \{etale, Zariski\}$, then the {\it small $\tau$-site of $S$}
 is the full subcategory $S_\tau$ of $(\textit{Sch}/S)_\tau$ whose objects
-are schemes $T$ over $S$ whose structure morphism $T \to S$ is an open
-immersion, resp.\ etale. A covering in $S_\tau$ is a covering
+are schemes $T$ over $S$ whose structure morphism $T \to S$ is etale,
+resp.\ an open immersion. A covering in $S_\tau$ is a covering
 $\{U_i \to U\}$ in $(\textit{Sch}/S)_\tau$
 such that $U$ is an object of $S_\tau$.
 \end{enumerate}
@@ -1978,6 +1978,49 @@ Sites, Lemma \ref{sites-lemma-bigger-site}.
 Hence our lemma follows from
 Cohomology on Sites, Lemma \ref{sites-cohomology-lemma-cohomology-bigger-site}.
 \end{proof}
+
+
+
+
+\section{The etale topos}
+\label{section-etale-topos}
+
+\noindent
+A {\it topos} is the category of sheaves of sets on a site, see
+Sites, Definition \ref{sites-definition-topos}. Hence it is customary
+to refer to the use the phrase ``etale topos of a scheme'' to refer to
+the category of sheaves on the small etale site of a scheme.
+Here is the formal definition.
+
+\begin{definition}
+\label{definition-etale-topos}
+Let $S$ be a scheme.
+\begin{enumerate}
+\item The {\it etale topos}, or the {\it small etale topos}
+of $S$ is the category $\textit{Sh}(S_{etale})$ of sheaves of sets on the
+small etale site of $S$.
+\item The {\it Zariski topos}, or the {\it small Zariski topos}
+of $S$ is the category $\textit{Sh}(S_{Zar})$ of sheaves of sets on the
+small Zariski site of $S$.
+\item For $\tau \in \{fppf, syntomic, smooth, etale, Zariski\}$ a
+{\it big $\tau$-topos} is the category of sheaves of set on a
+big $\tau$-topos of $S$.
+\end{enumerate}
+\end{definition}
+
+\noindent
+Note that the small Zariski topos of $S$ is simply the category of sheaves
+of sets on the underlying topological space of $S$, see
+Topologies, Lemma \ref{topologies-lemma-Zariski-usual}.
+Whereas the small etale topos does not depend on the choices made in the
+construction of the small etale site, in general the big topoi do depend
+on those choices.
+
+
+
+
+
+
 
 
 \section{Cohomology of quasi-coherent sheaves}
@@ -3699,6 +3742,307 @@ is the support of the unit section.
 
 
 
+\section{Henselian rings}
+\label{section-heselian-ring}
+
+\noindent
+We begin by stating a theorem which has already been used many times
+in the stacks project. There are many versions of this resut; here we
+just state the algebraic version.
+
+\begin{theorem}
+\label{theorem-quasi-finite-etale-locally}
+Let $A\to B$ be finite type ring map and $\mathfrak p \subset A$ a prime
+ideal. Then there exist an etale ring map $A \to A'$ and a prime
+$\mathfrak p' \subset A'$ lying over $\mathfrak p$ such that
+\begin{enumerate}
+\item
+$\kappa(\mathfrak p) = \kappa(\mathfrak p')$,
+\item
+$ B \otimes_A A' = B_1\times \cdots \times B_r \times C$,
+\item
+$ A'\to B_i$ is finite and there exists a unique prime $q_i\subset B_i$ lying
+over $\mathfrak p'$, and
+\item all irreducible components of the fibre
+$\text{Spec}(C\otimes_{A'} \kappa(\mathfrak p'))$ of $C$ over $\mathfrak p'$
+have dimension at least 1.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+See Algebra, Lemma \ref{algebra-lemma-etale-makes-quasi-finite-finite}, or
+see \cite[Th\'eor\`eme 18.12.1]{EGA4}. For a slew of versions in terms of
+morphisms of schemes, see
+More on Morphisms, Section \ref{more-morphisms-section-etale-localization}.
+\end{proof}
+
+\noindent
+Recall Hensel's lemma.
+There are many versions of this lemma. Here are two:
+\begin{enumerate}
+\item[(f)] if $f\in \mathbf{Z}_p[T]$ monic and
+$f \bmod p = g_0 h_0$ with $gcd(g_0, h_0) = 1$ then $f$ factors
+as $f = gh$ with $\bar g = g_0$ and $\bar h = h_0$,
+\item[(r)] if $f \in \mathbf{Z}_p[T]$, monic $a_0 \in \mathbf{F}_p$,
+$\bar f(a_0) =0$ but $\bar f'(a_0) \neq 0$
+then there exists $a \in \mathbf{Z}_p$ with
+$f(a) = 0$ and $\bar a = a_0$.
+\end{enumerate}
+Both versions are true (we will see this later). The first version
+asks for lifts of factorizations into coprime parts,
+and the second version asks for lifts of simple roots
+modulo the maximal ideal. It turns out that requiring
+these conditions for a general local ring are equivalent, and are
+equivalent to many other conditions. We use the root lifting
+property as the definition of a henselian local ring as it is
+often the easiest one to check.
+
+%10.01.09
+\begin{definition}
+\label{definition-henselian}
+(See Algebra, Definition \ref{algebra-definition-henselian}.)
+A local ring $(R, \mathfrak m, \kappa)$ is called
+{\it henselian} if for all
+$f \in R[T]$ monic, for all $a_0 \in \kappa$ such that
+$\bar f(a_0) = 0$ and $\bar f'(a_0) \neq 0$, there exists
+an $a \in R$ such that $f(a) = 0$ and $a \bmod \mathfrak m = a_0$.
+\end{definition}
+
+\noindent
+A good example of henselian local rings
+to keep in mind is complete local rings.
+Recall
+(Algebra, Definition \ref{algebra-definition-complete-local-ring})
+that a complete local ring is a local ring $(R, \mathfrak m)$ such that
+$R \cong \text{lim}_n\ R/\mathfrak m^n$, i.e., it is complete and separated
+for the $\mathfrak m$-adic topology.
+
+\begin{theorem}
+\label{theorem-hensel}
+Complete local rings are henselian.
+\end{theorem}
+
+\begin{proof}
+Newton's method. See
+Algebra, Lemma \ref{algebra-lemma-complete-henselian}.
+\end{proof}
+
+\begin{theorem}
+\label{theorem-henselian}
+Let $(R, \mathfrak m, \kappa)$ be a local ring. The following are equivalent:
+\begin{enumerate}
+\item $R$ is henselian,
+\item for any $f\in R[T]$ and any factorization $\bar f = g_0 h_0$ in
+$\kappa[T]$ with $\gcd(g_0,h_0)=1$, there exists a factorization $f=gh$ in
+$R[T]$ with $\bar g = g_0$ and $\bar h = h_0$,
+\item any finite $R$-algebra $S$ is isomorphic to a finite product of finite
+local rings,
+\item any finite type $R$-algebra $A$ is isomorphic to a product
+$A \cong A' \times C$ where $A' \cong A_1 \times \ldots \times A_r$
+is a product of finite local $R$-algebras and all the irreducible
+components of $C \otimes_R \kappa$ have dimension at least 1,
+\item if $A$ is an etale $R$-algebra and $\mathfrak n$ is a maximal ideal of
+$A$ lying over $\mathfrak m$ such that $\kappa \cong A/\mathfrak n$, then there
+exists an isomorphism $\varphi: A \cong R \times A'$ such that
+$\varphi(\mathfrak n) = \mathfrak m \times A' \subset R \times A'$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+This is just a subset of the results from
+Algebra, Lemma \ref{algebra-lemma-characterize-henselian}.
+Note that part (5) above corresponds to part (8) of
+Algebra, Lemma \ref{algebra-lemma-characterize-henselian}
+but is formulated slightly differently.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-finite-over-henselian}
+If $R$ is henselian and $A$ is a finite $R$-algebra, then $A$ is a finite
+product of henselian local rings.
+\end{lemma}
+
+\begin{proof}
+See
+Algebra, Lemma \ref{algebra-lemma-finite-over-henselian}.
+\end{proof}
+
+\begin{definition}
+\label{definition-strictly-henselian}
+A local ring $R$ is called {\it strictly henselian} if it is henselian and its
+residue field is separably closed.
+\end{definition}
+
+\begin{example}
+\label{example-powerseries}
+In the case $R = \mathbf{C}[[t]]$, the etale $R$-algebras are finite products
+of the trivial extension $R \to R$ and the extensions
+$R \to R[X, X^{-1}]/(X^n-t)$.
+The latter ones factor through the open $D(t) \subset \text{Spec}(R)$, so any
+etale covering can be refined by the covering
+$\{\text{id} : \text{Spec}(R) \to \text{Spec}(R)\}$. We will see below that
+this is a somewhat general fact on etale coverings of spectra of henselian
+rings. This will show that higher etale cohomology of the spectrum of a
+strictly henselian ring is zero.
+\end{example}
+
+\begin{theorem}
+\label{theorem-henselization}
+Let $(R, \mathfrak m, \kappa)$ be a local ring and
+$\kappa\subset\kappa^{sep}$ a separable closure. There exist canonical local
+ring maps $R \to R^h \to R^{sh}$ where
+\begin{enumerate}
+\item $R^h$, $R^{sh}$ are filtered colimits of etale $R$-algebras,
+\item $R^h$ is henselian, $R^{sh}$ is strictly henselian,
+\item $\mathfrak m R^h$ (resp.\ $\mathfrak m R^{sh}$) is the
+maximal ideal of $R^h$ (resp.\ $R^{sh}$), and
+\item $\kappa = R^h/\mathfrak m R^h$, and
+$\kappa^{sep} = R^{sh}/\mathfrak m R^{sh}$ as extensions of $\kappa$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+The structure of $R^h$ and $R^{sh}$ is described in
+Algebra, Lemmas \ref{algebra-lemma-henselization} and
+\ref{algebra-lemma-strict-henselization}.
+\end{proof}
+
+
+
+
+
+\section{Stalks of the structure sheaf}
+\label{section-stalks-structure-sheaf}
+
+\noindent
+In this section we identify the stalk of the structure sheaf at a geometric
+point with the strict henselization of the local ring at the corresponding
+``usual'' point.
+
+\begin{lemma}
+\label{lemma-describe-etale-local-ring}
+Let $S$ be a scheme.
+Let $\overline{s}$ be a geometric point of $S$ lying over $s \in S$.
+Let $\kappa = \kappa(s)$ and let
+$\kappa \subset \kappa^{sep} \subset \kappa(\overline{s})$ denote
+the separable algebraic closure of $\kappa$ in $\kappa(\overline{s})$.
+Then there is a canonical identification
+$$
+(\mathcal{O}_{S, s})^{sh}
+\cong
+\mathcal{O}_{S, \overline{s}}
+$$
+where the left hand side is the strict henselization of the local ring
+$\mathcal{O}_{S, s}$ as described in
+Theorem \ref{theorem-henselization}
+and right hand side is the stalk of the structure sheaf
+$\mathcal{O}_S$ on $S_{etale}$ at
+the geometric point $\overline{s}$.
+\end{lemma}
+
+\begin{proof}
+Let $\text{Spec}(A) \subset S$ be an affine neighbourhood of $s$.
+Let $\mathfrak p \subset A$ be the prime ideal corresponding to $s$.
+With these choices we have canonical isomorphisms
+$\mathcal{O}_{S, s} = A_{\mathfrak p}$ and $\kappa(s) = \kappa(\mathfrak p)$.
+Thus we have
+$\kappa(\mathfrak p) \subset \kappa^{sep} \subset \kappa(\overline{s})$.
+Recall that
+$$
+\mathcal{O}_{S, \overline{s}} =
+\text{colim}_{(U, \overline{u})}\ \mathcal{O}(U)
+$$
+where the limit is over the etale neighbourhoods of $(S, \overline{s})$.
+A cofinal system is given by those etale neighbourhoods $(U, \overline{u})$
+such that $U$ is affine and $U \to S$ factors through $\text{Spec}(A)$.
+In other words, we see that
+$$
+\mathcal{O}_{S, \overline{s}} = \text{colim}_{(B, \mathfrak q, \phi)}\ B
+$$
+where the colimit is over etale $A$-algebras $B$ endowed with a prime
+$\mathfrak q$ lying over $\mathfrak p$ and a
+$\kappa(\mathfrak p)$-algebra map
+$\phi : \kappa(\mathfrak q) \to \kappa(\overline{s})$.
+Note that since $\kappa(\mathfrak q)$ is finite separable over
+$\kappa(\mathfrak p)$ the image of $\phi$ is contained in $\kappa^{sep}$.
+Via these translations the result of the lemma is equivalent
+to the result of
+Algebra, Lemma \ref{algebra-lemma-strict-henselization-different}.
+\end{proof}
+
+\begin{definition}
+\label{definition-etale-local-rings}
+Let $S$ be a scheme. Let $\overline{s}$ be a geometric point of $S$
+lying over the point $s \in S$.
+\begin{enumerate}
+\item The {\it etale local ring of $S$ at $\overline{s}$}
+is the stalk of the structure sheaf $\mathcal{O}_S$ on $S_{etale}$
+at $\overline{s}$. We sometimes call this the
+{\it strict henselization of $\mathcal{O}_{S, s}$} relative
+to the geometric point $\overline{s}$.
+Notation used:
+$\mathcal{O}_{S, \overline{s}} = \mathcal{O}_{S, s}^{sh}$.
+\item The {\it henselization of $\mathcal{O}_{S, s}$} is the
+henselization of the local ring of $S$ at $s$. See
+Algebra, Definition \ref{algebra-definition-henselization},
+and
+Theorem \ref{theorem-henselization}.
+Notation: $\mathcal{O}_{S, s}^h$.
+\item The {\it strict henselization of $S$ at $\overline{s}$}
+is the scheme $\text{Spec}(\mathcal{O}_{S, s}^{sh})$.
+\item The {\it henselization of $S$ at $s$} is the scheme
+$\text{Spec}(\mathcal{O}_{S, s}^h)$.
+\end{enumerate}
+\end{definition}
+
+\begin{lemma}
+\label{lemma-describe-henselization}
+Let $S$ be a scheme. Let $s \in S$. Then we have
+$$
+\mathcal{O}_{S, s}^h =
+\text{colim}_{(U, u)}\ \mathcal{O}(U)
+$$
+where the colimit is over the filtered category of
+etale neighbourhoods $(U, u)$ of $(S, s)$ such that
+$\kappa(s) = \kappa(u)$.
+\end{lemma}
+
+\begin{proof}
+(See
+Remark \ref{remark-etale-neighbourhoods}
+if you're confused about what kinds of
+etale neighbourhoods we are taking here.)
+The proof is the same as the proof of
+Lemma \ref{lemma-describe-etale-local-ring}
+but using
+Algebra, Lemma \ref{algebra-lemma-henselization-different}.
+\end{proof}
+
+\begin{remark}
+\label{remark-henselization-Noetherian}
+Let $S$ be a scheme. Let $s \in S$.
+If $S$ is locally noetherian then $\mathcal{O}_{S, s}^h$
+is also noetherian and it has the same completion:
+$$
+\widehat{\mathcal{O}_{S, s}} \cong \widehat{\mathcal{O}_{S, s}^h}.
+$$
+In particular,
+$\mathcal{O}_{S, s} \subset
+\mathcal{O}_{S, s}^h \subset
+\widehat{\mathcal{O}_{S, s}}$.
+The henselization of $\mathcal{O}_{S, s}$ is in general much
+smaller than its completion and inherits many of its properties.
+For example, if $\mathcal{O}_{S, s}$ is reduced, then so is
+$\mathcal{O}_{S, s}^h$, but this is not true for the completion in general.
+Insert future references here.
+\end{remark}
+
+
+
+
+
+
+
 
 \section{Functoriality of small etale topos}
 \label{section-functoriality}
@@ -3708,7 +4052,7 @@ Sofar we haven't yet discussed the functoriality of the etale site, in
 other words what happens when given a morphism of schemes. A precise formal
 discussion can be found in
 Topologies, Section \ref{topologies-section-etale}.
-In this and the next section we discuss this material briefly specifically
+In this and the next sections we discuss this material briefly specifically
 in the setting of small etale sites.
 
 \medskip\noindent
@@ -3998,8 +4342,8 @@ $u$ preserves fibre products and final objects).
 Then one can define
 $f_*: \textit{Sh}(\mathcal{C}_1) \to \textit{Sh}(\mathcal{C}_2)$
 by $ f_* \mathcal{F}(V) = \mathcal{F}(u(V))$.
-Moreover, there exists a functor $f^{-1}$ which
-is left adjoint to $f_*$ and is exact, see
+Moreover, there exists an exact functor $f^{-1}$ which
+is left adjoint to $f_*$, see
 Sites, Definition \ref{sites-definition-morphism-sites} and
 Proposition \ref{sites-proposition-get-morphism}.
 Warning: It is not enough to require simply that $u$ is continuous
@@ -4029,7 +4373,24 @@ $$
 (\textit{Sch}/Y)_\tau \longrightarrow (\textit{Sch}/X)_\tau,\quad
 V/Y \longmapsto X \times_Y V/X.
 $$
-similarly to the construction of $f_{small}$.
+similarly to the construction of $f_{small}$. This means that the
+pushforward is given by the rule
+$$
+(f_{big, *}\mathcal{F})(V/Y) = \mathcal{F}(X \times_Y V/X)
+$$
+as before. It turns out that these morphisms of topoi have an inverse
+image functor $f_{big}^{-1}$ which is very easy to describe.
+Namely, we have
+$$
+(f_{big}^{-1}\mathcal{G})(U/X) = \mathcal{G}(U/Y)
+$$
+where the structure morphism of $U/Y$ is the composition of the
+structure morphism $U \to X$ with $f$, see
+Topologies, Lemmas \ref{topologies-lemma-morphism-big},
+\ref{topologies-lemma-morphism-big-etale},
+\ref{topologies-lemma-morphism-big-smooth},
+\ref{topologies-lemma-morphism-big-syntomic}, and
+\ref{topologies-lemma-morphism-big-fppf}.
 
 
 
@@ -5285,23 +5646,6 @@ $$
 This lemma is valid for topological spaces, and the proof in this case is the
 same.
 
-\begin{definition}
-\label{definition-etale-local-rings}
-Let $S$ be a scheme, and let $\overline{s}$ be a geometric point of $S$.
-We define the {\it etale local ring of $S$ at $\overline{s}$}
-to be the stalk of the sheaf $\mathbf{G}_{a, S} = \mathcal{O}$
-at $\overline{s}$, that is
-$$
-\mathcal{O}_{S, \bar{s}}^{sh}
-=
-\text{colim}_{(U, \overline{u})}\ \Gamma(U, \mathcal{O}_U).
-$$
-\end{definition}
-
-\noindent
-We will later identify these rings as the strict henselization of
-the local ring of $S$ at the point $s$ (the image of $\overline{s}$).
-
 \begin{theorem}
 \label{theorem-higher-direct-images}
 Let $f: X\to S$ be a quasi-compact and quasi-separated morphism of schemes,
@@ -5393,208 +5737,6 @@ $$
 
 
 
-\section{Henselian rings}
-\label{section-heselian-ring}
-
-\noindent
-We begin by stating a theorem which has already been used many times
-in the stacks project. There are many versions of this resut; here we
-just state the algebraic version.
-
-\begin{theorem}
-\label{theorem-quasi-finite-etale-locally}
-Let $A\to B$ be finite type ring map and $\mathfrak p \subset A$ a prime
-ideal. Then there exist an etale ring map $A \to A'$ and a prime
-$\mathfrak p' \subset A'$ lying over $\mathfrak p$ such that
-\begin{enumerate}
-\item
-$\kappa(\mathfrak p) = \kappa(\mathfrak p')$,
-\item
-$ B \otimes_A A' = B_1\times \cdots \times B_r \times C$,
-\item
-$ A'\to B_i$ is finite and there exists a unique prime $q_i\subset B_i$ lying
-over $\mathfrak p'$, and
-\item all irreducible components of the fibre
-$\text{Spec}(C\otimes_{A'} \kappa(\mathfrak p'))$ of $C$ over $\mathfrak p'$
-have dimension at least 1.
-\end{enumerate}
-\end{theorem}
-
-\begin{proof}
-See Algebra, Lemma \ref{algebra-lemma-etale-makes-quasi-finite-finite}, or
-see \cite[Th\'eor\`eme 18.12.1]{EGA4}. For a slew of versions in terms of
-morphisms of schemes, see
-More on Morphisms, Section \ref{more-morphisms-section-etale-localization}.
-\end{proof}
-
-\noindent
-Recall Hensel's lemma.
-There are many versions of this lemma. Here are two:
-\begin{enumerate}
-\item[(f)] if $f\in \mathbf{Z}_p[T]$ monic and
-$f \bmod p = g_0 h_0$ with $gcd(g_0, h_0) = 1$ then $f$ factors
-as $f = gh$ with $\bar g = g_0$ and $\bar h = h_0$,
-\item[(r)] if $f \in \mathbf{Z}_p[T]$, monic $a_0 \in \mathbf{F}_p$,
-$\bar f(a_0) =0$ but $\bar f'(a_0) \neq 0$
-then there exists $a \in \mathbf{Z}_p$ with
-$f(a) = 0$ and $\bar a = a_0$.
-\end{enumerate}
-Both versions are true (we will see this later). The first version
-asks for lifts of factorizations into coprime parts,
-and the second version asks for lifts of simple roots
-modulo the maximal ideal. It turns out that requiring
-these conditions for a general local ring are equivalent, and are
-equivalent to many other conditions. We use the root lifting
-property as the definition of a henselian local ring as it is
-often the easiest one to check.
-
-%10.01.09
-\begin{definition}
-\label{definition-henselian}
-(See Algebra, Definition \ref{algebra-definition-henselian}.)
-A local ring $(R, \mathfrak m, \kappa)$ is called
-{\it henselian} if for all
-$f \in R[T]$ monic, for all $a_0 \in \kappa$ such that
-$\bar f(a_0) = 0$ and $\bar f'(a_0) \neq 0$, there exists
-an $a \in R$ such that $f(a) = 0$ and $a \bmod \mathfrak m = a_0$.
-\end{definition}
-
-\noindent
-A good example of henselian local rings
-to keep in mind is complete local rings.
-Recall
-(Algebra, Definition \ref{algebra-definition-complete-local-ring})
-that a complete local ring is a local ring $(R, \mathfrak m)$ such that
-$R \cong \text{lim}_n\ R/\mathfrak m^n$, i.e., it is complete and separated
-for the $\mathfrak m$-adic topology.
-
-\begin{theorem}
-\label{theorem-hensel}
-Complete local rings are henselian.
-\end{theorem}
-
-\begin{proof}
-Newton's method. See
-Algebra, Lemma \ref{algebra-lemma-complete-henselian}.
-\end{proof}
-
-\begin{theorem}
-\label{theorem-henselian}
-Let $(R, \mathfrak m, \kappa)$ be a local ring. The following are equivalent:
-\begin{enumerate}
-\item $R$ is henselian,
-\item for any $f\in R[T]$ and any factorization $\bar f = g_0 h_0$ in
-$\kappa[T]$ with $\gcd(g_0,h_0)=1$, there exists a factorization $f=gh$ in
-$R[T]$ with $\bar g = g_0$ and $\bar h = h_0$,
-\item any finite $R$-algebra $S$ is isomorphic to a finite product of finite
-local rings,
-\item any finite type $R$-algebra $A$ is isomorphic to a product
-$A \cong A' \times C$ where $A' \cong A_1 \times \ldots \times A_r$
-is a product of finite local $R$-algebras and all the irreducible
-components of $C \otimes_R \kappa$ have dimension at least 1,
-\item if $A$ is an etale $R$-algebra and $\mathfrak n$ is a maximal ideal of
-$A$ lying over $\mathfrak m$ such that $\kappa \cong A/\mathfrak n$, then there
-exists an isomorphism $\varphi: A \cong R \times A'$ such that
-$\varphi(\mathfrak n) = \mathfrak m \times A' \subset R \times A'$.
-\end{enumerate}
-\end{theorem}
-
-\begin{proof}
-This is just a subset of the results from
-Algebra, Lemma \ref{algebra-lemma-characterize-henselian}.
-Note that part (5) above corresponds to part (8) of
-Algebra, Lemma \ref{algebra-lemma-characterize-henselian}
-but is formulated slightly differently.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-finite-over-henselian}
-If $R$ is henselian and $A$ is a finite $R$-algebra, then $A$ is a finite
-product of henselian local rings.
-\end{lemma}
-
-\begin{proof}
-See
-Algebra, Lemma \ref{algebra-lemma-finite-over-henselian}.
-\end{proof}
-
-\begin{definition}
-\label{definition-strictly-henselian}
-A local ring $R$ is called {\it strictly henselian} if it is henselian and its
-residue field is separably closed.
-\end{definition}
-
-\begin{example}
-\label{example-powerseries}
-In the case $R = \mathbf{C}[[t]]$, the etale $R$-algebras are finite products
-of the trivial extension $R \to R$ and the extensions
-$R \to R[X, X^{-1}]/(X^n-t)$.
-The latter ones factor through the open $D(t) \subset \text{Spec}(R)$, so any
-etale covering can be refined by the covering
-$\{\text{id} : \text{Spec}(R) \to \text{Spec}(R)\}$. We will see below that
-this is a somewhat general fact on etale coverings of spectra of henselian
-rings. This will show that higher etale cohomology of the spectrum of a
-strictly henselian ring is zero.
-\end{example}
-
-\begin{theorem}
-\label{theorem-henselization}
-Let $(R, \mathfrak m, \kappa)$ be a local ring and
-$\kappa\subset\kappa^{sep}$ a separable closure. There exist canonical local
-ring maps $R \to R^h \to R^{sh}$ where
-\begin{enumerate}
-\item $R^h$, $R^{sh}$ are colimits of etale $R$-algebras,
-\item $R^h$ is henselian, $R^{sh}$ is strictly henselian,
-\item $\mathfrak m R^h$ (resp.\ $\mathfrak m R^{sh}$) is the
-maximal ideal of $R^h$ (resp.\ $R^{sh}$), and
-\item $\kappa = R^h/\mathfrak m R^h$, and
-$\kappa^{sep} = R^{sh}/\mathfrak m R^{sh}$ as extensions of $\kappa$.
-\end{enumerate}
-\end{theorem}
-
-\begin{proof}
-The structure of $R^h$ and $R^{sh}$ is described in
-Algebra, Lemmas \ref{algebra-lemma-henselization} and
-\ref{algebra-lemma-strict-henselization}.
-\end{proof}
-
-\noindent
-At this point we are ready to compare the strict henselization
-of the local ring of a scheme with the etale local ring of the scheme
-as defined earlier.
-
-\begin{lemma}
-\label{lemma-describe-etale-local-ring}
-Let $S$ be a scheme.
-Let $\overline{s}$ be a geometric point of $S$ lying over $s \in S$.
-Let $\kappa = \kappa(s)$ and let
-$\kappa \subset \kappa^{sep} \subset \kappa(\overline{s})$ denote
-the separable algebraic closure of $\kappa$ in $\kappa(\overline{s})$.
-Then there is a canonical identification
-$$
-\mathcal{O}_{S, s}^{sh}
-\cong
-\mathcal{O}^{sh}_{S, \overline{s}}
-$$
-where the left hand side is the strict henselization of
-$\mathcal{O}_{S, s}$ as described in
-Theorem \ref{theorem-henselization}
-and right hand side is the ring defined in
-Definition \ref{definition-etale-local-rings}.
-\end{lemma}
-
-\begin{proof}
-Omitted.
-\end{proof}
-
-\begin{remark}
-\label{remark-henselization-Noetherian}
-If $R$ is noetherian then $R^h$ is also noetherian and they have the
-same completion: $\widehat R \cong \widehat{R^h}$. In particular, $R\subset
-R^h \subset \hat R$. The henselization of $R$ is in general much
-smaller than its completion and inherits many of its properties ({\it e.g} if
-$R$ is reduced, then so is $R^h$, but not $\hat R$ in general).
-\end{remark}
 
 
 
