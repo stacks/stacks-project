@@ -3710,6 +3710,18 @@ $h^*\sigma = (h')^*\sigma'$ in $\mathcal{F}(U'')$. See
 Categories, Section \ref{categories-section-directed-colimits}.
 
 \medskip\noindent
+This also implies that if $\mathcal{F}'$ is the sheaf on
+$X_{spaces, etale}$ corresponding to $\mathcal{F}$ on $X_{etale}$,
+then
+\begin{equation}
+\label{equation-stalk-spaces-etale}
+\mathcal{F}_{\overline{x}} = \text{colim}_{(U, \overline{u})} \mathcal{F}'(U)
+\end{equation}
+where now the colimit is over all the etale neighbourhoods of $\overline{x}$.
+We will often jump between the point of view of using $X_{etale}$
+and $X_{spaces, etale}$ without further mention.
+
+\medskip\noindent
 In particular this means that if $\mathcal{F}$ is a presheaf of
 abelian groups, rings, etc then $\mathcal{F}_{\overline{x}}$ is
 an abelian group, ring, etc simply by the usual way of defining the
@@ -3794,6 +3806,79 @@ the small etale site of a scheme.
 \end{proof}
 
 \noindent
+The stalk functor $\mathcal{F} \mapsto \mathcal{F}_{\overline{x}}$
+is really the pullback along the morphism $\overline{x}$. In that sense
+the following lemma is a generalization of the lemma above.
+
+\begin{lemma}
+\label{lemma-stalk-pullback}
+Let $S$ be a scheme.
+Let $f : X \to Y$ be a morphism of algebraic spaces over $S$.
+\begin{enumerate}
+\item The functor
+$f_{small}^{-1} : \textit{Ab}(Y_{etale}) \to \textit{Ab}(X_{etale})$ is exact.
+\item The functor
+$f_{small}^{-1} : \textit{Sh}(Y_{etale}) \to \textit{Sh}(X_{etale})$ is exact,
+i.e., it commutes with finite limits and colimits, see
+Categories, Definition \ref{categories-definition-exact}.
+\item For any etale morphism $V \to Y$ of algebraic spaces
+we have $f_{small}^{-1}h_V = h_{X \times_Y V}$.
+\item Let $\overline{x} \to X$ be a geometric point.
+Let $\mathcal{G}$ be a sheaf on $Y_{etale}$.
+Then there is a canonical identification
+$$
+(f_{small}^{-1}\mathcal{G})_{\overline{x}} = \mathcal{G}_{\overline{y}}.
+$$
+where $\overline{y} = f \circ \overline{x}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Recall that $f_{small}$ is defined via $f_{spaces, small}$ in
+Lemma \ref{lemma-functoriality-etale-site}.
+Parts (1), (2) and (3) are general consequences of the fact that
+$f_{spaces, etale} : X_{spaces, etale} \to Y_{spaces, etale}$
+is a morphism of sites, see
+Sites, Definition \ref{sites-definition-morphism-sites}
+for (2),
+Modules on Sites, Lemma \ref{sites-modules-lemma-flat-pullback-exact}
+for (1), and
+Sites, Lemma \ref{sites-lemma-pullback-representable-sheaf}
+for (3).
+
+\medskip\noindent
+To prove (4) we argue as follows. Note that by
+Lemma \ref{lemma-stalk-exact}
+taking stalks commutes with sheafification.
+Let $\mathcal{G}'$ be the sheaf on $Y_{spaces, etale}$ whose restriction
+to $Y_{etale}$ is $\mathcal{G}$.
+Recall that $f_{spaces, etale}^{-1}\mathcal{G}'$ is the sheaf
+associated to the presheaf
+$$
+U \longrightarrow \text{colim}_{U \to X \times_Y V}\ \mathcal{G}'(V),
+$$
+see
+Sites, Sections \ref{sites-section-continuous-functors} and
+\ref{sites-section-functoriality-PSh}.
+Thus we have
+\begin{align*}
+(f_{spaces, etale}^{-1}\mathcal{G}')_{\overline{x}}
+& = \text{colim}_{(U, \overline{u})}\ f_{spaces, etale}^{-1}\mathcal{G}'(U) \\
+& = \text{colim}_{(U, \overline{u})}
+\ \text{colim}_{a : U \to X \times_Y V}\ \mathcal{G}'(V) \\
+& = \text{colim}_{(V, \overline{v})}\ \mathcal{G}'(V) \\
+& = \mathcal{G}'_{\overline{y}}
+\end{align*}
+in the third equality the pair $(U, \overline{u})$ and the map
+$a : U \to X \times_Y V$ corresponds to the pair $(V, a \circ \overline{u})$.
+Since the stalk of $\mathcal{G}'$ (resp.\ $f_{spaces, etale}^{-1}\mathcal{G}'$)
+agrees with the stalk of $\mathcal{G}$ (resp.\ $f_{small}^{-1}\mathcal{G}$),
+see
+Equation (\ref{equation-stalk-spaces-etale})
+the result follows.
+\end{proof}
+
+\noindent
 The following theorem says that the small etale site of an algebraic
 space has enough points.
 
@@ -3818,12 +3903,55 @@ to $U$. Now if $\overline{u} : \text{Spec}(k) \to U$ is a geometric
 point of $U$, then
 $(\mathcal{F}|_U)_{\overline{u}} = \mathcal{F}_{\overline{x}}$
 where $\overline{x} = f \circ \overline{u}$. (This is clear from the
-colimits defining the stalks at $\overline{u}$ and $\overline{x}$.)
+colimits defining the stalks at $\overline{u}$ and $\overline{x}$, but
+it also follows from
+Lemma \ref{lemma-stalk-pullback}.)
 Hence the result for $U$ implies the result for $X$ and we win.
 \end{proof}
 
+\noindent
+The following lemma should be skipped on a first reading.
 
+\begin{lemma}
+\label{lemma-points-small-etale-site}
+Let $S$ be a scheme.
+Let $X$ be an algebraic space over $S$.
+Let $p : \textit{Sh}(pt) \to \textit{Sh}(X_{etale})$
+be a point of the small etale topos of $X$.
+Then there exists a geometric point $\overline{x}$ of $X$
+such that the stalk functor $\mathcal{F} \mapsto \mathcal{F}_p$
+is isomorphic to the stalk functor
+$\mathcal{F} \mapsto \mathcal{F}_{\overline{x}}$.
+\end{lemma}
 
+\begin{proof}
+By
+Sites, Lemma \ref{sites-lemma-point-site-topos}
+there is a one to one correspondence between points of the site and points
+of the associated topos. Hence we may assume that $p$ is given by
+a functor $u : X_{etale} \to \textit{Sets}$ which defines a point
+of the site $X_{etale}$.
+Let $U \in \text{Ob}(X_{etale})$ be an object whose structure morphism
+$j : U \to X$ is surjective. Note that $h_U$ is a sheaf
+which surjects onto the final sheaf. Since taking stalks is exact
+we see that $(h_U)_p = u(U)$ is not empty (use
+Sites, Lemma \ref{sites-lemma-points-recover}).
+Pick $x \in u(U)$. By
+Sites, Lemma \ref{sites-lemma-point-localize}
+we obtain a point $q : \textit{Sh}(pt) \to \textit{Sh}(U_{etale})$
+such that $p = j_{small} \circ q$, so that
+$\mathcal{F}_p = (\mathcal{F}|_U)_q$ functorially.
+By
+Etale Cohomology, Lemma \ref{etale-cohomology-lemma-points-small-etale-site}
+there is a geometric point $\overline{u}$ of $U$ and a functorial
+isomorphism $\mathcal{G}_q = \mathcal{G}_{\overline{u}}$
+for $\mathcal{G} \in \textit{Sh}(U_{etale})$. Set
+$\overline{x} = j \circ \overline{u}$. Then we see that
+$\mathcal{F}_{\overline{x}} \cong (\mathcal{F}|_U)_{\overline{u}}$
+functorially in $\mathcal{F}$ on $X_{etale}$ by
+Lemma \ref{lemma-stalk-pullback}
+and we win.
+\end{proof}
 
 
 
