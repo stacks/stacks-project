@@ -3172,6 +3172,23 @@ Thus we see how to compute $\mathcal{F}'$
 when given the sheaf $\mathcal{F}$.
 \end{remark}
 
+\begin{definition}
+\label{definition-etale-topos}
+Let $S$ be a scheme. Let $X$ be an algebraic space over $S$.
+The {\it etale topos} of $X$, or more precisely the
+{\it small etale topos} of $X$ is the category $\textit{Sh}(X_{etale})$
+of sheaves of sets on $X_{etale}$.
+\end{definition}
+
+\noindent
+By
+Lemma \ref{lemma-compare-etale-sites}
+we have $\textit{Sh}(X_{etale}) = \textit{Sh}(X_{spaces, etale})$,
+so we can also think of this as the category of sheaves of sets on
+$X_{spaces, etale}$.
+It turns out that the topos is functorial with respect to morphisms
+of algebraic spaces. Here is a precise statement.
+
 \begin{lemma}
 \label{lemma-functoriality-etale-site}
 Let $S$ be a scheme.
@@ -3715,7 +3732,7 @@ $X_{spaces, etale}$ corresponding to $\mathcal{F}$ on $X_{etale}$,
 then
 \begin{equation}
 \label{equation-stalk-spaces-etale}
-\mathcal{F}_{\overline{x}} = \text{colim}_{(U, \overline{u})} \mathcal{F}'(U)
+\mathcal{F}_{\overline{x}} = \text{colim}_{(U, \overline{u})}\ \mathcal{F}'(U)
 \end{equation}
 where now the colimit is over all the etale neighbourhoods of $\overline{x}$.
 We will often jump between the point of view of using $X_{etale}$
@@ -3769,6 +3786,27 @@ $\mathcal{F} \mapsto \mathcal{F}_p$ associated to $p$ in
 Sites, Equation \ref{sites-equation-stalk}
 which proves the final assertion.
 \end{proof}
+
+\begin{remark}
+\label{remark-map-stalks}
+Let $S$ be a scheme.
+Let $X$ be an algebraic space over $S$.
+Let $x \in |X|$.
+We claim that for any pair of geometric points $\overline{x}$ and
+$\overline{x}'$ lying over $x$ the stalk functors are isomorphic.
+By definition of $|X|$ we can find a third geometric point
+$\overline{x}''$ so that there exists a commutative diagram
+$$
+\xymatrix{
+\overline{x}'' \ar[r] \ar[d] \ar[rd]^{\overline{x}''} &
+\overline{x}' \ar[d]^{\overline{x}'} \\
+\overline{x} \ar[r]^{\overline{x}} & X.
+}
+$$
+Since the stalk functor $\mathcal{F} \mapsto \mathcal{F}_{\overline{x}}$
+is given by pullback along the morphism $\overline{x}$ (and similarly for
+the others) we conclude by functoriality of pullbacks.
+\end{remark}
 
 \begin{lemma}
 \label{lemma-stalk-exact}
@@ -3952,6 +3990,157 @@ functorially in $\mathcal{F}$ on $X_{etale}$ by
 Lemma \ref{lemma-stalk-pullback}
 and we win.
 \end{proof}
+
+
+
+
+
+\section{Supports of abelian sheaves}
+\label{section-support}
+
+\noindent
+First we talk about supports of local sections.
+
+\begin{lemma}
+\label{lemma-support-subsheaf-final}
+Let $S$ be a scheme. Let $X$ be an algebraic space over $S$.
+Let $\mathcal{F}$ be a subsheaf of the final object of the etale
+topos of $X$ (see
+Sites, Example \ref{sites-example-singleton-sheaf}).
+Then there exists a unique open
+$W \subset X$ such that $\mathcal{F} = h_W$.
+\end{lemma}
+
+\begin{proof}
+The condition means that $\mathcal{F}(U)$ is a singleton or
+empty for all $\varphi : U \to X$ in $\text{Ob}(X_{spaces, etale})$.
+In particular local sections always glue. If
+$\mathcal{F}(U) \not = \emptyset$, then
+$\mathcal{F}(\varphi(U)) \not = \emptyset$ because
+$\varphi(U) \subset X$ is an open subspace 
+(Lemma \ref{lemma-etale-open})
+and
+$\{\varphi : U \to \varphi(U)\}$ is a covering in $X_{spaces, etale}$.
+Take
+$W = \bigcup_{\varphi : U \to S, \mathcal{F}(U) \not = \emptyset} \varphi(U)$
+to conclude.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-zero-over-image}
+Let $S$ be a scheme.
+Let $X$ be an algebraic space over $S$.
+Let $\mathcal{F}$ be an abelian sheaf on $X_{spaces, etale}$.
+Let $\sigma \in \mathcal{F}(U)$ be a local section.
+There exists an open subspace $W \subset U$ such that
+\begin{enumerate}
+\item $W \subset U$ is the largest open subspace of $U$ such
+that $\sigma|_W = 0$,
+\item for every $\varphi : V \to U$ in $X_{etale}$ we have
+$$
+\sigma|_V = 0 \Leftrightarrow \varphi(V) \subset W,
+$$
+\item for every geometric point $\overline{u}$ of $U$ we have
+$$
+(U, \overline{u}, \sigma) = 0\text{ in }\mathcal{F}_{\overline{s}}
+\Leftrightarrow
+\overline{u} \in W
+$$
+where $\overline{s} = (U \to S) \circ \overline{u}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Since $\mathcal{F}$ is a sheaf in the etale topology the restriction of
+$\mathcal{F}$ to $U_{Zar}$ is a sheaf on $U$ in the Zariski topology.
+Hence there exists a Zariski open $W$ having property (1), see
+Modules, Lemma \ref{modules-lemma-support-section-closed}. Let
+$\varphi : V \to U$ be an arrow of $X_{etale}$. Note that
+$\varphi(V) \subset U$ is an open subspace
+(Lemma \ref{lemma-etale-open})
+and that $\{V \to \varphi(V)\}$ is an etale covering. Hence if
+$\sigma|_V = 0$, then by the sheaf condition for $\mathcal{F}$ we
+see that $\sigma|_{\varphi(V)} = 0$. This proves (2).
+To prove (3) we have to show that if $(U, \overline{u}, \sigma)$
+defines the zero element of $\mathcal{F}_{\overline{s}}$, then
+$\overline{u} \in W$. This is true because the assumption means
+there exists a morphism of etale neighbourhoods
+$(V, \overline{v}) \to (U, \overline{u})$ such that
+$\sigma|_V = 0$. Hence by (2) we see that $V \to U$ maps into $W$, and
+hence $\overline{u} \in W$.
+\end{proof}
+
+\noindent
+Let $S$ be a scheme.
+Let $X$ be an algebraic space over $S$.
+Let $x \in |X|$.
+Let $\mathcal{F}$ be a sheaf on $X_{etale}$. By
+Remark \ref{remark-map-stalks}
+the isomorphism class of the stalk of the sheaf $\mathcal{F}$
+at a geometric points lying over $x$ is well defined.
+
+\begin{definition}
+\label{definition-support}
+Let $S$ be a scheme.
+Let $X$ be an algebraic space over $S$.
+Let $\mathcal{F}$ be an abelian sheaf on $X_{etale}$.
+\begin{enumerate}
+\item The {\it support of $\mathcal{F}$} is the set of
+points $x \in |X|$ such that $\mathcal{F}_{\overline{x}} \not = 0$
+for any (some) geometric point $\overline{x}$ lying over $x$.
+\item Let $\sigma \in \mathcal{F}(U)$ be a section.
+The {\it support of $\sigma$} is the closed subset $U \setminus W$, where
+$W \subset U$ is the largest open subset of $U$ on which $\sigma$
+restricts to zero (see
+Lemma \ref{lemma-zero-over-image}).
+\end{enumerate}
+\end{definition}
+
+\begin{lemma}
+\label{lemma-support-section-closed}
+Let $S$ be a scheme.
+Let $X$ be an algebraic space over $S$.
+Let $\mathcal{F}$ be an abelian sheaf on $X_{etale}$.
+Let $U \in \text{Ob}(X_{etale})$ and $\sigma \in \mathcal{F}(U)$.
+\begin{enumerate}
+\item The support of $\sigma$ is closed in $|X|$.
+\item The support of $\sigma + \sigma'$ is contained in the union of
+the supports of $\sigma, \sigma' \in \mathcal{F}(X)$.
+\item If $\varphi : \mathcal{F} \to \mathcal{G}$ is a map of
+abelian sheaves on $X_{etale}$, then the support of $\varphi(\sigma)$ is
+contained in the support of $\sigma \in \mathcal{F}(U)$.
+\item The support of $\mathcal{F}$ is the union of the images of the
+supports of all local sections of $\mathcal{F}$.
+\item If $\mathcal{F} \to \mathcal{G}$ is surjective then the support
+of $\mathcal{G}$ is a subset of the support of $\mathcal{F}$.
+\item If $\mathcal{F} \to \mathcal{G}$ is injective then the support
+of $\mathcal{F}$ is a subset of the support of $\mathcal{G}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Part (1) holds by definition.
+Parts (2) and (3) hold because they holds for the restriction of
+$\mathcal{F}$ and $\mathcal{G}$ to $U_{Zar}$, see
+Modules, Lemma \ref{modules-lemma-support-section-closed}.
+Part (4) is a direct consequence of
+Lemma \ref{lemma-zero-over-image} part (3).
+Parts (5) and (6) follow from the other parts.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-support-sheaf-rings-closed}
+The support of a sheaf of rings on the small etale site of an
+algebraic space is closed.
+\end{lemma}
+
+\begin{proof}
+This is true because (according to our conventions)
+a ring is $0$ if and only if
+$1 = 0$, and hence the support of a sheaf of rings
+is the support of the unit section.
+\end{proof}
+
 
 
 
