@@ -27,6 +27,44 @@ proofs of all the statements.
 
 
 
+\section{Which sections to skip on a first reading?}
+\label{section-skip}
+
+\noindent
+We want to use the material in this chapter for the development of
+theory related to algebraic spaces, Deligne-Mumford stacks, algebraic stacks,
+etc. Thus we have added some pretty technical material to the original
+exposition of etale cohomology for schemes. The reader can recognize this
+material by the frequency of the word ``topos'', or by discussions related
+to set theory, or by proofs dealing with very general properties of morphisms
+of schemes. Some of these discussions can be skipped on a first reading.
+
+\medskip\noindent
+In particular, we suggest that the reader skip the following sections:
+\begin{enumerate}
+\item Recovering morphisms,
+Section \ref{section-morphisms}.
+\item Push and pull,
+Section \ref{section-monomorphisms}.
+\item Property (A),
+Section \ref{section-A}.
+\item Property (B),
+Section \ref{section-B}.
+\item Property (C),
+Section \ref{section-C}.
+\item Topological invariance of the small etale site,
+Section \ref{section-topological-invariance}.
+\item Integral universally injective morphisms,
+Section \ref{section-integral-universally-injective}.
+\item Big sites and pushforward,
+Section \ref{section-big}.
+\item Exactness of big lower shriek,
+Section \ref{section-exactness-lower-shriek}.
+\end{enumerate}
+Besides these sections there are some sporadic results that may be skipped
+that the reader can recognize by the keywords given above.
+
+
 
 %9.08.09
 \section{Prologue}
@@ -3080,7 +3118,7 @@ of $S$ is a commutative diagram
 $$
 \xymatrix{
 & U \ar^{\varphi}[d] \\
-{\bar s} \ar^{\bar s}[r] \ar^{\bar u}[ur] & S
+{\overline{s}} \ar^{\overline{s}}[r] \ar^{\bar u}[ur] & S
 }
 $$
 where $\varphi$ is an etale morphism of schemes.
@@ -3210,7 +3248,7 @@ Let $\mathcal{F}$ be a presheaf on $S_{etale}$.
 Let $\overline{s}$ be a geometric point of $S$.
 The {\it stalk} of $\mathcal{F}$ at $\overline{s}$ is
 $$
-\mathcal{F}_{\bar s}
+\mathcal{F}_{\overline{s}}
 =
 \text{colim}_{(U, \overline{u})}\ \mathcal{F}(U)
 $$
@@ -3307,13 +3345,15 @@ Since the functor above is clearly an equivalence we conclude that this
 canonical map is an isomorphism of stalk functors.
 
 \medskip\noindent
-The point of this remark is to make sure we have the map of stalks
-corresponding to $a$ pointing in the correct direction. Note that the
-above means that according to
-Sites, Definition \ref{sites-definition-morphism-points}
-$a$ defines a morphism $a : p \to p'$ between the points $p, p'$ of
+Let us make sure we have the map of stalks corresponding to $a$ pointing
+in the correct direction. Note that the above means, according to
+Sites, Definition \ref{sites-definition-morphism-points},
+that $a$ defines a morphism $a : p \to p'$ between the points $p, p'$ of
 the site $S_{etale}$ associated to $\overline{s}, \overline{s}'$ by
-Lemma \ref{lemma-stalk-gives-point}.
+Lemma \ref{lemma-stalk-gives-point}. There are more general morphisms of
+points (corresponding to specializations of points of $S$) which we will
+describe later, and which will not be isomorphisms (insert future
+reference here).
 \end{remark}
 
 \begin{lemma}
@@ -4363,7 +4403,7 @@ is the sheaf associated to the presheaf
 \label{equation-pullback}
 U/X
 \longmapsto
-\text{colim}_{U \to X \times_Y V}\ \mathcal{G}(V)
+\text{colim}_{U \to X \times_Y V}\ \mathcal{G}(V/Y)
 \end{equation}
 where the colimit is over the category of pairs
 $(V/Y, \varphi : U/X \to X \times_Y V/X)$.
@@ -4610,6 +4650,23 @@ Descent,
 Proposition \ref{descent-proposition-equivalence-quasi-coherent-functorial}.
 Moreover, the same is true for pushforward provided $f$ is
 quasi-compact and quasi-separated.
+
+
+
+
+
+
+
+
+
+\section{Recovering morphisms}
+\label{section-morphisms}
+
+\noindent
+In this section we prove that the rule which associates to a scheme
+its locally ringed small etale topos is fully faithful in a suitable
+sense, see
+Theorem \ref{theorem-fully-faithful}.
 
 \begin{lemma}
 \label{lemma-morphism-locally-ringed}
@@ -6530,69 +6587,131 @@ the result.
 \section{Cohomology of a point}
 \label{section-cohomology-point}
 
-\begin{lemma}
-\label{lemma-sheaves-point}
-Let $K$ be a field and $K^{sep}$ a separable closure of $K$. Consider
-$$
-\mathcal{G} := \text{Aut}_{\text{Spec}(K)}(\text{Spec}(K^{sep}))^{opp} =
-\text{Gal}(K^{sep} | K)
-$$
-as a topological group, and denote $\mathcal{G}\textit{-Sets}$
-(resp.\ $\mathcal{C}^0(\mathcal{G}\text{-Sets})$)
-the category of (resp.\ continuous) left $\mathcal{G}$-sets.
-Then the functor
-$$
-\begin{matrix}
-\text{Spec}(K)_{etale} & \longrightarrow & \mathcal{G}\textit{-Sets} \\
-(X\to\text{Spec} K) & \longmapsto & \text{Hom}_{\text{Spec}
-K}\left(\text{Spec}(K^{sep}), X\right)
-\end{matrix}
-$$
-is an equivalence of categories, with essential image
-$\mathcal{C}^0(\mathcal{G}\text{-Sets})$.
-\end{lemma}
+\noindent
+In this section we describe the category of sheaves on the spectrum of
+a field. As a consequence we obtain the equivalence of etale cohomology
+with Galois cohomology in this case. Before we state the result we introduce
+the category of $G$-sets for a topological group $G$.
+
+\begin{definition}
+\label{definition-G-set-continuous}
+Let $G$ be a topological group.
+A {\it $G$-set}, sometime called a {\it discrete $G$-set},
+is a set $X$ endowed with a left action $a : G \times X \to X$
+such that $a$ is continuous when $X$ is given the discrete topology and
+$G \times X$ the product topology.
+A {\it morphism of $G$-sets} $f : X \to Y$ is simply any $G$-equivariant
+map from $X$ to $Y$.
+The category of $G$-sets is denoted {\it $G\textit{-Sets}$}.
+\end{definition}
 
 \noindent
-Recall that a $\mathcal{G}$-set is {\it continuous} if each of its elements
-has an open stabilizer. This means that the action is continuous when
-$\mathcal{G}$ is endowed with its profinite topology and the $\mathcal{G}$-sets
-have the discrete topology.
+The condition that $a : G \times X \to X$ is continuous signifies
+simply that the stabilizer of any  $x \in X$ is open in $G$.
+If $G$ is an abstract group $G$ (i.e., a group but not a topological group)
+then this agrees with our preceding definition (see for example
+Sites, Example \ref{sites-example-site-on-group})
+provided we endow $G$ with the discrete topology.
+
+\medskip\noindent
+Recall that if $K \subset L$ is an infinite Galois extension the
+Galois group $G = \text{Gal}(L/K)$ comes endowed with a canonical
+topology. Namely the open subgroups are the subgroups of the form
+$\text{Gal}(L/K') \subset G$ where $K'/K$ is a finite subextension of $L/K$.
+The index of an open subgroup is always finite.
+We say that $G$ is a profinite (topological) group.
+
+\begin{lemma}
+\label{lemma-sheaves-point}
+Let $K$ be a field.
+Let $K^{sep}$ a separable closure of $K$.
+Consider the profinite group
+$$
+G = \text{Aut}_{\text{Spec}(K)}(\text{Spec}(K^{sep}))^{opp} =
+\text{Gal}(K^{sep}/K)
+$$
+The functor
+$$
+\begin{matrix}
+\text{schemes etale over }K &
+\longrightarrow &
+G\textit{-Sets} \\
+X/K & \longmapsto &
+\text{Mor}_{\text{Spec}(K)}(\text{Spec}(K^{sep}), X)
+\end{matrix}
+$$
+is an equivalence of categories.
+\end{lemma}
 
 \begin{proof}
-Recall that $X$ is etale over $K$ if and only if $X=\coprod_{i\in I}
-\text{Spec} K_i$ with $K_i | K$ finite and separable. Then use standard Galois
-theory.
+A scheme $X$ over $K$ is etale over $K$ if and only if
+$X \cong \coprod_{i\in I} \text{Spec}(K_i)$ with
+each $K_i$ a finite separable extension of $K$.
+The functor of the lemma associates to $X$ the $G$-set
+$$
+\coprod\nolimits_i \text{Hom}_K(K_i, K^{sep})
+$$
+with its natural left $G$-action. Each element has an open stabilizer
+by definition of the topology on $G$. Conversely, any $G$-set $S$
+is a disjoint union of its orbits. Say $S = \coprod S_i$. Pick $s_i \in S_i$
+and denote $G_i \subset G$ its open stabilizer. By Galois theory the fields
+$(K^{sep})^{G_i}$ are finite separable field extensions of $K$, and
+hence the scheme
+$$
+\coprod\nolimits_i \text{Spec}((K^{sep})^{G_i})
+$$
+is etale over $K$. This gives an inverse to the functor of the lemma.
+Some details omitted.
 \end{proof}
 
 \begin{remark}
 \label{remark-covering-surjective}
-Under the correspondence of the lemma, the coverings in
-$\text{Spec}(K)_{etale}$ correspond to surjective families of maps in
-$\mathcal{C}^0(\mathcal{G}\text{-Sets})$.
+Under the correspondence of the lemma, the coverings in the small etale site
+$\text{Spec}(K)_{etale}$ of $K$ correspond to surjective families of maps
+in $G\textit{-Sets}$.
 \end{remark}
 
 \begin{lemma}
 \label{lemma-sheaves-equivalence-point}
+Let $K$ be a field.
+Let $K^{sep}$ be a separable closure of $K$.
 The stalk functor
 $$
 \begin{matrix}
-\textit{Sh}(\text{Spec}(K)_{etale}) & \longrightarrow &
-\mathcal{C}^0(\mathcal{G}\text{-Sets}) \\
-\mathcal{F} & \longmapsto & \mathcal{F}_{\text{Spec} K^{sep}}
+\textit{Sh}(\text{Spec}(K)_{etale}) &
+\longrightarrow &
+G\textit{-Sets} \\
+\mathcal{F} &
+\longmapsto &
+\mathcal{F}_{\text{Spec}(K^{sep})}
 \end{matrix}
 $$
-is an equivalence of categories. In other words, every sheaf on
-$\text{Spec}(K)_{etale}$ is representable.
+is an equivalence of categories.
 \end{lemma}
 
 \begin{proof}
-The category $\text{Spec}(K)_{etale}$ has some extra structure (maybe pushouts 
-or
-something -- figure it out) which makes it automatic that all sheaves are
-representable. In the language of Section \ref{section-G-sets}, we have
+The category $\text{Spec}(K)_{etale}$ has some extra structure
+(maybe pushouts or something -- figure it out) which makes it
+automatic that all sheaves are representable. In the language
+of
+Section \ref{section-G-sets}, we have
 identifications $\textit{Sh}(\mathcal{T}_G) =
 \textit{Sh}(\mathcal{G}\textit{-Sets}) = \mathcal{G}\textit{-Sets}$.
 \end{proof}
+
+\begin{remark}
+\label{remark-every-sheaf-representable}
+Another way to state the conclusions of
+Lemmas \ref{lemma-sheaves-point} and
+\ref{lemma-sheaves-equivalence-point}
+is to say that every sheaf on $\text{Spec}(K)_{etale}$ is representable
+by a scheme $X$ etale over $\text{Spec}(K)$.
+This does not mean that every sheaf is representable in the sense of
+Sites, Definition \ref{sites-definition-representable-sheaf}.
+The reason is that in our construction of $\text{Spec}(K)_{etale}$ we chose
+a sufficiently large set of schemes etale over $\text{Spec}(K)$, whereas
+the category of sheaves is definitively a proper class.
+\end{remark}
 
 \begin{lemma}
 \label{lemma-compare-cohomology-point}
@@ -6614,7 +6733,7 @@ have
 \text{Hom}_{\textit{Sh}(\text{Spec}(K)_{etale})}(h_{\text{Spec}(K)}, 
 \mathcal{F})
 \\
-& = & \text{Hom}_{\mathcal{C}^0(\mathcal{G}\text{-Sets})}(\{*\}, M) \\
+& = & \text{Hom}_{\mathcal{C}^0(\mathcal{G}\textit{-Sets})}(\{*\}, M) \\
 & = & M^{\mathcal{G}}
 \end{eqnarray*}
 where the first identification is of Yoneda type, the second results from
@@ -6673,69 +6792,54 @@ which is none other than Hilbert's 90 theorem. Similarly, for $i \geq 1$,
 \section{Galois action on stalks}
 \label{section-galois-action-stalks}
 
+\noindent
+In this section we define an action of the absolute Galois group of a residue
+field of a point $s$ of $S$ on the stalk functor at any geometric point lying
+over $s$.
+
 \begin{definition}
 \label{definition-algebraic-geometric-point}
-Let $S$ be a scheme. A geometric point $\bar s$ of $S$ is called
-{\it algebraic} if $\kappa(s) \subset \kappa(\bar s)$ is
-algebraic, i.e., if $\kappa(\bar s)$ is a separable algebraic
-closure of $\kappa(s)$.
+Let $S$ be a scheme. A geometric point $\overline{s}$ of $S$ is called
+{\it separable algebraic} if $\kappa(s) \subset \kappa(\overline{s})$ is
+a separable algebraic closure of $\kappa(s)$.
 \end{definition}
 
 \begin{example}
 \label{example-stupid}
-The geometric point $\text{Spec} \mathbf{C} \to \text{Spec} \mathbf{Q}$ is not
-algebraic.
+The geometric point
+$\text{Spec}(\mathbf{C}) \to \text{Spec}(\mathbf{Q})$
+is not algebraic.
 \end{example}
 
 \noindent
-Stalks as sets. Let $S$ be a scheme, $\mathcal{F}$ an
-etale sheaf on $X$, and $\bar s$ a geometric point of $S$. Then
-$$
-\mathcal{F}_{\bar s} = \left\{
-(\mathcal{U},\bar u, t) \ \big| \ \mathcal{U} \to S \text{ is etale, } \bar u
-: \bar s \to \mathcal{U} \text{ is an $S$-morphism and } t \in
-\mathcal{F}(\mathcal{U})
-\right\}
-\big/\sim
-$$
-where $(\mathcal{U},\bar u, t) \sim (\mathcal{U}',\bar u', t')$ if there exist
-an etale neighborhood $(\mathcal{U}'',\bar u'')$ of $\bar s$ and a
-commutative diagram
-$$
-\xymatrix{
-\bar s \ar^{\bar u''}[rd] \ar^{\bar u'}@/^1pc/[rrd] \ar^{\bar u}@/_1pc/[rdd] \\
-& \mathcal{U}'' \ar^{\beta}[r] \ar^{\alpha}[d] & \mathcal{U}' \ar[d] \\
-& \mathcal{U} \ar[r] & S
-}
-$$
-such that $\alpha^*(t) = \beta^*(t')$ in $\mathcal{F}(\mathcal{U}'')$.
-
-\medskip\noindent
 Galois action on stalks.
-Given an algebraic geometric point $\bar s$ of $S$, set $\mathcal{G} =
-\text{Gal}(\kappa(\bar s) | \kappa(s))$ and define an action of $\mathcal{G}$
-on $\mathcal{F}_{\bar s}$ as follows
+Let $S$ be a scheme.
+Let $\overline{s}$ be a separable algebraic geometric point of $S$.
+Set $G = \text{Gal}(\kappa(\overline{s})/\kappa(s))$.
+Define an action of $G$ on $\mathcal{F}_{\overline{s}}$
+as follows
 $$
 \begin{matrix}
-\mathcal{G} & \times & \mathcal{F}_{\bar s} & \longrightarrow &
-\mathcal{F}_{\bar s} \\
+\mathcal{G} & \times & \mathcal{F}_{\overline{s}} &
+\longrightarrow &
+\mathcal{F}_{\overline{s}} \\
 (\sigma & , & (\mathcal{U},\bar u, t)) & \longmapsto & (\mathcal{U},\bar u
 \circ \text{Spec} \sigma, t).
 \end{matrix}
 $$
 It is easy to check that this is a well-defined left action on the stalk
-$\mathcal{F}_{\bar s}$. We can thus restate the theorem of last time as follows.
+$\mathcal{F}_{\overline{s}}$. We can thus restate the theorem of last time as follows.
 
 \begin{theorem}
 \label{theorem-equivalence-sheaves-point}
-The action of $\mathcal{G}$ on the stalks $\mathcal{F}_{\bar s}$ is continuous
-(for the discrete topology on $\mathcal{F}_{\bar s}$. Moreover, if $\bar s=
+The action of $\mathcal{G}$ on the stalks $\mathcal{F}_{\overline{s}}$ is continuous
+(for the discrete topology on $\mathcal{F}_{\overline{s}}$. Moreover, if $\overline{s}=
 \text{Spec} K$ then it induces an equivalence of categories
 $$
 \begin{matrix}
 \textit{Sh}(S_{etale}) & \longrightarrow & \{ \text{discrete $\mathcal{G}$-sets
 with continuous action} \} \\
-\mathcal{F} & \longmapsto & \mathcal{F}_{\bar s}.
+\mathcal{F} & \longmapsto & \mathcal{F}_{\overline{s}}.
 \end{matrix}
 $$
 \end{theorem}
@@ -6743,7 +6847,7 @@ $$
 \noindent
 In particular, the category $\textit{Ab}(S_{etale})$ corresponds to the full
 subcategory of discrete $\mathcal{G}$-modules, and we have the identification
-$H_{et}^0(S,\mathcal{F}) = (\mathcal{F}_{\bar s})^\mathcal{G}$, and more
+$H_{et}^0(S,\mathcal{F}) = (\mathcal{F}_{\overline{s}})^\mathcal{G}$, and more
 generally $H_{et}^q(S,\mathcal{F}) = H_{cont}^q (\mathcal{G}, \mathcal{F}_{\bar
 s})$ for $q \geq 1$.
 
