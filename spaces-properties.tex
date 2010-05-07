@@ -3086,11 +3086,13 @@ Definition \ref{topologies-definition-big-small-etale}.
 \medskip\noindent
 There are several other choices we could have made here. For example
 we could have considered all {\it algebraic spaces} $U$ which are etale
-over $X$. We decided not to do so, since we like to think of schemes as
-the fundamental objects of algebraic geometry. On the other hand, we
-do need this notion also, since the small etale site of an algebraic
-space is not sufficiently flexible, especially when discussing functoriality
-of the small etale site, see Lemma \ref{lemma-functoriality-etale-site}
+over $X$, or we could have considered all {\it affine schemes} $U$ which
+are etale over $X$. We decided not to do so, since we like to think of
+plain old schemes as the fundamental objects of algebraic geometry. On
+the other hand, we do need these notions also, since the small etale site
+of an algebraic space is not sufficiently flexible, especially when
+discussing functoriality of the small etale site, see
+Lemma \ref{lemma-functoriality-etale-site}
 below.
 
 \begin{definition}
@@ -3172,6 +3174,33 @@ Thus we see how to compute $\mathcal{F}'$
 when given the sheaf $\mathcal{F}$.
 \end{remark}
 
+\begin{lemma}
+\label{lemma-alternative}
+Let $S$ be a scheme.
+Let $X$ be an algebraic space over $S$.
+Let $X_{affine, etale}$ denote the full subcategory of $X_{etale}$
+whose objects are those $U/X \in \text{Ob}(X_{etale})$ with
+$U$ affine. A covering of $X_{affine, etale}$ will be a standard
+etale covering, see
+Topologies, Definition \ref{topologies-definition-standard-etale}.
+Then restriction
+$$
+\mathcal{F} \longmapsto \mathcal{F}|_{X_{affine, etale}}
+$$
+defines an equivalence of topoi
+$\textit{Sh}(S_{etale}) \cong \textit{Sh}(S_{affine, etale})$.
+\end{lemma}
+
+\begin{proof}
+This you can show directly from the definitions, and is a good exercise.
+But it also follows immediately from
+Sites, Lemma \ref{sites-lemma-equivalence}
+by checking that the inclusion functor
+$X_{affine, etale} \to X_{etale}$ is a special cocontinuous functor
+as in
+Sites, Definition \ref{sites-definition-special-cocontinuous-functor}.
+\end{proof}
+
 \begin{definition}
 \label{definition-etale-topos}
 Let $S$ be a scheme. Let $X$ be an algebraic space over $S$.
@@ -3185,7 +3214,9 @@ By
 Lemma \ref{lemma-compare-etale-sites}
 we have $\textit{Sh}(X_{etale}) = \textit{Sh}(X_{spaces, etale})$,
 so we can also think of this as the category of sheaves of sets on
-$X_{spaces, etale}$.
+$X_{spaces, etale}$. Similarly, by
+Lemma \ref{lemma-alternative}
+we see that $\textit{Sh}(X_{etale}) = \textit{Sh}(X_{affine, etale})$.
 It turns out that the topos is functorial with respect to morphisms
 of algebraic spaces. Here is a precise statement.
 
@@ -4571,7 +4602,17 @@ Then $t = \text{id}$.
 \end{lemma}
 
 \begin{proof}
-This means that $t : f^{-1}_{small} \to f^{-1}_{small}$
+Let $X'$, resp.\ $Y'$ be $X$ viewed as an algebraic space over
+$\text{Spec}(\mathbf{Z})$, see
+Spaces, Definition \ref{spaces-definition-base-change}.
+It is clear from the construction that $(X_{small}, \mathcal{O})$
+is equal to $(X'_{small}, \mathcal{O})$ and similarly for $Y$.
+Hence we may work with $X'$ and $Y'$. In other words we may
+assume that $S = \text{Spec}(\mathbf{Z})$.
+
+\medskip\noindent
+Assume $S = \text{Spec}(\mathbf{Z})$, $f : X \to Y$ and $t$ are as in
+the lemma. This means that $t : f^{-1}_{small} \to f^{-1}_{small}$
 is a transformation of functors such that the diagram
 $$
 \xymatrix{
@@ -4581,16 +4622,29 @@ f_{small}^{-1}\mathcal{O}_Y \ar[ll]^t \ar[ld]^{f_{small}^\sharp} \\
 & \mathcal{O}_X
 }
 $$
-is commutative. Suppose $V \to Y$ is etale with $V$ affine. By
-Morphisms, Lemma \ref{morphisms-lemma-quasi-affine-finite-type-over-S}
-we may choose an immersion $i : V \to \mathbf{A}^n_Y$ over $Y$.
-In terms of sheaves this means that $i$ induces an injection
-$h_i : h_V \to \prod_{j = 1, \ldots, n} \mathcal{O}_Y$ of sheaves.
-The base change $i'$ of $i$ to $X$ is an immersion
-(Schemes, Lemma \ref{schemes-lemma-base-change-immersion}).
-Hence $i' : X \times_Y V \to \mathbf{A}^n_X$ is an immersion, which
+is commutative. Suppose $V \to Y$ is etale with $V$ affine.
+Write $V = \text{Spec}(B)$. Choose generators $b_j \in B$, $j \in J$
+for $B$ as a $\mathbf{Z}$-algebra. Set
+$T = \text{Spec}(\mathbf{Z}[\{x_j\}_{j \in J}])$.
+In the following we will use that
+$\text{Mor}_{\textit{Sch}}(U, T) = \prod_{j \in J} \Gamma(U, \mathcal{O}_U)$
+for any scheme $U$ without further mention.
+The surjective ring map $\mathbf{Z}[x_j] \to B$, $x_j \mapsto b_j$
+corresponds to a closed immersion $V \to T$.
+We obtain a monomorphism
+$$
+i : V \longrightarrow T_Y = T \times Y
+$$
+of algebraic spaces over $Y$. In terms of sheaves on $Y_{etale}$ the morphism
+$i$ induces an injection
+$h_i : h_V \to \prod_{j \in J} \mathcal{O}_Y$ of sheaves.
+The base change $i' : X \times_Y V \to T_X$ of $i$ to $X$
+is a monomorphism too
+(Spaces,
+Lemma \ref{spaces-lemma-base-change-representable-transformations-property}).
+Hence $i' : X \times_Y V \to T_X$ is a monomorphism, which
 in turn means that
-$h_{i'} : h_{X \times_Y V} \to \prod_{j = 1, \ldots, n} \mathcal{O}_X$
+$h_{i'} : h_{X \times_Y V} \to \prod_{j \in J} \mathcal{O}_X$
 is an injection of sheaves.
 Via the identification $f_{small}^{-1}h_V = h_{X \times_Y V}$ of
 Lemma \ref{lemma-stalk-pullback}
@@ -4598,9 +4652,9 @@ the map $h_{i'}$ is equal to
 $$
 \xymatrix{
 f_{small}^{-1}h_V \ar[r]^-{f^{-1}h_i} &
-\prod_{j = 1, \ldots, n} f_{small}^{-1}\mathcal{O}_Y
+\prod_{j \in J} f_{small}^{-1}\mathcal{O}_Y
 \ar[r]^{\prod f^\sharp} &
-\prod_{j = 1, \ldots, n} \mathcal{O}_X
+\prod_{j \in J} \mathcal{O}_X
 }
 $$
 (verification omitted). This means that the map
@@ -4609,13 +4663,13 @@ fits into the commutative diagram
 $$
 \xymatrix{
 f_{small}^{-1}h_V \ar[r]^-{f^{-1}h_i} \ar[d]^t &
-\prod_{j = 1, \ldots, n} f_{small}^{-1}\mathcal{O}_Y
+\prod_{j \in J} f_{small}^{-1}\mathcal{O}_Y
 \ar[r]^-{\prod f^\sharp} \ar[d]^{\prod t} &
-\prod_{j = 1, \ldots, n} \mathcal{O}_X \ar[d]^{\text{id}}\\
+\prod_{j \in J} \mathcal{O}_X \ar[d]^{\text{id}}\\
 f_{small}^{-1}h_V \ar[r]^-{f^{-1}h_i} &
-\prod_{j = 1, \ldots, n} f_{small}^{-1}\mathcal{O}_Y
+\prod_{j \in J} f_{small}^{-1}\mathcal{O}_Y
 \ar[r]^-{\prod f^\sharp} &
-\prod_{j = 1, \ldots, n} \mathcal{O}_X
+\prod_{j \in J} \mathcal{O}_X
 }
 $$
 The commutativity of the right square holds by our assumption on $t$
@@ -4632,7 +4686,91 @@ Thus we conclude that $t : f_{small}^{-1} \to f_{small}^{-1}$
 is the identity transformation as desired.
 \end{proof}
 
+\noindent
+Here is the main result of this section.
 
+\begin{theorem}
+\label{theorem-fully-faithful}
+Let $X$, $Y$ be algebraic spaces over $\text{Spec}(\mathbf{Z})$.
+Let
+$$
+(g, g^\#) :
+(\textit{Sh}(X_{etale}), \mathcal{O}_X)
+\longrightarrow
+(\textit{Sh}(Y_{etale}), \mathcal{O}_Y)
+$$
+be a morphism of locally ringed topoi. Then there exists a
+unique morphism of algebraic spaces $f : X \to Y$ such that
+$(g, g^\#)$ is isomorphic to $(f_{small}, f_{small}^\sharp)$.
+In other words, the construction
+$$
+\textit{Spaces}/\text{Spec}(\mathbf{Z})
+\longrightarrow \textit{Locally ringed topoi},
+\quad
+X \longrightarrow (X_{etale}, \mathcal{O}_X)
+$$
+is fully faithful (morphisms up to $2$-isomorphisms on the right hand side).
+\end{theorem}
+
+\begin{proof}
+Let $U \in \text{Ob}(X_{etale})$ and let
+$V \in \text{Ob}(Y_{etale})$.
+Let $s \in g^{-1}h_V(U)$ be a section. We may think of
+$s$ as a map of sheaves $s : h_U \to g^{-1}h_V$. By
+Modules on Sites,
+Lemma \ref{sites-modules-lemma-morphism-ringed-topoi-localization}
+we obtain a commutative diagram of morphisms of ringed topoi
+$$
+\xymatrix{
+(\textit{Sh}(X_{etale})/g^{-1}h_V, \mathcal{O}_{g^{-1}h_V})
+\ar[rr]_-{(j, j^\sharp)} \ar[d]_{(g', (g')^\sharp)} & &
+(\textit{Sh}(X_{etale}), \mathcal{O}_X) \ar[d]^{(g, g^\sharp)} \\
+(\textit{Sh}(V_{etale}), \mathcal{O}_V) \ar[rr] & &
+(\textit{Sh}(Y_{etale}), \mathcal{O}_Y)
+}
+$$
+Using the map $h_U \to g^{-1}h_V$ we furthermore obtain a morphism
+of locally ringed topoi
+$$
+(\textit{Sh}(U_{etale}), \mathcal{O}_U)
+=
+(\textit{Sh}(X_{etale})/h_U, \mathcal{O}_{h_U})
+\longrightarrow
+(\textit{Sh}(X_{etale})/g^{-1}h_V, \mathcal{O}_{g^{-1}h_V})
+$$
+whose composition with $(j, j^\sharp)$ is the morphism
+$(\textit{Sh}(U_{etale}), \mathcal{O}_U) \to
+(\textit{Sh}(X_{etale}), \mathcal{O}_X)$
+coming from the morphism of algebraic spaces $U \to X$.
+See
+Modules on Sites,
+Lemma \ref{sites-modules-lemma-localize-ringed-topos}
+for the equal sign, and
+Modules on Sites,
+Lemma \ref{sites-modules-lemma-relocalize-ringed-topos}
+for the morphism and the fact that the composition works out.
+Finally, by
+Modules on Sites,
+Lemma \ref{lemma-morphism-locally-ringed-topoi-localization}
+all of the ringed topoi are locally ringed, and all of the
+morphisms above are morphisms of locally ringed topoi.
+The upshot of this is that we obtain a
+commutative diagram
+$$
+\xymatrix{
+(\textit{Sh}(U_{etale}), \mathcal{O}_U)
+\ar[r] \ar[d]_{(h(s), h(s)^\sharp)} &
+(\textit{Sh}(X_{etale}), \mathcal{O}_X) \ar[d]^{(g, g^\sharp)} \\
+(\textit{Sh}(V_{etale}), \mathcal{O}_V) \ar[r] &
+(\textit{Sh}(Y_{etale}), \mathcal{O}_Y)
+}
+$$
+of morphisms of locally ringed topoi where the horizontal arrows come
+from the given morphisms $U \to X$ and $V \to Y$.
+
+\medskip\noindent
+To be continued soon...
+\end{proof}
 
 
 
