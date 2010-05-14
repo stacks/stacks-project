@@ -35,7 +35,7 @@ def add_defs(defs, label, def_terms):
 	return
 
 def find_name(name, label):
-	if label.find(name + "-definition") >= 0:
+	if label.find(name + "-definition") == 0:
 		return 1
 	else:
 		return 0
