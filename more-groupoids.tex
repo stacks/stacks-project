@@ -1,0 +1,811 @@
+\input{preamble}
+
+% OK, start here.
+%
+\begin{document}
+
+\title{More on groupoid schemes}
+
+
+\maketitle
+
+\phantomsection
+\label{section-phantom}
+
+\tableofcontents
+
+\section{Introduction}
+\label{section-introduction}
+
+\noindent
+This chapter is devoted to advanced topics on groupoid schemes.
+See for example the beautiful paper \cite{K-M} by Keel and Mori.
+
+
+
+
+
+\section{Notation}
+\label{section-notation}
+
+\noindent
+We continue to abide by the conventions and notation introduced in
+Groupoids, Section \ref{groupoids-section-notation}.
+
+
+
+
+
+
+
+
+
+\section{Some technical lemmas}
+\label{section-technical-lemma}
+
+\noindent
+Groupoids, Lemma \ref{groupoids-lemma-diagram}
+gives us a way to compare the fibres of the map
+$s : R \to U$ in a groupoid. We work this out in this section.
+
+\begin{lemma}
+\label{lemma-property-invariant}
+Let $S$ be a scheme.
+Let $(U, R, s, t, c)$ be a groupoid over $S$.
+Let $\tau \in \{Zariski,\linebreak[0] fppf, \linebreak[0] etale,\linebreak[0]
+smooth,\linebreak[0] syntomic\}$\footnote{The fact that $fpqc$ is missing
+is not a typo.}. Let $\mathcal{P}$ be a property of morphisms of schemes
+which is $\tau$-local on the target
+(Descent, Definition \ref{descent-definition-property-morphisms-local}).
+Assume $\{s : R \to U\}$ and $\{t : R \to U\}$ are coverings for the
+$\tau$-topology. Let $W \subset U$ be the maximal open subscheme such that
+$s^{-1}(W) \to W$ has property $\mathcal{P}$.
+Then $W$ is $R$-invariant, see
+Groupoids, Definition \ref{groupoids-definition-invariant-open}.
+\end{lemma}
+
+\begin{proof}
+Because $\mathcal{P}$ is $\tau$-local on the base, we see that in particular
+$\mathcal{P}$ is Zariski local on the base. Hence $W$ is simply the union
+of all Zariski open subschemes of $U$ over which the morphism $s$ has property
+$\mathcal{P}$, i.e., the assertion of the lemma makes sense.
+Next, consider the diagram in
+Groupoids, Lemma \ref{groupoids-lemma-diagram}.
+Let $W_1 \subset R$ be the maximal open subscheme over which the morphism
+$\text{pr}_1 : R \times_{s, U, t} R \to R$ has property $\mathcal{P}$.
+By assumption the morphisms $t$, $s$ are open immersions,
+flat of finite presentation, etale, smooth, or syntomic, they are
+in particular open, see
+Morphisms, Lemma \ref{morphisms-lemma-fppf-open}.
+Hence $W' = s(W_1)$ and $W'' = t(W_1)$ are open subschemes of $U$.
+Moreover, $\{s|_{W_1} : W_1 \to W'\}$ and $\{t|_{W_1} : W_1 \to W''\}$
+are $\tau$-coverings by our assumption that
+$\{s : R \to U\}$ and $\{t : R \to U\}$ are $\tau$-coverings, see
+Topologies, Definitions
+\ref{topologies-definition-zariski-covering},
+\ref{topologies-definition-fppf-covering},
+\ref{topologies-definition-etale-covering},
+\ref{topologies-definition-smooth-covering}, and
+\ref{topologies-definition-syntomic-covering}.
+Since the two lower squares of the diagram in
+Groupoids, Lemma \ref{groupoids-lemma-diagram}
+are cartesian we now conclude that
+\begin{enumerate}
+\item $s : R \to U$ has property $\mathcal{P}$ over $W'$,
+\item $t : R \to U$ has property $\mathcal{P}$ over $W''$, and also
+\item $\text{pr}_1 : R \times_{s, U, t} R \to R$ has property
+$\mathcal{P}$ over $t^{-1}(W)$, and
+\item $\text{pr}_1 : R \times_{s, U, t} R \to R$ has property
+$\mathcal{P}$ over $s^{-1}(W)$.
+\end{enumerate}
+Clarification: The first two statements come from descending the property
+through the coverings mentioned above, the second two by going up along the
+coverings $\{s|_{s^{-1}(W)} : s^{-1}(W) \to W\}$ and
+$\{t|_{t^{-1}(W)} : t^{-1}(W) \to W\}$.
+All in all we conclude that
+$W', W'' \subset W$ and $t^{-1}(W), s^{-1}(W) \subset W_1$. In other words
+$W_1 = s^{-1}(W) = t^{-1}(W)$ as desired.
+\end{proof}
+
+\noindent
+Consider two pairs $(X, x)$, $(S, s)$
+where $X$, $S$ are schemes, $x$, $s$ are points.
+A {\it morphism of germs} $f : (X, x) \to (S, s)$
+is a morphism $f : U \to S$ defined on an open neighbourhood
+of $x$ with $f(x) = s$. Two such
+$f$, $f'$ are said to give the same morphism of germs
+if and only if $f$ and $f'$ agree in some open neighbourhood of $x$.
+Let $\tau \in \{Zariski, fpqc, fppf, etale, smooth, syntomic\}$.
+We temporarily
+introduce the following concept: We say that two morphisms
+of germs $f : (X, x) \to (S, s)$ and $f' : (X', x') \to (S', s')$
+are {\it isomorphic locally on the base in the $\tau$-topology},
+if there exists a pointed scheme $(S'', s'')$ and morphisms of germs
+$g : (S'', s'') \to (S, s)$, and $g' : (S'', s'') \to (S', s')$
+such that
+\begin{enumerate}
+\item there exist open neighbourhoods $V$ of $s$
+and $V''$ of $s''$ such that $\{g|_{V''} : V'' \to V\}$ is
+a $\tau$-covering,
+\item there exist open neighbourhoods $V'$ of $s'$
+and $V''$ of $s''$ such that $\{g'|_{V''} : V'' \to V'\}$ 
+is a $\tau$-covering,
+\item there exists an isomorphism
+$$
+(S'' \times_{g, S, f} X, \tilde x)
+\cong
+(S'' \times_{g', S', f'} X', \tilde  x')
+$$
+of germs over the germ $(S'', s'')$ for some choice of points
+$\tilde x$ and $\tilde x'$ lying over $(s'', x)$ and $(s'', x')$.
+\end{enumerate}
+Finally, we simply say that the maps of germs
+$f : (X, x) \to (S, s)$ and $f' : (X', x') \to (S', s')$
+are {\it flat locally on the base isomorphic} if there exist
+$S'', s'', g, g'$ as above but with (1) and (2) simply replaced by
+the condition that the local ring maps
+$\mathcal{O}_{S, s} \to \mathcal{O}_{S'', s''}$
+and $\mathcal{O}_{S', s'} \to \mathcal{O}_{S'', s''}$ are flat.
+
+\begin{lemma}
+\label{lemma-two-fibres}
+Let $S$ be a scheme.
+Let $(U, R, s, t, c)$ be a groupoid over $S$.
+Let $r, r' \in R$ with $t(r) = t(r')$ in $U$.
+Set $u = s(r)$, $u' = s(r')$.
+Denote $F_u = s^{-1}(u)$ and $F_{u'} = s^{-1}(u')$ the scheme
+theoretic fibres.
+\begin{enumerate}
+\item There exists a common field extension
+$\kappa(u) \subset k$, $\kappa(u') \subset k$ and
+an isomorphism $(F_u)_k \cong (F_{u'})_k$.
+\item We may choose the isomorphism above such that a point
+lying over $r$ maps to a point lying over $r'$.
+\item If the morphisms $s$, $t$ are flat then the morphisms of germs
+$s : (R, r) \to (U, u)$ and $s : (R, r') \to (U, u')$ are flat
+locally on the base isomorphic.
+\item If the morphisms $s$, $t$ are
+flat and locally of finite presentation (resp.\ etale, smooth or
+syntomic) then the morphisms of germs $s : (R, r) \to (U, u)$
+and $s : (R, r') \to (U, u')$ are locally on the base isomorphic
+in the fppf (resp.\ etale, smooth, syntomic) topology.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+We repeatedly use the properties and the existence of the diagram of
+Groupoids, Lemma \ref{groupoids-lemma-diagram}.
+By the last assertion of that lemma (and
+Schemes, Lemma \ref{schemes-lemma-points-fibre-product})
+there exists a point $\xi$ of $R \times_{s, U, t} R$
+with $\text{pr}_0(\xi) = r$ and $c(\xi) = r'$.
+Let $\tilde r = \text{pr}_1(\xi) \in R$.
+
+\medskip\noindent
+Proof of (1). Set $k = \kappa(\tilde r)$. Since $t(\tilde r) = u$
+and $s(\tilde r) = r'$ we see that $k$ is a common extension
+of both $\kappa(u)$ and $\kappa(u')$ and in fact that
+both $(F_u)_k$ and $(F_{u'})_k$ are isomorphic to the fibre of
+$\text{pr}_1 : R \times_{s, U, t} R \to R$ over $\tilde r$.
+Hence (1) is proved.
+
+\medskip\noindent
+Part (2) follows since the point $\xi$ maps to $r$, resp.\ $r'$.
+
+\medskip\noindent
+Part (3) is clear from the above (using the point $\xi$ for
+$\tilde u$ and $\tilde u'$) and the definitions.
+
+\medskip\noindent
+If $s$ and $t$ are flat and of finite presentation, then
+they are open morphisms (Morphisms, Lemma \ref{morphisms-lemma-fppf-open}).
+Hence the image of some affine open neighbourhood $V''$ of $\tilde r$ will
+cover an open neighbourhood $V$ of $u$, resp.\ $V'$ of $u'$.
+These can be used to show that properties (1) and (2) of the
+definition of ``locally on the base isomorphic in the
+$\tau$-topology''.
+\end{proof}
+
+\noindent
+The following lemma means that any groupoid $(U, R, s, t, c)$
+with $s, t$ flat and locally of finite presentation is ``equivalent'' to
+a groupoid $(U', R', s', t', c')$ such that $s'$ and $t'$ are
+Cohen-Macaulay morphisms (and locally of finite presentation). See
+More on Morphisms, Section \ref{more-morphisms-section-CM}
+for more information on Cohen-Macaulay morphisms.
+Here ``equivalent'' can be taken to mean that the quotient stacks
+$[U/R]$ and $[U'/R']$ are equivalent stacks, see
+Groupoid Spaces, Section \ref{spaces-groupoids-section-stacks}
+and Section \ref{spaces-groupoids-section-quotient-stack-restrict}.
+
+\begin{lemma}
+\label{lemma-make-CM}
+Let $S$ be a scheme.
+Let $(U, R, s, t, c)$ be a groupoid over $S$.
+Assume $s$ and $t$ are flat and locally of finite presentation.
+Then there exists an open $U' \subset U$ such that
+\begin{enumerate}
+\item $t^{-1}(U') \subset R$ is the largest open subscheme of
+$R$ on which the morphism $s$ is Cohen-Macaulay,
+\item $s^{-1}(U') \subset R$ is the largest open subscheme of
+$R$ on which the morphism $t$ is Cohen-Macaulay,
+\item the morphism $t|_{s^{-1}(U')} : s^{-1}(U') \to U$ is
+surjective,
+\item the morphism $s|_{t^{-1}(U')} : t^{-1}(U') \to U$ is
+surjective, and
+\item the restriction $R' = s^{-1}(U') \cap t^{-1}(U')$
+of $R$ to $U'$ defines a groupoid $(U', R', s', t', c')$ which has the property
+that the morphisms $s'$ and $t'$ are Cohen-Macaulay and locally of
+finite presentation.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+We will repeatedly use the results of
+Varieties, Lemma \ref{varieties-lemma-CM-base-change}
+and
+More on Morphisms,
+Lemma \ref{more-morphisms-lemma-flat-finite-presentation-CM-open}
+without further mention. It implies in particular that for a morphism
+$X \to Y$ which is flat and locally of finite presentation the locus
+where the morphism is Cohen-Macaulay is an open whose formation commutes
+with arbitrary base change, equals the set of points of $X$ where
+the local ring of the fibre is Cohen-Macaulay, and is dense in every
+fibre of $X \to Y$.
+Let $W \subset R$ be the largest open subscheme of $R$ on which the morphism
+$s$ is Cohen-Macaulay. Pick $r, r' \in R$ with $u_0 = t(r) = t(r') \in U$.
+Set $u = s(r)$, $u' = s(r')$, $F_u = s^{-1}(u)$, and $F_{u'} = s^{-1}(u')$.
+By
+Lemma \ref{lemma-two-fibres} parts (1) and (2)
+and the results referenced above we see that
+\begin{align*}
+s\text{ Cohen-Macaulay at }r
+& \Leftrightarrow
+\mathcal{O}_{F_u, r}\text{ Cohen-Macaulay} \\
+& \Leftrightarrow
+\mathcal{O}_{F_{u'}, r'}\text{ Cohen-Macaulay} \\
+& \Leftrightarrow
+s\text{ Cohen-Macaulay at }r'
+\end{align*}
+Hence it follows immediately that $W = t^{-1}(U')$ for some subset
+$U' \subset U$. Of course $t(W) = U'$ and since $t$ is open
+(Morphisms, Lemma \ref{morphisms-lemma-fppf-open})
+we conclude that $U'$ is open. Let $i : R \to R$ be the inverse of the
+groupoid. Since $s \circ i = t$ and $t \circ i = s$ we see that $s^{-1}(U')$
+is also the largest open of $R$ on which $t$ is Cohen-Macaulay.
+This proves (1) and (2).
+Part (3) follows as the set of points where $t$ is Cohen-Macaulay
+is dense in every fibre. Same argument for (4).
+Part (5) is a formal consequence of (1) and (2) and the discussion
+of restrictions in
+Groupoids, Section \ref{groupoids-section-restrict-groupoid}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-make-CM-generalize}
+Let $S$ be a scheme.
+Let $(U, R, s, t, c)$ be a groupoid over $S$.
+Assume $s$ and $t$ are flat and locally of finite presentation.
+Let $g : U' \to U$ be locally of finite presentation.
+Denote $h$ the composition
+$$
+\xymatrix{
+U' \times_{g, U, t} R \ar[r]_-{\text{pr}_1} & R \ar[r]_s & U.
+}
+$$
+Let $\mathcal{P}$ be one of the following properties of morphisms
+of schemes: flat, Cohen-Macaulay, syntomic, smooth, etale,
+having relative dimension $\leq d$ (add more here as needed).
+There exists an open subscheme $U'' \subset U'$ such that
+$U'' \times_{g, U, t} R \subset U' \times_{g, U, t} R$ is
+the maximal open subscheme on which $h$ is $\mathcal{P}$.
+\end{lemma}
+
+\begin{proof}
+Consider the diagram
+$$
+\xymatrix{
+U' \times_{g, U, t} (R \times_{t, U, t} R)
+\ar[rr]_-{c \circ (i, 1)}
+\ar@<1ex>[d]^-{\text{pr}_1} \ar@<-1ex>[d]_-{\text{pr}_0} & &
+R
+\ar@<1ex>[d]^-{s} \ar@<-1ex>[d]_-{t}
+\\
+U' \times_{g, U, t} R \ar[rr]^h & & U
+}
+$$
+This diagram is commutative and both squares are cartesian by
+Groupoids, Lemma \ref{groupoids-lemma-diagram-pull}.
+We first prove this lemma for
+$\mathcal{P}=$``flat''. Let $W \subset U' \times_{g, U, t} R$
+be the largest open subscheme on which $h$ is flat. By
+More on Morphisms, Lemma \ref{more-morphisms-theorem-openess-flatness}
+we see that $W$ exists. By
+More on Morphisms, Lemma \ref{more-morphisms-lemma-flat-locus-base-change}
+the formation of $W$ commutes with arbitrary base change.
+Hence we see that $\text{pr}_0^{-1}(W) = \text{pr}_1^{-1}(W)$ is the largest
+opem subscheme on which $c \circ (i, 1)$ is flat. Since the projection
+$\pi : U' \times_{g, U, t} R \to U'$ is surjective, flat and locally of finite
+presentation as a base change of $t$ we conclude that
+$W = \pi^{-1}(U'')$ for some open subscheme $U'' \subset U'$, see
+Descent, Lemma \ref{descent-lemma-open-fpqc-covering}.
+
+\medskip\noindent
+In the case $\mathcal{P}=$``Cohen-Macaulay'' the same argument works
+using
+More on Morphisms,
+Lemmas \ref{more-morphisms-lemma-base-change-CM} and
+\ref{more-morphisms-lemma-flat-finite-presentation-CM-open}.
+In the case $\mathcal{P}=$``syntomic'' use
+Morphisms, Lemma \ref{morphisms-lemma-set-points-where-fibres-lci}
+(the locus is automically open).
+In the case $\mathcal{P}=$``smooth'' use
+Morphisms, Lemma \ref{morphisms-lemma-set-points-where-fibres-smooth}
+(the locus is automically open).
+In the case $\mathcal{P}=$``etale'' use
+Morphisms, Lemma \ref{morphisms-lemma-set-points-where-fibres-etale}
+(the locus is automically open).
+In the case $\mathcal{P}=$``relative dimension $\leq d$''
+the locus is open by
+Morphisms, Lemma \ref{morphisms-lemma-openness-bounded-dimension-fibres}
+and formation commutes with base change by
+Morphisms, Lemma \ref{morphisms-lemma-dimension-fibre-after-base-change}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-slice}
+Let $S$ be a scheme.
+Let $(U, R, s, t, c, e, i)$ be a groupoid scheme over $S$.
+Let $G \to U$ be the stabilizer group scheme.
+Assume $s$ and $t$ are Cohen-Macaulay and locally of finite presentation.
+Let $u \in U$.
+Set $r = e(u)$ and $F_u = s^{-1}(u)$. Set
+$$
+d_1 = \dim(G_u),\quad d_2 = \dim_r(F_u).
+$$
+If $d_2 > d_1$, then there exist an affine scheme $U'$
+and a morphism $g : U' \to U$ such that
+\begin{enumerate}
+\item $g$ is an immersion and locally of finite presentation,
+\item $u \in U'$,
+\item the composition
+$$
+h = s \circ \text{pr}_1 : U' \times_{g, U, t} R \longrightarrow U
+$$
+is Cohen-Macaulay at $(u, r)$, and
+\item letting $R'$ be the restriction of $R$ to $U'$ and setting
+$F'_u = (s')^{-1}(u)$ we have $\dim_r(F'_u) = d_2 - 1$.
+\end{enumerate}
+WARNING: The formulation of this lemma is currently wrong.
+If $u$ is a point of finite type over $S$ then it is probably
+OK. The error in the proof is that the second displayed equation
+is wrong.
+\end{lemma}
+
+\begin{proof}
+Let $\text{Spec}(A) \subset U$ be an affine neighbourhood of $u$.
+Let $\text{Spec}(B) \subset R$ be an affine neighbourhood of $r$
+which maps via $j$ into the open
+$\text{Spec}(A) \times_S \text{Spec}(A) \subset U \times_S U$.
+Let $\mathfrak p \subset A$ be the prime ideal corresponding to $u$.
+Let $\mathfrak q \subset B$ be the prime ideal corresponding to $r$.
+Pictures:
+$$
+\vcenter{
+\xymatrix{
+B & A \ar[l]^s \\
+A \ar[u]^t
+}
+}
+\quad\text{and}\quad
+\vcenter{
+\xymatrix{
+B_{\mathfrak q} & A_{\mathfrak p} \ar[l]^s \\
+A_{\mathfrak p} \ar[u]^t
+}
+}
+$$
+Note that $\kappa(\mathfrak p)$ is identified with $\kappa(\mathfrak q)$
+via both arrows as $r = e(u)$. The ring maps $s, t : A \to B$ are
+locally of finite type and flat. By assumption the ring
+$$
+\mathcal{O}_{F_u, r} = B_{\mathfrak q}/s(\mathfrak p)B_{\mathfrak q}
+$$
+is Cohen-Macaulay of dimension $d_2$ (equality of dimension by
+Morphisms, Lemma \ref{morphisms-lemma-dimension-fibre-at-a-point}).
+By assumption the ring
+$$
+\mathcal{O}_{G_u, r}
+=
+B_{\mathfrak q}/(s(\mathfrak p)B_{\mathfrak q} + t(\mathfrak p)B_{\mathfrak q})
+$$
+has dimension $d_1$ (equality of dimension by
+Groupoids, Lemma \ref{groupoids-lemma-group-scheme-finite-type-field}).
+We claim this implies we can find
+an element $f \in \mathfrak p$ such that
+$$
+\dim(B_{\mathfrak q}/(s(\mathfrak p)B_{\mathfrak q} + fB_{\mathfrak q}) < d_2
+$$
+Namely, suppose $\mathfrak n_j \supset s(\mathfrak p)B_{\mathfrak q}$,
+$j = 1, \ldots, m$ correspond to the minimal primes of the local ring
+$B_{\mathfrak q}/s(\mathfrak p)B_{\mathfrak q}$.
+There are finitely many as this ring is Noetherian (since it is essentially
+of finite type over a field -- but also because a Cohen-Macaulay ring is
+Noetherian). By the Cohen-Macaulay condition we have
+$\dim(B_{\mathfrak q}/\mathfrak n_j) = d_2$, for example by
+Algebra, Lemma \ref{algebra-lemma-CM-dim-formula}.
+Then the conditions $d_1 < d_2$ and
+$\dim(B_{\mathfrak q}/(\mathfrak n_j + t(\mathfrak p)B_{\mathfrak q})) = d_1$
+implies that
+$\mathfrak p \not \subset t^{-1}(\mathfrak n_i)$. Since there are only
+finitely many minimal primes in the Noetherian ring
+$B_{\mathfrak q}/s(\mathfrak p)B_{\mathfrak q}$ we get our desired $f$
+by prime avoidence, see
+Algebra, Lemma \ref{algebra-lemma-silly}.
+
+\medskip\noindent
+Set $A' = A/fA$ and $U' = \text{Spec}(A')$. Then it is clear that
+$U' \to U$ is an immersion, locally of finite presentation
+and that $u \in U'$. Moreover, the morphism
+$$
+U' \times_{g, U, t} R \longrightarrow U
+$$
+factors through $\text{Spec}(A)$ and corresponds to the ring map
+$$
+\xymatrix{
+B/t(f)B \ar@{=}[r] & A/(f) \otimes_{A, t} B & A \ar[l]_-s
+}
+$$
+Now, we see $t(f)$ is not a zero divisor on
+$B_{\mathfrak q}/s(\mathfrak p)B_{\mathfrak q}$ as this is a
+Cohen-Macaulay ring of positive dimension and $f$ is not contained
+in any minimal prime, see for example
+Algebra, Lemma \ref{algebra-lemma-reformulate-CM}.
+Hence by
+Algebra, Lemma \ref{algebra-lemma-grothendieck-general}
+we conclude that $s : A_{\mathfrak p} \to B_{\mathfrak q}/t(f)B_{\mathfrak q}$
+is flat with fibre ring
+$B_{\mathfrak q}/(s(\mathfrak p)B_{\mathfrak q} + t(f)B_{\mathfrak q})$
+which is Cohen-Macaulay of $1$ lower dimension by
+Algebra, Lemma \ref{algebra-lemma-reformulate-CM}
+again. This implies the final assertion of the lemma and we win.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+\section{Etale localization of groupoids}
+\label{section-etale-localize}
+
+\noindent
+Lemma \ref{lemma-quasi-finite-over-base-j-proper}
+will be used to prove results on algebraic spaces
+separated and quasi-finite over a scheme (insert future reference here).
+
+\begin{lemma}
+\label{lemma-quasi-finite-over-base}
+Let $S$ be a scheme.
+Let $(U, R, s, t, c)$ be a groupoid scheme over $S$.
+Let $p \in S$ be a point, and let $u \in U$ be a point lying over $p$.
+Assume that
+\begin{enumerate}
+\item $U \to S$ is locally of finite type,
+\item $U \to S$ is quasi-finite at $u$,
+\item $U \to S$ is separated,
+\item $R \to S$ is separated,
+\item $s$, $t$ are flat and locally of finite presentation, and
+\item $s^{-1}(\{u\})$ is finite.
+\end{enumerate}
+Then there exists an etale neighbourhood $(S', p') \to (S, p)$ with
+$\kappa(p) = \kappa(p')$ and a base change diagram
+$$
+\xymatrix{
+R' \coprod W'
+\ar@{=}[r] &
+S' \times_S R
+\ar[r] \ar@<2ex>[d]^{s'} \ar@<-2ex>[d]_{t'} &
+R \ar@<1ex>[d]^s \ar@<-1ex>[d]_t \\
+U' \coprod W
+\ar@{=}[r] &
+S' \times_S U
+\ar[r] \ar[d] &
+U \ar[d] \\
+ &
+S' \ar[r] &
+S
+}
+$$
+where the equal signs are decompositions into open and closed
+subschemes such that
+\begin{enumerate}
+\item[(a)] there exists a point $u'$ of $U'$ mapping to $u$ in $U$,
+\item[(b)] the fibre $(U')_{p'}$ consists of the points of
+$(S' \times_S U)_{p'}$ equivalent to $u'$,
+\item[(c)] the fibre $(R')_{p'} = (s')^{-1}(\{u'\})$,
+\item[(d)] the schemes $U'$, $R'$ are finite over $S'$,
+\item[(e)] we have $s'(R') \subset U'$, $t'(R') \subset U'$,
+\item[(f)] we have
+$c'(R' \times_{t', U', s'} R') \subset R'$
+where $c'$ is the base change of $c$, and
+\item[(g)] the morphisms $s', t', c'$ determine a groupoid structure
+by taking the system
+$(U', R', s'|_{R'}, t'|_{R'}, c'|_{R' \times_{t', U', s'} R'})$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Let us denote $f : U \to S$ the structure morphism of $U$.
+Note that $s^{-1}(\{u\}) = \{r_1, \ldots, r_n\}$
+is finite implies that $s$ is quasi-finite
+at each of these finitely many inverse images, see
+Morphisms, Lemma \ref{morphisms-lemma-finite-fibre}.
+Hence we see that $f \circ s : R \to S$ is quasi-finite at each $r_i$
+(Morphisms, Lemma \ref{morphisms-lemma-composition-quasi-finite}).
+Since $t$ is flat and locally of finite presentation,
+the morphism of fibres $t_p : R_p \to U_p$ is flat and locally of
+finite presentation (Morphisms,
+Lemmas \ref{morphisms-lemma-base-change-flat} and
+\ref{morphisms-lemma-base-change-finite-presentation}),
+hence open (Morphisms,
+Lemma \ref{morphisms-lemma-fppf-open}). Thus the fact that $r_i$ is isolated
+in $R_p$ implies that $u_i = t(r_i)$ is isolated in $U_p$.
+In other words, we see that $f$ is quasi-finite at $u_1, \ldots, u_n$.
+Note that $t^{-1}(\{u\}) = \{r_1, \ldots, r_n\}$ and that
+$s(\{r_1, \ldots, r_n\}) = \{u_1, \ldots, u_n\}$ since $R$ is a
+groupoid. We remark that the cardinality of the set
+$\{r_1, \ldots, r_n\}$ is in general greater than the cardinality
+of the set $\{u_1, \ldots, u_n\}$. Note that $u \in \{u_1, \ldots, u_n\}$.
+
+\medskip\noindent
+We may apply
+More on Morphisms,
+Lemma \ref{more-morphisms-lemma-etale-splits-off-quasi-finite-part-technical}
+to the morphisms
+$U \to S$, and $R \to S$ to get an etale neighbourhood
+$(S', p') \to (S, p)$ which induces a trivial residue field extension
+such that $S' \times_S U$ and $S' \times_S R$ decompose as
+$$
+S' \times_S U = U' \coprod W, \quad
+S' \times_S R = R' \coprod W'
+$$
+with $U' \to S'$ finite and
+$U'_{p'}$ mapping bijectively to $\{u_1, \ldots, u_n\}$, and
+$R' \to S'$ finite and
+$R'_{p'}$ mapping bijectively to $\{r_1, \ldots, r_n\}$.
+Moreover, no point of $W_{p'}$ (resp.\ $W'_{p'}$) maps to
+any of the points $u_i$ (resp.\ $r_i$). At this point (a), (b), (c), and (d)
+of the lemma are satisfied.
+
+\medskip\noindent
+Consider the set $(s'|_{R'})^{-1}(W)$. This is open and closed in $R'$
+and does not contain any points of $R'$ lying over $p'$. Since
+$R' \to S'$ is closed, we may assume, after shrinking $S'$, that
+it is empty. In other words $s'$ maps $R'$ into $U'$.
+Similarly, we can arrange it so that $t'$ maps $R'$ into $U'$.
+In the same manner, consider the set
+$(c'|_{R' \times_{s', U', t'} R'})^{-1}(W')$.
+It is open and closed in the scheme $R' \times_{s', U', t'} R'$
+which is finite over $S'$, does not contain any points lying
+over $p'$, and hence after shrinking $S'$ we may assume
+that it is empty. We may repeat the argument also with the identity
+$e : U \to R$ and the inverse $i : R \to R$ so that we may assume
+(after shrinking $S'$ some more) that $(e'|_{U'})^{-1}(W') = \emptyset$
+and $(i'|_{R'})^{-1}(W') = \emptyset$.
+
+\medskip\noindent
+At this point we see that we may consider the structure
+$$
+(U', R', s'|_{R'}, t'|_{R'}, c'|_{R' \times_{t', U', s'} R'},
+e'|_{U'}, i'|_{R'}).
+$$
+The axioms of a groupoid scheme over $S'$ hold
+because they hold for the groupoid scheme
+$(S' \times_S U, S' \times_S R, s', t', c', e', i')$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-quasi-finite-over-base-j-proper}
+Let $S$ be a scheme.
+Let $(U, R, s, t, c)$ be a groupoid scheme over $S$.
+Let $p \in S$ be a point, and let $u \in U$ be a point lying over $p$.
+Assume assumptions (1) -- (6) of
+Lemma \ref{lemma-quasi-finite-over-base}
+hold as well as
+\begin{enumerate}
+\item[(7)] $j : R \to U \times_S U$ is universally closed\footnote{In view of
+the other conditions this is equivalent to requiring $j$ to be proper.}.
+\end{enumerate}
+Then we can choose $(S', p') \to (S, p)$ and decompositions
+$S' \times_S U = U' \amalg W$ and $S' \times_S R = R' \amalg W'$
+and $u' \in U'$ such that (a) -- (g) of
+Lemma \ref{lemma-quasi-finite-over-base}
+hold as well as
+\begin{enumerate}
+\item[(h)] $R'$ is the restriction of $S' \times_S R$ to $U'$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+We apply Lemma \ref{lemma-quasi-finite-over-base} for the
+groupoid $(U, R, s, t, c)$ over the scheme $S$ with points $p$ and $u$.
+Hence we get an etale neighbourhood
+$(S', p') \to (S, p)$ and disjoint union decompositions
+$$
+S' \times_S U = U' \amalg W, \quad
+S' \times_S R = R' \amalg W'
+$$
+and $u' \in U'$ satisfying conclusions (a), (b), (c), (d), (e), (f), and (g).
+We may shrink $S'$ to a smaller neighbourhood of $p'$ without
+affecting the conclusions (a) -- (g). We will show that for a suitable
+shrinking conclusion (h) holds as well.
+Let us denote $j'$ the base change of $j$ to $S'$.
+By conclusion (e) it is clear that
+$$
+j'^{-1}(U' \times_{S'} U') = R' \amalg Rest
+$$
+for some open and closed $Rest$ piece. Since $U' \to S'$ is finite
+by conclusion (d) we see that $U' \times_{S'} U'$ is finite over $S'$.
+Since $j$ is universally closed, also $j'$ is universally closed, and
+hence $j'|_{Rest}$ is universally closed too. By conclusions
+(b) and (c) we see that the fibre of
+$$
+(U' \times_{S'} U' \to S') \circ j'|_{Rest} :
+Rest
+\longrightarrow
+S'
+$$
+over $p'$ is empty. Hence, since $Rest \to S'$ is closed as a composition
+of closed morphisms, after shrinking $S'$, we may assume that
+$Rest = \emptyset$. And this is exactly the condition that $R'$ is
+the restriction of $S' \times_S R$ to the open subscheme
+$U' \subset S' \times_S U$, see
+Groupoids, Lemma \ref{groupoids-lemma-restrict-groupoid-relation}
+and its proof.
+\end{proof}
+
+\noindent
+The following lemma is \cite[Proposition 4.2]{K-M}.
+The formulation is minimal in the sense that we only state the assumptions
+used in the proof; we know of no applications but the case where
+the morphisms $s$, $t$ are also flat (and of finite presentation).
+And clearly if $s$, $t$ are flat, then so are $s'$ and $t'$, whence
+also $s'|_P$, $t'|_P$.
+Note that assumptions (3) and (4) are implied by the assumption
+that the fibre of $s$ over $u$ is a finite set, see
+Morphisms, Lemma \ref{morphisms-lemma-finite-fibre}.
+
+\begin{lemma}
+\label{lemma-quasi-finite-groupoid}
+Let $S$ be a scheme.
+Let $(U, R, s, t, c)$ be a groupoid scheme over $S$.
+Let $u \in U$ be a point. Assume that
+\begin{enumerate}
+\item $s, t : R \to U$ are separated,
+\item $s$, $t$ are locally of finite type, and
+\item there are finitely many points $r_1, \ldots, r_n \in R$ with
+$s(r_i) = t(r_i) = u$, and
+\item $s$ is quasi-finite at each $r_i$.
+\end{enumerate}
+Then\footnote{The proof of this is currently incomplete and the formulation
+of this lemma may have to be changed to assuming $s,t$ are flat and locally
+of finite presentation. We are working on it.}
+there exists an etale neighbourhood $(U', u') \to (U, u)$
+with $\kappa(u) = \kappa(u')$
+such that the restriction $R' = R|_{U'}$ of $R$ to $U'$ decomposes
+into open and closed subschemes
+$$
+R' = R|_{U'} = P \coprod W
+$$
+with
+\begin{enumerate}
+\item $(U', P, s'|_P, t'|_P, c'|_P)$ is a groupoid scheme over $S$,
+\item the morphisms $s'|_P : P \to U'$ and $t'|_P : P \to U'$ are
+finite,
+\item any point $r' \in R'$ with $s'(r') = t'(r') = u'$ is contained
+in $P$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Since $(U, R, s, t, c)$ is a groupoid scheme, we see that also
+$t$ is quasi-finite at each $r_i$. By
+More on Morphisms,
+Lemma \ref{more-morphisms-lemma-etale-splits-off-quasi-finite-part-technical}
+we can find an etale neighbourhood $(U', u') \to (U, u)$ with
+$\kappa(u) = \kappa(u')$ such that we have disjoint decompositions
+$$
+R \times_{s, U} U' = V_1 \coprod W_1,
+\quad\text{and}\quad
+U' \times_{U, t} R = V_2 \coprod W_2
+$$
+with the following properties
+\begin{enumerate}
+\item $V_1 \to U'$ is finite,
+\item $V_2 \to U'$ is finite,
+\item $(V_1)_{u'} = \{r_1, \ldots, r_n\}$ as sets (via the identification
+$(R \times_{s, U} U')_{u'} = R_u$),
+\item $(V_2)_{u'} = \{r_1, \ldots, r_n\}$ as sets (via the identification
+$(U' \times_{U, t} R)_{u'} = R_u$).
+\end{enumerate}
+By definition of the restriction
+(Groupoids, Definition \ref{groupoids-definition-restrict-groupoid})
+we have
+$$
+R|_{U'} = (V_1 \coprod W_1) \times_R (V_1 \coprod W_1).
+$$
+Hence if we take $P = V_1 \times_R V_2$, then $P$ is open and closed
+in the restriction and the morphisms $s'|_P, t'|_P : P \to U'$ are finite.
+FIXME: Actually there seems to be no reason for this to hold.
+
+\medskip\noindent
+Since $R'$ is a groupoid we have $(s')^{-1}(\{u'\}) = (t')^{-1}(\{u'\})$
+and because $\kappa(u) = \kappa(u')$ this set maps bijectively to
+$s^{-1}(\{u\}) = t^{-1}(\{u\})$. Hence the set
+$\{p' \in P' \mid s'(p') = t'(p') = u'\}$
+maps bijectively to $\{r_1, \ldots, r_n\}$.
+By our choice of $V_1$ and $V_2$ we see that the subset
+$P \cap (s')^{-1}(\{u'\})$ maps bijectively
+to $\{r_1, \ldots, r_n\}$. Thus we conclude that (3) holds.
+
+\medskip\noindent
+Finally, we have to show that (1) holds, i.e., that
+$(U', P, s'|_P, t'|_P, c'|_P)$ is a groupoid.
+Consider the morphism $c' : R' \times_{s', U', t'} R' \to R'$.
+We want to show that, after possibly shrinking $U'$, that
+$c'(P \times_{s'|_P, U', t'|_P} P) \subset P$. To see this
+consider $T = (c')^{-1}(W) \cap P \times_{s'|_P, U', t'|_P} P$.
+This is an open and closed subscheme of $P \times_{s'|_P, U', t'|_P} P$.
+By the discussion in the preceding paragraph we have
+$$
+(s'|_P)^{-1}(\{u'\}) = \{r_1, \ldots, r_n\} = (t'|_P)^{-1}(\{u'\})
+$$
+and hence $c'$ maps this set into itself! Hence, if
+$p_0, p_1, p_2: R' \times_{t',U',s'} R' \rightarrow U'$ are
+the three projections, then $T \cap p_i^{-1}(\{u'\}) = 0$ for $i = 0, 1, 2$.
+Since the restrictions of $p_i$ to $P \times_{s'|_P, U', t'|_P} P$ are finite
+(because $s'|_P$ and $t'|_P$ are finite), we see that $p_i(T) \subset U'$
+is a closed subscheme which does not contain the point $u'$.
+Hence we may replace $U'$ by $U' \setminus p_0(T) \cup p_1(T) \cup p_2(T)$
+to get to the case where $T = \emptyset$. At this point
+we see that $c'(P \times_{s'|_P, U', t'|_P} P) \subset P$
+as desired. We omit the verifications that, possibly after shrinking $S'$,
+we may assume that also $e'(U') \subset P$ and $i'(P) \subset P$.
+Hence we get a groupoid scheme $(U', P, s'|_P, t'|_P, c'|_P, e'|_P, i'|_P)$
+and the lemma follows.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\input{chapters}
+
+\bibliography{my}
+\bibliographystyle{amsalpha}
+
+\end{document}

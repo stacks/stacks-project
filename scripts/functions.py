@@ -263,12 +263,17 @@ def split_label(label):
 	rest = ""
 	n = 2
 	# Exceptions...
+	# We should automate this...
 	if name == "sites" and type == "cohomology":
 		name = "sites-cohomology"
 		type = pieces[2]
 		n = 3
 	if name == "sites" and type == "modules":
 		name = "sites-modules"
+		type = pieces[2]
+		n = 3
+	if name == "more" and type == "groupoids":
+		name = "more-groupoids"
 		type = pieces[2]
 		n = 3
 	if name == "spaces" and type == "properties":
