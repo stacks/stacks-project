@@ -551,6 +551,11 @@ Groupoids, Section \ref{groupoids-section-restrict-groupoid}.
 \section{Slicing groupoids}
 \label{section-slicing}
 
+\noindent
+The following lemma shows that we may slice a Cohen-Macaulay groupoid scheme
+in order to reduce the dimension of the fibres, provided that the
+dimension of the stabilizer is small. This is an essential step in
+the process of improving a given presentation of a quotient stack.
 
 \begin{lemma}
 \label{lemma-slice}
@@ -558,10 +563,13 @@ Let $S$ be a scheme.
 Let $(U, R, s, t, c, e, i)$ be a groupoid scheme over $S$.
 Let $G \to U$ be the stabilizer group scheme.
 Assume $s$ and $t$ are Cohen-Macaulay and locally of finite presentation.
-Let $u \in U$.
-Set $r = e(u)$ and $F_u = s^{-1}(u)$. Set
+Let $u \in U$ be a finite type point of $U$, see
+Morphisms, Definition \ref{morphisms-definition-finite-type-point}.
+Set $r = e(u) \in R$ and $F_u = s^{-1}(u)$ the scheme theoretic fibre.
+Set
 $$
-d_1 = \dim(G_u),\quad d_2 = \dim_r(F_u).
+d_1 = \dim(G_u),\quad
+d_2 = \dim_r(F_u).
 $$
 If $d_2 > d_1$, then there exist an affine scheme $U'$
 and a morphism $g : U' \to U$ such that
@@ -576,18 +584,16 @@ is Cohen-Macaulay at $(u, r)$, and
 \item letting $R'$ be the restriction of $R$ to $U'$ and setting
 $F'_u = (s')^{-1}(u)$ we have $\dim_r(F'_u) = d_2 - 1$.
 \end{enumerate}
-WARNING: The formulation of this lemma is currently wrong.
-If $u$ is a point of finite type over $S$ then it is probably
-OK. The error in the proof is that the second displayed equation
-is wrong.
 \end{lemma}
 
 \begin{proof}
-Let $\text{Spec}(A) \subset U$ be an affine neighbourhood of $u$.
+Let $\text{Spec}(A) \subset U$ be an affine neighbourhood of $u$
+such that $u$ corresponds to a closed point of $U$, see
+Morphisms, Lemma \ref{morphisms-lemma-identify-finite-type-points}.
 Let $\text{Spec}(B) \subset R$ be an affine neighbourhood of $r$
 which maps via $j$ into the open
 $\text{Spec}(A) \times_S \text{Spec}(A) \subset U \times_S U$.
-Let $\mathfrak p \subset A$ be the prime ideal corresponding to $u$.
+Let $\mathfrak m \subset A$ be the maximal ideal corresponding to $u$.
 Let $\mathfrak q \subset B$ be the prime ideal corresponding to $r$.
 Pictures:
 $$
@@ -600,46 +606,83 @@ A \ar[u]^t
 \quad\text{and}\quad
 \vcenter{
 \xymatrix{
-B_{\mathfrak q} & A_{\mathfrak p} \ar[l]^s \\
-A_{\mathfrak p} \ar[u]^t
+B_{\mathfrak q} & A_{\mathfrak m} \ar[l]^s \\
+A_{\mathfrak m} \ar[u]^t
 }
 }
 $$
-Note that $\kappa(\mathfrak p)$ is identified with $\kappa(\mathfrak q)$
-via both arrows as $r = e(u)$. The ring maps $s, t : A \to B$ are
+Note that the two induced maps
+$s, t : \kappa(\mathfrak m) \to \kappa(\mathfrak q)$
+are equal and isomorphisms as $r = e(u)$.
+In particular we see that $\mathfrak q$
+is a maximal ideal as well. The ring maps $s, t : A \to B$ are
 locally of finite type and flat. By assumption the ring
 $$
-\mathcal{O}_{F_u, r} = B_{\mathfrak q}/s(\mathfrak p)B_{\mathfrak q}
+\mathcal{O}_{F_u, r} = B_{\mathfrak q}/s(\mathfrak m)B_{\mathfrak q}
 $$
 is Cohen-Macaulay of dimension $d_2$ (equality of dimension by
 Morphisms, Lemma \ref{morphisms-lemma-dimension-fibre-at-a-point}).
-By assumption the ring
+
+\medskip\noindent
+Let us compute $G \cap \text{Spec}(B)$. Since $G = j^{-1}(\Delta_{U/S})$
+we see that $G \cap \text{Spec}(B)$ is the scheme theoretic inverse image of
+$\Delta_{\text{Spec}(A)/S} \subset \text{Spec}(A) \times_S \text{Spec}(A)$
+under the morphism
+$j = (t, s) : \text{Spec}(B) \to \text{Spec}(A) \times_S \text{Spec}(A)$.
+By general nonsense this is the same thing as the inverse image of
+$\Delta_{\text{Spec}(A)/\mathbf{Z}} \subset
+\text{Spec}(A) \times_{\mathbf{Z}} \text{Spec}(A)$. Hence we see
+that $G \cap \text{Spec}(B)$ is given by the spectrum of the ring
 $$
-\mathcal{O}_{G_u, r}
-=
-B_{\mathfrak q}/(s(\mathfrak p)B_{\mathfrak q} + t(\mathfrak p)B_{\mathfrak q})
+B \otimes_{(t, s), A \otimes_{\mathbf{Z}} A} A =
+B/(s(a) - t(a); a \in A)
 $$
-has dimension $d_1$ (equality of dimension by
-Groupoids, Lemma \ref{groupoids-lemma-group-scheme-finite-type-field}).
+In particular we have
+$$
+\mathcal{O}_{G, r} =
+B_{\mathfrak q} /(s(a) - t(a); a \in A).
+$$
+Since we have the relation
+$$
+s(\frac{a}{u}) - t(\frac{a}{u}) =
+\frac{1}{s(u)}(s(a) - t(a)) - \frac{t(a)}{s(u)t(u)}(s(u) - t(u))
+$$
+in $B_{\mathfrak q}$ given $a/u \in A_{\mathfrak m}$, we see that also
+$$
+\mathcal{O}_{G, r} =
+B_{\mathfrak q}/(s(a) - t(a); a \in A_{\mathfrak m}).
+$$
+This also means that
+$$
+\mathcal{O}_{G_u, r} =
+B_{\mathfrak q}\Big/s(\mathfrak m)B_{\mathfrak q} +
+(s(a) - t(a); a \in A_{\mathfrak m}).
+$$
+To be continued soon...
+
+\medskip\noindent
+By assumption the ring $\mathcal{O}_{G_u, r}$
+has dimension $d_1$. Equality of dimension by
+Groupoids, Lemma \ref{groupoids-lemma-group-scheme-finite-type-field}.
 We claim this implies we can find
-an element $f \in \mathfrak p$ such that
+an element $f \in \mathfrak m$ such that
 $$
-\dim(B_{\mathfrak q}/(s(\mathfrak p)B_{\mathfrak q} + fB_{\mathfrak q}) < d_2
+\dim(B_{\mathfrak q}/(s(\mathfrak m)B_{\mathfrak q} + fB_{\mathfrak q}) < d_2
 $$
-Namely, suppose $\mathfrak n_j \supset s(\mathfrak p)B_{\mathfrak q}$,
+Namely, suppose $\mathfrak n_j \supset s(\mathfrak m)B_{\mathfrak q}$,
 $j = 1, \ldots, m$ correspond to the minimal primes of the local ring
-$B_{\mathfrak q}/s(\mathfrak p)B_{\mathfrak q}$.
+$B_{\mathfrak q}/s(\mathfrak m)B_{\mathfrak q}$.
 There are finitely many as this ring is Noetherian (since it is essentially
 of finite type over a field -- but also because a Cohen-Macaulay ring is
 Noetherian). By the Cohen-Macaulay condition we have
 $\dim(B_{\mathfrak q}/\mathfrak n_j) = d_2$, for example by
 Algebra, Lemma \ref{algebra-lemma-CM-dim-formula}.
 Then the conditions $d_1 < d_2$ and
-$\dim(B_{\mathfrak q}/(\mathfrak n_j + t(\mathfrak p)B_{\mathfrak q})) = d_1$
+$\dim(B_{\mathfrak q}/(\mathfrak n_j + t(\mathfrak m)B_{\mathfrak q})) = d_1$
 implies that
-$\mathfrak p \not \subset t^{-1}(\mathfrak n_i)$. Since there are only
+$\mathfrak m \not \subset t^{-1}(\mathfrak n_i)$. Since there are only
 finitely many minimal primes in the Noetherian ring
-$B_{\mathfrak q}/s(\mathfrak p)B_{\mathfrak q}$ we get our desired $f$
+$B_{\mathfrak q}/s(\mathfrak m)B_{\mathfrak q}$ we get our desired $f$
 by prime avoidence, see
 Algebra, Lemma \ref{algebra-lemma-silly}.
 
@@ -657,15 +700,15 @@ B/t(f)B \ar@{=}[r] & A/(f) \otimes_{A, t} B & A \ar[l]_-s
 }
 $$
 Now, we see $t(f)$ is not a zero divisor on
-$B_{\mathfrak q}/s(\mathfrak p)B_{\mathfrak q}$ as this is a
+$B_{\mathfrak q}/s(\mathfrak m)B_{\mathfrak q}$ as this is a
 Cohen-Macaulay ring of positive dimension and $f$ is not contained
 in any minimal prime, see for example
 Algebra, Lemma \ref{algebra-lemma-reformulate-CM}.
 Hence by
 Algebra, Lemma \ref{algebra-lemma-grothendieck-general}
-we conclude that $s : A_{\mathfrak p} \to B_{\mathfrak q}/t(f)B_{\mathfrak q}$
+we conclude that $s : A_{\mathfrak m} \to B_{\mathfrak q}/t(f)B_{\mathfrak q}$
 is flat with fibre ring
-$B_{\mathfrak q}/(s(\mathfrak p)B_{\mathfrak q} + t(f)B_{\mathfrak q})$
+$B_{\mathfrak q}/(s(\mathfrak m)B_{\mathfrak q} + t(f)B_{\mathfrak q})$
 which is Cohen-Macaulay of $1$ lower dimension by
 Algebra, Lemma \ref{algebra-lemma-reformulate-CM}
 again. This implies the final assertion of the lemma and we win.
