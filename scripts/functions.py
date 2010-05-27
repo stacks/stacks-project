@@ -292,7 +292,7 @@ def split_label(label):
 		name = "spaces-descent"
 		type = pieces[2]
 		n = 3
-	if name == "spaces" and type == "more":
+	if name == "spaces" and type == "more" and pieces[2] == "morphisms":
 		name = "spaces-more-morphisms"
 		type = pieces[3]
 		n = 4
@@ -300,6 +300,10 @@ def split_label(label):
 		name = "spaces-groupoids"
 		type = pieces[2]
 		n = 3
+	if name == "spaces" and type == "more" and pieces[2] == "groupoids":
+		name = "spaces-more-groupoids"
+		type = pieces[3]
+		n = 4
 	if name == "more" and type == "morphisms":
 		name = "more-morphisms"
 		type = pieces[2]
