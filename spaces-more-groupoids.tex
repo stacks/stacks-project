@@ -896,7 +896,10 @@ Let $\sigma : Y \to X$ be a section of $f$. Then
 \begin{enumerate}
 \item the transformation of functors
 $(X/Y, \sigma)_{fin} \to (X/Y)_{fin}$ is representable by open immersions,
-\item if $(X/Y)_{fin}$ is an algebraic spaces, then $(X/Y, \sigma)_{fin}$
+\item if $f$ is separated, then the transformation of functors
+$(X/Y, \sigma)_{fin} \to (X/Y)_{fin}$ is representable by open
+and closed immersions,
+\item if $(X/Y)_{fin}$ is an algebraic space, then $(X/Y, \sigma)_{fin}$
 is an open subspace of $(X/Y)_{fin}$, and
 \item if $(X/Y)_{fin}$ is a scheme, then $(X/Y, \sigma)_{fin}$ is an
 open subscheme of $(X/Y)_{fin}$.
@@ -914,10 +917,70 @@ subscheme of $T$ we are looking for.
 
 
 
-\section{The finite part of a groupoid}
-\label{section-finite-groupoid}
+\section{Finite collections of arrows}
+\label{section-finite-set-arrows}
 
 \noindent
+Let $\mathcal{C}$ be a groupoid, see
+Categories, Definition \ref{categories-definition-groupoid}.
+As discussed in
+Groupoids, Section \ref{groupoids-section-groupoids}
+this corresponds to a septuple $(\text{Ob}, \text{Arrows}, s, t, c, e, i)$.
+
+\medskip\noindent
+Using this data we can make another groupoid $\mathcal{C}_{fin}$
+as follows:
+\begin{enumerate}
+\item An object of $\mathcal{C}_{fin}$ consists of a finite subset
+$Z \subset \text{Arrows}$ with the following properties:
+\begin{enumerate}
+\item $s(Z) = \{u\}$ is a singleton, and
+\item $e(u) \in Z$.
+\end{enumerate}
+\item A morphism of $\mathcal{C}_{fin}$ consists of a pair
+$(Z, z)$, where $Z$ is an object of $\mathcal{C}_{fin}$ and
+$z \in Z$.
+\item The source of $(Z, z)$ is $Z$.
+\item The target of $(Z, z)$ is $t(Z, z) = \{z' \circ z^{-1}; z' \in Z\}$.
+\item Given $(Z_1, z_1)$, $(Z_2, z_2)$ such that $s(Z_1, z_1) = t(Z_2, z_2)$
+the composition $(Z_1, z_1) \circ (Z_2, z_2)$ is $(Z_2, z_1 \circ z_2)$.
+\end{enumerate}
+We omit the verification that this defines a groupoid.
+Pictorially an object of $\mathcal{C}_{fin}$ can be viewed
+as a diagram
+$$
+\xymatrix{
+& \bullet \\
+\bullet \ar@(ul,dl)[]_e \ar[ru] \ar[r] \ar[rd] & \bullet \\
+& \bullet
+}
+$$
+To make a morphism of $\mathcal{C}_{fin}$ you pick one of the arrows
+and you precompose the other arrows by its inverse. For example if we pick
+the middle horizontal arrow then the target is the picture
+$$
+\xymatrix{
+& \bullet \\
+\bullet & \bullet \ar[l] \ar[u] \ar@(dr,ur)[]_e \ar[d] \\
+& \bullet
+}
+$$
+Note that the cardinalities of $s(Z, z)$ and $t(Z, z)$ are equal.
+So $\mathcal{C}_{fin}$ is really a countable disjoint union of
+groupoids.
+
+
+
+
+\section{The finite part of a groupoid}
+\label{section-finite-part-groupoid}
+
+\noindent
+In this section we are going to use the idea explained in
+Section \ref{section-finite-set-arrows}
+to take the finite part of a groupoid in algebraic spaces.
+
+\medskip\noindent
 Let $S$ be a scheme.
 Let $B$ be an algebraic space over $S$.
 Let $(U, R, s, t, c, e, i)$ be a groupoid in algebraic spaces over $B$.
@@ -925,8 +988,8 @@ Assumption: The morphisms $s, t$ are separated and locally of finite type.
 This notation and assumption will we be fixed throughout this section.
 
 \medskip\noindent
-Denote $R_s$ (respectively ${}_tR$) the algebraic space $R$ seen as an
-algebraic space over $U$ via $s$ (respectively $t$). Let
+Denote $R_s$ the algebraic space $R$ seen as an
+algebraic space over $U$ via $s$. Let
 $U' = (R_s/U, e)_{fin}$. Since $s$ is separated and locally of
 finite type, by
 Proposition \ref{proposition-finite-algebraic-space} and
@@ -934,27 +997,109 @@ Lemma \ref{lemma-finite-plus-section},
 we see that $U'$ is an algebraic space endowed with an etale morphism
 $g : U' \to U$. Moreover, by
 Lemma \ref{lemma-finite-sheaf}
-there exists a universal open and closed subspace
-$Z \subset R \times_{s, U, g} U'$ which is finite over $U'$
+there exists a universal open subspace
+$Z_{univ} \subset R \times_{s, U, g} U'$ which is finite over $U'$
 and such that $(1_{U'}, e \circ g) : U' \to R \times_{s, U, g} U'$
-factors through $Z$. Picture so far:
+factors through $Z_{univ}$. Moreover, by
+Lemma \ref{lemma-finite-separated}
+the open subspace $Z_{univ}$ is also closed in $R \times_{s, U', g} U$.
+Picture so far:
 $$
 \xymatrix{
-Z \ar[r] \ar[rd] & R \times_{s, U, g} U' \ar[d] \ar[r] & U' \ar[d]_g \\
-& R \ar[r]^s & U
+Z_{univ} \ar[d] \ar[rd] & \\
+R \times_{s, U, g} U' \ar[d] \ar[r] & U' \ar[d]^g \\
+R \ar[r]^s & U
 }
 $$
+Let $T$ be a scheme over $B$. We see that a $T$-valued point of
+$Z_{univ}$ may be viewed as a triple $(u, Z, z)$ where
+\begin{enumerate}
+\item $u : T \to U$ is a $T$-valued point of $U$,
+\item $Z \subset R \times_{s, U, u} T$ is an open and closed subspace
+finite over $T$ such that $(e \circ u, 1_T)$ factors through it, and
+\item $z : T \to R$ is a $T$-valued point of $R$ with $s \circ z = u$
+and such that $(z, 1_T)$ factors through $Z$.
+\end{enumerate}
+Having said this, it is morally clear from the discussion in
+Section \ref{section-finite-set-arrows}
+that we can turn $(Z_{univ}, U')$ into a groupoid in algebraic spaces
+over $B$. To make sure will define the morphisms $s', t', c', e', i'$
+one by one using the functorial point of view. (Please don't read this
+before reading and understanding the simple construction in
+Section \ref{section-finite-set-arrows}.)
 
 \medskip\noindent
-Note that $i : R \to R$ is an automorphism which exchanges the roles
-of $s$ and $t$. Thus $i$ extends to an isomorphism
-$i : R \times_{s, U, g} U' \to U' \times_{g, U, t} R$,
-$(u', r) \mapsto (i(r), u')$ over $U'$ which we
-denote $i$ also. By the universal property there is an isomorphism
-$\alpha : U' \to ({}_tR/U, e)_{fin}$ such that
-$i(Z) \subset U' \times_{g, U, t} R$ is the pullback of the
-universal open and closed subspace containing $e$ over
-$({}_tR/U, e)_{fin} \times_U {}_tR$ via $\alpha$.
+The morphism $s' : Z_{univ} \to U'$ corresponds to the rule
+$$
+s' : (u, Z, z) \mapsto (u, Z).
+$$
+The morphism $t' : Z_{univ} \to U'$ is given by the rule
+$$
+t' : (u, Z, z) \mapsto (t \circ z, c(Z, i \circ z)).
+$$
+The entry $c(Z, i \circ z)$
+makes sense as the map
+$c(-, i \circ z) : R \times_{s, U, u} T \to R \times_{s, U, t \circ z} T$
+is an isomorphism with inverse $c(-, z)$.
+The morphism $e' : U' \to Z_{univ}$ is given by the rule
+$$
+e' : (u, Z) \mapsto (u, Z, (e \circ u, 1_T)).
+$$
+Note that this makes sense by the requirement that $(e \circ u, 1_T)$
+factors through $Z$.
+The morphism $i' : Z_{univ} \to Z_{univ}$ is given by the rule
+$$
+i' : (u, Z, z) \mapsto (t \circ z, c(Z, i \circ z), i \circ z).
+$$
+Finally, composition is defined by the rule
+$$
+c' : ((u_1, Z_1, z_1), (u_2, Z_2, z_2)) \mapsto (u_2, Z_2, z_1 \circ z_2).
+$$
+We omit the verification that the axioms of a groupoid in algebraic
+spaces hold for $(U', Z_{univ}, s', t', c', e', i')$.
+
+\medskip\noindent
+A final piece of information is that there is a canonical morphism
+of groupoids
+$$
+(U', Z_{univ}, s', t', c', e', i')
+\longrightarrow
+(U, R, s, t, c, e, i)
+$$
+Namely, the morphism $U' \to U$ is the morphism $g : U' \to U$
+which is defined by the rule $(u, Z) \mapsto u$. The morphism
+$Z_{univ} \to R$ is defined by the rule $(u, Z, z) \mapsto z$.
+This finishes the construction. Let us summarize our findings as
+follows.
+
+\begin{lemma}
+\label{lemma-finite-part-groupoid}
+Let $S$ be a scheme.
+Let $B$ be an algebraic space over $S$.
+Let $(U, R, s, t, c, e, i)$ be a groupoid in algebraic spaces over $B$.
+Assume the morphisms $s, t$ are separated and locally of finite type.
+There exists a canonical morphism
+$$
+(U', Z_{univ}, s', t', c', e', i')
+\longrightarrow
+(U, R, s, t, c, e, i)
+$$
+of groupoids in algebraic spaces over $B$ where
+\begin{enumerate}
+\item $g : U' \to U$ is identified with $(R_s/U, e)_{fin} \to U$, and
+\item $Z_{univ} \subset R \times_{s, U, g} U'$ is the universal
+open (and closed) subspace finite over $U'$ which contains the base
+change of the unit $e$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+See discussion above.
+\end{proof}
+
+
+
+
 
 
 
@@ -967,8 +1112,8 @@ $({}_tR/U, e)_{fin} \times_U {}_tR$ via $\alpha$.
 In this section we prove results similar to \cite[Proposition 4.2]{K-M}.
 We try to be a bit more general, and we try to avoid using Hilbert schemes
 by using the finite part of a morphism instead. 
-The goal is to "split" a groupoid in algebraic spaces over a point,
-preferably by etale localization. Here is the definition (very similar to
+The goal is to "split" a groupoid in algebraic spaces over a point
+after etale localization. Here is the definition (very similar to
 \cite[Definition 4.1]{K-M}).
 
 \begin{definition}
@@ -994,12 +1139,22 @@ $s, t$ are separated, then $P$ is also closed in $R$ (compare with
 Lemma \ref{lemma-finite-separated}).
 
 \medskip\noindent
-We will start working with a groupoid scheme as described below.
-Our technique of proof leads us outside of the category of schemes,
+Suppose we start with a groupoid in algebraic spaces
+$(U, R, s, t, c)$ over $B$ and a point $u \in |U|$.
+Since the goal is to split the groupoid after etale localization
+we may as well replace $U$ by an affine scheme (what we mean
+is that this is harmless for any possible application).
+Moreover, the additional hypotheses we are going to have
+to impose will force $R$ to be a scheme at least in a neighbourhood
+of $\{r \in |R| : s(r) = u, t(r) = u\}$. This is why
+we start with a groupoid scheme as described below.
+However, our technique of proof leads us outside of the category of schemes,
 which is why we have formulated a splitting for the case of groupoids
 in algebraic spaces above.
-We know of no applications but the case where the morphisms $s$, $t$
-are also flat and of finite presentation.
+On the other hand, we know of no applications but
+the case where the morphisms $s$, $t$
+are also flat and of finite presentation, in which case
+we end up back in the category of schemes.
 
 \begin{situation}
 \label{situation-etale-localize}
@@ -1013,7 +1168,7 @@ Let $u \in U$ be a point. Assume that
 \item $s$ is quasi-finite at each point of the set in (3).
 \end{enumerate}
 Note that assumptions (3) and (4) are implied by the assumption
-that the fibre of $s : |R| \to |U|$ over $u$ is finite, see
+that the fibre $s^{-1}(\{u\})$ is finite, see
 Morphisms, Lemma \ref{morphisms-lemma-finite-fibre}.
 \end{situation}
 
@@ -1022,78 +1177,67 @@ Morphisms, Lemma \ref{morphisms-lemma-finite-fibre}.
 Assumptions and notation as in
 Situation \ref{situation-etale-localize}.
 Then there exists an algebraic space $U'$, an etale morphism
-$U' \to U$ and a point $u' : \text{Spec}(\kappa(u)) \to U'$
+$U' \to U$, and a point $u' : \text{Spec}(\kappa(u)) \to U'$
 lying over $u : \text{Spec}(\kappa(u)) \to U$
 such that the restriction $R' = R|_{U'}$ of $R$ to $U'$
 splits over $u'$.
 \end{lemma}
 
 \begin{proof}
-Since $(U, R, s, t, c)$ is a groupoid scheme, we see that also
-$t$ is quasi-finite at each $r_i$. By
-More on Morphisms,
-Lemma \ref{more-morphisms-lemma-etale-splits-off-quasi-finite-part-technical}
-we can find an etale neighbourhood $(U', u') \to (U, u)$ with
-$\kappa(u) = \kappa(u')$ such that we have disjoint decompositions
+Let $f : (U', Z_{univ}, s', t', c') \to (U, R, s, t, c)$ be as constructed in
+Lemma \ref{lemma-finite-part-groupoid}.
+Recall that $R' = R \times_{(U \times_B U)} (U' \times_B U')$.
+Thus we get a morphism $(f, t', s') : Z_{univ} \to R'$ of groupoids
+in algebraic spaces
 $$
-R \times_{s, U} U' = V_1 \coprod W_1,
-\quad\text{and}\quad
-U' \times_{U, t} R = V_2 \coprod W_2
+(U', Z_{univ}, s', t', c') \to (U', R', s', t', c')
 $$
-with the following properties
-\begin{enumerate}
-\item $V_1 \to U'$ is finite,
-\item $V_2 \to U'$ is finite,
-\item $(V_1)_{u'} = \{r_1, \ldots, r_n\}$ as sets (via the identification
-$(R \times_{s, U} U')_{u'} = R_u$),
-\item $(V_2)_{u'} = \{r_1, \ldots, r_n\}$ as sets (via the identification
-$(U' \times_{U, t} R)_{u'} = R_u$).
-\end{enumerate}
-By definition of the restriction
-(Groupoids, Definition \ref{groupoids-definition-restrict-groupoid})
-we have
-$$
-R|_{U'} = (V_1 \coprod W_1) \times_R (V_1 \coprod W_1).
-$$
-Hence if we take $P = V_1 \times_R V_2$, then $P$ is open and closed
-in the restriction and the morphisms $s'|_P, t'|_P : P \to U'$ are finite.
-FIXME: Actually there seems to be no reason for this to hold.
+(by abuse of notation we indicate the morphisms in the two groupoids
+by the same symbols). Now, as $Z \subset R \times_{s, U, g} U'$ is open
+and $R' \to R \times_{s, U, g} U'$ is etale (as a base change
+of $U' \to U$) we see that $Z_{univ} \to R'$ is an open immersion.
+By construction the morphisms $s', t' : Z_{univ} \to U'$ are finite.
+It remains to find the point $u'$ of $U'$.
 
 \medskip\noindent
-Since $R'$ is a groupoid we have $(s')^{-1}(\{u'\}) = (t')^{-1}(\{u'\})$
-and because $\kappa(u) = \kappa(u')$ this set maps bijectively to
-$s^{-1}(\{u\}) = t^{-1}(\{u\})$. Hence the set
-$\{p' \in P' \mid s'(p') = t'(p') = u'\}$
-maps bijectively to $\{r_1, \ldots, r_n\}$.
-By our choice of $V_1$ and $V_2$ we see that the subset
-$P \cap (s')^{-1}(\{u'\})$ maps bijectively
-to $\{r_1, \ldots, r_n\}$. Thus we conclude that (3) holds.
+We think of $u$ as a morphism $\text{Spec}(\kappa(u)) \to U$ as in
+the statement of the lemma. Set $F_u = R \times_{s, U} \text{Spec}(\kappa(u))$.
+The set $\{r \in R : s(r) = u, t(r) = u\}$ is finite by assumption
+and $F_u \to \text{Spec}(\kappa(u))$ is quasi-finite at each
+of its elements. Hence we can find a decomposition into open and closed
+subschemes
+$$
+F_u = Z_u \coprod Rest
+$$
+for some scheme $Z_u$ finite over $\kappa(u)$ whose support is
+$\{r \in R : s(r) = u, t(r) = u\}$. Note that $e(u) \in Z_u$.
+Hence by the construction of $U'$ in
+Section \ref{section-finite-part-groupoid}
+$(u, Z_u)$ defines a $\text{Spec}(\kappa(u))$-valued
+point $u'$ of $U'$.
 
 \medskip\noindent
-Finally, we have to show that (1) holds, i.e., that
-$(U', P, s'|_P, t'|_P, c'|_P)$ is a groupoid.
-Consider the morphism $c' : R' \times_{s', U', t'} R' \to R'$.
-We want to show that, after possibly shrinking $U'$, that
-$c'(P \times_{s'|_P, U', t'|_P} P) \subset P$. To see this
-consider $T = (c')^{-1}(W) \cap P \times_{s'|_P, U', t'|_P} P$.
-This is an open and closed subscheme of $P \times_{s'|_P, U', t'|_P} P$.
-By the discussion in the preceding paragraph we have
+We still have to show that the set
+$\{r' \in |R'| : s'(r') = u', t'(r') = u'\}$
+is contained in $|Z_{univ}|$.
+Pick any point $r'$ in this set and represent it by a morphism
+$r' : \text{Spec}(k) \to R'$. Denote $z : \text{Spec}(k) \to R$
+the composition of $r'$ with the map $R' \to R$.
+Since $\kappa(u) = \kappa(u')$, and since $s'(r') = u'$, $t(r') = u'$
+no information is lost by considering the point $z$ rather than the
+point $r'$, i.e., we can recover $r'$ from the point $z$.
+For example $z$ is an element of the set $\{r \in R : s(r) = u, t(r) = u\}$
+by our assumption on $r'$. The composition
+$s \circ z : \text{Spec}(k) \to U$ factors through $u$, so we may
+think of $s \circ z$ as a morphism $\text{Spec}(k) \to \text{Spec}(\kappa(u))$.
+Hence we can consider the triple
 $$
-(s'|_P)^{-1}(\{u'\}) = \{r_1, \ldots, r_n\} = (t'|_P)^{-1}(\{u'\})
+(s \circ z, Z_u \times_{\text{Spec}(\kappa(u)), s \circ z} \text{Spec}(k), z)
 $$
-and hence $c'$ maps this set into itself! Hence, if
-$p_0, p_1, p_2: R' \times_{t',U',s'} R' \rightarrow U'$ are
-the three projections, then $T \cap p_i^{-1}(\{u'\}) = 0$ for $i = 0, 1, 2$.
-Since the restrictions of $p_i$ to $P \times_{s'|_P, U', t'|_P} P$ are finite
-(because $s'|_P$ and $t'|_P$ are finite), we see that $p_i(T) \subset U'$
-is a closed subscheme which does not contain the point $u'$.
-Hence we may replace $U'$ by $U' \setminus p_0(T) \cup p_1(T) \cup p_2(T)$
-to get to the case where $T = \emptyset$. At this point
-we see that $c'(P \times_{s'|_P, U', t'|_P} P) \subset P$
-as desired. We omit the verifications that, possibly after shrinking $S'$,
-we may assume that also $e'(U') \subset P$ and $i'(P) \subset P$.
-Hence we get a groupoid scheme $(U', P, s'|_P, t'|_P, c'|_P, e'|_P, i'|_P)$
-and the lemma follows.
+where $Z_u$ is as above. This defines a $\text{Spec}(k)$-valued point
+of $Z_{univ}$ above whose image under the map $Z_{univ} \to R'$
+is the point $r'$ by the relationship between $z$ and $r'$ mentioned
+above. This finishes the proof.
 \end{proof}
 
 
