@@ -10,8 +10,8 @@ LIJST = introduction conventions sets categories topology sheaves algebra \
 	morphisms coherent divisors limits varieties chow topologies \
 	descent more-morphisms groupoids more-groupoids etale \
 	etale-cohomology spaces spaces-properties spaces-morphisms \
-	spaces-topologies spaces-descent spaces-more-morphisms bootstrap \
-	stacks spaces-groupoids spaces-more-groupoids groupoids-quotients \
+	spaces-topologies spaces-descent spaces-more-morphisms stacks \
+	spaces-groupoids spaces-more-groupoids bootstrap groupoids-quotients \
 	algebraic examples exercises guide desirables coding
 
 # Add index and fdl to get index and license latexed as well.
