@@ -365,6 +365,32 @@ Lemma \ref{lemma-product-transformations}.
 Proof omitted.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-surective-flat-locally-finite-presentation-surjective-as-sheaves}
+Let $S$ be a scheme.
+Let $F, G : (\textit{Sch}/S)_{fppf}^{opp} \to \textit{Sets}$ be sheaves.
+Let $a : F \to G$ be representable by algebraic spaces, flat,
+locally of finite presentation, and surjective.
+Then $a : F \to G$ is surjective as a map of sheaves.
+\end{lemma}
+
+\begin{proof}
+Let $T$ be a scheme over $S$ and let $g : T \to G$ be a $T$-valued point of
+$G$. By assumption $T' = F \times_G T$ is an algebraic space and
+the morphism $T' \to T$ is a flat, locally of finite presentation, and
+surjective morphism of algebraic spaces.
+Let $U \to T'$ be a surjective etale morphism, where $U$ is a scheme.
+Then by the definition of flat morphisms of algebraic spaces
+the morphism of schemes $U \to T$ is flat. Similarly for
+``locally of finite presentation''. The morphism $U \to T$ is surjective
+also, see
+Morphisms of Spaces, Lemma \ref{spaces-morphisms-lemma-surjective-local}.
+Hence we see that $\{U \to T\}$ is an etale covering such
+that $g|_U \in G(U)$ comes from an element of $F(U)$, namely
+the map $U \to T' \to F$. This proves the map is surjective as
+a map of sheaves, see
+Sites, Definition \ref{sites-definition-sheaves-injective-surjective}.
+\end{proof}
 
 
 
@@ -912,6 +938,158 @@ Groupoids, Lemma \ref{groupoids-lemma-quotient-groupoid-restrict}
 this means that $U'/R' \to U/R$ is an isomorphism.
 This finishes the proof of the lemma.
 \end{proof}
+
+
+
+
+
+
+
+
+
+
+\section{Quotient by a subgroupoid}
+\label{section-dividing}
+
+\noindent
+We need one more lemma before we can do our final bootstrap.
+Let us discuss what is going on in terms of ``plain'' groupoids before
+embarking on the scheme theoretic version.
+
+\medskip\noindent
+Let $\mathcal{C}$ be a groupoid, see
+Categories, Definition \ref{categories-definition-groupoid}.
+As discussed in
+Groupoids, Section \ref{groupoids-section-groupoids}
+this corresponds to a septuple $(\text{Ob}, \text{Arrows}, s, t, c)$.
+Suppose we are given a subset $P \subset \text{Arrows}$ such that
+$(\text{Ob}, P, s|_P, t|_P, c|_P)$ is also a groupoid and such
+that there are no nontrivial automorphisms in $P$. Then we can construct
+the quotient groupoid
+$(\text{Ob}/P, P\backslash \text{Arrows}/P, \overline{s},
+\overline{t}, \overline{c})$
+as follows:
+\begin{enumerate}
+\item $\text{Ob}/P$ is the set of $P$-isomorphism classes,
+\item $P\backslash \text{Arrows}/P$ is the set of arrows in
+$\mathcal{C}$ up to pre-composing and post-composing by arrows of $P$,
+\item the source and target maps
+$\overline{s}, \overline{t} : P\backslash \text{Arrows}/P \to \text{Ob}/P$
+are induced by $s, t$,
+\item composition is defined by the rule
+$\overline{c}(\overline{a}, \overline{b}) = \overline{c(a, b)}$
+which is well defined.
+\end{enumerate}
+In fact, it turns out that the original groupoid
+$(\text{Ob}, \text{Arrows}, s, t, c)$ is canonically
+isomorphic to the restriction (see discussion in
+Groupoids, Section \ref{groupoids-section-restrict-groupoid})
+of the groupoid
+$(\text{Ob}/P, P\backslash \text{Arrows}/P, \overline{s},
+\overline{t}, \overline{c})$ via the map of sets
+$\text{Ob} \to \text{Ob}/P$. We omit the details.
+
+\begin{lemma}
+\label{lemma-divide-subgroupoid}
+Let $S$ be a scheme.
+Let $(U, R, s, t, c)$ be a groupoid scheme over $S$.
+Let $P \subset R$ be an open subscheme.
+Assume that
+\begin{enumerate}
+\item $(U, P, s|_P, t|_P, c|_{P \times_{s, U, t}P})$ is a groupoid scheme,
+\item $j : R \to U$ is separated and locally quasi-finite,
+\item $U$ is affine, $s|_P, t|_P : P \to U$ are finite locally free, and
+$j|_P : P \to U \times_S U$ is a monomorphism.
+\end{enumerate}
+Then $U/P$ is representable by an affine scheme $M$ and
+$P = U \times_M U$ and $R$ is the restriction of a groupoid scheme
+$(M, \overline{R}, \overline{s}, \overline{t}, \overline{c})$ on
+$M$ via the morphism $U \to M$.
+\end{lemma}
+
+\begin{proof}
+By
+Groupoids, Proposition \ref{groupoids-proposition-finite-flat-equivalence}
+the affine scheme $M$ representing $U/P$ exists, and $P = U \times_M U$.
+The identification $P = U \times_M U$ is such that $t|_P = \text{pr}_0$
+and $s|_P = \text{pr}_1$.
+To get $\overline{R}$ we are going to descend the scheme $R$ via the finite locally
+free morphism $U \times_S U \to M \times_S M$. Namely, note that
+$$
+(U \times_S U) \times_{(M \times_S M)} (U \times_S U)
+=
+P \times_S P
+$$
+by the above. Thus a descent datum for $R$ relative to
+$U \times_S U / M \times_S M$ consists of an isomorphism
+$$
+\varphi :
+R \times_{(U \times_S U), t \times t} (P \times_S P)
+\longrightarrow
+(P \times_S P) \times_{s \times s, (U \times_S U)} R
+$$
+over $P \times_S P$ satisfying a cocycle condition. We define $\varphi$
+on $T$-valued points by the rule
+$$
+\varphi : (r, (p, p')) \longmapsto ((p, p'), p^{-1} \circ r \circ p')
+$$
+where the composition is taken in the category $(U(T), R(T), s, t, c)$.
+This makes sense because for $(r, (p, p'))$ to be a $T$-valued point
+of the source of $\varphi$ it needs to be the case that $t(r) = t(p)$
+and $s(r) = t(p')$. Note that this map is an isomorphism
+with inverse given by
+$((p, p'), r') \mapsto (p \circ r' \circ (p')^{-1}, (p, p'))$.
+To check the cocycle condition (see
+Descent, Definition \ref{descent-definition-descent-datum})
+we have to verify that $\varphi_{02} = \varphi_{12} \circ \varphi_{01}$
+as maps over
+$$
+(U \times_S U)
+\times_{(M \times_S M)} (U \times_S U)
+\times_{(M \times_S M)} (U \times_S U) =
+(P \times_S P) \times_{s \times s, (U \times_S U), t \times t} (P \times_S P)
+$$
+By explicit calculation we see that
+$$
+\begin{matrix}
+\varphi_{02} & (r, (p_1, p_1'), (p_2, p_2')) & \mapsto &
+((p_1, p_1'), (p_2, p_2'),
+(p_1 \circ p_2)^{-1} \circ r \circ (p_1' \circ p_2')) \\
+\varphi_{01} & (r, (p_1, p_1'), (p_2, p_2')) & \mapsto &
+((p_1, p_1'), (p_2, p_2'),
+p_1^{-1} \circ r \circ p_1') \\
+\varphi_{12} & (r, (p_1, p_1'), (p_2, p_2')) & \mapsto &
+((p_1, p_1'), (p_2, p_2'),
+p_2^{-1} \circ r \circ p_2')
+\end{matrix}
+$$
+which implies what we want. This means that we may apply
+More on Morphisms, Lemma
+\ref{more-morphisms-lemma-separated-locally-quasi-finite-morphisms-fppf-descend}
+to get a scheme $\overline{R} \to M \times_S M$ and an isomorphism
+$$
+R \to \overline{R} \times_{(M \times_S M)} (U \times_S U)
+$$
+which recovers the descent data in the usual way.
+
+\medskip\noindent
+Since $U \times_S U \to M \times_S M$ is finite locally free we
+conclude that $R \to \overline{R}$ is finite locally free.
+Hence $R \to \overline{R}$ is surjective as a map of sheaves.
+This and our choice of $\varphi$ implies that the sheaf $\overline{R}$
+represents the sheafification of the presheaf sheaf
+$$
+T \longmapsto R(T)/\sim_P
+$$
+where $r \sim_P r' \Leftrightarrow r' = p^{-1} \circ r \circ p'$
+for some $p, p' \in P(T)$. Hence we can define the groupoid
+structure on $(M = U/P, \overline{R} = P\backslash R/P)$ exactly as in
+the discussion of the ``plain'' groupoid case discussed above the statement
+of the lemma, and that $(U, R, s, t, c)$ is the pullback of
+this groupoid structure via the morphism $U \to M$.
+This concludes the proof.
+\end{proof}
+
 
 
 
