@@ -961,18 +961,20 @@ Let $\mathcal{C}$ be a groupoid, see
 Categories, Definition \ref{categories-definition-groupoid}.
 As discussed in
 Groupoids, Section \ref{groupoids-section-groupoids}
-this corresponds to a septuple $(\text{Ob}, \text{Arrows}, s, t, c)$.
+this corresponds to a quintuple $(\text{Ob}, \text{Arrows}, s, t, c)$.
 Suppose we are given a subset $P \subset \text{Arrows}$ such that
 $(\text{Ob}, P, s|_P, t|_P, c|_P)$ is also a groupoid and such
 that there are no nontrivial automorphisms in $P$. Then we can construct
 the quotient groupoid
-$(\text{Ob}/P, P\backslash \text{Arrows}/P, \overline{s},
+$(\overline{\text{Ob}}, \overline{\text{Arrows}}, \overline{s},
 \overline{t}, \overline{c})$
 as follows:
 \begin{enumerate}
-\item $\text{Ob}/P$ is the set of $P$-isomorphism classes,
-\item $P\backslash \text{Arrows}/P$ is the set of arrows in
-$\mathcal{C}$ up to pre-composing and post-composing by arrows of $P$,
+\item $\overline{\text{Ob}} = \text{Ob}/P$
+is the set of $P$-isomorphism classes,
+\item $\overline{\text{Arrows}} = P\backslash \text{Arrows}/P$
+is the set of arrows in $\mathcal{C}$ up to pre-composing and
+post-composing by arrows of $P$,
 \item the source and target maps
 $\overline{s}, \overline{t} : P\backslash \text{Arrows}/P \to \text{Ob}/P$
 are induced by $s, t$,
@@ -985,43 +987,76 @@ $(\text{Ob}, \text{Arrows}, s, t, c)$ is canonically
 isomorphic to the restriction (see discussion in
 Groupoids, Section \ref{groupoids-section-restrict-groupoid})
 of the groupoid
-$(\text{Ob}/P, P\backslash \text{Arrows}/P, \overline{s},
-\overline{t}, \overline{c})$ via the map of sets
-$\text{Ob} \to \text{Ob}/P$. We omit the details.
+$(\overline{\text{Ob}}, \overline{\text{Arrows}}, \overline{s},
+\overline{t}, \overline{c})$ via the quotient map
+$g : \text{Ob} \to \overline{\text{Ob}}$. Recall that this means
+that
+$$
+\text{Arrows} = 
+\text{Ob}
+\times_{g, \overline{\text{Ob}}, \overline{t}}
+\overline{\text{Arrows}}
+\times_{\overline{s}, \overline{\text{Ob}}, g}
+\text{Ob}
+$$
+which holds as $P$ has no nontrivial automorphisms.
+We omit the details.
+
+\medskip\noindent
+The following lemma holds in much greater generality, but this is
+the version we use in the proof of the final bootstrap (after which
+we can more easily prove the more general versions of this lemma).
 
 \begin{lemma}
 \label{lemma-divide-subgroupoid}
 Let $S$ be a scheme.
 Let $(U, R, s, t, c)$ be a groupoid scheme over $S$.
-Let $P \subset R$ be an open subscheme.
-Assume that
+Let $P \to R$ be monomorphism of schemes. Assume that
 \begin{enumerate}
 \item $(U, P, s|_P, t|_P, c|_{P \times_{s, U, t}P})$ is a groupoid scheme,
+\item $s|_P, t|_P : P \to U$ are finite locally free,
+\item $j|_P : P \to U \times_S U$ is a monomorphism.
+\item $U$ is affine, and
 \item $j : R \to U$ is separated and locally quasi-finite,
-\item $U$ is affine, $s|_P, t|_P : P \to U$ are finite locally free, and
-$j|_P : P \to U \times_S U$ is a monomorphism.
 \end{enumerate}
-Then $U/P$ is representable by an affine scheme $M$ and
-$P = U \times_M U$ and $R$ is the restriction of a groupoid scheme
-$(M, \overline{R}, \overline{s}, \overline{t}, \overline{c})$ on
-$M$ via the morphism $U \to M$.
+Then $U/P$ is representable by an affine scheme $\overline{U}$, the
+quotient morphism $U \to \overline{U}$ is finite locally free, and
+$P = U \times_{\overline{U}} U$. Moreover, $R$ is the restriction of a
+groupoid scheme
+$(\overline{U}, \overline{R}, \overline{s}, \overline{t}, \overline{c})$
+on $\overline{U}$ via the quotient morphism $U \to \overline{U}$.
 \end{lemma}
 
 \begin{proof}
-By
+Conditions (1), (2), (3), and (4) and
 Groupoids, Proposition \ref{groupoids-proposition-finite-flat-equivalence}
-the affine scheme $M$ representing $U/P$ exists, and $P = U \times_M U$.
-The identification $P = U \times_M U$ is such that $t|_P = \text{pr}_0$
-and $s|_P = \text{pr}_1$.
-To get $\overline{R}$ we are going to descend the scheme $R$ via the finite locally
-free morphism $U \times_S U \to M \times_S M$. Namely, note that
+imply the affine scheme $\overline{U}$ representing $U/P$ exists,
+the morphism $U \to \overline{U}$ is finite locally free, and
+$P = U \times_{\overline{U}} U$. The identification
+$P = U \times_{\overline{U}} U$ is such that $t|_P = \text{pr}_0$ and
+$s|_P = \text{pr}_1$, and such that composition is equal to
+$\text{pr}_{02} : U \times_{\overline{U}} U \times_{\overline{U}} U
+\to U \times_{\overline{U}} U$.
+A product of finite locally free morphisms is finite locally free (see
+Spaces, Lemma \ref{spaces-lemma-product-representable-transformations-property}
+and
+Morphisms, Lemmas \ref{morphisms-lemma-base-change-finite-locally-free} and
+\ref{morphisms-lemma-composition-finite-locally-free}).
+To get $\overline{R}$ we are going to descend
+the scheme $R$ via the finite locally free morphism
+$U \times_S U \to \overline{U} \times_S \overline{U}$.
+Namely, note that
 $$
-(U \times_S U) \times_{(M \times_S M)} (U \times_S U)
+(U \times_S U)
+\times_{(\overline{U} \times_S \overline{U})}
+(U \times_S U)
 =
 P \times_S P
 $$
-by the above. Thus a descent datum for $R$ relative to
-$U \times_S U / M \times_S M$ consists of an isomorphism
+by the above. Thus giving a descent datum (see
+Descent, Definition \ref{descent-definition-descent-datum})
+for $R / U \times_S U / \overline{U} \times_S \overline{U}$
+consists of an isomorphism
 $$
 \varphi :
 R \times_{(U \times_S U), t \times t} (P \times_S P)
@@ -1033,20 +1068,19 @@ on $T$-valued points by the rule
 $$
 \varphi : (r, (p, p')) \longmapsto ((p, p'), p^{-1} \circ r \circ p')
 $$
-where the composition is taken in the category $(U(T), R(T), s, t, c)$.
+where the composition is taken in the groupoid category
+$(U(T), R(T), s, t, c)$.
 This makes sense because for $(r, (p, p'))$ to be a $T$-valued point
 of the source of $\varphi$ it needs to be the case that $t(r) = t(p)$
 and $s(r) = t(p')$. Note that this map is an isomorphism
 with inverse given by
 $((p, p'), r') \mapsto (p \circ r' \circ (p')^{-1}, (p, p'))$.
-To check the cocycle condition (see
-Descent, Definition \ref{descent-definition-descent-datum})
-we have to verify that $\varphi_{02} = \varphi_{12} \circ \varphi_{01}$
+To check the cocycle condition we have to verify that $\varphi_{02} = \varphi_{12} \circ \varphi_{01}$
 as maps over
 $$
 (U \times_S U)
-\times_{(M \times_S M)} (U \times_S U)
-\times_{(M \times_S M)} (U \times_S U) =
+\times_{(\overline{U} \times_S \overline{U})} (U \times_S U)
+\times_{(\overline{U} \times_S \overline{U})} (U \times_S U) =
 (P \times_S P) \times_{s \times s, (U \times_S U), t \times t} (P \times_S P)
 $$
 By explicit calculation we see that
@@ -1056,37 +1090,44 @@ $$
 ((p_1, p_1'), (p_2, p_2'),
 (p_1 \circ p_2)^{-1} \circ r \circ (p_1' \circ p_2')) \\
 \varphi_{01} & (r, (p_1, p_1'), (p_2, p_2')) & \mapsto &
-((p_1, p_1'), (p_2, p_2'),
-p_1^{-1} \circ r \circ p_1') \\
-\varphi_{12} & (r, (p_1, p_1'), (p_2, p_2')) & \mapsto &
-((p_1, p_1'), (p_2, p_2'),
-p_2^{-1} \circ r \circ p_2')
+((p_1, p_1'), p_1^{-1} \circ r \circ p_1', (p_2, p_2')) \\
+\varphi_{12} & ((p_1, p_1'), r, (p_2, p_2')) & \mapsto &
+((p_1, p_1'), (p_2, p_2'), p_2^{-1} \circ r \circ p_2')
 \end{matrix}
 $$
-which implies what we want. This means that we may apply
+(with obvious notation) which implies what we want.
+As $j$ is separated and locally quasi-finite by (5) we may apply
 More on Morphisms, Lemma
 \ref{more-morphisms-lemma-separated-locally-quasi-finite-morphisms-fppf-descend}
-to get a scheme $\overline{R} \to M \times_S M$ and an isomorphism
+to get a scheme $\overline{R} \to \overline{U} \times_S \overline{U}$
+and an isomorphism
 $$
-R \to \overline{R} \times_{(M \times_S M)} (U \times_S U)
+R \to \overline{R} \times_{(\overline{U} \times_S \overline{U})} (U \times_S U)
 $$
-which recovers the descent data in the usual way.
+which identifies the descent datum $\varphi$ with the canonical
+descent datum on
+$\overline{R} \times_{(\overline{U} \times_S \overline{U})} (U \times_S U)$,
+see
+Descent, Definition \ref{descent-definition-effective}.
 
 \medskip\noindent
-Since $U \times_S U \to M \times_S M$ is finite locally free we
-conclude that $R \to \overline{R}$ is finite locally free.
-Hence $R \to \overline{R}$ is surjective as a map of sheaves.
-This and our choice of $\varphi$ implies that the sheaf $\overline{R}$
-represents the sheafification of the presheaf sheaf
+Since $U \times_S U \to \overline{U} \times_S \overline{U}$ is finite
+locally free we conclude that $R \to \overline{R}$ is finite locally free
+as a base change. Hence $R \to \overline{R}$ is surjective as a map of
+sheaves on $(\textit{Sch}/S)_{fppf}$.
+Our choice of $\varphi$ implies that given $T$-valued points $r, r' \in R(T)$
+these have the same image in $\overline{R}$ if and only if
+$p^{-1} \circ r \circ p'$ for some $p, p' \in P(T)$. Thus
+$\overline{R}$ represents the sheaf
 $$
-T \longmapsto R(T)/\sim_P
+T \longmapsto  \overline{R(T)} = P(T)\backslash R(T)/P(T)
 $$
-where $r \sim_P r' \Leftrightarrow r' = p^{-1} \circ r \circ p'$
-for some $p, p' \in P(T)$. Hence we can define the groupoid
-structure on $(M = U/P, \overline{R} = P\backslash R/P)$ exactly as in
-the discussion of the ``plain'' groupoid case discussed above the statement
-of the lemma, and that $(U, R, s, t, c)$ is the pullback of
-this groupoid structure via the morphism $U \to M$.
+with notation as in the discussion preceding the lemma.
+Hence we can define the groupoid structure on
+$(\overline{U} = U/P, \overline{R} = P\backslash R/P)$ exactly as in
+the discussion of the ``plain'' groupoid case.
+It follows from this that $(U, R, s, t, c)$ is the pullback of
+this groupoid structure via the morphism $U \to \overline{U}$.
 This concludes the proof.
 \end{proof}
 
