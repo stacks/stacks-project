@@ -312,6 +312,10 @@ def split_label(label):
 		name = "etale-cohomology"
 		type = pieces[2]
 		n = 3
+	if name == "examples" and type == "stacks":
+		name = "examples-stacks"
+		type = pieces[2]
+		n = 3
 	if name == "groupoids" and type == "quotients":
 		name = "groupoids-quotients"
 		type = pieces[2]

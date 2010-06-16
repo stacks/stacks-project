@@ -1,65 +1,10 @@
-\documentclass{amsart}
-
-% The following AMS packages are automatically loaded with
-% the amsart documentclass:
-%\usepackage{amsmath}
-%\usepackage{amssymb}
-%\usepackage{amsthm}
-
-% For commutative diagrams you can use
-% \usepackage{amscd}
-\usepackage[all]{xy}
-
-% We use 2cell for 2-commutative diagrams.
-\xyoption{2cell}
-\UseAllTwocells
-
-% To put source file link in headers.
-% Change "template.tex" to "this_filename.tex"
-% \usepackage{fancyhdr}
-% \pagestyle{fancy}
-% \lhead{}
-% \chead{}
-% \rhead{Source file: \url{template.tex}}
-% \lfoot{}
-% \cfoot{\thepage}
-% \rfoot{}
-% \renewcommand{\headrulewidth}{0pt}
-% \renewcommand{\footrulewidth}{0pt}
-% \renewcommand{\headheight}{12pt}
-
-\usepackage{multicol}
-
-% For cross-file-references
-\usepackage{xr-hyper}
-
-% Package for hypertext links:
-\usepackage{hyperref}
-
-% Theorem environments.
-%
-\theoremstyle{plain}
-\newtheorem{theorem}[subsection]{Theorem}
-\newtheorem{proposition}[subsection]{Proposition}
-\newtheorem{lemma}[subsection]{Lemma}
-
-\theoremstyle{definition}
-\newtheorem{definition}[subsection]{Definition}
-\newtheorem{example}[subsection]{Example}
-\newtheorem{exercise}[subsection]{Exercise}
-\newtheorem{situation}[subsection]{Situation}
-
-\theoremstyle{remark}
-\newtheorem{remark}[subsection]{Remark}
-\newtheorem{remarks}[subsection]{Remarks}
-
-\numberwithin{equation}{subsection}
+\input{preamble}
 
 % OK, start here.
 %
 \begin{document}
 
-\title{Examples of Algebraic Stacks}
+\title{Examples of Stacks}
 
 
 \maketitle
@@ -73,246 +18,410 @@
 \label{section-introduction}
 
 \noindent
-This is a list of examples of algebraic stacks.
-The reason for being of this list is to serve also as a list of
-topics for lectures by students in the Graduate Student Algebraic Geometry
-Seminar held at Columbia University in the Fall of 2009.
+This is a discussion of examples of stacks in algebraic geometry.
+Some of them are algebraic stacks, some are not.
+We will discuss which are algebraic stacks in a later chapter.
+This means that in this chapter we mainly worry about the descent
+conditions. See \cite{Vis2} for example.
+
+
+
+
+\section{Notation}
+\label{section-notation}
+
+\noindent
+In this chapter we fix a suitable big fppf site $\textit{Sch}_{fppf}$
+as in Topologies, Definition \ref{topologies-definition-big-fppf-site}.
+So, if not explicitly stated otherwise all schemes will be objects
+of $\textit{Sch}_{fppf}$.
+We will always work relative to a base $S$ contained in $\textit{Sch}_{fppf}$.
+And we will then work with the big fppf site $(\textit{Sch}/S)_{fppf}$,
+see Topologies, Definition \ref{topologies-definition-big-small-fppf}.
+The absolute case can be recovered by taking
+$S = \text{Spec}(\mathbf{Z})$.
+ 
+
+
+
+
+
+
+
+
+
+\section{Quasi-coherent sheaves}
+\label{section-stack-of-quasi-coherent-sheaves}
+
+\noindent
+We denote
+$$
+p : \textit{QCoh} \to (\textit{Sch}/S)_{fppf}
+$$
+the category over $(\textit{Sch}/S)_{fppf}$ defined as follows.
+\begin{enumerate}
+\item An object of $\textit{QCoh}$ is a pair $(T, \mathcal{F})$,
+where $T/S$ is an object of $(\textit{Sch}/S)_{fppf}$, and $\mathcal{F}$
+is a quasi-coherent $\mathcal{O}_T$-module, and
+\item a morphism $(f, \varphi) : (T, \mathcal{F}) \to (T', \mathcal{F}')$
+is a pair consisting of a morphism $f : T \to T'$ of schemes over $S$
+and an $f$-map (see
+Sheaves, Definition \ref{sheaves-definition-f-map})
+$\varphi : \mathcal{F}' \to \mathcal{F}$.
+\end{enumerate}
+The composition of morphisms
+$$
+(T, \mathcal{F}) \xrightarrow{(f, \varphi)}
+(T', \mathcal{F}') \xrightarrow{(g, \psi)} (T'', \mathcal{F}'')
+$$
+is $(g \circ f, \varphi \circ \psi)$ where $\varphi \circ \psi$ is
+as in
+Sheaves, Definition \ref{sheaves-definition-composition-f-maps}.
+Thus $\textit{QCoh}$ is a category and $p((T, \mathcal{F})) = T$
+is a functor.
 
 \medskip\noindent
-As references on algebraic stacks we use
-\begin{enumerate}
-\item Deligne and Mumford \cite[Section 4]{DM},
-\item Fantechi, \cite{Fantechi},
-\item Laumon and Moret-bailly, \cite{LM-B},
-\item book in progress by many authors,
-\url{http://www.math.unizh.ch/index.php?pr_vo_det&key1=1287&key2=580&no_cache=1}
-\item algebraic stacks project, see \cite{stacks-project}, and
-\item various publications by Kai Behrend et al, see
-\cite{derived-l-adic-for-stacks},
-\cite{cohomology-of-stacks}, and
-\cite{uniformization-stacky-curves}.
-\end{enumerate}
-Most of these can be found on the web.
+The category $\textit{QCoh}$ is not a stack over $(\textit{Sch}/S)_{fppf}$
+because its collection of objects is a proper class. On the other hand
+it does satisfy all the axioms of a stack. We get around the
+settheoretical issue in
+Section \ref{section-stack-of-finitely-generated-quasi-coherent-sheaves}.
 
-\section{Quotient stacks}
-\label{section-quotient-stacks}
+\begin{lemma}
+\label{lemma-stack-of-quasi-coherent-sheaves}
+The functor $p : \textit{QCoh} \to (\textit{Sch}/S)_{fppf}$
+satisfies conditions (1), (2) and (3) of
+Stacks, Definition \ref{stacks-definition-stack}.
+\end{lemma}
 
-\noindent
-Introduce $[X/G]$ and give lots of examples.
-\begin{enumerate}
-\item $B(G)$ where $G$ is either an abstract group or a group scheme, see
-\cite[Examples \href{http://math.columbia.edu/algebraic_geometry/%
-stacks-git/locate.php?tag=0370}{0370} and
-\href{http://math.columbia.edu/algebraic_geometry/%
-stacks-git/locate.php?tag=0371}{0371}]{stacks-project},
-\item spell out what happens for $B(\mathbf{G}_m)$,
-\item spell out what happens for $B(\text{GL}_n)$,
-\item $[\mathbf{A}^1/\mathbf{G}_m]$ with the ``usual'' action, and
-\item $\mathcal{P}(a_0, \ldots, a_n)$, the weighted projective space stack
--- also discuss what happens if all $a_i$ are $1$.
-\end{enumerate}
+\begin{proof}
+To see this we have to show that (1) $\textit{QCoh}$ is fibred over
+$(\textit{Sch}/S)_{fppf}$ and (2) for any fppf covering
+$\mathcal{U} = \{T_i \to T\}_{i \in I}$ the functor
+$$
+\textit{QCoh}(T) \longrightarrow DD(\mathcal{U})
+$$
+is fully faithful and essentially surjective, see
+Stacks, Lemma \ref{stacks-lemma-stack-equivalences}.
+Part (1) follows from the observation that the strongly cartesian morphisms
+of $\textit{QCoh}$ are exactly those morphisms
+$(f, \varphi) : (T, \mathcal{F}) \to (T', \mathcal{F}')$
+such that $\varphi$ induces an isomorphism
+$f^*\mathcal{F}' \to \mathcal{F}$ (details omitted).
+Part (2) follows from
+Descent, Proposition \ref{descent-proposition-fpqc-descent-quasi-coherent}.
+\end{proof}
 
 
-\section{Stacky curves}
-\label{section-stacky-curves}
 
-\noindent
-In this lecture we say curve when we really mean nonsingular curve
-over an algebraically closed field (the complex numbers if you like).
-Discuss the following facts:
-\begin{enumerate}
-\item A stacky curve is always a gerb over an orbi-curve. Explain this.
-\item What is a universal covering? When do they exist.
-\item When is a stacky curve a quotient stack?
-\item What is the genus of a stacky curve?
-\item What is the canonical sheaf?
-\item Is there a dualizing sheaf?
-\item What is a morphism from a stacky (generically nongerby) curve
-into $B(S_n)$?
-\end{enumerate}
 
-\section{Actions of group(schemes) on algebraic stacks}
-\label{section-actions}
+
+\section{The stack of finitely generated quasi-coherent sheaves}
+\label{section-stack-of-finitely-generated-quasi-coherent-sheaves}
 
 \noindent
-It is a little bit confusing since the collection of algebraic stacks
-forms a $2$-category. Discuss the following
+Let us denote
+$$
+p_{fg} : \textit{QCoh}_{fg} \to (\textit{Sch}/S)_{fppf}
+$$
+the full subcategory of $\textit{QCoh}$ over $(\textit{Sch}/S)_{fppf}$ 
+consisting of pairs $(T, \mathcal{F})$ such that $\mathcal{F}$
+is a quasi-coherent $\mathcal{O}_T$-module of finite type. Then
+$p_{fg} : \textit{QCoh}_{fg} \to (\textit{Sch}/S)_{fppf}$
+also satisfies (1), (2) and (3) of
+Stacks, Definition \ref{stacks-definition-stack}
+as well as the additional condition (4) of
+Stacks, Remark \ref{stacks-remark-stack-make-small}.
+Namely, given a scheme $X$ there exists a set of isomorphism classes
+of finitely generated quasi-coherent $\mathcal{O}_X$-modules.
+Hence we may replace $\textit{QCoh}_{fg}$ by a full subcategory
+$\textit{QCoh}_{fg, small}$
+which is a stack over $(\textit{Sch}/S)_{fppf}$ and such that
+$\textit{QCoh}_{fg, small} \to \textit{QCoh}_{fg}$ is
+fully faithfull and essentially surjective.
+We will often perform this replacement without further
+remarking on it, and by abuse of notation we will simply denote
+$\textit{QCoh}_{fg}$ this replacement. Note that we may do
+something similar if we want to consider those quasi-coherent sheaves
+which are locally generated by at most $\kappa$ sections, for some
+infinite cardinal $\kappa$, e.g., $\kappa = \aleph_0$.
+
+
+
+
+
+\section{The stack of algebraic spaces}
+\label{section-stack-of-spaces}
+
+
+
+
+
+
+
+
+
+
+
+\section{Examples of stacks in groupoids}
+\label{section-examples-stacks}
+
+\noindent
+The examples above are examples of stacks which are not stacks in
+groupoids. In the rest of this chapter we give
+algebraic geometric examples of stacks in groupoids.
+
+
+
+\section{The stack associated to a sheaf}
+\label{section-stack-associated-to-sheaf}
+
+\noindent
+Let $F : (\textit{Sch}/S)_{fppf}^{opp} \to \textit{Sets}$ be a presheaf.
+In this case the category fibred in sets
+$p_F : \mathcal{S}_F \to (\textit{Sch}/S)_{fppf}$
+is a stack in sets if and only if $F$ is a sheaf, see
+Stacks, Lemma \ref{stacks-lemma-stack-in-setoids-characterize}.
+
+
+
+\section{The stack in groupoids of finitely generated quasi-coherent sheaves}
+\label{section-stack-in-groupoids-of-quasi-coherent-sheaves}
+
+\noindent
+Let $p : \textit{QCoh}_{fg} \to (\textit{Sch}/S)_{fppf}$ be the stack
+introduced in
+Section \ref{section-stack-of-finitely-generated-quasi-coherent-sheaves}
+(using the abuse of notation introduced there).
+We can turn this into a stack in groupoids
+$p' : \textit{QCoh}_{fg}' \to (\textit{Sch}/S)_{fppf}$ by
+the procedure of
+Categories, Lemma \ref{categories-lemma-fibred-gives-fibred-groupoids},
+see
+Stacks, Lemma \ref{stacks-lemma-stack-gives-stack-groupoids}.
+In this particular case this simply means $\textit{QCoh}_{fg}'$ has
+the same objects as $\textit{QCoh}_{fg}$ but the morphsms are
+morphisms $(f, \varphi) : (T, \mathcal{F}) \to (T', \mathcal{F}')$
+such that $\varphi$ induces an isomorphism $f^*\mathcal{F}' \to \mathcal{F}$.
+
+
+
+
+
+
+\section{Stacks in groupoids classifying torsors}
+\label{section-torsors}
+
+\medskip\noindent
+In the following example we use $G$-torsors; these are defined in
+Groupoids, Definition \ref{groupoids-definition-principal-homogeneous-space}.
+
+\begin{example}
+\label{example-X-mod-G-groupscheme}
+Let $S$ be a scheme.
+Let $G \to S$ be a group scheme over $S$.
+Assume that $G \to S$ is affine.
+Let $X \to S$ be a scheme over $S$.
+Let $a : G \times_S X \to X$
+be an action of $G$ on $X$ over $S$.
+The {\it quotient stack} $[X/G]$ is defined as follows.
 \begin{enumerate}
-\item What should come out when $H$ acts on $B(G)$. (Ask Michael Thaddeus.)
-\item Use this to come up with a definition.
-\item Do examples:
+\item An object of $[X/G]$ consists of a triple
+$(T \to S, P \to T, \varphi : P \to X)$ where
 \begin{enumerate}
-\item $H$ acting on $B(G)$,
-\item when can $\mathbf{G}_m$ act nontrivially on a stacky curve?
-\item Define toric stacks, and examples of toric stacks.
+\item $T \to S$ is a scheme over $S$,
+\item $P \to T$ is a $G_T$-torsor in fppf topology\footnote{We can also
+consider here instead all $G_T$-torsors, i.e., those pseudo torsors which
+become trivial over the members of an fpqc covering of $T$. This would lead
+to a second stack in groupoids $[X/G]'$ over $(\textit{Sch}/S)_{fppf}$.
+In general the two stacks obtained do not agree, see
+Section \ref{section-torsor-not-fppf}.
+But if $G \to S$ is flat and of finite presentation,
+then they do (insert future reference here). If $G$ is not
+of finite type over $S$, then neither $[X/G]'$ nor $[X/G]$ will be
+an algebraic stack in general, see
+Section \ref{section-not-algebraic-stack}.
+The upshot is that in many interesting cases the difference is irrelevant.}
+over $T$, and
+\item $\varphi : P \to X$ is a $G$-equivariant morphism of schemes.
 \end{enumerate}
+\item A morphism
+$(h, f) : (T/S, P/T, \varphi) \to (T'/S, P'/T', \varphi')$
+is given by a morphism of schemes $f : T \to T'$ and a $G$-equivariant
+morphism $h : P \to P'$ over $f$ which induces an isomorphism
+$P \cong T \times_{T'} P'$, and such that $\varphi = \varphi' \circ h$.
+\item the functor $[X/G] \to (\textit{Sch}/S)_{fppf}$ is the forgetful
+functor $(T/S, P/T, \varphi) \mapsto T/S$.
 \end{enumerate}
+It is not so hard to verify that this is a fibred category. (Omitted.)
+This is a stack in groupoids for the fppf topology. We omit the proof.
+The hardest part is to show descent for objects. To do this one shows that
+a torsor for an affine group scheme is affine over its base (insert future
+reference here), and we have descent for affine schemes over schemes (see
+Descent, Lemma \ref{descent-lemma-affine}).
+\end{example}
+
+\noindent
+The following example is almost, but not quite the same.
+The difference is that in the example above $G$ is an affine group scheme
+over $S$, and in the example below $G$ is an abstract group.
+The key to the examples is that in both cases all
+$\underline{G}$-torsors on $(\textit{Sch}/S)_{fppf}$ are representable.
+
+\begin{example}
+\label{example-X-mod-G-group}
+Let $S$ be a scheme.
+Let $G$ be a group.
+Let $X \to S$ be a scheme over $S$.
+Let $a : G \times X \to X$ be an action of $G$ on $X$ over $S$.
+The stack $[X/G]$ is defined as follows.
+\begin{enumerate}
+\item An object of $[X/G]$ consists of a triple
+$(T \to S, P \to T, \varphi : P \to X)$ where
+\begin{enumerate}
+\item $T \to S$ is a scheme over $S$,
+\item $P \to T$ is a $G_T$-torsor over $T$ in the fppf topology, and
+\item $\varphi : P \to X$ is a $G$-equivariant morphism of schemes.
+\end{enumerate}
+\item A morphism
+$(h, f) : (T/S, P/T, \varphi) \to (T'/S, P'/T', \varphi')$
+is given by a morphism of schemes $f : T \to T'$ and a $G$-equivariant
+morphism $h : P \to P'$ over $f$ which induces an isomorphism
+$P \cong T \times_{T'} P'$, and such that $\varphi = \varphi' \circ h$.
+\item the functor $[X/G] \to (\textit{Sch}/S)_{fppf}$ is the forgetful
+functor $(T/S, P/T, \varphi) \mapsto T/S$.
+\end{enumerate}
+It is not so hard to verify that this is a fibred category. (Omitted.)
+This is a stack in groupoids for the fppf topology. We omit the proof.
+The hardest part is to show descent for objects.
+To do this, note that a torsor for an abstract group
+is a separated and etale scheme over its base, and by
+More on Morphisms, Lemma
+\ref{more-morphisms-lemma-separated-locally-quasi-finite-morphisms-fppf-descend}
+we have descent for separated and locally quasi-finite schemes over schemes.
+\end{example}
+
 
 
 \section{Picard stacks}
-\label{section-picard}
+\label{section-picard-stack}
 
 \noindent
-Here is a list of things to discuss:
+Let $f : X \to S$ be a morphism of schemes.
+The {\it Picard stack} $\textit{Pic}_{X/S}$ is defined as follows
 \begin{enumerate}
-\item The Picard stack of a scheme, or more generally a scheme over
-another scheme. See
-\cite[Example \href{http://math.columbia.edu/algebraic_geometry/%
-stacks-git/locate.php?tag=0372}{0372}]{stacks-project}
-\item The Picard stack of an algebraic stack;
-here you have to be a little careful.
-\item Discuss the inertia stack in general, and apply this to
-the Picard stack (see
-\cite[Example \href{http://math.columbia.edu/algebraic_geometry/%
-stacks-git/locate.php?tag=0375}{0375}]{stacks-project} and
-$[X/G]$ (see \cite[Example \href{http://math.columbia.edu/algebraic_geometry/%
-stacks-git/locate.php?tag=0374}{0374}]{stacks-project}).
-\item When is the Picard stack supposed to be algebraic? This may be a good
-place to discuss (briefly) Artin's axioms and a little deformation theory.
+\item An object is a pair $(T/S, \mathcal{L})$, where $T/S$ is a
+scheme over $S$ and $\mathcal{L}$ is in invertible sheaf on
+the base change $X_T$,
+\item a morphism $(f, \alpha) : (T/S, \mathcal{L}) \to (T'/S, \mathcal{L}')$
+is given by a morphism of schemes $f : T \to T'$ over $S$ and an
+isomorphism $\alpha : f^*\mathcal{L}' \to \mathcal{L}$, and
+\item the structure functor $\textit{Pic}_{X/S} \to (\textit{Sch}/S)_{fppf}$
+is given by the forgetful functor $(T/S, \mathcal{L}) \mapsto T/S$.
 \end{enumerate}
-
-\section{Vector bundles on algebraic stacks}
-\label{section-vectorbundles}
-
-\noindent
-Discuss a tiny little bit the notion of a quasi-coherent sheaf on
-an algebraic stack. Especially: Vector bundles on quotient stacks.
-Vector bundles on $B(G)$ where $G$ is a group or an algebraic group.
-Classify vector bundles on $[\mathbf{P}^1/\mathbf{G}_m]$
-(ask Michael Thaddeus).
-
-
-\section{Coarse module spaces (schemes)}
-\label{section-coarse}
-
-\noindent
-Elementary remarks and introduce the theorem of Keel-Mori.
-Applications: Existence without GIT. Discuss how this leads to
-coarse moduli schemes in certain cases (for example
-$\overline{\mathcal{M}}_g$).
-
-
-\section{GIT-stacks?}
-\label{section-GIT}
-
-\begin{definition}
-\label{definition-GIT-stack}
-Let $k$ be a field.
-A {\it GIT-stack}\footnote{This is likely nonstandard notation.}
-$\mathcal{X}$ over $k$ is a quotient stack of the form
+It is not hard to verify that this is a fibred category (omitted).
+In fact it is a stack in groupoids for the fppf topology.
+As usual, the hardest part is to show descent for objects.
+But, if $\{T_i \to T\}$ is an fppf covering for $T$, then the
+pullbacks $\{X_{T_i} \to X_T\}$ form an fppf covering as well.
+Hence given invertible sheaves $\mathcal{L}_i$ on the schemes
+$X_{T_i}$ and isomorphisms between their pullbacks over the schemes
 $$
-\mathcal{X} = [X^{ss}/G]
+X_{T_i \times_T T_j} = X_{T_i} \times_{X_T} X_{T_i}
 $$
-where $G$ is a reductive linear algebraic group over $k$,
-and $X^{ss}$ is the semi-stable locus for an action of $G$ on
-a is a projective scheme $(X, \mathcal{O}_X(1))$ over $k$.
-\end{definition}
+satisfying a suitable cocycle condition we can descend the
+$\mathcal{L}_i$ to an invertible sheaf $\mathcal{L}$ over $X_T$ using
+Descent, Proposition \ref{descent-proposition-fpqc-descent-quasi-coherent}. 
+Details omitted.
+
+
+\section{Examples of inertia stacks}
+\label{section-examples-inertia}
 
 \noindent
-A GIT-stack $\mathcal{X}$ does not come equipped with the data
-of $(G, X, \mathcal{O}_X(1))$. Show GIT-stacks have coarse moduli
-schemes. Show GIT-stacks saitsfy the existence part of the valuative
-criterion of properness. Are GIT-stacks proper?
-Ask Jarod Alper about some of the good properties of the
-morphism $\mathcal{X} \to X$ from a GIT-stack to its coarse
-moduli scheme. Examples:
-\begin{enumerate}
-\item Let $C$ be a projective, smooth,
-geometrically connected curve over $k$. Let
+Here are some examples of inertia stacks.
+
+\begin{example}
+\label{example-inertia-stack-of-X-mod-G}
+Let $S$ be a scheme. Let $G$ be a commutative group.
+Let $X \to S$ be a scheme over $S$.
+Let $a : G \times X \to X$ be an action of $G$ on $X$.
+For $g \in G$ we denote $g : X \to X$ the corresponding automorphism.
+In this case the inertia stack of $[X/G]$
+(see Example \ref{example-X-mod-G-group})
+is given by
+$$	
+I_{[X/G]} = \coprod\nolimits_{g\in G} [X^g/G],
+$$	
+where, given an element $g$ of $G$, the symbol $X^g$ denotes the
+scheme $X^g = \{x \in X \mid g(x) = x\}$. In a formula
+$X^g$ is really the fibre
+product
 $$
-\mathcal{M} = \textit{Sh}(C, r, \mathcal{O}_C)
+X^g =  X \times_{(1, 1), X \times_S X, (g, 1)} X.
+$$ 
+Indeed, for any $S$-scheme $T$, a
+$T$-point on the inertia stack of $[X/G]$ consists of a
+triple $(P/T, \phi, \alpha)$ consisting of a $G$-torsor
+$P\to T$ together with a $G$-equivariant isomorphism
+$\phi : P \to X$, together
+with an automorphism $\alpha$ of $P\to T$ over $T$ such that
+$\phi \circ \alpha = \phi$.
+Since $G$ is a sheaf of \emph{commutative} groups,
+$\alpha$ is, locally in the fppf topology over $T$,
+given by multiplication by some element $g$ of $G$.
+The condition that $\phi \circ \alpha = \phi$ means that $\phi$
+factors through the inclusion of $X^g$
+in $X$, i.e., $\phi$ is obtained by composing that inclusion with a
+morphism $P \to X^\gamma$.
+The above discussion allows us to define a morphism of fibred categories
+$I_{[X/G]} \to \coprod_{g\in G} [X^g/G]$ given on $T$-points by the discussion
+above. We omit showing that this is an equivalence.
+\end{example}
+
+\begin{example}
+\label{example-inertia-stack-of-picard}
+Let $X\to S$ be a morphism of schemes.
+Assume that for any $T \to S$ the base change $f_T : X_T \to T$
+has the property that the map $\mathcal{O}_T \to f_{T, *}\mathcal{O}_{X_T}$
+is an isomorphism. (This implies that $f$ is
+{\it cohomologically flat in dimension $0$} (insert future reference here)
+but is stronger.) Consider the Picard stack $\textit{Pic}_{X/S}$, see
+Example \ref{example-picard-stack}.
+The points of its inertia stack over an
+$S$-scheme $T$ consist of pairs $(\mathcal{L}, \alpha)$
+where $\mathcal{L}$ is a line bundle
+on $X_T$ and $\alpha$ is an automorphism of that line bundle.
+I.e., we can think of $\alpha$ as an element of
+$H^0(X_T, \mathcal{O}_{X_T})^\times = H^0(T, \mathcal{O}_T^*)$
+by our condition. Note that $H^0(T,\mathcal{O}_T^*) = \mathbf{G}_{m,S}(T)$,
+see Groupoids, Example \ref{groupoids-example-multiplicative-group}.
+Hence the inertia stack of $\textit{Pic}_{X/S}$ is
 $$
-be the stack parametrizing locally free sheaves of rank $r$ on
-$C$ with a given trivialization of the determinant. Show that
-$\mathcal{M}$ contains an open dense substack which is a GIT-stack.
-\item Another similar example is to take $\textit{Curves}$ the algebraic
-stack parametrizing (all) flat, proper families of curves
-whose geometric fibres are $1$-dimensional proper schemes
-having arithmetic genus $1$. Then
-$\overline{\mathcal{M}}_g \subset \textit{Curves}$ is an
-open substack which is a GIT-stack.
-\item Weighted projective space stacks.
-\end{enumerate}
-
-
-\section{Irreducible, connected, normal, etc algebraic stacks}
-\label{section-elementary-properties}
-
-\noindent
-In other words, discuss some elementary properties of algebraic stacks.
-Also: dimension, closed substacks, etc.
-If $X$ is a connected smooth algebraic stack over $\mathbf{C}$
-why is dimension the dimension at any point the same?
-
-
-\section{Cohomology groups of stacks}
-\label{section-cohomology}
-
-\noindent
-What is the problem with defining cohomology? (Different sites
-associated to an algebraic stack.)
-What should be the answer? What should be the answer for $[X/G]$?
-Give a definition that just works.
-Compute examples, such as $\mathcal{M}_{1, 1, \mathbf{C}}$ for example.
-Lefschetz trace formula for fixed points of Frobenius
-for a stack over a finite field (focus on what should be true, not on
-what can be proved).
-
-\section{Intersection theory on stacks}
-\label{section-intersection-theory}
-
-\noindent
-Something about how on quotient stacks.
-Compute the following Chow rings:
-\begin{enumerate}
-\item $A_*(B(\mathbf{G}_m))$,
-\item $A_*(B(G))$ where $G$ is a finite cyclic group,
-\item $A_*(\mathcal{P}(a_0, \ldots, a_n))$ where
+I_{\textit{Pic}_{X/S}} = \mathbf{G}_{m,S} \times_S \textit{Pic}_{X/S}.
 $$
-\mathcal{P}(a_0, \ldots, a_n)
-=
-[\mathbf{A}^{n + 1} \setminus \{0\}/\mathbf{G}_m]
-$$
-with $\mathbf{G}_m$ acting with weights $a_0, \ldots, a_n$ on
-$\mathbf{A}^{n + 1}$,
-\item $A_*(B(\text{GL}_n))$, and
-\item $A_*([\mathbf{A}^n/\text{GL}_n])$ (this is actually trivial
-if you know the answer to the previous one).
-\end{enumerate}
-GIT-stacks + fundamental class problem.
-
-\section{Examples of algebraic spaces}
-\label{section-spaces}
-
-\noindent
-Examples of algebraic spaces which are not schemes, and which are still
-completely natural from the point of view of moduli theory:
-\begin{enumerate}
-\item Example of noneffective descent from \cite[Section 6.7]{Ner}.
-The descent is effective in the category of algerbaic spaces.
-Think of this as giving a flat
-family of curves over a base scheme whose total space is
-an algebraic space and all of whose fibres are projective curves.
-\item Similarly: Take a (suitably general) $1$-parameter
-family of smooth surfaces
-of degree $d \geq 4$ in $\mathbf{P}^3$ degenerating to a surface
-having an ordinary double point. After possibly making a double cover
-of the base here exists an algebraic space all of whose fibres are
-smooth surfaces, which is the same as the original family except
-for the central fibre, and with smooth central fibre. But the total
-space is not a scheme.
-\item Related to previous example: Small resolutions of
-threefolds with ordinary double points. There are $2^{\#\text{of nodes}}$
-of them. Explain ``nonseparatedness'' of moduli stack of surfaces.
-\item Hironaka example mod $\mathbf{Z}/2\mathbf{Z}$ if you like.
-\end{enumerate}
+as a stack over $(\textit{Sch}/S)_{fppf}$.
+\end{example}
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+\input{chapters}
 
 \bibliography{my}
 \bibliographystyle{amsalpha}
 
 \end{document}
-
