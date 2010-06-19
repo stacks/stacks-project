@@ -54,38 +54,94 @@ $S = \text{Spec}(\mathbf{Z})$.
 \label{section-stack-of-quasi-coherent-sheaves}
 
 \noindent
-We denote
-$$
-p : \textit{QCoh} \to (\textit{Sch}/S)_{fppf}
-$$
-the category over $(\textit{Sch}/S)_{fppf}$ defined as follows.
+We define a category $\textit{QCoh}$ as follows:
 \begin{enumerate}
-\item An object of $\textit{QCoh}$ is a pair $(T, \mathcal{F})$,
-where $T/S$ is an object of $(\textit{Sch}/S)_{fppf}$, and $\mathcal{F}$
-is a quasi-coherent $\mathcal{O}_T$-module, and
-\item a morphism $(f, \varphi) : (T, \mathcal{F}) \to (T', \mathcal{F}')$
-is a pair consisting of a morphism $f : T \to T'$ of schemes over $S$
+\item An object of $\textit{QCoh}$ is a pair $(X, \mathcal{F})$,
+where $X/S$ is an object of $(\textit{Sch}/S)_{fppf}$, and $\mathcal{F}$
+is a quasi-coherent $\mathcal{O}_X$-module, and
+\item a morphism $(f, \varphi) : (Y, \mathcal{G}) \to (X, \mathcal{F})$
+is a pair consisting of a morphism $f : Y \to X$ of schemes over $S$
 and an $f$-map (see
-Sheaves, Definition \ref{sheaves-definition-f-map})
-$\varphi : \mathcal{F}' \to \mathcal{F}$.
+Sheaves, Section \ref{sheaves-section-ringed-spaces-functoriality-modules})
+$\varphi : \mathcal{F} \to \mathcal{G}$.
+\item The composition of morphisms
+$$
+(Z, \mathcal{H}) \xrightarrow{(g, \psi)}
+(Y, \mathcal{G}) \xrightarrow{(f, \phi)} (X, \mathcal{F})
+$$
+is $(f \circ g, \psi \circ \phi)$ where $\psi \circ \phi$ is
+the composition of $f$-maps.
 \end{enumerate}
-The composition of morphisms
+Thus $\textit{QCoh}$ is a category and
 $$
-(T, \mathcal{F}) \xrightarrow{(f, \varphi)}
-(T', \mathcal{F}') \xrightarrow{(g, \psi)} (T'', \mathcal{F}'')
+p : \textit{QCoh} \to (\textit{Sch}/S)_{fppf},
+\quad
+(X, \mathcal{F}) \mapsto X
 $$
-is $(g \circ f, \varphi \circ \psi)$ where $\varphi \circ \psi$ is
-as in
-Sheaves, Definition \ref{sheaves-definition-composition-f-maps}.
-Thus $\textit{QCoh}$ is a category and $p((T, \mathcal{F})) = T$
-is a functor.
+is a functor. Note that the fibre category of $\textit{QCoh}$ over
+a scheme $X$ is just the category $\textit{QCoh}(X)$
+of quasi-coherent $\mathcal{O}_X$-modules.
+We remark for later use that given
+$(X, \mathcal{F}), (Y, \mathcal{G}) \in \text{Ob}(\textit{QCoh})$
+we have
+\begin{equation}
+\label{equation-morphisms-qcoh}
+\text{Mor}_{\textit{QCoh}}((Y, \mathcal{G}), (X, \mathcal{F}))
+=
+\coprod\nolimits_{f \in \text{Mor}_S(Y, X)}
+\text{Mor}_{\textit{QCoh}(Y)}(f^*\mathcal{F}, \mathcal{G})
+\end{equation}
+See the discussion on $f$-maps of modules in
+Sheaves, Section \ref{sheaves-section-ringed-spaces-functoriality-modules}.
 
 \medskip\noindent
 The category $\textit{QCoh}$ is not a stack over $(\textit{Sch}/S)_{fppf}$
 because its collection of objects is a proper class. On the other hand
-it does satisfy all the axioms of a stack. We get around the
-settheoretical issue in
+we will see that it does satisfy all the axioms of a stack. We will
+get around the set theoretical issue in
 Section \ref{section-stack-of-finitely-generated-quasi-coherent-sheaves}.
+
+\begin{lemma}
+\label{lemma-quasi-coherent-strongly-cartesian}
+A morphism $(f, \varphi) : (Y, \mathcal{G}) \to (X, \mathcal{F})$
+of $\textit{QCoh}$ is strongly cartesian if and only if the
+map $\varphi$ induces an isomorphism $f^*\mathcal{F} \to \mathcal{G}$.
+\end{lemma}
+
+\begin{proof}
+Let $(X, \mathcal{F}) \in \text{Ob}(\textit{QCoh})$.
+Let $f : Y \to X$ be a morphism of $(\textit{Sch}/S)_{fppf}$.
+Note that there is a canonical $f$-map $c : \mathcal{F} \to f^*\mathcal{F}$
+and hence we get a morphism
+$(f, c) : (Y, f^*\mathcal{F}) \to (X, \mathcal{F})$.
+We claim that $(f, c)$ is strongly cartesian.
+Namely, for any object $(Z, \mathcal{H})$ of $\textit{QCoh}$ we have
+\begin{align*}
+\text{Mor}_{\textit{QCoh}}((Z, \mathcal{H}), (Y, f^*\mathcal{F}))
+& =
+\coprod\nolimits_{g : \text{Mor}_S(Z, Y)}
+\text{Mor}_{\textit{QCoh}(Z)}(g^*f^*\mathcal{F}, \mathcal{H}) \\
+& =
+\coprod\nolimits_{g : \text{Mor}_S(Z, Y)}
+\text{Mor}_{\textit{QCoh}(Z)}((f \circ g)^*\mathcal{F}, \mathcal{H}) \\
+& =
+\text{Mor}_{\textit{QCoh}}((Z, \mathcal{H}), (X, \mathcal{F}))
+\times_{\text{Mor}_S(Z, X)} \text{Mor}_S(Z, Y)
+\end{align*}
+where we have used Equation (\ref{equation-morphisms-qcoh}) twice.
+This proves that the condition of
+Categories, Definition \ref{categories-definition-cartesian-over-C}
+holds for $(f, c)$, and hence our claim is true. Now by
+Categories, Lemma \ref{categories-lemma-composition-cartesian}
+we see that isomorphisms are strongly cartesian and
+compositions of strongly cartesian morphisms are strongly cartesian
+which proves the ``if'' part of the lemma. For the converse, note
+that given $(X, \mathcal{F})$ and $f : Y \to X$, if there exists a
+strongly cartesian morphism lifting $f$ with target $(X, \mathcal{F})$
+then it has to be isomorphic to $(f, c)$ (see discussion following
+Categories, Definition \ref{categories-definition-cartesian-over-C}).
+Hence the "only if" part of the lemma holds.
+\end{proof}
 
 \begin{lemma}
 \label{lemma-stack-of-quasi-coherent-sheaves}
@@ -95,21 +151,20 @@ Stacks, Definition \ref{stacks-definition-stack}.
 \end{lemma}
 
 \begin{proof}
-To see this we have to show that (1) $\textit{QCoh}$ is fibred over
-$(\textit{Sch}/S)_{fppf}$ and (2) for any fppf covering
-$\mathcal{U} = \{T_i \to T\}_{i \in I}$ the functor
+It is clear from
+Lemma \ref{lemma-quasi-coherent-strongly-cartesian}
+that $\textit{QCoh}$ is a fibred category over $(\textit{Sch}/S)_{fppf}$.
+Given covering $\mathcal{U} = \{X_i \to X\}_{i \in I}$ of
+$(\textit{Sch}/S)_{fppf}$ the functor
 $$
 \textit{QCoh}(T) \longrightarrow DD(\mathcal{U})
 $$
 is fully faithful and essentially surjective, see
-Stacks, Lemma \ref{stacks-lemma-stack-equivalences}.
-Part (1) follows from the observation that the strongly cartesian morphisms
-of $\textit{QCoh}$ are exactly those morphisms
-$(f, \varphi) : (T, \mathcal{F}) \to (T', \mathcal{F}')$
-such that $\varphi$ induces an isomorphism
-$f^*\mathcal{F}' \to \mathcal{F}$ (details omitted).
-Part (2) follows from
 Descent, Proposition \ref{descent-proposition-fpqc-descent-quasi-coherent}.
+Hence
+Stacks, Lemma \ref{stacks-lemma-stack-equivalences}
+applies to show that $\textit{QCoh}$ satisfies all the
+axioms of a stack.
 \end{proof}
 
 
