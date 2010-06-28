@@ -119,10 +119,10 @@ Namely, for any object $(Z, \mathcal{H})$ of $\textit{QCoh}$ we have
 \begin{align*}
 \text{Mor}_{\textit{QCoh}}((Z, \mathcal{H}), (Y, f^*\mathcal{F}))
 & =
-\coprod\nolimits_{g : \text{Mor}_S(Z, Y)}
+\coprod\nolimits_{g \in \text{Mor}_S(Z, Y)}
 \text{Mor}_{\textit{QCoh}(Z)}(g^*f^*\mathcal{F}, \mathcal{H}) \\
 & =
-\coprod\nolimits_{g : \text{Mor}_S(Z, Y)}
+\coprod\nolimits_{g \in \text{Mor}_S(Z, Y)}
 \text{Mor}_{\textit{QCoh}(Z)}((f \circ g)^*\mathcal{F}, \mathcal{H}) \\
 & =
 \text{Mor}_{\textit{QCoh}}((Z, \mathcal{H}), (X, \mathcal{F}))
@@ -306,6 +306,115 @@ sections, for some infinite cardinal $\kappa$, e.g., $\kappa = \aleph_0$.
 
 \section{The stack of algebraic spaces}
 \label{section-stack-of-spaces}
+
+\noindent
+We define a category $\textit{Spaces}$ as follows:
+\begin{enumerate}
+\item An object of $\textit{Spaces}$ is a morphism $X \to U$
+of algebraic spaces over $S$, where $U$ is representable by an object of
+$(\textit{Sch}/S)_{fppf}$, and
+\item a morphism $(f, g) : (X \to U) \to (Y \to V)$
+is a commutative diagram
+$$
+\xymatrix{
+X \ar[d] \ar[r]_f & Y \ar[d] \\
+U \ar[r]^g & V
+}
+$$
+of morphisms of algebraic spaces over $S$.
+\end{enumerate}
+Thus $\textit{Spaces}$ is a category and
+$$
+p : \textit{Spaces} \to (\textit{Sch}/S)_{fppf},
+\quad
+(X \to U) \mapsto U
+$$
+is a functor. Note that the fibre category of $\textit{Spaces}$ over
+a scheme $U$ is just the category $\textit{Spaces}/U$ of
+algebraic spaces over $U$ (see
+Topologies on Spaces, Section \ref{spaces-topologies-section-procedure}).
+Hence we sometimes think of an object of $\textit{Spaces}$ as a
+pair $X/U$ consisting of a scheme $U$ and an algebraic space $X$ over $U$.
+We remark for later use that given
+$(X/U), (Y/V) \in \text{Ob}(\textit{Spaces})$
+we have
+\begin{equation}
+\label{equation-morphisms-spaces}
+\text{Mor}_{\textit{Spaces}}(X/U, Y/V)
+=
+\coprod\nolimits_{g \in \text{Mor}_S(U, V)}
+\text{Mor}_{\textit{Spaces}/U}(X, U \times_{g, V} Y)
+\end{equation}
+The category $\textit{Spaces}$ is almost, but not quite a stack
+over $(\textit{Sch}/S)_{fppf}$. The problem is a set theoretical
+issue as we will explain below.
+
+\begin{lemma}
+\label{lemma-spaces-strongly-cartesian}
+A morphism $(f, g) : (X \to U) \to (Y \to V)$
+of $\textit{Spaces}$ is strongly cartesian if and only if the
+map $f$ induces an isomorphism $X \to U \times_{g, V} Y$.
+\end{lemma}
+
+\begin{proof}
+Let $Y/V \in \text{Ob}(\textit{Spaces})$.
+Let $g : U \to V$ be a morphism of $(\textit{Sch}/S)_{fppf}$.
+Note that the projection $p : U \times_{g, V} Y \to Y$
+gives rise a morphism
+$(p, g) : U \times_{g, V} Y/U \to Y/V$ of $\textit{Spaces}$.
+We claim that $(p, g)$ is strongly cartesian.
+Namely, for any object $Z/W$ of $\textit{Spaces}$ we have
+\begin{align*}
+\text{Mor}_{\textit{Spaces}}(Z/W, U \times_{g, V} Y/U)
+& =
+\coprod\nolimits_{h \in \text{Mor}_S(W, U)}
+\text{Mor}_{\textit{Spaces}/W}(Z, W \times_{h, U} U \times_{g, V} Y) \\
+& =
+\coprod\nolimits_{h \in \text{Mor}_S(W, U)}
+\text{Mor}_{\textit{Spaces}/W}(Z, W \times_{g \circ h, V} Y) \\
+& =
+\text{Mor}_{\textit{Spaces}}(Z/W, Y/V)
+\times_{\text{Mor}_S(W, V)} \text{Mor}_S(W, U)
+\end{align*}
+where we have used Equation (\ref{equation-morphisms-spaces}) twice.
+This proves that the condition of
+Categories, Definition \ref{categories-definition-cartesian-over-C}
+holds for $(p, g)$, and hence our claim is true. Now by
+Categories, Lemma \ref{categories-lemma-composition-cartesian}
+we see that isomorphisms are strongly cartesian and
+compositions of strongly cartesian morphisms are strongly cartesian
+which proves the ``if'' part of the lemma. For the converse, note
+that given $Y/V$ and $g : U \to V$, if there exists a
+strongly cartesian morphism lifting $g$ with target $Y/V$
+then it has to be isomorphic to $(p, g)$ (see discussion following
+Categories, Definition \ref{categories-definition-cartesian-over-C}).
+Hence the "only if" part of the lemma holds.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-pre-stack-of-spaces}
+The functor $p : \textit{Spaces} \to (\textit{Sch}/S)_{fppf}$
+satisfies conditions (1) and (2) of
+Stacks, Definition \ref{stacks-definition-stack}.
+\end{lemma}
+
+\begin{proof}
+It is follows from
+Lemma \ref{lemma-spaces-strongly-cartesian}
+that $\textit{Spaces}$ is a fibred category over $(\textit{Sch}/S)_{fppf}$
+which proves (1).
+Suppose that $\{U_i \to U\}_{i \in I}$ is a covering of
+$(\textit{Sch}/S)_{fppf}$. Suppose that $X, Y$ are algebraic spaces over
+$U$. Finally, suppose that $\varphi_i : X_{U_i} \to Y_{U_i}$ are morphisms
+of $\textit{Spaces}/U_i$ such that $\varphi_i$ and $\varphi_j$ restrict
+to the same morphisms $X_{U_i \times_U U_j} \to Y_{U_i \times_U U_j}$
+of algebraic spaces over $U_i \times_U U_j$. 
+To prove (2) we have to show that there exists a unique morphism
+$\varphi  : X \to Y$ over $U$ whose base change to $U_i$ is
+equal to $\varphi_i$. As a morphism from $X$ to $Y$ is the same thing
+as a map of sheaves this follows directly from
+Sites, Lemma \ref{sites-lemma-glue-maps}.
+\end{proof}
 
 
 
