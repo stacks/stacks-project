@@ -4,7 +4,7 @@ list_of_labeled_envs = ['lemma', 'proposition', 'theorem', 'remark', 'remarks', 
 
 list_of_proof_envs = ['lemma', 'proposition', 'theorem']
 
-list_of_standard_labels = ['definition', 'lemma', 'proposition', 'theorem', 'remark', 'remarks', 'example', 'exercise', 'situation', 'equation', 'section', 'item']
+list_of_standard_labels = ['definition', 'lemma', 'proposition', 'theorem', 'remark', 'remarks', 'example', 'exercise', 'situation', 'equation', 'section', 'subsection', 'item']
 
 # Get file name
 def get_name():
