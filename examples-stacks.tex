@@ -857,6 +857,11 @@ over $U$ is the disjoint union over $a : U \to \mathcal{B}$
 of the categories of $U \times_{a, \mathcal{B}} \mathcal{G}$-torsors,
 hence is a groupoid.
 
+\medskip\noindent
+In the special case $\mathcal{B} = S$ we recover the category
+$\mathcal{G}\textit{-Torsors}$ introduced in
+Subsection \ref{subsection-torsors-sheaf}.
+
 \begin{lemma}
 \label{lemma-variant-torsors-sheaf-stack-in-groupoids}
 Up to a replacement as in
@@ -922,10 +927,14 @@ Let $B$ be an algebraic space over $S$.
 Let $G$ be a group algebraic space over $B$.
 We define a category $G\textit{-Principal}$ as follows:
 \begin{enumerate}
-\item An object of $G\textit{-Principal}$ is a triple
-$(U, a, X)$ where $U$ is an object of $(\textit{Sch}/S)_{fppf}$
-and $a : U \to B$ is a morphism over $S$, and
-$X$ is a principal homogeneous $G_U$-space over $U$, see
+\item An object of $G\textit{-Principal}$ is a triple $(U, a, X)$ where
+\begin{enumerate}
+\item $U$ is an object of $(\textit{Sch}/S)_{fppf}$,
+\item $a : U \to B$ is a morphism over $S$, and
+\item $X$ is a principal homogeneous $G_U$-space over $U$ where
+$G_U = U \times_{a, B} G$.
+\end{enumerate}
+See
 Groupoids in Spaces,
 Definition \ref{spaces-groupoids-definition-principal-homogeneous-space}.
 \item A morphism $(U, a, X) \to (V, b, Y)$ is given
@@ -1016,10 +1025,13 @@ Let $B$ be an algebraic space over $S$.
 Let $G$ be a group algebraic space over $B$.
 We define a category $G\textit{-Torsors}$ as follows:
 \begin{enumerate}
-\item An object of $G\textit{-Torsors}$ is a triple
-$(U, a, X)$ where $U$ is an object of $(\textit{Sch}/S)_{fppf}$
-and $a : U \to B$ is a morphism, and
-$X$ is an fppf $G_U$-torsor over $U$, see
+\item An object of $G\textit{-Torsors}$ is a triple $(U, a, X)$ where
+\begin{enumerate}
+\item $U$ is an object of $(\textit{Sch}/S)_{fppf}$,
+\item $a : U \to B$ is a morphism, and
+\item $X$ is an fppf $G_U$-torsor over $U$ where $G_U = U \times_{a, B} G$.
+\end{enumerate}
+See
 Groupoids in Spaces,
 Definition \ref{spaces-groupoids-definition-principal-homogeneous-space}.
 \item A morphism $(U, a, X) \to (V, b, Y)$ is given
@@ -1035,7 +1047,7 @@ p : G\textit{-Torsors} \longrightarrow (\textit{Sch}/S)_{fppf},
 $$
 is a functor. Note that the fibre category of $G\textit{-Torsors}$
 over $U$ is the disjoint union over $a : U \to B$
-of the categories of $U \times_{a, B} G$-torsors,
+of the categories of fppf $U \times_{a, B} G$-torsors,
 hence is a groupoid.
 
 \medskip\noindent
@@ -1120,7 +1132,7 @@ in general.
 
 
 
-\section{Quotients by group spaces}
+\section{Quotients by group actions}
 \label{section-group-quotient-stacks}
 
 \noindent
@@ -1169,84 +1181,148 @@ where $f : U \to U'$ is a morphism of schemes over $S$
 and $g : P \to P'$ is a $G$-equivariant morphism over $f$
 which induces an isomorphism $P \cong U \times_{f, U'} P'$, and has
 the property that $\varphi = \varphi' \circ g$.
-\end{enumerate}
-In other words such a morphism fits into the following huge commutative
+In other words $(f, g)$ fits into the following commutative
 diagram
+$$
+\xymatrix{
+P \ar[d] \ar[rrrd]_\varphi \ar[r]^g & P' \ar[d] \ar[rrd]^{\varphi'} \\
+U \ar[rrrd]_a \ar[r]^f & U' \ar[rrd]^{a'} & & X \ar[d] \\
+& & & B
+}
+$$
+\end{enumerate}
+Thus $[[X/G]]$ is a category and
+$$
+p : [[X/G]] \longrightarrow (\textit{Sch}/S)_{fppf},
+\quad
+(U, a, P, \varphi) \longmapsto U
+$$
+is a functor. Note that the fibre category of $[[X/G]]$
+over $U$ is the disjoint union over $a \in \text{Mor}_S(U, B)$
+of $U \times_{a, B} G$-torsors $P$ endowed with a $G$-equivariant
+morphism to $X$. Hence the fibre categories of $[[X/G]]$ are groupoids.
 
+\medskip\noindent
+Note that the functor
+$$
+[[X/G]] \longrightarrow G\textit{-Torsors},
+\quad
+(U, a, P, \varphi) \longmapsto (U, a, P)
+$$
+is a $1$-morphism of categories over $(\textit{Sch}/S)_{fppf}$.
 
-\begin{example}
-\label{example-X-mod-G-groupscheme}
+\begin{lemma}
+\label{lemma-group-quotient-stack-in-groupoids}
+Up to a replacement as in
+Stacks, Remark \ref{stacks-remark-stack-make-small}
+the functor
+$$
+p : [[X/G]] \longrightarrow (\textit{Sch}/S)_{fppf}
+$$
+defines a stack in groupoids over $(\textit{Sch}/S)_{fppf}$.
+\end{lemma}
+
+\begin{proof}
+The most difficult part of the proof is to show that we have descent for
+objects. Suppose that $\{U_i \to U\}_{i \in I}$ is a covering in
+$(\textit{Sch}/S)_{fppf}$. Let
+$\xi_i = (U_i, a_i, P_i, \varphi_i)$ be objects of $[[X/G]]$ over $U_i$,
+and let $\varphi_{ij} : \text{pr}_0^*\xi_i \to \text{pr}_1^*\xi_j$
+be a descent datum. This in particular implies that we get a descent
+datum on the triples $(U_i, a_i, P_i)$ for the stack in groupoids
+$G\textit{-Torsors}$. Hence we may assume that
+$a_i = a|_{U_i}$ for some morphism $a : U \to B$, and
+that $P_i = U_i \times_U P$ for some fppf $G_U = U \times_{a, B} G$-torsor
+$P$ over $U$. Then finally the morphisms $\varphi_i$ are compatible
+with the canonical descent datum on the restrictions $U_i \times_U P$
+and hence define a morphism $\varphi : P \to X$. (For example you
+can use
+Sites, Lemma \ref{sites-lemma-mapping-property-glue}
+or you can use
+Descent on Spaces,
+Lemma \ref{spaces-descent-lemma-fppf-universal-effective-epimorphisms}
+to get $\varphi$.)
+This proves descent for objects.
+We omit the proof of the other two defining properties of a stack in
+groupoids.
+\end{proof}
+
+\begin{remark}
+\label{remark-X-mod-G-group}
 Let $S$ be a scheme.
-Let $G \to S$ be a group scheme over $S$.
-Assume that $G \to S$ is affine.
-Let $X \to S$ be a scheme over $S$.
-Let $a : G \times_S X \to X$
-be an action of $G$ on $X$ over $S$.
-The {\it quotient stack} $[X/G]$ is defined as follows.
+Let $G$ be an abstract group.
+Recall that 
+Let $X$ be an algebraic space over $S$.
+Let $G \to \text{Aut}_S(X)$ be a group homomorphism.
+In this setting we can define $[[X/G]]$ similarly
+to the above as follows:
 \begin{enumerate}
-\item An object of $[X/G]$ consists of a triple
-$(T \to S, P \to T, \varphi : P \to X)$ where
+\item An object of $[[X/G]]$ consists of a triple
+$(U, P, \varphi : P \to X)$ where
 \begin{enumerate}
-\item $T \to S$ is a scheme over $S$,
-\item $P \to T$ is a $G_T$-torsor in fppf topology
-over $T$, and
-\item $\varphi : P \to X$ is a $G$-equivariant morphism of schemes.
+\item $U$ is an object of $(\textit{Sch}/S)_{fppf}$,
+\item $P$ is a sheaf on $(\textit{Sch}/U)_{fppf}$ which comes
+with an action of $G$ that turns it into a torsor under the constant
+sheaf with value $G$, and
+\item $\varphi : P \to X$ is a $G$-equivariant map of sheaves.
 \end{enumerate}
 \item A morphism
-$(h, f) : (T/S, P/T, \varphi) \to (T'/S, P'/T', \varphi')$
-is given by a morphism of schemes $f : T \to T'$ and a $G$-equivariant
-morphism $h : P \to P'$ over $f$ which induces an isomorphism
-$P \cong T \times_{T'} P'$, and such that $\varphi = \varphi' \circ h$.
-\item the functor $[X/G] \to (\textit{Sch}/S)_{fppf}$ is the forgetful
-functor $(T/S, P/T, \varphi) \mapsto T/S$.
+$(f, g) : (U, P, \varphi) \to (U', P', \varphi')$
+is given by a morphism of schemes $f : T \to T'$
+and a $G$-equivariant isomorphism
+$g : P \to f^{-1}P'$ such that $\varphi = \varphi' \circ g$.
 \end{enumerate}
-It is not so hard to verify that this is a fibred category. (Omitted.)
-This is a stack in groupoids for the fppf topology. We omit the proof.
-The hardest part is to show descent for objects. To do this one shows that
-a torsor for an affine group scheme is affine over its base (insert future
-reference here), and we have descent for affine schemes over schemes (see
-Descent, Lemma \ref{descent-lemma-affine}).
-\end{example}
+In exactly the same manner as above we obtain a functor
+$$
+[[X/G]] \longrightarrow (\textit{Sch}/S)_{fppf}
+$$
+which turns $[[X/G]]$ into a stack in groupoids over $(\textit{Sch}/S)_{fppf}$.
+The constant sheaf $\underline{G}$ is (provided the cardinality of $G$ is
+not too large) representable by $G_S$ on $(\textit{Sch}/S)_{fppf}$
+and this version of $[[X/G]]$ is equivalent to the stack
+$[[X/G_S]]$ introduced above.
+\end{remark}
 
-\noindent
-The following example is almost, but not quite the same.
-The difference is that in the example above $G$ is an affine group scheme
-over $S$, and in the example below $G$ is an abstract group.
-The key to the examples is that in both cases all
-$\underline{G}$-torsors on $(\textit{Sch}/S)_{fppf}$ are representable.
+\begin{proposition}
+\label{proposition-equal-quotient-stacks}
+In
+Situation \ref{situation-quotient-stack}
+there exists a canonical equivalence
+$$
+[X/G] \longrightarrow [[X/G]]
+$$
+of stacks in groupoids over $(\textit{Sch}/S)_{fppf}$.
+\end{proposition}
 
-\begin{example}
-\label{example-X-mod-G-group}
-Let $S$ be a scheme.
-Let $G$ be a group.
-Let $X \to S$ be a scheme over $S$.
-Let $a : G \times X \to X$ be an action of $G$ on $X$ over $S$.
-The stack $[X/G]$ is defined as follows.
-\begin{enumerate}
-\item An object of $[X/G]$ consists of a triple
-$(T \to S, P \to T, \varphi : P \to X)$ where
-\begin{enumerate}
-\item $T \to S$ is a scheme over $S$,
-\item $P \to T$ is a $G_T$-torsor over $T$ in the fppf topology, and
-\item $\varphi : P \to X$ is a $G$-equivariant morphism of schemes.
-\end{enumerate}
-\item A morphism
-$(h, f) : (T/S, P/T, \varphi) \to (T'/S, P'/T', \varphi')$
-is given by a morphism of schemes $f : T \to T'$ and a $G$-equivariant
-morphism $h : P \to P'$ over $f$ which induces an isomorphism
-$P \cong T \times_{T'} P'$, and such that $\varphi = \varphi' \circ h$.
-\item the functor $[X/G] \to (\textit{Sch}/S)_{fppf}$ is the forgetful
-functor $(T/S, P/T, \varphi) \mapsto T/S$.
-\end{enumerate}
-It is not so hard to verify that this is a fibred category. (Omitted.)
-This is a stack in groupoids for the fppf topology. We omit the proof.
-The hardest part is to show descent for objects.
-To do this, note that a torsor for an abstract group
-is a separated and etale scheme over its base, and by
-More on Morphisms, Lemma
-\ref{more-morphisms-lemma-separated-locally-quasi-finite-morphisms-fppf-descend}
-we have descent for separated and locally quasi-finite schemes over schemes.
-\end{example}
+\begin{proof}
+Recall that $[X/G]$ is the quotient stack
+associated to the groupoid in algebraic spaces
+$(X, G \times_B X, s, t, c)$, see
+Groupoids in Spaces,
+Definition \ref{spaces-groupoids-definition-quotient-stack}.
+This means that $[X/G]$ is the stackification of the
+category fibred in groupoids $[X/_{\!p}G]$ associated to the functor
+$$
+(\textit{Sch}/S)_{fppf} \longrightarrow \textit{Groupoids},
+\quad
+U \longmapsto (X(U), G(U) \times_{B(U)} X(U), s, t, c)
+$$
+where $s(g, x) = x$, $t(g, x) = a(g, x)$, and
+$c((g, x), (g', x')) = (m(g, g'), x')$. By definition (see
+Categories, Example \ref{categories-example-functor-groupoids})
+an object of $[X/_{\!p}G]$ is a pair $(U, x)$ with $x \in X(U)$.
+Hence we can define a functor
+$$
+[X/_{\!p}G] \longrightarrow [[X/G]],
+\quad
+(U, x) \longrightarrow (U, 
+$$
+
+
+\end{proof}
+
+
+
 
 
 
@@ -1294,8 +1370,8 @@ Let $S$ be a scheme. Let $G$ be a commutative group.
 Let $X \to S$ be a scheme over $S$.
 Let $a : G \times X \to X$ be an action of $G$ on $X$.
 For $g \in G$ we denote $g : X \to X$ the corresponding automorphism.
-In this case the inertia stack of $[X/G]$
-(see Example \ref{example-X-mod-G-group})
+In this case the inertia stack of $[X/G]$ (see
+Remark \ref{remark-X-mod-G-group})
 is given by
 $$	
 I_{[X/G]} = \coprod\nolimits_{g\in G} [X^g/G],
