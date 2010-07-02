@@ -654,8 +654,8 @@ see
 Stacks, Lemma \ref{stacks-lemma-stack-gives-stack-groupoids}.
 In this particular case this simply means $\textit{QCoh}_{fg}'$ has
 the same objects as $\textit{QCoh}_{fg}$ but the morphsms are
-morphisms $(f, \varphi) : (T, \mathcal{F}) \to (T', \mathcal{F}')$
-such that $\varphi$ induces an isomorphism $f^*\mathcal{F}' \to \mathcal{F}$.
+pairs $(f, g) : (U, \mathcal{F}) \to (U', \mathcal{F}')$
+where $g$ is an isomorphism $g : f^*\mathcal{F}' \to \mathcal{F}$.
 
 
 \section{The stack in groupoids of finite type algebraic spaces}
@@ -1438,36 +1438,80 @@ we win.
 
 
 
-\section{Picard stacks}
+\section{The Picard stack}
 \label{section-picard-stack}
 
 \noindent
-Let $f : X \to S$ be a morphism of schemes.
-The {\it Picard stack} $\textit{Pic}_{X/S}$ is defined as follows
+Let $S$ be a scheme.
+Let $\pi : X \to B$ be a morphism of algebraic spaces over $S$.
+We define a category $\textit{Pic}_{X/B}$ as follows:
 \begin{enumerate}
-\item An object is a pair $(T/S, \mathcal{L})$, where $T/S$ is a
-scheme over $S$ and $\mathcal{L}$ is in invertible sheaf on
-the base change $X_T$,
-\item a morphism $(f, \alpha) : (T/S, \mathcal{L}) \to (T'/S, \mathcal{L}')$
-is given by a morphism of schemes $f : T \to T'$ over $S$ and an
-isomorphism $\alpha : f^*\mathcal{L}' \to \mathcal{L}$, and
-\item the structure functor $\textit{Pic}_{X/S} \to (\textit{Sch}/S)_{fppf}$
-is given by the forgetful functor $(T/S, \mathcal{L}) \mapsto T/S$.
+\item An object is a triple $(U, b, \mathcal{L})$, where
+\begin{enumerate}
+\item $U$ is an object of $(\textit{Sch}/S)_{fppf}$,
+\item $b : U \to B$ is a morphism over $S$, and
+\item $\mathcal{L}$ is in invertible sheaf on the base change
+$X_U = U \times_{b, B} X$.
 \end{enumerate}
-It is not hard to verify that this is a fibred category (omitted).
-In fact it is a stack in groupoids for the fppf topology.
+\item A morphism $(f, g) : (U, b, \mathcal{L}) \to (U', b', \mathcal{L}')$
+is given by a morphism of schemes $f : U \to U'$ over $B$ and an
+isomorphism $g : f^*\mathcal{L}' \to \mathcal{L}$.
+\end{enumerate}
+The composition of
+$(f, g) : (U, b, \mathcal{L}) \to (U', b', \mathcal{L}')$
+with
+$(f', g') : (U', b', \mathcal{L}') \to (U'', b'', \mathcal{L}'')$
+is given by $(f \circ f', g \circ f^*(g'))$.
+Thus we get a category $\textit{Pic}_{X/B}$ and
+$$
+p : \textit{Pic}_{X/B} \longrightarrow (\textit{Sch}/S)_{fppf},
+\quad
+(U, b, \mathcal{L}) \longmapsto U
+$$
+is a functor. Note that the fibre category of $\textit{Pic}_{X/B}$ over $U$
+is the disjoint union over $b \in \text{Mor}_S(U, B)$ of the categories
+of invertible sheaves on $X_U = U \times_{b, B} X$. Hence the fibre
+categories are groupoids.
+
+\begin{lemma}
+\label{lemma-picard-stack}
+Up to a replacement as in
+Stacks, Remark \ref{stacks-remark-stack-make-small}
+the functor
+$$
+\textit{Pic}_{X/B} \longrightarrow (\textit{Sch}/S)_{fppf}
+$$
+defines a stack in groupoids over $(\textit{Sch}/S)_{fppf}$.
+\end{lemma}
+
+\begin{proof}
 As usual, the hardest part is to show descent for objects.
-But, if $\{T_i \to T\}$ is an fppf covering for $T$, then the
-pullbacks $\{X_{T_i} \to X_T\}$ form an fppf covering as well.
-Hence given invertible sheaves $\mathcal{L}_i$ on the schemes
-$X_{T_i}$ and isomorphisms between their pullbacks over the schemes
-$$
-X_{T_i \times_T T_j} = X_{T_i} \times_{X_T} X_{T_i}
-$$
-satisfying a suitable cocycle condition we can descend the
-$\mathcal{L}_i$ to an invertible sheaf $\mathcal{L}$ over $X_T$ using
-Descent, Proposition \ref{descent-proposition-fpqc-descent-quasi-coherent}. 
+To see this let $\{U_i \to U\}$ be a covering of $(\textit{Sch}/S)_{fppf}$.
+Let $\xi_i = (U_i, b_i, \mathcal{L}_i)$ be an object of
+$\textit{Pic}_{X/B}$ lying over $U$, and let
+$\varphi_{ij} : \text{pr}_0^*\xi_i \to \text{pr}_1^*\xi_j$
+be a descent datum. This implies in particular that the morphisms
+$b_i$ are the restrictions of a morphism $b : U \to B$.
+Write $X_U = U \times_{b, B} X$ and
+$X_i = U_i \times_{b_i, B} X =
+U_i \times_U U \times_{b, B} X = U_i \times_U X_U$.
+Observe that $\mathcal{L}_i$ is an invertible $\mathcal{O}_{X_i}$-module.
+Note that $\{X_i \to X_U\}$ forms an fppf covering as well.
+Moreover, the descent datum $\varphi_{ij}$ translates into a
+descent datum on the invertible sheaves $\mathcal{L}_i$ relative
+to the fppf covering $\{X_i \to X_U\}$.
+Hence by
+Descent on Spaces,
+Proposition \ref{spaces-descent-proposition-fpqc-descent-quasi-coherent}
+we obtain a unique invertible sheaf $\mathcal{L}$ on $X_U$
+which recovers $\mathcal{L}_i$ and the descent data over $X_i$.
+The triple $(U, b, \mathcal{L})$ is therefore the object of
+$\textit{Pic}_{X/B}$ over $U$ we were looking for.
 Details omitted.
+\end{proof}
+
+
+
 
 
 \section{Examples of inertia stacks}
