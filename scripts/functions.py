@@ -320,6 +320,10 @@ def split_label(label):
 		name = "groupoids-quotients"
 		type = pieces[2]
 		n = 3
+	if name == "stacks" and type == "properties":
+		name = "stacks-properties"
+		type = pieces[2]
+		n = 3
 	while n < len(pieces):
 		rest = rest + "-" + pieces[n]
 		n = n + 1
