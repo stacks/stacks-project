@@ -213,7 +213,7 @@ is surjective.
 
 \begin{proof}
 Namely, suppose given fields $K$, $L$ and morphisms
-$\text{Spec}(K) \to X$, $\text{Spec}(L) \to Y$, then the
+$\text{Spec}(K) \to X$, $\text{Spec}(L) \to Z$, then the
 assumption that they agree as elements of $|Y|$ means that
 there is a common extension $K \subset M$ and $L \subset M$
 such that
@@ -221,6 +221,46 @@ $\text{Spec}(M) \to \text{Spec}(K) \to X \to Y$ and
 $\text{Spec}(M) \to \text{Spec}(L) \to Z \to Y$ agree.
 And this is exactly the condition which says you get a
 morphism $\text{Spec}(M) \to Z \times_Y X$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-characterize-surjective}
+Let $S$ be a scheme.
+Let $X$ be an algebraic space over $S$.
+Let $f : T \to X$ be a morphism from a scheme to $X$.
+The following are equivalent
+\begin{enumerate}
+\item $f : T \to X$ is surjective (according to
+Spaces, Definition \ref{spaces-definition-relative-representable-property}),
+and
+\item $|f| : |T| \to |X|$ is surjective.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Assume (1). Let $x : \text{Spec}(K) \to X$ be a morphism
+from the spectrum of a field into $X$. By assumption the morphism of
+schemes $\text{Spec}(K) \times_X T \to \text{Spec}(K)$ is surjective.
+Hence there exists a field extension $K \subset K'$ and a morphism
+$\text{Spec}(K') \to \text{Spec}(K) \times_X T$ such that the left
+square in the diagram
+$$
+\xymatrix{
+\text{Spec}(K') \ar[r] \ar[d] &
+\text{Spec}(K) \times_X T \ar[d] \ar[r] &
+T \ar[d] \\
+\text{Spec}(K) \ar@{=}[r] &
+\text{Spec}(K) \ar[r]^-x & X
+}
+$$
+is commutative. This shows that $|f| : |T| \to |X|$ is surjective.
+
+\medskip\noindent
+Assume (2). Let $Z \to X$ be a morphism where $Z$ is
+a scheme. We have to show that the morphism of schemes $Z \times_X T \to T$
+is surjective, i.e., that $|Z \times_X T| \to |Z|$ is surjective.
+This follows from (2) and
+Lemma \ref{lemma-points-cartesian}.
 \end{proof}
 
 \begin{lemma}
@@ -236,19 +276,9 @@ and $|X|$ is the quotient of $|U|$ by this equivalence relation.
 \begin{proof}
 The assumption means that $U$ is a scheme, $p : U \to X$ is a surjective,
 etale morphism, $R = U \times_X U$ is a scheme and defines an etale
-equivalence relation on $U$ such that $X = U/R$ as sheaves.
-Let $x : \text{Spec}(K) \to X$ be a morphism
-from the spectrum of a field into $X$. By assumption the scheme
-$\text{Spec}(K) \times_X U$ is nonempty. Hence there exists a
-field extension $K \subset K'$ and a morphism $\text{Spec}(K') \to U$
-such that the diagram
-$$
-\xymatrix{
-\text{Spec}(K') \ar[r] \ar[d] & U \ar[d]^p \\
-\text{Spec}(K) \ar[r]^-x & X
-}
-$$
-is commutative. This shows that $|U| \to |X|$ is surjective. By
+equivalence relation on $U$ such that $X = U/R$ as sheaves. By
+Lemma \ref{lemma-characterize-surjective}
+we see that $|U| \to |X|$ is surjective. By
 Lemma \ref{lemma-points-cartesian}
 the map
 $$
@@ -273,28 +303,18 @@ the map of topological spaces $|U| \to |X|$ is continuous and open.
 \end{lemma}
 
 \begin{proof}
-Let $X$ be an algebraic space over $S$. Let $X = U/R$ be a presentation,
-where $j = (t, s) : R \to U$ is an etale equivalence relation.
-Let $p : U \to X$ denote the etale surjective morphism.
+Let $X$ be an algebraic space over $S$. Let $p : U \to X$ be a
+surjective etale morphism where $U$ is a scheme over $S$.
 We define $W \subset |X|$ is open if and only if $|p|^{-1}(W)$
-is an open subset of $|U|$. This is a topology on $|X|$ by
-the result of Lemma \ref{lemma-points-presentation}.
+is an open subset of $|U|$. This is a topology on $|X|$.
 
 \medskip\noindent
-Let us first prove that $|p| : |U| \to |X|$ is open (of course it is
-already continuous). Namely, if $V \subset U$ is an open subscheme,
-then $V' = t(s^{-1}(V)) \subset U$ is an open subscheme as well
-as the etale morphism $t$ is open (see
-Morphisms, Lemma \ref{morphisms-lemma-fppf-open}).
-Moreover, $|V'| = |p|^{-1}(W)$ with $W = |p|(V)$. In other words
-$|p|(V)$ is open as desired.
-
-\medskip\noindent
-Next, let us prove that the topology is independent of the choice of
+Let us prove that the topology is independent of the choice of
 the presentation. To do this it suffices to show that if $U'$ is a scheme,
 and $U' \to X$ is an etale morphism, then the map $|U'| \to |X|$
-is open and continuous. In this case, let $U'' = U \times_X U'$, so that
-we have the commutative diagram
+(with topology on $|X|$ defined using $U \to X$ as above)
+is open and continuous; which in addition will prove that (2) holds.
+Set $U'' = U \times_X U'$, so that we have the commutative diagram
 $$
 \xymatrix{
 U'' \ar[r] \ar[d] & U' \ar[d] \\
@@ -302,8 +322,8 @@ U \ar[r] & X
 }
 $$
 As $U \to X$ and $U' \to X$ are etale we see that
-both $U'' \to U$ and $U'' \to U'$ are etale. Moreover, $U'' \to U'$
-is surjective. Hence
+both $U'' \to U$ and $U'' \to U'$ are etale morphisms of schemes.
+Moreover, $U'' \to U'$ is surjective. Hence
 we get a commutative diagram of maps of sets
 $$
 \xymatrix{
@@ -311,13 +331,20 @@ $$
 |U| \ar[r] & |X|
 }
 $$
-By the above we know that:
-the horizontal arrows are surjective, continuous and open,
-the left vertical arrow is continuous and open.
-It follows that also the right vertical arrow
-is continuous and open as desired.
+The lower horizontal arrow is surjective (see
+Lemma \ref{lemma-characterize-surjective}
+or
+Lemma \ref{lemma-points-presentation})
+and continuous by definition of the topology on $|X|$.
+The top horizontal arrow is surjective, continuous, and open by
+Morphisms, Lemma \ref{morphisms-lemma-etale-open}.
+The left vertical arrow is continuous and open (by
+Morphisms, Lemma \ref{morphisms-lemma-etale-open}
+again.) Hence it follows formally that the right vertical
+arrow is continuous and open.
 
 \medskip\noindent
+To finish the proof we prove (1).
 Let $a : X \to Y$ be a morphism of algebraic spaces. According to
 Spaces, Lemma \ref{spaces-lemma-lift-morphism-presentations}
 we can find a diagram
@@ -337,11 +364,7 @@ $$
 $$
 where all but the lower horizontal arrows are known to be continuous and
 the two vertical arrows are surjective and open. It follows that the
-lower horizontal arrow is continuous.
-
-\medskip\noindent
-This proves the first part of the lemma. Part (2) was proved in the
-third paragraph of the proof.
+lower horizontal arrow is continuous as desired.
 \end{proof}
 
 \begin{definition}
@@ -418,41 +441,6 @@ By Spaces, Lemma \ref{spaces-lemma-base-change-immersions}
 we see that $Y' = Y \times_X X' \to Y$ is an open immersion.
 If $|f|(|Y|) \subset |X'|$, then clearly $|Y'| = |Y|$. Hence $Y' = Y$ by
 Lemma \ref{lemma-open-subspaces}.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-characterize-surjective}
-Let $S$ be a scheme.
-Let $X$ be an algebraic space over $S$.
-Let $f : T \to X$ be a morphism from a scheme to $X$.
-The following are equivalent
-\begin{enumerate}
-\item $f : T \to X$ is surjective (according to
-Spaces, Definition \ref{spaces-definition-relative-representable-property}),
-and
-\item $|f| : |T| \to |X|$ is surjective.
-\end{enumerate}
-\end{lemma}
-
-\begin{proof}
-Assume (1). Let $U \to X$ be a surjective etale morphism, where $U$ is
-a scheme. By assumption (1) we see that $T \times_X U \to U$ is a surjective
-morphism of schemes. Hence for any $u \in |U|$ there exists a 
-$\tilde t \in |T \times_X U|$ which maps to $u$. The image $t$ of $\tilde t$
-in $|T|$ is a point of $|T|$ which maps to the image of $u$ in $|X|$.
-Since $|X|$ is a quotient of $|U|$ we conclude that $|f|$ is surjective.
-
-\medskip\noindent
-Assume (2). Let $U \to X$ be a surjective etale morphism, where $U$ is
-a scheme. Set $R = U \times_X U$. Note that $T \times_X U \to T$ is a
-surjective etale morphism of schemes. Take $u \in |U|$. By assumption (2)
-we can choose a point $t \in |T|$ which maps to the image of $u$ in $|X|$.
-By Lemma \ref{lemma-points-cartesian} there exists a point
-$\tilde t \in |T \times_X U|$ which maps to $t$ and $u$.
-Hence $T \times_X U \to U$ is surjective (as a morphism of schemes,
-see Lemma \ref{lemma-scheme-points}). By
-Spaces, Lemma \ref{spaces-lemma-representable-morphisms-spaces-property}
-this implies that $T \to X$ is surjective.
 \end{proof}
 
 \begin{lemma}
