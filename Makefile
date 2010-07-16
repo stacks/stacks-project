@@ -38,8 +38,15 @@ DVIS = $(patsubst %,%.dvi,$(LIJST_FDL))
 INSTALLDIR=/home/dejong/html/algebraic_geometry/stacks-git
 #INSTALLDIR=/mnt/data/APACHE/htdocs/stacks-git
 
-# Change this into pdflatex if you want the default target to produce pdf
-LATEX=latex -src
+# Default latex commands
+LATEX := latex -src
+#LATEX := ./scripts/latex.sh $(PWD) "latex -src"
+
+PDFLATEX := pdflatex
+#PDFLATEX := ./scripts/latex.sh $(PWD) pdflatex
+
+FOO_LATEX := $(LATEX)
+#FOO_LATEX := $(PDFLATEX)
 
 # Currently the default target runs latex once for each updated tex file.
 # This is what you want if you are just editing a single tex file and want
@@ -73,15 +80,15 @@ tmp/book.tex: *.tex tmp/index.tex
 
 # Creating aux files
 index.foo: tmp/index.tex
-	$(LATEX) tmp/index.tex
+	$(FOO_LATEX) tmp/index
 	touch index.foo
 
 book.foo: tmp/book.tex
-	$(LATEX) tmp/book.tex
+	$(FOO_LATEX) tmp/book
 	touch book.foo
 
 %.foo: %.tex
-	$(LATEX) $<
+	$(FOO_LATEX) $*
 	touch $*.foo
 
 # Creating bbl files
@@ -103,29 +110,29 @@ book.bar: tmp/book.tex book.foo
 
 # Creating pdf files
 index.pdf: tmp/index.tex index.bar $(FOOS)
-	pdflatex tmp/index.tex
-	pdflatex tmp/index.tex
+	$(PDFLATEX) tmp/index
+	$(PDFLATEX) tmp/index
 
 book.pdf: tmp/book.tex book.bar
-	pdflatex tmp/book.tex
-	pdflatex tmp/book.tex
+	$(PDFLATEX) tmp/book
+	$(PDFLATEX) tmp/book
 
 %.pdf: %.tex %.bar $(FOOS)
-	pdflatex $<
-	pdflatex $<
+	$(PDFLATEX) $*
+	$(PDFLATEX) $*
 
 # Creating dvi files
 index.dvi: tmp/index.tex index.bar $(FOOS)
-	latex tmp/index.tex
-	latex tmp/index.tex
+	$(LATEX) tmp/index
+	$(LATEX) tmp/index
 
 book.dvi: tmp/book.tex book.bar
-	latex tmp/book.tex
-	latex tmp/book.tex
+	$(LATEX) tmp/book
+	$(LATEX) tmp/book
 
 %.dvi : %.tex %.bar $(FOOS)
-	latex -src $<
-	latex -src $<
+	$(LATEX) $*
+	$(LATEX) $*
 
 #
 #
