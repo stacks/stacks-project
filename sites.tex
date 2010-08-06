@@ -302,11 +302,12 @@ $u^p\mathcal{G} = \mathcal{G} \circ u$. Note that by the previous section
 this functor commutes with all limits.
 
 \medskip\noindent
-For $V \in \text{ob}(D)$ let $\mathcal{I}_V = \mathcal{I}^u_V$ denote
-the category with
-$$
+For $V \in \text{ob}(\mathcal{D})$ let $\mathcal{I}^u_V$
+denote the category with
+\begin{equation}
+\label{equation-colim-category}
 \begin{matrix}
-\text{Ob}(\mathcal{I}_V)
+\text{Ob}(\mathcal{I}^u_V)
 &
 =
 &
@@ -317,7 +318,7 @@ U \in \text{Ob}(\mathcal{C}),
 \phi : V \to u(U)
 \}
 \\
-\text{Mor}_{\mathcal{I}_Y}((U, \phi), (U', \phi'))
+\text{Mor}_{\mathcal{I}^u_V}((U, \phi), (U', \phi'))
 &
 =
 &
@@ -327,7 +328,92 @@ f : U \to U' \text{ in }\mathcal{C}
 u(f) \circ \phi = \phi'
 \}
 \end{matrix}
-$$
+\end{equation}
+We sometimes drop the subscript ${}^u$ from the notation and we simply write
+$\mathcal{I}_V$.
+We will use these categories to define a left adjoint to the functor $u^p$.
+Before we do so we prove a few technical lemmas.
+
+\begin{lemma}
+\label{lemma-almost-directed}
+Let $u : \mathcal{C} \to \mathcal{D}$ be a functor between categories.
+Suppose that $\mathcal{C}$ has fibre products and equalizers, and that
+$u$ commutes with them. Then the categories $(\mathcal{I}_V)^{opp}$
+satisfy the hypotheses of
+Categories, Lemma \ref{categories-lemma-split-into-directed}.
+\end{lemma}
+
+\begin{proof}
+There are two conditions to check.
+
+\medskip\noindent
+First, suppose we are given three objects
+$\phi : V \to u(U)$, $\phi' : V \to u(U')$, and $\phi'' : V \to u(U'')$
+and morphisms $a : U' \to U$, $b : U'' \to U$ such that
+$u(a) \circ \phi = \phi'$ and $u(b) \circ \phi = \phi''$.
+We have to show there exists another object $\phi''' : V \to u(U''')$
+and morphisms $c : U''' \to U'$ and $d : U''' \to U''$ such that
+$u(c) \circ \phi = \phi'''$, $u(d) \circ \phi = \phi'''$ and
+$a \circ c = b \circ d$. We take $U''' = U' \times_U U''$
+with $c$ and $d$ the projection morphisms. This works as $u$ commutes
+with fibre products; we omit the verification.
+
+\medskip\noindent
+Second, suppose we are given two objects
+$\phi : V \to u(U)$ and $\phi' : V \to u(U')$
+and morphisms $a, b : (U, \phi) \to (U', \phi')$.
+We have to find a morphism $c : (U'', \phi'') \to (U, \phi)$
+which equalizes $a$ and $b$. Let $c : U'' \to U$ be the equalizer of
+$a$ and $b$ in the category $\mathcal{C}$. As $u$ commutes
+with equalizers and since $u(a) \circ \phi = u(b) \circ \phi = \phi'$
+we obtain a morphism $\phi'' : V \to u(U'')$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-directed}
+Let $u : \mathcal{C} \to \mathcal{D}$ be a functor between categories.
+Assume
+\begin{enumerate}
+\item the category $\mathcal{C}$ has a final object $X$ and
+$u(X)$ is a final object of $\mathcal{D}$ , and
+\item the category $\mathcal{C}$ has fibre products and
+$u$ commutes with them.
+\end{enumerate}
+Then the index categories $(\mathcal{I}^u_V)^{\text{opp}}$ of are filtered (see
+Categories, Definition \ref{categories-definition-directed}).
+\end{lemma}
+
+\begin{proof}
+The assumptions imply that the assumptions of
+Lemma \ref{lemma-almost-directed}
+are satisfied (see the discussion in
+Categories, Section \ref{categories-section-finite-limits}).
+By
+Categories, Lemma \ref{categories-lemma-split-into-directed}
+we see that $\mathcal{I}_V$ is a (possibly empty) disjoint union of
+directed categories.
+Hence it suffices to show that $\mathcal{I}_V$ is nonempty and connected.
+
+\medskip\noindent
+First, we show that $\mathcal{I}_V$ is nonempty.
+Namely, let $X$ be the final object of $\mathcal{C}$,
+which exists by assumption.
+Let $V \to u(X)$ be the morphism coming from the fact
+that $u(X)$ is final in $\mathcal{D}$ by assumption.
+This gives an object of $\mathcal{I}_V$.
+
+\medskip\noindent
+Second, we show that $\mathcal{I}_V$ is connected.
+Let $\phi_1 : V \to u(U_1)$ and $\phi_2 : V \to u(U_2)$ be
+in $\text{Ob}(\mathcal{I}_V)$. By assumption $U_1\times U_2$
+exists and $u(U_1\times U_2) = u(U_1)\times u(U_2)$.
+Consider the morphism $\phi : V \to u(U_1\times U_2)$
+corresponding to $(\phi_1, \phi_2)$ by the universal property
+of products. Clearly the object $\phi : V \to u(U_1\times U_2)$
+maps to both $\phi_1 : V \to u(U_1)$ and $\phi_2 : V \to u(U_2)$.
+\end{proof}
+
+\noindent
 Given $g : V' \to V$ in $\mathcal{D}$ we get a functor
 $\overline{g} : \mathcal{I}_V \to \mathcal{I}_{V'}$
 by setting $\overline{g}(U, \phi) = (U, \phi \circ g)$
@@ -2403,86 +2489,6 @@ $(g \circ f)^{-1} = f^{-1} \circ g^{-1}$ (see proof of
 Lemma \ref{lemma-composition-morphisms-sites}).
 
 \begin{lemma}
-\label{lemma-directed}
-Let $\mathcal{C}$ and $\mathcal{D}$ be sites. Let
-$u : \mathcal{C} \to \mathcal{D}$ be continuous. Assume
-\begin{enumerate}
-\item the category $\mathcal{C}$ has a final object $X$ and
-$u(X)$ is a final object of $\mathcal{D}$ , and
-\item the category $\mathcal{C}$ has fibre products and
-$u$ commutes with them.
-\end{enumerate}
-Then the index categories $(\mathcal{I}^u_V)^{\text{opp}}$ of
-Section \ref{section-functoriality-PSh} are filtered (see
-Categories, Definition \ref{categories-definition-directed}).
-\end{lemma}
-
-\begin{proof}
-First we show that $\mathcal{I}_V$ is nonempty.
-Namely, let $X$ be the final object of $\mathcal{C}$,
-which exists by assumption.
-Let $V \to u(X)$ be the morphism coming from the fact
-that $u(X)$ is final in $\mathcal{D}$ by assumption.
-This gives an object of $\mathcal{I}_V$.
-
-\medskip\noindent
-Let $\phi_1 : V \to u(U_1)$ and $\phi_2 : V \to u(U_2)$ be
-in $\text{Ob}(\mathcal{I}_V)$. By assumption $U_1\times U_2$
-exists and $u(U_1\times U_2) = u(U_1)\times u(U_2)$.
-Consider the morphism $\phi : V \to u(U_1\times U_2)$
-corresponding to $(\phi_1, \phi_2)$ by the universal property
-of products. Clearly the object $\phi : V \to u(U_1\times U_2)$
-maps to both $\phi_1 : V \to u(U_1)$ and $\phi_2 : V \to u(U_2)$.
-
-\medskip\noindent
-Next, suppose $\phi_1 : V \to u(U_1)$ and $\phi_2 : V \to u(U_2)$ are
-in $\text{Ob}(\mathcal{I}_V)$. Let
-$a, b : (U_1, \phi_1) \to (U_2, \phi_2)$
-be morphisms of $\mathcal{I}_V$. By definition
-$a$ is a morphism $a : U_1 \to U_2$ such that $u(a) \circ \phi_1 =
-\phi_2$ and similarly for $b$. In this case, let
-$c : U \to U_1$ be the equalizer of the maps $a, b : U_1 \to U_2$,
-which exists, see
-Categories, Lemma \ref{categories-lemma-finite-limits-exist}.
-Moreover, $u$ commutes with finite limits, see
-Categories, Lemma \ref{categories-lemma-characterize-left-exact},
-and hence $u(c) : u(U) \to u(U_1)$ is the equalizer of
-$u(a), u(b) : u(U_1) \to u(U_2)$. Thus the relation between
-$\phi_1$, $\phi_2$, $a$ and $b$ implies there is a
-morphism $\phi : V \to u(U)$ such that $u(c) \circ \phi = \phi_1$.
-This means in particular that the morphism
-$c$ induces a morphism from $\phi : V \to u(U)$
-to $\phi_1 : V \to u(U_1)$ in $\mathcal{I}_V$.
-By construction it equalizes the morphisms $a$, $b$.
-\end{proof}
-
-\noindent
-We interrupt the flow of the arguments for a technical lemma
-that will be useful later on.
-
-\begin{lemma}
-\label{lemma-almost-directed}
-Let $u : \mathcal{C} \to \mathcal{D}$ be a functor between categories.
-Suppose that $\mathcal{C}$ has fibre products, and that
-$u$ commutes with them. Then the categories $(\mathcal{I}_V^u)^{opp}$ of
-Section \ref{section-functoriality-PSh} satisfy the hypotheses of
-Categories, Lemma \ref{categories-lemma-split-into-directed}.
-\end{lemma}
-
-\begin{proof}
-We have to show that given three objects
-$\phi : V \to u(U)$, $\phi' : V \to u(U')$, $\phi'' : V \to u(U'')$
-and morphisms $a : U' \to U$, $b : U'' \to U$ such that
-$u(a) \circ \phi = \phi'$ and $u(b) \circ \phi = \phi''$ there
-exists another object $\phi''' : V \to u(U''')$ and morphisms
-$c : U''' \to U'$ and $d : U''' \to U''$ such that
-$u(c) \circ \phi = \phi'''$, $u(d) \circ \phi = \phi'''$ and
-$a \circ c = b \circ d$. Of course we take
-$U''' = U' \times_U U''$ with $c$ and $d$ the projection morphisms.
-We leave it to the reader to see that this works.
-\end{proof}
-
-\begin{lemma}
 \label{lemma-directed-morphism}
 Let $\mathcal{C}$ and $\mathcal{D}$ be sites. Let
 $u : \mathcal{C} \to \mathcal{D}$ be continuous.
@@ -3450,7 +3456,7 @@ Assume that
 \begin{enumerate}
 \item[(a)] $u$ is cocontinuous,
 \item[(b)] $u$ is continuous, and
-\item[(c)] fibre products exist in $\mathcal{C}$ and
+\item[(c)] fibre products and equalizers exist in $\mathcal{C}$ and
 $u$ commutes with them.
 \end{enumerate}
 In this case the functor $g_!$ above commutes with fibre products and
@@ -3880,7 +3886,7 @@ commutes with fibre products and equalizers. Alternatively, one can
 prove this directly using the description of $j_{U!}$ in
 Lemma \ref{lemma-describe-j-shriek}
 using that sheafification is exact. (Also, in case $\mathcal{C}$ has
-fibre products, the result follows from
+fibre products and equalizers, the result follows from
 Lemma \ref{lemma-preserve-equalizers}.)
 \end{proof}
 
