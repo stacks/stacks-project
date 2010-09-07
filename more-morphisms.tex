@@ -4095,12 +4095,16 @@ following terminology.
 \begin{definition}
 \label{definition-etale-neighbourhood}
 Let $S$ be a scheme. Let $s \in S$ be a point.
-An {\it etale neighbourhood of $(S, s)$} is a
+\begin{enumerate}
+\item An {\it etale neighbourhood of $(S, s)$} is a
 pair $(U, u)$ together with an etale morphism
 of schemes $\varphi : U \to S$ such that $\varphi(u) = s$.
-A {\it morphism of etale neighbourhoods} $f : (V, v) \to (U, u)$
+\item A {\it morphism of etale neighbourhoods} $f : (V, v) \to (U, u)$
 of $(S, s)$ is simply a morphism of $S$-schemes $f : V \to U$ such
 that $f(v) = u$.
+\item An {\it elementary etale neighbourhood} is an etale neighbourhood
+$\varphi : (U, u) \to (S, s)$ such that $\kappa(s) = \kappa(u)$.
+\end{enumerate}
 \end{definition}
 
 \noindent
@@ -4139,6 +4143,70 @@ We may assume $S$ is affine.
 In this case the lemma follows from
 Algebra, Lemma \ref{algebra-lemma-make-etale-map-prescribed-residue-field}.
 \end{proof}
+
+\begin{lemma}
+\label{lemma-etale-neighbourhoods-not-quite-filtered}
+Let $S$ be a scheme, and let $s$ be a geometric point of $S$.
+The category of etale neighborhoods has the following properties:
+\begin{enumerate}
+\item Let $(U_i, u_i)_{i=1, 2}$ be two etale neighborhoods of
+$s$ in $S$. Then there exists a third etale neighborhood
+$(U, u)$ and morphisms
+$(U, u) \to (U_i, u_i)$, $i = 1, 2$.
+\item Let $h_1, h_2: (U, u) \to (U', u')$ be two
+morphisms between etale neighborhoods of $s$.
+Assume $h_1$, $h_2$ induce the same map $\kappa(u') \to \kappa(u)$ of residue
+fields. Then there exist an etale neighborhood $(U'', u'')$ and a morphism
+$h : (U'', u'') \to (U, u)$
+which equalizes $h_1$ and $h_2$, i.e., such that
+$h_1 \circ h = h_2 \circ h$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+For part (1), consider the fibre product $U = U_1 \times_S U_2$.
+It is etale over both $U_1$ and $U_2$ because etale morphisms are
+preserved under base change, see
+Morphisms, Lemma \ref{morphisms-lemma-base-change-etale}.
+There is a point of $U$ mapping to both $u_1$ and $u_2$ for example
+by the description of points of a fibre product in
+Schemes, Lemma \ref{schemes-lemma-points-fibre-product}.
+For part (2), define $U''$ as the fibre product
+$$
+\xymatrix{
+U'' \ar[r] \ar[d] & U \ar^{(h_1,h_2)}[d] \\
+U' \ar^-\Delta[r] & U' \times_S U'.
+}
+$$
+Since $h_1$ and $h_2$ induce the same map of residue fields
+$\kappa(u') \to \kappa(u)$ there exists a point $u'' \in U''$
+lying over $u'$ with $\kappa(u'') = \kappa(u')$.
+In particular $U'' \not = \emptyset$.
+Moreover, since $U'$ is etale over $S$, so is the fibre product
+$U'\times_S U'$ (see
+Morphisms, Lemmas \ref{morphisms-lemma-base-change-etale} and
+\ref{morphisms-lemma-composition-etale}).
+Hence the vertical arrow $(h_1, h_2)$ is etale by
+Morphisms, Lemma \ref{morphisms-lemma-etale-permanence}.
+Therefore $U''$ is etale over $U'$ by base change, and hence also
+etale over $S$ (because compositions of etale morphisms are etale).
+Thus $(U'', u'')$ is a solution to the problem.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-elementary-etale-neighbourhoods}
+Let $S$ be a scheme, and let $s$ be a geometric point of $S$.
+The category of elementary etale neighborhoods of $(S, s)$
+is cofiltered (see
+Categories, Definition \ref{categories-definition-codirected}).
+\end{lemma}
+
+\begin{proof}
+This is immediate from the definitions and
+Lemma \ref{lemma-etale-neighbourhoods-not-quite-filtered}.
+\end{proof}
+
+
 
 
 
@@ -5321,32 +5389,45 @@ This proves the lemma.
 
 \begin{lemma}
 \label{lemma-smooth-geometrically-irreducible}
-Let $h : Y \to S$ be a smooth morphism of schemes.
-Let $s \in S$ be a point, let $y \in $ with $h(y) = s$.
-Let $T \subset Y_s$ be an open subscheme which is geometrically
-irreducible over $\kappa(s)$ and contains $y$.
-Then there exist an etale neighbourhood $(S', s') \to (S, s)$
+Let $h : Y \to S$ be a morphism of schemes.
+Let $s \in S$ be a point.
+Let $T \subset Y_s$ be an open subscheme.
+Assume
+\begin{enumerate}
+\item $h$ is flat,
+\item $h$ is locally of finite presentation,
+\item $T$ is quasi-compact,
+\item $T$ is geometrically integral over $\kappa(s)$.
+\end{enumerate}
+Then we can find an etale neighbourhood $(S', s') \to (S, s)$
 and an open $V \subset Y_{S'}$ such that
 \begin{enumerate}
-\item $\kappa(s) = \kappa(s')$,
-\item $S'$ is affine,
-\item $V$ is affine,
-\item all fibres of $V \to S'$ are geometrically irreducible,
-\item $V_{s'} \subset T \times_s s'$, and
-\item there exist a point $v \in V$ mapping to $s' \in S'$ and
-to $y \in Y$.
+\item[(a)] $\kappa(s) = \kappa(s')$,
+\item[(b)] all fibres of $V \to S'$ are geometrically ???,
+\item[(c)] $V_{s'} = T \times_s s'$.
 \end{enumerate}
 \end{lemma}
 
 \begin{proof}
+The problem is clearly local on $S$, hence we may replace $S$ by an
+affine open neighbourhood of $s$.
 The topology on $Y_s$ is induced from the topology on $X$, see
 Schemes, Lemma \ref{schemes-lemma-fibre-topological}.
-Hence we can find an open $V \subset Y$ such that $V_s = T$.
-After replacing $Y$ by $V$ we may assume that $Y_s = T$, i.e.,
-that $Y_s$ is geometrically irreducible.
+Hence we can find a quasi-compact open $V \subset Y$ such that $V_s = T$.
+After replacing $Y$ by $V$ we may assume that $Y_s = T$.
+In particular $Y$ is quasi-compact and $Y_s$ is geometrically integral.
+Our goal is then to show that after shrinking $Y$, without shrinking $Y_s$,
+and after replacing $S$ by an elementary etale neighbourhood of $s$
+we get to a situation where all fibres of $Y \to S$ are ???.
 
 \medskip\noindent
-To be continued.
+Write $Y = Y_1 \cup \ldots \cup Y_n$ as a finite union of affine opens.
+If $(Y_i)_s = \emptyset$ then we may throw it out by shrinking $Y$.
+Thus we may assume that each $Y_{i, s}$ is nonempty which implies
+it is geometrically integral.
+
+\medskip\noindent
+To be continued soon...
 \end{proof}
 
 
