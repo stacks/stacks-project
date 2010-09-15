@@ -8,7 +8,7 @@ LIJST = introduction conventions sets categories topology sheaves algebra \
 	sites homology simplicial modules sites-modules injectives cohomology \
 	sites-cohomology hypercovering schemes constructions properties \
 	morphisms coherent divisors limits varieties chow topologies \
-	descent more-morphisms groupoids more-groupoids etale \
+	descent more-morphisms flat groupoids more-groupoids etale \
 	etale-cohomology spaces spaces-properties spaces-morphisms \
 	spaces-topologies spaces-descent spaces-more-morphisms stacks \
 	spaces-groupoids spaces-more-groupoids bootstrap examples-stacks \
