@@ -78,6 +78,10 @@ for name in lijstje:
 			if labeled_env(line):
 				next_labeled = 1
 
+		# New part?
+		if new_part(line):
+			next_labeled = 1
+
 		# Have we found a title?
 		if not have_title and is_title(line):
 			have_title = 1

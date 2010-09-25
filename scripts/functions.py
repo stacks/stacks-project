@@ -2,6 +2,8 @@ list_of_standard_envs = ['abstract', 'verbatim', 'quote', 'itemize', 'list', 'ce
 
 list_of_labeled_envs = ['lemma', 'proposition', 'theorem', 'remark', 'remarks', 'example', 'exercise', 'situation', 'definition']
 
+list_parts = ['section', 'subsection', 'subsubsection', 'phantomsection']
+
 list_of_proof_envs = ['lemma', 'proposition', 'theorem']
 
 list_of_standard_labels = ['definition', 'lemma', 'proposition', 'theorem', 'remark', 'remarks', 'example', 'exercise', 'situation', 'equation', 'section', 'subsection', 'item']
@@ -351,6 +353,15 @@ def labeled_env(env):
 	n = 0
 	while n < len(list_of_labeled_envs):
 		if env.find('{' + list_of_labeled_envs[n] + '}') >= 0:
+			return 1
+		n = n + 1
+	return 0
+
+# Check for start of new part
+def new_part(line):
+	n = 0
+	while n < len(list_parts):
+		if line.find('\\' + list_parts[n]) == 0:
 			return 1
 		n = n + 1
 	return 0
