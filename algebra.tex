@@ -9850,6 +9850,22 @@ Then $e \in R$ is also a lift of $\overline{e}$ in $R/I$.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-lift-idempotents-noncommutative}
+Let $A$ be a possibly noncommutative algebra.
+Let $e \in A$ be an element such that $x = e^2 - e$ is nilpotent.
+Then there exists an idempotent of the form
+$e' = e + x(\sum a_{i, j}e^ix^j) \in A$
+with $a_{i, j} \in \mathbf{Z}$.
+\end{lemma}
+
+\begin{proof}
+Consider the ring $R_n = \mathbf{Z}[e]/((e^2 - e)^n)$. It is clear that
+if we can prove the result for each $R_n$ then the lemma follows.
+In $R_n$ consider the ideal $I = (e^2 - e)$ and apply
+Lemma \ref{lemma-lift-idempotents}.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-product-local}
 Any ring with finitely many maximal ideals and
 locally nilpotent radical is the product of its localizations
@@ -15928,7 +15944,7 @@ Q_j \otimes_{R} M_j$, we conclude $Q_j\subset Q$.
 \end{proof}
 
 \begin{lemma}
-\label{lemma-product-over-coherent-ring}
+\label{lemma-product-over-Noetherian-ring}
 Let $R$ be a Noetherian ring and $A$ a set.
 Then $M = R^A$ is a flat and Mittag-Leffler $R$-module.
 \end{lemma}
@@ -15965,7 +15981,7 @@ $M = R[[t_1, \dots, t_n]]$ is flat and Mittag-Leffler.
 \begin{proof}
 As an $R$-module, we have $M = R^A$ for a (countable) set $A$.
 Hence this lemma is a special case of
-Lemma \ref{lemma-product-over-coherent-ring}.
+Lemma \ref{lemma-product-over-Noetherian-ring}.
 \end{proof}
 
 \begin{example}
@@ -16800,7 +16816,10 @@ out with. Thus the right vertical arrow is injective and we win.
 \label{lemma-completed-direct-sum-ML}
 Let $R$ be a ring. Let $I \subset R$ be an ideal. Let $A$ be a set.
 Assume $R$ is Noetherian and complete with respect to $I$.
-Then the completion
+If $M$ is a finite flat $R$-module, then the completion
+$\left(\bigoplus\nolimits_{\alpha \in A} M\right)^\wedge$
+is a flat and Mittag-Leffler $R$-module.
+In particular, the completion
 $\left(\bigoplus\nolimits_{\alpha \in A} R\right)^\wedge$
 is flat and Mittag-Leffler.
 \end{lemma}
@@ -16808,21 +16827,149 @@ is flat and Mittag-Leffler.
 \begin{proof}
 By
 Lemma \ref{lemma-universally-injective-completion-direct-sum-into-product}
-the map $\left(\bigoplus\nolimits_{\alpha \in A} R\right)^\wedge
-\to \prod_{\alpha \in A} R$ is universally injective. Hence the lemma
-follows from
+the map $\left(\bigoplus\nolimits_{\alpha \in A} M\right)^\wedge
+\to \prod_{\alpha \in A} M$ is universally injective.
+Thus, by
 Lemmas \ref{lemma-ui-flat-domain} and
-\ref{lemma-pure-submodule-ML}.
+\ref{lemma-pure-submodule-ML}
+it suffices to show that $\prod_{\alpha \in A} M$ is flat and Mittag-Leffler.
+By
+Proposition \ref{proposition-characterize-coherent}
+(and
+Lemma \ref{lemma-Noetherian-coherent})
+we see that $\prod_{\alpha \in A} M$ is flat. By
+Lemma \ref{lemma-finite-projective}
+(and
+Lemma \ref{lemma-Noetherian-finite-type-is-finite-presentation})
+we see that $M$ is projective, i.e., we can write
+$K \oplus M = R^{\oplus n}$ for some $R$-module $K$ and some integer $n$.
+Then $\prod_{\alpha \in A} M$ is a direct summand of
+$\prod_{\alpha \in A} R^{\oplus n}$ which is isomorphic to
+$\prod_{(\alpha, i), \alpha \in A, i \in \{1, \ldots, n\}} R$.
+Thus we conclude because a product of copies of $R$ is Mittag-Leffler
+(Lemma \ref{lemma-product-over-Noetherian-ring})
+and because a direct summand of a Mittag-Leffler module
+is Mittag-Leffler
+(Lemma \ref{lemma-pure-submodule-ML}).
 \end{proof}
 
-\begin{remark}
-\label{remark-generalize-completed-direct-sum-ML}
-In fact
-Lemma \ref{lemma-completed-direct-sum-ML}
-holds for $\left(\bigoplus\nolimits_{\alpha \in A} M\right)^\wedge$
-with $M$ finite and flat over $R$.
-\end{remark}
+\begin{lemma}
+\label{lemma-lift-projective}
+Let $R$ be a ring.
+Let $I \subset R$ be an ideal.
+Let $M$ be an $R$-module.
+Assume
+\begin{enumerate}
+\item $I$ is nilpotent,
+\item $M/IM$ is a projective $R/I$-module,
+\item $M$ is a flat $R$-module.
+\end{enumerate}
+Then $M$ is a projective $R$-module.
+\end{lemma}
 
+\begin{proof}
+We can choose a set $A$ and a direct sum decomposition
+$\bigoplus_{\alpha \in A} R/I = M/IM \oplus \overline{K}$
+for some $R/I$-module $\overline{K}$. Write $F = \bigoplus_{\alpha \in A} R$
+for the free $R$-module on $A$.
+Pick a lift $\varphi : F \to M$ of the projection
+map $\bigoplus_{\alpha \in A} R/I \to M/IM$. Choose a lift
+$p : F \to F$ of the projector $\overline{p}$ associated to
+the direct summand $M/IM$ of $\bigoplus_{\alpha \in A} R/I$.
+Note that $p^2 - p \in \text{End}_R(F)$ is a nilpotent
+endomorphism of $F$ (as $I$ is nilpotent and the matrix entries of
+$p^2 - p$ are in $I$). Hence by
+Lemma \ref{lemma-lift-idempotents-noncommutative}
+we can modify our choice of $p$ and assume that $p$ is a projector.
+We may and do replace $\varphi$ by $\varphi \circ p$ so that now
+$\varphi \circ p = \varphi$. Set $M' = \text{Im}(p)$, $K = \text{Ker}(p)$
+so that $M' \oplus K = F$. We are going to show that $M$ is isomorphic
+to $M'$ which will finish the proof. By construction $\varphi(K) = 0$
+and $\varphi$ induces a map $M' \to M$ which is an isomorphism
+modulo $I$. By
+Nakayama's Lemma \ref{lemma-NAK}
+the map $M' \to M$ is surjective. It remains to show that $M' \to M$
+is injective. Since $I^n = 0$ for some $n$, we can use the filtrations
+\begin{align*}
+0 = I^nM \subset I^{n - 1}M \subset \ldots \subset IM \subset M \\
+0 = I^nM \subset I^{n - 1}M' \subset \ldots \subset IM' \subset M'
+\end{align*}
+to see that it suffices to show that the induced maps
+$I^aM'/I^{a + 1}M' \to I^aM/I^{a + 1}M$ are injective. Since both $M'$
+and $M$ are flat $R$-modules we can identify this with the map
+$$
+I^a/I^{a + 1} \otimes_{R/I} M'/IM'
+\longrightarrow
+I^a/I^{a + 1} \otimes_{R/I} M/IM
+$$
+induced by $\varphi$. Since we chose $\varphi$ such that the induced
+map $M'/IM' \to M/IM$ is an isomorphism, we win.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-split-completed-sequence}
+Let $R$ be a ring. Let $I \subset R$ be an ideal.
+Let $0 \to K \to P \to M \to 0$ be a short exact sequence of
+$R$-modules. If $M$ is flat over $R$ and $M/IM$ is a projective
+$R$-module, then the sequence of $I$-adic completions
+$$
+0 \to K^\wedge \to P^\wedge \to M^\wedge \to 0
+$$
+is a split exact sequence.
+\end{lemma}
+
+\begin{proof}
+As $M$ is flat, each of the sequences
+$$
+0 \to K/I^nK \to P/I^nP \to M/I^nM \to 0
+$$
+is short exact, see
+Lemma \ref{lemma-flat-tor-zero}.
+Hence it suffices to show that we can find spittings
+$s_n : M/I^nM \to P/I^nP$ such that $s_{n + 1} \bmod I^n = s_n$.
+We will construct these $s_n$ by induction on $n$.
+Pick any splitting $s_1$, which exists as $M/IM$ is a projective $R/I$-module.
+Assume given $s_n$ for some $n > 0$. Set
+$P_{n + 1} = \{x \in P \mid x \bmod I^nP \in \text{Im}(s_n)\}$.
+The map $\pi : P_{n + 1}/I^{n + 1}P_{n + 1} \to M/I^{n + 1}M$ is surjective
+(details omitted). As $M/I^{n + 1}M$ is projective as a $R/I^{n + 1}$-module
+by
+Lemma \ref{lemma-lift-projective}
+we may choose a section
+$t : M/I^{n + 1}M \to P_{n + 1}/I^{n + 1}P_{n + 1}$
+of $\pi$. Setting $s_{n + 1}$ equal to the composition of
+$t$ with the canonical map $P_{n + 1}/I^{n + 1}P_{n + 1} \to P/I^{n + 1}$
+works.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-lift-ML}
+Let $R$ be a ring.
+Let $I \subset R$ be an ideal.
+Let $R \to S$ be a ring map, and $M$ an $S$-module.
+Assume
+\begin{enumerate}
+\item $R$ is Noetherian and $I$-adically complete,
+\item $R \to S$ is of finite type,
+\item $M$ is a finite $S$-module,
+\item $M$ is flat over $R$, and
+\item $M/IM$ is a projective $R/I$-module.
+\end{enumerate}
+Then the $I$-adic completion $M^\wedge$ is a flat Mittag-Leffler
+$R$-module.
+\end{lemma}
+
+\begin{proof}
+We may write $S$ as a quotient of $R[x_1, \ldots, x_n]$, hence
+we may assume $S = R[x_1, \ldots, x_n]$. Choose a surjection
+$S^{\oplus m} \to M$. By
+Lemma \ref{lemma-split-completed-sequence}
+the module $M^\wedge$ is a direct summand of the module
+$(S^{\oplus m})^\wedge$. Hence it suffices to prove the lemma
+in case $M = S = R[x_1, \ldots, x_n] \cong \bigoplus_{n \in \mathbf{N}} R$.
+In this case the lemma follows from
+Lemma \ref{lemma-completed-direct-sum-ML}.
+\end{proof}
 
 
 
