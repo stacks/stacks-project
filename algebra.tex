@@ -12040,20 +12040,40 @@ this implies $\text{Ass}(M) \not = \emptyset$.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-ass-minimal-prime-support}
+Let $R$ be a Noetherian ring.
+Let $M$ be an $R$-module.
+Any $\mathfrak p \in \text{Supp}(M)$ which is minimal among the elements
+of $\text{Supp}(M)$ is an element of $\text{Ass}(M)$.
+\end{lemma}
+
+\begin{proof}
+If $M$ is a finite $R$-module, then this is a consequence of
+Proposition \ref{proposition-minimal-primes-associated-primes}.
+In general write $M = \bigcup M_\lambda$ as the union of its
+finite submodules, and use that
+$\text{Supp}(M) = \bigcup \text{Supp}(M_\lambda)$
+and
+$\text{Ass}(M) = \bigcup \text{Ass}(M_\lambda)$.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-ass-zero-divisors}
 Let $R$ be a Noetherian ring.
-Let $M$ be a finite $R$-module.
+Let $M$ be an $R$-module.
 The union $\bigcup_{\mathfrak q \in \text{Ass}(M)} \mathfrak q$
 is the set elements of $R$ which are zero divisors on $M$.
 \end{lemma}
 
 \begin{proof}
-Any element in any associated prime clearly is a zero divisor
-on $M$. Conversely, suppose $x \in R$ is a zero divisor on $M$.
+Any element in any associated prime clearly is a zero divisor on $M$.
+Conversely, suppose $x \in R$ is a zero divisor on $M$.
 Consider the submodule $N = \{m \in M \mid xm = 0\}$.
-Since $N$ is not zero it has an associated prime $\mathfrak q$,
-and clearly $x \in \mathfrak q$. But just as clearly $\mathfrak q$
-is also an associated prime of $M$.
+Since $N$ is not zero it has an associated prime $\mathfrak q$ by
+Lemma \ref{lemma-ass-zero}.
+Then $x \in \mathfrak q$ and $\mathfrak q$
+is an associated prime of $M$ by
+Lemma \ref{lemma-ass}.
 \end{proof}
 
 \begin{lemma}
@@ -12064,8 +12084,21 @@ Then $\text{Spec}(\varphi)(\text{Ass}_S(M)) \subset \text{Ass}_R(M)$.
 \end{lemma}
 
 \begin{proof}
-Omitted.
+If $\mathfrak q \in \text{Ass}_S(M)$, then there exists an $m$ in $M$
+such that the annihilator of $m$ in $S$ is $\mathfrak q$. Then the annihilator
+of $m$ in $R$ is $\mathfrak q \cap R$.
 \end{proof}
+
+\begin{remark}
+\label{remark-ass-reverse-functorial}
+Let $\varphi : R \to S$ be a ring map.
+Let $M$ be an $S$-module.
+Then it is not always the case that
+$\text{Spec}(\varphi)(\text{Ass}_S(M)) \supset \text{Ass}_R(M)$.
+For example, consider the ring map
+$R = k \to S = k[x_1, x_2, x_3, \ldots]/(x_i^2)$ and $M = S$.
+Then $\text{Ass}_R(M)$ is not empty, but $\text{Ass}_S(S)$ is empty.
+\end{remark}
 
 \begin{lemma}
 \label{lemma-ass-quotient-ring}
@@ -12216,7 +12249,7 @@ and if $R$ is Noetherian then we have equality.
 
 \begin{proof}
 Suppose that $\mathfrak q \in \text{Ass}_S(N/\mathfrak pN)$ and
-$\mathfrak p \in \text{Ann}_R(M)$. Then there exists an
+$\mathfrak p \in \text{Ass}_R(M)$. Then there exists an
 element $m \in M$ whose annihilator is $\mathfrak p$ and an
 element $\overline{n} \in N/\mathfrak pN$ whose annihilator
 is $\mathfrak q$. In this case the annihilator
@@ -12306,22 +12339,25 @@ Lemma \ref{lemma-localize-ass-nonzero-divisors}.
 \label{lemma-bourbaki-fibres}
 Let $R \to S$ be a ring map.
 Let $M$ be an $R$-module, and let $N$ be an $S$-module.
-Assume $N$ is flat as $R$-module and $R$ Noetherian,
-then
+Assume $N$ is flat as $R$-module. Then
 $$
 \text{Ass}_S(M \otimes_R N) 
-=
+\supset
 \bigcup\nolimits_{\mathfrak p \in \text{Ass}_R(M)}
 \text{Ass}_{S \otimes_R \kappa(\mathfrak p)}(N \otimes_R \kappa(\mathfrak p))
 $$
-where we
+where we use
 Remark \ref{remark-fundamental-diagram}
 to think of the spectra of fibre rings as subsets of $\text{Spec}(S)$.
+If $R$ is Noetherian then this inclusion is an equality.
 \end{lemma}
 
 \begin{proof}
-Combine
-Lemmas \ref{lemma-bourbaki} and
+This is equivalent to
+Lemma \ref{lemma-bourbaki}
+by
+Lemmas \ref{lemma-ass-quotient-ring},
+\ref{lemma-flat-base-change}, and
 \ref{lemma-post-bourbaki}.
 \end{proof}
 
@@ -12481,6 +12517,53 @@ we have $M_{\mathfrak p} \not = 0$, hence $\mathfrak p \in \text{Supp}(M)$.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-weakly-ass-zero-divisors}
+Let $R$ be a ring.
+Let $M$ be an $R$-module.
+The union $\bigcup_{\mathfrak q \in \text{WeakAss}(M)} \mathfrak q$
+is the set elements of $R$ which are zero divisors on $M$.
+\end{lemma}
+
+\begin{proof}
+Suppose $f \in \mathfrak q \in \text{WeakAss}(M)$.
+Then there exists an element $m \in M$ such that
+$\mathfrak q$ is minimal over $I = \{x \in R \mid xm = 0\}$.
+Hence there exists a $g \in R$, $g \not \in \mathfrak p$ and $n > 0$
+such that $f^ngm = 0$. Note that $gm \not = 0$ as $g \not \in I$.
+If we take $n$ minimal as above, then $f (f^{n - 1}gm) = 0$
+and $f^{n - 1}gm \not = 0$, so $f$ is a zero divisor on $M$.
+Conversely, suppose $f \in R$ is a zero divisor on $M$.
+Consider the submodule $N = \{m \in M \mid fm = 0\}$.
+Since $N$ is not zero it has a weakly associated prime $\mathfrak q$ by
+Lemma \ref{lemma-weakly-ass-zero}.
+Clearly $f \in \mathfrak q$ and by
+Lemma \ref{lemma-weakly-ass}
+$\mathfrak q$ is an associated prime of $M$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-weakly-ass-minimal-prime-support}
+Let $R$ be a ring.
+Let $M$ be an $R$-module.
+Any $\mathfrak p \in \text{Supp}(M)$ which is minimal among the elements
+of $\text{Supp}(M)$ is an element of $\text{WeakAss}(M)$.
+\end{lemma}
+
+\begin{proof}
+Note that $\text{Supp}(M_{\mathfrak p}) = \{\mathfrak pR_{\mathfrak p}\}$
+in $\text{Spec}(R_{\mathfrak p})$. In particular $M_{\mathfrak p}$
+is nonzero, and hence $\text{WeakAss}(M_{\mathfrak p}) \not = \emptyset$ by
+Lemma \ref{lemma-weakly-ass-zero}.
+Since $\text{WeakAss}(M_{\mathfrak p}) \subset \text{Supp}(M_{\mathfrak p})$
+by
+Lemma \ref{lemma-weakly-ass-support}
+we conclude that
+$\text{WeakAss}(M_{\mathfrak p}) = \{\mathfrak pR_{\mathfrak p}\}$,
+whence $\mathfrak p \in \text{WeakAss}(M)$ by
+Lemma \ref{lemma-weakly-ass-local}.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-ass-weakly-ass}
 Let $R$ be a ring. Let $M$ be an $R$-module.
 Let $\mathfrak p$ be a prime ideal of $R$ which is finitely generated.
@@ -12512,8 +12595,171 @@ Lemma \ref{lemma-associated-primes-localize}
 we see that $\mathfrak p \in \text{Ass}(M)$.
 \end{proof}
 
+\begin{remark}
+\label{remark-weakly-ass-not-functorial}
+Let $\varphi : R \to S$ be a ring map. Let $M$ be an $S$-module.
+Then it is not always the case that
+$\text{Spec}(\varphi)(\text{WeakAss}_S(M)) \subset \text{WeakAss}_R(M)$
+contrary to the case of associated primes (see
+Lemma \ref{lemma-ass-functorial}).
+An example is to consider the ring map
+$$
+R = k[x_1, x_2, x_3, \ldots] \to
+S = k[x_1, x_2, x_3, \ldots, y_1, y_2, y_3, \ldots]/
+(x_1y_1, x_2y_2, x_3y_3, \ldots)
+$$
+and $M = S$. In this case $\mathfrak q = \sum x_iS$ is a minimal prime of
+$S$, hence a weakly associated prime of $M = S$ (see
+Lemma \ref{lemma-weakly-ass-minimal-prime-support}).
+But on the other hand, for any nonzero element of $S$ the annihilator
+in $R$ is finitely generated, and hence does not
+have radical equal to $R \cap \mathfrak q = (x_1, x_2, x_3, \ldots)$
+(details omitted).
+\end{remark}
 
+\begin{lemma}
+\label{lemma-weakly-ass-reverse-functorial}
+Let $\varphi : R \to S$ be a ring map. Let $M$ be an $S$-module.
+Then we have
+$\text{Spec}(\varphi)(\text{WeakAss}_S(M)) \supset \text{WeakAss}_R(M)$.
+\end{lemma}
 
+\begin{proof}
+Let $\mathfrak p$ be an element of $\text{WeakAss}_R(M)$.
+Then there exists an $m \in M_{\mathfrak p}$ whose annihilator
+$I = \{x \in R_{\mathfrak p} \mid xm = 0\}$ has radical
+$\mathfrak pR_{\mathfrak p}$. Consider the radical
+$J = \{x \in S_{\mathfrak p} \mid xm = 0 \}$ of $m$ in $S_{\mathfrak p}$.
+As $IS_{\mathfrak p} \subset J$ we see that any minimal prime
+$\mathfrak q \subset S_{\mathfrak p}$ over $J$ lies over $\mathfrak p$.
+Moreover such a $\mathfrak q$ corresponds to a weakly associated prime
+of $M$ for example by
+Lemma \ref{lemma-weakly-ass-local}.
+\end{proof}
+
+\begin{remark}
+\label{remark-ass-functorial}
+Let $\varphi : R \to S$ be a ring map. Let $M$ be an $S$-module.
+Denote $f : \text{Spec}(S) \to \text{Spec}(R)$ the associated map on spectra.
+Then we have
+$$
+f(\text{Ass}_S(M)) \subset
+\text{Ass}_R(M) \subset
+\text{WeakAss}_R(M) \subset
+f(\text{WeakAss}_S(M))
+$$
+see
+Lemmas \ref{lemma-ass-functorial},
+\ref{lemma-weakly-ass-reverse-functorial}, and
+\ref{lemma-weakly-ass-support}.
+In general all of the inclusions may be strict, see
+Remarks \ref{remark-ass-reverse-functorial} and
+\ref{remark-weakly-ass-not-functorial}.
+\end{remark}
+
+\begin{lemma}
+\label{lemma-weakly-ass-quotient-ring}
+Let $R$ be a ring.
+Let $I$ be an ideal.
+Let $M$ be an $R/I$-module.
+Via the canonical injection
+$\text{Spec}(R/I) \to \text{Spec}(R)$
+we have $\text{WeakAss}_{R/I}(M) = \text{WeakAss}_{R}(M)$.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-localize-weakly-ass}
+Let $R$ be a ring. Let $M$ be an $R$-module.
+Let $S \subset R$ be a multiplicative subset.
+Via the canonical injection $\text{Spec}(S^{-1}R) \to \text{Spec}(R)$
+we have $\text{WeakAss}_R(S^{-1}M) = \text{WeakAss}_{S^{-1}R}(S^{-1}M)$
+and
+$$
+\text{WeakAss}(M) \cap \text{Spec}(S^{-1}R) = \text{WeakAss}(S^{-1}M).
+$$
+\end{lemma}
+
+\begin{proof}
+Suppose that $m \in S^{-1}M$. Let $I = \{x \in R \mid xm = 0\}$
+and $I' = \{x' \in S^{-1}R \mid x'm = 0\}$. Then $I' = S^{-1}I$
+and $I \cap S = \emptyset$ unless $I = R$ (verifications omitted).
+Thus primes in $S^{-1}R$ minimal over $I'$ correspond bijectively
+to primes in $R$ minimal over $I$ and avoiding $S$. This proves the
+equality $\text{WeakAss}_R(S^{-1}M) = \text{WeakAss}_{S^{-1}R}(S^{-1}M)$.
+The second equality follows from
+Lemma \ref{lemma-associated-primes-localize}
+since for $\mathfrak p \in R$, $S \cap \mathfrak p = \emptyset$ we have
+$M_{\mathfrak p} = (S^{-1}M)_{S^{-1}\mathfrak p}$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-localize-weakly-ass-nonzero-divisors}
+Let $R$ be a ring. Let $M$ be an $R$-module.
+Let $S \subset R$ be a multiplicative subset.
+Assume that every $s \in S$ is a nonzero divisor on $M$.
+Then
+$$
+\text{WeakAss}(M) = \text{WeakAss}(S^{-1}M).
+$$
+\end{lemma}
+
+\begin{proof}
+As $M \subset S^{-1}M$ by assumption we obtain
+$\text{WeakAss}(M) \subset \text{WeakAss}(S^{-1}M)$ from
+Lemma \ref{lemma-weakly-ass}.
+Conversely, suppose that $n/s \in S^{-1}M$ is an element with annihilator
+$I$ and $\mathfrak p$ a prime which is minimal over $I$.
+Then the annihilator of $n \in M$ is $I$ and $\mathfrak p$ is a prime
+minimal over $I$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-zero-at-weakly-ass-zero}
+Let $R$ be a ring. Let $M$ be an $R$-module. The map
+$$
+M
+\longrightarrow
+\prod\nolimits_{\mathfrak p \in \text{WeakAss}(M)} M_{\mathfrak p}
+$$
+is injective.
+\end{lemma}
+
+\begin{proof}
+Let $x \in M$ be an element of the kernel of the map. Set
+$N = Rx \subset M$. If $\mathfrak p$ is a weakly associated prime of $N$
+we see on the one hand that $\mathfrak p \in \text{WeakAss}(M)$
+(Lemma \ref{lemma-weakly-ass})
+and on the other hand that $N_{\mathfrak p} \subset M_{\mathfrak p}$
+is not zero. This contradiction shows that $\text{WeakAss}(N) = \emptyset$.
+Hence $N = 0$, i.e., $x = 0$ by
+Lemma \ref{lemma-weakly-ass-zero}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-weak-post-bourbaki}
+Let $R \to S$ be a ring map.
+Let $N$ be an $S$-module.
+Assume $N$ is flat as an $R$-module and
+$R$ is a domain with fraction field $K$.
+Then
+$$
+\text{WeakAss}_S(N) = \text{WeakAss}_{S \otimes_R K}(N \otimes_R K)
+$$
+via the canonical inclusion
+$\text{Spec}(S \otimes_R K) \subset \text{Spec}(S)$.
+\end{lemma}
+
+\begin{proof}
+Note that $S \otimes_R K = (R \setminus \{0\})^{-1}S$ and
+$N \otimes_R K = (R \setminus \{0\})^{-1}N$.
+For any nonzero $x \in R$ multiplication by $x$ on $N$ is injective as
+$N$ is flat over $R$. Hence the lemma follows from
+Lemma \ref{lemma-localize-weakly-ass-nonzero-divisors}.
+\end{proof}
 
 
 
@@ -17009,7 +17255,8 @@ $Q \otimes_R \left(\prod\nolimits_{\alpha \in A} M\right)$,
 then we see in particular that
 $\sum_j q_j \otimes y_{j, \alpha} = 0$ in $Q \otimes_R M$ for each $\alpha$.
 Thus we can find an element
-$(z_{1, \alpha}, \ldots, z_{k, \alpha}) \in \bigoplus_{l = 1, \ldots, k} M$ which maps to
+$(z_{1, \alpha}, \ldots, z_{k, \alpha}) \in \bigoplus_{l = 1, \ldots, k} M$
+which maps to
 $(y_{1, \alpha}, \ldots, y_{m, \alpha}) \in \bigoplus_{j = 1, \ldots, m} M$.
 Moreover, if $y_{j, \alpha} \in I^{N_\alpha}M$ for $j = 1, \ldots, m$, then
 we may assume that $z_{l, \alpha} \in I^{N_\alpha - c}M$ for
