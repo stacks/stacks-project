@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # This script makes some assumptions that only apply to the stacks project.
 # But if you know how to read this script then it should be fairly easy to
