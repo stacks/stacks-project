@@ -266,6 +266,10 @@ def split_label(label):
 	n = 2
 	# Exceptions...
 	# We should automate this...
+	if name == "more" and type == "algebra":
+		name = "more-algebra"
+		type = pieces[2]
+		n = 3
 	if name == "sites" and type == "cohomology":
 		name = "sites-cohomology"
 		type = pieces[2]
