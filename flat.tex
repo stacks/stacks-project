@@ -81,6 +81,33 @@ Algebra, Lemma \ref{algebra-lemma-lift-etale}.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-etale-at-point}
+Let
+$$
+\xymatrix{
+X \ar[d] & X' \ar[l] \ar[d] \\
+S & S' \ar[l]
+}
+$$
+be a commutative diagram of schemes with $X' \to X$ and $S' \to S$ \'etale.
+Let $s' \in S'$ be a point. Then
+$$
+X' \times_{S'} \text{Spec}(\mathcal{O}_{S', s'})
+\longrightarrow
+X \times_S \text{Spec}(\mathcal{O}_{S', s'})
+$$
+is \'etale.
+\end{lemma}
+
+\begin{proof}
+This is true because $X' \to X_{S'}$ is \'etale as a morphism of
+schemes \'etale over $X$, see
+Morphisms, Lemma \ref{morphisms-lemma-etale-permanence}
+and the base change of an \'etale morphism is \'etale, see
+Morphisms, Lemma \ref{morphisms-lemma-base-change-etale}.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-etale-flat-up-down}
 Let $X \to T \to S$ be morphisms of schemes with $T \to S$ \'etale.
 Let $\mathcal{F}$ be a quasi-coherent $\mathcal{O}_X$-module.
@@ -844,12 +871,12 @@ Coherent, Lemma \ref{coherent-lemma-affine-base-change}.
 Set $n = \dim(\text{Supp}(\mathcal{F}_s)) = \dim_x(\text{Supp}(\mathcal{F}_s))$.
 The morphism $Y'' \to S''$ is smooth of relative dimension $n$
 (because $Y' \to S'$ is smooth of relative dimension $n$
-as the composition $Y' \to Y_{S'} \to S'$ of an etale and
+as the composition $Y' \to Y_{S'} \to S'$ of an \'etale and
 smooth morphism of relative dimension $n$ and because base change
 preserves smooth morphisms of relative dimension $n$).
 We have $\kappa(y'') = \kappa(y)$ and $\kappa(s) = \kappa(s'')$
 hence $\kappa(y'')$ is a purely transcendental extension of $\kappa(s'')$.
-The morphism of fibres $X''_{s''} \to X_s$ is an etale morphism of affine
+The morphism of fibres $X''_{s''} \to X_s$ is an \'etale morphism of affine
 schemes over $\kappa(s) = \kappa(s'')$ mapping the point $x''$ to the
 point $x$ and pulling back $\mathcal{F}_s$ to $\mathcal{F}''_{s''}$.
 Hence
@@ -859,7 +886,7 @@ $$
 \dim_x(\text{Supp}(\mathcal{F}_s)) =
 \dim_{x''}(\text{Supp}(\mathcal{F}''_{s''}))
 $$
-because dimension is invariant under etale localization, see
+because dimension is invariant under \'etale localization, see
 Descent, Lemma \ref{descent-lemma-dimension-at-point-local}.
 As $\pi'' : Z'' \to Y''$ is the base change of $\pi$ we see that
 $\pi''$ is finite and as $\kappa(y) = \kappa(y'')$ we see that
@@ -1324,6 +1351,96 @@ Y'_n \times_{S'} S''
 $$
 gives the complete d\'evissage we were looking for.
 \end{proof}
+
+\noindent
+Some more bookkeeping gives the following consequence.
+
+\begin{lemma}
+\label{lemma-existence-complete}
+Let $X \to S$ be a finite type morphism of schemes.
+Let $\mathcal{F}$ be a finite type quasi-coherent $\mathcal{O}_X$-module.
+Let $s \in S$ be a point.
+There exists an elementary \'etale neighbourhood
+$(S', s') \to (S, s)$ and \'etale morphisms
+$h_i : Y_i \to X_{S'}$, $i = 1, \ldots, n$ such that for each
+$i$ there exists a complete d\'evissage of $\mathcal{F}_i/Y_i/S'$ over $s'$,
+where $\mathcal{F}_i$ is the pullback of $\mathcal{F}_i$ to $Y_i$
+and such that $X_s = (X_{S'})_{s'} \subset \bigcup h_i(Y_i)$.
+\end{lemma}
+
+\begin{proof}
+For every point $x \in X_s$ we can find a diagram
+$$
+\xymatrix{
+(X, x) \ar[d] & (X', x') \ar[l]^g \ar[d] \\
+(S, s) & (S', s') \ar[l]
+}
+$$
+of pointed schemes such that the horizontal arrows are elementary
+\'etale neighbourhoods and such that $g^*\mathcal{F}/X'/S'$ has a
+complete d\'evissage at $x'$. As $X \to S$ is of finite type the
+fibre $X_s$ is quasi-compact, and since each $g : X' \to X$ as above
+is open we can cover $X_s$ by a finite union of $g(X'_{s'})$.
+Thus we can find a finite family of such diagrams
+$$
+\vcenter{
+\xymatrix{
+(X, x) \ar[d] & (X'_i, x'_i) \ar[l]^{g_i} \ar[d] \\
+(S, s) & (S'_i, s'_i) \ar[l]
+}
+}
+\quad i = 1, \ldots, n
+$$
+such that $X_s = \bigcup g_i(X'_i)$. Set
+$S' = S'_1 \times_S \ldots \times_S S'_n$
+and let $Y_i = X_i \times_{S'_i} S'$ be the base change of $X'_i$ to $S'$. By
+Lemma \ref{lemma-base-change-complete}
+we see that the pullback of $\mathcal{F}$ to $Y_i$ has a complete d\'evissage
+over $s$ and we win.
+\end{proof}
+
+
+
+\section{Translation into algebra}
+\label{section-translation}
+
+\noindent
+It may be useful to spell out what it means to have a complete d\'evissage.
+We introduce the following notion (which is not that useful so we give it
+an impossibly long name).
+
+\begin{definition}
+\label{definition-elementary-etale-neighbourhood}
+Let $R \to S$ be a ring map. Let $\mathfrak q$ be a prime of $S$ lying over
+the prime $\mathfrak p$ of $R$. A {\it elementary \'etale localization of
+the ring map $R \to S$ at $\mathfrak q$} is given by diagrams
+$$
+\xymatrix{
+S \ar[r] & S' \\
+R \ar[u] \ar[r] & R' \ar[u]
+}
+\quad\quad
+\xymatrix{
+\mathfrak q \ar@{-}[r] & \mathfrak q' \\
+\mathfrak p \ar@{-}[u] \ar@{-}[r] & \mathfrak p' \ar@{-}[u]
+}
+$$
+such that $R \to R'$ and $S \to S'$ are \'etale ring maps and
+$\kappa(\mathfrak p) = \kappa(\mathfrak p')$ and
+$\kappa(\mathfrak q) = \kappa(\mathfrak q')$.
+\end{definition}
+
+
+\begin{lemma}
+\label{lemma-existence-algebra}
+Let $R \to S$ be a finite type ring map.
+Let $M$ be a finite $S$-module.
+Let $\mathfrak q$ be a prime ideal of $S$.
+
+
+\end{lemma}
+
+
 
 
 
@@ -2083,8 +2200,8 @@ $S$ by an elementary \'etale neighbourhood of $(S, s)$. The goal is then to find
 (after such a replacement) an open
 $V \subset X \times_S \text{Spec}(\mathcal{O}_{S, s})$
 such that $\mathcal{F}|_V$ is flat over $S$ and finitely presented.
-Hence it is clear that we may also assume that $S$ is a local scheme, i.e.,
-the spectrum of a local ring.
+Of course we may also replace $S$ by $\text{Spec}(\mathcal{O}_{S, s})$
+at any point of the proof, i.e., we may assume $S$ is a local scheme.
 We will prove the lemma by induction on the integer
 $n = \dim_x(\text{Supp}(\mathcal{F}_s))$.
 
@@ -2096,8 +2213,9 @@ $e : (S', s') \to (S, s)$,
 \item a commutative diagram
 $$
 \xymatrix{
-X' \ar[d]_g & Z' \ar[l]^i \ar[r]_\pi & Y' \ar[r]_h & S' \ar[d]^e \\
-X \ar[rrr]^f & & & S
+X \ar[dd]_f & X' \ar[dd] \ar[l]^g & Z' \ar[l]^i \ar[d]^\pi \\
+& & Y' \ar[d]^h \\
+S & S' \ar[l]_e & S' \ar@{=}[l]
 }
 $$
 \item a point $z' \in Z'$ with $i(z') = x'$, $y' = \pi(z')$, $h(y') = s'$,
@@ -2105,15 +2223,29 @@ $$
 \end{enumerate}
 as in
 Lemma \ref{lemma-elementary-devissage}.
-Consider the base change of the commutative diagram above to
-$\text{Spec}(\mathcal{O}_{S', s'})$. Since
-$\text{Spec}(\mathcal{O}_{S', s'}) \times_S S' =
-\text{Spec}(\mathcal{O}_{S', s'}) \amalg W$
-where $W$ has empty fibre over the closed point
-we see that we get a diagram as above with $S = S'$ local
-satisfying all the conclusions of
-Lemma \ref{lemma-elementary-devissage}.
-By
+We are going to replace $S$ by $\text{Spec}(\mathcal{O}_{S', s'})$, see
+remarks in first paragraph of the proof. Consider the diagram
+$$
+\xymatrix{
+X_{\mathcal{O}_{S', s'}} \ar[ddr]_f &
+X'_{\mathcal{O}_{S', s'}} \ar[dd] \ar[l]^g &
+Z'_{\mathcal{O}_{S', s'}} \ar[l]^i \ar[d]^\pi \\
+& & Y'_{\mathcal{O}_{S', s'}} \ar[dl]^h \\
+& \text{Spec}(\mathcal{O}_{S', s'})
+}
+$$
+Here we have base changed the schemes $X', Z', Y'$ over $S'$ via
+$\text{Spec}(\mathcal{O}_{S', s'}) \to S'$ and the scheme $X$ over $S$ via
+$\text{Spec}(\mathcal{O}_{S', s'}) \to S$. It is still the case that
+$g$ is \'etale, see
+Lemma \ref{lemma-etale-at-point}.
+After replacing $X$ by $X_{\mathcal{O}_{S', s'}}$,
+$X'$ by $X'_{\mathcal{O}_{S', s'}}$,
+$Z'$ by $Z'_{\mathcal{O}_{S', s'}}$, and
+$Y'$ by $Y'_{\mathcal{O}_{S', s'}}$
+we may assume we have a diagram as
+Lemma \ref{lemma-elementary-devissage}
+where in addition $S = S'$ is a local scheme with closed point $s$. By
 Lemmas \ref{lemma-devissage-finite-presentation} and
 \ref{lemma-devissage-flat}
 the result for $Y' \to S$, the sheaf $\pi_*\mathcal{G}$, and the
