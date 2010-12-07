@@ -2280,6 +2280,12 @@ Hence the determinant $f$ of the $r\times r$ matrix
 $(\delta_{jj'} - i_{jj'})$ is a solution. The other parts are easy.
 \end{proof}
 
+
+
+
+\section{Cayley-Hamilton}
+\label{section-cayley-hamilton}
+
 \begin{lemma}
 \label{lemma-charpoly}
 Let $R$ be a ring. Let $A = (a_{ij})$ be an $n\times n$
@@ -2319,6 +2325,59 @@ there exists a monic polynomial $P$ such that $P(A) = 0$.
 Then it follows that $P(\varphi) = 0$.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-charpoly-module-ideal}
+Let $R$ be a ring. Let $I \subset R$ be an ideal.
+Let $M$ be a finite $R$-module.
+Let $\varphi : M \to M$ be an endomorphism such
+that $\varphi(M) \subset IM$.
+Then there exists a monic polynomial
+$P = t^n + a_1 t^{n - 1} + \ldots + a_n \in R[T]$
+such that $a_j \in I^j$ and $P(\varphi) = 0$ as an endomorphism of $M$.
+\end{lemma}
+
+\begin{proof}
+Choose a surjective $R$-module map $R^{\oplus n} \to M$, given by
+$(a_1, \ldots, a_n) \mapsto \sum a_ix_i$ for some generators $x_i \in M$.
+Choose $(a_{i1}, \ldots, a_{in}) \in I^{\oplus n}$ such that
+$\varphi(x_i) = \sum a_{ij} x_j$. In other words the diagram
+$$
+\xymatrix{
+R^{\oplus n} \ar[d]_A \ar[r] & M \ar[d]^\varphi \\
+I^{\oplus n} \ar[r] & M
+}
+$$
+is commutative where $A = (a_{ij})$. By
+Lemma \ref{lemma-charpoly}
+the polynomial
+$P(t) = \det(t\text{id}_{n\times n} - A)$
+has all the desired properties.
+\end{proof}
+
+\noindent
+As a fun example application we prove the following surprising lemma.
+
+\begin{lemma}
+\label{lemma-fun}
+Let $R$ be a ring.
+Let $M$ be a finite $R$-module.
+Let $\varphi : M \to M$ be a surjective $R$-module map.
+Then $\varphi$ is an isomorphism.
+\end{lemma}
+
+\begin{proof}
+Write $R' = R[x]$ and think of $M$ as a finite $R'$-module with
+$x$ acting via $\varphi$. Set $I = (x) \subset R'$. By our assumption that
+$\varphi$ is surjective we have $IM = M$. Hence we may apply
+Lemma \ref{lemma-charpoly-module-ideal}
+to $M$ as an $R'$ module, the ideal $I$ and the endomorphism $\text{id}_M$.
+We conclude that
+$(1 + a_1 + \ldots + a_n)\text{id}_M = 0$ with $a_j \in I$.
+Write $a_j = b_j(x)x$ for some $b_j(x) \in R[x]$.
+Translating back into $\varphi$ we see that
+$\text{id}_M = -(\sum_{j = 1, \ldots, n} b_j(\varphi) \varphi$ and hence
+$\varphi$ is invertible.
+\end{proof}
 
 
 
@@ -12632,12 +12691,12 @@ if $R \to S$ is of finite type.
 \begin{definition}
 \label{definition-relative-assassin}
 Let $R \to S$ be a ring map. Let $N$ be an $S$-module.
-The {\it relative assassin of $M$ over $S/R$} is the set
+The {\it relative assassin of $N$ over $S/R$} is the set
 $$
-\text{Ass}_{S/R}(M)
+\text{Ass}_{S/R}(N)
 =
 \{ \mathfrak q \subset S \mid
-\mathfrak q \in \text{Ass}_S(M \otimes_R \kappa(\mathfrak p))
+\mathfrak q \in \text{Ass}_S(N \otimes_R \kappa(\mathfrak p))
 \text{ with }\mathfrak p = R \cap \mathfrak q\}.
 $$
 This is the set named $A$ in
