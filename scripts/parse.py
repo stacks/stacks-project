@@ -16,6 +16,7 @@ for name in lijstje:
 	line_nr = 0
 	verbatim = 0
 	next_labeled = 0
+	in_lab_env = 0
 	def_text = ""
 	for line in tex_file:
 
@@ -67,6 +68,7 @@ for name in lijstje:
 			if next_labeled:
 				error_text = "No label for environment."
 				print_error(error_text, line, name, line_nr)
+
 		# Reset boolean
 		next_labeled = 0
 
@@ -75,8 +77,19 @@ for name in lijstje:
 			if not standard_env(line):
 				error_text = 'Not a standard environment.'
 				print_error(error_text, line, name, line_nr)
-			if labeled_env(line):
-				next_labeled = 1
+
+		# Beginning labeled environment?
+		if labeled_env(line):
+			# Equations are allowed to occur inside labeled envs
+			if in_lab_env and line.find("\\begin{equation}") < 0:
+				error_text = 'Nested environments.'
+				print_error(error_text, line, name, line_nr)
+			in_lab_env = 1
+			next_labeled = 1
+
+		# End labeled environment?
+		if end_labeled_env(line):
+			in_lab_env = 0
 
 		# New part?
 		if new_part(line):

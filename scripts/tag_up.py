@@ -72,7 +72,7 @@ for line in tex_file:
 		continue
 
 	# Lines with labeled environments
-	if beginning_of_env(line) and labeled_env(line):
+	if labeled_env(line):
 		oldline = line
 		line = tex_file.next()
 		short = find_label(line)
@@ -84,7 +84,7 @@ for line in tex_file:
 			# ZZZZ is used as pointer to nonexistent tags
 			print "\\renewcommand{\\TAG}{ZZZZ}"
 			print oldline,
-			print line
+			print line,
 			continue
 		print "\\renewcommand{\\TAG}{" + label_tags[label] + "}"
 		print oldline,

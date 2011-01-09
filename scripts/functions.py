@@ -1,6 +1,6 @@
 list_of_standard_envs = ['abstract', 'verbatim', 'quote', 'itemize', 'list', 'center', 'eqnarray*', 'eqnarray', 'align', 'align*', 'document', 'equation', 'enumerate', 'proof', 'matrix', 'lemma', 'proposition', 'theorem', 'remark', 'remarks', 'example', 'exercise', 'situation', 'equation', 'definition', 'item']
 
-list_of_labeled_envs = ['lemma', 'proposition', 'theorem', 'remark', 'remarks', 'example', 'exercise', 'situation', 'definition']
+list_of_labeled_envs = ['lemma', 'proposition', 'theorem', 'remark', 'remarks', 'example', 'exercise', 'situation', 'equation', 'definition']
 
 list_parts = ['section', 'subsection', 'subsubsection', 'phantomsection']
 
@@ -356,7 +356,15 @@ def standard_env(env):
 def labeled_env(env):
 	n = 0
 	while n < len(list_of_labeled_envs):
-		if env.find('{' + list_of_labeled_envs[n] + '}') >= 0:
+		if env.find('\\begin{' + list_of_labeled_envs[n] + '}') == 0:
+			return 1
+		n = n + 1
+	return 0
+
+def end_labeled_env(env):
+	n = 0
+	while n < len(list_of_labeled_envs):
+		if env.find('\\end{' + list_of_labeled_envs[n] + '}') == 0:
 			return 1
 		n = n + 1
 	return 0
