@@ -80,12 +80,12 @@ for name in lijstje:
 		# See if labeled environment starts
 		if labeled_env(line) and line.find("\\begin{equation}") < 0:
 			in_lab_env = 1
-			text = line.rstrip() + "<br>\n"
+			text = line
 			line = tex_file.next()
 			label = name + "-" + find_label(line)
 
 		if in_lab_env:
-			text = text + line.rstrip() + "<br>\n"
+			text = text + line
 			if end_labeled_env(line) and line.find("\\end{equation}") < 0:
 				in_lab_env = 0
 				label_texts[label] = text
@@ -166,9 +166,9 @@ print "echo \"</a> of the book version.</li></ul>\\n\";"
 print "if (array_key_exists($TAG, $tag_text)) {"
 print "echo \"The latex code of the corresponding environment is:\\n\";"
 print "echo \"<div style=\\\"font-family: monospace; text-align: left; display: table\\\">\\n\";"
-print "echo \"<p>\\n\";"
-print "echo $tag_text[$TAG];"
-print "echo \"</p>\\n\";"
+print "echo \"<pre>\\n\";"
+print "print htmlspecialchars($tag_text[$TAG]);"
+print "echo \"</pre>\\n\";"
 print "echo \"</div>\\n\";"
 print "}"
 print "}"
