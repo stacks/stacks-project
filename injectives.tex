@@ -248,298 +248,379 @@ embeddings.
 \medskip\noindent
 Precise statements and proofs omitted.
 
-\subsection{The small object argument}
 
+
+\section{Baer's argument for modules}
+\label{section-baer}
+
+\noindent
 There is another, more set-theoretic approach to showing that any $R$-module
-$M$ can be imbedded in an injective module.
-This approach, which constructs the injective module by  a transfinite
-colimit of push-outs, is essentially analogous to the ``small object
-argument'' that one uses in homotopy theory to show that certain categories
-(e.g. the category of CW complexes) are model categories in the sense of
-Quillen; see \cite{Ho07}.
-While this method is somewhat abstract and more complicated than the one of 
-\cref{ssecinj}, it is also more general. In \cite{Gr57}, it is used to
-show that many other abelian categories (a term we do not define) have the
-same property that any object can be imbedded in an injective. This is
-important in homological algebra, where it is necessary to define derived
-functors.
+$M$ can be imbedded in an injective module. This approach constructs
+the injective module by a transfinite colimit of push-outs. While this
+method is somewhat abstract and more complicated than the one of 
+Section \ref{section-injectives-modules},
+it is also more general. Apparently this method originates with Baer,
+and was revisited by Cartan and Eilenberg in
+\cite{Cartan-Eilenberg} and by Grothendieck in \cite{Tohoku}.
+There Grothendieck uses it to show that
+many other abelian categories have enough injectives. We will get back to
+the general case later (insert future reference here).
 
-
-We first begin with a few remarks on smallness.
-Let $\{B_{\alpha}\}, \alpha \in \mathcal{A}$ be an inductive system of objects in some
-category $\mathcal{C}$, indexed by
-an ordinal $\mathcal{A}$. Let us assume that $\mathcal{C}$ has (small)
-colimits. If $A$ is an object of $\mathcal{C}$, then there is a
+\medskip\noindent
+We begin with a few set theoretic remarks.
+Let $\{B_{\beta}\}_{\beta \in \alpha}$ be an inductive system of
+objects in some category $\mathcal{C}$, indexed by
+an ordinal $\alpha$. Assume that $\text{colim}_{\beta \in \alpha}\ B_\beta$
+exists in $\mathcal{C}$. If $A$ is an object of $\mathcal{C}$, then there is a
 natural map
-\[ \varinjlim \hom(A, B_\alpha) \to \hom(A, \varinjlim B_\alpha)  \]
+\begin{equation}
+\label{equation-compare}
+\text{colim}_{\beta \in \alpha}\ \text{Mor}_{\mathcal{C}}(A, B_\beta)
+\longrightarrow
+\text{Mor}_{\mathcal{C}}(A, \text{colim}_{\beta \in \alpha}\ B_\beta).
+\end{equation}
 because if one is given a map $A \to B_\beta$ for some $\beta$, one
-naturally gets a map from $A$  into the colimit by composing with $B_\beta
-\to \varinjlim B_\alpha$. (Note that the left colimit is one of sets!)
+naturally gets a map from $A$  into the colimit by composing with
+$B_\beta \to \text{colim}_{\beta \in \alpha}\ B_\alpha$.
+Note that the left colimit is one of sets! In general, (\ref{equation-compare})
+is neither injective or surjective.
 
+\begin{example}
+\label{example-not-surjective}
+Consider the category of sets. Let $A = \mathbf{N}$ and
+$B_n = \{1, \dots, n\}$ be the inductive system indexed by the natural numbers
+where $B_n \to B_m$ for $n \leq m$ is the obvious map. Then
+$\text{colim}\ B_n = \mathbf{N}$, so there is a map
+$A \to \varinjlim B_n$, which does not factor as $A \to B_m$
+for any $m$. Consequently,
+$\text{colim}\ \text{Mor}(A, B_n) \to \text{Mor}(A, \text{colim}\ B_n)$
+is not surjective.
+\end{example}
 
-In general, this map is neither injective or surjective.
-
-\begin{example} 
-Consider the category of sets. Let $A = \mathbb{N}$ and $B_n = \left\{1,
-\dots, n\right\}$ be the inductive system indexed by the natural numbers
-(where $B_n \to B_{m}, n \leq m$ is the obvious map). Then $\varinjlim B_n =
-\mathbb{N}$, so there is a map
-\[ A \to \varinjlim B_n,  \]
-which does not factor as 
-\[ A \to B_m  \]
-for any $m$. Consequently, $\varinjlim \hom(A, B_n) \to \hom(A, \varinjlim
-B_n)$ is not surjective.
-\end{example} 
-
-\begin{example} 
+\begin{example}
+\label{example-not-injective}
 Next we give an example where the map fails to be injective. Let $B_n =
-\mathbb{N}/\left\{1,  2, \dots, n\right\}$, that is, the quotient set of
+\mathbb{N}/\{1,  2, \dots, n\}$, that is, the quotient set of
 $\mathbb{N}$ with the first $n$ elements collapsed to one element.
 There are natural maps $B_n \to B_m$ for $n \leq m$, so the
-$\left\{B_n\right\}$ form an inductive system. It is easy to see that the
-colimit $\varinjlim B_n = \left\{\ast \right\}$: it is the one-point set.
-So it follows that $\hom(A, \varinjlim B_n)$ is a one-element set.
-
-However, $\varinjlim \hom(A , B_n)$ is \emph{not} a one-element set. 
+$\{B_n\}$ form a system of sets over $\mathbf{N}$. It is easy to see that
+$\text{colim}\ B_n = \{*\}$: it is the one-point set.
+So it follows that $\text{Mor}(A, \text{colim}\ B_n)$ is a one-element set
+for every set $A$.
+However, $\text{colim}\ \text{Mor}(A , B_n)$ is {\bf not} a one-element set. 
 Consider the family of maps $A \to B_n$ which are just the natural projections
-$\mathbb{N} \to \mathbb{N}/\left\{1, 2, \dots, n\right\}$ and the family of
+$\mathbb{N} \to \mathbb{N}/\{1, 2, \dots, n\}$ and the family of
 maps $A \to B_n$ which map the whole of $A$ to the class of $1$.
 These two families of maps are distinct at each step and thus are distinct in
-$\varinjlim \hom(A, B_n)$, but they induce the same map $A \to \varinjlim B_n$.
+$\text{colim}\ \text{Mor}(A, B_n)$, but they induce the same map
+$A \to \text{colim}\ B_n$.
 \end{example} 
 
+\noindent
+Nonetheless, if we map out of a finite set then
+(\ref{equation-compare}) is an isomorphism always.
 
-Nonetheless, if $A$ is a \emph{finite set}, it is easy to see that for any
-sequence of sets $B_1 \to B_2 \to \dots$, we have
-\[ \varinjlim \hom(A, B_n) = \hom(A, \varinjlim B_n).  \]
+\begin{lemma}
+\label{lemma-out-of-finite}
+Suppose that, in (\ref{equation-compare}), $\mathcal{C}$ is the category
+of sets and $A$ is a {\it finite set}, then the map is a bijection.
+\end{lemma}
+
 \begin{proof} 
-Let $f: A \to \varinjlim B_n$. The range of $A$ is finite, containing say
-elements $c_1, \dots, c_r \in \varinjlim B_n$. These all come from some
-elements in $B_N$ for $N$ large by definition of the colimit. Thus we can
-define $\widetilde{f}: A \to B_N$ lifting $f$ at a finite stage.
-
-Next, suppose two  maps $f_n: A \to B_m,
-g_n : A \to B_m$  define the same map $A \to \varinjlim B_n$.
+Let $f : A \to \text{colim}\ B_\beta$.
+The range of $f$ is finite, containing say
+elements $c_1, \dots, c_r \in \text{colim}\ B_\beta$.
+These all come from some elements in $B_\beta$ for $\beta \in \alpha$
+large by definition of the colimit. Thus we can define
+$\widetilde{f} : A \to B_\beta$ lifting $f$ at a finite stage.
+This proves that (\ref{equation-compare}) is surjective.
+Next, suppose two maps $f : A \to B_\gamma, f' : A \to B_{\gamma'}$
+define the same map $A \to \text{colim}\ B_\beta$.
 Then each of the finitely many elements of $A$ gets sent to the same point in
-the colimit. By definition of the colimit for sets, there is $N \geq m$ such
-that the finitely many elements of $A$ get sent to the same points in $B_N$
-under $f$ and $g$. This shows that $\varinjlim \hom(A, B_n) \to \hom(A,
-\varinjlim B_n)$ is injective.
+the colimit. By definition of the colimit for sets, there is
+$\beta \geq \gamma, \gamma'$ such that the finitely many elements of
+$A$ get sent to the same points in $B_\beta$ under $f$ and $f'$.
+This proves that (\ref{equation-compare}) is injective.
 \end{proof} 
 
-
+\noindent
+The most interesting case of the lemma is when $\alpha = \omega$, i.e.,
+when the system $\{B_\beta\}$ is a system $\{B_n\}_{n \in \mathbf{N}}$
+over the natural numbers as in
+Examples \ref{example-not-surjective} and
+\ref{example-not-injective}.
 The essential idea is that $A$ is ``small'' relative to the long chain of
 compositions $B_1 \to B_2 \to \dots$, so that it has to factor through a
-finite step.
+finite step. A more general version of this lemma can be found in
+Sets, Lemma \ref{sets-lemma-map-from-set-lifts}.
+Next, we generalize this to the category of modules.
 
-Let us generalize this.
-
-\begin{definition} 
-Let $\mathcal{C}$ be a category, $I $ a class of maps, and $\omega$ an ordinal.
-An object $A \in \mathcal{C}$ is said to be $\omega$-\textbf{small} (with
-respect to $I$) if
-whenever $\{B_\alpha\}$ is an inductive system parametrized by $\omega$ with
-maps in $I$, then
-the map
-\[ \varinjlim \hom(A, B_\alpha) \to \hom(A, \varinjlim B_\alpha)  \]
-is an isomorphism. 
+\begin{definition}
+\label{definition-small}
+Let $\mathcal{C}$ be a category, let $I \subset \text{Arrow}(\mathcal{C})$,
+and let $\alpha$ be an ordinal. An object $A$ of $\mathcal{C}$ is said to
+be {\it $\alpha$-small with respect to $I$} if whenever $\{B_\beta\}$ is
+a system over $\alpha$ with transition maps in $I$, then
+the map (\ref{equation-compare}) is an isomorphism. 
 \end{definition} 
 
-Our definition varies slightly from that of \cite{Ho07}, where only ``nice''
-transfinite sequences $\left\{B_\alpha\right\}$ are considered.
-
-In our applications, we shall begin by restricting ourselves to the category
-of $R$-modules for a fixed commutative ring $R$.
-We shall also take $I$ to be the set of \emph{monomorphisms,} or
-injections.\footnote{There are, incidentally, categories, such as the category
-of rings, where a categorical epimorphism may not be a surjection of sets.}
-Then each of the maps
-\[ B_\beta \to \varinjlim B_\alpha  \]
-is an injection, so it follows that 
-$\hom(A, B_\beta )\to \hom (A, \varinjlim  B_\alpha)$ is one, and in
-particular the canonical map
-\begin{equation} \label{homcolimmap} \varinjlim \hom(A, B_\alpha) \to \hom (A,
-\varinjlim  B_\alpha)  \end{equation}
-is an \emph{injection.}
-We can in fact interpret the $B_\alpha$'s as subobjects of the big module
-$\varinjlim B_\alpha$, and think of their union as $\varinjlim B_\alpha$.
-(This is not an abuse of notation if we identify $B_\alpha$ with the image in
-the colimit.)
-
+\noindent
+In the rest of this section we shall restrict ourselves
+to the category of $R$-modules for a fixed commutative ring $R$.
+We shall also take $I$ to be the collection of injective maps, i.e., the
+{\it monomorphisms} in the category of modules over $R$. In this case, for
+any system $\{B_\beta\}$ as in the definition each of the maps
+$$
+B_\beta \to \text{colim}_{\beta \in \alpha}\ B_\beta
+$$
+is an injection. It follows that the map (\ref{equation-compare}) is an
+{\it injection}. We can in fact interpret the $B_\beta$'s as submodules
+of the module $B = \text{colim}_{\beta \in \alpha} B_\beta$, and then we
+have $B = \bigcup_{\beta \in \alpha} B_\beta$. This is not an abuse of
+notation if we identify $B_\alpha$ with the image in the colimit.
 We now want to show that modules are always small for ``large'' ordinals
-$\omega$.
-For this, we have to digress to do some set theory:
+$\alpha$.
 
-\begin{definition} 
-Let $\omega$ be a \emph{limit} ordinal, and $\kappa$ a cardinal. Then $\omega$ is
-\textbf{$\kappa$-filtered} if every collection $C$ of ordinals strictly less
-than $\omega$ and of cardinality at most $\kappa$ has an upper bound strictly
-less than $\omega$.
-\end{definition} 
-
-\begin{example} \label{limitordfinfiltered}
-A limit ordinal (e.g. the natural numbers $\omega_0$) is $\kappa$-filtered for any finite cardinal $\kappa$.
-\end{example} 
-
-
-\begin{proposition} 
-Let $\kappa$ be a cardinal. Then there exists a $\kappa$-filtered ordinal
-$\omega$.
-\end{proposition} 
-\begin{proof} 
-If $\kappa$ is finite, \cref{limitordfinfiltered} shows that any limit ordinal
-will do.  Let us thus assume that $\kappa$ is infinite.
-
-Consider the smallest ordinal $\omega$ whose cardinality is strictly greater
-than that of $\kappa$. Then we claim that $\omega$ is $\kappa$-filtered.
-Indeed, if $C$ is a collection of at most $\kappa$ ordinals strictly smaller
-than $\omega$, then each of these ordinals is of size at most $\kappa$. Thus
-the union of all the ordinals in $C$ (which is an ordinal) is of size at most
-$\kappa$, so is strictly smaller than $\omega$, and it provides an upper bound as in the definition.
-\end{proof} 
-
-
-\begin{proposition} \label{modulesaresmall}
-Let $M$ be a module, $\kappa$ the cardinality of the set of its submodules.
-Then if $\omega$ is $\kappa$-filtered, then $M$ is $\omega$-small (with
-respect to injections).
+\begin{proposition}
+\label{proposition-modules-are-small}
+Let $R$ be a ring. Let $M$ be an $R$-module.
+Let $\kappa$ the cardinality of the set of submodules of $M$.
+If $\alpha$ is an ordinal whose cofinality is bigger than $\kappa$,
+then $M$ is $\alpha$-small with respect to injections.
 \end{proposition} 
 
-The proof is straightforward, but let us first think about a special case. If
-$M$ is finite, then the claim is that for any inductive system
-$\left\{B_\alpha\right\}$ with injections between them, parametrized by a
-limit ordinal, any map $M \to
-\varinjlim B_\alpha$ factors through one of the $B_\alpha$. But this is clear. 
-$M$ is finite, so since each element in the image must land inside one of the
-$B_\alpha$, so all of $M$ lands inside some finite stage.
 \begin{proof} 
-We need only show that the map \cref{homcolimmap} is a surjection when
-$\omega$ is $\kappa$-filtered.
-Let $f: A \to \varinjlim B_\alpha$ be a map.
-Consider the subobjects $\{f^{-1}(B_\alpha)\}$ of $A$, where $B_\alpha$ is considered as a
-subobject of the colimit. If one of these, say $f^{-1}(B_\beta)$, fills $A$,
+The proof is straightforward, but let us first think about a special case.
+If $M$ is finite, then the claim is that for any inductive system
+$\{B_\beta\}$ with injections between them, parametrized by a
+limit ordinal, any map $M \to \text{colim}\ B_\beta$ factors through one of
+the $B_\beta$. And this we proved in
+Lemma \ref{lemma-out-of-finite}.
+
+\medskip\noindent
+Now we start the proof in the general case.
+We need only show that the map (\ref{equation-compare}) is a surjection.
+Let $f: A \to \text{colim}\ B_\beta$ be a map.
+Consider the subobjects $\{f^{-1}(B_\beta)\}$ of $A$, where $B_\beta$
+is considered as a subobject of the colimit $B = \bigcup_\beta B_\beta$.
+If one of these, say $f^{-1}(B_\beta)$, fills $A$,
 then the map factors through $B_\beta$.
 
-So suppose to the contrary that all of the $f^{-1}(B_\alpha)$ were proper
-subobjects of $A$.
-However, we know that
-\[ \bigcup f^{-1}(B_\alpha) = f^{-1}\left(\bigcup B_\alpha\right) = A.  \]
+\medskip\noindent
+So suppose to the contrary that all of the $f^{-1}(B_\beta)$ were proper
+subobjects of $A$. However, we know that
+$$
+\bigcup f^{-1}(B_\beta) = f^{-1}\left(\bigcup B_\beta\right) = A.
+$$
 Now there are at most $\kappa$ different subobjects of $A$ that occur among
 the $f^{-1}(B_\alpha)$, by hypothesis. 
-Thus we can find a set $A$ of cardinality at most $\kappa$ such that as
-$\alpha'$ ranges over $A$, the
-$f^{-1}(B_{\alpha'})$ range over \emph{all} the $f^{-1}(B_\alpha)$.
+Thus we can find a subset $S \subset \alpha$ of cardinality at most
+$\kappa$ such that as $\beta'$ ranges over $S$, the
+$f^{-1}(B_{\beta'})$ range over \emph{all} the $f^{-1}(B_\alpha)$.
 
-However, $A$ has an upper bound $\widetilde{\omega} < \omega$ as $\omega$ is
-$\kappa$-filtered. In particular,
-all the $f^{-1}(B_{\alpha'})$ are contained in
-$f^{-1}(B_{\widetilde{\omega}})$. It follows that
-$f^{-1}(B_{\widetilde{\omega}}) = A$. 
-In particular, the map $f$ factors through $B_{\widetilde{\omega}}$.
+\medskip\noindent
+However, $S$ has an upper bound $\widetilde{\alpha} < \alpha$ as
+$\alpha$ has cofinality bigger than $\kappa$. In particular, all the
+$f^{-1}(B_{\beta'})$, $\beta' \in S$ are contained in
+$f^{-1}(B_{\widetilde{\alpha}})$.
+It follows that $f^{-1}(B_{\widetilde{\alpha}}) = A$. 
+In particular, the map $f$ factors through $B_{\widetilde{\alpha}}$.
 \end{proof} 
 
-From this, we will be able to deduce the existence of lots of injectives.
-Let us recall the criterion of Baer (\cref{baercriterion}): a module $Q$ is
-injective if and only if in every commutative diagram
-\[ \xymatrix{
-\mathfrak{a} \ar[d]  \ar[r] &  Q \\
-R \ar@{-->}[ru]
-}\]
-for $\mathfrak{a} \subset R$ an ideal, the dotted arrow exists. In other
-words, we are trying to solve an \emph{extension problem} with respect to the
-inclusion $\mathfrak{a} \hookrightarrow R$ into the module $M$.
+\noindent
+From this lemma we will be able to deduce the existence of lots of injectives.
+Let us recall the criterion of Baer.
 
-If $M$ is an $R$-module, then in general we may have a semi-complete diagram as above. In
-it, we can form the \emph{push-out}
-\[ \xymatrix{
+\begin{lemma}
+\label{lemma-criterion-baer}
+Let $R$ be a ring. An $R$-module $Q$ is injective if and only if in every
+commutative diagram
+$$
+\xymatrix{
+\mathfrak{a} \ar[d] \ar[r] &  Q \\
+R \ar@{-->}[ru]
+}
+$$
+for $\mathfrak{a} \subset R$ an ideal, the dotted arrow exists.
+\end{lemma}
+
+\begin{proof}
+Assume $Q$ satisfies the assumption of the lemma.
+Let $M \subset N$ be $R$-modules, and let $\varphi : M \to Q$ be an
+$R$-module map. Arguing as in the proof of
+Lemma \ref{lemma-injective-abelian}
+we see that it suffices to prove that if $M \not = N$, then we
+can find an $R$-module $M'$, $M \subset M' \subset N$
+such that (a) the inclusion $M \subset M'$ is strict,
+and (b) $\varphi$ can be extended to $M'$.
+To find $M'$, let $x \in N$, $x \not \in M$. Let $\psi : R \to N$,
+$r \mapsto rx$. Set $\mathfrak{a} = \psi^{-1}(M)$. By assumption the
+morphism
+$$
+\mathfrak a \xrightarrow{\psi} M \xrightarrow{\varphi} Q
+$$
+can be extended to a morphism $\varphi' : R \to Q$.
+Note that $\varphi'$ annihilates the kernel of $\psi$ (as this is true
+for $\varphi$). Thus $\varphi'$ gives rise to a morphism
+$\varphi'' : \text{Im}(\psi) \to Q$ which agrees with $\varphi$
+on the intersection $M \cap \text{Im}(\psi)$ by construction.
+Thus $\varphi$ and $\varphi''$ glue to give an extension
+of $\varphi$ to the strictly bigger module
+$M' = \mathcal{F} + \text{Im}(\psi)$.
+\end{proof}
+
+\noindent
+If $M$ is an $R$-module, then in general we may have a semi-complete
+diagram as in
+Lemma \ref{lemma-criterion-baer}.
+In it, we can form the \emph{push-out}
+$$
+\xymatrix{
 \mathfrak{a} \ar[d]  \ar[r] &  Q \ar[d] \\
-R \ar[r] &  R \oplus_{\mathfrak{a}} Q 
-}.\]
-Here the vertical map is injective, and the diagram commutes.  The point is
+R \ar[r] &  R \oplus_{\mathfrak{a}} Q.
+}
+$$
+Here the vertical map is injective, and the diagram commutes. The point is
 that we can extend $\mathfrak{a} \to Q$ to $R$ \emph{if} we extend $Q$ to the
 larger module $R \oplus_{\mathfrak{a}} Q$.
 
-
-The point of the small object argument is to repeat this procedure
-transfinitely many times.
-
-\begin{theorem} 
-Let $M$ be an $R$-module. Then there is an embedding $M \hookrightarrow Q$ for
-$Q$ injective.
-\end{theorem} 
-\begin{proof} 
-We start by defining a functor $\mathbf{M}$ on the category of $R$-modules.
-Given $N$, we consider the set of all maps $\mathfrak{a} \to N$ for
-$\mathfrak{a} \subset R$ an ideal, and consider the  push-out
-\begin{equation} \label{hugediag}
+\medskip\noindent
+The key point of Baer's argument is to repeat this procedure
+transfinitely many times. To do this we first define, given an $R$-module
+$M$ the following (huge) pushout
+\begin{equation}
+\label{hugediag}
+\vcenter{
 \xymatrix{
-\bigoplus \mathfrak{a}\ar[r] \ar[d]  & N \ar[d] \\
-\bigoplus R \ar[r] &  N \oplus_{\bigoplus \mathfrak{a}} \bigoplus R
+\bigoplus_{\mathfrak a}
+\bigoplus_{\varphi \in \text{Hom}_R(\mathfrak a, M)}
+\mathfrak{a} \ar[r] \ar[d] & M \ar[d] \\
+\bigoplus_{\mathfrak a}
+\bigoplus_{\varphi \in \text{Hom}_R(\mathfrak a, M)}
+R \ar[r] &  \mathbf{M}(M).
+}
 }
 \end{equation}
-where the direct sum of copies of $R$ is taken such that every copy of an
-ideal $\mathfrak{a}$ corresponds to one copy of $R$.
-We define $\mathbf{M}(N)$ to be this push-out. Given a map $N \to N'$, there
-is a natural morphism of diagrams \cref{hugediag}, so $\mathbf{M}$ is a
-functor.
-Note furthermore that there is a natural transformation
-\[ N \to \mathbf{M}(N),  \]
-which is \emph{always an injection.}
+Here the top horizontal arrow maps the element $a \in \mathfrak a$
+in the summand corresponding to $\varphi$ to the element $\varphi(a) \in M$.
+The left vertical arrow maps $a \in \mathfrak a$ in the summand corresponding
+to $\varphi$ simply to the element $a \in R$ in the summand corresponding
+to $\varphi$. The fundamental properties of this construction are
+formulated in the following lemma.
 
-The key property of $\mathbf{M}$ is that if $\mathfrak{a} \to N$ is any
-morphism, it can be extended to $R \to \mathbf{M}(N)$, by the very
-construction of $\mathbf{M}(N)$. The idea will now be to
-apply $\mathbf{M}$ a transfinite number of times and to use the small object
-property. 
+\begin{lemma}
+\label{lemma-construction}
+Let $R$ be a ring.
+\begin{enumerate}
+\item The construction $M \mapsto (M \to \mathbf{M}(M))$
+is functorial in $M$.
+\item The map $M \to \mathbf{M}(M)$ is injective.
+\item For any ideal $\mathfrak{a}$ and any $R$-module map
+$\varphi : \mathfrak a \to M$ there is an $R$-module map
+$\varphi' : R \to \mathbf{M}(M)$ such that
+$$
+\xymatrix{
+\mathfrak{a} \ar[d] \ar[r]_\varphi &  M \ar[d] \\
+R \ar[r]^{\varphi'} & \mathbf{M}(M)
+}
+$$
+commutes.
+\end{enumerate}
+\end{lemma}
 
+\begin{proof}
+Parts (2) and (3) are immediate from the construction.
+To see (1), let $\chi : M \to N$ be an $R$-module map. We claim there exists
+a canonical commutative diagram
+$$
+\xymatrix{
+\bigoplus_{\mathfrak a}
+\bigoplus_{\varphi \in \text{Hom}_R(\mathfrak a, M)}
+\mathfrak{a} \ar[r] \ar[d] \ar[rrd] & M \ar[rrd]^\chi \\
+\bigoplus_{\mathfrak a}
+\bigoplus_{\varphi \in \text{Hom}_R(\mathfrak a, M)}
+R \ar[rrd] & & 
+\bigoplus_{\mathfrak a}
+\bigoplus_{\psi \in \text{Hom}_R(\mathfrak a, N)}
+\mathfrak{a} \ar[r] \ar[d] & N \\
+& & \bigoplus_{\mathfrak a}
+\bigoplus_{\psi \in \text{Hom}_R(\mathfrak a, N)}
+R
+}
+$$
+which induces the desired map $\mathbf{M}(M) \to \mathbf{M}(N)$.
+The middle east-south-east arrow maps the summand $\mathfrak a$
+corresponding to $\varphi$ via $\text{id}_{\mathfrak a}$ to the
+summand $\mathfrak a$ corresponding to $\psi = \chi \circ \varphi$.
+Similarly for the lower east-south-east arrow. Details omitted.
+\end{proof}
 
-We define for each ordinal $\omega$ a functor $\mathbf{M}_{\omega}$ on the
-category of $R$-modules, together with a natural injection $N \to
+\noindent
+The idea will now be to apply the functor $\mathbf{M}$ a transfinite number
+of times. We define for each ordinal $\alpha$ a functor $\mathbf{M}_\alpha$
+on the category of $R$-modules, together with a natural injection $N \to
 \mathbf{M}_{\omega}(N)$. We do this by transfinite induction. 
 First, $\mathbf{M}_1 = \mathbf{M}$ is the functor defined above.
-Now, suppose given an ordinal $\omega$, and suppose $\mathbf{M}_{\omega'}$ is
-defined for $\omega' < \omega$. If $\omega$ has an immediate predecessor
-$\widetilde{\omega}$, we let
-$$\mathbf{M}_{\omega} = \mathbf{M} \circ \mathbf{M}_{\widetilde{\omega}}.$$
-If not, we let $\mathbf{M}_{\omega}(N) = \varinjlim_{\omega' < \omega}
-\mathbf{M}_{\omega'}(N)$. 
-It is clear (e.g. inductively) that the $\mathbf{M}_{\omega}(N)$ form an inductive system over
-ordinals $\omega$, so this is reasonable. 
+Now, suppose given an ordinal $\alpha$, and suppose $\mathbf{M}_{\alpha'}$
+is defined for $\alpha' < \alpha$. If $\alpha$ has an immediate predecessor
+$\widetilde{\alpha}$, we let
+$$
+\mathbf{M}_\alpha = \mathbf{M} \circ \mathbf{M}_{\widetilde{\alpha}}.
+$$
+If not, i.e., if $\alpha$ is a limit ordinal, we let
+$$
+\mathbf{M}_{\alpha}(N) =
+\text{colim}_{\alpha' < \alpha}\ \mathbf{M}_{\alpha'}(N).
+$$
+It is clear (e.g., inductively) that the $\mathbf{M}_{\alpha}(N)$
+form an inductive system over ordinals, so this is reasonable. 
 
-Let $\kappa$ be the cardinality of the set of ideals in $R$, and let $\Omega$
-be a $\kappa$-filtered ordinal.
-The claim is as follows.
-
-\begin{lemma} 
-For any $N$, $\mathbf{M}_{\Omega}(N)$ is injective.
-\end{lemma} 
-
-If we prove this, we will be done. In fact, we will have shown that there is a
-\emph{functorial} embedding of a module into an injective.
-Thus, we have only to prove this lemma.
+\begin{theorem}
+\label{theorem-baer-grothendieck}
+Let $\kappa$ be the cardinality of the set of ideals in $R$, and
+let $\alpha$ be an ordinal whose cofinality is greater than
+$\kappa$. Then $\mathbf{M}_\alpha(N)$ is an injective $R$-module,
+and $N \to \mathbf{M}_\alpha(N)$ is a functorial injective embedding.
+\end{theorem}
 
 \begin{proof} 
-By Baer's criterion (\cref{baercriterion}), it suffices to show that if
-$\mathfrak{a} \subset R$ is an ideal, then any map $f: \mathfrak{a} \to
-\mathbf{M}_{\Omega}(N)$ extends to $R \to \mathbf{M}_{\Omega}(N)$. However, we
-know since $\Omega$ is a limit ordinal that 
-\[ \mathbf{M}_{\Omega}(N) = \varinjlim_{\omega < \Omega}
-\mathbf{M}_{\omega}(N),  \]
-so by \cref{modulesaresmall}, we find that 
-\[ \hom_R(\mathfrak{a}, \mathbf{M}_{\Omega}(N)) = \varinjlim_{\omega < \Omega}
-\hom_R(\mathfrak{a}, \mathbf{M}_{\omega}(N)).   \]
-This means in particular that there is some $\omega' < \Omega$ such that $f$
-factors through the submodule $\mathbf{M}_{\omega'}(N)$, as
-\[ f: \mathfrak{a} \to \mathbf{M}_{\omega'}(N) \to \mathbf{M}_{\Omega}(N).  \]
-However, by the fundamental property of the functor $\mathbf{M}$, we know that
-the map $\mathfrak{a} \to \mathbf{M}_{\omega'}(N)$ can be extended to 
-\[ R \to \mathbf{M}( \mathbf{M}_{\omega'}(N)) = \mathbf{M}_{\omega' + 1}(N),  \]
-and the last object imbeds in $\mathbf{M}_{\Omega}(N)$.
-In particular, $f$ can be extended to $\mathbf{M}_{\Omega}(N)$.
+By Baer's criterion
+Lemma \ref{lemma-criterion-baer},
+it suffices to show that if $\mathfrak{a} \subset R$ is an ideal, then
+any map $f : \mathfrak{a} \to \mathbf{M}_\alpha(N)$ extends to
+$R \to \mathbf{M}_\alpha(N)$. However, we know since $\alpha$ is a limit
+ordinal that
+$$
+\mathbf{M}_{\alpha}(N) =
+\text{colim}_{\beta < \alpha}\ \mathbf{M}_{\beta}(N),
+$$
+so by
+Proposition \ref{proposition-modules-are-small},
+we find that
+$$
+\text{Hom}_R(\mathfrak{a}, \mathbf{M}_{\alpha}(N)) =
+\text{colim}_{\beta < \alpha}\ \text{Hom}_R(\mathfrak a, \mathbf{M}_{\beta}(N)).
+$$
+This means in particular that there is some $\beta' < \alpha$
+such that $f$ factors through the submodule $\mathbf{M}_{\beta'}(N)$, as
+$$
+f : \mathfrak{a} \to \mathbf{M}_{\beta'}(N) \to
+\mathbf{M}_{\alpha}(N).
+$$
+However, by the fundamental property of the functor $\mathbf{M}$,
+see Lemma \ref{lemma-construction} part (3),
+we know that the map $\mathfrak{a} \to \mathbf{M}_{\beta'}(N)$
+can be extended to 
+$$
+R \to \mathbf{M}( \mathbf{M}_{\beta'}(N)) =
+\mathbf{M}_{\beta' + 1}(N),
+$$
+and the last object imbeds in $\mathbf{M}_{\alpha}(N)$ (as
+$\beta' + 1 < \alpha$ since $\alpha$ is a limit ordinal).
+In particular, $f$ can be extended to $\mathbf{M}_{\alpha}(N)$.
 \end{proof} 
 
 
-\end{proof} 
 
 
 \section{G-modules}
