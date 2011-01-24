@@ -1247,9 +1247,163 @@ theorem applies.
 
 
 
+\section{Embedding abelian categories}
+\label{section-embedding}
 
+\noindent
+In this section we show that an abelian category embeds in the
+category of abelian sheaves on a site having enough points.
+The site will be the one described in the following lemma.
 
+\begin{lemma}
+\label{lemma-site-abelian-category}
+Let $\mathcal{A}$ be an abelian category.
+Let
+$$
+\text{Cov} = \{\{f : V \to U\} \mid f\text{ is surjective}\}.
+$$
+Then $(\mathcal{A}, \text{Cov})$ is a site, see
+Sites, Definition \ref{sites-definition-site}.
+\end{lemma}
 
+\begin{proof}
+Note that $\text{Ob}(\mathcal{A})$ is a set by our conventions
+about categories. An isomorphism is a surjective morphism.
+The composition of surjective morphisms is surjective.
+And the base change of a surjective morphism in $\mathcal{A}$
+is surjective, see
+Homology, Lemma \ref{homology-lemma-epimorphism-universal-abelian-category}.
+\end{proof}
+
+\noindent
+Let $\mathcal{A}$ be a pre-additive category. In this case the
+Yoneda embedding $\mathcal{A} \to \textit{PSh}(\mathcal{A})$, $X \mapsto h_X$
+factors through a functor $\mathcal{A} \to \textit{PAb}(\mathcal{A})$.
+
+\begin{lemma}
+\label{lemma-embedding}
+Let $\mathcal{A}$ be an abelian category.
+Let $\mathcal{C} = (\mathcal{A}, \text{Cov})$ be the
+site defined in
+Lemma \ref{lemma-site-abelian-category}.
+Then $X \mapsto h_X$ defines a fully faithful, exact functor
+$$
+\mathcal{A} \longrightarrow \textit{Ab}(\mathcal{C}).
+$$
+Moreover, the site $\mathcal{C}$ has enough points.
+\end{lemma}
+
+\begin{proof}
+Suppose that $f : V \to U$ is a surjective morphism of $\mathcal{A}$.
+Let $K = \text{Ker}(f)$. Recall that
+$V \times_U V = \text{Ker}((f, -f) : V \oplus V \to U)$, see
+Homology, Example \ref{homology-example-fibre-product-pushouts}.
+In particular there exists an injection $K \oplus K \to V \times_U V$.
+Let $p, q : V \times_U V \to V$ be the two projection morphisms.
+Note that $p - q : V \times_U V \to V$ is a morphism such that
+$f \circ (p  - q) = 0$. Hence $p - q$ factors through $K \to V$.
+Let us denote this morphism by $c : V \times_K V \to K$.
+And since the composition $K \oplus K \to V \times_U V \to K$
+is surjective, we conclude that $c$ is surjective. It follows that
+$$
+V \times_K V \xrightarrow{p - q} V \to U \to 0
+$$
+is an exact sequence of $\mathcal{A}$.
+Hence for an object $X$ of $\mathcal{A}$ the sequence
+$$
+0 \to
+\text{Hom}_{\mathcal{A}}(U, X) \to
+\text{Hom}_{\mathcal{A}}(V, X) \to
+\text{Hom}_{\mathcal{A}}(V \times_U V, X)
+$$
+is an exact sequence of abelian groups, see
+Homology, Lemma \ref{homology-lemma-check-exactness}.
+This means that $h_X$ satisfies the sheaf condition
+on $\mathcal{C}$.
+
+\medskip\noindent
+The functor is fully faithful by
+Categories, Lemma \ref{categories-lemma-yoneda}.
+The functor is a left exact functor between abelian categories by
+Homology, Lemma \ref{homology-lemma-check-exactness}.
+To show that it is right exact, let $X \to Y$ be a surjective morphism
+of $\mathcal{A}$. Let $U$ be an object of $\mathcal{A}$, and let
+$s \in h_Y(U) = \text{Mor}_{\mathcal{A}}(U, Y)$ be a section of $h_Y$
+over $U$. By
+Homology, Lemma \ref{homology-lemma-epimorphism-universal-abelian-category}
+the projection $U \times_Y X \to U$ is surjective.
+Hence $\{V = U \times_Y X \to U\}$ is a covering of $U$ such that
+$s|_V$ lifts to a section of $h_X$. This proves that
+$h_X \to h_Y$ is a surjection of abelian sheaves, see
+Sites, Lemma \ref{sites-lemma-mono-epi-sheaves}.
+
+\medskip\noindent
+The site $\mathcal{C}$ has enough points by
+Sites, Proposition \ref{sites-proposition-criterion-points}.
+\end{proof}
+
+\begin{remark}
+\label{remark-embedding}
+The Freyd-Mitchell embedding theorem says there exists a fully faithful
+exact functor from any abelian category $\mathcal{A}$
+to the category of modules over a ring.
+Lemma \ref{lemma-embedding}
+is not quite as strong. But the result is suitable for the
+stacks project as we have to understand sheaves of abelian groups on
+sites in detail anyway. Moreover, ``diagram chasing'' works in the category
+of abelian sheaves on $\mathcal{C}$, for example by working with sections over
+objects, or by working on the level of stalks using that $\mathcal{C}$ has
+enough points. To see how to deduce the Freyd-Mitchell embedding theorem from
+Lemma \ref{lemma-embedding}
+see
+Remark \ref{remark-embedding-freyd}.
+\end{remark}
+
+\begin{remark}
+\label{remark-embedding-big}
+If $\mathcal{A}$ is a ``big'' abelian category, i.e., if $\mathcal{A}$
+has a class of objects, then
+Lemma \ref{lemma-embedding}
+does not work. In this case, given any set of objects
+$E \subset \text{Ob}(\mathcal{A})$ there exists an abelian full subcategory
+$\mathcal{A}' \subset \mathcal{A}$ such that
+$\text{Ob}(\mathcal{A}')$ is a set and $E \subset \text{Ob}(\mathcal{A}')$.
+Then one can apply
+Lemma \ref{lemma-embedding}
+to $\mathcal{A}'$. One can use this to prove that results depending on
+a diagram chase hold in $\mathcal{A}$.
+\end{remark}
+
+\begin{remark}
+\label{remark-embedding-freyd}
+Let $\mathcal{C}$ be a site.
+Note that $\textit{Ab}(\mathcal{C})$ has enough injectives, see
+Theorem \ref{theorem-sheaves-injectives}.
+(In the case that $\mathcal{C}$ has enough points this is straightforward
+because  $p_*I$ is an injective sheaf if $I$ is an injective
+$\mathbf{Z}$-module and $p$ is a point.)
+Also, $\textit{Ab}(\mathcal{C})$ has a cogenerator (details omitted).
+Hence
+Lemma \ref{lemma-embedding}
+proves that we have a fully faithful, exact embedding
+$\mathcal{A} \to \mathcal{B}$ where $\mathcal{B}$ has a
+cogenerator and enough injectives.
+We can apply this to $\mathcal{A}^{opp}$ and we get a
+fully faithful exact functor
+$i : \mathcal{A} \to \mathcal{D} = \mathcal{B}^{opp}$
+where $\mathcal{D}$ has enough projectives and a generator. Hence
+$\mathcal{D}$ has a projective generator $P$.
+Set $R = \text{Mor}_{\mathcal{D}}(P, P)$. Then
+$$
+\mathcal{A} \longrightarrow \textit{Mod}_R,\quad
+X \longmapsto \text{Hom}_{\mathcal{D}}(P, X).
+$$
+One can check this is a fully faithful, exact functor.
+In other words, one retrieves the
+Freyd-Mitchell theorem mentioned in
+Remark \ref{remark-embedding}
+above.
+\end{remark}
 
 
 
