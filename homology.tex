@@ -4766,6 +4766,14 @@ $\mathcal{O}$-modules on a ringed site.
 \noindent
 Some references are \cite{Verdier} and \cite{Neeman}.
 
+
+\subsection{Triangulated Categories: Definitions}
+\label{subsection-triangulated-definitions}
+
+\noindent
+In this section we collect most of the definitions concerning triangulated
+and pre-triangulated categories.
+
 \begin{definition}
 \label{definition-triangle}
 Let $\mathcal{D}$ be an additive category.
@@ -4790,10 +4798,10 @@ A morphism of triangles is visualized by the following
 commutative diagram
 $$
 \xymatrix{
-X \ar[r] \ar[d] &
-Y \ar[r] \ar[d] &
-Z \ar[r] \ar[d] &
-X[1] \ar[d] \\
+X \ar[r] \ar[d]^a &
+Y \ar[r] \ar[d]^b &
+Z \ar[r] \ar[d]^c &
+X[1] \ar[d]^{a[1]} \\
 X' \ar[r] &
 Y' \ar[r] &
 Z' \ar[r] &
@@ -4828,19 +4836,18 @@ if and only if the triangle $(Y, Z, X[1], g, h, -f[1])$ is.
 \item[TR3] Given a solid commutative square
 $$
 \xymatrix{
-X \ar[r] \ar[d] &
-Y \ar[r] \ar[d] &
+X \ar[r] \ar[d]^a &
+Y \ar[r] \ar[d]^b &
 Z \ar[r] \ar@{-->}[d] &
-X[1] \ar[d] \\
+X[1] \ar[d]^{a[1]} \\
 X' \ar[r] &
 Y' \ar[r] &
 Z' \ar[r] &
 X'[1]
 }
 $$
-whose rows are distinguished triangles
-the dotted arrow exists giving rise to
-a morphism of triangles.
+whose rows are distinguished triangles there exists a morphism
+$c : Z \to Z'$ such that $(a, b, c)$ is a morphism of triangles.
 \item[TR4] Given objects $X$, $Y$, $Z$ of $\mathcal{D}$, and morphisms
 $f : X \to Y$, $g : Y \to Z$, and distinguished triangles
 $(X, Y, Q_1, f, p_1, d_1)$,
@@ -4873,10 +4880,183 @@ etc with morphisms of triangles. For a more precise reformuation
 of this idea see the proof of Lemma \ref{lemma-two-split-injections}.
 
 \medskip\noindent
+The sign in TR2 means that if $(X, Y, Z, f, g, h)$ is a distinguished triangle
+then in the long sequence
+\begin{equation}
+\label{equation-rotate}
+\ldots \to
+Z[-1] \xrightarrow{-h[-1]}
+X \xrightarrow{f}
+Y \xrightarrow{g}
+Z \xrightarrow{h}
+X[1] \xrightarrow{-f[1]}
+Y[1] \xrightarrow{-g[1]}
+Z[1] \to \ldots
+\end{equation}
+each four term sequence gives a distinguished triangle.
+
+\medskip\noindent
 As usual we abuse notation and we simply speak of a (pre-)triangulated
 category $\mathcal{D}$ without explicitly introducing notation for the
-additional data. The notion of a pre-triangulated category is useful in
-finding statements equivalent to TR4.
+additional data. The notion of a pre-triangulated category is
+useful in finding statements equivalent to TR4.
+
+\medskip\noindent
+We have the following definition of a triangulated functor.
+
+\begin{definition}
+\label{definition-exact-functor-triangulated-categories}
+Let $\mathcal{D}$, $\mathcal{D}'$ be pre-triangulated
+categories. An {\it exact functor}, or a {\it triangulated functor}
+from $\mathcal{D}$ to $\mathcal{D}'$ is a functor
+$F : \mathcal{D} \to \mathcal{D}'$ together
+with given functorial isomorphisms $\xi_X : F(X[1]) \to F(X)[1]$
+such that for every distinguished triangle
+$(X, Y, Z, f, g, h)$ of $\mathcal{D}$ the triangle
+$(F(X), F(Y), F(Z), F(f), F(g), \xi_X \circ F(h))$
+is a distinguished triangle of $\mathcal{D}'$.
+\end{definition}
+
+\noindent
+When we say two triangulated categories are equivalent we mean that
+they are equivalent in the $2$-category of triangulated categories.
+A $2$-morphism $a : (F, \xi) \to (F', \xi')$ in this $2$-category is
+simply a transformation of functors $a : F \to F'$ which is compatible
+with $\xi$ and $\xi'$, i.e.,
+$$
+\xymatrix{
+F \circ [1] \ar[r]_\xi \ar[d]_{a \star 1} & [1] \circ F \ar[d]^{1 \star a} \\
+F' \circ [1] \ar[r]^{\xi'} & [1] \circ F'
+}
+$$
+commutes.
+
+\begin{definition}
+\label{definition-triangulated-subcategory}
+Let $(\mathcal{D}, [\ ], \mathcal{T})$ be a pre-triangulated category.
+A {\it pre-triangulated subcategory}\footnote{This definition may be
+nonstandard. An alternative would be to further require that $\mathcal{T}'$
+is the intersection of the set of triangles in $\mathcal{D}'$ with
+$\mathcal{T}$. If $\mathcal{D}'$ is a full subcategory, then this holds,
+so $\mathcal{T}'$ can be dropped from the notation.} is a pair
+$(\mathcal{D}', \mathcal{T}')$ such that
+\begin{enumerate}
+\item $\mathcal{D}'$ is an additive subcategory of $\mathcal{D}$
+which is preserved under $[1]$ and $[-1]$,
+\item $\mathcal{T}' \subset \mathcal{T}$ is a subset such that for every
+$(X, Y, Z, f, g, h) \in \mathcal{T}'$ we have
+$X, Y, Z \in \text{Ob}(\mathcal{D}')$ and
+$f, g, h \in \text{Arrows}(\mathcal{D}')$, and
+\item $(\mathcal{D}', [\ ], \mathcal{T}')$ is a pre-triangulated
+category.
+\end{enumerate}
+If $\mathcal{D}$ is a triangulated category, then we say
+$(\mathcal{D}', \mathcal{T}')$ is a {\it triangulated subcategory} if
+it is a pre-triangulated subcategory and
+$(\mathcal{D}', [\ ], \mathcal{T}')$ is a triangulated category.
+\end{definition}
+
+\noindent
+In this situation the inclusion functor
+$\mathcal{D}' \to \mathcal{D}$ is an exact functor
+with $\xi_X : X[1] \to X[1]$ given by the identity on $X[1]$.
+
+\medskip\noindent
+We will see in
+Lemma \ref{lemma-composition-zero}
+that for a distinguished triangle $(X, Y, Z, f, g, h)$
+in a pre-triangulated category the composition $g \circ f : X \to Z$ is zero.
+Thus the sequence (\ref{equation-rotate}) is a complex.
+A homological functor is one that turns this complex into a long
+exact sequence.
+
+\begin{definition}
+\label{definition-homological}
+Let $\mathcal{D}$ be a pre-triangulated category.
+Let $\mathcal{A}$ be an abelian category.
+An additive functor $H : \mathcal{D} \to \mathcal{A}$ is called
+{\it homological} if for every distinguished triangle
+$(X, Y, Z, f, g, h)$ the sequence
+$$
+H(X) \to H(Y) \to H(Z)
+$$
+is exact in the abelian category $\mathcal{A}$.
+\end{definition}
+
+\noindent
+In this situation we often write $H^n(X) = H(X[n])$ so that $H(X) = H^0(X)$.
+Our discussion of TR2 above implies that says that a distinguished triangle
+$(X, Y, Z, f, g, h)$ determines a long exact sequence
+\begin{equation}
+\label{equation-long-exact-cohomology-sequence}
+\xymatrix{
+H^{-1}(Z) \ar[r]^{h[-1]} &
+H^0(X) \ar[r]^f &
+H^0(Y) \ar[r]^g &
+H^0(Z) \ar[r]^h &
+H^1(X)
+}
+\end{equation}
+This will be called the {\it long exact sequence} associated to the
+distinguished triangle and the homological functor. As indicated
+we will not use any signs for the morphisms in the long exact
+sequence. This has the side effect that maps in the long exact sequence
+associated to the rotation (TR2) of a distinguished triangle differ
+from the maps in the sequence above by some signs.
+
+\begin{definition}
+\label{definition-delta-functor}
+Let $\mathcal{A}$ be an abelian category.
+Let $\mathcal{D}$ be a triangulated category.
+A {\it $\delta$-functor from $\mathcal{A}$ to $\mathcal{D}$} is
+given by a functor $G : \mathcal{A} \to \mathcal{D}$ and
+a rule which assigns to every short exact sequence
+$$
+0 \to A \xrightarrow{a} B \xrightarrow{b} C \to 0
+$$
+a morphism $\delta = \delta_{A \to B \to C} : G(C) \to G(A)[1]$
+such that
+\begin{enumerate}
+\item the triangle
+$(G(A), G(B), G(C), G(a), G(b), \delta_{A \to B \to C})$
+is a distinguished triangle of $\mathcal{D}$
+for any short exact sequence as above, and
+\item for every morphism $(A \to B \to C) \to (A' \to B' \to C')$
+of short exact sequences the diagram
+$$
+\xymatrix{
+G(C) \ar[d] \ar[rr]_{\delta_{A \to B \to C}} & &
+G(A)[1] \ar[d] \\
+G(C') \ar[rr]^{\delta_{A' \to B' \to C'}} & &
+G(A')[1]
+}
+$$
+is commutative.
+\end{enumerate}
+In this situation we call
+$(G(A), G(B), G(C), G(a), G(b), \delta_{A \to B \to C})$
+the {\it image of the short exact sequence under the
+given $\delta$-functor}.
+\end{definition}
+
+\noindent
+Note how a $\delta$-functor comes equipped with additional structure.
+Strictly speaking it does not make sense to say that a given
+functor $\mathcal{A} \to \mathcal{D}$ is a $\delta$-functor, but we
+will often do so anyway.
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Triangulated categories: Elementary results}
 
 \begin{lemma}
 \label{lemma-composition-zero}
@@ -4894,38 +5074,6 @@ triangles will imply that $g \circ f = 0$. For the other cases
 rotate the triangle, i.e., apply TR2.
 \end{proof}
 
-\begin{definition}
-\label{definition-homological}
-Let $\mathcal{D}$ be a pre-triangulated category.
-Let $\mathcal{A}$ be an abelian category.
-An additive functor $H : \mathcal{D} \to \mathcal{A}$ is called
-{\it homological} if for every distinguished triangle
-$(X, Y, Z, f, g, h)$ the sequence
-$$
-H(X) \to H(Y) \to H(Z)
-$$
-is exact in the abelian category $\mathcal{A}$.
-\end{definition}
-
-\noindent
-As TR2 says that if we rotate a distinguished triangle (either way) we get
-another we see that we get a long exact sequence
-\begin{equation}
-\label{equation-long-exact-cohomology-sequence}
-\xymatrix{
-H(Z[-1]) \ar[r]^{h[-1]} &
-H(X) \ar[r]^f &
-H(Y) \ar[r]^g &
-H(Z) \ar[r]^h &
-H(X[1])
-}
-\end{equation}
-This will be called the {\it long exact sequence} associated to the
-distinguished triangle and the homological functor. As indicated
-we will not use any signs for the morphisms in the long exact
-sequence. This has the side effect that maps in the long exact sequence
-associated to the rotation (TR2) of a distinguished triangle differ
-from the maps in the sequence above by some signs.
 
 \begin{lemma}
 \label{lemma-representable-homological}
@@ -4985,8 +5133,13 @@ H_W(X'[1])
 }
 $$
 By assumption the right two and left two vertical arrows are bijective.
-Hence the middle vertical arrow is an isomorphism. Hence by the Yoneda
-Lemma \ref{categories-lemma-yoneda} we see that $b$ is an isomorphism.
+As $H_W$ is homological by
+Lemma \ref{lemma-representable-homological}
+it follows that the middle vertical arrow is an isomorphism.
+Hence by Yoneda's lemma,
+see
+Categories, Lemma \ref{categories-lemma-yoneda}
+we see that $b$ is an isomorphism.
 This implies the other cases by rotating (using TR2).
 \end{proof}
 
@@ -5541,7 +5694,7 @@ distinguished triangles as follows.
 \label{definition-distinguished-triangle}
 Let $\mathcal{A}$ be an additive category.
 A triangle $(X, Y, Z, f, g, h)$ of $K(\mathcal{A})$ is
-called a {\it disinguished triangle of $K(\mathcal{A})$}
+called a {\it distinguished triangle of $K(\mathcal{A})$}
 if it is isomorphic to the triangle associated to
 a termwise split exact sequence of complexes, see Definition
 \ref{definition-split-ses}.
@@ -5746,19 +5899,7 @@ This makes sense by the discussion above.
 Next we would like to show that a resolution
 functor $j : K^{+}(\mathcal{A}) \to D^{+}(\mathcal{A})$
 is compatible with the given structures of triangulated
-categories. In order to do this we need a definition.
-
-\begin{definition}
-\label{definition-exact-functor-triangulated-categories}
-Let $\mathcal{D}$, $\mathcal{D}'$ be triangulated
-categories. An {\it exact functor} from $\mathcal{D}$ to $\mathcal{D}'$
-is a functor $F : \mathcal{D} \to \mathcal{D}'$ together
-with given functorial isomorphisms $\xi_X : F(X[1]) \to F(X)[1]$
-such that for every distinguished triangle
-$(X, Y, Z, f, g, h)$ of $\mathcal{D}$ the triangle
-$(F(X), F(Y), F(Z), F(f), F(g), \xi_X \circ F(h))$
-is a distinguished triangle of $\mathcal{D}$.
-\end{definition}
+categories.
 
 \begin{lemma}
 \label{lemma-j-is-exact}
@@ -5917,50 +6058,10 @@ Omitted.
 The derived category should be the receptacle for the universal
 cohomology functor. Hence in particular a short exact sequence
 in the abelian category $\mathcal{A}$ should lead to a triangle
-in the derived category. In order to state the result we need to
-define the notion of a $\delta$-functor from an abelian category
-into a triangulated category.
-
-\begin{definition}
-\label{definition-delta-functor}
-Let $\mathcal{A}$ be an abelian category.
-Let $\mathcal{D}$ be a triangulated category.
-A {\it $\delta$-functor from $\mathcal{A}$ to $\mathcal{D}$} is
-given by a functor $G : \mathcal{A} \to \mathcal{D}$ and
-a rule which assigns to every short exact sequence
-$$
-0 \to A \xrightarrow{a} B \xrightarrow{b} C \to 0
-$$
-a morphism $\delta = \delta_{A \to B \to C} : G(C) \to G(A)[1]$
-such that
-\begin{enumerate}
-\item the triangle
-$(G(A), G(B), G(C), G(a), G(b), \delta_{A \to B \to C})$
-is a distinguished triangle of $\mathcal{D}$
-for any short exact sequence as above, and
-\item for every morphism $(A \to B \to C) \to (A' \to B' \to C')$
-of short exact sequences the diagram
-$$
-\xymatrix{
-G(C) \ar[d] \ar[rr]_{\delta_{A \to B \to C}} & &
-G(A)[1] \ar[d] \\
-G(C') \ar[rr]^{\delta_{A' \to B' \to C'}} & &
-G(A')[1]
-}
-$$
-is commutative.
-\end{enumerate}
-In this situation we call
-$(G(A), G(B), G(C), G(a), G(b), \delta_{A \to B \to C})$
-the {\it image of the short exact sequence under the
-given $\delta$-functor}.
-\end{definition}
-
-\noindent
-Note how a $\delta$-functor comes equipped with additional structure.
-Strictly speaking it does not make sense to say that a given
-functor $\mathcal{A} \to \mathcal{D}$ is a $\delta$-functor, but we
-will often do so anyway.
+in the derived category. In order to state the result we use
+the notion of a $\delta$-functor from an abelian category
+into a triangulated category, see
+Definition \ref{definition-delta-functor}.
 
 \begin{lemma}
 \label{lemma-exact-compose-delta-functor}
