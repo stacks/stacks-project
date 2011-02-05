@@ -1051,6 +1051,58 @@ Thus $j \circ f = j \circ g$ and we see that LMS3 holds.
 The proof of RMS3 is dual.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-homological-functor-localize}
+Let $H : \mathcal{D} \to \mathcal{A}$ be a homological functor between a
+pre-triangulated category and an abelian category. Let
+$$
+S = \{f \in \text{Arrows}(\mathcal{D})
+\mid H^i(f)\text{ is an isomorphism for all }i \in \mathbf{Z}\}
+$$
+Then $S$ is a saturated (see
+Categories,
+Definition \ref{categories-definition-saturated-multiplicative-system})
+multiplicative system compatible with the
+triangulated structure on $\mathcal{D}$.
+\end{lemma}
+
+\begin{proof}
+We have to prove axioms MS1 -- MS6, see
+Categories, Definitions \ref{categories-definition-multiplicative-system} and
+\ref{categories-definition-saturated-multiplicative-system}
+and
+Definition \ref{definition-localization}.
+MS1, MS4, and MS5 are direct from the definitions.
+MS6 follows from TR3 and the long exact cohomology sequence
+(\ref{equation-long-exact-cohomology-sequence}).
+By
+Lemma \ref{lemma-localization-conditions}
+we conclude that MS2 holds. To finish the proof we have to show that
+MS3 holds. To do this let $f, g : X \to Y$ be morphisms of $\mathcal{D}$,
+and let $t : Z \to X$ be an element of $S$ such that $f \circ t = g \circ t$.
+As $\mathcal{D}$ is additive this simply means that $a \circ t = 0$ with
+$a = f - g$. Choose a distinguished triangle $(Z, X, Q, t, g, h)$ using
+TR1 and TR2. Since $a \circ t = 0$ we see by
+Lemma \ref{lemma-representable-homological}
+there exists a morphism $i : Q \to Y$ such that $i \circ g = a$.
+Finally, using TR1 again we can choose a triangle
+$(Q, Y, W, i, j, k)$. Here is a picture
+$$
+\xymatrix{
+Z \ar[r]_t & X \ar[r]_g \ar[d]^1 & Q \ar[r] \ar[d]^i & Z[1] \\
+& X \ar[r]_a & Y \ar[d]^j \\
+& & W
+}
+$$
+OK, and now we apply the functors $H^i$ to this diagram.
+Since $t \in S$ we see that $H^i(Q) = 0$ by the long exact cohomology
+sequence (\ref{equation-long-exact-cohomology-sequence}).
+Hence $H^i(j)$ is an isomorphism for all $i$ by the same argument,
+i.e., $j \in S$. Finally, $j \circ a = j \circ i \circ g = 0$ as
+$j \circ i = 0$. Thus $j \circ f = j \circ g$ and we see that LMS3 holds.
+The proof of RMS3 is dual.
+\end{proof}
+
 \begin{proposition}
 \label{proposition-construct-localization}
 Let $\mathcal{D}$ be a pre-triangulated category. Let $S$ be a multiplicative
@@ -1661,6 +1713,59 @@ in the notation of
 Categories, Lemma \ref{categories-lemma-what-gets-inverted}.
 The final statement of that lemma finishes the proof.
 \end{proof}
+
+\begin{lemma}
+\label{lemma-acyclic-general}
+Let $H : \mathcal{D} \to \mathcal{A}$ be a homological functor from a
+triangulated category $\mathcal{D}$ to an abelian category $\mathcal{A}$, see
+Definition \ref{definition-homological}.
+The subcategory $\text{Ker}(H)$ of $\mathcal{D}$ is a strictly full
+saturated triangulated subcategory of $\mathcal{D}$ whose corresponding
+saturated multiplicative system (see
+Lemma \ref{lemma-operations})
+is the set
+$$
+S = \{f \mid H^i(f)\text{ is an isomorphism for all }i \in \mathbf{Z}\}.
+$$
+The functor $H$ factors through the quotient functor
+$Q : \mathcal{D} \to \mathcal{D}/\text{Ker}(H)$.
+\end{lemma}
+
+\begin{proof}
+The category $\text{Ker}(H)$ is a strictly full saturated triangulated
+subcategory of $\mathcal{D}$ by
+Lemma \ref{lemma-homological-functor-kernel}.
+The set $S$ is a saturated multiplicative system compatible with the
+triangulated structure by
+Lemma \ref{lemma-homological-functor-localize}.
+Recall that the multiplicative system corresponding to
+$\text{Ker}(H)$ is the set
+$$
+\left\{
+\begin{matrix}
+f \in \text{Arrows}(K(\mathcal{A}))
+\text{ such that there exists a distinguished triangle }\\
+(X, Y, Z, f, g, h)\text{ with } H^i(Z) = 0 \text{ for all }i
+\end{matrix}
+\right\}
+$$
+By the long exact cohomology sequence, see
+(\ref{equation-long-exact-cohomology-sequence}),
+it is clear that $f$ is an element of this set if and only if $f$ is
+an element of $S$. Finally, the factorization of $H$ through $Q$ is a
+consequence of
+Lemma \ref{lemma-universal-property-quotient}.
+\end{proof}
+
+\noindent
+It is clear that in the lemma above the factorization of $H$ through
+$\mathcal{D}/\text{Ker}(H)$ is the universal factorization. Namely, if
+$F : \mathcal{D} \to \mathcal{D}'$ is an exact functor of triangulated
+categories and if there exists a homological functor
+$H' : \mathcal{D}' \to \mathcal{A}$ such that $H \cong H' \circ F$, then
+$F$ factors through the quotient functor
+$Q : \mathcal{D} \to \mathcal{D}/\text{Ker}(H)$.
+
 
 
 
@@ -2526,7 +2631,7 @@ Homology, Definition \ref{homology-definition-comology-shift}
 we have defined identifications $H^i(K^\bullet[n]) = H^{i + n}(K^\bullet)$.
 At this point it makes sense to redefine
 $$
-H^i(K^\bullet) = H^0(K^\bullet[i]).
+H^i(K^\bullet) = H^0(K^\bullet[i])
 $$
 in order to avoid confusion and possible sign errors.
 
@@ -2593,29 +2698,10 @@ of quasi-isomorphisms.
 \end{lemma}
 
 \begin{proof}
-We will use that $H^0$ is a homological functor by
+We know that $H^0$ is a homological functor by
 Lemma \ref{lemma-cohomology-homological}.
-Note that $\text{Ac}(\mathcal{A})$ is a strictly full saturated triangulated
-subcategory of $K(\mathcal{A})$ follows from
-Lemma \ref{lemma-homological-functor-kernel}.
-In the same manner $\text{Qis}(\mathcal{A})$ is a saturated multiplicative
-system compatible with the triangulated structure is a consequence of
-Lemma \ref{lemma-triangle-functor-localize}.
-Recall that the multiplicative system corresponding to
-$\text{Ac}(\mathcal{A})$ is the set
-$$
-\left\{
-\begin{matrix}
-f \in \text{Arrows}(K(\mathcal{A}))
-\text{ such that there exists a distinguished triangle }\\
-(X, Y, Z, f, g, h)\text{ with } H^i(Z) = 0 \text{ for all }i
-\end{matrix}
-\right\}
-$$
-By the long exact cohomology sequence, see above or see
-(\ref{equation-long-exact-cohomology-sequence}),
-it is clear that $f$ is an element of this set if and only if $f$ is
-a quasi-isomorphism.
+Thus this lemma is a special case of
+Lemma \ref{lemma-acyclic-general}.
 \end{proof}
 
 \begin{definition}
