@@ -6688,11 +6688,11 @@ shows that $\beta$ is homotopic to zero also, i.e., $b = 0$.
 \begin{lemma}
 \label{lemma-filtered-localization-functor}
 Let $\mathcal{A}$ be an abelian category.
-Let $\text{FilInj} \subset \text{Fil}^f(\mathcal{A})$
+Let $\mathcal{I}^f \subset \text{Fil}^f(\mathcal{A})$
 denote the strictly full additive subcategory whose objects are
 the filtered injective objects. The canonical functor
 $$
-K^{+}(\text{FilInj})
+K^{+}(\mathcal{I}^f)
 \longrightarrow
 DF^{+}(\mathcal{A})
 $$
@@ -6700,14 +6700,14 @@ is exact, fully faithful and essentially surjective, i.e., an
 equivalence of triangulated categories. Furthermore the diagrams
 $$
 \xymatrix{
-K^{+}(\text{FilInj}) \ar[d]_{\text{gr}^p} \ar[r] &
+K^{+}(\mathcal{I}^f) \ar[d]_{\text{gr}^p} \ar[r] &
 DF^{+}(\mathcal{A}) \ar[d]_{\text{gr}^p} \\
 K^{+}(\mathcal{I}) \ar[r] &
 D^{+}(\mathcal{A})
 }
 \quad
 \xymatrix{
-K^{+}(\text{FilInj}) \ar[d]^{\text{forget }F} \ar[r] &
+K^{+}(\mathcal{I}^f) \ar[d]^{\text{forget }F} \ar[r] &
 DF^{+}(\mathcal{A}) \ar[d]^{\text{forget }F} \\
 K^{+}(\mathcal{I}) \ar[r] &
 D^{+}(\mathcal{A})
@@ -6719,7 +6719,7 @@ the injective objects.
 \end{lemma}
 
 \begin{proof}
-The functor $K^{+}(\text{FilInj}) \to DF^{+}(\mathcal{A})$
+The functor $K^{+}(\mathcal{I}^f) \to DF^{+}(\mathcal{A})$
 is essentially surjective by
 Lemma \ref{lemma-right-resolution-by-filtered-injectives}.
 It is fully faithful by
@@ -6755,7 +6755,9 @@ $$
 T : \text{Fil}^f(\mathcal{A}) \to \text{Fil}^f(\mathcal{B})
 $$
 by the rule $T(A, F) = (T(A), F)$ where $F^pT(A) = T(F^pA)$ which makes
-sense as $T$ is left exact. This induces functors of triangulated categories
+sense as $T$ is left exact. (Warning: It may not be the case that
+$\text{gr}(T(A)) = T(\text{gr}(A))$.)
+This induces functors of triangulated categories
 \begin{equation}
 \label{equation-induced-T-filtered}
 T :
@@ -6768,8 +6770,6 @@ Definition \ref{definition-right-derived-functor-defined}
 for this exact functor composed with the exact functor
 $K^{+}(\text{Fil}^f(\mathcal{B})) \to DF^{+}(\mathcal{B})$ and the
 multiplicative set $\text{FQis}^{+}(\mathcal{A})$.
-
-\medskip\noindent
 Assume $\mathcal{A}$ has enough injectives. At this point we can redo the
 discussion of 
 Section \ref{section-right-derived-functor}
@@ -6779,29 +6779,55 @@ to define the
 \label{equation-filtered-derived-functor}
 RT : DF^{+}(\mathcal{A}) \longrightarrow DF^{+}(\mathcal{B})
 \end{equation}
-of our functor $T$. Instead we will proceed as in
-Section \ref{section-right-derived-functor-via-resolutions}.
-Namely, we choose a quasi-inverse
-$j' : DF^{+}(\mathcal{A}) \to K^{+}(\text{FilInj})$ of the
+of our functor $T$.
+
+\medskip\noindent
+However, instead we will proceed as in
+Section \ref{section-right-derived-functor-via-resolutions},
+and it will turn out that we can define $RT$ even if $T$ is just additive.
+Namely, we first choose a quasi-inverse
+$j' : DF^{+}(\mathcal{A}) \to K^{+}(\mathcal{I}^f)$ of the
 equivalence of
-Lemma \ref{lemma-filtered-localization-functor}
-and we define
-$$
-RT = T \circ j'.
-$$
-In practice this means the following: Given a bounded below complex
-$K^\bullet$ of $\text{Fil}^f(\mathcal{A})$ we choose
-resolution $K^\bullet \to I^\bullet$ with $I^\bullet$ bounded below
-and consisting of filtered injective objects and we set
-$RT(K^\bullet) = T(I^\bullet)$ as a filtered complex.
-Note that by Exercise \ref{exercises-exercise-split-injective} every term
+Lemma \ref{lemma-filtered-localization-functor}.
+By
+Lemma \ref{lemma-exact-equivalence}
+we see that $j'$ is an exact functor of triangulated categories.
+Next, we note that for a filtered injective object $I$ we have
+a (noncanonical) decomposition
 \begin{equation}
 \label{equation-decompose}
-I^n \cong \bigoplus\nolimits_{p \in \mathbf{Z}} \text{gr}^p(I^n)
+I \cong \bigoplus\nolimits_{p \in \mathbf{Z}} I_p,
+\quad\text{with}\quad
+F^pI = \bigoplus\nolimits_{q \geq p} I_q
 \end{equation}
-compatible with filtrations. Hence it is clear that
-$\text{gr}^p(T(I^\bullet)) = T(\text{gr}^p(I^\bullet))$.
-This implies that
+by
+Lemma \ref{lemma-filtered-injective}.
+Hence if $T$ is any additive functor $T : \mathcal{A} \to \mathcal{B}$
+then we get an additive functor
+\begin{equation}
+\label{equation-extend-T}
+T_{ext} : \mathcal{I}^f \to \text{Fil}^f(\mathcal{B})
+\end{equation}
+by setting $T_{ext}(I) = \bigoplus T(I_p)$ with
+$F^pT_{ext}(I) = \bigoplus_{q \geq p} T(I_q)$. Note that we have the
+property $\text{gr}(T_{ext}(I)) = T(\text{gr}(I))$ by construction.
+Hence we obtain a functor
+\begin{equation}
+\label{equation-extend-T-complexes}
+T_{ext} : K^{+}(\mathcal{I}^f) \to K^{+}(\text{Fil}^f(\mathcal{B}))
+\end{equation}
+which commutes with $\text{gr}$. Then we define
+(\ref{equation-filtered-derived-functor}) by the composition
+\begin{equation}
+\label{equation-definition-filtered-derived-functor}
+RT = T_{ext} \circ j'.
+\end{equation}
+Since $RT : D^{+}(\mathcal{A}) \to D^{+}(\mathcal{B})$ is computed
+by injective resolutions as well, see
+Lemmas \ref{lemma-injective-acyclic},
+the commutation of $T$ with $\text{gr}$, and the commutative diagrams of
+Lemma \ref{lemma-filtered-localization-functor}
+imply that
 \begin{equation}
 \label{equation-commute-gr}
 \text{gr}^p \circ RT \cong RT \circ \text{gr}^p
@@ -6811,44 +6837,28 @@ and
 \label{equation-commute-forget}
 (\text{forget }F) \circ RT \cong RT \circ (\text{forget }F)
 \end{equation}
-as functors $DF^{+}(\mathcal{A}) \to K^{+}(\mathcal{B})$.
-As in Remark \ref{remark-right-derived-functor} we point out that it
-is customary (and useful) to think of the filtered derived functor
-as a functor $DF^{+}(\mathcal{A}) \to DF^{+}(\mathcal{B})$
-by postcomposing by a localization functor
-$j : KF^{+}(\mathcal{B}) \to DF^{+}(\mathcal{B})$ as in
-Lemma \ref{lemma-filtered-localization-functor}
-in those cases where $\mathcal{B}$ has enough injectives.
+as functors $DF^{+}(\mathcal{A}) \to D^{+}(\mathcal{B})$.
 
 \medskip\noindent
-Precomposing with a localization functor $j$ for $\mathcal{A}$
-we also get derived functors
+The filtered derived functor $RT$ (\ref{equation-filtered-derived-functor})
+induces functors
 $$
-RT : \text{Fil}^f(\mathcal{A}) \to KF^{+}(\mathcal{B}),
-\quad
-RT : \text{Comp}^{+}(\text{Fil}^f(\mathcal{A})) \to KF^{+}(\mathcal{B}),
-$$
-and finally
-$$
-RT : KF^{+}(\mathcal{A}) \to KF^{+}(\mathcal{B}).
+\begin{matrix}
+RT : \text{Fil}^f(\mathcal{A}) \to DF^{+}(\mathcal{B}), \\
+RT : \text{Comp}^{+}(\text{Fil}^f(\mathcal{A})) \to DF^{+}(\mathcal{B}), \\
+RT : KF^{+}(\mathcal{A}) \to DF^{+}(\mathcal{B}).
+\end{matrix}
 $$
 Note that since $\text{Fil}^f(\mathcal{A})$, and
 $\text{Comp}^{+}(\text{Fil}^f(\mathcal{A}))$ are no longer
 abelian it does not make sense to say that $RT$ restricts to
-a $\delta$-functor on them. (As mentioned before this can be
+a $\delta$-functor on them. (This can be
 repaired by thinking of these categories as exact categories and
 formulating the notion of a $\delta$-functor from an exact category
 into a triangulated category.)
 But it does make sense, and it is true
-by construction, that $RT$ is an exact functor of triangulated
-categories on the categories $DF^{+}(\mathcal{A})$ and
-$KF^{+}(\mathcal{A})$.
-
-\medskip\noindent
-Actually, this is somewhat besides the point since we are going
-to use the filtered derived functor mainly to prove things about
-the actual right derived functors of $T$. In fact, mainly we will
-use the following lemma.
+by construction, that $RT$ is an exact functor on the triangulated
+category $KF^{+}(\mathcal{A})$.
 
 \begin{lemma}
 \label{lemma-ss-filtered-derived}
@@ -6874,13 +6884,11 @@ on any choices.
 \end{lemma}
 
 \begin{proof}
-Instead of quoting the abstract constructions above we
-show how the existence of filtered injective resolutions gives
-rise to this spectral sequence.
-Choose a filtered injective resolution $K^\bullet \to I^\bullet$.
-Consider the complex $RT(K^\bullet) = T(I^\bullet)$, filtered as
-in the definition of $RT$, see
-Equation (\ref{equation-filtered-derived-functor}).
+Choose a filtered quasi-isomorphism $K^\bullet \to I^\bullet$
+with $I^\bullet$ a bounded below complex of filtered injective objects, see
+Lemma \ref{lemma-right-resolution-by-filtered-injectives}.
+Consider the complex $RT(K^\bullet) = T_{ext}(I^\bullet)$, see
+(\ref{equation-definition-filtered-derived-functor}).
 Thus we can consider the spectral sequence
 $(E_r, d_r)_{r \geq 0}$ associated to
 this as a filtered complex in $\mathcal{B}$, see
@@ -6905,22 +6913,27 @@ moreover inducing finite filtrations on each of the terms.
 
 \medskip\noindent
 Suppose that $K^\bullet \to L^\bullet$ is a morphism of
-$\text{Comp}^{+}(\text{Fil}^f(\mathcal{A}))$. By our results above,
-for example Lemma \ref{lemma-filtered-localization-functor}, there
-exists a commutative diagram
+$\text{Comp}^{+}(\text{Fil}^f(\mathcal{A}))$.
+Choose a filtered quasi-isomorphism $L^\bullet \to J^\bullet$
+with $J^\bullet$ a bounded below complex of filtered injective
+objects, see
+Lemma \ref{lemma-right-resolution-by-filtered-injectives}.
+By our results above,
+for example
+Lemma \ref{lemma-morphisms-into-filtered-injective-complex},
+there exists a diagram
 $$
 \xymatrix{
 K^\bullet \ar[r] \ar[d] & L^\bullet \ar[d] \\
 I^\bullet \ar[r] & J^\bullet
 }
 $$
-where the vertical arrows are filtered injective resolutions.
-Hence we get a morphism of filtered complexes
-$T(I^\bullet) \to T(J^\bullet)$ which gives rise to the
+which commutes up to homotopy. Hence we get a morphism of filtered
+complexes $T(I^\bullet) \to T(J^\bullet)$ which gives rise to the
 morphism of spectral sequences, see
 Homology,
 Lemma \ref{homology-lemma-spectral-sequence-filtered-complex-functorial}.
-The last statement follows from this easily.
+The last statement follows from this.
 \end{proof}
 
 \begin{remark}
