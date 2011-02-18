@@ -41,10 +41,10 @@ INSTALLDIR=/home/dejong/html/algebraic_geometry/stacks-git
 
 # Default latex commands
 LATEX := latex -src
-#LATEX := ./scripts/latex.sh $(PWD) "latex -src"
+#LATEX := ./scripts/latex.sh $(CURDIR) "latex -src"
 
 PDFLATEX := pdflatex
-#PDFLATEX := ./scripts/latex.sh $(PWD) pdflatex
+#PDFLATEX := ./scripts/latex.sh $(CURDIR) pdflatex
 
 FOO_LATEX := $(LATEX)
 #FOO_LATEX := $(PDFLATEX)
@@ -74,10 +74,10 @@ pdfs: $(FOOS) $(BARS) $(PDFS)
 
 # Automatically generated tex files
 tmp/index.tex: *.tex
-	python ./scripts/make_index.py $(PWD) > tmp/index.tex
+	python ./scripts/make_index.py $(CURDIR) > tmp/index.tex
 
 tmp/book.tex: *.tex tmp/index.tex
-	python ./scripts/make_book.py $(PWD) > tmp/book.tex
+	python ./scripts/make_book.py $(CURDIR) > tmp/book.tex
 
 # Creating aux files
 index.foo: tmp/index.tex
@@ -141,19 +141,19 @@ book.dvi: tmp/book.tex book.bar
 #
 #
 tags/tmp/book.tex: tmp/book.tex
-	python ./scripts/tag_up.py $(PWD) book > tags/tmp/book.tex
+	python ./scripts/tag_up.py $(CURDIR) book > tags/tmp/book.tex
 
 tags/tmp/index.tex: tmp/index.tex
 	cp tmp/index.tex tags/tmp/index.tex
 
 tags/tmp/preamble.tex: preamble.tex
-	python ./scripts/tag_up.py $(PWD) preamble > tags/tmp/preamble.tex
+	python ./scripts/tag_up.py $(CURDIR) preamble > tags/tmp/preamble.tex
 
 tags/tmp/chapters.tex: chapters.tex
 	cp chapters.tex tags/tmp/chapters.tex
 
 tags/tmp/%.tex: %.tex
-	python ./scripts/tag_up.py $(PWD) $* > tags/tmp/$*.tex
+	python ./scripts/tag_up.py $(CURDIR) $* > tags/tmp/$*.tex
 
 tags/tmp/%.tex.html: %.tex
 	vim -n -u NONE -S scripts/vim.vim $*.tex
@@ -190,8 +190,8 @@ tags/tmp/query.php:
 .PHONY: tags
 tags: $(TAGS) $(TAG_EXTRAS)
 	@echo "TAGS TARGET"
-	make -C tags/tmp
-	python ./scripts/make_locate.py $(PWD) > tags/tmp/locate.php
+	$(MAKE) -C tags/tmp
+	python ./scripts/make_locate.py $(CURDIR) > tags/tmp/locate.php
 
 .PHONY: tags_install
 tags_install: tags tarball
