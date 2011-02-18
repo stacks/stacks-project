@@ -22,7 +22,10 @@ ln -s $SPD/preamble.tex $SPD/chapters.tex $SPD/hyperref.cfg $SPD/amsart.cls \
 
 # Exceptional cases
 if [ "$STEM" == "tmp/index" ]; then STEM="index"; fi
-if [ "$STEM" == "tmp/book" ]; then STEM="book"; fi
+if [ "$STEM" == "tmp/book" ]; then
+	STEM="book";
+	ln -s $SPD/amsbook.cls $TMPD;
+fi
 
 # Link to bibliography file
 ln -s $SPD/$STEM.bbl $TMPD
