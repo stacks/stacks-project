@@ -62,6 +62,9 @@ for name in lijstje:
 				print_error("Nonstandard label.",
 				line, name, line_nr)
 			label = name + "-" + label
+			if label in labels:
+				print_error("Double label.",
+				line, name, line_nr)
 			labels.append(label)
 		else:
 			# check if there is a label if there should be one
