@@ -3853,6 +3853,52 @@ which gives us the desired $\overline{u}'$.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-geometric-lift-to-usual}
+Let $S$ be a scheme. Let $X$ be an algebraic space over $S$.
+Let $\overline{x} : \text{Spec}(k) \to X$ be a geometric point of $X$
+lying over $x \in |X|$. Let $\varphi : U \to X$ be an \'etale morphism
+of algebraic spaces and let $u \in |U|$ with $\varphi(u) = x$.
+Then there exists a geometric point
+$\overline{u} : \text{Spec}(k) \to U$ lying over $u$ with
+$\overline{x} = f \circ \overline{u}$.
+\end{lemma}
+
+\begin{proof}
+Choose an affine scheme $U'$ with $u' \in U'$ and an \'etale morphism
+$U' \to U$ which maps $u'$ to $u$. If we can prove the lemma for
+$(U', u') \to (X, x)$ then the lemma follows. Hence we may assume that
+$U$ is a scheme, in particular that $U \to X$ is representable.
+Then look at the cartesian diagram
+$$
+\xymatrix{
+\text{Spec}(k) \times_{\overline{x}, X, \varphi} U
+\ar[d]_{\text{pr}_1} \ar[r]_-{\text{pr}_2} & U
+\ar[d]^\varphi \\
+\text{Spec}(k) \ar[r]^-{\overline{x}} & X
+}
+$$
+The projection $\text{pr}_1$ is the base change of an \'etale morphisms
+so it is \'etale, see
+Lemma \ref{lemma-base-change-etale}.
+Therefore, the scheme $\text{Spec}(k) \times_{\overline{x}, X, \varphi} U$
+is a disjoint union of finite separable extensions of $k$, see
+Remark \ref{remark-recall}.
+But $k$ is algebraically closed, so all these extensions are trivial,
+so $\text{Spec}(k) \times_{\overline{x}, X, \varphi} U$
+is a disjoint union of copies of $\text{Spec}(k)$ and each of
+these corresponds to a geometric point $\overline{u}$ with
+$f \circ \overline{u} = \overline{x}$. By
+Lemma \ref{lemma-points-cartesian}
+the map
+$$
+|\text{Spec}(k) \times_{\overline{x}, X, \varphi} U|
+\longrightarrow
+|\text{Spec}(k)| \times_{|X|} |U|
+$$
+is surjective, hence we can pick $\overline{u}$ to lie over $u$.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-geometric-lift-to-cover}
 Let $S$ be a scheme. Let $X$ be an algebraic space over $S$.
 Let $\overline{x}$ be a geometric point of $X$.
@@ -3865,31 +3911,13 @@ is a morphism of \'etale neighborhoods.
 \end{lemma}
 
 \begin{proof}
-As $|U| = \bigcup_{i\in I} \varphi_i(|U_i|)$, the fibre product
-$\overline{x} \times_{\overline{u}, U, \varphi_i} U_i$ is not empty
-for some $i$, see
-Lemma \ref{lemma-points-cartesian}.
-Then look at the cartesian diagram
-$$
-\xymatrix{
-\overline{x} \times_{\overline{u}, U, \varphi_i} U_i
-\ar[d]^{\text{pr}_1} \ar[r]_-{\text{pr}_2} & U_i
-\ar[d]^{\varphi_i} \\
-\text{Spec}(k) = \overline{x} \ar@/^1pc/[u]^\sigma
-\ar[r]^-{\overline{u}} & U
-}
-$$
-The projection $\text{pr}_1$ is the base change of an \'etale morphisms so it
-is \'etale, see
-Lemma \ref{lemma-base-change-etale}.
-Therefore, $\overline{x} \times_{\overline{u}, U, \varphi_i} U_i$
-is a disjoint union of finite separable extensions of $k$, see
-Remark \ref{remark-recall}. Here $\overline{x} = \text{Spec}(k)$.
-But $k$ is algebraically closed, so all these extensions are trivial,
-and there exists a section $\sigma$ of $\text{pr}_1$. The composition
-$\text{pr}_2 \circ \sigma$ gives a map compatible with $\overline{u}$.
+Let $u \in |U|$ be the image of $\overline{u}$.
+As $|U| = \bigcup_{i \in I} \varphi_i(|U_i|)$ there exists an
+$i$ and a point $u_i \in U_i$ mapping to $x$. Apply
+Lemma \ref{lemma-geometric-lift-to-usual}
+to $(U_i, u_i) \to (U, u)$ and $\overline{u}$ to
+get the desired geometric point.
 \end{proof}
-
 
 \begin{definition}
 \label{definition-stalk}
@@ -5456,6 +5484,49 @@ $g_{small}^{-1}c_f \circ c_g$ is equal to $c_{f \circ g}$.
 \begin{proof}
 Combine Lemmas \ref{lemma-pullback-quasi-coherent} and
 \ref{lemma-characterize-module-small-etale}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-stalk-quasi-coherent}
+Let $S$ be a scheme.
+Let $X$ be an algebraic space over $S$.
+Let $\mathcal{F}$ be a quasi-coherent $\mathcal{O}_X$-module.
+Let $x \in |X|$ be a point and let $\overline{x}$ be a geometric
+point lying over $x$. Finally, let
+$\varphi : (U, \overline{u}) \to (X, \overline{x})$
+be an \'etale neighbourhood where $U$ is a scheme.
+Then
+$$
+(\varphi^*\mathcal{F})_u \otimes_{\mathcal{O}_{U, u}}
+\mathcal{O}_{X, \overline{x}} =
+\mathcal{F}_{\overline{x}}
+$$
+where $u \in U$ is the image of $\overline{u}$.
+\end{lemma}
+
+\begin{proof}
+Note that $\mathcal{O}_{X, \overline{x}} = \mathcal{O}_{U, u}^{sh}$ by
+Lemma \ref{lemma-describe-etale-local-ring}
+hence the tensor product makes sense. Moreover, from
+Definition \ref{definition-stalk}
+it is clear that
+$$
+\mathcal{F}_{\overline{u}} = \text{colim}\ (\varphi^*\mathcal{F})_u
+$$
+where the colimit is over $\varphi : (U, \overline{u}) \to (X, \overline{x})$
+as in the lemma. Hence there is a canonical map from left to right in
+the statement of the lemma. We have a similar colimit description for
+$\mathcal{O}_{X, \overline{x}}$
+and by
+Lemma \ref{lemma-characterize-quasi-coherent-small-etale}
+we have
+$$
+((\varphi')^*\mathcal{F})_{u'} =
+(\varphi^*\mathcal{F})_u \otimes_{\mathcal{O}_{U, u}} \mathcal{O}_{U', u'}
+$$
+whenever $(U', \overline{u}') \to (U, \overline{u})$ is a morphism of
+\'etale neighbourhoods. To complete the proof we use that
+$\otimes$ commutes with colimits.
 \end{proof}
 
 \begin{lemma}
