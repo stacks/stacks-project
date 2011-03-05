@@ -11,10 +11,10 @@ LIJST = introduction conventions sets categories topology sheaves algebra \
 	morphisms coherent divisors limits varieties chow topologies \
 	descent more-morphisms flat groupoids more-groupoids etale \
 	etale-cohomology spaces spaces-properties spaces-morphisms \
-	spaces-topologies spaces-descent spaces-more-morphisms stacks \
+	spaces-topologies spaces-descent spaces-more-morphisms quot stacks \
 	spaces-groupoids spaces-more-groupoids bootstrap examples-stacks \
-	groupoids-quotients algebraic stacks-properties stacks-morphisms \
-	examples exercises guide desirables coding
+	groupoids-quotients algebraic criteria stacks-properties \
+	stacks-morphisms examples exercises guide desirables coding
 
 # Add index and fdl to get index and license latexed as well.
 LIJST_FDL = $(LIJST) fdl index
