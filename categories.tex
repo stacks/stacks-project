@@ -1565,11 +1565,84 @@ of the right hand side.
 \label{section-finite-limits}
 
 \noindent
-A {\it finite} (co)limit is a (co)limit whose diagram category is finite.
-(Finitely many objects and finitely many morphisms.) A (co)limit is called
-{\it nonempty} if the index category is nonempty. A (co)limit is called
-{\it connected} if the index category is connected, see
+A {\it finite} (co)limit is a (co)limit whose diagram category is finite,
+i.e., the diagram category has finitely many objects and finitely many
+morphisms. A (co)limit is called {\it nonempty} if the index category is
+nonempty. A (co)limit is called {\it connected} if the index category is
+connected, see
 Definition \ref{definition-category-connected}.
+It turns out that there are ``enough'' finite diagram categories.
+
+\begin{lemma}
+\label{lemma-finite-diagram-category}
+Let $\mathcal{I}$ be a category with
+\begin{enumerate}
+\item $\text{Ob}(\mathcal{I})$ is finite, and
+\item there exist finitely many morphisms
+$f_1, \ldots, f_m \in \text{Arrows}(\mathcal{I})$ such
+that every morphism of $\mathcal{I}$ is a composition
+$f_{j_1} \circ f_{j_2} \circ \ldots \circ f_{j_k}$.
+\end{enumerate}
+Then there exists a functor $F : \mathcal{J} \to \mathcal{I}$
+such that
+\begin{enumerate}
+\item[(a)] $\mathcal{J}$ is a finite category, and
+\item[(b)] for any diagram $M : \mathcal{I} \to \mathcal{C}$ the
+(co)limit of $M$ over $\mathcal{I}$ exists if and only if
+the (co)limit of $M \circ F$ over $\mathcal{J}$ exists and in this case
+the (co)limits are canonically isomorphic.
+\end{enumerate}
+Moreover, $\mathcal{J}$ is connected (resp.\ nonempty) if and only if
+$\mathcal{I}$ is so.
+\end{lemma}
+
+\begin{proof}
+Say $\text{Ob}(\mathcal{I}) = \{x_1, \ldots, x_n\}$.
+Denote $s, t : \{1, \ldots, m\} \to \{1, \ldots, n\}$ the functions
+such that $f_j : x_{s(j)} \to x_{t(j)}$.
+We set $\text{Ob}(\mathcal{J}) = \{y_1, \ldots, y_n, z_1, \ldots, z_n\}$
+Besides the identity morphisms we introduce morphisms
+$g_j : y_{s(j)} \to z_{t(j)}$, $j = 1, \ldots, m$ and morphisms
+$h_i : y_i \to z_i$, $i = 1, \ldots, n$. Since all of the nonidentity
+morphisms in $\mathcal{J}$ go from an $x$ to a $y$ there are no
+compositions to define and no associativity to check.
+Set $F(y_i) = F(z_i) = x_i$. Set $F(g_j) = f_j$ and $F(h_i) = \text{id}_{x_i}$.
+It is clear that $F$ is a functor.
+It is clear that $\mathcal{J}$ is finite.
+It is clear that $\mathcal{J}$ is connected, resp.\ nonempty
+if and only if $\mathcal{I}$ is so.
+
+\medskip\noindent
+Let $M : \mathcal{I} \to \mathcal{C}$ be a diagram.
+Consider an object $W$ of $\mathcal{C}$ and morphisms
+$q_i : W \to M(x_i)$ as in
+Definition \ref{definition-limit}.
+Then by taking $q_i : W \to M(F(y_i)) = M(F(z_i)) = M(x_i)$ we obtain
+a family of maps as in
+Definition \ref{definition-limit}
+for the diagram $M \circ F$.
+Conversely, suppose we are given maps
+$qy_i : W \to M(F(y_i))$ and $qz_i : W \to M(F(z_i))$
+as in
+Definition \ref{definition-limit}
+for the diagram $M \circ F$. Since
+$$
+M(F(h_i)) = \text{id} : M(F(y_i)) = M(x_i) \longrightarrow M(x_i) = M(F(z_i))
+$$
+we conclude that $qy_i = qz_i$ for all $i$. Set $q_i$ equal to this common
+value. The compatibility of
+$q_{s(j)} = qy_{s(j)}$ and $q_{t(j)} = qz_{t(j)}$ with the morphism
+$M(f_j)$ guarantees that the family $q_i$ is compatible with all morphisms
+in $\mathcal{I}$ as by assumption every such morphism is a composition
+of the morphisms $f_j$. Thus we have found a canonical bijection
+$$
+\text{lim}_{B \in \text{Ob}(\mathcal{J})}\ \text{Mor}_{\mathcal{C}}(W, M(F(B)))
+=
+\text{lim}_{A \in \text{Ob}(\mathcal{I})}\ \text{Mor}_{\mathcal{C}}(W, M(A))
+$$
+which implies the statement on limits in the lemma. The statement on colimits
+is proved in the same way (proof omitted).
+\end{proof}
 
 \begin{lemma}
 \label{lemma-fibre-products-equalizers-exist}
@@ -1582,7 +1655,47 @@ The following are equivalent:
 \end{lemma}
 
 \begin{proof}
-Omitted.
+Since equalizers and fibre products are finite nonempty connected
+limits we see that (2) implies (1). For the converse, let $\mathcal{I}$
+be a finite nonempty connected diagram category. Let
+$F : \mathcal{J} \to \mathcal{I}$
+be the functor of diagram categories constructed in the proof of
+Lemma \ref{lemma-finite-diagram-category}.
+Then we see that we may replace $\mathcal{I}$ by $\mathcal{J}$.
+The result is that we may assume that
+$\text{Ob}(\mathcal{I}) = \{x_1, \ldots, x_n\} \amalg \{y_1, \ldots, y_m\}$
+with $n, m \geq 1$ such that all nonidentity morphisms in $\mathcal{I}$
+are morphisms $f : x_i \to y_j$ for some $i$ and $j$.
+
+\medskip\noindent
+Suppose that $n > 1$. Since $\mathcal{I}$ is connected there
+exist indices $i_1, i_2$ and $j_0$ and morphisms $a : x_{i_1} \to y_{j_0}$
+and $b : x_{i_2} \to y_{j_0}$. Consider the category
+$$
+\mathcal{I}' =
+\{x\} \amalg \{x_1, \ldots, \hat x_{i_1}, \ldots, \hat x_{i_2}, \ldots x_n\}
+\amalg \{y_1, \ldots, y_m\}
+$$
+with
+$$
+\text{Mor}_{\mathcal{I}'}(x, y_j) = \text{Mor}_{\mathcal{I}}(x_{i_1}, y_j)
+\amalg \text{Mor}_{\mathcal{I}}(x_{i_2}, y_j)
+$$
+and all other morphism sets the same as in $\mathcal{I}$. For any functor
+$M : \mathcal{I} \to \mathcal{C}$ we can construct a functor
+$M' : \mathcal{I}' \to \mathcal{C}$ by setting
+$$
+M'(x) = M(x_{i_1}) \times_{M(a), M(y_j), M(b)} M(x_{i_2})
+$$
+and for a morphism $f' : x \to y_j$ corresponding to, say,
+$f : x_{i_1} \to y_j$ we set $M'(f) = M(f) \circ \text{pr}_1$.
+Then the functor $M$ has a limit if and only if the functor $M'$ has
+a limit (proof omitted). Hence by induction we reduce to the case $n = 1$.
+
+\medskip\noindent
+If $n = 1$, then the limit of any $M : \mathcal{I} \to \mathcal{C}$ is
+the successive equalizer of pairs of maps $x_1 \to y_j$ hence
+exists by assumption.
 \end{proof}
 
 \begin{lemma}
