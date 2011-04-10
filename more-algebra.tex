@@ -2426,8 +2426,453 @@ we also conclude that $M'_{I, a} = M_{I, a}$ for such a pair and we win.
 
 
 
+\section{The Koszul complex}
+\label{section-koszul}
+
+\noindent
+We define the Koszul complex as follows.
+
+\begin{definition}
+\label{definition-koszul}
+Let $R$ be a ring. Let $\varphi : E \to R$ be an $R$-module map. The 
+{\it Koszul complex} $K_\bullet(\varphi)$ associated to $\varphi$
+is the commutative differential graded algebra defined as follows:
+\begin{enumerate}
+\item the underlying graded algebra is the exterior algebra
+$K_\bullet(\varphi) = \wedge(E)$,
+\item the differential $d : K_\bullet(\varphi) \to K_\bullet(\varphi)$
+is the unique derivation such that $d(e) = \varphi(e)$ for all
+$e \in E = K_1(\varphi)$.
+\end{enumerate}
+\end{definition}
+
+\noindent
+Explicitly, if $e_1 \wedge \ldots \wedge e_n$ is one of the generators of
+degree $n$ in $K_\bullet(\varphi)$, then
+$$
+d(e_1 \wedge \ldots \wedge e_n) =
+\sum\nolimits_{i = 1, \ldots, n} (-1)^{i + 1}
+\varphi(e_i)e_1 \wedge \ldots \wedge \widehat{e_i} \wedge \ldots \wedge e_n.
+$$
+It is straightforward to see that this gives a well defined derivation
+on the tensor algebra, which annihilates $e \wedge e$ and hence factors
+through the exterior algebra.
+
+\medskip\noindent
+We often assume that $E$ is a finite free module, say $E = R^{\oplus n}$.
+In this case the map $\varphi$ is given by a sequence of elements
+$f_1, \ldots, f_n \in R$.
+
+\begin{definition}
+\label{definition-koszul-complex}
+Let $R$ be a ring and let $f_1, \ldots, f_n \in R$. The
+{\it Koszul complex on $f_1, \ldots, f_r$} is the Koszul complex
+associated to the map $(f_1, \ldots, f_n) : R^{\oplus n} \to R$.
+Notation $K_\bullet(f_\bullet)$, $K_\bullet(f_1, \ldots, f_n)$,
+or $K_\bullet(R, f_\bullet)$.
+\end{definition}
+
+\noindent
+Of course, if $E$ is finite locally free, then $K_\bullet(\varphi)$ is
+locally on $\text{Spec}(R)$ isomorphic to a Koszul complex
+$K_\bullet(f_1, \ldots, f_n)$.
+This complex has many interesting formal properties.
+
+\begin{lemma}
+\label{lemma-functorial}
+Let $\varphi : E \to R$ and $\varphi : E' \to R$ be an $R$-module maps.
+Let $\psi : E \to E'$ be an $R$-module map such that
+$\varphi' \circ \psi = \varphi$. Then $\psi$ induces a
+homomorphism of differential graded algebras
+$K_\bullet(\varphi) \to K_\bullet(\varphi')$.
+\end{lemma}
+
+\begin{proof}
+This is immediate from the definitions.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-change-basis}
+Let $f_1, \ldots, f_c \in R$ be a sequence.
+Let $(x_{ij})$ be an invertible $c \times x$-matrix with
+coefficients in $R$. Then the complexes
+$K_\bullet(f_\bullet)$ and
+$$
+K_\bullet(\sum x_{1j}f_j, \sum x_{2j}f_j, \ldots, \sum x_{cj}f_j)
+$$
+are isomorphic.
+\end{lemma}
+
+\begin{proof}
+Set $g_i = \sum x_{ij}f_j$.
+The matrix $(x_{ij})$ gives an isomorphism $x : R^{\oplus c} \to R^{\oplus c}$
+such that $(g_1, \ldots, g_c) \circ x = (f_1, \ldots, f_c)$.
+Hence this follows from the functoriality of the Koszul complex
+described in
+Lemma \ref{lemma-functorial}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-homotopy-koszul-abstract}
+Let $R$ be a ring. Let $\varphi : E \to R$ be an $R$-module map.
+Let $e \in E$ with image $f = \varphi(e)$ in $R$. Then
+$$
+f = de + ed
+$$
+as endomorphisms of $K_\bullet(\varphi)$.
+\end{lemma}
+
+\begin{proof}
+This is true because $d(ea) = d(e)a - ed(a) = fa - ed(a)$.
+\end{proof}
+
+\noindent
+In
+Derived Categories, Section \ref{derived-section-cones}
+we defined the cone of a morphism of cochain complexes.
+The cone $C(f)_\bullet$ of a morphism of chain complexes
+$f : A_\bullet \to B_\bullet$ is the complex $C(f)_\bullet$ given by
+$C(f)_n = B_n \oplus A_{n - 1}$ and differential
+\begin{equation}
+\label{equation-differential-cone}
+d_{C(f), n} =
+\left(
+\begin{matrix}
+d_{B, n} & f^{n - 1} \\
+0 & -d_{A, n - 1}
+\end{matrix}
+\right)
+\end{equation}
+It comes equipped with canonical morphisms of complexes
+$i : B_\bullet \to C(f)_\bullet$ and
+$p : C(f)_\bullet \to A_\bullet[-1]$
+induced by the obvious maps $B_n \to C(f)_n \to A_{n - 1}$.
+
+\begin{lemma}
+\label{lemma-cone-koszul-abstract}
+Let $R$ be a ring. Let $\varphi : E \to R$ be an $R$-module map.
+Let $f \in R$. Set $E' = E \oplus R$ and define $\varphi' : E' \to R$
+by $\varphi$ on $E$ and multiplication by $f$ on $R$.
+The complex $K_\bullet(\varphi')$ is isomorphic to the
+cone of the map of complexes
+$$
+f :
+K_\bullet(\varphi)
+\longrightarrow
+K_\bullet(\varphi).
+$$
+\end{lemma}
+
+\begin{proof}
+Denote $e_0 \in E'$ the element $1 \in R \subset R \oplus E$.
+By our definition of the cone above we see that
+$$
+C(f)_n = K_n(\varphi) \oplus K_{n - 1}(\varphi) =
+\wedge^n(E) \oplus \wedge^{n - 1}(E) = \wedge^n(E')
+$$
+where in the last $=$ we map $(0, e_1 \wedge \ldots \wedge e_{n - 1})$
+to $e_0 \wedge e_1 \wedge \ldots \wedge e_{n - 1}$ in $\wedge^n(E')$.
+A computation shows that this isomorphism is compatible with
+differentials. Namely, this is clear for elements of the first
+summand as $\varphi'|_E = \varphi$ and $d_{C(f)}$ restricted to
+the first summand is just $d_{K_\bullet(\varphi)}$.
+On the other hand, if $e_1 \wedge \ldots \wedge e_{n - 1}$
+is in the first summand, then
+$$
+d_{C(f)}(0, e_1 \wedge \ldots \wedge e_{n - 1}) =
+fe_1 \wedge \ldots \wedge e_{n - 1}
+- d_{K_\bullet(\varphi)}(e_1 \wedge \ldots \wedge e_{n - 1})
+$$
+and on the other hand
+$$
+\begin{matrix}
+d_{K_\bullet(\varphi')}(e_0 \wedge e_1 \wedge \ldots \wedge e_{n - 1})
+\hfill \\
+= \sum\nolimits_{i = 0, \ldots, n - 1}
+(-1)^i \varphi'(e_i)e_0 \wedge \ldots \wedge \widehat{e_i}
+\wedge \ldots \wedge e_{n - 1} \hfill \\
+= fe_1 \wedge \ldots \wedge e_{n - 1} +
+\sum\nolimits_{i = 1, \ldots, n - 1}
+(-1)^i \varphi(e_i)e_0 \wedge \ldots \wedge \widehat{e_i}
+\wedge \ldots \wedge e_{n - 1} \hfill \\
+= fe_1 \wedge \ldots \wedge e_{n - 1} -
+e_0 \left(\sum\nolimits_{i = 1, \ldots, n - 1}
+(-1)^{i + 1} \varphi(e_i)e_1 \wedge \ldots \wedge \widehat{e_i}
+\wedge \ldots \wedge e_{n - 1}\right)
+\end{matrix}
+$$
+which is the image of the result of the previous computation.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-cone-koszul}
+Let $R$ be a ring. Let $f_1, \ldots, f_n$ be a sequence of elements
+of $R$. The complex $K_\bullet(f_1, \ldots, f_n)$ is isomorphic to the
+cone of the map of complexes
+$$
+f_n :
+K_\bullet(f_1, \ldots, f_{n - 1})
+\longrightarrow
+K_\bullet(f_1, \ldots, f_{n - 1}).
+$$
+\end{lemma}
+
+\begin{proof}
+Special case of
+Lemma \ref{lemma-cone-koszul-abstract}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-cone-squared}
+Let $R$ be a ring. Let $A_\bullet$ be a complex of $R$-modules.
+Let $f, g \in R$. Let $C(f)_\bullet$ be the cone of
+$f : A_\bullet \to A_\bullet$. Define similarly $C(g)_\bullet$ and
+$C(fg)_\bullet$. Then $C(fg)_\bullet$ is homotopy equivalent to the
+cone of a map
+$$
+C(f)_\bullet[1] \longrightarrow C(g)_\bullet
+$$
+\end{lemma}
+
+\begin{proof}
+We first prove this if $A_\bullet$ is the complex consisting of $R$ placed
+in degree $0$. In this case the map we use is
+$$
+\xymatrix{
+0 \ar[r] \ar[d] &
+0 \ar[r] \ar[d] &
+R \ar[r]^f \ar[d]^1 &
+R \ar[r] \ar[d] & 0 \ar[d] \\
+0 \ar[r] & R \ar[r]^g & R \ar[r] & 0 \ar[r] & 0
+}
+$$
+The cone of this is the chain complex consisting of $R \oplus R$ placed in
+degrees $1$ and $0$ and differential (\ref{equation-differential-cone})
+$$
+\left(
+\begin{matrix}
+g & 1 \\
+0 & -f
+\end{matrix}
+\right) :
+R^{\oplus 2} \longrightarrow R^{\oplus 2}
+$$
+We leave it to the reader to show this this chain complex is
+homotopic to the complex $fg : R \to R$. In general we
+write $C(f)_\bullet$ and $C(g)_\bullet$
+as the total complex of the double complexes
+$$
+(R \xrightarrow{f} R) \otimes_R A_\bullet
+\quad\text{and}\quad
+(R \xrightarrow{g} R) \otimes_R A_\bullet
+$$
+and in this way we deduce the result from the special case discussed above.
+Some details omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-koszul-mult-abstract}
+Let $R$ be a ring. Let $\varphi : E \to R$ be an $R$-module map.
+Let $f, g \in R$. Set $E' = E \oplus R$ and define
+$\varphi'_f, \varphi'_g, \varphi'_{fg} : E' \to R$
+by $\varphi$ on $E$ and multiplication by $f, g, fg$ on $R$.
+The complex $K_\bullet(\varphi'_{fg})$ is isomorphic to the
+cone of a map of complexes
+$$
+f :
+K_\bullet(\varphi'_f)[1]
+\longrightarrow
+K_\bullet(\varphi'_g).
+$$
+\end{lemma}
+
+\begin{proof}
+By
+Lemma \ref{lemma-cone-koszul-abstract}
+the complex $K_\bullet(\varphi'_f)$ is isomorphic to the cone of
+multiplication by $f$ on $K_\bullet(\varphi)$ and similarly
+for the other two cases. Hence the the lemma follows from
+Lemma \ref{lemma-cone-squared}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-koszul-mult}
+Let $R$ be a ring. Let $f_1, \ldots, f_{n - 1}$ be a sequence of elements
+of $R$. Let $f, g \in R$. The complex
+$K_\bullet(f_1, \ldots, f_{n - 1}, fg)$
+is homotopy equivalent to the cone of a map of complexes
+$$
+K_\bullet(f_1, \ldots, f_{n - 1}, f)[1]
+\longrightarrow
+K_\bullet(f_1, \ldots, f_{n - 1}, g)
+$$
+\end{lemma}
+
+\begin{proof}
+Special case of
+Lemma \ref{lemma-koszul-mult-abstract}.
+\end{proof}
 
 
+
+
+
+\section{Koszul regular sequences}
+\label{section-koszul-regular}
+
+\noindent
+Please take a look at
+Algebra, Sections \ref{algebra-section-depth} and
+\ref{algebra-section-quasi-regular}
+before looking at this one.
+
+\begin{definition}
+\label{definition-koszul-regular-sequence}
+Let $R$ be a ring.
+A sequence of elements $f_1, \ldots, f_c$ of $R$ is called
+{\it Koszul-regular} if $H_i(K_\bullet(f_1, \ldots, f_r)) = 0$ for
+all $i \not = 0$.
+A sequence of elements $f_1, \ldots, f_c$ of $R$ is called
+{\it $H_1$-regular} if $H_1(K_\bullet(f_1, \ldots, f_r)) = 0$.
+\end{definition}
+
+\noindent
+Clear a Koszul-regular sequence is $H_1$-regular. If $f = f_1 \in R$
+is a length $1$ sequence then it is clear that the following are
+all equivalent
+\begin{enumerate}
+\item $f$ is a regular sequence of length one,
+\item $f$ is a Koszul-regular sequence of length one, and
+\item $f$ is a $H_1$-regular sequence of length one.
+\end{enumerate}
+It is also clear that these imply that $f$ is a quasi-regular sequence
+of length one. But there do exist quasi-regular sequences of length $1$
+which are not regular sequences.
+
+\begin{lemma}
+\label{lemma-regular-koszul-regular}
+A regular sequence is Koszul-regular.
+\end{lemma}
+
+\begin{proof}
+Let $f_1, \ldots, f_c$ be a regular sequence. Then $f_1$ is a nonzero
+divisor in $R$. Hence
+$$
+0 \to K_\bullet(R, f_2, \ldots, f_c) \xrightarrow{f_1}
+K_\bullet(R, f_2, \ldots, f_c) \to
+K_\bullet(R/(f_1), \overline{f}_2, \ldots, \overline{f}_c) \to 0
+$$
+is a short exact sequence of complexes. By
+Lemma \ref{lemma-cone-koszul}
+the complex $K_\bullet(R, f_1, \ldots, f_c)$
+is isomorphic to the cone of the first map. Hence
+$K_\bullet(R/(f_1), \overline{f}_2, \ldots, \overline{f}_c)$
+is quasi-isomorphic to $K_\bullet(R, f_1, \ldots, f_c)$.
+As $\overline{f}_2, \ldots, \overline{f}_c$ is a regular sequence
+in $R/(f_1)$ the result follows from the case $c = 1$ discussed above and
+induction.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-mult-koszul-regular}
+Let $f_1, \ldots, f_{c - 1} \in R$ be a sequence and $f, g \in R$.
+\begin{enumerate}
+\item If $f_1, \ldots, f_{c - 1}, f$ and $f_1, \ldots, f_{c - 1}, g$
+are $H_1$-regular then $f_1, \ldots, f_{c - 1}, fg$ is an
+$H_1$-regular sequence too.
+\item If $f_1, \ldots, f_{c - 1}, f$ and $f_1, \ldots, f_{c - 1}, f$ are
+Koszul-regular then $f_1, \ldots, f_{c - 1}, fg$ is a Koszul-regular
+sequence too.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+By
+Lemma \ref{lemma-koszul-mult}
+we have exact sequences
+$$
+H_i(K_\bullet(f_1, \ldots, f_{c - 1}, f)) \to
+H_i(K_\bullet(f_1, \ldots, f_{c - 1}, fg)) \to
+H_i(K_\bullet(f_1, \ldots, f_{c - 1}, g))
+$$
+for all $i$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-koszul-regular-flat-base-change}
+Let $\varphi : R \to S$ be a flat ring map.
+\begin{enumerate}
+\item If $f_1, \ldots, f_r$ is a $H_1$-regular sequence in $R$, then
+$\varphi(f_1), \ldots, \varphi(f_r)$ is a $H_1$-regular sequence in $S$.
+\item If $f_1, \ldots, f_r$ is a Koszul-regular sequence in $R$, then
+$\varphi(f_1), \ldots, \varphi(f_r)$ is a Koszul-regular sequence in $S$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+This is true because
+$K_\bullet(f_1, \ldots, f_r) \otimes_R S =
+K_\bullet(\varphi(f_1), \ldots, \varphi(f_r))$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-H1-regular-quasi-regular}
+An $H_1$-regular sequence is quasi-regular.
+\end{lemma}
+
+\begin{proof}
+Let $f_1, \ldots, f_c$ be an $H_1$-regular sequence.
+Denote $J = (f_1, \ldots, f_c)$. The assumption means that we have
+an exact sequence
+$$
+\wedge^2(R^c) \to R^{\oplus c} \to J \to 0
+$$
+where the first arrow is given by $e_i \wedge e_j \mapsto f_ie_j - f_je_i$.
+In particular this implies that
+$$
+J/J^2 = J \otimes_R R/J = (R/J)^c
+$$
+is a finite free module. To finish the proof we have to prove
+for every $n \geq 2$ the following: if
+$$
+\xi = \sum\nolimits_{|I| = n, I = (i_1, \ldots, i_c)}
+a_I f_1^{i_1} \ldots f_c^{i_c} \in J^{n + 1}
+$$
+then $a_I \in J$ for all $I$. Note that $f_1, \ldots, f_{c - 1}, f_c^n$
+is a $H_1$-regular sequence by
+Lemma \ref{lemma-mult-koszul-regular}.
+Hence we see that the required result holds for
+the multi-index $I = (0, \ldots, 0, n)$. It turns out that we can
+reduce the general case to this case as follows.
+
+\medskip\noindent
+Let $S = R[x_1, x_2, \ldots, x_c, 1/x_c]$.
+Let $y_{ij} \in S$ be the entries of the inverse of the matrix $(x_{ij})$.
+The ring map $R \to S$ is faithfully
+flat, hence $f_1, \ldots, f_c$ is an $H_1$-regular sequence in $S$, see
+Lemma \ref{lemma-koszul-regular-flat-base-change}.
+By
+Lemma \ref{lemma-change-basis}
+we see that
+$$
+g_1 = f_1 - x_1/x_c f_c, \ldots
+g_{c - 1} = f_{c - 1} - x_{c - 1}/x_c f_c,
+g_c = (1/x_c)f_c
+$$
+is an $H_1$-regular sequence in $S$. Finally, note that our element
+$\xi$ can be rewritten
+$$
+\xi = \sum\nolimits_{|I| = n, I = (i_1, \ldots, i_c)}
+a_I (g_1 + x_c g_c)^{i_1} \ldots (g_{c - 1} + x_c g_c)^{i_{c - 1}}
+(x_cg_c)^{i_c}
+$$
+and the coefficient of $g_c^n$ in this expression is
+$$
+\sum a_I x_1^{i_1} \ldots x_c^{i_c} \in JS.
+$$
+Since the monomials $x_1^{i_1} \ldots x_c^{i_c}$ form part of an $R$-basis
+of $S$ over $R$ we conclude that $a_I \in J$ for all $I$ as desired.
+\end{proof}
 
 
 
