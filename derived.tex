@@ -2270,8 +2270,8 @@ s =
 $$
 so that $\pi \circ s = \text{id}_{L^\bullet}$. Finally,
 let $h^n : \tilde L^n \to \tilde L^{n - 1}$ be the map
-which maps the summand $K^n$ of $L^n$ via the identity morphism
-to the summand $K^n$ of $L^{n - 1}$. Then it is a trivial matter
+which maps the summand $K^n$ of $\tilde L^n$ via the identity morphism
+to the summand $K^n$ of $\tilde L^{n - 1}$. Then it is a trivial matter
 (see computations in remark below) to prove that
 $$
 \text{id}_{\tilde L^\bullet} - s \circ \pi
@@ -2295,6 +2295,97 @@ d(0, 0, k) + h(dl, dk + k^{+}, -dk^{+}) =
 (0, k, -dk) + (0, 0, dk + k^{+}) = (0, k, k^{+})$
 as desired.
 \end{remark}
+
+\begin{lemma}
+\label{lemma-make-surjective}
+Let $\mathcal{A}$ be an additive category.
+Let $\alpha : K^\bullet \to L^\bullet$ be a morphism
+of complexes of $\mathcal{A}$.
+There exists a factorization
+$$
+\xymatrix{
+K^\bullet \ar[r]^i \ar@/_1pc/[rr]_\alpha &
+\tilde K^\bullet \ar[r]^{\tilde \alpha} &
+L^\bullet
+}
+$$
+such that
+\begin{enumerate}
+\item $\tilde \alpha$ is a termwise split surjection (see
+Definition \ref{definition-termwise-split-map}),
+\item there is a map of complexes $s : \tilde K^\bullet \to K^\bullet$
+such that $s \circ i = \text{id}_{K^\bullet}$ and such that
+$i \circ s$ is homotopic to $\text{id}_{\tilde K^\bullet}$.
+\end{enumerate}
+Moreover, if both $K^\bullet$ and $L^\bullet$ are in
+$K^{+}(\mathcal{A})$, $K^{-}(\mathcal{A})$, or $K^b(\mathcal{A})$,
+then so is $\tilde K^\bullet$.
+\end{lemma}
+
+\begin{proof}
+Dual to
+Lemma \ref{lemma-make-injective}.
+Take
+$$
+\tilde K^n = K^n \oplus L^n \oplus L^{n + 1}
+$$
+and we define
+$$
+d^n_{\tilde K} =
+\left(
+\begin{matrix}
+d^n_K & 0 & 0 \\
+0 & d^n_L & \text{id}_{L^{n + 1}} \\
+0 & 0 & -d^{n + 1}_L
+\end{matrix}
+\right)
+$$
+Moreover, we set
+$$
+\tilde \alpha =
+\left(
+\begin{matrix}
+\alpha &
+\text{id}_{L^n} &
+0
+\end{matrix}
+\right)
+$$
+which is clearly a split surjection. It is also clear that it defines a
+morphism of complexes. We define
+$$
+i =
+\left(
+\begin{matrix}
+\text{id}_{K^n} \\
+0 \\
+0
+\end{matrix}
+\right)
+$$
+so that clearly $\tilde \alpha \circ i = \alpha$. We set
+$$
+s =
+\left(
+\begin{matrix}
+\text{id}_{K^n} &
+0 &
+0
+\end{matrix}
+\right)
+$$
+so that $s \circ i = \text{id}_{K^\bullet}$. Finally,
+let $h^n : \tilde K^n \to \tilde K^{n - 1}$ be the map
+which maps the summand $L^n$ of $\tilde K^n$ via the identity morphism
+to the summand $L^n$ of $\tilde K^{n - 1}$. Then it is a trivial matter
+to prove that
+$$
+\text{id}_{\tilde K^\bullet} - i \circ s
+=
+d \circ h + h \circ d
+$$
+which finishes the proof of the lemma.
+\end{proof}
 
 \begin{definition}
 \label{definition-split-ses}
@@ -5043,7 +5134,7 @@ Let $\mathcal{A}$ be an abelian category.
 Using the fact that $K(\mathcal{A})$ is a triangulated category we
 may use
 Lemma \ref{lemma-acyclic-is-zero}
-easy proofs of some of the lemmas below which are usually proved by
+to obtain proofs of some of the lemmas below which are usually proved by
 chasing through diagrams.
 Namely, suppose that $\alpha : K^\bullet \to L^\bullet$ is a quasi-isomorphism
 of complexes. Then
@@ -5143,7 +5234,7 @@ agree on $\alpha(d^{n - 1}(K^{n - 1}))$. Hence if
 then these morphisms glue to a morphism
 $\alpha(K^n) + d^{n - 1}(L^{n - 1}) \to I^n$ and, using the injectivity
 of $I^n$, we can extend this to a morphism from all of $L^n$ into $I^n$.
-After this by induction we get the morphism $\beta$ for all $n$ simlutaneously
+After this by induction we get the morphism $\beta$ for all $n$ simultaneously
 (note that we can set $\beta^n = 0$ for all $n \ll 0$ since $I^\bullet$
 is bounded below -- in this way starting the induction).
 
@@ -5281,7 +5372,7 @@ I_3^\bullet \ar[r] &
 $$
 where the vertical arrows are injective resolutions and
 the rows are short exact sequences of complexes.
-In fact, given any quasi-isomorphism $A^\bullet \to I^\bullet$
+In fact, given any injective resolution $A^\bullet \to I^\bullet$
 we may assume $I_1^\bullet = I^\bullet$.
 \end{lemma}
 
@@ -5340,6 +5431,277 @@ and define the maps $B^n \to I_2^n$ to be given as the
 sum of the maps $A^n \to I_1^n$ and $C^n \to I_3^n$.
 Everything is clear.
 \end{proof}
+
+
+
+
+
+
+
+
+\section{Projective resolutions}
+\label{section-projective-resolutions}
+
+\noindent
+This section is dual to
+Section \ref{section-injective-resolutions}.
+We give definitions and state results, but we do not reprove the lemmas.
+
+\begin{definition}
+\label{definition-projective-resolution}
+Let $\mathcal{A}$ be an abelian category.
+Let $A \in \text{Ob}(\mathcal{A})$.
+An {\it projective resolution of $A$} is a complex
+$P^\bullet$ together with a map $P^0 \to A$ such
+that:
+\begin{enumerate}
+\item We have $P^n = 0$ for $n > 0$.
+\item Each $P^n$ is an projective object of $\mathcal{A}$.
+\item The map $P^0 \to A$ induces an isomorphism $\text{Coker}(d^{-1}) \to A$.
+\item We have $H^i(P^\bullet) = 0$ for $i < 0$.
+\end{enumerate}
+Hence $P^\bullet \to A[0]$ is a quasi-isomorphism.
+In other words the complex
+$$
+\ldots \to P^{-1} \to P^0 \to A \to 0 \to \ldots
+$$
+is acyclic. Let $K^\bullet$ be a complex in $\mathcal{A}$.
+An {\it projective resolution of $K^\bullet$} is a complex
+$P^\bullet$ together with a map $\alpha : P^\bullet \to K^\bullet$
+of complexes such that
+\begin{enumerate}
+\item We have $P^n = 0$ for $n \gg 0$, i.e., $P^\bullet$ is bounded above.
+\item Each $P^n$ is an projective object of $\mathcal{A}$.
+\item The map $\alpha : P^\bullet \to K^\bullet$ is a
+quasi-isomorphism.
+\end{enumerate}
+\end{definition}
+
+\begin{lemma}
+\label{lemma-cohomology-bounded-above}
+Let $\mathcal{A}$ be an abelian category.
+Let $K^\bullet$ be a complex of $\mathcal{A}$.
+\begin{enumerate}
+\item If $K^\bullet$ has a projective resolution then
+$H^n(K^\bullet) = 0$ for $n \gg 0$.
+\item If $H^n(K^\bullet) = 0$ for $n \gg 0$ then there
+exists a quasi-isomorphism $L^\bullet \to K^\bullet$
+with $L^\bullet$ bounded above.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Dual to
+Lemma \ref{lemma-cohomology-bounded-below}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-projective-resolutions-exist}
+Let $\mathcal{A}$ be an abelian category.
+Assume $\mathcal{A}$ has enough projectives.
+\begin{enumerate}
+\item Any object of $\mathcal{A}$ has a projective resolution.
+\item If $H^n(K^\bullet) = 0$ for all $n \gg 0$ then
+$K^\bullet$ has a projective resolution.
+\item If $K^\bullet$ is a complex with $K^n = 0$ for $n > a$, then
+there exists a projective resolution $\alpha : P^\bullet \to K^\bullet$
+with $P^n = 0$ for $n > a$ such that each $\alpha^n : P^n \to K^n$ is
+surjective.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Dual to
+Lemma \ref{lemma-injective-resolutions-exist}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-projective-into-acyclic-is-zero}
+Let $\mathcal{A}$ be an abelian category.
+Let $K^\bullet$ be an acyclic complex.
+Let $P^\bullet$ be bounded above and consisting of projective objects.
+Any morphism $P^\bullet \to K^\bullet$ is homotopic to zero.
+\end{lemma}
+
+\begin{proof}
+Dual to
+Lemma \ref{lemma-acyclic-is-zero}.
+\end{proof}
+
+\begin{remark}
+\label{remark-easier-projective}
+Let $\mathcal{A}$ be an abelian category.
+Suppose that $\alpha : K^\bullet \to L^\bullet$ is a quasi-isomorphism
+of complexes. Let $P^\bullet$ be a bounded above complex of projectives.
+Then
+$$
+\text{Hom}_{K(\mathcal{A})}(P^\bullet, K^\bullet)
+\longrightarrow
+\text{Hom}_{K(\mathcal{A})}(P^\bullet, L^\bullet)
+$$
+is an isomorphism. This is dual to
+Remark \ref{remark-easier-proofs}.
+\end{remark}
+
+\begin{lemma}
+\label{lemma-morphisms-lift-projective}
+Let $\mathcal{A}$ be an abelian category.
+Consider a solid diagram
+$$
+\xymatrix{
+K^\bullet & L^\bullet \ar[l]^\alpha \\
+P^\bullet \ar[u] \ar@{-->}[ru]_\beta
+}
+$$
+where $P^\bullet$ is bounded above and consists of projective
+objects, and $\alpha$ is a quasi-isomorphism.
+\begin{enumerate}
+\item There exists a map of complexes $\beta$ making the diagram
+commute up to homotopy.
+\item If $\alpha$ is surjective in every degree
+then we can find a $\beta$ which makes the diagram commute.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Dual to
+Lemma \ref{lemma-morphisms-lift}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-morphisms-equal-up-to-homotopy-projective}
+Let $\mathcal{A}$ be an abelian category. Consider a solid diagram
+$$
+\xymatrix{
+K^\bullet & L^\bullet \ar[l]^\alpha \\
+P^\bullet \ar[u] \ar@{-->}[ru]_{\beta_i} 
+}
+$$
+where $P^\bullet$ is bounded above and consists of projective
+objects, and $\alpha$ is a quasi-isomorphism.
+Any two morphisms $\beta_1, \beta_2$ making the diagram commute
+up to homotopy are homotopic.
+\end{lemma}
+
+\begin{proof}
+Dual to
+Lemma \ref{lemma-morphisms-equal-up-to-homotopy}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-morphisms-from-projective-complex}
+Let $\mathcal{A}$ be an abelian category.
+Let $P^\bullet$ be bounded above complex consisting of projective
+objects. Let $L^\bullet \in K(\mathcal{A})$. Then
+$$
+\text{Mor}_{K(\mathcal{A})}(P^\bullet, L^\bullet)
+=
+\text{Mor}_{D(\mathcal{A})}(P^\bullet, L^\bullet).
+$$
+\end{lemma}
+
+\begin{proof}
+Dual to
+Lemma \ref{lemma-morphisms-into-injective-complex}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-projective-resolution-ses}
+Let $\mathcal{A}$ be an abelian category.
+Assume $\mathcal{A}$ has enough projectives.
+For any short exact sequence
+$0 \to A^\bullet \to B^\bullet \to C^\bullet \to 0$
+of $\text{Comp}^{+}(\mathcal{A})$ there exists a
+commutative diagram in $\text{Comp}^{+}(\mathcal{A})$
+$$
+\xymatrix{
+0 \ar[r] &
+P_1^\bullet \ar[r] \ar[d] &
+P_2^\bullet \ar[r] \ar[d] &
+P_3^\bullet \ar[r] \ar[d] &
+0 \\
+0 \ar[r] &
+A^\bullet \ar[r] &
+B^\bullet \ar[r] &
+C^\bullet \ar[r] &
+0
+}
+$$
+where the vertical arrows are projective resolutions and
+the rows are short exact sequences of complexes.
+In fact, given any projective resolution $P^\bullet \to C^\bullet$
+we may assume $P_3^\bullet = P^\bullet$.
+\end{lemma}
+
+\begin{proof}
+Dual to
+Lemma \ref{lemma-injective-resolution-ses}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-precise-vanishing}
+Let $\mathcal{A}$ be an abelian category.
+Let $P^\bullet$, $K^\bullet$ be complexes.
+Let $n \in \mathbf{Z}$. Assume that
+\begin{enumerate}
+\item $P^\bullet$ is a bounded complex consisting of projective
+objects,
+\item $P^i = 0$ for $i < n$, and
+\item $H^i(K^\bullet) = 0$ for $i \geq n$.
+\end{enumerate}
+Then
+$\text{Hom}_{K(\mathcal{A})}(P^\bullet, K^\bullet) =
+\text{Hom}_{D(\mathcal{A})}(P^\bullet, K^\bullet) = 0$.
+\end{lemma}
+
+\begin{proof}
+The first equality follows from
+Lemma \ref{lemma-morphisms-from-projective-complex}.
+Note that there is a distinguished triangle
+$$
+(\tau_{\leq n - 1}K^\bullet, K^\bullet, \tau_{\geq n}K^\bullet, f, g, h)
+$$
+because the complex $K^\bullet/\tau_{\leq n - 1}K^\bullet$ is
+quasi-isomorphic to $\tau_{\geq n}K^\bullet$. Hence, by
+Lemma \ref{lemma-representable-homological}
+it suffices to prove
+$\text{Hom}_{K(\mathcal{A})}(P^\bullet, \tau_{\leq n - 1}K^\bullet) = 0$ and
+$\text{Hom}_{K(\mathcal{A})}(P^\bullet, \tau_{\geq n} K^\bullet) = 0$.
+The first vanishing is trivial and the second is
+Lemma \ref{lemma-projective-into-acyclic-is-zero}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-lift-map}
+Let $\mathcal{A}$ be an abelian category.
+Let $\beta : P^\bullet \to L^\bullet$ and
+$\alpha : E^\bullet \to L^\bullet$ be
+maps of complexes. Let $n \in \mathbf{Z}$. Assume
+\begin{enumerate}
+\item $P^\bullet$ is a bounded complex of projectives and
+$P^i = 0$ for $i < n$,
+\item $H^i(\alpha)$ is an isomorphism for $i > n$ and surjective
+for $i = n$.
+\end{enumerate}
+Then there exists a map of complexes $\gamma : P^\bullet \to E^\bullet$
+such that $\alpha \circ \gamma$ and $\beta$ are homotopic.
+\end{lemma}
+
+\begin{proof}
+Consider the cone $C^\bullet = C(\alpha)^\bullet$ with map
+$i : L^\bullet \to C^\bullet$.
+Note that $i \circ \beta$ is zero by
+Lemma \ref{lemma-precise-vanishing}.
+Hence we can lift $\beta$ to $E^\bullet$ by
+Lemma \ref{lemma-representable-homological}.
+\end{proof}
+
+
+
+
+
+
+
 
 
 
