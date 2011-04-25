@@ -30,23 +30,237 @@ A reference is \cite{MatCA}.
 
 
 
+
+
+\section{Derived tensor product}
+\label{section-computing-tor}
+
+\noindent
+Let $R$ be a ring. We denote $D(R)$ the derived category of the
+abelian category $\text{Mod}_R$ of $R$-modules. Note that $\text{Mod}_R$
+has enough projectives as every free $R$-module is projective.
+Thus we can define the left derived functors of any additive functor
+from $\text{Mod}_R$ to any abelian category. This implies in particular
+to the functor $- \otimes_R M : \text{Mod}_R \to \text{Mod}_R$
+whose right derived functors are the Tor functors $\text{Tor}_i^R(-, M)$, see
+Algebra, Section \ref{algebra-section-tor}.
+There is also a total right derived functor
+$$
+D^-(\text{Mod}_R) \longrightarrow D^{-}(\text{Mod}_R)
+$$
+which is denoted $-\otimes^{\mathbf{L}} M$.
+
+\medskip\noindent
+But we can do a little better. Suppose $K^\bullet \in D^{-}(R)$.
+Choose a projective resolution $P^\bullet \to K^\bullet$, see
+Derived Categories, Section \ref{derived-section-projective-resolutions}.
+We claim that the functor
+$$
+L^\bullet \longrightarrow \text{Tot}(L^\bullet \otimes_R P^\bullet)
+$$
+initially defined on $\text{Comp}(\text{Mod}_R)$ gives rise to a
+functor $D(R) \to D(R)$ which we will eventually denote
+$ - \otimes^{\mathbf{L}} K^\bullet$.
+
+\begin{lemma}
+\label{lemma-derived-tor-homotopy}
+Let $R$ be a ring.
+Let $P^\bullet$ be a complex of $R$-modules.
+Let $\alpha, \beta : L^\bullet \to M^\bullet$ be homotopy equivalent
+maps of complexes. Then $\alpha$ and $\beta$ induce homotopy equivalent
+maps
+$$
+\text{Tot}(\alpha \otimes \text{id}_P),
+\text{Tot}(\beta \otimes \text{id}_P) :
+\text{Tot}(L^\bullet \otimes_R P^\bullet)
+\longrightarrow
+\text{Tot}(M^\bullet \otimes_R P^\bullet).
+$$
+In particular the construction
+$L^\bullet \mapsto \text{Tot}(L^\bullet \otimes_R P^\bullet)$
+defines an endo-functor of the homotopy category of complexes.
+\end{lemma}
+
+\begin{proof}
+Say $\alpha = \beta + dh + hd$ for some homotopy $h$ defined by
+$h^n : L^n \to M^{n - 1}$. Set
+$$
+H^n = \bigoplus\nolimits_{a + b = n} h^a \otimes \text{id}_{P^b} :
+\bigoplus\nolimits_{a + b = n} L^a \otimes_R P^b
+\longrightarrow
+\bigoplus\nolimits_{a + b = n} M^{a - 1} \otimes_R P^b
+$$
+Then a straightforward computation shows that
+$$
+\text{Tot}(\alpha \otimes \text{id}_P) =
+\text{Tot}(\beta \otimes \text{id}_P) + dH + Hd
+$$
+as maps $\text{Tot}(L^\bullet \otimes_R P^\bullet) \to
+\text{Tot}(M^\bullet \otimes_R P^\bullet)$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-derived-tor-exact}
+Let $R$ be a ring.
+Let $P^\bullet$ be a complex of $R$-modules.
+The functor
+$$
+K(\text{Mod}_R) \longrightarrow K(\text{Mod}_R),\quad
+L^\bullet \longmapsto \text{Tot}(L^\bullet \otimes_R P^\bullet)
+$$
+is an exact functor of triangulated categories.
+\end{lemma}
+
+\begin{proof}
+By our definition of the triangulated structure on
+$K(\text{Mod}_R)$ we have to check that our functor maps
+a termwise split short exact sequence of complexes to a termwise
+split short exact sequence of complexes. As the terms of
+$\text{Tot}(L^\bullet \otimes_R P^\bullet)$ are direct sums
+of the tensor products $L^a \otimes_R P^b$ this is clear.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-derived-tor-quasi-isomorphism}
+Let $R$ be a ring. Let $P^\bullet$ be a bounded above complex of
+flat $R$-modules. The functor
+$$
+K(\text{Mod}_R) \longrightarrow K(\text{Mod}_R),\quad
+L^\bullet \longmapsto \text{Tot}(L^\bullet \otimes_R P^\bullet)
+$$
+transforms quasi-isomorphisms into quasi-isomorphisms and
+acyclic complexes into acyclic complexes.
+\end{lemma}
+
+\begin{proof}
+By
+Lemma \ref{lemma-derived-tor-exact}
+and taking the cone of a quasi-isomorphism we see that it suffices
+to prove the statement on acyclic complexes.
+Let $L^\bullet$ be an acyclic complex of $R$-modules.
+Let $\xi \in H^n(\text{Tot}(L^\bullet \otimes_R P^\bullet))$.
+We have to show that $\xi = 0$.
+Since $\text{Tot}^n(L^\bullet \otimes_R P^\bullet)$ is a direct
+sum with terms $L^a \otimes_R P^b$ we see that $\xi$ comes from
+an element in $H^n(\text{Tot}(\tau_{\leq m}L^\bullet \otimes_R P^\bullet))$
+for some $m \in \mathbf{Z}$. Hence we may assume that $L^\bullet$
+is bounded above. In this case the spectral sequence of
+Homology, Lemma \ref{homology-lemma-first-quadrant-ss}
+has
+$$
+{}'E_1^{p, q} = H^p(L^\bullet \otimes_R P^q)
+$$
+which is zero as $P^q$ is flat and $L^\bullet$ acyclic. Hence
+$H^*(\text{Tot}(L^\bullet \otimes_R P^\bullet)) = 0$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-derived-tor-quasi-isomorphism-other-side}
+Let $R$ be a ring. Let
+$\alpha : P^\bullet \to Q^\bullet$ be a quasi-isomorphism of
+bounded above complexes of flat $R$-modules. For every complex of $R$-modules
+the induced map
+$$
+\text{Tot}(\text{id}_L \otimes \alpha) :
+\text{Tot}(L^\bullet \otimes_R P^\bullet)
+\longrightarrow
+\text{Tot}(L^\bullet \otimes_R Q^\bullet)
+$$
+is a quasi-isomorphism.
+\end{lemma}
+
+\begin{proof}
+Let $\xi \in H^n(\text{Tot}(L^\bullet \otimes_R P^\bullet))$ and assume
+that it maps to zero in
+$H^n(\text{Tot}(L^\bullet \otimes_R Q^\bullet))$.
+Then, arguing as in the proof of
+Lemma \ref{lemma-derived-tor-quasi-isomorphism},
+we can find an integer $m$ such that $\xi$ comes from an element
+$\xi_m \in H^n(\text{Tot}(\tau_{\leq m}L^\bullet \otimes_R P^\bullet))$
+which maps to zero in
+$H^n(\text{Tot}(\tau_{\leq m}L^\bullet \otimes_R Q^\bullet))$.
+Thus to prove injectivity of the map we may work with
+$\tau_{\leq m}L^\bullet$ which is bounded above.
+Similarly for surjectivity. Thus we may assume that $L^\bullet$ is bounded
+above. (Some details omitted.)
+
+\medskip\noindent
+If $L^\bullet$ is bounded above we may choose a projective resolution
+$F^\bullet \to L^\bullet$. Then the maps
+$\text{Tot}(F^\bullet \otimes_R P^\bullet) \to 
+\text{Tot}(L^\bullet \otimes_R P^\bullet)$
+and
+$\text{Tot}(F^\bullet \otimes_R Q^\bullet) \to 
+\text{Tot}(L^\bullet \otimes_R Q^\bullet)$
+are quasi-isomorphisms by
+Lemma \ref{lemma-derived-tor-quasi-isomorphism}.
+Hence it suffices to see that
+$\text{Tot}(F^\bullet \otimes_R P^\bullet) \to
+\text{Tot}(F^\bullet \otimes_R Q^\bullet)$
+is a quasi-isomorphism. And this follows from
+Lemma \ref{lemma-derived-tor-quasi-isomorphism}
+after flipping the $\otimes$-products.
+\end{proof}
+
+\noindent
+Let $K^\bullet$ be an object of $D^{-}(R)$. 
+Choose a projective resolution $P^\bullet \to K^\bullet$, see
+Derived Categories, Section \ref{derived-section-projective-resolutions}.
+In fact, it suffices to choose a resolution by a bounded above
+complex of flat modules. By
+Lemmas \ref{lemma-derived-tor-homotopy} and \ref{lemma-derived-tor-exact}
+we obtain an exact functor of triangulated categories
+$$
+K(\text{Mod}_R) \longrightarrow K(\text{Mod}_R),\quad
+L^\bullet \longmapsto \text{Tot}(L^\bullet \otimes_R P^\bullet)
+$$
+By
+Lemma \ref{lemma-derived-tor-quasi-isomorphism}
+this functor induces a functor $D(R) \to D(R)$ simply because
+$D(R)$ is the localization of $K(\text{Mod}_R)$ at quasi-isomorphism.
+By
+Lemma \ref{lemma-derived-tor-quasi-isomorphism-other-side}
+the resulting functor (up to isomorphism)
+does not depend on the choice of the projective resolution.
+
+\begin{definition}
+\label{definition-derived-tor}
+Let $R$ be a ring. Let $K^\bullet$ be an object of $D^{-}(R)$.
+The {\it derived tensor product}
+$$
+- \otimes_R^{\mathbf{L}} K^\bullet : D(R) \longrightarrow D(R)
+$$
+is the exact functor of triangulated categories described above.
+\end{definition}
+
+\noindent
+Thus at this point $K^\bullet \otimes_R^{\mathbf{L}} L^\bullet$
+is defined whenever $L^\bullet$ is in $D^{-}(R)$.
+Moreover, it is clear from our explicit constructions that
+there is a canonical isomorphism
+$$
+K^\bullet \otimes_R^{\mathbf{L}} L^\bullet
+\cong
+L^\bullet \otimes_R^{\mathbf{L}} K^\bullet
+$$
+whenever both $L^\bullet$ and $K^\bullet$ are in $D^{-}(R)$.
+Hence when we write $K^\bullet \otimes_R^{\mathbf{L}} L^\bullet$
+we will usually be agnostic about which variable we are using to
+define the derived tensor product with.
+
+
+
+
+
+
+
 \section{Spectral sequences for Tor}
 \label{section-spectral-sequence-tor}
 
 
 \noindent
 In this section we collect various spectral sequences that come up
-when considering the Tor functors. Each of these spectral sequences
-is treated as an example. We will often use the following
-notation. If $R$ is a ring and $M$ is an $R$-module, then
-$- \otimes_R M : \text{Mod}_R \to \text{Mod}_R$ is a right exact
-functor. The category $\text{Mod}_R$ has enough projectives.
-Hence the functor $- \otimes_R M$ has left derived functors
-$\text{Tor}_i^R(-, M)$ and a total right derived functor
-$$
-D^-(\text{Mod}_R) \longrightarrow D^{-}(\text{Mod}_R)
-$$
-which is denoted $-\otimes^{\mathbf{L}} M$.
+when considering the Tor functors.
 
 \begin{example}
 \label{example-cohomology-complex-tensored}
@@ -2951,6 +3165,446 @@ $$
 $$
 Since the monomials $x_1^{i_1} \ldots x_c^{i_c}$ form part of an $R$-basis
 of $S$ over $R$ we conclude that $a_I \in J$ for all $I$ as desired.
+\end{proof}
+
+
+
+
+
+
+\section{Pseudo-coherent modules}
+\label{section-pseudo-coherent}
+
+\noindent
+Suppose that $R$ is a ring. Recall that an $R$-module $M$ is of finite type
+if there exists a surjection $R^{\oplus a} \to M$ and of finite presentation
+if there exists a presentation
+$R^{\oplus a_1} \to R^{\oplus a_0} \to M \to 0$.
+Similarly, we can consider those $R$-modules for which there exists
+a length $n$ resolution
+\begin{equation}
+\label{equation-pseudo-coherent}
+R^{\oplus a_n} \to R^{\oplus a_{n - 1}} \to \ldots \to R^{\oplus a_0} \to
+M \to 0
+\end{equation}
+by finite free $R$-modules. A module is called {\it pseudo-coherent}
+of we can find such a resolution for every $n$. Here is the formal
+definition.
+
+\begin{definition}
+\label{definition-pseudo-coherent}
+Let $R$ be a ring. Denote $D(R)$ its derived category.
+Let $m \in \mathbf{Z}$.
+\begin{enumerate}
+\item An object $K^\bullet$ of $D(R)$ is {\it $m$-pseudo-coherent}
+if there exists a bounded complex $E^\bullet$ of finite free $R$-modules
+and a morphism $\alpha : E^\bullet \to K^\bullet$ such that
+$H^i(\alpha)$ is an isomorphism for $i > m$ and $H^m(\alpha)$
+is surjective.
+\item An object $K^\bullet$ of $D(R)$ is {\it pseudo-coherent}
+if it is quasi-isomorphic to a bounded above complex of finite
+free $R$-modules.
+\item An $R$-module $M$ is called {\it $m$-pseudo-coherent} if
+if $M[0]$ is an $m$-pseudo-coherent object of $D(R)$.
+\item An $R$-module $M$ is called
+{\it pseudo-coherent}\footnote{This clashes with what is meant by
+a pseudo-coherent module in \cite{Bourbaki-CA}.}
+if $M[0]$ is a pseudo-coherent object of $D(R)$.
+\end{enumerate}
+\end{definition}
+
+\noindent
+As usual we apply this terminology also to complexes of $R$-modules.
+Since any morphism $E^\bullet \to K^\bullet$ in $D(R)$ is represented
+by an actual map of complexes, see
+Derived Categories, Lemma \ref{derived-lemma-morphisms-from-projective-complex}
+there is no ambiguity.
+Let us first relate this to the informal discussion above.
+
+\begin{lemma}
+\label{lemma-cone-pseudo-coherent}
+Let $R$ be a ring and $m \in \mathbf{Z}$.
+Let $(K^\bullet, L^\bullet, M^\bullet, f, g, h)$ be a distinguished
+triangle in $D(R)$.
+\begin{enumerate}
+\item If $K^\bullet$ is $(m + 1)$-pseudo-coherent and
+$L^\bullet$ is $m$-pseudo-coherent then $M^\bullet$ is
+$m$-pseudo-coherent.
+\item If $K^\bullet, M^\bullet$ are $m$-pseudo-coherent, then
+$L^\bullet$ is $m$-pseudo-coherent.
+\item If $L^\bullet$ is $(m + 1)$-pseudo-coherent and $M^\bullet$
+is $m$-pseudo-coherent, then $K^\bullet$ is $(m + 1)$-pseudo-coherent.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Proof of (1). Choose $\alpha : P^\bullet \to K^\bullet$
+with $P^\bullet$ a bounded complex of finite free modules
+such that $H^i(\alpha)$ is an isomorphism for $i > m + 1$ and
+surjective for $i = m + 1$. We may replace $P^\bullet$ by
+$\sigma_{\geq m + 1}P^\bullet$ and hence we may assume that $P^i = 0$
+for $i \leq m + 1$. Choose $\beta : E^\bullet \to L^\bullet$ with $E^\bullet$
+a bounded complex of finite free modules such that
+$H^i(\beta)$ is an isomorphism for $i > m$ and
+surjective for $i = m$. By
+Derived Categories,
+Lemma \ref{derived-lemma-lift-map}
+we can find a map $\alpha : P^\bullet \to E^\bullet$ such that the diagram
+$$
+\xymatrix{
+K^\bullet \ar[r] & L^\bullet \\
+P^\bullet \ar[u] \ar[r] & E^\bullet \ar[u]
+}
+$$
+is commutative in $D(R)$. The cone $C(\alpha)^\bullet$ is a bounded
+complex of finite free $R$-modules, and the commutativity of the
+diagram implies that there exists a morphism of distinguished triangles
+$$
+(P^\bullet, E^\bullet, C(\alpha)^\bullet)
+\longrightarrow
+(K^\bullet, L^\bullet, M^\bullet).
+$$
+It follows from the induced map on long exact cohomology sequences and
+Homology, Lemmas \ref{homology-lemma-four-lemma} and
+\ref{homology-lemma-five-lemma}
+that $C(\alpha)^\bullet \to M^\bullet$ induces an isomorpism
+on cohomology in degrees $> m$ and a surjection in degree $m$.
+Hence $M^\bullet$ is $m$-pseudo-coherent.
+
+\medskip\noindent
+Assertions (2) and (3) follow from (1) by rotating the distinguished
+triangle.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-finite-cohomology}
+Let $R$ be a ring. Let $K^\bullet$ be a complex of $R$-modules.
+Let $m \in \mathbf{Z}$. If $K^\bullet$ is $m$-pseudo-coherent
+and $H^i(K^\bullet) = 0$ for $i > m$, then $H^m(K^\bullet)$ is
+a finite type $R$-module.
+\end{lemma}
+
+\begin{proof}
+Choose a bounded complex $E^\bullet$ of finite projective $R$-modules
+and a map $\alpha : E^\bullet \to K^\bullet$ which induces an
+isomorphism on cohomology in degrees $> m$ and a surjection in degree $m$.
+It is clear that it suffices to prove the result for $E^\bullet$.
+Let $n$ be the largest integer such that $E^n \not = 0$.
+If $n = m$, then the result is clear.
+If $n > m$, then $E^{n - 1} \to E^n$ is surjective as
+$H^n(E^\bullet) = 0$. As $E^n$ is finite projective we see that
+$E^{n - 1} = E' \oplus E^n$. Hence it suffices to prove the result
+for the complex $(E')^\bullet$ which is the same as $E^\bullet$
+except has $E'$ in degree $n - 1$ and $0$ in degree $n$.
+We win by induction on $n$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-n-pseudo-module}
+Let $R$ be a ring. Let $M$ be an $R$-module.
+Then
+\begin{enumerate}
+\item $M$ is $0$-pseudo-coherent if and only if $M$ is a finite type
+$R$-module,
+\item $M$ is $(-1)$-pseudo-coherent if and only if $M$ is a finitely
+presented $R$-module,
+\item $M$ is $(-d)$-pseudo-coherent if and only if there exists a
+resolution
+$$
+R^{\oplus a_d} \to R^{\oplus a_{d - 1}} \to \ldots \to R^{\oplus a_0} \to
+M \to 0
+$$
+of length $d$, and
+\item $M$ is pseudo-coherent if and only if there exists an
+infinite resolution
+$$
+\ldots \to R^{\oplus a_1} \to R^{\oplus a_0} \to M \to 0
+$$
+by finite free $R$-modules.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+If $M$ is of finite type (resp.\ of finite presentation), then $M$
+is $0$-pseudo-coherent (resp.\ $(-1)$-pseudo-coherent) as follows from the
+discussion preceding
+Definition \ref{definition-pseudo-coherent}.
+Conversely, if $M$ is $0$-pseudo-coherent, then $M = H^0(M[0])$
+is of finite type by
+Lemma \ref{lemma-finite-cohomology}.
+If $M$ is $(-1)$-pseudo-coherent, then it is $0$-pseudo-coherent hence
+of finite type. Choose a surjection $R^{\oplus a} \to M$ and denote
+$K = \text{Ker}(R^{\oplus a} \to M)$. By
+Lemma \ref{lemma-cone-pseudo-coherent}
+we see that $K$ is $0$-pseudo-coherent, hence of finite type, whence
+$M$ is of finite presentation.
+
+\medskip\noindent
+To prove the third and fourth statement use
+induction and an argument similar to the above (details omitted).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-pseudo-coherent}
+Let $R$ be a ring. Let $K^\bullet$ be a complex of $R$-modules.
+The following are equivalent
+\begin{enumerate}
+\item $K^\bullet$ is pseudo-coherent,
+\item $K^\bullet$ is $m$-pseudo-coherent for every $m \in \mathbf{Z}$, and
+\item $K^\bullet$ is quasi-isomorphic to a bounded above complex of finite
+projective $R$-modules.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+We see that (1) $\Rightarrow$ (3) as a finite free module is a finite
+projective $R$-module. Conversely, suppose $P^\bullet$ is a bounded
+above complex of finite projective $R$-modules. Say $P^i = 0$ for
+$i > n_0$. We choose a direct sum decompositions
+$F^{n_0} = P^{n_0} \oplus C^{n_0}$ with $F^{n_0}$ a finite free
+$R$-module, and inductively
+$$
+F^{n - 1} = P^{n - 1} \oplus C^n \oplus C^{n - 1}
+$$
+for $n \leq n_0$ with $F^{n_0}$ a finite free $R$-module. As a complex
+$F^\bullet$ has maps $F^{n - 1} \to F^n$ which agree with $P^{n - 1} \to P^n$,
+induce the identity $C^n \to C^n$, and are zero on $C^{n - 1}$. The map
+$F^\bullet \to P^\bullet$ is a quasi-isomorphism (even a homotopy equivalence)
+and hence (3) implies (1).
+
+\medskip\noindent
+Assume (1). Let $E^\bullet$ be a bounded above complex of finite free
+$R$-modules and let $E^\bullet \to K^\bullet$ be a
+quasi-isomorphism. Then the induced maps
+$\sigma_{\geq m}E^\bullet \to K^\bullet$ from the stupid truncation
+of $E^\bullet$ to $K^\bullet$ show that $K^\bullet$ is $m$-pseudo-coherent.
+Hence (1) implies (2).
+
+\medskip\noindent
+Assume (2). We first apply (2) for $n = 0$ to obtain a
+map of complexes $\alpha : F^\bullet \to K^\bullet$ where $F^\bullet$ is
+bounded above, consists of finite free $R$-modules and such that
+$H^i(\alpha)$ is an isomorphism for $i > 0$ and surjective for $i = 0$.
+Note that these conditions remain satisfied after replacing $F^\bullet$
+by $\sigma_{\geq 0}F^\bullet$. Picture
+$$
+\xymatrix{
+& F^0 \ar[r] \ar[d]^\alpha & F^1 \ar[d]^\alpha \ar[r] & \ldots \\
+K^{-1} \ar[r] & K^0 \ar[r] & K^1 \ar[r] & \ldots
+}
+$$
+By induction on $n < 0$ we are going to extend $F^\bullet$ to a complex
+$F^n \to F^{n + 1} \to \ldots \to F^{-1} \to F^0 \to \ldots$
+of finite free $R$-modules and extend $\alpha$ such that $H^i(\alpha)$
+is an isomorphism for $i > n$ and surjective for $i = n$.
+By shifting it suffices to prove the induction step for $n = -1$.
+By
+Lemma \ref{lemma-finite-cohomology}
+the kernel of $H^0(F^\bullet) = \text{Ker}(d_F^0) \to H^0(K^\bullet)$
+is a finitely generated $R$-module. Hence we can choose a finite free
+$R$-module $F^{-1}$ and a map $d_F^{-1} : F^{-1} \to F^0$ whose image
+is this kernel. Then $\alpha(\text{Im}(d_F^{-1})) \subset
+\text{Im}(d_K^{-1})$ and as $F^{-1}$ is projective we can a lift
+$\alpha : F^{-1} \to K^{-1}$ fitting into the diagram
+$$
+\xymatrix{
+F^{-1} \ar[d] \ar[r] &
+F^0 \ar[r] \ar[d]^\alpha &
+F^1 \ar[d]^\alpha \ar[r] & \ldots \\
+K^{-1} \ar[r] & K^0 \ar[r] & K^1 \ar[r] & \ldots
+}
+$$
+By
+Lemma \ref{lemma-finite-cohomology}
+the cokernel of $H^{-1}(F^\bullet) \to H^{-1}(K^\bullet)$
+is a finitely generated $R$-module. Hence we can add a finite free
+summand to $F^{-1}$ which is annihilated by $d_F^{-1}$ but
+via $\alpha$ maps to generators of this cokernel.
+This proves the lemma.
+\end{proof}
+
+
+
+
+
+
+
+
+\section{Tor dimension}
+\label{section-tor}
+
+\noindent
+Instead of resolving by projective modules we can look
+at resolutions by flat modules. This leads to the following
+concept.
+
+\begin{definition}
+\label{definition-tor-amplitude}
+Let $R$ be a ring. Denote $D(R)$ its derived category.
+Let $a, b \in \mathbf{Z}$.
+\begin{enumerate}
+\item An object $K^\bullet$ of $D(R)$ has
+{\it tor-amplitude in $[a, b]$}
+if $H^i(K^\bullet \otimes_R^\mathbf{L} M) = 0$ for all $R$-modules
+$M$ and all $i \not \in [a, b]$.
+\item An object $K^\bullet$ of $D(R)$ has {\it finite tor dimension}
+if it has tor-amplitude in $[a, b]$ for some $a, b$.
+\item An $R$-module $M$ has {\it tor dimension $\leq d$} if
+if $M[0]$ as an object of $D(R)$ has tor-amplitude in $[-d, 0]$.
+\item An $R$-module $M$ has {\it finite tor dimension}
+if $M[0]$ as an object of $D(R)$ has finite tor dimension.
+\end{enumerate}
+\end{definition}
+
+\noindent
+We observe that if $K^\bullet$ has finite tor dimension,
+then $K^\bullet \in D^b(R)$.
+
+\begin{lemma}
+\label{lemma-last-one-flat}
+Let $R$ be a ring. Let $K^\bullet$ be a bounded above complex of
+flat $R$-modules with tor-amplitude in $[a, b]$.
+Then $\text{Coker}(d_K^{a - 1})$ is a flat $R$-module.
+\end{lemma}
+
+\begin{proof}
+As $K^\bullet$ is a bounded above complex of flat modules we see
+that $K^\bullet \otimes_R M = K^\bullet \otimes_R^{\mathbf{L}} M$.
+Hence for every $R$-module $M$ the sequence
+$$
+K^{a - 2} \otimes_R M \to K^{a - 1} \otimes_R M \to K^a \otimes_R M
+$$
+is exact in the middle. Since
+$K^{a - 2} \to K^{a - 1} \to K^a \to \text{Coker}(d_K^{a - 1}) \to 0$
+is a flat resolution this implies that $\text{Tor}_1^R(F^a, M) = 0$
+for all $R$-modules $M$. This means that
+$\text{Coker}(d_K^a)$ is flat, see
+Algebra, Lemma \ref{algebra-lemma-characterize-flat}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-tor-amplitude}
+Let $R$ be a ring. Let $K^\bullet$ be an object of $D(R)$.
+Let $a, b \in \mathbf{Z}$. The following are equivalent
+\begin{enumerate}
+\item $K^\bullet$ has tor-amplitude in $[a, b]$.
+\item $K^\bullet$ is quasi-isomorphic to a complex
+$E^\bullet$ of flat $R$-modules with $E^i = 0$ for $i \not \in [a, b]$.
+\end{enumerate}
+In particular an $R$-module has tor dimension $0$ if and only if
+it is a flat $R$-module.
+\end{lemma}
+
+\begin{proof}
+If (2) holds, then we may compute
+$K^\bullet \otimes_R^\mathbf{L} M = E^\bullet \otimes_R M$
+and it is clear that (1) holds.
+Assume that (1) holds. We may replace $K^\bullet$ by
+a projective resolution. 
+Let $n$ be the largest integer such that $K^n \not = 0$.
+If $n > b$, then $K^{n - 1} \to K^n$ is surjective as
+$H^n(K^\bullet) = 0$. As $K^n$ is projective we see that
+$K^{n - 1} = K' \oplus K^n$. Hence it suffices to prove the result
+for the complex $(K')^\bullet$ which is the same as $K^\bullet$
+except has $K'$ in degree $n - 1$ and $0$ in degree $n$.
+Thus, by induction on $n$, we reduce to the case that $K^\bullet$
+is a complex of projective $R$-modules with $K^i = 0$ for $i > b$.
+
+\medskip\noindent
+Set $E^\bullet = \tau_{\geq a}K^\bullet$. Everything is clear except
+that $E^a$ is flat which follows immediately from
+Lemma \ref{lemma-last-one-flat}
+and the definitions.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-cone-tor-amplitude}
+Let $R$ be a ring and $m \in \mathbf{Z}$.
+Let $(K^\bullet, L^\bullet, M^\bullet, f, g, h)$ be a distinguished
+triangle in $D(R)$. Let $a, b \in \mathbf{Z}$.
+\begin{enumerate}
+\item If $K^\bullet$ has tor-amplitude in $[a + 1, b + 1]$ and
+$L^\bullet$ has tor-amplitude in $[a, b]$ then $M^\bullet$ has
+tor-amplitude in $[a, b]$.
+\item If $K^\bullet, M^\bullet$ have tor-amplitude in $[a, b]$, then
+$L^\bullet$ has tor-amplitude in $[a, b]$.
+\item If $L^\bullet$ has tor-amplitude in $[a + 1, b + 1]$
+and $M^\bullet$ has tor-amplitude in $[a, b]$, then
+$K^\bullet$ has tor-amplitude in $[a + 1, b + 1]$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Omitted. Hint: This just follows from the long exact cohomology sequence
+associated to a distinguished triangle and the fact that
+$- \otimes_R^{\mathbf{L}} M$ preserves distinguished triangles.
+The easiest one to prove is (2) and the others follow from it by
+translation.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Perfect complexes}
+\label{section-perfect}
+
+\noindent
+A perfect complex is a pseudo-coherent complex of finite tor dimension.
+But we can also define the directly as follows.
+
+\begin{definition}
+\label{definition-perfect}
+Let $R$ be a ring. Denote $D(R)$ the derived category of the abelian
+category of $R$-modules.
+\begin{enumerate}
+\item An object $K$ of $D(R)$ is {\it perfect} if it is quasi-isomorphic
+to a bounded complex of finite projective $R$-modules.
+\item An $R$-module $M$ is {\it perfect} if $M[0]$ is a perfect object
+in $D(R)$.
+\end{enumerate}
+\end{definition}
+
+\begin{lemma}
+\label{lemma-perfect}
+Let $K^\bullet$ be an object of $D(R)$. The following are equivalent
+\begin{enumerate}
+\item $K^\bullet$ is perfect, and
+\item $K^\bullet$ is pseudo-coherent and has finite tor dimension.
+\end{enumerate}
+In particular an $R$-module $M$ is perfect if and only if it has a finite
+resolution by finite projective modules.
+\end{lemma}
+
+\begin{proof}
+It is clear that (1) implies (2), see
+Lemmas \ref{lemma-pseudo-coherent} and \ref{lemma-tor-amplitude}.
+Assume (2). Choose a bounded above complex $F^\bullet$
+of finite free $R$-modules and a quasi-isomorphism $F^\bullet \to K^\bullet$.
+Assume that $K^\bullet$ has tor-amplitude in $[a, b]$.
+Set $E^\bullet = \tau_{\geq a}F^\bullet$. Note that $E^i$ is finite free
+except $E^a$ which is a finitely presented $R$-module.
+By
+Lemma \ref{lemma-last-one-flat}
+$E^a$ is flat. Hence by
+Algebra, Lemma \ref{algebra-lemma-finite-projective}
+we see that $E^a$ is finite projective.
+
+\medskip\noindent
+To see the final statement of the lemma, suppose that $M$ is perfect.
+By the equivalence of (1) and (2) we see that there exists a resolution
+$F_\bullet \to M$ by finite free $R$-modules, see
+Lemma \ref{lemma-n-pseudo-module}.
+Then for $a \ll 0$ we see that $\tau_{\geq a}F^\bullet$ is
+a finite complex of finite projective modules by the argument
+given above. (Details omitted.)
 \end{proof}
 
 
