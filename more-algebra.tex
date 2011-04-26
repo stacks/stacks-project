@@ -272,6 +272,82 @@ Hence when we write $K^\bullet \otimes_R^{\mathbf{L}} L^\bullet$
 we will usually be agnostic about which variable we are using to
 define the derived tensor product with.
 
+\begin{remark}
+\label{remark-base-change}
+We often encounter the following situation. Suppose that
+$$
+\xymatrix{
+A \ar[r] & A' \\
+R \ar[r] \ar[u] & R' \ar[u]
+}
+$$
+is a ``base change'' diagram of rings, i.e., $A' = A \otimes_R R'$.
+In this situation, for any $A$-module $M$ we have
+$M \otimes_A A' = M \otimes_R R'$. Thus $- \otimes_R R'$
+is equal to $- \otimes_A A'$ as a functor $\text{Mod}_A \to \text{Mod}_{A'}$.
+In general this equality {\bf does not extend} to derived tensor products.
+Let $K^\bullet \in D^{-}(A)$. We have
+$$
+K^\bullet \otimes_A^{\mathbf{L}} A' = P^\bullet \otimes_A A'
+$$
+where $P^\bullet \to K^\bullet$ is a projective resolution in the
+category of $A$-modules. Pick a projective resolution
+$E^\bullet \to P^\bullet$ in the category of $R$-modules.
+Then it is also the case that $E^\bullet \to K^\bullet$ is a projective
+resolution in the category of $R$-modules. Hence
+$$
+K^\bullet \otimes_R^{\mathbf{L}} R' = E^\bullet \otimes_R R'
+$$
+The map $E^\bullet \to P^\bullet$ and the map $R' \to A'$
+combined determine a comparison map
+\begin{equation}
+\label{equation-comparison-map}
+K^\bullet \otimes_R^{\mathbf{L}} R' =
+E^\bullet \otimes_R R'
+\longrightarrow
+P^\bullet \otimes_A A' =
+K^\bullet \otimes_A^{\mathbf{L}} A'
+\end{equation}
+A simple example where this is not an isomorphism is to take
+$R = k[x]$, $A = R' = A' = k[x]/(x) = k$ and $K^\bullet = A[0]$.
+Clearly, a necessary condition is that $\text{Tor}_p^R(A, R') = 0$
+for all $p > 0$.
+\end{remark}
+
+\begin{definition}
+\label{definition-tor-independent}
+Let $R$ be a ring. Let $A$, $B$ be $R$-algebras. We say
+$A$ and $B$ are {\it Tor independent over $R$} if
+$\text{Tor}_p^R(A, B) = 0$ for all $p > 0$.
+\end{definition}
+
+\begin{lemma}
+\label{lemma-base-change-comparison}
+In the situation of
+Remark \ref{remark-base-change}
+if $A$ and $R'$ are Tor independent over $R$, then the
+comparison map (\ref{equation-comparison-map}) is an isomorphism.
+\end{lemma}
+
+\begin{proof}
+To prove this we choose a free resolution $F^\bullet \to R'$
+of $R'$ as an $R$-module. Because $A$ and $R'$ are Tor independent over $R$
+we see that $F^\bullet \otimes_R A$ is a free $A$-resolution of $A'$
+over $A$. By our general construction of the derived tensor product
+above we see that
+$$
+P^\bullet \otimes_A A' \cong
+\text{Tot}(P^\bullet \otimes_A (F^\bullet \otimes_R A)) =
+\text{Tot}(P^\bullet \otimes_R F^\bullet) \cong
+\text{Tot}(E^\bullet \otimes_R F^\bullet) \cong
+E^\bullet \otimes_R R'
+$$
+as desired.
+\end{proof}
+
+
+
+
 
 
 
@@ -3670,6 +3746,21 @@ Lemma \ref{lemma-pseudo-coherent}.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-flat-base-change-pseudo-coherent}
+Let $A \to B$ be a flat ring map.
+Let $M$ be an $m$-pseudo-coherent (resp.\ pseudo-coherent)
+$A$-module. Then $M \otimes_A B$
+is an $m$-pseudo-coherent (resp.\ pseudo-coherent) $B$-module.
+\end{lemma}
+
+\begin{proof}
+Immediate consequence of
+Lemma \ref{lemma-pull-pseudo-coherent}
+and the fact that $M \otimes_A^{\mathbf{L}} B = M \otimes_A B$
+because $B$ is flat over $A$.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-glue-pseudo-coherent}
 Let $R$ be a ring. Let $f_1, \ldots, f_r \in R$ be elements which
 generate the unit ideal. Let $m \in \mathbf{Z}$. Let $K^\bullet$
@@ -3764,9 +3855,10 @@ K^{a - 2} \otimes_R M \to K^{a - 1} \otimes_R M \to K^a \otimes_R M
 $$
 is exact in the middle. Since
 $K^{a - 2} \to K^{a - 1} \to K^a \to \text{Coker}(d_K^{a - 1}) \to 0$
-is a flat resolution this implies that $\text{Tor}_1^R(F^a, M) = 0$
+is a flat resolution this implies that
+$\text{Tor}_1^R(\text{Coker}(d_K^{a - 1}), M) = 0$
 for all $R$-modules $M$. This means that
-$\text{Coker}(d_K^a)$ is flat, see
+$\text{Coker}(d_K^{a - 1})$ is flat, see
 Algebra, Lemma \ref{algebra-lemma-characterize-flat}.
 \end{proof}
 
@@ -3779,8 +3871,6 @@ Let $a, b \in \mathbf{Z}$. The following are equivalent
 \item $K^\bullet$ is quasi-isomorphic to a complex
 $E^\bullet$ of flat $R$-modules with $E^i = 0$ for $i \not \in [a, b]$.
 \end{enumerate}
-In particular an $R$-module has tor dimension $0$ if and only if
-it is a flat $R$-module.
 \end{lemma}
 
 \begin{proof}
@@ -3830,6 +3920,126 @@ The easiest one to prove is (2) and the others follow from it by
 translation.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-tor-dimension}
+Let $R$ be a ring. Let $M$ be an $R$-module.
+Let $d \geq 0$. The following are equivalent
+\begin{enumerate}
+\item $M$ has tor dimension $\leq d$, and
+\item there exists a resolution
+$$
+0 \to F_d \to \ldots \to F_1 \to F_0 \to M \to 0
+$$
+with $F_i$ a flat $R$-module.
+\end{enumerate}
+In particular an $R$-module has tor dimension $0$ if and only if
+it is a flat $R$-module.
+\end{lemma}
+
+\begin{proof}
+Assume (2). Then the complex $E^\bullet$ with $E^{-i} = F_i$
+is quasi-isomorphic to $M$. Hence the Tor dimension of $M$ is
+at most $d$ by
+Lemma \ref{lemma-tor-amplitude}.
+Conversely, assume (1). Let $P^\bullet \to M$ be a projective
+resolution of $M$. By
+Lemma \ref{lemma-last-one-flat}
+we see that $\tau_{\geq -d}P^\bullet$ is a flat resolution of
+$M$ of length $d$, i.e., (2) holds.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-summands-tor-amplitude}
+Let $R$ be a ring. Let $a, b \in \mathbf{Z}$.
+If $K^\bullet \oplus L^\bullet$ has tor amplitude in $[a, b]$
+so do $K^\bullet$ and $L^\bullet$.
+\end{lemma}
+
+\begin{proof}
+Clear from the fact that the Tor functors are additive.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-flat-push-tor-amplitude}
+Let $A \to B$ be a ring map. Assume that $B$ is flat as an
+$A$-module. Let $K^\bullet$ be a complex of $B$-modules.
+Let $a, b \in \mathbf{Z}$. If $K^\bullet$ as a complex of $B$-modules
+has tor amplitude in $[a, b]$, then $K^\bullet$ as a complex of
+$A$-modules has tor amplitude in $[a, b]$.
+\end{lemma}
+
+\begin{proof}
+This is true because
+$K^\bullet \otimes_A^{\mathbf{L}} M = K^\bullet \otimes_B^{\mathbf{L}} M$
+since any projective resolution of $K^\bullet$ as a complex of $B$-modules
+is a flat resolution of $K^\bullet$ as a complex of $A$-modules and
+can be used to compute $K^\bullet \otimes_A^{\mathbf{L}} M$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-pull-tor-amplitude}
+Let $A \to B$ be a ring map.
+Let $a, b \in \mathbf{Z}$.
+Let $K^\bullet$ be a complex of $A$-modules with tor amplitude in $[a, b]$.
+Then $K^\bullet \otimes_A^{\mathbf{L}} B$ as a complex of $B$-modules
+has tor amplitude in $[a, b]$.
+\end{lemma}
+
+\begin{proof}
+By
+Lemma \ref{lemma-tor-amplitude}
+we can find a quasi-isomorphism $E^\bullet \to K^\bullet$ where
+$E^\bullet$ is a complex of flat $A$-modules with $E^i = 0$ for
+$i \not \in [a, b]$. Then $E^\bullet \otimes_A B$ computes
+$K^\bullet \otimes_A ^{\mathbf{L}} B$ by construction and
+each $E^i \otimes_A B$ is a flat $B$-module by
+Algebra, Lemma \ref{algebra-lemma-flat-base-change}.
+Hence we conclude by
+Lemma \ref{lemma-tor-amplitude}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-flat-base-change-finite-tor-dimension}
+Let $A \to B$ be a flat ring map. Let $d \geq 0$.
+Let $M$ be an $A$-module of tor dimension $\leq d$.
+Then $M \otimes_A B$ is a $B$-module of tor dimension $\leq d$.
+\end{lemma}
+
+\begin{proof}
+Immediate consequence of
+Lemma \ref{lemma-pull-tor-amplitude}
+and the fact that $M \otimes_A^{\mathbf{L}} B = M \otimes_A B$
+because $B$ is flat over $A$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-glue-tor-amplitude}
+Let $R$ be a ring. Let $f_1, \ldots, f_r \in R$ be elements which
+generate the unit ideal. Let $a, b \in \mathbf{Z}$. Let $K^\bullet$
+be a complex of $R$-modules. If for each $i$ the complex
+$K^\bullet \otimes_R R_{f_i}$ has tor amplitude in $[a, b]$,
+then $K^\bullet$ has tor amplitude in $[a, b]$.
+\end{lemma}
+
+\begin{proof}
+Note that $- \otimes_R R_{f_i}$ is an exact functor and that therefore
+$$
+H^i(K^\bullet)_{f_i} =
+H^i(K^\bullet) \otimes_R R_{f_i} = H^i(K^\bullet \otimes_R R_{f_i}).
+$$
+and similarly for every $R$-module $M$ we have
+$$
+H^i(K^\bullet \otimes_R^{\mathbf{L}} M)_{f_i} =
+H^i(K^\bullet \otimes_R^{\mathbf{L}} M) \otimes_R R_{f_i} =
+H^i(K^\bullet \otimes_R R_{f_i} \otimes_{R_{f_i}}^{\mathbf{L}} M_{f_i}).
+$$
+Hence the result follows from the fact that an $R$-module $N$
+is zero if and only if $N_{f_i}$ is zero for each $i$, see
+Algebra, Lemma \ref{algebra-lemma-cover}.
+\end{proof}
+
+
+
 
 
 
@@ -3867,7 +4077,7 @@ Let $K^\bullet$ be an object of $D(R)$. The following are equivalent
 \item $K^\bullet$ is perfect, and
 \item $K^\bullet$ is pseudo-coherent and has finite tor dimension.
 \end{enumerate}
-In particular an $R$-module $M$ is perfect if and only if it has a finite
+An $R$-module $M$ is perfect if and only if it has a finite
 resolution by finite projective modules.
 \end{lemma}
 
@@ -3894,6 +4104,36 @@ Then for $a \ll 0$ we see that $\tau_{\geq a}F^\bullet$ is
 a finite complex of finite projective modules by the argument
 given above. (Details omitted.)
 \end{proof}
+
+\begin{lemma}
+\label{lemma-two-out-of-three-perfect}
+Let $R$ be a ring. Let $(K^\bullet, L^\bullet, M^\bullet, f, g, h)$
+be a distinguished triangle in $D(R)$. If two out of three of
+$K^\bullet, L^\bullet, M^\bullet$ are
+perfect then the third is also perfect.
+\end{lemma}
+
+\begin{proof}
+Combine
+Lemmas \ref{lemma-perfect}, \ref{lemma-two-out-of-three-pseudo-coherent}, and
+\ref{lemma-cone-tor-amplitude}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-summands-perfect}
+Let $R$ be a ring. If $K^\bullet \oplus L^\bullet$ is perfect, then
+so are $K^\bullet$ and $L^\bullet$.
+\end{lemma}
+
+\begin{proof}
+Follows from
+Lemmas \ref{lemma-perfect}, \ref{lemma-summands-pseudo-coherent}, and
+\ref{lemma-summands-tor-amplitude}.
+\end{proof}
+
+
+
+
 
 
 
@@ -4047,8 +4287,11 @@ which is $(x_{n + 1}g' - 1)I_t$.
 \label{lemma-base-change-relative-finite-presentation}
 Let $R \to A$ be a finite type ring map. Let $M$ be an $A$-module finitely
 presented relative to $R$. For any ring map $R \to R'$ the
-$A \otimes_R R'$-module $M \otimes_R R'$ is finitely presented relative
-to $R'$.
+$A \otimes_R R'$-module
+$$
+M \otimes_A A' = M \otimes_R R'
+$$
+is finitely presented relative to $R'$.
 \end{lemma}
 
 \begin{proof}
@@ -4073,7 +4316,7 @@ over $R$, then $M$ is finitely presented relative to $R$.
 \end{lemma}
 
 \begin{proof}
-Choose a surjection $A[x_1, \ldots, x_n \to B$.
+Choose a surjection $A[x_1, \ldots, x_n] \to B$.
 Choose a presentation
 $$
 A[x_1, \ldots, x_n]^{\oplus s} \to
@@ -4111,7 +4354,7 @@ Lemma \ref{lemma-localize-relative-finite-presentation}.
 Assume (1). Write $1 = \sum f_ig_i$ in $A$.
 Choose a surjection
 $R[x_1, \ldots, x_n, y_1, \ldots, y_r, z_1, \ldots, z_r] \to A$.
-such that $x_i$ maps to $f_i$ and $z_i$ maps to $g_i$. Then we
+such that $y_i$ maps to $f_i$ and $z_i$ maps to $g_i$. Then we
 see that there exists a surjection
 $$
 P = R[x_1, \ldots, x_n, y_1, \ldots, y_r, z_1, \ldots, z_r]/(\sum y_iz_i - 1)
@@ -4314,10 +4557,140 @@ $m$-pseudo-coherent (resp.\ pseudo-coherent) relative to $R$.
 \end{lemma}
 
 \begin{proof}
-TO BE ADDED SOON.
+First we show that $K^\bullet$ is $m$-pseudo-coherent relative to $R$.
+Namely, suppose $R_f[x_1, \ldots, x_n] \to A$ is surjective. Write
+$R_f = R[x_0]/(fx_0 - 1)$. Then $R[x_0, x_1, \ldots, x_n] \to A$
+is surjective, and $R_f[x_1, \ldots, x_n]$ is pseudo-coherent as
+an $R[x_0, \ldots, x_n]$-module. Hence by
+Lemma \ref{lemma-finite-push-pseudo-coherent}
+we see that $K^\bullet$ is $m$-pseudo-coherent as a complex of
+$R[x_0, x_1, \ldots, x_n]$-modules.
+
+\medskip\noindent
+Choose an element $g' \in R[x_0, x_1, \ldots, x_n]$ which maps to $g \in A$. By
+Lemma \ref{lemma-pull-pseudo-coherent}
+we see that
+\begin{align*}
+K^\bullet \otimes_{R[x_0, x_1, \ldots, x_n]}^{\mathbf{L}}
+R[x_0, x_1, \ldots, x_n, \frac{1}{g'}] & =
+K^\bullet \otimes_{R[x_0, x_1, \ldots, x_n]}
+R[x_0, x_1, \ldots, x_n, \frac{1}{g'}] \\
+& = K^\bullet \otimes_A A_f
+\end{align*}
+is $m$-pseudo-coherent as a complex of
+$R[x_0, x_1, \ldots, x_n, \frac{1}{g'}]$-modules.
+write
+$$
+R[x_0, x_1, \ldots, x_n, \frac{1}{g'}] =
+R[x_0, \ldots, x_n, x_{n + 1}]/(x_{n + 1}g' - 1).
+$$
+As $R[x_0, x_1, \ldots, x_n, \frac{1}{g'}]$ is pseudo-coherent as a
+$R[x_0, \ldots, x_n, x_{n + 1}]$-module we conclude (see
+Lemma \ref{lemma-finite-push-pseudo-coherent})
+that $K^\bullet \otimes_A A_g$ is $m$-pseuod-coherent as a complex of
+$R[x_0, \ldots, x_n, x_{n + 1}]$-modules as desired.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-base-change-relative-pseudo-coherent}
+Let $R \to A$ be a finite type ring map. Let $m \in \mathbf{Z}$.
+Let $K^\bullet$ be a complex of $A$-modules which is $m$-pseudo-coherent
+(resp.\ pseudo-coherent) relative to $R$. Let $R \to R'$ be a ring
+map such that $A$ and $R'$ are Tor independent over $R$. Set
+$A' = A \otimes_R R'$. Then
+$K^\bullet \otimes_A^{\mathbf{L}} A'$ is
+is $m$-pseudo-coherent (resp.\ pseudo-coherent) relative to $R'$.
+\end{lemma}
 
+\begin{proof}
+Choose a surjection $R[x_1, \ldots, x_n] \to A$.
+Note that
+$$
+K^\bullet \otimes_A^{\mathbf{L}} A' =
+K^\bullet \otimes_R^{\mathbf{L}} R' =
+K^\bullet \otimes_{R[x_1, \ldots, x_n]}^{\mathbf{L}} R'[x_1, \ldots, x_n]
+$$
+by
+Lemma \ref{lemma-base-change-comparison}
+applied twice. Hence we win by
+Lemma \ref{lemma-pull-pseudo-coherent}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-composition-relative-pseudo-coherent}
+Let $R$ be a ring. Let $A \to B$ be a map of finite type $R$-algebras.
+Let $m \in \mathbf{Z}$. Let $K^\bullet$ be a complex of $B$-modules.
+Assume $A$ is pseudo-coherent relative to $R$. Then the following are
+equivalent
+\begin{enumerate}
+\item $K^\bullet$ is $m$-pseudo-coherent (resp.\ pseudo-coherent)
+relative to $A$, and
+\item $K^\bullet$ is $m$-pseudo-coherent (resp.\ pseudo-coherent)
+relative to $R$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Choose a surjection $R[x_1, \ldots, x_n] \to A$.
+Choose a surjection $A[y_1, \ldots, y_m] \to B$.
+Then we get a surjection
+$$
+R[x_1, \ldots, x_n, y_1, \ldots, y_m] \to A[y_1, \ldots, y_m]
+$$
+which is a flat base change of $R[x_1, \ldots, x_n] \to A$.
+By assumption $A$ is a pseudo-coherent module over $R[x_1, \ldots, x_n]$
+hence by
+Lemma \ref{lemma-flat-base-change-pseudo-coherent}
+we see that $A[y_1, \ldots, y_m]$ is pseudo-coherent over
+$R[x_1, \ldots, x_n, y_1, \ldots, y_m]$. Thus the lemma follows from
+Lemma \ref{lemma-finite-push-pseudo-coherent}
+and the definitions.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-glue-relative-pseudo-coherent}
+Let $R \to A$ be a finite type ring map.
+Let $K^\bullet$ be a complex of $A$-modules.
+Let $m \in \mathbf{Z}$.
+Let $f_1, \ldots, f_r \in A$ generate the unit ideal.
+The following are equivalent
+\begin{enumerate}
+\item each $K^\bullet \otimes_A A_{f_i}$ is
+$m$-pseudo-coherent relative to $R$, and
+\item $K^\bullet$ is $m$-pseudo-coherent relative to $R$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+The implication (2) $\Rightarrow$ (1) is in
+Lemma \ref{lemma-localize-relative-pseudo-coherent}.
+Assume (1). Write $1 = \sum f_ig_i$ in $A$.
+Choose a surjection
+$R[x_1, \ldots, x_n, y_1, \ldots, y_r, z_1, \ldots, z_r] \to A$.
+such that $y_i$ maps to $f_i$ and $z_i$ maps to $g_i$. Then we
+see that there exists a surjection
+$$
+P = R[x_1, \ldots, x_n, y_1, \ldots, y_r, z_1, \ldots, z_r]/(\sum y_iz_i - 1)
+\longrightarrow
+A.
+$$
+Note that $P$ is pseudo-coherent as an
+$R[x_1, \ldots, x_n, y_1, \ldots, y_r, z_1, \ldots, z_r]$-module
+and that $P[1/y_i]$ is pseudo-coherent as an
+$R[x_1, \ldots, x_n, y_1, \ldots, y_r, z_1, \ldots, z_r, 1/y_i]$-module.
+Hence by
+Lemma \ref{lemma-finite-push-pseudo-coherent}
+we see that
+$K^\bullet \otimes_A A_{f_i}$ is an $m$-pseudo-coherent complex
+of $P[1/y_i]$-modules for each $i$.
+Thus by
+Lemma \ref{lemma-glue-pseudo-coherent}
+we see that $K^\bullet$ is pseudo-coherent as a complex of
+$P$-modules, and
+Lemma \ref{lemma-finite-push-pseudo-coherent}
+shows that  $K^\bullet$ is pseudo-coherent as a complex of
+$R[x_1, \ldots, x_n, y_1, \ldots, y_r, z_1, \ldots, z_r]$-modules.
+\end{proof}
 
 
 
