@@ -14389,6 +14389,70 @@ the snake lemma applied to this.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-reverse-long-exact-seq-ext}
+Let $R$ be a ring. Let $N$ be an $R$-module.
+Let $0 \to M' \to M \to M'' \to 0$ be a
+short exact sequence. Then we get a long exact
+sequence
+$$
+\begin{matrix}
+0
+\to \text{Hom}_R(M'', N)
+\to \text{Hom}_R(M, N)
+\to \text{Hom}_R(M', N)
+\\
+\phantom{0\ }
+\to \text{Ext}^1_R(M'', N)
+\to \text{Ext}^1_R(M, N)
+\to \text{Ext}^1_R(M', N)
+\to \ldots
+\end{matrix}
+$$
+\end{lemma}
+
+\begin{proof}
+Pick sets of generators $\{m'_{i'}\}_{i' \in I'}$ and
+$\{m''_{i''}\}_{i'' \in I''}$ of $M'$ and $M''$.
+For each $i'' \in I''$ choose a lift $\tilde m''_{i''} \in M$
+of the element $m''_{i''} \in M''$. Set $F' = \bigoplus_{i' \in I'} R$,
+$F'' = \bigoplus_{i'' \in I''} R$ and $F = F' \oplus F''$.
+Mapping the generators of these free modules to the corresponding
+chosen generators gives surjective $R$-module maps $F' \to M'$,
+$F'' \to M''$, and $F \to M$. We obtain a map of short exact sequences
+$$
+\begin{matrix}
+0 & \to & M' & \to & M & \to & M'' & \to & 0 \\
+& & \uparrow & & \uparrow & & \uparrow \\
+0 & \to & F' & \to & F & \to & F'' & \to & 0 \\
+\end{matrix}
+$$
+By the snake lemma we see that the sequence of kernels
+$0 \to K' \to K \to K'' \to 0$ is short exact sequence of $R$-modules.
+Hence we can continue this process indefinitively. In other words
+we obtain a short exact sequence of resolutions fitting into the diagram
+$$
+\begin{matrix}
+0 & \to & M' & \to & M & \to & M'' & \to & 0 \\
+& & \uparrow & & \uparrow & & \uparrow \\
+0 & \to & F_\bullet' & \to & F_\bullet & \to & F_\bullet'' & \to & 0 \\
+\end{matrix}
+$$
+Because each of the sequences $0 \to F'_n \to F_n \to F''_n \to 0$
+is split exact (by construction) we obtain a short exact sequence of
+complexes
+$$
+0 \to
+\text{Hom}_R(F''_{\bullet}, N) \to
+\text{Hom}_R(F_{\bullet}, N) \to
+\text{Hom}_R(F'_{\bullet}, N) \to
+0
+$$
+by applying the $\text{Hom}_R(-, N)$ functor.
+Thus we get the long exact sequence from
+the snake lemma applied to this.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-annihilate-ext}
 Let $R$ be a ring. Let $M$, $N$ be $R$-modules.
 Any $x\in R$ such that either $xN = 0$, or $xM = 0$
@@ -14404,7 +14468,7 @@ clear when $xN = 0$. If $xM = 0$, then
 we see that multiplication by $x$ on $F_{\bullet}$
 lifts the zero map on $M$. Hence by Lemma
 \ref{lemma-ext-welldefined} we see that it
-induces the same map on EXt groups as the
+induces the same map on Ext groups as the
 zero map.
 \end{proof}
 
@@ -15129,9 +15193,13 @@ $\text{Hom}_R(P, N) \to \text{Hom}_R(P, N')$ is surjective.
 
 \begin{lemma}
 \label{lemma-characterize-projective}
-Let $R$ be a ring.
-An $R$-module $P$ is projective if and only if $P$ is a direct summand
-of a free $R$-module.
+Let $R$ be a ring. Let $P$ be an $R$-module.
+The following are equivalent
+\begin{enumerate}
+\item $P$ is projective,
+\item $P$ is a direct summand of a free $R$-module, and
+\item $\text{Ext}^1_R(P, M) = 0$ for every $R$-module $M$.
+\end{enumerate}
 \end{lemma}
 
 \begin{proof}
@@ -15148,8 +15216,42 @@ as $\text{Hom}_R(F, M) = \prod_{i \in I} M$ and the functor
 $M \mapsto \prod_{i \in I} M$ is exact.
 Then $\text{Hom}_R(F, -) = \text{Hom}_R(P, -) \times \text{Hom}_R(Q, -)$
 as functors, hence both $P$ and $Q$ are projective.
+
+\medskip\noindent
+Assume $P \oplus Q = F$ is a free $R$-module. Then we have a
+free resolution $F_\bullet$ of the form
+$$
+\ldots F \xrightarrow{a} F \xrightarrow{b} F \to P \to 0
+$$
+where the maps $a, b$ alternate and are equal to the projector onto
+$P$ and $Q$. Hence the complex $\text{Hom}_R(F_\bullet, M)$ is split
+exact in degrees $\geq 1$, whence we see the vanishing in (3).
+
+\medskip\noindent
+Assume $\text{Ext}^1_R(P, M) = 0$ for every $R$-module $M$.
+Pick a free resolution $F_\bullet \to P$. Set
+$M = \text{Im}(F_1 \to F_0) = \text{Ker}(F_0 \to M)$.
+Consider the element $\xi \in \text{Ext}^1_R(P, M)$ given by
+the class of the quotient map $\pi : F_1 \to M$. Since $\xi$ is zero
+there exists a map $s : F_0 \to M$ such that $\pi = s \circ (F_1 \to F_0)$.
+Clearly, this means that
+$$
+F_0 = \text{Ker}(s) \oplus \text{Ker}(F_0 \to P) =
+P \oplus \text{ker}(F_0 \to P)
+$$
+and we win.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-direct-sum-projective}
+A direct sum of projective modules is projective.
+\end{lemma}
+
+\begin{proof}
+This is true by the characterization of projectives as direct
+summands of free modules in
+Lemma \ref{lemma-characterize-projective}.
+\end{proof}
 
 \begin{lemma}
 \label{lemma-lift-projective}
@@ -21464,28 +21566,27 @@ Since $P_i$ are projective we have $N \cong K \oplus P_2
 
 \begin{definition}
 \label{definition-finite-proj-dim}
-Let $R$ be a Noetherian ring.
-A finite module $M$ over $R$ is said to have {\it finite
-projective dimension} if it has a finite length resolution by finite
-projective $R$-modules. The minimal length of such a
-finite projective resolution is called the {\it projective
-dimension} of $M$.
+Let $R$ be a ring. Let $M$ be an $R$-module. We say $M$ has
+{\it finite projective dimension} if it has a finite length
+resolution by projective $R$-modules. The minimal length of such a
+resolution is called the {\it projective dimension}
+of $M$.
 \end{definition}
 
 \noindent
+It is clear that the projective dimension of $M$ is $0$ if and
+only if $M$ is a projective module.
 The following lemma explains to what extend the projective
-dimension is independent of the choice of a finite projective
+dimension is independent of the choice of a projective
 resolution.
 
 \begin{lemma}
 \label{lemma-independent-resolution}
-Let $R$ be a Noetherian ring.
-Suppose that $M$ is a finite $R$-module
-of projective dimension $d$.
-Suppose that $F_e \to F_{e-1} \to \ldots \to F_0 \to M \to 0$
-is exact with $F_i$ finite projective and $e \geq d - 1$.
-Then the kernel of $F_e \to F_{e-1}$ is finite projective
-(or the kernel of $F_0 \to M$ is finite projective in case
+Let $R$ be a ring. Suppose that $M$ is an $R$-module of projective
+dimension $d$. Suppose that $F_e \to F_{e-1} \to \ldots \to F_0 \to M \to 0$
+is exact with $F_i$ projective and $e \geq d - 1$.
+Then the kernel of $F_e \to F_{e-1}$ is projective
+(or the kernel of $F_0 \to M$ is projective in case
 $e = 0$).
 \end{lemma}
 
@@ -21493,15 +21594,17 @@ $e = 0$).
 We prove this by induction on $d$. If $d = 0$, then
 $M$ is projective. In this case there is a splitting
 $F_0 = \text{Ker}(F_0 \to M) \oplus M$, and hence
-$\text{Ker}(F_0 \to M)$ is finite projective. This finishes
+$\text{Ker}(F_0 \to M)$ is projective. This finishes
 the proof if $e = 0$, and if $e > 0$, then replacing
 $M$ by $\text{Ker}(F_0 \to M)$ we decrease $e$.
 
 \medskip\noindent
 Next assume $d > 0$.
 Let $0 \to P_d \to P_{d-1} \to \ldots \to P_0 \to M \to 0$
-be a minimal length finite resolution with $P_i$ finite projective.
-According to Schanuel's Lemma \ref{lemma-Schanuel} we have
+be a minimal length finite resolution with $P_i$ projective.
+According to
+Schanuel's Lemma \ref{lemma-Schanuel}
+we have
 $P_0 \oplus \text{Ker}(F_0 \to M) \cong F_0 \oplus \text{Ker}(P_0 \to M)$.
 This proves the case $d = 1$, $e = 0$, because then the right
 hand side is $F_0 \oplus P_1$ which is projective. Hence now we may
@@ -21510,20 +21613,197 @@ $F_0 \oplus \text{Ker}(P_0 \to M)$ has the finite projective resolution
 $0 \to P_d \oplus F_0 \to P_{d-1} \oplus F_0 \to \ldots \to P_1 \oplus F_0
 \to \text{Ker}(P_0 \to M) \oplus F_0 \to 0$ of length $d - 1$.
 By induction on $d$ we see that the kernel of
-$F_{e} \oplus P_0 \to F_{e-1} \oplus P_0$ is finite projective.
+$F_{e} \oplus P_0 \to F_{e-1} \oplus P_0$ is projective.
 This implies the lemma.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-projective-dimension-ext}
+Let $R$ be a ring. Let $M$ be an $R$-module. Let $n \geq 0$.
+The following are equivalent
+\begin{enumerate}
+\item $M$ has projective dimension $\leq n$,
+\item $\text{Ext}^i_R(M, N) = 0$ for all $R$-modules $N$ and all
+$i \geq n + 1$, and
+\item $\text{Ext}^{n + 1}_R(M, N) = 0$ for all $R$-modules $N$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Assume (1). Choose a free resolution $F_\bullet \to M$ of $M$. Denote
+$d_e : F_e \to F_{e - 1}$. By
+Lemma \ref{lemma-independent-resolution}
+we see that $P_e = \text{Ker}(d_e)$ is projective for $e \geq n - 1$.
+This implies that $F_e \cong P_e \oplus P_{e - 1}$ for $e \geq n$
+where $d_e$ maps the summand $P_{e - 1}$ isomorphically to $P_{e - 1}$
+in $F_{e - 1}$. Hence, for any $R$-module $N$ the complex
+$\text{Hom}_R(F_\bullet, N)$ is split exact in degrees $\geq n + 1$.
+Whence (2) holds. The implication (2) $\Rightarrow$ (3) is trivial.
+
+\medskip\noindent
+Assume (3) holds. If $n = 0$ then $M$ is projective by
+Lemma \ref{lemma-characterize-projective}
+and we see that (1) holds. If $n > 0$ choose a free $R$-module $F$
+and a surjection $F \to M$ with kernel $K$. By
+Lemma \ref{lemma-reverse-long-exact-seq-ext}
+and the vanishing of $\text{Ext}_R^i(F, N)$ for all $i > 0$ by part (1)
+we see that $\text{Ext}_R^n(K, N) = 0$ for all $R$-modules $N$.
+Hence by induction we see that $N$ has projective dimension $\leq n - 1$.
+Then $M$ has projective dimension $\leq n$ as any finite projective
+resolution of $N$ gives a projective resolution of length one more
+for $M$ by adding $F$ to the front.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-exact-sequence-projective-dimension}
+Let $R$ be a ring. Let $0 \to M' \to M \to M'' \to 0$ be a short
+exact sequence of $R$-modules.
+\begin{enumerate}
+\item If $M$ has projective dimension $\leq n$ and $M''$
+has projective dimension $\leq n + 1$, then $M'$ has projective
+dimension $\leq n$.
+\item If $M'$ and $M''$ have projective dimension
+$\leq n$ then $M$ has projective dimension $\leq n$.
+\item If $M'$ has projective dimension $\leq n$ and
+$M$ has projective dimension $\leq n + 1$ then
+$M''$ has projective dimension $\leq n + 1$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Combine the characterization of projective dimension in
+Lemma \ref{lemma-projective-dimension-ext}
+with the long exact sequence of ext groups in
+Lemma \ref{lemma-reverse-long-exact-seq-ext}.
 \end{proof}
 
 \begin{definition}
 \label{definition-finite-gl-dim}
-Let $R$ be a Noetherian ring. The ring
+Let $R$ be a ring. The ring
 $R$ is said to have {\it finite global dimension}
 if there exists an integer $n$ such that
-every finite $R$-module has a resolution by finite
+every $R$-module has a resolution by
 projective $R$-modules of length at most $n$.
 The minimal such $n$ is then called the {\it global dimension}
 of $R$.
 \end{definition}
+
+\noindent
+The argument in the proof of the following lemma can be found
+in the paper \cite{Auslander} by Auslander.
+
+\begin{lemma}
+\label{lemma-finite-gl-dim}
+Let $R$ be a ring. The following are equivalent
+\begin{enumerate}
+\item $R$ has finite global dimension $\leq n$,
+\item every finite $R$-module has projective dimension $\leq n$, and
+\item every cyclic $R$-module $R/I$ has projective dimension $\leq n$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+It is clear that (1) $\Rightarrow$ (3).
+Assume (3). Since every finite $R$-module has a finite filtration by
+cyclic modules, see
+Lemma \ref{lemma-trivial-filter-finite-module}
+we see that (2) follows by
+Lemma \ref{lemma-exact-sequence-projective-dimension}.
+
+\medskip\noindent
+Assume (2). Let $M$ be an arbitrary $R$-module.
+Choose a set $E \subset M$ of generators of $M$.
+Choose a well ordering on $E$. For $e \in E$ denote
+$M_e$ the submodule of $M$ generated by the elements $e' \in E$
+with $e' \leq e$. Then $M = \bigcup_{e \in E} M_e$.
+Note that for each $e \in E$ the quotient
+$$
+M_e/\bigcup\nolimits_{e' < e} M_{e'}
+$$
+is either zero or generated by one element, hence has projective
+dimension $\leq n$. To finish the proof we claim that any time
+we have a well ordered set $E$ and a module $M = \bigcup_{e \in E} M_e$
+such that the quotients $M_e/\bigcup\nolimits_{e' < e} M_{e'}$
+have projective dimesion $\leq n$, then
+$M$ has projective dimension $\leq n$.
+
+\medskip\noindent
+We may prove this statement by induction on $n$. If $n = 0$, then
+we will show, by transfinite induction that $M$ is projective.
+Namely, for each $e \in E$ we may choose a splitting
+$M_e = \bigcup_{e' < e} M_{e'} \oplus P_e$ because
+$P_e = M_e/\bigcup_{e' < e} M_{e'}$ is projective. Hence it follows
+that $M = \bigoplus_{e \in E} P_e$ and we conclude that $M$ is
+projective, see
+Lemma \ref{lemma-direct-sum-projective}.
+
+\medskip\noindent
+If $n > 0$, then for $e \in E$ we denote $F_e$ the free $R$-module
+on the set of elements of $M_e$. Then we have a system of
+short exact sequences
+$$
+0 \to K_e \to F_e \to M_e \to 0
+$$
+over the well ordered set $E$. Note that the transition maps
+$F_{e'} \to F_e$ and $K_{e'} \to K_e$ are injective too.
+Set $F = \bigcup F_e$ and $K = \bigcup K_e$. Then
+$$
+0 \to
+K_e/\bigcup\nolimits_{e' < e} K_{e'} \to
+F_e/\bigcup\nolimits_{e' < e} F_{e'} \to
+M_e/\bigcup\nolimits_{e' < e} M_{e'} \to 0
+$$
+is a short exact sequence of $R$-modules too and
+$F_e/\bigcup_{e' < e} F_{e'}$ is the free $R$-module on the
+set of elements in $M_e$ which are not contained in $\bigcup_{e' < e} M_{e'}$.
+Hence by
+Lemma \ref{lemma-exact-sequence-projective-dimension}
+we see that the projective dimension of $K_e/\bigcup_{e' < e} K_{e'}$
+is at most $n - 1$. By induction we conclude that $K$ has projective
+dimension at most $n - 1$. Whence $M$ has projective dimension at most
+$n$ and we win.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-localize-finite-gl-dim}
+Let $R$ be a ring. Let $M$ be an $R$-module.
+Let $S \subset R$ be a multiplicative subset.
+\begin{enumerate}
+\item If $M$ has projective dimension $\leq n$, then $S^{-1}M$ has
+projective dimension $\leq n$ over $S^{-1}R$.
+\item If $R$ has finite global dimension $\leq n$, then
+$S^{-1}R$ has finite global dimension $\leq n$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Let $0 \to P_n \to P_{n - 1} \to \ldots \to P_0 \to M \to 0$
+be a projective resolution. As localization is exact, see
+Proposition \ref{proposition-localization-exact},
+and as each $S^{-1}P_i$ is a projective $S^{-1}R$-module, see
+Lemma \ref{lemma-ascend-properties-modules},
+we see that $0 \to S^{-1}P_n \to \ldots \to S^{-1}P_0 \to S^{-1}M \to 0$
+is a projective resolution of $S^{-1}M$. This proves (1).
+Let $M'$ be an $S^{-1}R$-module.
+Note that $M' = S^{-1}M'$.
+Hence we see that (2) follows from (1).
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+\section{Regular rings and global dimension}
+\label{section-regular-finite-gl-dim}
+
+\noindent
+We can use the material on rings of finite global dimension
+to give another characterization of regular local rings.
 
 \begin{proposition}
 \label{proposition-regular-finite-gl-dim}
@@ -21539,27 +21819,6 @@ In particular a regular local ring has global dimension $\leq d$.
 \begin{proof}
 This is clear in view of Lemma \ref{lemma-regular-mcm-free}
 and Lemma \ref{lemma-mcm-resolution}.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-localize-finite-gl-dim}
-If $R$ is a Noetherian ring which has finite global dimension,
-then any localization of $R$ has finite global dimension
-at most the global dimension of $R$.
-\end{lemma}
-
-\begin{proof}
-Let $S \subset R$ be a multiplicative subset.
-Let $M'$ be a finite $S^{-1}R$-module.
-Because $S^{-1}R$ is Noetherian $M'$ is finitely presented.
-Say $M'$ is the cokernel of $A : (S^{-1}R)^m
-\to (S^{-1}R)^n$. There exists an element $s$ of $S$ such
-that $sA$ is the image of a matrix $B$ with coefficients in $R$.
-Thus we see that $M = \text{Coker}(B : R^m \to R^n)$
-is a finite $R$-module such that $M' = S^{-1}M$.
-Since localization is an exact functor, the fact that
-$M$ has a finite length resolution by finite projective
-modules implies the same for $M'$.
 \end{proof}
 
 \begin{lemma}
@@ -21581,10 +21840,13 @@ Conversely, suppose that all the $R_{\mathfrak m}$
 have global dimension $n$. Let $M$ be a finite
 $R$-module. Let
 $0 \to K_n \to F_{n-1} \to \ldots \to F_0 \to M \to 0$.
-be a resolution with $F_i$ finite projective.
-According to Lemma \ref{lemma-independent-resolution}
+be a resolution with $F_i$ finite free.
+Then $K_n$ is a finite $R$-module.
+According to
+Lemma \ref{lemma-independent-resolution}
 and the assumption all the modules $K_n \otimes_R R_{\mathfrak m}$
-are finite free. Hence by Lemma \ref{lemma-finite-projective}
+are projective. Hence by
+Lemma \ref{lemma-finite-projective}
 the module $K_n$ is finite projective.
 \end{proof}
 
