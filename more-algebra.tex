@@ -4712,9 +4712,11 @@ $\text{Tor}_i^R(M, K^\bullet)$.
 
 \begin{lemma}
 \label{lemma-finite-gl-dim-tor-dimension}
-Let $R$ be a ring of finite global dimension. Then
+Let $R$ be a ring of finite global dimension $d$. Then
 \begin{enumerate}
-\item every module has finite tor dimension, and
+\item every module has finite tor dimension $\leq d$,
+\item a complex of $R$-modules $K^\bullet$ with $H^i(K^\bullet) \not = 0$
+only if $i \in [a, b]$ has tor amplitude in $[a - d, b]$, and
 \item a complex of $R$-modules $K^\bullet$ has finite tor dimension if and only
 if $K^\bullet \in D^b(R)$.
 \end{enumerate}
@@ -4722,10 +4724,10 @@ if $K^\bullet \in D^b(R)$.
 
 \begin{proof}
 The assumption on $R$ means that every module has a finite projective
-resolution, in particular every module has finite tor dimension.
-The second statement follows from
+resolution of length at most $d$, in particular every module has finite
+tor dimension. The second statement follows from
 Lemma \ref{lemma-cohomology-tor-amplitude}
-and the definitions.
+and the definitions. The third statement is a rephrasing of the second.
 \end{proof}
 
 
@@ -4991,6 +4993,137 @@ perfect by
 Lemma \ref{lemma-cohomology-perfect}
 \end{proof}
 
+\begin{lemma}
+\label{lemma-cut-complex-in-two}
+Let $R$ be a ring. Let $\mathfrak p \subset R$ be a prime ideal.
+Let $i \in \mathbf{Z}$. Let $K^\bullet$ be a pseudo-coherent complex
+of $R$-modules such that
+$H^i(K^\bullet \otimes_R^{\mathbf{L}} \kappa(\mathfrak p)) = 0$.
+Then there exists an $f \in R$, $f \not \in \mathfrak p$ such that
+$$
+K^\bullet \otimes_R R_f =
+\tau_{\geq i + 1}K^\bullet \otimes_R R_f \oplus
+\tau_{\leq i - 1}K^\bullet \otimes_R R_f
+$$
+in $D(R_f)$ with $\tau_{\geq i + 1}K^\bullet \otimes_R R_f$ a perfect
+complex with tor amplitude in $[i + 1, j]$ for some $j \in \mathbf{Z}$.
+\end{lemma}
+
+\begin{proof}
+We may assume that $K^\bullet$ is a bounded above
+complex of finite free $R$-modules. Let us inspect what is happening
+in degree $i$:
+$$
+\ldots \to K^{i - 2} \to R^{\oplus l}
+\to R^{\oplus m} \to R^{\oplus n} \to K^{i + 2} \to \ldots
+$$
+Let $A$ be the $m \times l$ matrix corresponding to $K^{i - 1} \to K^i$
+and let $B$ be the $n \times m$ matrix corresponding to $K^i \to K^{i + 1}$.
+The assumption is that $A \bmod \mathfrak p$ has rank $r$ and that
+$B \bmod \mathfrak p$ has rank $m - r$. In other words, there is some
+$r \times r$ minor $a$ of $A$ which is not in $\mathfrak p$ and there is
+some $(m - r) \times (m - r)$-minor $b$ of $B$ which is not in $\mathfrak p$.
+Set $f = ab$. Then after inverting $f$ we can find direct sum decompositions
+$K^{i - 1} = R^{\oplus l - r} \oplus R^{\oplus r}$,
+$K^i = R^{\oplus r} \oplus R^{\oplus m - r}$,
+$K^{i + 1} = R^{\oplus m - r} \oplus R^{\oplus n - m + r}$
+such that the module map $K^{i - 1} \to K^i$ kills of
+$R^{\oplus l - r}$ and induces an isomorphism of $R^{\oplus r}$ onto the
+corresponding summand of $K^i$ and such that the module map $K^i \to K^{i + 1}$
+kills of $R^{\oplus r}$ and induces an isomorphism of $R^{\oplus m - r}$
+onto the corresponding summand of $K^{i + 1}$. Thus $K^\bullet$ becomes
+quasi-isomorphic to
+$$
+\ldots \to K^{i - 2} \to R^{\oplus l - r}
+\to 0 \to R^{\oplus n - m + r} \to K^{i + 2} \to \ldots
+$$
+and everything is clear.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-check-perfect-pointwise}
+Let $R$ be a ring. Let $a, b \in \mathbf{Z}$.
+Let $K^\bullet$ be a pseudo-coherent complex of $R$-modules.
+The following are equivalent
+\begin{enumerate}
+\item $K^\bullet$ is perfect with tor amplitude in $[a, b]$,
+\item for every prime $\mathfrak p$ we have
+$H^i(K^\bullet \otimes_R^{\mathbf{L}} \kappa(\mathfrak p)) = 0$ for all
+$i \not \in [a, b]$, and
+\item for every maximal ideal $\mathfrak m$ we have
+$H^i(K^\bullet \otimes_R^{\mathbf{L}} \kappa(\mathfrak m)) = 0$ for all
+$i \not \in [a, b]$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+We omit the proof of the implications (1) $\Rightarrow$ (2) $\Rightarrow$ (3).
+Assume (3). Let $i \in \mathbf{Z}$ with $i \not \in [a, b]$. By
+Lemma \ref{lemma-cut-complex-in-two}
+we see that the assumption implies that $H^i(K^\bullet)_{\mathfrak m} = 0$
+for all maximal ideals of $R$. Hence $H^i(K^\bullet) = 0$, see
+Algebra, Lemma \ref{algebra-lemma-characterize-zero-local}.
+Moreover,
+Lemma \ref{lemma-cut-complex-in-two}
+now also implies that for every maximal ideal
+$\mathfrak m$ there exists an element $f \in R$, $f \not \in \mathfrak m$
+such that $K^\bullet \otimes_R R_f$ is perfect with tor amplitude in
+$[a, b]$. Hence we conclude by applealing to
+Lemmas \ref{lemma-glue-perfect} and \ref{lemma-glue-tor-amplitude}.
+\end{proof}
+
+\noindent
+The following lemma useful in order to find perfect complexes
+over a polynomial ring $B = A[x_1, \ldots, x_d]$.
+
+\begin{lemma}
+\label{lemma-perfect-over-polynomial-ring}
+Let $A \to B$ be a ring map. Let $a, b \in \mathbf{Z}$. Let $d \geq 0$.
+Let $K^\bullet$ be a complex of $B$-modules. Assume
+\begin{enumerate}
+\item the ring map $A \to B$ is flat,
+\item for every prime $\mathfrak p \subset A$ the ring
+$B \otimes_A \kappa(\mathfrak p)$ has finite global dimension $\leq d$,
+\item $K^\bullet$ is pseudo-coherent as a complex of $B$-modules, and
+\item $K^\bullet$ has tor amplitude in $[a, b]$ as a complex
+of $A$-modules.
+\end{enumerate}
+Then $K^\bullet$ is perfect as a complex of $B$-modules
+with tor amplitude in $[a - d, b]$.
+\end{lemma}
+
+\begin{proof}
+We may assume that $K^\bullet$ is a bounded above complex of
+finite free $B$-modules. In particular, $K^\bullet$ is flat as a
+complex of $A$-modules and
+$K^\bullet \otimes_A M = K^\bullet \otimes_A^{\mathbf{L}}$ for any
+$A$-module $M$. For every prime $\mathfrak p$ of $A$ the complex
+$$
+K^\bullet \otimes_A \kappa(\mathfrak p)
+$$
+is a bounded above complex of finite free modules over
+$B \otimes_A \kappa(\mathfrak p)$ with vanishing $H^i$ except
+for $i \in [a, b]$. As $B \otimes_A \kappa(\mathfrak p)$
+has global dimension $d$ we see from
+Lemma \ref{lemma-finite-gl-dim-tor-dimension}
+that $K^\bullet \otimes_A \kappa(\mathfrak p)$ has tor amplitude in
+$[a - d, b]$. Let $\mathfrak q$ be a prime of $B$ lying over $\mathfrak p$.
+Since $K^\bullet \otimes_A \kappa(\mathfrak p)$ is a bounded above
+complex of free $B \otimes_A \kappa(\mathfrak q)$-modules we see
+that
+\begin{align*}
+K^\bullet \otimes_B^{\mathbf{L}} \kappa(\mathfrak q)
+& = K^\bullet \otimes_B \kappa(\mathfrak q) \\
+& = (K^\bullet \otimes_A \kappa(\mathfrak p))
+\otimes_{B \otimes_A \kappa(\mathfrak q)} \kappa(\mathfrak q) \\
+& = (K^\bullet \otimes_A \kappa(\mathfrak p))
+\otimes^{\mathbf{L}}_{B \otimes_A \kappa(\mathfrak q)} \kappa(\mathfrak q)
+\end{align*}
+Hence the arguments above imply that
+$H^i(K^\bullet \otimes_B^{\mathbf{L}} \kappa(\mathfrak q)) = 0$
+for $i \not \in [a - d, b]$. We conclude by
+Lemma \ref{lemma-check-perfect-pointwise}.
+\end{proof}
 
 
 
@@ -5849,9 +5982,9 @@ and $B$ as an $A[x_1, \ldots, x_n]$-module has a finite resolution by
 finite projective $A[x_1, \ldots, x_n]$-modules.
 \end{enumerate}
 The motivation for the definition of a perfect ring map is
-Lemma \ref{lemma-perfect}
-and the translation into the statement above uses
-Lemma \ref{lemma-perfect-module}.
+Lemma \ref{lemma-perfect}.
+The translation into the characterization (2) above uses
+Lemmas \ref{lemma-perfect-over-polynomial-ring} and \ref{lemma-perfect-module}.
 Instead of reformulating all the results of the preceding sections
 in terms of this terminology we refer to (insert future reference here)
 for the corresponding discussion concerning morphisms of schemes.
