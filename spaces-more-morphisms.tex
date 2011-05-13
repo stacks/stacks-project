@@ -74,13 +74,15 @@ $$
 F_y : (\textit{Sch}/T)_{fppf}^{opp} \longrightarrow \textit{Sets}, \quad
 T'/T \longmapsto \{x \in F(T') \mid a(x) = y|_{T'}\}
 $$
-is locally of finite presentation over $T$. We sometimes say that
+is locally of finite presentation over $T$\footnote{The characterization (2) in
+Lemma \ref{lemma-characterize-relative-limit-preserving}
+may be easier to parse.}. We sometimes say that
 $F$ is {\it relatively limit preserving} over $G$.
 \end{enumerate}
 \end{definition}
 
 \noindent
-The functor $F_y$ of the definition is in some sense the fiber of
+The functor $F_y$ is in some sense the fiber of
 $a : F \to G$ over $y$, except that it is a presheaf on the big fppf
 site of $T$. A formula for this functor is:
 \begin{equation}
@@ -116,6 +118,54 @@ Proposition \ref{proposition-characterize-locally-finite-presentation}
 that these two definitions agree.
 
 \begin{lemma}
+\label{lemma-characterize-relative-limit-preserving}
+Let $S$ be a scheme. Let $a : F \to G$ be a transformation of functors
+$(\textit{Sch}/S)_{fppf}^{opp} \to \textit{Sets}$.
+The following are equivalent
+\begin{enumerate}
+\item $F$ is relatively limit preserving over $G$, and
+\item for every every affine scheme $T$ over $S$ which is a
+limit $T = \text{lim}\ T_i$ of a directed inverse system of affine
+schemes $T_i$ over $S$ the diagram of sets
+$$
+\xymatrix{
+\text{colim}_i\ F(T_i) \ar[r] \ar[d]_a & F(T) \ar[d]^a \\
+\text{colim}_i\ G(T_i) \ar[r] & G(T)
+}
+$$
+is a fibre product diagram.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Assume (1). Consider $T = \text{lim}_{i \in I}\ T_i$ as in (2). Let
+$(y, x_T)$ be an element of the fibre product
+$\text{colim}_i\ G(T_i) \times_{G(T)} F(T)$.
+Then $y$ comes from $y_i \in G(T_i)$ for some $i$.
+Consider the functor $F_{y_i}$ on $(\textit{Sch}/T_i)_{fppf}$ as in
+Definition \ref{definition-locally-finite-presentation}.
+We see that $x_T \in F_{y_i}(T)$. Moreover $T = \text{lim}_{i' \geq i}\ T_{i'}$
+is a directed system of affine schemes over $T_i$. Hence (1) implies
+that $x_T$ the image of a unique element $x$ of
+$\text{colim}_{i' \geq i} F_{y_i}(T_{i'})$. Thus $x$ is the unique
+element of $\text{colim}\ F(T_i)$ which maps to the pair $(y, x_T)$.
+This proves that (2) holds.
+
+\medskip\noindent
+Assume (2). Let $T$ be a scheme and $y_T \in G(T)$. We have to show that
+$F_{y_T}$ is limit preserving. Let $T' = \text{lim}_{i \in I}\ T'_i$ be an
+affine scheme over $T$ which is the directed limit of affine scheme $T'_i$
+over $T$. Let $x_{T'} \in F_{y_T}$. Pick $i \in I$ which is possible as
+$I$ is a directed partially ordered set. Denote $y_i \in F(T'_i)$ the
+image of $y_{T'}$. Then we see that $(y_i, x_{T'})$ is an
+element of the fibre product 
+$\text{colim}_i\ G(T'_i) \times_{G(T')} F(T')$.
+Hence by (2) we get a unique element $x$ of $\text{colim}_i\ F(T'_i)$
+mapping to $(y_i, x_{T'})$. It is clear that $x$ defines an element
+of $\text{colim}_i\ F_y(T'_i)$ mapping to $x_{T'}$ and we win.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-composition-locally-finite-presentation}
 Let $S$ be a scheme contained in $\textit{Sch}_{fppf}$.
 Let $F, G, H : (\textit{Sch}/S)_{fppf}^{opp} \to \textit{Sets}$.
@@ -128,23 +178,18 @@ is locally of finite presentation.
 \end{lemma}
 
 \begin{proof}
-Let $T$ be a scheme over $S$. Let $z \in H(T)$.
-We have to show that $F_z$ (notation as in
-Definition \ref{definition-locally-finite-presentation}
-is locally of finite presentation over $T$.
-Let $T'$ be an affine scheme over $T$.
-Suppose that $T' = \text{lim}\ T'_i$ is written as a limit of
-a directed inverse system of affine schemes over $T$.
-Finally, let $x \in F(T')$ with $b(a(x)) = z|_{T'}$.
-By assumption on $b$ there exists an index $i$ and an
-element $y_i \in G(T'_i)$ with $b(y_i) = z|_{T'_i}$ and
-$y_i|_{T'} = a(x)$.
-Then, by assumption on $a$, there exists an index $i' \geq i$
-and an element $x_{i'} \in F(T'_{i'})$ with $a(x_{i'}) = y_i|_{T'_{i'}}$
-and $x_{i'}|_{T'} = x$. It follows that $(b \circ a)(x_{i'}) = z|_{T'_{i'}}$
-and $x_{i'}|_{T'} = x$. In this way we see that the map
-$\text{colim}\ F_z(T'_i) \to F_z(T')$ is surjective.
-We omit the proof of injectivity.
+Let $T = \text{lim}_{i \in I}\ T_i$ as in characterization (2) of
+Lemma \ref{lemma-characterize-relative-limit-preserving}.
+Consider the diagram
+$$
+\xymatrix{
+\text{colim}_i\ F(T_i) \ar[r] \ar[d]_a & F(T) \ar[d]^a \\
+\text{colim}_i\ G(T_i) \ar[r] \ar[d]_b & G(T) \ar[d]^b \\
+\text{colim}_i\ H(T_i) \ar[r] & H(T)
+}
+$$
+By assumption the two squares are fibre product squares. Hence the
+outer rectangle is a fibre product diagram too which proves the lemma.
 \end{proof}
 
 \begin{lemma}
