@@ -334,6 +334,10 @@ def split_label(label):
 		name = "stacks-morphisms"
 		type = pieces[2]
 		n = 3
+	if name == "spaces" and type == "over":
+		name = "spaces-over-fields"
+		type = pieces[3]
+		n = 4
 	while n < len(pieces):
 		rest = rest + "-" + pieces[n]
 		n = n + 1
