@@ -13,7 +13,7 @@ LIJST = introduction conventions sets categories topology sheaves algebra \
 	descent more-morphisms flat groupoids more-groupoids etale \
 	etale-cohomology spaces spaces-properties spaces-morphisms \
 	spaces-topologies spaces-descent spaces-more-morphisms quot \
-	spaces-over-fields stacks \
+	spaces-over-fields stacks formal-defos \
 	spaces-groupoids spaces-more-groupoids bootstrap examples-stacks \
 	groupoids-quotients algebraic criteria stacks-properties \
 	stacks-morphisms examples exercises guide desirables coding
