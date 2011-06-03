@@ -34,13 +34,71 @@ def print_chapters(path):
 	chapters.close()
 	return
 
+# Print version and date
+def print_version(path):
+	from datetime import date
+	from subprocess import Popen, PIPE, STDOUT
+	cmd = 'git --git-dir=' + path + '.git log --pretty=format:%h -n1'
+	p = Popen(cmd, shell=True, stdout=PIPE).stdout
+	version = p.read()
+	p.close()
+	now = date.today()
+	print "Version " + version + ", compiled on " + now.strftime('%h %d, %Y.')
+
+# Print names contributors
+def print_list_contrib(path):
+	filename = path + 'CONTRIBUTORS'
+	CONTRIBUTORS = open(filename, 'r')
+	first = 1
+	for line in CONTRIBUTORS:
+		if line.find("%") == 0:
+			continue
+		if len(line.rstrip()) == 0:
+			continue
+		if first:
+			names = line.rstrip()
+			first = 0
+			continue
+		names = names + ", " + line.rstrip()
+	CONTRIBUTORS.close()
+	names = names + "."
+	print names
+
+# Print license blurp
+def print_license_blurp(path):
+	filename = path + 'introduction.tex'
+	introduction = open(filename, 'r')
+	inside = 0
+	for line in introduction:
+		if line.find('\\begin{verbatim}') == 0:
+			inside = 1
+		if inside == 0:
+			continue
+		print line,
+		if line.find('\\end{verbatim}') == 0:
+			inside = 0
+	introduction.close()
+
 path = get_path()
 
 print_preamble(path)
 
 print "\\begin{document}"
-print "\\title{Stacks Project}"
-print "\\maketitle"
+print "\\begin{titlepage}"
+print "\\pagestyle{empty}"
+print "\\setcounter{page}{1}"
+print "\\centerline{\\LARGE\\bfseries Stacks Project}"
+print "\\vskip1in"
+print "\\noindent"
+print "\\centerline{"
+print_version(path)
+print "}"
+print "\\vskip1in"
+print "\\noindent"
+print "The following people have contributed to this work:"
+print_list_contrib(path)
+print "\\end{titlepage}"
+print_license_blurp(path)
 print "\\tableofcontents"
 
 lijstje = list_text_files(path)
@@ -59,7 +117,8 @@ for name in lijstje:
 		if verbatim:
 			if end_of_verbatim(line):
 				verbatim = 0
-			print line,
+			if name != 'introduction':
+				print line,
 			continue
 		if line.find("\\input{preamble}") == 0:
 			continue
