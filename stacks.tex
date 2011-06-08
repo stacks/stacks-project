@@ -490,7 +490,7 @@ Omitted.
 
 
 
-\section{Definition of stacks}
+\section{Stacks}
 \label{section-definition}
 
 \noindent
@@ -1828,9 +1828,11 @@ and $\{p(y_{ij}) \to p(x)\}_{i \in I, j\in J_i} \in \text{Cov}(\mathcal{C})$.
 Hence also $\{y_{ij} \to x\}_{i \in I, j\in J_i} \in \text{Cov}(\mathcal{S})$.
 \item Suppose $\{x_i \to x\}_{i\in I}\in \text{Cov}(\mathcal{S})$
 and $y \to x$ is a morphism of $\mathcal{S}$. As $\{p(x_i) \to p(x)\}$
-is representable, we see from
+is a covering of $\mathcal{C}$ we see that $p(x_i) \times_{p(x)} p(y)$
+exists. Hence
 Categories, Lemma \ref{categories-lemma-fibred-category-representable-goes-up}
-that $x_i \to x$ is representable and $x_i \times_x y \to y$ is
+implies that $x_i \times_x y$ exists, that $p(x_i \times_x y) =
+p(x_i) \times_{p(x)} p(y)$, and that $x_i \times_x y \to y$ is
 strongly cartesian. Since also
 $\{p(x_i) \times_{p(x)} p(y) \to p(y) \}_{i\in I} \in \text{Cov}(\mathcal{C})$
 we conclude that
@@ -1840,7 +1842,10 @@ This finishes the proof.
 \end{proof}
 
 \noindent
-Note that if $\mathcal{S}$ is fibred in groupoids, then
+Note that if $p : \mathcal{S} \to \mathcal{C}$ is fibred in groupoids, then
+the coverings of the site $\mathcal{S}$ in
+Lemma \ref{lemma-topology-inherited}
+are characterized by
 $$
 \{x_i \to x\} \in \text{Cov}(\mathcal{S})
 \Leftrightarrow
@@ -1885,25 +1890,39 @@ Sites, Lemma \ref{sites-lemma-cocontinuous-morphism-topoi}.
 \end{proof}
 
 \begin{lemma}
-\label{lemma-stack-over-fibred-in-groupoids}
+\label{lemma-stack-in-groupoids-over-stack-in-groupoids}
 Let $\mathcal{C}$ be a site. Let $p : \mathcal{X} \to \mathcal{C}$
 and $q : \mathcal{Y} \to \mathcal{C}$
 be stacks in groupoids. Let $F : \mathcal{X} \to \mathcal{Y}$
 be a $1$-morphism of categories over $\mathcal{C}$. If $F$ turns
 $\mathcal{X}$ into a category fibred in groupoids over $\mathcal{Y}$,
-then $\mathcal{X}$ is a stack in groupoids over $\mathcal{Y}$ with
-topology inherited from $\mathcal{C}$.
+then $\mathcal{X}$ is a stack in groupoids over $\mathcal{Y}$ (with
+topology inherited from $\mathcal{C}$).
 \end{lemma}
 
 \begin{proof}
 Let us prove descent for objects. Let $\{y_i \to y\}$ be a covering
-of $\mathcal{Y}$. Let $(x_i, \varphi_{ij})$ be a descent datum with
-respect to this covering. Then $(x_i, \varphi_{ij})$ is also a descent
+of $\mathcal{Y}$. Let $(x_i, \varphi_{ij})$ be a descent datum in $\mathcal{X}$
+with respect to this covering. Then $(x_i, \varphi_{ij})$ is also a descent
 datum with respect to the covering $\{q(y_i) \to q(x)\}$ of
 $\mathcal{C}$. As $\mathcal{X}$ is a stack in groupoids we obtain an
-object $x$ over $q(y)$ and isomorphisms $x|_{q(y_i)} \to x_i$
-over $q(y_i)$ compatible with the $\varphi_{ij}$.
-TO BE CONTINUED SOON.
+object $x$ over $q(y)$ and isomorphisms $\psi_i : x|_{q(y_i)} \to x_i$
+over $q(y_i)$ compatible with the $\varphi_{ij}$, i.e., such that
+$$
+\varphi_{ij} = \psi_j|_{q(y_i) \times_{q(y)} q(y_j)}
+\circ \psi_i^{-1}|_{q(y_i) \times_{q(y)} q(y_j)}.
+$$
+Consider the sheaf $\mathit{I} = \mathit{Isom}_\mathcal{Y}(F(x), y)$
+on $\mathcal{C}/p(x)$. Note that $s_i = F(\psi_i) \in \mathit{I}(q(x_i))$
+because $F(x_i) = y_i$. Because $F(\varphi_{ij}) = \text{id}$ (as we started
+with a descent datum over $\{y_i \to y\}$) the displayed formula shows
+that $s_i|_{q(y_i) \times_{q(y)} q(y_j)} = s_j|_{q(y_i) \times_{q(y)} q(y_j)}$.
+Hence the local sections $s_i$ glue to $s : F(x) \to y$. As $F$ is fibred in
+groupoids we see that $x$ is isomorphic to an object $x'$ with $F(x') = y$.
+We omit the verification that $x'$ in the fibre category of $\mathcal{X}$
+over $y$ is a solution to the problem of descent posed by the descent datum
+$(x_i, \varphi_{ij})$. We also omit the proof of the sheaf property
+of the $\mathit{Isom}$-presheaves of $\mathcal{X}/\mathcal{Y}$.
 \end{proof}
 
 
@@ -1938,16 +1957,43 @@ $x|_{U_i} \cong y|_{U_i}$ in $\mathcal{S}_{U_i}$.
 In other words, a gerbe is a stack in groupoids such that any two objects
 are locally isomorphic and such that objects exist locally.
 
-\medskip\noindent
-Now we want to do something a tad tricky. Namely, let
+\begin{lemma}
+\label{lemma-gerbe-equivalent}
+Let $\mathcal{C}$ be a site.
+Let $\mathcal{S}_1$, $\mathcal{S}_2$ be categories over $\mathcal{C}$.
+Suppose that $\mathcal{S}_1$ and $\mathcal{S}_2$ are equivalent
+as categories over $\mathcal{C}$.
+Then $\mathcal{S}_1$ is a gerbe over $\mathcal{C}$ if and only if
+$\mathcal{S}_2$ is a gerbe over $\mathcal{C}$.
+\end{lemma}
+
+\begin{proof}
+Assume $\mathcal{S}_1$ is a gerbe over $\mathcal{C}$. By
+Lemma \ref{lemma-stack-in-groupoids-equivalent}
+we see $\mathcal{S}_2$ is a stack in groupoids over $\mathcal{C}$.
+Let $F : \mathcal{S}_1 \to \mathcal{S}_2$,
+$G : \mathcal{S}_2 \to \mathcal{S}_1$ be equivalences of categories over
+$\mathcal{C}$. Given $U \in \text{Ob}(\mathcal{C})$ we see that there exists
+a covering $\{U_i \to U\}$ such that $(\mathcal{S}_1)_{U_i}$ is
+nonempty. Applying $F$ we see that $(\mathcal{S}_2)_{U_i}$ is nonempty.
+Given $U \in \text{Ob}(\mathcal{C})$ and
+$x, y \in \text{Ob}((\mathcal{S}_2)_U)$ there exists
+a covering $\{U_i \to U\}$ in $\mathcal{C}$ such that
+$G(x)|_{U_i} \cong G(y)|_{U_i}$ in $(\mathcal{S}_1)_{U_i}$. By
+Categories, Lemma \ref{categories-lemma-equivalence-fibred-categories}
+this implies $x|_{U_i} \cong y|_{U_i}$ in $(\mathcal{S}_2)_{U_i}$.
+\end{proof}
+
+\noindent
+We want to generalize the definition of gerbes a bit. Namely, let
 $F : \mathcal{X} \to \mathcal{Y}$ be a $1$-morphism of stacks in groupoids
 over a site $\mathcal{C}$. We want to say what it
 means for $\mathcal{X}$ to be a gerbe over $\mathcal{Y}$. By
 Section \ref{section-topology}
 the category $\mathcal{Y}$ inherits the structure of a site from
-$\mathcal{C}$. Hence it seems clear what we should do: Just require that
+$\mathcal{C}$. A naive guess is: Just require that
 $\mathcal{X} \to \mathcal{Y}$ {\it is} a gerbe in the sense above. Except
-the notion so obtained is not independent under replacing $\mathcal{X}$
+the notion so obtained is not invariants under replacing $\mathcal{X}$
 by an equivalent stack in groupoids over $\mathcal{C}$; this is even the
 case for the property of being fibred in groupoids over $\mathcal{Y}$.
 However, it turns out that we can replace $\mathcal{X}$ by an equivalent
@@ -1955,7 +2001,98 @@ stack in groupoids over $\mathcal{Y}$ which is fibred in groupoids over
 $\mathcal{Y}$, and then the property of being a gerbe over $\mathcal{Y}$
 is independent of this choice. Here is the precise formulation.
 
+\begin{lemma}
+\label{lemma-when-gerbe}
+Let $\mathcal{C}$ be a site. Let $p : \mathcal{X} \to \mathcal{C}$
+and $q : \mathcal{Y} \to \mathcal{C}$ be stacks in groupoids.
+Let $F : \mathcal{X} \to \mathcal{Y}$ be a $1$-morphism of categories
+over $\mathcal{C}$. The following are equivalent
+\begin{enumerate}
+\item For some (equivalently any) factorization $F = F' \circ a$ where
+$a : \mathcal{X} \to \mathcal{X}'$ is an equivalence of categories over
+$\mathcal{C}$ and $F'$ is fibred in groupoids, the map
+$F' : \mathcal{X}' \to \mathcal{Y}$ is a gerbe (with the topology
+on $\mathcal{Y}$ inherited from $\mathcal{C}$).
+\item The following two conditions are satisfied
+\begin{enumerate}
+\item for $y \in \text{Ob}(\mathcal{Y})$ lying over
+$U \in \text{Ob}(\mathcal{C})$ there exists a covering
+$\{U_i \to U\}$ in $\mathcal{C}$ and objects $x_i$ of $\mathcal{X}$
+over $U_i$ such that $F(x_i) \cong y|_{U_i}$ in $\mathcal{Y}_{U_i}$, and
+\item for $U \in \text{Ob}(\mathcal{C})$,
+$x, x' \in \text{Ob}(\mathcal{X}_U)$, and $b : F(x) \to F(x')$ in
+$\mathcal{Y}_U$ there exists
+a covering $\{U_i \to U\}$ in $\mathcal{C}$ and morphisms
+$a_i : x|_{U_i} \to x'|_{U_i}$ in $\mathcal{X}_{U_i}$ with
+$F(a_i) = b|_{U_i}$.
+\end{enumerate}
+\end{enumerate}
+\end{lemma}
 
+\begin{proof}
+By
+Categories, Lemma
+\ref{categories-lemma-ameliorate-morphism-categories-fibred-groupoids}
+there exists a factorization $F = F' \circ a$ where
+$a : \mathcal{X} \to \mathcal{X}'$ is an equivalence of categories over
+$\mathcal{C}$ and $F'$ is fibred in groupoids. By
+Categories, Lemma \ref{categories-lemma-amelioration-unique}
+given any two such factorizations $F = F' \circ a = F'' \circ b$
+we have that $\mathcal{X}'$ is equivalent to $\mathcal{X}''$ as
+categories over $\mathcal{Y}$. Hence
+Lemma \ref{lemma-gerbe-equivalent}
+guarantees that the condition (1) is independent of the choice of the
+factorization. Moreover, this means that we may assume
+$\mathcal{X}' = \mathcal{X} \times_{F, \mathcal{Y}, \text{id}} \mathcal{Y}$
+as in the proof of
+Categories, Lemma
+\ref{categories-lemma-ameliorate-morphism-categories-fibred-groupoids}
+
+\medskip\noindent
+Let us prove that (a) and (b) imply that $\mathcal{X}' \to \mathcal{Y}$
+is a gerbe. First of all, by
+Lemma \ref{lemma-stack-in-groupoids-over-stack-in-groupoids}
+we see that $\mathcal{X}' \to \mathcal{Y}$ is a stack in groupoids.
+Next, let $y$ be an object of $\mathcal{Y}$ lying over
+$U \in \text{Ob}(\mathcal{C})$. By (a) we can find a covering
+$\{U_i \to U\}$ in $\mathcal{C}$ and objects $x_i$ of $\mathcal{X}$
+over $U_i$ and isomorphisms $f_i : F(x_i) \to y|_{U_i}$ in
+$\mathcal{Y}_{U_i}$. Then $(U_i, x_i, y|_{U_i}, f_i)$ are objects
+of $\mathcal{X}'_{U_i}$, i.e., the second condition of
+Definition \ref{definition-gerbe}
+holds. Finally, let $(U, x, y, f)$ and $(U, x', y, f')$ be objects
+of $\mathcal{X}'$ lying over the same object $y \in \text{Ob}(\mathcal{Y})$.
+Set $b = (f')^{-1} \circ f$. By condition (b) we can find a convering
+$\{U_i \to U\}$ and isomorphisms $a_i : x|_{U_i} \to x'|_{U_i}$
+in $\mathcal{X}_{U_i}$ with $F(a_i) = b|_{U_i}$. Then
+$$
+(a_i, \text{id}) : (U, x, y, f)|_{U_i} \to (U, x', y, f')|_{U_i}
+$$
+is a morphism in $\mathcal{X}'_{U_i}$ as desired. This proves that
+(2) implies (1).
+
+\medskip\noindent
+To prove that (1) implies (2) one reads the arguments
+in the preceding paragraph backwards. Details omitted.
+\end{proof}
+
+\begin{definition}
+\label{definition-gerbe-over-stack-in-groupoids}
+Let $\mathcal{C}$ be a site. Let $\mathcal{X}$
+and $\mathcal{Y}$ be stacks in groupoids over $\mathcal{C}$.
+Let $F : \mathcal{X} \to \mathcal{Y}$ be a $1$-morphism of categories
+over $\mathcal{C}$. We say $\mathcal{X}$ is a {\it gerbe over} $\mathcal{Y}$
+if the equivalent conditions of
+Lemma \ref{lemma-when-gerbe}
+are satisfied.
+\end{definition}
+
+\noindent
+This definition does not conflict with
+Definition \ref{definition-gerbe}
+when $\mathcal{Y} = \mathcal{C}$ because in this case we may take
+$\mathcal{X}' = \mathcal{X}$ in part (1) of
+Lemma \ref{lemma-when-gerbe}.
 
 
 
