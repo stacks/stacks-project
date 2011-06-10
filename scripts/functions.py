@@ -290,6 +290,10 @@ def split_label(label):
 		name = "spaces-morphisms"
 		type = pieces[2]
 		n = 3
+	if name == "decent" and type == "spaces":
+		name = "decent-spaces"
+		type = pieces[2]
+		n = 3
 	if name == "spaces" and type == "topologies":
 		name = "spaces-topologies"
 		type = pieces[2]
