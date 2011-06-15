@@ -504,6 +504,32 @@ X \ar[r]^f & Y
 $$
 commutes.
 
+\begin{definition}
+\label{definition-free-action}
+Let $B \to S$, $G \to B$, and $X \to B$ as in
+Definition \ref{definition-action-group-space}.
+Let $a : G \times_B X \to X$ be an action of $G$ on $X/B$.
+We say the action is {\it free} if for every scheme $T$ over $B$
+the action $a : G(T) \times X(T) \to X(T)$ is a free action of
+the group $G(T)$ on the set $X(T)$.
+\end{definition}
+
+\begin{lemma}
+\label{lemma-free-action}
+Situation as in
+Definition \ref{definition-free-action},
+The action $a$ is free if and only if
+$$
+G \times_B X \to X \times_B X,\quad (g, x) \mapsto (a(g, x), x)
+$$
+is a monomorphism of algebraic spaces.
+\end{lemma}
+
+\begin{proof}
+Immediate from the definitions.
+\end{proof}
+
+
 
 
 
@@ -2318,20 +2344,14 @@ If $U' \to U$ is surjective, then also $h$ is surjective as $s$ has a section
 \label{lemma-criterion-fibre-product}
 Notation and assumption as in
 Lemma \ref{lemma-quotient-stack-functorial}.
-Assume that the diagrams
+Assume that
 $$
 \xymatrix{
 R \ar[d]_s \ar[r]_f & R' \ar[d]^{s'} \\
 U \ar[r]^f & U'
 }
-\quad\quad
-\xymatrix{
-R \ar[d]_t \ar[r]_f & R' \ar[d]^{t'} \\
-U \ar[r]^f & U'
-}
 $$
-are cartesian and that $s : R \to U$ is flat and
-locally of finite presentation. Then
+is cartesian. Then
 $$
 \xymatrix{
 \mathcal{S}_U \ar[d] \ar[r] & [U/R] \ar[d]^{[f]} \\
@@ -2342,7 +2362,16 @@ is a $2$-fibre product square.
 \end{lemma}
 
 \begin{proof}
-By
+Applying the inverse isomorphisms $i : R \to R$ and $i' : R' \to R'$
+to the (first) cartesian diagram of the statement of the lemma we see
+that
+$$
+\xymatrix{
+R \ar[d]_t \ar[r]_f & R' \ar[d]^{t'} \\
+U \ar[r]^f & U'
+}
+$$
+is cartesian as well. By
 Lemma \ref{lemma-cartesian-square-of-morphism}
 we have a $2$-fibre square
 $$
@@ -2352,7 +2381,7 @@ $$
 }
 $$
 where $U'' = U \times_{f, U', t'} R'$ and
-$R'' = R \times_{f \circ s, U', t'} R'$. By the assumptions above
+$R'' = R \times_{f \circ s, U', t'} R'$. By the above
 we see that $(t, f) : R \to U''$ is an isomorphism, and that
 $$
 R'' =
@@ -2397,7 +2426,8 @@ $[U''/R''] \cong [R/R \times_{s, U, s} R]$ where as a groupoid
 in algebraic spaces $(R, R \times_{s, U, s} R, s'', t'', c'')$
 is the restriction of the trivial groupoid
 $(U, U, \text{id}, \text{id}, \text{id})$ via $s : R \to U$.
-Since we assumed $\{s : R \to U\}$ is an fppf covering the morphism
+Since $s : R \to U$ is a surjection of fppf sheaves (as it has a
+right inverse) the morphism
 $$
 [U''/R''] \cong [R/R \times_{s, U, s} R]
 \longrightarrow
@@ -2412,10 +2442,116 @@ This proves the lemma.
 
 
 
+\section{Inertia and quotient stacks}
+\label{section-inertia}
+
+\noindent
+The (relative) inertia stack of a stack in groupoids is defined in
+Stacks, Section \ref{stacks-section-the-inertia-stack}.
+The actual construction, in the setting of fibred categories, and some
+of its properties is in
+Categories, Section \ref{categories-section-inertia}.
+
+\begin{lemma}
+\label{lemma-presentation-inertia}
+Assume $B \to S$ and $(U, R, s, t, c)$ as in
+Definition \ref{definition-quotient-stack} (1).
+Let $G/U$ be the stabilizer group algebraic space of the groupoid
+$(U, R, s, t, c, e, i)$, see
+Definition \ref{definition-stabilizer-groupoid}.
+Set $R' = R \times_{s, U} G$ and set
+\begin{enumerate}
+\item $s' : R' \to G$, $(r, g) \mapsto g$,
+\item $t' : R' \to G$, $(r, g) \mapsto c(r, c(g, i(r)))$,
+\item $c' : R' \times_{s', G, t'} R' \to R'$,
+$((r_1, g_1), (r_2, g_2) \mapsto (c(r_1, r_2), g_1)$.
+\end{enumerate}
+Then $(G, R', s', t', c')$ is a groupoid in algebraic spaces over $B$
+and
+$$
+\mathcal{I}_{[U/R]} = [G/ R'].
+$$
+i.e., the associated quotient stack is the inertia stack of $[U/R]$.
+\end{lemma}
+
+\begin{proof}
+By
+Stacks, Lemma \ref{stacks-lemma-stackification-inertia}
+it suffices to prove that $\mathcal{I}_{[U/_{\!p}R]} = [G/_{\!p} R']$.
+Let $T$ be a scheme over $S$. Recall that an object of the inertia fibred
+category of $[U/_{\!p}R]$ over $T$ is given by a pair
+$(x, g)$ where $x$ is an object of $[U/_{\!\!p}R]$ over $T$
+and $g$ is an automorphism of $x$ in its fibre category over $T$.
+In other words, $x : T \to U$ and $g : T \to R$ such that
+$x = s \circ g = t \circ g$. This means exactly that
+$g : T \to G$. A morphism in the inertia fibred category
+from $(x, g) \to (y, h)$ over $T$ is given by
+$r : T \to R$ such that $s(r) = x$, $t(r) = y$
+and $c(r, g) = c(h, r)$, see the commutative diagram in
+Categories, Lemma \ref{categories-lemma-intertia-fibred-category}.
+In a formula
+$$
+h = c(r, c(g, i(r))) = c(c(r, g), i(r)).
+$$
+The notation $s(r)$, etc is a short hand for $s \circ r$, etc.
+The composition of $r_1 : (x_2, g_2) \to (x_1, g_1)$
+and $r_2 : (x_1, g_1) \to (x_2, g_2)$ is
+$c(r_1, r_2) : (x_1, g_1) \to (x_3, g_3)$.
+
+\medskip\noindent
+Note that in the above we could have written $g$ in stead of $(x, g)$
+for an object of $\mathcal{I}_{[U/_{\!p}R]}$ over $T$ as $x$ is the
+image of $g$ under the structure morphism $G \to U$. Then the morphisms
+$g \to h$ in $\mathcal{I}_{[U/_{\!p}R]}$ over $T$ correspond exactly
+to morphisms $r' : T \to R'$ with $s'(r') = g$ and $t'(r') = h$.
+Moreover, the composition corresponds to the rule explained in (3).
+Thus the lemma is proved.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-2-cartesian-inertia}
+Assume $B \to S$ and $(U, R, s, t, c)$ as in
+Definition \ref{definition-quotient-stack} (1).
+Let $G/U$ be the stabilizer group algebraic space of the groupoid
+$(U, R, s, t, c, e, i)$, see
+Definition \ref{definition-stabilizer-groupoid}.
+There is a canonical $2$-cartesian diagram
+$$
+\xymatrix{
+\mathcal{S}_G \ar[r] \ar[d] & \mathcal{S}_U \ar[d] \\
+\mathcal{I}_{[U/R]} \ar[r] & [U/R]
+}
+$$
+of stacks in groupoids of $(\textit{Sch}/S)_{fppf}$.
+\end{lemma}
+
+\begin{proof}
+By
+Lemma \ref{lemma-criterion-fibre-product}
+it suffices to prove that the morphism
+$s' : R' \to G$ of
+Lemma \ref{lemma-presentation-inertia}
+isomorphic to the base change of $s$ by the structure
+morphism $G \to U$. This base change property is
+clear from the construction of $s'$.
+\end{proof}
+
+
+
+
+
+
 
 \section{Gerbes and quotient stacks}
 \label{section-gerbes}
 
+\noindent
+In this section we relate quotient stacks to the discussion
+Stacks, Section \ref{stacks-section-gerbes}
+and especially gerbes as defined in
+Stacks, Definition \ref{stacks-definition-gerbe-over-stack-in-groupoids}.
+The stacks in groupoids occuring in this section
+are generally speaking not algebraic stacks!
 
 \begin{lemma}
 \label{lemma-when-gerbe}
@@ -2458,8 +2594,24 @@ Hence the assumption that $R \to R'|_U$ is a surjective map of fppf sheaves
 on $(\textit{Sch}/S)_{fppf}$ implies the desired surjectivity.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-group-quotient-gerbe}
+Let $S$ be a scheme. Let $B$ be an algebraic space over $S$. Let
+$G$ be a group algebraic space over $B$. Endow $B$ with the trivial
+action of $G$. The morphism
+$$
+[B/G] \longrightarrow \mathcal{S}_B
+$$
+(Lemma \ref{lemma-quotient-stack-arrows})
+turns $[B/G]$ into a gerbe over $B$.
+\end{lemma}
 
-
+\begin{proof}
+Immediate from
+Lemma \ref{lemma-when-gerbe}
+as the morphisms $B \to B$ and $B \times_B G \to B$ are surjective
+as morphisms of sheaves.
+\end{proof}
 
 
 
