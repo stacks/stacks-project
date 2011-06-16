@@ -109,8 +109,8 @@ def fix_it(prev, name, line_nr):
 			if text.find(Type) < 0:
 				print "Did not find cap type in:"
 				print text
-				print "In file " + name + ".tex"
-				print "On line", line_nr - 1
+				print 
+				print "gvim +{} {}.tex".format(line_nr - 1, name)
 				print
 		n = n + 1
 
@@ -148,6 +148,7 @@ for name in lijstje:
 		if math:
 			if math == 2:
 				math = 0
+				prev_line = ''
 			continue
 
 		# No references on line
