@@ -165,6 +165,12 @@ for name in lijstje:
 			" not found."
 			print_error(error_text, line, name, line_nr)
 
+		# Internal references
+		error_text = internal_refs(line, refs, name)
+		if error_text:
+			error_text = "Internal reference " + error_text
+			print_error(error_text, line, name, line_nr)
+
 	tex_file.close()
 
 print "------------------------------------------------"

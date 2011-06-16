@@ -238,10 +238,6 @@ def find_refs(line, name):
 	while n >= 0:
 		m = find_sub_clause(line, n + 4, "{", "}")
 		ref = line[n + 5: m]
-		if ref.find(name) == 0:
-			new = ref[len(name) + 1: len(ref)]
-			if standard_label(new):
-				ref = name + "-" + ref
 		if standard_label(ref):
 			ref = name + "-" + ref
 		refs.append(ref)
@@ -431,6 +427,18 @@ def check_ref(ref, labels):
 	except:
 		return 0
 	return 1
+
+# See if references on line are internal
+# this uses that the references have the correct shape
+def internal_refs(line, refs, name):
+	n = 0
+	while n < len(refs):
+		ref = refs[n]
+		split = split_label(ref)
+		if name == split[0] and line.find(ref) >= 0:
+			return ref
+		n = n + 1
+	return ""
 
 # See if references already occur in list labels
 def check_refs(refs, labels):
