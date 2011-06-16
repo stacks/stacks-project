@@ -67,6 +67,20 @@ short_titles = {'introduction' : 'Introduction',\
 'fdl' : 'GNU Free Documentation License',\
 'index' : 'Auto Generated Index'}
 
+#
+# Do not test for item or equation
+#
+caps_types = {'definition' : 'Definition',\
+'lemma' : 'Lemma',\
+'proposition' : 'Proposition',\
+'theorem' : 'Theorem',\
+'remark' : 'Remark',\
+'remarks' : 'Remarks',\
+'example' : 'Example',\
+'exercise' : 'Exercise',\
+'situation' : 'Situation',\
+'section' : 'Section',\
+'subsection' : 'Subsection'}
 
 def fix_it(prev, name, line_nr):
 	text = prev[0].rstrip()
@@ -86,6 +100,14 @@ def fix_it(prev, name, line_nr):
 			Short_Title = short_titles[split[0]]
 			if text.find(Short_Title) < 0:
 				print "Did not find short title in:"
+				print text
+				print "In file " + name + ".tex"
+				print "On line", line_nr - 1
+				print
+		if not ( split[1] == 'item' or split[1] == 'equation' ):
+			Type = caps_types[split[1]]
+			if text.find(Type) < 0:
+				print "Did not find cap type in:"
 				print text
 				print "In file " + name + ".tex"
 				print "On line", line_nr - 1
