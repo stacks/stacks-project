@@ -37,8 +37,8 @@ short_titles = {'introduction' : 'Introduction',\
 'flat' : 'More on Flatness',\
 'groupoids' : 'Groupoids',\
 'more-groupoids' : 'More on Groupoids',\
-'etale' : '\'Etale Morphisms',\
-'etale-cohomology' : '\'Etale Cohomology',\
+'etale' : '\\\'Etale Morphisms',\
+'etale-cohomology' : '\\\'Etale Cohomology',\
 'spaces' : 'Spaces',\
 'spaces-properties' : 'Properties of Spaces',\
 'spaces-morphisms' : 'Morphisms of Spaces',\
