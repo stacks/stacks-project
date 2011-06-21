@@ -1137,6 +1137,39 @@ This implies that the left square is a fibre product square (details omitted).
 \end{proof}
 
 \begin{lemma}
+\label{lemma-monomorphism-cartesian-square-inertia}
+Let $f : \mathcal{X} \to \mathcal{Y}$ be a monomorphism of algebraic stacks.
+Then the diagram
+$$
+\xymatrix{
+\mathcal{I}_\mathcal{X} \ar[r] \ar[d] &
+\mathcal{X} \ar[d] & \\
+\mathcal{I}_\mathcal{Y} \ar[r] &
+\mathcal{Y}
+}
+$$
+is a fibre product square.
+\end{lemma}
+
+\begin{proof}
+This follows immediately from the fact that $f$ is fully faithful (see
+Properties of Stacks, Lemma \ref{stacks-properties-lemma-monomorphism})
+and the definition of the inertia in
+Categories, Section \ref{categories-section-inertia}.
+Namely, an object of $\mathcal{I}_\mathcal{X}$ over a scheme $T$ is
+the same thing as a pair $(x, \alpha)$ consisting of an object
+$x$ of $\mathcal{X}$ over $T$ and a morphism $\alpha : x \to x$ in
+the fibre category of $\mathcal{X}$ over $T$. As $f$ is fully faithful
+we see that $\alpha$ is the same thing as a morphism
+$\beta : f(x) \to f(x)$ in the fibre category of $\mathcal{Y}$ over $T$.
+Hence we can think of objects of $\mathcal{I}_\mathcal{X}$ over $T$
+as triples $((y, \beta), x, \gamma)$ where $y$ is an object of
+$\mathcal{Y}$ over $T$, $\beta : y \to y$ in $\mathcal{Y}_T$ and
+$\gamma : y \to f(x)$ is an isomorhism over $T$, i.e., an object
+of $\mathcal{I}_\mathcal{Y} \times_\mathcal{Y} \mathcal{X}$ over $T$.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-presentation-inertia}
 Let $\mathcal{X}$ be an algebraic stack. Let $[U/R] \to \mathcal{X}$
 be a presentation. Let $G/U$ be the stabilizer group algebraic space
@@ -3716,20 +3749,72 @@ Let $k$ be a field.
 Take $U = \text{Spec}(k[x_0, x_1, x_2, \ldots])$
 and let $\mathbf{G}_m$ act by
 $t(x_0, x_1, x_2, \ldots) = (tx_0, t^p x_1, t^{p^2} x_2, \ldots)$
-where $p$ is a prime number. Let $X = [U/\mathbf{G}_m]$.
-This is an algebraic stack. There is a stratification of $X$ by strata
+where $p$ is a prime number. Let $\mathcal{X} = [U/\mathbf{G}_m]$.
+This is an algebraic stack. There is a stratification of $\mathcal{X}$
+by strata
 \begin{enumerate}
-\item $X_0$ is where $x_0$ is not zero,
-\item $X_1$ is where $x_0$ is zero but $x_1$ is not zero,
-\item $X_2$ is where $x_0, x_1$ are zero, but $x_2$ is not zero,
+\item $\mathcal{X}_0$ is where $x_0$ is not zero,
+\item $\mathcal{X}_1$ is where $x_0$ is zero but $x_1$ is not zero,
+\item $\mathcal{X}_2$ is where $x_0, x_1$ are zero, but $x_2$ is not zero,
 \item and so on, and
-\item $X_{\infty}$ is where all the $x_i$ are zero.
+\item $\mathcal{X}_{\infty}$ is where all the $x_i$ are zero.
 \end{enumerate}
-Each stratum is a gerbe over a scheme with group $\mu_{p^i}$ for $X_i$
-and $\mathbf{G}_m$ for $X_{\infty}$. The strata are reduced locally
-closed substacks. There is no coarser stratification with the same properties.
+Each stratum is a gerbe over a scheme with group $\mu_{p^i}$ for
+$\mathcal{X}_i$ and $\mathbf{G}_m$ for $\mathcal{X}_{\infty}$.
+The strata are reduced locally closed substacks. There is no coarser
+stratification with the same properties.
 \end{example}
 
+\begin{lemma}
+\label{lemma-every-point-in-a-stratum}
+Let $\mathcal{X}$ be a reduced algebraic stack such that
+$\mathcal{I}_\mathcal{X} \to \mathcal{X}$ is quasi-compact.
+Then every $x \in |X|$ is a point of a locally closed substack
+$\mathcal{Z} \subset \mathcal{X}$ which is a gerbe.
+\end{lemma}
+
+\begin{proof}
+By transfinite induction we construct for every ordinal $\alpha$ a
+closed subset $T_\alpha \subset |\mathcal{X}|$. For $\alpha = 0$
+we set $T_0 = |\mathcal{X}|$. Given $T_\alpha$ let $\mathcal{X}_\alpha$
+be the reduced closed substack of $\mathcal{X}$ with
+$|\mathcal{X}_\alpha| = T_\alpha$, see
+Properties of Stacks, Definition
+\ref{stacks-properties-definition-reduced-induced-stack}.
+Note that
+$$
+\mathcal{I}_{\mathcal{X}_\alpha} =
+\mathcal{I}_\mathcal{X} \times_\mathcal{X} \mathcal{X}_\alpha
+$$
+by
+Lemma \ref{lemma-monomorphism-cartesian-square-inertia}.
+Hence $\mathcal{I}_{\mathcal{X}_\alpha} \to \mathcal{X}_\alpha$ is
+quasi-compact as a base change, see
+Lemma \ref{lemma-base-change-quasi-compact}.
+Thus by
+Proposition \ref{proposition-open-stratum}
+there exists a maximal (see proof proposition) dense open substack
+$\mathcal{U}_\alpha \subset \mathcal{X}_\alpha$ such that
+$\mathcal{U}_\alpha$ is a gerbe. Set
+$$
+T_{\alpha + 1} = T_\alpha \setminus |\mathcal{U}_\alpha|.
+$$
+If $\beta$ is a limit ordinal we set
+$$
+T_\beta = \bigcap\nolimits_{\alpha < \beta} T_\alpha.
+$$
+We claim that $T_\alpha = \emptyset$ for all $\alpha$
+large enough. This will prove the lemma because, if so, then
+for any $x \in |\mathcal{X}|$ there exists a smallest ordinal
+with $x \in T_\alpha$. In this case $x \in |\mathcal{U}_\alpha|$ and
+we win.
+
+\medskip\noindent
+Finally, to prove the claim, assume that $T_\alpha \not = \emptyset$
+for all $\alpha$. Then we obtain an injective map from the class
+of ordinals into the set of subsets of $|\mathcal{X}|$ which is a
+contradiction.
+\end{proof}
 
 
 
