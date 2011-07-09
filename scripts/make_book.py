@@ -10,8 +10,11 @@ def print_preamble(path):
 			continue
 		if line.find("xr-hyper") >= 0:
 			continue
+		if line.find("\\IfFileExists{") == 0:
+			line = line.replace("stacks-project", "stacks-project-book")
 		if line.find("\\documentclass") == 0:
 			line = line.replace("amsart", "amsbook")
+			line = line.replace("stacks-project", "stacks-project-book")
 		print line,
 	preamble.close()
 	return

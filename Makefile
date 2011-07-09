@@ -27,8 +27,9 @@ LIJST_TAGS = $(LIJST_FDL) book
 # Different extensions
 SOURCES = $(patsubst %,%.tex,$(LIJST))
 TAGS = $(patsubst %,tags/tmp/%.tex,$(LIJST_TAGS))
-TAG_EXTRAS = tags/tmp/my.bib tags/tmp/hyperref.cfg tags/tmp/amsart.cls \
-	tags/tmp/amsbook.cls tags/tmp/Makefile tags/tmp/chapters.tex \
+TAG_EXTRAS = tags/tmp/my.bib tags/tmp/hyperref.cfg \
+	tags/tmp/stacks-project.cls tags/tmp/stacks-project-book.cls \
+	tags/tmp/Makefile tags/tmp/chapters.tex \
 	tags/tmp/preamble.tex tags/tmp/downloads.html tags/tmp/log.log \
 	tags/tmp/tags.html tags/tmp/query.php
 FOO_SOURCES = $(patsubst %,%.foo,$(LIJST))
@@ -161,11 +162,11 @@ tags/tmp/%.tex.html: %.tex
 	vim -n -u NONE -S scripts/vim.vim $*.tex
 	mv tmp/syntax-tex.html tags/tmp/$*.tex.html
 
-tags/tmp/amsart.cls: amsart.cls
-	cp amsart.cls tags/tmp/amsart.cls
+tags/tmp/stacks-project.cls: stacks-project.cls
+	cp stacks-project.cls tags/tmp/stacks-project.cls
 
-tags/tmp/amsbook.cls: amsbook.cls
-	cp amsbook.cls tags/tmp/amsbook.cls
+tags/tmp/stacks-project-book.cls: stacks-project-book.cls
+	cp stacks-project-book.cls tags/tmp/stacks-project-book.cls
 
 tags/tmp/hyperref.cfg: hyperref.cfg
 	cp hyperref.cfg tags/tmp/hyperref.cfg

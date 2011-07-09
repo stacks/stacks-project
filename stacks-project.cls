@@ -1,53 +1,7 @@
-%%
-%% This is file `amsbook.cls',
-%% generated with the docstrip utility.
-%%
-%% The original source files were:
-%%
-%% amsclass.dtx  (with options: `amsbook,classes')
-%% 
-%%% ====================================================================
-%%% @LaTeX-file{
-%%%   filename  = "amsclass.dtx",
-%%%   version   = "2.20",
-%%%   date      = "2004/08/06",
-%%%   time      = "13:03:53 EDT",
-%%%   checksum  = "53558 5204 20497 185872",
-%%%   author    = "American Mathematical Society",
-%%%   copyright = "Copyright 1995, 1999, 2004
-%%%                American Mathematical Society,
-%%%                all rights reserved.  Copying of this file is
-%%%                authorized only if either:
-%%%                (1) you make absolutely no changes to your copy,
-%%%                including name; OR
-%%%                (2) if you do make changes, you first rename it
-%%%                to some other name.",
-%%%   address   = "American Mathematical Society,
-%%%                Technical Support,
-%%%                Publications Technical Group,
-%%%                201 Charles Street,
-%%%                Providence, RI 02904,
-%%%                USA",
-%%%   telephone = "401-455-4080 or (in the USA and Canada)
-%%%                800-321-4AMS (321-4267)",
-%%%   FAX       = "401-331-3842",
-%%%   email     = "tech-support@ams.org (Internet)",
-%%%   codetable = "ISO/ASCII",
-%%%   keywords  = "latex, AMS, documentclass, theorem",
-%%%   supported = "yes",
-%%%   abstract  = "This is the source for the amsthm package and three
-%%%                AMS document classes: amsart, amsproc, and amsbook.
-%%%                They are designed for use with LaTeX.",
-%%%   docstring = "The checksum field above contains a CRC-16 checksum
-%%%                as the first value, followed by the equivalent of
-%%%                the standard UNIX wc (word count) utility output of
-%%%                lines, words, and characters.  This is produced by
-%%%                Robert Solovay's checksum utility.",
-%%% }
-%%% ====================================================================
+% Edited version of amsart.cls
 \NeedsTeXFormat{LaTeX2e}% LaTeX 2.09 can't be used (nor non-LaTeX)
 [1995/06/01]% LaTeX date must be June 1995 or later
-\ProvidesClass{amsbook}[2004/08/06 v2.20]
+\ProvidesClass{stacks-project}
 \global\expandafter\let\csname ver@amsthm.sty\expandafter\endcsname
   \csname ver@\@currname.\@currext\endcsname
 \let\@xp=\expandafter
@@ -122,13 +76,42 @@
 \DeclareOption{final}{\overfullrule\z@ }
 \def\dateposted#1{\def\@dateposted{#1}}%
 \let\@dateposted\@empty
+\def\@setdateposted{%
+  \newline Article electronically published on \@dateposted}
+\def\article@logo{%
+  \set@logo{%
+    \publname
+    \ifx\@empty\currentvolume
+    \else \newline\volinfo, \pageinfo
+    \fi
+    \newline \@PII
+    \ifx\@empty\@dateposted \else \@setdateposted\fi
+  }%
+}
+\def\eonly@logo{%
+  \set@logo{%
+    \publname
+    \newline\volinfo, \pageinfo
+    \ifx\@empty\@dateposted \else \@setdateposted\fi
+    \newline \@PII
+  }%
+}
+\def\@logofont{\fontsize{6}{7\p@}\selectfont}
+\long\def\set@logo#1{%
+  \vbox to\headheight{%
+    \@parboxrestore \@logofont
+    \noindent#1\par\vss
+  }%
+}
+\DeclareOption{e-only}{%
+  \def\volinfo{Volume \currentvolume}%
+  \dateposted{Xxxx XX, XXXX}%
+  \def\@setdateposted{\ (\@dateposted)}%
+  \let\article@logo\eonly@logo
+}
 \newif\if@titlepage
 \DeclareOption{titlepage}{\@titlepagetrue}
 \DeclareOption{notitlepage}{\@titlepagefalse}
-\newif\if@openright
-\DeclareOption{openright}{\@openrighttrue}
-\DeclareOption{openany}{\@openrightfalse}
-\@openrighttrue
 \DeclareOption{onecolumn}{\@twocolumnfalse}
 \DeclareOption{twocolumn}{\@twocolumntrue}
 \DeclareOption{nomath}{}
@@ -207,7 +190,7 @@
 \normallineskip=1pt \normallineskiplimit=1pt
 \let\baselinestretch=\@empty
 \headheight=8pt \headsep=14pt
-\footskip=18pt
+\footskip=12pt
 \textheight=50.5pc \topskip=10pt
 \textwidth=30pc
 \columnsep=10pt \columnseprule=0pt
@@ -229,7 +212,7 @@
 \@fpsep=8pt plus2fil     \@dblfpsep=8pt plus2fil\relax
 \parskip=0pt \relax
 \newdimen\normalparindent
-\normalparindent=18pt
+\normalparindent=12pt
 \parindent=\normalparindent
 \partopsep=0pt \relax \parsep=0pt \relax \itemsep=0pt \relax
 \@lowpenalty=51         \@medpenalty=151        \@highpenalty=301
@@ -297,11 +280,6 @@
     \def\thanks{\protect\thanks@warning}%
     \rightmark{}{}\hfil \llap{\thepage}}%
   \let\@mkboth\markboth
-  \def\partmark{\@secmark\markboth\partrunhead\partname}%
-  \def\chaptermark{%
-    \@secmark\markboth\chapterrunhead{}}%
-  \def\sectionmark{%
-    \@secmark\markright\sectionrunhead\sectionname}%
 }
 \let\sectionname\@empty
 \let\subsectionname\@empty
@@ -310,17 +288,14 @@
 \let\subparagraphname\@empty
 \def\leftmark{\expandafter\@firstoftwo\topmark{}{}}
 \def\rightmark{\expandafter\@secondoftwo\botmark{}{}}
+\def\ps@firstpage{\ps@plain
+  \def\@oddfoot{\normalfont\scriptsize \hfil\thepage\hfil
+     \global\topskip\normaltopskip}%
+  \let\@evenfoot\@oddfoot
+  \def\@oddhead{\@serieslogo\hss}%
+  \let\@evenhead\@oddhead % in case an article starts on a left-hand page
+}
 \long\def\@nilgobble#1\@nil{}
-\def\@secmark#1#2#3#4{%
-  \begingroup \let\protect\@unexpandable@protect
-  \edef\@tempa{\endgroup \toks@{\protect#2{#3}{\@secnumber}}}%
-  \@tempa
-  \toks@\@xp{\the\toks@{#4}}%
-  \afterassignment\@nilgobble\@temptokena\@themark{}\@nil
-  \edef\@tempa{\@nx\@mkboth{%
-    \ifx\markright#1\the\@temptokena\else\the\toks@\fi}{\the\toks@}}%
-  \@tempa}
-\let\@secnumber\@empty
 \def\markboth#1#2{%
   \begingroup
     \@temptokena{{#1}{#2}}\xdef\@themark{\the\@temptokena}%
@@ -464,6 +439,33 @@
 \edef\author{\@nx\@dblarg
   \@xp\@nx\csname\string\author\endcsname}
 \let\shortauthors\@empty   \let\authors\@empty
+\newif\ifresetcontrib  \resetcontribfalse
+\newcommand\contrib[2][]{%
+  \def\@tempa{#1}%
+  \ifx\@empty\@tempa
+  \else
+    \ifresetcontrib \@xcontribs
+    \else \global\resetcontribtrue
+    \fi
+  \fi
+  \ifx\@empty\contribs
+    \gdef\contribs{#1 #2}%
+  \else
+    \g@addto@macro\contribs{\and#1 #2}%
+  \fi
+  \@wraptoccontribs{#1}{#2}%
+}
+\def\wraptoccontribs#1#2{}
+\def\@xcontribs{%
+  \author@andify\contribs
+  \ifx\@empty\xcontribs
+    \xdef\xcontribs{\contribs}%
+  \else
+    \xdef\xcontribs{\xcontribs, \contribs}%
+  \fi
+  \let\contribs\@empty
+}
+\let\contribs\@empty  \let\xcontribs\@empty  \let\toccontribs\@empty
 \let\addresses\@empty      \let\thankses\@empty
 \newcommand{\address}[2][]{\g@addto@macro\addresses{\address{#1}{#2}}}
 \newcommand{\curraddr}[2][]{\g@addto@macro\addresses{\curraddr{#1}{#2}}}
@@ -477,11 +479,15 @@
 \renewcommand{\thanks}[1]{%
   \@ifnotempty{#1}{\g@addto@macro\thankses{\thanks{#1}}}%
 }
+\def\enddoc@text{\ifx\@empty\@translators \else\@settranslators\fi
+  \ifx\@empty\addresses \else\@setaddresses\fi}
+\AtEndDocument{\enddoc@text}
 \def\curraddrname{{\itshape Current address}}
 \def\emailaddrname{{\itshape E-mail address}}
 \def\urladdrname{{\itshape URL}}
 \def\@setaddresses{\par
   \nobreak \begingroup
+\footnotesize
   \def\author##1{\nobreak\addvspace\bigskipamount}%
   \def\\{\unskip, \ignorespaces}%
   \interlinepenalty\@M
@@ -520,11 +526,21 @@
   }%
 }
 \let\@subjclass=\@empty
+\def\commby#1{\def\@commby{(Communicated by #1)}}
+\let\@commby=\@empty
 \def\translname{Translated by}
 \def\translator#1{%
   \ifx\@empty\@translators \def\@translators{#1}%
   \else\g@addto@macro\@translators{\and#1}\fi}
 \let\@translators=\@empty
+\def\@settranslators{\par\begingroup
+  \addvspace{6\p@\@plus9\p@}%
+  \hbox to\columnwidth{\hss\normalfont\normalsize
+    \translname{ }%
+    \andify\@translators \uppercasenonmath\@translators
+    \@translators}
+  \endgroup
+}
 \newcommand{\xandlist}[4]{\@andlista{{#1}{#2}{#3}}#4\and\and}
 \def\@andlista#1#2\and#3\and{\@andlistc{#2}\@ifnotempty{#3}{%
   \@andlistb#1{#3}}}
@@ -545,11 +561,118 @@
 \newcommand{\andify}{%
   \nxandlist{\unskip, }{\unskip{} \@@and~}{\unskip, \@@and~}}
 \def\and{\unskip{ }\@@and{ }\ignorespaces}
+\def\maketitle{\par
+  \@topnum\z@ % this prevents figures from falling at the top of page 1
+  \@setcopyright
+  \thispagestyle{firstpage}% this sets first page specifications
+  \uppercasenonmath\shorttitle
+  \ifx\@empty\shortauthors \let\shortauthors\shorttitle
+  \else \andify\shortauthors
+  \fi
+  \@maketitle@hook
+  \begingroup
+  \@maketitle
+  \toks@\@xp{\shortauthors}\@temptokena\@xp{\shorttitle}%
+  \toks4{\def\\{ \ignorespaces}}% defend against questionable usage
+  \edef\@tempa{%
+    \@nx\markboth{\the\toks4
+      \@nx\MakeUppercase{\the\toks@}}{\the\@temptokena}}%
+  \@tempa
+  \endgroup
+  \c@footnote\z@
+  \@cleartopmattertags
+}
+\def\@cleartopmattertags{%
+  \def\do##1{\let##1\relax}%
+  \do\maketitle \do\@maketitle \do\title \do\@xtitle \do\@title
+  \do\author \do\@xauthor \do\address \do\@xaddress
+  \do\contrib \do\contribs \do\xcontribs \do\toccontribs
+  \do\email \do\@xemail \do\curraddr \do\@xcurraddr
+  \do\commby \do\@commby
+  \do\dedicatory \do\@dedicatory \do\thanks \do\thankses
+  \do\keywords \do\@keywords \do\subjclass \do\@subjclass
+}
+\def\@maketitle@hook{\global\let\@maketitle@hook\@empty}
+\def\@maketitle{%
+  \normalfont\normalsize
+  \@adminfootnotes
+  \@mkboth{\@nx\shortauthors}{\@nx\shorttitle}%
+  \global\topskip42\p@\relax % 5.5pc   "   "   "     "     "
+  \@settitle
+  \ifx\@empty\authors \else \@setauthors \fi
+  \ifx\@empty\@dedicatory
+  \else
+    \baselineskip18\p@
+    \vtop{\centering{\footnotesize\itshape\@dedicatory\@@par}%
+      \global\dimen@i\prevdepth}\prevdepth\dimen@i
+  \fi
+  \@setabstract
+  \normalsize
+  \if@titlepage
+    \newpage
+  \else
+    \dimen@34\p@ \advance\dimen@-\baselineskip
+    \vskip\dimen@\relax
+  \fi
+} % end \@maketitle
+\def\@adminfootnotes{%
+  \let\@makefnmark\relax  \let\@thefnmark\relax
+  \ifx\@empty\@date\else \@footnotetext{\@setdate}\fi
+  \ifx\@empty\@subjclass\else \@footnotetext{\@setsubjclass}\fi
+  \ifx\@empty\@keywords\else \@footnotetext{\@setkeywords}\fi
+  \ifx\@empty\thankses\else \@footnotetext{%
+    \def\par{\let\par\@par}\@setthanks}%
+  \fi
+}
+\AtBeginDocument{%
+  \@ifundefined{publname}{%
+    \let\publname\@empty
+    \let\@serieslogo\@empty
+  }{%
+    \def\@serieslogo{\article@logo}%
+  }%
+}
+\AtBeginDocument{%
+  \@ifundefined{volinfo}{%
+    \def\volinfo{%
+      Volume \currentvolume, Number \number0\currentissue
+      \if\@printyear , \currentmonth\ \currentyear\fi
+    }%
+  }{}%
+}
+\def\@printyear{TF}% boolean false
+\def\issueinfo#1#2#3#4{\def\currentvolume{#1}\def\currentissue{#2}%
+  \def\currentmonth{#3}\def\currentyear{#4}}
+\issueinfo{00}% volume number
+  {0}%        % issue number
+  {Xxxx}%     % month
+  {XXXX}%     % year
 \newcommand{\copyrightinfo}[2]{%
   \def\copyrightyear{#1}%
   \@ifnotempty{#2}{\def\copyrightholder{#2}}%
 }
 \copyrightinfo{0000}{(copyright holder)}
+\def\pagespan#1#2{\setcounter{page}{#1}%
+  \ifnum\c@page<\z@ \pagenumbering{roman}\setcounter{page}{-#1}\fi
+  \def\start@page{#1}\def\end@page{#2}}
+\pagespan{000}{000}
+\AtBeginDocument{%
+  \@ifundefined{pageinfo}{%
+    \def\pageinfo{%
+      \ifnum\start@page=\z@
+        Pages 000--000
+      \else
+        \ifx\start@page\end@page
+          Page \start@page
+        \else
+          Pages \start@page--\end@page
+        \fi
+      \fi}%
+  }{}%
+}
+\@ifundefined{ISSN}{\def\ISSN{0000-0000}}{}
+\newcommand\PII[1]{\def\@PII{#1}}
+\PII{S \ISSN(XX)0000-0}
 \newinsert\copyins
 \skip\copyins=1.5pc
 \count\copyins=1000 % magnification factor, 1000 = 100%
@@ -605,6 +728,18 @@
   \fi\fi
   \global\count\copyins=999 \relax
 }
+\newif\if@revertcopyright  \@revertcopyrightfalse
+\newcommand{\revertcopyright}{%
+  \global\@revertcopyrighttrue
+  \global\@extracrlinetrue}
+\def\@revertcrfontsize{\fontsize{6}{7\p@}\normalfont\upshape}
+\def\@extracrline{%
+  \if@revertcopyright
+    \unskip\\
+    \@revertcrfontsize
+    Reverts to public domain 28 years from publication
+  \fi
+}
 \newcommand{\abstractname}{Abstract}
 \newcommand{\keywordsname}{Key words and phrases}
 \newcommand{\subjclassname}{%
@@ -612,12 +747,52 @@
 \@xp\let\csname subjclassname@1991\endcsname \subjclassname
 \@namedef{subjclassname@2000}{%
   \textup{2000} Mathematics Subject Classification}
-\def\@tempb{amsbook}
+\def\@tempb{amsart}
 \ifx\@classname\@tempb
   \newcommand{\datename}{\textit{Date}:}
 \else
   \newcommand{\datename}{Received by the editors}
 \fi
+\def\@settitle{\begin{center}%
+  \baselineskip14\p@\relax
+    \bfseries
+\uppercasenonmath\@title
+  \@title
+  \end{center}%
+}
+\def\author@andify{%
+  \nxandlist {\unskip ,\penalty-1 \space\ignorespaces}%
+    {\unskip {} \@@and~}%
+    {\unskip ,\penalty-2 \space \@@and~}%
+}
+\def\@setauthors{%
+  \begingroup
+  \def\thanks{\protect\thanks@warning}%
+  \trivlist
+  \centering\footnotesize \@topsep30\p@\relax
+  \advance\@topsep by -\baselineskip
+  \item\relax
+  \author@andify\authors
+  \def\\{\protect\linebreak}%
+  \MakeUppercase{\authors}%
+  \ifx\@empty\contribs
+  \else
+    ,\penalty-3 \space \@setcontribs
+    \@closetoccontribs
+  \fi
+  \endtrivlist
+  \endgroup
+}
+\def\@closetoccontribs{}
+\def\@setcontribs{%
+  \@xcontribs
+  \MakeUppercase{\xcontribs}%
+}
+\def\@setdate{\datename\ \@date\@addpunct.}
+\def\@setsubjclass{%
+  {\itshape\subjclassname.}\enspace\@subjclass\@addpunct.}
+\def\@setkeywords{%
+  {\itshape \keywordsname.}\enspace \@keywords\@addpunct.}
 \def\@setthanks{\def\thanks##1{\par##1\@addpunct.}\thankses}
 \newbox\abstractbox
 \newenvironment{abstract}{%
@@ -649,7 +824,7 @@
   \fi
 }
 \def\titlepage{%
-  \cleardoublepage
+  \clearpage
   \thispagestyle{empty}\setcounter{page}{0}}
 \def\endtitlepage{\newpage}
 \def\labelenumi{(\theenumi)}
@@ -831,7 +1006,7 @@
     \protect\@secnumpunct
   }%
 }
-\let\@secnumfont\@empty
+\def\@secnumfont{\bfseries}
 \def\@sect#1#2#3#4#5#6[#7]#8{%
   \edef\@toclevel{\ifnum#2=\@m 0\else\number#2\fi}%
   \ifnum #2>\c@secnumdepth \let\@secnumber\@empty
@@ -848,6 +1023,8 @@
         \@ifempty{#8}{.}{.\@nx\enspace}%
       \fi
     }%
+    \@ifempty{#8}{%
+      \ifnum #2=\tw@ \def\@secnumfont{\bfseries}\fi}{}%
     \protected@edef\@svsec{%
       \ifnum#2<\@m
         \@ifundefined{#1name}{}{%
@@ -861,7 +1038,6 @@
     \begingroup #6\relax
     \@hangfrom{\hskip #3\relax\@svsec}{\interlinepenalty\@M #8\par}%
     \endgroup
-  \csname #1mark\endcsname{#7}%
     \ifnum#2>\@m \else \@tocwrite{#1}{#8}\fi
   \else
   \def\@svsechd{#6\hskip #3\@svsec
@@ -874,70 +1050,44 @@
   \@xsect{#5}}
 \let\@ssect\relax
 \newcounter{part}
-\newcounter{chapter}
-\newcounter{section}[chapter]
-\def\thesection{\arabic{section}}
+\newcounter{section}
 \newcounter{subsection}[section]
 \newcounter{subsubsection}[subsection]
 \newcounter{paragraph}[subsubsection]
 \newcounter{subparagraph}[paragraph]
 \renewcommand\thepart          {\arabic{part}}
-\renewcommand\thechapter       {\arabic{chapter}}
-\renewcommand\thesection       {\thechapter.\arabic{section}}
+\renewcommand\thesection       {\arabic{section}}
 \renewcommand\thesubsection    {\thesection.\arabic{subsection}}
-\renewcommand\thesubsubsection {\thesubsection.\arabic{subsubsection}}
+\renewcommand\thesubsubsection {\thesubsection .\arabic{subsubsection}}
 \renewcommand\theparagraph     {\thesubsubsection.\arabic{paragraph}}
 \renewcommand\thesubparagraph  {\theparagraph.\arabic{subparagraph}}
 \setcounter{secnumdepth}{3}
 \def\partname{Part}
+\def\part{\@startsection{part}{0}%
+  \z@{\linespacing\@plus\linespacing}{.5\linespacing}%
+  {\normalfont\bfseries\raggedright}}
 \def\specialsection{\@startsection{section}{1}%
-  \z@{2\linespacing\@plus\linespacing}{.5\linespacing}%
-  {\large\scshape\centering}}
-\def\part{\cleardoublepage \thispagestyle{empty}%
-  \null\vfil  \markboth{}{}\secdef\@part\@spart}
-\def\@part[#1]#2{%
-  \ifnum \c@secnumdepth >-2\relax \refstepcounter{part}%
-    \addcontentsline{toc}{part}{\partname\ \thepart.
-        \protect\enspace\protect\noindent#1}%
-  \else
-    \addcontentsline{toc}{part}{#1}\fi
-  \begingroup\centering
-  \ifnum \c@secnumdepth >-2\relax
-       {\fontsize{\@xviipt}{22}\bfseries
-         \partname\ \thepart} \vskip 20\p@ \fi
-  \fontsize{\@xxpt}{25}\bfseries
-      #1\vfil\vfil\endgroup \newpage\thispagestyle{empty}}
-
-\def\@spart#1{\addcontentsline{toc}{part}{\protect\noindent#1}%
-  \begingroup\centering
-  \fontsize{\@xxpt}{25}\bfseries
-     #1\vfil\vfil\endgroup \newpage\thispagestyle{empty}}
-\def\partrunhead#1#2#3{%
-  \@ifnotempty{#2}{\uppercase{\ignorespaces#1 #2\unskip}\@ifnotempty{#3}{. }}%
-  \def\@tempa{#3}%
-  \ifx\@empty\@tempa\else
-    \begingroup \def\\{ \ignorespaces}% defend against questionable usage
-    \uppercasenonmath\@tempa\@tempa
-    \endgroup
-  \fi
-}
-\let\chapterrunhead\partrunhead
-\let\sectionrunhead\partrunhead
+  \z@{\linespacing\@plus\linespacing}{.5\linespacing}%
+  {\normalfont\centering}}
 \def\section{\@startsection{section}{1}%
   \z@{.7\linespacing\@plus\linespacing}{.5\linespacing}%
   {\normalfont\bfseries\centering}}
 \def\subsection{\@startsection{subsection}{2}%
-  \normalparindent{.5\linespacing\@plus.7\linespacing}{-.5em}%
+  \z@{.5\linespacing\@plus.7\linespacing}{-.5em}%
   {\normalfont\bfseries}}
 \def\subsubsection{\@startsection{subsubsection}{3}%
-  \normalparindent\z@{-.5em}%
-  {\normalfont\itshape}}
+  \z@{.5\linespacing\@plus.7\linespacing}{-.5em}%
+  {\normalfont\bfseries}}
 \def\paragraph{\@startsection{paragraph}{4}%
-  \normalparindent\z@{-\fontdimen2\font}%
+  \z@\z@{-\fontdimen2\font}%
   \normalfont}
 \def\subparagraph{\@startsection{subparagraph}{5}%
   \z@\z@{-\fontdimen2\font}%
   \normalfont}
+\def\appendix{\par\c@section\z@ \c@subsection\z@
+   \let\sectionname\appendixname
+   \def\thesection{\@Alph\c@section}}
+\def\appendixname{Appendix}
 \def\@Roman#1{\@xp\@slowromancap
   \romannumeral#1@}%
 \def\@slowromancap#1{\ifx @#1% then terminate
@@ -947,94 +1097,20 @@
     \@xp\@slowromancap
   \fi
 }
-\def\frontmatter{\cleardoublepage\pagenumbering{roman}}
-\def\mainmatter{\cleardoublepage\pagenumbering{arabic}}
-\def\backmatter{%
-  \if@openright\cleardoublepage\else\clearpage\fi
-  \let\chaptername\relax}
-\def\aufm#1{\par\vspace*{12pt}{\flushright #1\par}}
-\newenvironment{xcb}{%
-  \setcounter{enumi}{0}%
-  \settowidth{\leftmargini}{\labelenumi\hskip\labelsep}%
-  \setcounter{enumii}{4}% letter d
-  \settowidth{\leftmarginii}{\labelenumii\hskip\labelsep}%
-  \@startsection{section}% counter name; ignored because of the
-                                % * below
-  {1}% sectioning level
-  {\z@}% indent to the left of the section title
-  {18\p@\@plus2\p@}% vertical space above
-  {1sp}% Space below of 13pt base-to-base, so none needs to be added
-      % here; but \z@ would cause the following text to be run-in, so we
-      % use 1sp instead.
-  {\bfseries}% The font of the subsection title
-  *% always unnumbered
-}{%
-  \par
-}
-\def\chapter{%
-  \if@openright\cleardoublepage\else\clearpage\fi
-  \thispagestyle{plain}\global\@topnum\z@
-  \@afterindenttrue \secdef\@chapter\@schapter}
-\def\@chapter[#1]#2{\refstepcounter{chapter}%
-  \ifnum\c@secnumdepth<\z@ \let\@secnumber\@empty
-  \else \let\@secnumber\thechapter \fi
-  \typeout{\chaptername\space\@secnumber}%
-  \def\@toclevel{0}%
-  \ifx\chaptername\appendixname \@tocwriteb\tocappendix{chapter}{#2}%
-  \else \@tocwriteb\tocchapter{chapter}{#2}\fi
-  \chaptermark{#1}%
-  \addtocontents{lof}{\protect\addvspace{10\p@}}%
-  \addtocontents{lot}{\protect\addvspace{10\p@}}%
-  \@makechapterhead{#2}\@afterheading}
-\def\@schapter#1{\typeout{#1}%
-  \let\@secnumber\@empty
-  \def\@toclevel{0}%
-  \ifx\chaptername\appendixname \@tocwriteb\tocappendix{chapter}{#1}%
-  \else \@tocwriteb\tocchapter{chapter}{#1}\fi
-  \chaptermark{#1}%
-  \addtocontents{lof}{\protect\addvspace{10\p@}}%
-  \addtocontents{lot}{\protect\addvspace{10\p@}}%
-  \@makeschapterhead{#1}\@afterheading}
-\newcommand\chaptername{Chapter}
-\newcommand\appendixname{Appendix}
-\def\@makechapterhead#1{\global\topskip 7.5pc\relax
-  \begingroup
-  \fontsize{\@xivpt}{18}\bfseries\centering
-    \ifnum\c@secnumdepth>\m@ne
-      \leavevmode \hskip-\leftskip
-      \rlap{\vbox to\z@{\vss
-          \centerline{\normalsize\mdseries
-              \uppercase\@xp{\chaptername}\enspace\thechapter}
-          \vskip 3pc}}\hskip\leftskip\fi
-     #1\par \endgroup
-  \skip@34\p@ \advance\skip@-\normalbaselineskip
-  \vskip\skip@ }
-\def\@makeschapterhead#1{\global\topskip 7.5pc\relax
-  \begingroup
-  \fontsize{\@xivpt}{18}\bfseries\centering
-  #1\par \endgroup
-  \skip@34\p@ \advance\skip@-\normalbaselineskip
-  \vskip\skip@ }
-\def\appendix{\par
-  \c@chapter\z@ \c@section\z@
-  \let\chaptername\appendixname
-  \def\thechapter{\@Alph\c@chapter}}
 \newcommand{\@pnumwidth}{1.6em}
 \newcommand{\@tocrmarg}{2.6em}
-\setcounter{tocdepth}{1}
+\setcounter{tocdepth}{2}
 \newswitch{toc}
 \newswitch{lof}
 \newswitch{lot}
-\def\@starttoc#1#2{%
-  \begingroup
+\newcommand\contentsnamefont{\bfseries}
+\def\@starttoc#1#2{\begingroup
   \setTrue{#1}%
-  \let\secdef\@gobbletwo \chapter
-  \let\@secnumber\@empty % for \@tocwrite and \chaptermark
+  \par\removelastskip\vskip\z@skip
+  \@startsection{}\@M\z@{\linespacing\@plus\linespacing}%
+    {.5\linespacing}{\centering\contentsnamefont}{#2}%
   \ifx\contentsname#2%
-  \else \@tocwrite{chapter}{#2}\fi
-  \typeout{#2}\@xp\chaptermark\@xp{#2}%
-  \@makeschapterhead{#2}\@afterheading
-  \parskip\z@skip
+  \else \addcontentsline{toc}{section}{#2}\fi
   \makeatletter
   \@input{\jobname.#1}%
   \if@filesw
@@ -1042,7 +1118,8 @@
     \immediate\@xp\openout\csname tf@#1\endcsname \jobname.#1\relax
   \fi
   \global\@nobreakfalse \endgroup
-  \newpage
+  \addvspace{32\p@\@plus14\p@}%
+  \let\tableofcontents\relax
 }
 \def\contentsname{Contents}
 \def\listfigurename{List of Figures}
@@ -1144,7 +1221,7 @@
     \fi}
 \newcommand{\bibliofont}{\footnotesize}
 \newcommand{\@bibtitlestyle}{%
-  \@xp\chapter\@xp*\@xp{\bibname}%
+  \@xp\section\@xp*\@xp{\refname}%
 }
 \newenvironment{thebibliography}[1]{%
   \@bibtitlestyle
@@ -1172,26 +1249,8 @@
 \let\URLhref\@gobble
 \def\@URL#1{\URLhref{#1}#1}
 \newif\if@restonecol
-\def\indexchap#1{\global\topskip 7.5pc\relax
-  \twocolumn[{\fontsize{\@xivpt}{18}\bfseries\centering
-    \vskip\topskip\hbox{}\vskip-\baselineskip% adjust top space
-    #1\par
-   \global\topskip 34\p@\relax
-   \ifx\@empty\indexintro
-   \else
-     \begingroup \normalsize
-       \skip@\topskip \advance\skip@ -\baselineskip
-       \vskip\skip@
-       \parbox[t]{24pc}{\normalfont\indexintro\par}%
-     \endgroup
-     \global\topskip 24\p@\relax
-   \fi
-  }]%
-}
-\newcommand{\indexintro}{}
 \newcommand{\@indextitlestyle}{%
-  \let\@makeschapterhead\indexchap
-  \@xp\chapter\@xp*\@xp{\indexname}%
+  \twocolumn[\@xp\section\@xp*\@xp{\indexname}]%
 }
 \def\theindex{\@restonecoltrue\if@twocolumn\@restonecolfalse\fi
   \columnseprule\z@ \columnsep 35\p@
@@ -1208,7 +1267,6 @@
 \def\subsubitem{\par\hangindent 3em\hspace*{2em}}
 \def\endtheindex{\if@restonecol\onecolumn\else\clearpage\fi}
 \def\indexspace{\par\bigskip}
-\@addtoreset{footnote}{chapter}
 \def\footnoterule{\kern-.4\p@
         \hrule\@width 5pc\kern11\p@\kern-\footnotesep}
 \def\@makefnmark{%
@@ -1252,7 +1310,7 @@
 \setlength{\@dblfpbot}{0pt plus 1fil}
 \newcommand{\fps@figure}{tbp}
 \newcommand{\fps@table}{tbp}
-\newcounter{figure}[chapter]
+\newcounter{figure}
 \def\@captionheadfont{\scshape}
 \def\@captionfont{\normalfont}
 \def\ftype@figure{1}
@@ -1269,7 +1327,7 @@
 }{%
   \end@dblfloat
 }
-\newcounter{table}[chapter]
+\newcounter{table}
 \def\ftype@table{2}
 \def\ext@table{lot}
 \def\fnum@table{\tablename\ \thetable}
@@ -1318,7 +1376,7 @@
 \def~{\protect\nonbreakingspace}
 \def\@biblabel#1{\@ifnotempty{#1}{[#1]}}
 \def\@citestyle{\m@th\upshape\mdseries}
-\def\citeform#1{{\bfseries#1}}
+\let\citeform\@firstofone
 \def\@cite#1#2{{%
   \@citestyle[\citeform{#1}\if@tempswa, #2\fi]}}
 \@ifundefined{cite }{%
@@ -1337,59 +1395,6 @@
 \newcommand\printindex{\@input{\jobname.ind}}
 \DeclareRobustCommand\textprime{\leavevmode
   \raise.8ex\hbox{\check@mathfonts\the\scriptfont2 \char48 }}
-\def\maketitle{\par
-  \@topnum\z@ % this prevents figures from falling at the top of page 1
-  \begingroup
-  \@maketitle
-  \endgroup
-  \c@footnote\z@
-  \def\do##1{\let##1\relax}%
-  \do\maketitle \do\@maketitle \do\title \do\@xtitle \do\@title
-  \do\author \do\@xauthor \do\address \do\@xaddress
-  \do\email \do\@xemail \do\curraddr \do\@xcurraddr
-  \do\dedicatory \do\@dedicatory \do\thanks \do\thankses
-  \do\keywords \do\@keywords \do\subjclass \do\@subjclass
-}
-\def\@maketitle{%
-  \cleardoublepage \thispagestyle{empty}%
-  \begingroup \topskip\z@skip
-  \null\vfil
-  \begingroup
-  \LARGE\bfseries \centering
-  \openup\medskipamount
-  \@title\par\vspace{24pt}%
-  \def\and{\par\medskip}\centering
-  \mdseries\authors\par\bigskip
-  \endgroup
-  \vfil
-  \ifx\@empty\addresses \else \@setaddresses \fi
-  \vfil
-  \ifx\@empty\@dedicatory
-  \else \begingroup
-    \centering{\footnotesize\itshape\@dedicatory\@@par}%
-    \endgroup
-  \fi
-  \vfill
-  \newpage\thispagestyle{empty}
-  \begin{center}
-    \ifx\@empty\@subjclass\else\@setsubjclass\fi
-    \ifx\@empty\@keywords\else\@setkeywords\fi
-    \ifx\@empty\@translators\else\vfil\@settranslators\fi
-    \ifx\@empty\thankses\else\vfil\@setthanks\fi
-  \end{center}
-  \vfil
-  \@setabstract
-  \endgroup}
-\def\@settranslators{\par
-  \begingroup
-  \translname: \andify\@translators \uppercasenonmath\@translators
-  \@translators \@@par
-  \endgroup}
-\def\@setdate{\par\smallskip\@date\par\smallskip}
-\def\@setsubjclass{\par\smallskip
-  {\itshape\subjclassname.}\enspace\@subjclass\par\smallskip}
-\def\@setkeywords{\par\smallskip
-  {\itshape \keywordsname.}\enspace \@keywords\par\smallskip}
 
 \newcommand{\theoremstyle}[1]{%
   \@ifundefined{th@#1}{%
@@ -1470,7 +1475,7 @@
   \let\thmheadnl\relax
   \let\thm@swap\@gobble
   \let\thm@indent\noindent % no indent
-  \thm@headfont{\bfseries}% heading font small caps
+  \thm@headfont{\bfseries}% heading font bold
   \thm@notefont{\fontseries\mddefault\upshape}%
   \thm@headpunct{.}% add period after heading
   \thm@headsep 5\p@ plus\p@ minus\p@\relax
@@ -1553,7 +1558,7 @@
 \def\thm@swap{N}%
 \let\@opargbegintheorem\relax
 \def\th@plain{%
-%% \let\thm@indent\noindent % no indent
+%%  \let\thm@indent\noindent % no indent
 %%  \thm@headfont{\bfseries}% heading font is bold
 %%  \thm@notefont{}% same as heading font
 %%  \thm@headpunct{.}% add period after heading
@@ -1566,6 +1571,7 @@
   \normalfont % body font
 }
 \def\th@remark{%
+  \thm@headfont{\bfseries}%
   \normalfont % body font
 }
 \def\@endtheorem{\endtrivlist\@endpefalse }
@@ -1852,7 +1858,7 @@ Le-gendre Mar-kov-ian Noe-ther-ian No-vem-ber Rie-mann-ian Sep-tem-ber}
   \ifdim\topmargin<.5truein \topmargin.5truein \fi
   \advance\topmargin -1truein\relax
 }
-\InputIfFileExists{amsbook.cfg}{}{%
+\InputIfFileExists{amsart.cfg}{}{%
   \calclayout % initialize
   \pagenumbering{arabic}%
   \pagestyle{headings}%
@@ -1866,5 +1872,3 @@ Le-gendre Mar-kov-ian Noe-ther-ian No-vem-ber Rie-mann-ian Sep-tem-ber}
 \newenvironment{pf}{\@newpf[\proofname]}{\popQED\endtrivlist}
 \newenvironment{pf*}[1]{\@newpf[#1]}{\popQED\endtrivlist}
 \endinput
-%%
-%% End of file `amsbook.cls'.
