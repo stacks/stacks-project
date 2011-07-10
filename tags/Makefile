@@ -2,7 +2,6 @@
 .SUFFIXES: .aux .bbl .bib .blg .dvi .htm .html .css .log .out .pdf .ps .tex \
 	.toc .foo .bar
 
-
 # Master list of stems of tex files in the project.
 # Should be the same as in the main Makefile
 LIJST = introduction conventions sets categories topology sheaves algebra \
@@ -16,7 +15,8 @@ LIJST = introduction conventions sets categories topology sheaves algebra \
 	spaces-topologies spaces-descent spaces-more-morphisms quot \
 	spaces-over-fields stacks formal-defos \
 	spaces-groupoids spaces-more-groupoids bootstrap examples-stacks \
-	groupoids-quotients algebraic criteria stacks-properties \
+	groupoids-quotients algebraic stacks-sheaves criteria \
+	stacks-properties \
 	stacks-morphisms examples exercises guide desirables coding
 
 LIJST_TAGS = $(LIJST) fdl index book

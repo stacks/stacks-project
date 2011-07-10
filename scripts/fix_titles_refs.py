@@ -56,6 +56,7 @@ short_titles = {'introduction' : 'Introduction',\
 'examples-stacks' : 'Examples of Stacks,',\
 'groupoids-quotients' : 'Quotients of Groupoids,',\
 'algebraic' : 'Algebraic Stacks,',\
+'stacks-sheaves' : 'Sheaves on Stacks,',\
 'criteria' : 'Criteria for Representability,',\
 'stacks-properties' : 'Properties of Stacks,',\
 'stacks-morphisms' : 'Morphisms of Stacks,',\

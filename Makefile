@@ -15,7 +15,8 @@ LIJST = introduction conventions sets categories topology sheaves algebra \
 	spaces-topologies spaces-descent spaces-more-morphisms quot \
 	spaces-over-fields stacks formal-defos \
 	spaces-groupoids spaces-more-groupoids bootstrap examples-stacks \
-	groupoids-quotients algebraic criteria stacks-properties \
+	groupoids-quotients algebraic stacks-sheaves criteria \
+	stacks-properties \
 	stacks-morphisms examples exercises guide desirables coding
 
 # Add index and fdl to get index and license latexed as well.
