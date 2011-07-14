@@ -1705,6 +1705,255 @@ Part (2) was discussed above.
 
 
 
+
+\section{Lower shriek}
+\label{section-lower-shriek}
+
+\noindent
+The main goal is to prove that pullback $f^{-1}$ has a left adjoint $f_!$
+on abelian sheaves. We first prove two preliminary lemmas about fibre
+products and equalizers in categories fibred in groupoids and their
+behaviour with respect to morphisms.
+
+\begin{lemma}
+\label{lemma-fibre-products}
+Let $p : \mathcal{X} \to (\textit{Sch}/S)_{fppf}$
+be a category fibred in groupoids.
+\begin{enumerate}
+\item The category $\mathcal{X}$ has fibre products.
+\item If the $\mathit{Isom}$-presheaves of $\mathcal{X}$
+are representable by algebraic spaces, then $\mathcal{X}$ has equalizers.
+\item If $\mathcal{X}$ is an algebraic stack (or more generally
+a quotient stack), then $\mathcal{X}$ has equalizers.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Part (1) follows
+Categories, Lemma \ref{categories-lemma-fibred-groupoids-fibre-product-goes-up}
+as $(\textit{Sch}/S)_{fppf}$ has fibre products.
+
+\medskip\noindent
+Let $a, b : x \to y$ be morphisms of $\mathcal{X}$.
+Set $U = p(x)$ and $V = p(y)$. The category of schemes has equalizers
+hence we can let $W \to U$ be the equalizer of $p(a)$ and $p(b)$.
+Denote $c : z \to x$ a morphism of $\mathcal{X}$ lying over $W \to U$.
+The equalizer of $a$ and $b$, if it exists, is the equalizer of $a \circ c$
+and $b \circ c$. Thus we may assume that $p(a) = p(b) = f : U \to V$.
+As $\mathcal{X}$ is fibred in groupoids, there exists a unique automorphism
+$i : x \to x$ in the fibre category of $\mathcal{X}$ over $U$ such that
+$a \circ i = b$. Again the equalizer of $a$ and $b$ is the equalizer
+of $\text{id}_x$ and $i$. Recall that the $\mathit{Isom}_\mathcal{X}(x)$
+is the presheaf on $(\textit{Sch}/U)_{fppf}$ which to
+$V/U$ associates the set of automorphisms of $x|_V$ in the fibre category
+of $\mathcal{X}$ over $V$, see
+Stacks, Definition \ref{stacks-definition-mor-presheaf}.
+If $\mathit{Isom}_\mathcal{X}(x)$ is representable by an algebraic space
+$G \to U$, then we see that $\text{id}_x$ and $i$ define morphisms
+$e, i : U \to G$ over $U$. Set $V = U \times_{e, G, i} U$, which by
+Morphisms of Spaces, Lemma \ref{spaces-morphisms-lemma-section-immersion}
+is a scheme. Then it is clear that $x|_V \to x$ is the equalizer of
+the maps $\text{id}_x$ and $i$ in $\mathcal{X}$.
+This proves (2).
+
+\medskip\noindent
+If $\mathcal{X} = [U/R]$ for some groupoid in algebraic spaces
+$(U, R, s, t, c)$ over $S$, then the hypothesis of (2) holds by
+Bootstrap, Lemma \ref{bootstrap-lemma-quotient-stack-isom}.
+If $\mathcal{X}$ is an algebraic stack, then we can choose a
+presentation $[U/R] \cong \mathcal{X}$ by
+Algebraic Stacks, Lemma \ref{algebraic-lemma-stack-presentation}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-fibre-products-morphism}
+Let $f : \mathcal{X} \to \mathcal{Y}$ be a $1$-morphism of categories
+fibred in groupoids over $(\textit{Sch}/S)_{fppf}$.
+\begin{enumerate}
+\item The functor $f$ transforms fibre products into fibre products.
+\item If $f$ is faithful, then $f$ transforms equalizers into equalizers.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+By
+Categories, Lemma \ref{categories-lemma-fibred-groupoids-fibre-product-goes-up}
+we see that a fibre product in $\mathcal{X}$ is any commutative square lying
+over a fibre product diagram in $(\textit{Sch}/S)_{fppf}$. Similarly for
+$\mathcal{Y}$. Hence (1) is clear.
+
+\medskip\noindent
+Let $x \to x'$ be the equalizer of two morphisms $a, b : x' \to x''$
+in $\mathcal{X}$. We will show that $f(x) \to f(x')$ is the equalizer
+of $f(a)$ and $f(b)$. Let $y \to f(x)$ be a morphism of $\mathcal{Y}$
+equalizing $f(a)$ and $f(b)$. Say $x, x', x''$ lie over the schemes
+$U, U', U''$ and $y$ lies over $V$. Denote $h : V \to U'$ the image
+of $y \to f(x)$ in the category of schemes. The morphism
+$y \to f(x)$ is isomorphic to $f(h^*x') \to f(x')$ by the axioms of
+fibred categories. Hence, as $f$ is faithful, we see that
+$h^*x' \to x'$ equalizes $a$ and $b$. Thus we obtain a unique morphism
+$h^*x' \to x$ whose image $y = f(h^*x') \to f(x)$ is the desired morphism
+in $\mathcal{Y}$.
+\end{proof}
+
+\noindent
+As we are working with big sites we have the following somewhat
+counter intuitive result (which also holds for morphisms of big sites
+of schemes). Warning: This result isn't true if we drop the hypothesis
+that $f$ is faithful.
+
+\begin{lemma}
+\label{lemma-pullback-injective}
+Let $f : \mathcal{X} \to \mathcal{Y}$ be a $1$-morphism of categories
+fibred in groupoids over $(\textit{Sch}/S)_{fppf}$. Let
+$\tau \in \{Zar, \acute{e}tale, smooth, syntomic, fppf\}$.
+The functor
+$f^{-1} : \textit{Ab}(\mathcal{Y}_\tau) \to \textit{Ab}(\mathcal{X}_\tau)$
+has a left adjoint
+$f_! : \textit{Ab}(\mathcal{X}_\tau) \to \textit{Ab}(\mathcal{Y}_\tau)$.
+If $f$ is faithful and $\mathcal{X}$ has equalizers, then
+\begin{enumerate}
+\item $f_!$ is exact, and
+\item $f^{-1}\mathcal{I}$ is injective in $\textit{Ab}(\mathcal{X}_\tau)$
+for $\mathcal{I}$ injective in $\textit{Ab}(\mathcal{Y}_\tau)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+By
+Stacks, Lemma \ref{stacks-lemma-topology-inherited-functorial}
+the functor $f$ is continuous and cocontinuous. Hence by
+Modules on Sites, Lemma \ref{sites-modules-lemma-g-shriek-adjoint}
+the functor
+$f^{-1} : \textit{Ab}(\mathcal{Y}_\tau) \to \textit{Ab}(\mathcal{X}_\tau)$
+has a left adjoint
+$f_! : \textit{Ab}(\mathcal{X}_\tau) \to \textit{Ab}(\mathcal{Y}_\tau)$.
+To see (1) we apply
+Modules on Sites, Lemma \ref{sites-modules-lemma-exactness-lower-shriek}
+and to see that the hypotheses of that lemma are satisfied use
+Lemmas \ref{lemma-fibre-products} and
+\ref{lemma-fibre-products-morphism}
+above. Part (2) follows from this formally, see
+Homology, Lemma \ref{homology-lemma-adjoint-preserve-injectives}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-pullback-injective-modules}
+Let $f : \mathcal{X} \to \mathcal{Y}$ be a $1$-morphism of categories
+fibred in groupoids over $(\textit{Sch}/S)_{fppf}$. Let
+$\tau \in \{Zar, \acute{e}tale, smooth, syntomic, fppf\}$.
+The functor
+$f^{-1} : \textit{Mod}(\mathcal{Y}_\tau, \mathcal{O}_\mathcal{Y}) \to
+\textit{Ab}(\mathcal{X}_\tau, \mathcal{O}_\mathcal{X})$
+has a left adjoint
+$f_! : \textit{Mod}(\mathcal{X}_\tau, \mathcal{O}_\mathcal{X}) \to
+\textit{Mod}(\mathcal{Y}_\tau, \mathcal{O}_\mathcal{Y})$.
+If $f$ is faithful and $\mathcal{X}$ has equalizers, then
+\begin{enumerate}
+\item $f_!$ is exact, and
+\item $f^{-1}\mathcal{I}$ is injective in $\textit{Ab}(\mathcal{X}_\tau)$
+for $\mathcal{I}$ injective in $\textit{Ab}(\mathcal{Y}_\tau)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+We are going to show directly that $f_!\mathcal{F}$ is a sheaf
+of $\mathcal{O}_\mathcal{Y}$-modules, if $\mathcal{F}$ is a sheaf
+of $\mathcal{O}_\mathcal{X}$-modules, where $f_!$ is the functor on
+abelian sheaves of
+Lemma \ref{lemma-pullback-injective}.
+We suggest the reader skip the proof.
+
+\medskip\noindent
+To see this we analyze the functor $f_{p!}$ associated to $f$ constructed in
+Modules on Sites, Definition \ref{sites-modules-definition-g-shriek}.
+Let $p : \mathcal{X} \to (\textit{Sch}/S)_{fppf}$ and
+$q : \mathcal{Y} \to (\textit{Sch}/S)_{fppf}$ the structure morphisms.
+Let $\mathcal{F}$ be an abelian presheaf on $\mathcal{X}$.
+Let $y$ be an object of $\mathcal{Y}$. Denote $\mathcal{I}_y^f$ the category
+of pairs $(x, \phi : y \to f(x))$, see
+Sites, Section \ref{sites-section-functoriality-PSh}.
+Recall that the colimit defining $f_{p!}\mathcal{F}(y)$ is
+over the {\it opposite} of $\mathcal{I}_y^f$.
+Given an object $(x, \phi : y \to f(x))$ of $\mathcal{I}_y^f$
+set $U = p(x)$, $V = q(y)$ and $h = q(\phi) : V \to U$.
+By the axioms of fibred categories we obtain a canonical morphism
+$\psi : y \to f(h^*x)$ over $V$ such that $y \to f(h^*x) \to f(x)$ equals
+$\phi$. Hence a morphism
+$(h^*x, \psi : y \to f(h^*x)) \to (x, \phi : y \to f(x))$ in
+$\mathcal{I}_y^f$. Moreover, suppose that
+$\alpha : (x, \phi : y \to f(x)) \to (x', y \to f(x'))$ is a
+morphism in $\mathcal{I}_y^f$. Let $U = p(x)$, $h = q(\phi)$, $\psi$
+be as above and similarly $U' = p(x')$, $V' = q(\phi')$, and $\psi'$.
+Then the axioms of a fibred category guarantee the existence of a unique
+morphism $\beta : h^*x \to (h')^*x'$ over $V$ such that
+$$
+\xymatrix{
+(h^*x, \psi : y \to f(h^*x)) \ar[r] \ar[d]_\beta &
+(x, \phi : y \to f(x)) \ar[d]^\alpha \\
+((h')^*x', \psi : y \to f((h')^*x')) \ar[r] &
+(x', \phi : y \to f(x'))
+}
+$$
+is a commutative diagram in $\mathcal{I}_y^f$. Hence the colimit
+$$
+f_{p!}\mathcal{F}(y) =
+\text{colim}_{(x, \phi) \in (\mathcal{I}_y^f)^{opp}} \mathcal{F}(x)
+$$
+can be taken over the opposite of the
+subcategory $\mathcal{J}_y^f$ consisting of pairs
+$(x, \phi : y \to f(x))$ where $p(x) = q(y)$ and where
+$q(\phi) = \text{id}_{q(y)}$ and where morphisms
+$\beta : (x, \phi : y \to f(x)) \to (x', \phi' : y \to f(x'))$
+also are over $q(y)$, i.e., $p(\beta) = \text{id}_{p(y)}$.
+
+\medskip\noindent
+Now, suppose that $\mathcal{F}$ is a sheaf of
+$\mathcal{O}_\mathcal{X}$-modules on $\mathcal{X}_\tau$.
+For pairs $(x, \phi : x \to f(x))$ of $\mathcal{J}_y^f$ we have
+$\mathcal{O}_\mathcal{X}(x) = \mathcal{O}_\mathcal{Y}(y)$.
+Hence the colimit is an $\mathcal{O}_\mathcal{Y}(y)$-module in a
+natural way. This module structure is compatible
+with the restriction mappings of $f_{p!}\mathcal{F}$ (details omitted).
+Finally, since $f_!\mathcal{F}$ is the sheafification of
+$f_{p!}\mathcal{F}$ we see that $f_!\mathcal{F}$ is an
+$\mathcal{O}_\mathcal{Y}$-module in a canonical way.
+
+\medskip\noindent
+At this point we have the functor
+$f_! : \textit{Mod}(\mathcal{X}_\tau, \mathcal{O}_\mathcal{X}) \to
+\textit{Mod}(\mathcal{Y}_\tau, \mathcal{O}_\mathcal{Y})$
+and it matches the functor from
+Lemma \ref{lemma-pullback-injective}
+on underlying sheaves of abelian groups. Thus to see that it is
+a left adjoint to $f^* = f^{-1}$
+it suffices to show that under the identification
+$$
+\text{Hom}_{\textit{Ab}(\mathcal{X}_\tau)}(\mathcal{F}, f^{-1}\mathcal{G})
+=
+\text{Hom}_{\textit{Ab}(\mathcal{Y}_\tau)}(f_!\mathcal{F}, \mathcal{G})
+$$
+the $\mathcal{O}_\mathcal{X}$-linear maps on the left hand side
+correspond to the $\mathcal{O}_\mathcal{Y}$-linear maps on the right hand side.
+We omit the verification.
+
+\medskip\noindent
+Assume now that $\mathcal{X}$ has equalizers and that $f$ is faithful.
+Lemma \ref{lemma-pullback-injective}
+tells us that $f_!$ is exact. Finally, 
+Homology, Lemma \ref{homology-lemma-adjoint-preserve-injectives}
+implies the statement on pullbacks of injective modules.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
 \input{chapters}
 
 \bibliography{my}
