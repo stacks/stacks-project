@@ -1739,7 +1739,7 @@ Homology, Lemma \ref{homology-lemma-adjoint-preserve-injectives}.
 In the rest of this section we prove that pullback $f^{-1}$ has a left
 adjoint $f_!$ on abelian sheaves and modules. If $f$ is representable (by
 schemes or by algebraic spaces), then it will turn out that $f_!$ is exact
-and $f^{-1}$ will preserve injectives. We first prove two
+and $f^{-1}$ will preserve injectives. We first prove a few
 preliminary lemmas about fibre products and equalizers in categories
 fibred in groupoids and their behaviour with respect to morphisms.
 
@@ -1824,6 +1824,64 @@ $h^*x' \to x$ whose image $y = f(h^*x') \to f(x)$ is the desired morphism
 in $\mathcal{Y}$.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-fibre-products-preserve-properties}
+Let $f : \mathcal{X} \to \mathcal{Y}$, $g : \mathcal{Z} \to \mathcal{Y}$
+be faithful $1$-morphisms of categories
+fibred in groupoids over $(\textit{Sch}/S)_{fppf}$.
+\begin{enumerate}
+\item the functor $\mathcal{X} \times_\mathcal{Y} \mathcal{Z} \to \mathcal{Y}$
+is faithful, and
+\item if $\mathcal{X}, \mathcal{Z}$ have equalizers, so does
+$\mathcal{X} \times_\mathcal{Y} \mathcal{Z}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+We think of objects in $\mathcal{X} \times_\mathcal{Y} \mathcal{Z}$ as
+quadruples $(U, x, z, \alpha)$ where $\alpha : f(x) \to g(z)$ is an
+isomorphism over $U$, see
+Categories, Lemma \ref{categories-lemma-2-product-categories-over-C}.
+A morphism $(U, x, z, \alpha) \to (U', x', z', \alpha')$ is a
+pair of morphisms $a : x \to x'$ and $b : z \to z'$ compatible
+with $\alpha$ and $\alpha'$. Thus it is clear that if $f$ and
+$g$ are faithful, so is the functor 
+$\mathcal{X} \times_\mathcal{Y} \mathcal{Z} \to \mathcal{Y}$.
+Now, suppose that
+$(a, b), (a', b') : (U, x, z, \alpha) \to (U', x', z', \alpha')$
+are two morphisms of the $2$-fibre product. Then consider the equalizer
+$x'' \to x$ of $a$ and $a'$ and the equalizer $z'' \to z$ of $b$ and $b'$.
+Since $f$ commutes with equalizers (by
+Lemma \ref{lemma-fibre-products-morphism})
+we see that $f(x'') \to f(x)$ is the equalizer of $f(a)$ and $f(a')$.
+Similarly, $g(z'') \to g(z)$ is the equalizer of $g(b)$ and $g(b')$.
+Picture
+$$
+\xymatrix{
+f(x'') \ar[r] \ar@{..>}[d]_{\alpha''}&
+f(x) \ar[d]_\alpha
+\ar@<0.5ex>[r]^{f(a)}
+\ar@<-0.5ex>[r]_{f(a')}
+ &
+f(x') \ar[d]^{\alpha'} \\
+g(z'') \ar[r] &
+g(z)
+\ar@<0.5ex>[r]^{g(b)}
+\ar@<-0.5ex>[r]_{g(b')}
+ &
+g(z')
+}
+$$
+It is clear that the dotted arrow exists and is an isomorphism.
+However, it is not a priori the case that the image of $\alpha''$
+in the category of schemes is the identity of its source. On the other
+hand, the existence of $\alpha''$ means that we can assume that $x''$
+and $z''$ are defined over the same scheme and that the morphisms
+$x'' \to x$ and $z'' \to z$ have the same image in the category of schemes.
+Redoing the diagram above we see that the dotted arrow now does
+project to an identity morphism and we win. Some details omitted.
+\end{proof}
+
 \noindent
 As we are working with big sites we have the following somewhat
 counter intuitive result (which also holds for morphisms of big sites
@@ -1872,15 +1930,17 @@ fibred in groupoids over $(\textit{Sch}/S)_{fppf}$. Let
 $\tau \in \{Zar, \acute{e}tale, smooth, syntomic, fppf\}$.
 The functor
 $f^{-1} : \textit{Mod}(\mathcal{Y}_\tau, \mathcal{O}_\mathcal{Y}) \to
-\textit{Ab}(\mathcal{X}_\tau, \mathcal{O}_\mathcal{X})$
+\textit{Mod}(\mathcal{X}_\tau, \mathcal{O}_\mathcal{X})$
 has a left adjoint
 $f_! : \textit{Mod}(\mathcal{X}_\tau, \mathcal{O}_\mathcal{X}) \to
 \textit{Mod}(\mathcal{Y}_\tau, \mathcal{O}_\mathcal{Y})$.
 If $f$ is faithful and $\mathcal{X}$ has equalizers, then
 \begin{enumerate}
 \item $f_!$ is exact, and
-\item $f^{-1}\mathcal{I}$ is injective in $\textit{Ab}(\mathcal{X}_\tau)$
-for $\mathcal{I}$ injective in $\textit{Ab}(\mathcal{Y}_\tau)$.
+\item $f^{-1}\mathcal{I}$ is injective in
+$\textit{Mod}(\mathcal{X}_\tau, \mathcal{O}_\mathcal{X})$
+for $\mathcal{I}$ injective in
+$\textit{Mod}(\mathcal{Y}_\tau, \mathcal{O}_\mathcal{X})$.
 \end{enumerate}
 \end{lemma}
 
@@ -2296,7 +2356,7 @@ the associated relative {\v C}ech complexes are isomorphic,
 \begin{proof}
 Literally the same as the proof of
 Lemma \ref{lemma-generalities}
-using the pullback maps
+using the pullback maps of
 Remark \ref{remark-cech-complex-presheaves}.
 \end{proof}
 
@@ -2349,9 +2409,423 @@ and more generally that results on the (usual) {\v C}ech complex imply
 results for the relative {\v C}ech complex.
 \end{remark}
 
+\begin{lemma}
+\label{lemma-base-change-cech-complex}
+Let
+$$
+\xymatrix{
+\mathcal{V} \ar[d]_g \ar[r]_h & \mathcal{U} \ar[d]^f \\
+\mathcal{Y} \ar[r]^e & \mathcal{X}
+}
+$$
+be a $2$-fibre product of categories fibred in groupoids over
+$(\textit{Sch}/S)_{fppf}$ and let $\mathcal{F}$ be an abelian presheaf
+on $\mathcal{X}$. Then the map
+$e^{-1}\mathcal{K}^\bullet(f, \mathcal{F}) \to
+\mathcal{K}^\bullet(g, e^{-1}\mathcal{F})$
+of
+Lemma \ref{lemma-generalities-sheafified}
+is an isomorphism of complexes of abelian presheaves.
+\end{lemma}
+
+\begin{proof}
+Let $y$ be an object of $\mathcal{Y}$ lying over the scheme $T$.
+Set $x = e(y)$. We are going to show that the map induces an isomorphism
+on sections over $y$. Note that
+$$
+\Gamma(y, e^{-1}\mathcal{K}^\bullet(f, \mathcal{F})) =
+\Gamma(x, \mathcal{K}^\bullet(f, \mathcal{F})) =
+\check{\mathcal{C}}^\bullet(
+(\textit{Sch}/T)_{fppf} \times_{x, \mathcal{X}} \mathcal{U} \to 
+(\textit{Sch}/T)_{fppf}, x^{-1}\mathcal{F})
+$$
+by
+Remark \ref{remark-cech-complex-sections}. On the other hand,
+$$
+\Gamma(y, \mathcal{K}^\bullet(g, e^{-1}\mathcal{F})) =
+\check{\mathcal{C}}^\bullet(
+(\textit{Sch}/T)_{fppf} \times_{y, \mathcal{Y}} \mathcal{V} \to 
+(\textit{Sch}/T)_{fppf}, y^{-1}e^{-1}\mathcal{F})
+$$
+also by
+Remark \ref{remark-cech-complex-sections}.
+Note that $y^{-1}e^{-1}\mathcal{F} = x^{-1}\mathcal{F}$
+and since the diagram is $2$-cartesian the $1$-morphism
+$$
+(\textit{Sch}/T)_{fppf} \times_{y, \mathcal{Y}} \mathcal{V} \to
+(\textit{Sch}/T)_{fppf} \times_{x, \mathcal{X}} \mathcal{U}
+$$
+is an equivalence. Hence the map on sections over $y$ is an
+isomorphism by
+Lemma \ref{lemma-generalities}.
+\end{proof}
+
+\noindent
+Exactness can be checked on a ``covering''.
+
+\begin{lemma}
+\label{lemma-check-exactness-covering}
+Let $f : \mathcal{U} \to \mathcal{X}$ be a $1$-morphism of categories fibred
+in groupoids over $(\textit{Sch}/S)_{fppf}$. Let
+$\tau \in \{Zar, \acute{e}tale, smooth, syntomic, fppf\}$.
+Let
+$$
+\mathcal{F} \to \mathcal{G} \to \mathcal{H}
+$$
+be a complex in $\textit{Ab}(\mathcal{X}_\tau)$. Assume that
+\begin{enumerate}
+\item for every object $x$ of $\mathcal{X}$ there exists a covering
+$\{x_i \to x\}$ in $\mathcal{X}_\tau$ such that each $x_i$ is isomorphic
+to $f(u_i)$ for some object $u_i$ of $\mathcal{U}$, and
+\item $f^{-1}\mathcal{F} \to f^{-1}\mathcal{G} \to f^{-1}\mathcal{H}$ is exact.
+\end{enumerate}
+Then the sequence $\mathcal{F} \to \mathcal{G} \to \mathcal{H}$
+is exact.
+\end{lemma}
+
+\begin{proof}
+Let $x$ be an object of $\mathcal{X}$ lying over the scheme $T$.
+Consider the sequence
+$x^{-1}\mathcal{F} \to x^{-1}\mathcal{G} \to x^{-1}\mathcal{H}$
+of abelian sheaves on $(\textit{Sch}/T)_\tau$. It suffices to show
+this sequence is exact. By assumption there exists a $\tau$-covering
+$\{T_i \to T\}$ such that $x|_{T_i}$ is isomorphic to $f(u_i)$ for
+some object $u_i$ of $\mathcal{U}$ over $T_i$ and moreover the sequence
+$u_i^{-1}f^{-1}\mathcal{F} \to u_i^{-1}f^{-1}\mathcal{G} \to
+u_i^{-1}f^{-1}\mathcal{H}$ of abelian sheaves on $(\textit{Sch}/T_i)_\tau$
+is exact. Since
+$u_i^{-1}f^{-1}\mathcal{F} = x^{-1}\mathcal{F}|_{(\textit{Sch}/T_i)_\tau}$
+we conclude that the sequence
+$x^{-1}\mathcal{F} \to x^{-1}\mathcal{G} \to x^{-1}\mathcal{H}$
+become exact after localizing at each of the members of a covering,
+hence the sequence is exact.
+\end{proof}
+
+\begin{proposition}
+\label{proposition-exactness-cech-complex}
+Let $f : \mathcal{U} \to \mathcal{X}$ be a $1$-morphism of categories fibred
+in groupoids over $(\textit{Sch}/S)_{fppf}$. Let
+$\tau \in \{Zar, \acute{e}tale, smooth, syntomic, fppf\}$.
+If
+\begin{enumerate}
+\item $\mathcal{F}$ is an abelian sheaf on $\mathcal{X}_\tau$, and
+\item for every object $x$ of $\mathcal{X}$ there exists a covering
+$\{x_i \to x\}$ in $\mathcal{X}_\tau$ such that each $x_i$ is isomorphic
+to $f(u_i)$ for some object $u_i$ of $\mathcal{U}$,
+\end{enumerate}
+then the extended relative {\v C}ech complex
+$$
+\ldots \to 0 \to
+\mathcal{F} \to
+f_{0, *}f_0^{-1}\mathcal{F} \to
+f_{1, *}f_1^{-1}\mathcal{F} \to
+f_{2, *}f_2^{-1}\mathcal{F} \to \ldots
+$$
+is exact in $\textit{Ab}(\mathcal{X}_\tau)$.
+\end{proposition}
+
+\begin{proof}
+By
+Lemma \ref{lemma-check-exactness-covering}
+it suffices to check exactness after pulling back to $\mathcal{U}$.
+By
+Lemma \ref{lemma-base-change-cech-complex}
+the pullback of the extended relative {\v C}ech complex is isomorphic
+to the extend relative {\v C}ech complex for the morphism
+$\mathcal{U} \times_\mathcal{X} \mathcal{U} \to \mathcal{U}$
+and an abelian sheaf on $\mathcal{U}_\tau$. Since there is a section
+$\Delta_{\mathcal{U}/\mathcal{X}} : \mathcal{U} \to
+\mathcal{U} \times_\mathcal{X} \mathcal{U}$ exactness follows from
+Lemma \ref{lemma-homotopy-sheafified}.
+\end{proof}
+
+\noindent
+Using this we can construct the {\v C}ech-to-cohomology spectral sequence
+as follows. We first give a technical, precise version. In the next section
+we give a version that applies only to algebraic stacks.
+
+\begin{lemma}
+\label{lemma-cech-to-cohomology}
+Let $f : \mathcal{U} \to \mathcal{X}$ be a $1$-morphism of categories fibred
+in groupoids over $(\textit{Sch}/S)_{fppf}$. Let
+$\tau \in \{Zar, \acute{e}tale, smooth, syntomic, fppf\}$.
+Assume
+\begin{enumerate}
+\item $\mathcal{F}$ is an abelian sheaf on $\mathcal{X}_\tau$,
+\item for every object $x$ of $\mathcal{X}$ there exists a covering
+$\{x_i \to x\}$ in $\mathcal{X}_\tau$ such that each $x_i$ is isomorphic
+to $f(u_i)$ for some object $u_i$ of $\mathcal{U}$,
+\item the category $\mathcal{U}$ has equalizers, and
+\item the functor $f$ is faithful.
+\end{enumerate}
+Then there is a first quadrant spectral sequence of abelian groups
+$$
+E_2^{p, q} = H^q((\mathcal{U}_p)_\tau, f_p^{-1}\mathcal{F})
+\Rightarrow
+H^{p + q}(\mathcal{X}_\tau, \mathcal{F})
+$$
+converging to the cohomology of $\mathcal{F}$ in the $\tau$-topology.
+\end{lemma}
+
+\begin{proof}
+Before we start the proof we make some remarks. By
+Lemma \ref{lemma-fibre-products-preserve-properties}
+(and induction) all of the categories fibred in groupoids $\mathcal{U}_p$
+have equalizers and all of the morphisms $f_p : \mathcal{U}_p \to \mathcal{X}$
+are faithful. Let $\mathcal{I}$ be an injective object
+of $\textit{Ab}(\mathcal{X}_\tau)$. By
+Lemma \ref{lemma-pullback-injective}
+we see $f_p^{-1}\mathcal{I}$ is an injective object of
+$\textit{Ab}((\mathcal{U}_p)_\tau)$.
+Hence $f_{p, *}f_p^{-1}\mathcal{I}$ is an injective object of
+$\textit{Ab}(\mathcal{X}_\tau)$ by
+Lemma \ref{lemma-pushforward-injective}.
+Hence
+Proposition \ref{proposition-exactness-cech-complex}
+shows that the extended relative {\v C}ech complex
+$$
+\ldots \to 0 \to
+\mathcal{I} \to
+f_{0, *}f_0^{-1}\mathcal{I} \to
+f_{1, *}f_1^{-1}\mathcal{I} \to
+f_{2, *}f_2^{-1}\mathcal{I} \to \ldots
+$$
+is an exact complex in $\textit{Ab}(\mathcal{X}_\tau)$ all of whose
+terms are injective. Taking global sections of this complex is exact
+and we see that the {\v C}ech complex
+$\check{\mathcal{C}}^\bullet(\mathcal{U} \to \mathcal{X}, \mathcal{I})$
+is quasi-isomorphic to $\Gamma(\mathcal{X}_\tau, \mathcal{I})[0]$.
+
+\medskip\noindent
+With these preliminaries out of the way consider the two spectral sequences
+associated to the double complex (see
+Homology, Section \ref{homology-section-double-complex})
+$$
+\check{\mathcal{C}}^\bullet(\mathcal{U} \to \mathcal{X}, \mathcal{I}^\bullet)
+$$
+where $\mathcal{F} \to \mathcal{I}^\bullet$ is an injective resolution
+in $\textit{Ab}(\mathcal{X}_\tau)$.
+The discussion above shows that
+Homology, Lemma \ref{homology-lemma-double-complex-gives-resolution}
+applies which shows that
+$\Gamma(\mathcal{X}_\tau, \mathcal{I}^\bullet)$
+is quasi-isomorphic to the total complex associated to the double complex.
+By our remarks above the complex $f_p^{-1}\mathcal{I}^\bullet$ is an
+injective resolution of $f_p^{-1}\mathcal{F}$. Hence the other spectral
+sequence is as indicated in the lemma.
+\end{proof}
+
+\noindent
+To be sure there is a version for modules as well.
+
+\begin{lemma}
+\label{lemma-cech-to-cohomology-modules}
+Let $f : \mathcal{U} \to \mathcal{X}$ be a $1$-morphism of categories fibred
+in groupoids over $(\textit{Sch}/S)_{fppf}$. Let
+$\tau \in \{Zar, \acute{e}tale, smooth, syntomic, fppf\}$.
+Assume
+\begin{enumerate}
+\item $\mathcal{F}$ is an object of
+$\textit{Mod}(\mathcal{X}_\tau, \mathcal{O}_\mathcal{X})$,
+\item for every object $x$ of $\mathcal{X}$ there exists a covering
+$\{x_i \to x\}$ in $\mathcal{X}_\tau$ such that each $x_i$ is isomorphic
+to $f(u_i)$ for some object $u_i$ of $\mathcal{U}$,
+\item the category $\mathcal{U}$ has equalizers, and
+\item the functor $f$ is faithful.
+\end{enumerate}
+Then there is a first quadrant spectral sequence of
+$\Gamma(\mathcal{O}_\mathcal{X})$-modules
+$$
+E_2^{p, q} = H^q((\mathcal{U}_p)_\tau, f_p^*\mathcal{F})
+\Rightarrow
+H^{p + q}(\mathcal{X}_\tau, \mathcal{F})
+$$
+converging to the cohomology of $\mathcal{F}$ in the $\tau$-topology.
+\end{lemma}
+
+\begin{proof}
+The proof of this lemma is identical to the proof of
+Lemma \ref{lemma-cech-to-cohomology}
+except that it uses an injective resolution in
+$\textit{Mod}(\mathcal{X}_\tau, \mathcal{O}_\mathcal{X})$
+and it uses
+Lemma \ref{lemma-pullback-injective-modules}
+instead of
+Lemma \ref{lemma-pullback-injective}.
+\end{proof}
+
+\noindent
+Here is a lemma that translates a more usual kind of covering in the
+kinds of coverings we have encountered above.
+
+\begin{lemma}
+\label{lemma-surjective-flat-locally-finite-presentation}
+Let $f : \mathcal{X} \to \mathcal{Y}$ be a $1$-morphism of
+categories fibred in groupoids over $(\textit{Sch}/S)_{fppf}$.
+\begin{enumerate}
+\item Assume that $f$ is representable by algebraic spaces, surjective,
+flat, and locally of finite presentation. Then for any object $y$ of
+$\mathcal{Y}$ there exists an fppf covering $\{y_i \to y\}$ and objects
+$x_i$ of $\mathcal{X}$ such that $f(x_i) \cong y_i$ in $\mathcal{Y}$.
+\item Assume that $f$ is representable by algebraic spaces, surjective,
+and smooth. Then for any object $y$ of
+$\mathcal{Y}$ there exists an \'etale covering $\{y_i \to y\}$ and objects
+$x_i$ of $\mathcal{X}$ such that $f(x_i) \cong y_i$ in $\mathcal{Y}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Proof of (1). Suppose that $y$ lies over the scheme $V$.
+We may think of $y$ as a morphism $(\textit{Sch}/V)_{fppf} \to \mathcal{Y}$.
+By definition the $2$-fibre product
+$\mathcal{X} \times_\mathcal{Y} (\textit{Sch}/V)_{fppf}$
+is representable by an algebraic space $W$ and the morphism
+$W \to V$ is surjective, flat, and locally of finite presentation.
+Choose a scheme $U$ and a surjective \'etale morphism $U \to W$.
+Then $U \to V$ is also surjective, flat, and locally of finite presentation
+(see Morphisms of Spaces, Lemmas
+\ref{spaces-morphisms-lemma-etale-flat},
+\ref{spaces-morphisms-lemma-etale-locally-finite-presentation},
+\ref{spaces-morphisms-lemma-composition-surjective},
+\ref{spaces-morphisms-lemma-composition-finite-presentation}, and
+\ref{spaces-morphisms-lemma-composition-flat}).
+Hence $\{U \to V\}$ is an fppf covering. Denote $x$ the object of
+$\mathcal{X}$ over $U$ corresponding to the $1$-morphism
+$(\textit{Sch}/U)_{fppf} \to \mathcal{X}$. Then $\{f(x) \to y\}$ is
+the desired fppf covering of $\mathcal{Y}$.
+
+\medskip\noindent
+Proof of (1). Suppose that $y$ lies over the scheme $V$.
+We may think of $y$ as a morphism $(\textit{Sch}/V)_{fppf} \to \mathcal{Y}$.
+By definition the $2$-fibre product
+$\mathcal{X} \times_\mathcal{Y} (\textit{Sch}/V)_{fppf}$
+is representable by an algebraic space $W$ and the morphism
+$W \to V$ is surjective and smooth.
+Choose a scheme $U$ and a surjective \'etale morphism $U \to W$.
+Then $U \to V$ is also surjective and smooth
+(see Morphisms of Spaces, Lemmas
+\ref{spaces-morphisms-lemma-etale-smooth},
+\ref{spaces-morphisms-lemma-composition-surjective}, and
+\ref{spaces-morphisms-lemma-composition-smooth}).
+Hence $\{U \to V\}$ is a smooth covering. By
+More on Morphisms, Lemma \ref{more-morphisms-lemma-etale-dominates-smooth}
+there exists an \'etale covering $\{V_i \to V\}$ such that
+each $V_i \to V$ factors through $U$. Denote $x_i$ the object of
+$\mathcal{X}$ over $V_i$ corresponding to the $1$-morphism
+$$
+(\textit{Sch}/V_i)_{fppf} \to (\textit{Sch}/U)_{fppf} \to \mathcal{X}.
+$$
+Then $\{f(x_i) \to y\}$ is
+the desired \'etale covering of $\mathcal{Y}$.
+\end{proof}
 
 
 
+
+
+
+
+\section{Cohomology on algebraic stacks}
+\label{section-cohomology}
+
+\noindent
+Let $\mathcal{X}$ be an algebraic stack over $S$. In the sections above
+we have seen how to define sheaves for the \'etale, ..., fppf
+topologies on $\mathcal{X}$. In fact, we have constructed a site
+$\mathcal{X}_\tau$ for each $\tau \in \{Zar, \acute{e}tale, smooth, syntomic,
+fppf\}$. There is a notion of an abelian sheaf $\mathcal{F}$ on these sites.
+In the chapter on cohomology of sites we have explained how to define
+cohomology. Putting all of this together, let's define the
+{\it derived global sections}
+$$
+R\Gamma_{\acute{e}tale}(\mathcal{X}, \mathcal{F}),\ldots,
+R\Gamma_{fppf}(\mathcal{X}, \mathcal{F})
+$$
+as $\Gamma(\mathcal{X}_\tau, \mathcal{I}^\bullet)$ where
+$\mathcal{F} \to \mathcal{I}^\bullet$ is an injective resolution
+in $\textit{Ab}(\mathcal{X}_\tau)$. The $i$th cohomology group is the
+$i$th cohomology of the total derived cohomology. We will denote
+this
+$$
+H^i_{\acute{e}tale}(\mathcal{X}, \mathcal{F}),\ldots,
+H^i_{fppf}(\mathcal{X}, \mathcal{F}).
+$$
+It will turn out that $H^i_{\acute{e}tale} = H^i_{smooth}$
+because of
+More on Morphisms, Lemma \ref{more-morphisms-lemma-etale-dominates-smooth}.
+If $\mathcal{F}$ is a presheaf of $\mathcal{O}_\mathcal{X}$-modules
+which is a sheaf in the $\tau$-topology, then we use injective
+resolutions in $\textit{Mod}(\mathcal{X}_\tau, \mathcal{O}_\mathcal{X})$
+to compute total derived global sections and cohomology groups; of course
+the end result is quasi-isomorphic resp.\ isomorphic by the general fact
+Cohomology on Sites, Lemma
+\ref{sites-cohomology-lemma-cohomology-modules-abelian-agree}.
+
+\medskip\noindent
+More generally, when $f : \mathcal{X} \to \mathcal{Y}$ is a $1$-morphism
+of algebraic stacks over $S$, then we have a left exact pushforward functor
+$f_* : \textit{Ab}(\mathcal{X}_\tau) \to \textit{Ab}(\mathcal{Y}_\tau)$
+which has a total derived version
+$Rf_*\mathcal{F}$ and higher direct images $R^if_*\mathcal{F}$.
+Indicating which topology is used to compute these is important!
+
+\medskip\noindent
+Sofar our only tool to compute cohomology groups is the result on
+{\v C}ech complexes proved above. We rephrase it here in the language
+of algebraic stacks for the \'etale and the fppf topology. Recall that
+$$
+f_p : \mathcal{U}_p =
+\mathcal{U} \times_\mathcal{X} \ldots \times_\mathcal{X} \mathcal{U}
+\longrightarrow
+\mathcal{X}
+$$
+is the structure morphism where there are $(p + 1)$-factors. Also, recall
+that a sheaf on $\mathcal{X}$ is a sheaf for the fppf topology. Note
+that if $\mathcal{U}$ is an algebraic space, then
+$f : \mathcal{U} \to \mathcal{X}$ is representable by algebraic spaces,
+see
+Algebraic Stacks, Lemma \ref{algebraic-lemma-representable-diagonal}.
+Thus the proposition applies in particular to a smooth cover of the
+algebraic stack $\mathcal{X}$ by a scheme.
+
+\begin{proposition}
+\label{proposition-smooth-covering-compute-cohomology}
+Let $f : \mathcal{U} \to \mathcal{X}$ be a $1$-morphism of algebraic stacks.
+\begin{enumerate}
+\item Let $\mathcal{F}$ be an abelian \'etale sheaf on $\mathcal{X}$.
+Assume that $f$ is representable by an algebraic spaces, surjective and
+smooth. Then there is a spectral sequence
+$$
+E_2^{p, q} = H^q_{\acute{e}tale}(\mathcal{U}_p, f_p^{-1}\mathcal{F})
+\Rightarrow
+H^{p + q}_{\acute{e}tale}(\mathcal{X}, \mathcal{F})
+$$
+\item Let $\mathcal{F}$ be an abelian sheaf on $\mathcal{X}$.
+Assume that $\mathcal{U}$ is representable by an algebraic space and that
+$f$ is surjective, flat, and locally of finite presentation. Then there is
+a spectral sequence
+$$
+E_2^{p, q} = H^q_{fppf}(\mathcal{U}_p, f_p^{-1}\mathcal{F})
+\Rightarrow
+H^{p + q}_{fppf}(\mathcal{X}, \mathcal{F})
+$$
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+To see this we will check the hypotheses (1) -- (4) of
+Lemma \ref{lemma-cech-to-cohomology}.
+The $1$-morphism $f$ is faithful by
+Algebraic Stacks, Lemma
+\ref{algebraic-lemma-characterize-representable-by-algebraic-spaces}.
+This proves (4).
+Hypothesis (3) follows from the fact that $\mathcal{U}$ is an algebraic
+stack, see
+Lemma \ref{lemma-fibre-products}.
+To see (2) apply
+Lemma \ref{lemma-surjective-flat-locally-finite-presentation}.
+Condition (1) is satisfied by fiat.
+\end{proof}
 
 
 
