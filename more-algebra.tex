@@ -75,16 +75,8 @@ In particular these Tor groups naturally have the structure of $A$-modules.
 
 \medskip\noindent
 We can construct the derived tensor product in greater generality.
-Suppose $K^\bullet \in D^{-}(R)$.
-Choose a projective resolution $P^\bullet \to K^\bullet$, see
-Derived Categories, Section \ref{derived-section-projective-resolutions}.
-We claim that the functor
-$$
-L^\bullet \longrightarrow \text{Tot}(L^\bullet \otimes_R P^\bullet)
-$$
-initially defined on $\text{Comp}(\text{Mod}_R)$ gives rise to a
-functor $D(R) \to D(R)$ which we will eventually denote
-$ - \otimes^{\mathbf{L}} K^\bullet$.
+In fact, it turns out that the boundedness assumptions are not
+necessary, provided we choose K-flat resolutions.
 
 \begin{lemma}
 \label{lemma-derived-tor-homotopy}
@@ -144,23 +136,42 @@ $\text{Tot}(L^\bullet \otimes_R P^\bullet)$ are direct sums
 of the tensor products $L^a \otimes_R P^b$ this is clear.
 \end{proof}
 
+\noindent
+The following definition will allow us to think intelligently
+about derived tensor products of unbounded complexes.
+
+\begin{definition}
+\label{definition-K-flat}
+Let $R$ be a ring. A complex $K^\bullet$ is called {\it K-flat}
+if for every acyclic complex $M^\bullet$ the total complex
+$\text{Tot}(M^\bullet \otimes_R K^\bullet)$ is acyclic.
+\end{definition}
+
 \begin{lemma}
-\label{lemma-derived-tor-quasi-isomorphism}
-Let $R$ be a ring. Let $P^\bullet$ be a bounded above complex of
-flat $R$-modules. The functor
+\label{lemma-K-flat-quasi-isomorphism}
+Let $R$ be a ring. Let $K^\bullet$ be a K-flat complex.
+Then the functor
 $$
 K(\text{Mod}_R) \longrightarrow K(\text{Mod}_R),\quad
-L^\bullet \longmapsto \text{Tot}(L^\bullet \otimes_R P^\bullet)
+L^\bullet \longmapsto \text{Tot}(L^\bullet \otimes_R K^\bullet)
 $$
-transforms quasi-isomorphisms into quasi-isomorphisms and
-acyclic complexes into acyclic complexes.
+transforms quasi-isomorphisms into quasi-isomorphisms.
 \end{lemma}
 
 \begin{proof}
-By
+Follows from
 Lemma \ref{lemma-derived-tor-exact}
-and taking the cone of a quasi-isomorphism we see that it suffices
-to prove the statement on acyclic complexes.
+and the fact that quasi-isomorphisms are characterized by having
+acyclic cones.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-derived-tor-quasi-isomorphism}
+Let $R$ be a ring. Let $P^\bullet$ be a bounded above complex of
+flat $R$-modules. Then $P^\bullet$ is K-flat.
+\end{lemma}
+
+\begin{proof}
 Let $L^\bullet$ be an acyclic complex of $R$-modules.
 Let $\xi \in H^n(\text{Tot}(L^\bullet \otimes_R P^\bullet))$.
 We have to show that $\xi = 0$.
@@ -178,12 +189,68 @@ which is zero as $P^q$ is flat and $L^\bullet$ acyclic. Hence
 $H^*(\text{Tot}(L^\bullet \otimes_R P^\bullet)) = 0$.
 \end{proof}
 
+\noindent
+In the following lemma by a colimit of a system of complexes we mean
+the termwise colimit.
+
+\begin{lemma}
+\label{lemma-colimit-K-flat}
+Let $R$ be a ring.
+Let $K_1^\bullet \to K_2^\bullet \to \ldots$
+be a system of K-flat complexes.
+Then $\text{colim}_i\ K_i^\bullet$ is K-flat.
+\end{lemma}
+
+\begin{proof}
+Because we are taking termwise colimits it is clear that
+$$
+\text{colim}_i\ \text{Tot}(M^\bullet \otimes_R K_i^\bullet)
+=
+\text{Tot}(M^\bullet \otimes_R \text{colim}_i\ K_i^\bullet)
+$$
+Hence the lemma follows from the fact that filtered colimits are
+exact.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-K-flat-resolution}
+Let $R$ be a ring. For any complex $M^\bullet$ there exists a
+$K$-flat complex $K^\bullet$ and a quasi-isomorphism
+$K^\bullet \to M^\bullet$.
+\end{lemma}
+
+\begin{proof}
+Let $\mathcal{P} \subset \text{Ob}(\text{Mod}_R)$ be the
+class of flat $R$-modules. By
+Derived Categories, Lemma \ref{derived-lemma-special-direct-system}
+there exists a system
+$K_1^\bullet \to K_2^\bullet \to \ldots$
+and a diagram
+$$
+\xymatrix{
+K_1^\bullet \ar[d] \ar[r] &
+K_2^\bullet \ar[d] \ar[r] & \ldots \\
+\tau_{\leq 1}M^\bullet \ar[r] &
+\tau_{\leq 2}M^\bullet \ar[r] & \ldots
+}
+$$
+with the properties (1), (2), (3) listed in that lemma.
+These properties imply each complex $K_i^\bullet$ is a bounded
+above complex of flat modules. Hence $K_i^\bullet$ is K-flat by
+Lemma \ref{lemma-derived-tor-quasi-isomorphism}.
+The induced map $\text{colim}_i\ K_i^\bullet \to M^\bullet$
+is a quasi-isomorphism by construction. Since
+$\text{colim}_i\ K_i^\bullet$ is K-flat by
+Lemma \ref{lemma-colimit-K-flat}
+we win.
+\end{proof}
+
 \begin{lemma}
 \label{lemma-derived-tor-quasi-isomorphism-other-side}
 Let $R$ be a ring. Let
 $\alpha : P^\bullet \to Q^\bullet$ be a quasi-isomorphism of
-bounded above complexes of flat $R$-modules. For every complex of $R$-modules
-the induced map
+K-flat complexes of $R$-modules. For every complex $L^\bullet$
+of $R$-modules the induced map
 $$
 \text{Tot}(\text{id}_L \otimes \alpha) :
 \text{Tot}(L^\bullet \otimes_R P^\bullet)
@@ -194,44 +261,28 @@ is a quasi-isomorphism.
 \end{lemma}
 
 \begin{proof}
-Let $\xi \in H^n(\text{Tot}(L^\bullet \otimes_R P^\bullet))$ and assume
-that it maps to zero in
-$H^n(\text{Tot}(L^\bullet \otimes_R Q^\bullet))$.
-Then, arguing as in the proof of
-Lemma \ref{lemma-derived-tor-quasi-isomorphism},
-we can find an integer $m$ such that $\xi$ comes from an element
-$\xi_m \in H^n(\text{Tot}(\tau_{\leq m}L^\bullet \otimes_R P^\bullet))$
-which maps to zero in
-$H^n(\text{Tot}(\tau_{\leq m}L^\bullet \otimes_R Q^\bullet))$.
-Thus to prove injectivity of the map we may work with
-$\tau_{\leq m}L^\bullet$ which is bounded above.
-Similarly for surjectivity. Thus we may assume that $L^\bullet$ is bounded
-above. (Some details omitted.)
-
-\medskip\noindent
-If $L^\bullet$ is bounded above we may choose a projective resolution
-$F^\bullet \to L^\bullet$. Then the maps
-$\text{Tot}(F^\bullet \otimes_R P^\bullet) \to 
-\text{Tot}(L^\bullet \otimes_R P^\bullet)$
-and
-$\text{Tot}(F^\bullet \otimes_R Q^\bullet) \to 
-\text{Tot}(L^\bullet \otimes_R Q^\bullet)$
-are quasi-isomorphisms by
-Lemma \ref{lemma-derived-tor-quasi-isomorphism}.
-Hence it suffices to see that
-$\text{Tot}(F^\bullet \otimes_R P^\bullet) \to
-\text{Tot}(F^\bullet \otimes_R Q^\bullet)$
-is a quasi-isomorphism. And this follows from
-Lemma \ref{lemma-derived-tor-quasi-isomorphism}
-after flipping the $\otimes$-products.
+Choose a quasi-isomorphism $K^\bullet \to L^\bullet$ with
+$K^\bullet$ a K-flat complex, see
+Lemma \ref{lemma-K-flat-resolution}.
+Consider the commutative diagram
+$$
+\xymatrix{
+\text{Tot}(K^\bullet \otimes_R P^\bullet) \ar[r] \ar[d] &
+\text{Tot}(K^\bullet \otimes_R Q^\bullet) \ar[d] \\
+\text{Tot}(L^\bullet \otimes_R P^\bullet) \ar[r] &
+\text{Tot}(L^\bullet \otimes_R Q^\bullet)
+}
+$$
+The result follows as by
+Lemma \ref{lemma-K-flat-quasi-isomorphism}
+the vertical arrows and the top horizontal arrow are quasi-isomorphisms.
 \end{proof}
 
 \noindent
-Let $K^\bullet$ be an object of $D^{-}(R)$. 
-Choose a projective resolution $P^\bullet \to K^\bullet$, see
-Derived Categories, Section \ref{derived-section-projective-resolutions}.
-In fact, it suffices to choose a resolution by a bounded above
-complex of flat modules. By
+Let $M^\bullet$ be an object of $D(R)$. 
+Choose a K-flat resolution $K^\bullet \to M^\bullet$, see
+Lemma \ref{lemma-K-flat-resolution}.
+By
 Lemmas \ref{lemma-derived-tor-homotopy} and \ref{lemma-derived-tor-exact}
 we obtain an exact functor of triangulated categories
 $$
@@ -239,36 +290,34 @@ K(\text{Mod}_R) \longrightarrow K(\text{Mod}_R),\quad
 L^\bullet \longmapsto \text{Tot}(L^\bullet \otimes_R P^\bullet)
 $$
 By
-Lemma \ref{lemma-derived-tor-quasi-isomorphism}
+Lemma \ref{lemma-K-flat-quasi-isomorphism}
 this functor induces a functor $D(R) \to D(R)$ simply because
 $D(R)$ is the localization of $K(\text{Mod}_R)$ at quasi-isomorphism.
 By
 Lemma \ref{lemma-derived-tor-quasi-isomorphism-other-side}
 the resulting functor (up to isomorphism)
-does not depend on the choice of the projective resolution.
+does not depend on the choice of the K-flat resolution.
 
 \begin{definition}
 \label{definition-derived-tor}
-Let $R$ be a ring. Let $K^\bullet$ be an object of $D^{-}(R)$.
+Let $R$ be a ring. Let $M^\bullet$ be an object of $D(R)$.
 The {\it derived tensor product}
 $$
-- \otimes_R^{\mathbf{L}} K^\bullet : D(R) \longrightarrow D(R)
+- \otimes_R^{\mathbf{L}} M^\bullet : D(R) \longrightarrow D(R)
 $$
 is the exact functor of triangulated categories described above.
 \end{definition}
 
 \noindent
-Thus at this point $K^\bullet \otimes_R^{\mathbf{L}} L^\bullet$
-is defined whenever $L^\bullet$ is in $D^{-}(R)$.
-Moreover, it is clear from our explicit constructions that
+It is clear from our explicit constructions that
 there is a canonical isomorphism
 $$
-K^\bullet \otimes_R^{\mathbf{L}} L^\bullet
+M^\bullet \otimes_R^{\mathbf{L}} L^\bullet
 \cong
-L^\bullet \otimes_R^{\mathbf{L}} K^\bullet
+L^\bullet \otimes_R^{\mathbf{L}} M^\bullet
 $$
-whenever both $L^\bullet$ and $K^\bullet$ are in $D^{-}(R)$.
-Hence when we write $K^\bullet \otimes_R^{\mathbf{L}} L^\bullet$
+whenever both $L^\bullet$ and $M^\bullet$ are in $D(R)$.
+Hence when we write $M^\bullet \otimes_R^{\mathbf{L}} L^\bullet$
 we will usually be agnostic about which variable we are using to
 define the derived tensor product with.
 
