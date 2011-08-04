@@ -3992,14 +3992,57 @@ acyclic cones.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-check-K-flat-stalks}
+Let $(X, \mathcal{O}_X)$ be a ringed space. Let $\mathcal{K}^\bullet$
+be a complex of $\mathcal{O}_X$-modules. Then $\mathcal{K}^\bullet$
+is K-flat if and only if for all $x \in X$ the complex
+$\mathcal{K}_x^\bullet$ of $\mathcal{O}_{X, x}$ is K-flat
+(More on Algebra, Definition \ref{more-algebra-definition-K-flat}.
+\end{lemma}
+
+\begin{proof}
+If $\mathcal{K}_x^\bullet$ is K-flat for all $x \in X$ then we see
+that $\mathcal{K}^\bullet$ is K-flat because $\otimes$ and
+direct sums commute with taking stalks and because we can check exactness
+at stalks, see
+Modules, Lemma \ref{modules-lemma-abelian}.
+Conversely, assume $\mathcal{K}^\bullet$ is K-flat. Pick $x \in X$
+$M^\bullet$ be an acyclic complex of $\mathcal{O}_{X, x}$-modules.
+Then $i_{x, *}M^\bullet$ is an acyclic complex of $\mathcal{O}_X$-modules.
+Thus $\text{Tot}(i_{x, *}M^\bullet \otimes_{\mathcal{O}_X} \mathcal{K}^\bullet)$
+is acyclic. Taking stalks at $x$ shows that
+$\text{Tot}(M^\bullet \otimes_{\mathcal{O}_{X, x}} \mathcal{K}_x^\bullet)$
+is acyclic.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-pullback-K-flat}
+Let $f : (X, \mathcal{O}_X) \to (Y, \mathcal{O}_Y)$ be a morphism of
+ringed spaces. The pullback of a K-flat complex of $\mathcal{O}_Y$-modules
+is a K-flat complex of $\mathcal{O}_X$-modules.
+\end{lemma}
+
+\begin{proof}
+We can check this on stalks, see
+Lemma \ref{lemma-check-K-flat-stalks}.
+Hence this follows from
+Sheaves, Lemma \ref{sheaves-lemma-stalk-pullback-modules}
+and
+More on Algebra, Lemma \ref{more-algebra-lemma-base-change-K-flat}.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-bounded-flat-K-flat}
 Let $(X, \mathcal{O}_X)$ be a ringed space. A bounded above complex
 of flat $\mathcal{O}_X$-modules is K-flat.
 \end{lemma}
 
 \begin{proof}
-We can check this by computing stalks. Thus this lemma follows
-from
+We can check this on stalks, see
+Lemma \ref{lemma-check-K-flat-stalks}.
+Thus this lemma follows from
+Modules, Lemma \ref{modules-lemma-flat-stalks-flat}
+and
 More on Algebra, Lemma \ref{more-algebra-lemma-derived-tor-quasi-isomorphism}.
 \end{proof}
 
@@ -4155,6 +4198,97 @@ Hence when we write
 $\mathcal{F}^\bullet \otimes_{\mathcal{O}_X}^{\mathbf{L}} \mathcal{G}^\bullet$
 we will usually be agnostic about which variable we are using to
 define the derived tensor product with.
+
+
+
+
+
+
+
+
+\section{Derived pullback}
+\label{section-derived-pullback}
+
+\noindent
+Let $f : (X, \mathcal{O}_X) \to (Y, \mathcal{O}_Y)$
+be a morphism of ringed spaces. We can use K-flat resolutions to define
+a derived pullback functor
+$$
+Lf^* : D(\mathcal{O}_Y) \to D(\mathcal{O}_X)
+$$
+Namely, for every complex of $\mathcal{O}_Y$-modules $\mathcal{G}^\bullet$
+we can choose a K-flat resolution
+$\mathcal{K}^\bullet \to \mathcal{G}^\bullet$ and set
+$Lf^*\mathcal{G}^\bullet = f^*\mathcal{K}^\bullet$.
+You can use
+Lemmas \ref{lemma-pullback-K-flat},
+\ref{lemma-K-flat-resolution}, and
+\ref{lemma-derived-tor-quasi-isomorphism-other-side}
+to see that this is well defined. However, to cross all the t's and dot all
+the i's it is perhaps more convenient to use some general theory.
+
+\begin{lemma}
+\label{lemma-derived-base-change}
+The construction above is independent of choices and defines an exact
+functor of triangulated categories
+$Lf^* : D(\mathcal{O}_Y) \to D(\mathcal{O}_X)$.
+\end{lemma}
+
+\begin{proof}
+To see this we use the general theory developed in
+Derived Categories, Section \ref{derived-section-derived-functors}.
+Set $\mathcal{D} = K(\mathcal{O}_Y)$ and $\mathcal{D}' = D(\mathcal{O}_X)$.
+Let us write $F : \mathcal{D} \to \mathcal{D}'$ the exact functor
+of triangulated categories defined by the rule
+$F(\mathcal{G}^\bullet) = f^*\mathcal{G}^\bullet$.
+We let $S$ be the set of quasi-isomorphisms in
+$\mathcal{D} = K(\mathcal{O}_Y)$.
+This gives a situation as in
+Derived Categories, Situation \ref{derived-situation-derived-functor}
+so that
+Derived Categories, Definition
+\ref{derived-definition-right-derived-functor-defined}
+applies. We claim that $LF$ is everywhere defined.
+This follows from
+Derived Categories, Lemma \ref{derived-lemma-find-existence-computes}
+with $\mathcal{P} \subset \text{Ob}(\mathcal{D})$ the collection
+of $K$-flat complexes: (1) follows from
+Lemma \ref{lemma-K-flat-resolution}
+and to see (2) we have to show that for a quasi-isomorphism
+$\mathcal{K}_1^\bullet  \to \mathcal{K}_2^\bullet$ between
+K-flat complexes of $\mathcal{O}_Y$-modules the map
+$f^*\mathcal{K}_1^\bullet  \to f^*\mathcal{K}_2^\bullet$ is a
+quasi-isomorphism. To see this write this as
+$$
+f^{-1}\mathcal{K}_1^\bullet \otimes_{f^{-1}\mathcal{O}_Y} \mathcal{O}_X
+\longrightarrow 
+f^{-1}\mathcal{K}_2^\bullet \otimes_{f^{-1}\mathcal{O}_Y} \mathcal{O}_X
+$$
+The functor $f^{-1}$ is exact, hence the map
+$f^{-1}\mathcal{K}_1^\bullet  \to f^{-1}\mathcal{K}_2^\bullet$ is a
+quasi-isomorphism. By
+Lemma \ref{lemma-pullback-K-flat}
+applied to the morphsm $(X, f^{-1}\mathcal{O}_Y) \to (Y, \mathcal{O}_Y)$
+the complexes $f^{-1}\mathcal{K}_1^\bullet$ and $f^{-1}\mathcal{K}_2^\bullet$
+are K-flat complexes of $f^{-1}\mathcal{O}_Y$-modules. Hence
+Lemma \ref{lemma-derived-tor-quasi-isomorphism-other-side}
+guarantees that the displayed map is a quasi-isomorphism.
+Thus we obtain a derived functor
+$$
+LF :
+D(\mathcal{O}_Y) = S^{-1}\mathcal{D}
+\longrightarrow
+\mathcal{D}' = D(\mathcal{O}_X)
+$$
+see
+Derived Categories, Equation (\ref{derived-equation-everywhere}).
+Finally,
+Derived Categories, Lemma \ref{derived-lemma-find-existence-computes}
+also guarantees that
+$LF(\mathcal{K}^\bullet) = F(\mathcal{K}^\bullet) = f^*\mathcal{K}^\bullet$
+when $\mathcal{K}^\bullet$ is K-flat, i.e., $Lf^* = LF$ is
+indeed computed in the way described above.
+\end{proof}
 
 
 
