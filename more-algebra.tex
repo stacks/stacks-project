@@ -32,7 +32,7 @@ A reference is \cite{MatCA}.
 
 
 
-\section{Derived tensor product}
+\section{Computing Tor}
 \label{section-computing-tor}
 
 \noindent
@@ -40,8 +40,11 @@ Let $R$ be a ring. We denote $D(R)$ the derived category of the
 abelian category $\text{Mod}_R$ of $R$-modules. Note that $\text{Mod}_R$
 has enough projectives as every free $R$-module is projective.
 Thus we can define the left derived functors of any additive functor
-from $\text{Mod}_R$ to any abelian category. This implies in particular
-to the functor $- \otimes_R M : \text{Mod}_R \to \text{Mod}_R$
+from $\text{Mod}_R$ to any abelian category.
+
+\medskip\noindent
+This implies in particular to the functor
+$ - \otimes_R M : \text{Mod}_R \to \text{Mod}_R$
 whose right derived functors are the Tor functors $\text{Tor}_i^R(-, M)$, see
 Algebra, Section \ref{algebra-section-tor}.
 There is also a total right derived functor
@@ -53,8 +56,10 @@ D^{-}(R)
 D^{-}(R)
 \end{equation}
 which is denoted $-\otimes_R^{\mathbf{L}} M$. Its satellites are the
-tor groups, i.e., we have
-$H^{-p}(N \otimes_R^{\mathbf{L}} M) = \text{Tor}_p^R(N, M)$.
+Tor modules, i.e., we have
+$$
+H^{-p}(N \otimes_R^{\mathbf{L}} M) = \text{Tor}_p^R(N, M).
+$$
 
 \medskip\noindent
 A special situation occurs when we consider the tensor product with
@@ -70,10 +75,21 @@ D^{-}(A)
 \end{equation}
 which is denoted $-\otimes_R^{\mathbf{L}} A$. Its satellites are the
 tor groups, i.e., we have
-$H^{-p}(N \otimes_R^{\mathbf{L}} A) = \text{Tor}_p^R(N, A)$.
+$$
+H^{-p}(N \otimes_R^{\mathbf{L}} A) = \text{Tor}_p^R(N, A).
+$$
 In particular these Tor groups naturally have the structure of $A$-modules.
 
-\medskip\noindent
+
+
+
+
+
+
+\section{Derived tensor product}
+\label{section-derived-tensor-product}
+
+\noindent
 We can construct the derived tensor product in greater generality.
 In fact, it turns out that the boundedness assumptions are not
 necessary, provided we choose K-flat resolutions.
@@ -161,8 +177,22 @@ transforms quasi-isomorphisms into quasi-isomorphisms.
 \begin{proof}
 Follows from
 Lemma \ref{lemma-derived-tor-exact}
-and the fact that quasi-isomorphisms are characterized by having
-acyclic cones.
+and the fact that quasi-isomorphisms in $K(\text{Mod}_R)$ and
+$K(\text{Mod}_A)$ are characterized by having acyclic cones.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-K-flat-two-out-of-three}
+Let $R$ be a ring. Let $(K_1^\bullet, K_2^\bullet, K_3^\bullet)$ be
+a distinguished triangle in $K(\text{Mod}_R)$. If two out of three
+of $K_i^\bullet$ are K-flat, so is the third.
+\end{lemma}
+
+\begin{proof}
+Follows from
+Lemma \ref{lemma-derived-tor-exact}
+and the fact that in a distinguished triangle in
+$K(\text{Mod}_A)$ if two out of three are acyclic, so is the third.
 \end{proof}
 
 \begin{lemma}
@@ -287,7 +317,7 @@ Lemmas \ref{lemma-derived-tor-homotopy} and \ref{lemma-derived-tor-exact}
 we obtain an exact functor of triangulated categories
 $$
 K(\text{Mod}_R) \longrightarrow K(\text{Mod}_R),\quad
-L^\bullet \longmapsto \text{Tot}(L^\bullet \otimes_R P^\bullet)
+L^\bullet \longmapsto \text{Tot}(L^\bullet \otimes_R K^\bullet)
 $$
 By
 Lemma \ref{lemma-K-flat-quasi-isomorphism}
@@ -309,6 +339,7 @@ is the exact functor of triangulated categories described above.
 \end{definition}
 
 \noindent
+This functor extends the functor (\ref{equation-derived-tensor-module}).
 It is clear from our explicit constructions that
 there is a canonical isomorphism
 $$
@@ -320,6 +351,74 @@ whenever both $L^\bullet$ and $M^\bullet$ are in $D(R)$.
 Hence when we write $M^\bullet \otimes_R^{\mathbf{L}} L^\bullet$
 we will usually be agnostic about which variable we are using to
 define the derived tensor product with.
+
+
+
+
+
+\section{Derived change of rings}
+\label{section-derived-base-change}
+
+\noindent
+Let $R \to A$ be a ring map. We can also use K-flat resolutions to define
+a derived base change functor
+$$
+- \otimes_R^{\mathbf{L}} A : D(R) \to D(A)
+$$
+extending the functor (\ref{equation-derived-tensor-algebra}).
+Namely, for every complex of $R$-modules $M^\bullet$ we can
+choose a K-flat resolution $K^\bullet \to M^\bullet$ and set
+$M^\bullet \otimes_R^{\mathbf{L}} A =
+\text{Tot}(K^\bullet \otimes_A M^\bullet)$.
+You can use
+Lemmas \ref{lemma-K-flat-resolution} and
+\ref{lemma-derived-tor-quasi-isomorphism-other-side}
+to see that this is well defined. However, to cross all the t's and dot all
+the i's it is perhaps more convenient to use some general theory.
+
+\begin{lemma}
+\label{lemma-derived-base-change}
+The construction above is independent of choices and defines an exact
+functor of triangulated categories $D(R) \to D(A)$.
+\end{lemma}
+
+\begin{proof}
+To see this we use the general theory developed in
+Derived Categories, Section \ref{derived-section-derived-functors}.
+Set $\mathcal{D} = K(\textit{Mod}_R)$ and $\mathcal{D}' = D(A)$.
+Let us write $F : \mathcal{D} \to \mathcal{D}'$ the exact functor
+of triangulated categories defined by the rule
+$F(M^\bullet) = M^\bullet \otimes_R A$. We let $S$ be the set of
+quasi-isomorphisms in $\mathcal{D} = K(\text{Mod}_R)$.
+This gives a situation as in
+Derived Categories, Situation \ref{derived-situation-derived-functor}
+so that
+Derived Categories, Definition
+\ref{derived-definition-right-derived-functor-defined}
+applies. We claim that $LF$ is everywhere defined.
+This follows from
+Derived Categories, Lemma \ref{derived-lemma-find-existence-computes}
+with $\mathcal{P} \subset \text{Ob}(\mathcal{D})$ the collection
+of $K$-flat complexes: supposition (1) follows from
+Lemma \ref{lemma-K-flat-resolution}
+and supposition (2) follows from
+Lemma \ref{lemma-derived-tor-quasi-isomorphism-other-side}.
+Thus we obtain a derived functor
+$$
+LF : D(R) = S^{-1}\mathcal{D} \longrightarrow \mathcal{D}' = D(A)
+$$
+see
+Derived Categories, Equation (\ref{derived-equation-everywhere}).
+Finally,
+Derived Categories, Lemma \ref{derived-lemma-find-existence-computes}
+also guarantees that $LF(K^\bullet) = F(K^\bullet) = K^\bullet \otimes_R A$
+when $K^\bullet$ is K-flat, i.e., $LF$ is
+indeed computed in the way described above.
+\end{proof}
+
+
+
+
 
 \section{Tor independence}
 \label{section-tor-independece}
