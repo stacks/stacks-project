@@ -16,6 +16,7 @@ for name in lijstje:
 	line_nr = 0
 	verbatim = 0
 	next_labeled = 0
+	needs_proof = 0
 	in_lab_env = 0
 	def_text = ""
 	for line in tex_file:
@@ -66,6 +67,9 @@ for name in lijstje:
 				print_error("Double label.",
 				line, name, line_nr)
 			labels.append(label)
+			if needs_proof:
+				proof_label = label
+				needs_proof = 0
 		else:
 			# check if there is a label if there should be one
 			if next_labeled:
@@ -89,6 +93,8 @@ for name in lijstje:
 				print_error(error_text, line, name, line_nr)
 			in_lab_env = 1
 			next_labeled = 1
+			if proof_env(line):
+				needs_proof = 1
 
 		# End labeled environment?
 		if end_labeled_env(line):
@@ -122,6 +128,9 @@ for name in lijstje:
 			if error_text:
 				error_text = "Forward reference "\
 				+ error_text + " in proof."
+				print_error(error_text, line, name, line_nr)
+			if proof_label in refs:
+				error_text = "Self reference "
 				print_error(error_text, line, name, line_nr)
 			if end_of_proof(line):
 				in_proof = 0
