@@ -90,10 +90,8 @@ print "\\tableofcontents"
 print
 print "\\frenchspacing"
 print
-print "\\section{Alphabetized definitions}"
-print "\\label{section-alphabetized}"
 print
-print "\\begin{multicols}{2}"
+print "\\begin{multicols}{2}[\\section{Alphabetized definitions}\\label{section-alphabetized}]"
 terms.sort(key=lambda x: x[0].lower())
 n = 0
 while n < len(terms):
@@ -103,10 +101,8 @@ while n < len(terms):
 	print
 	n = n + 1
 print "\\end{multicols}"
-print "\\section{Definitions listed per chapter}"
-print "\\label{section-per-chapter}"
 print
-print "\\begin{multicols}{2}"
+print "\\begin{multicols}{2}[\\section{Definitions listed per chapter}\\label{section-per-chapter}]"
 n = 0
 m = 0
 for name in lijstje:
