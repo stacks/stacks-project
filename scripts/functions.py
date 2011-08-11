@@ -1,4 +1,4 @@
-list_of_standard_envs = ['abstract', 'verbatim', 'quote', 'itemize', 'list', 'center', 'eqnarray*', 'eqnarray', 'align', 'align*', 'document', 'equation', 'enumerate', 'proof', 'matrix', 'lemma', 'proposition', 'theorem', 'remark', 'remarks', 'example', 'exercise', 'situation', 'equation', 'definition', 'item']
+list_of_standard_envs = ['abstract', 'verbatim', 'quote', 'itemize', 'list', 'center', 'eqnarray*', 'eqnarray', 'align', 'align*', 'document', 'enumerate', 'proof', 'matrix', 'lemma', 'proposition', 'theorem', 'remark', 'remarks', 'example', 'exercise', 'situation', 'equation', 'definition', 'item']
 
 list_of_labeled_envs = ['lemma', 'proposition', 'theorem', 'remark', 'remarks', 'example', 'exercise', 'situation', 'equation', 'definition']
 
