@@ -61,6 +61,7 @@ short_titles = {'introduction' : 'Introduction',\
 'criteria' : 'Criteria for Representability,',\
 'stacks-properties' : 'Properties of Stacks,',\
 'stacks-morphisms' : 'Morphisms of Stacks,',\
+'stacks-introduction' : 'Introducing Algebraic Stacks,',\
 'examples' : 'Examples,',\
 'exercises' : 'Exercises,',\
 'guide' : 'Guide to Literature,',\
@@ -224,6 +225,9 @@ def get_title(line):
 		if occur[0] == Short_Title or occur[1] == Short_Title or occur[2] == Short_Title:
 			return Short_Title
 		Short_Title = 'More on Groupoids in Spaces,'
+		if occur[0] == Short_Title or occur[1] == Short_Title or occur[2] == Short_Title:
+			return Short_Title
+		Short_Title = 'Introducing Algebraic Stacks,'
 		if occur[0] == Short_Title or occur[1] == Short_Title or occur[2] == Short_Title:
 			return Short_Title
 	# len(occur) >= 3
