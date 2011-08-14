@@ -41,7 +41,7 @@ return(k)
 	a[s[1]] <= a[s[2]] <= ... <= a[s[n]]
    and
    	a[s[i]] = a[s[i + 1]] implies s[i] < s[i + 1]. */
-make_sigma(a) = 
+make_sigma(a) =
 {
 local(n, b, t, i);
 n = length(a);
@@ -108,7 +108,7 @@ return(t)
 
 /* Given a vector a and an index i returns the vector which
    omits the value a[i]. */
-hati(a, i) = 
+hati(a, i) =
 {
 local(n, j, b);
 n = length(a);
@@ -149,7 +149,7 @@ return(uit)
    such that
    	sum li d(s)_ai = sum li' s_{ai'}
    in the Cech complex. */
-diff(lijst) = 
+diff(lijst) =
 {
 local(n, uit, i, t, m, j);
 n = length(lijst);
@@ -179,7 +179,7 @@ return(uit)
    \ref{equation-first-homotopy} comparing Cech cochain with
    semi-alternating cochains in the proof of
    	Cohomology, Lemma \ref{cohomology-lemma-alternating-usual}. */
-h_single(m) = 
+h_single(m) =
 {
 local(n, uit, s, e, t, a, sa, ea, i);
 n = length(m);
