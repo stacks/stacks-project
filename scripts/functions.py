@@ -59,6 +59,7 @@ def print_error(error_text, line, name, line_nr):
 	print "On line", line_nr
 	print "Line: " + line.rstrip()
 	print "Error: " + error_text
+	print "gvim +{} {}.tex".format(line_nr, name)
 	print
 
 # Check length line
