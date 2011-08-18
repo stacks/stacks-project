@@ -49,6 +49,7 @@ short_titles = {'introduction' : 'Introduction',\
 'spaces-more-morphisms' : 'More on Morphisms of Spaces,',\
 'quot' : 'Quot,',\
 'spaces-over-fields' : 'Spaces over Fields,',\
+'spaces-cohomology' : 'Cohomology of Spaces,',\
 'stacks' : 'Stacks,',\
 'formal-defos' : 'Formal Deformation Theory,',\
 'spaces-groupoids' : 'Groupoids in Spaces,',\

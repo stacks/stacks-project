@@ -351,6 +351,10 @@ def split_label(label):
 		name = "spaces-over-fields"
 		type = pieces[3]
 		n = 4
+	if name == "spaces" and type == "cohomology":
+		name = "spaces-cohomology"
+		type = pieces[2]
+		n = 3
 	while n < len(pieces):
 		rest = rest + "-" + pieces[n]
 		n = n + 1
