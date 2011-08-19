@@ -28,6 +28,26 @@ be found in \cite{knutson}.
 
 
 
+
+
+\section{Conventions}
+\label{section-conventions}
+
+\noindent
+The standing assumption is that all schemes are contained in
+a big fppf site $\Sch_{fppf}$. And all rings $A$ considered
+have the property that $\Spec(A)$ is (isomorphic) to an
+object of this big site.
+
+\medskip\noindent
+Let $S$ be a scheme and let $X$ be an algebraic space over $S$.
+In this chapter and the following we will write $X \times_S X$
+for the product of $X$ with itself (in the category of algebraic
+spaces over $S$), instead of $X \times X$.
+
+
+
+
 \section{Derived category of quasi-coherent modules}
 \label{section-derived-quasi-coherent}
 
@@ -208,6 +228,663 @@ R^{n + 1}f_*\mathcal{F} \to \mathcal{K}' \to 0
 $$
 and we win.
 \end{proof}
+
+
+
+
+
+\section{The alternating {\v C}ech complex}
+\label{section-alternating-cech}
+
+\noindent
+Let $S$ be a scheme. Let $f : U \to X$ be an \'etale morphism of algebraic
+spaces over $S$. The functor
+$$
+j : U_{spaces, \acute{e}tale} \longrightarrow X_{spaces, \acute{e}tale},\quad
+V/U \longmapsto V/X
+$$
+induces an equivalence of $U_{spaces, \acute{e}tale}$ with the localization
+$X_{spaces, \acute{e}tale}/U$, see
+Properties of Spaces, Section \ref{spaces-properties-section-localize}.
+Hence there exist functors
+$$
+f_! : \textit{Ab}(U_{\acute{e}tale}) \longrightarrow
+\textit{Ab}(X_{\acute{e}tale}),\quad
+f_! : \textit{Mod}(\mathcal{O}_U) \longrightarrow \textit{Mod}(\mathcal{O}_X),
+$$
+which are left adjoint to
+$$
+f^{-1} : \textit{Ab}(X_{\acute{e}tale}) \longrightarrow
+\textit{Ab}(U_{\acute{e}tale}),\quad
+f^* : \textit{Mod}(\mathcal{O}_X) \longrightarrow \textit{Mod}(\mathcal{O}_U)
+$$
+see
+Modules on Sites, Section \ref{sites-modules-section-localize}.
+Warning: This functor, a priori, has
+nothing to do with cohomology with compact supports!
+We dubbed this functor ``extension by zero'' in the reference above.
+Note that the two versions of $f_!$ agree as $f^* = f^{-1}$ for
+sheaves of $\mathcal{O}_X$-modules.
+
+\medskip\noindent
+As we are going to use this construction below let us recall some of its
+properties. Given an abelian sheaf $\mathcal{G}$ on $U_{\acute{e}tale}$
+the sheaf $f_!$ is the sheafification of the presheaf
+$$
+V/X \longmapsto
+f_!\mathcal{G}(V) =
+\bigoplus\nolimits_{\varphi \in \Mor_X(V, U)}
+\mathcal{G}(V \xrightarrow{\varphi} U),
+$$
+see
+Modules on Sites, Lemma \ref{sites-modules-lemma-extension-by-zero}.
+Moreover, if $\mathcal{G}$ is an $\mathcal{O}_U$-module, then $f_!\mathcal{G}$
+is the sheafification of the exact same presheaf of abelian groups which
+is endowed with an $\mathcal{O}_X$-module structure in an obvious way
+(see loc.\ cit.). Let $\overline{x} : \Spec(k) \to X$
+be a geometric point. Then there is a canonical identification
+$$
+(f_!\mathcal{G})_{\overline{x}} =
+\bigoplus\nolimits_{\overline{u}} \mathcal{G}_{\overline{u}}
+$$
+where the sum is over all $\overline{u} : \Spec(k) \to U$ such that
+$f \circ \overline{u} = \overline{x}$, see
+Modules on Sites, Lemma \ref{sites-modules-lemma-stalk-j-shriek}.
+In the following we are going to study the sheaf $f_!\underline{\mathbf{Z}}$.
+Here $\underline{\mathbf{Z}}$ denotes the constant sheaf on
+$X_{\acute{e}tale}$ or $U_{\acute{e}tale}$.
+
+\begin{lemma}
+\label{lemma-product-is-tensor-product}
+Let $S$ be a scheme. Let $f_i : U_i \to X$ be \'etale morphisms
+of algebraic spaces over $S$. Then there are isomorphisms
+$$
+f_{1, !}\underline{\mathbf{Z}} \otimes_{\mathbf{Z}}
+f_{2, !}\underline{\mathbf{Z}}
+\longrightarrow
+f_{12, !}\underline{\mathbf{Z}}
+$$
+where $f_{12} : U_1 \times_X U_2 \to X$ is the structure morphism
+and
+$$
+(f_1 \amalg f_2)_! \underline{\mathbf{Z}}
+\longrightarrow
+f_{1, !}\underline{\mathbf{Z}} \oplus
+f_{2, !}\underline{\mathbf{Z}}
+$$
+\end{lemma}
+
+\begin{proof}
+Once we have defined the map it will be an isomorphism by our description
+of stalks above. To define the map it suffices to work on the level of
+presheaves. Thus we have to define a map
+$$
+\left(\bigoplus\nolimits_{\varphi_1 \in \Mor_X(V, U_1)} \mathbf{Z}\right)
+\otimes_{\mathbf{Z}}
+\left(\bigoplus\nolimits_{\varphi_2 \in \Mor_X(V, U_2)} \mathbf{Z}\right)
+\longrightarrow
+\bigoplus\nolimits_{\varphi \in \Mor_X(V, U_1 \times_X U_2)}
+\mathbf{Z}
+$$
+We map the element $1_{\varphi_1} \otimes 1_{\varphi_2}$ to the element
+$1_{\varphi_1 \times \varphi_2}$ with obvious notation. We omit the proof
+of the second equality.
+\end{proof}
+
+\noindent
+Another important feature is the trace map
+$$
+\text{Tr}_f : f_!\underline{\mathbf{Z}} \longrightarrow \underline{\mathbf{Z}}.
+$$
+The trace map is adjoint to the
+map $\mathbf{Z} \to f^{-1}\underline{\mathbf{Z}}$ (which is an isomorphism).
+If $\overline{x}$ is above, then $\text{Tr}_f$ on stalks at $\overline{x}$
+is the map
+$$
+(\text{Tr}_f)_{\overline{x}} :
+(f_!\underline{\mathbf{Z}})_{\overline{x}} =
+\bigoplus\nolimits_{\overline{u}} \mathbf{Z}
+\longrightarrow
+\mathbf{Z} = \underline{\mathbf{Z}}_{\overline{x}}
+$$
+which sums the given integers. This is true because it is adjoint to the map
+$1 : \mathbf{Z} \to f^{-1}\underline{\mathbf{Z}}$. In particular, if
+$f$ is surjective as well as \'etale then $\text{Tr}_f$ is surjective.
+
+\medskip\noindent
+Assume that $f : U \to X$ is a surjective \'etale
+morphism of algebraic spaces. Consider the {\it Koszul complex}
+associated to the trace map we discussed above
+$$
+\ldots \to \wedge^3f_!\underline{\mathbf{Z}} \to
+\wedge^2f_!\underline{\mathbf{Z}} \to f_!\underline{\mathbf{Z}} \to
+\underline{\mathbf{Z}} \to 0
+$$
+Here the exterior powers are over the sheaf of rings $\underline{\mathbf{Z}}$.
+The maps are defined by the rule
+$$
+e_1 \wedge \ldots \wedge e_n \longmapsto
+\sum\nolimits_{i = 1, \ldots, n} (-1)^{i + 1}
+\text{Tr}_f(e_i)
+e_1 \wedge \ldots \wedge \widehat{e_i} \wedge \ldots \wedge e_n
+$$
+where $e_1, \ldots, e_n$ are local sections of $f_!\underline{\mathbf{Z}}$.
+Let $\overline{x}$ be a geometric point of $X$ and set
+$M_{\overline{x}} = (f_!\underline{\mathbf{Z}})_{\overline{x}} =
+\bigoplus_{\overline{u}} \mathbf{Z}$. Then the stalk of the complex above at
+$\overline{x}$ is the complex
+$$
+\ldots \to \wedge^3 M_{\overline{x}} \to \wedge^2 M_{\overline{x}}
+\to M_{\overline{x}} \to \mathbf{Z} \to 0
+$$
+which is exact because $M_{\overline{x}} \to \mathbf{Z}$ is surjective, see
+More on Algebra, Lemma \ref{more-algebra-lemma-homotopy-koszul-abstract}.
+Hence if we let $K^\bullet = K^\bullet(f)$ be the complex with
+$K^i = \wedge^{i + 1}f_!\underline{\mathbf{Z}}$, then we obtain a
+quasi-isomorphism
+\begin{equation}
+\label{equation-quasi-isomorphism}
+K^\bullet \longrightarrow \underline{\mathbf{Z}}[0]
+\end{equation}
+We use the complex $K^\bullet$ to define what we call
+the alternating {\v C}ech complex associated to $f : U \to X$.
+
+\begin{definition}
+\label{definition-alternating-cech-complex}
+Let $S$ be a scheme. Let $f : U \to X$ be a surjective \'etale morphism
+of algebraic spaces over $S$. Let $\mathcal{F}$ be an object of
+$\textit{Ab}(X_{\acute{e}tale})$. The
+{\it alternating {\v C}ech complex}\footnote{This may be nonstandard notation}
+$\check{\mathcal{C}}^\bullet_{alt}(f, \mathcal{F})$
+associated to $\mathcal{F}$ and $f$ is the complex
+$$
+\Hom(K^0, \mathcal{F}) \to \Hom(K^1, \mathcal{F}) \to
+\Hom(K^2, \mathcal{F}) \to \ldots
+$$
+with Hom groups computed in $\textit{Ab}(X_{\acute{e}tale})$.
+\end{definition}
+
+\noindent
+The reader may verify that if $U = \coprod U_i$ and $f|_{U_i} : U_i \to X$
+is the open immersion of a subspace, then
+$\check{\mathcal{C}}_{alt}^\bullet(f, \mathcal{F})$ agrees with the complex
+introduced in
+Cohomology, Section \ref{cohomology-section-alternating-cech}
+for the Zariski covering $X = \bigcup U_i$ and the restriction
+of $\mathcal{F}$ to the Zariski site of $X$. What is more important
+however, is to relate the cohomology of the alternating
+{\v C}ech complex to the cohomology.
+
+\begin{lemma}
+\label{lemma-alternating-cech-to-cohomology}
+Let $S$ be a scheme. Let $f : U \to X$ be a surjective \'etale morphism
+of algebraic spaces over $S$. Let $\mathcal{F}$ be an object of
+$\textit{Ab}(X_{\acute{e}tale})$. There exists a canonical map
+$$
+\check{\mathcal{C}}^\bullet_{alt}(f, \mathcal{F})
+\longrightarrow
+R\Gamma(X, \mathcal{F})
+$$
+in $D(\textit{Ab})$. Moreover, there is a spectral sequence with $E_1$-page
+$$
+E_1^{p, q} =
+\text{Ext}_{\textit{Ab}(X_{\acute{e}tale})}^q(K^p, \mathcal{F})
+$$
+converging to $H^{p + q}(X, \mathcal{F})$ where
+$K^p = \wedge^{p + 1}f_!\underline{\mathbf{Z}}$.
+\end{lemma}
+
+\begin{proof}
+Recall that we have the quasi-isomorphism
+$K^\bullet \to \underline{\mathbf{Z}}[0]$, see
+(\ref{equation-quasi-isomorphism}).
+Choose an injective resolution $\mathcal{F} \to \mathcal{I}^\bullet$
+in $\textit{Ab}(X_{\acute{e}tale})$. Consider the double complex
+$A^{\bullet, \bullet}$ with terms
+$$
+A^{p, q} = \Hom(K^p, \mathcal{I}^q)
+$$
+where the differential $d_1^{p, q} : A^{p, q} \to A^{p + 1, q}$
+is the one coming from the differential $K^{p + 1} \to K^p$
+and the differential $d_2^{p, q} : A^{p, q} \to A^{p, q + 1}$ is the
+one coming from the differential
+$\mathcal{I}^q \to \mathcal{I}^{q + 1}$.
+Denote $sA^\bullet$ the total complex associated to
+the double complex $A^{\bullet, \bullet}$.
+We will use the two spectral
+sequences $({}'E_r, {}'d_r)$ and $({}''E_r, {}''d_r)$
+associated to this double complex, see
+Homology, Section \ref{homology-section-double-complex}.
+
+\medskip\noindent
+Because $K^\bullet$ is a resolution of $\underline{\mathbf{Z}}$
+we see that the complexes
+$$
+A^{\bullet, q} :
+\Hom(K^0, \mathcal{I}^q) \to
+\Hom(K^1, \mathcal{I}^q) \to
+\Hom(K^2, \mathcal{I}^q) \to \ldots
+$$
+are acyclic in positive degrees and have $H^0$ equal to
+$\Gamma(X, \mathcal{I}^q)$. Hence by
+Homology, Lemma \ref{homology-lemma-double-complex-gives-resolution}
+and its proof the spectral sequence $({}''E_r, {}''d_r)$ degenerates,
+and the natural map
+$$
+\mathcal{I}^\bullet(X) \longrightarrow sA^\bullet
+$$
+is a quasi-isomorphism of complexes of abelian groups. In particular
+we conclude that $H^n(sA^\bullet) = H^n(X, \mathcal{F})$.
+
+\medskip\noindent
+The map $\check{\mathcal{C}}^\bullet_{alt}(f, \mathcal{F}) \to
+R\Gamma(X, \mathcal{F})$ of the lemma is the composition of
+$\check{\mathcal{C}}^\bullet_{alt}(f, \mathcal{F}) \to SA^\bullet$
+with the inverse of the displayed quasi-isomorphism.
+
+\medskip\noindent
+Finally, consider the spectral sequence $({}'E_r, {}'d_r)$.
+We have
+$$
+E_1^{p, q} = q\text{th cohomology of }
+\Hom(K^p, \mathcal{I}^0) \to
+\Hom(K^p, \mathcal{I}^1) \to
+\Hom(K^p, \mathcal{I}^2) \to \ldots
+$$
+This proves the lemma.
+\end{proof}
+
+\noindent
+It follows from the lemma that it is important to understand the
+ext groups $\text{Ext}_{\textit{Ab}(X_{\acute{e}tale})}(K^p, \mathcal{F})$,
+i.e., the right derived functors of
+$\mathcal{F} \mapsto \Hom(K^p, \mathcal{F})$.
+
+\begin{lemma}
+\label{lemma-compute}
+Let $S$ be a scheme. Let $f : U \to X$ be a surjective, \'etale, and separated
+morphism of algebraic spaces over $S$. For $p \geq 0$ set
+$$
+W_p = U \times_X \ldots \times_X U \setminus \text{all diagonals}
+$$
+where the fibre product has $p + 1$ factors.
+There is a free action of $S_{p + 1}$ on $W_p$ over $X$ and
+$$
+\Hom(K^p, \mathcal{F}) = S_{p + 1}\text{-anti-invariant elements of }
+\mathcal{F}(W_p)
+$$
+functorially in $\mathcal{F}$ where
+$K^p = \wedge^{p + 1}f_!\underline{\mathbf{Z}}$.
+\end{lemma}
+
+\begin{proof}
+Because $U \to X$ is separated the diagonal $U \to U \times_X U$ is a
+closed immersion. Since $U \to X$ is \'etale the diagonal
+$U \to U \times_X U$ is an open immersion, see
+Morphisms of Spaces, Lemmas
+\ref{spaces-morphisms-lemma-etale-unramified} and
+\ref{spaces-morphisms-lemma-diagonal-unramified-morphism}.
+Hence $W_p$ is an open and closed subspace of
+$U^{p + 1} = U \times_X \ldots \times_X U$. The action of $S_{p + 1}$
+on $W_p$ is free as we've thrown out the fixed points of the action.
+By
+Lemma \ref{lemma-product-is-tensor-product}
+we see that
+$$
+(f_!\underline{\mathbf{Z}})^{\otimes p + 1} =
+f^{p + 1}_!\underline{\mathbf{Z}} = (W_p \to X)_!\underline{\mathbf{Z}}
+\oplus Rest
+$$
+where $f^{p + 1} : U^{p + 1} \to X$ is the structure morphism.
+Looking at stalks over a geometric point $\overline{x}$ of $X$
+we see that
+$$
+\left(
+\bigoplus\nolimits_{\overline{u} \mapsto \overline{x}} \mathbf{Z}
+\right)^{\otimes p + 1}
+\longrightarrow
+(W_p \to X)_!\underline{\mathbf{Z}}_{\overline{x}}
+$$
+is the quotient whose kernel is generated by all tensors
+$1_{\overline{u}_0} \otimes \ldots \otimes 1_{\overline{u}_p}$
+where $\overline{u}_i = \overline{u}_j$ for some $i \not = j$.
+Thus the quotient map
+$$
+(f_!\underline{\mathbf{Z}})^{\otimes p + 1}
+\longrightarrow
+\wedge^{p + 1}f_!\underline{\mathbf{Z}}
+$$
+factors through $(W_p \to X)_!\underline{\mathbf{Z}}$, i.e., we get
+$$
+(f_!\underline{\mathbf{Z}})^{\otimes p + 1}
+\longrightarrow
+(W_p \to X)_!\underline{\mathbf{Z}}
+\longrightarrow
+\wedge^{p + 1}f_!\underline{\mathbf{Z}}
+$$
+This already proves that $\Hom(K^p, \mathcal{F})$ is (functorially) a
+subgroup of
+$$
+\Hom((W_p \to X)_!\underline{\mathbf{Z}}, \mathcal{F}) = \mathcal{F}(W_p)
+$$
+To identify it with the $S_{p + 1}$-anti-invariants we have to prove that
+the surjection $(W_p \to X)_!\underline{\mathbf{Z}}
+\to \wedge^{p + 1}f_!\underline{\mathbf{Z}}$ is the maximal
+$S_{p + 1}$-anti-invariant quotient. In other words, we have to show that
+$\wedge^{p + 1}f_!\underline{\mathbf{Z}}$ is the quotient of
+$(W_p \to X)_!\underline{\mathbf{Z}}$ by the subsheaf generated by
+the local sections $s - \text{sign}(\sigma)\sigma(s)$ where $s$ is
+a local section of $(W_p \to X)_!\underline{\mathbf{Z}}$.
+This can be checked on the stacks, where it is clear.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-twist}
+Let $S$ be a scheme. Let $W$ be an algebraic space over $S$.
+Let $G$ be a finite group acting freely on $W$.
+Let $U = W/G$, see
+Properties of Spaces, Lemma \ref{spaces-properties-lemma-quotient}.
+Let $\chi : G \to \{+1, -1\}$ be a character.
+Then there exists a rank 1 locally free sheaf of $\mathbf{Z}$-modules
+$\underline{\mathbf{Z}}(\chi)$ on $U_{\acute{e}tale}$ such that for every
+abelian sheaf $\mathcal{F}$ on $U_{\acute{e}tale}$ we have
+$$
+H^0(W, \mathcal{F}|_W)^\chi =
+H^0(U, \mathcal{F} \otimes_{\mathbf{Z}} \underline{\mathbf{Z}}(\chi))
+$$
+\end{lemma}
+
+\begin{proof}
+The quotient morphism $q : W \to U$ is a $G$-torsor, i.e., there exists
+a surjective \'etale morphism $U' \to U$ such that
+$W \times_U U' = \coprod_{g \in G} U'$ as spaces with $G$-action over $U'$.
+(Namely, $U' = W$ works.) Hence $q_*\underline{\mathbf{Z}}$ is a finite
+locally free $\mathbf{Z}$-module with an action of $G$. For any
+geometric point $\overline{u}$ of $U$, then we get $G$-equivariant
+isomorphisms
+$$
+(q_*\underline{\mathbf{Z}})_{\overline{u}}
+= \bigoplus\nolimits_{\overline{w} \mapsto \overline{u}} \mathbf{Z}
+= \bigoplus\nolimits_{g \in G} \mathbf{Z} = \mathbf{Z}[G]
+$$
+where the second $=$ uses a geometric point
+$\overline{w}_0$ lying over $\overline{u}$ and
+maps the summand corresponding to $g \in G$ to the summand
+corresponding to $g(\overline{w}_0)$. We have
+$$
+H^0(W, \mathcal{F}|_W) =
+H^0(U, \mathcal{F} \otimes_\mathbf{Z} q_*\underline{\mathbf{Z}})
+$$
+because
+$q_*\mathcal{F}|_W = \mathcal{F} \otimes_\mathbf{Z} q_*\underline{\mathbf{Z}}$
+as one can check by restricting to $U'$. Let
+$$
+\underline{\mathbf{Z}}(\chi) =
+(q_*\underline{\mathbf{Z}})^\chi \subset
+q_*\underline{\mathbf{Z}}
+$$
+be the subsheaf of sections that transform according to $\chi$. For
+any geometric point $\overline{u}$ of $U$ we have
+$$
+\underline{\mathbf{Z}}(\chi)_{\overline{u}} =
+\mathbf{Z} \cdot \sum\nolimits_g \chi(g) g
+\subset
+\mathbf{Z}[G] = (q_*\underline{\mathbf{Z}})_{\overline{u}}
+$$
+It follows that $\underline{\mathbf{Z}}(\chi)$ is locally free of
+rank 1 (more precisely, this should be checked after restricting to $U'$).
+Note that for any $\mathbf{Z}$-module $M$ the $\chi$-semi-invariants
+of $M[G]$ are the elements of the form $m \cdot \sum\nolimits_g \chi(g) g$.
+Thus we see that for any abelian sheaf $\mathcal{F}$ on $U$ we have
+$$
+\left(\mathcal{F} \otimes_\mathbf{Z} q_*\underline{\mathbf{Z}}\right)^\chi
+=
+\mathcal{F} \otimes_\mathbf{Z} \underline{\mathbf{Z}}(\chi)
+$$
+because we have equality at all stalks. The result of the lemma follows by
+taking global sections.
+\end{proof}
+
+\noindent
+Now we can put everything together and obtain the following
+pleasing result.
+
+\begin{lemma}
+\label{lemma-alternating-spectral-sequence}
+Let $S$ be a scheme. Let $f : U \to X$ be a surjective, \'etale, and
+separated morphism of algebraic spaces over $S$. For $p \geq 0$ set
+$$
+W_p = U \times_X \ldots \times_X U \setminus \text{all diagonals}
+$$
+(with $p + 1$ factors) as in Lemma \ref{lemma-compute}.
+Let $\chi_p : S_{p + 1} \to \{+1, -1\}$ be the sign character.
+Let $U_p = W_p/S_{p + 1}$ and $\underline{\mathbf{Z}}(\chi_p)$ be as in
+Lemma \ref{lemma-twist}.
+Then the spectral sequence of
+Lemma \ref{lemma-alternating-cech-to-cohomology}
+reads has $E_1$-page
+$$
+E_1^{p, q} =
+H^q(U_p, \mathcal{F}|_{U_p} \otimes_\mathbf{Z} \underline{\mathbf{Z}}(\chi_p))
+$$
+and converges to $H^{p + q}(X, \mathcal{F})$.
+\end{lemma}
+
+\begin{proof}
+Note that since the action of $S_{p + 1}$ on $W_p$ is over $X$ we do
+obtain a morphism $U_p \to X$. Since $W_p \to X$ is \'etale and since
+$W_p \to U_p$ is surjective \'etale, it follows
+that also $U_p \to X$ is \'etale, see
+Descent on Spaces, Lemma \ref{spaces-descent-lemma-etale-etale-local-source}.
+Therefore an injective object of
+$\textit{Ab}(X_{\acute{e}tale})$ restricts to an injective object of
+$\textit{Ab}(U_{p, \acute{e}tale})$, see
+Cohomology on Sites, Lemma \ref{sites-cohomology-lemma-cohomology-of-open}.
+Moreover, the functor
+$\mathcal{G} \mapsto
+\mathcal{G} \otimes_\mathbf{Z} \underline{\mathbf{Z}}(\chi_p))$
+is an auto-equivalence of $\textit{Ab}(U_p)$, whence transforms injective
+objects into injective objects and is exact (because
+$\underline{\mathbf{Z}}(\chi_p)$ is an invertible
+$\underline{\mathbf{Z}}$-module). Thus given an injective resolution
+$\mathcal{F} \to \mathcal{I}^\bullet$ in $\textit{Ab}(X_{\acute{e}tale})$
+the complex
+$$
+\Gamma(U_p,
+\mathcal{I}^0|_{U_p} \otimes_\mathbf{Z} \underline{\mathbf{Z}}(\chi_p))
+\to
+\Gamma(U_p,
+\mathcal{I}^1|_{U_p} \otimes_\mathbf{Z} \underline{\mathbf{Z}}(\chi_p))
+\to
+\Gamma(U_p,
+\mathcal{I}^2|_{U_p} \otimes_\mathbf{Z} \underline{\mathbf{Z}}(\chi_p))
+\to \ldots
+$$
+computes
+$H^*(U_p,
+\mathcal{F}|_{U_p} \otimes_\mathbf{Z} \underline{\mathbf{Z}}(\chi_p))$.
+On the other hand, by
+Lemma \ref{lemma-twist}
+it is equal to the complex of $S_{p + 1}$-anti-invariants in
+$$
+\Gamma(W_p, \mathcal{I}^0) \to
+\Gamma(W_p, \mathcal{I}^1) \to
+\Gamma(W_p, \mathcal{I}^2) \to \ldots
+$$
+which by
+Lemma \ref{lemma-compute}
+is equal to the complex
+$$
+\Hom(K^p, \mathcal{I}^0) \to
+\Hom(K^p, \mathcal{I}^1) \to
+\Hom(K^p, \mathcal{I}^2) \to \ldots
+$$
+which computes
+$\text{Ext}^*_{\textit{Ab}(X_{\acute{e}tale})}(K^p, \mathcal{F})$.
+Putting everything together we win.
+\end{proof}
+
+
+
+
+
+\section{Higher vanishing for quasi-coherent sheaves}
+\label{section-higher-vanishing}
+
+\noindent
+In this section we show that given a quasi-compact and
+quasi-separated algebraic space $X$ there exists an integer
+$n = n(X)$ such that the cohomology of any quasi-coherent
+sheaf on $X$ vanishes beyond degree $n$.
+
+\begin{lemma}
+\label{lemma-quasi-coherent-twist}
+With $S$, $W$, $G$, $U$, $\chi$ as in
+Lemma \ref{lemma-twist}.
+If $\mathcal{F}$ is a quasi-coherent $\mathcal{O}_U$-module,
+then so is $\mathcal{F} \otimes_{\mathbf{Z}} \underline{\mathbf{Z}}(\chi)$.
+\end{lemma}
+
+\begin{proof}
+The $\mathcal{O}_U$-module structure is clear. To check that
+$\mathcal{F} \otimes_{\mathbf{Z}} \underline{\mathbf{Z}}(\chi)$
+is quasi-coherent it suffices to check \'etale locally.
+Hence the lemma follows as $\underline{\mathbf{Z}}(\chi)$
+is finite locally free as a $\underline{\mathbf{Z}}$-module.
+\end{proof}
+
+\noindent
+The following proposition is interesting even if $X$ is a scheme.
+It is the natural generalization of
+Coherent, Lemma \ref{coherent-lemma-vanishing-nr-affines}.
+Before we state it, observe that given an \'etale morphism
+$f : U \to X$ from an affine scheme towards a quasi-separated algebraic
+space $X$ the fibres of $f$ are universally bounded, in particular
+there exists an integer $d$ such that the fibres of $|U| \to |X|$
+all have size at most $d$; this is the implication
+$(\eta) \Rightarrow (\delta)$ of
+Decent Spaces, Lemma \ref{decent-spaces-lemma-bounded-fibres}.
+
+\begin{proposition}
+\label{proposition-vanishing}
+Let $S$ be a scheme. Let $X$ be an algebraic space over $S$.
+Assume $X$ is quasi-compact and separated.
+Let $U$ be an affine scheme, and let
+$f : U \to X$ be a surjective \'etale morphism.
+Let $d$ be an upper bound for the size of the fibres of
+$|U| \to |X|$. Then for any quasi-coherent $\mathcal{O}_X$-module $\mathcal{F}$
+we have $H^q(X, \mathcal{F}) = 0$ for $q \geq d$.
+\end{proposition}
+
+\begin{proof}
+We will use the spectral sequence of
+Lemma \ref{lemma-alternating-spectral-sequence}.
+The lemma applies since $f$ is separated as $U$ is separated, see
+Morphisms of Spaces, Lemma
+\ref{spaces-morphisms-lemma-compose-after-separated}.
+Since $X$ is separated the scheme $U \times_X \ldots \times_X U$ is a closed
+subscheme of
+$U \times_{\Spec(\mathbf{Z})} \ldots \times_{\Spec(\mathbf{Z})} U$
+hence is affine. Thus $W_p$ is affine. Hence $U_p = W_p/S_{p + 1}$ is an
+affine scheme by
+Groupoids, Proposition \ref{groupoids-proposition-finite-flat-equivalence}.
+The discussion in
+Section \ref{section-higher-direct-image}
+shows that cohomology of quasi-coherent sheaves on $W_p$ (as an algebraic
+space) agrees with the cohomology of the corresponding quasi-coherent
+sheaf on the underlying affine scheme, hence vanishes in positive degrees by
+Coherent, Lemma \ref{coherent-lemma-quasi-coherent-affine-cohomology-zero}.
+By
+Lemma \ref{lemma-quasi-coherent-twist}
+the sheaves
+$\mathcal{F}|_{U_p} \otimes_\mathbf{Z} \underline{\mathbf{Z}}(\chi_p)$
+are quasi-coherent. Hence
+$H^q(W_p,
+\mathcal{F}|_{U_p} \otimes_\mathbf{Z} \underline{\mathbf{Z}}(\chi_p))$
+is zero when $q > 0$. By our definition of the integer $d$ we see that
+$W_p = \emptyset$ for $p \geq d$. Hence also
+$H^0(W_p,
+\mathcal{F}|_{U_p} \otimes_\mathbf{Z} \underline{\mathbf{Z}}(\chi_p))$
+is zero when $p \geq d$.
+This proves the proposition.
+\end{proof}
+
+\noindent
+In the following lemma we esthablish that a quasi-compact and
+quasi-separated algebraic space has finite cohomological dimension
+for quasi-coherent modules. We are explicit about the bound only because
+we will use it later to prove a similar result for higher direct
+images.
+
+\begin{lemma}
+\label{proposition-vanishing-quasi-separated}
+Let $S$ be a scheme. Let $X$ be an algebraic space over $S$.
+Assume $X$ is quasi-compact and quasi-separated.
+Then we can choose
+\begin{enumerate}
+\item an affine scheme $U$,
+\item a surjective \'etale morphism $f : U \to X$,
+\item an integer $d$ bounding the degrees of the fibres of $U \to X$,
+\item for every $p = 0, 1, \ldots, d$ a surjective \'etale morphism
+$V_p \to U_p$ from an affine scheme $V_p$ where $U_p$ is as in
+Lemma \ref{lemma-alternating-spectral-sequence}, and
+\item an integer $d_p$ bounding the degree of the fibres of $V_p \to U_p$.
+\end{enumerate}
+Then for any quasi-coherent $\mathcal{O}_X$-module $\mathcal{F}$
+we have $H^q(X, \mathcal{F}) = 0$ for
+$q \geq \max(d_p + p)$.
+\end{lemma}
+
+\begin{proof}
+Since $X$ is quasi-compact we can find a surjective \'etale morphism
+$U \to X$ with $U$ affine, see
+Properties of Spaces, Lemma
+\ref{spaces-properties-lemma-quasi-compact-affine-cover}.
+By
+Decent Spaces, Lemma \ref{decent-spaces-lemma-bounded-fibres}
+the fibres of $f$ are universally bounded, hence we can find $d$.
+We have $U_p = W_p/S_{p + 1}$ and $W_p \subset U \times_X \ldots \times_X U$
+is open and closed. Since $X$ is quasi-separated the schemes
+$W_p$ are quasi-compact, hence $U_p$ is quasi-compact.
+Since $U$ is separated, the schemes $W_p$ are separated, hence
+$U_p$ is separated by (the absolute version of)
+Spaces, Lemma \ref{spaces-lemma-quotient-finite-separated}.
+By
+Properties of Spaces, Lemma
+\ref{spaces-properties-lemma-quasi-compact-affine-cover}
+we can find the morphisms $V_p \to W_p$.
+By
+Decent Spaces, Lemma \ref{decent-spaces-lemma-bounded-fibres}
+we can find the integers $d_p$.
+
+\medskip\noindent
+At this point the proof uses the spectral sequence
+$$
+E_1^{p, q} =
+H^q(U_p, \mathcal{F}|_{U_p} \otimes_\mathbf{Z} \underline{\mathbf{Z}}(\chi_p))
+\Rightarrow
+H^{p + q}(X, \mathcal{F})
+$$
+see
+Lemma \ref{lemma-alternating-spectral-sequence}.
+By definition of the integer $d$ we see that $U_p = 0$ for $p \geq d$.
+By Proposition \ref{proposition-vanishing}
+and
+Lemma \ref{lemma-quasi-coherent-twist}
+we see that
+$H^q(U_p,
+\mathcal{F}|_{U_p} \otimes_\mathbf{Z} \underline{\mathbf{Z}}(\chi_p))$
+is zero for $q \geq d_p$ for $p = 0, \ldots, d$.
+Whence the lemma.
+\end{proof}
+
+
+
+
+
+
+
+
 
 
 
