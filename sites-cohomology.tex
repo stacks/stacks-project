@@ -764,7 +764,43 @@ restriction $\xi|_{U_i}$ as corresponding to the class of
 $\tilde \xi|_{U_i}$ we conclude.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-higher-direct-images}
+Let $f : (\mathcal{C}, \mathcal{O}_\mathcal{C}) \to
+(\mathcal{D}, \mathcal{O}_\mathcal{D})$ be a morphism of ringed sites
+corresponding to the continuous functor $u : \mathcal{D} \to \mathcal{C}$.
+For any $\mathcal{F} \in \Ob(\textit{Mod}(\mathcal{O}_\mathcal{C}))$
+the sheaf $R^if_*\mathcal{F}$ is the sheaf associated to the
+presheaf
+$$
+V \longmapsto H^i(u(V), \mathcal{F})
+$$
+\end{lemma}
 
+\begin{proof}
+Let $\mathcal{F} \to \mathcal{I}^\bullet$ be an injective resolution.
+Then $R^if_*\mathcal{F}$ is by definition the $i$th cohomology sheaf
+of the complex
+$$
+f_*\mathcal{I}^0 \to f_*\mathcal{I}^1 \to f_*\mathcal{I}^2 \to \ldots
+$$
+By definition of the abelian category structure on
+$\mathcal{O}_\mathcal{D}$-modules
+this cohomology sheaf is the sheaf associated to the presheaf
+$$
+V
+\longmapsto
+\frac{\text{Ker}(f_*\mathcal{I}^i(V) \to f_*\mathcal{I}^{i + 1}(V))}
+{\text{Im}(f_*\mathcal{I}^{i - 1}(V) \to f_*\mathcal{I}^i(V))}
+$$
+and this is obviously equal to
+$$
+\frac{\text{Ker}(\mathcal{I}^i(u(V)) \to \mathcal{I}^{i + 1}(u(V)))}
+{\text{Im}(\mathcal{I}^{i - 1}(u(V)) \to \mathcal{I}^i(u(V)))} \\
+$$
+which is equal to $H^i(u(V), \mathcal{F})$
+and we win.
+\end{proof}
 
 
 
@@ -1813,6 +1849,202 @@ hence by
 Homology, Lemma \ref{homology-lemma-product-abelian-groups-exact}
 we conclude that $\check \xi = 0$ as desired.
 \end{proof}
+
+
+
+
+
+
+
+
+\section{The Leray spectral sequence}
+\label{section-leray}
+
+\noindent
+Let $(\mathcal{C}, \mathcal{O})$ be a ringed site.
+Let $K$ be a presheaf of sets on $\mathcal{C}$ (we intentionally use a
+roman capital here to distinguish from abelian sheaves).
+Given an abelian sheaf $\mathcal{F}$ we denote
+$\mathcal{F}(K) = \Mor_{\textit{PSh}(\mathcal{C})}(K, \mathcal{F})$.
+The functor $\mathcal{F} \mapsto \mathcal{F}(K)$ is a left exact functor
+$\textit{Mod}(\mathcal{O}) \to \textit{Ab}$ hence we have its
+right derived functors. We will denote these $H^p(K, \mathcal{F})$
+so that $H^0(K, \mathcal{F}) = \mathcal{F}(K)$.
+
+\begin{definition}
+\label{definition-limp}
+Let $(\mathcal{C}, \mathcal{O})$ be a ringed site.
+We say an $\mathcal{O}$-module $\mathcal{F}$ is
+{\it limp}\footnote{This is probably nonstandard notation. Please email
+\href{mailto:stacks.project@gmail.com}{stacks.project@gmail.com}
+if you know the correct terminology.}
+if for every presheaf of sets $K$ we have $H^p(K, \mathcal{F}) = 0$
+for all $p \geq 1$.
+\end{definition}
+
+\noindent
+It is clear that being limp is an intrinsic property (see
+Modules on Sites, Section \ref{sites-modules-section-intrinsic})
+of modules on sites, i.e., preserved under equivalences of ringed topoi.
+Note that if $K = h_U$ for some object $U$ of $\mathcal{C}$, then
+$H^p(U, \mathcal{F}) = H^p(h_U, \mathcal{F})$. Thus a limp sheaf
+has vanishing higher cohomology on all objects of the site (but in general
+the condition of being limp is strictly stronger).
+
+\begin{lemma}
+\label{lemma-direct-image-injective-sheaf}
+Let $f : (\Sh(\mathcal{C}), \mathcal{O}_\mathcal{C}) \to
+(\Sh(\mathcal{D}), \mathcal{O}_\mathcal{D})$ be a morphism of ringed topoi.
+Then for any injective object $\mathcal{I}$ in
+$\textit{Mod}(\mathcal{O}_\mathcal{C})$
+the pushforward $f_*\mathcal{I}$ is limp.
+\end{lemma}
+
+\begin{proof}
+Let $K$ be a presheaf of sets on $\mathcal{D}$.
+Since
+$$
+\Mor_{\textit{PSh}(\mathcal{D})}(K, \mathcal{G})
+=
+\Mor_{\Sh(\mathcal{D})}(K^\#, \mathcal{G})
+$$
+as a functor in $\mathcal{G}$ we may assume that $K$ is a sheaf.
+By
+Modules on Sites, Lemma
+\ref{sites-modules-lemma-morphism-ringed-topoi-comes-from-morphism-ringed-sites}
+we may replace $\mathcal{C}$, $\mathcal{D}$ by ``larger'' sites such
+that $f$ comes from a morphism of ringed sites induced by a continuous
+functor $u : \mathcal{D} \to \mathcal{C}$ such that
+$K = h_V$ for some object $V$ of $\mathcal{D}$.
+
+\medskip\noindent
+Thus we have to show that $H^q(V, f_*\mathcal{I})$ is zero
+for $q > 0$ and all objects $V$ of $\mathcal{D}$ when $f$ is given
+by a morphism of ringed sites. Let $\mathcal{V} = \{V_j \to V\}$
+be any covering of $\mathcal{D}$. Since $u$ is continuous we see that
+$\mathcal{U} = \{u(V_j) \to u(v)\}$ is a covering of $\mathcal{C}$.
+Then we have an equality of {\v C}ech complexes
+$$
+\check{\mathcal{C}}^\bullet(\mathcal{V}, f_*\mathcal{I})
+=
+\check{\mathcal{C}}^\bullet(\mathcal{U}, \mathcal{I})
+$$
+by the definition of $f_*$. By
+Lemma \ref{lemma-injective-module-trivial-cech}
+we see that the cohomology of this complex is zero in positive degrees.
+We win by
+Lemma \ref{lemma-cech-vanish-collection}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-limp-acyclic}
+Let $(\Sh(\mathcal{C}), \mathcal{O}_\mathcal{C})$ be a ringed topos.
+A limp sheaf is right acyclic for the following functors:
+\begin{enumerate}
+\item the functor $H^0(U, -)$ for any object $U$ of $\mathcal{C}$,
+\item the functor $\mathcal{F} \mapsto \mathcal{F}(K)$ for any
+presheaf of sets $K$,
+\item the functor $\Gamma(\mathcal{C}, -)$ of global sections,
+\item the functor $f_*$ for any morphism
+$f : (\Sh(\mathcal{C}), \mathcal{O}_\mathcal{C}) \to
+(\Sh(\mathcal{D}), \mathcal{O}_\mathcal{D})$ of ringed topoi.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Part (2) is the definition of a limp sheaf.
+Part (1) is a consequence of (2) as pointed out in the discussion following the
+definition of limp sheaves.
+Part (3) is a special case of (2) where $K = e$ is the final object
+of $\Sh(\mathcal{C})$.
+
+\medskip\noindent
+To prove (4) we may assume, by
+Modules on Sites, Lemma
+\ref{sites-modules-lemma-morphism-ringed-topoi-comes-from-morphism-ringed-sites}
+that $f$ is given by a morphism of sites. In this case we see that
+$R^if_*$, $i > 0$ of a limp sheaf are zero by the description of
+higher direct images in
+Lemma \ref{lemma-higher-direct-images}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-Leray}
+(Leray spectral sequence.)
+Let $f : (\Sh(\mathcal{C}), \mathcal{O}_\mathcal{C}) \to
+(\Sh(\mathcal{D}), \mathcal{O}_\mathcal{D})$ be a morphism of ringed topoi.
+Let $\mathcal{F}^\bullet$ be a bounded below complex of
+$\mathcal{O}_\mathcal{C}$-modules. There is a spectral sequence
+$$
+E_2^{p, q} = H^p(\mathcal{D}, R^qf_*(\mathcal{F}^\bullet))
+$$
+converging to $H^{p + q}(\mathcal{C}, \mathcal{F}^\bullet)$.
+\end{lemma}
+
+\begin{proof}
+This is just the Grothendieck spectral sequence
+Derived Categories, Lemma \ref{derived-lemma-grothendieck-spectral-sequence}
+coming from the composition of functors
+$\Gamma(\mathcal{C}, -) = \Gamma(\mathcal{D}, -) \circ f_*$.
+To see that the assumptions of
+Derived Categories, Lemma \ref{derived-lemma-grothendieck-spectral-sequence}
+are satisfied, see
+Lemmas \ref{lemma-direct-image-injective-sheaf} and
+\ref{lemma-limp-acyclic}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-apply-Leray}
+Let $f : (\Sh(\mathcal{C}), \mathcal{O}_\mathcal{C}) \to
+(\Sh(\mathcal{D}), \mathcal{O}_\mathcal{D})$ be a morphism of ringed topoi.
+Let $\mathcal{F}$ be an $\mathcal{O}_\mathcal{C}$-module.
+\begin{enumerate}
+\item If $R^qf_*\mathcal{F} = 0$ for $q > 0$, then
+$H^p(\mathcal{C}, \mathcal{F}) = H^p(\mathcal{D}, f_*\mathcal{F})$ for all $p$.
+\item If $H^p(\mathcal{D}, R^qf_*\mathcal{F}) = 0$ for all $q$ and $p > 0$,
+then $H^q(\mathcal{C}, \mathcal{F}) = H^0(\mathcal{D}, R^qf_*\mathcal{F})$
+for all $q$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+These are two simple conditions that force the Leray spectral sequence to
+converge. You can also prove these facts directly (without using the
+spectral sequence) which is a good exercise in cohomology of sheaves.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-relative-Leray}
+(Relative Leray spectral sequence.)
+Let
+$f : (\Sh(\mathcal{C}), \mathcal{O}_\mathcal{C}) \to
+(\Sh(\mathcal{D}), \mathcal{O}_\mathcal{D})$
+and
+$g : (\Sh(\mathcal{D}), \mathcal{O}_\mathcal{D}) \to
+(\Sh(\mathcal{E}), \mathcal{O}_\mathcal{E})$
+be morphisms of ringed topoi.
+Let $\mathcal{F}$ be an $\mathcal{O}_X$-module.
+There is a spectral sequence with
+$$
+E_2^{p, q} = R^pg_*(R^qf_*\mathcal{F})
+$$
+converging to $R^{p + q}(g \circ f)_*\mathcal{F}$.
+This spectral sequence is functorial in $\mathcal{F}$, and there
+is a version for bounded below complexes of $\mathcal{O}_X$-modules.
+\end{lemma}
+
+\begin{proof}
+This is a Grothendieck spectral sequence for composition of functors, see
+Derived Categories, Lemma \ref{derived-lemma-grothendieck-spectral-sequence}
+and
+Lemmas \ref{lemma-direct-image-injective-sheaf} and
+\ref{lemma-limp-acyclic}.
+\end{proof}
+
+
+
+
+
 
 
 
