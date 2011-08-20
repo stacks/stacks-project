@@ -40,12 +40,8 @@ def print_chapters(path):
 # Print version and date
 def print_version(path):
 	from datetime import date
-	from subprocess import Popen, PIPE, STDOUT
-	cmd = 'git --git-dir=' + path + '.git log --pretty=format:%h -n1'
-	p = Popen(cmd, shell=True, stdout=PIPE).stdout
-	version = p.read()
-	p.close()
 	now = date.today()
+	version = git_version(path)
 	print "Version " + version + ", compiled on " + now.strftime('%h %d, %Y.')
 
 # Print names contributors

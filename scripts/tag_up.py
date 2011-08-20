@@ -32,6 +32,13 @@ if name == "preamble":
 	for line in tex_file:
 		print replace_newtheorem(line)
 
+	version = git_version(path)
+
+	from datetime import date
+	now = date.today()
+
+	print "\\date{This is a chapter of the Stacks Project, version " + version + ", compiled on " + now.strftime('%h %d, %Y.}')
+
 	tex_file.close()
 
 	from sys import exit

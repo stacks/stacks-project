@@ -623,3 +623,11 @@ def write_new_tags(path, new_tags):
 
 def cap_type(type):
 	return type[0].capitalize() + type[1:]
+
+def git_version(path):
+	from subprocess import Popen, PIPE, STDOUT
+	cmd = 'git --git-dir=' + path + '.git log --pretty=format:%h -n1'
+	p = Popen(cmd, shell=True, stdout=PIPE).stdout
+	version = p.read()
+	p.close()
+	return version

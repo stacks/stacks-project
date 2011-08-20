@@ -751,7 +751,7 @@
 \ifx\@classname\@tempb
   \newcommand{\datename}{\textit{Date}:}
 \else
-  \newcommand{\datename}{Received by the editors}
+  \newcommand{\datename}{}
 \fi
 \def\@settitle{\begin{center}%
   \baselineskip14\p@\relax
