@@ -62,12 +62,14 @@ short_titles = {'introduction' : 'Introduction',\
 'criteria' : 'Criteria for Representability,',\
 'stacks-properties' : 'Properties of Stacks,',\
 'stacks-morphisms' : 'Morphisms of Stacks,',\
+'stacks-cohomology' : 'Cohomology of Stacks,',\
 'stacks-introduction' : 'Introducing Algebraic Stacks,',\
 'examples' : 'Examples,',\
 'exercises' : 'Exercises,',\
 'guide' : 'Guide to Literature,',\
 'desirables' : 'Desirables,',\
 'coding' : 'Coding Style,',\
+'obsolete' : 'Obsolete,',\
 'fdl' : 'GNU Free Documentation License,',\
 'index' : 'Auto Generated Index,'}
 

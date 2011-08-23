@@ -16,8 +16,9 @@ LIJST = introduction conventions sets categories topology sheaves algebra \
 	spaces-over-fields spaces-cohomology stacks formal-defos \
 	spaces-groupoids spaces-more-groupoids bootstrap examples-stacks \
 	groupoids-quotients algebraic stacks-sheaves criteria \
-	stacks-properties stacks-morphisms stacks-introduction \
-	examples exercises guide desirables coding
+	stacks-properties stacks-morphisms stacks-cohomology \
+	stacks-introduction examples exercises guide desirables coding \
+	obsolete
 
 # Add index and fdl to get index and license latexed as well.
 LIJST_FDL = $(LIJST) fdl index

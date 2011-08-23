@@ -343,6 +343,10 @@ def split_label(label):
 		name = "stacks-morphisms"
 		type = pieces[2]
 		n = 3
+	if name == "stacks" and type == "cohomology":
+		name = "stacks-cohomology"
+		type = pieces[2]
+		n = 3
 	if name == "stacks" and type == "introduction":
 		name = "stacks-introduction"
 		type = pieces[2]
