@@ -11,6 +11,7 @@ short_titles = {'introduction' : 'Introduction',\
 'topology' : 'Topology,',\
 'sheaves' : 'Sheaves,',\
 'algebra' : 'Algebra,',\
+'brauer' : 'Brauer Groups,',\
 'sites' : 'Sites,',\
 'homology' : 'Homology,',\
 'derived' : 'Derived Categories,',\

@@ -5,6 +5,7 @@
 # Master list of stems of tex files in the project.
 # This should be in order.
 LIJST = introduction conventions sets categories topology sheaves algebra \
+	brauer \
 	sites homology derived more-algebra simplicial modules sites-modules \
 	injectives cohomology \
 	sites-cohomology hypercovering schemes constructions properties \
