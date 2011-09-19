@@ -1721,9 +1721,9 @@ Thus we can use the machinery of
 Cohomology on Sites, Section \ref{sites-cohomology-section-cohomology-sheaves}
 to define the cohomology groups
 $$
-H^p(\mathcal{X}_\tau, \mathcal{F})
+H^p(\mathcal{X}_\tau, \mathcal{F}) = H^p_\tau(\mathcal{X}, \mathcal{F})
 \quad\text{and}\quad
-H^p(x, \mathcal{F})
+H^p(x, \mathcal{F}) = H^p_\tau(x, \mathcal{F})
 $$
 for any $x \in \Ob(\mathcal{X})$ and any object $\mathcal{F}$ of
 $\textit{Ab}(\mathcal{X}_\tau)$ or
@@ -1745,11 +1745,12 @@ over the scheme $U$. Let $\mathcal{F}$ be
 an object of $\textit{Ab}(\mathcal{X}_\tau)$ or
 $\textit{Mod}(\mathcal{X}_\tau, \mathcal{O}_\mathcal{X})$. Then
 $$
-H^p(x, \mathcal{F}) = H^p((\Sch/U)_\tau, x^{-1}\mathcal{F})
+H^p_\tau(x, \mathcal{F}) = H^p((\Sch/U)_\tau, x^{-1}\mathcal{F})
 $$
 and if $\tau = \acute{e}tale$, then we also have
 $$
-H^p(x, \mathcal{F}) = H^p(U_{\acute{e}tale}, \mathcal{F}|_{U_{\acute{e}tale}}).
+H^p_{\acute{e}tale}(x, \mathcal{F}) =
+H^p(U_{\acute{e}tale}, \mathcal{F}|_{U_{\acute{e}tale}}).
 $$
 \end{lemma}
 
@@ -1763,45 +1764,6 @@ The second statement follows from the first combined with
 \ref{etale-cohomology-lemma-compare-cohomology-big-small}.
 \end{proof}
 
-\noindent
-Here is a technical lemma which tells us that the
-fppf cohomology of a locally quasi-coherent sheaf is equal to its
-\'etale cohomology provided the comparison maps are isomorphisms
-for morphisms of $\mathcal{X}$ lying over flat morphisms.
-
-\begin{lemma}
-\label{lemma-compare-fppf-etale}
-Let $S$ be a scheme. Let $\mathcal{X}$ be a category fibred in groupoids
-over $(\Sch/S)_{fppf}$. Denote
-$\epsilon : \mathcal{X}_{fppf} \to \mathcal{X}_{\acute{e}tale}$
-the comparison morphism. Let $\mathcal{F}$ be an
-$\mathcal{O}_\mathcal{X}$-module such that
-\begin{enumerate}
-\item $\mathcal{F}$ is locally quasi-coherent, and
-\item for any morphism $\varphi : x \to y$ of $\mathcal{X}$ which lies
-over a morphism of schemes $f : U \to V$ which is flat and
-locally of finite presentation, the comparison map
-$c_\varphi : f_{small}^*\mathcal{F}|_{V_{\acute{e}tale}} \to
-\mathcal{F}|_{U_{\acute{e}tale}}$ of
-(\ref{equation-comparison-modules}) is an isomorphism.
-\end{enumerate}
-Then $R\epsilon_*\mathcal{F} = \epsilon_*\mathcal{F}$.
-\end{lemma}
-
-\begin{proof}
-The sheaf $R^p\epsilon_*\mathcal{F}$ is the sheaf associated to the presheaf
-$x \mapsto H^p_{fppf}(x, \mathcal{F})$. Hence it suffices to show that
-$H^p_{fppf}(x, \mathcal{F}) = 0$ for $p > 0$
-whenever $x$ lies over an affine scheme $U$. By
-Lemma \ref{lemma-cohomology-restriction}
-we have $H^p_{fppf}(x, \mathcal{F}) = H^p((\Sch/U)_{fppf}, x^{-1}\mathcal{F})$.
-Combining
-Adequate Modules,
-Lemma \ref{adequate-lemma-quasi-coherent-and-flat-base-change}
-and
-Coherent, Lemma \ref{coherent-lemma-quasi-coherent-affine-cohomology-zero}
-we see that these cohomology groups are zero.
-\end{proof}
 
 
 
@@ -3133,6 +3095,61 @@ Lemma \ref{lemma-surjective-flat-locally-finite-presentation}.
 Condition (1) is satisfied by fiat in all four cases.
 \end{proof}
 
+\noindent
+Here is a description of higher direct images for a
+morphism of algebraic stacks.
+
+\begin{lemma}
+\label{lemma-pushforward-restriction}
+Let $S$ be a scheme. Let $f : \mathcal{X} \to \mathcal{Y}$ be a
+$1$-morphism of algebraic stacks\footnote{This result should hold
+for any $1$-morphism of categories fibred in groupoids over
+$(\Sch/S)_{fppf}$.} over $S$.
+Let $\tau \in \{Zariski,\linebreak[0] \acute{e}tale,\linebreak[0]
+smooth,\linebreak[0] syntomic,\linebreak[0] fppf\}$.
+Let $\mathcal{F}$ be
+an object of $\textit{Ab}(\mathcal{X}_\tau)$ or
+$\textit{Mod}(\mathcal{X}_\tau, \mathcal{O}_\mathcal{X})$.
+The the sheaf $R^if_*\mathcal{F}$ is the sheaf associated to the
+presheaf
+$$
+y \longmapsto
+H^i_\tau\Big((\Sch/V)_{fppf} \times_{y, \mathcal{Y}} \mathcal{X},
+\ \text{pr}^{-1}\mathcal{F}\Big)
+$$
+Here $y$ is a typical object of $\mathcal{Y}$ lying over the scheme $V$.
+\end{lemma}
+
+\begin{proof}
+Choose an injective resolution $\mathcal{F}[0] \to \mathcal{I}^\bullet$.
+By the formula for pushforward (\ref{equation-pushforward}) we see that
+$R^if_*\mathcal{F}$ is the sheaf associated to the presheaf which associates
+to $y$ the cohomology of the complex
+$$
+\begin{matrix}
+\Gamma\Big((\Sch/V)_{fppf} \times_{y, \mathcal{Y}} \mathcal{X},
+\ \text{pr}^{-1}\mathcal{I}^{i - 1}\Big) \\
+\downarrow \\
+\Gamma\Big((\Sch/V)_{fppf} \times_{y, \mathcal{Y}} \mathcal{X},
+\ \text{pr}^{-1}\mathcal{I}^i\Big) \\
+\downarrow \\
+\Gamma\Big((\Sch/V)_{fppf} \times_{y, \mathcal{Y}} \mathcal{X},
+\ \text{pr}^{-1}\mathcal{I}^{i + 1}\Big)
+\end{matrix}
+$$
+Since $\text{pr}^{-1}$ is exact, it suffices to show that
+$\text{pr}^{-1}$ preserves injectives. This follows from
+Lemmas \ref{lemma-pullback-injective} and
+\ref{lemma-pullback-injective-modules}
+as well as the fact that $\text{pr}$ is a representable morphism of
+algebraic stacks (so that $\text{pr}$ is faithful by
+Algebraic Stacks, Lemma
+\ref{algebraic-lemma-characterize-representable-by-algebraic-spaces}
+and that
+$(\Sch/V)_{fppf} \times_{y, \mathcal{Y}} \mathcal{X}$
+has equalizers by 
+Lemma \ref{lemma-fibre-products}).
+\end{proof}
 
 
 
@@ -3211,6 +3228,8 @@ reference here).
 \label{section-compare}
 
 \noindent
+In this section we compare the constructions of this chapter with the
+constructions for schemes and algebraic spaces.
 We formulate the following comparison statements as lemmas, even though
 their proofs consist mainly in working out the meaning of the definitions.
 We encourage the reader to think about why these statements are true
@@ -3553,6 +3572,102 @@ Lemma \ref{lemma-compare-injectives}
 and (\ref{equation-compare-big-small})
 on choosing an injective resolution of $\mathcal{F}$.
 \end{proof}
+
+
+
+
+
+
+
+
+\section{Change of topology}
+\label{section-change-topology}
+
+\noindent
+Here is a technical lemma which tells us that the
+fppf cohomology of a locally quasi-coherent sheaf is equal to its
+\'etale cohomology provided the comparison maps are isomorphisms
+for morphisms of $\mathcal{X}$ lying over flat morphisms.
+
+\begin{lemma}
+\label{lemma-compare-fppf-etale}
+Let $S$ be a scheme. Let $\mathcal{X}$ be an algebraic stack over $S$.
+Let $\mathcal{F}$ be an $\mathcal{O}_\mathcal{X}$-module such that
+\begin{enumerate}
+\item[(a)] $\mathcal{F}$ is locally quasi-coherent, and
+\item[(b)] for any morphism $\varphi : x \to y$ of $\mathcal{X}$ which lies
+over a morphism of schemes $f : U \to V$ which is flat and
+locally of finite presentation, the comparison map
+$c_\varphi : f_{small}^*\mathcal{F}|_{V_{\acute{e}tale}} \to
+\mathcal{F}|_{U_{\acute{e}tale}}$ of
+(\ref{equation-comparison-modules}) is an isomorphism.
+\end{enumerate}
+Then we have the following
+\begin{enumerate}
+\item If $\epsilon : \mathcal{X}_{fppf} \to \mathcal{X}_{\acute{e}tale}$
+is the comparison morphism, then
+$R\epsilon_*\mathcal{F} = \epsilon_*\mathcal{F}$.
+\item The cohomology groups $H^p_{fppf}(\mathcal{X}, \mathcal{F})$ are equal
+to the cohomology groups computed in the \'etale topology on $\mathcal{X}$.
+Similarly for the cohomology groups $H^p_{fppf}(x, \mathcal{F})$ and the
+derived versions $R\Gamma(\mathcal{X}, \mathcal{F})$ and
+$R\Gamma(x, \mathcal{F})$.
+\item If $f : \mathcal{X} \to \mathcal{Y}$ is a $1$-morphism of
+categories fibred in groupoids over $(\Sch/S)_{fppf}$ then
+$R^if_*\mathcal{F}$ is equal to the fppf-sheafification of the
+higher direct image computed in the \'etale cohomology.
+Similarly for derived pushforward.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Note that $\epsilon$ is a morphism of sites given by the identity
+functor on $\mathcal{X}$. The sheaf $R^p\epsilon_*\mathcal{F}$ is therefore
+the sheaf associated to the presheaf
+$x \mapsto H^p_{fppf}(x, \mathcal{F})$, see
+Cohomology on Sites, Lemma \ref{sites-cohomology-lemma-higher-direct-images}.
+To prove (1) it suffices to show that
+$H^p_{fppf}(x, \mathcal{F}) = 0$ for $p > 0$
+whenever $x$ lies over an affine scheme $U$. By
+Lemma \ref{lemma-cohomology-restriction}
+we have
+$H^p_{fppf}(x, \mathcal{F}) = H^p((\Sch/U)_{fppf}, x^{-1}\mathcal{F})$.
+Combining
+Adequate Modules,
+Lemma \ref{adequate-lemma-quasi-coherent-and-flat-base-change}
+and
+Coherent, Lemma \ref{coherent-lemma-quasi-coherent-affine-cohomology-zero}
+we see that these cohomology groups are zero.
+
+\medskip\noindent
+We have seen above that $\epsilon_*\mathcal{F}$ and $\mathcal{F}$ are the
+sheaves on $\mathcal{X}_{\acute{e}tale}$ and $\mathcal{F}_{fppf}$
+corresponding to the same presheaf on $\mathcal{X}$ (and this is true more
+generally for any sheaf in the fppf topology on $\mathcal{X}$).
+We often abusively identify $\mathcal{F}$ and $\epsilon_*\mathcal{F}$
+and this is the sense in which parts (2) and (3) of the lemma should be
+understood. Thus part (2) follows formally from (1) and the Leray spectral
+sequence, see
+Cohomology on Sites, Lemma \ref{sites-cohomology-lemma-apply-Leray}.
+
+\medskip\noindent
+Finally we prove (3). The sheaf $R^if_*\mathcal{F}$
+(resp.\ $Rf_{\acute{e}tale, *}\mathcal{F}$)
+is the sheaf associated to the presheaf
+$$
+y \longmapsto
+H^i_\tau\Big((\Sch/V)_{fppf} \times_{y, \mathcal{Y}} \mathcal{X},
+\ \text{pr}^{-1}\mathcal{F}\Big)
+$$
+where $\tau$ is $fppf$ (resp.\ $\acute{e}tale$), see
+Lemma \ref{lemma-pushforward-restriction}.
+Note that $\text{pr}^{-1}\mathcal{F}$ satisfies properties (a) and (b)
+also, hence these two presheaves are equal by (2).
+This immediately implies (3).
+\end{proof}
+
+
+
 
 
 
