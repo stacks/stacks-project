@@ -29,7 +29,31 @@ from those in \cite{LM-B} mainly because we consistently use the
 the chapter ``Sheaves on Algebraic Stacks'' in order to become
 familiar with the terminology introduced there.
 
-
+\medskip\noindent
+Let $f : \mathcal{X} \to \mathcal{Y}$ be a quasi-compact and
+quasi-separated morphism of algebraic stacks. In general it is not true that
+$f_*$ transforms quasi-coherent $\mathcal{O}_\mathcal{X}$-modules
+into quasi-coherent $\mathcal{O}_\mathcal{Y}$-modules. Here are
+three key observations that will allows us to get a good theory anyway:
+\begin{enumerate}
+\item $f_*$ does preserve the category of locally quasi-coherent modules, and
+\item $f_*$ transforms a quasi-coherent sheaf into a locally quasi-coherent
+sheaf whose comparison maps, see
+Sheaves on Stacks, Equation (\ref{stacks-sheaves-equation-comparison-modules})
+are isomorphisms for maps $\varphi$ lying over flat maps, and
+\item locally quasi-coherent $\mathcal{O}_\mathcal{Y}$-modules as in (2)
+give rise to modules on a presentation of $\mathcal{Y}$ and hence
+quasi-coherent modules on $\mathcal{Y}$, see
+Sheaves on Stacks, Section
+\ref{stacks-sheaves-section-quasi-coherent-algebraic-stacks}.
+\end{enumerate}
+Once we have worked out the details, we will obtain a functor
+$f_{QCoh, *} : \textit{QCoh}(\mathcal{O}_\mathcal{X})
+\to \textit{QCoh}(\mathcal{O}_\mathcal{Y})$ adjoint to $f^*$.
+Moreover, a similar construction will produce functors $R^if_*$.
+However, these results will not be sufficient to produce a
+total direct image functor (of complexes with quasi-coherent
+cohomology sheaves).
 
 
 
@@ -73,13 +97,179 @@ Properties of Spaces, Definition
 \ref{spaces-properties-definition-etale-site}).
 It seems that the distinction should be clear enough.
 
+\medskip\noindent
+The default topology is the fppf topology. Hence we will sometimes
+say ``sheaf on $\mathcal{X}$'' or ``sheaf of $\mathcal{O}_\mathcal{X}$''
+modules when we mean sheaf on $\mathcal{X}_{fppf}$ or object of
+$\textit{Mod}(\mathcal{X}_{fppf}, \mathcal{O}_\mathcal{X})$.
+
+\medskip\noindent
+If $f : \mathcal{X} \to \mathcal{Y}$ is a morphism of algebraic
+stacks, then the functors $f_*$ and $f^{-1}$ defined on presheaves
+preserves sheaves for any of the topologies mentioned above. In particular
+when we discuss the pushforward or pullback of a sheaf we don't have to
+mention which topology we are working with. The same isn't true
+when we compute cohomology groups and/or higher direct images. In this
+case we will always mention which topology we are working with.
+
+\medskip\noindent
+Suppose that $f : X \to \mathcal{Y}$ is a morphism from an algebraic
+space $X$ to an algebraic stack $\mathcal{Y}$. Let $\mathcal{G}$ be
+a sheaf on $\mathcal{Y}_\tau$ for some topology $\tau$. In this case
+$f^{-1}\mathcal{G}$ is a sheaf for the $\tau$ topology on $\mathcal{S}_X$
+(the algebraic stack associated to $X$) because (by our conventions) $f$
+really is a $1$-morphism $f : \mathcal{S}_X \to \mathcal{Y}$.
+If $\tau = \acute{e}tale$ or stronger, then we write
+$f^{-1}\mathcal{G}|_{X_{\acute{e}tale}}$
+to denote the restriction to the \'etale site of $X$, see
+Sheaves on Stacks, Section \ref{stacks-sheaves-section-compare}.
+If $\mathcal{G}$ is an $\mathcal{O}_\mathcal{X}$-module we sometimes
+write $f^*\mathcal{G}$ and $f^*\mathcal{G}|_{X_{\acute{e}tale}}$
+instead.
 
 
 
 
+\section{Locally quasi-coherent modules}
+\label{section-locally-quasi-coherent}
 
+\noindent
+Let $\mathcal{X}$ be an algebraic stack. In
+Sheaves on Stacks, Definition
+\ref{stacks-sheaves-definition-locally-quasi-coherent}
+we have defined the notion of a locally quasi-coherent
+$\mathcal{O}_\mathcal{X}$-module $\mathcal{F}$. Briefly, this means
+$\mathcal{F}$ is an $\mathcal{O}_\mathcal{X}$-module for the
+\'etale topology such that for any morphism $f : U \to \mathcal{X}$
+the restriction $f^*\mathcal{F}|_{U_{\acute{e}tale}}$ is quasi-coherent
+on $U$. (The actual definition is slightly different, but equivalent.)
+A useful fact is that
+$$
+\textit{LQCoh}(\mathcal{O}_\mathcal{X}) \subset
+\textit{Mod}(\mathcal{X}_{\acute{e}tale}, \mathcal{O}_\mathcal{X})
+$$
+is a Serre subcategory, see
+Sheaves on Stacks, Lemma \ref{stacks-sheaves-lemma-lqc-colimits}.
 
+\begin{lemma}
+\label{lemma-check-lqc-on-etale-covering}
+Let $\mathcal{X}$ be an algebraic stack. Let
+$f_j : \mathcal{X}_j \to \mathcal{X}$ be a family of smooth
+morphisms of algebraic stacks with
+$|\mathcal{X}| =\bigcup |f_j|(|\mathcal{X}_j|)$.
+Let $\mathcal{F}$ be a sheaf of $\mathcal{O}_\mathcal{X}$ modules
+on $\mathcal{X}_{\acute{e}tale}$. If each $f_j^{-1}\mathcal{F}$
+is locally quasi-coherent, then so is $\mathcal{F}$.
+\end{lemma}
 
+\begin{proof}
+We may replace each of the algebraic stacks $\mathcal{X}_j$ by
+a scheme $U_j$ (using that any algebraic stack has a smooth covering by
+a scheme and that compositions of smooth morphisms are smooth, see
+Morphisms of Stacks, Lemma \ref{stacks-morphisms-lemma-composition-smooth}).
+The pullback of $\mathcal{F}$ to $(\Sch/U_j)_{\acute{e}tale}$ is still
+locally quasi-coherent, see
+Sheaves on Stacks, Lemma \ref{stacks-sheaves-lemma-pullback-lqc}.
+Then $\coprod f_j : U = \coprod U_j \to \mathcal{X}$ is a smooth surjective
+morphism. Let $x$ be an object of $\mathcal{X}$. By
+Sheaves on Stacks, Lemma
+\ref{stacks-sheaves-lemma-surjective-flat-locally-finite-presentation}
+there exists an \'etale covering $\{x_i \to x\}_{i \in I}$
+such that each $x_i$ lifts to an object $u_i$ of $(\Sch/U)_{\acute{e}tale}$.
+This just means that $x$, $x_i$ live over a schemes $V$, $V_i$, that
+$\{V_i \to V\}$ is an \'etale covering, and that $x_i$ comes from
+a morphism $u_i : V_i \to U$. The restriction
+$x_i^*\mathcal{F}|_{V_{i, \acute{e}tale}}$ is equal to the restriction
+of $g^*\mathcal{F}$ to $V_{i, \acute{e}tale}$ (by compatibility of
+pullback with composition). Hence $x^*\mathcal{F}|_{V_{\acute{e}tale}}$
+is a sheaf on the small \'etale site of $V$ which is quasi-coherent
+when restricted to $V_{i, \acute{e}tale}$ for each $i$.
+This implies that it is quasi-coherent (as desired), for example by
+Properties of Spaces, Lemma
+\ref{spaces-properties-lemma-characterize-quasi-coherent}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-pushforward-locally-quasi-coherent}
+Let $g : \mathcal{X} \to \mathcal{Y}$ be a quasi-compact and
+quasi-separated morphism of algebraic stacks. Let 
+$\mathcal{F}$ be a locally quasi-coherent
+$\mathcal{O}_\mathcal{X}$-module. Then $R^ig_*\mathcal{F}$
+(computed in the \'etale topology) is
+a locally quasi-coherent $\mathcal{O}_\mathcal{Y}$-module.
+\end{lemma}
+
+\begin{proof}
+By
+Sheaves on Stacks, Lemma
+\ref{stacks-sheaves-lemma-base-change-higher-direct-images}
+taking higher direct images commutes with base change.
+Hence using
+Lemma \ref{lemma-check-lqc-on-etale-covering}
+we may assume that $\mathcal{Y}$ is representable by a scheme.
+Using the same lemma once more, we see that
+the question is Zariski local on $\mathcal{Y}$, hence we may assume that
+$\mathcal{Y}$ is representable by an affine scheme. Since $g$ is
+quasi-compact this implies that also $\mathcal{X}$ is quasi-compact.
+Thus we may choose a surjective smooth morphism
+$f : \mathcal{U} \to \mathcal{X}$ where $\mathcal{U}$ is representable
+by an affine scheme.
+
+\medskip\noindent
+In this situation we have the spectral sequence
+$$
+E_2^{p, q} = R^q(g \circ f_p)_*f_p^{-1}\mathcal{F}
+\Rightarrow
+R^{p + q}g_*\mathcal{F}
+$$
+of
+Sheaves on Stacks, Proposition
+\ref{stacks-sheaves-proposition-smooth-covering-compute-direct-image}.
+Since $\textit{LQCoh}(\mathcal{O}_\mathcal{Y})$ is a Serre subcategory
+of
+$\textit{Mod}(\mathcal{Y}_{\acute{e}tale}, \mathcal{O}_\mathcal{Y})$
+(see
+Sheaves on Stacks, Lemma \ref{stacks-sheaves-lemma-lqc-colimits})
+it suffices to prove that the higher direct images of a locally
+quasi-coherent module under the morphisms
+$$
+\mathcal{U}_n =
+\mathcal{U} \times_\mathcal{X} \ldots \times_\mathcal{X} \mathcal{U}
+\longrightarrow
+\mathcal{Y}
+$$
+are locally quasi-coherent. The algebraic spaces $\mathcal{U}_n$
+are quasi-compact and quasi-separated by
+Morphisms of Stacks, Lemma
+\ref{stacks-morphisms-lemma-quasi-compact-quasi-separated-permanence}.
+This reduces us to the case where $g : \mathcal{X} \to \mathcal{Y}$
+is representable by algebraic spaces.
+
+\medskip\noindent
+In case $f$ is quasi-compact, quasi-separated, and representable by algebraic
+spaces, choose any object $y$ of $\mathcal{Y}$ lying over a scheme $V$.
+Consider the cartesian diagram
+$$
+\xymatrix{
+Z \ar[d] \ar[r]_q \ar[d]_p & \mathcal{X} \ar[d]^f \\
+V \ar[r]^y & \mathcal{Y}
+}
+$$
+Thus $Z$ is an algebraic space and $p$ is quasi-compact and quasi-separated.
+By base change (see
+Sheaves on Stacks, Lemma
+\ref{stacks-sheaves-lemma-base-change-higher-direct-images})
+combined with
+Sheaves on Stacks, Lemma \ref{stacks-sheaves-lemma-compare-morphism-cohomology}
+we have
+$$
+R^if_*\mathcal{F}|_{V_{\acute{e}tale}} =
+R^ip_{small, *}\big((q^*\mathcal{F})|_{Z_{\acute{e}tale}}\big)
+$$
+Hence the left hand side is a quasi-coherent sheaf on $V_{\acute{e}tale}$
+by Cohomology on Spaces, Lemma
+\ref{spaces-cohomology-lemma-higher-direct-image}.
+\end{proof}
 
 
 
