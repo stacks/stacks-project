@@ -12,6 +12,7 @@ short_titles = {'introduction' : 'Introduction',\
 'sheaves' : 'Sheaves,',\
 'algebra' : 'Algebra,',\
 'brauer' : 'Brauer Groups,',\
+'smoothing' : 'Smoothing Ring Maps,',\
 'sites' : 'Sites,',\
 'homology' : 'Homology,',\
 'derived' : 'Derived Categories,',\
