@@ -420,6 +420,23 @@ the image of $f_j$ in $R'[x_1, \ldots, x_n]$.
 Hence the result follows from the definitions.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-final-solve}
+Let $R \to A \to \Lambda$ be ring maps with $A$ of finite presentation
+over $R$. Assume that $H_{A/R} \Lambda = \Lambda$. Then there exists
+a factorization $A \to B \to \Lambda$ with $B$ smooth over $R$.
+\end{lemma}
+
+\begin{proof}
+Choose $f_1, \ldots, f_r \in H_{A/R}$ and
+$\lambda_1, \ldots, \lambda_r \in \Lambda$ such that
+$\sum f_i\lambda_i = 1$ in $\Lambda$. Set
+$B = A[x_1, \ldots, x_r]/(f_1x_1 + \ldots + f_rx_r - 1)$
+and define $B \to \Lambda$ by mapping $x_i$ to $\lambda_i$.
+Details omitted.
+\end{proof}
+
+
 
 
 
@@ -654,6 +671,29 @@ Lemma \ref{lemma-smooth-standard-smooth}.
 Then the desired factorization is $A \to B \to C \to B \to \Lambda$.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-standard-smooth-include-generators}
+Let $R \to A$ be a standard smooth ring map.
+Let $E \subset A$ be a finite subset of order $|E| = n$.
+Then there exists a presentation
+$A = R[x_1, \ldots, x_{n + m}]/(f_1, \ldots, f_c)$ with $c \geq n$
+such that $E$ is the set of congruence classes of
+$x_1, \ldots, x_n$.
+\end{lemma}
+
+\begin{proof}
+Choose a presentation $A = R[y_1, \ldots, y_m]/(g_1, \ldots, g_d)$
+such that the image of
+$\det(\partial g_j/\partial y_i)_{j = 1, \ldots, d, i = 1, \ldots, d}$
+is invertible in $A$. Choose an enumerations $E = \{a_1, \ldots, a_n\}$
+and choose $h_i \in R[y_1, \ldots, y_m]$ whose image in $A$ is $a_i$.
+Consider the presentation
+$$
+A = R[x_1, \ldots, x_n, y_1, \ldots, y_m]/
+(x_1 - h_1, \ldots, x_n - h_n, g_1, \ldots, g_d)
+$$
+and set $c = n + d$.
+\end{proof}
 
 
 
@@ -1325,6 +1365,46 @@ of smooth ring maps are smooth
 (Algebra, Lemma \ref{algebra-lemma-compose-smooth}).
 \end{proof}
 
+\begin{lemma}
+\label{lemma-desingularize-lifting-apply}
+Let $R$ be a Noetherian ring. Let $\Lambda$ be an $R$-algebra.
+Let $\pi \in R$ and assume that $\text{Ann}_R(\pi) = \text{Ann}_R(\pi^2)$ and
+$\text{Ann}_\Lambda(\pi) = \text{Ann}_\Lambda(\pi^2)$.
+Let $A \to \Lambda$ be an $R$-algebra map with
+$A$ of finite presentation and assume $\pi$ is strictly standard
+in $A$ over $R$. Let
+$$
+A/\pi^8A \to \bar C \to \Lambda/\pi^8\Lambda
+$$
+be a factorization with $\bar C$ of finite presentation.
+Then we can find a factorization $A \to B \to \Lambda$ with $B$ of finite
+presentation such that $R_\pi \to B_\pi$ is smooth and such that
+$$
+H_{\bar C/(R/\pi^8 R)} \cdot \Lambda/\pi^8\Lambda
+\subset
+\sqrt{H_{B/R} \Lambda} \bmod \pi^8\Lambda.
+$$
+\end{lemma}
+
+\begin{proof}
+Apply Lemma \ref{lemma-lifting} to get $R \to D \to \Lambda$
+with a factorization
+$\bar C/\pi^4\bar C \to D/\pi^4 D \to \Lambda/\pi^4\Lambda$
+such that $R \to D$ is smooth at any prime not containing $\pi$
+and at any prime lying over a prime of $\bar C/\pi^4\bar C$
+where $R/\pi^8 R \to \bar C$ is smooth.
+By Lemma \ref{lemma-desingularize-strictly-standard}
+we can find a finitely presented $R$-algebra $B$ and
+factorizations $A \to B \to \Lambda$ and $D \to B \to \Lambda$
+such that $H_{D/R}B \subset H_{B/R}$. We omit the verification that
+this is a solution to the problem posed by the lemma.
+\end{proof}
+
+
+
+
+
+
 
 
 
@@ -1372,62 +1452,57 @@ element in $B$ over $R$.
 
 \begin{proof}
 We first apply Lemma \ref{lemma-smooth-standard-smooth} to $S^{-1}R \to B'$.
-This allows us to reduce to the case where $B'$ is standard smooth over
-$S^{-1}R$. Write $B' = S^{-1}R[x_1, \ldots, x_n]/(f_1, \ldots, f_c)$ where
-$\det(\partial f_j/\partial y_i)_{j = 1, \ldots, c, i = 1, \ldots, c}$
-is invertible in $B'$, in other words there exists a relation
+Thus we may assume $B'$ is standard smooth over $S^{-1}R$.
+Write $A = R[x_1, \ldots, x_n]/(g_1, \ldots, g_t)$ and say
+$x_i \mapsto \lambda_i$ in $\Lambda$. We may write
+$B' = S^{-1}R[x_1, \ldots, x_{n + m}]/(f_1, \ldots, f_c)$
+for some $c \geq n$ where
+$\det(\partial f_j/\partial x_i)_{j = 1, \ldots, c, i = 1, \ldots, c}$
+is invertible in $B'$ and such that $A \to B'$ is given by $x_i \mapsto x_i$,
+see Lemma \ref{lemma-standard-smooth-include-generators}.
+After multiplying $x_i$, $i > n$ by an element of $S$ and correspondingly
+modifying the equations $f_j$ we may assume $B' \to S^{-1}\Lambda$ maps
+$x_i$ to $\lambda_i/1$ for some $\lambda_i \in \Lambda$ for $i > n$.
+Choose a relation
 $$
 1 =
-a_0 \det(\partial f_j/\partial y_i)_{j = 1, \ldots, c, i = 1, \ldots, c}
+a_0 \det(\partial f_j/\partial x_i)_{j = 1, \ldots, c, i = 1, \ldots, c}
 +
 \sum\nolimits_{j = 1, \ldots, c} a_jf_j
 $$
-for some $a_j \in S^{-1}R[x_1, \ldots, x_n]$. Since each element of $S$ is
-invertible in $B'$ we may (by clearing denominators) assume that
-$f_j, a_j \in R[x_1, \ldots, x_n]$ and that
+for some $a_j \in S^{-1}R[x_1, \ldots, x_{n + m}]$. Since each element of $S$
+is invertible in $B'$ we may (by clearing denominators) assume that
+$f_j, a_j \in R[x_1, \ldots, x_{n + m}]$ and that
 $$
-s_0 = a_0 \det(\partial f_j/\partial y_i)_{j = 1, \ldots, c, i = 1, \ldots, c}
+s_0 = a_0 \det(\partial f_j/\partial x_i)_{j = 1, \ldots, c, i = 1, \ldots, c}
 +
 \sum\nolimits_{j = 1, \ldots, c} a_jf_j
 $$
-for some $s_0 \in S$. Write $A = R[y_1, \ldots, y_m]/(g_1, \ldots, g_t)$.
-Let $s_j \in S$ and $h_j \in R[x_1, \ldots, x_n]$ be such that the image
-of $y_j$ in $B'$ is the class of $h_j/s_j$. Using the Euclidean algorithm
-we see that for some suitably large $N$ we have
+for some $s_0 \in S$. Since $g_j$ maps to zero in
+$S^{-1}R[x_1, \ldots, x_{n + m}]/(f_1, \ldots, x_c)$
+we can find elements $s_j \in S$ such that $s_j g_j = 0$ in
+$R[x_1, \ldots, x_{n + m}]/(f_1, \ldots, f_c)$.
+Since $f_j$ maps to zero in $S^{-1}\Lambda$ we can find $s'_j \in S$
+such that $s'_j f_j(\lambda_1, \ldots, \lambda_{n + m}) = 0$ in
+$\Lambda$. Consider the ring
 $$
-(s_1 \ldots s_m)^Ng_j = G_j(x_1, \ldots, x_n)
-\bmod (s_1y_1 - h_1, \ldots, s_my_m - h_m)
+B = R[x_1, \ldots, x_{n + m}]/
+(s'_1f_1, \ldots, s'_cf_c, g_1, \ldots, g_t)
 $$
-in $R[x_i, y_j]$. Since $R[x_1, \ldots, x_n] \to A \to B'$ maps
-$g_j$ to zero we conclude that $s'_j G_j \in (f_1, \ldots f_c)$ for
-some $s'_j \in S$. Consider the ring
-$$
-B = R[x_1, \ldots, x_n, y_1, \ldots, y_m]/
-(f_j, g_i, s_jy_j - h_j)
-$$
-We claim that $s = s_0(s_1 \ldots s_m)^N s'_1 \ldots s'_m$
+and the factorization $A \to B \to \Lambda$ with $B \to \Lambda$ given by
+$x_i \mapsto \lambda_i$. We claim that $s = s_0s_1 \ldots s_ts'_1 \ldots s'_c$
 is strictly standard in $B$ over $R$ which finishes the proof.
-Namely we will use the equations $f_1, \ldots, f_c, s_1y_1 - h_1, \ldots,
-s_my_m - h_m$ and the coordinates $x_1, \ldots, x_c, y_1, \ldots, x_m$.
-First note that the determinant of the matrix
+Namely, $s_j g_j \in (f_1, \ldots, f_c)$ and hence
+$sg_j \in (s'_1f_1, \ldots, s'_cf_c)$. Finally, we have
 $$
-\left(
-\begin{matrix}
-\partial f_j/\partial x_i & \partial (s_jy_j - h_j) / \partial x_i \\
-0 & \partial (s_jy_j - h_j) / \partial y_k
-\end{matrix}
-\right)
+a_0\det(\partial s'_jf_j/\partial x_i)_{j = 1, \ldots, c, i = 1, \ldots, c}
++
+\sum\nolimits_{j = 1, \ldots, c}
+(s'_1 \ldots \hat{s'_j} \ldots s'_c) a_j s'_jf_j
 =
-\left(
-\begin{matrix}
-\partial f_j/\partial x_i & {*} \\
-0 & s_j \delta_{jk}
-\end{matrix}
-\right)
+s_0s'_1\ldots s'_c
 $$
-times $a_0$ is equal to $s_0s_1 \ldots s_m$ hence divides $s$.
-Finally, the condition $s g_j \in (f_1, \ldots, f_c, s_1y_1 - h_1, \ldots,
-s_my_m - h_m)$ follows from our choice of $s$.
+which divides $s$ as desired.
 \end{proof}
 
 \begin{lemma}
@@ -1492,6 +1567,180 @@ which finishes the proof.
 
 
 
+
+
+
+
+
+
+\section{Local tricks}
+\label{section-local}
+
+
+\begin{situation}
+\label{situation-local}
+We are given a Noetherian ring $R$ and an $R$-algebra map $A \to \Lambda$
+and a prime $\mathfrak q \subset \Lambda$. We assume $A$ is of
+finite presentation over $R$. In this situation we denote
+$\mathfrak h_A = \sqrt{H_{A/R} \Lambda}$.
+\end{situation}
+
+\noindent
+Let $R \to A \to \Lambda \supset \mathfrak q$ be as in
+Situation \ref{situation-local}. We say
+{\it $R \to A \to \Lambda \supset \mathfrak q$
+can be resolved} if there exists a factorization $A \to B \to \Lambda$
+with $B$ of finite presentation and
+$\mathfrak h_A \subset \mathfrak h_B \not \subset \mathfrak q$.
+In this case we will call the factorization $A \to B \to \Lambda$
+a {\it resolution of $R \to A \to \Lambda \supset \mathfrak q$}.
+
+\begin{lemma}
+\label{lemma-lift-solution}
+Let $R \to A \to \Lambda \supset \mathfrak q$ be as in
+Situation \ref{situation-local}. Let $r \geq 1$ and
+$\pi_1, \ldots, \pi_r \in R$ map to elements of $\mathfrak q$. Assume
+\begin{enumerate}
+\item for $i = 1, \ldots, r$ we have
+$$
+\text{Ann}_{R/(\pi_1^8, \ldots, \pi_{i - 1}^8)R}(\pi_i)
+=
+\text{Ann}_{R/(\pi_1^8, \ldots, \pi_{i - 1}^8)R}(\pi_i^2)
+$$
+and
+$$
+\text{Ann}_{\Lambda/(\pi_1^8, \ldots, \pi_{i - 1}^8)\Lambda}(\pi_i)
+=
+\text{Ann}_{\Lambda/(\pi_1^8, \ldots, \pi_{i - 1}^8)\Lambda}(\pi_i^2)
+$$
+\item for $i = 1, \ldots, r$ the element $\pi_i$ maps to a strictly
+standard element in $A$ over $R$.
+\end{enumerate}
+Then, if
+$$
+R/(\pi_1^8, \ldots, \pi_r^8)R \to A/(\pi_1^8, \ldots, \pi_r^8)A
+\to \Lambda/(\pi_1^8, \ldots, \pi_r^8)\Lambda \supset
+\mathfrak q/(\pi_1^8, \ldots, \pi_r^8)\Lambda
+$$
+can be resolved, so can $R \to A \to \Lambda \supset \mathfrak q$.
+\end{lemma}
+
+\begin{proof}
+We are going to prove this by induction on $r$.
+
+\medskip\noindent
+The case $r = 1$. Here the assumption is that there exists a
+factorization $A/\pi_1^8 \to \bar C \to \Lambda/\pi_1^8$
+which resolves the situation modulo $\pi_1^8$. Conditions (1) and
+(2) are the assumptions needed to apply
+Lemma \ref{lemma-desingularize-lifting-apply}.
+Thus we can ``lift'' the resolution $\bar C$
+to a resolution of $R \to A \to \Lambda \supset \mathfrak q$.
+
+\medskip\noindent
+The case $r > 1$. In this case we apply the induction hypothesis for $r - 1$
+to the situation
+$R/\pi_1^8 \to A/\pi_1^8 \to \Lambda/\pi_1^8
+\supset \mathfrak q/\pi_1^8\Lambda$.
+Note that property (2) is preserved by
+Lemma \ref{lemma-strictly-standard-base-change}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-delocalize-weak}
+Let $R \to A \to \Lambda \supset \mathfrak q$ be as in
+Situation \ref{situation-local}. Let $\mathfrak p = R \cap \mathfrak q$.
+Assume that $\mathfrak q$ is minimal over $\mathfrak h_A$ and that
+$R_\mathfrak p \to A_\mathfrak p \to \Lambda_\mathfrak q
+\supset \mathfrak q\Lambda_\mathfrak q$ can be resolved.
+Then we can find a factorization $A \to C \to \Lambda$ such
+that $H_{C/R} \Lambda \not \subset \mathfrak q$.
+\end{lemma}
+
+\begin{proof}
+Let $A_\mathfrak p \to C \to \Lambda_\mathfrak q$ be a resolution of
+$R_\mathfrak p \to A_\mathfrak p \to \Lambda_\mathfrak q
+\supset \mathfrak q\Lambda_\mathfrak q$. By our assumption
+that $\mathfrak q$ is minimal over $\mathfrak h_A$ this
+means that $H_{C/R_\mathfrak p} \Lambda_\mathfrak q = \Lambda_\mathfrak q$.
+By Lemma \ref{lemma-final-solve}
+we may assume that $C$ is smooth over $\Lambda_\mathfrak p$.
+By Lemma \ref{lemma-smooth-standard-smooth} we may assume that
+$C$ is strictly standard over $R_\mathfrak p$.
+Write $A = R[x_1, \ldots, x_n]/(g_1, \ldots, g_t)$ and say
+$A \to \Lambda$ is given by $x_i \mapsto \lambda_i$.
+Write $C = R_\mathfrak p[x_1, \ldots, x_{n + m}]/(f_1, \ldots, f_c)$
+for some $c \geq n$ such that $A \to C$ maps $x_i$ to $x_i$ and such that
+$\det(\partial f_j/\partial x_i)_{j = 1, \ldots, c, i = 1, \ldots, c}$
+is invertible in $C$, see
+Lemma \ref{lemma-standard-smooth-include-generators}.
+After clearing denominators we may assume
+$f_1, \ldots, f_c$ are elements of $R[x_1, \ldots, x_{n + m}]$.
+Of course
+$\det(\partial f_j/\partial x_i)_{j = 1, \ldots, c, i = 1, \ldots, c}$
+is not invertible in $R[x_1, \ldots, x_{n + m}]/(f_1, \ldots, f_c)$
+but it becomes invertible after inverting some element $s_0 \in R$,
+$s_0 \not \in \mathfrak p$.
+As $g_j$ maps to zero under $R[x_1, \ldots, x_n] \to A \to C$
+we can find $s_j \in R$, $s_j \not \in \mathfrak p$ such that
+$s_j g_j$ is zero in $R[x_1, \ldots, x_{n + m}]/(f_1, \ldots, f_c)$.
+Write $f_j = F_j(x_1, \ldots, x_{n + m}, 1)$
+for some polynomial
+$F_j \in R[x_1, \ldots, x_n, X_{n + 1}, \ldots, X_{n + m + 1}]$
+homogeneous in $X_{n + 1}, \ldots, X_{n + m + 1}$.
+Pick $\lambda_{n + i} \in \Lambda$, $i = 1, \ldots, m + 1$ with
+$\lambda_{n + m + 1} \not \in \mathfrak q$ such that $x_{n + i}$ maps to
+$\lambda_{n + i}/\lambda_{n + m + 1}$ in $\Lambda_\mathfrak q$.
+Then
+\begin{align*}
+F_j(\lambda_1, \ldots, \lambda_{n + m + 1})
+& =
+(\lambda_{n + m + 1})^{\deg(F_j)} F_j(\lambda_1, \ldots, \lambda_n,
+\frac{\lambda_{n + 1}}{\lambda_{n + m + 1}}, \ldots,
+\frac{\lambda_{n + m}}{\lambda_{n + m + 1}}, 1) \\
+& =
+(\lambda_{n + m + 1})^{\deg(F_j)} f_j(\lambda_1, \ldots, \lambda_n,
+\frac{\lambda_{n + 1}}{\lambda_{n + m + 1}}, \ldots,
+\frac{\lambda_{n + m}}{\lambda_{n + m + 1}}) \\
+& = 0
+\end{align*}
+in $\Lambda_\mathfrak q$. Thus we can find
+$\lambda_0 \in \Lambda$, $\lambda_0 \not \in \mathfrak q$ such that
+$\lambda_0 F_j(\lambda_1, \ldots, \lambda_{n + m + 1}) = 0$
+in $\Lambda$. Now we set $B$ equal to
+$$
+R[x_0, \ldots, x_{n + m + 1}]/
+(g_1, \ldots, g_t, x_0F_1(x_1, \ldots, x_{n + m + 1}), \ldots,
+x_0F_c(x_1, \ldots, x_{n + m + 1}))
+$$
+which we map to $\Lambda$ by mapping $x_i$ to $\lambda_i$.
+Let $b$ be the image of $x_0 x_1 s_0 s_1 \ldots s_t$ in $B$.
+Then $B_b$ is isomorphic to
+$$
+R_{s_0s_1}[x_0, x_1, \ldots, x_{n + m + 1}, 1/x_0x_{n + m + 1}]/
+(f_1, \ldots, f_c)
+$$
+which is smooth over $R$ by construction.
+Since $b$ does not map to an element of $\mathfrak q$, we win.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-delocalize-height-zero}
+Let $R \to A \to \Lambda \supset \mathfrak q$ be as in
+Situation \ref{situation-local}. Let $\mathfrak p = R \cap \mathfrak q$.
+Assume
+\begin{enumerate}
+\item $\mathfrak q$ is minimal over $\mathfrak h_A$,
+\item $R_\mathfrak p \to A_\mathfrak p \to \Lambda_\mathfrak q
+\supset \mathfrak q\Lambda_\mathfrak q$ can be resolved, and
+\item $\dim(\Lambda_\mathfrak q) = 0$.
+\end{enumerate}
+Then $R \to A \to \Lambda \supset \mathfrak q$ can be resolved.
+\end{lemma}
+
+\begin{proof}
+TO BE ADDED SOON.
+\end{proof}
 
 
 
