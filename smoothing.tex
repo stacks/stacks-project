@@ -27,18 +27,30 @@ This theorem is due to Popescu, see \cite{popescu-letter}.
 A readable exposition of Popescu's proof was given by Richard Swan,
 see \cite{swan} who used notes by Andr\'e and a paper of Ogoma, see
 \cite{Ogoma}.
-We follow Swan's exposition.
 
 \medskip\noindent
-Here is a definition due to Artin.
-Let $A$ be a henselian Noetherian local ring. We say $A$ has the
-{\it approximation property} if for any
-$f_1, \ldots, f_m \in A[x_1, \ldots, x_n]$
-the system of equations
+Our exposition follows Swan's, but we first prove an intermediate result
+which let's us work in a slightly simpler situation. Here is an overview.
+We first solve the following ``lifting problem'': A flat infinitesimal
+deformation of a filtered colimit of smooth algebras is a filtered colimit
+of smooth algebras. This result essentially says that it suffices to prove
+the main theorem for maps between reduced Noetherian rings. Next we prove
+two very clever lemmas called the ``lifting lemma'' and the
+``desingularization lemma''. We show that these lemmas combined
+reduce the main theorem to proving a Noetherian, geometrically regular
+$k$-algebra $\Lambda$ is a filtered limit of smooth $k$-algebras.
+Next, we discuss the necessary local tricks that go into the
+Popescu-Ogoma-Swan-Andr\'e proof. Finally, in the last three sections
+we give the proof.
+
+\medskip\noindent
+We end this introduction with some pointers to references.
+Let $A$ be a henselian Noetherian local ring.
+We say $A$ has the {\it approximation property} if for any
+$f_1, \ldots, f_m \in A[x_1, \ldots, x_n]$ the system of equations
 $f_1 = 0, \ldots, f_m = 0$ has a solution in the completion
-of $A$ if and only if it has a solution in $A$.
-
-\medskip\noindent
+of $A$ if and only if it has a solution in $A$. This definition
+is due to Artin.
 Artin first proved the approximation property for analytic systems of
 equations, see \cite{Artin-Analytic-Approximation}.
 In \cite{Artin-Algebraic-Approximation} Artin proved the
@@ -2104,7 +2116,8 @@ Then $k \to A \to \Lambda \supset \mathfrak q$ can be resolved.
 \end{lemma}
 
 \begin{proof}
-Set $d = \dim \Lambda_\mathfrak q$. Choose $n > 0$ such that
+Set $d = \dim \Lambda_\mathfrak q$. Set $R = k[x_1, \ldots, x_d]$.
+Choose $n > 0$ such that
 $\mathfrak q^n\Lambda_\mathfrak q \subset \mathfrak h_A\Lambda_\mathfrak q$
 which is possible as $\mathfrak q$ is minimal over $\mathfrak h_A$.
 Choose generators $a_1, \ldots, a_r$ of $H_{A/R}$. Set
@@ -2153,7 +2166,8 @@ for $e = 8c$. By
 Lemma \ref{lemma-delocalize-height-zero}
 it suffices to resolve this after localizing at $\mathfrak q$.
 But since $x_1, \ldots, x_d$ map to a regular sequence
-in $\Lambda_\mathfrak q$ we see that
+in $\Lambda_\mathfrak q$ we see that $R \to \Lambda$ is flat, see
+Algebra, Lemma \ref{algebra-lemma-flat-over-regular}. Hence
 $$
 R/(x_1^e, \ldots, x_d^e) \to 
 \Lambda_\mathfrak q/(\pi_1^e, \ldots, \pi_d^e)
@@ -2181,6 +2195,113 @@ In this section we explain how to solve a local problem in the case
 of an inseparable residue field extension.
 
 \begin{lemma}
+\label{lemma-helper}
+Let $k$ be a field of characteristic $p > 0$.
+Let $(\Lambda, \mathfrak m, K)$ be an Artinian local $k$-algebra.
+Assume that $\dim H_1(L_{K/k}) < \infty$.
+Then $\Lambda$ is a filtered colimit of Artinian
+local $k$-algebras $A$ with each map $A \to \Lambda$ flat, with
+$\mathfrak m_A \Lambda = \mathfrak m$, and with
+$A$ essentially of finite type over $k$.
+\end{lemma}
+
+\begin{proof}
+Note that the flatness of $A \to \Lambda$ implies that $A \to \Lambda$
+is injective, so the lemma really tells us that $\Lambda$ is a
+directed union of these types of subrings $A \subset \Lambda$.
+Let $n$ be the minimal integer such that $\mathfrak m^n = 0$.
+We will prove this lemma by induction on $n$. The case $n = 1$ is clear
+as a field extension is a union of finitely generated field extensions.
+
+\medskip\noindent
+Pick $\lambda_1, \ldots, \lambda_d \in \mathfrak m$ which generate
+$\mathfrak m$. As $K$ is formally smooth over $\mathbf{F}_p$ (see
+Algebra, Lemma \ref{algebra-lemma-formally-smooth-extensions-easy}) we can
+find a ring map $\sigma : K \to \Lambda$ which is a section of the
+quotient map $\Lambda \to K$. In general $\sigma$ is {\bf not}
+a $k$-algebra map. Given $\sigma$ we define
+$$
+\Psi_\sigma : K[x_1, \ldots, x_d] \longrightarrow \Lambda
+$$
+using $\sigma$ on elements of $K$ and mapping $x_i$ to $\lambda_i$.
+Claim: there exists a $\sigma : K \to \Lambda$
+and a subfield $k \subset F \subset K$ finitely generated over $k$
+such that the image of $k$ in $\Lambda$ is contained in
+$\Psi_\sigma(F[x_1, \ldots, x_d])$.
+
+\medskip\noindent
+We will prove the claim by induction on the least integer $n$ such that
+$\mathfrak m^n = 0$. It is clear for $n = 1$. If $n > 1$ set
+$I = \mathfrak m^{n - 1}$ and $\Lambda' = \Lambda/I$.
+By induction we may assume
+given $\sigma' : K \to \Lambda'$ and $k \subset F' \subset K$ finitely
+generated such that the image of $k \to \Lambda \to \Lambda'$
+is contained in $A' = \Psi_{\sigma'}(F'[x_1, \ldots, x_d])$.
+Denote $\tau' : k \to A'$ the induced map.
+Choose a lift $\sigma : K \to \Lambda$ of $\sigma'$ (this is possible
+by the formal smoothness of $K/\mathbf{F}_p$ we mentioned above).
+For later reference we note that we can change $\sigma$ to
+$\sigma + D$ for some derivation $D : K \to I$.
+Set $A = F[x_1, \ldots, x_d]/(x_1, \ldots, x_d)^n$.
+Then $\Psi_\sigma$ induces a ring map
+$\Psi_\sigma : A \to \Lambda$. The composition with the
+quotient map $\Lambda \to \Lambda'$ induces a surjective
+map $A \to A'$ with nilpotent kernel.
+Choose a lift $\tau : k \to A$ of $\tau'$ (possible as $k/\mathbf{F}_p$
+is formally smooth). Thus we obtain two maps $k \to \Lambda$, namely
+$\Psi_\sigma \circ \tau : k \to \Lambda$ and the given map $i : k \to \Lambda$.
+These maps agree modulo $I$, whence the difference is a
+derivation $\theta = i - \Psi_\sigma \circ \tau : k \to I$.
+Note that if we change $\sigma$ into $\sigma + D$ then we change
+$\theta$ into $\theta - D|_k$.
+
+\medskip\noindent
+Choose a set of elements $\{y_j\}_{j \in J}$ of $k$ whose differentials
+$\text{d}y_j$ form a basis of $\Omega_{k/\mathbf{F}_p}$. The Jacobi-Zariski
+sequence for $\mathbf{F}_p \subset k \subset K$ is
+$$
+0 \to H_1(L_{K/k}) \to \Omega_{k/\mathbf{F}_p} \otimes K \to
+\Omega_{K/\mathbf{F}_p} \to \Omega_{K/k} \to 0
+$$
+As $\dim H_1(L_{K/k}) < \infty$ we can find a finite subset $J_0 \subset J$
+such that the image of the first map is contained in
+$\bigoplus_{j \in J_0} K\text{d}y_j$. Hence the elements
+$\text{d}y_j$, $j \in J \setminus J_0$ map to $K$-linearly independent
+elements of $\Omega_{K/\mathbf{F}_p}$. Therefore we can choose
+a $D : K \to I$ such that $\theta - D|_k = \xi \circ \text{d}$
+where $\xi$ is a composition
+$$
+\Omega_{k/\mathbf{F}_p} = \bigoplus\nolimits_{j \in J} k \text{d}y_j
+\longrightarrow \bigoplus\nolimits_{j \in J_0} k \text{d}y_j
+\longrightarrow I
+$$
+Let $f_j = \xi(\text{d}y_j) \in I$ for $j \in J_0$.
+Change $\sigma$ into $\sigma + D$ as above. Then we see that
+$\theta(a) = \sum_{j \in J_0} a_j f_j$ for $a \in k$ where
+$\text{d}a = \sum a_j \text{d}y_j$ in $\Omega_{k/\mathbf{F}_p}$.
+Note that $I$ is generated by the monomials
+$\lambda^E = \lambda_1^{e_1} \ldots \lambda_d^{e_d}$ of
+total degree $|E| = \sum e_i = n - 1$ in $\lambda_1, \ldots, \lambda_d$.
+Write $f_j = \sum_E c_{j, E} \lambda^E$ with $c_{j, E} \in K$.
+Replace $F'$ by $F = F'(c_{j, E})$. Then the claim holds.
+
+\medskip\noindent
+Choose $\sigma$ and $F$ as in the claim. The kernel of $\Psi_\sigma$ is
+generated by finitely many polynomials
+$g_1, \ldots, g_t \in K[x_1, \ldots, x_d]$ and we may assume their
+coefficients are in $F$ after enlarging $F$ by adjoining finitely many
+elements. In this case it is clear that the map
+$A = F[x_1, \ldots, x_d]/(g_1, \ldots, g_t) \to
+K[x_1, \ldots, x_d]/(g_1, \ldots, g_t) = \Lambda$ is flat.
+By the claim $A$ is a $k$-subalgebra of $\Lambda$.
+It is clear that $\Lambda$ is the filtered colimit of these
+algebras, as $K$ is the filtered union of the subfields $F$.
+Finally, these algebras are essentially of finite type over $k$ by
+Algebra, Lemma
+\ref{algebra-lemma-essentially-of-finite-type-into-artinian-local}.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-solution-modulo}
 Let $k$ be a field of characteristic $p > 0$.
 Let $\Lambda$ be a Noetherian geometrically regular $k$-algebra.
@@ -2196,8 +2317,9 @@ $\mathfrak q\Lambda_\mathfrak q = \mathfrak p \Lambda_\mathfrak q$
 and $k[y_1, \ldots, y_m]_\mathfrak p \to \Lambda_\mathfrak q$ is flat,
 \item there is a factorization by homomorphisms of local Artinian rings
 $$
-k[y_1, \ldots, y_m]_\mathfrak p/\mathfrak p^n \to
-D \to \Lambda_\mathfrak q/\mathfrak q^n
+k[y_1, \ldots, y_m]_\mathfrak p/\mathfrak p^n k[y_1, \ldots, y_m]_\mathfrak p
+\to D \to
+\Lambda_\mathfrak q/\mathfrak q^n\Lambda_\mathfrak q
 $$
 where the first arrow is essentially smooth and the second is flat,
 \item $E$ is contained in $D$ modulo $\mathfrak q^n$.
@@ -2205,7 +2327,50 @@ where the first arrow is essentially smooth and the second is flat,
 \end{lemma}
 
 \begin{proof}
-Omitted.
+Set $\bar \Lambda = \Lambda_\mathfrak q/\mathfrak q^n\Lambda_\mathfrak q$.
+Note that $\dim H_1(L_{\kappa(\mathfrak q)/k}) < \infty$ by
+More on Algebra, Proposition
+\ref{more-algebra-proposition-characterization-geometrically-regular}.
+Pick $A \subset \bar \Lambda$ containing $E$ such that $A$ is local
+Artinian, essentially of finite type over $k$, the map
+$A \to \bar \Lambda$ is flat, and $\mathfrak m_A$ generates the maximal
+ideal of $\bar \Lambda$, see Lemma \ref{lemma-helper}.
+Denote $F = A/\mathfrak m_A$ the residue field so that $k \subset F \subset K$.
+Pick $\lambda_1, \ldots, \lambda_t \in \Lambda$ which map
+to elements of $A$ in $\bar \Lambda$ such that moreover the images
+of $\text{d}\lambda_1, \ldots, \text{d}\lambda_t$ form a basis
+of $\Omega_{F/k}$. Consider the map
+$\varphi' : k[y_1, \ldots, y_t] \to \Lambda$ sending $y_j$ to $\lambda_j$.
+Set $\mathfrak p' = (\varphi')^{-1}(\mathfrak q)$. By
+More on Algebra, Lemma
+\ref{more-algebra-lemma-geometrically-regular-over-field}
+the ring map $k[y_1, \ldots, y_t]_{\mathfrak p'} \to \Lambda_\mathfrak q$
+is flat and $\Lambda_\mathfrak q/\mathfrak p' \Lambda_\mathfrak q$ is
+regular. Thus we can choose further elements
+$\lambda_{t + 1}, \ldots, \lambda_m \in \Lambda$
+which map into $A \subset \bar \Lambda$ and which
+map to a regular system of parameters of
+$\Lambda_\mathfrak q/\mathfrak p' \Lambda_\mathfrak q$.
+We obtain $\varphi : k[y_1, \ldots, y_m] \to \Lambda$ having
+property (1) such that
+$k[y_1, \ldots, y_m]_\mathfrak p/\mathfrak p^n k[y_1, \ldots, y_m]_\mathfrak p
+\to \bar\Lambda$
+factors through $A$. Thus
+$k[y_1, \ldots, y_m]_\mathfrak p/\mathfrak p^n k[y_1, \ldots, y_m]_\mathfrak p
+\to A$ is flat by
+Algebra, Lemma \ref{algebra-lemma-flatness-descends-more-general}.
+By construction the residue field extension $\kappa(\mathfrak p) \subset F$
+is finitely generated and $\Omega_{F/\kappa(\mathfrak p)} = 0$. Hence it is
+finite separable by
+More on Algebra, Lemma \ref{more-algebra-lemma-cartier-equality}.
+Thus
+$k[y_1, \ldots, y_m]_\mathfrak p/\mathfrak p^n k[y_1, \ldots, y_m]_\mathfrak p
+\to A$
+is finite by Algebra, Lemma
+\ref{algebra-lemma-essentially-of-finite-type-into-artinian-local}.
+Finally, we conclude that it is \'etale by
+Algebra, Lemma \ref{algebra-lemma-characterize-etale}.
+Since an \'etale ring map is certainly essentially smooth we win.
 \end{proof}
 
 \begin{lemma}
@@ -2250,7 +2415,7 @@ We will justify each of these steps below.
 \item
 \label{item-power}
 Pick an integer $N$ such that
-$\mathfrak q^N \subset \mathfrak h_A\Lambda_\mathfrak q$.
+$\mathfrak q^N\Lambda_\mathfrak q \subset \mathfrak h_A\Lambda_\mathfrak q$.
 \item
 \label{item-generators}
 Pick generators $a_1, \ldots, a_t \in A$ of the ideal $H_{A/R}$.
@@ -2268,19 +2433,36 @@ Lemma \ref{lemma-improve-presentation}.
 We also obtain a section $C \to B$.
 \item
 \label{item-strictly-standard}
-Choose $e > 0$ divisible by $8$ such that each $x_i^e$
-is strictly standard in $C$ over $k[x_1, \ldots, x_d]$,
+Choose $c > 0$ such that each $x_i^c$
+is strictly standard in $C$ over $k[x_1, \ldots, x_d]$.
+\item
+\label{item-set-n}
+Set $n = N + dc$ and $e = 8c$.
+\item
+\label{item-set-E}
+Let $E \subset \Lambda_\mathfrak q/\mathfrak q^n\Lambda_\mathfrak q$
+be the images of generators of $A$ as a $k$-algebra.
 \item
 \label{item-NP}
-Choose an integer $m$ and a ring map
-$\varphi : k[y_1, \ldots, y_m] \to \Lambda$ as in
-Lemma \ref{lemma-solution-modulo} with $n = N + dc$ and $E$
-a set consisting of the images of a set of generators for $A$ over $R$.
+Choose an integer $m$ and a $k$-algebra map
+$\varphi : k[y_1, \ldots, y_m] \to \Lambda$
+and a factorization
+$$
+k[y_1, \ldots, y_m]_\mathfrak p/\mathfrak p^n k[y_1, \ldots, y_m]_\mathfrak p
+\to D \to
+\Lambda_\mathfrak q/\mathfrak q^n\Lambda_\mathfrak q
+$$
+such that the first arrow is essentially smooth, the second is flat,
+$E$ is contained in $D$, with $\mathfrak p = \varphi^{-1}(\mathfrak q)$
+the map $k[y_1, \ldots, y_m]_\mathfrak p \to \Lambda_\mathfrak q$ is
+flat, and $\mathfrak p \Lambda_\mathfrak q = \mathfrak q \Lambda_\mathfrak q$.
 \item
 \label{item-choose-pii}
-Set $\mathfrak p = \varphi^{-1}(\mathfrak q)$. Choose
-$\pi_1, \ldots, \pi_d \in \mathfrak p$ which map to a
-basis of $\mathfrak p \otimes \kappa(\mathfrak p)$.
+Choose $\pi_1, \ldots, \pi_d \in \mathfrak p$ which map to a
+regular system of parameters of $k[y_1, \ldots, y_m]_\mathfrak p$.
+\item
+\label{item-set-R}
+Let $R = k[y_1, \ldots, y_m, t_1, \ldots, t_m]$ and $\gamma_i = \pi_i t_i$.
 \item
 \label{item-modify-pii}
 If necessary modify the choice of $\pi_i$ such that
@@ -2290,27 +2472,24 @@ $$
 =
 \text{Ann}_{R/(\gamma_1^e, \ldots, \gamma_{i - 1}^e)R}(\gamma_i^2)
 $$
-where $R = k[y_1, \ldots, y_m, t_1, \ldots, t_m]$ and $\gamma_i = \pi_i t_i$,
 \item
 \label{item-residual-solution}
-Choose a factorization
-$k[y_1, \ldots, y_m]_\mathfrak p/\mathfrak p^n \to D \to
-\Lambda_\mathfrak q/\mathfrak q^n$
-such that $D$ is essentially smooth over
-$k[y_1, \ldots, y_m]_\mathfrak p/\mathfrak p^n$,
-the map $D \to \Lambda_\mathfrak q/\mathfrak q^n$
-is injective and there exist $\delta_1, \ldots, \delta_d \in \Lambda$,
-$\delta_i \not \in \mathfrak q$ which map to elements of $D$
-in the quotient by $\mathfrak q^n$,
-there is a map $B \to \Lambda$ with
-$x_i \mapsto \pi'_i = \pi_i \delta_i$
-and for $i = 1, \ldots, d$ we have
+Choose
+$D \to D' \to \Lambda_\mathfrak q/\mathfrak q^n\Lambda_\mathfrak q$
+such that $D \to D'$ is essentially smooth,
+the map $D' \to \Lambda_\mathfrak q/\mathfrak q^n\Lambda_\mathfrak q$
+is flat and there exist $\delta_1, \ldots, \delta_d \in \Lambda$,
+$\delta_i \not \in \mathfrak q$ which map to elements of $D'$
+in the quotient by $\mathfrak q^n$, there is a map $B \to \Lambda$ with
+$x_i \mapsto \pi'_i = \pi_i \delta_i$ and for $i = 1, \ldots, d$ we have
 $$
 \text{Ann}_{\Lambda/({\pi'}_1^e, \ldots, {\pi'}_{i - 1}^e)\Lambda}({\pi'}_i)
 =
 \text{Ann}_{\Lambda/({\pi'}_1^e, \ldots, {\pi'}_{i - 1}^e)\Lambda}({\pi'}_i^2).
 $$
-\item Map $R \to \Lambda$ by $\varphi$ on $k[y_1, \ldots, y_m]$
+\item
+\label{item-set-map-R}
+Map $R \to \Lambda$ by $\varphi$ on $k[y_1, \ldots, y_m]$
 and by sending $t_i$ to $\delta_i$. Further introduce a map
 $$
 k[x_1, \ldots, x_d]
@@ -2318,72 +2497,116 @@ k[x_1, \ldots, x_d]
 R = k[y_1, \ldots, y_m, t_1, \ldots, t_d]
 $$
 by sending $x_i$ to $\gamma_i = \pi_i t_i$.
-\item We apply Lemma \ref{lemma-lift-solution} to
+\item
+\label{item-first-solve}
+It suffices to resolve
 $$
 R
 \to
 C \otimes_{k[x_1, \ldots, x_d]} R
 \to
-\Lambda
+\Lambda \supset \mathfrak q
 $$
-the prime ideal $\mathfrak q$ and the elements $\gamma_1, \ldots, \gamma_d$.
-We conclude it suffices to resolve the situation after dividing by the ideal
-$I = (\gamma_1^e, \ldots, \gamma_d^e)$.
-\item We denote
-$\mathfrak r \subset R = k[y_1, \ldots, y_m, t_1, \ldots, t_d]$
+\item
+\label{item-set-I}
+Set $I = (\gamma_1^e, \ldots, \gamma_d^e) \subset R$.
+\item
+\label{item-second-resolve}
+It suffices to resolve
+$$
+R/I
+\to
+C \otimes_{k[x_1, \ldots, x_d]} R/I
+\to
+\Lambda/I\Lambda \supset \mathfrak q/I\Lambda
+$$
+\item
+\label{item-set-r}
+We denote $\mathfrak r \subset R = k[y_1, \ldots, y_m, t_1, \ldots, t_d]$
 the inverse image of $\mathfrak q$.
-\item It suffices to resolve
+\item
+\label{item-third-resolve}
+It suffices to resolve
 $$
 (R/I)_\mathfrak r \to
 C \otimes_{k[x_1, \ldots, x_d]} (R/I)_\mathfrak r \to
 \Lambda_\mathfrak q/I\Lambda_\mathfrak q
+\supset
+\mathfrak q\Lambda_\mathfrak q/I\Lambda_\mathfrak q
 $$
-\item Set $J = (\pi_1^e, \ldots, \pi_d^e)$ in $k[y_1, \ldots, y_m]$.
-\item It suffices to resolve
+\item
+\label{item-fourth-resolve}
+Set $J = (\pi_1^e, \ldots, \pi_d^e)$ in $k[y_1, \ldots, y_m]$.
+\item
+\label{item-fifth-resolve}
+It suffices to resolve
 $$
 (R/JR)_\mathfrak p \to
 C \otimes_{k[x_1, \ldots, x_d]} (R/JR)_\mathfrak p \to
-\Lambda_\mathfrak q/J\Lambda_\mathfrak q.
+\Lambda_\mathfrak q/J\Lambda_\mathfrak q
+\supset
+\mathfrak q\Lambda_\mathfrak q/J\Lambda_\mathfrak q
 $$
-\item It suffices to resolve
+\item
+\label{item-sixth-resolve}
+It suffices to resolve
 $$
 (R/\mathfrak p^nR)_\mathfrak p \to
 C \otimes_{k[x_1, \ldots, x_d]} (R/\mathfrak p^nR)_\mathfrak p \to
 \Lambda_\mathfrak q/\mathfrak q^n\Lambda_\mathfrak q
+\supset
+\mathfrak q\Lambda_\mathfrak q/\mathfrak q^n\Lambda_\mathfrak q
 $$
-\item It suffices to resolve
+\item
+\label{item-seventh-resolve}
+It suffices to resolve
 $$
 (R/\mathfrak p^nR)_\mathfrak p \to
 B \otimes_{k[x_1, \ldots, x_d]} (R/\mathfrak p^nR)_\mathfrak p \to
 \Lambda_\mathfrak q/\mathfrak q^n\Lambda_\mathfrak q
+\supset
+\mathfrak q\Lambda_\mathfrak q/\mathfrak q^n\Lambda_\mathfrak q
 $$
-\item It suffices to find a factorization
+\item
+\label{item-eigth-resolve}
+It suffices to find a factorization
 $$
 B \otimes_{k[x_1, \ldots, x_d]} (R/\mathfrak p^nR)_\mathfrak p
 \to D \to \Lambda_\mathfrak q/\mathfrak q^n\Lambda_\mathfrak q
 $$
-\item Such a factorization exists by our choice of $D$ above.
+\item
+\label{item-done}
+Such a factorization exists by our choice of $D$ above.
 \end{enumerate}
-We now give the justification for each of the steps.
-
-\medskip\noindent
-Items (\ref{item-power}), (\ref{item-generators}),
-(\ref{item-dimension}), (\ref{item-standardizer}),
-(\ref{item-elkik}) are clear.
+We now give the justification for each of the steps, except that we
+skip justifying the steps which just introduce notation.
 
 \medskip\noindent
 Ad (\ref{item-strictly-standard}). Note that $A_{a_i}$ is smooth
 over $k$. Hence $B_{a_j}$, which is isomorphic to a polynomial
-algebra over $A_{a_j}[x_1, \ldots, x_d]$, is smooth over $k[x_1, \ldots, x_d]$.
-Thus $B_{x_i}$ is smooth over $A$. By
-Lemma \ref{lemma-improve-presentation}
+algebra over $A_{a_j}[x_1, \ldots, x_d]$, is smooth over
+$k[x_1, \ldots, x_d]$. Thus $B_{x_i}$ is smooth over $k[x_1, \ldots, x_d]$.
+By Lemma \ref{lemma-improve-presentation}
 we see that $C_{x_i}$ is smooth over $k[x_1, \ldots, x_d]$
 with finite free module of differentials. Hence some power of
 $x_i$ is strictly standard in $C$ over $k[x_1, \ldots, x_n]$
 by Lemma \ref{lemma-compare-standard}.
 
 \medskip\noindent
-To be continued.
+Ad (\ref{item-NP}). This follows by applying Lemma \ref{lemma-solution-modulo}.
+
+\medskip\noindent
+Ad (\ref{item-choose-pii}). Since
+$k[y_1, \ldots, y_m]_\mathfrak p \to \Lambda_\mathfrak q$ is
+flat and $\mathfrak p \Lambda_\mathfrak q = \mathfrak q \Lambda_\mathfrak q$
+by construction
+we see that $\dim(k[y_1, \ldots, y_m]_\mathfrak p) = d$ by
+Algebra, Lemma \ref{algebra-lemma-dimension-base-fibre-equals-total}.
+
+
+
+
+
 \end{proof}
 
 
