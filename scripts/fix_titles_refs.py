@@ -42,6 +42,7 @@ short_titles = {'introduction' : 'Introduction',\
 'more-groupoids' : 'More on Groupoids,',\
 'etale' : '\\\'Etale Morphisms,',\
 'etale-cohomology' : '\\\'Etale Cohomology,',\
+'crystalline' : 'Crystalline Cohomology,',\
 'spaces' : 'Spaces,',\
 'spaces-properties' : 'Properties of Spaces,',\
 'spaces-morphisms' : 'Morphisms of Spaces,',\
