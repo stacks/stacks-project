@@ -32,12 +32,112 @@ crystalline cohomology. A reference is the book \cite{Berthelot}.
 \section{Divided powers}
 \label{section-divided-powers}
 
+\noindent
+In this section we collect some results on divided power rings.
+We will use the convention $0! = 1$ (as empty products should give $1$).
+
+\begin{definition}
+\label{definition-divided-powers}
+Let $A$ be a ring. Let $I$ be an ideal of $A$. A collection of maps
+$\gamma_n : I \to I$, $n > 0$ is called a {\it divided power structure}
+on $I$ if for all $n \geq 0$, $m > 0$, $x, y \in I$, and $a \in A$ we have
 \begin{enumerate}
-\item Define triples $(A, I, \gamma)$. Call them {\it divided power rings}.
-\item Define homomorphisms of divided power rings.
-\item Remarks: $\gamma_p$ is enough $+$ nilideal.
-\item OK, so consider the category of divided power rings $(A, I, \gamma)$.
-I claim this has all limits and all colimits.
+\item $\gamma_1(x) = x$, we also set $\gamma_0(x) = 1$,
+\item $\gamma_n(x)\gamma_m(x) = \frac{(n + m)!}{n! m!} \gamma_{n + m}(x)$,
+\item $\gamma_n(ax) = a^n \gamma_n(x)$,
+\item $\gamma_n(x + y) = \sum_{i = 0, \ldots, n} \gamma_i(x)\gamma_{n - i}(y)$,
+\item $\gamma_n(\gamma_m(x)) = \frac{(nm)!}{n! (m!)^n} \gamma_{nm}(x)$.
+\end{enumerate}
+\end{definition}
+
+\noindent
+Some observations. Note that condition (2) implies that
+$n \gamma_n(x) = \gamma_1(x)\gamma_{n - 1}(x)$. Hence by induction
+and condition (1) we get $n! \gamma_n(x) = x^n$. Thus $\gamma_n(x)$
+is a replacement for $x^n/n!$ in $I$. If $A$ is torsion free as a
+$\mathbf{Z}$-module, then all the other axioms follow from this. 
+Note that the rational numbers $\frac{(n + m)!}{n! m!}$ and
+$\frac{(nm)!}{n! (m!)^n}$ occuring in the definition are in fact integers.
+
+\begin{example}
+\label{example-ideal-generated-by-p}
+Let $p$ be a prime number.
+Let $A$ be a ring such that every integer $n$ not divisible by $p$
+is invertible, i.e., $A$ is a $\mathbf{Z}_{(p)}$-algebra. Then
+$I = pA$ has a canonical divided power structure. Namely, given
+$x = pa \in A$ we set
+$$
+\gamma_n(x) = \frac{p^n}{n!} a^n
+$$
+The reader verifies immediately that $p^n/n!$ is an integer so that
+the definition makes sense. It is a straightforward exercise to
+verify that conditions (1) -- (5) of
+Definition \ref{definition-divided-powers} are satisfied.
+\end{example}
+
+\begin{lemma}
+\label{lemma-need-only-gamma-p}
+Let $p$ be a prime number. Let $A$ be a ring such that every integer $n$
+not divisible by $p$ is invertible, i.e., $A$ is a $\mathbf{Z}_{(p)}$-algebra.
+Let $I \subset A$ be an ideal. Two divided power structures
+$\gamma, \gamma'$ on $I$ are equal if and only if $\gamma_p = \gamma'_p$.
+Moreover, given a map $\delta : I \to I$ such that
+\begin{enumerate}
+\item $p!\delta(x) = x^p$ for all $x \in I$,
+\item $\delta(ax) = a^p\delta(x)$ for all $a \in A$, $x \in I$, and
+\item
+$\delta(x + y) =
+\delta(x) +
+\sum\nolimits_{i + j = p, i,j \geq 1} \frac{x^i}{i!}\frac{y^j}{j!} +
+\delta(y)$ for all $x, y \in I$,
+\end{enumerate}
+then there exists a unique divided power structure $\gamma$ on $I$ such
+that $\gamma_p = \delta$.
+\end{lemma}
+
+\begin{proof}
+If $n$ is not divisible by $p$, then $\gamma_n(x) = c x \gamma_{n - 1}(x)$
+where $c$ is a unit in $\mathbf{Z}_{(p)}$. Moreover,
+$$
+\gamma_{pm}(x) = c \gamma_m(\gamma_p(x))
+$$
+where $c$ is a unit in $\mathbf{Z}_{(p)}$. Thus the first assertion is clear.
+For the second assertion, we can, working backwards, use these equalities
+to define all $\gamma_n$. Then a long and tedious computation shows all
+the axioms are satisfied if $\delta$ satisfies (1), (2), (3).
+Details omitted.
+\end{proof}
+
+\begin{definition}
+\label{definition-divided-power-ring}
+A {\it divided power ring} is a triple $(A, I, \gamma)$ where
+$A$ is a ring, $I \subset A$ is an ideal, and $\gamma = (\gamma_n)_{n \geq 1}$
+is a divided power structure on $I$.
+A {\it homomorphism of divided power rings}
+$\varphi : (A, I, \gamma) \to (B, J, \delta)$ is a ring homomorphism
+$\varphi : A \to B$ such that $\varphi(I) \subset J$ and such that
+$\delta_n(\varphi(x)) = \varphi(\gamma_n(x))$ for all $x \in I$.
+\end{definition}
+
+\begin{lemma}
+\label{lemma-nil}
+Let $p$ be a prime number.
+If $(A, I, \gamma)$ is a divided power ring and $p$ is nilpotent
+in $A$, then $I$ is locally nilpotent.
+\end{lemma}
+
+\begin{proof}
+If $p^N = 0$ in $A$, then for $x \in I$ we have
+$x^{pN} = (pN)!\gamma_N(x) = 0$ because $(pN)!$ is
+divisible by $p^N$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-colimits}
+The category of divided power rings has all limits and colimits.
+\end{lemma}
+
+\begin{proof}
 Empty limit: zero ring (that's weird but we need it).
 Products: Exactly what you think they should be.
 Equalizers: As in rings.
@@ -63,7 +163,10 @@ $$
 \lim_{(B, J, \delta) \in U, f \in F(B, J, \delta)} (B, J, \delta)
 $$
 will be the colimit we wanted to construct.
-\item Universal divided power algebras.
+\end{proof}
+
+\begin{enumerate}
+\item Divided power envelope of an ideal.
 \item The diagonal and the module of differentials. Important!
 \item We probably don't need this, but here it is.
 Berthelot's compatibility condition (weaker than homomorphism
