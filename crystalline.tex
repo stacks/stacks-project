@@ -121,15 +121,17 @@ $\delta_n(\varphi(x)) = \varphi(\gamma_n(x))$ for all $x \in I$.
 
 \begin{lemma}
 \label{lemma-nil}
-Let $p$ be a prime number.
-If $(A, I, \gamma)$ is a divided power ring and $p$ is nilpotent
-in $A$, then $I$ is locally nilpotent.
+Let $p$ be a prime number. Let $(A, I, \gamma)$ be a divided power ring
+and assume $p$ is nilpotent in $A/I$.
+Then $I$ is locally nilpotent if and only if $p$ is nilpotent in $A$.
 \end{lemma}
 
 \begin{proof}
 If $p^N = 0$ in $A$, then for $x \in I$ we have
 $x^{pN} = (pN)!\gamma_N(x) = 0$ because $(pN)!$ is
-divisible by $p^N$.
+divisible by $p^N$. Conversely, assume $I$ is locally nilpotent.
+We've also assumed that $p$ is nilpotent in $A/I$, hence
+$p^r \in I$ for some $r$, hence $p^r$ nilpotent, hence $p$ nilpotent.
 \end{proof}
 
 \begin{lemma}
@@ -284,25 +286,34 @@ Let $p$ be a prime number. Let $(A, I, \gamma)$ be a divided power ring.
 Let $A \to C$ be a ring map with $p$ nilpotent in $C$.
 Assume that $\gamma$ extends to $IC$ (see
 Lemma \ref{lemma-gamma-extends}).
-The (big affine) crystalline site $\text{CRIS}(C/(A, I, \gamma))$
-of $C$ over $(A, I, \gamma)$ as defined in \cite{Berthelot} consists of systems
-$((B, J, \delta), A \to B, C \to B/J)$ where $(B, J, \delta)$ is
-a divided power ring, $p$ is nilpotent in $B$, the structure
-$\delta$ is compatible with $\gamma$, and the diagram
+In this situation, the (big affine) crystalline site of
+$\Spec(C)$ over $\Spec(A)$
+as defined in \cite{Berthelot} 
+is the opposite of the category of systems
+$$
+(B, J, \delta, A \to B, C \to B/J)
+$$
+where
+\begin{enumerate}
+\item $(B, J, \delta)$ is a divided power ring with $p$ nilpotent in $B$,
+\item $\delta$ is compatible with $\gamma$, and
+\item the diagram
 $$
 \xymatrix{
 B \ar[r] & B/J \\
 A \ar[u] \ar[r] & C \ar[u]
 }
 $$
-is commutative. The two conditions
-(a) $\gamma$ extends to $C$, and (b) $\delta$ compatible with $\gamma$
-are used in Berthelot's thesis to insure that
+is commutative.
+\end{enumerate}
+The conditions
+``$\gamma$ extends to $C$ and $\delta$ compatible with $\gamma$''
+are used in \cite{Berthelot} to insure that
 the crystalline cohomology of $\Spec(C)$ is the same as the crystalline
 cohomology of $\Spec(C/IC)$. We will avoid this issue
-by working exclusively with $C$ such that $IC = 0$ (of course there
-will be a price to pay). In this case,
-for a system $((B, J, \delta), A \to B, C \to B/J)$ as above,
+by working exclusively with $C$ such that $IC = 0$\footnote{Of course there
+will be a price to pay.}. In this case,
+for a system $(B, J, \delta, A \to B, C \to B/J)$ as above,
 the commutativity of the displayed diagram above implies $IB \subset J$ and
 compatibility is equivalent to the condition that
 $(A, I, \gamma) \to (B, J, \delta)$ is a homomorphism of divided
@@ -316,6 +327,8 @@ power rings.
 
 \noindent
 In this section we put some algebra related to the crystalline site.
+Note that usually the prime number $p$ will be contained in the
+divided power ideal $I$.
 
 \begin{definition}
 \label{definition-affine-thickening}
@@ -338,6 +351,8 @@ is defined in the obvious way.
 \end{definition}
 
 \noindent
+Note that for a divided power thickening $(B, J, \delta)$ as above
+the ideal $J$ is locally nilpotent, see Lemma \ref{lemma-nil}.
 This category does not have equalizers or fibre products in general.
 It also doesn't have an initial object ($=$ empty colimit) in general.
 
@@ -544,16 +559,206 @@ and everything is clear from the construction.
 
 
 
+\section{Divided power schemes}
+\label{section-divided-power-schemes}
+
+\noindent
+Some remarks on how to globalize the previous notions.
+
+\begin{definition}
+\label{definition-divided-power-structure}
+Let $\mathcal{C}$ be a site. Let $\mathcal{O}$ be a sheaf of rings
+on $\mathcal{C}$. Let $\mathcal{I} \subset \mathcal{O}$ be a
+sheaf of ideals. A {\it divided power structure $\gamma$} on $\mathcal{I}$
+is a sequence of maps $\gamma_n : \mathcal{I} \to \mathcal{I}$, $n \geq 1$
+such that for any object $U$ of $\mathcal{C}$ the triple
+$$
+(\mathcal{O}(U), \mathcal{I}(U), \gamma)
+$$
+is a divided power ring.
+\end{definition}
+
+\noindent
+To be sure this applies in particular to sheaves of rings on
+topological spaces. But it's good to be a little bit more general
+as the structure sheaf of the crystalline site lives on a... site!
+A triple $(\mathcal{C}, \mathcal{I}, \gamma)$ as in the
+definition above is sometimes called a {\it divided power topos}
+in this chapter. Given a second $(\mathcal{C}', \mathcal{I}', \gamma')$ and
+given a morphism of ringed topoi
+$(f, f^\sharp) : (\Sh(\mathcal{C}), \mathcal{O}) \to
+(\Sh(\mathcal{C}'), \mathcal{O}')$
+we say that $(f, f^\sharp)$ induces a {\it morphism of divided
+power topoi} if $f^\sharp(f^{-1}\mathcal{I}') \subset \mathcal{I}$
+and the diagrams
+$$
+\xymatrix{
+f^{-1}\mathcal{I}' \ar[d]_{f^{-1}\gamma'_n} \ar[r]_{f^\sharp} &
+\mathcal{I} \ar[d]^{\gamma_n} \\
+f^{-1}\mathcal{I}' \ar[r]^{f^\sharp} & \mathcal{I}
+}
+$$
+are commutative for all $n \geq 1$. If $f$ comes from a morphism of
+sites induced by a functor $u : \mathcal{C}' \to \mathcal{C}$ then
+this just means that
+$$
+(\mathcal{O}'(U'), \mathcal{I}'(U'), \gamma')
+\longrightarrow
+(\mathcal{O}(u(U')), \mathcal{I}(u(U')), \gamma)
+$$
+is a homomorphism of divided power rings for all $U' \in \Ob(\mathcal{C}')$.
+
+\medskip\noindent
+In the case of schemes we require the divided power ideal to be
+{\bf quasi-coherent}. But apart from this the definition is exactly
+the same as in the case of topoi. Here it is.
+
+\begin{definition}
+\label{definition-divided-power-scheme}
+A {\it divided power scheme} is a triple $(S, \mathcal{I}, \gamma)$
+where $S$ is a scheme, $\mathcal{I}$ is a quasi-coherent sheaf of
+ideals, and $\gamma$ is a divided power structure on $\mathcal{I}$.
+A {\it morphism of divided power schemes}
+$(S, \mathcal{I}, \gamma) \to (S', \mathcal{I}', \gamma')$ is
+a morphism of schemes $f : S \to S'$ such that
+$f^{-1}\mathcal{I}'\mathcal{O}_S \subset \mathcal{I}$ and such that
+$$
+(\mathcal{O}_S(U'), \mathcal{I}(U'), \gamma)
+\longrightarrow
+(\mathcal{O}_{S'}(f^{-1}U'), \mathcal{I}(f^{-1}U'), \gamma)
+$$
+is a homomorphism of divided power rings for all $U' \subset S'$ open.
+\end{definition}
+
+\noindent
+Recall that there is a 1-to-1 correspondence between quasi-coherent
+sheaves of ideals and closed immersions, see
+Morphisms, Section \ref{morphisms-section-closed-immersions}.
+Thus given a divided power scheme $(T, \mathcal{J}, \gamma)$ we
+get a canonical closed immersion $U \to T$ defined by $\mathcal{J}$.
+Conversely, given a closed immersion $U \to T$ and a divided power
+structure $\gamma$ on the sheaf of ideals $\mathcal{J}$ associated
+to $U \to T$ we obtain a divided power scheme $(T, \mathcal{J}, \gamma)$.
+In many situations we only want to consider such triples
+$(U, T, \gamma)$ when the morphism $U \to T$ is a thickening, see
+More on Morphisms, Definition \ref{more-morphisms-definition-thickening}.
+
+\begin{definition}
+\label{definition-divided-power-thickening}
+A triple $(U, T, \gamma)$ as above is called a {\it divided power thickening}
+if $U \to T$ is a thickening.
+\end{definition}
+
+\noindent
+We make the following observation. Suppose that $(U, T, \gamma)$
+is triple as above. Assume that $T$ is a scheme over $\mathbf{Z}_{(p)}$
+and that $p$ is locally nilpotent on $U$. Then we have
+$$
+p\text{ locally nilpotent on }T
+\Leftrightarrow
+U \to T\text{ is a thickening}
+$$
+See Lemma \ref{lemma-nil}.
+
+
+
+
 
 \section{Crystalline site}
 \label{section-site}
 
 \noindent
-We can use either the big site or the small site.
-There is also a syntomic site (sometimes useful).
+We first define the big site. Given a divided power scheme
+$(S, \mathcal{I}, \gamma)$ we say $(T, \mathcal{J}, \delta)$ is
+a divided power scheme over $(S, \mathcal{I}, \gamma)$ if
+$T$ comes endowed with a morphism $T \to S$ of divided power
+schemes. Similarly, we say a divided power thickening $(U, T, \delta)$
+is a divided power thickening over $(S, \mathcal{I}, \gamma)$
+if $T$ comes endowed with a morphism $T \to S$ of divided power
+schemes.
+
+\begin{definition}
+\label{definition-divided-power-thickening-X}
+Let $p$ be a prime number. Let $(S, \mathcal{I}, \gamma)$ be a divided power
+scheme over $\mathbf{Z}_{(p)}$. Let $f : X \to S$ be a morphism of schemes
+such that $f^{-1}\mathcal{I} \mathcal{O}_X = 0$ and such that $p$ is
+locally nilpotent on $X$.
+\begin{enumerate}
+\item A {\it divided power thickening of $X$ relative to
+$(S, \mathcal{I}, \gamma)$} is given by a divided power thickening
+$(U, T, \delta)$ over $(S, \mathcal{I}, \gamma)$
+and an $S$-morphism $U \to X$.
+\item A {\it morphism of divided power thickenings of $X$
+relative to $(S, \mathcal{I}, \gamma)$} is defined in the obvious
+manner.
+\end{enumerate}
+\end{definition}
+
+\noindent
+A remark to make here is that $p$ is locally nilpotent on $T$ in
+view of the discussion following
+Definition \ref{definition-divided-power-thickening}.
+
+\begin{lemma}
+\label{lemma-divided-power-thickening-fibre-products}
+With notation and assumptions as in
+Definition \ref{definition-divided-power-thickening}.
+The category of divided power thickenings of
+$X$ relative to $(S, \mathcal{I}, \gamma)$ has
+all nonempty finite limits, in particular products of pairs and
+fibre products.
+\end{lemma}
+
+\begin{proof}
+Omitted. Hint: See Lemma \ref{lemma-affine-thickenings-colimits}
+for the affine case.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-divided-power-thickening-fibre-products}
+With notation and assumptions as in
+Definition \ref{definition-divided-power-thickening}.
+Let
+$$
+\xymatrix{
+(U_3, T_3, \delta_3) \ar[d] \ar[r] & (U_2, T_2, \delta_2) \ar[d] \\
+(U_1, T_1, \delta_1) \ar[r] & (U, T, \delta)
+}
+$$
+be a fibre square in the category of divided power thickenings of
+$X$ relative to $(S, \mathcal{I}, \gamma)$. If $T_2 \to T$ is
+flat, then $T_3 = T_1 \times_T T_2$ (as schemes).
+\end{lemma}
+
+\begin{proof}
+This is true because a divided power structure extends uniquely
+along a flat ring map. See Lemma \ref{lemma-gamma-extends}.
+\end{proof}
+
+\noindent
+The lemma above means that the base change of a flat morphism
+of divided power thickenings is another flat morphism, and in
+fact is the ``usual'' base change of the morphism. This implies
+that the following definition makes sense.
+
+\begin{definition}
+\label{definition-crystalline-site}
+Assumptions and notation as in
+Definition \ref{definition-divided-power-thickening}.
+A family of morphisms $\{(U_i, T_i, \delta_i) \to (U, T, \delta)\}$
+of divided power thickenings of $X/S$ is a {\it Zariski, \'etale, smooth,
+syntomic, or fppf covering} if and only if the family of morphisms
+of schemes $\{T_i \to T \}$ is one.
+The {\it big crystalline site} of $X$ over $(S, \mathcal{I}, \gamma)$,
+denoted $\text{CRIS}(X/S, \mathcal{I}, \gamma)$ or simply $\text{CRIS}(X/S)$
+is the category above endowed with the Zariski, \'etale, smooth,
+syntomic, or fppf topology.
+\end{definition}
+
+
+
 
 \begin{enumerate}
-\item Talk about divided power thickenings $(S, T, \gamma)$.
 \item To simplify work over an affine base $(A, I, \gamma)$?
 Always denote the base $\Sigma = \Spec(A)$.
 \item Get around compatibility by looking only at $X$ lying over
