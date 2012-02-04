@@ -1,0 +1,2564 @@
+\input{preamble}
+
+% OK, start here.
+%
+\begin{document}
+
+\title{Crystalline Cohomology}
+
+
+\maketitle
+
+\phantomsection
+\label{section-phantom}
+
+\tableofcontents
+
+
+
+\section{Introduction}
+\label{section-introduction}
+
+\noindent
+This chapter is based on a lecture series given by Johan de Jong
+held in 2012 at Columbia University.
+The goals of this chapter are to give a quick introduction to
+crystalline cohomology. A reference is the book \cite{Berthelot}.
+
+
+
+
+
+\section{Divided powers}
+\label{section-divided-powers}
+
+\noindent
+In this section we collect some results on divided power rings.
+We will use the convention $0! = 1$ (as empty products should give $1$).
+
+\begin{definition}
+\label{definition-divided-powers}
+Let $A$ be a ring. Let $I$ be an ideal of $A$. A collection of maps
+$\gamma_n : I \to I$, $n > 0$ is called a {\it divided power structure}
+on $I$ if for all $n \geq 0$, $m > 0$, $x, y \in I$, and $a \in A$ we have
+\begin{enumerate}
+\item $\gamma_1(x) = x$, we also set $\gamma_0(x) = 1$,
+\item $\gamma_n(x)\gamma_m(x) = \frac{(n + m)!}{n! m!} \gamma_{n + m}(x)$,
+\item $\gamma_n(ax) = a^n \gamma_n(x)$,
+\item $\gamma_n(x + y) = \sum_{i = 0, \ldots, n} \gamma_i(x)\gamma_{n - i}(y)$,
+\item $\gamma_n(\gamma_m(x)) = \frac{(nm)!}{n! (m!)^n} \gamma_{nm}(x)$.
+\end{enumerate}
+\end{definition}
+
+\noindent
+Note that the rational numbers $\frac{(n + m)!}{n! m!}$
+and $\frac{(nm)!}{n! (m!)^n}$ occuring in the definition are in fact integers;
+the first is the number of ways to choose $n$ out of $n + m$ and
+the second counts the number of ways to divide a group of $nm$
+objects into $n$ groups of $m$.
+We make some remarks about the definition which show that
+$\gamma_n(x)$ is a replacement for $x^n/n!$ in $I$.
+
+\begin{lemma}
+\label{lemma-silly}
+Let $A$ be a ring. Let $I$ be an ideal of $A$.
+\begin{enumerate}
+\item If $\gamma$ is a divided power structure on $I$, then
+$n! \gamma_n(x) = x^n$ for $n \geq 1$, $x \in I$.
+\end{enumerate}
+Assume $A$ is torsion free as a $\mathbf{Z}$-module.
+\begin{enumerate}
+\item[(2)] A divided power structure on $I$, if it exists, is unique.
+\item[(3)] If $\gamma_n : I \to I$ are maps then
+$$
+\gamma\text{ is a divided power structure}
+\Leftrightarrow
+n! \gamma_n(x) = x^n\ \forall x \in I, n \geq 1.
+$$
+\item[(4)] The ideal $I$ has a divided power structure
+if and only if there exists
+a set of generators $x_i$ of $I$ as an ideal such that
+for all $n \geq 1$ we have $x_i^n \in (n!)I$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Proof of (1). If $\gamma$ is a divided power structure, then condition
+(2) implies that $n \gamma_n(x) = \gamma_1(x)\gamma_{n - 1}(x)$. Hence
+by induction and condition (1) we get $n! \gamma_n(x) = x^n$.
+
+\medskip\noindent
+Assume $A$ is torsion free as a $\mathbf{Z}$-module.
+Proof of (2). This is clear from (1).
+
+\medskip\noindent
+Proof of (3). Assume that $n! \gamma_n(x) = x^n \forall x \in I, n \geq 1$.
+Since $A \subset A \otimes_{\mathbf{Z}} \mathbf{Q}$ it suffices
+to prove (1) -- (5) in case $A$ is a $\mathbf{Q}$-algebra.
+In this case $\gamma_n(x) = x^n/n!$ and it is straightforward
+to verify (1) -- (5), for example (4) corresponds to the binomial
+formula
+$$
+(x + y)^n = \sum \frac{n!}{i!(n - i)!} x^iy^{n - i}
+$$
+We encourage the reader to do the verifications
+to make sure that we have the coefficients correct.
+
+\medskip\noindent
+Proof of (4). Assume we have generators $x_i$ of $I$ as an ideal
+such that $x_i^n \in (n!)I$ for all $n \geq 1$. We claim that
+for all $x \in I$ we have $x^n \in (n!)I$. If the claim holds then
+we can set $\gamma_n(x) = x^n/n!$ which is a divided power structure by (3).
+To prove the claim we note that it holds for $x = ax_i$. Hence we see
+that the claim holds for a set of generators of $I$ as an abelian group.
+By induction on the length of an expression in terms of these, it suffices
+to prove the claim for $x + y$ if it holds for $x$ and $y$. This
+follows immediately from the binomial theorem.
+\end{proof}
+
+\begin{example}
+\label{example-ideal-generated-by-p}
+Let $p$ be a prime number.
+Let $A$ be a ring such that every integer $n$ not divisible by $p$
+is invertible, i.e., $A$ is a $\mathbf{Z}_{(p)}$-algebra. Then
+$I = pA$ has a canonical divided power structure. Namely, given
+$x = pa \in A$ we set
+$$
+\gamma_n(x) = \frac{p^n}{n!} a^n
+$$
+The reader verifies immediately that $p^n/n! \in \mathbf{Z}_{(p)}$
+so that the definition makes sense. It is a straightforward exercise to
+verify that conditions (1) -- (5) of
+Definition \ref{definition-divided-powers} are satisfied.
+Alternatively, it is clear that the definition works for
+$A_0 = \mathbf{Z}_{(p)}$ and then the result follows from
+Lemma \ref{lemma-gamma-extends}.
+\end{example}
+
+\begin{lemma}
+\label{lemma-check-on-generators}
+Let $A$ be a ring. Let $I$ be an ideal of $A$. Let $\gamma_n : I \to I$,
+$n \geq 1$ be a sequence of maps. Assume
+\begin{enumerate}
+\item[(a)] (1), (3), and (4) of Definition \ref{definition-divided-powers}
+hold for all $x, y \in I$, and
+\item[(b)] properties (2) and (5) hold for $x$ in
+set of generators of $I$ as an ideal.
+\end{enumerate}
+Then $\gamma$ is a divided power structure on $I$.
+\end{lemma}
+
+\begin{proof}
+The numbers (1), (2), (3), (4), (5) in this proof refer to the
+conditions listed in Definition \ref{definition-divided-powers}.
+Applying (3) we see that if (2) and (5) hold for $x$ then (2) and (5)
+hold for $ax$ for all $a \in A$. Hence we see (b) implies
+(2) and (5) hold for a set of generators
+of $I$ as an abelian group. Hence, by induction of the length
+of an expression in terms of these it suffices to prove that, given
+$x, y \in I$ such that (2) and (5) hold for $x$ and $y$, then (2) and (5) hold
+for $x + y$.
+
+\medskip\noindent
+Proof of (2) for $x + y$. By (4) we have
+$$
+\gamma_n(x + y)\gamma_m(x + y) =
+\sum\nolimits_{i + j = n,\ k + l = m}
+\gamma_i(x)\gamma_k(x)\gamma_j(y)\gamma_l(y)
+$$
+Using (2) for $x$ and $y$ this equals
+$$
+\sum \frac{(i + k)!}{i!k!}\frac{(j + l)!}{j!l!}
+\gamma_{i + k}(x)\gamma_{j + l}(y)
+$$
+Comparing this with the expansion
+$$
+\gamma_{n + m}(x + y) = \sum \gamma_a(x)\gamma_b(y)
+$$
+we see that we have to prove that given $a + b = n + m$ we have
+$$
+\sum\nolimits_{i + k = a,\ j + l = b,\ i + j = n,\ k + l = m}
+\frac{(i + k)!}{i!k!}\frac{(j + l)!}{j!l!}
+=
+\frac{(n + m)!}{n!m!}.
+$$
+Instead of arguing this directly, we note that the result is true
+for the ideal $I = (x, y)$ in the polynomial ring $\mathbf{Q}[x, y]$
+because $\gamma_n(f) = f^n/n!$, $f \in I$ defines a divided power
+structure on $I$. Hence the equality of rational numbers above is true.
+
+\medskip\noindent
+Proof of (5) for $x + y$ given that (1) -- (4) hold and that (5)
+holds for $x$ and $y$. We will again reduce the proof to an equality
+of rational numbers. Namely, using (4) we can write
+$\gamma_n(\gamma_m(x + y)) = \gamma_n(\sum \gamma_i(x)\gamma_j(y))$.
+Using (4) we can write
+$\gamma_n(\gamma_m(x + y))$ as a sum of terms which are products of
+factors of the form $\gamma_k(\gamma_i(x)\gamma_j(y))$.
+If $i > 0$ then
+\begin{align*}
+\gamma_k(\gamma_i(x)\gamma_j(y)) & =
+\gamma_j(y)^k\gamma_k(\gamma_i(x)) \\
+& = \frac{(ki)!}{k!(i!)^k} \gamma_j(y)^k \gamma_{ki}(x) \\
+& =
+\frac{(ki)!}{k!(i!)^k} \frac{(kj)!}{k!(j!)^k} \gamma_{ik}(x) \gamma_{kj}(y)
+\end{align*}
+using (3) in the first equality, (5) for $x$ in the second, and
+(2) exactly $k$ times in the third. Using (5) for $y$ we see the
+same equality holds when $i = 0$. Continuing like this using all
+axioms but (5) we see that we can write
+$$
+\gamma_n(\gamma_m(x + y)) =
+\sum\nolimits_{i + j} c_{ij}\gamma_i(x)\gamma_j(y)
+$$
+for certain universal constants $c_{ij} \in \mathbf{Z}$. Again the fact
+that the equality is valid in the polynomial ring $\mathbf{Q}[x, y]$
+implies that the coefficients $c_{ij}$ are all equal to $(nm)!/n!(m!)^n$
+as desired.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-two-ideals}
+Let $A$ be a ring with two ideals $I, J \subset A$.
+Let $\gamma$ be a divided power structure on $I$ and let
+$\delta$ be a divided power structure on $J$.
+Then
+\begin{enumerate}
+\item $\gamma$ and $\delta$ agree on $IJ$,
+\item if $\gamma$ and $\delta$ agree on $I \cap J$ then they are
+the restriction of a unique divided power structure $\epsilon$
+on $I + J$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Let $x \in I$ and $y \in J$. Then
+$$
+\gamma_n(xy) = y^n\gamma_n(x) = n! \delta_n(y) \gamma_n(x) =
+\delta_n(y) x^n = \delta_n(xy).
+$$
+Hence $\gamma$ and $\delta$ agree on a set of (additive) generators
+of $IJ$. By property (4) of Definition \ref{definition-divided-powers}
+it follows that they agree on all of $IJ$.
+
+\medskip\noindent
+Let $z \in I + J$. Write $z = x + y$ with $x \in I$ and $y \in J$.
+Then we set
+$$
+\epsilon_n(z) = \sum \gamma_i(x)\delta_{n - i}(y)
+$$
+To see that this is well defined, suppose that $z = x' + y'$ is another
+representation with $x' \in I$ and $y' \in J$. Then
+$w = x - x' = y' - y \in I \cap J$. Hence
+\begin{align*}
+\sum\nolimits_{i + j = n} \gamma_i(x)\delta_j(y)
+& =
+\sum\nolimits_{i + j = n} \gamma_i(x' + w)\delta_j(y) \\
+& =
+\sum\nolimits_{i' + l + j = n} \gamma_{i'}(x')\gamma_l(w)\delta_j(y) \\
+& =
+\sum\nolimits_{i' + l + j = n} \gamma_{i'}(x')\delta_l(w)\delta_j(y) \\
+& =
+\sum\nolimits_{i' + j' = n} \gamma_{i'}(x')\delta_{j'}(y + w) \\
+& =
+\sum\nolimits_{i' + j' = n} \gamma_{i'}(x')\delta_{j'}(y')
+\end{align*}
+as desired. Next, we prove conditions (1) -- (5) of
+Definition \ref{definition-divided-powers}.
+Properties (1) and (3) are clear. To see (4), suppose
+that $z = x + y$ and $z' = x' + y'$ with $x, x' \in I$ and $y, y' \in J$
+and compute
+\begin{align*}
+\epsilon_n(z + z') & =
+\sum\nolimits_{a + b = n} \gamma_i(x + x')\delta_j(y + y') \\
+& =
+\sum\nolimits_{i + i' + j + j' = n}
+\gamma_i(x) \gamma_{i'}(x')\delta_j(y)\delta_{j'}(y') \\
+& =
+\epsilon_n(x + y)\epsilon_n(x' + y')
+\end{align*}
+as desired. Now we see that it suffices to prove (2) and (5) for
+elements of $I$ or $J$, see Lemma \ref{lemma-check-on-generators}.
+This is clear because $\gamma$ and $\delta$ are divided power
+structures.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-nil}
+Let $p$ be a prime number. Let $A$ be a ring, let $I \subset A$ be an ideal,
+and let $\gamma$ be a divided power structure on $I$. Assume $p$ is nilpotent
+in $A/I$. Then $I$ is locally nilpotent if and only if $p$ is nilpotent in $A$.
+\end{lemma}
+
+\begin{proof}
+If $p^N = 0$ in $A$, then for $x \in I$ we have
+$x^{pN} = (pN)!\gamma_N(x) = 0$ because $(pN)!$ is
+divisible by $p^N$. Conversely, assume $I$ is locally nilpotent.
+We've also assumed that $p$ is nilpotent in $A/I$, hence
+$p^r \in I$ for some $r$, hence $p^r$ nilpotent, hence $p$ nilpotent.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-need-only-gamma-p}
+Let $p$ be a prime number. Let $A$ be a ring such that every integer $n$
+not divisible by $p$ is invertible, i.e., $A$ is a $\mathbf{Z}_{(p)}$-algebra.
+Let $I \subset A$ be an ideal. Two divided power structures
+$\gamma, \gamma'$ on $I$ are equal if and only if $\gamma_p = \gamma'_p$.
+Moreover, given a map $\delta : I \to I$ such that
+\begin{enumerate}
+\item $p!\delta(x) = x^p$ for all $x \in I$,
+\item $\delta(ax) = a^p\delta(x)$ for all $a \in A$, $x \in I$, and
+\item
+$\delta(x + y) =
+\delta(x) +
+\sum\nolimits_{i + j = p, i,j \geq 1} \frac{1}{i!j!} x^i y^j +
+\delta(y)$ for all $x, y \in I$,
+\end{enumerate}
+then there exists a unique divided power structure $\gamma$ on $I$ such
+that $\gamma_p = \delta$.
+\end{lemma}
+
+\begin{proof}
+If $n$ is not divisible by $p$, then $\gamma_n(x) = c x \gamma_{n - 1}(x)$
+where $c$ is a unit in $\mathbf{Z}_{(p)}$. Moreover,
+$$
+\gamma_{pm}(x) = c \gamma_m(\gamma_p(x))
+$$
+where $c$ is a unit in $\mathbf{Z}_{(p)}$. Thus the first assertion is clear.
+For the second assertion, we can, working backwards, use these equalities
+to define all $\gamma_n$. More precisely, if
+$n = a_0 + a_1p + \ldots + a_e p^e$ with $a_i \in {0, \ldots, p - 1}$ then
+we set
+$$
+\gamma_n(x) = c_n x^{a_0} \delta(x)^{a_1} \ldots \delta^e(x)^{a_e}
+$$
+for a suitable unit $c_n \in \mathbf{Z}_{(p)}$, namely
+$$
+c_n =
+{(p!)^{a_1 + a_2(1 + p) + \ldots + a_e(1 + \ldots + p^{e - 1})}}/{n!}
+$$
+Then a long computation shows all the axioms are satisfied if $\delta$
+satisfies properties (1), (2), (3). Details omitted.
+\end{proof}
+
+
+
+
+
+
+
+
+\section{Divided power rings}
+\label{section-divided-power-rings}
+
+\noindent
+There is a category of divided power rings.
+Here is the definition.
+
+\begin{definition}
+\label{definition-divided-power-ring}
+A {\it divided power ring} is a triple $(A, I, \gamma)$ where
+$A$ is a ring, $I \subset A$ is an ideal, and $\gamma = (\gamma_n)_{n \geq 1}$
+is a divided power structure on $I$.
+A {\it homomorphism of divided power rings}
+$\varphi : (A, I, \gamma) \to (B, J, \delta)$ is a ring homomorphism
+$\varphi : A \to B$ such that $\varphi(I) \subset J$ and such that
+$\delta_n(\varphi(x)) = \varphi(\gamma_n(x))$ for all $x \in I$.
+\end{definition}
+
+\begin{lemma}
+\label{lemma-colimits}
+The category of divided power rings has all limits and colimits.
+\end{lemma}
+
+\begin{proof}
+The empty limit is the zero ring (that's weird but we need it).
+The product of a collection of divided power rings $(A_t, I_t, \gamma_t)$,
+$t \in T$ is given by $(\prod A_t, \prod I_t, \gamma)$ where
+$\gamma_n((x_t)) = (\gamma_{t, n}(x_t))$.
+The equalizer of $\alpha, \beta : (A, I, \gamma) \to (B, J, \delta)$
+is just $C = \{a \in A \mid \alpha(a) = \beta(a)\}$ with ideal $C \cap I$
+and induced divided powers. It follows that all limits exist, see
+Categories, Lemma \ref{categories-lemma-limits-products-equalizers}.
+Moreover, limits commute with the forgetful functor from divided
+power rings to rings.
+
+\medskip\noindent
+The empty colimit is $\mathbf{Z}$ with divided power ideal $(0)$.
+Let's discuss general colimits. Let $\mathcal{C}$ be a category and let
+$c \mapsto (A_c, I_c, \gamma_c)$ be a diagram. Consider the functor
+$$
+F(B, J, \delta) = \lim_{c \in \mathcal{C}}
+Hom((A_c, I_c, \gamma_c), (B, J, \delta))
+$$
+Note that any $f = (f_c)_{c \in C} \in F(B, J, \delta)$ has the property
+that all the images $f_c(A_c)$ generate a subring $B'$ of $B$ of bounded
+cardinality $\kappa$ and that all the images $f_c(I_c)$ generate a
+divided power sub ideal $J'$ of $B'$. And we get a factorization of
+$f$ as a $f'$ in $F(B')$ followed by the inclusion $B' \to B$.
+Hence we see that $F(B, J, \delta)$ can be computed if we know the value
+of $F$ on divided power rings of
+cardinality $\kappa$ or less. Consider a set of objects $U$ of
+dividing power rings containing an object isomorphic to every
+$(B, J, \delta)$ of cardinality
+at most $\kappa$. Then
+$$
+\lim_{(B, J, \delta) \in U, f \in F(B, J, \delta)} (B, J, \delta)
+$$
+will be the colimit we wanted to construct.
+\end{proof}
+
+
+
+
+\section{Extending divided powers}
+\label{section-extend}
+
+\noindent
+Here is the definition.
+
+\begin{definition}
+\label{definition-extends}
+Given a divided power ring $(A, I, \gamma)$ and a ring map
+$A \to B$ we say $\gamma$ {\it extends} to $B$ if there exists a
+divided power structure $\bar \gamma$ on $IB$ such that
+$(A, I, \gamma) \to (B, IB, \bar\gamma)$ is a homomorphism of
+divided power rings.
+\end{definition}
+
+\begin{lemma}
+\label{lemma-gamma-extends}
+Let $(A, I, \gamma)$ be a divided power ring.
+Let $A \to B$ be a ring map.
+If $\gamma$ extends to $B$ then it extends uniquely.
+Assume (at least) one of the following conditions holds
+\begin{enumerate}
+\item $IB = 0$,
+\item $I$ is principal, or
+\item $A \to B$ is flat.
+\end{enumerate}
+Then $\gamma$ extends to $B$.
+\end{lemma}
+
+\begin{proof}
+Any element of $IB$ can be written as a finite sum $\sum b_ix_i$ with
+$b_i \in B$ and $x_i \in I$. If $\gamma$ extends to $\bar\gamma$ on $IB$
+then $\bar\gamma_n(x_i) = \gamma_n(x_i)$.
+Thus conditions (3) and (4) imply that
+$$
+\bar\gamma_n(\sum b_ix_i) =
+\sum\nolimits_{n_1 + \ldots + n_t = n}
+\prod\nolimits_{i = 1}^t b_i^{n_i}\gamma_{n_i}(x_i)
+$$
+Thus we see that $\bar\gamma$ is unique if it exists.
+
+\medskip\noindent
+If $IB = 0$ then setting $\bar\gamma_n(0) = 0$ works. If $I = (x)$
+then we define $\bar\gamma_n(bx) = b^n\gamma_n(x)$. This is well defined:
+if $b'x = bx$, i.e., $(b - b')x = 0$ then
+\begin{align*}
+b^n\gamma_n(x) - (b')^n\gamma_n(x)
+& =
+(b^n - (b')^n)\gamma_n(x) \\
+& =
+(b^{n - 1} + \ldots + (b')^{n - 1})(b - b')\gamma_n(x) = 0
+\end{align*}
+because $\gamma_n(x)$ is divisible by $x$ and hence annihilated by $b - b'$.
+Next, we prove conditions (1) -- (5) of
+Definition \ref{definition-divided-powers}.
+Parts (1), (2), (3), (5) are obvious from the construction.
+For (4) suppose that $y, z \in IB$, say $y = bx$ and $z = cx$. Then
+$y + z = (b + c)x$ hence
+\begin{align*}
+\bar\gamma_n(y + z)
+& =
+(b + c)^n\gamma_n(x) \\
+& =
+\sum \frac{n!}{i!(n - i)!}b^ic^{n -i}\gamma_n(x) \\
+& =
+\sum b^ic^{n - i}\gamma_i(x)\gamma_{n - i}(x) \\
+& =
+\sum \bar\gamma_i(y)\bar\gamma_{n -i}(z)
+\end{align*}
+as desired.
+
+\medskip\noindent
+Assume $A \to B$ is flat. Suppose that $b_1, \ldots, b_r \in B$ and
+$x_1, \ldots, x_r \in I$. Then
+$$
+\bar\gamma_n(\sum b_ix_i) =
+\sum b_1^{e_1} \ldots b_r^{e_r} \gamma_{e_1}(x_1) \ldots \gamma_{e_r}(x_r)
+$$
+where the sum is over $e_1 + \ldots + e_r = n$
+if $\bar\gamma_n$ exists. Next suppose that we have $c_1, \ldots, c_s \in B$
+and $a_{ij} \in A$ such that $b_i = \sum a_{ij}c_j$.
+Setting $y_j = \sum a_{ij}x_i$ we claim that
+$$
+\sum b_1^{e_1} \ldots b_r^{e_r} \gamma_{e_1}(x_1) \ldots \gamma_{e_r}(x_r) =
+\sum c_1^{d_1} \ldots c_s^{d_s} \gamma_{d_1}(y_1) \ldots \gamma_{d_s}(y_s)
+$$
+in $B$ where on the right hand side we are summing over
+$d_1 + \ldots + d_s = n$. Namely, using the axioms of a divided power
+structure we can expand both sides into a sum with coefficients
+in $\mathbf{Z}[a_{ij}]$ of terms of the form 
+$c_1^{d_1} \ldots c_s^{d_s}\gamma_{e_1}(x_1) \ldots \gamma_{e_r}(x_r)$.
+To see that the coefficients agree we note that the result is true
+in $\mathbf{Q}[x_1, \ldots, x_r, c_1, \ldots, c_s, a_{ij}]$ with
+$\gamma$ the unique divided power structure on $(x_1, \ldots, x_r)$.
+By Lazard's theorem (Algebra, Theorem \ref{algebra-theorem-lazard})
+we can write $B$ as a directed colimit of finite free $A$-modules.
+In particular, if $z \in IB$ is written as $z = \sum x_ib_i$ and
+$z = \sum x'_{i'}b'_{i'}$, then we can find $c_1, \ldots, c_s \in B$
+and $a_{ij}, a'_{i'j} \in A$ such that $b_i = \sum a_{ij}c_j$
+and $b'_{i'} = \sum a'_{i'j}c_j$ such that
+$y_j = \sum x_ia_{ij} = \sum x'_{i'}a'_{i'j}$.
+Hence the procedure above gives a well defined map $\bar\gamma_n$
+on $IB$. By construction $\bar\gamma$ satisfies conditions (1), (3), and
+(4). Moreover, for $x \in I$ we have $\bar\gamma_n(x) = \gamma_n(x)$. Hence
+it follows from Lemma \ref{lemma-check-on-generators} that $\bar\gamma$
+is a divided power structure on $IB$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-kernel}
+Let $(A, I, \gamma)$ be a divided power ring.
+\begin{enumerate}
+\item If $\varphi : (A, I, \gamma) \to (B, J, \delta)$ is a
+homomorphism of divided power rings, then $\text{Ker}(\varphi) \cap I$
+is preserved by $\gamma_n$ for all $n \geq 1$.
+\item Let $\mathfrak a \subset A$ be an ideal and set
+$I' = I \cap \mathfrak a$. The following are equivalent
+\begin{enumerate}
+\item $I'$ is preserved by $\gamma_n$ for all $n > 0$,
+\item $\gamma$ extends to $A/\mathfrak a$, and
+\item there exist a set of generators $x_i$ of $I'$ as an ideal
+such that $\gamma_n(x_i) \in I'$ for all $n > 0$.
+\end{enumerate}
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Proof of (1). This is clear. Assume (2)(a). Define
+$\bar\gamma_n(x \bmod I') = \gamma_n(x) \bmod I'$ for $x \in I$.
+This is well defined since $\gamma_n(x + y) = \gamma_n(x) \bmod I'$
+for $y \in I'$ by Definition \ref{definition-divided-powers} (4) and
+the fact that $\gamma_j(y) \in I'$ by assumption. It is clear that
+$\bar\gamma$ is a divided power structure as $\gamma$ is one.
+Hence (2)(b) holds. Also, (2)(b) implies (2)(a) by part (1).
+It is clear that (2)(a) implies (2)(c). Assume (2)(c).
+Note that $\gamma_n(x) = a^n\gamma_n(x_i) \in I'$ for $x = ax_i$.
+Hence we see that $\gamma_n(x) \in I'$ for a set of generators of $I'$
+as an abelian group. By induction on the length of an expression in
+terms of these, it suffices to prove $\forall n : \gamma_n(x + y) \in I'$
+if $\forall n : \gamma_n(x), \gamma_n(y) \in I'$. This
+follows immediately from the fourth axiom of a divided power structure.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-sub-dp-ideal}
+Let $(A, I, \gamma)$ be a divided power ring.
+Let $E \subset I$ be a subset.
+Then the smallest ideal $J \subset I$ preserved by $\gamma$
+and containing all $f \in E$ is the ideal $J$ generated by
+$\gamma_n(f)$, $n \geq 1$, $f \in E$.
+\end{lemma}
+
+\begin{proof}
+Follows immediately from Lemma \ref{lemma-kernel}.
+\end{proof}
+
+
+
+
+
+
+\section{Divided power polynomial algebras}
+\label{section-divided-power-polynomial-ring}
+
+\noindent
+A very useful example is the {\it divided power polynomial algebra}.
+Let $A$ be a ring. Let $t \geq 1$. We will denote
+$A\langle x_1, \ldots, x_t \rangle$ the following $A$-algebra:
+As an $A$-module we set
+$$
+A\langle x_1, \ldots, x_t \rangle =
+\bigoplus\nolimits_{n_1, \ldots, n_t \geq 0} A x_1^{[n_1]} \ldots x_t^{[n_t]}
+$$
+with multiplication given by
+$$
+x_i^{[n]}x_i^{[m]} = \frac{(n + m)!}{n!m!}x_i^{[n + m]}.
+$$
+We also set $x_i = x_i^{[1]}$. Note that
+$1 = x_1^{[0]} \ldots x_t^{[0]}$. There is a similar construction
+which gives the divided power polynomial algebra in infinitely many
+variables. There is an canonical $A$-algebra map
+$A\langle x_1, \ldots, x_t \rangle \to A$ sending $x_i^{[n]}$ to zero
+for $n > 0$. The kernel of this map is denoted
+$A\langle x_1, \ldots, x_t \rangle_{+}$.
+
+\begin{lemma}
+\label{lemma-divided-power-polynomial-algebra}
+Let $(A, I, \gamma)$ be a divided power ring.
+There exists a unique divided power structure $\delta$ on
+$$
+J = IA\langle x_1, \ldots, x_t \rangle + A\langle x_1, \ldots, x_t \rangle_{+}
+$$
+such that
+\begin{enumerate}
+\item $\delta_n(x_i) = x_i^{[n]}$, and
+\item $(A, I, \gamma) \to (A\langle x_1, \ldots, x_t \rangle, J, \delta)$
+is a homomorphism of divided power rings.
+\end{enumerate}
+Moreover, $(A\langle x_1, \ldots, x_t \rangle, J, \delta)$ has the
+following universal property: A homomorphism of divided power rings
+$\varphi : (A\langle x \rangle, J, \delta) \to (C, K, \epsilon)$ is
+the same thing as a homomorphism of divided power rings
+$A \to C$ and elements $k_1, \ldots, k_t \in K$.
+\end{lemma}
+
+\begin{proof}
+We will prove the lemma in case of a divided power polynomial algebra
+in one variable. The result for the general case can be argued in exactly
+the same way, or by noting that $A\langle x_1, \ldots, x_t\rangle$ is
+isomorphic to the ring obtained by adjoining the divided power variables
+$x_1, \ldots, x_t$ one by one.
+
+\medskip\noindent
+Let $A\langle x \rangle_{+}$ be the ideal generated by
+$x, x^{[2]}, x^{[3]}, \ldots$.
+Note that $J = IA\langle x \rangle + A\langle x \rangle_{+}$
+and that
+$$
+IA\langle x \rangle \cap A\langle x \rangle_{+} =
+IA\langle x \rangle \cdot A\langle x \rangle_{+}
+$$
+Hence by Lemma \ref{lemma-two-ideals} it suffices to show that there
+exist divided power structures on the ideals $IA\langle x \rangle$ and
+$A\langle x \rangle_{+}$. The existence of the first follows from
+Lemma \ref{lemma-gamma-extends} as $A \to A\langle x \rangle$ is flat.
+For the second, note that if $A$ is torsion free, then we can apply
+Lemma \ref{lemma-silly} (4) to see that $\delta$ exists. Namely, choosing
+as generators the elements $x^{[m]}$ we see that
+$(x^{[m]})^n = \frac{(nm)!}{(m!)^n} x^{[nm]}$
+and $n!$ divides the integer $\frac{(nm)!}{(m!)^n}$.
+In general write $A = R/\mathfrak a$ for some torsion free ring $R$
+(e.g., a polynomial ring over $\mathbf{Z}$). The kernel of
+$R\langle x \rangle \to A\langle x \rangle$ is
+$\bigoplus \mathfrak a x^{[m]}$. Applying criterion (2)(c) of
+Lemma \ref{lemma-kernel} we see that the divided power structure
+on $R\langle x \rangle_{+}$ extends to $A\langle x \rangle$ as
+desired.
+
+\medskip\noindent
+Proof of the universal property. Given a homomorphism $\varphi : A \to C$
+of divided power rings and $k_1, \ldots, k_t \in K$ we consider
+$$
+A\langle x_1, \ldots, x_t \rangle \to C,\quad
+x_1^{[n_1]} \ldots x_t^{[n_t]} \longmapsto
+\epsilon_{n_1}(k_1) \ldots \epsilon_{n_t}(k_t)
+$$
+using $\varphi$ on coefficients. The only thing to check is that
+this is an $A$-algebra homomorphism (details omitted). The inverse
+construction is clear.
+\end{proof}
+
+\begin{remark}
+\label{remark-divided-power-polynomial-algebra}
+Let $(A, I, \gamma)$ be a divided power ring.
+There is a variant of Lemma \ref{lemma-divided-power-polynomial-algebra}
+for infinitely many variables. First note that if $s < t$ then there
+is a canonical map
+$$
+A\langle x_1, \ldots, x_s \rangle \to A\langle x_1, \ldots, x_t\rangle
+$$
+Hence if $W$ is any set, then we set
+$$
+A\langle x_w, w \in W\rangle =
+\colim_{E \subset W} A\langle x_e, e \in E\rangle
+$$
+(colimit over $E$ finite subset of $W$)
+with transition maps as above. By the definition of a colimit we see
+that the universal mapping property of $A\langle x_w, w \in W\rangle$ is
+completely analogous to the mapping property stated in
+Lemma \ref{lemma-divided-power-polynomial-algebra}.
+\end{remark}
+
+
+
+
+\section{Divided power envelope}
+\label{section-divided-power-envelope}
+
+\noindent
+The construction of the following lemma will be dubbed the
+divided power envelope. It will play an important role later.
+
+\begin{lemma}
+\label{lemma-divided-power-envelope}
+Let $(A, I, \gamma)$ be a divided power ring.
+Let $A \to B$ be a ring map. Let $J \subset B$ be an ideal
+with $IB \subset J$. There exists a homomorphism of
+divided power rings
+$$
+(A, I, \gamma) \longrightarrow (D, \bar J, \bar \gamma)
+$$
+such that
+$$
+\Hom_{(A, I, \gamma)}((D, \bar J, \bar \gamma), (C, K, \delta))
+=
+\Hom_A((B, J), (C, K))
+$$
+functorially in the divided power algebra $(C, K, \delta)$ over
+$(A, I, \gamma)$.
+\end{lemma}
+
+\begin{proof}
+This proof is a copy of the proof of Lemma \ref{lemma-colimits}.
+Denote $\mathcal{C}$ the category of divided power algebras
+$(C, K, \delta)$ over $(A, I, \gamma)$. Consider the functor
+$F : \mathcal{C} \longrightarrow \textit{Sets}$ defined by
+$$
+F(C, K, \delta) = \Hom_A((B, J), (C, K))
+$$
+Suppose that $\varphi  \in F(C, K, \delta)$. Let $C' \subset C$
+be the subring generated by $\varphi(B)$ and $\delta_n(\varphi(f))$
+for all $f \in J$. Set $K' = C' \cap K$. Then $C'$ has cardinality
+bounded by the cardinal $\kappa = \aleph_0^{|B|}$. Moreover, $\varphi$
+factors as $B \to C' \to C$. Hence we see that $F(C, K, \delta)$ can be
+computed if we know the value of $F$ on divided power algebras of
+cardinality $\kappa$ or less. Consider a set of objects $U$ of
+dividing power algebras over $(A, I, \gamma)$ containing an object
+isomorphic to every $(C, K, \delta)$ of cardinality at most $\kappa$.
+Then
+$$
+(D, \bar J, \bar \gamma) =
+\lim_{(C, K, \delta) \in U, f \in F(C, K, \delta)} (C, K, \delta)
+$$
+will be a solution to the problem posed in the lemma.
+\end{proof}
+
+\begin{definition}
+\label{definition-divided-power-envelope}
+Let $(A, I, \gamma)$ be a divided power ring.
+Let $A \to B$ be a ring map. Let $J \subset B$ be an ideal
+with $IB \subset J$. The divided power algebra $(D, \bar J, \bar\gamma)$
+constructed in Lemma \ref{lemma-divided-power-envelope}
+is called the {\it divided power envelope of $J$ in $B$
+relative to $(A, I, \gamma)$} and is denoted $D_B(J)$ or $D_{B, \gamma}(J)$.
+\end{definition}
+
+\noindent
+Here are some simple properties of
+$D_{B, \gamma}(J) = (D, \bar J, \bar \gamma)$
+which follow immediately from its universal property. There are $A$-algebra
+maps
+\begin{equation}
+\label{equation-divided-power-envelope}
+B \longrightarrow D \longrightarrow B/J
+\end{equation}
+The first arrow maps $J$ into $\bar J$ and $\bar J$ is the kernel
+of the second arrow. Also $\bar J$ is generated by the elements
+$\bar\gamma_n(x)$ where $x$ is in the image of $J \to D$.
+Let $(A, I, \gamma) \to (C, K, \delta)$ be a homomorphism of divided
+power rings. The universal property is
+just that ring maps $B \to C$ which map $J$ into $K$ correspond
+1-to-1 to homomorphisms of divided power rings
+$(D, \bar J, \bar \gamma) \to (C, K, \delta)$ via precomposing with the
+canonical map $B \to D$.
+
+\medskip\noindent
+In the following lemma we describe the divided power envelope in a special
+case.
+
+\begin{lemma}
+\label{lemma-describe-divided-power-envelope}
+Let $(B, I, \gamma)$ be a divided power algebra. Let $I \subset J \subset B$
+be an ideal. Let $(D, \bar J, \bar \gamma)$ be the divided power envelope
+of $J$ relative to $\gamma$. Choose elements $f_t \in J$, $t \in T$ such
+that $J = I + (f_t)$. Then there exists a surjection
+$$
+\Psi : B\langle x_t \rangle \longrightarrow D
+$$
+of divided power rings mapping $x_t$ to the image of $f_t$ in $D$.
+The kernel of $\Psi$ is generated by the elements $x_t - f_t$ and
+all
+$$
+\delta_n\left(\sum r_t x_t - r_0\right)
+$$
+whenever $\sum r_t f_t = r_0$ in $B$ for some $r_t \in B$, $r_0 \in I$.
+\end{lemma}
+
+\begin{proof}
+In the statement of the lemma we think of $B\langle x_t \rangle$
+as a divided power ring with ideal
+$J' = IB\langle x_t \rangle + B\langle x_t \rangle_{+}$, see
+Remark \ref{remark-divided-power-polynomial-algebra}.
+The existence of $\Psi$ follows from the universal property of
+divided power polynomial rings. Surjectivity of $\Psi$ follows from
+the fact that its image is a divided power subring of $D$, hence equal to $D$
+by the universal property of $D$. It is clear that
+$x_t - f_t$ is in the kernel. Set
+$$
+\mathcal{R} = \{(r_0, r_t) \in I \oplus \bigoplus\nolimits_{t \in T} B
+\mid \sum r_t f_t = r_0 \text{ in }B\}
+$$
+If $(r_0, r_t) \in \mathcal{R}$ then it is clear that
+$\sum r_t x_t - r_0$ is in the kernel.
+As $\Psi$ is a homomorphism of divided power rings
+and $\sum r_tx_t = r_0 \in J'$
+it follows that $\delta_n(\sum r_t x_t - r_0)$ is in the kernel as well.
+Let $K \subset B\langle x_t \rangle$ be the ideal generated by
+$x_t - f_t$ and the elements $\delta_n(\sum r_t x_t - r_0)$ for
+$(r_0, r_t) \in \mathcal{R}$.
+To show that $K = \text{Ker}(\Psi)$ it suffices to show that
+$\delta$ extends to $B\langle x_t \rangle/K$. Namely, if so the universal
+property of $D$ gives a map $D \to B\langle x_t \rangle/K$
+inverse to $\Psi$. Hence we have to show that $K \cap J'$ is
+preserved by $\delta_n$, see Lemma \ref{lemma-kernel}.
+Let $K' \subset B\langle x_t \rangle$ be the ideal
+generated by the elements
+\begin{enumerate}
+\item $\delta_m(\sum r_t x_t - r_0)$ where $m > 0$ and
+$(r_0, r_t) \in \mathcal{R}$,
+\item $x_{t'}^{[m]}(x_t - f_t)$ where $m > 0$ and $t', t \in I$.
+\end{enumerate}
+We claim that $K' = K \cap J'$. The claim proves that $K \cap J'$
+is preserved by $\delta_n$, $n > 0$ by the criterion of
+Lemma \ref{lemma-kernel} (2)(c) and a computation of $\delta_n$
+of the elements listed which we leave to the reader.
+To prove the claim note that $K' \subset K \cap J'$.
+Conversely, if $h \in K \cap J'$ then, modulo $K'$ we can write
+$$
+h = \sum r_t (x_t - f_t)
+$$
+for some $r_t \in B$. As $h \in K \cap J' \subset J'$
+we see that $r_0 = \sum r_t f_t \in I$. Hence $(r_0, r_t) \in \mathcal{R}$
+and we see that
+$$
+h = \sum r_t x_t - r_0
+$$
+is in $K'$ as desired.
+\end{proof}
+
+\noindent
+Conditions (1) and (2) of the following lemma hold if $B \to B'$ is flat
+at all primes of $V(IB') \subset \Spec(B')$ and is very closely related
+to that condition, see
+Algebra, Lemma \ref{algebra-lemma-what-does-it-mean}.
+It in particular says that taking the divided power
+envelope commutes with localization.
+
+\begin{lemma}
+\label{lemma-flat-base-change-divided-power-envelope}
+Let $(A, I, \gamma)$ be a divided power ring.
+Let $B \to B'$ be a homomorphism of $A$-algebras.
+Assume that
+\begin{enumerate}
+\item $B/IB \to B'/IB'$ is flat, and
+\item $\text{Tor}_1^B(B', B/IB) = 0$.
+\end{enumerate}
+Then for any ideal $IB \subset J \subset B$ the canonical map
+$$
+D_B(J) \otimes_B B' \longrightarrow D_{B'}(JB')
+$$
+is an isomorphism.
+\end{lemma}
+
+\begin{proof}
+Set $D = D_B(J)$ and denote $\bar J \subset D$ its divided power ideal
+with divided power structure $\bar\gamma$. The universal property of
+$D$ produces a $B$-algebra map $D \to D_{B'}(JB')$, whence a map as in
+the lemma. It suffices to show that
+the divided powers $\bar\gamma$ extend to $D \otimes_B B'$ since then
+the universal property of $D_{B'}(JB')$ will produce a map
+$D_{B'}(JB') \to D \otimes_B B'$ inverse to the one in the lemma.
+
+\medskip\noindent
+Choose a surjection $P \to B'$ where $P$ is a polynomial algebra over $B$.
+In particular $B \to P$ is flat, hence $D \to D \otimes_B P$ is flat by
+Algebra, Lemma \ref{algebra-lemma-flat-base-change}.
+Then $\bar\gamma$ extends to $D \otimes_B P$ by
+Lemma \ref{lemma-gamma-extends}; we will denote this extension
+$\bar\gamma$ also. Set $\mathfrak a = \text{Ker}(P \to B')$ so that
+we have the short exact sequence
+$$
+0 \to \mathfrak a \to P \to B' \to 0
+$$
+Thus $\text{Tor}_1^B(B', B/IB) = 0$ implies that
+$\mathfrak a \cap IP = I\mathfrak a$.
+Now we have the following commutative diagram
+$$
+\xymatrix{
+B/J \otimes_B \mathfrak a \ar[r]_\beta &
+B/J \otimes_B P \ar[r] &
+B/J \otimes_B B' \\
+D \otimes_B \mathfrak a \ar[r]^\alpha \ar[u] &
+D \otimes_B P \ar[r] \ar[u] &
+D \otimes_B B' \ar[u] \\
+\bar J \otimes_B \mathfrak a \ar[r] \ar[u] &
+\bar J \otimes_B P \ar[r] \ar[u] &
+\bar J \otimes_B B' \ar[u]
+}
+$$
+This diagram is exact even with $0$'s added at the top and the right.
+We have to show the divided powers on the ideal
+$\bar J \otimes_B P$ preserve the ideal
+$\text{Im}(\alpha) \cap \bar J \otimes_B P$, see
+Lemma \ref{lemma-kernel}. Consider the exact sequence
+$$
+0 \to \mathfrak a/I\mathfrak a \to P/IP \to B'/IB' \to 0
+$$
+(which uses that $\mathfrak a \cap IP = I\mathfrak a$ as seen above).
+As $B'/IB'$ is flat over $B/IB$ this sequence remains exact after
+applying $B/J \otimes_{B/IB} -$, see
+Algebra, Lemma \ref{algebra-lemma-flat-tor-zero}. Hence
+$$
+\text{Ker}(B/J \otimes_{B/IB} \mathfrak a/I\mathfrak a \to
+B/J \otimes_{B/IB} P/IP) =
+\text{Ker}(\mathfrak a/J\mathfrak a \to P/JP)
+$$
+is zero. Thus $\beta$ is injective. It follows that
+$\text{Im}(\alpha) \cap \bar J \otimes_B P$ is the
+image of $\bar J \otimes \mathfrak a$. Now if
+$f \in \bar J$ and $a \in \mathfrak a$, then
+$\bar\gamma_n(f \otimes a) = \bar\gamma_n(f) \otimes a^n$
+hence the result is clear.
+\end{proof}
+
+\noindent
+The following lemma is a special case of
+\cite[Proposition 2.1.7]{dJ-crystalline} which in turn is a
+generalization of \cite[Proposition 2.8.2]{Berthelot}.
+
+\begin{lemma}
+\label{lemma-flat-extension-divided-power-envelope}
+Let $(B, I, \gamma) \to (B', I', \gamma')$ be a homomorphism of
+divided power rings. Let $I \subset J \subset B$ and
+$I' \subset J' \subset B'$ be ideals. Assume
+\begin{enumerate}
+\item $B/I \to B'/I'$ is flat, and
+\item $J' = JB' + I'$.
+\end{enumerate}
+Then the canonical map
+$$
+D_{B, \gamma}(J) \otimes_B B' \longrightarrow D_{B', \gamma'}(J')
+$$
+is an isomorphism.
+\end{lemma}
+
+\begin{proof}
+Set $D = D_B(J)$ and denote $\bar J \subset D$ its divided power ideal
+with divided power structure $\bar\gamma$. The universal property of
+$D$ produces a homomorphism of divided power rings $D \to D_{B'}(J')$,
+whence a map as in the lemma. It suffices to show that
+there exist divided powers on the image of
+$D \otimes_B I' + \bar J \otimes_B B' \to  D \otimes_B B'$
+compatible with $\bar \gamma$ and $\gamma'$ since then
+the universal property of $D_{B'}(J')$ will produce a map
+$D_{B'}(J') \to D \otimes_B B'$ inverse to the one in the lemma.
+
+\medskip\noindent
+Choose elements $f_t \in J$ which generate $J/I$. Set
+$\mathcal{R} = \{(r_0, r_t) \in I \oplus \bigoplus\nolimits_{t \in T} B
+\mid \sum r_t f_t = r_0 \text{ in }B\}$ as in the proof of
+Lemma \ref{lemma-describe-divided-power-envelope}. This lemma shows that
+$$
+D = B\langle x_t \rangle/ K
+$$
+where $K$ is generated by the elements $x_t - f_t$ and
+$\delta_n(\sum r_t x_t - r_0)$ for $(r_0, r_t) \in \mathcal{R}$.
+Thus we see that
+\begin{equation}
+\label{equation-base-change}
+D \otimes_B B' = B'\langle x_t \rangle/K'
+\end{equation}
+where $K'$ is generated by the images in $B'\langle x_t \rangle$
+of the generators of $K$ listed above. Let $f'_t \in B'$ be the image
+of $f_t$. By assumption (1) we see that the elements $f'_t \in J'$
+generate $J'/I'$ and we see that $x_t - f'_t \in K'$. Set
+$$
+\mathcal{R}' =
+\{(r'_0, r'_t) \in I' \oplus \bigoplus\nolimits_{t \in T} B'
+\mid \sum r'_t f'_t = r'_0 \text{ in }B'\}
+$$
+To finish the proof we have to show that
+$\delta'_n(\sum r'_t x_t - r'_0) \in K'$ for
+$(r'_0, r'_t) \in \mathcal{R}'$, because then the presentation
+(\ref{equation-base-change}) of $D \otimes_B B'$ is identical
+to the presentation of $D_{B', \gamma'}(J')$ obtain in
+Lemma \ref{lemma-describe-divided-power-envelope} from the generators $f'_t$.
+Suppose that $(r'_0, r'_t) \in \mathcal{R}'$. Then
+$\sum r'_t f'_t = 0$ in $B'/I'$. As $B/I \to B'/I'$ is flat by
+assumption (1) we can apply the equational criterion of flatness
+(Algebra, Lemma \ref{algebra-lemma-flat-eq}) to see
+that there exist an $m > 0$ and
+$r_{jt} \in B$ and $c_j \in B'$, $j = 1, \ldots, m$ such
+that
+$$
+r_{j0} = \sum r_{jt} f_t  \in I \text{ for } j = 1, \ldots, m,
+\quad\text{and}\quad
+r'_t = \sum c_j r_{jt}.
+$$
+Note that this also implies that $r'_0 = \sum c_j r_{j0}$.
+Then we have
+\begin{align*}
+\delta'_n(\sum r'_t x_t  - r'_0)
+& =
+\delta'_n(\sum c_j (\sum r_{jt} x_t  - r_{j0})) \\
+& =
+\sum c_1^{n_1} \ldots c_m^{n_m}
+\delta_{n_1}(\sum r_{1t} x_t  - r_{10}) \ldots
+\delta_{n_m}(\sum r_{mt} x_t  - r_{m0})
+\end{align*}
+where the sum is over $n_1 + \ldots + n_m = n$. This proves what we want.
+\end{proof}
+
+
+
+
+
+\section{Some explicit divided power thickenings}
+\label{section-explicit-thickenings}
+
+\noindent
+The constructions in this section will help us to define the connection
+on a crystal in modules on the crystalline site.
+
+\begin{lemma}
+\label{lemma-divided-power-first-order-thickening}
+Let $(A, I, \gamma)$ be a divided power ring. Let $M$ be an $A$-module.
+Let $B = A \oplus M$ as an $A$-algebra where $M$ is an ideal of square zero
+and set $J = I \oplus M$. Set
+$$
+\delta_n(x + z) = \gamma_n(x) + \gamma_{n - 1}(x)z
+$$
+for $x \in I$ and $z \in M$.
+Then $\delta$ is a divided power structure and
+$A \to B$ is a homomorphism of divided power rings from
+$(A, I, \gamma)$ to $(B, J, \delta)$.
+\end{lemma}
+
+\begin{proof}
+We have to check conditions (1) -- (5) of
+Definition \ref{definition-divided-powers}.
+We will prove this directly for this case, but please see the proof of
+the next lemma for a method which avoids calculations.
+Conditions (1) and (3) are clear. Condition (2) follows from
+\begin{align*}
+\delta_n(x + z)\delta_m(x + z)
+& =
+(\gamma_n(x) + \gamma_{n - 1}(x)z)(\gamma_m(x) + \gamma_{m - 1}(x)z) \\
+& = \gamma_n(x)\gamma_m(x) + \gamma_n(x)\gamma_{m - 1}(x)z +
+\gamma_{n - 1}(x)\gamma_m(x)z \\
+& =
+\frac{(n + m)!}{n!m!} \gamma_{n + m}(x) +
+\left(\frac{(n + m - 1)!}{n!(m - 1)!} +
+\frac{(n + m - 1)!}{(n - 1)!m!}\right)
+\gamma_{n + m - 1}(x) z \\
+& =
+\frac{(n + m)!}{n!m!}\delta_{n + m}(x + z)
+\end{align*}
+Condition (5) follows from
+\begin{align*}
+\delta_n(\delta_m(x + z))
+& =
+\delta_n(\gamma_m(x) + \gamma_{m - 1}(x)z) \\
+& =
+\gamma_n(\gamma_m(x)) + \gamma_{n - 1}(\gamma_m(x))\gamma_{m - 1}(x)z \\
+& =
+\frac{(nm)!}{n! (m!)^n} \gamma_{nm}(x) +
+\frac{((n - 1)m)!}{(n - 1)! (m!)^{n - 1}}
+\gamma_{(n - 1)m}(x) \gamma_{m - 1}(x) z \\
+& = \frac{(nm)!}{n! (m!)^n}(\gamma_{nm}(x) + \gamma_{nm - 1}(x) z)
+\end{align*}
+by elementary number theory. To prove (4) we have to see that
+$$
+\delta_n(x + x' + z + z')
+=
+\gamma_n(x + x') + \gamma_{n - 1}(x + x')(z + z')
+$$
+is equal to
+$$
+\sum\nolimits_{i = 0}^n
+(\gamma_i(x) + \gamma_{i - 1}(x)z)
+(\gamma_{n - i}(x') + \gamma_{n - i - 1}(x')z')
+$$
+This follows easily on collecting the coefficients of
+$1$, $z$, and $z'$ and using condition (4) for $\gamma$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-divided-power-second-order-thickening}
+Let $(A, I, \gamma)$ be a divided power ring. Let $M$, $N$ be $A$-modules.
+Let $q : M \times M \to N$ be an $A$-bilinear map.
+Let $B = A \oplus M \oplus N$ as an $A$-algebra with multiplication
+$$
+(x, z, w)\cdot (x', z', w') = (xx', xz' + x'z, xw' + x'w + q(z, z') + q(z', z))
+$$
+and set $J = I \oplus M \oplus N$. Set
+$$
+\delta_n(x, z, w) = (\gamma_n(x), \gamma_{n - 1}(x)z,
+\gamma_{n - 1}(z)w + \gamma_{n - 2}(x)q(z, z))
+$$
+for $(a, m, n) \in J$.
+Then $\delta$ is a divided power structure and
+$A \to B$ is a homomorphism of divided power rings from
+$(A, I, \gamma)$ to $(B, J, \delta)$.
+\end{lemma}
+
+\begin{proof}
+Suppose we want to prove that property (4) of
+Definition \ref{definition-divided-powers}
+is satisfied. Pick $(x, z, w)$ and $(x', z', w')$ in $J$.
+Pick a map
+$$
+A_0 = \mathbf{Z}\langle s, s'\rangle \longrightarrow A,\quad
+s \longmapsto x,
+s' \longmapsto x'
+$$
+which is possible by the universal property of divided power
+polynomial rings. Set $M_0 = A_0 \oplus A_0$ and
+$N_0 = A_0 \oplus A_0 \oplus M_0 \otimes_{A_0} M_0$.
+Let $q_0 : M_0 \times M_0 \to N_0$ be the obvious map.
+Define $M_0 \to M$ as the $A_0$-linear map which sends
+the basis vectors of $M_0$ to $z$ and $z'$. Define $N_0 \to N$
+as the $A_0$ linear map which sends the first two basis vectors
+of $N_0$ to $w$ and $w'$ and uses
+$M_0 \otimes_{A_0} M_0 \to M \otimes_A M \xrightarrow{q} N$
+on the last summand. Then we see that it suffices to prove the
+identitity (4) for the situation $(A_0, M_0, N_0, q_0)$.
+Similarly for the other identities. This reduces us to the case
+of a $\mathbf{Z}$-torsion free ring and $\mathbf{A}$-torsion free modules.
+In this case all we have to do is show that
+$$
+n! \delta_n(x, z, w) = (x, z, w)^n
+$$
+in the ring $A$. To see this note that
+$$
+(x, z, w)^2 = (x^2, 2xz, 2xw + 2q(z, z))
+$$
+and by induction
+$$
+(x, z, w)^n = (x^n, nx^{n - 1}z, nx^{n - 1}w + n(n - 1)x^{n - 2}q(z, z))
+$$
+On the other hand,
+$$
+n! \delta_n(x, z, w) = (n!\gamma_n(x), n!\gamma_{n - 1}(x)z,
+n!\gamma_{n - 1}(x)w + n!\gamma_{n - 2}(x) q(z, z))
+$$
+which matches. This finishes the proof.
+\end{proof}
+
+
+
+
+\section{Compatibility}
+\label{section-compatibility}
+
+\noindent
+This section isn't required reading; it explains how our discussion
+fits with that of \cite{Berthelot}.
+Consider the following technical notion.
+
+\begin{definition}
+\label{definition-compatible}
+Let $(A, I, \gamma)$ and $(B, J, \delta)$ be divided power rings.
+Let $A \to B$ be a ring map. We say
+{\it $\delta$ is compatible with $\gamma$}
+if there exists a divided power structure $\bar\gamma$ on
+$J + IB$ such that
+$$
+(A, I, \gamma) \to (B, J + IB, \bar \gamma)\quad\text{and}\quad
+(B, J, \delta) \to (B, J + IB, \bar \gamma)
+$$
+are homomorphisms of divided power rings.
+\end{definition}
+
+\noindent
+Let $p$ be a prime number. Let $(A, I, \gamma)$ be a divided power ring.
+Let $A \to C$ be a ring map with $p$ nilpotent in $C$.
+Assume that $\gamma$ extends to $IC$ (see
+Lemma \ref{lemma-gamma-extends}).
+In this situation, the (big affine) crystalline site of
+$\Spec(C)$ over $\Spec(A)$
+as defined in \cite{Berthelot} 
+is the opposite of the category of systems
+$$
+(B, J, \delta, A \to B, C \to B/J)
+$$
+where
+\begin{enumerate}
+\item $(B, J, \delta)$ is a divided power ring with $p$ nilpotent in $B$,
+\item $\delta$ is compatible with $\gamma$, and
+\item the diagram
+$$
+\xymatrix{
+B \ar[r] & B/J \\
+A \ar[u] \ar[r] & C \ar[u]
+}
+$$
+is commutative.
+\end{enumerate}
+The conditions
+``$\gamma$ extends to $C$ and $\delta$ compatible with $\gamma$''
+are used in \cite{Berthelot} to insure that
+the crystalline cohomology of $\Spec(C)$ is the same as the crystalline
+cohomology of $\Spec(C/IC)$. We will avoid this issue
+by working exclusively with $C$ such that $IC = 0$\footnote{Of course there
+will be a price to pay.}. In this case,
+for a system $(B, J, \delta, A \to B, C \to B/J)$ as above,
+the commutativity of the displayed diagram above implies $IB \subset J$ and
+compatibility is equivalent to the condition that
+$(A, I, \gamma) \to (B, J, \delta)$ is a homomorphism of divided
+power rings.
+
+
+
+
+\section{Affine crystalline site}
+\label{section-affine-site}
+
+\noindent
+In this section we put some algebra related to the crystalline site.
+Note that usually the prime number $p$ will be contained in the
+divided power ideal $I$.
+
+\begin{definition}
+\label{definition-affine-thickening}
+Let $p$ be a prime number. Let $(A, I, \gamma)$ be a divided power
+ring such that $A$ is a $\mathbf{Z}_{(p)}$-algebra. Let $A \to C$ be a
+ring map such that $IC = 0$ and $p$ is nilpotent in $C$.
+A {\it divided power thickening} of $C$ over $(A, I, \gamma)$
+is a homomorphism of divided power algebras
+$(A, I, \gamma) \to (B, J, \delta)$ such that $p$ is nilpotent in $B$
+and a ring map $C \to B/J$ such that
+$$
+\xymatrix{
+B \ar[r] & B/J \\
+& C \ar[u] \\
+A \ar[uu] \ar[r] & A/I \ar[u]
+}
+$$
+is commutative. A {\it homomorphism of divided power thickenings}
+is defined in the obvious way. We denote $\text{CRIS}(C/A, I, \gamma)$
+or simply $\text{CRIS}(C/A)$ the category of divided power thickenings
+of $C$ over $(A, I, \gamma)$.
+\end{definition}
+
+\noindent
+Note that for a divided power thickening $(B, J, \delta)$ as above
+the ideal $J$ is locally nilpotent, see Lemma \ref{lemma-nil}.
+This category does not have equalizers or fibre products in general.
+It also doesn't have an initial object ($=$ empty colimit) in general.
+
+\begin{lemma}
+\label{lemma-affine-thickenings-colimits}
+Assumptions as in Definition \ref{definition-affine-thickening}.
+The category $\text{CRIS}(A/C)$ has products.
+It also has all finite nonempty colimits.
+\end{lemma}
+
+\begin{proof}
+The empty product is $(C, 0, \emptyset)$.
+If $(B_t, J_t, \delta_t)$ is a family of divided power thickenings
+then we can form the product $(\prod B_t, \prod J_t, \prod \delta_t)$
+as in Lemma \ref{lemma-colimits}. The map
+$C \to \prod B_t/\prod J_t = \prod B_t/J_t$ is clear.
+
+\medskip\noindent
+Given two objects $(B, J, \gamma)$ and $(B', J', \gamma')$ we can
+form a cocartesian diagram
+$$
+\xymatrix{
+(B, J, \gamma) \ar[r] & (B'', J'', \delta'') \\
+(A, I, \gamma) \ar[r] \ar[u] & (B', J', \delta') \ar[u]
+}
+$$
+in the category of divided power rings. Then we see that we have
+$$
+B''/J'' = B/J \otimes_{A/I} B'/J' \longleftarrow C \otimes_{A/I} C
+$$
+(details omitted). Denote $J'' \subset K \subset B''$ the ideal such that
+$$
+\xymatrix{
+B''/J'' \ar[r] & B''/K \\
+C \otimes_{A/I} C \ar[r] \ar[u] & C \ar[u]
+}
+$$
+is a pushout. Let $D = D_{B''}(K)$ be the divided power envelope of
+$K$ in $B''$ relative to $(B'', J'', \delta'')$. Then it is
+easily verified that $(D, \bar K, \bar \delta)$ is a coproduct
+of $(B, J, \delta)$ and $(B', J', \delta')$ in the category
+of affine thickenings.
+
+\medskip\noindent
+Next, we come to coequalizers. Let
+$\alpha, \beta : (B, J, \delta) \to (B', J', \delta')$ be
+morphisms of divided power thickenings over $(A, I, \gamma)$.
+Consider $B'' = B'/ (\alpha(b) - \beta(b))$. Let $J'' \subset B''$
+be the image of $J'$. Let $D = D_{B''}(J'')$ be the divided power envelope of
+$J''$ in $B''$ relative to $(B', J', \delta')$. Then it is
+easily verified that $(D, \bar K, \bar \delta)$ is the coequalizer
+of $(B, J, \delta)$ and $(B', J', \delta')$ in the category
+of affine thickenings.
+
+\medskip\noindent
+By Categories, Lemma \ref{categories-lemma-almost-finite-colimits-exist}
+we have all finite nonempty colimits.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-set-generators}
+Let $p$, $(A, I, \gamma)$, and $A \to C$ be as in
+Definition \ref{definition-affine-thickening}.
+Let $P$ be a polynomial algebra over $A$ and let
+$P \to C$ be a surjection of $A$-algebras with kernel $K$.
+For every $n \geq 1$ set $P_n = P/p^nP$ and $K_n \subset P_n$
+the image of $K$ and
+$$
+D_n = D_{P_n}(K_n)
+$$
+where the divided power envelope is taken relative to $(A, I, \gamma)$.
+Then $D_n$ is an object of $\text{CRIS}(C/A)$ and for every object
+$(B, J, \delta)$ of $\text{CRIS}(C/A)$ there exists an $n$ and
+a morphsm $D_n \to B$ of $\text{CRIS}(C/A)$.
+\end{lemma}
+
+\begin{proof}
+We just prove the final assertion.
+We can find an $A$-algebra homomorphism $P \to B$
+lifting the map $C \to B/J$. By definition $p^nB = 0$ for
+some $n$ hence $P \to B$ factors as $P \to P_n \to B$.
+By the universal property of the divided power envelope we
+conclude that $P_n \to B$ factors through $D_n$.
+\end{proof}
+
+
+
+
+
+
+
+\section{Module of differentials}
+\label{section-differentials}
+
+\noindent
+In this section we develop a theory of modules of differentials
+for divided power rings.
+
+\begin{definition}
+\label{definition-derivation}
+Let $(A, I, \gamma) \to (B, J, \delta)$ be a homomorphism
+of divided power rings. Let $M$ be an $B$-module.
+An {\it divided power $A$-derivation} into $M$ is a map
+$\theta : B \to M$ which is additive, annihilates the elements
+of $A$, satisfies the Leibniz rule
+$\theta(bb') = b\theta(b') + b'\theta(b)$ and satisfies
+$$
+\theta(\gamma_n(x)) = \gamma_{n - 1}(x)\theta(x)
+$$
+for all $n \geq 1$ and all $x \in J$.
+\end{definition}
+
+\noindent
+As in the case of usual derivations, there exists a
+{\it universal divided power $A$-derivation} $d_{A/B} : B \to \Omega_{B/A}$
+such that any derivation $\theta : B \to M$ is equal to
+$\theta = \xi \circ d_{B/A}$ for some $B$-linear map $\Omega_{B/A} \to M$.
+
+\medskip\noindent
+Let $(A, I, \gamma)$ be a divided power ring. In this setting the
+correct version of the powers of $I$ is given by the divided powers
+$$
+I^{[n]} = \text{ideal generate by }
+\gamma_{e_1}(x_1) \ldots \gamma_{e_t}(x_t)
+\text{ with }\sum e_j \geq n\text{ and }x_j \in I.
+$$
+Of course we have $I^n \subset I^{[n]}$. Note that $I^{[1]} = I$.
+Sometimes we also set $I^{[0]} = A$.
+
+\begin{lemma}
+\label{lemma-diagonal-and-differentials}
+Let $(A, I, \gamma) \to (B, J, \delta)$ be a homomorphism
+of divided power rings. Let $(B(1), J(1), \delta(1))$ be the coproduct
+of $(B, J, \delta)$ with itself over $(A, I, \gamma)$, i.e.,
+such that
+$$
+\xymatrix{
+(B, J, \delta) \ar[r] & (B(1), J(1), \delta(1)) \\
+(A, I, \gamma) \ar[r] \ar[u] & (B, J, \delta) \ar[u]
+}
+$$
+is cocartesian. Denote $K = \text{Ker}(B(1) \to B)$.
+Then $K \cap J(1) \subset J(1)$ is preserved by the divided power
+structure and
+$$
+\Omega_{B/A} = K/ \left(K^2 + (K \cap J(1))^{[2]}\right)
+$$
+canonically.
+\end{lemma}
+
+\begin{proof}
+The fact that $K \cap J(1) \subset J(1)$ is preserved by the divided power
+structure follows from the fact that $B(1) \to B$ is a homomorphism of
+divided power rings.
+
+\medskip\noindent
+Recall that $K/K^2$ has a canonical $B$-module structure.
+Denote $s_0, s_1 : B \to B(1)$ the two coprojections and consider
+the map $\text{d} : B \to K/K^2 +(K \cap J(1))^{[2]}$ given by
+$b \mapsto s_0(b) - s_1(b)$. It is clear that $\text{d}$ is additive,
+annihilates $A$, and satisfies the Leibniz rule.
+We claim that $\text{d}$ is an $A$-derivation.
+Let $x \in J$. Set $y = s_0(x)$ and $z = s_1(x)$.
+Denote $\delta$ the divided power structure on $J(1)$.
+We have to show that $\delta_n(y) - \delta_n(z) = \delta_{n - 1}(y)(y - z)$
+modulo $K^2 +(K \cap J(1))^{[2]}$ for $n \geq 1$. We will show this
+by induction on $n$. It is true for $n = 1$.
+Let $n > 1$ and that it holds for all smaller values.
+Note that
+$$
+\delta_n(z - y) =
+\sum\nolimits_{i = 0}^n (-1)^{n - i}\delta_i(z)\delta_{n - i}(y)
+$$
+is an element of $K^2 +(K \cap J(1))^{[2]}$. From this and induction
+we see that working modulo $K^2 +(K \cap J(1))^{[2]}$ we have
+\begin{align*}
+& \delta_n(y) - \delta_n(z) \\
+& =
+\delta_n(y) +
+\sum\nolimits_{i = 0}^{n - 1} (-1)^{n - i}\delta_i(z)\delta_{n - i}(y) \\
+& =
+\delta_n(y) + (-1)^n\delta_n(y) +
+\sum\nolimits_{i = 1}^{n - 1}
+(-1)^{n - i}(\delta_i(y) - \delta_{i - 1}(y)(y - z))\delta_{n - i}(y)
+\end{align*}
+Using that $\delta_i(y)\delta_{n - i}(y) = \binom{n}{i} \delta_n(y)$
+and that $\delta_{i - 1}(y)\delta_{n - i}(y) =
+\binom{n - 1}{i} \delta_{n - 1}(y)$
+the reader easily verifies that this expression comes out to give
+$\delta_{n - 1}(y)(y - z)$ as desired.
+
+\medskip\noindent
+Let $M$ be a $B$-module. Let $\theta : B \to M$ be a divided power
+$A$-derivation.
+Set $D = B \oplus M$ where $M$ is an ideal of square zero. Define a
+divided power structure on $J \oplus M \subset D$ by setting
+$\delta_n(x + m) = \delta_n(x) + \delta_{n - 1}(x)m$ for $n > 1$, see
+Lemma \ref{lemma-divided-power-first-order-thickening}.
+There are two divided power algebra homomorphisms $B \to D$: the first
+is given by the inclusion and the second by the map $b \mapsto b + \theta(b)$.
+Hence we get a canonical homomorphism $B(1) \to D$ of divided power
+algebras over $(A, I, \gamma)$. This induces a map $K \to M$
+which annihilates $K^2$ (as $M$ is an ideal of square zero) and
+$(K \cap J(1))^{[2]}$ as $M^{[2]} = 0$. It follows that $\text{d}$
+is a universal divided power $A$-derivation and we win.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-diagonal-and-differentials-affine-site}
+Let $p$, $(A, I, \gamma)$, and $A \to C$ as in
+Definition \ref{definition-affine-thickening}.
+Let $(B, J, \delta)$ be a divided power thickening of $C$ over
+$(A, I, \gamma)$. Let $(B(1), J(1), \delta(1))$ be the coproduct
+of $(B, J, \delta)$ with itself in the category of divided power
+thickenings of $C$ over $(A, I, \gamma)$. Denote
+$K = \text{Ker}(B(1) \to B)$. Then $K \cap J(1) \subset J(1)$
+is preserved by the divided power structure and
+$$
+\Omega_{B/A} = K/ \left(K^2 + (K \cap J(1))^{[2]}\right)
+$$
+canonically.
+\end{lemma}
+
+\begin{proof}
+Word for word the same as the proof of
+Lemma \ref{lemma-diagonal-and-differentials}.
+The only point that has to be checked is that the
+divided power ring $D = B \oplus M$ is a
+divided power thickening of $C$ over $(A, I, \gamma)$
+and that the two maps $B \to C$ are homomorphisms of
+divided power thickenings of $C$ over $(A, I, \gamma)$.
+Since $D/(J \oplus M) = B/J$ we can use $C \to B/J$
+and everything is clear from the construction.
+\end{proof}
+
+\begin{remark}
+\label{remark-absolute-de-rham-complex}
+Let $B$ be a ring. Write $\Omega_B = \Omega_{B/\mathbf{Z}}$
+for the absolute\footnote{This
+actually makes sense: if $\Omega_B$ is the module of differentials
+where we only assume the Leibniz rule and not the vanishing of $\text{d}1$,
+then the Leibniz rule gives $\text{d}1 = \text{d}(1 \cdot 1) =
+1 \text{d}1 + 1 \text{d}1 = 2 \text{d}1$ and hence
+$\text{d}1 = 0$ in $\Omega_B$.} module of differentials of $B$.
+Let $\text{d} : B \to \Omega_B$ denote the universal derivation. Set
+$\Omega_B^i = \wedge^i_B(\Omega_B)$ as in
+Algebra, Section \ref{algebra-section-tensor-algebra}.
+The absolute {\it de Rham complex}
+$$
+\Omega_B^0 \to \Omega_B^1 \to \Omega_B^2 \to \ldots
+$$
+Here $\text{d} : \Omega_B^p \to \Omega_B^{p + 1}$
+is defined by the rule
+$$
+\text{d}\left(b_0\text{d}b_1 \wedge \ldots \wedge \text{d}b_p\right) =
+\text{d}b_0 \wedge \text{d}b_1 \wedge \ldots \wedge \text{d}b_p
+$$
+which we will show is well defined; note that
+$\text{d} \circ \text{d} = 0$ so we get a complex.
+Recall that $\Omega_B$ is the $B$-module generated by
+elements $\text{d}b$ subject to the relations
+$\text{d}(a + b) = \text{d}a + \text{d}b$ and
+$\text{d}(ab) = b\text{d}a + a\text{d}b$
+for $a, b \in B$. To prove that our map is well defined for $p = 1$
+we have to show that the elements
+$$
+a\text{d}(b + c) - a\text{d}b - a\text{d}c
+\quad\text{and}\quad
+a\text{d}(bc) - ac\text{d}b - ab\text{d}c,\quad a,b,c \in B
+$$
+are mapped to zero by our rule. This is clear by direct computation
+(using the Leibniz rule). Thus we get a map
+$$
+\Omega_B \otimes_\mathbf{Z} \ldots \otimes_\mathbf{Z} \Omega_B
+\longrightarrow
+\Omega_B^{p + 1}
+$$
+defined by the formula
+$$
+\omega_1 \otimes \ldots \otimes \omega_p
+\longmapsto
+\sum (-1)^{i + 1}
+\omega_1 \wedge \ldots \wedge \text{d}(\omega_i) \wedge \ldots \wedge \omega_p
+$$
+which matches our rule above on elements of the form
+$b_0\text{d}b_1 \otimes \text{d}b_2 \otimes \ldots \otimes \text{d}b_p$.
+It is clear that this map is alternating. To finish we have to show
+that
+$$
+\omega_1 \otimes \ldots \otimes f\omega_i \otimes \ldots \otimes \omega_p
+\quad\text{and}\quad
+\omega_1 \otimes \ldots \otimes f\omega_j \otimes \ldots \otimes \omega_p
+$$
+are mapped to the same element. By $\mathbf{Z}$-linearity and
+the alternating property, it is enough to show this for $p = 2$, $i = 1$,
+$j = 2$, $\omega_1 = a_1 \text{d}b_1$ and $\omega_2 = a_2 \text{d}b_2$.
+Thus we need to show that
+\begin{align*}
+& \text{d}fa_1 \wedge \text{d}b_1 \wedge a_2\text{d}b_2
+- fa_1 \text{d}b_1 \wedge \text{d}a_2 \wedge \text{d}b_2 \\
+& =
+\text{d}a_1 \wedge \text{d}b_1 \wedge fa_2\text{d}b_2
+- a_1 \text{d}b_1 \wedge \text{d}fa_2 \wedge \text{d}b_2
+\end{align*}
+in other words that
+$$
+(a_2 \text{d}fa_1 + fa_1 \text{d}a_2 - fa_2 \text{d}a_1 - a_1 \text{d}fa_2)
+\wedge \text{d}b_1 \wedge \text{d}b_2 = 0.
+$$
+This follows from the Leibniz rule.
+\end{remark}
+
+\begin{lemma}
+\label{lemma-de-rham-complex}
+Let $B$ be a ring. Let $\pi : \Omega_B \to \Omega$ be a surjective $B$-module
+map. Denote $\text{d} : B \to \Omega$ the composition of $\pi$ with
+$\text{d}_B : B \to \Omega_B$. Set $\Omega^i = \wedge_B^i(\Omega)$.
+Assume that the kernel of $\pi$ is generated, as a $B$-module,
+by elements $\omega \in \Omega_B$ such that
+$\text{d}_B(\omega) \in \Omega_B^2$ maps to zero in $\Omega^2$.
+Then there is a de Rham complex
+$$
+\Omega^0 \to \Omega^1 \to \Omega^2 \to \ldots
+$$
+whose differential is defined by the rule
+$$
+\text{d} : \Omega^p \to \Omega^{p + 1},\quad
+\text{d}\left(f_0\text{d}f_1 \wedge \ldots \wedge \text{d}f_p\right) =
+\text{d}f_0 \wedge \text{d}f_1 \wedge \ldots \wedge \text{d}f_p
+$$
+\end{lemma}
+
+\begin{proof}
+We will show that there exists a commutative diagram
+$$
+\xymatrix{
+\Omega_B^0 \ar[d] \ar[r]_{\text{d}_B} &
+\Omega_B^1 \ar[d]_\pi \ar[r]_{\text{d}_B} &
+\Omega_B^2 \ar[d]_{\wedge^2\pi} \ar[r]_{\text{d}_B} &
+\ldots \\
+\Omega^0 \ar[r]^{\text{d}} &
+\Omega^1 \ar[r]^{\text{d}} &
+\Omega^2 \ar[r]^{\text{d}} &
+\ldots
+}
+$$
+the description of the map $\text{d}$ will follow from the construction
+of $\text{d}_B$ in Remark \ref{remark-absolute-de-rham-complex}.
+Since the left most vertical arrow is an isomorphism we have
+the first square. Because $\pi$ is surjective, to get the second
+square it suffices to show that $\text{d}_B$ maps the kernel
+of $\pi$ into the kernel of $\wedge^2\pi$. We are given that any element
+of the kernel of $\pi$ is of the form
+$\sum b_i\omega_i$ with $\pi(\omega_i) = 0$ and
+$\wedge^2\pi(\text{d}_B(\omega_i)) = 0$.
+By the Leibniz rule for $\text{d}_B$ we have
+$\text{d}_B(\sum b_i\omega_i) = \sum b_i \text{d}_B(\omega_i) +
+\sum \text{d}_B(b_i) \wedge \omega_i$. Hence this maps to zero
+under $\wedge^2\pi$.
+
+\medskip\noindent
+For $i > 1$ we note that $\wedge^i \pi$ is surjective with
+kernel the image of $\text{Ker}(\pi) \wedge \Omega^{i - 1}_B
+\to \Omega_B^i$. For $\omega_1 \in \text{Ker}(\pi)$ and
+$\omega_2 \in \Omega^{i - 1}_B$ we have
+$$
+\text{d}_B(\omega_1 \wedge \omega_2) =
+\text{d}_B(\omega_1) \wedge \omega_2 - \omega_1 \wedge \text{d}_B(\omega_2)
+$$
+which is in the kernel of $\wedge^{i + 1}\pi$ by what we just proved above.
+Hence we get the $(i + 1)$st square in the diagram above.
+This concludes the proof.
+\end{proof}
+
+\begin{remark}
+\label{remark-divided-powers-de-rham-complex}
+Let $(A, I, \gamma) \to (B, J, \delta)$ be a homomorphism
+of divided power rings. Set $\Omega_{B/A}^i = \wedge^i_B \Omega_{B/A}$
+where $\Omega_{B/A}$ is the target of the universal divided power
+derivation $\text{d} = \text{d}_{B/A} : B \to \Omega_{B/A}$.
+Note that $\Omega_{B/A}$ is the quotient of $\Omega_B$ by the
+$B$-submodule generated by the elements
+$\text{d}a = 0$ for $a \in A$ and
+$\text{d}\delta_n(x) - \delta_{n - 1}(x)\text{d}x$ for $x \in J$.
+We claim Lemma \ref{lemma-de-rham-complex} applies.
+To see this it suffices to verify the elements
+$\text{d}a$ and $\text{d}\delta_n(x) - \delta_{n - 1}(x)\text{d}x$
+of $\Omega_B$ are mapped to zero in $\Omega^2_{B/A}$.
+This is clear for the first, and for the last we observe that
+$$
+\text{d}(\delta_{n - 1}(x)) \wedge \text{d}x
+= \delta_{n - 2}(x) \wedge \text{d}x \wedge \text{d}x = 0
+$$
+in $\Omega^2_{B/A}$ as desired. Hence we obtain a
+{\it divided power de Rham complex}
+$$
+\Omega^0_{B/A} \to \Omega^1_{B/A} \to \Omega^2_{B/A} \to \ldots
+$$
+which will play an important role in the sequel.
+\end{remark}
+
+\begin{remark}
+\label{remark-connection}
+Let $B$ be a ring. Let $\Omega_B \to \Omega$ be a quotient satisfying
+the assumptions of Lemma \ref{lemma-de-rham-complex} so
+that we have a de Rham complex. Let $M$ be a $B$-module.
+A {\it connection} is an additive map
+$$
+\nabla : M \longrightarrow M \otimes_B \Omega
+$$
+such that $\nabla(bm) = b \nabla(m) + m \otimes \text{d}b$
+for $b \in B$ and $m \in M$. In this situation we can define maps
+$$
+\nabla : M \otimes_B \Omega^i \longrightarrow M \otimes_B \Omega^{i + 1}
+$$
+by the rule $\nabla(m \otimes \omega) = \nabla(m) \wedge \omega +
+m \otimes \text{d}\omega$. This works because if $b \in B$, then
+\begin{align*}
+\nabla(bm \otimes \omega) - \nabla(m \otimes b\omega)
+& =
+\nabla(bm) \otimes \omega + bm \otimes \text{d}\omega
+- \nabla(m) \otimes b\omega - m \otimes \text{d}(b\omega) \\
+& =
+b\nabla(m) \otimes \omega + m \otimes \text{d}b \wedge \omega
++ bm \otimes \text{d}\omega \\
+&\ \ \ \ \ \ - b\nabla(m) \otimes \omega - bm \otimes \text{d}(\omega)
+- m \otimes \text{d}b \wedge \omega \\
+& = 0
+\end{align*}
+As is customary we say the connection is {\it integrable} if and
+only if the composition
+$$
+M \xrightarrow{\nabla} M \otimes_B \Omega^1
+\xrightarrow{\nabla} M \otimes_B \Omega^2
+$$
+is zero. In this case we obtain a complex
+$$
+M \xrightarrow{\nabla} M \otimes_B \Omega^1
+\xrightarrow{\nabla} M \otimes_B \Omega^2
+\xrightarrow{\nabla} M \otimes_B \Omega^3
+\xrightarrow{\nabla} M \otimes_B \Omega^4 \to \ldots
+$$
+which is called the de Rham complex of the connection.
+\end{remark}
+
+
+
+
+\section{Divided power schemes}
+\label{section-divided-power-schemes}
+
+\noindent
+Some remarks on how to globalize the previous notions.
+
+\begin{definition}
+\label{definition-divided-power-structure}
+Let $\mathcal{C}$ be a site. Let $\mathcal{O}$ be a sheaf of rings
+on $\mathcal{C}$. Let $\mathcal{I} \subset \mathcal{O}$ be a
+sheaf of ideals. A {\it divided power structure $\gamma$} on $\mathcal{I}$
+is a sequence of maps $\gamma_n : \mathcal{I} \to \mathcal{I}$, $n \geq 1$
+such that for any object $U$ of $\mathcal{C}$ the triple
+$$
+(\mathcal{O}(U), \mathcal{I}(U), \gamma)
+$$
+is a divided power ring.
+\end{definition}
+
+\noindent
+To be sure this applies in particular to sheaves of rings on
+topological spaces. But it's good to be a little bit more general
+as the structure sheaf of the crystalline site lives on a... site!
+A triple $(\mathcal{C}, \mathcal{I}, \gamma)$ as in the
+definition above is sometimes called a {\it divided power topos}
+in this chapter. Given a second $(\mathcal{C}', \mathcal{I}', \gamma')$ and
+given a morphism of ringed topoi
+$(f, f^\sharp) : (\Sh(\mathcal{C}), \mathcal{O}) \to
+(\Sh(\mathcal{C}'), \mathcal{O}')$
+we say that $(f, f^\sharp)$ induces a {\it morphism of divided
+power topoi} if $f^\sharp(f^{-1}\mathcal{I}') \subset \mathcal{I}$
+and the diagrams
+$$
+\xymatrix{
+f^{-1}\mathcal{I}' \ar[d]_{f^{-1}\gamma'_n} \ar[r]_{f^\sharp} &
+\mathcal{I} \ar[d]^{\gamma_n} \\
+f^{-1}\mathcal{I}' \ar[r]^{f^\sharp} & \mathcal{I}
+}
+$$
+are commutative for all $n \geq 1$. If $f$ comes from a morphism of
+sites induced by a functor $u : \mathcal{C}' \to \mathcal{C}$ then
+this just means that
+$$
+(\mathcal{O}'(U'), \mathcal{I}'(U'), \gamma')
+\longrightarrow
+(\mathcal{O}(u(U')), \mathcal{I}(u(U')), \gamma)
+$$
+is a homomorphism of divided power rings for all $U' \in \Ob(\mathcal{C}')$.
+
+\medskip\noindent
+In the case of schemes we require the divided power ideal to be
+{\bf quasi-coherent}. But apart from this the definition is exactly
+the same as in the case of topoi. Here it is.
+
+\begin{definition}
+\label{definition-divided-power-scheme}
+A {\it divided power scheme} is a triple $(S, \mathcal{I}, \gamma)$
+where $S$ is a scheme, $\mathcal{I}$ is a quasi-coherent sheaf of
+ideals, and $\gamma$ is a divided power structure on $\mathcal{I}$.
+A {\it morphism of divided power schemes}
+$(S, \mathcal{I}, \gamma) \to (S', \mathcal{I}', \gamma')$ is
+a morphism of schemes $f : S \to S'$ such that
+$f^{-1}\mathcal{I}'\mathcal{O}_S \subset \mathcal{I}$ and such that
+$$
+(\mathcal{O}_S(U'), \mathcal{I}(U'), \gamma)
+\longrightarrow
+(\mathcal{O}_{S'}(f^{-1}U'), \mathcal{I}(f^{-1}U'), \gamma)
+$$
+is a homomorphism of divided power rings for all $U' \subset S'$ open.
+\end{definition}
+
+\noindent
+Recall that there is a 1-to-1 correspondence between quasi-coherent
+sheaves of ideals and closed immersions, see
+Morphisms, Section \ref{morphisms-section-closed-immersions}.
+Thus given a divided power scheme $(T, \mathcal{J}, \gamma)$ we
+get a canonical closed immersion $U \to T$ defined by $\mathcal{J}$.
+Conversely, given a closed immersion $U \to T$ and a divided power
+structure $\gamma$ on the sheaf of ideals $\mathcal{J}$ associated
+to $U \to T$ we obtain a divided power scheme $(T, \mathcal{J}, \gamma)$.
+In many situations we only want to consider such triples
+$(U, T, \gamma)$ when the morphism $U \to T$ is a thickening, see
+More on Morphisms, Definition \ref{more-morphisms-definition-thickening}.
+
+\begin{definition}
+\label{definition-divided-power-thickening}
+A triple $(U, T, \gamma)$ as above is called a {\it divided power thickening}
+if $U \to T$ is a thickening.
+\end{definition}
+
+\noindent
+We make the following observation. Suppose that $(U, T, \gamma)$
+is triple as above. Assume that $T$ is a scheme over $\mathbf{Z}_{(p)}$
+and that $p$ is locally nilpotent on $U$. Then we have
+$$
+p\text{ locally nilpotent on }T
+\Leftrightarrow
+U \to T\text{ is a thickening}
+$$
+See Lemma \ref{lemma-nil}.
+
+
+
+
+
+\section{Crystalline site}
+\label{section-site}
+
+\noindent
+We first define the big site. Given a divided power scheme
+$(S, \mathcal{I}, \gamma)$ we say $(T, \mathcal{J}, \delta)$ is
+a divided power scheme over $(S, \mathcal{I}, \gamma)$ if
+$T$ comes endowed with a morphism $T \to S$ of divided power
+schemes. Similarly, we say a divided power thickening $(U, T, \delta)$
+is a divided power thickening over $(S, \mathcal{I}, \gamma)$
+if $T$ comes endowed with a morphism $T \to S$ of divided power
+schemes.
+
+\begin{definition}
+\label{definition-divided-power-thickening-X}
+Let $p$ be a prime number. Let $(S, \mathcal{I}, \gamma)$ be a divided power
+scheme over $\mathbf{Z}_{(p)}$. Let $f : X \to S$ be a morphism of schemes
+such that $f^{-1}\mathcal{I} \mathcal{O}_X = 0$ and such that $p$ is
+locally nilpotent on $X$.
+\begin{enumerate}
+\item A {\it divided power thickening of $X$ relative to
+$(S, \mathcal{I}, \gamma)$} is given by a divided power thickening
+$(U, T, \delta)$ over $(S, \mathcal{I}, \gamma)$
+and an $S$-morphism $U \to X$.
+\item A {\it morphism of divided power thickenings of $X$
+relative to $(S, \mathcal{I}, \gamma)$} is defined in the obvious
+manner.
+\end{enumerate}
+The category of divided power thickenings of $X$ relative to
+$(S, \mathcal{I}, \gamma)$ is denoted $\text{CRIS}(X/S, \mathcal{I}, \gamma)$
+or simply $\text{CRIS}(X/S)$.
+\end{definition}
+
+\noindent
+For any $(U, T, \delta)$ in $\text{CRIS}(X/S)$
+we have that $p$ is locally nilpotent on $T$, see discussion after
+Definition \ref{definition-divided-power-thickening}.
+There is a canonical forgetful functor
+\begin{equation}
+\label{equation-forget}
+\text{CRIS}(X/S) \longrightarrow \Sch/X,\quad
+(U, T, \delta) \longmapsto U
+\end{equation}
+as well as its left inverse
+\begin{equation}
+\label{equation-endow-trivial}
+\Sch/X \longrightarrow \text{CRIS}(X/S),\quad
+U \longmapsto (U, U, \emptyset)
+\end{equation}
+which is sometimes useful.
+
+\begin{lemma}
+\label{lemma-divided-power-thickening-fibre-products}
+With notation and assumptions as in
+Definition \ref{definition-divided-power-thickening-X}.
+The category $\text{CRIS}(X/S)$ has all finite nonempty limits,
+in particular products of pairs and fibre products.
+The functor (\ref{equation-forget}) commutes with limits.
+\end{lemma}
+
+\begin{proof}
+Omitted. Hint: See Lemma \ref{lemma-affine-thickenings-colimits}
+for the affine case.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-divided-power-thickening-base-change-flat}
+With notation and assumptions as in
+Definition \ref{definition-divided-power-thickening-X}.
+Let
+$$
+\xymatrix{
+(U_3, T_3, \delta_3) \ar[d] \ar[r] & (U_2, T_2, \delta_2) \ar[d] \\
+(U_1, T_1, \delta_1) \ar[r] & (U, T, \delta)
+}
+$$
+be a fibre square in the category of divided power thickenings of
+$X$ relative to $(S, \mathcal{I}, \gamma)$. If $T_2 \to T$ is
+flat, then $T_3 = T_1 \times_T T_2$ (as schemes).
+\end{lemma}
+
+\begin{proof}
+This is true because a divided power structure extends uniquely
+along a flat ring map. See Lemma \ref{lemma-gamma-extends}.
+\end{proof}
+
+\noindent
+The lemma above means that the base change of a flat morphism
+of divided power thickenings is another flat morphism, and in
+fact is the ``usual'' base change of the morphism. This implies
+that the following definition makes sense.
+
+\begin{definition}
+\label{definition-big-crystalline-site}
+Assumptions and notation as in
+Definition \ref{definition-divided-power-thickening-X}.
+\begin{enumerate}
+\item A family of morphisms $\{(U_i, T_i, \delta_i) \to (U, T, \delta)\}$
+of divided power thickenings of $X/S$ is a {\it Zariski, \'etale, smooth,
+syntomic, or fppf covering} if and only if the family of morphisms
+of schemes $\{T_i \to T \}$ is one.
+\item The {\it big crystalline site} of $X$ over $(S, \mathcal{I}, \gamma)$,
+is the category $\text{CRIS}(X/S)$ endowed with the Zariski topology.
+\item The topos of sheaves on $\text{CRIS}(X/S)$ is denoted
+$(X/S)_{\text{CRIS}}$ or sometimes
+$(X/S, \mathcal{I}, \gamma)_{\text{CRIS}}$.
+\end{enumerate}
+\end{definition}
+
+\noindent
+Since (\ref{equation-forget}) commutes with products and fibre
+products, we see that looking at those $(U, T, \delta)$ such that
+$U \to X$ is an open immersion defines a full
+subcategory preserved under fibre products (and more generally
+finite nonempty limits). Hence the following
+definition makes sense.
+
+\begin{definition}
+\label{definition-crystalline-site}
+Assumptions and notation as in
+Definition \ref{definition-divided-power-thickening-X}.
+\begin{enumerate}
+\item The (small) {\it crystalline site} of $X$ over
+$(S, \mathcal{I}, \gamma)$, denoted $\text{Cris}(X/S, \mathcal{I}, \gamma)$
+or simply $\text{Cris}(X/S)$ is the full subcategory of $\text{CRIS}(X/S)$
+consisting of those divided power thickenings such that $U \to X$ is an open
+immersion. It comes endowed with the Zariski topology.
+\item The topos of sheaves on $\text{Cris}(X/S)$ is denoted
+$(X/S)_{\text{cris}}$ or sometimes
+$(X/S, \mathcal{I}, \gamma)_{\text{cris}}$.
+\end{enumerate}
+\end{definition}
+
+\noindent
+We can compare the small and big crystalline sites, just like
+we can compare the small and big \'etale sites of a scheme.
+
+\begin{lemma}
+\label{lemma-compare-big-small}
+The inclusion functor $\text{Cris}(X/S) \to \text{CRIS}(X/S)$ is
+commutes with finite nonempty limits, is fully faithful, continuous,
+and cocontinuous. There are morphisms of topoi
+$$
+(X/S)_{\text{cris}} \xrightarrow{i} (X/S)_{\text{CRIS}}
+\xrightarrow{\pi} (X/S)_{\text{cris}}
+$$
+whose composition is the identity and of which the first is induced
+by the inclusion functor. Moreover, $\pi_* = i^{-1}$.
+\end{lemma}
+
+\begin{proof}
+For the first assertion see
+Lemma \ref{lemma-divided-power-thickening-fibre-products}.
+This gives us a morphism of topoi
+$i : (X/S)_{\text{cris}} \to (X/S)_{\text{CRIS}}$ and a left adjoint
+$i_!$ such that $i^{-1}i_! = i^{-1}i_* = \text{id}$, see
+Sites, Lemmas \ref{sites-lemma-when-shriek},
+\ref{sites-lemma-preserve-equalizers}, and
+\ref{sites-lemma-back-and-forth}.
+We claim that $i_!$ is exact. If this is true, then we can define
+$\pi$ by the rules $\pi^{-1} = i_!$ and $\pi_* = i^{-1}$
+and everything is clear. To prove the claim, note that we already know
+that $i_!$ is right exact and preserves fibre products (see references
+given). Hence it suffices to show that $i_! * = *$ where $*$ indicates
+the final object in the category of sheaves of sets. 
+To see this it suffices to produce a set of objects
+$(U_i, T_i, \delta_i)$, $i \in I$ of $\text{Cris}(X/S)$ such that
+$$
+\coprod\nolimits_{i \in I} h_{(U_i, T_i, \delta_i)} \to *
+$$
+is surjective in $(X/S)_{\text{CRIS}}$ (details omitted).
+In the affine case this
+follows from Lemma \ref{lemma-set-generators}. We omit the proof
+in general.
+\end{proof}
+
+\begin{remark}[Functoriality]
+\label{remark-functoriality-cris}
+Let $p$ be a prime number.
+Let $(S, I, \gamma)$ be a divided power scheme
+over $\mathbf{Z}_{(p)}$.
+Let $f : X \to Y$ be a morphism of schemes over $S$ such that
+$\mathcal{I} \cdot \mathcal{O}_X = 0$,
+$\mathcal{I} \cdot \mathcal{O}_Y = 0$, and $p$ is locally nilpotent
+on $X$ and $Y$. Then we get a cocontinuous functor
+$$
+\text{CRIS}(X/S) \longrightarrow \text{CRIS}(Y/S)
+$$
+by letting $(U, T, \delta)$ correspond to $(U, T, \delta)$
+with $U \to X \to Y$ as the $S$-morphism from $U$ to $Y$.
+Hence we get a morphism of topoi
+$$
+f_{\text{CRIS}} : (X/S)_{\text{CRIS}} \longrightarrow (Y/S)_{\text{CRIS}}
+$$
+see Sites, Section \ref{sites-section-cocontinuous-morphism-topoi}.
+(This is the miracle of cocontinuous functors.) By analogy with
+Topologies, Lemma \ref{topologies-lemma-morphism-big-small} we define
+$$
+f_{\text{cris}} : (X/S)_{\text{cris}} \longrightarrow (Y/S)_{\text{cris}}
+$$
+by the formula $f_{\text{cris}} = \pi_Y \circ f_{\text{CRIS}} \circ i_X$
+where $i_X$ and $\pi_Y$ are as in Lemma \ref{lemma-compare-big-small}
+for $X$ and $Y$.
+\end{remark}
+
+\begin{remark}[Structure morphism]
+\label{remark-structure-morphism}
+Let $p$ be a prime number. Let $(S, I, \gamma)$ be a divided power scheme
+over $\mathbf{Z}_{(p)}$. Consider the closed subscheme
+$S_0 = V(\mathcal{I}) \subset S$ associated to the quasi-coherent sheaf
+of ideals $\mathcal{I}$. If we assume that $p$ is locally nilpotent on
+$S_0$ (which is almost always going to be the case in practice) then
+we obtain a situation as in
+Definition \ref{definition-divided-power-thickening-X} with $S_0$ in stead
+of $X$. Hence we get a site $\text{CRIS}(S_0/S)$. Moreover, for any
+$c : X \to S_0$ we get a morphism of topoi
+$$
+c_{\text{CRIS}} : (X/S)_{\text{CRIS}} \longrightarrow (S_0/S)_{\text{CRIS}}
+$$
+which one could think of as the structure morphism. We also have a variant
+$$
+c_{\text{cris}} : (X/S)_{\text{cris}} \longrightarrow (S_0/S)_{\text{cris}}
+$$
+for the crystalline sites. If $p^N = 0$ on $S$ for some $N$, then
+the sites $\text{CRIS}(S_0/S)$ and $\text{Cris}(S_0/S)$ have a final
+object, namely $(S_0, S, \gamma)$. If $S_0$ is quasi-compact, then
+the sequence of objects $(S_0, S_n, \gamma)$, $n \gg 0$ are cofinal in
+$\text{CRIS}(S_0/S)$ and $\text{Cris}(S_0/S)$ where $S_n = V(p^n) \subset S$.
+\end{remark}
+
+
+
+
+\section{Sheaves on the crystalline site}
+\label{section-sheaves}
+
+\noindent
+Let $p$, $(S, \mathcal{I}, \gamma)$, and $X \to S$ be as in
+Definition \ref{definition-divided-power-thickening-X}.
+A sheaf $\mathcal{F}$ on $\text{CRIS}(X/S)$ gives rise to
+a {\it restriction} $\mathcal{F}_T$ for every object $(U, T, \delta)$
+of $\text{CRIS}(X/S)$. Namely, $\mathcal{F}_T$ is the Zariski sheaf on
+the scheme $T$ defined by the rule
+$$
+\mathcal{F}_T(W) = \mathcal{F}(U \cap W, W, \delta|_W)
+$$
+for $W \subset T$ is open.
+Moreover, if $f : T \to T'$ is a morphism between objects
+$(U, T, \delta)$ and $(U', T', \delta')$ of $\text{CRIS}(X/S)$, then there
+is a canonical {\it comparison} map
+\begin{equation}
+\label{equation-comparison}
+c_f : f^{-1}\mathcal{F}_{T'} \longrightarrow \mathcal{F}_T.
+\end{equation}
+Conversely, given Zariski sheaves $\mathcal{F}_T$ and comparion maps
+satisfying a suitable cocycle condition, we obtain a sheaf on
+$\text{CRIS}(X/S)$, see
+Topologies, Lemma \ref{topologies-lemma-characterize-sheaf-big}.
+In entirely the same way we can describe sheaves on the
+small crystaline site.
+
+\medskip\noindent
+The {\it structure sheaf} on $\text{CRIS}(X/S)$ is the sheaf
+$\mathcal{O}_{X/S}$ defined by the rule
+$$
+\mathcal{O}_{X/S} :
+(U, T, \delta)
+\longmapsto
+\Gamma(T, \mathcal{O}_T)
+$$
+Another type of example comes by starting with a sheaf
+$\mathcal{G}$ on $(\Sch/X)_{Zar}$. Then $\underline{\mathcal{G}}$
+defined by the rule
+$$
+\underline{\mathcal{G}} :
+(U, T, \delta)
+\longmapsto
+\mathcal{G}(U)
+$$
+is a sheaf on $\text{CRIS}(X/S)$. In particular, if we take
+$\mathcal{G} = \mathbf{G}_a = \mathcal{O}_X$, then we obtain
+$$
+\underline{\mathbf{G}_a} :
+(U, T, \delta)
+\longmapsto
+\Gamma(U, \mathcal{O}_U)
+$$
+There is a surjective map of sheaves
+$\mathcal{O}_{X/S} \to \underline{\mathbf{G}_a}$ defined by the
+canonical maps $\Gamma(T, \mathcal{O}_T) \to \Gamma(U, \mathcal{O}_U)$
+for objects $(U, T, \delta)$. The kernel of this map is denoted
+$\mathcal{J}_{X/S}$, hence a short exact sequence
+$$
+0 \to
+\mathcal{J}_{X/S} \to
+\mathcal{O}_{X/S} \to
+\underline{\mathbf{G}_a} \to 0
+$$
+Note that $\mathcal{J}_{X/S}$ comes equipped with a canonical
+divided power structure. After all, for each object $(U, T, \delta)$
+the third component $\delta$ {\it is} a divided power structure on the
+kernel of $\mathcal{O}_T \to \mathcal{O}_U$. Hence the (big hence also
+the small) crystalline topos is a divided power topos.
+
+\medskip\noindent
+Suppose that $\mathcal{F}$ is a sheaf of $\mathcal{O}_{X/S}$-modules.
+In this case the comparison mappings (\ref{equation-comparison})
+define a comparison map
+\begin{equation}
+\label{equation-comparison-modules}
+c_f : f^*\mathcal{F}_T \longrightarrow \mathcal{F}_{T'}
+\end{equation}
+of $\mathcal{O}_T$-modules.
+
+
+
+
+\section{Sheaf of differentials}
+\label{section-differentials-sheaf}
+
+\noindent
+We define an $S$-derivation on the crystalline site
+as follows (this avoids having to pull back the structure sheaf of $S$).
+
+\begin{definition}
+\label{definition-global-derivation}
+Let $p$, $(S, \mathcal{I}, \gamma)$, and $X \to S$ be as in
+Definition \ref{definition-divided-power-thickening-X}.
+Let $\mathcal{F}$ be a sheaf of $\mathcal{O}_{X/S}$-modules.
+An {\it $S$-derivation $D : \mathcal{O}_{X/S} \to \mathcal{F}$}
+is a map of sheaves such that for every object $(U, T, \delta)$
+mapping into an open $V \subset S$ the map
+$$
+D : \Gamma(T, \mathcal{O}_T) \longrightarrow \Gamma(T, \mathcal{F})
+$$
+is a divided power $\Gamma(V, \mathcal{O}_V)$-derivation as in
+Definition \ref{definition-derivation}.
+\end{definition}
+
+\noindent
+Of course this means exactly that $D$ is additive, satisfies the
+Leibniz rule, annihilates functions coming from $S$, and
+satisfies $D(f^{[n]}) = f^{[n - 1]}D(f)$ for a local section
+$f$ of the divided power ideal $\mathcal{J}_{X/S}$.
+
+\begin{lemma}
+\label{lemma-module-of-differentials}
+Let $p$, $(S, \mathcal{I}, \gamma)$, and $X \to S$ be as in
+Definition \ref{definition-divided-power-thickening-X}.
+There exists a universal $S$-derivation
+$d : \mathcal{O}_{X/S} \to \Omega_{X/S}$.
+For an object $(U, T, \delta)$ the restriction $(\Omega_{X/S})_T$
+to $T$ is just the quotient of $\Omega_{T/S}$ by the subsheaf
+generated by the local sections
+$\text{d}\delta_n(f) - \delta_{n - 1}(f)\text{d}f$
+where $f$ is a local section of the ideal sheaf of $U$ in $T$.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-module-of-differentials-on-affine}
+Let $p$, $(S, \mathcal{I}, \gamma)$, and $X \to S$ be as in
+Definition \ref{definition-divided-power-thickening-X}.
+For any affine object $(U, T, \delta)$
+mapping into an affine open $V \subset S$ we have
+$$
+\Gamma((U, T, \delta), \Omega_{X/S}) =
+\Omega_{\Gamma(T, \mathcal{O})/\Gamma(V, \mathcal{O}_V)}
+$$
+where the right hand side is
+as constructed in Section \ref{section-differentials}.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-describe-omega}
+Let $p$, $(S, \mathcal{I}, \gamma)$, and $X \to S$ be as in
+Definition \ref{definition-divided-power-thickening-X}.
+Let $(U, T, \delta)$ be an object of $\text{CRIS}(X/S)$.
+Let
+$$
+(U(1), T(1), \delta(1)) = (U, T, \delta) \times (U, T, \delta)
+$$
+and let $\mathcal{K} \subset \mathcal{O}_{T(1)}$ be the quasi-coherent
+sheaf of ideals corresponding to the closed immersion $\Delta : T \to T(1)$.
+Then $\mathcal{K} \cap \mathcal{J}_{T(1)}$ is preserved by the
+divided structure on $\mathcal{J}_{T(1)}$ and we have
+$$
+(\Omega_{X/S})_T =
+\mathcal{K}/
+\left(\mathcal{K}^2 + (\mathcal{K} \cap \mathcal{J}_{T(1)})^{[2]}\right)
+$$
+\end{lemma}
+
+\begin{proof}
+Sheafified version of Lemma \ref{lemma-diagonal-and-differentials-affine-site}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-describe-omega-small}
+Let $p$, $(S, \mathcal{I}, \gamma)$, and $X \to S$ be as in
+Definition \ref{definition-divided-power-thickening-X}.
+Let $(U, T, \delta)$ be an object of $\text{Cris}(X/S)$.
+Let
+$$
+(U(1), T(1), \delta(1)) = (U, T, \delta) \times (U, T, \delta)
+$$
+and let $\mathcal{K} \subset \mathcal{O}_{T(1)}$ be the quasi-coherent
+sheaf of ideals corresponding to the closed immersion $\Delta : T \to T(1)$.
+Then $\mathcal{K} \subset \mathcal{J}_{T(1)}$ is preserved by the
+divided structure on $\mathcal{J}_{T(1)}$ and we have
+$$
+(\Omega_{X/S})_T = \mathcal{K}/\mathcal{K}^{[2]}
+$$
+This holds more generally for $(U, T, \delta)$ such that $U \to X$
+is formally unramified.
+\end{lemma}
+
+\begin{proof}
+Special case of Lemma \ref{lemma-describe-omega}.
+\end{proof}
+
+\begin{remark}
+\label{remark-first-order-thickening}
+Let $p$, $(S, \mathcal{I}, \gamma)$, and $X \to S$ be as in
+Definition \ref{definition-divided-power-thickening-X}.
+Let $(U, T, \delta)$ be an object of $\text{Cris}(X/S)$.
+Write $\Omega_{T/S, \delta} = (\Omega_{X/S})_T$, see
+Lemma \ref{lemma-module-of-differentials}.
+We explicitly describe a first order thickening $T'$ of
+$T$. Namely, set
+$$
+\mathcal{O}_{T'} = \mathcal{O}_T \oplus \Omega_{T/S, \delta}
+$$
+with algebra structure such that $\Omega_{T/S, \delta}$ is an
+ideal of square zero. Let $\mathcal{J} \subset \mathcal{O}_T$
+be the ideal sheaf of the closed immersion $U \to T$. Set
+$\mathcal{J}' = \mathcal{J} \oplus \Omega_{T/S, \delta}$.
+Define a divided power structure on $\mathcal{J}'$ by setting
+$$
+\delta_n'(f + \omega) = \delta_n(f) + \delta_{n - 1}(f)\omega,
+$$
+see Lemma \ref{lemma-divided-power-first-order-thickening}.
+There are two ring maps
+$$
+p_0, p_1 : \mathcal{O}_T \to \mathcal{O}_{T'}
+$$
+The first is given by $f \mapsto f + 0$ and the second by
+$f \mapsto f + \text{d}f$. Note that both are compatible with the
+divided power structures on $\mathcal{J}$ and $\mathcal{J}'$
+and so is the quotient map $\mathcal{O}_{T'} \to \mathcal{O}_T$.
+Thus we get an object $(U, T', \delta')$ of $\text{Cris}(X/S)$
+and a commutative diagram
+$$
+\xymatrix{
+& T \ar[ld]_{\text{id}} \ar[d]^i \ar[rd]^{\text{id}} \\
+T & T' \ar[l]_{p_0} \ar[r]^{p_1} & T
+}
+$$
+of $\text{CRIS}(X/S)$ such that $i$ is a first order thickening whose ideal
+sheaf is identified with $\Omega_{T/S, \delta}$ and such that
+$p_0^* - p_1^* : \mathcal{O}_T \to \mathcal{O}_{T'}$
+is identified with the universal derivation $\text{d}$
+composed with the inclusion $\Omega_{T/S, \delta} \to \mathcal{O}_{T'}$.
+\end{remark}
+
+\begin{remark}
+\label{remark-second-order-thickening}
+Let $p$, $(S, \mathcal{I}, \gamma)$, and $X \to S$ be as in
+Definition \ref{definition-divided-power-thickening-X}.
+Let $(U, T, \delta)$ be an object of $\text{Cris}(X/S)$.
+Write $\Omega_{T/S, \delta} = (\Omega_{X/S})_T$, see
+Lemma \ref{lemma-module-of-differentials}.
+We also write $\Omega^2_{T/S, \delta}$ for its second exterior
+power. We explicitly describe a second order thickening $T''$ of
+$T$. Namely, set
+$$
+\mathcal{O}_{T''} =
+\mathcal{O}_T \oplus \Omega_{T/S, \delta} \oplus \Omega_{T/S, \delta}
+\oplus \Omega^2_{T/S, \delta}
+$$
+with algebra structure defined in the following way
+$$
+(f, \omega_1, \omega_2, \eta) \cdot
+(f', \omega_1', \omega_2', \eta') =
+(ff', f\omega_1' + f'\omega_1, f\omega_2' + f'\omega_2',
+f\eta' + f'\eta + \omega_1 \wedge \omega_2' + \omega_1' \wedge \omega_2).
+$$
+Let $\mathcal{J} \subset \mathcal{O}_T$
+be the ideal sheaf of the closed immersion $U \to T$. Let
+$\mathcal{J}''$ be the inverse image of $\mathcal{J}$ under the
+projection $\mathcal{O}_{T''} \to \mathcal{O}_T$.
+Define a divided power structure on $\mathcal{J}''$ by setting
+$$
+\delta_n''(f, \omega_1, \omega_2, \eta) =
+(\delta_n(f), \delta_{n - 1}(f)\omega_1, \delta_{n - 1}(f)\omega_2,
+\delta_{n - 1}(f)\eta + \delta_{n - 2}(f)\omega_1 \wedge \omega_2)
+$$
+see Lemma \ref{lemma-divided-power-second-order-thickening}.
+There are three ring maps
+$$
+q_0, q_1, q_2 : \mathcal{O}_T \to \mathcal{O}_{T''}
+$$
+The first is given by $f \mapsto (f, 0, 0)$, the second by
+$f \mapsto (f, \text{d}f, 0, 0)$, and the third by
+$f \mapsto (f, 0, \text{d}f, 0)$. Note that all three are compatible with the
+divided power structures on $\mathcal{J}$ and $\mathcal{J}''$
+and so is the quotient map $\mathcal{O}_{T''} \to \mathcal{O}_T$.
+We claim there are also three maps
+$q_{01}, q_{12}, q_{02} : \mathcal{O}_{T'} \to \mathcal{O}_{T''}$
+where $\mathcal{O}_{T'}$ is as in Remark \ref{remark-first-order-thickening}.
+Namely, we set
+$$
+q_{01}(f + \omega) = (f, \omega, 0, 0),\quad
+q_{12}(f + \omega) = (f, 0, \omega, 0),\quad
+q_{02}(f + \omega) = (f, \omega, \omega, 0)
+$$
+By inspection these are also compatible with the given divided power
+structures. Note that $q_0 = q_{01} \circ p_0$ and so on. There are
+also two maps $\mathcal{O}_{T''} \to \mathcal{O}_{T'}$, namely
+$(f, \omega_1, \omega_2, \eta) \mapsto (f, \omega_1)$ and
+$(f, \omega_1, \omega_2, \eta) \mapsto (f, \omega_2)$.
+Thus $(U, T'', \delta'')$ is an object of $\text{Cris}(X/S)$
+and we get a truncated simplicial object
+$$
+\xymatrix{
+T''
+\ar@<2ex>[r]
+\ar@<0ex>[r]
+\ar@<-2ex>[r]
+&
+T'
+\ar@<1ex>[r]
+\ar@<-1ex>[r]
+\ar@<1ex>[l]
+\ar@<-1ex>[l]
+&
+T
+\ar@<0ex>[l]
+}
+$$
+of $\text{Cris}(X/S)$. In applications we will use $q_i : T'' \to T$ and
+$q_{ij} : T'' \to T'$ to denote the morphisms associated to the
+ring maps described above.
+\end{remark}
+
+
+
+
+
+
+\section{Connections}
+\label{section-connections}
+
+\noindent
+Let $p$, $(S, \mathcal{I}, \gamma)$, and $X \to S$ be as in
+Definition \ref{definition-divided-power-thickening-X}.
+Working on either the big or small crystalline site, we define
+$
+\Omega^i_{X/S} = \wedge^i_{\mathcal{O}_{X/S}} \Omega_{X/S}
+$
+for $i \geq 0$. The universal $S$-derivation $\text{d}$ gives
+rise to the {\it de Rham complex}
+$$
+\mathcal{O}_{X/S} \to \Omega^1_{X/S} \to \Omega^2_{X/S} \to \ldots
+$$
+on $\text{CRIS}(X/S)$, see
+Lemma \ref{lemma-module-of-differentials-on-affine} and
+Remark \ref{remark-divided-powers-de-rham-complex}.
+Given an $\mathcal{O}_{X/S}$-module $\mathcal{F}$ a
+{\it connection} is a map of abelian sheaves
+$$
+\nabla :
+\mathcal{F}
+\longrightarrow
+\mathcal{F} \otimes_{\mathcal{O}_{X/S}} \Omega^1_{X/S}
+$$
+such that $\nabla(f s) = f\nabla(s) + s \otimes \text{d}f$
+for local sections $s, f$ of $\mathcal{F}$ and $\mathcal{O}_{X/S}$.
+Given a connection there are canonical maps
+$$
+\nabla :
+\mathcal{F} \otimes_{\mathcal{O}_{X/S}} \Omega^i_{X/S}
+\longrightarrow
+\mathcal{F} \otimes_{\mathcal{O}_{X/S}} \Omega^{i + 1}_{X/S}
+$$
+defined by the rule $\nabla(s \otimes \omega) =
+\nabla(s) \wedge \omega + s \otimes \text{d}\omega$
+as in Remark \ref{remark-connection}. We say the connection is
+{\it integrable} if $\nabla \circ \nabla = 0$. In this case we
+obtain the {\it de Rham complex}
+$$
+\mathcal{F} \to
+\mathcal{F} \otimes_{\mathcal{O}_{X/S}} \Omega^1_{X/S} \to
+\mathcal{F} \otimes_{\mathcal{O}_{X/S}} \Omega^2_{X/S} \to \ldots
+$$
+on the big or small crystalline site of $X$ over $S$.
+
+\begin{lemma}
+\label{lemma-automatic-connection}
+Let $p$, $(S, \mathcal{I}, \gamma)$, and $X \to S$ be as in
+Definition \ref{definition-divided-power-thickening-X}.
+Let $\mathcal{C} = \text{CRIS}(X/S)$ or $\mathcal{C} = \text{Cris}(X/S)$.
+Let $\mathcal{F}$ be a sheaf of $\mathcal{O}_{X/S}$-modules
+on $\mathcal{C}$. Suppose that for all $f : T \to T'$ in $\mathcal{C}$
+the comparison map (\ref{equation-comparison-modules}) is an isomorphism.
+Then $\mathcal{F}$ comes equipped with a canonical integrable connection.
+\end{lemma}
+
+\begin{proof}
+Say $(U, T, \delta)$ is an object of $\mathcal{C}$.
+Let $(U, T', \delta')$ be the infinitesimal thickening of $T$
+by $(\Omega_{X/S})_T = \Omega_{T/S, \delta}$
+constructed in Remark \ref{remark-first-order-thickening}.
+It comes with projections $p_0, p_1 : T' \to T$
+and a diagonal $i : T \to T(1)$. By assumption we get
+isomorphisms
+$$
+p_0^*\mathcal{F}_T \xrightarrow{c_0}
+\mathcal{F}_{T'} \xleftarrow{c_1}
+p_1^*\mathcal{F}_T
+$$
+of $\mathcal{O}_{T'}$-modules. Pulling $c = c_1^{-1} \circ c_0$
+back to $T$ by $i$ we obtain the identity map
+of $\mathcal{F}_T$. Hence if $s \in \Gamma(T, \mathcal{F}_T)$
+then $c_0(p_0^*s) - c_1(p_1^*s)$ is a section of $\mathcal{F}_{T'}$
+which vanishes on pulling back by $\Delta$. Hence
+it is a section of
+$$
+\mathcal{F}_T
+\otimes_{\mathcal{O}_T}
+\Omega_{T/S, \delta}
+$$
+because this is (canonically) the kernel of
+$\mathcal{F}_{T'} \to i_*\mathcal{F}_T$ due 
+to the fact that $\mathcal{F}_{T'}$
+is isomorphic to the pull back from $T$ by either projection.
+
+\medskip\noindent
+The collection of maps
+$$
+\nabla : \Gamma(T, \mathcal{F}_T) \to
+\Gamma(T, \mathcal{F}_T \otimes_{\mathcal{O}_T} \Omega_{T/S, \delta})
+$$
+so obtained is functorial in $T$ because the construction of $T'$
+is functorial in $T$. Hence we obtain a connection.
+
+\medskip\noindent
+To show that the connection is integrable we consider the
+object $(U, T'', \delta'')$ constructed in
+Remark \ref{remark-second-order-thickening}.
+Because $\mathcal{F}$ is a sheaf we see that
+$$
+\xymatrix{
+q_0^*\mathcal{F}_T \ar[rr]_{q_{01}^*c} \ar[rd]_{q_{02}^*c} & &
+q_1^*\mathcal{F}_T \ar[ld]^{q_{12}^*c} \\
+& q_2^*\mathcal{F}_T
+}
+$$
+is a commutative map of $\mathcal{O}_{T''}$-modules.
+When you work this out you get the integrability
+condition. Details omitted.
+\end{proof}
+
+
+
+
+\section{Crystals in finite locally free modules}
+\label{section-crystals}
+
+\noindent
+It turns out that a crystal is a very general gadget.
+To formulate the very general definition we use the language
+of stacks and strongly cartesian morphisms, see
+Stacks, Definition \ref{stacks-definition-stack} and
+Categories, Definition \ref{categories-definition-cartesian-over-C}.
+
+\begin{definition}
+\label{definition-crystal}
+Let $p$, $(S, \mathcal{I}, \gamma)$, and $X \to S$ be as in
+Definition \ref{definition-divided-power-thickening-X}.
+Let $p : \mathcal{C} \to \text{Cris}(X/S)$ be a stack.
+A {\it crystal in objects of $\mathcal{C}$ on $X$ relative to $S$}
+is a {\it cartesian section} $\sigma : \text{Cris}(X/S) \to \mathcal{C}$,
+i.e., a functor $\sigma$ such that $p \circ \sigma = \text{id}$
+and such that $\sigma(f)$ is strongly cartesian for all
+morphisms $f$ of $\text{Cris}(X/S)$. Similarly for the big crystalline site.
+\end{definition}
+
+\noindent
+Since this definition may be a bit hard to parse we will work
+out exactly what this means in the case of crystals of quasi-coherent
+modules on the crystalline sites.
+
+
+\begin{definition}
+\label{definition-lqc}
+Let $p$, $(S, \mathcal{I}, \gamma)$, and $X \to S$ be as in
+Definition \ref{definition-divided-power-thickening-X}.
+Working on either the big or the small site we make the following
+definitions.
+\begin{enumerate}
+\item A sheaf of $\mathcal{O}_{X/S}$-modules $\mathcal{F}$
+is called {\it locally quasi-coherent} if for every object
+$(U, T, \delta)$ the restriction $\mathcal{F}_T$ is a quasi-coherent
+$\mathcal{O}_T$-module.
+\item A sheaf of $\mathcal{O}_{X/S}$-modules $\mathcal{F}$
+is called {\it quasi-coherent} if it is quasi-coherent in the
+sense of
+Modules on Sites, Definition \ref{sites-modules-definition-site-local}.
+\end{enumerate}
+\end{definition}
+
+\begin{enumerate}
+\item First discuss $\mathcal{O}$-modules $\mathcal{F}$.
+\item Discuss the canonical connection
+$\nabla : \mathcal{F} \to \mathcal{F} \otimes \Omega$
+on the crystalline site.
+\item Briefly discuss quasi-coherent modules.
+\item Introduce crystals $=$ crystals in finite locally free modules.
+\item Discuss the equivalence of the category of crystals with the
+category of modules with integrable, topologically quasi-nilpotent
+connection in the affine case. (Uses the divided power envelope for the
+first time...?)
+\end{enumerate}
+
+
+
+
+
+
+\section{Cohomology of crystals}
+\label{section-cohomology}
+
+\noindent
+In this section we compare crystalline cohomology with de Rham
+cohomology. We follow \cite{Bhatt}.
+
+\begin{enumerate}
+\item The main theorem in the affine case.
+\item The main theorem in the global case.
+\end{enumerate}
+
+
+
+
+
+
+
+\input{chapters}
+
+\bibliography{my}
+\bibliographystyle{amsalpha}
+
+\end{document}
