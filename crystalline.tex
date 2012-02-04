@@ -92,8 +92,8 @@ Assume $A$ is torsion free as a $\mathbf{Z}$-module.
 Proof of (2). This is clear from (1).
 
 \medskip\noindent
-Proof of (3). Assume that $n! \gamma_n(x) = x^n \forall x \in I, n \geq 1$.
-Since $A \subset A \otimes_{\mathbf{Z}} \mathbf{Q}$ it suffices
+Proof of (3). Assume that $n! \gamma_n(x) = x^n$ for all $x \in I$ and
+$n \geq 1$. Since $A \subset A \otimes_{\mathbf{Z}} \mathbf{Q}$ it suffices
 to prove (1) -- (5) in case $A$ is a $\mathbf{Q}$-algebra.
 In this case $\gamma_n(x) = x^n/n!$ and it is straightforward
 to verify (1) -- (5), for example (4) corresponds to the binomial
@@ -209,7 +209,7 @@ same equality holds when $i = 0$. Continuing like this using all
 axioms but (5) we see that we can write
 $$
 \gamma_n(\gamma_m(x + y)) =
-\sum\nolimits_{i + j} c_{ij}\gamma_i(x)\gamma_j(y)
+\sum\nolimits_{i + j = nm} c_{ij}\gamma_i(x)\gamma_j(y)
 $$
 for certain universal constants $c_{ij} \in \mathbf{Z}$. Again the fact
 that the equality is valid in the polynomial ring $\mathbf{Q}[x, y]$
@@ -366,9 +366,16 @@ $\varphi : A \to B$ such that $\varphi(I) \subset J$ and such that
 $\delta_n(\varphi(x)) = \varphi(\gamma_n(x))$ for all $x \in I$.
 \end{definition}
 
+\noindent
+We sometimes say ``let $(B, J, \delta)$ be a divided power algebra over
+$(A, I, \gamma)$'' to indicate that $(B, J, \delta)$ is a divided power ring
+which comes equipped with a homomorphism of divided power rings
+$(A, I, \gamma) \to (B, J, \delta)$.
+
 \begin{lemma}
-\label{lemma-colimits}
-The category of divided power rings has all limits and colimits.
+\label{lemma-limits}
+The category of divided power rings has all limits and they agree with
+limits in the category of rings.
 \end{lemma}
 
 \begin{proof}
@@ -380,10 +387,89 @@ The equalizer of $\alpha, \beta : (A, I, \gamma) \to (B, J, \delta)$
 is just $C = \{a \in A \mid \alpha(a) = \beta(a)\}$ with ideal $C \cap I$
 and induced divided powers. It follows that all limits exist, see
 Categories, Lemma \ref{categories-lemma-limits-products-equalizers}.
-Moreover, limits commute with the forgetful functor from divided
-power rings to rings.
+\end{proof}
+
+\noindent
+The following lemma illustrates a very general category theoretic
+phenomenon in the case of divided power algebras.
+
+\begin{lemma}
+\label{lemma-a-version-of-brown}
+Let $\mathcal{C}$ be the category of divided power rings. Let
+$F : \mathcal{C} \to \textit{Sets}$ be a functor.
+Assume that
+\begin{enumerate}
+\item there exists a cardinal $\kappa$ such that for every
+$f \in F(A, I, \gamma)$ there exists a morphism
+$(A', I', \gamma') \to (A, I, \gamma)$ of $\mathcal{C}$ such that $f$
+is the image of $f' \in F(A', I', \gamma')$ and $|A'| \leq \kappa$, and
+\item $F$ commutes with limits.
+\end{enumerate}
+Then $F$ is representable, i.e., there exists an object $(B, J, \delta)$
+of $\mathcal{C}$ such that
+$$
+F(A, I, \gamma) = \text{Hom}_\mathcal{C}((B, J, \delta), (A, I, \gamma))
+$$
+functorially in $(A, I, \gamma)$.
+\end{lemma}
+
+\begin{proof}
+Consider a set of objects $\mathcal{U}$ of $\mathcal{C}$ containing an
+object isomorphic to every $(A, I, \gamma)$ with $|A| \leq \kappa$.
+Let $\mathcal{I}$ be the category of pairs $(U, f)$ where $U \in \mathcal{U}$
+and $f \in F(U)$. A morphism $(U, f) \to (U', f')$ of $\mathcal{I}$
+is a map $u : U \to U'$ of $\mathcal{C}$ such that $F(u)(f) = f'$.
+Set
+$$
+(B, J, \delta) = \lim_{(U, f) \in \mathcal{I}} U.
+$$
+The limit exists by Lemma \ref{lemma-limits}. As $F$ commutes with limits
+we have
+$$
+F(B, J, \delta) = \lim_{(U, f) \in \mathcal{I}} F(U).
+$$
+Hence there is a universal element $\xi \in F(B, J, \delta)$ which
+for $U \in \mathcal{U}$ maps to $f \in F(U)$ under $F$ applied to the
+projection map $(B, J, \delta) \to U$ of the limit corresponding to $f$.
+Using $\xi$ we obtain a transformation of functors
+$$
+\xi : \text{Hom}_\mathcal{C}((B, J, \delta), - ) \longrightarrow F(-)
+$$
+see Categories, Section \ref{categories-section-opposite}.
+Let $(A, I, \gamma)$ be an arbitrary object of $\mathcal{C}$ and
+let $f \in F(A, I, \gamma)$. Choose $U \to (A, I, \gamma)$
+with $U \in \mathcal{U}$ and $f' \in F(U)$ mapping to $f$ which is possible by
+assumption (1). Then $F$ applied to the maps
+$$
+(B, J, \delta) \longrightarrow U \longrightarrow (A, I, \gamma)
+$$
+(the first being the projection map of the limit defining $B$)
+sends $\xi$ to $f$. Hence the transformation $\xi$ is surjective.
+Finally, suppose that $a, b : (B, J, \delta) \to (A, I, \gamma)$
+are two maps such that $F(a)(\xi) = F(b)(\xi)$. Since $F$ commutes
+with limits, it commutes with equalizers. This means that $\xi$
+comes from an element $\xi' \in F(B', J', \delta')$ where $B' \subset B$
+is the equalizer of $a$ and $b$.
 
 \medskip\noindent
+At this point there are two ways to finish the proof.
+The first is to show that $B' = B$ using compatibility of $F$
+with equalizers and the construction of $B$ as a limit over $\mathcal{I}$
+above; we omit the details. The second is to replace $B$ by the
+smallest divided power subring $(B', J', \delta') \subset (B, J, \delta)$
+such that $\xi$ comes from an element $\xi' \in F(B', J', \delta')$.
+Since $F$ commutes with limits $F$ commutes with intersections
+hence a smallest divided power subring exists. It is clear that the
+transformation defined by $\xi'$ is still surjective, and the argument above
+shows that it is also injective.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-colimits}
+The category of divided power rings has all colimits.
+\end{lemma}
+
+\begin{proof}
 The empty colimit is $\mathbf{Z}$ with divided power ideal $(0)$.
 Let's discuss general colimits. Let $\mathcal{C}$ be a category and let
 $c \mapsto (A_c, I_c, \gamma_c)$ be a diagram. Consider the functor
@@ -395,17 +481,10 @@ Note that any $f = (f_c)_{c \in C} \in F(B, J, \delta)$ has the property
 that all the images $f_c(A_c)$ generate a subring $B'$ of $B$ of bounded
 cardinality $\kappa$ and that all the images $f_c(I_c)$ generate a
 divided power sub ideal $J'$ of $B'$. And we get a factorization of
-$f$ as a $f'$ in $F(B')$ followed by the inclusion $B' \to B$.
-Hence we see that $F(B, J, \delta)$ can be computed if we know the value
-of $F$ on divided power rings of
-cardinality $\kappa$ or less. Consider a set of objects $U$ of
-dividing power rings containing an object isomorphic to every
-$(B, J, \delta)$ of cardinality
-at most $\kappa$. Then
-$$
-\lim_{(B, J, \delta) \in U, f \in F(B, J, \delta)} (B, J, \delta)
-$$
-will be the colimit we wanted to construct.
+$f$ as a $f'$ in $F(B')$ followed by the inclusion $B' \to B$. Also,
+$F$ commutes with limits. Hence we may apply
+Lemma \ref{lemma-a-version-of-brown}
+to see that $F$ is representable and we win.
 \end{proof}
 
 
@@ -713,28 +792,38 @@ $(A, I, \gamma)$.
 \end{lemma}
 
 \begin{proof}
-This proof is a copy of the proof of Lemma \ref{lemma-colimits}.
-Denote $\mathcal{C}$ the category of divided power algebras
-$(C, K, \delta)$ over $(A, I, \gamma)$. Consider the functor
+Denote $\mathcal{C}$ the category of divided power rings
+$(C, K, \delta)$. Consider the functor
 $F : \mathcal{C} \longrightarrow \textit{Sets}$ defined by
 $$
-F(C, K, \delta) = \Hom_A((B, J), (C, K))
+F(C, K, \delta) =
+\left\{
+(\varphi, \psi)
+\Big |
+\begin{matrix}
+\varphi : (A, I, \gamma) \to (C, K, \delta)
+\text{ homomorphism of divided power rings} \\
+\psi : (B, J) \to (C, K)\text{ an }
+A\text{-algebra homomorphism with }\psi(J) \subset K
+\end{matrix}
+\right\}
 $$
-Suppose that $\varphi  \in F(C, K, \delta)$. Let $C' \subset C$
-be the subring generated by $\varphi(B)$ and $\delta_n(\varphi(f))$
-for all $f \in J$. Set $K' = C' \cap K$. Then $C'$ has cardinality
-bounded by the cardinal $\kappa = \aleph_0^{|B|}$. Moreover, $\varphi$
-factors as $B \to C' \to C$. Hence we see that $F(C, K, \delta)$ can be
-computed if we know the value of $F$ on divided power algebras of
-cardinality $\kappa$ or less. Consider a set of objects $U$ of
-dividing power algebras over $(A, I, \gamma)$ containing an object
-isomorphic to every $(C, K, \delta)$ of cardinality at most $\kappa$.
-Then
-$$
-(D, \bar J, \bar \gamma) =
-\lim_{(C, K, \delta) \in U, f \in F(C, K, \delta)} (C, K, \delta)
-$$
-will be a solution to the problem posed in the lemma.
+We will show that Lemma \ref{lemma-a-version-of-brown}
+applies to this functor which will
+prove the lemma. Suppose that $(\varphi, \psi) \in F(C, K, \delta)$.
+Let $C' \subset C$ be the subring generated by $\varphi(A)$,
+$\psi(B)$, and $\delta_n(\psi(f))$ for all $f \in J$.
+Let $K' \subset K \cap C'$ be the ideal of $C'$ generated by
+$\varphi(I)$ and $\delta_n(\psi(f))$ for $f \in J$.
+Then $(C', K', \delta|_{K'})$ is a divided power ring and
+$C'$ has cardinality bounded by the cardinal
+$\kappa = |A| \otimes |B|^{\aleph_0}$.
+Moreover, $\varphi$ factors as $A \to C' \to C$ and $\psi$ factors
+as $B \to B' \to B$. This proves assumption (1) of
+Lemma \ref{lemma-a-version-of-brown} holds. Assumption (2) is clear
+as limits in the category of divided power rings commute with the
+forgetful functor $(C, K, \delta) \mapsto (C, K)$, see
+Lemma \ref{lemma-limits} and its proof.
 \end{proof}
 
 \begin{definition}
