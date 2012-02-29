@@ -2214,7 +2214,15 @@ $$
 \nabla'(m \otimes b') =
 \sum m_i \otimes b'\text{d}\varphi(b_i) + m \otimes \text{d}b' 
 $$
-if $\nabla(m) = \sum m_i \otimes \text{d}b_i$.
+if $\nabla(m) = \sum m_i \otimes \text{d}b_i$. If $\nabla$ is integrable,
+then so is $\nabla'$, and in this case there is a canonical map of
+de Rham complexes
+$$
+M \otimes_B \Omega^*
+\longrightarrow
+(M \otimes_B B') \otimes_{B'} (\Omega')^* = M \otimes_B (\Omega')^*
+$$
+which maps $m \otimes \eta$ to $m \otimes \varphi(\eta)$.
 \end{remark}
 
 \begin{lemma}
@@ -3998,9 +4006,10 @@ $A \to P' \to C$ be ring maps with $A \to P'$ smooth and $P' \to C$
 surjective with kernel $J'$. Let $D'$ be the $p$-adic completion of
 $D_{P', \gamma}(J')$. There are homomorphisms of divided power $A$-algebras
 $$
-D \longrightarrow D',\quad D' \longrightarrow D
+a : D \longrightarrow D',\quad b : D' \longrightarrow D
 $$
-compatible with the maps $D \to C$ and $D' \to C$. These maps induce
+compatible with the maps $D \to C$ and $D' \to C$ such that
+$a \circ b = \text{id}_{D'}$. These maps induce
 an equivalence of categories of pairs $(M, \nabla)$ satisfying
 (\ref{item-complete}), (\ref{item-connection}),
 (\ref{item-integrable}), and (\ref{item-topologically-quasi-nilpotent})
@@ -4013,20 +4022,32 @@ also holds for the corresponding functor towards pairs over $D'$.
 \end{lemma}
 
 \begin{proof}
-Note that $D'$ is an object of $\text{Cris}^\wedge(C/A)$. Hence
-we obtain the map $a : D \to D'$ from Lemma \ref{lemma-generator-completion}.
-For the converse, pick $e$ large enough so that $D_e$ is
-a divided power thickening of $C$ over $A$.
-Then $D_e \to C$ is a surjection whose kernel
-is locally nilpotent, see Lemma \ref{lemma-nil}.
+We can pick the map $P = A[x_i] \to C$ such that it factors through
+a surjection of $A$-algebras $P \to P'$ (we may have to increase the
+number of variables in $P$ to do this). Hence we obtain a surjective
+map $a : D \to D'$ by functoriality of divided power envelopes and
+completion. Pick $e$ large enough so that $D_e$ is a divided power
+thickening of $C$ over $A$. Then $D_e \to C$ is a surjection whose kernel
+is locally nilpotent, see Lemma \ref{lemma-nil}. Setting $D'_e = D'/p^eD'$
+we see that the kernel of $D_e \to D'_e$ is locally nilpotent.
 Hence by Algebra, Lemma \ref{algebra-lemma-smooth-strong-lift}
-we can find a lift $P' \to D_e$ of the map $P' \to C$.
-Applying the lemma succesively to the surjections
-$\ldots D_{e + 2} \to D_{e + 1} \to D_e$ we see that we can
-find an $A$-algebra map $P' \to D$ compatible with the surjections to $C$.
+we can find a lift $\beta_e : P' \to D_e$ of the map $P' \to D'_e$.
+Note that $D_{e + i + 1} \to D_{e + i} \times_{D'_{e + i}} D'_{e + i + 1}$
+is surjective with square zero kernel for any $i \geq 0$ because
+$p^{e + i}D \to p^{e + i}D'$ is surjective. Applying the usual lifting
+property (Algebra, Proposition \ref{algebra-proposition-smooth-formally-smooth})
+succesively to the diagrams
+$$
+\xymatrix{
+P' \ar[r] & D_{e + i} \times_{D'_{e + i}} D'_{e + i + 1} \\
+A \ar[u] \ar[r] & D_{e + i + 1} \ar[u]
+}
+$$
+we see that we can find an $A$-algebra map $\beta : P' \to D$ whose
+composition with $a$ is the given map $P' \to D'$.
 By the universal property of the divided power envelope we obtain a
 map $D_{P', \gamma}(J') \to D$. As $D$ is $p$-adically complete we
-obtain $b : D' \to D$.
+obtain $b : D' \to D$ such that $a \circ b = \text{id}_{D'}$.
 
 \medskip\noindent
 Consider the base change functor
@@ -4040,21 +4061,15 @@ Similarly, we have the base change functor corresponding to the divided
 power homomorphism $D' \to D$. To finish the proof of the lemma we have
 to show that the base change for the compositions $b \circ a : D \to D$
 and $a \circ b : D' \to D'$ are isomorphic to the identity functor.
-To do this we can use the functorial isomorphism
+This is clear for the second as $a \circ b = \text{id}_{D'}$.
+To prove it for the first, we use the functorial isomorphism
 $$
 c_{\text{id}_D, b \circ a} :
 M \otimes_{D, \text{id}_D} D
 \longrightarrow
 M \otimes_{D, b \circ a} D
 $$
-of the proof of Proposition \ref{proposition-crystals-on-affine}
-and similarly the isomorphism
-$$
-c_{\text{id}_{D'}, a \circ b} :
-M' \otimes_{D', \text{id}_{D'}} D'
-\longrightarrow
-M' \otimes_{D', a \circ b} D'.
-$$
+of the proof of Proposition \ref{proposition-crystals-on-affine}.
 The only thing to prove is that these maps are horizontal, which we omit.
 
 \medskip\noindent
@@ -4696,8 +4711,7 @@ the limit $\lim_e M(n)_e \otimes_{D(n)} \Omega^i_{D(n)}$ isn't the
 $p$-adic completion of $M(n) \otimes_{D(n)} \Omega^i_{D(n)}$ as with
 the assumptions of the lemma we don't know that
 $M(n)_e = M(n)_{e + 1}/p^eM(n)_{e + 1}$. If $\mathcal{F}$ is a crystal
-then this does hold. But it is interesting to see what happens more generally,
-for example if $\mathcal{F} = \Omega_{X/S}$ or an exterior power.}.
+then this does hold.}.
 Hence the vanshing of cohomology of $\mathcal{H}$ by
 Proposition \ref{proposition-compute-cohomology}.
 \end{proof}
@@ -4765,6 +4779,92 @@ of $M \otimes^\wedge_D\Omega^*_D$ with the first row induces a
 quasi-isomorphism of $M \otimes^\wedge_D\Omega^*_D$ with
 $\text{Tot}(K^{*, *})$.
 \end{proof}
+
+\begin{lemma}
+\label{lemma-compute-cohomology-crystal-smooth}
+Assumptions as in Proposition \ref{proposition-compute-cohomology-crystal}.
+Let $A \to P' \to C$ be ring maps with $A \to P'$ smooth and $P' \to C$
+surjective with kernel $J'$. Let $D'$ be the $p$-adic completion of
+$D_{P', \gamma}(J')$. Let $(M', \nabla')$ be the pair over $D'$
+corresponding to $\mathcal{F}$, see
+Lemma \ref{lemma-crystals-on-affine-smooth}. Then the complex
+$$
+M' \otimes^\wedge_{D'} \Omega^*_{D'}
+$$
+computes $R\Gamma(\text{Cris}(X/S), \mathcal{F})$.
+\end{lemma}
+
+\begin{proof}
+Choose $a : D \to D'$ and $b : D' \to D$ as in
+Lemma \ref{lemma-crystals-on-affine-smooth}.
+Note that the base change $M = M' \otimes_{D', b} D$ with its
+connection $\nabla$ corresponds to $\mathcal{F}$. Hence we know
+that $M \otimes^\wedge_D \Omega_D^*$ computes the crystalline
+cohomology of $\mathcal{F}$, see
+Proposition \ref{proposition-compute-cohomology-crystal}.
+Hence it suffices to show that the base change maps (induced
+by $a$ and $b$)
+$$
+M' \otimes^\wedge_{D'} \Omega^*_{D'}
+\longrightarrow
+M \otimes^\wedge_D \Omega^*_D
+\quad\text{and}\quad
+M \otimes^\wedge_D \Omega^*_D
+\longrightarrow
+M' \otimes^\wedge_{D'} \Omega^*_{D'}
+$$
+are quasi-isomorphisms. Since $a \circ b = \text{id}_{D'}$ we see
+that the composition one way around is the identity on the complex
+$M' \otimes^\wedge_{D'} \Omega^*_{D'}$. Hence it suffices to show that
+the map
+$$
+M \otimes^\wedge_D \Omega^*_D
+\longrightarrow
+M \otimes^\wedge_D \Omega^*_D
+$$
+induced by $b \circ a : D \to D$ is a quasi-isomorphism. (Note that we
+have the same complex on both sides as $M = M' \otimes^\wedge_{D', b} D$,
+hence $M \otimes^\wedge_{D, b \circ a} D =
+M' \otimes^\wedge_{D', b \circ a \circ b} D =
+M' \otimes^\wedge_{D', b} D = M$.) In fact, we claim that for any
+divided power $A$-algebra homomorphism $\rho : D \to D$ compatible
+with the augmentation to $C$ the induced map
+$M \otimes^\wedge_D \Omega^*_D \to M \otimes^\wedge_{D, \rho} \Omega^*_D$
+is a quasi-isomorphism.
+
+\medskip\noindent
+Write $\rho(x_i) = x_i + z_i$. The elements $z_i$ are in the
+divided power ideal of $D$ because $\rho$ is compatible with the
+augmentation to $C$. Hence we can factor the map $\rho$
+as a composition
+$$
+D \xrightarrow{\sigma} D\langle \xi_i \rangle^\wedge \xrightarrow{\tau} D
+$$
+where the first map is given by $x_i \mapsto x_i + \xi_i$ and the
+second map is the divided power $D$-algebra map which maps $\xi_i$ to $z_i$.
+(This uses the universal properties of polynomial algebra, divided
+power polynomial algebras, divided power envelopes, and $p$-adic completion.)
+Note that there exists an {\it automorphism} $\alpha$ of
+$D\langle \xi_i \rangle^\wedge$ with $\alpha(x_i) = x_i - \xi_i$
+and $\alpha(\xi_i) = \xi_i$. Applying Lemma \ref{lemma-relative-poincare}
+to $\alpha \circ \sigma$ (which maps $x_i$ to $x_i$) and using that
+$\alpha$ is an isomorphism we conclude that $\sigma$ induces a
+quasi-isomorphism of $M \otimes^\wedge_D \Omega^*_D$ with
+$M \otimes^\wedge_{D, \sigma} \Omega^*_{D\langle x_i \rangle^\wedge}$.
+On the other hand the map $\tau$ has as a left inverse the
+map $D \to D\langle x_i \rangle^\wedge$, $x_i \mapsto x_i$
+and we conclude (using Lemma \ref{lemma-relative-poincare} once more)
+that $\tau$ induces a quasi-isomorphism of
+$M \otimes^\wedge_{D, \sigma} \Omega^*_{D\langle x_i \rangle^\wedge}$
+with $M \otimes^\wedge_{D, \tau \circ \sigma} \Omega^*_D$. Composing these
+two quasi-isomorphisms we obtain that $\rho$ induces a quasi-isomorphism
+$M \otimes^\wedge_D \Omega^*_D \to M \otimes^\wedge_{D, \rho} \Omega^*_D$
+as desired.
+\end{proof}
+
+
+
+
 
 
 
