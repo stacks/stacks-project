@@ -21823,6 +21823,9 @@ We win by Lemma \ref{lemma-free-mod-x}.
 Suppose $R$ is a Noetherian local ring.
 Let $x \in \mathfrak m$ be a nonzero divisor
 such that $R/xR$ is a regular local ring. Then $R$ is a regular local ring.
+More generally, if $x_1, \ldots, x_r$ is a regular sequence in $R$
+such that $R/(x_1, \ldots, x_r)$ is a regular local ring, then
+$R$ is a regular local ring.
 \end{lemma}
 
 \begin{proof}
@@ -21830,6 +21833,7 @@ This is true because $x$ together with the lifts of a system
 of minimal generators of the maximal ideal of $R/xR$ will give
 $\dim(R)$ generators of $\mathfrak m$.
 Use Lemma \ref{lemma-one-equation}.
+The last statement follows from the first and induction.
 \end{proof}
 
 \begin{lemma}
@@ -33368,6 +33372,42 @@ which is not smooth at the prime $\mathfrak q = (y, x^p - \alpha)$
 but is regular.
 \end{example}
 
+\noindent
+Using the material above we can characterize smoothness at the generic
+point in terms of field extensions.
+
+\begin{lemma}
+\label{lemma-smooth-at-generic-point}
+Let $R \to S$ be an injective finite type ring map with $R$ and $S$ domains.
+Then $R \to S$ is smooth at $\mathfrak q = (0)$ if and only if
+$f.f.(R) \subset f.f.(S)$ is a separable extension of fields.
+\end{lemma}
+
+\begin{proof}
+Assume $R \to S$ is smooth at $(0)$. We may replace $S$ by $S_g$
+for some nonzero $g \in S$ and assume that $R \to S$ is smooth.
+Set $K = f.f.(R)$. Then $K \to S \otimes_R K$ is smooth
+(Lemma \ref{lemma-base-change-smooth}). Moreover, for any
+field extension $K \subset K'$ the ring map $K' \to S \otimes_R K'$
+is smooth as well. Hence $S \otimes_R K'$ is a regular ring
+by Lemma \ref{lemma-characterize-smooth-over-field}, in particular reduced.
+It follows that $S \otimes_R K$ is a geometrically reduced over $K$.
+Hence $f.f.(S)$ is geometricaly reduced over $K$, see
+Lemma \ref{lemma-geometrically-reduced-permanence}.
+Hence $f.f.(S)/K$ is separable by
+Lemma \ref{lemma-characterize-separable-field-extensions}.
+
+\medskip\noindent
+Conversely, assume that $f.f.(R) \subset f.f.(S)$ is separable.
+We may assume $R \to S$ is of finite presentation, see
+Lemma \ref{lemma-generic-finite-presentation}.
+It suffices to prove that $K \to S \otimes_R K$ is smooth
+at $(0)$, see
+Lemma \ref{lemma-flat-base-change-locus-smooth}.
+This follows from Lemma \ref{lemma-separable-smooth}, the
+fact that a field is a regular ring,
+and the assumption that $f.f.(R) \to f.f.(S)$ is separable.
+\end{proof}
 
 
 
@@ -38062,37 +38102,11 @@ the localization of a smooth $k$-algebra.
 \end{lemma}
 
 \begin{proof}
-If $k \subset R$ is a smooth $k$-algebra, then the map
-$R \otimes_k \Omega_k \to \Omega_R$ is injective by
-Lemma \ref{lemma-ses-formally-smooth} (and
-Proposition \ref{proposition-smooth-formally-smooth}). Hence if
-$K = R_{\mathfrak p}$ for some minimal prime $\mathfrak p$
-we also have that $K \otimes_k \Omega_k \to \Omega_K$
-is injective. Thus we see that $K/k$ is separable by
-Proposition \ref{proposition-characterize-separable-field-extensions}.
-(This direction is less interesting and could be proved in
-many other ways, for example by reversing the argument in the
-next paragraph.)
-
-\medskip\noindent
-Conversely, suppose that $k \subset K$ is a finitely generated field extension
-and $K$ is separable over $k$. By
-Lemma \ref{lemma-generating-finitely-generated-separable-field-extensions}
-we see that we can find $x_1, \ldots, x_r, x_{r + 1} \in K$ such
-that $x_1, \ldots, x_r$ form a transcendence basis of $K$ over $k$
-and $x_{r + 1}$ is separable algebraic over $k(x_1, \ldots, x_r)$.
-Let $P \in k[X_1, \ldots, X_{r + 1}]$ be an irreducible polynomial
-such that $P(x_1, \ldots, x_{r + 1}) = 0$ in $K$.
-Thus $K$ is the field of fractions
-of $k[X_1, \ldots, X_{r + 1}]/(P)$. The separability of
-$K/k(x_1, \ldots, x_r)$ means that
-$\partial P/\partial X_{r + 1}(x_1, \ldots, x_{r + 1})$
-is not zero in $K$. Hence
-$$
-R = k[X_1, \ldots, X_{r + 1}]/
-(P)\left[\left(\frac{\partial P}{\partial X_{r + 1}}\right)^{-1}\right]
-$$
-is a smooth $k$-algebra whose fraction field is $K$.
+Choose a finite type $k$-algebra $R$ which is a domain whose
+fraction field is $K$. Lemma \ref{lemma-smooth-at-generic-point}
+says that $k \to R$ is smooth
+at $(0)$ if and only if $K/k$ is separable.
+This proves the lemma.
 \end{proof}
 
 \begin{lemma}
@@ -39804,6 +39818,26 @@ of normal rings. This implies that $S$ is a normal ring.
 Some details omitted.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-regular-goes-up}
+Let $\varphi : R \to S$ be a ring map. Assume
+\begin{enumerate}
+\item $\varphi$ is smooth,
+\item $R$ is a regular ring.
+\end{enumerate}
+Then $S$ is regular.
+\end{lemma}
+
+\begin{proof}
+This follows from Lemma \ref{lemma-Rk-goes-up} applied for all $(R_k)$
+using Lemma \ref{lemma-characterize-smooth-over-field} to see that the
+hypotheses are satisfied.
+\end{proof}
+
+
+
+
+
 
 \section{Descending properties}
 \label{section-descending-properties}
@@ -40252,16 +40286,13 @@ Step 2: $B \otimes_{k'} k' \otimes_k A$ is a regular ring as
 $k' \otimes_k A \to B \otimes_{k'} k' \otimes_k A$ is smooth
 (Lemma \ref{lemma-base-change-smooth})
 and ascent of regularity along smooth maps
-(Lemma \ref{lemma-Rk-goes-up} applied for all $(R_k)$; use
-Lemma \ref{lemma-characterize-smooth-over-field} to see that the
-hypotheses are satisfied).
+(Lemma \ref{lemma-regular-goes-up}).
 Step 3. $K' \otimes_{k'} k' \otimes_k A = K' \otimes_k A$ is
 a regular ring as it is a localization of a regular ring
 (immediate from the definition).
 Step 4. Finally $K \otimes_k A$ is a regular ring by descent of
 regularity along the faithfully flat ring map
-$K \otimes_k A \to K' \otimes_k A$
-(Lemma \ref{lemma-descent-Rk} for all $(R_k)$).
+$K \otimes_k A \to K' \otimes_k A$ (Lemma \ref{lemma-descent-regular}).
 This proves the lemma.
 \end{proof}
 
