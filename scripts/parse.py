@@ -18,6 +18,7 @@ for name in lijstje:
 	next_labeled = 0
 	needs_proof = 0
 	in_lab_env = 0
+	item_on_line = 0
 	def_text = ""
 	for line in tex_file:
 
@@ -50,6 +51,27 @@ for name in lijstje:
 		error_text = only_on_line("\\title{", 7, line)
 		if error_text:
 			print_error(error_text, line, name, line_nr)
+		error_text = beginning_of_line('\\item', line)
+		if error_text:
+			print_error(error_text, line, name, line_nr)
+		error_text = beginning_of_line('\\xymatrix{', line)
+		if error_text:
+			print_error(error_text, line, name, line_nr)
+		error_text = beginning_of_line('\\medskip', line)
+		if error_text:
+			print_error(error_text, line, name, line_nr)
+		error_text = beginning_of_line('\\section', line)
+		if error_text:
+			print_error(error_text, line, name, line_nr)
+		error_text = beginning_of_line('\\subsection', line)
+		if error_text:
+			print_error(error_text, line, name, line_nr)
+		error_text = beginning_of_line('\\subsubsection', line)
+		if error_text:
+			print_error(error_text, line, name, line_nr)
+		error_text = beginning_of_line('\\phantomsection', line)
+		if error_text:
+			print_error(error_text, line, name, line_nr)
 
 		# Check double dollar signs
 		error_text = check_double_dollar(line)
@@ -60,8 +82,10 @@ for name in lijstje:
 		label = find_label(line)
 		if label:
 			if not standard_label(label):
-				print_error("Nonstandard label.",
-				line, name, line_nr)
+				print_error("Nonstandard label.", line, name, line_nr)
+			if label.find('item') == 0:
+				if not item_on_line:
+					print_error("Item label on wrong line.", line, name, line_nr)
 			label = name + "-" + label
 			if label in labels:
 				print_error("Double label.",
@@ -103,6 +127,9 @@ for name in lijstje:
 		# New part?
 		if new_part(line):
 			next_labeled = 1
+
+		# Line defines new item?
+		item_on_line = new_item(line)	
 
 		# Have we found a title?
 		if not have_title and is_title(line):
