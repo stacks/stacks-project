@@ -1,7 +1,7 @@
 list_of_standard_envs = ['abstract', 'verbatim', 'quote', 'itemize', 'list', 'center', 'eqnarray*', 'eqnarray', 'align', 'align*', 'document', 'enumerate', 'proof', 'matrix', 'lemma', 'proposition', 'theorem', 'remark', 'remarks', 'example', 'exercise', 'situation', 'equation', 'definition', 'item']
 
 # We also have labels for
-#	'section', 'subsection' (every one of these has a label)
+#	'section', 'subsection', 'subsubsection' (every one of these has a label)
 #	'item' (typically an item does not have a label)
 list_of_labeled_envs = ['lemma', 'proposition', 'theorem', 'remark', 'remarks', 'example', 'exercise', 'situation', 'equation', 'definition']
 
@@ -9,7 +9,7 @@ list_parts = ['section', 'subsection', 'subsubsection', 'phantomsection']
 
 list_of_proof_envs = ['lemma', 'proposition', 'theorem']
 
-list_of_standard_labels = ['definition', 'lemma', 'proposition', 'theorem', 'remark', 'remarks', 'example', 'exercise', 'situation', 'equation', 'section', 'subsection', 'item']
+list_of_standard_labels = ['definition', 'lemma', 'proposition', 'theorem', 'remark', 'remarks', 'example', 'exercise', 'situation', 'equation', 'section', 'subsection', 'subsubsection', 'item']
 
 # Get file name
 def get_name():

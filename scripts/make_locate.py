@@ -1,3 +1,4 @@
+from sys import exit
 from functions import *
 
 # Only use this script after running
@@ -37,6 +38,21 @@ def parse_aux_file(name, path):
 	aux_file.close()
 	return label_loc
 
+# Variable to contain all the texts of labels
+label_texts = {}
+
+# Variable to contain all the texts of proofs
+proof_texts = {}
+
+# Helper function
+def assign_label_text(label, text):
+	if not label:
+		exit(1)
+	if not text:
+		print label
+		exit(1)
+	label_texts[label] = text
+
 path = get_path()
 
 tags = get_tags(path)
@@ -54,16 +70,40 @@ for name in lijstje:
 # get locations in book
 label_loc = parse_aux_file("book", path)
 
-# Get labeled environments texts
-label_texts = {}
+# Get text of
+#	labeled environments
+#	proofs
+#	labeled items
+#	sections, subsections, subsubsections
+#	equations
 ext = ".tex"
 for name in lijstje:
 	filename = path + name + ext
 	tex_file = open(filename, 'r')
 	line_nr = 0
 	verbatim = 0
-	in_lab_env = 0
-	text = ""
+	in_env = 0
+	in_proof = 0
+	in_item = 0
+	in_section = 0
+	in_subsection = 0
+	in_subsubsection = 0
+	in_equation = 0
+	label = ""
+	label_env = ""
+	label_proof = ""
+	label_item = ""
+	label_section = ""
+	label_subsection = ""
+	label_subsubsection = ""
+	label_equation = ""
+	text_env = ""
+	text_proof = ""
+	text_item = ""
+	text_section = ""
+	text_subsection = ""
+	text_subsubsection = ""
+	text_equation = ""
 	for line in tex_file:
 
 		# Update line number
@@ -79,19 +119,148 @@ for name in lijstje:
 
 		# See if labeled environment starts
 		if labeled_env(line) and line.find("\\begin{equation}") < 0:
-			in_lab_env = 1
-			text = line
-			line = tex_file.next()
-			label = name + "-" + find_label(line)
+			in_env = 1
 
-		if in_lab_env:
-			text = text + line
-			if end_labeled_env(line) and line.find("\\end{equation}") < 0:
-				in_lab_env = 0
-				label_texts[label] = text
-				text = ""
+		# See if a proof starts
+		if beginning_of_proof(line):
+			in_proof = 1
+
+		# See if item starts
+		if new_item(line):
+			# Closeout previous item
+			if in_item and label_item:
+				assign_label_text(label_item, text_item)
+				in_item = 0
+				text_item = ""
+				label_item = ""
+			in_item = 1
+
+		# See if section starts
+		if new_part(line):
+			# Closeout previous section/subsection/subsubsection
+			if in_section and line.find('\\section') == 0:
+				assign_label_text(label_section, text_section)
+				in_section = 0
+				text_section = ""
+				label_section = ""
+			if in_subsection and (line.find('\\section') == 0 or line.find('\\subsection') == 0):
+				assign_label_text(label_subsection, text_subsection)
+				in_subsection = 0
+				text_subsection = ""
+				label_subsection = ""
+			if in_subsubsection and (line.find('\\section') == 0 or line.find('\\subsection') == 0 or line.find('\\subsubsection') == 0):
+				assign_label_text(label_subsubsection, text_subsubsection)
+				in_subsubsection = 0
+				text_subsubsection = ""
+				label_subsubsection = ""
+			# Start new section/subsection/subsubsection
+			if line.find('\\section') == 0:
+				in_section = 1
+			if line.find('\\subsection') == 0:
+				in_subsection = 1
+			if line.find('\\subsubsection') == 0:
+				in_subsubsection = 1
+
+		# See if equation starts
+		if line.find('\\begin{equation}') == 0:
+			in_equation = 1
+
+		# Find label if there is one
+		if line.find('\\label{') == 0:
+			label = find_label(line)
+			if label.find('item') == 0:
+				label_item = name + '-' + label
+			elif label.find('section') == 0:
+				label_section = name + '-' + label
+			elif label.find('subsection') == 0:
+				label_subsection = name + '-' + label
+			elif label.find('subsubsection') == 0:
+				label_subsubsection = name + '-' + label
+			elif label.find('equation') == 0:
+				label_equation = name + '-' + label
+			else:
+				label_env = name + '-' + label
+				if label.find('lemma') == 0 or label.find('proposition') == 0 or label.find('theorem') == 0:
+					label_proof = label_env
+
+		# Add line to env_text if we are in an environment
+		if in_env:
+			text_env = text_env + line
+
+		# Add line to proof_text if we are in a proof
+		if in_proof:
+			text_proof = text_proof + line
+
+		# Add line to item_text if we are in an item
+		if in_item:
+			text_item = text_item + line
+
+		# Add line to section_text if we are in a section
+		if in_section:
+			text_section = text_section + line
+		if in_subsection:
+			text_subsection = text_subsection + line
+		if in_subsubsection:
+			text_subsubsection = text_subsubsection + line
+
+		# Add line to equation_text if we are in an equation
+		if in_equation:
+			text_equation = text_equation + line
+
+		# Closeout env
+		if end_labeled_env(line) and line.find("\\end{equation}") < 0:
+			in_env = 0
+			assign_label_text(label_env, text_env)
+			text_env = ""
+			label_env = ""
+
+		# Closeout proof
+		if end_of_proof(line):
+			in_proof = 0
+			# We pick up only the first proof if there are multiple proofs
+			if label_proof:
+				if not text_proof:
+					exit(1)
+				proof_texts[label_proof] = text_proof
+			text_proof = ""
+			label_proof = ""
+
+		# Closeout item
+		if line.find('\\end{enumerate}') == 0 or line.find('\\end{itemize}') == 0 or line.find('\\end{list}') == 0:
+			if in_item and label_item:
+				assign_label_text(label_item, text_item)
+				label_item = ""
+			in_item = 0
+			text_item = ""
+			label_item = ""
+
+		# Closeout section/subsection/subsubsection
+		if line.find('\\input{chapters}') == 0:
+			if in_section:
+				assign_label_text(label_section, text_section)
+				in_section = 0
+				text_section = ""
+				label_section = ""
+			if in_subsection:
+				assign_label_text(label_subsection, text_subsection)
+				in_subsection = 0
+				text_subsection = ""
+				label_subsection = ""
+			if in_subsubsection:
+				assign_label_text(label_subsubsection, text_subsubsection)
+				in_subsubsection = 0
+				text_subsubsection = ""
+				label_subsubsection = ""
+
+		# Closeout equation
+		if line.find('\\end{equation}') == 0:
+			in_equation = 0
+			assign_label_text(label_equation, text_equation)
+			text_equation = ""
+			label_equation = ""
 
 	tex_file.close()
+
 
 print "<html>"
 print "<head>"
@@ -145,6 +314,18 @@ while n < len(tags):
 		print "END;"
 	n = n + 1
 
+# Make the array with the proofs
+print "$tag_proof = array(\"ZZZZ\" => \"no proof yet\");"
+n = 0
+while n < len(tags):
+	tag = tags[n][0]
+	label = tags[n][1]
+	if label in proof_texts:
+		print "$tag_proof[\"" + tag + "\"]=<<<\'END\'"
+		print proof_texts[label],
+		print "END;"
+	n = n + 1
+
 # Change to upper case
 print "$TAG=strtoupper($_GET[\"tag\"]);"
 
@@ -168,6 +349,11 @@ print "echo \"The latex code of the corresponding environment is:\\n\";"
 print "echo \"<div style=\\\"font-family: monospace; text-align: left; display: table\\\">\\n\";"
 print "echo \"<pre>\\n\";"
 print "print htmlspecialchars($tag_text[$TAG]);"
+print "if (array_key_exists($TAG, $tag_proof)) {"
+print "echo \"\\n\";"
+print "echo \"\\n\";"
+print "print htmlspecialchars($tag_proof[$TAG]);"
+print "}"
 print "echo \"</pre>\\n\";"
 print "echo \"</div>\\n\";"
 print "}"
