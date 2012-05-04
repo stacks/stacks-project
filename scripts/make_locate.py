@@ -55,7 +55,9 @@ def assign_label_text(label, text):
 
 path = get_path()
 
+# Get all tags
 tags = get_tags(path)
+label_tags = dict((tags[n][1], tags[n][0]) for n in range(0, len(tags)))
 
 titles = all_titles(path)
 
@@ -69,6 +71,27 @@ for name in lijstje:
 
 # get locations in book
 label_loc = parse_aux_file("book", path)
+
+# Function to convert refs into links
+def make_links(line, name):
+	new_line = ""
+	m = 0
+	n = line.find("\\ref{")
+	while n >= 0:
+		new_line = new_line + line[m : n + 5]
+		m = find_sub_clause(line, n + 4, "{", "}")
+		ref = line[n + 5: m]
+		if standard_label(ref):
+			label = name + "-" + ref
+		else:
+			label = ref
+		if label in label_tags:
+			new_line = new_line + '<a href=\"locate.php?tag=' + label_tags[label] + '\">' + ref + '</a>'
+		else:
+			new_line = new_line + ref
+		n = line.find("\\ref{", m)
+	new_line = new_line + line[m:]
+	return new_line
 
 # Get text of
 #	labeled environments
@@ -185,27 +208,27 @@ for name in lijstje:
 
 		# Add line to env_text if we are in an environment
 		if in_env:
-			text_env = text_env + line
+			text_env = text_env + make_links(line, name)
 
 		# Add line to proof_text if we are in a proof
 		if in_proof:
-			text_proof = text_proof + line
+			text_proof = text_proof + make_links(line, name)
 
 		# Add line to item_text if we are in an item
 		if in_item:
-			text_item = text_item + line
+			text_item = text_item + make_links(line, name)
 
 		# Add line to section_text if we are in a section
 		if in_section:
-			text_section = text_section + line
+			text_section = text_section + make_links(line, name)
 		if in_subsection:
-			text_subsection = text_subsection + line
+			text_subsection = text_subsection + make_links(line, name)
 		if in_subsubsection:
-			text_subsubsection = text_subsubsection + line
+			text_subsubsection = text_subsubsection + make_links(line, name)
 
 		# Add line to equation_text if we are in an equation
 		if in_equation:
-			text_equation = text_equation + line
+			text_equation = text_equation + make_links(line, name)
 
 		# Closeout env
 		if end_labeled_env(line) and line.find("\\end{equation}") < 0:
@@ -348,11 +371,11 @@ print "if (array_key_exists($TAG, $tag_text)) {"
 print "echo \"The latex code of the corresponding environment is:\\n\";"
 print "echo \"<div style=\\\"font-family: monospace; text-align: left; display: table\\\">\\n\";"
 print "echo \"<pre>\\n\";"
-print "print htmlspecialchars($tag_text[$TAG]);"
+print "print $tag_text[$TAG];"
 print "if (array_key_exists($TAG, $tag_proof)) {"
 print "echo \"\\n\";"
 print "echo \"\\n\";"
-print "print htmlspecialchars($tag_proof[$TAG]);"
+print "print $tag_proof[$TAG];"
 print "}"
 print "echo \"</pre>\\n\";"
 print "echo \"</div>\\n\";"
