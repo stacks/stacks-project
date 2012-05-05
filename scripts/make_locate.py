@@ -285,115 +285,58 @@ for name in lijstje:
 	tex_file.close()
 
 
-print "<html>"
-print "<head>"
-print "<link rel=\"icon\" type=\"image/vnd.microsoft.icon\" href=\"stacks.ico\" />"
-print "<title> Location of tag </title>"
-print "</head>"
-print "<body>"
-print
-print "<p align=left>"
-print "<a href=\"index.html\">stacks project</a> | <a href=\"query.php\">search</a> | <a href=\"tags.html\">tags explained</a>"
-print "</p>"
-print
-print "<?php"
+# Prepare directory for latex code snippets
+code_dir = path + '/tags/tmp/code'
+import os
+if not os.path.exists(code_dir):
+	os.mkdir(code_dir)
+else:
+	print "Warning: tags/tmp/code not empty!"
 
-# Make the long array for book version
-print "$tag_loc = array("
+# ZZZZ is a special case
+text = 'Tag ZZZZ. If a result has been labeled with tag ZZZZ<br>\n'
+text = text + 'this means the result has not been given a stable tag yet.'
+filename = code_dir + '/ZZZZ'
+code_file = open(filename, 'w')
+code_file.write(text)
+code_file.close()
+
+# Print link to location in chapter
 n = 0
 while n < len(tags):
 	tag = tags[n][0]
 	label = tags[n][1]
-	if label in label_loc:
-		print "\"" + tag + "\" => \"" + label_loc[label] + "\","
-	n = n + 1
-print "\"ZZZZ\" => \"does not exist yet\");"
-
-# Make the array for chapters
-print "$tag_loc_chap = array("
-n = 0
-while n < len(tags):
-	tag = tags[n][0]
-	label = tags[n][1]
-	if label in label_loc:
-		split = split_label(label)
-		name = split[0]
-		text = name + ".pdf#" + tag + "\\\">"
-		text = text + list_dict[name][label]
-		text = text + "</a> in ``" + titles[name] + "''"
-		print "\"" + tag + "\" => \"" + text + "\","
-	n = n + 1
-print "\"ZZZZ\" => \"introduction.pdf#ZZZZ\\\">does not exist yet</a>\");"
-
-# Make the array with the texts
-print "$tag_text = array(\"ZZZZ\" => \"does not exist yet\");"
-n = 0
-while n < len(tags):
-	tag = tags[n][0]
-	label = tags[n][1]
-	if label in label_texts:
-		print "$tag_text[\"" + tag + "\"]=<<<\'END\'"
-		print label_texts[label],
-		print "END;"
-	n = n + 1
-
-# Make the array with the proofs
-print "$tag_proof = array(\"ZZZZ\" => \"no proof yet\");"
-n = 0
-while n < len(tags):
-	tag = tags[n][0]
-	label = tags[n][1]
+	if not label in label_loc:
+		print "Warning: missing location for tag " + tag
+		print "and label " + label
+		n = n + 1
+		continue
+	split = split_label(label)
+	name = split[0]
+	text = "Use tag " + tag + " to reference\n"
+	text = text + "<ul>\n<li><a href=\"" + name + ".pdf#" + tag + "\">"
+	text = text + list_dict[name][label]
+	text = text + "</a> in ``" + titles[name] + "'', or </li>\n"
+	filename = code_dir + '/' + tag
+	code_file = open(filename, 'w')
+	code_file.write(text)
+	text = "<li><a href=\"book.pdf#" + tag + "\">"
+	text = text + label_loc[label] + "</a> of the book version.</li>\n</ul>\n"
+	code_file.write(text)
+	if not label in label_texts:
+		n = n + 1
+		continue	
+	text = "The latex code of the corresponding environment is:\n"
+	text =  text + "<div style=\"font-family: monospace; text-align: left; display: table\">\n"
+	text = text + "<pre>\n"
+	code_file.write(text)
+	code_file.write(label_texts[label])
 	if label in proof_texts:
-		print "$tag_proof[\"" + tag + "\"]=<<<\'END\'"
-		print proof_texts[label],
-		print "END;"
+		code_file.write("\n")
+		code_file.write(proof_texts[label])
+	code_file.write("</pre></div>\n")
+	code_file.close()
 	n = n + 1
 
-# Change to upper case
-print "$TAG=strtoupper($_GET[\"tag\"]);"
 
-# Text the reader sees
-print "echo \"<div style=\\\"margin-left: auto; margin-right: auto; text-align: left; width: 600px\\\">\\n\";"
-print "if (array_key_exists($TAG, $tag_loc)) {"
-print "echo \"Use tag \";"
-print "echo $TAG;"
-print "echo \" to reference:\\n\";"
-print "echo \"<ul>\";"
-print "echo \"<li><a href=\\\"\";"
-print "echo $tag_loc_chap[$TAG];"
-print "echo \", or</li>\\n\";"
-print "echo \"<li><a href=\\\"book.pdf#\";"
-print "echo $TAG;"
-print "echo \"\\\">\";"
-print "echo $tag_loc[$TAG];"
-print "echo \"</a> of the book version.</li></ul>\\n\";"
-print "if (array_key_exists($TAG, $tag_text)) {"
-print "echo \"The latex code of the corresponding environment is:\\n\";"
-print "echo \"<div style=\\\"font-family: monospace; text-align: left; display: table\\\">\\n\";"
-print "echo \"<pre>\\n\";"
-print "print $tag_text[$TAG];"
-print "if (array_key_exists($TAG, $tag_proof)) {"
-print "echo \"\\n\";"
-print "echo \"\\n\";"
-print "print $tag_proof[$TAG];"
-print "}"
-print "echo \"</pre>\\n\";"
-print "echo \"</div>\\n\";"
-print "}"
-print "}"
-print "else"
-print "{"
-print "echo \"Tag $TAG does not exist.<br>\\n\";"
-print "echo \"This may be because you mistyped it.<br>\\n\";"
-print "echo \"Tags are 4 character strings of \";"
-print "echo \"digits and letters.<br>\\n\";"
-print "echo \"For more on tags click \";"
-print "echo \"<a href=\\\"tags.html\\\">here</a>.\\n\";"
-print "echo \"To try again click \";"
-print "echo \"<a href=\\\"query.php\\\">here</a>.\\n\";"
-print "}"
-print "echo \"</div>\\n\";"
-print "?>"
-print
-print "</body>"
-print "</html>"
+

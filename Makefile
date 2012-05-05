@@ -33,7 +33,7 @@ TAG_EXTRAS = tags/tmp/my.bib tags/tmp/hyperref.cfg \
 	tags/tmp/stacks-project.cls tags/tmp/stacks-project-book.cls \
 	tags/tmp/Makefile tags/tmp/chapters.tex \
 	tags/tmp/preamble.tex tags/tmp/downloads.html tags/tmp/log.log \
-	tags/tmp/tags.html tags/tmp/query.php
+	tags/tmp/tags.html tags/tmp/query.php tags/tmp/locate.php
 FOO_SOURCES = $(patsubst %,%.foo,$(LIJST))
 FOOS = $(patsubst %,%.foo,$(LIJST_FDL))
 BARS = $(patsubst %,%.bar,$(LIJST_FDL))
@@ -185,26 +185,33 @@ tags/tmp/log.log:
 tags/tmp/downloads.html: downloads
 	python scripts/make_downloads.py . > tags/tmp/downloads.html
 
-tags/tmp/tags.html:
+tags/tmp/tags.html: tags/tags.html
 	cp tags/tags.html tags/tmp/tags.html
 
-tags/tmp/query.php:
+tags/tmp/query.php: tags/query.php
 	cp tags/query.php tags/tmp/query.php
+
+tags/tmp/locate.php: tags/locate.php
+	cp tags/locate.php tags/tmp/locate.php
 
 # Target dealing with tags
 .PHONY: tags
 tags: $(TAGS) $(TAG_EXTRAS)
 	@echo "TAGS TARGET"
 	$(MAKE) -C tags/tmp
-	python ./scripts/make_locate.py "$(CURDIR)" > tags/tmp/locate.php
+
+.PHONY: code
+code: tags
+	python ./scripts/make_locate.py "$(CURDIR)"
 
 .PHONY: tags_install
-tags_install: tags tarball
+tags_install: tags code tarball
 	cp tags/tmp/*.pdf $(INSTALLDIR)
 	cp tags/tmp/*.dvi $(INSTALLDIR)
 	cp tags/tmp/*.php $(INSTALLDIR)
 	cp tags/tmp/*.html $(INSTALLDIR)
 	cp tags/tmp/log.log $(INSTALLDIR)
+	cp -r tags/tmp/code $(INSTALLDIR)
 	tar -c -f $(INSTALLDIR)/stacks-pdfs.tar --exclude book.pdf --transform=s@tags/tmp@stacks-pdfs@ tags/tmp/*.pdf
 	tar -c -f $(INSTALLDIR)/stacks-dvis.tar --exclude book.dvi --transform=s@tags/tmp@stacks-dvis@ tags/tmp/*.dvi
 	git archive --format=tar HEAD | (cd $(INSTALLDIR) && tar xf -)
@@ -213,6 +220,7 @@ tags_install: tags tarball
 	git log --pretty=oneline -1 > $(INSTALLDIR)/VERSION
 
 tags_clean:
+	rm -rf tags/tmp/code
 	rm -f tags/tmp/*
 	rm -f tmp/book.tex tmp/index.tex
 	rm -f stacks-git.tar.bz2
