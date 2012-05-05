@@ -63,6 +63,7 @@ short_titles = {'introduction' : 'Introduction',\
 'algebraic' : 'Algebraic Stacks,',\
 'stacks-sheaves' : 'Sheaves on Stacks,',\
 'criteria' : 'Criteria for Representability,',\
+'artin' : 'Artin\'s Axioms,',\
 'stacks-properties' : 'Properties of Stacks,',\
 'stacks-morphisms' : 'Morphisms of Stacks,',\
 'stacks-cohomology' : 'Cohomology of Stacks,',\
