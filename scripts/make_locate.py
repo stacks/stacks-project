@@ -313,7 +313,7 @@ while n < len(tags):
 		continue
 	split = split_label(label)
 	name = split[0]
-	text = "Use tag " + tag + " to reference\n"
+	text = "Use tag " + tag + " to reference:\n"
 	text = text + "<ul>\n<li><a href=\"" + name + ".pdf#" + tag + "\">"
 	text = text + list_dict[name][label]
 	text = text + "</a> in ``" + titles[name] + "'', or </li>\n"
@@ -327,7 +327,7 @@ while n < len(tags):
 		n = n + 1
 		continue	
 	text = "The latex code of the corresponding environment is:\n"
-	text =  text + "<div style=\"font-family: monospace; text-align: left; display: table\">\n"
+	text =  text + "<div style=\"font-family: monospace; text-align: left; display: table; padding-top: 10; padding-bottom: 10\">\n"
 	text = text + "<pre>\n"
 	code_file.write(text)
 	code_file.write(label_texts[label])
