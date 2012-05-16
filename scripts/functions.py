@@ -294,6 +294,10 @@ def split_label(label):
 		name = "decent-spaces"
 		type = pieces[2]
 		n = 3
+	if name == "spaces" and type == "limits":
+		name = "spaces-limits"
+		type = pieces[2]
+		n = 3
 	if name == "spaces" and type == "topologies":
 		name = "spaces-topologies"
 		type = pieces[2]

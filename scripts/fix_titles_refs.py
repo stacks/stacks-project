@@ -47,6 +47,7 @@ short_titles = {'introduction' : 'Introduction',\
 'spaces-properties' : 'Properties of Spaces,',\
 'spaces-morphisms' : 'Morphisms of Spaces,',\
 'decent-spaces' : 'Decent Spaces,',\
+'spaces-limits' : 'Limits of Spaces,',\
 'spaces-topologies' : 'Topologies on Spaces,',\
 'spaces-descent' : 'Descent on Spaces,',\
 'spaces-more-morphisms' : 'More on Morphisms of Spaces,',\
