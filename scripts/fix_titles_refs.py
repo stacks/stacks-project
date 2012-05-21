@@ -28,7 +28,7 @@ short_titles = {'introduction' : 'Introduction',\
 'constructions' : 'Constructions,',\
 'properties' : 'Properties,',\
 'morphisms' : 'Morphisms,',\
-'coherent' : 'Coherent,',\
+'coherent' : 'Cohomology of Schemes,',\
 'divisors' : 'Divisors,',\
 'limits' : 'Limits,',\
 'varieties' : 'Varieties,',\
@@ -47,13 +47,13 @@ short_titles = {'introduction' : 'Introduction',\
 'spaces-properties' : 'Properties of Spaces,',\
 'spaces-morphisms' : 'Morphisms of Spaces,',\
 'decent-spaces' : 'Decent Spaces,',\
+'spaces-cohomology' : 'Cohomology of Spaces,',\
 'spaces-limits' : 'Limits of Spaces,',\
 'spaces-topologies' : 'Topologies on Spaces,',\
 'spaces-descent' : 'Descent on Spaces,',\
 'spaces-more-morphisms' : 'More on Morphisms of Spaces,',\
 'quot' : 'Quot,',\
 'spaces-over-fields' : 'Spaces over Fields,',\
-'spaces-cohomology' : 'Cohomology of Spaces,',\
 'stacks' : 'Stacks,',\
 'formal-defos' : 'Formal Deformation Theory,',\
 'spaces-groupoids' : 'Groupoids in Spaces,',\

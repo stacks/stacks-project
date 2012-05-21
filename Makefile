@@ -10,10 +10,10 @@ LIJST = introduction conventions sets categories topology sheaves algebra \
 	sites-cohomology hypercovering schemes constructions properties \
 	morphisms coherent divisors limits varieties chow topologies \
 	descent adequate more-morphisms flat groupoids more-groupoids etale \
-	etale-cohomology crystalline \
-	spaces spaces-properties spaces-morphisms decent-spaces spaces-limits \
+	etale-cohomology crystalline spaces spaces-properties \
+	spaces-morphisms decent-spaces spaces-cohomology spaces-limits \
 	spaces-topologies spaces-descent spaces-more-morphisms quot \
-	spaces-over-fields spaces-cohomology stacks formal-defos \
+	spaces-over-fields stacks formal-defos \
 	spaces-groupoids spaces-more-groupoids bootstrap examples-stacks \
 	groupoids-quotients algebraic stacks-sheaves criteria artin \
 	stacks-properties stacks-morphisms stacks-cohomology \
