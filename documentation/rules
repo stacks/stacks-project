@@ -1,0 +1,190 @@
+Unwritten rules regarding format latex files in the stacks project
+------------------------------------------------------------------
+
+Avoid reading this document at all cost!
+
+
+Chapters and titles of chapters
+-------------------------------
+
+To each chapter there are associated 3 names: the file name, the title of
+the chapter, and the short title
+
+Rules for these: the file name is of the form <name>.tex where <name> is a
+string of characters from a...z and - which we think of as a separator.
+
+Lists of chapters occur in the following files
+
+	Makefile
+	tags/Makefile
+	preamble.tex
+	chapters.tex
+	browse.tex
+	scritps/fix_titles_refs.py
+	scripts/functions.py
+
+Whenever a chapter is added or renamed each of the above files has to be
+edited to reflect the changes. Since this happens quite rarely we do not
+worry about the duplication.
+
+The canonical ordered list of (maintained) file names of chapters is the
+variable LIJST in the Makefile. Extra chapters which are added by scripts are
+
+	fdl		the license
+	index		auto generated index of definitions
+
+The titles of the chapters can be found by looking for the \title{} macro
+in the tex files.
+
+The short titles of the chapters can be found in scripts/fix_titles_refs.py
+
+
+Latex labels
+------------
+
+A typical latex label is defined in the tex files by a line of the form
+
+\label{lemma-locally-finite-type-Jacobson}
+
+in one of the latex files. The actual label (it is sometimes called a
+"short label" for reasons that will be explained later) is a string of
+characters from a...z or A...Z or 0...9 or - which we think of as a
+separator. The first part of the short label is one of
+
+	'definition', 'lemma', 'proposition', 'theorem', 'remark', 'remarks',
+	'example', 'exercise', 'situation', 'equation', 'section',
+	'subsection', 'subsubsection', 'item'
+
+see list_of_standard_labels in scripts/functions.py. The same short label
+can be defined in different chapter files. We define the long label
+associated to a short label <sort> in the chapter <name>.tex to be
+
+	<name>-<short>
+
+In the example above the short label lemma-locally-finite-type-Jacobson
+occurs in the chapter varieties.tex hence its long label is
+
+	varieties-lemma-locally-finite-type-Jacobson
+
+There is a one to one correspondence between long labels and occurences
+of the latex command '\label{...}'
+
+
+References
+----------
+
+To refer to a short label <short> inside the same chapter use
+
+	\ref{<short>}
+
+To refer to the short label <short> from another chapter use
+
+	\ref{<long>}
+
+where <long> is the long label associated to <short>. This works thanks to
+the setup of crossreferences (using xr-hyper) in the file preamble.tex
+However there are some additional rules to follow when doing this. The
+easiest way to explain this is by giving some examples. First some examples
+using short labels
+
+	Lemma \ref{lemma-integral-closure-ground-field}
+	Proposition \ref{proposition-units-general}
+	(\ref{equation-canonical-presentation})
+
+The canonical format of an internal reference is
+
+	<capitalized name of environment> \ref{<short>}
+
+except when referring to items or equations. Next some examples using long
+labels
+
+	Morphisms, Lemma \ref{morphisms-lemma-finite-type-noetherian}
+	Properties, Lemma \ref{properties-lemma-Noetherian-topology}
+	Algebra, Theorem \ref{algebra-theorem-nullstellensatz}
+
+The canonical format of an external reference is
+
+	<short title>, <capitalized name environment> \ref{<long>}
+
+When referring to multiple lemmas in a row you can use a construction like
+
+	Lemmas \ref{lemma-geometrically-reduced-at-point} and
+	\ref{lemma-geometrically-reduced}
+
+Use grep to find more example of this nature. Run scripts/fix_titles_refs.py
+to see if the references are formed correctly.
+
+
+Latex style
+-----------
+
+Obviously you can argue about this forever. Some of these rules have to do with
+readability of the latex files and some have to do with the overal setup of the
+project as well as the tags system (which is discussed elsewhere).
+
+* Every line has at most 80 characters
+
+* The following are on a line by themselves
+	\begin{...}
+	\end{...}
+	\label{...}
+	\title{...}
+	$$
+
+* The following are flush left
+	\item
+	\xymatrix
+	\medskip
+	\section
+	\subsection
+	\subsubsection
+	\phantomsection
+
+* Every environment of the type
+	'lemma', 'proposition', 'theorem', 'remark', 'remarks',
+	'example', 'exercise', 'situation', 'equation', 'definition'
+is labeled. In fact every such environment starts with the following
+two lines
+\begin{<env>}
+\label{<short>}
+
+* There are no nested environments, except equations are allowed inside
+other environments.
+
+* Every environment of the type
+	'lemma', 'proposition', 'theorem'
+has a proof.
+
+* Every 'section', 'subsection', 'subsubsection', 'phantomsection' has a
+label which is defined on the next line.
+
+* If an item has a label it is defined on the line following the \item macro.
+
+* Every definition defines something. The terms being defined are found
+by looking for the patterns {\it ...}
+
+* Proofs do not refer to results later in the stacks project. They also do not
+refer to the result itself.
+
+* We do not use the long label to refer to something inside the same chapter.
+
+* Every chapter starts with
+
+\input{preamble}
+\begin{document}
+\title{...}
+\maketitle
+\phantomsection
+\label{section-phantom}
+\tableofcontents
+
+* Every chapter ends with
+
+\input{chapters}
+\bibliography{my}
+\bibliographystyle{amsalpha}
+\end{document}
+
+* Every chapter has at least one citation.
+
+
