@@ -18,7 +18,7 @@ name = argv[2]
 def replace_newtheorem(line):
 	if not line.find("\\newtheorem{") == 0:
 			return line
-	line = line.replace("]{", "]{\\href{http://math.columbia.edu/algebraic_geometry/stacks-git/locate.php?tag=\\TAG}{",1)
+	line = line.replace("]{", "]{\\href{http://stacks.math.columbia.edu/tag/\\TAG}{",1)
 	line = line.rstrip()
 	return line + "}"
 

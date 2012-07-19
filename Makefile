@@ -40,9 +40,8 @@ BARS = $(patsubst %,%.bar,$(LIJST_FDL))
 PDFS = $(patsubst %,%.pdf,$(LIJST_FDL))
 DVIS = $(patsubst %,%.dvi,$(LIJST_FDL))
 
-# Files in INSTALLDIR will be overwritten.
-INSTALLDIR=/home/dejong/html/algebraic_geometry/stacks-git
-#INSTALLDIR=/mnt/data/APACHE/htdocs/stacks-git
+# Be careful. Files in INSTALLDIR will be overwritten!
+INSTALLDIR=
 
 # Default latex commands
 LATEX := latex -src
@@ -206,6 +205,11 @@ code: tags
 
 .PHONY: tags_install
 tags_install: tags code tarball
+ifndef INSTALLDIR
+	@echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
+	@echo "% Set INSTALLDIR value in the Makefile!               %"
+	@echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
+else
 	cp tags/tmp/*.pdf $(INSTALLDIR)
 	cp tags/tmp/*.dvi $(INSTALLDIR)
 	cp tags/tmp/*.php $(INSTALLDIR)
@@ -215,15 +219,16 @@ tags_install: tags code tarball
 	tar -c -f $(INSTALLDIR)/stacks-pdfs.tar --exclude book.pdf --transform=s@tags/tmp@stacks-pdfs@ tags/tmp/*.pdf
 	tar -c -f $(INSTALLDIR)/stacks-dvis.tar --exclude book.dvi --transform=s@tags/tmp@stacks-dvis@ tags/tmp/*.dvi
 	git archive --format=tar HEAD | (cd $(INSTALLDIR) && tar xf -)
-	cp stacks-git.html $(INSTALLDIR)/index.html
-	cp stacks-git.tar.bz2 $(INSTALLDIR)
+	cp stacks-project.html $(INSTALLDIR)/index.html
+	cp stacks-project.tar.bz2 $(INSTALLDIR)
 	git log --pretty=oneline -1 > $(INSTALLDIR)/VERSION
+endif
 
 tags_clean:
 	rm -rf tags/tmp/code
 	rm -f tags/tmp/*
 	rm -f tmp/book.tex tmp/index.tex
-	rm -f stacks-git.tar.bz2
+	rm -f stacks-project.tar.bz2
 
 # Additional targets
 .PHONY: book
@@ -233,19 +238,19 @@ book: book.foo book.bar book.dvi book.pdf
 clean:
 	rm -f *.aux *.bbl *.blg *.dvi *.log *.pdf *.ps *.out *.toc *.foo *.bar
 	rm -f tmp/book.tex tmp/index.tex
-	rm -f stacks-git.tar.bz2
+	rm -f stacks-project.tar.bz2
 
 .PHONY: distclean
 distclean: clean tags_clean
 
 .PHONY: backup
 backup:
-	git archive --prefix=stacks-git/ HEAD | bzip2 > \
-		../stacks-git_backup.tar.bz2
+	git archive --prefix=stacks-project/ HEAD | bzip2 > \
+		../stacks-project_backup.tar.bz2
 
 .PHONY: tarball
 tarball:
-	git archive --prefix=stacks-git/ HEAD | bzip2 > stacks-git.tar.bz2
+	git archive --prefix=stacks-project/ HEAD | bzip2 > stacks-project.tar.bz2
 
 # Target which makes all dvis and all pdfs, as well as the tarball
 .PHONY: all
