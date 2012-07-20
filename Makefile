@@ -143,19 +143,19 @@ book.dvi: tmp/book.tex book.bar
 # Tags stuff
 #
 #
-tags/tmp/book.tex: tmp/book.tex
+tags/tmp/book.tex: tmp/book.tex tags/tags
 	python ./scripts/tag_up.py "$(CURDIR)" book > tags/tmp/book.tex
 
 tags/tmp/index.tex: tmp/index.tex
 	cp tmp/index.tex tags/tmp/index.tex
 
-tags/tmp/preamble.tex: preamble.tex
+tags/tmp/preamble.tex: preamble.tex tags/tags
 	python ./scripts/tag_up.py "$(CURDIR)" preamble > tags/tmp/preamble.tex
 
 tags/tmp/chapters.tex: chapters.tex
 	cp chapters.tex tags/tmp/chapters.tex
 
-tags/tmp/%.tex: %.tex
+tags/tmp/%.tex: %.tex tags/tags
 	python ./scripts/tag_up.py "$(CURDIR)" $* > tags/tmp/$*.tex
 
 tags/tmp/%.tex.html: %.tex
