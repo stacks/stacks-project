@@ -27,6 +27,11 @@ else
 	cp *.aux $TMPD
 fi
 
+# pdflatex needs .out file
+if [ "$LATEX" == "pdflatex" ]; then
+	cp $STEM.out $TMPD;
+fi
+
 # Latex the file in temporary directory
 # Exit without copying the results if there is a latex error.
 cd $TMPD
@@ -37,7 +42,7 @@ if [ ! $? == 0 ]; then
 fi
 
 # Move newly created files back to stacks project directoy
-mv $STEM.pdf $STEM.dvi $STEM.aux $STEM.toc $OLD
+mv $STEM.pdf $STEM.dvi $STEM.aux $STEM.toc $STEM.out $OLD
 
 # Remove temporary directory
 cd $OLD
