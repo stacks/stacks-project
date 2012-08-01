@@ -270,16 +270,24 @@ def split_label(label):
 		name = "more-algebra"
 		type = pieces[2]
 		n = 3
-	if name == "sites" and type == "cohomology":
-		name = "sites-cohomology"
-		type = pieces[2]
-		n = 3
 	if name == "sites" and type == "modules":
 		name = "sites-modules"
 		type = pieces[2]
 		n = 3
+	if name == "sites" and type == "cohomology":
+		name = "sites-cohomology"
+		type = pieces[2]
+		n = 3
+	if name == "more" and type == "morphisms":
+		name = "more-morphisms"
+		type = pieces[2]
+		n = 3
 	if name == "more" and type == "groupoids":
 		name = "more-groupoids"
+		type = pieces[2]
+		n = 3
+	if name == "etale" and type == "cohomology":
+		name = "etale-cohomology"
 		type = pieces[2]
 		n = 3
 	if name == "spaces" and type == "properties":
@@ -292,6 +300,14 @@ def split_label(label):
 		n = 3
 	if name == "decent" and type == "spaces":
 		name = "decent-spaces"
+		type = pieces[2]
+		n = 3
+	if name == "spaces" and type == "cohomology":
+		name = "spaces-cohomology"
+		type = pieces[2]
+		n = 3
+	if name == "spaces" and type == "divisors":
+		name = "spaces-divisors"
 		type = pieces[2]
 		n = 3
 	if name == "spaces" and type == "limits":
@@ -310,6 +326,14 @@ def split_label(label):
 		name = "spaces-more-morphisms"
 		type = pieces[3]
 		n = 4
+	if name == "spaces" and type == "over" and pieces[2] == "fields":
+		name = "spaces-over-fields"
+		type = pieces[3]
+		n = 4
+	if name == "formal" and type == "defos":
+		name = "formal-defos"
+		type = pieces[2]
+		n = 3
 	if name == "spaces" and type == "groupoids":
 		name = "spaces-groupoids"
 		type = pieces[2]
@@ -318,18 +342,6 @@ def split_label(label):
 		name = "spaces-more-groupoids"
 		type = pieces[3]
 		n = 4
-	if name == "more" and type == "morphisms":
-		name = "more-morphisms"
-		type = pieces[2]
-		n = 3
-	if name == "etale" and type == "cohomology":
-		name = "etale-cohomology"
-		type = pieces[2]
-		n = 3
-	if name == "formal" and type == "defos":
-		name = "formal-defos"
-		type = pieces[2]
-		n = 3
 	if name == "examples" and type == "stacks":
 		name = "examples-stacks"
 		type = pieces[2]
@@ -356,14 +368,6 @@ def split_label(label):
 		n = 3
 	if name == "stacks" and type == "introduction":
 		name = "stacks-introduction"
-		type = pieces[2]
-		n = 3
-	if name == "spaces" and type == "over":
-		name = "spaces-over-fields"
-		type = pieces[3]
-		n = 4
-	if name == "spaces" and type == "cohomology":
-		name = "spaces-cohomology"
 		type = pieces[2]
 		n = 3
 	while n < len(pieces):
