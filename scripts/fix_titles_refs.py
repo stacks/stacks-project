@@ -48,8 +48,8 @@ short_titles = {'introduction' : 'Introduction',\
 'spaces-morphisms' : 'Morphisms of Spaces,',\
 'decent-spaces' : 'Decent Spaces,',\
 'spaces-cohomology' : 'Cohomology of Spaces,',\
-'spaces-divisors' : 'Divisors on Spaces,',\
 'spaces-limits' : 'Limits of Spaces,',\
+'spaces-divisors' : 'Divisors on Spaces,',\
 'spaces-topologies' : 'Topologies on Spaces,',\
 'spaces-descent' : 'Descent on Spaces,',\
 'spaces-more-morphisms' : 'More on Morphisms of Spaces,',\

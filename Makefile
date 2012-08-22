@@ -12,7 +12,7 @@ LIJST = introduction conventions sets categories topology sheaves algebra \
 	descent adequate more-morphisms flat groupoids more-groupoids etale \
 	etale-cohomology crystalline spaces spaces-properties \
 	spaces-morphisms decent-spaces spaces-cohomology \
-	spaces-divisors spaces-limits \
+	spaces-limits spaces-divisors \
 	spaces-topologies spaces-descent spaces-more-morphisms quot \
 	spaces-over-fields stacks formal-defos \
 	spaces-groupoids spaces-more-groupoids bootstrap examples-stacks \
