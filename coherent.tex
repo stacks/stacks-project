@@ -3924,7 +3924,7 @@ is an $A$-module of finite type.
 In this section we study the behaviour of cohomology of
 sequences of sheaves either of the form $\{I^n\mathcal{F}\}_{n \geq 0}$
 or of the form $\{\mathcal{F}/I^n\mathcal{F}\}_{n \geq 0}$ as
-$n$-varies.
+$n$ varies.
 
 \medskip\noindent
 Here and below we use the following notation.
@@ -4290,6 +4290,29 @@ of the lemma. We also omit the verification on topologies.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-spell-out-theorem-formal-functions}
+Let $A$ be a ring. Let $I \subset A$ be an ideal. Assume $A$ is
+Noetherian and complete with respect to $I$.
+Let $f : X \to \Spec(A)$ be a proper morphism.
+Let $\mathcal{F}$ be a coherent sheaf on $X$.
+Then
+$$
+H^p(X, \mathcal{F}) = \lim_n H^p(X, \mathcal{F}/I^n\mathcal{F})
+$$
+for all $p \geq 0$.
+\end{lemma}
+
+\begin{proof}
+This is a reformulation of the theorem on formal functions
+(Theorem \ref{theorem-formal-functions}) in the
+case of a complete Noetherian base ring. Namely, in this case the
+$A$-module $H^p(X, \mathcal{F})$ is finite
+(Lemma \ref{lemma-proper-over-affine-cohomology-finite}) hence
+$I$-adically complete (Algebra, Lemma \ref{algebra-lemma-completion-tensor})
+and we see that completion on the left hand side is not necessary.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-formal-functions-stalk}
 Given a morphism of schemes $f : X \to Y$, a quasi-coherent sheaf
 $\mathcal{F}$ on $X$, and a quasi-coherent sheaf of ideals
@@ -4620,6 +4643,383 @@ $$
 functorially in $A'$. The condition that $\mathcal{F}$ is
 flat over $A$ is essential, see \cite{Hartshorne}.
 \end{remark}
+
+
+
+
+
+\section{Grothendieck's existence theorem}
+\label{section-existence}
+
+\noindent
+In this section we discuss Grothendieck's existence theorem. As we do not
+yet have the theory of formal schemes to our disposal, we temporarily develop
+a bit of language that replaces the notion of a ``coherent module on a
+Noetherian adic formal scheme'' which is used in \cite{EGA}.
+
+\medskip\noindent
+Let $X$ be a Noetherian scheme and let $\mathcal{I} \subset \mathcal{O}_X$
+be a quasi-coherent sheaf of ideals. Below we will consider inverse
+systems $(\mathcal{F}_n)$ of coherent $\mathcal{O}_X$-modules such that
+\begin{enumerate}
+\item $\mathcal{F}_n$ is annihilated by $\mathcal{I}^n$, and
+\item the transition maps induce isomorphisms
+$\mathcal{F}_{n + 1}/\mathcal{I}^n\mathcal{F}_{n + 1} \to \mathcal{F}_n$.
+\end{enumerate}
+A morphism of such inverse systems is defined as usual.
+Let us denote the category of these inverse systems with
+$\textit{Coh}(X, \mathcal{I})$. We are going to proceed by proving
+a bunch of lemmas about objects in this category. In fact, most
+of the lemmas that follow are straightforward consequences of the following
+description of the category in the affine case.
+
+\begin{lemma}
+\label{lemma-inverse-systems-affine}
+If $X = \Spec(A)$ is the spectrum of a Noetherian ring and
+$\mathcal{I}$ is the quasi-coherent sheaf of ideals associated to the ideal
+$I \subset A$, then $\textit{Coh}(X, \mathcal{I})$ is equivalent to the
+category of finite $A^\wedge$-modules where $A^\wedge$ is the completion
+of $A$ with respect to $I$.
+\end{lemma}
+
+\begin{proof}
+Let $\text{Mod}_{fg}(A, I)$ be the category of systems $(M_n)$ of finite
+$A$-modules satisfying: (1) $M_n$ is annihilated by $I^n$ and (2)
+$M_{n + 1}/I^nM_{n + 1} = M_n$. By the correspondence between coherent
+sheaves on $X$ and finite $A$-modules (Lemma \ref{lemma-coherent-Noetherian})
+it suffices to show $\text{Mod}(A, I)$ is equivalent to the category of
+finite $A^\wedge$-modules. To see this it suffices to prove that given
+an object $(M_n)$ of $\text{Mod}_{fg}(A, I)$ the module
+$$
+M = \lim M_n
+$$
+is a finite $A^\wedge$-module and that $M/I^nM = M_n$. As the transition
+maps are surjective, we see that $M \to M_1$ is surjective.
+Pick $x_1, \ldots, x_t \in M$ which map to generators of $M_1$.
+This induces a map of systems $(A/I^n)^{\oplus t} \to M_n$.
+By Nakayama's lemma (Algebra, Lemma \ref{algebra-lemma-NAK}) these maps are
+surjective. Let $K_n \subset (A/I^n)^{\oplus t}$ be the kernel.
+Property (2) implies that $K_{n + 1} \to K_n$ is surjective, in particular
+the system $(K_n)$ satisfies the Mittag-Leffler condition.
+By Homology, Lemma \ref{homology-lemma-Mittag-Leffler}
+we obtain an exact sequence
+$0 \to K \to (A^\wedge)^{\oplus t} \to M \to 0$
+with $K = \lim K_n$.
+Hence $M$ is a finite $A^\wedge$-module.
+As $K \to K_n$ is surjective it follows that
+$$
+M/I^nM = \text{Coker}(K \to (A/I^n)^{\oplus t}) =
+(A/I^n)^{\oplus t}/K_n = M_n
+$$
+as desired.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-inverse-systems-abelian}
+Let $X$ be a Noetherian scheme and let $\mathcal{I} \subset \mathcal{O}_X$
+be a quasi-coherent sheaf of ideals. The category
+$\textit{Coh}(X, \mathcal{I})$ is abelian.
+\end{lemma}
+
+\begin{proof}
+Let $\alpha =(\alpha_n) : (\mathcal{F}_n) \to (\mathcal{G}_n)$ be a morphism of
+$\textit{Coh}(X, \mathcal{I})$. The cokernel of $\alpha$ is the inverse system
+$(\text{Coker}(\alpha_n))$ (details omitted). On the other hand, to describe
+the kernel let
+$$
+\mathcal{K}'_{l, m} = \text{Im}(\text{Ker}(\alpha_l) \to \mathcal{F}_m)
+$$
+for $l \geq m$.
+We claim:
+\begin{enumerate}
+\item[(a)] the inverse system $(\mathcal{K}'_{l, m})_{l \geq m}$ is
+eventually constant, say with value $\mathcal{K}'_m$,
+\item[(b)] the system $(\mathcal{K}'_m/\mathcal{I}^n\mathcal{K}'_m)_{m \geq n}$
+is eventually constant, say with value $\mathcal{K}_n$,
+\item[(c)] the system $(\mathcal{K}_n)$ forms an object of
+$\textit{Coh}(X, \mathcal{I})$, and
+\item[(d)] this object is the kernel of $\alpha$.
+\end{enumerate}
+To see (a), (b), and (c) we may work affine locally, say $X = \Spec(A)$
+and $\mathcal{I}$ corresponds to the ideal $I \subset A$. By
+Lemma \ref{lemma-inverse-systems-affine}
+$\alpha$ corresponds to a map $f : M \to N$ of finite $A^\wedge$-modules.
+Denote $K = \text{Ker}(f)$. Note that $A^\wedge$ is a Noetherian
+ring (Algebra, Lemma \ref{algebra-lemma-completion-Noetherian-Noetherian}).
+Choose an integer $c \geq 0$ such that
+$K \cap I^n M \subset I^{n - c}K$ for $n \geq c$
+(Algebra, Lemma \ref{algebra-lemma-Artin-Rees})
+and which satisfies Algebra, Lemma \ref{algebra-lemma-map-AR}
+for the map $f$ and the ideal $I^\wedge = IA^\wedge$. Then
+$\mathcal{K}'_{l, m}$ corresponds to the $A$-module
+$$
+K'_{l, m} = \frac{a^{-1}(I^lN) + I^mM}{I^mM} =
+\frac{K + I^{l - c}f^{-1}(I^cN) + I^mM}{I^mM} =
+\frac{K + I^mM}{I^mM}
+$$
+where the last equality holds if $l \geq m + c$. So $\mathcal{K}'_m$
+corresponds to the $A$-module $K/K \cap I^mM$ and
+$\mathcal{K}'_m/\mathcal{I}^n\mathcal{K}'_m$ corresponds to
+$$
+\frac{K}{K \cap I^mM + I^nK} = \frac{K}{I^nK}
+$$
+for $m \geq n + c$ by our choice of $c$ above. Hence $\mathcal{K}_n$
+corresponds to $K/I^nK$.
+
+\medskip\noindent
+We prove (d). It is clear from the description on affines above that
+the composition $(\mathcal{K}_n) \to (\mathcal{F}_n) \to (\mathcal{G}_n)$
+is zero. Let $\beta : (\mathcal{H}_n) \to (\mathcal{F}_n)$
+be a morphism such that $\alpha \circ \beta = 0$. Then
+$\mathcal{H}_l \to \mathcal{F}_l$ maps into $\text{Ker}(\alpha_l)$.
+Since $\mathcal{H}_m = \mathcal{H}_l/\mathcal{I}^m\mathcal{H}_l$
+for $l \geq m$ we obtain a system of maps
+$\mathcal{H}_m \to \mathcal{K}'_{l, m}$. Thus a map
+$\mathcal{H}_m \to \mathcal{K}_m'$. Since
+$\mathcal{H}_n = \mathcal{H}_m/\mathcal{I}^n\mathcal{H}_m$ we obtain
+a system of maps $\mathcal{H}_n \to \mathcal{K}'_m/\mathcal{I}^n\mathcal{K}'_m$
+and hence a map $\mathcal{H}_n \to \mathcal{K}_n$ as desired.
+
+\medskip\noindent
+To finish the proof of the lemma we have to show that $\text{Coim} = \text{Im}$
+in $\textit{Coh}(X, \mathcal{I})$. However, we have seen above that taking
+kernels and cokernels commutes, over affines, with the description
+of $\textit{Coh}(X, \mathcal{I})$ with a category of modules. Since
+$\text{Im} = \text{Coim}$ holds in the category of modules we win.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-inverse-systems-surjective}
+Let $X$ be a Noetherian scheme and let $\mathcal{I} \subset \mathcal{O}_X$
+be a quasi-coherent sheaf of ideals. A map
+$(\mathcal{F}_n) \to (\mathcal{G}_n)$ is surjective in
+$\textit{Coh}(X, \mathcal{I})$
+if and only if $\mathcal{F}_1 \to \mathcal{G}_1$ is surjective.
+\end{lemma}
+
+\begin{proof}
+Omitted. Hint: Look on affine opens and use
+Lemma \ref{lemma-inverse-systems-affine}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-finite-over-rees-algebra}
+Let $X$ be a Noetherian scheme and let $\mathcal{I} \subset \mathcal{O}_X$
+be a quasi-coherent sheaf of ideals. If $(\mathcal{F}_n)$ is an object of
+$\textit{Coh}(X, \mathcal{I})$ then
+$\bigoplus \text{Ker}(\mathcal{F}_{n + 1} \to \mathcal{F}_n)$ is
+a finite type, graded, quasi-coherent
+$\bigoplus \mathcal{I}^n/\mathcal{I}^{n + 1}$-module.
+\end{lemma}
+
+\begin{proof}
+The question is local on $X$ hence we may assume $X$ is affine, i.e.,
+we have a situation as in Lemma \ref{lemma-inverse-systems-affine}.
+In this case, if $(\mathcal{F}_n)$ corresponds to the finite $A^\wedge$
+module $M$, then $\bigoplus \text{Ker}(\mathcal{F}_{n + 1} \to \mathcal{F}_n)$
+corresponds to $\bigoplus I^nM/I^{n + 1}M$ which is clearly a finite
+module over $\bigoplus I^n/I^{n + 1}$.
+\end{proof}
+
+\noindent
+Let $X$ be a Noetherian scheme and let $\mathcal{I} \subset \mathcal{O}_X$
+be a quasi-coherent sheaf of ideals. There is a functor
+\begin{equation}
+\label{equation-formal-existence}
+\textit{Coh}(\mathcal{O}_X) \longrightarrow \textit{Coh}(X, \mathcal{I})
+\end{equation}
+which associates to the coherent $\mathcal{O}_X$-module $\mathcal{F}$
+the object $\mathcal{F}^\wedge = (\mathcal{F}/\mathcal{I}^n\mathcal{F})$
+of $\textit{Coh}(X, \mathcal{I})$.
+
+\begin{lemma}
+\label{lemma-exact}
+The functor (\ref{equation-formal-existence}) is exact.
+\end{lemma}
+
+\begin{proof}
+It suffices to check this locally on $X$. Hence we may assume $X$ is
+affine, i.e., we have a situation as in
+Lemma \ref{lemma-inverse-systems-affine}.
+The functor is the functor $\text{Mod}_{fg}(A) \to \text{Mod}_{fg}(A^\wedge)$
+which associates to a finite $A$-module $M$ the completion $M^\wedge$.
+Thus the result follows from
+Algebra, Lemma \ref{algebra-lemma-completion-flat}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-completion-internal-hom}
+Let $X$ be a Noetherian scheme and let $\mathcal{I} \subset \mathcal{O}_X$
+be a quasi-coherent sheaf of ideals. Let $\mathcal{F}$, $\mathcal{G}$ be
+coherent $\mathcal{O}_X$-modules. Set
+$\mathcal{H} = \SheafHom_{\mathcal{O}_X}(\mathcal{G}, \mathcal{F})$.
+Then
+$$
+\lim H^0(X, \mathcal{H}/\mathcal{I}^n\mathcal{H}) =
+\text{Mor}_{\textit{Coh}(X, \mathcal{I})}
+(\mathcal{G}^\wedge, \mathcal{F}^\wedge).
+$$
+\end{lemma}
+
+\begin{proof}
+To prove this we may work affine locally on $X$.
+Hence we may assume $X = \Spec(A)$ and $\mathcal{F}$, $\mathcal{G}$
+given by finite $A$-module $M$ and $N$. Then $\mathcal{H}$
+corresponds to the finite $A$-module $H = \Hom_A(M, N)$.
+The statement of the lemma becomes the statement
+$$
+H^\wedge = \Hom_{A^\wedge}(M^\wedge, N^\wedge)
+$$
+via the equivalence of Lemma \ref{lemma-inverse-systems-affine}.
+By Algebra, Lemma \ref{algebra-lemma-completion-flat}
+(used 3 times) we have
+$$
+H^\wedge = \Hom_A(M, N) \otimes_A A^\wedge =
+\Hom_{A^\wedge}(M \otimes_A A^\wedge, N \otimes_A A^\wedge) =
+\Hom_{A^\wedge}(M^\wedge, N^\wedge)
+$$
+where the second equality uses that $A^\wedge$ is flat over $A$
+(details omitted). The lemma follows.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-fully-faithful}
+Let $A$ be Noetherian ring complete with respect to an ideal $I$.
+Let $f : X \to \Spec(A)$ be a proper morphism. Let
+$\mathcal{I} = I\mathcal{O}_X$.
+Then the functor (\ref{equation-formal-existence}) is fully faithful.
+\end{lemma}
+
+\begin{proof}
+Let $\mathcal{F}$, $\mathcal{G}$ be coherent $\mathcal{O}_X$-modules.
+Then $\mathcal{H} = \SheafHom_{\mathcal{O}_X}(\mathcal{G}, \mathcal{F})$
+is a coherent $\mathcal{O}_X$-module, see
+Modules, Lemma \ref{modules-lemma-internal-hom-locally-kernel-direct-sum}.
+By Lemma \ref{lemma-completion-internal-hom} the map
+$$
+\lim_n H^0(X, \mathcal{H}/\mathcal{I}^n\mathcal{H})
+\to
+\text{Mor}_{\textit{Coh}(X, \mathcal{I})}
+(\mathcal{G}^\wedge, \mathcal{F}^\wedge)
+$$
+is bijective. Hence fully faithfulness of
+(\ref{equation-formal-existence}) follows from the theorem on formal
+functions (Lemma \ref{lemma-spell-out-theorem-formal-functions})
+for the coherent sheaf $\mathcal{H}$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-vanishing-projective}
+Let $A$ be Noetherian ring and $I \subset A$ and ideal.
+Let $f : X \to \Spec(A)$ be a proper morphism and let
+$\mathcal{L}$ be an $f$-ample invertible sheaf. Let
+$\mathcal{I} = I\mathcal{O}_X$. Let $(\mathcal{F}_n)$ be an
+object of $\textit{Coh}(X, \mathcal{I})$. Then there exists an
+integer $d_0$ such that
+$$
+H^1(X, \text{Ker}(\mathcal{F}_{n + 1} \to \mathcal{F}_n)
+\otimes \mathcal{L}^{\otimes d} )
+= 0
+$$
+for all $n \geq 0$ and all $d \geq d_0$.
+\end{lemma}
+
+\begin{proof}
+Set
+$\mathcal{G} = \bigoplus \text{Ker}(\mathcal{F}_{n + 1} \to \mathcal{F}_n)$.
+Set $B = \bigoplus I^n/I^{n + 1}$.
+Consider the fibre product diagram
+$$
+\xymatrix{
+X' = \Spec(B) \times_{\Spec(A)} X \ar[r]_-\pi \ar[d]_{f'} & X \ar[d]^f \\
+\Spec(B) \ar[r] & \Spec(A)
+}
+$$
+Note that $X'$ is the relative spectrum of the
+quasi-coherent $\mathcal{O}_X$-algebra
+$\mathcal{B} = \bigoplus \mathcal{I}^n/\mathcal{I}^{n + 1}$ by
+Constructions, Lemma \ref{constructions-lemma-spec-properties}.
+Since $\mathcal{G}$ is a finite type $\mathcal{B}$-module by
+Lemma \ref{lemma-finite-over-rees-algebra}
+we see that $\mathcal{G} = \pi_*\mathcal{G}'$ for some coherent
+$\mathcal{O}_{X'}$-module $\mathcal{G}'$. (Observe that
+$X'$ is a Noetherian scheme as $B$ is a finite type $A$-algebra
+and $f'$ is projective hence of finite type.) Since $\pi$ is affine we have
+$$
+H^1(X', \mathcal{G}' \otimes \pi^*\mathcal{L}^{\otimes d})
+=
+H^1(X, \mathcal{G} \otimes \mathcal{L}^{\otimes d})
+= \bigoplus H^1(X, \text{Ker}(\mathcal{F}_{n + 1} \to \mathcal{F}_n)
+\otimes \mathcal{L}^{\otimes d} )
+$$
+see Lemma \ref{lemma-relative-affine-vanishing} and
+Cohomology, Lemma \ref{cohomology-lemma-apply-Leray}.
+Hence it suffices to prove that the $H^1$ on the left vanishes
+for $d$ sufficiently large. As $\pi^*\mathcal{L}$ is $f'$-relatively
+ample, this follows from
+Lemma \ref{lemma-kill-by-twisting}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-existence-projective}
+Let $A$ be Noetherian ring complete with respect to an ideal $I$.
+Let $f : X \to \Spec(A)$ be a projective morphism. Let
+$\mathcal{I} = I\mathcal{O}_X$.
+Then the functor (\ref{equation-formal-existence}) is an equivalence.
+\end{lemma}
+
+\begin{proof}
+We have already seen that (\ref{equation-formal-existence}) is
+fully faithful in Lemma \ref{lemma-fully-faithful}. Thus it suffices
+to show that the functor is essentially surjective.
+
+\medskip\noindent
+We first show that every object $(\mathcal{F}_n)$ of
+$\textit{Coh}(X, \mathcal{I})$ is the quotient of an object
+in the image of (\ref{equation-formal-existence}). 
+Let $\mathcal{L}$ be an $f$-ample invertible sheaf on $X$.
+Choose $d_0$ as in Lemma \ref{lemma-vanishing-projective}.
+Choose a $d \geq d_0$ such that
+$\mathcal{F}_1 \otimes \mathcal{L}^{\otimes d}$
+is globally generated by some sections $s_{1, 1}, \ldots, s_{t, 1}$.
+Since the transition maps of the system
+$$
+H^0(X, \mathcal{F}_{n + 1} \otimes \mathcal{L}^{\otimes d})
+\longrightarrow
+H^0(X, \mathcal{F}_n \otimes \mathcal{L}^{\otimes d})
+$$
+are surjective by the vanishing of $H^1$ we can lift
+$s_{1, 1}, \ldots, s_{t, 1}$ to a compatible system of global sections
+$s_{1, n}, \ldots, s_{t, n}$ of
+$\mathcal{F}_n \otimes \mathcal{L}^{\otimes d}$.
+These determine a compatible system of maps
+$$
+(s_{1, n}, \ldots, s_{t, n}) :
+(\mathcal{L}^{\otimes -d})^{\oplus t} \longrightarrow \mathcal{F}_n
+$$
+Using Lemma \ref{lemma-inverse-systems-surjective}
+we deduce that we have a surjective map
+$$
+\left((\mathcal{L}^{\otimes -d})^{\oplus t}\right)^\wedge
+\longrightarrow
+(\mathcal{F}_n)
+$$
+as desired.
+
+\medskip\noindent
+The result of the previous paragraph and the fact that
+$\textit{Coh}(X, \mathcal{I})$ is abelian implies that
+every object of $\textit{Coh}(X, \mathcal{I})$ is a cokernel
+of a map between objects coming from $\textit{Coh}(\mathcal{O}_X)$.
+As (\ref{equation-formal-existence}) is fully faithful and exact by
+Lemmas \ref{lemma-fully-faithful} and \ref{lemma-exact}
+we conclude.
+\end{proof}
+
+
+
+
+
 
 
 
