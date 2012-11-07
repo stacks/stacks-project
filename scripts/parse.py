@@ -17,6 +17,7 @@ for name in lijstje:
 	verbatim = 0
 	next_labeled = 0
 	needs_proof = 0
+	next_proof_label = 0
 	in_lab_env = 0
 	item_on_line = 0
 	def_text = ""
@@ -91,9 +92,9 @@ for name in lijstje:
 				print_error("Double label.",
 				line, name, line_nr)
 			labels.append(label)
-			if needs_proof:
+			if next_proof_label:
 				proof_label = label
-				needs_proof = 0
+				next_proof_label = 0
 		else:
 			# check if there is a label if there should be one
 			if next_labeled:
@@ -115,10 +116,14 @@ for name in lijstje:
 			if in_lab_env and line.find("\\begin{equation}") < 0:
 				error_text = 'Nested environments.'
 				print_error(error_text, line, name, line_nr)
+			if needs_proof and line.find("\\begin{equation}") < 0:
+				error_text = 'Missing proof.'
+				print_error(error_text, line, name, line_nr)
 			in_lab_env = 1
 			next_labeled = 1
 			if proof_env(line):
 				needs_proof = 1
+				next_proof_label = 1
 
 		# End labeled environment?
 		if end_labeled_env(line):
@@ -163,6 +168,8 @@ for name in lijstje:
 				in_proof = 0
 		else:
 			in_proof = beginning_of_proof(line)
+			if in_proof:
+				needs_proof = 0
 
 	# Check for title in the file
 	if not have_title:
