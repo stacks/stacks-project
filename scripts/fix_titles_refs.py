@@ -35,6 +35,7 @@ short_titles = {'introduction' : 'Introduction',\
 'chow' : 'Chow Homology,',\
 'topologies' : 'Topologies,',\
 'descent' : 'Descent,',\
+'perfect' : 'Derived Categories of Schemes,',\
 'adequate' : 'Adequate Modules,',\
 'more-morphisms' : 'More on Morphisms,',\
 'flat' : 'More on Flatness,',\
