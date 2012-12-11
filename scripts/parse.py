@@ -55,7 +55,7 @@ for name in lijstje:
 		error_text = beginning_of_line('\\item', line)
 		if error_text:
 			print_error(error_text, line, name, line_nr)
-		error_text = beginning_of_line('\\xymatrix{', line)
+		error_text = beginning_of_line('\\xymatrix', line)
 		if error_text:
 			print_error(error_text, line, name, line_nr)
 		error_text = beginning_of_line('\\medskip', line)
