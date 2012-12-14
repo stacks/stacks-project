@@ -299,6 +299,64 @@ Thus the lemma follows from an application of
 Cohomology, Lemma \ref{cohomology-lemma-K-injective}.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-application-nice-K-injective}
+Let $X$ be a scheme. Let $F : \textit{Mod}(\mathcal{O}_X) \to \textit{Ab}$
+be a functor and $N \geq 0$ an integer. Assume that
+\begin{enumerate}
+\item $F$ is left exact,
+\item $F$ commutes with countable direct products,
+\item $R^pF(\mathcal{F}) = 0$ for all $p \geq N$ and $\mathcal{F}$
+quasi-coherent.
+\end{enumerate}
+Then for $E \in D_{\textit{QCoh}}(\mathcal{O}_X)$ the maps
+$R^pF(E) \to R^pF(\tau_{\geq p - N + 1}E)$ are isomorphisms.
+\end{lemma}
+
+\begin{proof}
+Let $E$ be an object of $D_{\textit{QCoh}}(\mathcal{O}_X)$.
+By shifting the complex we see it suffices to prove the assertion
+for $p = 0$. Choose $\mathcal{I}^\bullet = \lim \mathcal{I}_n^\bullet$
+as in Lemma \ref{lemma-nice-K-injective}.
+As $\mathcal{I}^\bullet$ is K-injective $RF(E)$ is represented by
+$F(\mathcal{I}^\bullet)$. As $F$ commutes with countable direct
+products, and since the maps $\mathcal{I}_n^m \to \mathcal{I}_{n - 1}^m$
+are split surjections, we get
+$F(\mathcal{I}^\bullet) = \lim F(\mathcal{I}_n^\bullet)$.
+The comohomology of
+$$
+F(\mathcal{I}_n^{-2}) \to
+F(\mathcal{I}_n^{-1}) \to
+F(\mathcal{I}_n^0) \to
+F(\mathcal{I}_n^1)
+$$
+in degree $0$, resp.\ $-1$ is equal to $R^0F(\tau_{\geq -n}E)$,
+resp.\ $R^{-1}F(\tau_{\geq -n}E)$ because $\mathcal{I}_n^\bullet$
+is a bounded below complex of injectives representing $\tau_{\geq -n}E$.
+We have a distinguished triangle
+$$
+H^{-n}(E)[n] \to \tau_{\geq -n}E \to \tau_{\geq - n + 1}E \to H^{-n}(E)[n + 1]
+$$
+in $D(\mathcal{O}_X)$. Since $H^{-n}(E)$ is quasi-coherent we have
+$$
+R^pF(H^{-n}(E)[n]) = R^{p + n}F(H^{-n}(E)) = 0
+$$
+for $p + n \geq N$ and
+$$
+R^pF(H^{-n}(E)[n + 1]) = R^{p + n + 1}F(H^{-n}(E)) = 0
+$$
+for $p + n + 1 \geq N$. We conclude that
+$$
+R^pF(\tau_{\geq -n}E) \to R^pF(\tau_{\geq - n + 1}E)
+$$
+is an isomorphism for all $n \gg p$ and an isomorphism for
+$n \geq N$ for $p = 0$. Thus
+Homology, Lemma \ref{homology-lemma-apply-Mittag-Leffler-again}
+applies and we conclude that $R^0F(E) = \lim R^0F(\tau_{\geq - n}E)$.
+By the above the system $R^0F(\tau_{\geq - n}E)$ is constant starting
+with $n = N - 1$ as desired.
+\end{proof}
+
 \noindent
 The following lemma is the analogue of
 Cohomology of Schemes, Lemma
@@ -353,11 +411,12 @@ is equal to $H^m(f^{-1}(U), \tau_{\geq -n}E)$ because $\mathcal{I}_n^\bullet$
 is a bounded below complex of injectives representing $\tau_{\geq -n}E$.
 We have a distinguished triangle
 $$
-H^{-n}(E)[n] \to \tau_{\geq -n}E \to \tau_{\geq - n + 1}E \to H^{-n}(E)[n - 1]
+H^{-n}(E)[n] \to \tau_{\geq -n}E \to \tau_{\geq - n + 1}E \to H^{-n}(E)[n + 1]
 $$
 in $D(\mathcal{O}_X)$. Since $H^{-n}(E)$ is quasi-coherent we have
 $H^m(f^{-1}(U), H^{-n}(E)[n]) = 0$ for $n + m \geq N$ by
-our choice of $N$. We conclude that
+our choice of $N$. Similarly, $H^m(f^{-1}(U), H^{-n}(E)[n + 1]) = 0$
+for $n + m + 1 \geq N$. We conclude that
 $$
 H^m(f_*\mathcal{I}_n^\bullet(U)) \to H^m(f_*\mathcal{I}_{n - 1}^\bullet(U))
 $$
@@ -387,103 +446,83 @@ Some details omitted.
 
 \begin{lemma}
 \label{lemma-affine-compare-bounded}
-If $S = \Spec(A)$ is an affine scheme, then
-(\ref{equation-compare}) is an equivalence.
+If $X$ is an affine scheme, then (\ref{equation-compare}) is an equivalence.
 \end{lemma}
 
 \begin{proof}
-The key to this lemma is to prove that the functor $R\Gamma(S, -)$ gives a
-quasi-inverse. For complexes bounded below this is straightforward
-using the vanishing of cohomology of
-Cohomology of Schemes, Lemma
-\ref{coherent-lemma-quasi-coherent-affine-cohomology-zero}.
-To prove it also for unbounded complexes we have to be a little bit
-careful: namely, even if you accept that the unbounded derived functor
-$R\Gamma(S, -)$ exists, then it isn't obvious how to compute it!
-
-\medskip\noindent
-Let $\mathcal{F}^\bullet$ be an object of $D_{\textit{QCoh}}(\mathcal{O}_S))$
-and denote $\mathcal{H}^i = H^i(\mathcal{F}^\bullet)$ its $i$th cohomology
-sheaf. Let $\mathcal{B}$ be the set of affine open subsets of $S$. Then
-$H^p(U, \mathcal{H}^i) = 0$ for all $p > 0$, all $i \in \mathbf{Z}$,
-and all $U \in \mathcal{B}$, see
-Cohomology of Schemes, Lemma
-\ref{coherent-lemma-quasi-coherent-affine-cohomology-zero}.
-According to
-Cohomology, Section \ref{cohomology-section-K-injective}
-this implies there exists a quasi-isomorphism
-$\mathcal{F}^\bullet \to \mathcal{I}^\bullet$ where
-$\mathcal{I}^\bullet$ is a K-injective complex,
-$\mathcal{I}^\bullet = \lim \mathcal{I}_n^\bullet$,
-each $\mathcal{I}_n^\bullet$ is a bounded below complex of injectives,
-the maps in the system
-$\ldots \to \mathcal{I}_2^\bullet \to \mathcal{I}_1^\bullet$
-are termwise split surjections, and
-each $\mathcal{I}_n^\bullet$ is quasi-isomorphic to
-$\tau_{\geq -n}\mathcal{F}^\bullet$.
-In particular, we conclude that $R\Gamma(S, -)$ is defined at
-each object of $D_{\textit{QCoh}}(\mathcal{O}_S))$, see
-Derived Categories, Lemma \ref{derived-lemma-K-injective-defined},
-with values
-$R\Gamma(S, \mathcal{F}^\bullet) = \Gamma(S, \mathcal{I}^\bullet)$.
-This defines an exact functor of triangulated categories
+Say $X = \Spec(A)$. The functor $R\Gamma(X, -)$ gives a functor
+$D(\mathcal{O}_X) \to D(A)$ and hence by restriction a functor
 \begin{equation}
 \label{equation-back}
-R\Gamma(S, -) : D_{\textit{QCoh}}(\mathcal{O}_S) \longrightarrow D(A),
+R\Gamma(X, -) : D_{\textit{QCoh}}(\mathcal{O}_X) \longrightarrow D(A).
 \end{equation}
-see
-Derived Categories, Proposition \ref{derived-proposition-derived-functor}.
-In the proof of
-Cohomology, Lemma \ref{cohomology-lemma-K-injective}
-we have seen that $H^m(\Gamma(S, \mathcal{I}^\bullet))$ is
-the limit of the cohomology groups $H^m(\Gamma(S, \mathcal{I}_n^\bullet))$.
-For $n > -m$ these groups are equal to $\Gamma(S, \mathcal{H}^m)$
-by the vanishing of higer cohomology and the spectral sequence of
-Derived Categories, Lemma \ref{derived-lemma-two-ss-complex-functor}.
-Combined with the (assumed) equality
+We will show this functor is quasi-inverse to (\ref{equation-compare})
+via the equivalence between quasi-coherent modules on $X$ and
+the category of $A$-modules.
+
+\medskip\noindent
+Elucidation. Denote $(Y, \mathcal{O}_Y)$ the one point space with sheaf
+of rings given by $A$. Denote
+$\pi : (X, \mathcal{O}_X) \to (Y, \mathcal{O}_Y)$
+the obvious morphism of ringed spaces.
+Then $R\Gamma(X, -)$ can be identified with $R\pi_*$ and the functor
+(\ref{equation-compare}) via the equivalence
+$\textit{Mod}(\mathcal{O}_Y) = \textit{Mod}(A) = \textit{QCoh}(\mathcal{O}_X)$
+can be identified with $L\pi^* = \pi^* = \widetilde{}$ (see
+Modules, Lemma \ref{modules-lemma-construct-quasi-coherent-sheaves} and
+Schemes, Lemmas \ref{schemes-lemma-compare-constructions} and
+\ref{schemes-lemma-equivalence-quasi-coherent}). Thus the functors
 $$
-\mathcal{H}^m = \widetilde{\Gamma(S, \mathcal{H}^m)}
+\xymatrix{
+D(A) \ar@<1ex>[r] & D_{\textit{QCoh}}(\mathcal{O}_X) \ar@<1ex>[l]
+}
 $$
-we conclude the canonical map of complexes
+are adjoint (by Cohomology, Lemma \ref{cohomology-lemma-adjoint}). In
+particular we obtain canonical adjunction mappings
 $$
-\widetilde{\Gamma(S, \mathcal{I}^\bullet)} \longrightarrow \mathcal{I}^\bullet
+a : \widetilde{R\Gamma(X, E)} \longrightarrow E
 $$
-(see
-Schemes, Lemma \ref{schemes-lemma-compare-constructions})
-is a quasi-isomorphism. We claim the composition
+for $E$ in $D(\mathcal{O}_X)$ and
 $$
-D(A) \cong D(\textit{QCoh}(\mathcal{O}_S))
-\longrightarrow
-D_{\textit{QCoh}}(\mathcal{O}_S)
-\longrightarrow
-D(A)
+b : M^\bullet \longrightarrow R\Gamma(X, \widetilde{M^\bullet})
 $$
-is isomorphic to the identity functor. Namely, given a complex of $A$-modules
-$M^\bullet$, let $\mathcal{F}^\bullet = \widetilde{M^\bullet}$, choose
-$\mathcal{F}^\bullet \to \mathcal{I}^\bullet$ as above, and finally
-take $\Gamma(S, \mathcal{I}^\bullet)$. The arguments above show that
-$M^\bullet = \Gamma(S, \mathcal{F}^\bullet) \to \Gamma(S, \mathcal{I}^\bullet)$
-is a quasi-isomorphism. This is functorial in $M^\bullet$, hence
-we conclude that the composition of functors is isomorphic to
-the identity functor on $D(A)$. On the other hand, we have seen above that
-the composition
+for $M^\bullet$ a complex of $A$-modules.
+
+\medskip\noindent
+Let $E$ be an object of $D_{\textit{QCoh}}(\mathcal{O}_X)$. We may apply
+Lemma \ref{lemma-application-nice-K-injective}
+to the functor $F(-) = \Gamma(X, -)$
+with $N = 1$ by Cohomology of Schemes, Lemma
+\ref{coherent-lemma-quasi-coherent-affine-cohomology-zero}.
+Hence
 $$
-D_{\textit{QCoh}}(\mathcal{O}_S)
-\longrightarrow
-D(A) \cong D(\textit{QCoh}(\mathcal{O}_S))
-\longrightarrow
-D_{\textit{QCoh}}(\mathcal{O}_S)
+R^0\Gamma(X, E) = R^0\Gamma(X, \tau_{\geq 0}E) = \Gamma(X, H^0(E))
 $$
-is isomorphic to the identity functor, via the quasi-isomorphisms
-$\widetilde{\Gamma(S, \mathcal{I}^\bullet)} \to \mathcal{I}^\bullet$
-above. This finishes the proof.
+(the last equality by definition of the canonical truncation).
+Using this we will show that the adjunction mappings $a$ and $b$
+induce isomorphisms $H^0(a)$ and $H^0(b)$. Thus $a$ and $b$
+are quasi-isomorphisms (as the statement is invariant under shifts)
+and the lemma is proved.
+
+\medskip\noindent
+In both cases we use that $\widetilde{\ }$ is an exact functor
+(Schemes, Lemma \ref{schemes-lemma-spec-sheaves}). Namely, this
+implies that
+$$
+H^0\left(\widetilde{R\Gamma(X, E)}\right) = \widetilde{R^0\Gamma(X, E)}
+= \widetilde{\Gamma(X, H^0(E))}
+$$
+which is equal to $H^0(E)$ because $H^0(E)$ is quasi-coherent. Thus
+$H^0(a)$ is an isomorphism. For the other direction we have
+$$
+H^0(R\Gamma(X, \widetilde{M^\bullet})) =
+R^0\Gamma(X, \widetilde{M^\bullet}) =
+\Gamma(X, H^0(\widetilde{M^\bullet})) =
+\Gamma(X, \widetilde{H^0(M^\bullet)}) = H^0(M^\bullet)
+$$
+which proves that $H^0(b)$ is an isomorphism.
 \end{proof}
 
-\noindent
-Actually it is true that the comparison map
-$D(\textit{QCoh}(\mathcal{O}_S)) \to D_{\textit{QCoh}}(\mathcal{O}_S)$
-is an equivalence for any quasi-compact and (semi-)separated scheme
-(insert future reference here).
 
 
 
