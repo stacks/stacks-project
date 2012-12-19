@@ -53,6 +53,7 @@ short_titles = {'introduction' : 'Introduction',\
 'spaces-divisors' : 'Divisors on Spaces,',\
 'spaces-topologies' : 'Topologies on Spaces,',\
 'spaces-descent' : 'Descent on Spaces,',\
+'spaces-perfect' : 'Derived Categories of Spaces,',\
 'spaces-more-morphisms' : 'More on Morphisms of Spaces,',\
 'quot' : 'Quot,',\
 'spaces-over-fields' : 'Spaces over Fields,',\

@@ -322,6 +322,10 @@ def split_label(label):
 		name = "spaces-descent"
 		type = pieces[2]
 		n = 3
+	if name == "spaces" and type == "perfect":
+		name = "spaces-perfect"
+		type = pieces[2]
+		n = 3
 	if name == "spaces" and type == "more" and pieces[2] == "morphisms":
 		name = "spaces-more-morphisms"
 		type = pieces[3]

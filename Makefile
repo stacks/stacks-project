@@ -14,7 +14,8 @@ LIJST = introduction conventions sets categories topology sheaves algebra \
 	etale-cohomology crystalline spaces spaces-properties \
 	spaces-morphisms decent-spaces spaces-cohomology \
 	spaces-limits spaces-divisors \
-	spaces-topologies spaces-descent spaces-more-morphisms quot \
+	spaces-topologies spaces-descent spaces-perfect \
+	spaces-more-morphisms quot \
 	spaces-over-fields stacks formal-defos \
 	spaces-groupoids spaces-more-groupoids bootstrap examples-stacks \
 	groupoids-quotients algebraic stacks-sheaves criteria artin \
