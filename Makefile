@@ -35,7 +35,7 @@ TAGS = $(patsubst %,tags/tmp/%.tex,$(LIJST_TAGS))
 TAG_EXTRAS = tags/tmp/my.bib tags/tmp/hyperref.cfg \
 	tags/tmp/stacks-project.cls tags/tmp/stacks-project-book.cls \
 	tags/tmp/Makefile tags/tmp/chapters.tex \
-	tags/tmp/preamble.tex
+	tags/tmp/preamble.tex tags/tmp/bibliography.tex
 FOO_SOURCES = $(patsubst %,%.foo,$(LIJST))
 FOOS = $(patsubst %,%.foo,$(LIJST_FDL))
 BARS = $(patsubst %,%.bar,$(LIJST_FDL))

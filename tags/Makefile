@@ -4,6 +4,7 @@
 
 # Master list of stems of tex files in the project.
 # Should be the same as in the main Makefile
+# except that it includes the bibliography
 LIJST = introduction conventions sets categories topology sheaves algebra \
 	brauer sites homology derived more-algebra smoothing \
 	simplicial modules sites-modules injectives cohomology \
@@ -21,7 +22,7 @@ LIJST = introduction conventions sets categories topology sheaves algebra \
 	groupoids-quotients algebraic stacks-sheaves criteria artin \
 	stacks-properties stacks-morphisms stacks-cohomology \
 	stacks-introduction examples exercises guide desirables coding \
-	obsolete
+	obsolete bibliography
 
 # book is a special case
 LIJST_TAGS = $(LIJST) fdl index
