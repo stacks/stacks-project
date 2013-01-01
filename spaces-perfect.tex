@@ -82,36 +82,6 @@ We say $E$ is {\it supported on $T$} if the
 cohomology sheaves $H^i(E)$ are supported on $T$.
 \end{definition}
 
-\begin{lemma}
-\label{lemma-pushforward-with-support-in-open}
-Let $S$ be a scheme. Let $X$ be an algebraic space over $S$.
-Let $U \subset X$ be an open subspace. Let $T \subset |X|$ be a
-closed subset.
-\begin{enumerate}
-\item If $E$ is an object of $D(\mathcal{O}_X)$ supported on $T$, then
-$E \to Rj_*(E|_U)$ is an isomorphism.
-\item If $F$ is an object of $D(\mathcal{O}_U)$ supported on $T$, then
-$j_!F \to Rj_*F$ is an isomorphism.
-\end{enumerate}
-\end{lemma}
-
-\begin{proof}
-Let $V = X \setminus T$ and $W = U \cap V$. Note that $X = U \cup V$ is an
-open covering of $X$. Denote $j_W : W \to V$ the open immersion.
-Let $E$ be an object of $D(\mathcal{O}_X)$ whose cohomology sheaves are
-supported on $T$. By
-Lemma \ref{lemma-restrict-direct-image-open} we have
-$(Rj_*E|_U)|_V = Rj_{W, *}(E|_W) = 0$ because $E|_W = 0$ by our assumption.
-On the other hand, $Rj_*(E|_U)|_U = E|_U$. Thus (1) is clear.
-Let $F$ be an object of $D(\mathcal{O}_U)$ whose cohomology sheaves
-are supported on $T$. By
-Lemma \ref{lemma-restrict-direct-image-open} we have
-$(Rj_*F)|_V = Rj_{W, *}(F|_W) = 0$ because $F|_W = 0$ by our assumption.
-We also have $(j_!F)|_V = j_{W!}(F|_W) = 0$ (the first equality is immediate
-from the definition of extension by zero). Since both
-$(Rj_*F)|_U = F$ and $(j_!F)|_U = F$ we see that (2) holds.
-\end{proof}
-
 
 
 
@@ -1206,6 +1176,204 @@ $$
 This sequence is exact by (1).
 \end{proof}
 
+\begin{lemma}
+\label{lemma-mayer-vietoris-hom}
+Let $S$ be a scheme. Let $(U \subset X, V \to X)$ be an elementary
+distinguished square of algebraic spaces over $S$.
+For objects $E$, $F$ of $D(\mathcal{O}_X)$ we have a
+Mayer-Vietoris sequence
+$$
+\xymatrix{
+& \ldots \ar[r] &
+\text{Ext}^{-1}(E_{U \times_X V}, F_{U \times_X V}) \ar[lld] \\
+\Hom(E, F) \ar[r] &
+\Hom(E_U, F_U) \oplus
+\Hom(E_V, F_V) \ar[r] &
+\Hom(E_{U \times_X V}, F_{U \times_X V})
+}
+$$
+where the subscripts denote restrictions to the relevant opens
+and the $\Hom$'s are taken in the relevant derived categories.
+\end{lemma}
+
+\begin{proof}
+Use the distinguished triangle of
+Lemma \ref{lemma-exact-sequence-lower-shriek}
+to obtain a long exact sequence of $\Hom$'s
+(from Derived Categories, Lemma \ref{derived-lemma-representable-homological})
+and use that $\Hom(j_{U!}E|_U, F) = \Hom(E|_U, F|_U)$
+by Cohomology on Sites, Lemma
+\ref{sites-cohomology-lemma-adjoint-lower-shriek-restrict}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-restrict-lower-shriek}
+Let $S$ be a scheme. Let $j : U \to X$ be a \'etale morphism of algebraic
+spaces over $S$. Given an \'etale morphism $V \to Y$, set $W = V \times_X U$
+and denote $j_W : W \to V$ the projection morphism. Then
+$(j_!E)|_V = j_{W!}(E|_W)$ for $E$ in $D(\mathcal{O}_U)$.
+\end{lemma}
+
+\begin{proof}
+This is true because
+$(j_!\mathcal{F})|_V = j_{W!}(\mathcal{F}|_W)$
+for an $\mathcal{O}_X$-module $\mathcal{F}$ as follows immediately 
+from the construction of the functors $j_!$ and $j_{W!}$, see
+Modules on Sites, Lemma \ref{sites-modules-lemma-extension-by-zero}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-pushforward-with-support-in-open}
+Let $S$ be a scheme. Let $(U \subset X, j : V \to X)$ be an elementary
+distinguished square of algebraic spaces over $S$. Set
+$T = |X| \setminus |U|$.
+\begin{enumerate}
+\item If $E$ is an object of $D(\mathcal{O}_X)$ supported on $T$, then
+(a) $E \to Rj_*(E|_V)$ and (b) $j_!(E|_V) \to E$ are isomorphisms.
+\item If $F$ is an object of $D(\mathcal{O}_V)$ supported on $j^{-1}T$, then
+(a) $F \to (j_!F)|_V$, (b) $(Rj_*F)|_V \to F$, and (c)
+$j_!F \to Rj_*F$ are isomorphisms.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Let $E$ be an object of $D(\mathcal{O}_X)$ whose cohomology sheaves are
+supported on $T$. Then we see that $E|_U = 0$ and $E|_{U \times_X V} = 0$
+as $T$ doesn't meet $U$ and $j^{-1}T$ doesn't meet $U \times_X V$.
+Thus (1)(a) follows from Lemma \ref{lemma-exact-sequence-j-star}.
+In exactly the same way (1)(b) follows from
+Lemma \ref{lemma-exact-sequence-lower-shriek}.
+
+\medskip\noindent
+Let $F$ be an object of $D(\mathcal{O}_V)$ whose cohomology sheaves
+are supported on $j^{-1}T$. By
+Lemma \ref{lemma-restrict-direct-image-open} we have
+$(Rj_*F)|_U = Rj_{W, *}(F|_W) = 0$ because $F|_W = 0$ by our assumption.
+Similarly $(j_!F)|_U = j_{W!}(F|_W) = 0$ by
+Lemma \ref{lemma-restrict-lower-shriek}.
+Thus $j_!F$ and $Rj_*F$ are
+supported on $T$ and $(j_!F)|_V$ and $(Rj_*F)|_V$ are supported on
+$j^{-1}(T)$. To check that the maps (2)(a), (b), (c) are isomorphisms
+in the derived category, it suffices to check that these map induce
+isomorphisms on stalks of cohomology sheaves at geometric points of $T$
+and $j^{-1}(T)$ by
+Properties of Spaces, Theorem
+\ref{spaces-properties-theorem-exactness-stalks}.
+This we may do after replacing $X$ by $V$, $U$ by $U \times_X V$,
+$V$ by $V \times_X V$ and $F$ by $F|_{V \times_X V}$ (restriction via
+first projection), see
+Lemmas \ref{lemma-restrict-direct-image-open},
+\ref{lemma-restrict-lower-shriek}, and
+\ref{lemma-make-more-elementary-distinguished-squares}.
+Since $V \times_X V \to V$ has a section this
+reduces (2) to the case that $j : V \to X$ has a section.
+
+\medskip\noindent
+Assume $j$ has a section $\sigma : X \to V$.
+Set $V' = \sigma(X)$. This is an open subspace of $V$.
+Set $U' = j^{-1}(U)$. This is another open subspace of $V$.
+Then $(U' \subset V, V' \to V)$ is an elementary distinguished
+square. Observe that $F|_{U'} = 0$ and $F|_{V' \cap U'} = 0$
+because $F$ is supported on $j^{-1}(T)$. Denote $j' : V' \to V$
+the open immersion and $j_{V'} : V' \to X$ the composition
+$V' \to V \to X$ which is the inverse of $\sigma$.
+Set $F' = \sigma^*F$. The distinguished triangles of
+Lemmas \ref{lemma-exact-sequence-lower-shriek} and
+\ref{lemma-exact-sequence-j-star} show that
+$F = j'_!(F|_{V'})$ and $F = Rj'_*(F|_{V'})$.
+It follows that $j_!F = j_!j'_!(F|_{V'}) = j_{V'!}F = F'$
+because $j_{V'} : V' \to X$ is an isomorphism and the inverse
+of $\sigma$. Similarly, $Rj_*F = Rj_*Rj'_*F = Rj_{V', *}F = F'$.
+This proves (2)(c). To prove (2)(a) and (2)(b) it suffices
+to show that $F = F'|_V$. This is clear because both $F$ and $F'|_V$
+restrict to zero on $U'$ and $U' \cap V'$ and the same object
+on $V'$.
+\end{proof}
+
+\noindent
+We can glue complexes!
+
+\begin{lemma}
+\label{lemma-glue}
+Let $S$ be a scheme. Let $(U \subset X, V \to X)$ be an elementary
+distinguished square of algebraic spaces over $S$. Suppose given
+\begin{enumerate}
+\item an object $E$ of $D(\mathcal{O}_X)$,
+\item a morphism $a : A \to E|_U$ of $D(\mathcal{O}_U)$,
+\item a morphism $b : B \to E|_V$ of $D(\mathcal{O}_V)$,
+\item an isomorphism $c : A|_{U \times_X V} \to B|_{U \times_X V}$
+\end{enumerate}
+such that
+$$
+a|_{U \times_X V}  = b|_{U \times_X V} \circ c.
+$$
+Then there exists a morphism $F \to E$ in $D(\mathcal{O}_X)$
+whose restriction to $U$ is isomorphic to $a$
+and whose restruction to $V$ is isomorphic to $b$.
+\end{lemma}
+
+\begin{proof}
+Denote $j_U$, $j_V$, $j_{U \times_X V}$ the corresponding morphisms towards
+$X$. Choose a distinguished triangle
+$$
+F \to Rj_{U, *}A \oplus Rj_{V, *}B \to
+Rj_{U \times_X V, *}(B|_{U \times_X V}) \to F[1]
+$$
+Here the map $Rj_{V, *}B \to Rj_{U \times_X V, *}(B|_{U \times_X V})$
+is the obvious one. The map
+$Rj_{U, *}A \to Rj_{U \times_X V, *}(B|_{U \times_X V})$
+is the composition of
+$Rj_{U, *}A \to Rj_{U \times_X V, *}(A|_{U \times_X V})$
+with $Rj_{U \times_X V, *}c$. Restricting to $U$ we obtain
+$$
+F|_U \to A \oplus (Rj_{V, *}B)|_U \to
+(Rj_{U \times_X V, *}(B|_{U \times_X V}))|_U \to F|_U[1]
+$$
+Denote $j : U \times_X V \to U$. Compatibility of restriction and
+total direct image (Lemma \ref{lemma-restrict-direct-image-open})
+shows that both $(Rj_{V, *}B)|_U$ and
+$(Rj_{U \times_X V, *}(B|_{U \times_X V}))|_U$
+are canonically isomorphic to $Rj_*(B|_{U \times_X V})$.
+Hence the second arrow of the last displayed equation has
+a section, and we conclude that the morphism $F|_U \to A$ is
+an isomorphism.
+
+\medskip\noindent
+To see that the morphism $F|_V \to B$ is an isomorphism we will use a trick.
+Namely, choose a distinguished triangle
+$$
+F|_V \to B \to B' \to F[1]|_V
+$$
+in $D(\mathcal{O}_V)$. Since $F|_U \to A$ is an isomorphism, and since
+we have the isomorphism $c : A|_{U \times_X V} \to B|_{U \times_X V}$
+the restriction of $F|_V \to B$ is an isomorphism over $U \times_X V$.
+Thus $B'$ is supported on $j_V^{-1}(T)$ where $T = |X| \setminus |U|$.
+On the other hand, there is a morphism of distinguished triangles
+$$
+\xymatrix{
+F \ar[r] \ar[d] &
+Rj_{U, *}F|_U \oplus Rj_{V, *}F|_V \ar[r] \ar[d] &
+Rj_{U \times_X V, *}F|_{U \times_X V} \ar[r] \ar[d] &
+F[1] \ar[d] \\
+F \ar[r] &
+Rj_{U, *}A \oplus Rj_{V, *}B \ar[r] &
+Rj_{U \times_X V, *}(B|_{U \times_X V}) \ar[r] &
+F[1]
+}
+$$
+The all of the vertical maps in this diagram are isomorphisms, except
+for the map $Rj_{V, *}F|_V \to Rj_{V, *}B$, hence that is an isomorphism too
+(Derived Categories, Lemma \ref{derived-lemma-third-isomorphism-triangle}).
+This implies that $Rj_{V, *}B' = 0$. Hence $B' = 0$ by
+Lemma \ref{lemma-pushforward-with-support-in-open}.
+
+\medskip\noindent
+The existence of the morphism $F \to E$ follows
+from the Mayer-Vietoris sequence for $\Hom$, see
+Lemma \ref{lemma-mayer-vietoris-hom}.
+\end{proof}
+
+
 
 
 
@@ -1660,7 +1828,7 @@ Here $\epsilon$ is as in (\ref{equation-epsilon}).
 
 \begin{proof}
 The easy implication follows from the general result contained in
-Cohomology of Sites, Lemma \ref{sites-cohomology-lemma-tor-amplitude-pullback}
+Cohomology on Sites, Lemma \ref{sites-cohomology-lemma-tor-amplitude-pullback}
 (and the fact that the small \'etale site of $X$ has enough points, see
 \'Etale Cohomology, Remarks \ref{etale-cohomology-remarks-enough-points}).
 For the converse, assume that $\epsilon^*E$ has tor amplitude in $[a, b]$
@@ -1690,7 +1858,7 @@ Here $\epsilon$ is as in (\ref{equation-epsilon}).
 
 \begin{proof}
 The easy implication follows from the general result contained in
-Cohomology of Sites, Lemma \ref{sites-cohomology-lemma-perfect-pullback}
+Cohomology on Sites, Lemma \ref{sites-cohomology-lemma-perfect-pullback}
 (and the fact that the small \'etale site of $X$ has enough points, see
 \'Etale Cohomology, Remarks \ref{etale-cohomology-remarks-enough-points}).
 For the converse, we can use the equivalence of
@@ -1701,6 +1869,255 @@ Lemmas \ref{lemma-descend-pseudo-coherent} and
 \ref{lemma-descend-tor-amplitude}.
 Some details omitted.
 \end{proof}
+
+
+
+
+
+
+
+
+
+\section{Approximation by perfect complexes}
+\label{section-approximation}
+
+\noindent
+In this section we continue the discussion started in
+Derived Categories of Schemes, Section \ref{perfect-section-approximation}.
+
+\begin{definition}
+\label{definition-approximation-holds}
+Let $S$ be a scheme. Let $X$ be an algebraic space over $S$.
+Consider triples $(T, E, m)$ where
+\begin{enumerate}
+\item $T \subset |X|$ is a closed subset,
+\item $E$ is an object of $D_{\textit{QCoh}}(\mathcal{O}_X)$, and
+\item $m \in \mathbf{Z}$.
+\end{enumerate}
+We say {\it approximation holds for the triple} $(T, E, m)$ if
+there exists a perfect object $P$ of $D(\mathcal{O}_X)$ supported on $T$
+and a map $\alpha : P \to E$ which induces isomorphisms $H^i(P) \to H^i(E)$
+for $i > m$ and a surjection $H^m(P) \to H^m(E)$.
+\end{definition}
+
+\noindent
+Approximation cannot hold for every triple. Please read the remarks following
+Derived Categories of Schemes, Definition
+\ref{perfect-definition-approximation-holds} to see why.
+
+\begin{definition}
+\label{definition-approximation}
+Let $S$ be a scheme. Let $X$ be an algebraic space over $S$.
+We say {\it approximation by perfect complexes holds}
+on $X$ if for any closed subset $T \subset |X|$ such that
+the morphism $X \setminus T \to X$ is quasi-compact
+there exists an integer $r$ such that for every triple $(T, E, m)$ as in
+Definition \ref{definition-approximation-holds} with
+\begin{enumerate}
+\item $E$ is $(m - r)$-pseudo-coherent, and
+\item $H^i(E)$ is supported on $T$ for $i \geq m - r$
+\end{enumerate}
+approximation holds.
+\end{definition}
+
+\begin{lemma}
+\label{lemma-pushforward-perfect}
+Let $S$ be a scheme. Let $(U \subset X, j : V \to X)$ be an
+elementary distinguished square of algebraic space over $S$.
+Let $E$ be a perfect object of $D(\mathcal{O}_V)$ supported on
+$j^{-1}(T)$ where $T = |X| \setminus |U|$. Then $Rj_*E$ is a
+perfect object of $D(\mathcal{O}_X)$.
+\end{lemma}
+
+\begin{proof}
+Being perfect is local on $X_{\acute{e}tale}$. Thus it suffices to
+check that $Rj_*E$ is perfect when restricted to $U$ and $V$.
+We have $Rj_*E|_V = E$ by Lemma \ref{lemma-pushforward-with-support-in-open}
+which is perfect. We have $Rj_*E|_U = 0$ because
+$E|_{V \setminus j^{-1}(T)} = 0$ (use
+Lemma \ref{lemma-restrict-direct-image-open}).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-open}
+Let $S$ be a scheme. Let $(U \subset X, j : V \to X)$ be an elementary
+distinguished square of algebraic spaces over $S$. Let $T$ be a closed
+subset of $|X| \setminus |U|$ and let $(T, E, m)$ be a triple as in
+Definition \ref{definition-approximation-holds}. If
+\begin{enumerate}
+\item approximation holds for $(j^{-1}T, E|_V, m)$, and
+\item the sheaves $H^i(E)$ for $i \geq m$ are supported on $T$,
+\end{enumerate}
+then approximation holds for $(T, E, m)$.
+\end{lemma}
+
+\begin{proof}
+Let $P \to E|_V$ be an approximation of the triple $(j^{-1}T, E|_V, m)$
+over $V$. Then $Rj_*P$ is a perfect object of $D(\mathcal{O}_X)$ by
+Lemma \ref{lemma-pushforward-perfect}. On the other hand,
+$Rj_*P = j_!P$ by Lemma \ref{lemma-pushforward-with-support-in-open}.
+We see that $j_!P$ is supported on $T$ for example by
+(\ref{equation-stalk-j-shriek}).
+Hence we obtain an approximation $Rj_*P = j_!P \to j_!(E|_V) \to E$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-approximation-affine}
+Let $S$ be a scheme. Let $X$ be an algebraic space over $S$ which is
+representable by an affine scheme. Then approximation holds for every
+triple $(T, E, m)$ as in Definition \ref{definition-approximation-holds}
+such that there exists an integer $r \geq 0$ with
+\begin{enumerate}
+\item $E$ is $m$-pseudo-coherent,
+\item $H^i(E)$ is supported on $T$ for $i \geq m - r + 1$,
+\item $X \setminus T$ is the union of $r$ affine opens.
+\end{enumerate}
+In particular, approximation by perfect complexes holds for affine schemes.
+\end{lemma}
+
+\begin{proof}
+Let $X_0$ be an affine scheme representing $X$. Let $T_0 \subset X_0$
+by the closed subset corresponding to $T$. Let
+$\epsilon : X_{\acute{e}tale} \to X_{0, Zar}$ be the morphism
+(\ref{equation-epsilon}). We may write $E = \epsilon^*E_0$ for some object
+$E_0$ of $D_{\textit{QCoh}}(\mathcal{O}_{X_0})$, see
+Lemma \ref{lemma-derived-quasi-coherent-small-etale-site}.
+Then $E_0$ is $m$-pseudo-coherent, see
+Lemma \ref{lemma-descend-pseudo-coherent}.
+Comparing stalks of cohomology sheaves (see proof of
+Lemma \ref{lemma-epsilon-flat})
+we see that $H^i(E_0)$ is supported on $T_0$ for $i \geq m - r + 1$. By
+Derived Categories of Schemes, Lemma \ref{perfect-lemma-approximation-affine}
+there exists an approximation $P_0 \to E_0$ of
+$(T_0, E_0, m)$. By Lemma \ref{lemma-descend-perfect}
+we see that $P = \epsilon^*P_0$ is a perfect object of $D(\mathcal{O}_X)$.
+Pulling back we obtain an approximation
+$P = \epsilon^*P_0 \to \epsilon^*E_0 = E$ as desired.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-induction-step}
+Let $S$ be a scheme. Let $(U \subset X, j : V \to X)$ be an
+elementary distinguished square of algebraic spaces over $S$.
+Assume $U$ quasi-compact, $V$ affine, and $U \times_X V$ quasi-compact.
+If approximation by perfect complexes holds on $U$,
+then approximation by perfect complexes holds on $X$.
+\end{lemma}
+
+\begin{proof}
+Let $T \subset |X|$ be a closed subset with $X \setminus T \to X$
+quasi-compact. Let $r_U$ be the integer of
+Definition \ref{definition-approximation}
+adapted to the pair $(U, T \cap |U|)$.
+Set $T' = T \setminus |U|$. Endow $T'$ with the induced reduced
+subspace structure. Since $|T'|$ is contained in $|X| \setminus |U|$
+we see that $j^{-1}(T') \to T'$ is an isomorphism. Moreover,
+$V \setminus j^{-1}(T')$ is quasi-compact as it is the fibre product
+of $U \times_X V$ with $X \setminus T$ over $X$ and we've assumed
+$U \times_X V$ quasi-compact and $X \setminus T \to X$ quasi-compact.
+Let $r'$ be the number of affines needed to cover $V \setminus j^{-1}(T')$.
+We claim that $r = \max(r_U, r')$ works for the pair $(X, T)$.
+
+\medskip\noindent
+To see this choose a triple $(T, E, m)$ such that $E$ is
+$(m - r)$-pseudo-coherent and $H^i(E)$ is supported on $T$ for
+$i \geq m - r$. Let $t$ be the largest integer such that
+$H^t(E)|_U$ is nonzero. (Such an integer exists as $U$ is quasi-compact
+and $E|_U$ is $(m - r)$-pseudo-coherent.)
+We will prove that $E$ can be approximated by induction on $t$.
+
+\medskip\noindent
+Base case: $t \leq m - r'$. This means that $H^i(E)$ is supported
+on $T'$ for $i \geq m - r'$. Hence
+Lemma \ref{lemma-approximation-affine}
+guarantees the existence of an approximation
+$P \to E|_V$ of $(T', E|_V, m)$ on $V$.
+Applying Lemma \ref{lemma-open} we see that
+$(T', E, m)$ can be approximated. Such an approximation
+is also an approximation of $(T, E, m)$.
+
+\medskip\noindent
+Induction step. Choose an approximation $P \to E|_U$ of
+$(T \cap |U|, E|_U, m)$. This in particular gives a surjection
+$H^t(P) \to H^t(E|_U)$.
+In the rest of the proof we will use the equivalence of
+Lemma \ref{lemma-derived-quasi-coherent-small-etale-site}
+(and the compatibilities of Remark \ref{remark-match-total-direct-images})
+for the representable algebraic spaces $V$ and $U \times_X V$.
+We will also use the fact that $(m - r)$-pseudo-coherence,
+resp.\ perfectness on the Zariski site and \'etale site agree, see
+Lemmas \ref{lemma-descend-pseudo-coherent} and
+\ref{lemma-descend-perfect}.
+Thus we can use the results of
+Derived Categories of Schemes, Section \ref{perfect-section-lift}
+for the open immersion $U \times_X V \subset V$. In this way
+Derived Categories of Schemes,
+Lemma \ref{perfect-lemma-lift-perfect-complex-plus-shift-support}
+implies there exists a perfect object $Q$ in $D(\mathcal{O}_V)$
+supported on $j^{-1}(T)$ and an isomorphism
+$Q|_{U \times_X V} \to (P \oplus P[1])|_{U \times_X V}$. By
+Derived Categories of Schemes, Lemma \ref{perfect-lemma-lift-map}
+we can replace $Q$ by $Q \otimes^\mathbf{L} I$
+and assume that the map
+$$
+Q|_{U \times_X V} \longrightarrow
+(P \oplus P[1])|_{U \times_X V} \longrightarrow
+P|_{U \times_X V} \longrightarrow E|_{U \times_X V}
+$$
+lifts to $Q \to E|_V$. By Lemma \ref{lemma-glue}
+we find an morphism $a : R \to E$ of $D(\mathcal{O}_X)$
+such that $a|_U$ is isomorphic to $P \oplus P[1] \to E|_U$
+and $a|_V$ isomorphic to $Q \to E|_V$.
+Thus $R$ is perfect and supported on $T$
+and the map $H^t(R) \to H^t(E)$ is surjective on restriction to $U$.
+Choose a distinguised triangle
+$$
+R \to E \to E' \to R[1]
+$$
+Then $E'$ is $(m - r)$-pseudo-coherent
+(Cohomology on Sites, Lemma \ref{sites-cohomology-lemma-cone-pseudo-coherent}),
+$H^i(E')|_U = 0$ for $i \geq t$, and
+$H^i(E')$ is supported on $T$ for $i \geq m - r$.
+By induction we find an approximation $R' \to E'$
+of $(T, E', m)$. Fit the composition $R' \to E' \to R[1]$
+into a distringuished triangle $R \to R'' \to R' \to R[1]$
+and extend the morphisms $R' \to E'$ and $R[1] \to R[1]$ into
+a morphism of distinguished triangles
+$$
+\xymatrix{
+R \ar[r] \ar[d] & R'' \ar[d] \ar[r] & R' \ar[d] \ar[r] & R[1] \ar[d] \\
+R \ar[r] &  E \ar[r] & E' \ar[r] & R[1]
+}
+$$
+using TR3. Then $R''$ is a perfect complex
+(Cohomology on Sites, Lemma
+\ref{sites-cohomology-lemma-two-out-of-three-perfect})
+supported on $T$. An easy diagram chase shows that $R'' \to E$ is the desired
+approximation.
+\end{proof}
+
+\begin{theorem}
+\label{theorem-approximation}
+Let $S$ be a scheme.
+Let $X$ be a quasi-compact and quasi-separated algebraic space over $S$.
+Then approximation by perfect complexes holds on $X$.
+\end{theorem}
+
+\begin{proof}
+This follows from the induction principle of
+Lemma \ref{lemma-induction-principle}
+and Lemmas \ref{lemma-induction-step} and \ref{lemma-approximation-affine}.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
 
 
 
