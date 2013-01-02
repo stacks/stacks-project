@@ -15,10 +15,10 @@ LIJST = introduction conventions sets categories topology sheaves algebra \
 	spaces-morphisms decent-spaces spaces-cohomology \
 	spaces-limits spaces-divisors \
 	spaces-topologies spaces-descent spaces-perfect \
-	spaces-more-morphisms quot \
+	spaces-more-morphisms \
 	spaces-over-fields stacks formal-defos \
 	spaces-groupoids spaces-more-groupoids bootstrap examples-stacks \
-	groupoids-quotients algebraic stacks-sheaves criteria artin \
+	groupoids-quotients algebraic stacks-sheaves criteria artin quot \
 	stacks-properties stacks-morphisms stacks-cohomology \
 	stacks-introduction examples exercises guide desirables coding \
 	obsolete
