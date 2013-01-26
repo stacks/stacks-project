@@ -2183,6 +2183,15 @@ given finite range, say $[a, b]$. Then $Rf_*$ of it
 has cohomology in the range $[a, \infty)$ and we win.
 \end{proof}
 
+
+
+\section{Computing Ext groups and base change}
+\label{section-ext}
+
+\noindent
+The results in this section will be used to verify one of Artin's criteria
+for Quot functors, Hilbert schemes, and other moduli problems.
+
 \begin{lemma}
 \label{lemma-compute-ext-perfect}
 Let $S$ be a Noetherian scheme. Let $f : X \to S$ be a morphism of schemes
@@ -2286,6 +2295,7 @@ $$
 \mathcal{G} \otimes_{\mathcal{O}_X} f^*\mathcal{F}_2 \to
 \mathcal{G} \otimes_{\mathcal{O}_X} f^*\mathcal{F}_3 \to 0
 $$
+This sequence is exact because $\mathcal{G}$ is flat over $S$.
 We omit the verification of the commutativity of the displayed diagram.
 \end{proof}
 
@@ -2314,39 +2324,90 @@ S
 $$
 in other words $X' = S' \times_S X$. Set $E' = Lh^*E$ and
 $\mathcal{G}' = h^*\mathcal{G}$ (here we do {\bf not} use the derived
-pullback). Then
+pullback). The lemma asserts that we have
 $$
 Lg^*Rf_*R\SheafHom(E, \mathcal{G}) = Rf'_*R\SheafHom(E', \mathcal{G}')
 $$
-Let $E^\wedge = R\SheafHom(E, \mathcal{O}_X)$. Since $E$ is pseudo-coherent
-we see that
-$R\SheafHom(E, \mathcal{G}) = E^\wedge \otimes^\mathbf{L} \mathcal{G}$
-and $Lh^*E^\wedge = (E')^\wedge$ (insert future reference to duals of
-pseudo-coherent complexes). The proof of
-Lemma \ref{lemma-compare-base-change}
-provides us with a canonical map
-\begin{align*}
-Lg^* Rf_*(E^\wedge \otimes^\mathbf{L} \mathcal{G})
-& \to
-Rf'_*(Lh^*(E^\wedge \otimes^\mathbf{L} \mathcal{G})) =
-Rf'_*(Lh^*E^\wedge \otimes^\mathbf{L} Lh^*\mathcal{G})) \\
-& \to
-Rf'_*(Lh^*E^\wedge \otimes^\mathbf{L} h^*\mathcal{G})
-\end{align*}
-The second coming from the map $Lh^*\mathcal{G} \to h^*\mathcal{G}$.
-In other words a canonical map
+To prove this, note that in
+Cohomology, Remark \ref{cohomology-remark-fancy-base-change}
+we have constructed an arrow
+$$
+Lg^*Rf_*R\SheafHom(E, \mathcal{G})
+\longrightarrow
+R(f')_*R\SheafHom(Lh^*E, Lh^*\mathcal{G})
+$$
+which we can compose with the map $Lh^*\mathcal{G} \to h^*\mathcal{G}$
+to get a canonical map
 $$
 Lg^*Rf_*R\SheafHom(E, \mathcal{G}) \to Rf'_*R\SheafHom(E', \mathcal{G}')
 $$
 To check this map is an isomorphism we may work locally on $S'$.
 Hence we may assume $g : S' \to S$ is a morphism of affine schemes.
+In this case, we will use the induction principle to prove this map
+is always an isomorphism for any quasi-compact and quasi-separated $X$
+over $S$
+(Cohomology on Schemes, Lemma \ref{coherent-lemma-induction-principle}).
 
 \medskip\noindent
-We will use the induction principle to prove this map is an isomorphism
-(Cohomology on Schemes, Lemma \ref{coherent-lemma-induction-principle}).
-If $X$ is affine, then we can represent $E$ by a bounded above complex of
-free $\mathcal{O}_X$-modules and the result is clear. The induction step
-is clear from Mayer-Vietoris. Some details omitted. FIXME.
+If $X$ is affine, then we can represent $E$ by a bounded above complex
+$\mathcal{E}^\bullet$ of finite
+free $\mathcal{O}_X$-modules (Lemma \ref{lemma-lift-pseudo-coherent}).
+By Cohomology, Lemma
+\ref{cohomology-lemma-Rhom-complex-of-direct-summands-finite-free}
+we see that $R\SheafHom(E, \mathcal{G})$ is represented by the complex
+with terms $\SheafHom_{\mathcal{O}_X}(\mathcal{E}^p, \mathcal{G})$.
+Simiarly, $R\SheafHom(E, \mathcal{G})$ is computed
+by the complex with terms
+$\SheafHom_{\mathcal{O}_{X'}}(h^*\mathcal{E}^p, h^*\mathcal{G})$.
+Since $f$ and $f'$ are affine, the values of $Rf_*$ and $Rf'_*$
+on complexes of quasi-coherent modules are computed by applying
+$f_*$ and $f'_*$ to the given complex (Lemma \ref{lemma-affine-pushforward}).
+Moreover, as $\mathcal{G}$ is flat over $S$ and $f$ is affine we see that
+$f_*\SheafHom_{\mathcal{O}_X}(\mathcal{E}^p, \mathcal{G})$
+is a flat $\mathcal{O}_S$-module. Thus
+$Lg^*f_*\SheafHom_{\mathcal{O}_X}(\mathcal{E}^\bullet, \mathcal{G})$
+is equal to
+$g^*f_*\SheafHom_{\mathcal{O}_X}(\mathcal{E}^\bullet, \mathcal{G})$.
+Hence in the affine case we have to check that the canonical map
+$$
+g^*f_*\SheafHom_{\mathcal{O}_X}(\mathcal{E}, \mathcal{G})
+\longrightarrow
+f'_*\SheafHom_{\mathcal{O}_{X'}}(h^*\mathcal{E}, h^*\mathcal{G})
+$$
+is an isomorphism for any finite free $\mathcal{O}_X$-module $\mathcal{E}$.
+This reduces to the case $\mathcal{E} = \mathcal{O}_X$. In this case
+we are saying that $g^*f_*\mathcal{G} = f'_*h^*\mathcal{G}$ which
+is Cohomology of Schemes, Lemma \ref{coherent-lemma-affine-base-change}.
+
+\medskip\noindent
+The induction step. Suppose that $X = U \cup V$ is an open covering
+with $U$, $V$, $U \cap V$
+quasi-compact such that the result holds for the restriction of $E$ and
+$\mathcal{G}$ to $U$, $V$, and $U \cap V$. Denote $a = f|_U$,
+$b = f|_V$ and $c = f|_{U \cap V}$. Let $a' : U' \to S'$, $b' : V' \to S'$
+and $c' : U' \cap V' \to S'$ be the base changes of $a$, $b$, and $c$.
+Note that formation of $R\SheafHom$ commutes with restriction to opens.
+Set $H = R\SheafHom(E, \mathcal{G})$ and $H' = R\SheafHom(E', \mathcal{G}')$.
+Using the distinguished triangles from relative Mayer-Vietoris
+(Cohomology, Lemma \ref{cohomology-lemma-unbounded-relative-mayer-vietoris})
+we obtain a commutative diagram
+$$
+\xymatrix{
+Lg^*Rf_* H \ar[r] \ar[d] &
+Rf'_* H' \ar[d] \\
+Lg^*Ra_* H|_U \oplus
+Lg^*Rb_* H|_V \ar[r] \ar[d] &
+Ra'_* H'|_{U'} \oplus
+Rb'_* H'|_{V'} \ar[d] \\
+Lg^*Rc_* H|_{U \cap V} \ar[r] \ar[d] &
+Rc'_* H'|_{U' \cap V'} \ar[d] \\
+Lg^*Rf_* H[1] \ar[r] &
+Rf'_* H'[1]
+}
+$$
+Since the 2nd and 3rd horizontal arrows are isomorphisms so is the first,
+see Derived Categories, Lemma \ref{derived-lemma-third-isomorphism-triangle}
+and the proof of the lemma is finished.
 \end{proof}
 
 \begin{lemma}
@@ -2377,7 +2438,7 @@ such that $\alpha^i_\mathcal{F}$ is an isomorphism for $i \leq m$.
 We may replace $X$ by a quasi-compact open neighbourhood of
 the support of $\mathcal{G}$, hence we may assume $X$ is Noetherian.
 In this case $X$ and $f$ are quasi-compact and quasi-separated.
-Choose an approximation $P \to E$ by a perfect complex $P$ of $(X, E, -m)$
+Choose an approximation $P \to E$ by a perfect complex $P$ of $(X, E, -m - 1)$
 (possible by Theorem \ref{theorem-approximation}).
 Then the induced map
 $$
@@ -2397,11 +2458,10 @@ $$
 \mathcal{G} \otimes_{\mathcal{O}_X} f^*\mathcal{F})
 $$
 where $C$ is the cone of $P \to E$. Since $C$ has vanishing cohomology
-sheaves in degrees $\geq -m$ these $\text{Ext}$-groups are zero
-for $i \leq m$ (by
-Derived Categories, Lemma \ref{derived-lemma-negative-exts}
-and the spectral sequence for ext's -- insert
-future reference here). This reduces us to the case that
+sheaves in degrees $\geq -m - 1$ these $\text{Ext}$-groups are zero
+for $i \leq m + 1$ by
+Derived Categories, Lemma \ref{derived-lemma-negative-exts}.
+This reduces us to the case that
 $E$ is a perfect complex which is Lemma \ref{lemma-compute-ext-perfect}.
 
 \medskip\noindent
