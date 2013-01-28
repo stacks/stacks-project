@@ -152,6 +152,7 @@ def print_max_nodes():
 			n = n + 1
 		print
 		m = m + 1
+
 def print_distribution():
 	T = 0
 	n = 0
