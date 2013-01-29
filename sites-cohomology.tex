@@ -2120,6 +2120,24 @@ higher direct images in
 Lemma \ref{lemma-higher-direct-images}.
 \end{proof}
 
+\begin{remark}
+\label{remark-before-Leray}
+As a consequence of the results above we find that
+Derived Categories, Lemma \ref{derived-lemma-compose-derived-functors}
+applies to a number of situations. For example, given a
+morphism $f : (\Sh(\mathcal{C}), \mathcal{O}_\mathcal{C}) \to
+(\Sh(\mathcal{D}), \mathcal{O}_\mathcal{D})$ of ringed topoi we have
+$$
+R\Gamma(\mathcal{D}, Rf_*\mathcal{F}) = R\Gamma(\mathcal{C}, \mathcal{F})
+$$
+for any sheaf of $\mathcal{O}_\mathcal{C}$-modules $\mathcal{F}$.
+Namely, for an injective $\mathcal{O}_\mathcal{X}$-module $\mathcal{I}$
+the $\mathcal{O}_\mathcal{D}$-module $f_*\mathcal{I}$ is limp by
+Lemma \ref{lemma-direct-image-injective-sheaf}
+and a limp sheaf is acyclic for $\Gamma(\mathcal{D}, -)$ by
+Lemma \ref{lemma-limp-acyclic}.
+\end{remark}
+
 \begin{lemma}[Leray spectral sequence]
 \label{lemma-Leray}
 Let $f : (\Sh(\mathcal{C}), \mathcal{O}_\mathcal{C}) \to
@@ -3094,7 +3112,7 @@ be a morphism of ringed topoi. There is a canonical bifunctorial
 isomorphism
 $$
 \mathcal{F}^\bullet
-\otimes_{\mathcal{O}_X}^{\mathbf{L}}
+\otimes_\mathcal{O}^{\mathbf{L}}
 Lf^*\mathcal{G}^\bullet
 =
 \mathcal{F}^\bullet 
@@ -3112,7 +3130,7 @@ $\mathcal{F} \otimes_{\mathcal{O}} f^*\mathcal{G} =
 \mathcal{F} \otimes_{f^{-1}\mathcal{O}'} f^{-1}\mathcal{G}$
 because
 $f^*\mathcal{G} =
-\mathcal{O}_X \otimes_{f^{-1}\mathcal{O}'} f^{-1}\mathcal{G}$.
+\mathcal{O} \otimes_{f^{-1}\mathcal{O}'} f^{-1}\mathcal{G}$.
 The lemma follows from this and the definitions.
 \end{proof}
 
@@ -3273,7 +3291,7 @@ $Lf^*Rf_*\mathcal{F}^\bullet \to \mathcal{F}^\bullet$.
 \noindent
 Let $(\mathcal{C}, \mathcal{O})$ be a ringed site. Let $U$ be an
 object of $\mathcal{C}$. Denote
-$j : (\mathcal{C}/U, \mathcal{O}_U) \to (X, \mathcal{O})$
+$j : (\Sh(\mathcal{C}/U), \mathcal{O}_U) \to (\Sh(\mathcal{C}), \mathcal{O})$
 the corresponding localization morphism. The pullback functor $j^*$ is exact
 as it is just the restriction functor. Thus derived pullback $Lj^*$ is
 computed on any complex by simply restricting the complex. We often
@@ -3284,7 +3302,7 @@ D(\mathcal{O}) \to D(\mathcal{O}_U),
 E \mapsto j^*E = E|_U
 $$
 Similarly, extension by zero
-$j_! : \textit{Mod}(\mathcal{O}_U) \to \textit{Mod}(\mathcal{O}_X)$ (see
+$j_! : \textit{Mod}(\mathcal{O}_U) \to \textit{Mod}(\mathcal{O})$ (see
 Modules on Sites, Definition
 \ref{sites-modules-definition-localize-ringed-site})
 is an exact functor
@@ -3315,7 +3333,7 @@ exact left adjoint $j_!$. See discussion above.
 \label{lemma-adjoint-lower-shriek-restrict}
 Let $(\mathcal{C}, \mathcal{O})$ be a ringed site. Let $U$ be an
 object of $\mathcal{C}$. Denote
-$j : (\mathcal{C}/U, \mathcal{O}_U) \to (X, \mathcal{O})$
+$j : (\Sh(\mathcal{C}/U), \mathcal{O}_U) \to (\Sh(\mathcal{C}), \mathcal{O})$
 the corresponding localization morphism. The restriction functor
 $D(\mathcal{O}) \to D(\mathcal{O}_U)$ is a right adjoint to
 extension by zero $j_! : D(\mathcal{O}_U) \to D(\mathcal{O})$.
@@ -3324,7 +3342,7 @@ extension by zero $j_! : D(\mathcal{O}_U) \to D(\mathcal{O})$.
 \begin{proof}
 We have to show that
 $$
-\Hom_{D(\mathcal{O}_X)}(j_!E, F) = \Hom_{D(\mathcal{O}_U)}(E, F|_U)
+\Hom_{D(\mathcal{O})}(j_!E, F) = \Hom_{D(\mathcal{O}_U)}(E, F|_U)
 $$
 Choose a complex $\mathcal{E}^\bullet$ of $\mathcal{O}_U$-modules
 representing $E$ and choose
@@ -3333,7 +3351,7 @@ By Lemma \ref{lemma-restrict-K-injective-to-open} the complex
 $\mathcal{I}^\bullet|_U$ is K-injective as well. Hence we see that
 the formula above becomes
 $$
-\Hom_{D(\mathcal{O}_X)}(j_!\mathcal{E}^\bullet, \mathcal{I}^\bullet) =
+\Hom_{D(\mathcal{O})}(j_!\mathcal{E}^\bullet, \mathcal{I}^\bullet) =
 \Hom_{D(\mathcal{O}_U)}(\mathcal{E}^\bullet, \mathcal{I}^\bullet|_U)
 $$
 which holds as $|_U$ and $j_!$ are adjoint functors
@@ -3714,6 +3732,281 @@ Homology, Section \ref{homology-section-double-complex}.
 
 
 
+\section{Internal hom in the derived category}
+\label{section-internal-hom}
+
+\noindent
+Let $(\mathcal{C}, \mathcal{O})$ be a ringed site. Let $L, M$ be objects
+of $D(\mathcal{O})$. We would like to construct an object
+$R\SheafHom(L, M)$ of $D(\mathcal{O})$ such that for every third
+object $K$ of $D(\mathcal{O})$ there exists a canonical bijection
+\begin{equation}
+\label{equation-internal-hom}
+\Hom_{D(\mathcal{O})}(K, R\SheafHom(L, M))
+=
+\Hom_{D(\mathcal{O})}(K \otimes_\mathcal{O}^\mathbf{L} L, M)
+\end{equation}
+Observe that this formula defines $R\SheafHom(L, M)$ up to unique
+isomorphism by the Yoneda lemma
+(Categories, Lemma \ref{categories-lemma-yoneda}).
+
+\medskip\noindent
+To construct such an object, choose a K-injective complex of
+$\mathcal{O}$-modules $\mathcal{I}^\bullet$ representing $M$ and any
+complex of $\mathcal{O}$-modules $\mathcal{L}^\bullet$ representing $L$.
+Consider the complex $\mathcal{H}^\bullet$
+of $\mathcal{O}$-modules with term
+$$
+\mathcal{H}^n =
+\prod\nolimits_{n = - p + q}
+\SheafHom_\mathcal{O}(\mathcal{L}^p, \mathcal{I}^q)
+$$
+in degree $n$ and differential given on a local section
+$\alpha = \prod \alpha_{p, q}$ by the rule
+$$
+\alpha_{p, q}
+\longmapsto
+\alpha_{p, q} \circ d_{\mathcal{L}}^{p - 1} +
+(-1)^pd_{\mathcal{I}}^q \circ \alpha_{p, q}
+$$
+With this definition we have
+$$
+H^0(\mathcal{H}^\bullet(U)) =
+\Hom_{K(\mathcal{O}_U)}(\mathcal{L}^\bullet|_U, \mathcal{I}^\bullet|_U) =
+\Hom_{D(\mathcal{O}_U)}(\mathcal{L}^\bullet|_U, \mathcal{I}^\bullet|_U)
+$$
+for every object $U$ of $\mathcal{C}$.
+The second equality comes from the fact that $\mathcal{I}^\bullet|_U$
+is K-injective (Lemma \ref{lemma-restrict-K-injective-to-open}).
+Hence the sheafification $H^0(\mathcal{H}^\bullet)$ of the presheaf
+$U \mapsto H^0(\mathcal{H}^\bullet(U))$ is independent of the choices
+made in the complexes representing $L$ and $M$. A similar argument can
+be made for the other cohomology sheaves $H^i(\mathcal{H}^\bullet)$.
+Thus we obtain a well
+defined object $R\SheafHom(L, M)$ of $D(\mathcal{O})$. Note that
+the construction is functorial in $L$ and $M$ in an obvious manner.
+
+\begin{lemma}
+\label{lemma-internal-hom}
+Let $(\mathcal{C}, \mathcal{O})$ be a ringed space. Let $K, L, M$ be objects
+of $D(\mathcal{O})$. With the construction as described above
+there is a canonical isomorphism (\ref{equation-internal-hom})
+functorial in $K, L, M$.
+\end{lemma}
+
+\begin{proof}
+Choose a K-injective complex $\mathcal{I}^\bullet$ representing
+$M$ and a K-flat complex of $\mathcal{O}$-modules $\mathcal{L}^\bullet$
+representing $L$. Let $\mathcal{H}^\bullet$ be the complex described above.
+For any complex of $\mathcal{O}$-modules $\mathcal{K}^\bullet$ we see that
+$$
+\Hom_{K(\mathcal{O})}(\mathcal{K}^\bullet, \mathcal{H}^\bullet)
+=
+\Hom_{K(\mathcal{O})}(
+\text{Tot}(\mathcal{K}^\bullet \otimes_\mathcal{O} \mathcal{L}^\bullet),
+\mathcal{I}^\bullet)
+$$
+simply because
+$$
+\Hom_\mathcal{O}(
+\mathcal{K}^a, \SheafHom_\mathcal{O}(\mathcal{L}^b, \mathcal{I}^c))
+=
+\Hom_\mathcal{O}(
+\mathcal{K}^a \otimes_\mathcal{O} \mathcal{L}^b, \mathcal{I}^c)
+$$
+by Modules, Lemma \ref{modules-lemma-internal-hom}. Since $\mathcal{L}^\bullet$
+is K-flat, the complex
+$\text{Tot}(\mathcal{K}^\bullet \otimes_\mathcal{O} \mathcal{L}^\bullet)$
+(a) is acyclic if $\mathcal{K}^\bullet$ is acyclic, and
+(b) represents the derived tensor product
+$K \otimes_\mathcal{O}^\mathbf{L} L$. Thus $\mathcal{H}^\bullet$
+is a K-injective complex, as $\mathcal{I}^\bullet$ is K-injective.
+Hence the first displayed formula of this proof implies
+(\ref{equation-internal-hom})
+in $D(\mathcal{O})$ which is what we wanted to prove.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-section-RHom-over-U}
+Let $(\mathcal{C}, \mathcal{O})$ be a ringed site. Let $K, L$ be objects
+of $D(\mathcal{O})$. For every object $U$ of $\mathcal{C}$ we have
+$$
+\Hom_{D(\mathcal{O}_U)}(K|_U, L|_U) =
+H^0(U, R\SheafHom(K, L))
+$$
+\end{lemma}
+
+\begin{proof}
+This is clear from the discussion above, but it can also be seen by
+the following argument using only (\ref{equation-internal-hom}).
+Namely, denoting $j : \Sh(\mathcal{C}/U) \to \Sh(\mathcal{C})$ the localization
+morphism, we have
+\begin{align*}
+H^0(U, R\SheafHom(K, L))
+& =
+\Hom_{D(\mathcal{O})}(j_!\mathcal{O}_U, R\SheafHom(K, L)) \\
+& =
+\Hom_{D(\mathcal{O})}(
+j_!\mathcal{O}_U \otimes_\mathcal{O}^\mathbf{L} K, L) \\
+& =
+\Hom_{D(\mathcal{O})}(j_!(K|_U), L) \\
+& =
+\Hom_{D(\mathcal{O}_U)}(K|_U, L|_U)
+\end{align*}
+The first and last equalities by
+Lemma \ref{lemma-adjoint-lower-shriek-restrict}.
+The second equality by Lemma \ref{lemma-internal-hom}.
+The remaining equality holds because
+$j_!\mathcal{O}_U \otimes_\mathcal{O}^\mathbf{L} K = j_!(K|_U)$.
+To see this use that $j_!\mathcal{O}_U$ is flat, see
+Modules on Sites, Lemma \ref{sites-modules-lemma-j-shriek-flat}.
+Some details omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-restriction-RHom-to-U}
+Let $(\mathcal{C}, \mathcal{O})$ be a ringed site. Let $K, L$ be objects
+of $D(\mathcal{O})$. The construction of $R\SheafHom(K, L)$
+commutes with restrictions, i.e.,
+for every object $U$ of $\mathcal{C}$ we have
+$R\SheafHom(K|_U, L|_U) = R\SheafHom(K, L)|_U$.
+\end{lemma}
+
+\begin{proof}
+Omitted. Hint: Use Lemma \ref{lemma-restrict-K-injective-to-open}
+and the construction of the internal hom.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-RHom-triagulated}
+Let $(\mathcal{C}, \mathcal{O})$ be a ringed site. The bifunctor
+$R\SheafHom(- , -)$ transforms distinguished triangles into
+distinguished triangles in both variables.
+\end{lemma}
+
+\begin{proof}
+Omitted. Hint: Prove that the construction above transforms a termwise
+split exact sequence of complexes in the first variable into a termwise
+split exact sequence of complexes and that it transforms a cone of a
+morphism between K-injective complexes in the second variable into the
+corresponding cone.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-dual}
+Let $(\mathcal{C}, \mathcal{O})$ be a ringed site. Let $L$ be an
+object of $D(\mathcal{O})$. Set $L^\wedge = R\SheafHom(L, \mathcal{O})$.
+For $M$ in $D(\mathcal{O})$ there is a canonical map
+\begin{equation}
+\label{equation-eval}
+L^\wedge \otimes^\mathbf{L}_\mathcal{O} M \longrightarrow R\SheafHom(L, M)
+\end{equation}
+which induces a canonical map
+$$
+H^0(\mathcal{C}, L^\wedge \otimes_\mathcal{O}^\mathbf{L} M)
+\longrightarrow
+\Hom_{D(\mathcal{O})}(L, M)
+$$
+functorial in $M$ in $D(\mathcal{O})$.
+\end{lemma}
+
+\begin{proof}
+There is a canonical map
+$$
+ev : L^\wedge \otimes^\mathbf{L}_\mathcal{O} L \longrightarrow \mathcal{O}
+$$
+coming from the identification $L^\wedge \to R\SheafHom(L, \mathcal{O})$
+by the equality (\ref{equation-internal-hom}) proved in
+Lemma \ref{lemma-internal-hom}. This gives a map
+$$
+L^\wedge \otimes^\mathbf{L} M \otimes^\mathbf{L} L =
+M \otimes^\mathbf{L} L^\wedge \otimes^\mathbf{L} L
+\xrightarrow{1_M \otimes ev}
+M
+$$
+which by (\ref{equation-internal-hom}) with $K = L^\wedge \otimes^\mathbf{L} M$
+corresponds to a map as in (\ref{equation-eval}).
+\end{proof}
+
+\begin{remark}
+\label{remark-prepare-fancy-base-change}
+Let $h : (\Sh(\mathcal{C}), \mathcal{O}) \to (\Sh(\mathcal{C}'), \mathcal{O}')$
+be a morphism of ringed topoi. Let $K, L$ be objects of $D(\mathcal{O}')$.
+We claim there is a canonical map
+$$
+Lh^*R\SheafHom(K, L) \longrightarrow R\SheafHom(Lh^*K, Lh^*L)
+$$
+in $D(\mathcal{O})$. Namely, by (\ref{equation-internal-hom})
+proved in Lemma \ref{lemma-internal-hom}
+such a map is the same thing as a map
+$$
+Lh^*R\SheafHom(K, L) \otimes^\mathbf{L} Lh^*K \longrightarrow Lh^*L
+$$
+The source of this arrow is $Lh^*(\SheafHom(K, L) \otimes^\mathbf{L} K)$
+by Lemma \ref{lemma-pullback-tensor-product}
+hence it suffices to construct a canonical map
+$$
+R\SheafHom(K, L) \otimes^\mathbf{L} K \longrightarrow L.
+$$
+For this we take the arrow corresponding to
+$$
+\text{id} :
+R\SheafHom(K, L)
+\longrightarrow
+R\SheafHom(K, L)
+$$
+via (\ref{equation-internal-hom}).
+\end{remark}
+
+\begin{remark}
+\label{remark-fancy-base-change}
+Suppose that
+$$
+\xymatrix{
+(\Sh(\mathcal{C}'), \mathcal{O}_{\mathcal{C}'})
+\ar[r]_h \ar[d]_{f'} &
+(\Sh(\mathcal{C}), \mathcal{O}_\mathcal{C}) \ar[d]^f \\
+(\Sh(\mathcal{D}'), \mathcal{O}_{\mathcal{D}'})
+\ar[r]^g &
+(\Sh(\mathcal{D}), \mathcal{O}_\mathcal{D})
+}
+$$
+is a commutative diagram of ringed topoi. Let $K, L$ be objects
+of $D(\mathcal{O}_\mathcal{C})$. We claim there exists a canonical base change
+map
+$$
+Lg^*Rf_*R\SheafHom(K, L)
+\longrightarrow
+R(f')_*R\SheafHom(Lh^*K, Lh^*L)
+$$
+in $D(\mathcal{O}_{\mathcal{D}'})$. Namely, we take the map adjoint to
+the composition
+\begin{align*}
+L(f')^*Lg^*Rf_*R\SheafHom(K, L)
+& =
+Lh^*Lf^*Rf_*R\SheafHom(K, L) \\
+& \to
+Lh^*R\SheafHom(K, L) \\
+& \to
+R\SheafHom(Lh^*K, Lh^*L)
+\end{align*}
+where the first arrow uses the adjunction mapping
+$Lf^*Rf_* \to \text{id}$ and the second arrow is the canonical map
+constructed in Remark \ref{remark-prepare-fancy-base-change}.
+\end{remark}
+
+
+
+
+
+
+
+
+
+
+
+
+
 \section{Derived lower shriek}
 \label{section-derived-lower-shriek}
 
@@ -4024,7 +4317,7 @@ The first statement follows from the second, hence we only prove (2).
 We will prove this by induction on the length of the complex
 $\mathcal{E}^\bullet$. If $\mathcal{E}^\bullet \cong \mathcal{E}[-n]$
 for some direct summand $\mathcal{E}$ of a finite free
-$\mathcal{O}_X$-module and integer $n \geq a$, then the result follows from
+$\mathcal{O}$-module and integer $n \geq a$, then the result follows from
 Lemma \ref{lemma-local-lift-map} and the fact that
 $\mathcal{F}^{n - 1} \to \text{Ker}(\mathcal{F}^n \to \mathcal{F}^{n + 1})$
 is surjective by the assumed vanishing of $H^n(\mathcal{F}^\bullet)$.
@@ -4114,6 +4407,119 @@ $\beta : \mathcal{E}^\bullet \to \mathcal{G}^\bullet$ such that
 $\alpha = f^{-1}\beta$. Thus the result follows from
 Lemma \ref{lemma-lift-through-quasi-isomorphism}.
 We omit the proof of (2).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-Rhom-strictly-perfect}
+Let $(\mathcal{C}, \mathcal{O})$ be a ringed site.
+Let $\mathcal{E}^\bullet$, $\mathcal{F}^\bullet$ be complexes
+of $\mathcal{O}$-modules with $\mathcal{E}^\bullet$ strictly perfect.
+Then the internal hom $R\SheafHom(\mathcal{E}^\bullet, \mathcal{F}^\bullet)$
+is represented by the complex $\mathcal{H}^\bullet$ with terms
+$$
+\mathcal{H}^n =
+\bigoplus\nolimits_{n = - p + q}
+\SheafHom_\mathcal{O}(\mathcal{E}^p, \mathcal{F}^q)
+$$
+and differential as described in Section \ref{section-internal-hom}.
+\end{lemma}
+
+\begin{proof}
+Choose a quasi-isomorphism $\mathcal{F}^\bullet \to \mathcal{I}^\bullet$
+into a K-injective complex. Let $(\mathcal{H}')^\bullet$ be the
+complex with terms
+$$
+(\mathcal{H}')^n =
+\prod\nolimits_{n = - p + q}
+\SheafHom_\mathcal{O}(\mathcal{L}^p, \mathcal{I}^q)
+$$
+which represents $R\SheafHom(\mathcal{E}^\bullet, \mathcal{F}^\bullet)$
+by the construction in Section \ref{section-internal-hom}. It suffices
+to show that the map
+$$
+\mathcal{H}^\bullet \longrightarrow (\mathcal{H}')^\bullet
+$$
+is a quasi-isomorphism. Given an object $U$ of $\mathcal{C}$ we have
+by inspection
+$$
+H^0(\mathcal{H}^\bullet(U)) =
+\Hom_{K(\mathcal{O}_U)}(\mathcal{E}^\bullet|_U, \mathcal{K}^\bullet|_U)
+\to
+H^0((\mathcal{H}')^\bullet(U)) =
+\Hom_{D(\mathcal{O}_U)}(\mathcal{E}^\bullet|_U, \mathcal{K}^\bullet|_U)
+$$
+By Lemma \ref{lemma-local-actual} the sheafification of
+$U \mapsto H^0(\mathcal{H}^\bullet(U))$
+is equal to the sheafification of
+$U \mapsto H^0((\mathcal{H}')^\bullet(U))$. A similar argument can be
+given for the other cohomology sheaves. Thus $\mathcal{H}^\bullet$
+is quasi-isomorphic to $(\mathcal{H}')^\bullet$ which proves the lemma.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-Rhom-complex-of-direct-summands-finite-free}
+Let $(\mathcal{C}, \mathcal{O})$ be a ringed site.
+Let $\mathcal{E}^\bullet$, $\mathcal{F}^\bullet$ be complexes
+of $\mathcal{O}$-modules with
+\begin{enumerate}
+\item $\mathcal{F}^n = 0$ for $n \ll 0$,
+\item $\mathcal{E}^n = 0$ for $n \gg 0$, and
+\item $\mathcal{E}^n$ isomorphic to a direct summand of a finite
+free $\mathcal{O}$-module.
+\end{enumerate}
+Then the internal hom $R\SheafHom(\mathcal{E}^\bullet, \mathcal{F}^\bullet)$
+is represented by the complex $\mathcal{H}^\bullet$ with terms
+$$
+\mathcal{H}^n =
+\bigoplus\nolimits_{n = - p + q}
+\SheafHom_\mathcal{O}(\mathcal{E}^p, \mathcal{F}^q)
+$$
+and differential as described in Section \ref{section-internal-hom}.
+\end{lemma}
+
+\begin{proof}
+Choose a quasi-isomorphism $\mathcal{F}^\bullet \to \mathcal{I}^\bullet$
+where $\mathcal{I}^\bullet$ is a bounded below complex of injectives.
+Note that $\mathcal{I}^\bullet$ is K-injective
+(Derived Categories, Lemma
+\ref{derived-lemma-bounded-below-injectives-K-injective}).
+Hence the construction in Section \ref{section-internal-hom}
+shows that
+$R\SheafHom(\mathcal{E}^\bullet, \mathcal{F}^\bullet)$ is 
+represented by the complex $(\mathcal{H}')^\bullet$ with terms
+$$
+(\mathcal{H}')^n =
+\prod\nolimits_{n = - p + q}
+\SheafHom_\mathcal{O}(\mathcal{E}^p, \mathcal{I}^q) =
+\bigoplus\nolimits_{n = - p + q}
+\SheafHom_\mathcal{O}(\mathcal{E}^p, \mathcal{I}^q)
+$$
+(equality because there are only finitely many nonzero terms).
+Note that $\mathcal{H}^\bullet$ is the total complex associated to
+the double complex with terms
+$\SheafHom_\mathcal{O}(\mathcal{E}^p, \mathcal{F}^q)$
+and similarly for $(\mathcal{H}')^\bullet$.
+The natural map $(\mathcal{H}')^\bullet \to \mathcal{H}^\bullet$
+comes from a map of double complexes.
+Thus to show this map is a quasi-isomorphism, we may use the spectral
+sequence of a double complex
+(Homology, Lemma \ref{homology-lemma-first-quadrant-ss})
+$$
+{}'E_1^{p, q} =
+H^q(\SheafHom_\mathcal{O}(\mathcal{E}^p, \mathcal{F}^\bullet))
+$$
+converging to $H^{p + q}(\mathcal{H}^\bullet)$ and similarly for
+$(\mathcal{H}')^\bullet$. To finish the proof of the lemma it
+suffices to show that $\mathcal{F}^\bullet \to \mathcal{I}^\bullet$
+induces an isomorphism
+$$
+H^q(\SheafHom_\mathcal{O}(\mathcal{E}, \mathcal{F}^\bullet))
+\longrightarrow
+H^q(\SheafHom_\mathcal{O}(\mathcal{E}, \mathcal{I}^\bullet))
+$$
+on cohomology sheaves whenever $\mathcal{E}$ is a direct summand of a
+finite free $\mathcal{O}$-module. Since this is clear when $\mathcal{E}$
+is finite free the result follows.
 \end{proof}
 
 
@@ -4508,7 +4914,7 @@ $\text{ker}(\mathcal{K}^{n - 1} \to \mathcal{K}^n)$ is flat
 Hence we may replace $\mathcal{K}^\bullet$ by
 $\tau_{\leq n - 1}\mathcal{K}^\bullet$. Thus, by induction on $n$, we
 reduce to the case that $K^\bullet$ is a complex of flat
-$\mathcal{O}_X$-modules with $\mathcal{K}^i = 0$ for $i > b$.
+$\mathcal{O}$-modules with $\mathcal{K}^i = 0$ for $i > b$.
 
 \medskip\noindent
 Set $\mathcal{E}^\bullet = \tau_{\geq a}\mathcal{K}^\bullet$.
@@ -4753,6 +5159,78 @@ so are $K$ and $L$.
 Follows from
 Lemmas \ref{lemma-perfect}, \ref{lemma-summands-pseudo-coherent}, and
 \ref{lemma-summands-tor-amplitude}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-dual-perfect-complex}
+Let $(\mathcal{C}, \mathcal{O})$ be a ringed site.
+Let $K$ be a perfect object of $D(\mathcal{O})$.
+Then $K^\wedge = R\SheafHom(K, \mathcal{O})$ is a
+perfect object too and $(K^\wedge)^\wedge = K$. There are
+functorial isomorphisms
+$$
+H^0(\mathcal{C}, K^\wedge \otimes_\mathcal{O}^\mathbf{L} M) =
+\Hom_{D(\mathcal{O})}(K, M)
+$$
+for $M$ in $D(\mathcal{O})$.
+\end{lemma}
+
+\begin{proof}
+We will us without further mention that formation of internal hom commutes
+with restriction (Lemma \ref{lemma-restriction-RHom-to-U}).
+In particular we may check the first two statements locally, i.e., given
+any object $U$ of $\mathcal{C}$ it suffices to prove there is a covering
+$\{U_i \to U\}$ such that the statement is true after restricting to
+$\mathcal{C}/U_i$ for each $i$.
+By Lemma \ref{lemma-dual} to see the final statement it suffices to check
+that the map (\ref{equation-eval})
+$$
+K^\wedge \otimes^\mathbf{L}_\mathcal{O} M
+\longrightarrow
+R\SheafHom(K, M)
+$$
+is an isomorphism. This is a local question as well.
+Hence it suffices to prove the lemma when $K$ is represented
+by a strictly perfect complex.
+
+\medskip\noindent
+Assume $K$ is represented by the strictly perfect complex
+$\mathcal{E}^\bullet$. Then it follows from
+Lemma \ref{lemma-Rhom-strictly-perfect}
+that $K^\wedge$ is represented by the complex whose terms are
+$(\mathcal{E}^n)^\wedge =
+\SheafHom_\mathcal{O}(\mathcal{E}^n, \mathcal{O})$
+in degree $-n$. Since $\mathcal{E}^n$ is a direct summand of a finite
+free $\mathcal{O}$-module, so is $(\mathcal{E}^n)^\wedge$.
+Hence $K^\wedge$ is represented by a strictly perfect complex too.
+It is also clear that $(K^\wedge)^\wedge = K$ as we have
+$((\mathcal{E}^n)^\wedge)^\wedge = \mathcal{E}^n$.
+To see that (\ref{equation-eval}) is an isomorphism, represent
+$M$ by a K-flat complex $\mathcal{F}^\bullet$.
+By Lemma \ref{lemma-Rhom-strictly-perfect} the complex
+$R\SheafHom(K, M)$ is represented by the complex with terms
+$$
+\bigoplus\nolimits_{n = -p + q}
+\SheafHom_\mathcal{O}(\mathcal{E}^p, \mathcal{F}^q)
+$$
+On the other hand, the object $K^\wedge \otimes^\mathbf{L} M$
+is represented by the complex with terms
+$$
+\bigoplus\nolimits_{n = -p + q}
+(\mathcal{E}^p)^\wedge \otimes_\mathcal{O} \mathcal{F}^q
+$$
+Thus the assertion that (\ref{equation-eval}) is an isomorphism
+reduces to the assertion that the canonical map
+$$
+\SheafHom_\mathcal{O}(\mathcal{E}, \mathcal{O})
+\otimes_\mathcal{O} \mathcal{F}
+\longrightarrow
+\SheafHom_\mathcal{O}(\mathcal{E}, \mathcal{F})
+$$
+is an isomorphism when $\mathcal{E}$ is a direct summand of a finite
+free $\mathcal{O}$-module and $\mathcal{F}$ is any $\mathcal{O}$-module.
+This follows immediately from the corresponding statement when
+$\mathcal{E}$ is finite free.
 \end{proof}
 
 
