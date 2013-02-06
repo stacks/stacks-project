@@ -173,6 +173,651 @@ $\text{Ker}(f) + I^{n - c}M$. Thus the lemma holds.
 
 
 
+\section{Fibre products of rings}
+\label{section-fibre-products-rings}
+
+\noindent
+Fibre products of rings have to do with pushouts of schemes. A special
+case of pushouts of schemes is discussed in
+More on Morphisms, Section \ref{more-morphisms-section-pushouts}.
+
+\begin{lemma}
+\label{lemma-fibre-product-finite-type}
+Let $R$ be a ring. Let $A \to B$ and $C \to B$ be $R$-algebra maps.
+Assume
+\begin{enumerate}
+\item $R$ is Noetherian,
+\item $A$, $B$, $C$ are of finite type over $R$,
+\item $A \to B$ is surjective, and
+\item $B$ is finite over $C$.
+\end{enumerate}
+Then $A \times_B C$ is of finite type over $R$.
+\end{lemma}
+
+\begin{proof}
+Set $D = A \times_B C$. There is a commutative diagram
+$$
+\xymatrix{
+0 \ar[r] &
+I \ar[r] &
+A \ar[r] &
+B \ar[r] &
+0 \\
+0 \ar[r] &
+I \ar[r] \ar[u] &
+D \ar[r] \ar[u] &
+C \ar[r] \ar[u] &
+0
+}
+$$
+with exact rows. Choose $y_1, \ldots, y_n \in B$ which are generators for
+$B$ as a $C$-module. Choose $x_i \in A$ mapping to $y_i$.
+Then $1, x_1, \ldots, x_n$ are generators for $A$ as a $D$-module.
+The map $D \to A \times C$ is injective, and the ring $A \times C$ is finite
+as a $D$-module (because it is the direct sum of the finite $D$-modules
+$A$ and $C$). Hence the lemma follows from the Artin-Tate lemma
+(Algebra, Lemma \ref{algebra-lemma-Artin-Tate}).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-diagram-localize}
+Suppose given a cartesian diagram of rings
+$$
+\xymatrix{
+B \ar[r]_s & R \\
+B'\ar[u] \ar[r] & R', \ar[u]_t
+}
+$$
+i.e., $B' = B \times_R R'$. If $h \in B'$ corresponds to $g \in B$
+and $f \in R'$ such that $s(g) = t(f)$, then the diagram
+$$
+\xymatrix{
+B_g \ar[r]_-s & R_{s(g)} = R_{t(f)} \\
+(B')_h \ar[u] \ar[r] & (R')_f \ar[u]_t
+}
+$$
+is cartesian too.
+\end{lemma}
+
+\begin{proof}
+Note that $B' = \{(b, r') \in B \times R' \mid s(b) = t(r')\}$.
+So $h = (g, f) \in B'$. First we show that $(B')_h$ maps
+injectively into $B_g \times (R')_f$. Namely, suppose that
+$(x, y)/h^n$ maps to zero. This means that
+$g^Nx = 0$ for some $N$ and $f^My$ is zero for some $M$.
+Thus $h^{\max(N, M)}(x, y) = 0$ in $B'$ and hence $(x, y)/h^n = 0$
+in $B'_h$.
+Next, suppose that $x/g^n$ and $y/f^m$ are elements
+which map to the same element of $R_{s(g)}$.
+This means that $s(g)^N(t(f)^ms(x) - s(g)^nt(y)) = 0$ in $R'$
+for some $N \gg 0$. We can rewrite this as
+$s(g^{m + N}x) = t(f^{n + N}y)$. Hence we see that the
+pair $(x/g^n, y/f^m)$ is the image of the element
+$(g^{m + N}x, f^{n + N}y)/h^{n + m + N}$ of
+$(B')_h$.
+\end{proof}
+
+\begin{situation}
+\label{situation-module-over-fibre-product-rings}
+In the following we will consider ring maps
+$$
+\xymatrix{
+B \ar[r] & A & A' \ar[l]
+}
+$$
+where we assume $A' \to A$ is surjective with kernel $I$.
+In this situation we set $B' = B \times_A A'$ to
+obtain a cartesian square
+$$
+\xymatrix{
+A & A' \ar[l] \\
+B \ar[u] & B' \ar[l] \ar[u]
+}
+$$
+We'd like to understand $B'$-modules in terms of modules over $A'$, $A$,
+and $B$. In order to do this we consider the functor (where the
+fibre product of categories as constructed in
+Categories, Example \ref{categories-example-2-fibre-product-categories})
+\begin{equation}
+\label{equation-functor}
+\text{Mod}_{B'} \longrightarrow
+\text{Mod}_B \times_{\text{Mod}_A} \text{Mod}_{A'},\quad
+L' \longmapsto (L' \otimes_{B'} B, L' \otimes_{B'} A', can)
+\end{equation}
+where $can$ is the canonical identification
+$L' \otimes_{B'} B \otimes_B A = L' \otimes_{B'} A' \otimes_{A'} A$.
+In the following we will write $(N, M', \varphi)$ for an object
+of the right hand side, i.e., $N$ is a $B$-module, $M'$ is an $A'$-module
+and $\varphi : N \otimes_B A \to M' \otimes_{A'} A$ is an isomorphism.
+However, it is often more convenient think of $\varphi$ as a $B$-linear
+map $\varphi : N \to M'/IM'$ which induces an isomorphism
+$N \otimes_B A \to M' \otimes_{A'} A = M'/IM'$.
+\end{situation}
+
+\begin{lemma}
+\label{lemma-module-over-fibre-product-rings}
+In Situation \ref{situation-module-over-fibre-product-rings}
+the functor (\ref{equation-functor}) has a right adjoint, namely
+the functor
+$$
+F : (N, M', \varphi) \longmapsto N \times_{\varphi, M} M'
+$$
+where $M = M'/IM'$. Moreover, the composition of $F$ with
+(\ref{equation-functor}) is the identity functor on
+$\text{Mod}_B \times_{\text{Mod}_A} \text{Mod}_{A'}$. In other words,
+setting $N' = N \times_{\varphi, M} M'$ we have
+$N' \otimes_{B'} B = N$ and $N' \otimes_{B'} A' = M'$.
+\end{lemma}
+
+\begin{proof}
+The adjointness statement is that for a $B'$-module $L'$ and
+a triple $(N, M', \varphi)$ we have
+$$
+\Hom_{B'}(L', N \times_{\varphi, M} M') =
+\Hom_B(L' \otimes_{B'} B, N)
+\times_{\Hom_A(L' \otimes_{B'} A, M)}
+\Hom_{A'}(L' \otimes_{B'} A', M')
+$$
+This follows from
+Algebra, Lemma \ref{algebra-lemma-adjoint-tensor-restrict}
+and the fact that an element of the left hand side is given by a pair
+of $B'$-linear maps $L' \to N$ and $L' \to M'$ agreeing as maps to $M$.
+To prove the final assertion, recall that
+$B' = B \times_A A'$ and $N' = N \times_{\varphi, M} M'$ and extend
+these equalities to 
+$$
+\vcenter{
+\xymatrix{
+A & A' \ar[l] & I \ar[l] \\
+B \ar[u] & B' \ar[l] \ar[u] & J \ar[l] \ar[u]
+}
+}
+\quad\text{and}\quad
+\vcenter{
+\xymatrix{
+M & M' \ar[l] & K \ar[l] \\
+N \ar[u]_\varphi & N' \ar[l] \ar[u] & L \ar[l] \ar[u]
+}
+}
+$$
+where $I, J, K, L$ are the kernels of the horizontal maps of the original
+diagrams. We present the proof as a sequence of observations:
+\begin{enumerate}
+\item $K = IM'$ (see statement lemma),
+\item $B' \to B$ is surjective with kernel $J$ and $J \to I$ is bijective,
+\item $N' \to N$ is surjective with kernel $L$ and $L \to K$ is bijective,
+\item $JN' \subset L$,
+\item $\text{Im}(N \to M)$ generates $M$ as an $A$-module
+(because $N \otimes_B A = M$),
+\item $\text{Im}(N' \to M')$ generates $M'$ as an $A'$-module
+(because it holds modulo $K$ and $L$ maps isomorphically to $K$),
+\item $JN' = L$ (because $L \cong K = I M'$
+is generated by images of elements $x n'$ with $x \in I$ and
+$n' \in N'$ by the previous statement),
+\item $N' \otimes_{B'} B = N$ (because $N = N'/L$, $B = B'/J$, and
+the previous statement),
+\item there is a map $\gamma : N' \otimes_{B'} A' \to M'$,
+\item $\gamma$ is surjective (see above),
+\item the kernel of the composition $N' \otimes_{B'} A' \to M' \to M$ 
+is generated by elements $l \otimes 1$ and $n' \otimes x$ with
+$l \in K$, $n' \in N'$, $x \in I$ (because $M = N \otimes_B A$ by assumption
+and because $N' \to N$ and $A' \to A$ are surjective with kernels
+$L$ and $I$),
+\item any element of $N' \otimes_{B'} A'$ in the submodule generated
+by the elements $l \otimes 1$ and $n' \otimes x$ with
+$l \in L$, $n' \in N'$, $x \in I$ can be written as $l \otimes 1$
+for some $l \in L$ (because $J$ maps isomorphically to $I$ we see
+that $n' \otimes x = n'x \otimes 1$ in $N' \otimes_{B'} A'$;
+similarly $x n' \otimes a' = n' \otimes xa' = n'(xa') \otimes 1$
+in $N' \otimes_{B'} A'$ when $n' \in N'$, $x \in J$ and $a' \in A'$;
+since we have seen that $JN' = L$ this proves the assertion),
+\item the kernel of $\gamma$ is zero (because by (10) and (11) any element of
+the kernel is of the form $l \otimes 1$ with $l \in L$ which
+is mapped to $l \in K \subset M'$ by $\gamma$).
+\end{enumerate}
+This finishes the proof.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-module-over-fibre-product-rings-bis}
+In the situation of Lemma \ref{lemma-module-over-fibre-product-rings}
+for a $B'$-module $L'$ the adjunction map
+$$
+L' \longrightarrow 
+(L' \otimes_{B'} B) \times_{(L' \otimes_{B'} A)} (L' \otimes_{B'} A')
+$$
+is surjective but in general not injective.
+\end{lemma}
+
+\begin{proof}
+As in the proof of Lemma \ref{lemma-module-over-fibre-product-rings}
+let $J \subset B'$ be the kernel of the map $B' \to B$.
+Then $L' \otimes_{B'} B = L'/JL'$. Hence to prove surjectivity it suffices
+to show that elements of the form $(0, z)$ of the fibre product are in the
+image of the map of the lemma. The kernel of the map
+$L' \otimes_{B'} A' \to L' \otimes_{B'} A$ is the image of
+$L' \otimes_{B'} I \to L' \otimes_{B'} A'$. Since the map $J \to I$
+induced by $B' \to A'$ is an isomorphism
+the composition
+$$
+L' \otimes_{B'} J \to L' \to
+(L' \otimes_{B'} B) \times_{(L' \otimes_{B'} A)} (L' \otimes_{B'} A')
+$$
+induces a surjection of $L' \otimes_{B'} J$ onto the set of elements
+of the form $(0, z)$. To see the map is not injective in general we
+present a simple example. Namely, take a field $k$,
+set $B' = k[x, y]/(xy)$, $A = B'/(x)$, $B = B'/(y)$, $A = B'/(x, y)$
+and $L' = B'/(x - y)$. In that case the class of $x$ in $L'$ is nonzero
+but is mapped to zero under the displayed arrow.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-surjection-module-over-fibre-product-rings}
+In Situation \ref{situation-module-over-fibre-product-rings}
+let $(N_1, M'_1, \varphi_1) \to (N_2, M'_2, \varphi_2)$ be a morphism
+of $\text{Mod}_B \times_{\text{Mod}_A} \text{Mod}_{A'}$
+with $N_1 \to N_2$ and $M'_1 \to M'_2$ surjective. Then
+$$
+N_1 \times_{M_1} M'_1 \to N_2 \times_{M_2} M'_2
+$$
+is surjective.
+\end{lemma}
+
+\begin{proof}
+Pick $(x_2, y_2) \in N_2 \times_{M_2} M'_2$. Choose $x_1 \in N_1$
+mapping to $x_2$. Since $M'_1 \to M_1$ is surjective we can find
+$y_1 \in M'_1$ mapping to $\varphi_1(x_1)$. Then $(x_1, y_1)$
+maps to $(x_2, y'_2)$ in $N_2 \times_{M_2} M'_2$. Thus it suffices
+to show that elements of the form $(0, y_2)$ are in the image of the map.
+Here we see that $y_2 \in IM'_2$. Write $y_2 = \sum t_i y_{2, i}$
+with $t_i \in I$. Choose $y_{1, i} \in M'_1$ mapping to $y_{2, i}$.
+Then $y_1 = \sum t_iy_{1, i} \in IM'_1$ and the element $(0, y_1)$
+does the job.
+\end{proof}
+
+\begin{situation}
+\label{situation-relative-module-over-fibre-product-rings}
+Let $A, A', B, B', I$ be as in
+Situation \ref{situation-module-over-fibre-product-rings}.
+Let $B' \to D'$ be a ring map. Set $D = D' \otimes_{B'} B$,
+$C' = D' \otimes_{B'} A'$, and $C = D' \otimes_{B'} A$. This leads
+to a big commutative diagram
+$$
+\xymatrix{
+C & & & C' \ar[lll] \\
+& A \ar[ul] & A' \ar[l] \ar[ru] \\
+& B \ar[u] \ar[ld] & B' \ar[l] \ar[u] \ar[rd] \\
+D \ar[uuu] & & & D' \ar[lll] \ar[uuu]
+}
+$$
+of rings.
+Observe that we do {\bf not} assume that the map $D' \to D \times_C C'$
+is an isomorphism. In this situation we have the functor
+\begin{equation}
+\label{equation-relative-functor}
+\text{Mod}_{D'} \longrightarrow
+\text{Mod}_D \times_{\text{Mod}_C} \text{Mod}_{C'},\quad
+L' \longmapsto (L' \otimes_{D'} D, L' \otimes_{D'} C', can)
+\end{equation}
+analoguous to (\ref{equation-functor}). Note that
+$L' \otimes_{D'} D = L \otimes_{D'} (D' \otimes_{B'} B) = L \otimes_{B'} B$
+and similarly
+$L' \otimes_{D'} C' = L \otimes_{D'} (D' \otimes_{B'} A') = L \otimes_{B'} A'$
+hence the diagram
+$$
+\xymatrix{
+\text{Mod}_{D'} \ar[r] \ar[d] &
+\text{Mod}_D \times_{\text{Mod}_C} \text{Mod}_{C'} \ar[d] \\
+\text{Mod}_{B'} \ar[r] &
+\text{Mod}_B \times_{\text{Mod}_A} \text{Mod}_{A'}
+}
+$$
+is commutative. In the following we will write $(N, M', \varphi)$ for an
+object of $\text{Mod}_D \times_{\text{Mod}_C} \text{Mod}_{C'}$,
+i.e., $N$ is a $D$-module, $M'$ is an $C'$-module
+and $\varphi : N \otimes_B A \to M' \otimes_{A'} A$ is an isomorphism
+of $C$-modules.
+However, it is often more convenient think of $\varphi$ as a $D$-linear
+map $\varphi : N \to M'/IM'$ which induces an isomorphism
+$N \otimes_B A \to M' \otimes_{A'} A = M'/IM'$.
+\end{situation}
+
+\begin{lemma}
+\label{lemma-relative-module-over-fibre-product-rings}
+In Situation \ref{situation-relative-module-over-fibre-product-rings}
+the functor (\ref{equation-relative-functor}) has a right adjoint, namely
+the functor
+$$
+F : (N, M', \varphi) \longmapsto N \times_{\varphi, M} M'
+$$
+where $M = M'/IM'$. Moreover, the composition of $F$ with
+(\ref{equation-relative-functor}) is the identity functor on
+$\text{Mod}_D \times_{\text{Mod}_C} \text{Mod}_{C'}$. In other words,
+setting $N' = N \times_{\varphi, M} M'$ we have
+$N' \otimes_{D'} D = N$ and $N' \otimes_{D'} C' = M'$.
+\end{lemma}
+
+\begin{proof}
+The adjointness statement is that for a $D'$-module $L'$ and
+a triple $(N, M', \varphi)$ we have
+$$
+\Hom_{D'}(L', N \times_{\varphi, M} M') =
+\Hom_D(L' \otimes_{D'} D, N)
+\times_{\Hom_C(L' \otimes_{D'} C, M)}
+\Hom_{C'}(L' \otimes_{D'} C', M')
+$$
+This follows from
+Algebra, Lemma \ref{algebra-lemma-adjoint-tensor-restrict}
+and the fact that an element of the left hand side is given by a pair
+of $D'$-linear maps $L' \to N$ and $L' \to M'$ agreeing as maps to $M$.
+The final assertion follows from the corresponding assertion of
+Lemma \ref{lemma-module-over-fibre-product-rings}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-relative-surjection-ideals}
+In Situation \ref{situation-relative-module-over-fibre-product-rings}
+the map $JD' \to IC'$ is surjective where $J = \text{Ker}(B' \to B)$.
+\end{lemma}
+
+\begin{proof}
+Since $C' = D' \otimes_{B'} A'$ we have that $IC'$ is the image
+of $D' \otimes_{B'} I = C' \otimes_{A'} I \to C'$. As the ring
+map $B' \to A'$ induces an isomorphism $J \to I$ the lemma follows.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-relative-finite-module-over-fibre-product-rings}
+Let $A, A', B, B', C, C', D, D', I, M', M, N, \varphi$ be as in
+Lemma \ref{lemma-relative-module-over-fibre-product-rings}.
+If $N$ finite over $D$ and $M'$
+finite over $C'$, then $N' = N \times_M M'$ is finite over $D'$.
+\end{lemma}
+
+\begin{proof}
+We will use the results of
+Lemma \ref{lemma-relative-module-over-fibre-product-rings}
+without further mention. Choose generators $x_1, \ldots, x_r$ of $N$ over $B$
+and generators $y_1, \ldots, y_s$ of $M'$ over $A'$. Using that
+$N = N' \otimes_{D'} D$ and $D' \to D$ is surjective we can find
+$u_1, \ldots, u_r \in N'$ mapping to $x_1, \ldots, x_r$ in $N$.
+Using that $M' = N' \otimes_{D'} C'$ we can find $v_1, \ldots, v_t \in N'$
+such that $y_i = \sum v_j \otimes c'_{ij}$ for some $c'_{ij} \in C'$.
+In particular we see that the images $\overline{v}_j$ of the $v_j$ generate
+$M'$ over $C'$. We claim that $u_1, \ldots, u_r, v_1, \ldots, v_t$
+generate $N'$ as a $D'$-module. Namely, pick $\xi \in N'$. We first choose
+$d'_1, \ldots, d'_r \in D'$ such that $\xi$ and $\sum d'_i u_i$ map
+to the same element of $N$. This is possible because $D' \to D$
+is surjective and $x_1, \ldots, x_r$ generate $N$.
+The difference $\xi - \sum d'_i u_i$ is of the form $(0, \theta)$
+for some $\theta$ in $IM'$. Say $\theta$ is $\sum t_j\overline{v}_j$
+with $t_j \in IC'$. By Lemma \ref{lemma-relative-surjection-ideals}
+we can choose $s_j \in JD'$ mapping to $t_j$.
+Because $N' = N \times_M M'$ it follows
+that $\xi = \sum b'_i u_i + \sum s_j v_j$ as desired.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-relative-flat-module-over-fibre-product-rings}
+With $A, A', B, B', C, C', D, D', I$ as in
+Situation \ref{situation-relative-module-over-fibre-product-rings}.
+\begin{enumerate}
+\item Let $(N, M', \varphi)$ be an object of
+$\text{Mod}_D \times_{\text{Mod}_C} \text{Mod}_{C'}$.
+If $M'$ is flat over $A'$ and $N$ is flat over $B$, then
+$N' = N \times_M M'$ is flat over $B'$.
+\item If $L'$ is a $D'$-module flat over $B'$, then
+$L' = (L \otimes_{D'} D) \times_{(L \otimes_{D'} C)} (L \otimes_{D'} C')$.
+\item The category of $D'$-modules flat over $B'$
+is equivalent to the categories of objects $(N, M', \varphi)$
+of $\text{Mod}_D \times_{\text{Mod}_C} \text{Mod}_{C'}$
+with $N$ flat over $B$ and $M'$ flat over $A'$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Proof of (1). Let $J \subset B'$ be an ideal.
+We have to show that $J \otimes_{B'} N' \to N'$
+is injective, see Algebra, Lemma \ref{algebra-lemma-flat}. We know that
+$$
+J/(J \cap I) \otimes_{B'} N' = J/(J \cap I) \otimes_B N \to N
+$$
+is injective as $N$ is flat over $B$. As
+$J \cap I \to J \to J/(J \cap I) \to 0$ is exact, we
+conclude that it suffices to show that $(J \cap I) \otimes_{B'} N' \to N'$
+is injective. Thus we may assume that $J \subset I$; in particular we can
+think of $J$ as an $A'$-module and an ideal of $A'$ and
+$$
+J \otimes_{B'} N' = J \otimes_{A'} A' \otimes_{B'} N' =
+J \otimes_{A'} M'
+$$
+which maps injectively into $M'$ by our assumption that $M'$ is flat
+over $A'$. We conclude that $J \otimes_{B'} N' \to N' \to M'$ is injective
+and hence the first map is injective as desired.
+
+\medskip\noindent
+Proof of (2). This follows by tensoring the short exact sequence
+$0 \to B' \to B \oplus A' \to A \to 0$ with $L'$ over $B'$
+and using that $L' \otimes_{D'} D = L' \otimes_{B'} B$,
+$L' \otimes_{D'} C' = L' \otimes_{B'} A'$, and
+$L' \otimes_{D'} C = L' \otimes_{B'} A$, see discussion in
+Situation \ref{situation-relative-module-over-fibre-product-rings}.
+
+\medskip\noindent
+Proof of (3). Immediate consequence of (1) and (2).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-relative-finitely-presented-module-over-fibre-product-rings}
+Let $A, A', B, B', C, C', D, D', I, M', M, N, \varphi$ be as in
+Lemma \ref{lemma-relative-module-over-fibre-product-rings}. If
+\begin{enumerate}
+\item $N$ is finitely presented over $D$ and flat over $B$,
+\item $M'$ finitely presented over $C'$ and flat over $A'$, and
+\item the ring map $B' \to D'$ factors as $B' \to D'' \to D''$
+with $B' \to D''$ flat and $D'' \to D'$ of finite presentation,
+\end{enumerate}
+then $N' = N \times_M M'$ is finitely presented over $D'$.
+\end{lemma}
+
+\begin{proof}
+Choose a surjection $D''' = D''[x_1, \ldots, x_n] \to D'$.
+By Algebra, Lemma \ref{algebra-lemma-finite-finitely-presented-extension}
+it suffices to show that $N'$ is finitely presented as a
+$D'''$-module. Thus we may replace $D'$ by $D'''$. Since $D'''$ is
+flat over $B'$, it follows that we may assume that $B' \to D'$ is flat.
+
+\medskip\noindent
+Assume $B' \to D'$ is flat.
+By Lemma \ref{lemma-relative-finite-module-over-fibre-product-rings}
+the module $N'$ is finite over $D'$. Choose a surjection
+$(D')^{\oplus n} \to N'$ with kernel $K'$. By base change we obtain maps
+$D^{\oplus n} \to N$, $(C')^{\oplus n} \to M'$, and $C^{\oplus n} \to M$
+with kernels $K_D$, $K_{C'}$, and $K_C$. There is a canonical map
+$$
+K' \longrightarrow K_D \times_{K_C} K_{C'}
+$$
+On the other hand, since $N' = N \times_M M'$ and
+$D' = D \times_C C'$ (by
+Lemma \ref{lemma-relative-flat-module-over-fibre-product-rings})
+there is also a
+canonical map $K_D \times_{K_C} K_{C'} \to K'$ inverse to the displayed
+arrow. Hence the displayed map is an isomorphism. By
+Algebra, Lemma \ref{algebra-lemma-finite-presentation-module-independent}
+the modules $K_D$ and $K_{C'}$ are finite. We conclude from
+Lemma \ref{lemma-relative-finite-module-over-fibre-product-rings}
+that $K'$ is a finite $D'$-module provided that $K_D \to K_C$ and
+$K_{C'} \to K_C$ induce isomorphisms
+$K_D \otimes_B A = K_C = K_{C'} \otimes_{A'} A$.
+This is true because the flatness assumptions implies the sequences
+$$
+0 \to K_D \to D^{\oplus n} \to N \to 0
+\quad\text{and}\quad
+0 \to K_{C'} \to (C')^{\oplus n} \to M' \to 0
+$$
+stay exact upon tensoring, see
+Algebra, Lemma \ref{algebra-lemma-flat-tor-zero}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-properties-algebras-over-fibre-product-rings}
+Let $A, A', B, B', I$ be as in
+Lemma \ref{lemma-module-over-fibre-product-rings}.
+Let $(D, C', \varphi)$ be a system consisting of an $B$-algebra $D$,
+a $A'$-algebra $C'$ and an isomorphism $D \otimes_B A \to C'/IC = C$.
+Set $D' = D \times_C C'$ (as in
+Lemma \ref{lemma-module-over-fibre-product-rings}). Then
+\begin{enumerate}
+\item $B' \to D'$ is finite type if and only if $B \to D$ and
+$A' \to C'$ are finite type,
+\item $B' \to D'$ is flat if and only if $B \to D$ and $A' \to C'$ are flat,
+\item $B' \to D'$ is flat and of finite presentation if and only if
+$B \to D$ and $A' \to C'$ are flat and of finite presentation,
+\item $B' \to D'$ is smooth if and only if $B \to D$ and $A' \to C'$ are smooth,
+\item $B' \to D'$ is \'etale if and only if $B \to D$ and $A' \to C'$
+are \'etale.
+\end{enumerate}
+Moreover, if $D'$ is a flat $B'$-algebra, then
+$D' \to (D' \otimes_{B'} B) \times_{(D' \otimes_{B'} A)} (D' \otimes_{B'} A')$
+is an isomorphism. In this way the category of flat $B'$-algebras
+is equivalent to the categories of systems $(D, C', \varphi)$ as above
+with $D$ flat over $B$ and $C'$ flat over $A'$.
+\end{lemma}
+
+\begin{proof}
+The implication ``$\Rightarrow$'' follows from
+Algebra, Lemmas \ref{algebra-lemma-base-change-finiteness},
+\ref{algebra-lemma-flat-base-change},
+\ref{algebra-lemma-base-change-smooth}, and
+\ref{algebra-lemma-etale} because we have
+$D' \otimes_{B'} B = D$ and $D' \otimes_{B'} A' = C'$
+by Lemma \ref{lemma-module-over-fibre-product-rings}.
+Thus it suffices to prove the implications in the other direction.
+
+\medskip\noindent
+Ad (1). Assume $D$ of finite type over $B$ and $C'$ of finite type over $A'$.
+We will use the results of
+Lemma \ref{lemma-module-over-fibre-product-rings}
+without further mention. Choose generators $x_1, \ldots, x_r$ of $D$ over $B$
+and generators $y_1, \ldots, y_s$ of $C'$ over $A'$. Using that
+$N = N' \otimes_{B'} B$ and $B' \to B$ is surjective we can find
+$u_1, \ldots, u_r \in D'$ mapping to $x_1, \ldots, x_r$ in $D$.
+Using that $C' = D' \otimes_{B'} A'$ we can find $v_1, \ldots, v_t \in D'$
+such that $y_i = \sum v_j \otimes a'_{ij}$ for some $a'_{ij} \in A'$.
+In particular, the images of $v_j$ in $C'$ generate $C'$ as an
+$A'$-algebra. Set $N = r + t$ and consider the cube of rings
+$$
+\xymatrix{
+A[x_1, \ldots, x_N] & & A'[x_1, \ldots, x_N] \ar[ll] \\
+& A \ar[lu] & & A' \ar[ll] \ar[lu] \\
+B[x_1, \ldots, x_N] \ar[uu] & & B'[x_1, \ldots, x_N] \ar[uu] \ar[ll] \\
+& B \ar[uu] \ar[lu] & & B' \ar[ll] \ar[uu] \ar[lu]
+}
+$$
+Observe that the back square is cartesian as well.
+Consider the ring map
+$$
+B'[x_1, \ldots, x_N] \to D',\quad
+x_i \mapsto u_i \quad\text{and}\quad x_{r + j} \mapsto v_j.
+$$
+Then we see that the induced maps $B[x_1, \ldots, x_N] \to D$ and
+$A'[x_1, \ldots, x_N] \to C'$
+are surjective, in particular finite. We conclude from
+Lemma \ref{lemma-relative-finite-module-over-fibre-product-rings}
+that $B'[x_1, \ldots, x_N] \to D'$ is finite, which implies that $D'$
+is of finite type over $B'$ for example by
+Algebra, Lemma \ref{algebra-lemma-compose-finite-type}.
+
+\medskip\noindent
+Ad (2). The implication ``$\Leftarrow$'' follows from
+Lemma \ref{lemma-relative-flat-module-over-fibre-product-rings}.
+Moreover, the final statement follows from the final
+statement of Lemma \ref{lemma-relative-flat-module-over-fibre-product-rings}.
+
+\medskip\noindent
+Ad (3). Assume $B \to D$ and $A' \to C'$ are flat and of finite presentation.
+The flatness of $B' \to D'$ we've seen in (2). We know $B' \to D'$
+is of finite type by (1). Choose a surjection $B'[x_1, \ldots, x_N] \to D'$.
+By Algebra, Lemma \ref{algebra-lemma-finite-presentation-independent}
+the ring $D$ is of finite presentation as a $B[x_1, \ldots, x_N]$-module
+and the ring $C'$ is of finite presentation as a
+$A'[x_1, \ldots, x_N]$-module. By
+Lemma \ref{lemma-relative-finitely-presented-module-over-fibre-product-rings}
+we see that $D'$ is of finite presentation as a $B'[x_1, \ldots, x_N]$-module,
+i.e., $B' \to D'$ is of finite presentation.
+
+\medskip\noindent
+Ad (4). Assume $B \to D$ and $A' \to C'$ smooth.
+By (3) we see that $B' \to D'$ is flat and of finite presentation.
+By Algebra, Lemma \ref{algebra-lemma-flat-fibre-smooth}
+it suffices to check that $D' \otimes_{B'} k$ is smooth for any
+field $k$ over $B'$. If the composition $J \to B' \to k$ is zero,
+then $B' \to k$ factors as $B' \to B \to k$ and we see that
+$$
+D' \otimes_{B'} k = D' \otimes_{B'} B \otimes_B k
+= D \otimes_B k
+$$
+is smooth as $B \to D$ is smooth. If the composition $J \to B' \to k$
+is nonzero, then there exists an $h \in J$ which does not map to zero
+in $k$. Then $B' \to k$ factors as $B' \to B'_h \to k$.
+Observe that $h$ maps to zero in $B$, hence $B_h = 0$.
+Thus by Lemma \ref{lemma-diagram-localize} we have $B'_h = A'_h$ and we get
+$$
+D' \otimes_{B'} k = D' \otimes_{B'} B'_h \otimes_{B'_h} k
+= C'_h \otimes_{A'_h} k
+$$
+is smooth as $A' \to C'$ is smooth.
+
+\medskip\noindent
+Ad (5). Assume $B \to D$ and $A' \to C'$ are \'etale. By (4) we see that
+$B' \to D'$ is smooth. As we can read off whether or not a smooth
+map is \'etale from the dimension of fibres we see that (5) holds
+(argue as in the proof of (4) to indentify fibres -- some details omitted).
+\end{proof}
+
+\begin{remark}
+\label{remark-relative-modules-over-fibre-product}
+In Situation \ref{situation-relative-module-over-fibre-product-rings}.
+Assume $B' \to D'$ is of finite presentation and
+suppose we are given a finite $D'$-module $L'$.
+We claim there is a bijective correspondence between
+\begin{enumerate}
+\item surjections of $D'$-modules $L' \to Q'$ with $Q'$ of finite presentation
+over $D'$ and flat over $B'$, and
+\item pairs of surjections of modules
+$(L' \otimes_{D'} D \to Q_1, L' \otimes_{D'} C' \to Q_2)$
+with
+\begin{enumerate}
+\item $Q_1$ of finite presentation over $D$ and flat over $B$,
+\item $Q_2$ of finite presentation over $C'$ and flat over $A'$,
+\item $Q_1 \otimes_D C = Q_2 \otimes_{C'} C$ as quotients of
+$L' \otimes_{D'} C$.
+\end{enumerate}
+\end{enumerate}
+The correspondence between these is given by $Q \mapsto (Q_1, Q_2)$ with
+$Q_1 = Q \otimes_{D'} D$ and $Q_2 = Q \otimes_{D'} C'$. And for the converse
+we use $Q = Q_1 \times_{Q_{12}} Q_2$ where $Q_{12}$ the common quotient
+$Q_1 \otimes_D C = Q_2 \otimes_{C'} C$ of $L' \otimes_{D'} C$. As quotient
+map we use
+$$
+L' \longrightarrow
+(L' \otimes_{D'} D) \times_{(L' \otimes_{D'} C)} (L' \otimes_{D'} C')
+\longrightarrow Q_1 \times_{Q_{12}} Q_2 = Q
+$$
+where the first arrow is surjective by
+Lemma \ref{lemma-module-over-fibre-product-rings-bis}
+and the second by Lemma \ref{lemma-surjection-module-over-fibre-product-rings}.
+The claim follows by
+Lemmas \ref{lemma-relative-flat-module-over-fibre-product-rings} and
+\ref{lemma-relative-finitely-presented-module-over-fibre-product-rings}.
+\end{remark}
+
+
+
+
+
+
+
 
 \section{Fitting ideals}
 \label{section-fitting-ideals}
