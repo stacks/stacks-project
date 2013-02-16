@@ -59,6 +59,7 @@ short_titles = {'introduction' : 'Introduction',\
 'spaces-over-fields' : 'Spaces over Fields,',\
 'stacks' : 'Stacks,',\
 'formal-defos' : 'Formal Deformation Theory,',\
+'defos' : 'Deformation Theory,',\
 'spaces-groupoids' : 'Groupoids in Spaces,',\
 'spaces-more-groupoids' : 'More on Groupoids in Spaces,',\
 'bootstrap' : 'Bootstrap,',\
