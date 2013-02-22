@@ -72,6 +72,7 @@ short_titles = {'introduction' : 'Introduction',\
 'stacks-properties' : 'Properties of Stacks,',\
 'stacks-morphisms' : 'Morphisms of Stacks,',\
 'stacks-cohomology' : 'Cohomology of Stacks,',\
+'stacks-perfect' : 'Derived Categories of Stacks,',\
 'stacks-introduction' : 'Introducing Algebraic Stacks,',\
 'examples' : 'Examples,',\
 'exercises' : 'Exercises,',\
