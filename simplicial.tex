@@ -23,7 +23,7 @@ We just add here whenever something is needed later on.
 A general reference to this material is perhaps \cite{SimpHom}.
 An example of the things you can do is the paper
 by Quillen on Homotopical Algebra, see \cite{Quillen}
-or the paper on Etale Homotopy by Artin and Mazur, see \cite{ArtinMazur}.
+or the paper on \'Etale Homotopy by Artin and Mazur, see \cite{ArtinMazur}.
 
 \section{The category of finite ordered sets}
 \label{section-Delta}
@@ -5525,7 +5525,431 @@ It follows easily that $U \to B$ is a homotopy equivalence.
 
 
 
+\section{Standard resolutions}
+\label{section-standard}
 
+\noindent
+Some of the material in this section can be found in
+\cite[Appendix 1]{Godement} and \cite[I 1.5]{cotangent}.
+
+\begin{situation}
+\label{situation-adjoint-functors}
+Let $\mathcal{A}$, $\mathcal{S}$ be categories and let
+$i : \mathcal{A} \to \mathcal{S}$ be a functor with a left adjoint
+$F : \mathcal{S} \to \mathcal{A}$.
+\end{situation}
+
+\noindent
+In this very general situation we will construct a simplicial
+object $X$ in the category of functors from $\mathcal{A}$ to $\mathcal{A}$.
+Please keep the following example in mind while we do this.
+
+\begin{example}
+\label{example-polynomial-algebra}
+As an example of the above we can take
+$i : \textit{Rings} \to \textit{Sets}$ to be the forgetful functor
+and $F : \textit{Sets} \to \textit{Rings}$ to be the functor that associates
+to a set $E$ the polynomial algebra $\mathbf{Z}[E]$ on $E$ over $\mathbf{Z}$.
+The simplicial object $X$ when evaluated on an ring $A$ will give
+the simplicial ring
+$$
+\xymatrix{
+\mathbf{Z}[\mathbf{Z}[\mathbf{Z}[A]]]
+\ar@<2ex>[r]
+\ar@<0ex>[r]
+\ar@<-2ex>[r]
+&
+\mathbf{Z}[\mathbf{Z}[A]]
+\ar@<1ex>[r]
+\ar@<-1ex>[r]
+\ar@<1ex>[l]
+\ar@<-1ex>[l]
+&
+\mathbf{Z}[A]
+\ar@<0ex>[l]
+}
+$$
+which comes with an augmentation towards $A$. We will also show this
+augmentation is a homotopy equivalence.
+\end{example}
+
+\noindent
+For the general construction we will use the horizontal composition as
+defined in Categories, Section \ref{categories-section-formal-cat-cat}.
+The definition of the adjunction morphisms
+$k : F \circ i \to \text{id}_\mathcal{A}$ and
+$t : \text{id}_\mathcal{S} \to i \circ F$
+in Categories, Section \ref{categories-section-adjoint}
+shows that the compositions
+\begin{equation}
+\label{equation-composition}
+i \xrightarrow{t \star 1_i} i \circ F \circ i \xrightarrow{1_i \star k} i
+\quad\text{and}\quad
+F \xrightarrow{1_F \star t} F \circ i \circ F \xrightarrow{k \star 1_F} F
+\end{equation}
+are the identity morphisms. Here to define the morphism $t \star 1$ we
+silently identify $i$ with $\text{id}_\mathcal{S} \circ i$ and
+$1$ stands for $\text{id}_i : i \to i$. We will use this notation and
+these relations repeatedly in what follows.
+For $n \geq 0$ we set
+$$
+X_n = (F \circ i)^{\circ (n + 1)} =
+F \circ i \circ F \circ \ldots \circ i \circ F
+$$
+In other words, $X_n$ is the $(n + 1)$-fold composition of $F \circ i$
+with itself. We also set $X_{-1} = \text{id}_\mathcal{A}$.
+We have $X_{n + m + 1} = X_n \circ X_m$ for all $n, m \geq -1$.
+We will endow this sequence of functors with the structure of a
+simplicial object of $\text{Fun}(\mathcal{A}, \mathcal{A})$ by constructing
+the morphisms of functors
+$$
+d^n_j : X_n \to X_{n - 1},\quad s^n_j : X_n \to X_{n + 1}
+$$
+satisfying the relations displayed in
+Lemma \ref{lemma-relations-face-degeneracy}.
+Namely, we set
+$$
+d^n_j = 1_{X_{j - 1}} \star k \star 1_{X_{n - j - 1}}
+\quad\text{and}\quad
+s^n_j = 1_{X_{j - 1} \circ F} \star t \star 1_{i \circ X_{n - j - 1}}
+$$
+Finally, write $\epsilon_0 = k : X_0 \to X_{-1}$.
+
+\begin{lemma}
+\label{lemma-standard-simplicial}
+In Situation \ref{situation-adjoint-functors}
+the system $X = (X_n, d^n_j, s^n_j)$
+is a simplicial object of $\text{Fun}(\mathcal{A}, \mathcal{A})$
+and $\epsilon_0$ defines an augmention $\epsilon$ from $X$
+to the constant simplicial object with value $X_{-1} = \text{id}_\mathcal{A}$.
+\end{lemma}
+
+\begin{proof}
+Suppose that we have shown that $X$ is a simplicial object.
+Then to prove that $\epsilon_0 = k$ defines an augmentation
+we have to check that $\epsilon_0 \circ d^1_0 = \epsilon_0 \circ d^1_1$
+as morphisms $X_1 \to X_{-1}$, see Lemma \ref{lemma-augmentation-howto}.
+In other words, we have to check that the diagram
+$$
+\xymatrix{
+F \circ i \circ F \circ i
+\ar[rr]_{1_{F \circ i} \star k}
+\ar[d]_{k \star 1_{F \circ i}} & & F \circ i \ar[d]^k \\
+F \circ i \ar[rr]^k & & \text{id}_\mathcal{A}
+}
+$$
+is commutative. More precisely we should write this as the equality
+$$
+(k \star 1_{\text{id}_\mathcal{A}}) \circ (1_{F \circ i} \star k) =
+(1_{\text{id}_\mathcal{A}} \star k) \circ (k \star 1_{F \circ i})
+$$
+as morphisms
+$(F \circ i) \circ (F \circ i) \to
+\text{id}_\mathcal{A} \circ \text{id}_\mathcal{A}$.
+Applying the general property of
+Categories, Lemma \ref{categories-lemma-properties-2-cat-cats}
+both sides expand to $k \star k$ when equality holds.
+
+\medskip\noindent
+To prove that $X$ is a simplicial object we have to check
+(see Remark \ref{remark-relations}):
+\begin{enumerate}
+\item If $i < j$, then $d_i \circ d_j = d_{j - 1} \circ d_i$.
+\item If $i < j$, then $d_i \circ s_j = s_{j - 1} \circ d_i$.
+\item We have $\text{id} = d_j \circ s_j = d_{j + 1} \circ s_j$.
+\item If $i > j + 1$, then $d_i \circ s_j = s_j \circ d_{i - 1}$.
+\item If $i \leq j$, then $s_i \circ s_j = s_{j + 1} \circ s_i$.
+\end{enumerate}
+
+\medskip\noindent
+Relation (1) is proved in exactly the same manner as the proof
+of the equality $\epsilon_0 \circ d^1_0 = \epsilon_0 \circ d^1_1$ above.
+
+\medskip\noindent
+The simplest case of equality (5) is the commutativity of the diagram
+$$
+\xymatrix{
+F \circ i \ar[rrr]_{1_F \star t \star 1_i}
+\ar[d]_{1_F \star t \star 1_i} & & &
+F \circ i \circ F \circ i \ar[d]^{1_F \star t \star 1_{i \circ F \circ i}} \\
+F \circ i \circ F \circ i
+\ar[rrr]^{1_{F \circ i \circ F} \star t \star 1_i} & & &
+F \circ i \circ F \circ i \circ F \circ i
+}
+$$
+which holds because both compositions expand to the morphism
+$1_F \star t \star t \star 1_i$ from
+$F \circ \text{id}_\mathcal{A} \circ \text{id}_\mathcal{A} \circ i$
+to $F \circ (i \circ F) \circ (i \circ F) \circ i$.
+All other cases of (5) are proved in the same manner.
+
+\medskip\noindent
+The simplest case of equalities (2) and (4) is the commutativity of
+the diagram
+$$
+\xymatrix{
+F \circ i \circ F \circ i \ar[rrr]_{1_F \star k \star 1_i}
+\ar[d]_{1_{F \circ i \circ F \circ i} \star t} & & &
+F \circ i \ar[d]_{1_{F \circ i} \star t} \\
+F \circ i \circ F \circ i \circ F \circ i
+\ar[rrr]^{1_F \star k \star 1_{i \circ F \circ i \circ F}} & & &
+F \circ i \circ F \circ i
+}
+$$
+which again holds because both compositions expand to give
+$1_F \star k \star 1_i \star t$ as maps from
+$F \circ (i \circ F) \circ i \circ \text{id}_\mathcal{A}$
+to $F \circ \text{id}_\mathcal{A} \circ i \circ (F \circ i)$.
+All other cases of (2) and (4) are proved in the same manner.
+
+\medskip\noindent
+The relations (3) are the only nontrivial ones and these are
+consequences of the fact that the compositions in
+(\ref{equation-composition}) are the identity. For example, the simplest
+case of (3) states that the compositions
+$$
+\xymatrix{
+F \circ i \ar[rr]_{1_{F \circ i} \star t}
+\ar[d]_{t \star 1_{F \circ i}} & &
+F \circ i \circ F \circ i \ar[d]^{1_F \star k \star 1_i} \\
+F \circ i \circ F \circ i \ar[rr]^{1_F \star k \star 1_i} & &
+F \circ i
+}
+$$
+go around the diagram either way evaluate out to the identity. Going around
+the top the composition evaluates to
+$1_F \star ((k \star 1_i) \circ (1_i \star t))$
+which is the identity by what was said above. The other cases of (3) are
+proved in the same manner.
+\end{proof}
+
+\noindent
+Before reading the proof of the following lemma, we strongly urge the
+reader to look at the example discussed in
+Example \ref{example-polynomial-algebra-homotopy}
+in order to understand the purpose of the lemma.
+
+\begin{lemma}
+\label{lemma-standard-simplicial-homotopy}
+In Situation \ref{situation-adjoint-functors}
+the maps
+$$
+1_i \star \epsilon : i \circ X \to i,
+\quad\text{and}\quad
+\epsilon \star 1_F : X \circ F \to F
+$$
+are homotopy equivalences.
+\end{lemma}
+
+\begin{proof}
+Denote $\epsilon_n : X_n \to X_{-1}$ the components of the augmentation
+morphism. We observe that $\epsilon_n = k^{\star (n + 1)}$, the $(n + 1)$-fold
+$\star$-composition of $k$.
+Recall that $t : \text{id}_\mathcal{S} \to i \circ F$ is the
+adjunction map. We have the morphisms
+$$
+t^{\star (n + 1)} \star 1_i :
+i \longrightarrow i \circ (F \circ i)^{\circ (n + 1)} = i \circ X_n
+$$
+which are right inverse to $1_i \star \epsilon_n$ and the morphisms
+$$
+1_F \star t^{\star (n + 1)} :
+F \longrightarrow (F \circ i)^{\circ (n + 1)} \circ F = X_n \circ F
+$$
+which are right inverse to $\epsilon_n \star 1_F$. These morphisms
+determine morphisms of simplicial objects $b : i \to i \circ X$ and
+$c : F \to X \circ F$ (proof omitted).
+To finish it suffices to construct a homotopy between the morphisms
+$1, b \circ (1_i \star \epsilon) : i \circ X \to i \circ X$
+and between the two morphisms
+$1, c \circ (\epsilon \star 1_F) : X \circ F \to X \circ F$.
+
+\medskip\noindent
+To show the morphisms
+$b \circ (1_i \star \epsilon), 1 : i \circ X \to i \circ X$
+are homotopic we have to construct morphisms
+$$
+h_{n, j} : i \circ X_n \to i \circ X_n
+$$
+for $n \geq 0$ and $0 \leq j \leq n + 1$
+satisfying the relations described in Lemma \ref{lemma-relations-homotopy}.
+See also Remark \ref{remark-homotopy-better}.
+We are forced to set $h_{n, 0} = 1$ and
+$$
+h_{n , n + 1} = b_n \circ (1_i \star \epsilon_n) =
+(t^{\star (n + 1)} \star 1_i) \circ (1_i \star k^{\star (n + 1)})
+$$
+Thus a logical choice is
+$$
+h_{n , j} =
+(t^{\star (j)} \star 1) \circ (1_i \star k^{\star (j)} \star 1)
+$$
+Here and in the rest of the proof we drop the subscript from $1$
+if it is clear by knowing the source and the target of the morphism
+what this subscript should be. Writing
+$$
+i \circ X_n = i \circ F \circ i \circ \ldots \circ F \circ i
+$$
+we can think of the morphism $h_{n, j}$ as collapsing the first
+$j$ pairs $(F \circ i)$ to $\text{id}_\mathcal{S}$ using $k^{\star (j)}$,
+then adding a $\text{id}_\mathcal{S}$ in front and expanding this
+to $j$ pairs $(i \circ F)$ using $t^{\star (j)}$. We have to prove
+\begin{enumerate}
+\item We have $d^n_m \circ h_{n, j} = h_{n - 1, j - 1} \circ d^n_m$
+for $j > m$.
+\item We have $d^n_m \circ h_{n, j} = h_{n - 1, j} \circ d^n_m$
+for $j \leq m$.
+\item We have $s^n_m \circ h_{n, j} = h_{n + 1, j + 1} \circ s^n_m$
+for $j > m$.
+\item We have $s^n_m \circ h_{n, j} = h_{n + 1, j} \circ s^n_m$
+for $j \leq m$.
+\end{enumerate}
+Recall that $d^n_m$ is given by applying $k$ to the $(m + 1)$st pair
+$(F \circ i)$ in the functor $X_n = (F \circ i)^{\circ (n + 1)}$. Thus
+it is clear that (2) holds (because $k$ does $\star$-commute with $k$, but
+not with $t$). Similarly, $s^n_m$ is given by applying
+$1_F \star t \star i_i$ to the $(m + 1)$st pair $(F \circ i)$ in
+$X_n = (F \circ i)^{\circ (n + 1)}$. Thus it is clear that (4) holds.
+In the two remaining cases one uses the fact that the compositions
+in (\ref{equation-composition}) are the identity causes the drop
+in the index $j$. Some details omitted.
+
+\medskip\noindent
+To show the morphisms
+$1, c \circ (\epsilon \star 1_F) : X \circ F \to X \circ F$
+are homotopic we have to construct morphisms
+$$
+h_{n, j} : X_n \circ F \longrightarrow X_n \circ F
+$$
+for $n \geq 0$ and $0 \leq j \leq n + 1$
+satisfying the relations described in Lemma \ref{lemma-relations-homotopy}.
+See also Remark \ref{remark-homotopy-better}.
+We are forced to set $h_{n, 0} = 1$ and
+$$
+h_{n , n + 1} = c_n \circ (\epsilon_n \star 1_F) =
+(1_F \star t^{\star (n + 1)}) \circ (k^{\star (n + 1)} \star 1_F)
+$$
+Thus a logical choice is
+$$
+h_{n , j} =
+(1_F \star t^{\star (j)} \star 1) \circ (k^{\star (j)} \star 1)
+$$
+Here and in the rest of the proof we drop the subscript from $1$
+if it is clear by knowing the source and the target of the morphism
+what this subscript should be. Writing
+$$
+X_n \circ F = F \circ i \circ F \circ \ldots \circ i \circ F
+$$
+we can think of the morphism $h_{n, j}$ as collapsing the first
+$j$ pairs $(F \circ i)$ to $\text{id}_\mathcal{S}$ using $k^{\star (j)}$,
+then inserting a $\text{id}_\mathcal{S}$ just after the first $F$ and
+expanding this to $j$ pairs $(i \circ F)$ using $t^{\star (j)}$.
+We have to prove
+\begin{enumerate}
+\item We have $d^n_m \circ h_{n, j} = h_{n - 1, j - 1} \circ d^n_m$
+for $j > m$.
+\item We have $d^n_m \circ h_{n, j} = h_{n - 1, j} \circ d^n_m$
+for $j \leq m$.
+\item We have $s^n_m \circ h_{n, j} = h_{n + 1, j + 1} \circ s^n_m$
+for $j > m$.
+\item We have $s^n_m \circ h_{n, j} = h_{n + 1, j} \circ s^n_m$
+for $j \leq m$.
+\end{enumerate}
+Recall that $d^n_m$ is given by applying $k$ to the $(m + 1)$st pair
+$(F \circ i)$ in the functor $X_n = (F \circ i)^{\circ (n + 1)}$. Thus
+it is clear that (2) holds (because $k$ does $\star$-commute with $k$, but
+not with $t$). Similarly, $s^n_m$ is given by applying
+$1_F \star t \star i_i$ to the $(m + 1)$st pair $(F \circ i)$ in
+$X_n = (F \circ i)^{\circ (n + 1)}$. Thus it is clear that (4) holds.
+In the two remaining cases one uses the fact that the compositions
+in (\ref{equation-composition}) are the identity causes the drop
+in the index $j$. Some details omitted.
+\end{proof}
+
+\begin{example}
+\label{example-polynomial-algebra-homotopy}
+Going back to the example discussed in
+Example \ref{example-polynomial-algebra}
+our Lemma \ref{lemma-standard-simplicial-homotopy}
+signifies that for any ring $A$ the map of simplicial rings
+$$
+\xymatrix{
+\mathbf{Z}[\mathbf{Z}[\mathbf{Z}[A]]] \ar[d]
+\ar@<2ex>[r]
+\ar@<0ex>[r]
+\ar@<-2ex>[r]
+&
+\mathbf{Z}[\mathbf{Z}[A]] \ar[d]
+\ar@<1ex>[r]
+\ar@<-1ex>[r]
+\ar@<1ex>[l]
+\ar@<-1ex>[l]
+&
+\mathbf{Z}[A] \ar[d]
+\ar@<0ex>[l] \\
+A
+\ar@<2ex>[r]
+\ar@<0ex>[r]
+\ar@<-2ex>[r]
+&
+A
+\ar@<1ex>[r]
+\ar@<-1ex>[r]
+\ar@<1ex>[l]
+\ar@<-1ex>[l]
+&
+A
+\ar@<0ex>[l]
+}
+$$
+is a homotopy equivalence on underlying simplicial sets. Moreover, the inverse
+map constructed in Lemma \ref{lemma-standard-simplicial-homotopy}
+is in degree $n$ given by
+$$
+a \longmapsto [\ldots[a]\ldots]
+$$
+with obvious notation. In the other direction the lemma tells us that
+for every set $E$ there is a homotopy equivalence
+$$
+\xymatrix{
+\mathbf{Z}[\mathbf{Z}[\mathbf{Z}[\mathbf{Z}[E]]]] \ar[d]
+\ar@<2ex>[r]
+\ar@<0ex>[r]
+\ar@<-2ex>[r]
+&
+\mathbf{Z}[\mathbf{Z}[\mathbf{Z}[E]]] \ar[d]
+\ar@<1ex>[r]
+\ar@<-1ex>[r]
+\ar@<1ex>[l]
+\ar@<-1ex>[l]
+&
+\mathbf{Z}[\mathbf{Z}[E]] \ar[d]
+\ar@<0ex>[l] \\
+\mathbf{Z}[E]
+\ar@<2ex>[r]
+\ar@<0ex>[r]
+\ar@<-2ex>[r]
+&
+\mathbf{Z}[E]
+\ar@<1ex>[r]
+\ar@<-1ex>[r]
+\ar@<1ex>[l]
+\ar@<-1ex>[l]
+&
+\mathbf{Z}[E]
+\ar@<0ex>[l]
+}
+$$
+of rings. The inverse map constructed in the lemma is in degree $n$
+given by the ring map
+$$
+\sum m_{e_1,\ldots,e_p}[e_1][e_2] \ldots [e_p]
+\longmapsto
+\sum m_{e_1,\ldots,e_p}[\ldots[e_1]\ldots][\ldots[e_2]\ldots]
+\ldots [\ldots[e_p]\ldots]
+$$
+(with obvious notation).
+\end{example}
 
 
 
