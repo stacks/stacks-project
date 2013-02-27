@@ -340,14 +340,14 @@ def check_line(line, name, Short_Title, New_Short_Title, Type, New_Type):
 					print "Did not find short title in:"
 					print line
 					print
-					print "gvim +{} {}.tex".format(line_nr - 1, name)
+					print "gvim +{} {}.tex".format(line_nr, name)
 					print
 			else:
 				if not New_Short_Title == short_titles[split[0]]:
 					print "Did not find short title in:"
 					print line
 					print
-					print "gvim +{} {}.tex".format(line_nr - 1, name)
+					print "gvim +{} {}.tex".format(line_nr, name)
 					print
 
 		# Do not check for Type of item and equation
@@ -357,14 +357,14 @@ def check_line(line, name, Short_Title, New_Short_Title, Type, New_Type):
 					print "Did not find type in:"
 					print line,
 					print
-					print "gvim +{} {}.tex".format(line_nr - 1, name)
+					print "gvim +{} {}.tex".format(line_nr, name)
 					print
 			else:
 				if (not New_Type) or (not New_Type in caps_types[split[1]]):
 					print "Did not find type in:"
 					print line,
 					print
-					print "gvim +{} {}.tex".format(line_nr - 1, name)
+					print "gvim +{} {}.tex".format(line_nr, name)
 					print
 		n = n + 1
 	return len(refs)
@@ -404,7 +404,7 @@ for name in lijstje:
 			print 'More than one short title on a line'
 			print line
 			print
-			print "gvim +{} {}.tex".format(line_nr - 1, name)
+			print "gvim +{} {}.tex".format(line_nr, name)
 			print
 
 		New_Type = get_type(line)
@@ -412,7 +412,7 @@ for name in lijstje:
 			print 'More than one type on a line'
 			print line,
 			print
-			print "gvim +{} {}.tex".format(line_nr - 1, name)
+			print "gvim +{} {}.tex".format(line_nr, name)
 			print
 
 		nr = check_line(line, name, Short_Title, New_Short_Title, Type, New_Type)
