@@ -1,0 +1,1244 @@
+\input{preamble}
+
+% OK, start here.
+%
+\begin{document}
+
+\title{The Cotangent Complex}
+
+
+\maketitle
+
+\phantomsection
+\label{section-phantom}
+
+\tableofcontents
+
+\section{Introduction}
+\label{section-introduction}
+
+\noindent
+The goal of this chapter is to construct the cotangent complex of a
+morphism of schemes and of a morphism of algebraic spaces.
+Some references are the notes \cite{quillenhomology}, the paper
+\cite{quillencohomology}, and the books
+\cite{Andre} and \cite{cotangent}.
+
+
+
+
+
+\section{Calculating derived lower shriek}
+\label{section-calculate}
+
+\noindent
+In this section we work out some special cases of the situation
+discussed in Cohomology on Sites, Section
+\ref{sites-cohomology-section-derived-lower-shriek}.
+We make sure that we have equality between lower shriek on modules
+and sheaves of abelian groups. We encourage the reader to skip
+this section on a first reading.
+
+\begin{situation}
+\label{situation-fibred-category}
+Here $(\mathcal{D}, \mathcal{O}_\mathcal{D})$ be a ringed site
+and $p : \mathcal{C} \to \mathcal{D}$ is a fibred category. We endow
+$\mathcal{C}$ with the topology inherited from $\mathcal{D}$
+(Stacks, Section \ref{stacks-section-topology}). We denote
+$\pi : \Sh(\mathcal{C}) \to \Sh(\mathcal{D})$ the morphism of
+topoi associated to $p$
+(Stacks, Lemma \ref{stacks-lemma-topology-inherited-functorial}).
+We set $\mathcal{O}_\mathcal{C} = \pi^{-1}\mathcal{O}_\mathcal{D}$
+so that we obtain a morphism of ringed topoi
+$$
+\pi :
+(\Sh(\mathcal{C}), \mathcal{O}_\mathcal{C})
+\longrightarrow
+(\Sh(\mathcal{D}), \mathcal{O}_\mathcal{D})
+$$
+\end{situation}
+
+\begin{lemma}
+\label{lemma-fibred-category-with-object}
+Assumptions and notation as in Situation \ref{situation-fibred-category}.
+For $U \in \Ob(\mathcal{C})$ consider the induced morphism
+of topoi
+$$
+\pi_U : \Sh(\mathcal{C}/U) \longrightarrow \Sh(\mathcal{D}/p(U))
+$$
+Then there exists a morphism of topoi
+$$
+\sigma : \Sh(\mathcal{D}/p(U)) \to \Sh(\mathcal{C}/U)
+$$
+such that $\pi_U \circ \sigma = \text{id}$ and $\sigma^{-1} = \pi_{U, *}$.
+\end{lemma}
+
+\begin{proof}
+Observe that $\pi_U$ is the restriction of $\pi$ to the localizations, see
+Sites, Lemma \ref{sites-lemma-localize-cocontinuous}.
+For an object $V \to p(U)$ of $\mathcal{D}/p(U)$ denote
+$V \times_{p(U)} U \to U$ the strongly cartesian morphism of $\mathcal{C}$
+over $\mathcal{D}$ which exists as $p$ is a fibred category.
+The functor
+$$
+v : \mathcal{D}/p(U) \to \mathcal{C}/U,\quad
+V/p(U) \mapsto V \times_{p(U)} U/U
+$$
+is continuous by the definition of the topology on $\mathcal{C}$.
+Moreover, it is a right adjoint to $p$ by the definition of strongly
+cartesian morphisms. Hence we are in the situation discussed in
+Sites, Section \ref{sites-section-cocontinuous-adjoint}
+and we see that the sheaf $\pi_{U, *}\mathcal{F}$
+is equal to $V \mapsto \mathcal{F}(V \times_{p(U)} U)$
+(see especially Sites, Lemma
+\ref{sites-lemma-have-functor-other-way-morphism}).
+
+\medskip\noindent
+But here we have more. Namely, the functor $v$
+is also cocontinuous (as all morphisms in coverings of $\mathcal{C}$ 
+are strongly cartesian). Hence $v$ defines a morphism $\sigma$ as
+indicated in the lemma. The equality $\sigma^{-1} = \pi_{U, *}$
+is immediate from the definition. Since $\pi_U^{-1}\mathcal{G}$
+is given by the rule $U'/U \mapsto \mathcal{G}(p(U')/p(U))$
+it follows that $\sigma^{-1} \circ \pi_U^{-1} = \text{id}$
+which proves the equality
+$\pi_U \circ \sigma = \text{id}$.
+\end{proof}
+
+\begin{situation}
+\label{situation-morphism-fibred-categories}
+Let $(\mathcal{D}, \mathcal{O}_\mathcal{D})$ be a ringed site.
+Let $u : \mathcal{C}' \to \mathcal{C}'$ be a $1$-morphism of fibred
+categories over $\mathcal{D}$
+(Categories, Definition \ref{categories-definition-fibred-categories-over-C}).
+Endow $\mathcal{C}$ and $\mathcal{C}'$ with their inherited topologies
+(Stacks, Definition \ref{stacks-definition-topology-inherited})
+and let
+$\pi : \Sh(\mathcal{C}) \to \Sh(\mathcal{D})$,
+$\pi' : \Sh(\mathcal{C}') \to \Sh(\mathcal{D})$, and
+$g : \Sh(\mathcal{C}') \to \Sh(\mathcal{C})$
+be the corresponding morphisms of topoi
+(Stacks, Lemma \ref{stacks-lemma-topology-inherited-functorial}).
+Set $\mathcal{O}_\mathcal{C} = \pi^{-1}\mathcal{O}_\mathcal{D}$
+and $\mathcal{O}_{\mathcal{C}'} = (\pi')^{-1}\mathcal{O}_\mathcal{D}$.
+Observe that $g^{-1}\mathcal{O}_\mathcal{C} = \mathcal{O}_{\mathcal{C}'}$
+so that
+$$
+\xymatrix{
+(\Sh(\mathcal{C}'), \mathcal{O}_{\mathcal{C}'}) \ar[rd]_{\pi'} \ar[rr]_g & &
+(\Sh(\mathcal{C}), \mathcal{O}_\mathcal{C}) \ar[ld]^\pi \\
+& (\Sh(\mathcal{D}), \mathcal{O}_\mathcal{D})
+}
+$$
+is a commutative diagram of morphisms of ringed topoi.
+\end{situation}
+
+\begin{lemma}
+\label{lemma-morphism-fibred-categories-with-object}
+Assumptions and notation as in
+Situation \ref{situation-morphism-fibred-categories}.
+For $U' \in \Ob(\mathcal{C}')$ set $U = u(U')$ and $V = p'(U')$ and
+consider the induced morphisms of ringed topoi
+$$
+\xymatrix{
+(\Sh(\mathcal{C}'/U'), \mathcal{O}_{U'}) \ar[rd]_{\pi'_{U'}} \ar[rr]_{g'} & &
+(\Sh(\mathcal{C}), \mathcal{O}_U) \ar[ld]^{\pi_U} \\
+& (\Sh(\mathcal{D}/V), \mathcal{O}_V)
+}
+$$
+Then there exists a morphism of topoi
+$$
+\sigma' : \Sh(\mathcal{D}/V) \to \Sh(\mathcal{C}'/U'),
+$$
+such that setting $\sigma = g' \circ \sigma'$ we have
+$\pi'_{U'} \circ \sigma' = \text{id}$, $\pi_U \circ \sigma = \text{id}$,
+$(\sigma')^{-1} = \pi'_{U', *}$, and $\sigma^{-1} = \pi_{U, *}$.
+\end{lemma}
+
+\begin{proof}
+Let $v' : \mathcal{D}/V \to \mathcal{C}'/U'$ be the functor constructed
+in the proof of Lemma \ref{lemma-fibred-category-with-object} starting
+with $p' : \mathcal{C}' \to \mathcal{D}'$ and the object $U'$.
+Since $u$ is a $1$-morphism of fibred categories over $\mathcal{D}$
+it transforms strongly cartesian morphisms into strongly cartesian morphisms,
+hence the functor $v = u \circ v'$ is the functor of
+the proof of Lemma \ref{lemma-fibred-category-with-object}
+relative to $p : \mathcal{C} \to \mathcal{D}$ and $U$. Thus our lemma
+follows from that lemma.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-properties-lower-shriek-fibred-category}
+Assumption and notation as in
+Situation \ref{situation-morphism-fibred-categories}.
+\begin{enumerate}
+\item There are left adjoints
+$g_! : \textit{Mod}(\mathcal{O}_{\mathcal{C}'}) \to
+\textit{Mod}(\mathcal{O}_\mathcal{C})$ and
+$g_!^{\textit{Ab}} : \textit{Ab}(\mathcal{C}') \to \textit{Ab}(\mathcal{C})$
+to $g^* = g^{-1}$ on modules and on abelian sheaves.
+\item The diagram
+$$
+\xymatrix{
+\textit{Mod}(\mathcal{O}_{\mathcal{C}'}) \ar[d] \ar[r]_{g_!} &
+\textit{Mod}(\mathcal{O}_\mathcal{C}) \ar[d] \\
+\textit{Ab}(\mathcal{C}') \ar[r]^{g_!^{\textit{Ab}}} &
+\textit{Ab}(\mathcal{C})
+}
+$$
+commutes.
+\item There are left adjoints
+$Lg_! : D(\mathcal{O}_{\mathcal{C}'}) \to D(\mathcal{O}_\mathcal{C})$
+and
+$Lg_!^{\textit{Ab}} : D(\mathcal{C}') \to D(\mathcal{C})$
+to $g^* = g^{-1}$ on derived categories of modules and abelian sheaves.
+\item The diagram
+$$
+\xymatrix{
+D(\mathcal{O}_{\mathcal{C}'}) \ar[d] \ar[r]_{Lg_!} &
+D(\mathcal{O}_\mathcal{C}) \ar[d] \\
+D(\mathcal{C}') \ar[r]^{Lg_!^{\textit{Ab}}} &
+D(\mathcal{C})
+}
+$$
+commutes.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+The functor $u$ is continuous and cocontinuous
+Stacks, Lemma \ref{stacks-lemma-topology-inherited-functorial}.
+Hence the existence of the functors $g_!$, $g_!^{\textit{Ab}}$,
+$Lg_!$, and $Lg_!^{\textit{Ab}}$ can be found in
+Modules on Sites, Sections
+\ref{sites-modules-section-exactness-lower-shriek} and
+\ref{sites-modules-section-lower-shriek-modules}
+and
+Cohomology on Sites, Section
+\ref{sites-cohomology-section-derived-lower-shriek}.
+
+\medskip\noindent
+To prove (2) it suffices to show that the canonical map
+$$
+g_!^{\textit{Ab}}j_{U'!}\mathcal{O}_{U'} \to j_{u(U')!}\mathcal{O}_{u(U')}
+$$
+is an isomorphism for all objects $U'$ of $\mathcal{C}'$, see
+Modules on Sites, Remark \ref{sites-modules-remark-when-shriek-equal}.
+Similarly, to prove (4) it suffices to show that the canonical map
+$$
+Lg_!^{\textit{Ab}}j_{U'!}\mathcal{O}_{U'} \to j_{u(U')!}\mathcal{O}_{u(U')}
+$$
+is an isomorphism in $D(\mathcal{C})$ for all objects $U'$ of $\mathcal{C}'$.
+This will then also imply the previous formula hence this is what we will show.
+
+\medskip\noindent
+We will use that for a localization morphism $j$ the
+functors $j_!$ and $j_!^{\textit{Ab}}$ agree (see
+Modules on Sites, Remark \ref{sites-modules-remark-localize-shriek-equal})
+and that $j_!$ is exact
+(Modules on Sites, Lemma \ref{sites-modules-lemma-extension-by-zero-exact}).
+Let us adopt the notation of
+Lemma \ref{lemma-morphism-fibred-categories-with-object}.
+Since $Lg_!^{\textit{Ab}} \circ j_{U'!} = j_{U!} \circ L(g')^{\textit{Ab}}_!$
+(by commutativity of Sites, Lemma \ref{sites-lemma-localize-cocontinuous}
+and uniqueness of adjoint functors) it suffices to prove that
+$L(g')^{\textit{Ab}}_!\mathcal{O}_{U'} = \mathcal{O}_U$. Using the
+results of
+Lemma \ref{lemma-morphism-fibred-categories-with-object}
+we have for any object $E$ of $D(\mathcal{C}/u(U'))$ the following
+sequence of equalities
+\begin{align*}
+\Hom_{D(\mathcal{C}/U)}(L(g')_!^{\textit{Ab}}\mathcal{O}_{U'}, E)
+& =
+\Hom_{D(\mathcal{C}'/U')}(\mathcal{O}_{U'}, (g')^{-1}E) \\
+& =
+\Hom_{D(\mathcal{C}'/U')}((\pi'_{U'})^{-1}\mathcal{O}_V, (g')^{-1}E) \\
+& =
+\Hom_{D(\mathcal{D}/V)}(\mathcal{O}_V, R\pi'_{U', *}(g')^{-1}E) \\
+& =
+\Hom_{D(\mathcal{D}/V)}(\mathcal{O}_V, (\sigma')^{-1}(g')^{-1}E) \\
+& =
+\Hom_{D(\mathcal{D}/V)}(\mathcal{O}_V, \sigma^{-1}E) \\
+& =
+\Hom_{D(\mathcal{D}/V)}(\mathcal{O}_V, \pi_{U, *}E) \\
+& =
+\Hom_{D(\mathcal{C}/U)}(\pi_U^{-1}\mathcal{O}_V, E) \\
+& =
+\Hom_{D(\mathcal{C}/U)}(\mathcal{O}_U, E)
+\end{align*}
+By Yoneda's lemma we conclude.
+\end{proof}
+
+\begin{remark}
+\label{remark-morphism-fibred-categories}
+Assumptions and notation as in
+Situation \ref{situation-morphism-fibred-categories}.
+Let $\mathcal{F}$ be an abelian sheaf on $\mathcal{C}$,
+let $\mathcal{F}'$ be an abelian sheaf on $\mathcal{C}'$,
+and let $t : \mathcal{F}' \to g^{-1}\mathcal{F}$ be a map.
+Then we obtain a canonical map
+$$
+L\pi'_!\mathcal{F}' \longrightarrow L\pi_!\mathcal{F}
+$$
+by using the adjoint $g_!\mathcal{F}' \to \mathcal{F}$ of $t$,
+the map $Lg_!\mathcal{F}' \to g_!\mathcal{F}'$, and the
+equality $L\pi'_! = L\pi_! \circ Lg_!$.
+\end{remark}
+
+\begin{lemma}
+\label{lemma-compute-pi-shriek}
+Assumptions and notation as in
+Situation \ref{situation-fibred-category}.
+For $\mathcal{F}$ in $\textit{Ab}(\mathcal{C})$
+the sheaf $\pi_!\mathcal{F}$ is the
+sheaf associated the presheaf
+$$
+V \longmapsto \colim_{\mathcal{C}_V^{opp}} \mathcal{F}|_{\mathcal{C}_V}
+$$
+with restriction maps as indicated in the proof.
+\end{lemma}
+
+\begin{proof}
+Denote $\mathcal{H}$ be the rule of the lemma.
+For a morphism $h : V' \to V$ of $\mathcal{D}$ there is a
+pullback functor $h^* : \mathcal{C}_V \to \mathcal{C}_{V'}$ of fibre
+categories (Categories, Definition
+\ref{categories-definition-pullback-functor-fibred-category}).
+Moreover for $U \in \Ob(\mathcal{C}_V)$ there is a
+strongly cartesian morphism $h^*U \to U$ covering $h$.
+Restriction along these strongly cartesian morphisms defines a
+transformation of functors
+$$
+\mathcal{F}|_{\mathcal{C}_V}
+\longrightarrow
+\mathcal{F}|_{\mathcal{C}_{V'}} \circ h^*.
+$$
+Hence a map $\mathcal{H}(V) \to \mathcal{H}(V')$ between colimits, see
+Categories, Lemma \ref{categories-lemma-functorial-colimit}.
+
+\medskip\noindent
+To prove the lemma we show that
+$$
+\Mor_{\textit{PSh}(\mathcal{D})}(\mathcal{H}, \mathcal{G}) =
+\Mor_{\textit{Sh}(\mathcal{C})}(\mathcal{F}, \pi^{-1}\mathcal{G})
+$$
+for every sheaf $\mathcal{G}$ on $\mathcal{C}$. An element of the
+left hand side is a compatible system of maps
+$\mathcal{F}(U) \to \mathcal{G}(p(U))$ for all $U$ in $\mathcal{C}$.
+Since $\pi^{-1}\mathcal{G}(U) = \mathcal{G}(p(U))$ by our choice
+of topology on $\mathcal{C}$ we see the same thing is true for the
+right hand side and we win.
+\end{proof}
+
+\begin{example}[Category over point]
+\label{example-category-to-point}
+Let $\mathcal{C}$ be a category. Endow $\mathcal{C}$ with the chaotic
+topology (Sites, Example \ref{sites-example-indiscrete}). Thus
+presheaves and sheaves agree on $\mathcal{C}$.
+The functor $p : \mathcal{C} \to *$ where $*$ is the category with a single
+object and a single morphism is cocontinuous and continuous. Let
+$\pi : \Sh(\mathcal{C}) \to \Sh(*)$ be the corresponding morphism
+of topoi. Let $B$ be a ring. We endow $*$ with the sheaf of rings $B$
+and $\mathcal{C}$ with $\mathcal{O}_\mathcal{C} = \pi^{-1}B$ which
+we will often denote $\underline{B}$. In this way
+$$
+\pi : (\Sh(\mathcal{C}), \underline{B}) \to (*, B)
+$$
+is an example of Situation \ref{situation-fibred-category}
+and
+Lemma \ref{lemma-properties-lower-shriek-fibred-category}
+applies to $\pi$ so we do not need to distinguish between $\pi_!$ on
+modules or abelian sheaves. By
+Lemma \ref{lemma-compute-pi-shriek} we see that
+$\pi_!\mathcal{F} = \colim_{\mathcal{C}^{opp}} \mathcal{F}$.
+We write
+$L_n\pi_!\mathcal{F} = L_n\colim_{\mathcal{C}^{opp}} \mathcal{F}$
+in this setting.
+\end{example}
+
+\begin{example}[Computing left derived colimits]
+\label{example-left-derived-colimits}
+In the situation of Example \ref{example-category-to-point} we can compute
+the functors $L_n\colim_{\mathcal{C}^{opp}}$ as follows. Let
+$\mathcal{F} \in \Ob(\textit{Ab}(\mathcal{C}))$.
+Consider the complex
+$$
+K^\bullet(\mathcal{F}) :
+\ \ldots \to
+\bigoplus\nolimits_{U_2 \to U_1 \to U_0} \mathcal{F}(U_0)
+\to
+\bigoplus\nolimits_{U_1 \to U_0} \mathcal{F}(U_0)
+\to
+\bigoplus\nolimits_{U_0} \mathcal{F}(U_0)
+$$
+where the transition maps are given by
+$$
+(U_2 \to U_1 \to U_0, s)
+\longmapsto
+(U_1 \to U_0, s) - (U_2 \to U_0, s) + (U_2 \to U_1, s|_{U_1})
+$$
+and similarly in other degrees. By construction
+$H^0(K^\bullet(\mathcal{F})) = \colim_{\mathcal{C}^{opp}} \mathcal{F}$, see
+Categories, Lemma \ref{categories-lemma-colimits-coproducts-coequalizers}.
+The construction of $K^\bullet(\mathcal{F})$ is functorial in $\mathcal{F}$
+and transforms short exact sequences of $\textit{Ab}(\mathcal{C})$ into
+short exact sequences of complexes. Thus the sequence of functors
+$\mathcal{F} \mapsto H^n(K^\bullet(\mathcal{F}))$ forms a $\delta$-functor, see
+Homology, Definition \ref{homology-definition-cohomological-delta-functor} and
+Lemma \ref{homology-lemma-long-exact-sequence-cochain}.
+For $\mathcal{F} = j_{U!}\mathbf{Z}_U$ the complex $K^\bullet(\mathcal{F})$
+is the complex associated to the free $\mathbf{Z}$-module on the simplicial
+set $X_\bullet$ with terms
+$$
+X_n = \coprod\nolimits_{U_n \to \ldots \to U_1 \to U_0}
+\Mor_\mathcal{C}(U_0, U)
+$$
+This simplicial set is homotopy equivalent to the constant simplicial
+set on a singleton $\{*\}$. Namely, the map $X_\bullet \to \{*\}$
+is obvious, the map $\{*\} \to X_n$ is given
+by mapping $*$ to $(U \to \ldots \to U, \text{id}_U)$, and the
+maps
+$$
+h_{n, i} : X_n \longrightarrow X_n
+$$
+(Simplicial, Lemma \ref{simplicial-lemma-relations-homotopy})
+defining the homotopy between the two maps $X_\bullet \to X_\bullet$
+are given by the rule
+$$
+h_{n, i} :
+(U_n \to \ldots \to U_0, f)
+\longmapsto
+(U_n \to \ldots \to U_i \to U \to \ldots \to U, \text{id})
+$$
+for $i > 0$ and $h_{n, 0} = \text{id}$. Verifications omitted.
+This implies that $K^\bullet(j_{U!}\mathbf{Z}_U)$ has trivial
+cohomology in negative degrees
+(by the functoriality of
+Simplicial, Remark \ref{simplicial-remark-homotopy-better}
+and the result of
+Simplicial, Lemma \ref{simplicial-lemma-homotopy-s-N}).
+Thus $K^\bullet(\mathcal{F})$ computes the left derived functors
+of $\colim_{\mathcal{C}^{opp}}$ for example by
+(the duals of) Homology, Lemma \ref{homology-lemma-efface-implies-universal}
+and
+Derived Categories, Lemma \ref{derived-lemma-right-derived-delta-functor}.
+\end{example}
+
+\begin{example}
+\label{example-morphism-categories}
+Let $u : \mathcal{C}' \to \mathcal{C}$ be a functor.
+Endow $\mathcal{C}'$ and $\mathcal{C}$ with the chaotic
+topology as in Example \ref{example-category-to-point}.
+The functors $u$, $\mathcal{C}' \to *$, and $\mathcal{C} \to *$
+where $*$ is the category with a single object and a single morphism
+are cocontinuous and continuous. Let
+$g : \Sh(\mathcal{C}') \to \Sh(\mathcal{C})$,
+$\pi' : \Sh(\mathcal{C}') \to \Sh(*)$, and
+$\pi : \Sh(\mathcal{C}) \to \Sh(*)$,
+be the corresponding morphisms of topoi.
+Let $B$ be a ring. We endow $*$ with the sheaf of rings $B$ and
+$\mathcal{C}'$, $\mathcal{C}$ with the constant sheaf $\underline{B}$.
+In this way
+$$
+\xymatrix{
+(\Sh(\mathcal{C}'), \underline{B}) \ar[rd]_{\pi'} \ar[rr]_g & &
+(\Sh(\mathcal{C}), \underline{B}) \ar[ld]^\pi \\
+& (\Sh(*), B)
+}
+$$
+is an example of Situation \ref{situation-morphism-fibred-categories}.
+Thus
+Lemma \ref{lemma-properties-lower-shriek-fibred-category}
+applies to $g$ so we do not need to distinguish between $g_!$ on
+modules or abelian sheaves. In particular
+Remark \ref{remark-morphism-fibred-categories}
+produces canonical maps
+$$
+L_n\colim_{(\mathcal{C}')^{opp}} \mathcal{F}'
+\longrightarrow
+L_n\colim_{\mathcal{C}^{opp}} \mathcal{F}
+$$
+whenever we have $\mathcal{F}$ in $\textit{Ab}(\mathcal{C})$,
+$\mathcal{F}'$ in $\textit{Ab}(\mathcal{C}')$,
+and a map $t : \mathcal{F}' \to g^{-1}\mathcal{F}$. In terms of the
+computation of $L_n\colim$ given in
+Example \ref{example-left-derived-colimits}
+we see that these maps come from a map of complexes
+$$
+K^\bullet(\mathcal{F}') \longrightarrow K^\bullet(\mathcal{F})
+$$
+given by the rule
+$$
+(U'_n \to \ldots \to U'_0, s') \longmapsto
+(u(U'_n) \to \ldots \to u(U'_0), t(s'))
+$$
+with obvious notation.
+\end{example}
+
+\begin{lemma}
+\label{lemma-compute-left-derived-pi-shriek-pre}
+Assumptions and notation as in Situation \ref{situation-fibred-category}.
+For $\mathcal{F}$ in $\textit{PAb}(\mathcal{C})$ and $n \geq 0$
+consider the abelian sheaf $L_n(\mathcal{F})$ on $\mathcal{D}$
+which is the sheaf associated to the presheaf
+$$
+V \longmapsto
+L_n\colim_{\mathcal{C}_V^{opp}} \mathcal{F}|_{\mathcal{C}_V}
+$$
+with restriction maps as indicated in the proof. Then
+$L_n(\mathcal{F}) = L_n(\mathcal{F}^\#)$.
+\end{lemma}
+
+\begin{proof}
+For a morphism $h : V' \to V$ of $\mathcal{D}$ there is a
+pullback functor $h^* : \mathcal{C}_V \to \mathcal{C}_{V'}$ of fibre
+categories (Categories, Definition
+\ref{categories-definition-pullback-functor-fibred-category}).
+Moreover for $U \in \Ob(\mathcal{C}_V)$ there is a
+strongly cartesian morphism $h^*U \to U$ covering $h$.
+Restriction along these strongly cartesian morphisms defines a
+transformation of functors
+$$
+\mathcal{F}|_{\mathcal{C}_V}
+\longrightarrow
+\mathcal{F}|_{\mathcal{C}_{V'}} \circ h^*.
+$$
+By Example \ref{example-morphism-categories}
+we obtain the desired restriction map
+$$
+L_n\colim_{\mathcal{C}_V^{opp}} \mathcal{F}|_{\mathcal{C}_V}
+\longrightarrow
+L_n\colim_{\mathcal{C}_{V'}^{opp}} \mathcal{F}|_{\mathcal{C}_{V'}}
+$$
+Let us denote $L_{n, p}(\mathcal{F})$ this presheaf, so that
+$L_n(\mathcal{F}) = L_{n, p}(\mathcal{F})^\#$.
+The canonical map $\gamma : \mathcal{F} \to \mathcal{F}^+$
+(Sites, Theorem \ref{sites-theorem-plus})
+defines a canonical
+map $L_{n, p}(\mathcal{F}) \to L_{n, p}(\mathcal{F}^+)$.
+We have to prove this map becomes an isomorphism after sheafification.
+
+\medskip\noindent
+Let us use the computation of $L_n\colim$ given in
+Example \ref{example-left-derived-colimits}. Denote
+$K^\bullet(\mathcal{F}|_{\mathcal{C}_V})$ the complex associated to
+the restriction of $\mathcal{F}$ to the fibre category $\mathcal{C}_V$.
+By the remarks above we obtain a presheaf $K^\bullet(\mathcal{F})$
+of complexes
+$$
+V \longmapsto K^\bullet(\mathcal{F}|_{\mathcal{C}_V})
+$$
+whose cohomology presheaves are the presheaves $L_{n, p}(\mathcal{F})$.
+Thus it suffices to show that
+$$
+K^\bullet(\mathcal{F}) \longrightarrow K^\bullet(\mathcal{F}^+)
+$$
+becomes an isomorphism on sheafification.
+
+\medskip\noindent
+Injectivity. Let $V$ be an object of $\mathcal{D}$ and let
+$\xi \in K^{-n}(\mathcal{F})(V)$ be an element which maps
+to zero in $K^{-n}(\mathcal{F}^+)(V)$. We have to show there exists a
+covering $\{V_j \to V\}$ such that $\xi|_{V_j}$ is zero in
+$K^{-n}(\mathcal{F})(V_j)$. We write
+$$
+\xi = \sum (U_{i, n + 1} \to \ldots \to U_{i, 0}, \sigma_i)
+$$
+with $\sigma_i \in \mathcal{F}(U_{i, 0})$. We arrange it so that
+each sequence of morphisms $U_n \to \ldots \to U_0$ of $\mathcal{C}_V$
+occurs are most once. Since the sums in the definition
+of the complex $K^\bullet$ are direct sums, the only way this can map
+to zero in $K^\bullet(\mathcal{F}^+)(V)$ is if all $\sigma_i$ map
+to zero in $\mathcal{F}^+(U_{i, 0})$. By construction of
+$\mathcal{F}^+$ there exist coverings $\{U_{i, 0, j} \to U_{i, 0}\}$
+such that $\sigma_i|_{U_{i, 0, j}}$ is zero. By our construction of
+the topology on $\mathcal{C}$ we can write $U_{i, 0, j} \to U_{i, 0}$
+as the pullback (Categories, Definition
+\ref{categories-definition-pullback-functor-fibred-category})
+of some morphisms $V_{i, j} \to V$ and moreover each
+$\{V_{i, j} \to V\}$ is a covering. Choose a covering
+$\{V_j \to V\}$ dominating each of the coverings $\{V_{i, j} \to V\}$.
+Then it is clear that $\xi|_{V_j} = 0$.
+
+\medskip\noindent
+Surjectivity. Proof omitted. Hint: Argue as in the proof of
+injectivity.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-compute-left-derived-pi-shriek}
+Assumptions and notation as in Situation \ref{situation-fibred-category}.
+For $\mathcal{F}$ in $\textit{Ab}(\mathcal{C})$ and $n \geq 0$
+the sheaf $L_n\pi_!\mathcal{F}$ is equal to the sheaf
+$L_n(\mathcal{F})$ constructed in
+Lemma \ref{lemma-compute-left-derived-pi-shriek-pre}.
+\end{lemma}
+
+\begin{proof}
+Consider the sequence of functors $\mathcal{F} \mapsto L_n(\mathcal{F})$
+from $\textit{PAb}(\mathcal{C}) \to \textit{Ab}(\mathcal{C})$.
+Since for each $V \in \Ob(\mathcal{D})$ the sequence of functors
+$L_n\colim_{\mathcal{C}_V^{opp}}$ forms a $\delta$-functor
+so do the functors $\mathcal{F} \mapsto L_n(\mathcal{F})$.
+Our goal is to show these form a universal $\delta$-functor.
+In order to do this we construct some abelian presheaves
+on which these functors vanish.
+
+\medskip\noindent
+For $U' \in \Ob(\mathcal{C})$ consider the abelian presheaf
+$\mathcal{F}_{U'} = j_{U'!}^{\textit{PAb}}\mathbf{Z}_{U'}$
+(Modules on Sites, Remark \ref{sites-modules-remark-localize-presheaves}).
+Recall that
+$$
+\mathcal{F}_{U'}(U) =
+\bigoplus\nolimits_{\Mor_\mathcal{C}(U, U')} \mathbf{Z}
+$$
+If $U$ lies over $V = p(U)$ in $\mathcal{D})$ and $U'$ lies over $V' = p(U')$
+then any morphism $a : U \to U'$ factors uniquely as $U \to h^*U' \to U'$
+where $h = p(a) : V \to V'$ (see
+Categories, Definition
+\ref{categories-definition-pullback-functor-fibred-category}).
+Hence we see that
+$$
+\mathcal{F}_{U'}|_{\mathcal{C}_V}
+=
+\bigoplus\nolimits_{h \in \Mor_\mathcal{D}(V, V')}
+j_{h^*U'!}\mathbf{Z}_{h^*U'}
+$$
+where $j_{h^*U'} : \Sh(\mathcal{C}_V/h^*U') \to \Sh(\mathcal{C}_V)$
+is the localization morphism. The sheaves $j_{h^*U'!}\mathbf{Z}_{h^*U'}$
+have vanishing higher left derived colimits (see
+Example \ref{example-left-derived-colimits}).
+We conclude that $L_n(\mathcal{F}_{U'}) = 0$ for all $n > 0$ and all $U'$.
+It follows that any abelian presheaf $\mathcal{F}$ is a quotient
+of an abelian presheaf $\mathcal{G}$ with $L_n(\mathcal{G}) = 0$ for
+all $n > 0$ (Modules on Sites, Lemma
+\ref{sites-modules-lemma-module-quotient-flat}).
+Since $L_n(\mathcal{F}) = L_n(\mathcal{F}^\#)$ we see
+that the same thing is true for abelian sheaves. Thus
+the sequence of functors $L_n(-)$ is a universal delta functor
+on $\textit{Ab}(\mathcal{C})$
+(Homology, Lemma \ref{homology-lemma-efface-implies-universal}).
+Since we have agreement with
+$H^{-n}(L\pi_!(-))$ for $n = 0$ by
+Lemma \ref{lemma-compute-pi-shriek}
+we conclude by uniqueness of universal $\delta$-functors
+(Homology, Lemma \ref{homology-lemma-uniqueness-universal-delta-functor})
+and
+Derived Categories, Lemma \ref{derived-lemma-right-derived-delta-functor}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-compute-left-derived-g-shriek}
+Assumptions and notation as in
+Situation \ref{situation-morphism-fibred-categories}.
+For an abelian sheaf $\mathcal{F}'$ on $\mathcal{C}'$ the sheaf
+$L_ng_!(\mathcal{F}')$ is the sheaf associated to the presheaf
+$$
+U
+\longmapsto
+L_n\colim_{\mathcal{I}_U^{opp}} \mathcal{F}'_U
+$$
+For notation and restriction maps see proof.
+\end{lemma}
+
+\begin{proof}
+Say $p(U) = V$. The category $\mathcal{I}_U$ is the category of pairs
+$(U', \varphi)$ where $\varphi : U \to u(U')$ is a morphism of $\mathcal{C}$
+with $p(\varphi) = \text{id}_V$, i.e., $\varphi$ is a morphism of the
+fibre category $\mathcal{C}_V$. Morphisms
+$(U'_1, \varphi_1) \to (U'_2, \varphi_2)$ are given by morphisms
+$a : U'_1 \to U'_2$ of the fibre category $\mathcal{C}'_V$ such that
+$\varphi_2 = u(a) \circ \varphi_1$. The presheaf $\mathcal{F}'_U$ sends
+$(U', \varphi)$ to $\mathcal{F}'(U')$.
+We will construct the restriction mappings below.
+
+\medskip\noindent
+Choose a factorization
+$$
+\xymatrix{
+\mathcal{C}' \ar@<1ex>[r]^{u'} &
+\mathcal{C}'' \ar[r]^{u''} \ar@<1ex>[l]^w & \mathcal{C}
+}
+$$
+of $u$ as in
+Categories, Lemma \ref{categories-lemma-ameliorate-morphism-fibred-categories}.
+Then $g_! = g''_! \circ g'_!$ and similarly for derived functors.
+On the other hand, the functor $g'_!$ is exact, see
+Modules on Sites, Lemma \ref{sites-modules-lemma-have-left-adjoint}.
+Thus we get $Lg_!\mathcal{F}' = Lg''_!\mathcal{F}''$ where
+$\mathcal{F}'' = g'_!\mathcal{F}'$. Note that
+$\mathcal{F}'' = h^{-1}\mathcal{F}'$ where
+$h : \Sh(\mathcal{C}'') \to \Sh(\mathcal{C}')$ is the morphism of topoi
+associated to $w$, see
+Sites, Lemma \ref{sites-lemma-have-left-adjoint}.
+The functor $u''$ turns $\mathcal{C}''$ into a fibred category
+over $\mathcal{C}$, hence
+Lemma \ref{lemma-compute-left-derived-pi-shriek}
+applies to the computation of $L_ng''_!$. The result follows as the
+construction of $\mathcal{C}''$ in the proof of
+Categories, Lemma \ref{categories-lemma-ameliorate-morphism-fibred-categories}
+shows that the fibre category $\mathcal{C}''_U$ is equal to
+$\mathcal{I}_U$. Moreover, $h^{-1}\mathcal{F}'|_{\mathcal{C}''_U}$
+is given by the rule described above
+(as $w$ is continuous and cocontinuous by
+Stacks, Lemma \ref{stacks-lemma-topology-inherited-functorial}
+so we may apply
+Sites, Lemma \ref{sites-lemma-when-shriek}).
+\end{proof}
+
+
+
+
+
+\section{The cotangent complex of a ring map}
+\label{section-cotangent-ring-map}
+
+\noindent
+Let $A$ be a ring. Let $\textit{Alg}_A$ be the category of $A$-algebras.
+Consider the pair of adjoint functors $(F, i)$ where
+$i : \textit{Alg}_A \to \textit{Sets}$ is the forgetful functor and
+$F : \textit{Sets} \to \textit{Alg}_A$ assigns to a set $E$ the polynomial
+algebra $A[E]$ on $E$ over $A$. Let $X_\bullet$ be the simplicial object of
+$\text{Fun}(\textit{Alg}_A, \textit{Alg}_A)$ constructed in
+Simplicial, Section \ref{simplicial-section-standard}.
+
+\medskip\noindent
+Consider an $A$-algebra $B$. Denote $P_\bullet = X_\bullet(B)$ the resulting
+simplicial $A$-algebra. Recall that $P_0 = A[B]$, $P_1 = A[A[B]]$, and so on.
+In particular each term $P_n$ is a polynomial $A$-algebra.
+Recall also that there is an augmentation
+$$
+\epsilon : P_\bullet \longrightarrow B
+$$
+where we view $B$ as a constant simplicial $A$-algebra.
+
+\begin{definition}
+\label{definition-standard-resolution}
+Let $A \to B$ be a ring map. The {\it standard resolution of $B$ over $A$}
+is the augmentation $\epsilon : P_\bullet \to A$ with terms
+$$
+P_0 = A[B], P_1 = A[A[B]], \ldots
+$$
+and maps as constructed above.
+\end{definition}
+
+\noindent
+It will turn out that we can use the standard resolution
+to compute left derived functors in certain settings.
+
+\begin{definition}
+\label{definition-cotangent-complex-ring-map}
+The {\it cotangent complex} $L_{B/A}$ of a ring map $A \to B$
+is the complex of $B$-modules associated to the simplicial $B$-module
+$$
+\Omega_{P_\bullet/A} \otimes_{P_\bullet, \epsilon} B
+$$
+where $\epsilon : P_\bullet \to B$ is the standard resolution
+of $B$ over $A$.
+\end{definition}
+
+\noindent
+In Simplicial, Section \ref{simplicial-section-complexes} we associate a
+chain complex to a simplicial module, but here we work with cochain complexes.
+Thus the term $L_{B/A}^{-n}$ in degree $-n$ is the $B$-module
+$\Omega_{P_n/A} \otimes_{P_n, \epsilon_n} B$ and $L_{B/A}^m = 0$
+for $m > 0$.
+
+\begin{remark}
+\label{remark-variant-cotangent-complex}
+Let $A \to B$ be a ring map. Let $\mathcal{A}$ be the category of
+arrows $\psi : C \to B$ of $A$-algebras and let $\mathcal{S}$ be
+the category of maps $E \to B$ where $E$ is a set. There are adjoint
+functors $i : \mathcal{A} \to \mathcal{S}$ (the forgetful functor)
+and $F : \mathcal{S} \to \mathcal{A}$ which sends $E \to B$ to
+$A[E] \to B$. Let $X_\bullet$ be the simplicial object of
+$\text{Fun}(\mathcal{A}, \mathcal{A})$ constructed in
+Simplicial, Section \ref{simplicial-section-standard}.
+The diagram
+$$
+\xymatrix{
+\mathcal{A} \ar[d] \ar[r] & \mathcal{S} \ar@<1ex>[l] \ar[d] \\
+\textit{Alg}_A \ar[r] & \textit{Sets} \ar@<1ex>[l]
+}
+$$
+commutes. It follows that $X_\bullet(\text{id}_B : B \to B)$
+is equal to the standard resolution of $B$ over $A$.
+\end{remark}
+
+
+
+
+
+\section{Simplicial resolutions and derived lower shriek}
+\label{section-compute-L-pi-shriek}
+
+\noindent
+Let $A \to B$ be a ring map. Consider the category of $A$-algebra maps
+$\alpha : P \to B$ where $P$ is a polynomial algebra over $A$
+(in some set\footnote{It suffices to consider sets of cardinality
+at most the cardinality of $B$.} of variables).
+Let $\mathcal{C} = \mathcal{C}_{B/A}$ denote the {\bf opposite}
+of this category. The reason for
+taking the opposite is that we want to think of objects
+$(P, \alpha)$ as corresponding to the diagram of affine schemes
+$$
+\xymatrix{
+\Spec(B) \ar[d] \ar[r] & \Spec(P) \ar[ld] \\
+\Spec(A)
+}
+$$
+We endow $\mathcal{C}$ with the chaotic topology
+(Sites, Example \ref{sites-example-indiscrete}), i.e., we endow
+$\mathcal{C}$ with the structure of a site where coverings are given by
+identities so that all presheaves are sheaves.
+Moreover, we endow $\mathcal{C}$ with two sheaves of rings. The first
+is the sheaf $\mathcal{O}$ which sends to object $(P, \alpha)$ to $P$.
+Then second is the constant sheaf $B$, which we will denote
+$\underline{B}$. We obtain the following diagram of morphisms of
+ringed topoi
+\begin{equation}
+\label{equation-pi}
+\vcenter{
+\xymatrix{
+(\Sh(\mathcal{C}), \underline{B}) \ar[r]_i \ar[d]_\pi &
+(\Sh(\mathcal{C}), \mathcal{O}) \\
+(\Sh(*), B)
+}
+}
+\end{equation}
+The morphism $i$ is the identity on underlying topoi and
+$i^\sharp : \mathcal{O} \to \underline{B}$ is the obvious surjective map.
+The map $\pi$ is as in Example \ref{example-category-to-point}.
+An important role will be played in the following
+by the derived functors
+$$
+Li^* : D(\mathcal{O}) \longrightarrow D(\underline{B})
+$$
+left adjoint to $Ri_* = i_* : D(\underline{B}) \to D(\mathcal{O})$ and
+$$
+L\pi_! : D(\underline{B}) \longrightarrow D(B)
+$$
+left adjoint to $\pi^* = \pi^{-1} : D(B) \to D(\underline{B})$.
+
+\begin{lemma}
+\label{lemma-identify-pi-shriek}
+With notation as above let $P_\bullet$ be a simplicial $A$-algebra
+endowed with an augmentation $\epsilon : P_\bullet \to B$.
+Assume each $P_n$ is a polynomial algebra over $A$ and $\epsilon$
+is a trivial Kan fibration on underlying simplicial sets. Then
+$$
+L\pi_!\mathcal{F} = \mathcal{F}(P_\bullet, \epsilon)
+$$
+in $D(\textit{Ab})$, resp.\ $D(B)$ functorially in $\mathcal{F}$ in
+$\textit{Ab}(\mathcal{C})$, resp.\ $\textit{Mod}(\underline{B})$.
+\end{lemma}
+
+\begin{proof}
+As $L\pi_!$ agrees for modules and abelian sheaves
+(Lemma \ref{lemma-properties-lower-shriek-fibred-category})
+it suffices to prove this when $\mathcal{F}$ is an
+abelian sheaf. Given any object $U = (Q, \beta)$ of
+$\mathcal{C}$ the rule
+$$
+(P, \alpha) \longmapsto
+\text{free }\mathbf{Z}\text{-module on }
+\Mor_\mathcal{C}((Q, \beta), (P, \alpha))
+$$
+defines an abelian sheaf $\mathcal{G}$. Note that
+$\mathcal{G} = j_{U!}\mathbf{Z}_U$ in the notation of
+Modules on Sites, Definition
+\ref{sites-modules-definition-localize-ringed-site}. Hence we have
+$$
+\Hom_{\textit{Ab}(\mathcal{C})}(\mathcal{G}, \mathcal{F}) =
+\mathcal{F}(Q, \beta)
+$$
+for any abelian sheaf $\mathcal{F}$ on $\mathcal{C}$.
+Since the topology on $\mathcal{C}$ is chaotic, the section functors
+are exact. Hence $\mathcal{G}$ is projective. Every abelian sheaf
+is a quotient of a direct sum of $j_{U!}\mathbf{Z}_U$
+(Modules on Sites, Lemma \ref{sites-modules-lemma-module-quotient-flat}).
+Thus we can compute $L\pi_!\mathcal{F}$ by choosing a resolution
+$$
+\ldots \to \mathcal{G}^{-1} \to \mathcal{G}^0 \to \mathcal{F} \to 0
+$$
+whose terms are direct sums of sheaves of the form above and taking
+$L\pi_!\mathcal{F} = \pi_!\mathcal{G}^\bullet$. Consider the
+double complex
+$$
+A^{\bullet, \bullet} = \mathcal{G}^\bullet(P_\bullet, \epsilon).
+$$
+The map $\mathcal{G}^0 \to \mathcal{F}$ gives a map of complexes
+$A^{0, \bullet} \to \mathcal{F}(P_\bullet, \epsilon)$.
+Since $\pi_!$ is computed by taking the colimit over the category
+of presentations (Lemma \ref{lemma-compute-pi-shriek})
+we see that the two compositions
+$$
+\mathcal{G}^m(P_1, \epsilon_1) \to \mathcal{G}^m(P_0, \epsilon_0)
+\to \pi_!\mathcal{G}^m
+$$
+are equal. Thus we obtain a canonical map of complexes
+$$
+\text{Tot}(A^{\bullet, \bullet})
+\longrightarrow
+\pi_!\mathcal{G}^\bullet = L\pi_!\mathcal{F}
+$$
+To prove the lemma it suffices to show that the complexes
+$$
+\ldots \to \mathcal{G}^m(P_1, \epsilon_1) \to
+\mathcal{G}^m(P_0, \epsilon_0) \to \pi_!\mathcal{G}^m \to 0
+$$
+are exact, see Homology, Lemma
+\ref{homology-lemma-double-complex-gives-resolution}.
+Since the sheaves $\mathcal{G}^m$ are direct sums of the sheaves
+$j_{U!}\mathbf{Z}_U$ with $U = (Q, \beta)$ we reduce to
+$\mathcal{G} = j_{U!}\mathbf{Z}_U$. The complex above is then
+the complex $s(\mathbf{Z}[S_\bullet])$ associated to the free
+$\mathbf{Z}$-module $\mathbf{Z}[S_\bullet]$ on the simplicial set
+$$
+S_\bullet = \Mor_\mathcal{C}((Q, \beta), (P_\bullet, \epsilon))
+$$
+We have to show $s(\mathbf{Z}[S_\bullet])$ is acyclic in nonzero degree
+and has cohomology module equal to $\mathbf{Z}$ in degree $0$.
+Namely, we have $\pi_!j_{U!}\mathbf{Z}_U = \mathbf{Z}$
+as was shown in the proof of
+Lemma \ref{lemma-properties-lower-shriek-fibred-category}.
+
+\medskip\noindent
+Write $Q = A[E]$ for some set $E$ (this is possible by our choice of
+the category $\mathcal{C}$). We see that
+$$
+S_\bullet = \Mor_{\textit{Sets}}((E, \beta|_E), (P_\bullet, \epsilon))
+$$
+Let $*$ be the constant simplicial set on a singleton. For $b \in B$
+let $F_{b, \bullet}$ be the simplicial set defined by the cartesian
+diagram
+$$
+\xymatrix{
+F_{b, *} \ar[r] \ar[d] & P_\bullet \ar[d]_\epsilon \\
+{*} \ar[r]^b & B
+}
+$$
+With this notation $S_\bullet = \prod_{e \in E} F_{\beta(e), \bullet}$.
+Since we assumed $\epsilon$ is a trival Kan fibration we see that
+$F_{b, \bullet} \to *$ is a trivial Kan fibration
+(Simplicial, Lemma \ref{simplicial-lemma-trivial-kan-base-change}).
+Thus $S_\bullet \to *$ is a trivial Kan fibration
+(Simplicial, Lemma \ref{simplicial-lemma-product-trivial-kan}).
+Therefore $S_\bullet$ is homotopy equivalent to $*$
+(Simplicial, Lemma \ref{simplicial-lemma-trivial-kan-homotopy}).
+We conclude that $\mathbf{Z}[S_\bullet] \to \mathbf{Z}$ is
+a homotopy equivalence of simplicial abelian groups
+(Simplicial, Remark \ref{simplicial-remark-homotopy-better}).
+This finishes the proof by
+Simplicial, Lemma \ref{simplicial-lemma-homotopy-s-N}.
+\end{proof}
+
+\noindent
+In particular, we can use the standard resolution of $B$ over $A$
+to compute derived lower shriek.
+
+\begin{lemma}
+\label{lemma-pi-shriek-standard}
+Let $A \to B$ be a ring map. Let $\epsilon : P_\bullet \to B$
+be the standard resolution of $B$ over $A$. Let $\pi$ be as in
+(\ref{equation-pi}). Then
+$$
+L\pi_!\mathcal{F} = \mathcal{F}(P_\bullet, \epsilon)
+$$
+in $D(\textit{Ab})$, resp.\ $D(B)$ functorially in $\mathcal{F}$ in
+$\textit{Ab}(\mathcal{C})$, resp.\ $\textit{Mod}(\underline{B})$.
+\end{lemma}
+
+\begin{proof}
+We will apply Lemma \ref{lemma-identify-pi-shriek}.
+Since the terms $P_n$ are polynomial algebras we see the first
+assumption of that lemma is satisfied. The second assumption we
+can see as follows. By
+Simplicial, Lemma \ref{simplicial-lemma-standard-simplicial-homotopy}
+the map $\epsilon$ is a homotopy equivalence of underlying
+simplicial sets. By
+Simplicial, Lemma \ref{simplicial-lemma-homotopy-equivalence}
+this implies $\epsilon$ induces a quasi-isomorphism of associated
+complexes of abelian groups. By
+Simplicial, Lemma \ref{simplicial-lemma-qis-simplicial-abelian-groups}
+this implies that $\epsilon$ is a trivial Kan fibration of underlying
+simplicial sets.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-compute-cotangent-complex}
+Let $A \to B$ be a ring map.  Let $\pi$ and $i$ be as in (\ref{equation-pi}).
+There is a canonical isomorphism
+$$
+L_{B/A} = L\pi_!(Li^*\Omega_{\mathcal{O}/A})
+$$
+in $D(B)$.
+\end{lemma}
+
+\begin{proof}
+For an object $\alpha : P \to B$ of the category $\mathcal{C}$
+the module $\Omega_{P/A}$ is a free $P$-module. Thus
+$\Omega_{\mathcal{O}/A}$ is a flat $\mathcal{O}$-module. Hence
+$Li^*\Omega_{\mathcal{O}/A} = i^*\Omega_{\mathcal{O}/A}$ is the sheaf
+of $\underline{B}$-modules which associates to $\alpha : P \to A$ the
+$B$-module $\Omega_{P/A} \otimes_{P, \alpha} B$.
+By Lemma \ref{lemma-pi-shriek-standard}
+we see that the right hand side is computed by
+the value of this sheaf on the standard resolution which is our
+definition of the left hand side
+(Definition \ref{definition-cotangent-complex-ring-map}).
+\end{proof}
+
+
+
+
+
+
+\section{Constructing a resolution}
+\label{section-polynomial}
+
+\noindent
+In the Noetherian finite type case we can construct a ``small'' simplicial
+resolution for finite type ring maps.
+
+\begin{lemma}
+\label{lemma-polynomial}
+Let $A$ be a Noetherian ring. Let $A \to B$ be a finite type ring map.
+Let $\mathcal{A}$ be the category of $A$-algebra maps $C \to B$. Let
+$n \geq 0$ and let $P_\bullet$ be a simplical object of $\mathcal{A}$
+such that
+\begin{enumerate}
+\item $P_\bullet \to B$ is a trivial Kan fibration of simplicial sets,
+\item $P_k$ is finite type over $A$ for $k \leq n$,
+\item $P_\bullet = \text{cosk}_n \text{sk}_n P_\bullet$ as simplicial
+objects of $\mathcal{A}$.
+\end{enumerate}
+Then $P_{n + 1}$ is a finite type $A$-algebra.
+\end{lemma}
+
+\begin{proof}
+Although the proof we give of this lemma is straightforward, it is a bit
+messy. To clarify the idea we explain what happens for low $n$ before giving
+the proof in general. For example, if $n = 0$, then (3) means that
+$P_1 = P_0 \times_B P_0$. Since the ring map $P_0 \to B$ is surjective, this
+is of finite type over $A$ by
+More on Algebra, Lemma \ref{more-algebra-lemma-fibre-product-finite-type}.
+
+\medskip\noindent
+If $n = 1$, then (3) means that
+$$
+P_2 = \{(f_0, f_1, f_2) \in P_1^3 \mid
+d_0f_0 = d_0f_1,\ d_1f_0 = d_0f_2,\ d_1f_1 = d_1f_2 \}
+$$
+where the equalities take place in $P_0$. Observe that the triple
+$$
+(d_0f_0, d_1f_0, d_1f_1) = (d_0f_1, d_0f_2, d_1f_2)
+$$
+is an element of the fibre product $P_0 \times_B P_0 \times_B P_0$ over $B$
+because the maps $d_i : P_1 \to P_0$ are morphisms over $B$. Thus we get
+a map
+$$
+\psi : P_2 \longrightarrow P_0 \times_B P_0 \times_B P_0
+$$
+The fibre of $\psi$ over an element
+$(g_0, g_1, g_2) \in P_0 \times_B P_0 \times_B P_0$
+is the set of triples $(f_0, f_1, f_2)$ of $1$-simplices
+with $(d_0, d_1)(f_0) = (g_0, g_1)$, $(d_0, d_1)(f_1) = (g_0, g_2)$,
+and $(d_0, d_1)(f_2) = (g_1, g_2)$. As $P_\bullet \to B$ is a trivial
+Kan fibration the map $(d_0, d_1) : P_1 \to P_0 \times_B P_0$ is
+surjective. Thus we see that $P_2$ fits into the cartesian diagram
+$$
+\xymatrix{
+P_2 \ar[d] \ar[r] & P_1^3 \ar[d] \\
+P_0 \times_B P_0 \times_B P_0 \ar[r] & (P_0 \times_B P_0)^3
+}
+$$
+By More on Algebra, Lemma \ref{more-algebra-lemma-formal-consequence}
+we conclude. The general case is similar, but requires a bit more notation.
+
+\medskip\noindent
+The case $n > 1$. By Simplicial, Lemma \ref{simplicial-lemma-cosk-above-object}
+the condition $P_\bullet = \text{cosk}_n \text{sk}_n P_\bullet$
+implies the same thing is true in the category of simplicial
+$A$-algebras and hence in the category of sets (as the forgetful
+functor from $A$-algebras to sets commutes with limits). Thus
+$$
+P_{n + 1} =
+\Mor(\Delta[n + 1], P_\bullet) =
+\Mor(\text{sk}_n \Delta[n + 1], \text{sk}_n P_\bullet)
+$$
+by Simplicial, Lemma \ref{simplicial-lemma-simplex-map} and
+Equation (\ref{simplicial-equation-cosk}). We will prove by induction
+on $1 \leq k < m \leq n + 1$ that the ring
+$$
+Q_{k, m} = \Mor(\text{sk}_k \Delta[m], \text{sk}_k P_\bullet)
+$$
+is of finite type over $A$. The case $k = 1$, $1 < m \leq n + 1$
+is entirely similar to the discussion above in the case $n = 1$.
+Namely, there is a cartesian diagram
+$$
+\xymatrix{
+Q_{1, m} \ar[d] \ar[r] & P_1^N \ar[d] \\
+P_0 \times_B \ldots \times_B P_0 \ar[r] & (P_0 \times_B P_0)^N
+}
+$$
+where $N = {m + 1 \choose 2}$. We conclude as before.
+
+\medskip\noindent
+Let $1 \leq k_0 \leq n$ and assume $Q_{k, m}$ is of finite type
+over $A$ for all $1 \leq k \leq k_0$ and $k < m \leq n + 1$.
+For $k_0 + 1 < m \leq n + 1$ we claim there is a cartesian square
+$$
+\xymatrix{
+Q_{k_0 + 1, m} \ar[d] \ar[r] & P_{k_0 + 1}^N \ar[d] \\
+Q_{k_0, m} \ar[r] & Q_{k_0, k_0 + 1}^N
+}
+$$
+where $N$ is the number of nondegerate $(k_0 + 1)$-simplices
+of $\Delta[m]$. Namely, to see this is true, think of an element of
+$Q_{k_0 + 1, m}$ as a function $f$ from the $(k_0 + 1)$-skeleton
+of $\Delta[m]$ to $P_\bullet$. We can restrict $f$ to the $k_0$-skeleton
+which gives the left vertical map of the diagram. We can also restrict
+to each nondegenerate $(k_0 + 1)$-simplex which gives the top horizontal
+arrow. Moreover, to give such an $f$ is the same thing as giving its
+restriction to $k_0$-skeleton and to each nondegenerate
+$(k_0 + 1)$-face, provided these agree on the overlap, and this
+is exactly the content of the diagram. Moreover, the fact that
+$P_\bullet \to B$ is a trivial Kan fibration implies that
+the map
+$$
+P_{k_0} \to Q_{k_0, k_0 + 1} = \Mor(\partial \Delta[k_0 + 1], P_\bullet)
+$$
+is surjective as every map $\partial \Delta[k_0 + 1] \to B$ can be extended
+to $\Delta[k_0 + 1] \to B$ for $k_0 \geq 1$ (small argument about constant
+simplicial sets omitted). Since by induction hypothesis the rings
+$Q_{k_0, m}$, $Q_{k_0, k_0 + 1}$ are finite type $A$-algebras, so is
+$Q_{k_0 + 1, m}$ by
+More on Algebra, Lemma \ref{more-algebra-lemma-formal-consequence}
+once more.
+\end{proof}
+
+\begin{proposition}
+\label{proposition-polynomial}
+Let $A$ be a Noetherian ring. Let $A \to B$ be a finite type ring map.
+There exists a simplicial $A$-algebra $P_\bullet$ with an augmentation
+$\epsilon : P_\bullet \to B$ such that each $P_n$ is a polynomial algebra
+of finite type over $A$ and such that $\epsilon$ is a trivial
+Kan fibration of simplicial sets.
+\end{proposition}
+
+\begin{proof}
+Let $\mathcal{A}$ be the category of $A$-algebra maps $C \to B$.
+In this proof our simplicial objects and skelet and coskelet
+functors will be taken in this category.
+
+\medskip\noindent
+Choose a polynomial algebra $P_0$ of finite type over $A$ and a surjection
+$P_0 \to B$. As a first approximation we take
+$P_\bullet = \text{cosk}_0(P_0)$. In other words, $P_\bullet$ is the simplicial
+$A$-algebra with terms $P_n = P_0 \times_A \ldots \times_A P_0$.
+(In the final paragraph of the proof this simplicial object will
+be denoted $P^0_\bullet$.) By
+Simplicial, Lemma \ref{simplicial-lemma-cosk-minus-one-equivalence}
+the map $P_\bullet \to B$ is a trivial Kan fibration of simplicial sets.
+Also, observe that $P_\bullet = \text{cosk}_0 \text{sk}_0 P_\bullet$.
+
+\medskip\noindent
+Suppose for some $n \geq 0$ we have constructed $P_\bullet$
+(in the final paragraph of the proof this will be $P^n_\bullet$)
+such that
+\begin{enumerate}
+\item[(a)] $P_\bullet \to B$ is a trivial Kan fibration of simplicial sets,
+\item[(b)] $P_k$ is a finitely generated polynomial algebra for
+$0 \leq k \leq n$, and
+\item[(c)] $P_\bullet = \text{cosk}_n \text{sk}_n P_\bullet$
+\end{enumerate}
+By Lemma \ref{lemma-polynomial}
+we can find a finitely generated polynomial algebra $Q$ over $A$
+and a surjection $Q \to P_{n + 1}$. Since $P_n$ is a polynomial algebra
+the $A$-algebra maps $s_i : P_n \to P_{n + 1}$ lift to maps
+$s'_i : P_n \to Q$. Set $d'_j : Q \to P_n$ equal to the composition of
+$Q \to P_{n + 1}$ and $d_j : P_{n + 1} \to P_n$.
+We obtain a truncated simplicial object $P'_\bullet$ of $\mathcal{A}$
+by setting $P'_k = P_k$ for $k \leq n$ and $P'_{n + 1} = Q$ and morphisms
+$d'_i = d_i$ and $s'_i = s_i$ in degrees $k \leq n - 1$ and using the
+morphisms $d'_j$ and $s'_i$ in degree $n$. Extend this to a full simplicial
+object $P'_\bullet$ of $\mathcal{A}$ using $\text{cosk}_{n + 1}$. By
+functoriality of the coskelet functors there is a morphism
+$P'_\bullet \to P_\bullet$ of simplical objects extending the
+given morphism of $(n + 1)$-truncated simplicial objects.
+(This morphism will be denoted $P^{n + 1}_\bullet \to P^n_\bullet$
+in the final paragraph of the proof.)
+
+\medskip\noindent
+Note that conditions (b) and (c) are satisfied for $P'_\bullet$ with $n$
+replaced by $n + 1$. We claim the map $P'_\bullet \to P_\bullet$ satisfies
+assumptions (1), (2), (3), and (4) of
+Simplicial, Lemmas \ref{simplicial-lemma-section}
+with $n + 1$ instead of $n$. Conditions (1) and (2) hold by construction.
+By Simplicial, Lemma \ref{simplicial-lemma-cosk-above-object}
+we see that we have
+$P_\bullet = \text{cosk}_{n + 1}\text{sk}_{n + 1}P_\bullet$
+and
+$P'_\bullet = \text{cosk}_{n + 1}\text{sk}_{n + 1}P'_\bullet$
+not only in $\mathcal{A}$ but also in the category of $A$-algebras,
+whence in the category of sets (as the forgetful functor from $A$-algebras
+to sets commutes with all limits). This proves (3) and (4). Thus the lemma
+applies and $P'_\bullet \to P_\bullet$ is a trivial Kan fibration. By
+Simplicial, Lemma \ref{simplicial-lemma-trivial-kan-composition}
+we conclude that $P'_\bullet \to B$ is a trivial Kan fibration and (a)
+holds as well.
+
+\medskip\noindent
+To finish the proof we take the inverse limit $P_\bullet = \lim P^n_\bullet$
+of the sequence of simplicial algebras
+$$
+\ldots \to P^2_\bullet \to P^1_\bullet \to P^0_\bullet
+$$
+constructed above. The map $P_\bullet \to B$ is a trivial Kan fibration by
+Simplicial, Lemma \ref{simplicial-lemma-limit-trivial-kan}.
+However, the construction above stabilizes in each degree
+to a fixed finitely generated polynomial algebra as desired.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-pi-shriek-finite}
+Let $A$ be a Noetherian ring. Let $A \to B$ be a finite type ring map.
+Let $\pi$, $\underline{B}$ be as in (\ref{equation-pi}).
+If $\mathcal{F}$ is an $\underline{B}$-module such that
+$\mathcal{F}(P, \alpha)$ is a finite $B$-module for all
+$\alpha : P = A[x_1, \ldots, x_n] \to B$, then the cohomology modules
+of $L\pi_!\mathcal{F}$ are finite $B$-modules.
+\end{lemma}
+
+\begin{proof}
+By Lemma \ref{lemma-identify-pi-shriek} and
+Proposition \ref{proposition-polynomial}
+we can compute $L\pi_!\mathcal{F}$ by a complex
+constructed out of the values of $\mathcal{F}$ on finite type
+polynomial algebras.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-cotangent-finite}
+Let $A$ be a Noetherian ring. Let $A \to B$ be a finite type ring map.
+Then $H^n(L_{B/A})$ is a finite $B$-module for all $n \in \mathbf{Z}$.
+\end{lemma}
+
+\begin{proof}
+Apply Lemmas \ref{lemma-compute-cotangent-complex} and
+\ref{lemma-pi-shriek-finite}.
+\end{proof}
+
+
+
+
+
+
+\input{chapters}
+
+\bibliography{my}
+\bibliographystyle{amsalpha}
+
+\end{document}

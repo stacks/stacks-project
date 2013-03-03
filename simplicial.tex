@@ -2602,6 +2602,27 @@ Omitted, but very similar to the proof of
 Lemma \ref{lemma-cosk-product} above.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-cosk-above-object}
+Let $\mathcal{C}$ be a category with finite limits.
+Let $X \in \Ob(\mathcal{C})$.
+The functor $\mathcal{C}/X \to \mathcal{C}$ commutes with
+the coskelet functors $\text{cosk}_k$ for $k \geq 1$.
+\end{lemma}
+
+\begin{proof}
+The statement means that if $U$ is a simplicial object of $\mathcal{C}/X$
+which we can think of as a simplicial object of $\mathcal{C}$ with a morphism
+towards the constant simplicial object $X$, then $\text{cosk}_k U$
+computed in $\mathcal{C}/X$ is the same as computed in $\mathcal{C}$.
+This follows for example from
+Categories, Lemma \ref{categories-lemma-connected-limit-over-X}
+because the categories $(\Delta/[n])_{\leq k}$ for $k \geq 1$ and
+$n \geq k + 1$ used in Lemma \ref{lemma-existence-cosk}
+are connected. Observe that we do not need the categories
+for $n \leq k$ by Lemma \ref{lemma-trivial-cosk} or
+Lemma \ref{lemma-recover-cosk}.
+\end{proof}
 
 \begin{lemma}
 \label{lemma-simplex-cosk}
@@ -2965,7 +2986,7 @@ by $\text{cosk}_m$.
 \end{remark}
 
 \begin{lemma}
-\label{lemma-glue-simlex}
+\label{lemma-glue-simplex}
 Let $U \subset V$ be simplicial sets.
 Suppose $n \geq 0$ and $x \in V_n$, $x \not \in U_n$ are such that
 \begin{enumerate}
@@ -3018,7 +3039,7 @@ Then there exists a sequence of sub simplicial sets
 $$
 U = W^0 \subset W^1 \subset W^2 \subset \ldots W^r = V
 $$
-such that Lemma \ref{lemma-glue-simlex} applies to each of
+such that Lemma \ref{lemma-glue-simplex} applies to each of
 the inclusions $W^i \subset W^{i + 1}$.
 \end{lemma}
 
@@ -3031,7 +3052,7 @@ of $x$ (in other words, are of the form $V(\varphi)(x)$
 with $\varphi : [m] \to [n]$ surjective). It is easy to see
 that $W$ is a simplicial set. The
 inclusion $U \subset W$ satisfies the conditions of Lemma
-\ref{lemma-glue-simlex}. Moreover the number of nondegenerate
+\ref{lemma-glue-simplex}. Moreover the number of nondegenerate
 simplices of $V$ which are not contained in $W$ is exactly
 one less than the number of nondegenerate
 simplices of $V$ which are not contained in $U$.
@@ -3856,7 +3877,7 @@ The functor $N$ is exact.
 
 \begin{proof}
 By Lemma \ref{lemma-s-exact} and the functorial
-decomposition of Lemma \ref{lemma-N-K}.
+decomposition of Lemma \ref{lemma-decompose-associated-complexes}.
 \end{proof}
 
 \begin{lemma}
@@ -4352,11 +4373,12 @@ $a$ and $b$}.
 \end{definition}
 
 \noindent
-It is possible to define this notion for pairs of
-maps between simplicial objects in any category.
-To do this you just work out what it means to
-have the morphisms $h_n : (U \times \Delta[1])_n \to V_n$
-in terms of the mapping property of coproducts.
+Warning: Being homotopic is {\bf not} an equivalence relation on the set
+of all morphisms from $U$ to $V$! It turns out we can define the notion
+of being homotopic for pairs of maps between simplicial objects in any
+category. To do this you just work out what it means to have the morphisms
+$h_n : (U \times \Delta[1])_n \to V_n$ in terms of the mapping property of
+coproducts.
 
 \medskip\noindent
 Let $\mathcal{C}$ be a category with finite coproducts.
@@ -4368,7 +4390,7 @@ let us write
 $$
 \Delta[1]_n = \{\alpha^n_0, \ldots, \alpha^n_{n + 1}\}
 $$
-where $\alpha_i : [n] \to [1]$ is the map
+where $\alpha^n_i : [n] \to [1]$ is the map
 such that
 $$
 \alpha^n_i(j)
@@ -4446,15 +4468,15 @@ whenever both categories have finite coproducts.
 
 \begin{definition}
 \label{definition-homotopy-equivalent}
-Let $\mathcal{C}$ be a category having finite coproducts.
-Suppose that $U$ and $V$ are two simplicial objects
-of $\mathcal{C}$.
+Let $U$ and $V$ be two simplicial objects of a category $\mathcal{C}$.
 We say a morphism $a : U \to V$ is a {\it homotopy equivalence}
 if there exists a morphism $b : V \to U$
 such that $a \circ b$ is homotopic to $\text{id}_V$
 and $b \circ a$ is homotopic to $\text{id}_U$.
 If there exists such a morphism between $U$ and $V$, then
-we say that $U$ and $V$ are {\it homotopy equivalent}.
+we say that $U$ and $V$ are
+{\it homotopy equivalent}\footnote{Warning: This notion is {\bf not}
+an equivalence relation on objects in general.}.
 \end{definition}
 
 \noindent
@@ -5226,6 +5248,481 @@ as desired.
 \end{proof}
 
 
+
+
+
+
+
+
+
+\section{Trivial Kan fibrations}
+\label{section-trivial-kan}
+
+\noindent
+Recall that for $n \geq 0$ the simplicial set $\Delta[n]$ is given
+by the rule $[k] \mapsto \Mor_\Delta([k], [n])$, see
+Example \ref{example-simplex-simplicial-set}. Recall that $\Delta[n]$
+has a unique nondegenerate $n$-simplex and all nondegenerate simplices
+are faces of this $n$-simplex. In fact, the nondegerate simplices of
+$\Delta[n]$ correspond exactly to injective morphisms $[k] \to [n]$,
+which we may identify with subsets of $[n]$. Moreover, recall that
+$\Mor(\Delta[n], X) = X_n$ for any simplicial set $X$
+(Lemma \ref{lemma-simplex-map}).
+We set
+$$
+\partial \Delta[n] = i_{(n - 1)!}\text{sk}_{n - 1}\Delta[n]
+$$
+and we call it the {\it boundary} of $\Delta[n]$.
+From Lemma \ref{lemma-n-skeletion-sets} we see that
+$\partial \Delta[n] \subset \Delta[n]$
+is the simplicial subset having the same nondegenerate simplices
+in degrees $\leq n - 1$ but not containing the nondegenerate $n$-simplex.
+
+\begin{definition}
+\label{definition-trivial-kan}
+A map $X \to Y$ of simplicial sets is called a {\it trivial Kan fibration}
+if $X_0 \to Y_0$ is surjective and for all $n \geq 1$ and any commutative
+solid diagram
+$$
+\xymatrix{
+\partial \Delta[n] \ar[r] \ar[d] & X \ar[d] \\
+\Delta[n] \ar[r] \ar@{-->}[ru] & Y
+}
+$$
+a dotted arrow exists making the diagram commute.
+\end{definition}
+
+\noindent
+A trivial Kan fibration satisfies a very general lifting property.
+
+\begin{lemma}
+\label{lemma-trivial-kan}
+Let $f : X \to Y$ be a trivial Kan fibration of simplicial sets.
+For any solid commutative diagram
+$$
+\xymatrix{
+Z \ar[r]_b \ar[d] & X \ar[d] \\
+W \ar[r]^a \ar@{-->}[ru] & Y
+}
+$$
+of simplicial sets with $Z \to W$ (termwise) injective
+a dotted arrow exists making the diagram commute.
+\end{lemma}
+
+\begin{proof}
+Suppose that $Z \not = W$. Let $n$ be the smallest integer such that
+$Z_n \not = W_n$. Let $x \in W_n$, $x \not \in Z_n$. Denote
+$Z' \subset W$ the simplicial subset containing $Z$, $x$, and
+all degeneracies of $x$. Let
+$\varphi : \Delta[n] \to Z'$ be the morphism corresponding to $x$
+(Lemma \ref{lemma-simplex-map}).
+Then $\varphi|_{\partial \Delta[n]}$ maps into $Z$
+as all the nondegenerate simplices of $\partial \Delta[n]$ end up in $Z$.
+By assumption we can extend $b \circ \varphi|_{\partial \Delta[n]}$
+to $\beta : \Delta[n] \to X$.
+By Lemma \ref{lemma-glue-simplex} the simplicial set $Z'$
+is the pushout of $\Delta[n]$ and $Z$ along $\partial \Delta[n]$.
+Hence $b$ and $\beta$ define a morphism $b' : Z' \to X$.
+In other words, we have extended the morphism $b$ to a bigger
+simplicial subset of $Z$.
+
+\medskip\noindent
+The proof is finished by an application of Zorn's lemma (omitted).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-trivial-kan-base-change}
+Let $f : X \to Y$ be a trivial Kan fibration of simplicial sets.
+Let $Y' \to Y$ be a morphism of simplicial sets.
+Then $X \times_Y Y' \to Y'$ is a trivial Kan fibration.
+\end{lemma}
+
+\begin{proof}
+This follows immediately from the functorial properties of the fibre
+product (Lemma \ref{lemma-fibre-product}) and the definitions.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-trivial-kan-composition}
+The composition of two trivial Kan fibrations is a trivial Kan fibration.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-limit-trivial-kan}
+Let $\ldots \to U^2 \to U^1 \to U^0$ be a sequence of trivial Kan
+fibrations. Let $U = \lim U^t$ defined by taking $U_n = \lim U_n^t$.
+Then $U \to U^0$ is a trivial Kan fibration.
+\end{lemma}
+
+\begin{proof}
+Omitted. Hint: use that for a countable sequence of surjections of sets
+the inverse limit is nonempty.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-product-trivial-kan}
+Let $X_i \to Y_i$ be a set of trivial Kan fibrations. Then
+$\prod X_i \to \prod Y_i$ is a trivial Kan fibration.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-trivial-kan-homotopy}
+Let $f : X \to Y$ be a trivial Kan fibration of simplicial sets.
+Then $f$ is a homotopy equivalence.
+\end{lemma}
+
+\begin{proof}
+By Lemma \ref{lemma-trivial-kan} we can choose an right inverse $g : Y \to X$
+to $f$. Consider the diagram
+$$
+\xymatrix{
+\partial \Delta[1] \times X \ar[d] \ar[r] & X \ar[d] \\
+\Delta[1] \times X \ar[r] \ar@{-->}[ru] & Y
+}
+$$
+Here the top horizontal arrow is given by $\text{id}_X$ and $g \circ f$
+where we use that
+$(\partial \Delta[1] \times X)_n = X_n \amalg X_n$ for all $n \geq 0$.
+The bottom horizontal arrow is given by the map $\Delta[1] \to \Delta[0]$
+and $f : X \to Y$. The diagram commutes as $f \circ g \circ f = f$.
+By Lemma \ref{lemma-trivial-kan} we can fill in the dotted arrow
+and we win.
+\end{proof}
+
+
+
+
+
+
+\section{Kan fibrations}
+\label{section-kan}
+
+\noindent
+Let $n$, $k$ be integers with $0 \leq k \leq n$ and $1 \leq n$.
+Let $\sigma_0, \ldots, \sigma_n$
+be the $n + 1$ faces of the unique nondegenerate $n$-simplex $\sigma$
+of $\Delta[n]$, i.e., $\sigma_i = d_i\sigma$. We let
+$$
+\Lambda_k[n] \subset \Delta[n]
+$$
+be the {\it $k$th horn} of the $n$-simplex $\Delta[n]$. It is the
+simplicial subset of $\Delta[n]$ generated by
+$\sigma_0, \ldots, \hat \sigma_k, \ldots, \sigma_n$. In other words,
+the image of the displayed inclusion contains all the nondegenerate
+simplices of $\Delta[n]$ except for $\sigma$ and $\sigma_k$.
+
+\begin{definition}
+\label{definition-kan}
+A map $X \to Y$ of simplicial sets is called a {\it Kan fibration}
+if for all $k, n$ with $1 \leq n$, $0 \leq k \leq n$ and any commutative
+solid diagram
+$$
+\xymatrix{
+\Lambda_k[n] \ar[r] \ar[d] & X \ar[d] \\
+\Delta[n] \ar[r] \ar@{-->}[ru] & Y
+}
+$$
+a dotted arrow exists making the diagram commute. A {\it Kan complex}
+is a simplicial set $X$ such that $X \to *$ is a Kan fibration, where
+$*$ is the constant simplicial set on a singleton.
+\end{definition}
+
+\noindent
+Note that $\Lambda_k[n]$ is always nonempty. This a morphism from the empty
+simplicial set to any simplicial set is always a Kan fibration. It follows
+from Lemma \ref{lemma-trivial-kan} that a trivial Kan fibration is a
+Kan fibration.
+
+\begin{lemma}
+\label{lemma-kan-base-change}
+Let $f : X \to Y$ be a Kan fibration of simplicial sets.
+Let $Y' \to Y$ be a morphism of simplicial sets.
+Then $X \times_Y Y' \to Y'$ is a Kan fibration.
+\end{lemma}
+
+\begin{proof}
+This follows immediately from the functorial properties of the fibre
+product (Lemma \ref{lemma-fibre-product}) and the definitions.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-kan-composition}
+The composition of two Kan fibrations is a Kan fibration.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-limit-kan}
+Let $\ldots \to U^2 \to U^1 \to U^0$ be a sequence of Kan
+fibrations. Let $U = \lim U^t$ defined by taking $U_n = \lim U_n^t$.
+Then $U \to U^0$ is a Kan fibration.
+\end{lemma}
+
+\begin{proof}
+Omitted. Hint: use that for a countable sequence of surjections of sets
+the inverse limit is nonempty.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-product-kan}
+Let $X_i \to Y_i$ be a set of Kan fibrations. Then
+$\prod X_i \to \prod Y_i$ is a Kan fibration.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\noindent
+The following lemma is due to J.C.\ Moore, see \cite{Moore-Cartan}.
+
+\begin{lemma}
+\label{lemma-simplicial-group-kan}
+Let $X$ be a simplicial group. Then $X$ is a Kan complex.
+\end{lemma}
+
+\begin{proof}
+The following proof is basically just a translation into English
+of the proof in the reference mentioned above.
+Using the terminology as explained in the introduction to this section,
+suppose $f : \Lambda_k[n] \to X$ is a morphism from a horn. Set
+$x_i = f(\sigma_i) \in X_{n - 1}$ for $i = 0, \ldots, \hat k, \ldots, n$.
+This means that for $i < j$ we have $d_i x_j = d_{j - 1} x_i$
+whenever $i, j \not = k$.
+We have to find an $x \in X_n$ such that $x_i = d_ix$ for
+$i = 0, \ldots, \hat k, \ldots, n$.
+
+\medskip\noindent
+We first prove there exists a $u \in X_n$ such that $d_i u = x_i$
+for $i < k$. This is trivial for $k = 0$. If $k > 0$, one defines by
+induction an element $u^r \in X_n$ such that $d_i u^r = x_i$ for
+$0 \leq i \leq r$. Start with $u^0 = s_0x_0$. If $r < k - 1$,
+we set
+$$
+y^r = s_{r + 1}((d_{r + 1}u^r)^{-1}x_{r + 1}),\quad
+u^{r + 1} = u^r y^r.
+$$
+An easy calculation shows that $d_iy^r = 1$ (unit element of the group
+$X_{n - 1}$) for $i \leq r$ and
+$d_{r + 1}y^r = (d_{r + 1}u^r)^{-1}x_{r + 1}$. It follows that
+$d_iu^{r + 1} = x_i$ for $i \leq r + 1$. Finally, take $u = u^{k - 1}$
+to get $u$ as promised.
+
+\medskip\noindent
+Next we prove, by induction on the integer $r$, $0 \leq r \leq n - k$,
+there exists a $x^r \in X_n$ such that
+$$
+d_i x^r = x_i\quad\text{for }i < k\text{ and }i > n - r.
+$$
+Start with $x^0 = u$ for $r = 0$. Having defined $x^r$ for $r \leq n - k - 1$
+we set
+$$
+z^r = s_{n - r - 1}((d_{n - r}x^r)^{-1}x_{n - r}),\quad x^{r + 1} = x^rz^r
+$$
+A simple calculation, using the given relations, shows that
+$d_iz^r = 1$ for $i < k$ and $i > n - r$ and that
+$d_{n - r}(z^r) = (d_{n - r}x^r)^{-1}x_{n - r}$. It follows that
+$d_ix^{r + 1} = x_i$ for $i < k$ and $i > n - r - 1$. Finally, we
+take $x = x^{n - k}$ which finishes the proof.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-surjection-simplicial-abelian-groups-kan}
+Let $f : X \to Y$ be a homomorphism of simplicial abelian groups
+which is termwise surjective. Then $f$ is a Kan fibration of
+simplicial sets.
+\end{lemma}
+
+\begin{proof}
+Consider a commutative solid diagram
+$$
+\xymatrix{
+\Lambda_k[n] \ar[r]_a \ar[d] & X \ar[d] \\
+\Delta[n] \ar[r]^b \ar@{-->}[ru] & Y
+}
+$$
+as in Definition \ref{definition-kan}. The map $a$ corresponds
+to $x_0, \ldots, \hat x_k, \ldots, x_n \in X_{n - 1}$ satisfying
+$d_i x_j = d_{j - 1} x_i$ for $i < j$, $i, j \not = k$.
+The map $b$ corresponds to an element $y \in Y_n$ such
+that $d_iy = f(x_i)$ for $i \not = k$. Our task is to produce an
+$x \in X_n$ such that $d_ix = x_i$ for $i \not = k$ and $f(x) = y$.
+
+\medskip\noindent
+Since $f$ is termwise surjective we can find $x \in X_n$ with $f(x) = y$.
+Replace $y$ by $0 = y - f(x)$ and $x_i$ by $x_i - d_ix$ for $i \not = k$.
+Then we see that we may assume $y = 0$. In particular $f(x_i) = 0$.
+In other words, we can replace $X$ by $\text{Ker}(f) \subset X$
+and $Y$ by $0$. In this case the statement become
+Lemma \ref{lemma-simplicial-group-kan}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-qis-simplicial-abelian-groups}
+Let $f : X \to Y$ be a homomorphism of simplicial abelian groups
+which is termwise surjective and induces a quasi-isomorphism on
+associated chain complexes. Then $f$ is a trivial Kan fibration of
+simplicial sets.
+\end{lemma}
+
+\begin{proof}
+Consider a commutative solid diagram
+$$
+\xymatrix{
+\partial \Delta[n] \ar[r]_a \ar[d] & X \ar[d] \\
+\Delta[n] \ar[r]^b \ar@{-->}[ru] & Y
+}
+$$
+as in Definition \ref{definition-trivial-kan}. The map $a$ corresponds
+to $x_0, \ldots, x_n \in X_{n - 1}$ satisfying $d_i x_j = d_{j - 1} x_i$
+for $i < j$. The map $b$ corresponds to an element $y \in Y_n$ such
+that $d_iy = f(x_i)$. Our task is to produce an $x \in X_n$ such that
+$d_ix = x_i$ and $f(x) = y$.
+
+\medskip\noindent
+Since $f$ is termwise surjective we can find $x \in X_n$ with $f(x) = y$.
+Replace $y$ by $0 = y - f(x)$ and $x_i$ by $x_i - d_ix$. Then we
+see that we may assume $y = 0$. In particular $f(x_i) = 0$.
+In other words, we can replace $X$ by $\text{Ker}(f) \subset X$
+and $Y$ by $0$. This works, because by
+Homology, Lemma \ref{homology-lemma-long-exact-sequence-chain}
+the homology of the chain complex associated to $\text{Ker}(f)$
+is zero and hence $\text{Ker}(f) \to 0$ induces a quasi-isomorphism
+on associated chain complexes.
+
+\medskip\noindent
+Since $X$ is a Kan complex (Lemma \ref{lemma-simplicial-group-kan})
+we can find $x \in X_n$ with $d_i x = x_i$ for $i = 0, \ldots, n - 1$.
+After replacing $x_i$ by $x_i - d_ix$ for $i = 0, \ldots, n$ we
+may assume that $x_0 = x_1 = \ldots = x_{n - 1} = 0$.
+In this case we see that $d_i x_n = 0$ for $i = 0, \ldots, n - 1$.
+Thus $x_n \in N(X)_{n - 1}$ and lies in the kernel of the differential
+$N(X)_{n - 1} \to N(X)_{n - 2}$. Here $N(X)$ is the normalized chain
+complex associated to $X$, see Section \ref{section-complexes}.
+Since $N(X)$ is quasi-isomorphic to $s(X)$
+(Lemma \ref{lemma-quasi-isomorphism})
+and thus acyclic we find $x \in N(X_n)$ whose differential is $x_n$.
+This $x$ answers the question posed by the lemma and we are done.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-homotopy-equivalence}
+Let $f : X \to Y$ be a map of simplicial abelian groups.
+If $f$ is termwise surjective\footnote{This assumption is not
+necessary. Also the proof as currently given is not the right one.
+A better proof is to define the homotopy groups of Kan complex
+and show that these are equal to the homology groups of the associated
+complex for a simplicial abelian group.} and a homotopy equivalence of
+simplicial sets, then $f$ induces a quasi-isomorphism of associated
+chain complexes.
+\end{lemma}
+
+\begin{proof}
+By assumption there exists a map $g : Y \to X$ of simplicial sets,
+a homotopy $h : X \times \Delta[1] \to X$ between $g \circ f$ and
+$\text{id}_X$, and a homotopy $h' : Y \times \Delta[1] \to Y$ between
+$f \circ g$ and $\text{id}_Y$. During this proof we will write
+$H_n(X) = H_n(s(X)) = H_n(N(X))$, see
+Section \ref{section-complexes}.
+
+\medskip\noindent
+Note that $H_0(X)$ is the cokernel of the difference map
+$d_1 - d_0 : X_1 \to X_0$. Observe that $x \in X_0$ corresponds to
+a morphism $\Delta[0] \to X$. Composing $h$ with the induced map
+$\Delta[0] \times \Delta[1] \to X \times \Delta[1]$ we see that
+$x$ and $g(f(x))$ are equal to $d_0x'$ and $d_1x'$ for some $x' \in X_1$.
+Similarly for $y \in Y_0$. We conclude that $f$ defines a bijection
+$H_0(X) \to H_0(Y)$.
+
+\medskip\noindent
+Let $n \geq 1$. Consider the simplicial set $S$ which is the pushout of
+$$
+\xymatrix{
+\partial \Delta[n] \ar[r] \ar[d] & {*} \ar[d] \\
+\Delta[n] \ar[r] & S
+}
+$$
+Concretely, we take
+$$
+S_k = \{\varphi : [k] \to [n] \mid \varphi\text{ is surjective}\} \amalg \{*\}.
+$$
+Denote $E = \mathbf{Z}[S]$ the free abelian group on $S$. The incusion
+$\Delta[0] \to S$ coming from $* \in S_0$
+determines an injection $K(\mathbf{Z}, 0) \to E$
+whose cokernel is the object $K(\mathbf{Z}, n)$, i.e., we have
+a short exact sequence
+$$
+0 \to K(\mathbf{Z}, 0) \to E \to K(\mathbf{Z}, n) \to 0
+$$
+See Definition \ref{definition-eilenberg-maclane}
+and the description of the Eilenberg-Maclane objects in
+Lemma \ref{lemma-eilenberg-maclane-object}. Note that the extension
+above is split, for example because the element
+$\xi = [\text{id}_{[n]}] - [*] \in E_n$ satisfies $d_i\xi = 0$ and
+maps to the ``generator'' of $K(\mathbf{Z}, n)$. We have
+$$
+\Mor_{\text{Simp}(\textit{Sets})}(S, X) =
+\Mor_{\text{Simp}(\textit{Ab})}(E, X) =
+X_0 \times
+\bigcap\nolimits_{i = 0, \ldots, n} \text{Ker}(d_i : X_n \to X_{n - 1})
+$$
+This uses the choice of our splitting above and the description of morphisms
+out of Eilenberg-Maclane objects given in
+Lemma \ref{lemma-eilenberg-maclane-object}.
+Note that we can think of
+$\bigcap\nolimits_{i = 0, \ldots, n} \text{Ker}(d_i : X_n \to X_{n - 1})$
+as the cycles in degree $n$ in the normalized chain complex associated
+to $X$, see Section \ref{section-complexes}.
+If two maps $a, b : S \to X$ are homotopic (as maps
+of simplicial sets), then the corresponding maps $a', b' : E \to X$ are
+homotopic as maps of simplicial abelian groups (because taking the
+free abelian group on is a functor). Thus if $a$, resp.\ $b$ correspond
+to $(a_0, a_n)$, resp.\ $(b_0, b_n)$ in the formula above, then
+$a_0$ and $b_0$ define the same element of $H_0(X)$ and
+$a_n$ and $b_n$ define the same class in $H_n(X)$. See
+Lemma \ref{lemma-homotopy-s-N}.
+
+\medskip\noindent
+We come the the final arguments of the proof. An element $y$ of $H_n(Y)$
+can be represented by an element $y_n$ in
+$\bigcap\nolimits_{i = 0, \ldots, n} \text{Ker}(d_i : Y_n \to Y_{n - 1})$.
+Let $a : S \to Y$ be the map of simplicial sets corresponding to
+$(0, y_n)$. Then $b = g \circ a$ corresponds to some $(b_0, b_n)$ as above
+for $X$. Using the homotopy $h'$ we see $(f(b_0), f(b_n))$
+and $(0, y_n)$ come from homotopic maps $S \to Y$ and hence
+$y_n$ and $f(b_n)$ define the same element of $H_n(Y)$.
+Clearly this shows that $H_n(f)$ is surjective.
+Conversely, suppose $x_n$ in
+$\bigcap\nolimits_{i = 0, \ldots, n} \text{Ker}(d_i : X_n \to X_{n - 1})$
+and $f(x_n) = d(y')$ with $y' \in N(Y_{n + 1})$.
+Since $f$ is termwise surjective so is the induced map
+$f : N(X_{n + 1}) \to N(Y_{n + 1})$ (see
+Lemma \ref{lemma-decompose-associated-complexes}).
+Thus we can pick $x' \in N(X_{n + 1})$ mapping to $y'$.
+After replacing $x_n$ by $x_n - d(x')$ we reach the point where
+$f(x_n) = 0$. This means that the morphism $a : S \to X$ corresponding
+to $(0, x_n)$ has the property that $f \circ a$ is the constant morphism
+with value $0$ in $Y$. Hence $g \circ f \circ a$ is also a constant
+morphism, i.e., corresponds to a pair $(b_0, 0)$. Since as before
+$x_n$ and $0$ represent the same element of $H_n(X)$ we conclude.
+\end{proof}
+
+
+
+
+
+
 \section{A homotopy equivalence}
 \label{section-homotopy-equivalence}
 
@@ -5275,17 +5772,14 @@ B
 \Big)
 }
 $$
-See Example \ref{example-cosk0}.
-The case $n = 0$ of the following lemma
-says that this map of simplicial sets
-has a section if $f$ is surjective.
-The proof: choose a section of $f$.
+See Example \ref{example-cosk0}. The case $n = 0$ of the following lemma
+says that this map of simplicial sets is a trivial Kan fibration if $f$ is
+surjective.
 
 \begin{lemma}
 \label{lemma-section}
-Let $f : V \to U$ be a morphism of simplicial sets.
-Let $n \geq 0$ be an integer.
-Assume
+Let $f : V \to U$ be a morphism of simplicial sets. Let $n \geq 0$ be an
+integer. Assume
 \begin{enumerate}
 \item The map $f_i : V_i \to U_i$ is a bijection for $i < n$.
 \item The map $f_n : V_n \to U_n$ is a surjection.
@@ -5294,83 +5788,41 @@ is an isomorphism.
 \item The canonical morphism $V \to \text{cosk}_n \text{sk}_n V$
 is an isomorphism.
 \end{enumerate}
-Then there exists a morphism of simplicial sets $g : U \to V$
-such that $f \circ g = \text{id}_U$.
+Then $f$ is a trivial Kan fibration.
 \end{lemma}
 
 \begin{proof}
-By Lemma \ref{lemma-splitting-simplicial-sets}
-both $U$ and $V$ have canonical splittings with $N(U_i)$
-and $N(V_i)$ equal to the sets of nondegenerate simplices.
-We have to find maps $g_m : U_m \to V_m$ for $m \geq 0$ such
-that
-\begin{eqnarray}
-d^k_i \circ g_k & = & g_{k - 1} \circ d^k_i
-\label{equation-cd}
-\\
-s^k_i \circ g_k & = & g_{k + 1} \circ s^k_i
-\label{equation-cs}
-\end{eqnarray}
-for all $k$. By induction on $m$ we will show that we can find maps
-$g_0, \ldots, g_m$ such that (\ref{equation-cd}) holds for
-$1 \leq k \leq m$ and (\ref{equation-cs}) holds for $0 \leq k \leq m - 1$.
-We set $g_i$ equal to the inverse of $f_i$ for $i = 0, \ldots, n - 1$.
-Clearly the induction hypothesis holds for $m = n - 1$.
-We define $g_n : U_n \to V_n$ as follows.
-Pick $u \in U_n$, then
-\begin{enumerate}
-\item if $u$ is degenerate, write  $u = U(\varphi)(u')$
-for some nondegenerate $u' \in U_m$ and some
-surjective $\varphi : [n] \to [m]$. We set
-$g_n(u) = V(\varphi)(g_m(u'))$. This is well defined
-as the pair $(\varphi, u')$ is unique.
-\item if $u$ is nondegenerate, we choose any $v \in V_n$
-mapping to $u$ and we set $g_n(u) = v$.
-\end{enumerate}
-This choice of $g_n$ guarantees that the induction hypothesis
-holds for $m = n$. Namely, we forced (\ref{equation-cs}) with $k = n - 1$
-by our choice of $g_n$ on degenerate simplices, and (\ref{equation-cd})
-with $k = n$ holds because the equality takes place in
-$V_{n - 1} = U_{n - 1}$.
-
-\medskip\noindent
-One way to finish the proof at this point is to show
-that the family of maps $g_0, \ldots, g_n$ defines
-a morphism of $n$-truncated simplicial sets
-$\text{sk}_n U \to \text{sk}_n V$ which is
-a right inverse to $\text{sk}_nf$. Then since
-$\text{cosk}_n$ is a functor and by the hypothesis
-of the lemma we get $g$ as $\text{cosk}_n(g_0, \ldots, g_n)$.
-But we can also see this directly as follows.
-
-\medskip\noindent
-Given the induction hypothesis for $m \geq n$
-we inductively define $g_{m + 1}$ as follows.
-Since $U \to \text{cosk}_n \text{sk}_n U$
-is an isomorphism, we see that also
-$U \to \text{cosk}_m \text{sk}_m U$ is an
-isomorphism. Hence elements of $U_{m + 1}$
-are $(m + 2)$-tuples $(u_0, \ldots, u_{m + 1})$ with
-$u_i \in U_m$ satisfying the equalities
-$d^m_{j - 1}(u_i) = d^m_i(u_j)\ \forall\ 0\leq i < j\leq m + 1$.
-Similarly for $V_{m + 1}$.
-Thus we may simply map the element
-$(u_0, \ldots, u_{m + 1})$ to the element
-$(g_m(u_0), \ldots, g_m(u_{m + 1}))$.
-To verify the induction hypothesis for $m + 1$ with
-this choice of $g_{m + 1}$ we will use the
-explicit form of the maps $d_i$ and $s_i$
-as given in Remark \ref{remark-explicit-face-degeneracy}.
-This remark shows immediately that the commutation of
-$g_0, \ldots, g_m$ with $d_i$ and $s_i$ implies the
-desired commutation for $g_{m + 1}$.
+Consider a solid diagram
+$$
+\xymatrix{
+\partial \Delta[k] \ar[r] \ar[d] & V \ar[d] \\
+\Delta[k] \ar[r] \ar@{-->}[ru] & U
+}
+$$
+as in Definition \ref{definition-trivial-kan}. Let $x \in U_k$ be
+the $k$-simplex corresponding to the lower horizontal arrow.
+If $k \leq n$ then the dotted arrow is the one corresponding to
+a lift $y \in V_k$ of $x$; the diagram will commute as the other
+nondegenerate simplices of $\Delta[k]$ are in degrees $< k$ where
+$f$ is an isomorphism. If $k > n$, then by conditions (3) and (4)
+we have (using adjointness of skeleton and coskeleton functors)
+$$
+\Mor(\Delta[k], U) =
+\Mor(\text{sk}_n\Delta[k], \text{sk}_nU) =
+\Mor(\text{sk}_n\partial\Delta[k], \text{sk}_nU) =
+\Mor(\partial \Delta[k], U)
+$$
+and similarly for $V$ because
+$\text{sk}_n\Delta[k] = \text{sk}_n\partial\Delta[k]$ for $k > n$.
+Thus we obtain a unique dotted arrow fitting into the diagram in
+this case also.
 \end{proof}
 
 \noindent
 Let $A, B$ be sets. Let $f^0, f^1 : A \to B$ be maps of sets.
 Consider the induced maps $f^0, f^1 : \text{cosk}_0(A) \to \text{cosk}_0(B)$
 abusively denoted by the same symbols. The following lemma for $n = 0$
-says that $f_0$ is homotopic to $f_1$. In fact, the
+says that $f^0$ is homotopic to $f^1$. In fact, the
 homotopy is given by the map $h : \text{cosk}_0(A) \times
 \Delta[1] \to \text{cosk}_0(A)$ with components
 \begin{eqnarray*}
@@ -5392,7 +5844,7 @@ Let $f^0, f^1 : V \to U$ be maps of a simplicial sets.
 Let $n \geq 0$ be an integer.
 Assume
 \begin{enumerate}
-\item The maps $f^j_i : V_i \to V_i$, $j = 0, 1$ are equal for $i < n$.
+\item The maps $f^j_i : V_i \to U_i$, $j = 0, 1$ are equal for $i < n$.
 \item The canonical morphism $U \to \text{cosk}_n \text{sk}_n U$
 is an isomorphism.
 \item The canonical morphism $V \to \text{cosk}_n \text{sk}_n V$
@@ -5401,10 +5853,30 @@ is an isomorphism.
 Then $f^0$ is homotopic to $f^1$.
 \end{lemma}
 
-\begin{proof}
-We have to construct
-a morphism of simplicial sets $h : V \times \Delta[1] \to U$
-which recovers $f^i$ on composing with $e_i$.
+\begin{proof}[First proof]
+Let $W$ be the $n$-truncated simplicial set with $W_i = U_i$ for
+$i < n$ and $W_n = U_n / \sim$ where $\sim$ is the equivalence relation
+generatd by $f^0(y) \sim f^1(y)$ for $y \in V_n$. This makes sense
+as the morphisms $U(\varphi) : U_n \to U_i$ corresponding to
+$\varphi : [i] \to [n]$ for $i < n$ factor through the quotient map
+$U_n \to W_n$ because $f^0$ and $f^1$ are morphisms of simplicial sets and
+equal in degrees $< n$. Next, we upgrade $W$ to a simplicial set
+by taking $\text{cosk}_n W$. By Lemma \ref{lemma-section}
+the morphism $g : U \to W$ is a trivial Kan fibration. Observe
+that $g \circ f^0 = g \circ f^1$ by construction and denote
+this morphism $f : V \to W$. Consider the diagram
+$$
+\xymatrix{
+\partial \Delta[1] \times V \ar[rr]_{f^0, f^1} \ar[d] & & U \ar[d] \\
+\Delta[1] \times V \ar[rr]^f \ar@{-->}[rru] & & W
+}
+$$
+By Lemma \ref{lemma-trivial-kan} the dotted arrow exists and the proof is done.
+\end{proof}
+
+\begin{proof}[Second proof]
+We have to construct a morphism of simplicial sets
+$h : V \times \Delta[1] \to U$ which recovers $f^i$ on composing with $e_i$.
 The case $n = 0$ was dealt with above the lemma.
 Thus we may assume that $n \geq 1$.
 The map $\Delta[1] \to \text{cosk}_1 \text{sk}_1 \Delta[1]$
@@ -5433,14 +5905,12 @@ Let $\varphi : [k] \to [l]$ be a morphism of $\Delta_{\leq n}$.
 We will show that the diagram
 $$
 \xymatrix{
-V_{[l]} \times \Mor([l], [1]) \ar[r] \ar[d] &
-U_{[l]} \ar[d] \\
-V_{[k]} \times \Mor([k], [1]) \ar[r] &
-U_{[k]}
+V_{l} \times \Mor([l], [1]) \ar[r] \ar[d] & U_{l} \ar[d] \\
+V_{k} \times \Mor([k], [1]) \ar[r] & U_{k}
 }
 $$
 commutes.
-Pick $v \in V_{[l]}$ and $\alpha : [l] \to [1]$.
+Pick $v \in V_{l}$ and $\alpha : [l] \to [1]$.
 The commutativity means that
 $$
 h_k(V(\varphi)(v), \alpha \circ \varphi)
@@ -5476,42 +5946,29 @@ is degenerate. Thus $\varphi = \text{id}_{[n]}$, which is a trivial case.
 \end{proof}
 
 \begin{lemma}
-\label{lemma-equiv}
-With assumptions and notation as in Lemma \ref{lemma-section}
-above. The composition $g \circ f$ is homotopy equivalent
-to the identity on $V$. In particular, the morphism $f$
-is a homotopy equivalence.
-\end{lemma}
-
-\begin{proof}
-Immediate from Lemma \ref{lemma-homotopy} above.
-\end{proof}
-
-\begin{lemma}
 \label{lemma-cosk-minus-one-equivalence}
-Let $A$, $B$ be sets, and that $f : A \to B$
-is a map. Consider the simplicial set $U$ with
-$n$-simplices
+Let $A$, $B$ be sets, and that $f : A \to B$ is a map. Consider the simplicial
+set $U$ with $n$-simplices
 $$
 A \times_B A \times_B \ldots \times_B A\ (n + 1 \text{ factors)}.
 $$
 see Example \ref{example-fibre-products-simplicial-object}.
-If $f$ is surjective, the morphism
-$$
-U \to B
-$$
+If $f$ is surjective, the morphism $U \to B$
 where $B$ indicates the constant simplicial set with value $B$
-is a homotopy equivalence.
+is a trivial Kan fibration.
 \end{lemma}
 
 \begin{proof}
-For $b \in B$, write $A_b = f^{-1}(b)$. It is a nonempty set.
-It is clear that
-$B = \coprod_{b \in B} \{b \}$ and that
-$U = \coprod_{b \in B} \text{cosk}_0 A_b$.
-Each of the morphisms $\text{cosk}_0 A_b \to \{b\}$
-is a homotopy equivalence by Lemma \ref{lemma-equiv}.
-It follows easily that $U \to B$ is a homotopy equivalence.
+Observe that $U$ fits into a cartesian square
+$$
+\xymatrix{
+U \ar[d] \ar[r] & \text{cosk}_0(B) \ar[d] \\
+B \ar[r] & \text{cosk}_0(A)
+}
+$$
+Since the right vertical arrow is a trivial Kan fibration by
+Lemma \ref{lemma-section}, so is the left by
+Lemma \ref{lemma-trivial-kan-base-change}.
 \end{proof}
 
 
