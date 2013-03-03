@@ -711,18 +711,31 @@ Recall also that there is an augmentation
 $$
 \epsilon : P_\bullet \longrightarrow B
 $$
-where we view $B$ as a constant simplicial $A$-algebra. This map is a
-homotopy equivalence when viewed as a map of simplicial sets, see
-Simplicial, Lemma \ref{simplicial-lemma-standard-simplicial-homotopy}.
+where we view $B$ as a constant simplicial $A$-algebra.
+
+\begin{definition}
+\label{definition-standard-resolution}
+Let $A \to B$ be a ring map. The {\it standard resolution of $B$ over $A$}
+is the augmentation $\epsilon : P_\bullet \to A$ with terms
+$$
+P_0 = A[B], P_1 = A[A[B]], \ldots
+$$
+and maps as constructed above.
+\end{definition}
+
+\noindent
+It will turn out that we can use the standard resolution
+to compute left derived functors in certain settings.
 
 \begin{definition}
 \label{definition-cotangent-complex-ring-map}
-The {\it cotangent complex} $L_{B/A}$ of a ring map $A \to B$ is the complex of
-$B$-modules associated to the simplicial $B$-module
+The {\it cotangent complex} $L_{B/A}$ of a ring map $A \to B$
+is the complex of $B$-modules associated to the simplicial $B$-module
 $$
-\Omega_{P_\bullet/A} \otimes_\epsilon B
+\Omega_{P_\bullet/A} \otimes_{P_\bullet, \epsilon} B
 $$
-where $P_\bullet = X_\bullet(B)$ as above.
+where $\epsilon : P_\bullet \to B$ is the standard resolution
+of $B$ over $A$.
 \end{definition}
 
 \noindent
@@ -730,8 +743,7 @@ In Simplicial, Section \ref{simplicial-section-complexes} we associate a
 chain complex to a simplicial module, but here we work with cochain complexes.
 Thus the term $L_{B/A}^{-n}$ in degree $-n$ is the $B$-module
 $\Omega_{P_n/A} \otimes_{P_n, \epsilon_n} B$ and $L_{B/A}^m = 0$
-for $m > 0$. In order to prove some results about this complex
-we give an alternative construction.
+for $m > 0$.
 
 \begin{remark}
 \label{remark-variant-cotangent-complex}
@@ -743,24 +755,28 @@ and $F : \mathcal{S} \to \mathcal{A}$ which sends $E \to B$ to
 $A[E] \to B$. Let $X_\bullet$ be the simplicial object of
 $\text{Fun}(\mathcal{A}, \mathcal{A})$ constructed in
 Simplicial, Section \ref{simplicial-section-standard}.
-Since the diagram
+The diagram
 $$
 \xymatrix{
 \mathcal{A} \ar[d] \ar[r] & \mathcal{S} \ar@<1ex>[l] \ar[d] \\
 \textit{Alg}_A \ar[r] & \textit{Sets} \ar@<1ex>[l]
 }
 $$
-commutes it follows that $X_\bullet(\text{id}_B : B \to B)$
-is equal to the simplicial polynomial algebra $P_\bullet$
-endowed with its augmentation $\epsilon$ towards $B$
-used in Definition \ref{definition-cotangent-complex-ring-map}.
+commutes. It follows that $X_\bullet(\text{id}_B : B \to B)$
+is equal to the standard resolution of $B$ over $A$.
 \end{remark}
 
-\begin{remark}
-\label{remark-category-presentations}
+
+
+
+
+\section{Simplicial resolutions and derived lower shriek}
+\label{section-compute-L-pi-shriek}
+
+\noindent
 Let $A \to B$ be a ring map. Consider the category of $A$-algebra maps
-$\alpha : P \to B$ where $P$ is a polynomial algebra (in some
-set\footnote{It suffices to consider sets of cardinality
+$\alpha : P \to B$ where $P$ is a polynomial algebra over $A$
+(in some set\footnote{It suffices to consider sets of cardinality
 at most the cardinality of $B$.} of variables).
 Let $\mathcal{C} = \mathcal{C}_{B/A}$ denote the {\bf opposite}
 of this category. The reason for
@@ -781,13 +797,16 @@ is the sheaf $\mathcal{O}$ which sends to object $(P, \alpha)$ to $P$.
 Then second is the constant sheaf $B$, which we will denote
 $\underline{B}$. We obtain the following diagram of morphisms of
 ringed topoi
-$$
+\begin{equation}
+\label{equation-pi}
+\vcenter{
 \xymatrix{
 (\Sh(\mathcal{C}), \underline{B}) \ar[r]_i \ar[d]_\pi &
 (\Sh(\mathcal{C}), \mathcal{O}) \\
 (\Sh(*), B)
 }
-$$
+}
+\end{equation}
 The morphism $i$ is the identity on underlying topoi and
 $i^\sharp : \mathcal{O} \to \underline{B}$ is the obvious surjective map.
 The map $\pi$ is as in Example \ref{example-category-to-point}.
@@ -801,43 +820,45 @@ $$
 L\pi_! : D(\underline{B}) \longrightarrow D(B)
 $$
 left adjoint to $\pi^* = \pi^{-1} : D(B) \to D(\underline{B})$.
-\end{remark}
 
 \begin{lemma}
 \label{lemma-identify-pi-shriek}
-With notation as in Remark \ref{remark-category-presentations}
-and $\epsilon : P_\bullet \to B$ as in
-Definition \ref{definition-cotangent-complex-ring-map}.
-For any $\mathcal{F}$ in $\textit{Ab}(\mathcal{C})$ we have
+With notation as above let $P_\bullet$ be a simplicial $A$-algebra
+endowed with an augmentation $\epsilon : P_\bullet \to B$.
+Assume each $P_n$ is a polynomial algebra over $A$ and $\epsilon$
+is a trivial Kan fibration on underlying simplicial sets. Then
 $$
 L\pi_!\mathcal{F} = \mathcal{F}(P_\bullet, \epsilon)
 $$
+in $D(\textit{Ab})$, resp.\ $D(B)$ functorially in $\mathcal{F}$ in
+$\textit{Ab}(\mathcal{C})$, resp.\ $\textit{Mod}(\underline{B})$.
 \end{lemma}
 
 \begin{proof}
-Given any object $U = (Q, \beta)$ of $\mathcal{C}$ the rule
+As $L\pi_!$ agrees for modules and abelian sheaves
+(Lemma \ref{lemma-properties-lower-shriek-fibred-category})
+it suffices to prove this when $\mathcal{F}$ is an
+abelian sheaf. Given any object $U = (Q, \beta)$ of
+$\mathcal{C}$ the rule
 $$
 (P, \alpha) \longmapsto
-\text{free }B\text{-module on }\Mor_\mathcal{C}((Q, \beta), (P, \alpha))
+\text{free }\mathbf{Z}\text{-module on }
+\Mor_\mathcal{C}((Q, \beta), (P, \alpha))
 $$
-defines a $\underline{B}$-module $\mathcal{G}$. In the notation of
+defines an abelian sheaf $\mathcal{G}$. Note that
+$\mathcal{G} = j_{U!}\mathbf{Z}_U$ in the notation of
 Modules on Sites, Definition
-\ref{sites-modules-definition-localize-ringed-site}
-$\mathcal{G} = j_{U!}\mathcal{O}_U$. Hence we have
+\ref{sites-modules-definition-localize-ringed-site}. Hence we have
 $$
-\Hom_{\underline{B}}(\mathcal{G}, \mathcal{F}) = \mathcal{F}(Q, \beta)
+\Hom_{\textit{Ab}(\mathcal{C})}(\mathcal{G}, \mathcal{F}) =
+\mathcal{F}(Q, \beta)
 $$
-for any object $\mathcal{F}$ of $\textit{Mod}(\underline{B})$.
-Since the topology on $\mathcal{C}$ is chaotic, the section functors on
-$\textit{Mod}(\underline{B})$ are exact. Hence $\mathcal{G}$
-is projective. Every $\underline{B}$-module is a quotient of a
-direct sum of $j_{U!}\mathcal{O}_U$
+for any abelian sheaf $\mathcal{F}$ on $\mathcal{C}$.
+Since the topology on $\mathcal{C}$ is chaotic, the section functors
+are exact. Hence $\mathcal{G}$ is projective. Every abelian sheaf
+is a quotient of a direct sum of $j_{U!}\mathbf{Z}_U$
 (Modules on Sites, Lemma \ref{sites-modules-lemma-module-quotient-flat}).
-We conclude the category
-$\textit{Mod}(\underline{B})$ has enough projectives.
-
-\medskip\noindent
-In particular we can compute $L\pi_!\mathcal{F}$ by choosing a resolution
+Thus we can compute $L\pi_!\mathcal{F}$ by choosing a resolution
 $$
 \ldots \to \mathcal{G}^{-1} \to \mathcal{G}^0 \to \mathcal{F} \to 0
 $$
@@ -870,44 +891,104 @@ $$
 are exact, see Homology, Lemma
 \ref{homology-lemma-double-complex-gives-resolution}.
 Since the sheaves $\mathcal{G}^m$ are direct sums of the sheaves
-$j_{U!}\mathcal{O}_U$ with $U = (Q, \beta)$ we reduce to
-$\mathcal{G} = j_{U!}\mathcal{O}_U$. The complex above is then
-the complex associated to the free $B$-module on the simplicial set
+$j_{U!}\mathbf{Z}_U$ with $U = (Q, \beta)$ we reduce to
+$\mathcal{G} = j_{U!}\mathbf{Z}_U$. The complex above is then
+the complex $s(\mathbf{Z}[S_\bullet])$ associated to the free
+$\mathbf{Z}$-module $\mathbf{Z}[S_\bullet]$ on the simplicial set
 $$
-\Mor_\mathcal{C}((Q, \beta), (P_\bullet, \epsilon))
+S_\bullet = \Mor_\mathcal{C}((Q, \beta), (P_\bullet, \epsilon))
 $$
-We have to show that this complex is acyclic in nonzero degree
-and has cohomology module equal to $B$ in degree $0$.
-Namely, we have seen that $\pi_!j_{U!}\mathcal{O}_U = B$ in the proof of
-Lemma \ref{lemma-properties-lower-shriek-fibred-category}
-(this is also clear from the description of $\pi_!$
-in Lemma \ref{lemma-compute-pi-shriek}).
+We have to show $s(\mathbf{Z}[S_\bullet])$ is acyclic in nonzero degree
+and has cohomology module equal to $\mathbf{Z}$ in degree $0$.
+Namely, we have $\pi_!j_{U!}\mathbf{Z}_U = \mathbf{Z}$
+as was shown in the proof of
+Lemma \ref{lemma-properties-lower-shriek-fibred-category}.
 
 \medskip\noindent
 Write $Q = A[E]$ for some set $E$ (this is possible by our choice of
-the category $\mathcal{C}$). By the alternative construction of
-$(P_\bullet, \epsilon)$
-in Remark \ref{remark-variant-cotangent-complex}, and using the notation
-$\mathcal{A}$, $\mathcal{S}$, $F$, $i$, $X_\bullet$ from that remark,
-we see that
+the category $\mathcal{C}$). We see that
 $$
-\Mor_\mathcal{C}((Q, \beta), (P_\bullet, \epsilon)) =
-\Mor_{\mathcal{A}}((Q, \beta), (P_\bullet, \epsilon)) = 
-\Mor_{\mathcal{S}}((E \to B), i(X_\bullet(B)))
+S_\bullet = \Mor_{\textit{Sets}}((E, \beta|_E), (P_\bullet, \epsilon))
 $$
-By Simplicial, Lemma \ref{simplicial-lemma-standard-simplicial-homotopy}
-this simplicial set is homotopy equivalent to the constant simplicial set on
-$\Mor_\mathcal{S}((E \to B), (B \to B))$, i.e., on a singleton.
-Because ``taking the free $B$-module on'' is a functor, we
-see that the simplicial module above is homotopy equivalent
-to the constant simplicial module $B$
+Let $*$ be the constant simplicial set on a singleton. For $b \in B$
+let $F_{b, \bullet}$ be the simplicial set defined by the cartesian
+diagram
+$$
+\xymatrix{
+F_{b, *} \ar[r] \ar[d] & P_\bullet \ar[d]_\epsilon \\
+{*} \ar[r]^b & B
+}
+$$
+With this notation $S_\bullet = \prod_{e \in E} F_{\beta(e), \bullet}$.
+Since we assumed $\epsilon$ is a trival Kan fibration we see that
+$F_{b, \bullet} \to *$ is a trivial Kan fibration
+(Simplicial, Lemma \ref{simplicial-lemma-trivial-kan-base-change}).
+Thus $S_\bullet \to *$ is a trivial Kan fibration
+(Simplicial, Lemma \ref{simplicial-lemma-product-trivial-kan}).
+Therefore $S_\bullet$ is homotopy equivalent to $*$
+(Simplicial, Lemma \ref{simplicial-lemma-trivial-kan-homotopy}).
+We conclude that $\mathbf{Z}[S_\bullet] \to \mathbf{Z}$ is
+a homotopy equivalence of simplicial abelian groups
 (Simplicial, Remark \ref{simplicial-remark-homotopy-better}).
-This finishes the proof as taking the associated complex transforms
-homotopy equivalent simplicial modules into homotopy equivalent
-complexes of modules by Simplicial, Lemma \ref{simplicial-lemma-homotopy-s-N}.
+This finishes the proof by
+Simplicial, Lemma \ref{simplicial-lemma-homotopy-s-N}.
 \end{proof}
 
+\noindent
+In particular, we can use the standard resolution of $B$ over $A$
+to compute derived lower shriek.
 
+\begin{lemma}
+\label{lemma-pi-shriek-standard}
+Let $A \to B$ be a ring map. Let $\epsilon : P_\bullet \to B$
+be the standard resolution of $B$ over $A$. Let $\pi$ be as in
+(\ref{equation-pi}). Then
+$$
+L\pi_!\mathcal{F} = \mathcal{F}(P_\bullet, \epsilon)
+$$
+in $D(\textit{Ab})$, resp.\ $D(B)$ functorially in $\mathcal{F}$ in
+$\textit{Ab}(\mathcal{C})$, resp.\ $\textit{Mod}(\underline{B})$.
+\end{lemma}
+
+\begin{proof}
+We will apply Lemma \ref{lemma-identify-pi-shriek}.
+Since the terms $P_n$ are polynomial algebras we see the first
+assumption of that lemma is satisfied. The second assumption we
+can see as follows. By
+Simplicial, Lemma \ref{simplicial-lemma-standard-simplicial-homotopy}
+the map $\epsilon$ is a homotopy equivalence of underlying
+simplicial sets. By
+Simplicial, Lemma \ref{simplicial-lemma-homotopy-equivalence}
+this implies $\epsilon$ induces a quasi-isomorphism of associated
+complexes of abelian groups. By
+Simplicial, Lemma \ref{simplicial-lemma-qis-simplicial-abelian-groups}
+this implies that $\epsilon$ is a trivial Kan fibration of underlying
+simplicial sets.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-compute-cotangent-complex}
+Let $A \to B$ be a ring map.  Let $\pi$ and $i$ be as in (\ref{equation-pi}).
+There is a canonical isomorphism
+$$
+L_{B/A} = L\pi_!(Li^*\Omega_{\mathcal{O}/A})
+$$
+in $D(B)$.
+\end{lemma}
+
+\begin{proof}
+For an object $\alpha : P \to B$ of the category $\mathcal{C}$
+the module $\Omega_{P/A}$ is a free $P$-module. Thus
+$\Omega_{\mathcal{O}/A}$ is a flat $\mathcal{O}$-module. Hence
+$Li^*\Omega_{\mathcal{O}/A} = i^*\Omega_{\mathcal{O}/A}$ is the sheaf
+of $\underline{B}$-modules which associates to $\alpha : P \to A$ the
+$B$-module $\Omega_{P/A} \otimes_{P, \alpha} B$.
+By Lemma \ref{lemma-pi-shriek-standard}
+we see that the right hand side is computed by
+the value of this sheaf on the standard resolution which is our
+definition of the left hand side
+(Definition \ref{definition-cotangent-complex-ring-map}).
+\end{proof}
 
 
 
@@ -1120,6 +1201,36 @@ Simplicial, Lemma \ref{simplicial-lemma-limit-trivial-kan}.
 However, the construction above stabilizes in each degree
 to a fixed finitely generated polynomial algebra as desired.
 \end{proof}
+
+\begin{lemma}
+\label{lemma-pi-shriek-finite}
+Let $A$ be a Noetherian ring. Let $A \to B$ be a finite type ring map.
+Let $\pi$, $\underline{B}$ be as in (\ref{equation-pi}).
+If $\mathcal{F}$ is an $\underline{B}$-module such that
+$\mathcal{F}(P, \alpha)$ is a finite $B$-module for all
+$\alpha : P = A[x_1, \ldots, x_n] \to B$, then the cohomology modules
+of $L\pi_!\mathcal{F}$ are finite $B$-modules.
+\end{lemma}
+
+\begin{proof}
+By Lemma \ref{lemma-identify-pi-shriek} and
+Proposition \ref{proposition-polynomial}
+we can compute $L\pi_!\mathcal{F}$ by a complex
+constructed out of the values of $\mathcal{F}$ on finite type
+polynomial algebras.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-cotangent-finite}
+Let $A$ be a Noetherian ring. Let $A \to B$ be a finite type ring map.
+Then $H^n(L_{B/A})$ is a finite $B$-module for all $n \in \mathbf{Z}$.
+\end{lemma}
+
+\begin{proof}
+Apply Lemmas \ref{lemma-compute-cotangent-complex} and
+\ref{lemma-pi-shriek-finite}.
+\end{proof}
+
 
 
 
