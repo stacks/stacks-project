@@ -971,7 +971,9 @@ simplicial sets.
 Let $A \to B$ be a ring map.  Let $\pi$ and $i$ be as in (\ref{equation-pi}).
 There is a canonical isomorphism
 $$
-L_{B/A} = L\pi_!(Li^*\Omega_{\mathcal{O}/A})
+L_{B/A} = L\pi_!(Li^*\Omega_{\mathcal{O}/A}) =
+L\pi_!(i^*\Omega_{\mathcal{O}/A}) =
+L\pi_!(\Omega_{\mathcal{O}/A} \otimes_\mathcal{O} \underline{B})
 $$
 in $D(B)$.
 \end{lemma}
@@ -990,6 +992,17 @@ definition of the left hand side
 (Definition \ref{definition-cotangent-complex-ring-map}).
 \end{proof}
 
+\begin{lemma}
+\label{lemma-cotangent-complex-polynomial-algebra}
+If $B$ is a polynomial algebra over the ring $A$, then
+$L_{B/A}$ is quasi-isomorphic to $\Omega_{B/A}[0]$.
+\end{lemma}
+
+\begin{proof}
+This follows from Lemma \ref{lemma-compute-cotangent-complex} and
+Lemma \ref{lemma-identify-pi-shriek} which tells us
+the constant simplicial algebra on $B$ can be used to compute $L\pi_!$.
+\end{proof}
 
 
 
@@ -1202,6 +1215,24 @@ However, the construction above stabilizes in each degree
 to a fixed finitely generated polynomial algebra as desired.
 \end{proof}
 
+\begin{remark}
+\label{remark-resolution}
+Let $A \to B$ be any ring map. The proof of
+Proposition \ref{proposition-polynomial}
+shows that there exists a simplicial $A$-algebra $P_\bullet$
+with an augmentation $\epsilon : P_\bullet \to B$ such that each $P_n$
+is a polynomial algebra (on some set) over $A$ such that $\epsilon$
+is a trivial Kan fibration of simplicial sets.
+Let us call such a pair $(P_\bullet, \epsilon)$ a
+{\it resolution} of $B$ over $A$. Of course, we have seen in
+the proof of Lemma \ref{lemma-pi-shriek-standard}
+that the standard resolution of $B$ over $A$ is a resolution
+(so that this terminology doesn't lead to a conflict).
+But the point of this remark is that we can prove the existence
+of resolutions without appealing to the computations in
+Simpicial, Section \ref{simplicial-section-standard}.
+\end{remark}
+
 \begin{lemma}
 \label{lemma-pi-shriek-finite}
 Let $A$ be a Noetherian ring. Let $A \to B$ be a finite type ring map.
@@ -1233,6 +1264,178 @@ Apply Lemmas \ref{lemma-compute-cotangent-complex} and
 
 
 
+
+
+
+
+\section{Functoriality}
+\label{section-functoriality}
+
+\noindent
+In this section we consider a commutative square
+\begin{equation}
+\label{equation-commutative-square}
+\vcenter{
+\xymatrix{
+B \ar[r] & B' \\
+A \ar[u] \ar[r] & A' \ar[u]
+}
+}
+\end{equation}
+of ring maps. We claim there is a canonical $B$-linear map of complexes
+$$
+L_{B/A} \longrightarrow L_{B'/A'}
+$$
+associated to this diagram. Namely, if $P_\bullet \to B$ is the
+standard resolution of $B$ over $A$ and $P'_\bullet \to B'$ is the
+standard resoluton of $B'$ over $A'$, then there is a canonical map
+$P_\bullet \to P'_\bullet$
+of simplicial $A$-algebras compatible with the augmentations
+$P_\bullet \to B$ and $P'_\bullet \to B'$. This can be seen in terms
+of the construction of standard resolutions in
+Simplicial, Section \ref{simplicial-section-standard}
+but in the special case at hand it probably suffices to say simply
+that the maps
+$$
+P_0 = A[B] \longrightarrow A'[B'] = P'_0,\quad
+P_1 = A[A[B]] \longrightarrow A'[A'[B']] = P'_1,
+$$
+and so on are given by the given maps $A \to A'$ and $B \to B'$.
+The desired map $L_{B/A} \to L_{B'/A'}$ then comes from the associated
+maps $\Omega_{P_n/A} \to \Omega_{P'_n/A'}$.
+
+\medskip\noindent
+Another description of the functoriality map can be given as follows.
+Let $\mathcal{C} = \mathcal{C}_{B/A}$ and $\mathcal{C}' = \mathcal{C}_{B'/A}'$
+be the categories considered in Section \ref{section-compute-L-pi-shriek}.
+There is a functor
+$$
+u : \mathcal{C} \longrightarrow \mathcal{C}',\quad
+(P, \alpha) \longmapsto (P \otimes_A A', c \circ (\alpha \otimes 1))
+$$
+where $c : B \otimes_A A' \to B'$ is the obvious map. As discussed in
+Example \ref{example-morphism-categories} we obtain a morphism of topoi
+$g : \Sh(\mathcal{C}) \to \Sh(\mathcal{C}')$ and a commutative
+diagram of maps of ringed topoi
+\begin{equation}
+\label{equation-double-square}
+\vcenter{
+\xymatrix{
+(\Sh(\mathcal{C}), \underline{B}) \ar[d]_\pi &
+(\Sh(\mathcal{C}'), \underline{B'}) \ar[d]_\pi \ar[l]^h \ar[r]_g &
+(\Sh(\mathcal{C}), \underline{B'}) \ar[d]_{\pi'} \\
+(\Sh(*), B) &
+(\Sh(*), B') \ar[l]_f \ar[r] &
+(\Sh(*), B')
+}
+}
+\end{equation}
+Here $h$ is the identity on underlying topoi and given by the ring map
+$B \to B'$ on sheaves of rings. 
+By Remark \ref{remark-morphism-fibred-categories}
+given $\mathcal{F}$ on $\mathcal{C}$ and $\mathcal{F}'$ on $\mathcal{C}'$
+and a transformation $t : \mathcal{F} \to g^{-1}\mathcal{F}'$
+we obtain a canonical map $L\pi_!\mathcal{F} \to L\pi'_!\mathcal{F}'$.
+If we apply this to the sheaves
+$$
+\mathcal{F} : (P, \alpha) \mapsto \Omega_{P/A} \otimes_P B,\quad
+\mathcal{F}' : (P', \alpha') \mapsto \Omega_{P'/A'} \otimes_{P'} B',
+$$
+and the transformation $t$ given by the canonical maps
+$$
+\Omega_{P/A} \otimes_P B \longrightarrow
+\Omega_{P \otimes_A A'/A'} \otimes_{P \otimes_A A'} B'
+$$
+to get a canonical map
+$$
+L\pi_!(\Omega_{\mathcal{O}/A} \otimes_\mathcal{O} \underline{B})
+\longrightarrow
+L\pi'_!(\Omega_{\mathcal{O}'/A'} \otimes_{\mathcal{O}'} \underline{B'})
+$$
+By Lemma \ref{lemma-compute-cotangent-complex} this gives
+$L_{B/A} \to L_{B'/A'}$. We omit the verification that this map
+agrees with the map defined above in terms of simplicial
+resolutions.
+
+\begin{lemma}
+\label{lemma-flat-base-change}
+Assume (\ref{equation-commutative-square}) induces a quasi-isomorphism
+$B \otimes_A^\mathbf{L} A' = B'$. Then, with notation as in
+(\ref{equation-double-square}) and
+$\mathcal{F}' \in \textit{Ab}(\mathcal{C}')$,
+we have $L\pi_!(g^{-1}\mathcal{F}') = L\pi'_!\mathcal{F}'$.
+\end{lemma}
+
+\begin{proof}
+Let $P_\bullet \to B$ be a resolution, see Remark \ref{remark-resolution}.
+The complex of $A$-modules $s(P_\bullet)$ associated to $P_\bullet$
+(viewed as a simplicial $A$-module) is a free $A$-module resolution of $B$.
+Namely, $P_n$ is a free $A$-module and $s(P_\bullet) \to B$ is a
+quasi-isomorphism (for example by
+Simplical, Lemmas \ref{simplicial-lemma-trivial-kan-homotopy} and
+\ref{simplicial-lemma-homotopy-equivalence}).
+Thus $B \otimes_A^\mathbf{L} A'$ is computed by
+$s(P_\bullet) \otimes_A A' = s(P_\bullet \otimes_A A')$.
+Therefore the assumption of the lemma signifies that
+$\epsilon' : P_\bullet \otimes_A A' \to B'$ is a quasi-isomorphism, hence
+a trivial Kan fibration of simplical sets by
+Simplicial, Lemma \ref{simplicial-lemma-qis-simplicial-abelian-groups}.
+By Lemma \ref{lemma-identify-pi-shriek}
+we see that
+$$
+\mathcal{F}'(P_\bullet \otimes_A A', \epsilon')
+$$
+computes $L\pi'_!\mathcal{F}'$ and
+$$
+(g^{-1}\mathcal{F}')(P_\bullet, \epsilon)
+$$
+computes $L\pi_!(g^{-1}\mathcal{F}')$. On the other hand, the value of
+$g^{-1}\mathcal{F}'$ on $(P_n, \epsilon_n)$ is
+$\mathcal{F}'(P_n \otimes_A A', \epsilon_n')$ as the functor $u$
+is defined by the base change by $A \to A'$.
+Thus the agreement is clear.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-flat-base-change-cotangent-complex}
+If (\ref{equation-commutative-square}) induces a quasi-isomorphism
+$B \otimes_A^\mathbf{L} A' = B'$, then the functoriality map
+induces an isomorphism
+$$
+L_{B/A} \otimes_B^\mathbf{L} B' \longrightarrow L_{B/A}
+$$
+\end{lemma}
+
+\begin{proof}
+Observe that $L\pi^{B'}_! \circ Lh^* = Lf^* \circ L\pi^B_!$ where
+$L\pi_!^B : D(\mathcal{C}, \underline{B}) \to D(B)$ and
+$L\pi_!^{B'} : D(\mathcal{C}, \underline{B'}) \to D(B')$
+are the functors constructed in
+Lemma \ref{lemma-properties-lower-shriek-fibred-category}.
+Namely, both are left adjoint to the obvious functor
+$\pi^{-1} : D(B') \to D(\mathcal{C}, \underline{B})$.
+In particular
+$$
+L_{B/A} \otimes_B^\mathbf{L} B' = Lf^*L_{B/A} =
+Lf^* L\pi^B_! (\Omega_{\mathcal{O}/A} \otimes_\mathcal{O} \underline{B}) =
+L\pi^{B'}_! Lh^*(\Omega_{\mathcal{O}/A} \otimes_\mathcal{O} \underline{B})
+$$
+the second equality by Lemma \ref{lemma-compute-cotangent-complex}.
+
+\medskip\noindent
+Note that $\Omega_{\mathcal{O}/A}$ is a flat $\mathcal{O}$-module,
+hence $\Omega_{\mathcal{O}/A} \otimes_\mathcal{O} \underline{B}$ is a flat
+$\underline{B}$-module. Thus
+$Lh^*(\Omega_{\mathcal{O}/A} \otimes_\mathcal{O} \underline{B}) =
+\Omega_{\mathcal{O}/A} \otimes_\mathcal{O} \underline{B'}$.
+It follows that
+$Lh^*(\Omega_{\mathcal{O}/A} \otimes_\mathcal{O} \underline{B})$
+is equal to
+$g^{-1}(\Omega_{\mathcal{O}'/A'} \otimes_{\mathcal{O}'} \underline{B'})$.
+Thus the result follows from Lemma \ref{lemma-flat-base-change}
+and the fact that $L_{B'/A'}$ is computed by
+$L\pi'_!(\Omega_{\mathcal{O}'/A'} \otimes_{\mathcal{O}'} \underline{B'})$.
+\end{proof}
 
 
 
