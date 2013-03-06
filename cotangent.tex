@@ -108,7 +108,7 @@ $\pi_U \circ \sigma = \text{id}$.
 \begin{situation}
 \label{situation-morphism-fibred-categories}
 Let $(\mathcal{D}, \mathcal{O}_\mathcal{D})$ be a ringed site.
-Let $u : \mathcal{C}' \to \mathcal{C}'$ be a $1$-morphism of fibred
+Let $u : \mathcal{C}' \to \mathcal{C}$ be a $1$-morphism of fibred
 categories over $\mathcal{D}$
 (Categories, Definition \ref{categories-definition-fibred-categories-over-C}).
 Endow $\mathcal{C}$ and $\mathcal{C}'$ with their inherited topologies
@@ -1085,6 +1085,42 @@ which is the constant simplicial object on $M$.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-identify-H0}
+If $A \to B$ is a ring map, then $H^0(L_{B/A}) = \Omega_{B/A}$.
+\end{lemma}
+
+\begin{proof}
+We will prove this by a direct calculation.
+We will use the identification of Lemma \ref{lemma-compute-cotangent-complex}.
+There is clearly a map from $\Omega_{\mathcal{O}/A} \otimes \underline{B}$
+to the constant sheaf with value $\Omega_{B/A}$. Thus this map induces
+a map
+$$
+H^0(L_{B/A}) = H^0(L\pi_!(\Omega_{\mathcal{O}/A} \otimes \underline{B}))
+= \pi_!(\Omega_{\mathcal{O}/A} \otimes \underline{B}) \to \Omega_{B/A}
+$$
+By choosing an object $P \to B$ of $\mathcal{C}_{B/A}$ with $P \to B$
+surjective we see that this map is surjective (by
+Algebra, Lemma \ref{algebra-lemma-differential-surjective}).
+To show that it is injective, suppose that $P \to B$ is an object
+of $\mathcal{C}_{B/A}$ and that $\xi \in \Omega_{P/A} \otimes_P B$
+is an element which maps to zero in $\Omega_{B/A}$.
+We first choose factorization $P \to P' \to B$ such that $P' \to B$
+is surjective and $P'$ is a polynomial algebra over $A$.
+We may replace $P$ by $P'$. If $B = P/I$, then the kernel
+$\Omega_{P/A} \otimes_P B \to \Omega_{B/A}$ is the image of
+$I/I^2$ (Algebra, Lemma \ref{algebra-lemma-differential-seq}).
+Say $\xi$ is the image of $f \in I$.
+Then we consider the two maps $a, b : P' = P[x] \to P$, the first of which
+maps $x$ to $0$ and the second of which maps $x$ to $f$ (in both
+cases $P[x] \to B$ maps $x$ to zero). We see that $\xi$ and $0$
+are the image of $\text{d}x \otimes 1$ in $\Omega_{P'/A} \otimes_{P'} B$.
+Thus $\xi$ and $0$ have the same image in the colimit (see
+Example \ref{example-category-to-point})
+$\pi_!(\Omega_{\mathcal{O}/A} \otimes \underline{B})$ as desired.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-pi-lower-shriek-polynomial-algebra}
 If $B$ is a polynomial algebra over the ring $A$, then
 with $\pi$ as in (\ref{equation-pi}) we have that
@@ -1497,7 +1533,7 @@ If (\ref{equation-commutative-square}) induces a quasi-isomorphism
 $B \otimes_A^\mathbf{L} A' = B'$, then the functoriality map
 induces an isomorphism
 $$
-L_{B/A} \otimes_B^\mathbf{L} B' \longrightarrow L_{B/A}
+L_{B/A} \otimes_B^\mathbf{L} B' \longrightarrow L_{B'/A'}
 $$
 \end{lemma}
 
@@ -1586,7 +1622,7 @@ g_3 : (\Sh(\mathcal{C}_{C/B/A}), \mathcal{O}_3)
 \end{matrix}
 \end{equation}
 Let us denote
-$\pi : \Sh(\mathcal{C}) \to \Sh(*)$,
+$\pi : \Sh(\mathcal{C}_{C/B/A}) \to \Sh(*)$,
 $\pi_1 : \Sh(\mathcal{C}_{B/A}) \to \Sh(*)$,
 $\pi_2 : \Sh(\mathcal{C}_{C/A}) \to \Sh(*)$, and
 $\pi_3 : \Sh(\mathcal{C}_{C/B}) \to \Sh(*)$,
@@ -1824,6 +1860,170 @@ and the second by Lemma \ref{lemma-compute-cotangent-complex}.
 
 
 
+
+\section{Localization and \'etale ring maps}
+\label{section-localization}
+
+\noindent
+In this section we study what happens if we localize our rings.
+Let $A \to A' \to B$ be ring maps such that $B = B \otimes_A^\mathbf{L} A'$.
+This happens for example if $A' = S^{-1}A$ is the localization of $A$
+at a multiplicative subset $S \subset A$. In this
+case for an abelian sheaf $\mathcal{F}$ on $\mathcal{C}_{B/A'}$
+we have (loosely formulated)
+$$
+L\colim_{\mathcal{C}_{B/A}^{opp}} (g^{-1}\mathcal{F}) =
+L\colim_{\mathcal{C}_{B/A'}^{opp}} \mathcal{F}
+$$
+in $D(\textit{Ab})$, see Lemma \ref{lemma-flat-base-change} for a precise
+statement.
+
+\begin{lemma}
+\label{lemma-localize-at-bottom}
+Let $A \to A' \to B$ be ring maps such that $B = B \otimes_A^\mathbf{L} A'$.
+Then $L_{B/A} = L_{B/A'}$ in $D(B)$.
+\end{lemma}
+
+\begin{proof}
+According to the discussion above (i.e., using
+Lemma \ref{lemma-flat-base-change})
+and Lemma \ref{lemma-compute-cotangent-complex}
+we have to show that the sheaf given
+by the rule $(P \to B) \mapsto \Omega_{P/A} \otimes_P B$ on $\mathcal{C}_{B/A}$
+is the pullback of the sheaf given by the rule
+$(P \to B) \mapsto \Omega_{P/A'} \otimes_P B$.
+The pullback functor $g^{-1}$ is given by precomposing with the
+functor $u : \mathcal{C}_{B/A} \to \mathcal{C}_{B/A'}$,
+$(P \to B) \mapsto (P \otimes_A A' \to B)$.
+Thus we have to show that
+$$
+\Omega_{P/A} \otimes_P B =
+\Omega_{P \otimes_A A'/A'} \otimes_{(P \otimes_A A')} B
+$$
+By Algebra, Lemma \ref{algebra-lemma-differentials-base-change}
+the right hand side is equal to
+$$
+(\Omega_{P/A} \otimes_A A') \otimes_{(P \otimes_A A')} B
+$$
+Since $P$ is a polynomial algebra over $A$ the module
+$\Omega_{P/A}$ is free and the equality is obvious.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-derived-diagonal}
+Let $A \to B$ be a ring map such that $B = B \otimes_A^\mathbf{L} B$.
+Then $L_{B/A} = 0$ in $D(B)$.
+\end{lemma}
+
+\begin{proof}
+This is true because $L_{B/A} = L_{B/B} = 0$ by
+Lemmas \ref{lemma-localize-at-bottom} and
+\ref{lemma-cotangent-complex-polynomial-algebra}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-bootstrap}
+Let $A \to B$ be a ring map such that $\text{Tor}^A_i(B, B) = 0$ for $i > 0$
+and such that $L_{B/B \otimes_A B} = 0$.
+Then $L_{B/A} = 0$ in $D(B)$.
+\end{lemma}
+
+\begin{proof}
+By Lemma \ref{lemma-flat-base-change-cotangent-complex} we see that
+$L_{B/A} \otimes_B^\mathbf{L} (B \otimes_A B) = L_{B \otimes_A B/B}$.
+Now we use the distinguished triangle (\ref{equation-triangle})
+$$
+L_{B \otimes_A B/B} \otimes^\mathbf{L}_{(B \otimes_A B)} B \to
+L_{B/B} \to L_{B/B \otimes_A B} \to
+L_{B \otimes_A B/B} \otimes^\mathbf{L}_{(B \otimes_A B)} B[1]
+$$
+associated to the ring maps $B \to B \otimes_A B \to B$ and the vanishing of
+$L_{B/B}$ (Lemma \ref{lemma-cotangent-complex-polynomial-algebra}) and
+$L_{B/B \otimes_A B}$ (assumed) to see that
+$$
+0 =
+L_{B \otimes_A B/B} \otimes^\mathbf{L}_{(B \otimes_A B)} B =
+L_{B/A} \otimes_B^\mathbf{L} (B \otimes_A B)
+\otimes^\mathbf{L}_{(B \otimes_A B)} B = L_{B/A}
+$$
+as desired.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-when-zero}
+The cotangent complex $L_{B/A}$ is zero in each of the following cases:
+\begin{enumerate}
+\item $A \to B$ and $B \otimes_A B \to B$ are flat,
+\item $A \to B$ is a flat epimorphism of rings,
+\item $B = S^{-1}A$ for some multiplicative subset $S \subset A$,
+\item $A \to B$ is unramified and flat,
+\item $A \to B$ is \'etale, and
+\item add more here.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+In case (1) we may apply
+Lemma \ref{lemma-derived-diagonal}
+to the surjective flat ring map $B \otimes_A B \to B$
+to conclude that $L_{B \otimes_A B/B} = 0$ and then we use
+Lemma \ref{lemma-bootstrap}
+to conclude. The other cases are each special cases of (1).
+\end{proof}
+
+\noindent
+The following lemma shows that $L_{S^{-1}B/A} = S^{-1}L_{B/A}$
+in $D(S^{-1}B)$.
+
+\begin{lemma}
+\label{lemma-localize-on-top}
+Let $A \to B \to C$ be ring maps such that $L_{C/B} = 0$.
+Then $L_{C/A} = L_{B/A} \otimes_B^\mathbf{L} C$.
+\end{lemma}
+
+\begin{proof}
+This is a trivial consequence of 
+the distinguished triangle (\ref{equation-triangle}).
+\end{proof}
+
+
+
+
+
+\section{Smooth ring maps}
+\label{section-smooth}
+
+\noindent
+Let $C \to B$ be a surjection of rings with kernel $I$. Let us call such
+a ring map ``weakly quasi-regular'' if $I/I^2$ is a flat $B$-module and
+$\text{Tor}_*^C(B, B)$ is the exterior algebra on $I/I^2$.
+The generalization to ``smooth ring maps'' of what is done in
+Lemma \ref{lemma-when-zero} for ``\'etale ring maps'' is to look
+at flat ring maps $A \to B$ such that the multiplication map
+$B \otimes_A B \to B$ is weakly quasi-regular. For the moment we just stick to
+smooth ring maps.
+
+\begin{lemma}
+\label{lemma-when-projective}
+If $A \to B$ is a smooth ring map, then $L_{B/A} = \Omega_{B/A}[0]$.
+\end{lemma}
+
+\begin{proof}
+We have the agreement in cohomological degree $0$ by
+Lemma \ref{lemma-identify-H0}.
+Thus it suffices to prove the other cohomology groups
+are zero. It suffices to prove this locally on $\Spec(B)$ as
+$L_{B_g/A} = (L_{B/A})_g$ for $g \in B$ by Lemma \ref{lemma-localize-on-top}.
+Thus we may assume that $A \to B$ is standard smooth
+(Algebra, Lemma \ref{algebra-lemma-smooth-syntomic}), i.e.,
+that we can factor $A \to B$ as
+$A \to A[x_1, \ldots, x_n] \to B$ with $A[x_1, \ldots, x_n] \to B$
+\'etale. In this case Lemmas \ref{lemma-when-zero} and
+Lemma \ref{lemma-localize-on-top} show that
+$L_{B/A} = L_{A[x_1, \ldots, x_n]/A} \otimes B$
+whence the conclusion by
+Lemma \ref{lemma-cotangent-complex-polynomial-algebra}.
+\end{proof}
 
 
 
