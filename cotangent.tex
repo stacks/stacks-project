@@ -2099,6 +2099,251 @@ Lemma \ref{lemma-cotangent-complex-polynomial-algebra}.
 
 
 
+
+
+
+
+
+\section{A spectral sequence of Quillen}
+\label{section-spectral-sequence}
+
+\noindent
+In this section we discuss a spectral sequence relating derived
+tensor product to the cotangent complex. In order to do this we
+need a little bit of theory on simplicial modules.
+The following result can be found in \cite{Eilenberg-Zilber}.
+
+\begin{theorem}[Eilenberg-Zilber]
+\label{theorem-tensor-simplicial-modules}
+Let $B$ be a ring. Let $M_\bullet$, $M'_\bullet$ be simplicial $B$-modules.
+The complex $s(M_\bullet \otimes_B M'_\bullet)$ is quasi-isomorphic to
+the total complex associated to the double complex
+$s(M_\bullet) \otimes_B s(M'_\bullet)$.
+\end{theorem}
+
+\begin{proof}
+Omitted. Hint: There is a more general statement for bisimplicial
+abelian groups, which you can apply to the bisimplicial abelian
+group with terms $M_n \otimes_B M'_m$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-vanishing-symmetric-powers}
+Let $B$ be a ring. Let $M_\bullet$ be simplicial $B$-module
+such that
+\begin{enumerate}
+\item $M_n$ is a flat $B$-module for all $n$, and
+\item $H_0(s(M_\bullet)) = 0$.
+\end{enumerate}
+Then $H_l(s(\text{Sym}_B^k(M_\bullet))) = 0$ for $l < k$.
+\end{lemma}
+
+\begin{proof}
+Note that $\text{Sym}^k_B(M)$ is the $S_k$-coinvariants of the
+module $M^{\otimes k}$. Choose a resolution
+$$
+\ldots \to F_2 \to F_1 \to F_0 \to \mathbf{Z} \to 0
+$$
+over the group ring $\mathbf{Z}[S_k]$ with $F_t$ finite free.
+Think of $M_\bullet^{\otimes k}$ as a $\mathbf{Z}[S_k]$-module.
+Then we see that $\text{Sym}^k_B(M_\bullet)$ has a resolution
+$$
+\ldots \to
+F_2 \otimes_{\mathbf{Z}[S_k]} M_\bullet^{\otimes k} \to
+F_1 \otimes_{\mathbf{Z}[S_k]} M_\bullet^{\otimes k} \to
+F_0 \otimes_{\mathbf{Z}[S_k]} M_\bullet^{\otimes k} \to
+\text{Sym}^k_B(M_\bullet) \to 0
+$$
+This gives a spectral sequence expressing the homology of
+$\text{Sym}^k_B(M_\bullet)$ in terms of the homology of the
+$F_t \otimes M_\bullet^{\otimes k}$ which are isomorphic to
+direct sums of copies of $M_\bullet^{\otimes k}$ (details omitted).
+Thus it suffices to prove the vanishing for $M_\bullet^{\otimes k}$.
+By the Eilenberg-Zilber theorem
+(Theorem \ref{theorem-tensor-simplicial-modules})
+and the fact that $M_\bullet$ is flat
+we see that $s(M_\bullet^{\otimes k})$ is quasi-isomorphic to
+$$
+s(M_\bullet) \otimes_B^\mathbf{L} s(M_\bullet)\otimes_B^\mathbf{L}
+\ldots \otimes_B^\mathbf{L} s(M_\bullet)
+$$
+Since $s(M_\bullet)$ is quasi-isomorphic to a complex sitting in
+degrees $\leq -1$ (by the assumed vanishing) we get what we want
+from our construction of derived tensor products.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-map-tors-zero}
+Let $A$ be a ring. Let $P = A[E]$ be a polynomial ring.
+Set $I = (e \in E) \subset P$. The maps
+$\text{Tor}_i^P(A, I^{n + 1}) \to \text{Tor}_i^P(A, I^n)$
+are zero for all $i$ and $n$.
+\end{lemma}
+
+\begin{proof}
+Denote $x_e \in P$ the variable corresponding to $e \in E$.
+A free resolution of $A$ over $P$ is given by the Koszul complex
+$K_\bullet$ on the $x_e$. Here $K_i$ has basis given by wedges
+$e_1 \wedge \ldots \wedge e_i$, $e_1, \ldots, e_i \in E$ and $d(e) = x_e$.
+Thus $K_\bullet \otimes_P I^n = I^nK_\bullet$ computes
+$\text{Tor}_i^P(A, I^n)$. Observe that everything is graded
+with $\deg(x_e) = 1$, $\deg(e) = 1$, and $\deg(a) = 0$ for $a \in A$.
+Suppose $\xi \in I^{n + 1}K_i$ is a cocycle homogeneous of degree $m$.
+Note that $m \geq i + 1 + n$. Then $\xi = \text{d}\eta$ for some
+$\eta \in K_{i + 1}$ as $K_\bullet$ is exact in degrees $ > 0$.
+(The case $i = 0$ is left to the reader.)
+Now $\deg(\eta) = m \geq i + 1 + n$. Hence writing $\eta$
+in terms of the basis we see the coordinates are in $I^n$.
+Thus $\xi$ maps to zero in the homology of $I^nK_\bullet$ as desired.
+\end{proof}
+
+\begin{theorem}[Quillen spectral sequence]
+\label{theorem-quillen-spectral-sequence}
+Let $A \to B$ be a surjective ring map. Consider the sheaf
+$\Omega = \Omega_{\mathcal{O}/A} \otimes_\mathcal{O} B$ of
+$\underline{B}$-modules on $\mathcal{C}_{B/A}$, see
+Section \ref{section-compute-L-pi-shriek}.
+Then there is a spectral sequence
+$$
+E_2^{p, q} = L_{p + q}\pi_!(\text{Sym}^q_{\underline{B}}(\Omega))
+\Rightarrow \text{Tor}^A_{p + q}(B, B)
+$$
+Moreover, $L_i\pi_!(\text{Sym}^k_{\underline{B}}(\Omega)) = 0$
+for $i < k$.
+\end{theorem}
+
+\begin{proof}
+Let $I \subset A$ be the kernel of $A \to B$. Let
+$\mathcal{J} \subset \mathcal{O}$
+be the kernel of $\mathcal{O} \to \underline{B}$. Then
+$I\mathcal{O} \subset \mathcal{J}$. Set
+$\mathcal{K} = \mathcal{J}/I\mathcal{O}$ and
+$\overline{\mathcal{O}} = \mathcal{O}/I\mathcal{O}$.
+
+\medskip\noindent
+For every object $U = (P \to B)$ of $\mathcal{C}_{B/A}$
+we can choose an isomorphism $P = A[E]$ such that the map
+$P \to B$ maps each $e \in E$ to zero. Then
+$J = \mathcal{J}(U) \subset P = \mathcal{O}(U)$
+is equal to $J = IP + (e; e \in E)$. Morever
+$\overline{\mathcal{O}}(U) = B[E]$ and $K = \mathcal{K}(U) = (e; e \in E)$
+is the ideal generated by the variables in the polynomial ring $B[E]$.
+In particular it is clear that
+$$
+K/K^2 \xrightarrow{\text{d}} \Omega_{P/A} \otimes_P B
+$$
+is a bijection. In other words, $\Omega = \mathcal{K}/\mathcal{K}^2$
+and $\text{Sym}_B^k(\Omega) = \mathcal{K}^k/\mathcal{K}^{k + 1}$.
+Note that $\pi_!\Omega = \Omega_{B/A} = 0$ (Lemma \ref{lemma-identify-H0})
+as $A \to B$ is surjective
+(Algebra, Lemma \ref{algebra-lemma-trivial-differential-surjective}).
+By Lemmas \ref{lemma-vanishing-symmetric-powers} and
+\ref{lemma-identify-pi-shriek}
+we conclude that
+$$
+L_i\pi_!(\mathcal{K}^k/\mathcal{K}^{k + 1}) =
+L_i\pi_!(\text{Sym}^k_{\underline{B}}(\Omega)) = 0
+$$
+for $i < k$. This proves the final statement of the theorem.
+
+\medskip\noindent
+The approach to the theorem is to note that
+$$
+B \otimes_A^\mathbf{L} B = (L\pi_!\mathcal{O}) \otimes_A^\mathbf{L} B =
+L\pi_!(\mathcal{O} \otimes_{\underline{A}}^\mathbf{L} \underline{B}) =
+L\pi_!(\overline{\mathcal{O}})
+$$
+The first equality by Lemma \ref{lemma-apply-O-B-comparison},
+the second equality by Lemma \ref{lemma-change-of-rings}, and
+the third equality as $\mathcal{O}$ is flat over $\underline{A}$.
+The sheaf $\overline{\mathcal{O}}$ has a filtration
+$$
+\ldots \subset
+\mathcal{K}^3 \subset
+\mathcal{K}^2 \subset
+\mathcal{K} \subset
+\overline{\mathcal{O}}
+$$
+This induces a filtration $F$ on a complex $C$ representing
+$L\pi_!\overline{\mathcal{O}}$ with $F^pC$ representing
+$L\pi_!\mathcal{K}^p$ (construction of $C$ and $F$ omitted).
+Consider the spectral sequence of
+Homology, Section \ref{homology-section-filtered-complex}
+associated to $(C, F)$. It has $E_1$-page
+$$
+E_1^{p, q} = L_{- p - q}\pi_!(\mathcal{K}^p/\mathcal{K}^{p + 1})
+$$
+and differentials $E_r^{p, q} \to E_r^{p + r, q - r + 1}$.
+After a renumbering we
+obtain the spectral sequence of the statement of the theorem. To show
+convergence we will show that for every $k$ there exists a $c$ such that
+$L_i\pi_!(\mathcal{K}^n) = 0$ for $i < k$ and $n > c$\footnote{A posteriori
+the ``correct'' vanishing $L_i\pi_!(\mathcal{K}^n) = 0$ for $i < n$ can be
+concluded.}.
+
+\medskip\noindent
+Given $k \geq 0$ set $c = k^2$. We claim that
+$$
+L_i\pi_!(\mathcal{K}^{n + c}) \to L_i\pi_!(\mathcal{K}^n)
+$$
+is zero for $i < k$ and all $n \geq 0$. Note that
+$\mathcal{K}^n/\mathcal{K}^{n + c}$ has a finite filtration whose succesive
+quotients $\mathcal{K}^m/\mathcal{K}^{m + 1}$, $n \leq m < n + c$
+have $L_i\pi_! = 0$ for $i < n$ (see above). Hence the claim implies
+$L_i\pi_!\mathcal{K}^{n + c} = 0$ for $i < k$ and all $n \geq k$
+which is what we need to show.
+
+\medskip\noindent
+Proof of the claim. Recall that for any $\mathcal{O}$-module $\mathcal{F}$
+the map $\mathcal{F} \to \mathcal{F} \otimes_\mathcal{O}^\mathbf{L} B$
+induces an isomorphism on applying $L\pi_!$, see
+Lemma \ref{lemma-O-homology-B-homology}.
+Consider the map
+$$
+\mathcal{K}^{n + k} \otimes_\mathcal{O}^\mathbf{L} B
+\longrightarrow
+\mathcal{K}^n \otimes_\mathcal{O}^\mathbf{L} B
+$$
+We claim that this map induces the zero map on cohomology sheaves
+in degrees $0, -1, \ldots, - k + 1$. If this second claim holds, then
+the $k$-fold composition
+$$
+\mathcal{K}^{n + c} \otimes_\mathcal{O}^\mathbf{L} B
+\longrightarrow
+\mathcal{K}^n \otimes_\mathcal{O}^\mathbf{L} B
+$$
+factors through $\tau_{\leq -k}\mathcal{K}^n \otimes_\mathcal{O}^\mathbf{L} B$
+hence induces zero on $L_i\pi_!$ for $i < k$, see
+Derived Categories, Lemma \ref{derived-lemma-trick-vanishing-composition}.
+By the remark above this means the same thing is true for
+$L_i\pi_!\mathcal{K}^{n + c} \to L_i\pi_!\mathcal{K}^n$
+which proves the (first) claim.
+
+\medskip\noindent
+Proof of the second claim. The statement is local, hence we may work
+over an object $U = (P \to B)$ as above. We have to show
+the maps
+$$
+\text{Tor}_i^P(B, K^{n + k}) \to \text{Tor}_i^P(B, K^n)
+$$
+are zero for $i < k$. There is a spectral sequence
+$$
+\text{Tor}_a^P(P/IP, \text{Tor}_b^{P/IP}(B, K^n))
+\Rightarrow
+\text{Tor}_{a + b}^P(B, K^n),
+$$
+see More on Algebra, Example \ref{more-algebra-example-tor-change-rings}.
+Thus it suffices to prove the maps
+$$
+\text{Tor}_i^{P/IP}(B, K^{n + 1}) \to \text{Tor}_i^{P/IP}(B, K^n)
+$$
+are zero for all $i$. This is Lemma \ref{lemma-map-tors-zero}.
+\end{proof}
+
+
+
+
+
 \input{chapters}
 
 \bibliography{my}
