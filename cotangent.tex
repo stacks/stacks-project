@@ -4,7 +4,7 @@
 %
 \begin{document}
 
-\title{The Cotangent Complex}
+\title{The Cotangent Complex; UNDER CONSTRUCTION}
 
 
 \maketitle
@@ -1121,6 +1121,20 @@ $$
 commutes. It follows that $X_\bullet(\text{id}_B : B \to B)$
 is equal to the standard resolution of $B$ over $A$.
 \end{remark}
+
+\begin{lemma}
+\label{lemma-colimit-cotangent-complex}
+Let $A_i \to B_i$ be a system of ring maps over a directed index
+set $I$. Then $\colim L_{A_i/B_i} = L_{\colim A_i/\colim B_i}$.
+\end{lemma}
+
+\begin{proof}
+This is true because the forgetful functor
+$i : A\textit{-Alg} \to \textit{Sets}$ and its adjoint
+$F : \textit{Sets} \to A\textit{-Alg}$ commute with filtered colimits.
+Moreover, the functor $B/A \mapsto \Omega_{B/A}$ does as well
+(Algebra, Lemma \ref{algebra-lemma-colimit-differentials}).
+\end{proof}
 
 
 
@@ -2319,8 +2333,12 @@ $$
 \Omega_{Q_\bullet/A} \otimes_{Q_\bullet} C \to
 \Omega_{\overline{Q}_\bullet/B} \otimes_{\overline{Q}_\bullet} C \to 0
 $$
-which is termwise the short exact sequence of
+which is deduced from the short exact sequences
+$0 \to \Omega_{P_n/A} \otimes_{P_n} Q_n \to \Omega_{Q_n/A} \to
+\Omega_{Q_n/P_n} \to 0$ of
 Algebra, Lemma \ref{algebra-lemma-ses-formally-smooth}.
+Namely, by Remark \ref{remark-resolution} and the key fact the complex on the
+right hand side represents $L_{C/B}$ in $D(C)$.
 
 \medskip\noindent
 If $B \to C$ is not injective, then we can use the above to get a
@@ -2332,6 +2350,47 @@ are quasi-isomorphism in $D(B \times C)$
 this induces the desired distinguished triangle in $D(C)$
 by tensoring with the flat ring map $B \times C \to C$.
 \end{remark}
+
+\begin{remark}
+\label{remark-explicit-map}
+Let $A \to B \to C$ be ring maps with $B \to C$ injective.
+Recall the notation $P_\bullet$, $Q_\bullet$, $\overline{Q}_\bullet$ of
+Remark \ref{remark-triangle}.
+Let $R_\bullet$ be the standard resolution of $C$ over $B$.
+In this remark we explain how to get the canonical identification
+of $\Omega_{\overline{Q}_\bullet/B} \otimes_{\overline{Q}_\bullet} C$
+with $L_{C/B} = \Omega_{R_\bullet/B} \otimes_{R_\bullet} C$.
+Let $S_\bullet \to B$ be the standard resolution of $B$ over $B$.
+Note that the functoriality map $S_\bullet \to R_\bullet$ identifies
+$R_n$ as a polynomial algebra over $S_n$ because $B \to C$ is injective.
+For example in degree $0$ we have the map $B[B] \to B[C]$, in degree
+$1$ the map $B[B[B]] \to B[B[C]]$, and so on. Thus
+$\overline{R}_\bullet = R_\bullet \otimes_{S_\bullet} B$
+is a simplicial polynomial algebra
+over $B$ as well and it follows (as in Remark \ref{remark-triangle})
+from Lemma \ref{lemma-O-homology-B-homology-general}
+that $\overline{R}_\bullet \to C$ is a resolution. Since we have
+a commutative diagram
+$$
+\xymatrix{
+Q_\bullet \ar[r] & R_\bullet \\
+P_\bullet \ar[u] \ar[r] & S_\bullet \ar[u] \ar[r] & B
+}
+$$
+we obtain a canonical map
+$\overline{Q}_\bullet = Q_\bullet \otimes_{P_\bullet} B \to
+\overline{R}_\bullet$. Thus the maps
+$$
+L_{C/B} = \Omega_{R_\bullet/B} \otimes_{R_\bullet} C
+\longrightarrow
+\Omega_{\overline{R}_\bullet/B} \otimes_{\overline{R}_\bullet} C
+\longleftarrow
+\Omega_{\overline{Q}_\bullet/B} \otimes_{\overline{Q}_\bullet} C
+$$
+are quasi-isomorphsms (Remark \ref{remark-resolution}) and composing
+one with the inverse of the other gives the desired identification.
+\end{remark}
+
 
 
 
@@ -2442,10 +2501,6 @@ Lemma \ref{lemma-bootstrap}
 to conclude. The other cases are each special cases of (1).
 \end{proof}
 
-\noindent
-The following lemma shows that $L_{S^{-1}B/A} = S^{-1}L_{B/A}$
-in $D(S^{-1}B)$.
-
 \begin{lemma}
 \label{lemma-localize-on-top}
 Let $A \to B \to C$ be ring maps such that $L_{C/B} = 0$.
@@ -2455,6 +2510,21 @@ Then $L_{C/A} = L_{B/A} \otimes_B^\mathbf{L} C$.
 \begin{proof}
 This is a trivial consequence of 
 the distinguished triangle (\ref{equation-triangle}).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-localize}
+Let $A \to B$ be ring maps and $S \subset A$, $T \subset B$ multiplicative
+subsets such that $S$ maps into $T$.
+Then $L_{T^{-1}B/S^{-1}A} = L_{B/A} \otimes_B T^{-1}B$
+in $D(T^{-1}B)$.
+\end{lemma}
+
+\begin{proof}
+Lemma \ref{lemma-localize-on-top} shows that
+$L_{T^{-1}B/A} = L_{B/A} \otimes_B T^{-1}B$
+and Lemma \ref{lemma-localize-at-bottom}
+shows that $L_{T^{-1}B/A} = L_{T^{-1}B/S^{-1}A}$.
 \end{proof}
 
 
@@ -3111,11 +3181,50 @@ as an object of $D(\mathcal{B})$.
 \end{definition}
 
 \noindent
+These constructions satisfy a functoriality similar to that discussed
+in Section \ref{section-functoriality}. Namely, given a commutative diagram
+\begin{equation}
+\label{equation-commutative-square-sheaves}
+\vcenter{
+\xymatrix{
+\mathcal{B} \ar[r] & \mathcal{B}' \\
+\mathcal{A} \ar[u] \ar[r] & \mathcal{A}' \ar[u]
+}
+}
+\end{equation}
+of sheaves of rings on $\mathcal{C}$ there is a canonical
+$\mathcal{B}$-linear map of complexes
+$$
+L_{\mathcal{B}/\mathcal{A}} \longrightarrow L_{\mathcal{B}'/\mathcal{A}'}
+$$
+constructed as follows. If $\mathcal{P}_\bullet \to \mathcal{B}$ is the
+standard resolution of $\mathcal{B}$ over $\mathcal{A}$ and
+$\mathcal{P}'_\bullet \to \mathcal{B}'$ is the
+standard resoluton of $\mathcal{B}'$ over $\mathcal{A}'$,
+then there is a canonical map $\mathcal{P}_\bullet \to \mathcal{P}'_\bullet$
+of simplicial $\mathcal{A}$-algebras compatible with the augmentations
+$\mathcal{P}_\bullet \to \mathcal{B}$ and
+$\mathcal{P}'_\bullet \to \mathcal{B}'$. The maps
+$$
+\mathcal{P}_0 = \mathcal{A}[\mathcal{B}]
+\longrightarrow
+\mathcal{A}'[\mathcal{B}'] = \mathcal{P}'_0,
+\quad
+\mathcal{P}_1 = \mathcal{A}[\mathcal{A}[\mathcal{B}]]
+\longrightarrow
+\mathcal{A}'[\mathcal{A}'[\mathcal{B}']] = \mathcal{P}'_1
+$$
+and so on are given by the given maps $\mathcal{A} \to \mathcal{A}'$
+and $\mathcal{B} \to \mathcal{B}'$. The desired map
+$L_{\mathcal{B}/\mathcal{A}} \to L_{\mathcal{B}'/\mathcal{A}'}$
+then comes from the associated maps on sheaves of differentials.
+
+\medskip\noindent
 The cotangent complex of a morphism of ringed topoi is defined
 in terms of the cotangent complex we defined above.
 
 \begin{definition}
-\label{definition-cotangent-complex-morphism-ringed-topi}
+\label{definition-cotangent-complex-morphism-ringed-topoi}
 The {\it cotangent complex} $L_f$ of a morphism of ringed topoi
 $(f, f^\sharp) : (\Sh(\mathcal{C}), \mathcal{O}_\mathcal{C}) \to
 (\Sh(\mathcal{D}), \mathcal{O}_\mathcal{D})$ is
@@ -3186,6 +3295,18 @@ $$
 commutes.
 \end{proof}
 
+\begin{remark}
+\label{remark-map-sections-over-U}
+It is clear from the proof of
+Lemma \ref{lemma-compute-L-morphism-sheaves-rings}
+that for any $U \in \Ob(\mathcal{C})$ there is a canonical map
+$L_{\mathcal{B}(U)/\mathcal{A}(U)} \to L_{\mathcal{B}/\mathcal{A}}(U)$
+of complexes of $\mathcal{B}(U)$-modules. Moreover, these maps
+are compatible with restriction maps and the complex
+$L_{\mathcal{B}/\mathcal{A}}$
+is the sheafifiction of the rule $U \mapsto L_{\mathcal{B}(U)/\mathcal{A}(U)}$.
+\end{remark}
+
 \begin{lemma}
 \label{lemma-compute-L-product-sheaves-rings}
 Let $\mathcal{C}$ be a site. Let $\mathcal{A} \to \mathcal{B}$
@@ -3206,11 +3327,192 @@ In the case of rings this is
 Lemma \ref{lemma-cotangent-complex-product}.
 \end{proof}
 
+\noindent
+The fundamental triangle for the cotangent complex of sheaves of rings
+is an easy consequence of the result for homomorphisms of rings.
+
+\begin{lemma}
+\label{lemma-triangle-sheaves-rings}
+Let $\mathcal{D}$ be a site. Let $\mathcal{A} \to \mathcal{B} \to \mathcal{C}$
+be homomorphisms of sheaves of rings on $\mathcal{D}$.
+There is a canonical distinguished triangle
+$$
+L_{\mathcal{B}/\mathcal{A}} \otimes_\mathcal{B}^\mathbf{L} \mathcal{C}
+\to L_{\mathcal{C}/\mathcal{A}} \to L_{\mathcal{C}/\mathcal{B}} \to
+L_{\mathcal{B}/\mathcal{A}} \otimes_\mathcal{B}^\mathbf{L} \mathcal{C}[1]
+$$
+in $D(\mathcal{C})$.
+\end{lemma}
+
+\begin{proof}
+We will use the method described in
+Remarks \ref{remark-triangle} and \ref{remark-explicit-map}
+to construct the triangle; we will freely use the results mentioned there.
+As in those remarks we first construct the triangle in case
+$\mathcal{B} \to \mathcal{C}$ is an injective map of sheaves of rings.
+In this case we set
+\begin{enumerate}
+\item $\mathcal{P}_\bullet$ is the standard resolution of $\mathcal{B}$
+over $\mathcal{A}$,
+\item $\mathcal{Q}_\bullet$ is the standard resolution of $\mathcal{C}$
+over $\mathcal{A}$,
+\item $\mathcal{R}_\bullet$ is the standard resolution of $\mathcal{C}$
+over $\mathcal{B}$,
+\item $\mathcal{S}_\bullet$ is the standard resolution of $\mathcal{B}$
+over $\mathcal{B}$,
+\item $\overline{\mathcal{Q}}_\bullet =
+\mathcal{Q}_\bullet \otimes_{\mathcal{P}_\bullet} \mathcal{B}$, and
+\item $\overline{\mathcal{R}}_\bullet =
+\mathcal{R}_\bullet \otimes_{\mathcal{S}_\bullet} \mathcal{B}$.
+\end{enumerate}
+The distinguished triangle is the distinguished triangle associated
+to the short exact sequence
+of simplicial $\mathcal{C}$-modules
+$$
+0 \to
+\Omega_{\mathcal{P}_\bullet/\mathcal{A}}
+\otimes_{\mathcal{P}_\bullet} \mathcal{C} \to
+\Omega_{\mathcal{Q}_\bullet/\mathcal{A}}
+\otimes_{\mathcal{Q}_\bullet} \mathcal{C} \to
+\Omega_{\overline{\mathcal{Q}}_\bullet/\mathcal{B}}
+\otimes_{\overline{\mathcal{Q}}_\bullet} \mathcal{C} \to 0
+$$
+The first two terms are equal to the first two terms of the triangle
+of the statement of the lemma. The identification of the last term with
+$L_{\mathcal{C}/\mathcal{B}}$ uses the quasi-isomorphisms of complexes
+$$
+L_{\mathcal{C}/\mathcal{B}} =
+\Omega_{\mathcal{R}_\bullet/\mathcal{B}}
+\otimes_{\mathcal{R}_\bullet} \mathcal{C}
+\longrightarrow
+\Omega_{\overline{\mathcal{R}}_\bullet/\mathcal{B}}
+\otimes_{\overline{\mathcal{R}}_\bullet} \mathcal{C}
+\longleftarrow
+\Omega_{\overline{\mathcal{Q}}_\bullet/\mathcal{B}}
+\otimes_{\overline{\mathcal{Q}}_\bullet} \mathcal{C}
+$$
+All the constructions used above can first be done on the level
+of presheaves and then sheafified. Hence to prove sequences are exact,
+or that map are quasi-isomorphisms it suffices to prove the corresponding
+statement for the ring maps
+$\mathcal{A}(U) \to \mathcal{B}(U) \to \mathcal{C}(U)$
+which are known. This finishes the proof in the case that
+$\mathcal{B} \to \mathcal{C}$ is injective.
+
+\medskip\noindent
+In general, we reduce to the case where $\mathcal{B} \to \mathcal{C}$ is
+injective by replacing $\mathcal{C}$ by $\mathcal{B} \times \mathcal{C}$ if
+necessary. This is possible by the argument given in
+Remark \ref{remark-triangle} by
+Lemma \ref{lemma-compute-L-product-sheaves-rings}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-stalk-cotangent-complex}
+Let $\mathcal{C}$ be a site. Let $\mathcal{A} \to \mathcal{B}$ be a
+homomorphism of sheaves of rings on $\mathcal{C}$. If $p$ is a point
+of $\mathcal{C}$, then
+$(L_{\mathcal{B}/\mathcal{A}})_p = L_{\mathcal{B}_p/\mathcal{A}_p}$.
+\end{lemma}
+
+\begin{proof}
+This is a special case of Lemma \ref{lemma-pullback-cotangent-morphism-topoi}.
+\end{proof}
+
+
+
+
 
 
 
 \section{The cotangent complex of a morphism of schemes}
 \label{section-cotangent-morphism-schemes}
+
+\noindent
+As promised above we define the cotangent complex of a morphism of
+schemes as follows.
+
+\begin{definition}
+\label{definition-cotangent-morphism-schemes}
+Let $f : X \to Y$ be a morphism of schemes. The {\it cotangent complex
+$L_{X/Y}$ of $X$ over $Y$} is the complex of $\mathcal{O}_X$-modules
+$L_f$ of Definition \ref{definition-cotangent-complex-morphism-ringed-topoi}
+where $f$ is viewed as a morphism between the ringed Zariski topoi
+of $X$ and $Y$.
+\end{definition}
+
+\noindent
+This definition is compatible with the definition for ring maps.
+See next lemma which also implies that $L_{X/Y}$ is an
+object of $D_{\textit{QCoh}}(\mathcal{O}_X)$.
+
+\begin{lemma}
+\label{lemma-morphism-affine-schemes}
+Let $f : X \to Y$ be a morphism of schemes. Let $U = \Spec(A) \subset X$
+and $V = \Spec(B) \subset Y$ be affine opens such that $f(U) \subset V$.
+There is a canonical map
+$$
+\widetilde{L_{B/A}} \longrightarrow L_{X/Y}|_U
+$$
+of complexes which is an isomorphism in $D(\mathcal{O}_U)$.
+This map is compatible with restricting to smaller affine opens
+of $X$ and $Y$.
+\end{lemma}
+
+\begin{proof}
+By Remark \ref{remark-map-sections-over-U}
+there is a canonical map of complexes
+$L_{\mathcal{O}_X(U)/f^{-1}\mathcal{O}_Y(U)} \to L_{X/Y}(U)$
+of $B = \mathcal{O}_X(U)$-modules, which is compatible
+with further restrictions. Using the canonical map
+$A \to f^{-1}\mathcal{O}_Y(U)$ we obtain a canonical map
+$L_{B/A} \to L_{\mathcal{B}/\mathcal{A}}(U)$
+of $B$-modules. Using the universal property of the $\widetilde{\ }$
+functor (see Schemes, Lemma \ref{schemes-lemma-compare-constructions})
+we obtain a map as in the statement of the lemma.
+We may check this map is an isomorphism on cohomology sheaves
+by checking it induces isomorphisms on stalks.
+This follows immediately from
+Lemmas \ref{lemma-stalk-cotangent-complex} and \ref{lemma-localize}
+(and the description of the stalks of
+$\mathcal{O}_X$ and $f^{-1}\mathcal{O}_Y$
+at a point $\mathfrak p \in \Spec(B)$ as $B_\mathfrak p$ and
+$A_\mathfrak q$ where $\mathfrak q = A \cap \mathfrak p$; references
+used are Schemes, Lemma \ref{schemes-lemma-spec-sheaves}
+and
+Sheaves, Lemma \ref{sheaves-lemma-stalk-pullback}).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-triangle-schemes}
+Let $f : X \to Y$ and $g : Y \to Z$ be morphisms of schemes.
+Then there is a canonical distinguished triangle
+$$
+Lf^* L_{Y/Z} \to L_{X/Z} \to L_{X/Y} \to Lf^*L_{Y/Z}[1]
+$$
+in $D(\mathcal{O}_X)$.
+\end{lemma}
+
+\begin{proof}
+Set $h = g \circ f$ so that $h^{-1}\mathcal{O}_Z = f^{-1}g^{-1}\mathcal{O}_Y$.
+By Lemma \ref{lemma-pullback-cotangent-morphism-topoi} we have
+$f^{-1}L_{Y/Z} = L_{f^{-1}\mathcal{O}_Y/h^{-1}\mathcal{O}_Z}$
+and this is a complex of flat $f^{-1}\mathcal{O}_Y$-modules.
+Hence the distinguished triangle above is an example of the
+distinguished triangle of
+Lemma \ref{lemma-triangle-sheaves-rings}
+with $\mathcal{A} = h^{-1}\mathcal{O}_Z$, $\mathcal{B} = f^{-1}\mathcal{O}_Y$,
+and $\mathcal{C} = \mathcal{O}_X$.
+\end{proof}
+
+
+
+
+
+
+
+\section{Variants of cotangent complexes for schemes}
+\label{section-cotangent-schemes-variant}
 
 \noindent
 Let $f : X \to Y$ be a morphism of schemes. Let $\mathcal{C}_{X/Y}$ be the
@@ -3344,14 +3646,13 @@ is a sheaf, hence equal to $\Omega_{\mathcal{O}/\underline{\mathcal{O}}_Y}$.
 Since $A \to V$ is an affine space, the ring
 $\mathcal{O}(A)$ is a polynomial algebra over $\mathcal{O}(V)$.
 Hence $\Omega_{\mathcal{O}(A)/\mathcal{O}(V)}$ is a free module over
-$\mathcal{O}(A)$, in particular flat. By analogy with
-Lemma \ref{lemma-compute-cotangent-complex}
-we make the following definition.
+$\mathcal{O}(A)$, in particular flat. Here is the analog of
+Lemma \ref{lemma-compute-cotangent-complex}.
 
-\begin{definition}
-\label{definition-cotangent-morphism-schemes}
-Let $f : X \to Y$ be a morphism of schemes. The
-{\it cotangent complex $L_{X/Y}$} of $X \to Y$ is the object
+\begin{lemma}
+\label{lemma-cotangent-morphism-schemes}
+Let $f : X \to Y$ be a morphism of schemes. There is a canonical
+isomorphism
 $$
 L_{X/Y} = 
 L\pi_!(Li^*\Omega_{\mathcal{O}/\underline{\mathcal{O}}_Y}) =
@@ -3359,10 +3660,12 @@ L\pi_!(i^*\Omega_{\mathcal{O}/\underline{\mathcal{O}}_Y}) =
 L\pi_!(\Omega_{\mathcal{O}/\underline{\mathcal{O}}_Y}
 \otimes_\mathcal{O} \underline{\mathcal{O}}_X)
 $$
-of $D(\mathcal{O}_X)$.
-\end{definition}
+in $D(\mathcal{O}_X)$.
+\end{lemma}
 
-
+\begin{proof}
+FIXME.
+\end{proof}
 
 \begin{remark}
 \label{remark-different-topologies}
