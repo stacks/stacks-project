@@ -1628,9 +1628,15 @@ Let us call such a pair $(P_\bullet, \epsilon)$ a
 the proof of Lemma \ref{lemma-pi-shriek-standard}
 that the standard resolution of $B$ over $A$ is a resolution
 (so that this terminology doesn't lead to a conflict).
-But the point of this remark is that we can prove the existence
-of resolutions without appealing to the computations in
+But we can prove the existence of resolutions without appealing
+to the computations in
 Simplicial, Section \ref{simplicial-section-standard}.
+Moreover, for {\it any} choice of resolution we have a canonical
+isomorphism
+$L_{B/A} = \Omega_{P_\bullet/A} \otimes_{P_\bullet, \epsilon} B$
+in $D(B)$ by
+Lemmas \ref{lemma-identify-pi-shriek} and
+\ref{lemma-compute-cotangent-complex}.
 \end{remark}
 
 \begin{lemma}
@@ -1678,11 +1684,37 @@ in $D(\textit{Ab})$.
 
 \begin{proof}
 This is just an application of Lemma \ref{lemma-O-homology-B-homology}
-(and the first equality of the sequence on the right is
+(and the first equality on the right is
 Lemma \ref{lemma-compute-cotangent-complex}).
 \end{proof}
 
+\noindent
+Here is a special case of the fundamental triangle that is easy to prove.
 
+\begin{lemma}
+\label{lemma-special-case-triangle}
+Let $A \to B \to C$ be ring maps. If $B$ is a polynomial algebra over
+$A$, then there is a distinguished triangle 
+$L_{B/A} \otimes_B^\mathbf{L} C \to L_{C/A} \to L_{C/B} \to
+L_{B/A} \otimes_B^\mathbf{L} C[1]$ in $D(C)$.
+\end{lemma}
+
+\begin{proof}
+We will use the observations of Remark \ref{remark-resolution}
+without further mention. Choose a resolution $\epsilon : P_\bullet \to C$
+of $C$ over $B$ (for example the standard resolution). Since $B$ is a
+polynomial algebra over $A$ we see that $P_\bullet$ is also a resolution of
+$C$ over $A$. Hence $L_{C/A}$ is computed by
+$\Omega_{P_\bullet/A} \otimes_{P_\bullet, \epsilon} C$
+and $L_{C/B}$ is computed by
+$\Omega_{P_\bullet/B} \otimes_{P_\bullet, \epsilon} C$.
+Since for each $n$ we have the short exact sequence
+$0 \to \Omega_{B/A} \otimes_B P_n \to \Omega_{P_n/A} \to \Omega_{P_n/B}$
+(Algebra, Lemma \ref{algebra-lemma-ses-formally-smooth})
+and since $L_{B/A} = \Omega_{B/A}[0]$
+(Lemma \ref{lemma-cotangent-complex-polynomial-algebra})
+we obtain the result.
+\end{proof}
 
 
 
@@ -1808,6 +1840,10 @@ Therefore the assumption of the lemma signifies that
 $\epsilon' : P_\bullet \otimes_A A' \to B'$ is a quasi-isomorphism.
 \end{proof}
 
+\noindent
+The following lemma in particular applies when $A \to A'$ is flat
+and $B' = B \otimes_A A'$ (flat base change).
+
 \begin{lemma}
 \label{lemma-flat-base-change-cotangent-complex}
 If (\ref{equation-commutative-square}) induces a quasi-isomorphism
@@ -1884,6 +1920,42 @@ that the functoriality map $L_{B/A} \to L_{B'/A'}$ is homotopic
 to zero in this case.
 \end{remark}
 
+\begin{lemma}
+\label{lemma-cotangent-complex-product}
+Let $A \to B$ and $A \to C$ be ring maps.
+Then the map $L_{B \times C/A} \to L_{B/A} \oplus L_{C/A}$ is
+an isomorphism in $D(B \times C)$.
+\end{lemma}
+
+\begin{proof}
+Although this lemma can be deduced from the fundamental triangle
+we will give a direct and elementary proof of this now.
+Factor the ring map $A \to B \times C$ as $A \to A[x] \to B \times C$
+where $x \mapsto (1, 0)$. By Lemma \ref{lemma-special-case-triangle}
+we have a distinguished triangle
+$$
+L_{A[x]/A} \otimes_{A[x]}^\mathbf{L} (B \times C) \to L_{B \times C/A} \to L_{B \times C/A[x]}
+\to L_{A[x]/A} \otimes_{A[x]}^\mathbf{L} (B \times C)[1]
+$$
+in $D(B \times C)$. Similarly we have the distinguished triangles
+$$
+\begin{matrix}
+L_{A[x]/A} \otimes_{A[x]}^\mathbf{L} B \to L_{B/A} \to L_{B/A[x]}
+\to L_{A[x]/A} \otimes_{A[x]}^\mathbf{L} B[1] \\
+L_{A[x]/A} \otimes_{A[x]}^\mathbf{L} C \to L_{C/A} \to L_{C/A[x]}
+\to L_{A[x]/A} \otimes_{A[x]}^\mathbf{L} C[1]
+\end{matrix}
+$$
+Thus it suffices to prove the result for $B \times C$ over $A[x]$.
+Note that $A[x] \to A[x, x^{-1}]$ is flat, that
+$(B \times C) \otimes_{A[x]} A[x, x^{-1}] = B \otimes_{A[x]} A[x, x^{-1}]$,
+and that $C \otimes_{A[x]} A[x, x^{-1}] = 0$.
+Thus by base change (Lemma \ref{lemma-flat-base-change-cotangent-complex})
+the map $L_{B \times C/A[x]} \to L_{B/A[x]} \oplus L_{C/A[x]}$
+becomes an isomorphism after inverting $x$.
+In the same way one shows that the map becomes an isomorphism after
+inverting $x - 1$. This proves the lemma.
+\end{proof}
 
 
 
@@ -2252,9 +2324,13 @@ Algebra, Lemma \ref{algebra-lemma-ses-formally-smooth}.
 
 \medskip\noindent
 If $B \to C$ is not injective, then we can use the above to get a
-fundamental triangle for $A \to B \to B \times C$. To finish the proof
-one needs a direct argument (not using the triangle) computing
-$L_{B_1 \times B_2/A}$ in terms of $L_{B_1/A}$ and $L_{B_2/A}$.
+fundamental triangle for $A \to B \to B \times C$. Since
+$L_{B \times C/B} \to L_{B/B} \oplus L_{C/B}$ and
+$L_{B \times C/A} \to L_{B/A} \oplus L_{C/A}$
+are quasi-isomorphism in $D(B \times C)$
+(Lemma \ref{lemma-cotangent-complex-product})
+this induces the desired distinguished triangle in $D(C)$
+by tensoring with the flat ring map $B \times C \to C$.
 \end{remark}
 
 
