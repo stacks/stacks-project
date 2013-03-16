@@ -5,24 +5,28 @@
 # Master list of stems of tex files in the project.
 # Should be the same as in the main Makefile
 # except that it includes the bibliography
-LIJST = introduction conventions sets categories topology sheaves algebra \
-	brauer sites homology derived more-algebra smoothing \
-	simplicial modules sites-modules injectives cohomology \
-	sites-cohomology hypercovering schemes constructions properties \
-	morphisms coherent divisors limits varieties chow topologies \
-	descent perfect adequate more-morphisms flat groupoids \
+LIJST = introduction conventions sets categories \
+	topology sheaves sites stacks \
+	algebra brauer \
+	homology derived simplicial \
+	more-algebra smoothing \
+	modules sites-modules \
+	injectives cohomology sites-cohomology hypercovering \
+	schemes constructions properties morphisms coherent divisors limits \
+	varieties topologies descent perfect more-morphisms flat groupoids \
 	more-groupoids etale \
-	etale-cohomology crystalline spaces spaces-properties \
-	spaces-morphisms decent-spaces spaces-cohomology \
-	spaces-limits spaces-divisors \
-	spaces-topologies spaces-descent spaces-perfect \
-	spaces-more-morphisms \
-	spaces-over-fields stacks formal-defos defos cotangent \
-	spaces-groupoids spaces-more-groupoids bootstrap examples-stacks \
-	groupoids-quotients algebraic stacks-sheaves criteria artin quot \
+	chow adequate etale-cohomology crystalline \
+	spaces spaces-properties spaces-morphisms decent-spaces \
+	spaces-cohomology spaces-limits spaces-divisors spaces-topologies \
+	spaces-descent spaces-perfect spaces-more-morphisms \
+	spaces-over-fields spaces-groupoids spaces-more-groupoids bootstrap \
+	groupoids-quotients \
+	formal-defos defos cotangent \
+	algebraic examples-stacks stacks-sheaves criteria artin quot \
 	stacks-properties stacks-morphisms stacks-cohomology stacks-perfect \
-	stacks-introduction examples exercises guide desirables coding \
-	obsolete bibliography
+	stacks-introduction \
+	examples exercises guide \
+	desirables coding obsolete
 
 # book is a special case
 LIJST_TAGS = $(LIJST) fdl index
