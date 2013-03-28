@@ -26,7 +26,7 @@ LIJST = introduction conventions sets categories \
 	stacks-properties stacks-morphisms stacks-cohomology stacks-perfect \
 	stacks-introduction \
 	examples exercises guide \
-	desirables coding obsolete
+	desirables coding obsolete bibliography
 
 # book is a special case
 LIJST_TAGS = $(LIJST) fdl index
