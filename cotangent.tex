@@ -1541,7 +1541,10 @@ The cotangent complex $L_{B/A}$ is zero in each of the following cases:
 \item $B = S^{-1}A$ for some multiplicative subset $S \subset A$,
 \item $A \to B$ is unramified and flat,
 \item $A \to B$ is \'etale,
-\item $A \to B$ is a filtered colimit of rings as above, and
+\item $A \to B$ is a filtered colimit of ring maps for which
+the cotangent complex vanishes,
+\item $B$ is a henselization of a local ring of $A$,
+\item $B$ is a strict henselization of a local ring of $A$, and
 \item add more here.
 \end{enumerate}
 \end{lemma}
@@ -1554,6 +1557,10 @@ to conclude that $L_{B \otimes_A B/B} = 0$ and then we use
 Lemma \ref{lemma-bootstrap}
 to conclude. The cases (2) -- (5) are each special cases of (1).
 Part (6) follows from Lemma \ref{lemma-colimit-cotangent-complex}.
+Parts (7) and (8) follows from the fact that (strict) henselizations
+are filtered colimits of \'etale ring extensions of $A$, see
+Algebra, Lemmas \ref{algebra-lemma-henselization-different} and
+\ref{algebra-lemma-strict-henselization-different}.
 \end{proof}
 
 \begin{lemma}
@@ -1597,11 +1604,7 @@ in $D(B^h)$, resp.\ $D(B^{sh})$.
 \end{lemma}
 
 \begin{proof}
-Recall that the maps $A \to A^h$, $A \to A^{sh}$,
-$B \to B^h$, and $B \to B^{sh}$ are filtered colimits of
-\'etale ring maps, see discussion following
-Algebra, Definition \ref{algebra-definition-henselization}.
-Hence $L_{A^h/A}$, $L_{A^{sh}/A}$, $L_{B^h/B}$, and
+The complexes $L_{A^h/A}$, $L_{A^{sh}/A}$, $L_{B^h/B}$, and
 $L_{B^{sh}/B}$ are all zero by Lemma \ref{lemma-when-zero}.
 Using the fundamental distinguished triangle (\ref{equation-triangle})
 for $A \to B \to B^h$ we obtain
@@ -3149,7 +3152,31 @@ and
 Sheaves, Lemma \ref{sheaves-lemma-stalk-pullback}).
 \end{proof}
 
+\begin{lemma}
+\label{lemma-scheme-over-ring}
+Let $\Lambda$ be a ring. Let $X$ be a scheme over $\Lambda$.
+Then
+$$
+L_{X/\Spec(\Lambda)} = L_{\mathcal{O}_X/\underline{\Lambda}}
+$$
+where $\underline{\Lambda}$ is the constant sheaf with value
+$\Lambda$ on $X$.
+\end{lemma}
 
+\begin{proof}
+Let $p : X \to \Spec(\Lambda)$ be the structure morphism.
+Let $q : \Spec(\Lambda) \to (*, \Lambda)$ be the obvious morphism.
+By the distinguished triangle of Lemma \ref{lemma-triangle-ringed-spaces}
+it suffices to show that $L_q = 0$. To see this it suffices to
+show for $\mathfrak p \in \Spec(\Lambda)$ that
+$$
+(L_q)_\mathfrak p =
+L_{\mathcal{O}_{\Spec(\Lambda), \mathfrak p}/\Lambda} =
+L_{\Lambda_\mathfrak p/\Lambda}
+$$
+(Lemma \ref{lemma-stalk-cotangent-complex})
+is zero which follows from Lemma \ref{lemma-when-zero}.
+\end{proof}
 
 
 
@@ -3160,8 +3187,10 @@ Sheaves, Lemma \ref{sheaves-lemma-stalk-pullback}).
 \label{section-cotangent-schemes-variant}
 
 \noindent
-In this section we give a description of the cotangent complex of a
-scheme $X$ over a ring $\Lambda$ similar to
+Let $\Lambda$ be a ring and let $X$ be a scheme over $\Lambda$.
+Write $L_{X/\Spec(\Lambda)} = L_{X/\Lambda}$ which is justified
+by Lemma \ref{lemma-scheme-over-ring}.
+In this section we give a description of $L_{X/\Lambda}$ similar to
 Lemma \ref{lemma-compute-cotangent-complex}.
 Namely, we construct a category $\mathcal{C}_{X/\Lambda}$
 fibred over $X_{Zar}$ and endow it with a sheaf of (polynomial)
@@ -3171,8 +3200,8 @@ L_{X/\Lambda} =
 L\pi_!(\Omega_{\mathcal{O}/\underline{\Lambda}} \otimes_\mathcal{O}
 \underline{\mathcal{O}}_X).
 $$
-We will also use the category $\mathcal{C}_{X/\Lambda}$ to construct
-a naive obstruction theory for coherent sheaves.
+We will later use the category $\mathcal{C}_{X/\Lambda}$ to construct
+a naive obstruction theory for the stack of coherent sheaves.
 
 \medskip\noindent
 Let $\Lambda$ be a ring. Let $X$ be a scheme over $\Lambda$.
@@ -3328,7 +3357,12 @@ U \mapsto
 L_{\mathcal{O}_X(U)/\Lambda}
 $$
 using notation as in Remark \ref{remark-compute-L-pi-shriek}.
-Thus the result is clear from Remark \ref{remark-map-sections-over-U}.
+Now Remark \ref{remark-map-sections-over-U} shows that
+$L\pi_!(\Omega_{\mathcal{O}/\underline{\Lambda}}
+\otimes_\mathcal{O} \underline{\mathcal{O}}_X)$
+computes the cotangent complex of the map of rings
+$\underline{\Lambda} \to \mathcal{O}_X$ on $X$.
+This is what we want by Lemma \ref{lemma-scheme-over-ring}.
 \end{proof}
 
 
@@ -3456,9 +3490,243 @@ is the stalk at the image point, see
 Sites, Lemma \ref{sites-lemma-point-morphism-sites},
 as well as the corresponding result for modules, see
 Modules on Sites, Lemma \ref{sites-modules-lemma-pullback-stalk}).
+Observe that $\mathcal{O}_{X, \overline{x}}$ is the strict
+henselization of $\mathcal{O}_{X_0, x}$ and similarly
+for $\mathcal{O}_{Y, \overline{y}}$
+(Properties of Spaces, Lemma
+\ref{spaces-properties-lemma-describe-etale-local-ring}).
 Thus the result follows from
 Lemma \ref{lemma-cotangent-complex-henselization}.
 \end{proof}
+
+\begin{lemma}
+\label{lemma-space-over-ring}
+Let $\Lambda$ be a ring. Let $X$ be an algebraic space over $\Lambda$.
+Then
+$$
+L_{X/\Spec(\Lambda)} = L_{\mathcal{O}_X/\underline{\Lambda}}
+$$
+where $\underline{\Lambda}$ is the constant sheaf with value
+$\Lambda$ on $X_{\acute{e}tale}$.
+\end{lemma}
+
+\begin{proof}
+Let $p : X \to \Spec(\Lambda)$ be the structure morphism.
+Let $q : \Spec(\Lambda)_{\acute{e}tale} \to (*, \Lambda)$
+be the obvious morphism. By the distinguished triangle of
+Lemma \ref{lemma-triangle-ringed-topoi}
+it suffices to show that $L_q = 0$. To see this it suffices to
+show
+(Properties of Spaces, Theorem
+\ref{spaces-properties-theorem-exactness-stalks})
+for a geometric point $\overline{t} : \Spec(k) \to \Spec(\Lambda)$ that
+$$
+(L_q)_{\overline{t}} =
+L_{\mathcal{O}_{\Spec(\Lambda)_{\acute{e}tale}, \overline{t}}/\Lambda}
+$$
+(Lemma \ref{lemma-stalk-cotangent-complex})
+is zero. Since $\mathcal{O}_{\Spec(\Lambda)_{\acute{e}tale}, \overline{t}}$
+is a strict henselization of a local ring of $\Lambda$
+(Properties of Spaces, Lemma
+\ref{spaces-properties-lemma-describe-etale-local-ring})
+this follows from Lemma \ref{lemma-when-zero}.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+\section{The cotangent complex of an algebraic space over a ring}
+\label{section-cotangent-schemes-variant}
+
+\noindent
+Let $\Lambda$ be a ring and let $X$ be an algebraic space over $\Lambda$.
+Write $L_{X/\Spec(\Lambda)} = L_{X/\Lambda}$ which is justified
+by Lemma \ref{lemma-space-over-ring}.
+In this section we give a description of $L_{X/\Lambda}$ similar to
+Lemma \ref{lemma-compute-cotangent-complex}.
+Namely, we construct a category $\mathcal{C}_{X/\Lambda}$
+fibred over $X_{\acute{e}tale}$ and endow it with a sheaf of (polynomial)
+$\Lambda$-algebras $\mathcal{O}$ such that
+$$
+L_{X/\Lambda} =
+L\pi_!(\Omega_{\mathcal{O}/\underline{\Lambda}} \otimes_\mathcal{O}
+\underline{\mathcal{O}}_X).
+$$
+We will later use the category $\mathcal{C}_{X/\Lambda}$ to construct
+a naive obstruction theory for the stack of coherent sheaves.
+
+\medskip\noindent
+Let $\Lambda$ be a ring. Let $X$ be an algebraic space over $\Lambda$.
+Let $\mathcal{C}_{X/\Lambda}$ be the category whose objects are
+commutative diagrams
+\begin{equation}
+\label{equation-object-space}
+\vcenter{
+\xymatrix{
+X \ar[d] & U \ar[l] \ar[d] \\
+\Spec(\Lambda) & A \ar[l]
+}
+}
+\end{equation}
+of schemes where
+\begin{enumerate}
+\item $U$ is a scheme,
+\item $U \to X$ is \'etale,
+\item there exists an isomorphism $A = \Spec(P)$
+where $P$ is a polynomial algebra over $\Lambda$ (on some set
+of variables).
+\end{enumerate}
+In other words, $A$ is an (infinite dimensional) affine space over
+$\Spec(\Lambda)$. Morphisms are given by commutative diagrams.
+Recall that $X_{\acute{e}tale}$ denotes the small \'etale site of $X$
+whose objects are schemes \'etale over $X$.
+There is a forgetful functor
+$$
+u : \mathcal{C}_{X/\Lambda} \to X_{\acute{e}tale},\ (U \to A) \mapsto U
+$$
+Observe that the fibre category over $U$ is canonically equivalent
+to the category $\mathcal{C}_{\mathcal{O}_X(U)/\Lambda}$ introduced
+in Section \ref{section-compute-L-pi-shriek}.
+
+\begin{lemma}
+\label{lemma-category-fibred-space}
+In the situation above the category
+$\mathcal{C}_{X/\Lambda}$ is fibred over $X_{\acute{e}tale}$.
+\end{lemma}
+
+\begin{proof}
+Given an object $U \to A$ of $\mathcal{C}_{X/\Lambda}$ and a morphism
+$U' \to U$ of $X_{\acute{e}tale}$ consider the object $U' \to A$ of
+$\mathcal{C}_{X/\Lambda}$ where $U' \to A$ is the composition of $U \to A$
+and $U' \to U$. The morphism $(U' \to A) \to (U \to A)$ of
+$\mathcal{C}_{X/\Lambda}$ is strongly cartesian over $X_{\acute{e}tale}$.
+\end{proof}
+
+\noindent
+We endow $\mathcal{C}_{X/\Lambda}$ with the topology inherited from
+$X_{\acute{e}tale}$ (see Stacks, Section \ref{stacks-section-topology}).
+The functor $u$ defines a morphism of topoi
+$\pi : \Sh(\mathcal{C}_{X/\Lambda}) \to \Sh(X_{\acute{e}tale})$.
+The site $\mathcal{C}_{X/\Lambda}$ comes with several sheaves of rings.
+\begin{enumerate}
+\item The sheaf $\mathcal{O}$ given by the rule
+$(U \to A) \mapsto \Gamma(A, \mathcal{O}_A)$.
+\item The sheaf $\underline{\mathcal{O}}_X = \pi^{-1}\mathcal{O}_X$ given by
+the rule $(U \to A) \mapsto \mathcal{O}_X(U)$.
+\item The constant sheaf $\underline{\Lambda}$.
+\end{enumerate}
+We obtain morphisms of ringed topoi
+\begin{equation}
+\label{equation-pi-schemes}
+\vcenter{
+\xymatrix{
+(\Sh(\mathcal{C}_{X/\Lambda}), \underline{\mathcal{O}}_X) \ar[r]_i \ar[d]_\pi &
+(\Sh(\mathcal{C}_{X/\Lambda}), \mathcal{O}) \\
+(\Sh(X_{\acute{e}tale}), \mathcal{O}_X)
+}
+}
+\end{equation}
+The morphism $i$ is the identity on underlying topoi and
+$i^\sharp : \mathcal{O} \to \underline{\mathcal{O}}_X$
+is the obvious map.
+The map $\pi$ is a special case of Cohomology on Sites, Situation
+\ref{sites-cohomology-situation-fibred-category}.
+An important role will be played in the following
+by the derived functors
+$
+Li^* : D(\mathcal{O}) \longrightarrow D(\underline{\mathcal{O}}_X)
+$
+left adjoint to $Ri_* = i_* : D(\underline{\mathcal{O}}_X) \to D(\mathcal{O})$
+and
+$
+L\pi_! : D(\underline{\mathcal{O}}_X) \longrightarrow D(\mathcal{O}_X)
+$
+left adjoint to
+$\pi^* = \pi^{-1} : D(\mathcal{O}_X) \to D(\underline{\mathcal{O}}_X)$.
+We can compute $L\pi_!$ thanks to our earlier work.
+
+\begin{remark}
+\label{remark-compute-L-pi-shriek-spaces}
+In the situation above, for every object $U \to X$ of $X_{\acute{e}tale}$
+let $P_{\bullet, U}$ be the standard resolution of $\mathcal{O}_X(U)$
+over $\Lambda$. Set $A_{n, U} = \Spec(P_{n, U})$. Then $A_{\bullet, U}$
+is a cosimplicial object of the fibre category
+$\mathcal{C}_{\mathcal{O}_X(U)/\Lambda}$ of
+$\mathcal{C}_{X/\Lambda}$ over $U$. Moreover, as discussed
+in Remark \ref{remark-resolution} we have that $A_{\bullet, U}$
+is a cosimplicial object of $\mathcal{C}_{\mathcal{O}_X(U)/\Lambda}$
+as in Cohomology on Sites, Lemma
+\ref{sites-cohomology-lemma-compute-by-cosimplicial-resolution}.
+Since the construction $U \mapsto A_{\bullet, U}$ is functorial
+in $U$, given any (abelian) sheaf $\mathcal{F}$ on $\mathcal{C}_{X/\Lambda}$
+we obtain a complex of presheaves
+$$
+U \longmapsto \mathcal{F}(A_{\bullet, U})
+$$
+whose cohohomogy groups compute the homology of $\mathcal{F}$ on the fibre
+category. We conclude by
+Cohomology on Sites, Lemma
+\ref{sites-cohomology-lemma-compute-left-derived-pi-shriek}
+that the sheafification computes $L_n\pi_!(\mathcal{F})$.
+In other words, the complex of sheaves whose term in degree $-n$ is
+the sheafification of $U \mapsto \mathcal{F}(A_{n, U})$ computes
+$L\pi_!(\mathcal{F})$.
+\end{remark}
+
+\noindent
+With this remark out of the way we can state the main
+result of this section.
+
+\begin{lemma}
+\label{lemma-cotangent-morphism-spaces}
+In the situation above there is a canonical isomorphism
+$$
+L_{X/\Lambda} = 
+L\pi_!(Li^*\Omega_{\mathcal{O}/\underline{\Lambda}}) =
+L\pi_!(i^*\Omega_{\mathcal{O}/\underline{\Lambda}}) =
+L\pi_!(\Omega_{\mathcal{O}/\underline{\Lambda}}
+\otimes_\mathcal{O} \underline{\mathcal{O}}_X)
+$$
+in $D(\mathcal{O}_X)$.
+\end{lemma}
+
+\begin{proof}
+We first observe that for any object $(U \to A)$ of $\mathcal{C}_{X/\Lambda}$
+the value of the sheaf $\mathcal{O}$ is a polynomial algebra over $\Lambda$.
+Hence $\Omega_{\mathcal{O}/\underline{\Lambda}}$ is a flat $\mathcal{O}$-module
+and we conclude the second and third equalities of the statement of the
+lemma hold.
+
+\medskip\noindent
+By Remark \ref{remark-compute-L-pi-shriek-spaces} the object
+$L\pi_!(\Omega_{\mathcal{O}/\underline{\Lambda}}
+\otimes_\mathcal{O} \underline{\mathcal{O}}_X)$
+is computed as the sheafification of the complex of presheaves
+$$
+U \mapsto
+\left(\Omega_{\mathcal{O}/\underline{\Lambda}}
+\otimes_\mathcal{O} \underline{\mathcal{O}}_X\right)(A_{\bullet, U})
+=
+\Omega_{P_{\bullet, U}/\Lambda} \otimes_{P_{\bullet, U}} \mathcal{O}_X(U) =
+L_{\mathcal{O}_X(U)/\Lambda}
+$$
+using notation as in Remark \ref{remark-compute-L-pi-shriek-spaces}.
+Now Remark \ref{remark-map-sections-over-U} shows that
+$L\pi_!(\Omega_{\mathcal{O}/\underline{\Lambda}}
+\otimes_\mathcal{O} \underline{\mathcal{O}}_X)$
+computes the cotangent complex of the map of rings
+$\underline{\Lambda} \to \mathcal{O}_X$ on $X_{\acute{e}tale}$.
+This is what we want by Lemma \ref{lemma-space-over-ring}.
+\end{proof}
+
+
+
 
 
 
