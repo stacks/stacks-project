@@ -40,6 +40,32 @@ In the case of Hilbert spaces there is a more general notion of
 ``Hilbert stacks'' which we will discuss in a separate chapter, see
 (insert future reference here).
 
+\medskip\noindent
+We have intentionally placed this chapter, as well as the chapters
+``Examples of Stacks'', ``Sheaves on Algebraic Stacks'',
+``Criteria for Representability'', and ``Artin's Axioms'' before the
+general development of the theory of algebraic stacks. The reason
+for this is that starting with the next chapter (see
+Properties of Stacks, Section \ref{stacks-properties-section-conventions})
+we will no longer distinguish between a scheme and the algebraic stack
+it gives rise to. Thus our language will become more flexible and
+easier for a human to parse, but also less precise. These first few
+chapters, including the initial chapter ``Algebraic Stacks'', lay the
+groundwork that later allow us to ignore some of the very technical
+distinctions between different ways of thinking about algebraic stacks.
+But especially in the chapters ``Artin's Axioms'' and
+``Criteria of Representability'' we need
+to be very precise about what objects exactly we are working with, as
+we are trying to show that certain constructions produce algebraic stacks or
+algebraic spaces.
+
+\medskip\noindent
+Unfortunately, this means that some of the notation, conventions and
+terminology is awkward and may seem backwards to the more experienced
+reader. We hope the reader will forgive us!
+
+
+
 
 
 \section{Conventions}
@@ -1112,18 +1138,16 @@ p : \textit{Coh}_{X/B} \longrightarrow (\Sch/S)_{fppf},
 $$
 is a functor. For a scheme $T$ over $S$ we denote $\textit{Coh}_{X/B, T}$
 the fibre category of $p$ over $T$. These fibre categories are groupoids.
-In fact, we will now show $p$ turns $\textit{Coh}_{X/B}$ into a stack
-in groupoids over $(\Sch/S)_{fppf}$.
 
 \begin{lemma}
-\label{lemma-coherent-stack}
+\label{lemma-coherent-fibred-in-groupoids}
 In Situation \ref{situation-coherent} the functor
 $p : \textit{Coh}_{X/B} \longrightarrow (\Sch/S)_{fppf}$
-is a stack in groupoids.
+is fibred in groupoids.
 \end{lemma}
 
 \begin{proof}
-We first show that $p$ is fibred in groupoids by checking conditions
+We show that $p$ is fibred in groupoids by checking conditions
 (1) and (2) of Categories, Definition
 \ref{categories-definition-fibred-groupoids}.
 Given an object $(T', g', \mathcal{F}')$
@@ -1151,12 +1175,50 @@ $$
 to obtain the morphism
 $(h, \varphi) : (T_1, g_1, \mathcal{F}_1) \to (T_2, g_2, \mathcal{F}_2)$
 that witnesses the truth of condition (2).
+\end{proof}
 
-\medskip\noindent
+\begin{lemma}
+\label{lemma-coherent-diagonal}
+In Situation \ref{situation-coherent}. Denote
+$\mathcal{X} = \textit{Coh}_{X/B}$. Then
+$\Delta : \mathcal{X} \to \mathcal{X} \times \mathcal{X}$ is
+representable by algebraic spaces.
+\end{lemma}
+
+\begin{proof}
+Consider two objects $x = (T, g, \mathcal{F})$ and $y = (T, h, \mathcal{G})$
+of $\mathcal{X}$ over a scheme $T$. We have to show that
+$\mathit{Isom}_\mathcal{X}(x, y)$ is representable by an algebraic
+space over $T$, see
+Algebraic Stacks, Lemma \ref{algebraic-lemma-representable-diagonal}.
+If for $a : T' \to T$ the restrictions $x|_{T'}$ and $y|_{T'}$ are isomorphic
+in the fibre category $\mathcal{X}_{T'}$, then $g \circ a = h \circ a$.
+Hence there is a transformation of presheaves
+$$
+\mathit{Isom}_\mathcal{X}(x, y) \longrightarrow \text{Equalizer}(g, h)
+$$
+Since the diagonal of $B$ is representable by schemes this equalizer is
+a scheme. Thus we may replace $T$ by this equalizer and the sheaves
+$\mathcal{F}$ and $\mathcal{G}$ by their pullbacks. Thus we may assume
+$g = h$. In this case we have
+$\mathit{Isom}_\mathcal{X}(x, y) = \mathit{Isom}(\mathcal{F}, \mathcal{G})$
+and the result follows from Lemma \ref{lemma-isom-sheaf}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-coherent-stack}
+In Situation \ref{situation-coherent} the functor
+$p : \textit{Coh}_{X/B} \longrightarrow (\Sch/S)_{fppf}$
+is a stack in groupoids.
+\end{lemma}
+
+\begin{proof}
 To prove that $\textit{Coh}_{X/B}$ is a stack in groupoids, we have to show
 that the presheaves $\mathit{Isom}$ are sheaves and that descent data are
-effective. The statement on $\mathit{Isom}$ is exactly the content of
-Lemma \ref{lemma-hom-sheaf}. Let us prove the statement on descent data.
+effective. The statement on $\mathit{Isom}$ follows from
+Lemma \ref{lemma-coherent-diagonal}, see
+Algebraic Stacks, Lemma \ref{algebraic-lemma-representable-diagonal}.
+Let us prove the statement on descent data.
 Suppose that $\{a_i : T_i \to T\}$ is an fppf covering of schemes over $S$.
 Let $(\xi_i, \varphi_{ij})$ be a descent datum for $\{T_i \to T\}$
 with values in $\textit{Coh}_{X/B}$.
@@ -1452,7 +1514,7 @@ with maximal ideal $\mathfrak m$
 whose residue field $k$ is of finite type over $S$.
 We have to show that the category of objects over $A$ is
 equivalent to the category of formal objects over $A$.
-Since we now this holds for the category $\mathcal{S}_B$
+Since we know this holds for the category $\mathcal{S}_B$
 fibred in sets associated to $B$ by Artin's Axioms, 
 Lemma \ref{artin-lemma-effective}, it suffices to prove this
 for those objects lying over a given morphism $\Spec(A) \to B$.
@@ -1465,7 +1527,7 @@ By Grothendieck's existence theorem
 we see that the category of coherent modules $\mathcal{F}$
 on $X_A$ with support proper over $\Spec(A)$ is equivalent
 to the category of systems $(\mathcal{F}_n)$ of coherent modules
-$\mathcal{F}_n$ on $X_n$ with support propert over
+$\mathcal{F}_n$ on $X_n$ with support proper over
 $\Spec(A/\mathfrak m^n)$. The equivalence sends $\mathcal{F}$
 to the system $(\mathcal{F} \otimes_A A/\mathfrak m^n)$. See discussion in
 More on Morphisms of Spaces, Remark
