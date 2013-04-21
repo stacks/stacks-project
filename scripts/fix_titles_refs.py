@@ -10,14 +10,15 @@ short_titles = {'introduction' : 'Introduction',\
 'categories' : 'Categories,',\
 'topology' : 'Topology,',\
 'sheaves' : 'Sheaves,',\
+'sites' : 'Sites,',\
+'stacks' : 'Stacks,',\
 'algebra' : 'Algebra,',\
 'brauer' : 'Brauer Groups,',\
-'smoothing' : 'Smoothing Ring Maps,',\
-'sites' : 'Sites,',\
 'homology' : 'Homology,',\
 'derived' : 'Derived Categories,',\
-'more-algebra' : 'More on Algebra,',\
 'simplicial' : 'Simplicial,',\
+'more-algebra' : 'More on Algebra,',\
+'smoothing' : 'Smoothing Ring Maps,',\
 'modules' : 'Modules,',\
 'sites-modules' : 'Modules on Sites,',\
 'injectives' : 'Injectives,',\
@@ -32,16 +33,17 @@ short_titles = {'introduction' : 'Introduction',\
 'divisors' : 'Divisors,',\
 'limits' : 'Limits,',\
 'varieties' : 'Varieties,',\
-'chow' : 'Chow Homology,',\
 'topologies' : 'Topologies,',\
 'descent' : 'Descent,',\
 'perfect' : 'Derived Categories of Schemes,',\
-'adequate' : 'Adequate Modules,',\
 'more-morphisms' : 'More on Morphisms,',\
 'flat' : 'More on Flatness,',\
 'groupoids' : 'Groupoids,',\
 'more-groupoids' : 'More on Groupoids,',\
 'etale' : '\\\'Etale Morphisms,',\
+'chow' : 'Chow Homology,',\
+'adequate' : 'Adequate Modules,',\
+'dualizing' : 'Dualizing Complexes,',\
 'etale-cohomology' : '\\\'Etale Cohomology,',\
 'crystalline' : 'Crystalline Cohomology,',\
 'spaces' : 'Spaces,',\
@@ -55,21 +57,20 @@ short_titles = {'introduction' : 'Introduction',\
 'spaces-descent' : 'Descent on Spaces,',\
 'spaces-perfect' : 'Derived Categories of Spaces,',\
 'spaces-more-morphisms' : 'More on Morphisms of Spaces,',\
-'quot' : 'Quot,',\
 'spaces-over-fields' : 'Spaces over Fields,',\
-'stacks' : 'Stacks,',\
-'formal-defos' : 'Formal Deformation Theory,',\
-'defos' : 'Deformation Theory,',\
-'cotangent' : 'Cotangent,',\
 'spaces-groupoids' : 'Groupoids in Spaces,',\
 'spaces-more-groupoids' : 'More on Groupoids in Spaces,',\
 'bootstrap' : 'Bootstrap,',\
-'examples-stacks' : 'Examples of Stacks,',\
 'groupoids-quotients' : 'Quotients of Groupoids,',\
+'formal-defos' : 'Formal Deformation Theory,',\
+'defos' : 'Deformation Theory,',\
+'cotangent' : 'Cotangent,',\
 'algebraic' : 'Algebraic Stacks,',\
+'examples-stacks' : 'Examples of Stacks,',\
 'stacks-sheaves' : 'Sheaves on Stacks,',\
 'criteria' : 'Criteria for Representability,',\
 'artin' : 'Artin\'s Axioms,',\
+'quot' : 'Quot,',\
 'stacks-properties' : 'Properties of Stacks,',\
 'stacks-morphisms' : 'Morphisms of Stacks,',\
 'stacks-cohomology' : 'Cohomology of Stacks,',\
