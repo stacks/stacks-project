@@ -60,7 +60,7 @@ Let $\mathcal{A}$ be an abelian category.
 or we say that $B$ is an {\it essential extension of} $A$,
 if every nonzero subobject $B' \subset B$ has nonzero intersection with $A$.
 \item A surjection $f : A \to B$ of $\mathcal{A}$ is {\it essential}
-if every proper subobject $A' \subset A$ we have $f(A') \not = B$.
+if for every proper subobject $A' \subset A$ we have $f(A') \not = B$.
 \end{enumerate}
 \end{definition}
 
@@ -71,8 +71,12 @@ Some lemmas about this notion.
 \label{lemma-essential}
 Let $\mathcal{A}$ be an abelian category.
 \begin{enumerate}
+\item If $A \subset B$ and $B \subset C$ are essential extensions, then
+$A \subset C$ is an essential extension.
 \item If $A \subset B$ is an essential extension and $C \subset B$
 is a subobject, then $A \cap C \subset C$ is an essential extension.
+\item If $A \to B$ and $B \to C$ are essential surjections, then
+$A \to C$ is an essential surjection.
 \item Given an essential surjection $f : A \to B$ and a surjection
 $A \to C$ with kernel $K$, the morphism $C \to B/f(K)$ is an essential
 surjection.
@@ -144,6 +148,17 @@ then $E$ is injective as an $R$-module.
 \begin{proof}
 This is true because $\Hom_R(M, E) = \Hom_S(M \otimes_R S, E)$
 and the fact that tensoring with $S$ is exact.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-injective-epimorphism}
+Let $R \to S$ be an epimorphism of rings. Let $E$ be an $S$-module.
+If $E$ is injective as an $R$-module, then $E$ is an injective $S$-module.
+\end{lemma}
+
+\begin{proof}
+This is true because $\Hom_R(N, E) = \Hom_S(N, E)$ for any $S$-module $N$,
+see Algebra, Lemma \ref{algebra-lemma-epimorphism-modules}.
 \end{proof}
 
 \begin{lemma}
@@ -269,12 +284,17 @@ using the injectivity of the modules $E_{i_j}$.
 \begin{lemma}
 \label{lemma-injective-module-divide}
 Let $R$ be a Noetherian ring. Let $I$ be an injective $R$-module.
-Let $f \in R$. Then $E = \{x \in I \mid \exists\ n,\ f^n x  = 0\}$
+\begin{enumerate}
+\item Let $f \in R$. Then $E = \{x \in I \mid \exists\ n,\ f^n x  = 0\}$
 is an injective submodule of $I$.
+\item Let $J \subset R$ be an ideal. Then the $J$-power torsion
+submodule $I[J^\infty]$ is an injective submodule of $I$.
+\end{enumerate}
 \end{lemma}
 
 \begin{proof}
-We will use Lemma \ref{lemma-essential-extensions-in-injective}.
+We will use Lemma \ref{lemma-essential-extensions-in-injective}
+to prove (1).
 Suppose that $E \subset E' \subset I$ and that $E'$ is an essential
 extension of $E$. We will show that $E' = E$. If not, then we can
 find $x \in E'$ and $x \not \in E$. Let $J = \{a \in R \mid ax \in E'\}$.
@@ -284,6 +304,14 @@ $g_i \in R$. Say $f^{n_i}$ annihilates $g_ix$. Set $n = \max\{n_i\}$.
 Then $x' = f^n x$ is an element of $E'$ not in $E$ and is annihilated
 by $J$. By maximality of $J$ we see that $R x' = (R/J)x'  \cap E = (0)$.
 Hence $E'$ is not an essential extension of $E$ a contradiction.
+
+\medskip\noindent
+To prove (2) write $J = (f_1, \ldots, f_t)$. Then
+$I[J^\infty]$ is equal to
+$$
+(\ldots((I[f_1^\infty])[f_2^\infty])\ldots)[f_t^\infty]
+$$
+and the result follows from (1) and induction.
 \end{proof}
 
 
@@ -391,27 +419,43 @@ Lemma \ref{lemma-essential-extensions-in-injective}.
 
 \begin{lemma}
 \label{lemma-injective-hull-unique}
-Let $R$ be a ring and let $M$ be an $R$-module.
-If $M \to I$ is an embedding of $M$ into an injective $R$-module,
+Let $R$ be a ring. Let $M$, $N$ be $R$-modules and let $M \to E$
+and $N \to E'$ be injective hulls. Then
+\begin{enumerate}
+\item for any $R$-module map $\varphi : M \to N$ there exists an
+$R$-module map $\psi : E \to E'$ such that
+$$
+\xymatrix{
+M \ar[r] \ar[d]_\varphi & E \ar[d]^\psi \\
+N \ar[r] & E'
+}
+$$
+commutes,
+\item if $\varphi$ is injective, then $\psi$ is injective,
+\item if $\varphi$ is an essential injection, then $\psi$ is an isomorphism,
+\item if $\varphi$ is an isomorphism, then $\psi$ is an isomorphism,
+\item if $M \to I$ is an embedding of $M$ into an injective $R$-module,
 then there is an isomorphism $I \cong E \oplus I'$ compatible with
-the embeddings of $M$.
-The injective hull $E$ of $M$ is unique up to isomorphism.
+the embeddings of $M$,
+\end{enumerate}
+In particular, the injective hull $E$ of $M$ is unique up to isomorphism.
 \end{lemma}
 
 \begin{proof}
-Assume $M \to E$ and $M \to I$ as the statement of the lemma.
+Part (1) follows from the fact that $E'$ is an injective $R$-module.
+Part (2) follows as $\text{Ker}(\psi) \cap M = 0$
+and $E$ is an essential extension of $M$.
+Assume $\varphi$ is an essential injection. Then
+$E \cong \psi(E) \subset E'$ by (2) which implies
+$E' = \psi(E) \oplus E''$ because $E$ is injective.
+Since $E'$ is an essential extension of
+$M$ (Lemma \ref{lemma-essential}) we get $E'' = 0$.
+Part (4) is a special case of (3).
+Assume $M \to I$ as in (5).
 Choose a map $\alpha : E \to I$ extending the map $M \to I$.
-Choose a map $\beta: I \to E$ extending the map $M \to E$.
-The composition $\beta \circ \alpha : E \to E$ induces the indentity
-on $M$, hence has trivial kernel as $M \subset E$ is an essential
-extension. Thus the image $E'$ of $\beta \circ \alpha$ is an injective
-submodule of $E$ containing $M$. It follows that $E = E' \oplus E''$
-with $M \subset E'$. Since $E$ is an essential extenion we conclude
-$E'' = 0$. Thus $\alpha : E \to I$ has a left inverse as desired.
-
-\medskip\noindent
-The uniqueness statement follows immediately from this. Or it
-can be proven directly by similar arguments.
+Arguing as before we see that $\alpha$ is injective.
+Thus as before $\alpha(E)$ splits off from $I$.
+This proves (5).
 \end{proof}
 
 \begin{example}
@@ -464,29 +508,39 @@ Proof of (4). Consider the ring map $R \to A$ and let $\mathfrak p \subset R$
 be the inverse image of the maximal ideal $I$. Then it is clear
 that $\mathfrak p$ is a prime ideal and that $R \to A$ extends to
 $R_\mathfrak p \to A$. Thus $E$ is an $R_\mathfrak p$-module.
-Note that for an $R_\mathfrak p$-module $N$ we have
-$\Hom_{R_\mathfrak p}(N, E) = \Hom_R(N, E)$ hence it is clear
-that $E$ is injective as an $R_\mathfrak p$-module.
+It follows from Lemma \ref{lemma-injective-epimorphism} that $E$ is injective
+as an $R_\mathfrak p$-module.
 \end{proof}
 
 \begin{lemma}
 \label{lemma-injective-hull-indecomposable}
-Let $R$ be a ring. Let $\mathfrak p \subset R$ be a prime.
-The injective hull of $R/\mathfrak p$ is equal to the injective
-hull of $\kappa(\mathfrak p)$ and is indecomposable.
+Let $\mathfrak p \subset R$ be a prime of a ring $R$.
+Let $E$ be the injective hull of $R/\mathfrak p$. Then
+\begin{enumerate}
+\item $E$ is indecomposable,
+\item $E$ is the injective hull of $\kappa(\mathfrak p)$,
+\item $E$ is the injective hull of $\kappa(\mathfrak p)$
+over the ring $R_\mathfrak p$.
+\end{enumerate}
 \end{lemma}
 
 \begin{proof}
-Say $R/\mathfrak p \subset E$ is an injective hull. As
-$R/\mathfrak p \subset \kappa(\mathfrak p)$ we can extend the embedding
-to a map $\kappa(\mathfrak p) \to E$. Hence $E$ is also the injective
-hull of $\kappa(\mathfrak p)$. Observe that for
-$f \in R$, $f \not \in \mathfrak p$ the map $f : E \to E$ is an isomorphism
-(as $f : \kappa(\mathfrak p) \to \kappa(\mathfrak p)$ is an isomorphism
-and using the uniqueness of injective hulls). Hence, if $E' \subset E$ is a
-nonzero submodule, then $\kappa(\mathfrak p) \cap E' = \kappa(\mathfrak p)$.
-In particular, if $E'$ is injective, then $E'$ is the injective
-hull of $\kappa(\mathfrak p)$ and $E' = E$.
+As $R/\mathfrak p \subset \kappa(\mathfrak p)$ we can extend the embedding
+to a map $\kappa(\mathfrak p) \to E$. Hence (2) holds.
+For $f \in R$, $f \not \in \mathfrak p$
+the map $f : \kappa(\mathfrak p) \to \kappa(\mathfrak p)$ is an isomorphism
+hence the map $f : E \to E$ is an isomorphism,
+see Lemma \ref{lemma-injective-hull-unique}.
+Thus $E$ is an $R_\mathfrak p$-module. It is injective
+as an $R_\mathfrak p$-module by Lemma \ref{lemma-injective-epimorphism}.
+Finally, let $E' \subset E$ be a nonzero injective $R$-submodule.
+Then $J = (R/\mathfrak p) \cap E'$ is nonzero. After shrinking $E'$
+we may assume that $E'$ is the injective hull of $J$ (see
+Lemma \ref{lemma-injective-hull-unique} for example).
+Observe that $R/\mathfrak p$ is an essential extension of $J$ for example by
+Lemma \ref{lemma-essential-extension}. Hence $E' \to E$
+is an isomorphism by Lemma \ref{lemma-injective-hull-unique} part (3).
+Hence $E$ is indecomposable.
 \end{proof}
 
 \begin{lemma}
@@ -536,6 +590,293 @@ for $\beta < \alpha$, then we set
 $I_\alpha = \bigcup_{\beta < \alpha} I_\beta$.
 Observe that $I_\alpha = \bigoplus_{\beta < \alpha} E_{\beta + 1}$.
 This concludes the proof.
+\end{proof}
+
+
+
+\section{Duality over Artinian local rings}
+\label{section-artinian}
+
+\noindent
+Let $(R, \mathfrak m, \kappa)$ be an artinian local ring.
+Recall that this implies $R$ is Noetherian and that $R$ has finite
+length as an $R$-module. Moreover an $R$-module is finite if and
+only if it has finite length. We will use these facts without
+further mention in this section. Please see
+Algebra, Sections \ref{algebra-section-length} and
+\ref{algebra-section-artinian}
+and
+Algebra, Proposition \ref{algebra-proposition-dimension-zero-ring}
+for more details.
+
+\begin{lemma}
+\label{lemma-finite}
+Let $(R, \mathfrak m, \kappa)$ be an artinian local ring.
+Let $E$ be an injective hull of $\kappa$. For every finite
+$R$-module $M$ we have
+$$
+\text{length}_R(M) = \text{length}_R(\Hom_R(M, E))
+$$
+In particular, the injective hull $E$ of $\kappa$ is a finite $R$-module.
+\end{lemma}
+
+\begin{proof}
+Because $E$ is an essential extension of $\kappa$ we have
+$\kappa = E[\mathfrak m]$ where $E[\mathfrak m]$ is the
+$\mathfrak m$-torsion in $E$ (notation as in More on Algebra, Section
+\ref{more-algebra-section-formal-glueing}).
+Hence $\Hom_R(\kappa, E) \cong \kappa$ and the equality of lengths
+holds for $M = \kappa$. We prove the displayed equality of the lemma
+by induction on the length of $M$. If $M$ is nonzero there exists a surjection
+$M \to \kappa$ with kernel $M'$. Since the functor $M \mapsto \Hom_R(M, E)$
+is exact we obtain a short exact sequence
+$$
+0 \to \Hom_R(\kappa, E) \to \Hom_R(M, E) \to \Hom_R(M', E) \to 0.
+$$
+Additivity of length for this sequence and the sequence
+$0 \to M' \to M \to \kappa \to 0$ and the equality for $M'$ (induction
+hypothesis) and $\kappa$ implies the equality for $M$.
+The final statement of the lemma follows as $E = \Hom_R(R, E)$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-evaluate}
+Let $(R, \mathfrak m, \kappa)$ be an artinian local ring.
+Let $E$ be an injective hull of $\kappa$.
+For any finite $R$-module $M$ the evaluation map
+$$
+M \longrightarrow \Hom_R(\Hom_R(M, E), E)
+$$
+is an isomorphism. In particular $R = \Hom_R(E, E)$.
+\end{lemma}
+
+\begin{proof}
+Observe that the displayed arrow is injective. Namely, if $x \in M$ is
+a nonzero element, then there is a nonzero map $Rx \to \kappa$ which
+we can extend to a map $\varphi : M \to E$ that doesn't vanish on $x$.
+Since the source and target of the arrow have the same length by
+Lemma \ref{lemma-finite}
+we conclude it is an isomorphism. The final statement follows
+on taking $M = R$.
+\end{proof}
+
+\noindent
+To state the next lemma, denote $\text{Mod}_{fg}(R)$ the category of finite
+$R$-modules over a ring $R$.
+
+\begin{lemma}
+\label{lemma-duality}
+Let $(R, \mathfrak m, \kappa)$ be an artinian local ring.
+Let $E$ be an injective hull of $\kappa$.
+The functor $D(-) = \Hom_R(-, E)$ induces an exact anti-equivalence
+$\text{Mod}_{fg}(R) \to \text{Mod}_{fg}(R)$ and
+$D \circ D \cong \text{id}$.
+\end{lemma}
+
+\begin{proof}
+We have seen that $D \circ D = \text{id}$ on $\text{Mod}_{fg}(R)$
+in Lemma \ref{lemma-evaluate}. It follows immediately that
+$D$ is an anti-equivalence.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-duality-torsion-cotorsion}
+Assumptions and notation as in Lemma \ref{lemma-duality}.
+Let $I \subset R$ be an ideal and $M$ a finite $R$-module.
+Then
+$$
+D(M[I]) = D(M)/ID(M) \quad\text{and}\quad D(M/IM) = D(M)[I]
+$$
+\end{lemma}
+
+\begin{proof}
+Say $I = (f_1, \ldots, f_t)$. Consider the map
+$$
+M^{\oplus t} \xrightarrow{f_1, \ldots, f_t} M
+$$
+with cokernel $M/IM$. Applying the exact functor $D$ we conclude that
+$D(M/IM)$ is $D(M)[I]$. The other case is proved in the same way.
+\end{proof}
+
+
+
+\section{Injective hull of the residue field}
+\label{section-hull-residue-field}
+
+\noindent
+Most of our results will be for Noetherian local rings in this section.
+
+\begin{lemma}
+\label{lemma-quotient}
+Let $R \to S$ be a surjective map of local rings with kernel $I$.
+Let $E$ be the injective hull of the residue field of $R$ over $R$.
+Then $E[I]$ is the injective hull of the residue field of $S$ over $S$.
+\end{lemma}
+
+\begin{proof}
+Observe that $E[I] = \Hom_R(S, E)$ as $S = R/I$. Hence $E[I]$ is an injective
+$S$-module by Lemma \ref{lemma-hom-injective}. Since $E$ is an essential
+extension of $\kappa = R/\mathfrak m_R$ it follows that $E[I]$ is an
+essential extension of $\kappa$ as well. The result follows.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-torsion-submodule-sum-injective-hulls}
+Let $(R, \mathfrak m, \kappa)$ be a local ring.
+Let $E$ be the injective hull of $\kappa$.
+Let $M$ be a $\mathfrak m$-power torsion $R$-module
+with $n = \dim_\kappa(M[\mathfrak m]) < \infty$.
+Then $M$ is isomorphic to a submodule of $E^{\oplus n}$.
+\end{lemma}
+
+\begin{proof}
+Observe that $E^{\oplus n}$ is the injective hull of
+$\kappa^{\oplus n} = M[\mathfrak m]$. Thus there is an $R$-module map
+$M \to E^{\oplus n}$ which is injective on $M[\mathfrak m]$.
+Since $M$ is $\mathfrak m$-power torsion the inclusion
+$M[\mathfrak m] \subset M$ is an essential extension
+(for example by Lemma \ref{lemma-essential-extension})
+we conlude that the kernel of $M \to E^{\oplus n}$ is zero.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-union-artinian}
+Let $(R, \mathfrak m, \kappa)$ be a Noetherian local ring.
+Let $E$ be an injective hull of $\kappa$ over $R$.
+Let $E_n$ be an injective hull of $\kappa$ over $R/\mathfrak m^n$.
+Then $E = \bigcup E_n$ and $E_n = E[\mathfrak m^n]$.
+\end{lemma}
+
+\begin{proof}
+We have $E_n = E[\mathfrak m^n]$ by Lemma \ref{lemma-quotient}.
+We have $E = \bigcup E_n$ because $\bigcup E_n = E[\mathfrak m^\infty]$
+is an injective $R$-submodule which contains $\kappa$, see
+Lemma \ref{lemma-injective-module-divide}.
+\end{proof}
+
+\noindent
+The following lemma tells us the injective hull of the residue
+field of a Noetherian local ring only depends on the completion.
+
+\begin{lemma}
+\label{lemma-compare}
+Let $R \to S$ be a flat local homomorphism of local Noetherian rings
+such that $R/\mathfrak m_R \cong S/\mathfrak m_R S$.
+Then the injective hull of the residue field
+of $R$ is the injective hull of the residue field of $S$.
+\end{lemma}
+
+\begin{proof}
+Set $\kappa = R/\mathfrak m_R = S/\mathfrak m_S$.
+Let $E_R$ be the injective hull of $\kappa$ over $R$.
+Let $E_S$ be the injective hull of $\kappa$ over $S$.
+Observe that $E_S$ is an injective $R$-module by
+Lemma \ref{lemma-injective-flat}.
+Choose an extension $E_R \to E_S$ of the identifitaction of
+residue fields. This map is an isomorphism by
+Lemma \ref{lemma-union-artinian}
+because $R \to S$ induces an isomorphism
+$R/\mathfrak m_R^n \to S/\mathfrak m_S^n$ for all $n$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-endos}
+Let $(R, \mathfrak m, \kappa)$ be a Noetherian local ring.
+Let $E$ be an injective hull of $\kappa$ over $R$. Then
+$\Hom_R(E, E)$ is canonically isomorphic to the completion of $R$.
+\end{lemma}
+
+\begin{proof}
+Write $E = \bigcup E_n$ with $E_n = E[\mathfrak m^n]$ as in
+Lemma \ref{lemma-union-artinian}. Any endomorphism of $E$
+preserves this filtration. Hence
+$$
+\Hom_R(E, E) = \lim \Hom_R(E_n, E_n)
+$$
+The lemma follows as
+$\Hom_R(E_n, E_n) = \Hom_{R/\mathfrak m^n}(E_n, E_n) = R/\mathfrak m^n$
+by Lemma \ref{lemma-evaluate}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-describe-categories}
+Let $(R, \mathfrak m, \kappa)$ be a Noetherian local ring.
+\begin{enumerate}
+\item An $R$-module satisfies the ascending chain condition
+if and only if it is a finite $R$-module.
+\item An $R$-module satisfies the descending chain condition
+if and only if it is $\mathfrak m$-power torsion and has a
+finite dimensional $\mathfrak m$-torsion submodule.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+We omit the proof of (1). Let $M$ be an $R$-module with the descending
+chain condition. Let $x \in M$. Then $\mathfrak m^n x$ is a descending
+chain of submodules, hence stabilizes. Thus
+$\mathfrak m^nx = \mathfrak m^{n + 1}x$ for some $n$. By Nakayama's lemma
+(Algebra, Lemma \ref{algebra-lemma-NAK})
+this implies $\mathfrak m^n x = 0$, i.e., $x$ is $\mathfrak m$-power torsion.
+Since $M[\mathfrak m]$ is a vector space over $\kappa$ it has to be
+finite dimensional in order to have the descending chain condition.
+
+\medskip\noindent
+Conversely, assume that $M$ is $\mathfrak m$-power torsion and has a
+finite dimensional $\mathfrak m$-torsion submodule $M[\mathfrak m]$.
+Let $E$ be an injective hull of $\kappa$. By
+Lemma \ref{lemma-torsion-submodule-sum-injective-hulls}
+we see that $M$ is a submodule of $E^{\oplus n}$ for some $n$.
+Hence it suffices to prove the descending chain condition for $E$.
+If $E \subset M_1 \subset M_2 \ldots$ is a sequence of submodules,
+then
+$$
+\Hom_R(E, E) \to \Hom_R(M_1, E) \to \Hom_R(M_2, E) \to \ldots
+$$
+is sequence of surjections. By Lemma \ref{lemma-endos} each of these is a
+module over the completion $R^\wedge = \Hom_R(E, E)$.
+Since $R^\wedge$ is Noetherian
+(Algebra, Lemma \ref{algebra-lemma-completion-Noetherian-Noetherian})
+the sequence stabilizes:
+$\Hom_R(M_n, E) = \Hom_R(M_{n + 1}, E) = \ldots$.
+Since $E$ is injective, this can only happen if $\Hom_R(M_n/M_{n + 1}, E)$
+is zero. However, if $M_n/M_{n + 1}$ is nonzero, then it contains a
+nonzero element annihilated by $\mathfrak m$, whence has a nonzero
+map into $E$. This finishes the proof.
+\end{proof}
+
+\begin{proposition}[Matlis duality]
+\label{proposition-matlis}
+Let $(R, \mathfrak m, \kappa)$ be a complete local Noetherian ring.
+Let $E$ be an injective hull of $\kappa$ over $R$. The functor
+$D(-) = \Hom_R(-, E)$ induces an anti-equivalence
+$$
+\left\{
+\begin{matrix}
+R\text{-modules with the} \\
+\text{descending chain condition}
+\end{matrix}
+\right\}
+\longleftrightarrow
+\left\{
+\begin{matrix}
+R\text{-modules with the} \\
+\text{ascending chain condition}
+\end{matrix}
+\right\}
+$$
+and we have $D \circ D = \text{id}$ on either side of the equivalence.
+\end{proposition}
+
+\begin{proof}
+By Lemma \ref{lemma-endos} we have $R = \Hom_R(E, E) = D(E)$.
+Of course we have $E = \Hom_R(R, E) = D(R)$.
+In Lemma \ref{lemma-describe-categories}
+and its proof we have seen that modules with acc
+are quotients of $R^{\oplus n}$ and modules with dcc are submodules
+of $E^{\oplus n}$. Note that $D$ is exact and conservative, i.e.,
+for $M$ in either left of right hand side we have $D(M) = 0$
+if and only if $M = 0$. The result then follows formally.
+Some details omitted.
 \end{proof}
 
 
