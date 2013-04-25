@@ -116,6 +116,10 @@ for name in lijstje:
 			if in_lab_env and line.find("\\begin{equation}") < 0:
 				error_text = 'Nested environments.'
 				print_error(error_text, line, name, line_nr)
+			# The following checks that there are no labeled
+			# environments between the beginning of one that needs
+			# a proof and the start of its proof, except for
+			# equations.
 			if needs_proof and line.find("\\begin{equation}") < 0:
 				error_text = 'Missing proof.'
 				print_error(error_text, line, name, line_nr)

@@ -1580,7 +1580,7 @@ Lemma \ref{lemma-hom-exact}
 this gives an exact sequence
 $$
 0 \to
-\SheafHom_R(M, N) \to
+\Hom_R(M, N) \to
 \bigoplus\nolimits_{i = 1, \ldots, n} N
 \longrightarrow
 \bigoplus\nolimits_{j = 1, \ldots, m} N.
@@ -1588,7 +1588,7 @@ $$
 Inverting $f$ we get an exact sequence
 $$
 0 \to
-(\SheafHom_R(M, N))_f \to
+(\Hom_R(M, N))_f \to
 \bigoplus\nolimits_{i = 1, \ldots, n} N_f
 \longrightarrow
 \bigoplus\nolimits_{j = 1, \ldots, m} N_f
@@ -2070,32 +2070,6 @@ S^{-1}(M \otimes_R N) &\cong S^{-1}R \otimes_R (M \otimes_R N)\\
 This isomorphism is easily seen to be the one stated in the lemma.
 \end{proof}
 
-\noindent
-Let $\varphi : R \to S$ be a ring map. Given a $S$-module $N$ we
-obtain an $R$-module $N_R$ by the rule $r \cdot n = \varphi(r)n$.
-This is sometimes called the {\it restriction} of $N$ to $R$.
-
-\begin{lemma}
-\label{lemma-adjoint-tensor-restrict}
-Let $R \to S$ be a ring map. The functors
-$\text{Mod}_S \to \text{Mod}_R$, $N \mapsto N_R$ (restriction)
-and $\text{Mod}_R \to \text{Mod}_S$, $M \mapsto M \otimes_R S$
-(base change) are adjoint functors. In a formula
-$$
-\Hom_R(M, N_R) = \Hom_S(M \otimes_R S, N)
-$$
-\end{lemma}
-
-\begin{proof}
-If $\alpha : M \to N_R$ is an $R$-module map, then we define
-$\alpha' : M \otimes_R S \to N$ by the rule
-$\alpha'(m \otimes s) = s\alpha(m)$. If $\beta : M \otimes_R S \to N$
-is an $S$-module map, we define $\beta' : M \to N_R$ by the rule
-$\beta'(m) = \beta(m \otimes 1)$.
-We omit the verification that these constructions are mutually inverse.
-\end{proof}
-
-
 
 
 
@@ -2356,6 +2330,79 @@ Proof of (4). This follows by the remark preceding the lemma
 as we can take $I$ and $J$ to be finte by assumption.
 \end{proof}
 
+\noindent
+Let $\varphi : R \to S$ be a ring map. Given a $S$-module $N$ we
+obtain an $R$-module $N_R$ by the rule $r \cdot n = \varphi(r)n$.
+This is sometimes called the {\it restriction} of $N$ to $R$.
+
+\begin{lemma}
+\label{lemma-adjoint-tensor-restrict}
+Let $R \to S$ be a ring map. The functors
+$\text{Mod}_S \to \text{Mod}_R$, $N \mapsto N_R$ (restriction)
+and $\text{Mod}_R \to \text{Mod}_S$, $M \mapsto M \otimes_R S$
+(base change) are adjoint functors. In a formula
+$$
+\Hom_R(M, N_R) = \Hom_S(M \otimes_R S, N)
+$$
+\end{lemma}
+
+\begin{proof}
+If $\alpha : M \to N_R$ is an $R$-module map, then we define
+$\alpha' : M \otimes_R S \to N$ by the rule
+$\alpha'(m \otimes s) = s\alpha(m)$. If $\beta : M \otimes_R S \to N$
+is an $S$-module map, we define $\beta' : M \to N_R$ by the rule
+$\beta'(m) = \beta(m \otimes 1)$.
+We omit the verification that these constructions are mutually inverse.
+\end{proof}
+
+\noindent
+The lemma above tells us that restriction has a left adjoint, namely
+base change. It also has a right adjoint.
+
+\begin{lemma}
+\label{lemma-adjoint-hom-restrict}
+Let $R \to S$ be a ring map. The functors
+$\text{Mod}_S \to \text{Mod}_R$, $N \mapsto N_R$ (restriction)
+and $\text{Mod}_R \to \text{Mod}_S$, $M \mapsto \Hom_R(S, M)$
+are adjoint functors. In a formula
+$$
+\Hom_R(N_R, M) = \Hom_S(N, \Hom_R(S, M))
+$$
+\end{lemma}
+
+\begin{proof}
+If $\alpha : N_R \to M$ is an $R$-module map, then we define
+$\alpha' : N \to \Hom_R(S, M)$ by the rule
+$\alpha'(n) = (s \mapsto \alpha(sn))$. If $\beta : N \to \Hom_R(S, M)$
+is an $S$-module map, we define $\beta' : N_R \to M$ by the rule
+$\beta'(n) = \beta(n)(1)$.
+We omit the verification that these constructions are mutually inverse.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-hom-from-tensor-product-variant}
+Let $R \to S$ be a ring map. Given $S$-modules $M, N$ and an $R$-module $P$
+we have
+$$
+\Hom_R(M \otimes_S N, P) = \Hom_S(M, \Hom_R(N, P))
+$$
+\end{lemma}
+
+\begin{proof}
+This can be proved directly, but it is also a consequence of
+Lemmas \ref{lemma-adjoint-hom-restrict} and \ref{lemma-hom-from-tensor-product}.
+Namely, we have
+\begin{align*}
+\Hom_R(M \otimes_S N, P)
+& =
+\Hom_S(M \otimes_S N, \Hom_R(S, P)) \\
+& =
+\Hom_S(M, \Hom_S(N, \Hom_R(S, P))) \\
+& =
+\Hom_S(M, \Hom_R(N, P))
+\end{align*}
+as desired.
+\end{proof}
 
 
 
@@ -17613,7 +17660,7 @@ Transfinite induction on $S$ also shows that for every $\beta \in S$ the
 restriction
 $$
 f_{\beta} :
-\bigoplus_{\alpha + 1 \leq \beta} M_{\alpha+1}/M_{\alpha}
+\bigoplus\nolimits_{\alpha + 1 \leq \beta} M_{\alpha+1}/M_{\alpha}
 \longrightarrow
 M
 $$
