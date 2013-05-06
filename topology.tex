@@ -40,6 +40,9 @@ $x\in X$ is a {\it point},
 \label{item-closed-point}
 $x\in X$ is a {\it closed point},
 \item
+\label{item-dense}
+$E \subset X$ is a {\it dense} set,
+\item
 \label{item-continuous}
 $f : X_1 \to X_2$ is {\it continuous},
 \item a continuous map of spaces $f : X \to Y$ is
@@ -113,6 +116,18 @@ The graph is the inverse image of the diagonal under the map
 $X \times Y \to Y \times Y$. Thus the lemma follows from
 Lemma \ref{lemma-Hausdorff}.
 \end{proof}
+
+\begin{lemma}
+\label{lemma-section-closed}
+Let $f : X \to Y$ be a continuous map of topological spaces.
+Let $s : Y \to X$ be a continuous map such that $f \circ s = \text{id}_Y$.
+If $X$ is Hausdorff, then $s(Y)$ is closed.
+\end{lemma}
+
+\begin{proof}
+This follows from Lemma \ref{lemma-Hausdorff} as $s(Y) = \{x \in X \mid x = s(f(x))\}$.
+\end{proof}
+
 
 
 
@@ -2795,11 +2810,64 @@ is a homeomorphism, the inverse of which gives the desired section.
 
 
 
-
-\section{Miscellany}
-\label{section-miscellany}
+\section{Stone-{\v C}ech compactification}
+\label{section-stone-cech}
 
 \noindent
+The Stone-{\v C}ech compactification of a topological space $X$
+is a map $X \to \beta(X)$ from $X$ to a Hausdorff quasi-compact space
+$\beta(X)$ which is universal for such maps. We prove this exists
+by a standard argument using the following simple lemma.
+
+\begin{lemma}
+\label{lemma-dense-image}
+Let $f : X \to Y$ be a continuous map of topological spaces. Assume that
+$f(X)$ is dense in $Y$ and that $Y$ is Hausdorff. Then the cardinality
+of $Y$ is at most the cardinality of $P(P(X))$ where $P$ is the power
+set operation.
+\end{lemma}
+
+\begin{proof}
+Let $S = f(X) \subset Y$. Let $\mathcal{D}$ be the set of all
+closed domains of $Y$, i.e., subsets $D \subset Y$ which
+equal the closure of its interior. Note that the closure of an
+open subset of $Y$ is a closed domain. For $y \in Y$ consider the set
+$$
+I_y = \{T \subset S \mid \text{ there exists }
+D \in \mathcal{D}\text{ with }T = S \cap D\text{ and }y \in D\}
+$$
+Since $S$ is dense in $Y$ for every closed domain $D$ we see
+that $S \cap D$ is dense in $D$. Hence, if
+$D \cap S = D' \cap S$ for $D, D' \in \mathcal{D}$, then
+$D = D'$. Thus $I_y = I_{y'}$ implies that $y = y'$ because the
+Hausdorff condition assures us that we can find a closed domain
+containing $y$ but not $y'$. The result follows.
+\end{proof}
+
+\noindent
+Let $X$ be a topological space. Let $\kappa$ be the cardinality of
+$P(P(X))$ as in the lemma above. There is a set $I$ of isomorphism
+classes of continuous maps $f : X \to Y$ which has dense image and
+where $Y$ is Hausdorff and quasi-compact. For $i \in I$ choose a
+representative $f_i : X \to Y_i$. Consider the map
+$$
+\prod f_i : X \longrightarrow \prod\nolimits_{i \in I} Y_i
+$$
+and denote $\beta(X)$ the closure of the image. Since each $Y_i$ is
+Hausdorff, so is $\beta(X)$. Since each $Y_i$ is quasi-compact, so
+is $\beta(X)$ (use Theorem \ref{theorem-tychonov} and
+Lemma \ref{lemma-closed-in-quasi-compact}).
+
+\medskip\noindent
+Let us show the canonical map $X \to \beta(X)$ satisfies the universal
+property with respect to maps to Hausdorff, quasi-compact spaces. Namely,
+let $f : X \to Y$ be such a morphism. Let $Z \subset Y$ be the closure
+of $f(X)$. By Lemma \ref{lemma-dense-image} the cardinality of $Z$
+is at most $\kappa$. Thus $X \to Z$ is isomorphich to one of the maps
+$f_i : X \to Y_i$, say $f_{i_0} : X \to Y_{i_0}$. Thus $f$ factors as
+$X \to \beta(X) \to \prod Y_i \to Y_{i_0} \cong Z \to Y$ as desired.
+
+\medskip\noindent
 Recall that a neighbourhood of a point need not be open.
 
 \begin{definition}
@@ -2812,6 +2880,77 @@ neighbourhood. A scheme has the property that every point has a fundamental
 system of open quasi-compact neighbourhoods.} if every
 point has a fundamental system of quasi-compact neighbourhoods.
 \end{definition}
+
+\begin{lemma}
+\label{lemma-locally-quasi-compact-Hausdorff}
+A Hausdorff space is locally quasi-compact if and only if every point
+has a quasi-compact neighbourhood.
+\end{lemma}
+
+\begin{proof}
+Let $X$ be a Hausdorff space. Let $x \in X$ and let $x \in E \subset X$
+be a quasi-compact neighbourhood. Then $E$ is closed by
+Lemma \ref{lemma-quasi-compact-in-Hausdorff}.
+Suppose that $x \in U \subset X$ is an open neighbourhood of $x$.
+Then $Z = E \setminus U$ is a closed subset of $E$ not containing $x$.
+Hence we can find a pair of disjoint open subsets $W, V \subset E$
+of $E$ such that $x \in V$ and $Z \subset W$, see
+Lemma \ref{lemma-quasi-compact-in-Hausdorff}.
+It follows that $\overline{V} \subset E$ is a closed neighbourhood
+of $x$ contained in $E \cap U$. Also $\overline{V}$ is quasi-compact
+as a closed subset of $E$ (Lemma \ref{lemma-closed-in-quasi-compact}).
+In this way we obtain a fundamental system of quasi-compact neighbourhoods
+of $x$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-one-point-compactification}
+Let $X$ be a Hausdorff, locally quasi-compact space.
+There exists a map $X \to X^*$ which identifies $X$ as an open
+subspace of a quasi-compact Hausdorff space $X^*$ such that
+$X^* \setminus X$ is a singleton (one point compactification).
+In particular, the map $X \to \beta(X)$ identifies $X$
+with an open subspace of $\beta(X)$.
+\end{lemma}
+
+\begin{proof}
+Set $X^* = X \amalg \{\infty\}$. We declare a subset $V$ of $X^*$ to be
+open if either $V \subset X$ is open in $X$, or $\infty \in V$ and
+$U = V \cap X$ is an open of $X$ such that $X \setminus U$ is quasi-compact.
+We omit the verification that this defines a topology. It is clear
+that $X \to X^*$ identifies $X$ with an open subspace of $X$.
+
+\medskip\noindent
+Since $X$ is locally quasi-compact, every point $x \in X$ has a
+quasi-compact neighbourhood $x \in E \subset X$. Then $E$
+is closed (Lemma \ref{lemma-closed-in-quasi-compact}) and
+$V = (X \setminus E) \amalg \{\infty\}$ is an open neighbourhood
+of $\infty$ disjoint from the interior of $E$. Thus $X^*$ is Hausdorff.
+
+\medskip\noindent
+Let $X^* = \bigcup V_i$ be an open covering. Then for some $i$, say $i_0$,
+we have $\infty \in V_{i_0}$. By construction $Z = X^* \setminus V_{i_0}$
+is quasi-compact. Hence the covering
+$Z \subset \bigcup_{i \not = i_0} Z \cap V_i$ has a finite refinement which
+implies that the given covering of $X^*$ has a finite refinement.
+Thus $X^*$ is quasi-compact.
+
+\medskip\noindent
+The map $X \to X^*$ factors as $X \to \beta(X) \to X^*$ by the universal
+property of the Stone-{\v C}ech compactification. Let $\varphi : \beta(X) \to X^*$
+be this factorization. Then $X \to \varphi^{-1}(X)$ is a section to
+$\varphi^{-1}(X) \to X$ hence has closed image (Lemma \ref{lemma-section-closed}).
+Since the image of $X \to \beta(X)$ is dense we conclude that
+$X = \varphi^{-1}(X)$.
+\end{proof}
+
+
+
+
+
+\section{Miscellany}
+\label{section-miscellany}
+
 
 \noindent
 The following lemma applies to the underlying topological space
