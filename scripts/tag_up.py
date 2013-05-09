@@ -78,6 +78,19 @@ for line in tex_file:
 			document = 1
 		continue
 
+	# labels all get hypertargets
+	if is_label(line):
+		short = find_label(line)
+		if name == "book":
+			label = short
+		else:
+			label = name + "-" + short
+		print line,
+		# don't put in hypertarget if label does not have a tag
+		if label in label_tags:
+			print "\\hypertarget{" + label_tags[label] + "}{}"
+		continue
+
 	# Lines with labeled environments
 	if labeled_env(line):
 		oldline = line
@@ -97,7 +110,8 @@ for line in tex_file:
 		print oldline,
 		print line,
 		print "\\hypertarget{" + label_tags[label] + "}{}"
-	else:
-		print line,
+		continue
+
+	print line,
 
 tex_file.close()
