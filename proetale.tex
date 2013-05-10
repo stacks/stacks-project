@@ -319,17 +319,19 @@ Omitted.
 
 \begin{lemma}
 \label{lemma-fully-faithful-spaces-over-X}
-Let $(X, \mathcal{O}_X)$ be a locally ringed space.
-Let $\mathcal{C}$ be the full
-subcategory of the category of locally ringed spaces
-$(Y, \mathcal{O}_Y)$ over $(X, \mathcal{O}_X)$ such that
-$\mathcal{O}_Y = p^{-1}\mathcal{O}_X$ where $p : Y \to X$
-is the structure morphism. The functor
+Let $p : (Y, \mathcal{O}_Y) \to (X, \mathcal{O}_X)$ and
+$q : (Z, \mathcal{O}_Z) \to (X, \mathcal{O}_X)$
+be morphisms of locally ringed spaces.
+If $\mathcal{O}_Y = p^{-1}\mathcal{O}_X$, then
 $$
-\mathcal{C} \longrightarrow \textit{Top}/X,\quad
-(Y, \mathcal{O}_Y) \longmapsto Y
+\Mor_{\text{LRS}/(X, \mathcal{O}_X)}((Z, \mathcal{O}_Z), (Y, \mathcal{O}_Y))
+\longrightarrow
+\Mor_{\textit{Top}/X}(Z, Y),\quad
+(f, f^\sharp) \longmapsto f
 $$
-is fully faithful.
+is bijective. Here $\text{LRS}/(X, \mathcal{O}_X)$ is the category of
+locally ringed spaces over $X$ and $\textit{Top}/X$ is the category
+of topological space over $X$.
 \end{lemma}
 
 \begin{proof}
@@ -426,6 +428,22 @@ Let $A \to B$ be ind-Zariski. Then $A \to B$ identifies local rings,
 Omitted.
 \end{proof}
 
+
+
+
+
+
+
+\section{Constructing w-local affine schemes}
+\label{section-construction}
+
+\noindent
+An affine scheme $X$ is called {\it w-local} if its underlying
+topological space is w-local (Definition \ref{definition-w-local}).
+It turns out given any ring $A$ there is a canonical faithully
+flat ind-Zariski ring map $A \to A_w$ such that $\Spec(A_w)$ is
+w-local. The key to constructing $A_w$ is the following simple lemma.
+
 \begin{lemma}
 \label{lemma-localization}
 Let $A$ be a ring. Set $X = \Spec(A)$. Let $Z \subset X$ be a locally closed
@@ -433,7 +451,7 @@ subscheme which of the form $D(f) \cap V(I)$ for some $f \in A$ and
 ideal $I \subset A$. Then
 \begin{enumerate}
 \item there exists a multiplicative subset $S \subset A$ such that
-$\Spec(S^{-1}A)$ maps isomorphically to the set of points of $X$
+$\Spec(S^{-1}A)$ maps by a homeomorphism to the set of points of $X$
 specializing to $Z$,
 \item the $A$-algebra $A_Z^\sim = S^{-1}A$ depends only on
 the underlying locally closed subset $Z \subset X$,
@@ -511,14 +529,14 @@ We continue the discussion.
 Given a finite subset $E \subset A$ we set
 \begin{equation}
 \label{equation-ring}
-B_E = \prod\nolimits_{E = E' \amalg E''} A_{Z(E', E'')}^\sim
+A_E = \prod\nolimits_{E = E' \amalg E''} A_{Z(E', E'')}^\sim
 \end{equation}
 with notation as in Lemma \ref{lemma-localization}. This makes sense because
 (\ref{equation-stratum}) shows that each $Z(E', E'')$ has the correct shape.
 We take the spectrum of this ring and denote it
 \begin{equation}
 \label{equation-spectrum}
-X_E = \Spec(B_E) = \coprod\nolimits_{E = E' \amalg E''} X_{E', E''}
+X_E = \Spec(A_E) = \coprod\nolimits_{E = E' \amalg E''} X_{E', E''}
 \end{equation}
 with $X_{E', E''} = \Spec(A_{Z(E', E'')}^\sim)$. Note that
 \begin{equation}
@@ -534,13 +552,13 @@ of $X_{E', E''}$ specializes to a point of $Z(E', E'')$.
 \medskip\noindent
 Let $I(A)$ be the partially ordered set of all finite subsets of $A$.
 This is a directed partially ordered set. For $E_1 \subset E_2$ there
-is a canonical transition map $B_{E_1} \to B_{E_2}$ of $A$-algebras.
+is a canonical transition map $A_{E_1} \to A_{E_2}$ of $A$-algebras.
 Namely, given a decomposition $E_2 = E'_2 \amalg E''_2$ we set
 $E'_1 = E_1 \cap E'_2$ and $E''_1 = E_1 \cap E''_2$. Then observe that
 $Z(E'_1, E''_1) \subset Z(E'_2, E''_2)$ hence a unique $A$-algebra map
 $A_{Z(E'_1, E''_1)}^\sim \to A_{Z(E'_2, E''_2)}^\sim$ by
 Lemma \ref{lemma-localization}. Using these maps collectively we obtain
-the desired ring map $B_{E_1} \to B_{E_2}$. Observe that the corresponding
+the desired ring map $A_{E_1} \to A_{E_2}$. Observe that the corresponding
 map of affine schemes
 \begin{equation}
 \label{equation-transition}
@@ -550,52 +568,51 @@ maps $Z_{E_2}$ into $Z_{E_1}$. By uniqueness we obtain a system of
 $A$-algebras over $I(A)$ and we set
 \begin{equation}
 \label{equation-colimit-ring}
-B = \colim_{E \in I(A)} B_E
+A_w = \colim_{E \in I(A)} A_E
 \end{equation}
 This $A$-algebra is ind-Zariski and faithfully flat over $A$.
-Finally, we set $Y = \Spec(B)$ and endow it with the closed subscheme
+Finally, we set $X_w = \Spec(A_w)$ and endow it with the closed subscheme
 $Z = \lim_{E \in I(A)} Z_E$. In a formula
 \begin{equation}
 \label{equation-final}
-Y = \lim_{E \in I(A)} X_E \supset Z = \lim_{E \in I(A)} Z_E
+X_w = \lim_{E \in I(A)} X_E \supset Z = \lim_{E \in I(A)} Z_E
 \end{equation}
 
 \begin{lemma}
 \label{lemma-make-w-local}
-Let $X = \Spec(A)$ be an affine scheme. With $A \to B$, $Y = \Spec(B)$,
-and $Z \subset Y$ as above.
+Let $X = \Spec(A)$ be an affine scheme. With $A \to A_w$, $X_w = \Spec(A_w)$,
+and $Z \subset X_w$ as above.
 \begin{enumerate}
-\item $A \to B$ is ind-Zariski and faithfully flat,
-\item $Y \to X$ induces a bijection $Z \to X$,
-\item $Z$ is the set of closed points of $Y$,
+\item $A \to A_w$ is ind-Zariski and faithfully flat,
+\item $X_w \to X$ induces a bijection $Z \to X$,
+\item $Z$ is the set of closed points of $X_w$,
 \item $Z$ is a reduced scheme, and
-\item every point of $Y$ specializes to a unique point of $Z$.
+\item every point of $X_w$ specializes to a unique point of $Z$.
 \end{enumerate}
-In other words, $Y$ is a w-local space (Definition \ref{definition-w-local}).
+In particular, $X_w$ is w-local (Definition \ref{definition-w-local}).
 \end{lemma}
 
 \begin{proof}
-The map $A \to B$ is ind-Zariski by construction. Each ring map
-$A \to B_E$ is faithfully flat as it is flat and surjective on spectra
-(Algebra, Lemma \ref{algebra-lemma-ff-rings}). Hence $B = \colim B_E$ is
-faithfully flat by
-Algebra, Lemma \ref{algebra-lemma-colimit-faithfully-flat}.
+The map $A \to A_w$ is ind-Zariski by construction.
 For every $E$ the morphism $Z_E \to X$ is a bijection, hence (2).
+As $Z \subset X_w$ we conclude $X_w \to X$ is surjective and
+$A \to A_w$ is faithfully flat by
+Algebra, Lemma \ref{algebra-lemma-ff-rings}. This proves (1).
 
 \medskip\noindent
-Suppose that $y \in Y$, $y \not \in Z$. Then there
+Suppose that $y \in X_w$, $y \not \in Z$. Then there
 exists an $E$ such that the image of $y$ in $X_E$ is not contained in
 $Z_E$. Then for all $E \subset E'$ also $y$ maps to an element of $X_{E'}$
 not contained in $Z_{E'}$. Let $T_{E'} \subset X_{E'}$ be the reduced
 closed subscheme which is the closure of the image of $y$. It is
-clear that $T = \lim_{E \subset E'} T_{E'}$ is the closure of $y$ in $Y$.
+clear that $T = \lim_{E \subset E'} T_{E'}$ is the closure of $y$ in $X_w$.
 For every $E \subset E'$ the scheme $T_{E'} \cap Z_{E'}$ is nonempty
 by construction of $X_{E'}$. Hence $\lim T_{E'} \cap Z_{E'}$ is nonempty
 and we conclude that $T \cap Z$ is nonempty. Thus $y$ is not a closed point.
-It follows that every closed point of $Y$ is in $Z$.
+It follows that every closed point of $X_w$ is in $Z$.
 
 \medskip\noindent
-Suppose that $y \in Y$ specializes to $z, z' \in Z$. We will show that
+Suppose that $y \in X_w$ specializes to $z, z' \in Z$. We will show that
 $z = z'$ which will finish the proof of (3) and will imply (5).
 Let $x, x' \in X$ be the images of $z$ and $z'$. Since $Z \to X$ is
 bijective it suffices to show that $x = x'$. If $x \not = x'$, then
@@ -620,63 +637,85 @@ verifies that $b$ is pulls back to zero under the transition map
 $Z_{E'} \to Z_E$ of the system. This proves (4).
 \end{proof}
 
-\begin{remark}
-\label{remark-zariski-construction-functorial}
-The construction $A \mapsto B$ described above is functorial.
-Namely, let $\varphi : A \to A'$ be a ring map and denote $f : X' \to X$
-the corresponding map of spectra. For $F \subset A'$ finite, we will write
-$B'_F$ the product of the algebras $(A')_{Z(F', F'')}^\sim$ over decompositions
-$F = F' \amalg F''$ as in (\ref{equation-ring}).
-We will set $B' = \colim_{F \in I(A')} B'_F$ as in
-(\ref{equation-colimit-ring}).
-Moreover, we set $Y' = \Spec(B')$ and we denote $Z' \subset Y'$
-the corresponding closed subscheme as in (\ref{equation-final}).
-We will construct a canonical $A$-algebra map $B \to B'$
-which induces a morphism of schemes $Y' \to Y$ mapping $Z'$ into $Z$.
+\begin{lemma}[Universal property of the construction]
+\label{lemma-universal}
+Let $A$ be a ring. Let $A \to A_w$ be the ring map constructed in
+Lemma \ref{lemma-make-w-local}. For any ring map $A \to B$ such that
+$\Spec(B)$ is w-local, there is a unique factorization $A \to A_w \to B$
+such that $\Spec(B) \to \Spec(A_w)$ is w-local.
+\end{lemma}
+
+\begin{proof}
+Denote $Y = \Spec(B)$ and $Y_0 \subset Y$ the set of closed points.
+Denote $f : Y \to X$ the given morphism.
+Recall that $Y_0$ is profinite, in particular every constructible
+subset of $Y_0$ is open and closed. Let $E \subset A$ be a finite subset.
+Recally that $A_w = \colim A_E$ and that the set of closed points of
+$\Spec(A_w)$ is the limit of the closed subsets $Z_E \subset X_E = \Spec(A_E)$.
+Thus it suffices to show there is a unique factorization $A \to A_E \to B$
+such that $Y \to X_E$ maps $Y_0$ into $Z_E$.
+Since $Z_E \to X = \Spec(A)$ is bijective, and since the strata
+$Z(E', E'')$ are constructible we see that
+$$
+Y_0 = \coprod f^{-1}(Z(E', E'')) \cap Y_0
+$$
+is a disjoint union decomposition into open and closed subsets.
+As $Y_0 = \pi_0(Y)$ we obtain a corresponding decomposition of
+$Y$ into open and closed pieces. Thus it suffices to construct
+the factorization in case $f(Y_0) \subset Z(E', E'')$ for
+some decomposition $E = E' \amalg E''$.
+In this case $f(Y)$ is contained in the set of points of $X$
+specializing to $Z(E', E'')$ which is homeomorphic to $X_{E', E''}$.
+Thus we obtain a unique continuous map $Y \to X_{E', E''}$ over $X$. By
+Lemma \ref{lemma-fully-faithful-spaces-over-X}
+this corresponds to a unique morphism of schemes
+$Y \to X_{E', E''}$ over $X$. This finishes the proof.
+\end{proof}
+
+\noindent
+Recall that the spectrum of a ring is profinite if and only if
+every point is closed. There are in fact a whole slew of equivalent
+conditions that imply this. See
+Algebra, Lemma \ref{algebra-lemma-ring-with-only-minimal-primes} or
+Topology, Lemma \ref{topology-lemma-characterize-profinite-spectral}.
+
+\begin{lemma}
+\label{lemma-profinite-goes-up}
+Let $A$ be a ring such that $\Spec(A)$ is profinite. Let $A \to B$ be a
+ring map. Then $\Spec(B)$ is profinite in each of the following cases:
+\begin{enumerate}
+\item there are no nontrivial specializations between points of the
+fibres of $\Spec(B) \to \Spec(A)$,
+\item $A \to B$ is quasi-finite,
+\item $B$ is a filtered colimit of quasi-finite $A$-algebras.
+\item $B$ is ind-Zariski,
+\item $B$ is ind-\'etale (i.e., a filtered colimit of \'etale $A$-algebras),
+\item etc.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+By the references mentioned above
+(Algebra, Lemma \ref{algebra-lemma-ring-with-only-minimal-primes} or
+Topology, Lemma \ref{topology-lemma-characterize-profinite-spectral})
+there are no specializations between distinct points of $\Spec(A)$ and
+$\Spec(B)$ is profinite if and only if there are no specializations
+between distinct points of $\Spec(B)$. These specializations can only
+happen in the fibres of $\Spec(B) \to \Spec(A)$. In this way we see
+that (1) is true.
 
 \medskip\noindent
-For $E \subset A$ finite, we obtain a finite subset $\varphi(E) \subset A'$.
-Given a disjoint union decomposition $\varphi(E) = F' \amalg F''$
-we get $E = \varphi^{-1}(F') \amalg \varphi^{-1}(F'')$ and it is clear that
-$f(Z(F', F'')) \subset Z(\varphi^{-1}(F'), \varphi^{-1}(F''))$.
-Hence by Lemma \ref{lemma-localization}
-we obtain a unique $A$-algebra homomorphism
-$A_{Z(\varphi^{-1}(F'), \varphi^{-1}(F''))}^\sim \to (A')_{Z(F', F'')}^\sim$.
-For $F \subset A'$ finite, denote $B'_F$ the product of the
-algebras $(A')_{Z(F', F'')}^\sim$ over decompositions
-$F = F' \amalg F''$ as in (\ref{equation-ring}).
-The $A$-algebra map
-$$
-\varphi_E : B_E \longrightarrow B'_{\varphi(E)}
-$$
-is the product of the maps
-$A_{Z(\varphi^{-1}(F'), \varphi^{-1}(F''))}^\sim \to (A')_{Z(F', F'')}^\sim$
-with the $0$ map on the factors $A_{Z(E', E'')}^\sim$ of $B_E$
-such that $\varphi(E') \cap \varphi(E'') \not = \emptyset$. This makse
-sense, as these correspond to strata $Z(E', E'')$ such that
-$f^{-1}(Z(E', E'')) = \emptyset$. More precisely, we obtain
-a commutative diagram
-$$
-\xymatrix{
-X' \ar[d] & X'_{\varphi(E)} \ar[l] \ar[d]^{f_E} \\
-X & X'_E \ar[l]
-}
-$$
-of affine schemes. By construction $f_E(Z_{\varphi(E)}) \subset Z_E$
-scheme theoretically. This construction is compatible with increasing
-the finite subset $E \subset A$. Thus according to
-Categories, Lemma \ref{categories-lemma-functorial-colimit}
-we obtain an $A$-algebra map $\colim \varphi_E : B \longrightarrow B'$.
-Applying the $\Spec(-)$ we obtain a commutative diagram
-$$
-\xymatrix{
-X' \ar[d] & Y' \ar[d] \ar[l] & Z' \ar[l] \ar[d] \\
-X & Y \ar[l] & Z \ar[l]
-}
-$$
-Since $Z'$ maps into $Z$ (as indicated) we find that the canonical morphism
-$Y' \to Y$ is w-local.
-\end{remark}
+If $A \to B$ is quasi-finite, then the fibres are finite discrete
+topological spaces. Hence (2) follows from (1). If $B$ is a filtered
+colimit of quasi-finite $A$-algebras, then the fibres of
+$\Spec(B) \to \Spec(A)$ are limits of finite discrete spaces (i.e.,
+profinite). Hence (3) follows from (1). The other cases follow
+follow from this as an \'etale ring map is quasi-finite
+(Algebra, Lemma \ref{algebra-lemma-etale-quasi-finite}) and
+a local isomorphism is \'etale.
+\end{proof}
+
+
 
 \begin{lemma}
 \label{lemma-w-local-algebraic-residue-field-extensions}
@@ -702,10 +741,18 @@ Omitted.
 
 
 
-\section{Connected components}
+\section{Identifying local rings versus ind-Zariski}
 \label{section-connected-components}
 
 \noindent
+An ind-Zariski ring map $A \to B$ identifies local rings
+(Lemma \ref{lemma-ind-zariski-implies}). The converse does not hold
+(Examples, Section \ref{examples-section-not-ind-etale}).
+However, it turns out that there is a kind of structure theorem for
+ring maps which identify local rings in terms of ind-Zariski
+ring maps, see Proposition \ref{proposition-maps-wich-identify-local-rings}.
+
+\medskip\noindent
 Let $A$ be a ring. Let $X = \Spec(A)$. The space of connected
 components $\pi_0(X)$ is a profinite space by
 Topology, Lemma \ref{topology-lemma-spectral-pi0}
@@ -770,49 +817,6 @@ X \ar[r] & \pi_0(X)
 $$
 of topological spaces. By Lemma \ref{lemma-silly}
 we conclude that $T = \pi_0(Y)$.
-\end{proof}
-
-\noindent
-Recall that the spectrum of a ring is profinite if and only if
-every point is closed. There are in fact a whole slew of equivalent
-conditions that imply this. See
-Algebra, Lemma \ref{algebra-lemma-ring-with-only-minimal-primes} or
-Topology, Lemma \ref{topology-lemma-characterize-profinite-spectral}.
-
-\begin{lemma}
-\label{lemma-profinite-goes-up}
-Let $A$ be a ring such that $\Spec(A)$ is profinite. Let $A \to B$ be a
-ring map. Then $\Spec(B)$ is profinite in each of the following cases:
-\begin{enumerate}
-\item there are no nontrivial specializations between points of the
-fibres of $\Spec(B) \to \Spec(A)$,
-\item $A \to B$ is quasi-finite,
-\item $B$ is a filtered colimit of quasi-finite $A$-algebras.
-\item $B$ is ind-Zariski,
-\item $B$ is ind-\'etale (i.e., a filtered colimit of \'etale $A$-algebras),
-\item etc.
-\end{enumerate}
-\end{lemma}
-
-\begin{proof}
-By the references mentioned above
-(Algebra, Lemma \ref{algebra-lemma-ring-with-only-minimal-primes} or
-Topology, Lemma \ref{topology-lemma-characterize-profinite-spectral})
-there are no specializations between distinct points of $\Spec(A)$ and
-$\Spec(B)$ is profinite if and only if there are no specializations
-between distinct points of $\Spec(B)$. These specializations can only
-happen in the fibres of $\Spec(B) \to \Spec(A)$. In this way we see
-that (1) is true.
-
-\medskip\noindent
-If $A \to B$ is quasi-finite, then the fibres are finite discrete
-topological spaces. Hence (2) follows from (1). If $B$ is a filtered
-colimit of quasi-finite $A$-algebras, then the fibres of
-$\Spec(B) \to \Spec(A)$ are limits of finite discrete spaces (i.e.,
-profinite). Hence (3) follows from (1). The other cases follow
-follow from this as an \'etale ring map is quasi-finite
-(Algebra, Lemma \ref{algebra-lemma-etale-quasi-finite}) and
-a local isomorphism is \'etale.
 \end{proof}
 
 \begin{lemma}
@@ -890,26 +894,23 @@ we will prove later.
 
 \begin{proposition}
 \label{proposition-maps-wich-identify-local-rings}
-Let $A \to A'$ be a ring map which identifies local rings.
+Let $A \to B$ be a ring map which identifies local rings.
 Then there exists a faithfully flat, ind-Zariski ring map
-$A' \to B'$ such that $A \to B'$ is ind-Zariski.
+$B \to B'$ such that $A \to B'$ is ind-Zariski.
 \end{proposition}
 
 \begin{proof}
-Set $X = \Spec(A)$, $X' = \Spec(A')$. Choose a diagram
-$$
-\xymatrix{
-X' \ar[d] & Y' \ar[d] \ar[l] \\
-X & Y \ar[l]
-}
-$$
-of affine schemes as in Remark \ref{remark-zariski-construction-functorial}.
-Then $Y' \to Y$ is w-local and identifies local rings.
+Let $A \to A_w$, resp. $B \to B_w$ be the faithfully flat, ind-Zariski ring
+map constructed in Lemma \ref{lemma-make-w-local} for $A$, resp.\ $B$.
+Since $\Spec(B_w)$ is w-local, there exists a unique factorization
+$A \to A_w \to B_w$ such that $\Spec(B_w) \to \Spec(A_w)$ is w-local
+by Lemma \ref{lemma-universal}. Note that $A_w \to B_w$ identifies
+local rings, see
+Lemma \ref{lemma-local-isomorphism-permanence}.
 By Lemma \ref{lemma-w-local-morphism-equal-stalks-is-ind-zariski}
-this means $Y' \to Y$ corresponds to a
-ind-Zariski ring map $B \to B'$. Since $A' \to B'$ is
+this means $A_w \to B_w$ is ind-Zariski. Since $B \to B_w$ is
 faithfully flat, ind-Zariski (Lemma \ref{lemma-make-w-local})
-and the composition $A \to B \to B'$ is ind-Zariski
+and the composition $A \to B \to B_w$ is ind-Zariski
 (Lemma \ref{lemma-composition-ind-zariski})
 the proposition is proved.
 \end{proof}
@@ -993,6 +994,14 @@ Let $A \to B$ be ind-\'etale. Then $A \to B$ is weakly \'etale
 This follows from More on Algebra, Lemma
 \ref{more-algebra-lemma-when-weakly-etale}.
 \end{proof}
+
+
+
+
+
+
+\section{Constructing ind-\'etale algebras}
+\label{section-construction-ind-etale}
 
 \noindent
 Let $A$ be a ring. Recall that any \'etale ring map $A \to B$ is isomorphic
@@ -1234,7 +1243,8 @@ Lemma \ref{lemma-w-local-algebraic-residue-field-extensions}
 to $C \to D'$ and $J \subset C$ to get 
 $D = (D')_T^\sim$ where $T = V(JD') \subset \Spec(D')$.
 All of the remaining properties given in the lemma are
-immediate from the results of the lemma.
+immediate from the results of
+Lemma \ref{lemma-w-local-algebraic-residue-field-extensions}.
 \end{proof}
 
 
@@ -1283,11 +1293,11 @@ $$
 with the properties as listed in the lemma. Note that $C \to D$
 is weakly \'etale by
 More on Algebra, Lemma \ref{more-algebra-lemma-weakly-etale-permanence}.
+Pick a maximal ideal $\mathfrak m \subset D$. By construction
+this lies over a maximal ideal $\mathfrak m' \subset C$.
 By More on Algebra, Theorem \ref{more-algebra-theorem-olivier}
-for $\mathfrak m \subset D$ maximal ideal lying over the
-maximal ideal $\mathfrak m' \subset C$
 the ring map $C_{\mathfrak m'} \to D_\mathfrak m$ is an isomorphism.
-As every point specializes to a closed point we conclude that
+As every point of $\Spec(C)$ specializes to a closed point we conclude that
 $C \to D$ identifies local rings.
 Thus Proposition \ref{proposition-maps-wich-identify-local-rings}
 applies to the ring map $C \to D$. Pick $D \to D'$ faithfully flat
