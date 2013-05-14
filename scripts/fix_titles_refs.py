@@ -46,7 +46,7 @@ short_titles = {'introduction' : 'Introduction',\
 'dualizing' : 'Dualizing Complexes,',\
 'etale-cohomology' : '\\\'Etale Cohomology,',\
 'crystalline' : 'Crystalline Cohomology,',\
-'proetale' : 'Pro-\'etale Cohomology,',\
+'proetale' : 'Pro-\\\'etale Cohomology,',\
 'spaces' : 'Spaces,',\
 'spaces-properties' : 'Properties of Spaces,',\
 'spaces-morphisms' : 'Morphisms of Spaces,',\
