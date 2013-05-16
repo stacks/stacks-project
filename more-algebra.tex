@@ -12685,6 +12685,30 @@ In fact, the proof of Derived Categories, Lemma
 proceeds by proving assertions (4) and (5).
 \end{proof}
 
+\noindent
+Here is a simple application.
+
+\begin{lemma}
+\label{lemma-map-into-Rlim}
+Let $\mathcal{D}$ be a triangulated category. Let
+$(K_n)$ be an inverse system of objects of $\mathcal{D}$.
+Let $K$ be a derived limit of the system $(K_n)$.
+Then for every $L$ in $\mathcal{D}$ we have short exact sequences
+$$
+0 \to R^1\lim \Hom_\mathcal{D}(L, K_n[1]) \to
+\Hom_\mathcal{D}(L, K) \to
+\lim \Hom_\mathcal{D}(L, K_n) \to 0
+$$
+\end{lemma}
+
+\begin{proof}
+This follows from
+Derived Categories, Definition \ref{derived-definition-derived-limit} and
+Lemma \ref{derived-lemma-representable-homological},
+and the description of $\lim$ and $R^1\lim$ in
+Lemma \ref{lemma-compute-Rlim} above.
+\end{proof}
+
 \begin{remark}[Rlim as cohomology]
 \label{remark-Rlim-cohomology}
 Consider the category $\mathbf{N}$ whose objects are natural numbers and
@@ -13402,6 +13426,128 @@ $\Hom_{D(A)}(K^\bullet, E) = \Hom_{D(A)}(M^\bullet, E)$.
 This finishes the proof.
 \end{proof}
 
+\noindent
+Let $A$ be a ring and let $I \subset A$ be an ideal. For any
+$K \in D(A)$ we can consider the derived limit
+$$
+K' = R\lim (K \otimes_A^\mathbf{L} A/I^n)
+$$
+The system of maps $A \to A/I^n$ induces a map $K \to K'$.
+It turns out that $K'$ is derived complete with respect to $I$.
+This ``naive'' derived completion construction does not agree
+with the adjoint of Lemma \ref{lemma-derived-completion} in general.
+For example, if $A = \mathbf{Z}_p \oplus \mathbf{Q}_p/\mathbf{Z}_p$
+with the second summand an ideal of square zero, $K = A[0]$, and $I = (p)$,
+then the naive derived completion gives $\mathbf{Z}_p[0]$, but the
+construction of Lemma \ref{lemma-derived-completion} gives
+$K^\wedge \cong \mathbf{Z}_p[1] \oplus \mathbf{Z}_p[0]$ (computation omitted).
+
+\begin{lemma}
+\label{lemma-naive-derived-completion}
+Let $A$ be a ring and let $I \subset A$ be an ideal. For
+$K \in D(A)$ the naive derived completion
+$K' = R\lim (K \otimes_A^\mathbf{L} A/I^n)$
+is derived complete with respect to $I$.
+\end{lemma}
+
+\begin{proof}
+Let $f \in I$. The groups $\text{Ext}^p_A(A_f, K')$
+sit in short exact sequences
+$$
+0 \to R^1\lim \text{Ext}^{p - 1}_A(A_f, K \otimes_A^\mathbf{L} A/I^n) \to
+\text{Ext}^p_A(A_f, K') \to
+\lim \text{Ext}^p_A(A_f, K \otimes_A^\mathbf{L} A/I^n) \to 0
+$$
+by Lemma \ref{lemma-map-into-Rlim}. We conclude since $f$ acts both
+as an isomorphism and nilpotently on the outer terms.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-lift-universally}
+Let $A$ be a ring. Let $f \in A$. If there exists an integer $c \geq 1$
+such that $A[f^c] = A[f^{c + 1}] = A[f^{c + 2}] = \ldots$ (for example
+if $A$ is Noetherian), then for all $n \geq 1$ there exist maps
+$$
+(A \xrightarrow{f^n} A) \longrightarrow A/(f^n),
+\quad\text{and}\quad
+A/(f^{n + c}) \longrightarrow (A \xrightarrow{f^n} A)
+$$
+in $D(A)$ inducing an isomorphism of the pro-objects $\{A/(f^n)\}$ and
+$\{(f^n : A \to A)\}$ in $D(A)$.
+\end{lemma}
+
+\begin{proof}
+The first displayed arrow is obvious. We can define the second arrow of
+the lemma by the diagram
+$$
+\xymatrix{
+A/A[f^c] \ar[r]_-{f^{n + c}} \ar[d]_{f^c} & A \ar[d]^1 \\
+A \ar[r]^{f^n} & A
+}
+$$
+Since the top horzontal arrow is injective the complex
+in the top row is quasi-isomorphic to $A/f^{n + c}A$.
+We omit the calculation of compositions needed to show
+the statement on pro objects.
+\end{proof}
+
+\noindent
+Let $A$ be a ring. Let $f_1, \ldots, f_r \in A$. We are going
+to consider the sequence of Koszul complexes
+$K_n^\bullet = K_\bullet(A, f_1^n, \ldots, f_r^n)$
+placed in cohomological degrees $-r, -r + 1, \ldots, 0$.
+Using the functoriality of Lemma \ref{lemma-functorial}
+we get maps
+$$
+\ldots \to K_3^\bullet \to K_2^\bullet \to K_1^\bullet
+$$
+compatible with $H^0(K_n^\bullet) = A/(f_1^n, \ldots, f_r^n)$
+and the natural maps between these quotients.
+
+\begin{lemma}
+\label{lemma-sequence-Koszul-complexes}
+With notation as above. If $A$ is Noetherian, then for every $n$
+there exists an $m \geq n$ such that $K_m^\bullet \to K_n^\bullet$
+factors through the map $K_m^\bullet \to A/(f_1^m, \ldots, f_r^m)$.
+In other words, the pro-objects $\{K_n^\bullet\}$ and
+$\{A/(f_1^n, \ldots, f_r^n)\}$ of $D(A)$ are isomorphic.
+\end{lemma}
+
+\begin{proof}
+Note that the Koszul complexes have length $r$. Thus the dual of
+Derived Categories, Lemma \ref{derived-lemma-trick-vanishing-composition}
+implies it suffices to show that for every $p < 0$ and $n \in \mathbf{N}$
+there exists an $m \geq n$ such that $H^p(K_m^\bullet) \to H^p(K_n^\bullet)$
+is zero. Since $A$ is Noetherian, we see that
+$$
+H^p(K_n^\bullet) =
+\frac{\text{Ker}(K_n^p \to K_n^{p + 1})}{\text{Im}(K_n^{p - 1} \to K_n^p)}
+$$
+is a finite $A$-module. Moreover, the map $K_m^p \to K_n^p$ is given
+by a matrix (in fact diagonal) whose entries are in the ideal
+$(f_1^{m - n}, \ldots, f_r^{m - n})$ if $p < 0$ (in fact they are in the
+$|p|$th power of that ideal). Note that $H^p(K_n^\bullet)$ is annihilated by
+$I = (f_1^n, \ldots, f_r^n)$, see Lemma \ref{lemma-homotopy-koszul}. Now
+$I^t \subset (f_1^{m - n}, \ldots, f_r^{m - n})$ for $m = n + tr$.
+Thus by Artin-Rees (Algebra, Lemma \ref{algebra-lemma-Artin-Rees})
+for some $m$ large enough we see that
+the image of $K_m^p \to K_n^p$ intersected with
+$\text{Ker}(K_n^p \to K_n^{p + 1})$ is contained in
+$I \text{Ker}(K_n^p \to K_n^{p + 1})$. For this $m$ we get the zero map.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-noetherian-naive-completion-is-completion}
+Let $A$ be a Noetherian ring. Let $I \subset A$ be an ideal.
+The functor which sends $K \in D(A)$ to the derived limit
+$K' = R\lim( K \otimes_A^\mathbf{L} A/I^n )$ is the left
+adjoint to the inclusion functor $D_{comp}(A) \to D(A)$
+constructed in Lemma \ref{lemma-derived-completion}.
+\end{lemma}
+
+\begin{proof}
+To be added soon.
+\end{proof}
 
 
 
