@@ -12623,7 +12623,9 @@ abelian category of inverse systems of abelian groups.
 This makes sense as an inverse system of abelian groups is
 the same thing as a sheaf of groups on the category $\mathbf{N}$
 (with a unique morphism $i \to j$ if $i \leq j$), see
-Remark \ref{remark-Rlim-cohomology}.
+Remark \ref{remark-Rlim-cohomology}. Many of the arguments in this
+section duplicate the arguments used to construct the cohomological
+machinery for modules on ringed sites.
 
 \begin{lemma}
 \label{lemma-compute-Rlim}
@@ -12811,10 +12813,51 @@ H^{p + 1}(R\lim K) \to \ldots
 $$
 The map in the middle has kernel $\lim_n H^p(K_n^\bullet)$ by its
 explict description given in the lemma.
-Moreover, the cokernel of this map is $R^1\lim_n H^p(K_n^\bullet)$
-by an application of Lemma \ref{lemma-distinguished-triangle-Rlim}
-to the case of an inverse system of abelian groups (placed in degree $0$).
-The lemma follows.
+The cokernel of this map is $R^1\lim_n H^p(K_n^\bullet)$
+by Lemma \ref{lemma-compute-Rlim}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-Rlim-pro-equal}
+Let $E \to D$ be a morphism of $D(\textit{Ab}(\mathbf{N}))$.
+Let $(E_n)$, resp.\ $(D_n)$ be the system of objects of
+$D(\textit{Ab})$ associated to $E$, resp.\ $D$.
+If $(E_n) \to (D_n)$ is an isomorphism of pro-objects, then
+$R\lim E \to R\lim D$ is an isomorphism in $D(\textit{Ab})$.
+\end{lemma}
+
+\begin{proof}
+The assumption in particular implies that the pro-objects
+$H^p(E_n)$ and $H^p(D_n)$ are isomorphic. By the short exact sequences of
+Lemma \ref{lemma-break-long-exact-sequence}
+it suffices to show that given a map $(A_n) \to (B_n)$ of inverse
+systems of abelian groupsc which induces an isomorphism
+of pro-objects, then $\lim A_n \cong \lim B_n$ and
+$R^1\lim A_n \cong R^1\lim B_n$.
+
+\medskip\noindent
+The assumption implies there are $1 \leq m_1 < m_2 < m_3 < \ldots$
+and maps $\varphi_n : B_{m_n} \to A_n$ such that
+$(\varphi_n) : (B_{m_n}) \to (A_n)$ is a map of systems
+which is inverse to the given map $\psi = (\psi_n) : (A_n) \to (B_n)$
+as a morphism of pro-objects. What this means is that
+(after possibly replacing $m_n$ by larger integers) we may
+assume that the compositions $A_{m_n} \to B_{m_n} \to A_n$ and
+$B_{m_n} \to A_n \to B_n$ are equal to the transition maps
+of the inverse systems. Now, if $(b_n) \in \lim B_n$ we can set
+$a_n = \varphi_{m_n}(b_{m_n})$. This defines an inverse
+$\lim B_n \to \lim A_n$ (computation omitted). Let us use the
+cokernel of the map
+$$
+\prod B_n \longrightarrow \prod B_n
+$$
+as an avatar of $R^1\lim B_n$ (Lemma \ref{lemma-compute-Rlim}).
+Any element in this cokernel can be represented by an element
+$(b_i)$ with $b_i = 0$ if $i \not = m_n$ for some $n$ (computation omitted).
+We can define a map $R^1\lim B_n \to R^1\lim A_n$ by mapping the class
+of such a special element $(b_n)$ to the class of $(\varphi_n(b_{m_n}))$.
+We omit the verification this map is inverse to the map
+$R^1\lim A_n \to R^1\lim B_n$.
 \end{proof}
 
 \noindent
@@ -12915,6 +12958,76 @@ second a termwise split surjection. The lemma follows
 from this and induction.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-get-K-flat-system}
+Let $(A_n)$ be an inverse system of rings. Every
+$K \in D(\textit{Mod}(\mathbf{N}, (A_n)))$
+can be represented by a system of complexes $(K_n^\bullet)$
+such that each $K_n^\bullet$ is K-flat.
+\end{lemma}
+
+\begin{proof}
+First use Lemma \ref{lemma-get-ML-system} to represent $K$ by a
+system of complexes $(M_n^\bullet)$ such that all the transition maps
+$M_{n + 1}^\bullet \to M_n^\bullet$ are surjective.
+Next, let $K_1^\bullet \to M_1^\bullet$ be a quasi-isomorphism
+with $K_1^\bullet$ a K-flat complex of $A_1$-modules
+(Lemma \ref{lemma-K-flat-resolution}).
+Suppose we have constructed
+$K_n^\bullet \to K_{n - 1}^\bullet \to \ldots \to K_1^\bullet$
+and maps of complexes $\psi_e : K_e^\bullet \to M_e^\bullet$ such that
+$$
+\xymatrix{
+K_{e + 1}^\bullet \ar[d] \ar[r] & K_e^\bullet \ar[d] \\
+M_{e + 1}^\bullet \ar[r] & M_e^\bullet
+}
+$$
+commutes for all $e < n$. Then we consider the diagram
+$$
+\xymatrix{
+C^\bullet \ar@{..>}[d] \ar@{..>}[r] & K_n^\bullet \ar[d]^{\psi_n} \\
+M_{n + 1}^\bullet \ar[r]^{\varphi_n} & M_n^\bullet
+}
+$$
+in $D(A_{n + 1})$. As $M_{n + 1}^\bullet \to M_n^\bullet$ is
+termwise surjective, the complex $C^\bullet$ fitting into the left
+upper corner with terms
+$$
+C^p = M_{n + 1}^p \times_{M_n^p} K_n^p
+$$
+is quasi-isomorphic to $M_{n + 1}^\bullet$ (details omitted).
+Choose a quasi-isomorphism $K_{n + 1}^\bullet \to C^\bullet$
+with $K_{n +1}^\bullet$ K-flat.
+Thus the lemma holds by induction.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-derived-tensor-product-systems}
+Let $(A_n)$ be an inverse system of rings. Given
+$K, L \in D(\textit{Mod}(\mathbf{N}, (A_n)))$ there is a canonical derived
+tensor product $K \otimes^\mathbf{L} L$ in $D(\mathbf{N}, (A_n))$
+compatible with the maps to $D(A_n)$. The construction is symmetric
+in $K$ and $L$ and an exact functor of triangulated categories in
+each variable.
+\end{lemma}
+
+\begin{proof}
+Choose a representive $(K_n^\bullet)$ for $K$ such that each $K_n^\bullet$
+is a K-flat complex (Lemma \ref{lemma-get-K-flat-system}).
+Then you can define $K \otimes^\mathbf{L} L$ as the object represented by
+the system of complexes
+$$
+(\text{Tot}(K_n^\bullet \otimes_{A_n} L_n^\bullet))
+$$
+for any choice of representative $(L_n^\bullet)$ for $L$.
+This is well defined in both variables by
+Lemmas \ref{lemma-K-flat-quasi-isomorphism} and
+\ref{lemma-derived-tor-quasi-isomorphism-other-side}.
+Compatibility with the map to $D(A_n)$ is clear.
+Exactness follows exactly as in
+Lemma \ref{lemma-derived-tor-exact}.
+\end{proof}
+
 \noindent
 As in the case of abelian groups an object $M = (M_n^\bullet)$ of
 $D(\textit{Mod}(\mathbf{N}, (A_n)))$ is an inverse system of complexes
@@ -12938,9 +13051,9 @@ and isomorphisms $\psi_n : M_n^\bullet \to K_n^\bullet$ in $D(A_n)$
 such that the diagrams
 $$
 \xymatrix{
-M_{n + 1}^\bullet \ar[d] \ar[r]_{\psi_{n + 1}} &
-K_{n + 1}^\bullet \ar[d]^{\varphi_n} \\
-M_n^\bullet \ar[r]^{\psi_n} & K_n^\bullet
+M_{n + 1}^\bullet \ar[d]_{\psi_{n + 1}} \ar[r] &
+M_n^\bullet \ar[d]^{\psi_n} \\
+K_n^\bullet \ar[r]^{\varphi_n} & K_n^\bullet
 }
 $$
 commute in $D(A_{n + 1})$.
@@ -13089,42 +13202,66 @@ functorially in $K$ and obtain an exact functor
 $$
 R\lim(- \otimes_A^\mathbf{L} E_n) : D(A) \longrightarrow D(A)
 $$
-of triangulated categories.
-The isomorphism class of this functor will depend only on the choice
-of the lift $E$ we will choose below. Hence if the system $(E_n)$
-comes with such a lift there is a well defined functor.
-
-\medskip\noindent
-Construction of the functor. First we we lift $(E_n)$ to an object $E$
+of triangulated categories. Namely, we first lift $(E_n)$ to an object $E$
 of $D(\mathbf{N}, A)$, see Lemma \ref{lemma-lift-to-system-complexes}.
-By Lemma \ref{lemma-get-ML-system} we may
-represent $E$ by an inverse system of complexes $(E_n^\bullet)$
-such that all the transition maps $E_{n + 1}^\bullet \to E_n^\bullet$
-are termwise surjections. Next, take any $K \in D(A)$ and
-represent $K$ by a K-flat complex $K^\bullet$ of
-$A$-modules. Then the transition maps of the system
+(The functor will depend on the choice of this lift.)
+Next, observe that there is a ``diagonal'' or ``constant'' functor
 $$
-\ldots \to
-\text{Tot}(K^\bullet \otimes_A E_3^\bullet) \to
-\text{Tot}(K^\bullet \otimes_A E_2^\bullet) \to
-\text{Tot}(K^\bullet \otimes_A E_1^\bullet)
+\Delta : D(A) \longrightarrow D(\mathbf{N}, A)
 $$
-are surjections of complexes, and we see that we can simply take
-the limit to get a derived limit of the system $(K \otimes_A^\mathbf{L} E_n)$.
-Clearly, the assignment
+mapping the complex $K^\bullet$ to the constant inverse system of
+complexes with value $K^\bullet$. Then we simply define
 $$
-K^\bullet \longmapsto \lim \text{Tot}(K^\bullet \otimes_A E_n^\bullet)
+R\lim(K \otimes_A^\mathbf{L} E_n) = R\lim(\Delta(K)\otimes^\mathbf{L} E)
 $$
-is functorial in the K-flat complex $K^\bullet$. To show that this
-gives a well defined functor on $D(A)$ it suffices to show that
-a quasi-isomorphism of K-flat complexes $K_1^\bullet \to K_2^\bullet$
-induces a quasi-isomorphism of these limit complexes. However, this
-follows from the fact that the induced map of systems
-$(K_1^\bullet \otimes_A E_n^\bullet) \to (K_2^\bullet \otimes_A E_n^\bullet)$
-is a quasi-isomorphism of complexes of $\text{Mod}(\mathbf{N}, A)$
-and the fact that $R\lim : D(\mathbf{N}, A) \to D(A)$ is well defined.
+where on the right hand side we use the functor $R\lim$ of
+Lemma \ref{lemma-compute-Rlim-modules}
+and the functor $- \otimes^\mathbf{L} -$ of
+Lemma \ref{lemma-derived-tensor-product-systems}.
 \end{remark}
 
+\begin{lemma}
+\label{lemma-tensor-Rlim-exact}
+Let $A$ be a ring. Let $E \to D \to F \to E[1]$ be a distinguished
+triangle of $D(\mathbf{N}, A)$. Let $(E_n)$, resp.\ $(D_n)$, resp.\ $(F_n)$
+be the system of objects of $D(A)$ associated to $E$, resp.\ $D$, resp.\ $F$.
+Then for every $K \in D(A)$ there is a canonical distinguished triangle
+$$
+R\lim (K \otimes_A E_n) \to
+R\lim (K \otimes_A D_n) \to
+R\lim (K \otimes_A F_n) \to
+R\lim (K \otimes_A E_n)[1]
+$$
+in $D(A)$ with notation as in
+Remark \ref{remark-constructing-tensor-with-limits-functorially}.
+\end{lemma}
+
+\begin{proof}
+This is clear from the construction in
+Remark \ref{remark-constructing-tensor-with-limits-functorially}
+and the fact that $\Delta : D(A) \to D(\mathbf{N}, A)$,
+$- \otimes^\mathbf{L} -$, and $R\lim$ are exact functors of triangulated
+categories.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-tensor-Rlim-pro-equal}
+Let $A$ be a ring. Let $E \to D$ be a morphism of
+$D(\mathbf{N}, A)$. Let $(E_n)$, resp.\ $(D_n)$
+be the system of objects of $D(A)$ associated to $E$, resp.\ $D$.
+If $(E_n) \to (D_n)$ is an isomorphism of pro-objects, then for every
+$K \in D(A)$ the corresponding map
+$$
+R\lim (K \otimes_A E_n) \longrightarrow R\lim (K \otimes_A D_n)
+$$
+in $D(A)$ is an isomorphism
+(notation as in
+Remark \ref{remark-constructing-tensor-with-limits-functorially}).
+\end{lemma}
+
+\begin{proof}
+Follows from the definitions and Lemma \ref{lemma-Rlim-pro-equal}.
+\end{proof}
 
 
 
@@ -13432,6 +13569,8 @@ $K \in D(A)$ we can consider the derived limit
 $$
 K' = R\lim (K \otimes_A^\mathbf{L} A/I^n)
 $$
+This is a functor in $K$, see
+Remark \ref{remark-constructing-tensor-with-limits-functorially}.
 The system of maps $A \to A/I^n$ induces a map $K \to K'$.
 It turns out that $K'$ is derived complete with respect to $I$.
 This ``naive'' derived completion construction does not agree
@@ -13502,7 +13641,72 @@ $$
 \ldots \to K_3^\bullet \to K_2^\bullet \to K_1^\bullet
 $$
 compatible with $H^0(K_n^\bullet) = A/(f_1^n, \ldots, f_r^n)$
-and the natural maps between these quotients.
+and the natural maps between these quotients. A key feature of the
+discussion below will use that for $m > n$ the map
+$$
+K_m^{-p} = \wedge^p(A^{\oplus r}) \to \wedge^p(A^{\oplus r}) = K_n^{-p}
+$$
+is given by multiplication by $f_{i_1}^{m - n} \ldots f_{i_p}^{m - n}$
+on the basis element $e_{i_1} \wedge \ldots \wedge e_{i_p}$.
+Finally, note that there is a compatible system of maps $A \to K_n^\bullet$.
+
+\begin{lemma}
+\label{lemma-characterize-derived-complete-Koszul}
+With notation as above. Let $I = (f_1, \ldots, f_r)$.
+Let $K \in D(A)$. The following are equivalent
+\begin{enumerate}
+\item $K$ is derived complete with respect to $I$, and
+\item the canonical map $K \to R\lim (K \otimes_A^\mathbf{L} K_n^\bullet)$
+is an isomorphism of $D(A)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Assume (2). Let $f \in I$. We have short exact sequences
+$$
+0 \to
+R^1\lim \text{Ext}^{p - 1}_A(A_f, K \otimes_A^\mathbf{L} K_n^\bullet) \to
+\text{Ext}^p_A(A_f, K) \to
+\lim \text{Ext}^p_A(A_f, K \otimes_A^\mathbf{L} K_n^\bullet) \to 0
+$$
+by Lemma \ref{lemma-map-into-Rlim}. We conclude the middle term
+is zero since $f$ acts both as an isomorphism and nilpotently on
+the outer terms (recall that $f_i^n$ acts by an endomorphism of
+$K_n^\bullet$ which is homotopic to zero). Thus $K$ is
+derived complete with respect to $I$.
+
+\medskip\noindent
+Assume that $K$ is derived complete with respect to $I$. Consider
+the filtrations
+$$
+K_n^\bullet \supset
+\sigma_{\geq -r + 1}K_n^\bullet \supset
+\sigma_{\geq -r + 2}K_n^\bullet \supset \ldots \supset
+\sigma_{\geq -1}K_n^\bullet \supset
+\sigma_{\geq 0}K_n^\bullet = A
+$$
+by stupid truncations (Homology, Section \ref{homology-section-truncations}).
+Because the construction $R\lim(K \otimes E)$ is exact in
+the second variable (Lemma \ref{lemma-tensor-Rlim-exact})
+we see that it suffices to show
+$$
+R\lim \left(
+K \otimes_A^\mathbf{L}
+(\sigma_{\geq p}K_n^\bullet/ \sigma_{\geq p + 1}K_n^\bullet)
+\right) = 0
+$$
+for $p < 0$. The explicit description of the Koszul complexes above
+shows that
+$$
+R\lim \left(
+K \otimes_A^\mathbf{L}
+(\sigma_{\geq p}K_n^\bullet/ \sigma_{\geq p + 1}K_n^\bullet)
+\right) =
+\bigoplus\nolimits_{i_1, \ldots, i_{-p}}
+T(K, f_{i_1}\ldots f_{i_{-p}})
+$$
+which is zero for $p < 0$ by assumption on $K$.
+\end{proof}
 
 \begin{lemma}
 \label{lemma-sequence-Koszul-complexes}
@@ -13524,7 +13728,7 @@ H^p(K_n^\bullet) =
 \frac{\text{Ker}(K_n^p \to K_n^{p + 1})}{\text{Im}(K_n^{p - 1} \to K_n^p)}
 $$
 is a finite $A$-module. Moreover, the map $K_m^p \to K_n^p$ is given
-by a matrix (in fact diagonal) whose entries are in the ideal
+by a diagonal matrix whose entries are in the ideal
 $(f_1^{m - n}, \ldots, f_r^{m - n})$ if $p < 0$ (in fact they are in the
 $|p|$th power of that ideal). Note that $H^p(K_n^\bullet)$ is annihilated by
 $I = (f_1^n, \ldots, f_r^n)$, see Lemma \ref{lemma-homotopy-koszul}. Now
@@ -13536,17 +13740,29 @@ $\text{Ker}(K_n^p \to K_n^{p + 1})$ is contained in
 $I \text{Ker}(K_n^p \to K_n^{p + 1})$. For this $m$ we get the zero map.
 \end{proof}
 
-\begin{lemma}
-\label{lemma-noetherian-naive-completion-is-completion}
+\begin{proposition}
+\label{proposition-noetherian-naive-completion-is-completion}
 Let $A$ be a Noetherian ring. Let $I \subset A$ be an ideal.
 The functor which sends $K \in D(A)$ to the derived limit
 $K' = R\lim( K \otimes_A^\mathbf{L} A/I^n )$ is the left
 adjoint to the inclusion functor $D_{comp}(A) \to D(A)$
 constructed in Lemma \ref{lemma-derived-completion}.
-\end{lemma}
+\end{proposition}
 
 \begin{proof}
-To be added soon.
+The assigment $K \leadsto K'$ is a functor and $K'$ is derived
+complete with respect to $I$ by Lemma \ref{lemma-naive-derived-completion}.
+By a formal argument (omitted) we see that it suffices
+to show $K \to K'$ is an isomorphism if $K$ is derived complete
+with respect to $I$. Say $(f_1, \ldots, f_r) = I$ and let
+$K_n^\bullet$ be the Koszul complex with respect to $f_1^n, \ldots, f_r^n$.
+By Lemma \ref{lemma-characterize-derived-complete-Koszul} we have
+$K = R\lim (K \otimes_A^\mathbf{L} K_n^\bullet)$.
+By Lemma \ref{lemma-sequence-Koszul-complexes} the pro-objects
+$\{K_n^\bullet\}$ and
+$\{A/(f_1^n, \ldots, f_r^n)\}$ of $D(A)$ are isomorphic.
+Thus $K \to K'$ is an isomorphism, by
+Lemma \ref{lemma-tensor-Rlim-pro-equal}.
 \end{proof}
 
 
