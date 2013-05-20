@@ -7069,14 +7069,20 @@ Derived Categories, Lemma \ref{derived-lemma-right-derived-exact-functor}.
 \begin{proposition}
 \label{proposition-finite-higher-direct-image-zero}
 Let $f : X \to Y$ be a finite morphism of schemes.
-Let $\mathcal{F}$ in $\textit{Ab}(X_{\acute{e}tale})$.
 \begin{enumerate}
 \item For any geometric point $\overline{y} : \Spec(k) \to Y$ we have
+$$
+(f_*\mathcal{F})_{\overline{y}} =
+\prod\nolimits_{\overline{x} : \Spec(k) \to X,\ f(\overline{x}) =
+\overline{y}} \mathcal{F}_{\overline{x}}.
+$$
+for $\mathcal{F}$ in $\Sh(X_{\acute{e}tale})$ and
 $$
 (f_*\mathcal{F})_{\overline{y}} =
 \bigoplus\nolimits_{\overline{x} : \Spec(k) \to X,\ f(\overline{x}) =
 \overline{y}} \mathcal{F}_{\overline{x}}.
 $$
+for $\mathcal{F}$ in $\textit{Ab}(X_{\acute{e}tale})$.
 \item For any $q \geq 1$ we have $R^q f_*\mathcal{F} = 0$.
 \end{enumerate}
 \end{proposition}
@@ -7104,6 +7110,31 @@ implies that $(R^qf_*\mathcal{F})_{\overline{y}} = 0$ for $q > 0$
 which implies (2) by Theorem \ref{theorem-exactness-stalks}.
 Part (1) follows from the corresponding statement of
 Lemma \ref{lemma-vanishing-etale-cohomology-strictly-henselian}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-finite-pushforward-commutes-with-base-change}
+Consider a cartesian square
+$$
+\xymatrix{
+X' \ar[r]_{g'} \ar[d]_{f'} & X \ar[d]^f \\
+Y' \ar[r]^g & Y
+}
+$$
+of schemes with $f$ a finite morphism. For any sheaf of sets
+$\mathcal{F}$ on $X_{\acute{e}tale}$ we have
+$f'_*(g')^{-1}\mathcal{F} = g^{-1}f_*\mathcal{F}$.
+\end{lemma}
+
+\begin{proof}
+In great generality there is a pullback map
+$g^{-1}f_*\mathcal{F} \to f'_*(g')^{-1}\mathcal{F}$, see
+Sites, Section \ref{sites-section-pullback}.
+To check this map is an isomorphism it suffices to check
+on stalks (Theorem \ref{theorem-exactness-stalks}).
+This is clear from the description of stalks
+in Proposition \ref{proposition-finite-higher-direct-image-zero} and
+Lemma \ref{lemma-stalk-pullback}.
 \end{proof}
 
 
@@ -8632,6 +8663,26 @@ Lemma \ref{lemma-pullback-locally-constant}.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-pushforward-constructible}
+Let $f : X \to Y$ be a finite \'etale morphism of schemes.
+If $\mathcal{F}$ is a constructible sheaf of sets,
+constructible sheaf of abelian groups, or constructible
+sheaf of $\Lambda$-modules on $X_{\acute{e}tale}$, the same is
+true for $f_*\mathcal{F}$ on $Y_{\acute{e}tale}$.
+\end{lemma}
+
+\begin{proof}
+The construction of $f_*$ commutes with \'etale localization.
+A finite \'etale morphism is locally isomorphic to a disjoint union
+of isomorphisms, see
+\'Etale Morphisms, Lemma \ref{etale-lemma-finite-etale-etale-local}.
+Thus the lemma says that if $\mathcal{F}_i$, $i = 1, \ldots, n$
+are constructible sheaves of sets, then
+$\prod_{i = 1, \ldots, n} \mathcal{F}_i$ is too.
+This is clear. Similarly for sheaves of abelian groups and modules.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-constructible-abelian}
 Let $X$ be a scheme.
 \begin{enumerate}
@@ -8670,6 +8721,17 @@ Lemma \ref{lemma-kernel-finite-locally-constant} to conclude.
 We omit the proofs of (1) and (2).
 \end{proof}
 
+
+
+
+
+\section{Auxiliary lemmas on morphisms}
+\label{section-stratify-morphisms}
+
+\noindent
+Some lemmas that are useful for proving functioriality properties
+of constructible sheaves.
+
 \begin{lemma}
 \label{lemma-etale-stratified-finite}
 Let $U \to X$ be an \'etale morphism of quasi-compact and quasi-separated
@@ -8702,7 +8764,7 @@ need this).
 
 \noindent
 In the Noetherian case one can prove the preceding lemma by
-Noetherian induction and the following amusing elementary lemma.
+Noetherian induction and the following amusing lemma.
 
 \begin{lemma}
 \label{lemma-generically-finite}
@@ -8716,6 +8778,67 @@ $f^{-1}(V) \to V$ is finite.
 \begin{proof}
 This is Morphisms, Lemma \ref{morphisms-lemma-generically-finite}.
 \end{proof}
+
+\noindent
+The statement of the following lemma can be strengthened a bit.
+
+\begin{lemma}
+\label{lemma-decompose-quasi-finite-morphism}
+Let $f : Y \to X$ be a quasi-finite and finitely presented
+morphism of affine schemes. Then there exists a surjective morphism
+of affine schemes $X' \to X$ and a closed subscheme
+$Z' \subset Y' = Y \times_X X'$ such that (1) $Z' \subset Y'$
+is a thickening, and (2) $Z' \to X'$ is a finite \'etale morphism.
+\end{lemma}
+
+\begin{proof}
+Write $X = \Spec(A)$ and $Y = \Spec(B)$. Write $A$ as a filtered colimit
+of finite type $\mathbf{Z}$-algebras $A_i$. Since $B$ is an $A$-algebra of
+finite presentation, we see that there exists $0 \in I$ and a
+finite type ring map $A_0 \to B_0$ such that $B = \colim B_i$ with
+$B_i = A_i \otimes_{A_0} B_0$, see
+Algebra, Lemma \ref{algebra-lemma-colimit-category-fp-algebras}.
+For $i$ sufficiently large we see that $A_i \to B_i$ is
+quasi-finite, see Limits, Lemma \ref{limits-lemma-descend-quasi-finite}.
+Thus we reduce to the case of finite type algebras over $\mathbf{Z}$,
+in particular we reduce to the Noetherian case. (Details omitted.)
+
+\medskip\noindent
+Assume $X$ and $Y$ Noetherian.
+By Lemma \ref{lemma-generically-finite}
+and Noetherian induction we see that
+there is a finite stratification $X = \coprod X_i$ of $X$
+by locally closed strata such that $Y \times_X X_i \to X_i$ is finite.
+We can refine this stratification to get affine strata.
+Thus after replacing $X$ by $X' = \coprod X_i$ we may assume
+$Y \to X$ is finite.
+
+\medskip\noindent
+Assume $X$ and $Y$ Noetherian and $Y \to X$ finite.
+Applying Morphisms, Lemma \ref{morphisms-lemma-massage-finite}
+we see that we may assume that $Y$ is a closed subscheme of an
+affine scheme $Z$ which is (set theoretically) a finite union
+$Z = \bigcup_{i \in I} Z_i$ of
+closed subschemes mapping isomorphically to $X$.
+Set $T_i = Y \cap Z_i$. This is a closed subscheme of $X$.
+As $X$ is Noetherian we can find a finite stratification of $X$
+by affine locally closed subschemes, such that each
+$T_i$ is a union of strata. Pulling back we see that
+we may assume $I = I_1 \amalg I_2$ with $Z_i \subset Y$ for
+$i \in I_!$ and $Z_i \cap Y = \emptyset$ for $i \in I_2$.
+Replacing $Z$ by $\bigcup_{i \in I_1}$ we see that we may assume $Y = Z$.
+Finally, we can replace $X$ again by the members of a stratification
+above such that for every $i, i' \subset I$ the intersection
+$Z_i \cap Z_{i'}$ is either empty or (set theoretically) equal
+to $Z_i$ and $Z_{i'}$. This clearly means that $Y$ is (set theoretically)
+equal to a disjoint union of the $Z_i$. After replacing $X$ and
+$Y$ by their reduction we conclude that $Y \to X$ is finite
+\'etale in this case.
+\end{proof}
+
+
+
+
 
 
 
@@ -8993,6 +9116,101 @@ Topology, Lemma \ref{topology-lemma-constructible-hausdorff-quasi-compact}.
 Thus $T_{I'} = \emptyset$ for some $I' \subset I$ finite
 as desired.
 \end{proof}
+
+\begin{lemma}
+\label{lemma-colimit-constructible}
+Let $X$ be a quasi-compact and quasi-separated scheme.
+Let $\Lambda$ be a Noetherian ring.
+Let $\mathcal{F} = \colim_{i \in I} \mathcal{F}_i$ be a filtered colimit of
+sheaves of $\Lambda$-modules. If $\mathcal{F}$ and $\mathcal{F}_i$
+are constructible, then (1) for $i$ large enough the map
+$\mathcal{F}_i \to \mathcal{F}$ is surjective, and (2) the ind-object
+$\mathcal{F}_i$ is essentially constant with value $\mathcal{F}$.
+\end{lemma}
+
+\begin{proof}
+We will use without further mention that the category of
+constructible sheaves of $\Lambda$-modules is abelian
+(Lemma \ref{lemma-kernel-finite-locally-constant}).
+For each $i$ let $\mathcal{Q}_i$ be the cokernel of the map
+$\mathcal{F}_i \to \mathcal{F}$. The support $T_i$ of $\mathcal{Q}_i$
+is a constructible subset of $X$ as $\mathcal{Q}_i$ is constructible.
+Since the stalks of $\mathcal{F}$ are finite $\Lambda$-modules
+and since $\mathcal{F} = \colim_{i \in I} \mathcal{F}_i$ we see
+that for all $x \in X$ we have $x \not \in T_i$ for $i$ large enough.
+Since $X$ is a spectral space by Properties, Lemma
+\ref{properties-lemma-quasi-compact-quasi-separated-spectral}
+the constructible topology on $X$ is quasi-compact by
+Topology, Lemma \ref{topology-lemma-constructible-hausdorff-quasi-compact}.
+Thus $T_i = \emptyset$ for $i$ large enough. This proves the first
+assertion. For the second, assume now that
+$\mathcal{F}_i \to \mathcal{F}$ is surjective for all $i$.
+Choose $i \in I$. For $i' \geq i$ denote $\mathcal{K}_{i'}$ the
+image of $\text{Ker}(\mathcal{F}_i \to \mathcal{F})$ in $\mathcal{F}_{i'}$.
+The support $S_{i'}$ of $\mathcal{K}_{i'}$
+is a constructible subset of $X$ as $\mathcal{K}_{i'}$ is constructible.
+Since the stalks of $\text{Ker}(\mathcal{F}_i \to \mathcal{F})$
+are finite $\Lambda$-modules and since
+$\mathcal{F} = \colim_{i' \geq i} \mathcal{F}_{i'}$ we see
+that for all $x \in X$ we have $x \not \in S_{i'}$ for $i'$ large enough.
+By the same argument as above we can find a large $i'$ such
+that $S_{i'} = \emptyset$. Thus $\mathcal{F}_i \to \mathcal{F}_{i'}$
+factors throught $\mathcal{F}$ as desired.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-check-constructible}
+Let $f : X \to Y$ be a surjective morphism of quasi-compact and
+quasi-separated schemes. Let $\Lambda$ be a Noetherian ring.
+Let $\mathcal{F}$ be sheaf of $\Lambda$-modules on $X_{\acute{e}tale}$.
+Then $\mathcal{F}$ is constructible if and only if $f^{-1}\mathcal{F}$
+is constructible.
+\end{lemma}
+
+\begin{proof}
+One implication follows from Lemma \ref{lemma-pullback-constructible}.
+For the converse, assume $f^{-1}\mathcal{F}$ is constructible.
+Write $\mathcal{F} = \colim \mathcal{F}_i$ as a
+filtered colimit of constructible sheaves of $\Lambda$-modules
+(Lemma \ref{lemma-torsion-colimit-constructible}).
+By Lemma \ref{lemma-colimit-constructible} we see that
+$f^{-1}\mathcal{F}_i \to f^{-1}\mathcal{F}$
+is surjective for all $i$ large enough. Since $f$ is surjective
+we conclude (by looking at stalks using
+Lemma \ref{lemma-stalk-pullback} and Theorem \ref{theorem-exactness-stalks})
+that $f^{-1}\mathcal{F}_i \to f^{-1}\mathcal{F}$
+is surjective for all $i$ large enough.
+Thus $\mathcal{F}$ is the quotient of a constructible sheaf $\mathcal{G}$.
+Applying the argument once more to the kernel
+of $\mathcal{G} \to \mathcal{F}$ we conclude using that $f^{-1}$ is exact
+and that the category of constructible sheaves is an abelian
+subcategory of $\textit{Mod}(X_{\acute{e}tale}, \Lambda)$ and
+$\textit{Mod}(X_{\acute{e}tale}, \Lambda)$, see
+Lemma \ref{lemma-kernel-finite-locally-constant}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-finite-pushforward-constructible}
+Let $f : Y \to X$ be a finite and finitely presented morphism
+of schemes. Let $\Lambda$ be a Noetherian ring. If $\mathcal{F}$ is
+a constructible sheaf of $\Lambda$-modules on $Y_{\acute{e}tale}$,
+then $f_*\mathcal{F}$ is constructible too.
+\end{lemma}
+
+\begin{proof}
+It suffices to prove this when $X$ is affine.
+By Lemmas \ref{lemma-finite-pushforward-commutes-with-base-change} and
+\ref{lemma-check-constructible} we may base change to any
+affine scheme surjective over $X$. By
+Lemma \ref{lemma-decompose-quasi-finite-morphism}
+this reduces us to the case of a finite \'etale morphism
+(because a thickening leads to an equivalence of \'etale topoi
+and even small \'etale sites, see
+Theorem \ref{theorem-topological-invariance}).
+The finite \'etale case is
+Lemma \ref{lemma-pushforward-constructible}.
+\end{proof}
+
 
 
 
