@@ -15633,14 +15633,14 @@ with each $F_n$ a finite free $R$-module.
 \begin{lemma}
 \label{lemma-depth-ext}
 Let $R$ be a Noetherian local ring with maximal ideal $\mathfrak m$.
-Let $M$ be a finite $R$-module. Then $\text{depth}_R(M)$
+Let $M$ be a nonzero finite $R$-module. Then $\text{depth}_R(M)$
 is equal to the smallest integer $i$ such that
 $\text{Ext}^i_R(R/\mathfrak m, M)$ is nonzero.
 \end{lemma}
 
 \begin{proof}
-Let $\delta(M)$ denote the depth of $M$ and let $i = i(M)$ denote
-the smallest integer such that $\text{Ext}^i_R(R/\mathfrak m, M)$
+Let $\delta(M)$ denote the depth of $M$ and let $i(M)$ denote
+the smallest integer $i$ such that $\text{Ext}^i_R(R/\mathfrak m, M)$
 is nonzero. We will see in a moment that $i(M) < \infty$.
 By Lemma \ref{lemma-ideal-nonzerodivisor} we have
 $\delta(M) = 0$ if and only if $i(M) = 0$, because
@@ -15707,7 +15707,21 @@ $$
 from Lemma \ref{lemma-long-exact-seq-ext}.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-depth-drops-by-one}
+Let $R$ be a local Noetherian ring. Let $M$ be a finite $R$-module.
+If $x \in \mathfrak m$ is a nonzerodivisor on $M$, then
+$\text{depth}(M/xM) = \text{depth}(M) - 1$.
+\end{lemma}
 
+\begin{proof}
+By the short exact sequence $0 \to M \to M \to M/xM \to 0$
+and Lemma \ref{lemma-depth-in-ses} we see that the depth drops by at most 1.
+On the other hand, if $x_1, \ldots, x_\delta \in \mathfrak m$
+is a regular sequence for $M/xM$, then $x , x_1, \ldots, x_r$
+is a regular sequence for $M$. Hence we see that the depth drops by
+at least 1.
+\end{proof}
 
 
 
@@ -21789,6 +21803,87 @@ depth $0$. By Lemma \ref{lemma-acyclic} we see
 that the complex is exact.
 \end{proof}
 
+
+
+
+
+
+
+
+\section{Auslander-Buchsbaum}
+\label{section-Auslander-Buchsbaum}
+
+\noindent
+The following result can be found in \cite{Auslander-Buchsbaum}.
+
+\begin{proposition}
+\label{proposition-Auslander-Buchsbaum}
+Let $R$ be a Noetherian local ring. Let $M$ be a finite $R$-module
+which has finite projective dimension $\text{pd}_R(M)$. Then we have
+$$
+\text{depth}(R) = \text{pd}_R(M) + \text{depth}(M)
+$$
+\end{proposition}
+
+\begin{proof}
+We prove this by induction on $\text{depth}(M)$. The most interesting
+case is the case $\text{depth}(M) = 0$. In this case, let
+$$
+0 \to R^{n_e} \to R^{n_{e-1}} \to \ldots \to R^{n_0} \to M \to 0
+$$
+be a minimal finite free resolution, so $e = \text{pd}_R(M)$.
+By Lemma \ref{lemma-add-trivial-complex} we may assume all matrix
+coefficients of the maps in the complex are contained in the maximal
+ideal of $R$. Then on the one hand, by
+Proposition \ref{proposition-what-exact} we see that
+$\text{deph}(R) \geq e$. On the other hand, breaking the long
+exact sequence into short exact sequences
+\begin{align*}
+0 \to R^{n_e} \to R^{n_{e - 1}} \to K_{e - 2} \to 0,\\
+0 \to K_{e - 2} \to R^{n_{e - 2}} \to K_{e - 3} \to 0,\\
+\ldots,\\
+0 \to K_0 \to R^{n_0} \to M \to 0
+\end{align*}
+we see, using Lemma \ref{lemma-depth-in-ses}, that
+\begin{align*}
+\text{depth}(K_{e - 2}) \geq \text{depth}(R) - 1,\\
+\text{depth}(K_{e - 3}) \geq \text{depth}(R) - 2,\\
+\ldots,\\
+\text{depth}(K_0) \geq \text{depth}(R) - (e - 1),\\
+\text{depth}(M) \geq \text{depth}(R) - e
+\end{align*}
+and since $\text{depth}(M) = 0$ we conclude $\text{depth}(R) \leq e$.
+This finishes the proof of the case $\text{depth}(M) = 0$.
+
+\medskip\noindent
+Induction step. If $\text{depth}(M) > 0$, then we pick $x \in \mathfrak m$
+which is a nonzero divisor on both $M$ and $R$. This is possible, because
+either $\text{pd}_R(M) > 0$ and $\text{depth}(R) > 0$ by the aforementioned
+Proposition \ref{proposition-what-exact} or $\text{pd}_R(M) = 0$ in which
+case $M$ is finite free hence also $\text{depth}(R) = \text{depth}(M) > 0$.
+Thus $\text{depth}(R \oplus M) > 0$ by Lemma \ref{lemma-depth-in-ses}
+(for example) and we can find an $x \in \mathfrak m$ which is a nonzerodivisor
+on both $R$ and $M$. Let
+$$
+0 \to R^{n_e} \to R^{n_{e-1}} \to \ldots \to R^{n_0} \to M \to 0
+$$
+be a minimal resolution as above. An application of the snake lemma
+shows that
+$$
+0 \to (R/xR)^{n_e} \to (R/xR)^{n_{e-1}} \to \ldots \to (R/xR)^{n_0} \to
+M/xM \to 0
+$$
+is a minimal resolution too. Thus $\text{pd}_R(M) = \text{pd}_{R/xR}(M/xM)$.
+By Lemma \ref{lemma-depth-drops-by-one} we have
+$\text{depth}(R/xR) = \text{depth}(R) - 1$ and
+$\text{depth}(M/xM) = \text{depth}(M) - 1$.
+Till now depths have all been depths as $R$ modules, but we observe that
+$\text{depth}_R(M/xM) = \text{depth}_{R/xR}(M/xM)$ and similarly for $R/xR$.
+By induction hypothesis we see that the
+Auslander-Buchsbaum formula holds for $M/xM$ over $R/xR$. Since the
+depths of both $R/xR$ and $M/xM$ have decreased by one and the projective
+dimension has not changed we conclude.
+\end{proof}
 
 
 
