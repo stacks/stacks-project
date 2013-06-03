@@ -42,7 +42,7 @@ if [ ! $? == 0 ]; then
 fi
 
 # Move newly created files back to stacks project directoy
-mv $STEM.pdf $STEM.dvi $STEM.aux $STEM.toc $STEM.out $OLD
+mv $STEM.pdf $STEM.dvi $STEM.aux $STEM.toc $STEM.out $STEM.log $OLD
 
 # Remove temporary directory
 cd $OLD
