@@ -230,10 +230,18 @@ print "There are",
 print nr,
 print "tags. Checking tags..."
 n = 0
+tagged_up = {}
 while n < nr:
-	if not check_ref(tags[n][1], labels):
+	label = tags[n][1]
+	if label.find(' ') >= 0:
+		print "Found illegal character in: " + label
+	if not check_ref(label, labels):
 		print "Tag pointing nowhere: ",
 		print tags[n]
+	if not label in tagged_up:
+		tagged_up[label] = tags[n][0]
+	else:
+		print "Two tags for " + label + ": " + tags[n][0] + " and " + tagged_up[label]
 	n = n + 1
 
 print "All done."
