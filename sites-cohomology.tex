@@ -127,7 +127,7 @@ H^i(U, \mathcal{F}) = H^i(\Gamma(U, \mathcal{I}^\bullet))
 \end{equation}
 to be the {\it the $i$th cohomology group of $\mathcal{F}$ over $U$}.
 The family of functors $H^i(U, -)$ forms a universal $\delta$-functor
-$\textit{Mod}(\mathcal{O}) \to \text{Mod}(\mathcal{O}(U))$. Similarly
+$\textit{Mod}(\mathcal{O}) \to \text{Mod}_{\mathcal{O}(U)}$. Similarly
 \begin{equation}
 \label{equation-cohomology-modules}
 H^i(\mathcal{C}, \mathcal{F}) = H^i(\Gamma(\mathcal{C}, \mathcal{I}^\bullet))
@@ -135,7 +135,7 @@ H^i(\mathcal{C}, \mathcal{F}) = H^i(\Gamma(\mathcal{C}, \mathcal{I}^\bullet))
 it the {\it $i$th cohomology group of $\mathcal{F}$ on $\mathcal{C}$}.
 The family of functors $H^i(\mathcal{C}, -)$ forms a universal
 $\delta$-functor
-$\textit{Mod}(\mathcal{C}) \to \text{Mod}(\Gamma(\mathcal{C}, \mathcal{O}))$.
+$\textit{Mod}(\mathcal{C}) \to \text{Mod}_{\Gamma(\mathcal{C}, \mathcal{O})}$.
 
 \medskip\noindent
 Let $f : (\Sh(\mathcal{C}), \mathcal{O}) \to (\Sh(\mathcal{D}), \mathcal{O}')$
@@ -220,7 +220,7 @@ $
 \Gamma(U, -) :
 \textit{Mod}(\mathcal{O})
 \longrightarrow
-\text{Mod}(\mathcal{O}(U))
+\text{Mod}_{\mathcal{O}(U)}
 $
 which gives rise to
 $$
@@ -1795,8 +1795,7 @@ Hence the lemma follows.
 
 \begin{lemma}
 \label{lemma-cohomology-products}
-Cohomology and products. Let $\mathcal{F}_i$ be a
-family of abelian sheaves on a site $\mathcal{C}$.
+Let $\mathcal{F}_i$ be a family of abelian sheaves on a site $\mathcal{C}$.
 Then there are canonical maps
 $$
 H^p(U, \prod\nolimits_{i \in I} \mathcal{F}_i)
@@ -1849,6 +1848,57 @@ hence by
 Homology, Lemma \ref{homology-lemma-product-abelian-groups-exact}
 we conclude that $\check \xi = 0$ as desired.
 \end{proof}
+
+\begin{lemma}
+\label{lemma-restriction-along-monmorphism-surjective}
+Let $(\mathcal{C}, \mathcal{O})$ be a ringed site. Let $a : U' \to U$ be a
+monomorphism in $\mathcal{C}$. Then for any injective $\mathcal{O}$-module
+$\mathcal{I}$ the restriction mapping $\mathcal{I}(U) \to \mathcal{I}(U')$
+is surjective.
+\end{lemma}
+
+\begin{proof}
+Let $j : \mathcal{C}/U \to \mathcal{C}$ and
+$j' : \mathcal{C}/U' \to \mathcal{C}$ be the localization morphisms
+(Modules on Sites, Section \ref{sites-modules-section-localize}).
+Since $j_!$ is a left adjoint to restriction we see that
+for any sheaf $\mathcal{F}$ of $\mathcal{O}$-modules
+$$
+\Hom_\mathcal{O}(j_!\mathcal{O}_U, \mathcal{F})
+=
+\Hom_{\mathcal{O}_U}(\mathcal{O}_U, \mathcal{F}|_U)
+=
+\mathcal{F}(U)
+$$
+Similarly, the sheaf $j'_!\mathcal{O}_{U'}$ represents the
+functor $\mathcal{F} \mapsto \mathcal{F}(U')$.
+Moreover below we describe a canonical map of $\mathcal{O}$-modules
+$$
+j'_!\mathcal{O}_{U'} \longrightarrow j_!\mathcal{O}_U
+$$
+which corresponds to the restriction mapping
+$\mathcal{F}(U) \to \mathcal{F}(U')$ via Yoneda's lemma
+(Categories, Lemma \ref{categories-lemma-yoneda}).
+It suffices to prove the displayed map of modules is injective, see
+Homology, Lemma \ref{homology-lemma-characterize-injectives}.
+
+\medskip\noindent
+To construct our map it suffices to construct a map between the
+presheaves which assign to an object $V$ of $\mathcal{C}$ the
+$\mathcal{O}(V)$-module
+$$
+\bigoplus\nolimits_{\varphi' \in \Mor_\mathcal{C}(V, U')} \mathcal{O}(V)
+\quad\text{and}\quad
+\bigoplus\nolimits_{\varphi \in \Mor_\mathcal{C}(V, U)} \mathcal{O}(V)
+$$
+see Modules on Sites, Lemma \ref{sites-modules-lemma-extension-by-zero}.
+We take the map which maps the summand corresponding to $\varphi'$
+to the summand corresponding to $\varphi = a \circ \varphi'$
+by the identity map on $\mathcal{O}(V)$. As $a$ is a monomorphism,
+this map is injective. As sheafification is exact, the result
+follows.
+\end{proof}
+
 
 
 
@@ -1965,7 +2015,7 @@ Here is a characterization of limp sheaves which is sometimes useful.
 \label{lemma-characterize-limp}
 Let $\mathcal{C}$ be a site. Let $\mathcal{F}$ be an abelian sheaf. If
 \begin{enumerate}
-\item $H^p(U, \mathcal{F}) = 0$ for $p> 0$, and
+\item $H^p(U, \mathcal{F}) = 0$ for $p> 0$ and $U \in \Ob(\mathcal{C})$, and
 \item for every surjection $K' \to K$ of sheaves of sets the
 extended {\v C}ech complex
 $$
@@ -2329,100 +2379,9 @@ for every $p \geq 0$ and every object $U$ of $\mathcal{C}$.
 These maps are in general not isomorphisms, even for $p = 0$.
 
 \medskip\noindent
-To repeat the arguments given in the case of topological spaces
-we will say that an object $U$ of a site $\mathcal{C}$ is {\it quasi-compact}
-if every covering of $U$ in $\mathcal{C}$ can be refined by a finite covering.
-
-\begin{lemma}
-\label{lemma-directed-colimits-sections}
-Let $\mathcal{C}$ be a site. Let
-$\mathcal{I} \to \Sh(\mathcal{C})$, $i \mapsto \mathcal{F}_i$
-be a filtered diagram of sheaves of sets.
-Let $U \in \Ob(\mathcal{C})$.
-Consider the canonical map
-$$
-\Psi :
-\colim_i \mathcal{F}_i(U)
-\longrightarrow
-\left(\colim_i \mathcal{F}_i\right)(U)
-$$
-With the terminology introduced above:
-\begin{enumerate}
-\item If all the transition maps are injective then
-$\Psi$ is injective for any $U$.
-\item If $U$ is quasi-compact, then $\Psi$ is injective.
-\item If $U$ is quasi-compact and all the transition maps are injective
-then $\Psi$ is an isomorphism.
-\item If $U$ has a cofinal system of coverings
-$\{U_j \to U\}_{j \in J}$ with
-$J$ finite and $U_j \times_U U_{j'}$ quasi-compact
-for all $j, j' \in J$, then $\Psi$ is bijective.
-\end{enumerate}
-\end{lemma}
-
-\begin{proof}
-Assume all the transition maps are injective. In this case the presheaf
-$\mathcal{F}' : V \mapsto \colim_i \mathcal{F}_i(V)$ is
-separated (see
-Sites, Definition \ref{sites-definition-separated}).
-By
-Sites, Lemma \ref{sites-lemma-colimit-sheaves}
-we have
-$(\mathcal{F}')^\# = \colim_i \mathcal{F}_i$.
-By
-Sites, Theorem \ref{sites-theorem-plus}
-we see that $\mathcal{F}' \to (\mathcal{F}')^\#$ is injective.
-This proves (1).
-
-\medskip\noindent
-Assume $U$ is quasi-compact.
-Suppose that $s \in \mathcal{F}_i(U)$ and
-$s' \in \mathcal{F}_{i'}(U)$ give rise to elements on
-the left hand side which have the same image under $\Psi$.
-Since $U$ is quasi-compact this means there exists
-a finite covering $\{U_j \to U\}_{j = 1, \ldots, m}$
-and for each $j$ an index $i_j \in I$, $i_j \geq i$, $i_j \geq i'$
-such that $\varphi_{ii_j}(s) = \varphi_{i'i_j}(s')$.
-Let $i''\in I$ be $\geq$ than all of the $i_j$.
-We conclude that $\varphi_{ii''}(s)$ and $\varphi_{i'i''}(s)$
-agree on $U_j$ for all $j$ and hence that
-$\varphi_{ii''}(s) = \varphi_{i'i''}(s)$. This proves (2).
-
-\medskip\noindent
-Assume $U$ is quasi-compact and all transition maps injective.
-Let $s$ be an element of the target of $\Psi$.
-Since $U$ is quasi-compact
-there exists a finite covering $\{U_j \to U\}_{j = 1, \ldots, m}$,
-for each $j$ an index $i_j \in I$ and $s_j \in \mathcal{F}_{i_j}(U_j)$
-such that $s|_{U_j}$ comes from $s_j$ for all $j$.
-Pick $i \in I$ which is $\geq$ than all of the $i_j$.
-By (1) the sections $\varphi_{i_ji}(s_j)$ agree over $U_j \times_U U_{j'}$.
-Hence they glue to a section
-$s' \in \mathcal{F}_i(U)$ which maps to $s$ under $\Psi$.
-This proves (3).
-
-\medskip\noindent
-Assume the hypothesis of (4).
-Let $s$ be an element of the target of $\Psi$.
-By assumption there  exists a finite covering
-$\{U_j \to U\}_{j = 1, \ldots, m} U_j$, with $U_j \times_U U_{j'}$
-quasi-compact for all $j, j' \in J$ and
-for each $j$ an index $i_j \in I$ and $s_j \in \mathcal{F}_{i_j}(U_j)$
-such that $s|_{U_j}$ is the image of $s_j$ for all $j$.
-Since $U_j \times_U U_{j'}$ is quasi-compact we can apply (2)
-and we see that there exists an $i_{jj'} \in I$,
-$i_{jj'} \geq i_j$, $i_{jj'} \geq i_{j'}$ such that
-$\varphi_{i_ji_{jj'}}(s_j)$ and $\varphi_{i_{j'}i_{jj'}}(s_{j'})$
-agree over $U_j \times_U U_{j'}$. Choose an index $i \in I$
-wich is bigger or equal than all the $i_{jj'}$. Then we see that
-the sections $\varphi_{i_ji}(s_j)$ of $\mathcal{F}_i$ glue
-to a section of $\mathcal{F}_i$ over $U$. This section is mapped
-to the element $s$ as desired.
-\end{proof}
-
-\noindent
-The following lemma is the analogue of the previous lemma for
-cohomology.
+The following lemma is the analogue of
+Sites, Lemma \ref{sites-lemma-directed-colimits-sections}
+for cohomology.
 
 \begin{lemma}
 \label{lemma-colim-works-over-collection}
@@ -2455,7 +2414,7 @@ To prove the lemma we will argue by induction on $p$.
 Note that we require in (1) the coverings $\mathcal{U} \in \text{Cov}$
 to be finite, so that all the elements of $\mathcal{B}$ are quasi-compact.
 Hence (2) and (1) imply that any $U \in \mathcal{B}$ satsifies the hypothesis
-of Lemma \ref{lemma-directed-colimits-sections} (4).
+of Sites, Lemma \ref{sites-lemma-directed-colimits-sections} (4).
 Thus we see that the result holds for $p = 0$.
 Now we assume the lemma holds for $p$ and prove it for $p + 1$.
 
@@ -3186,9 +3145,9 @@ The functor $Rf_*$ defined above and
 the functor $Lf^*$ defined in
 Lemma \ref{lemma-derived-base-change} are adjoint:
 $$
-\text{Hom}_{D(\mathcal{O})}(Lf^*\mathcal{G}^\bullet, \mathcal{F}^\bullet)
+\Hom_{D(\mathcal{O})}(Lf^*\mathcal{G}^\bullet, \mathcal{F}^\bullet)
 =
-\text{Hom}_{D(\mathcal{O}')}(\mathcal{G}^\bullet, Rf_*\mathcal{F}^\bullet)
+\Hom_{D(\mathcal{O}')}(\mathcal{G}^\bullet, Rf_*\mathcal{F}^\bullet)
 $$
 bifunctorially in $\mathcal{F}^\bullet \in \Ob(D(\mathcal{O}))$ and
 $\mathcal{G}^\bullet \in \Ob(D(\mathcal{O}'))$.
@@ -3200,23 +3159,23 @@ Choose a K-flat resolution $\mathcal{K}^\bullet \to \mathcal{G}^\bullet$
 and a K-injective resolution $\mathcal{F}^\bullet \to \mathcal{I}^\bullet$.
 Then
 $$
-\text{Hom}_{D(\mathcal{O})}(Lf^*\mathcal{G}^\bullet, \mathcal{F}^\bullet) =
-\text{Hom}_{D(\mathcal{O})}(f^*\mathcal{K}^\bullet, \mathcal{I}^\bullet) =
-\text{Hom}_{K(\textit{Mod}(\mathcal{O}))}(f^*\mathcal{K}^\bullet,
+\Hom_{D(\mathcal{O})}(Lf^*\mathcal{G}^\bullet, \mathcal{F}^\bullet) =
+\Hom_{D(\mathcal{O})}(f^*\mathcal{K}^\bullet, \mathcal{I}^\bullet) =
+\Hom_{K(\textit{Mod}(\mathcal{O}))}(f^*\mathcal{K}^\bullet,
 \mathcal{I}^\bullet)
 $$
 by our definition of $Lf^*$ and because $\mathcal{I}^\bullet$ is K-injective,
 see Derived Categories, Lemma \ref{derived-lemma-K-injective}.
 On the other hand
 $$
-\text{Hom}_{D(\mathcal{O}')}(\mathcal{G}^\bullet, Rf_*\mathcal{F}^\bullet) =
-\text{Hom}_{D(\mathcal{O}')}(\mathcal{K}^\bullet, f_*\mathcal{I}^\bullet)
+\Hom_{D(\mathcal{O}')}(\mathcal{G}^\bullet, Rf_*\mathcal{F}^\bullet) =
+\Hom_{D(\mathcal{O}')}(\mathcal{K}^\bullet, f_*\mathcal{I}^\bullet)
 $$
 by our definition of $Rf_*$. By definition of morphisms in $D(\mathcal{O}')$
 this is equal to
 $$
 \colim_{s : \mathcal{H}^\bullet \to \mathcal{K}^\bullet}
-\text{Hom}_{K(\textit{Mod}(\mathcal{O}'))}(\mathcal{H}^\bullet,
+\Hom_{K(\textit{Mod}(\mathcal{O}'))}(\mathcal{H}^\bullet,
 f_*\mathcal{I}^\bullet)
 $$
 where the colimit is over all quasi-isomorphisms
@@ -3228,13 +3187,13 @@ $s : (\mathcal{K}')^\bullet \to \mathcal{K}^\bullet$
 where $(\mathcal{K}')^\bullet$ is K-flat as well.
 In this case we have
 \begin{align*}
-\text{Hom}_{K(\textit{Mod}(\mathcal{O}'))}((\mathcal{K}')^\bullet,
+\Hom_{K(\textit{Mod}(\mathcal{O}'))}((\mathcal{K}')^\bullet,
 f_*\mathcal{I}^\bullet)
 & =
-\text{Hom}_{K(\textit{Mod}(\mathcal{O}'))}(f^*(\mathcal{K}')^\bullet,
+\Hom_{K(\textit{Mod}(\mathcal{O}'))}(f^*(\mathcal{K}')^\bullet,
 \mathcal{I}^\bullet) \\
 & =
-\text{Hom}_{K(\textit{Mod}(\mathcal{O}'))}(f^*\mathcal{K}^\bullet,
+\Hom_{K(\textit{Mod}(\mathcal{O}'))}(f^*\mathcal{K}^\bullet,
 \mathcal{I}^\bullet)
 \end{align*}
 The first equality because $f^*$ and $f_*$ are adjoint functors and
@@ -3361,6 +3320,153 @@ and
 Derived Categories, Lemma \ref{derived-lemma-K-injective}.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-K-injective-flat}
+Let $\mathcal{C}$ be a site. Let $\mathcal{O} \to \mathcal{O}'$ be a flat
+map of sheaves of rings. If $\mathcal{I}^\bullet$ is a K-injective
+complex of $\mathcal{O}'$-modules, then $\mathcal{I}^\bullet$ is K-injective
+as a complex of $\mathcal{O}$-modules.
+\end{lemma}
+
+\begin{proof}
+This is true because
+$\Hom_{K(\mathcal{O})}(\mathcal{F}^\bullet, \mathcal{I}^\bullet) =
+\Hom_{K(\mathcal{O}')}(\mathcal{F}^\bullet \otimes_\mathcal{O} \mathcal{O}',
+\mathcal{I}^\bullet)$ by
+Modules on Sites, Lemma \ref{sites-modules-lemma-adjointness-tensor-restrict}
+and the fact that tensoring with $\mathcal{O}'$ is exact.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-hom-K-injective}
+Let $\mathcal{C}$ be a site. Let $\mathcal{O} \to \mathcal{O}'$ be a map
+of sheaves of rings. If $\mathcal{I}^\bullet$ is a K-injective complex of
+$\mathcal{O}$-modules, then $\SheafHom_\mathcal{O}(\mathcal{O}', I^\bullet)$
+is a K-injective complex of $\mathcal{O}'$-modules.
+\end{lemma}
+
+\begin{proof}
+This is true because
+$\Hom_{K(\mathcal{O}')}(\mathcal{G}^\bullet,
+\Hom_\mathcal{O}(\mathcal{O}', \mathcal{I}^\bullet)) =
+\Hom_{K(\mathcal{O})}(\mathcal{G}^\bullet, \mathcal{I}^\bullet)$
+by Modules on Sites, Lemma \ref{sites-modules-lemma-adjoint-hom-restrict}.
+\end{proof}
+
+
+
+
+
+
+\section{Derived and homotopy limits}
+\label{section-derived-limits}
+
+\noindent
+Let $\mathcal{C}$ be a site. Consider the category
+$\mathcal{C} \times \mathbf{N}$ with
+$\Mor((U, n), (V, m)) = \emptyset$ if $n > m$ and
+$\Mor((U, n), (V, m)) = \Mor(U, V)$ else. We endow this with the
+structure of a site by letting coverings
+be families $\{(U_i, n) \to (U, n)\}$ such that
+$\{U_i \to U\}$ is a covering of $\mathcal{C}$.
+Then the reader verifies immediately that
+sheaves on $\mathcal{C} \times \mathbf{N}$ are the same thing
+as inverse systems of sheaves on $\mathcal{C}$.
+In particular $\textit{Ab}(\mathcal{C} \times \mathbf{N})$
+is inverse systems of abelian sheaves on $\mathcal{C}$.
+Consider now the functor
+$$
+\lim : \textit{Ab}(\mathcal{C} \times \mathbf{N}) \to \textit{Ab}(\mathcal{C})
+$$
+which takes an inverse system to its limit. This is nothing but
+$g_*$ where $g : \Sh(\mathcal{C} \times \mathbf{N}) \to \Sh(\mathcal{C})$
+is the morphism of topoi associated to the continuous and cocontinuous functor
+$\mathcal{C} \times \mathbf{N} \to \mathcal{C}$. (Observe that
+$g^{-1}$ assigns to a sheaf on $\mathcal{C}$ the corresponding
+constant inverse system.)
+
+\medskip\noindent
+By the general machinery explained above we obtain a derived functor
+$$
+R\lim = Rg_* : D(\mathcal{C} \times \mathbf{N}) \to D(\mathcal{C}).
+$$
+As indicated this functor is often denoted $R\lim$.
+
+\medskip\noindent
+On the other hand, the continuous and cocontinuous functors
+$\mathcal{C} \to \mathcal{C} \times \mathbf{N}$,
+$U \mapsto (U, n)$ define morphisms of topoi
+$i_n : \Sh(\mathcal{C}) \to \Sh(\mathcal{C} \times \mathbf{N})$.
+Of course $i_n^{-1}$ is the functor which picks the $n$th term of
+the inverse system. Thus there are transformations of functors
+$i_{n + 1}^{-1} \to i_n^{-1}$. Hence given
+$K \in D(\mathcal{C} \times \mathbf{N})$ we get
+$K_n = i_n^{-1}K \in D(\mathcal{C})$ and maps $K_{n + 1} \to K_n$.
+In Derived Categories, Definition \ref{derived-definition-derived-limit}
+we have defined the notion of a homotopy limit
+$$
+R\lim K_n \in D(\mathcal{C})
+$$
+We claim the two notions agree (as far as it makes sense).
+
+\begin{lemma}
+\label{lemma-derived-limit-is-ok}
+Let $\mathcal{C}$ be a site. Let $K$ be an object of
+$D(\mathcal{C} \times \mathbf{N})$. Set $K_n = i_n^{-1}K$ as above.
+Then
+$$
+R\lim K \cong R\lim K_n
+$$
+in $D(\mathcal{C})$.
+\end{lemma}
+
+\begin{proof}
+To calculate $R\lim$ on an object $K$ of $D(\mathcal{C} \times \mathbf{N})$
+we choose a K-injective representative $\mathcal{I}^\bullet$ whose terms are
+injective objects of $\textit{Ab}(\mathcal{C} \times \mathbf{N})$, see
+Injectives, Theorem
+\ref{injectives-theorem-K-injective-embedding-grothendieck}.
+We may and do think of $\mathcal{I}^\bullet$ as an inverse system of
+complexes $(\mathcal{I}_n^\bullet)$ and then we see that
+$$
+R\lim K = \lim \mathcal{I}_n^\bullet
+$$
+where the right hand side is the termwise inverse limit.
+
+\medskip\noindent
+Let $\mathcal{J} = (\mathcal{J}_n)$ be an injective object of
+$\textit{Ab}(\mathcal{C} \times \mathbf{N})$. The morphisms
+$(U, n) \to (U, n + 1)$ are monomorphisms of
+$\mathcal{C} \times \mathbf{N}$, hence
+$\mathcal{J}(U, n + 1) \to \mathcal{J}(U, n)$ is surjective
+(Lemma \ref{lemma-restriction-along-monmorphism-surjective}).
+It follows that $\mathcal{J}_{n + 1} \to \mathcal{J}_n$ is
+surjective as a map of presheaves.
+
+\medskip\noindent
+Note that the functor $i_n^{-1}$ has an exact left adjoint $i_{n, !}$.
+Namely, $i_{n, !}\mathcal{F}$ is the inverse system
+$\ldots 0 \to 0 \to \mathcal{F} \to \ldots \to \mathcal{F}$.
+Thus the complexes $i_n^{-1}\mathcal{I}^\bullet = \mathcal{I}_n^\bullet$
+are K-injective by
+Derived Categories, Lemma \ref{derived-lemma-adjoint-preserve-K-injectives}.
+
+\medskip\noindent
+Because we chose our K-injective complex to have injective terms
+we conclude that
+$$
+0 \to  \lim \mathcal{I}_n^\bullet \to \prod \mathcal{I}_n^\bullet
+\to \prod \mathcal{I}_n^\bullet \to 0
+$$
+is a short exact sequence of complexes of abelian sheaves as it
+is a short exact sequence of complexes of abelian presheaves.
+Moreover, the products in the middle and the right represent
+the products in $D(\mathcal{C})$, see
+Injectives, Lemma \ref{injectives-lemma-derived-products} and its
+proof (this is where we use that $\mathcal{I}_n^\bullet$ is K-injective).
+Thus $R\lim K$ is a homotopy limit of the inverse system $(K_n)$
+by definition of homotopy limits in triangulated categories.
+\end{proof}
 
 
 
@@ -3541,8 +3647,9 @@ K \to
 \prod\nolimits_{n \geq 0} \tau_{\geq -n} K \to
 \prod\nolimits_{n \geq 0} \tau_{\geq -n} K \to K[1]
 $$
-in $D(\mathcal{O})$. In other words, $K$ is the derived
-limit of its canonical trunctions.
+in $D(\mathcal{O})$. In other words, $K$ is a derived limit
+of its canonical trunctions
+(Derived Categories, Definition \ref{derived-definition-derived-limit}).
 \end{lemma}
 
 \begin{proof}
@@ -3725,266 +3832,6 @@ $\epsilon_*H^m(\epsilon^*\mathcal{G}) = H^m(\mathcal{G}^\bullet)$.
 
 
 
-\section{Notes on Rlim}
-\label{section-Rlim}
-
-\noindent
-We briefly discuss $R\lim$ on abelian groups. Consider the category
-$\mathbf{N}$ whose objects are natural numbers and whose morphisms are unique
-arrows $i \to j$ if $j \geq i$. Endow $\mathbf{N}$ with the chaotic
-topology so that a sheaf $\mathcal{F}$ is the same thing as an inverse
-system
-$$
-\mathcal{F}_1 \leftarrow \mathcal{F}_2 \leftarrow \mathcal{F}_3
-\leftarrow \ldots
-$$
-of sets over $\mathbf{N}$. Note that
-$\Gamma(\mathbf{N}, \mathcal{F}) = \lim \mathcal{F}_n$. For an inverse
-system of abelian groups $\mathcal{F}_n$ we define
-$$
-R^p\lim \mathcal{F}_n = H^p(\mathbf{N}, \mathcal{F}).
-$$
-Actually, it turns out that $R^p\lim = 0$ for $p > 1$. Namely, note
-that the morphisms $i \to j$ are monomorphisms, which are turned into
-surjections by an injective sheaf of abelian groups (this is a generality
-about injective sheaves on any site). In particular, injective modules
-satisfy the Mittag-Leffler condition (see
-Homology, Section \ref{homology-section-inverse-systems}).
-Apply
-Derived Categories, Lemma \ref{derived-lemma-subcategory-right-acyclics}
-using Homology, Lemma \ref{homology-lemma-Mittag-Leffler}
-to the collection of inverse systems of abelian groups having ML, to
-conclude that $R^p\lim$, $p > 0$ vanishes on all systems with ML.
-Applying Homology, Lemma \ref{homology-lemma-Mittag-Leffler}
-one more time we see that any inverse system of abelian groups
-has a two term resolution by systems having ML, which proves that
-$R^p\lim = 0$ for $p > 1$.
-
-\medskip\noindent
-Next, let's consider the derived functor
-\begin{equation}
-\label{equation-Rlim}
-R\lim : D(\textit{Ab}(\mathbf{N})) \longrightarrow D(\textit{Ab})
-\end{equation}
-as defined in Section \ref{section-unbounded}.
-An object of $D(\textit{Ab}(\mathbf{N}))$ is a complex of inverse
-systems of abelian groups. You can also think of this as an inverse
-system $(K_e^\bullet)$ of complexes. However, this is {\bf not} the
-same thing as an inverse system of objects of $D(\textit{Ab})$; we
-will come back and explain the difference later.
-
-\begin{lemma}
-\label{lemma-compute-Rlim}
-Let $K = (K_e^\bullet)$ be an object of $D(\textit{Ab}(\mathbf{N}))$.
-If for each $n$ the inverse system $(K_e^n)$ satisfies the
-Mittag-Leffler condition, then $R\lim K$ is represented by the
-complex whose term in degree $n$ is $\lim_e K_e^n$.
-\end{lemma}
-
-\begin{proof}
-In the case that $K$ is in $D^+(\textit{Ab}(\mathbf{N}))$ this follows
-from the fact that each system $(K_e^n)_e$ is acyclic for
-$R\lim$ (see above) and
-Derived Categories, Proposition \ref{derived-proposition-enough-acyclics}.
-In fact, the same result holds for unbounded complexes, see
-Derived Categories, Lemma \ref{derived-lemma-unbounded-right-derived}.
-\end{proof}
-
-\noindent
-The products in the following lemma can be seen as termwise products
-of complexes or as products in the derived category $D(\textit{Ab})$, see
-Injectives, Remark \ref{injectives-remark-product-derived-Ab4*}.
-This lemma in particular shows the notation in this section is
-compatible with the notation introduced in
-Derived Categories, Section \ref{derived-section-derived-limit}.
-See Remark \ref{remark-compare-derived-limit} for more explanation.
-
-\begin{lemma}
-\label{lemma-distinguished-triangle-Rlim}
-Let $K = (K_e^\bullet)$ be an object of $D(\textit{Ab}(\mathbf{N}))$.
-There exists a canonical distinguished triangle
-$$
-R\lim K \to \prod\nolimits_e K_e^\bullet \to \prod\nolimits_e K_e^\bullet
-\to R\lim K[1]
-$$
-in $D(\textit{Ab})$ where the middle map fits into the commutative diagrams
-$$
-\xymatrix{
-\prod\nolimits_e K_e^\bullet \ar[r] \ar[d] & 
-\prod\nolimits_e K_e^\bullet \ar[d] \\
-K_e^\bullet \oplus K_{e + 1}^\bullet \ar[r]^{1 - \pi} &
-K_e^\bullet
-}
-$$
-whose vertical maps are projections and where
-$\pi : K_{e + 1}^\bullet \to K_e^\bullet$ is the transition map of the system.
-\end{lemma}
-
-\begin{proof}
-Suppose that all the transition maps $K_{e + 1}^\bullet \to K_e^\bullet$
-are surjective. Then the map of complexes
-$\prod\nolimits_e K_e^\bullet \to \prod\nolimits_e K_e^\bullet$
-of the statement of the lemma is surjective with kernel equal to
-the complex with term $\lim_e K_e^n$ in degree $n$. Since this complex
-computes $R\lim K$ by Lemma \ref{lemma-compute-Rlim} we see that the
-lemma holds in this case.
-
-\medskip\noindent
-In general one uses that there exists a quasi-isomorphism
-$K \to K'$ in $D(\textit{Ab}(\mathbf{N}))$ such that the preceding
-argument applies to $K'$. Namely, given any complex in
-$\textit{Ab}(\mathbf{N})$ there exists a quasi-isomorphism to a
-complex whose terms are injective objects
-of $\textit{Ab}(\mathbf{N})$, see for example Injectives, Theorem
-\ref{injectives-theorem-K-injective-embedding-grothendieck}.
-(We encourage the reader to find a direct argument him/herself in this
-special case.) Note that $\prod K_e^\bullet$ is quasi-isomorphic to
-$\prod (K')_e^\bullet$ as products are exact in $\textit{Ab}$,
-whence the result for $K'$ does imply the result for $K$.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-break-long-exact-sequence}
-With notation as in Lemma \ref{lemma-distinguished-triangle-Rlim}
-the long exact cohomology sequence associated to the distinguished
-triangle breaks up into short exact sequences
-$$
-0 \to R^1\lim_e H^{p - 1}(K_e^\bullet) \to
-H^p(R\lim K) \to
-\lim_e H^p(K_e^\bullet) \to 0
-$$
-\end{lemma}
-
-\begin{proof}
-The long exact sequence of the distinguished triangle is
-$$
-\ldots \to H^p(R\lim K) \to \prod\nolimits_e H^p(K_e^\bullet)
-\to \prod\nolimits_e H^p(K_e^\bullet) \to
-H^{p + 1}(R\lim K) \to \ldots
-$$
-The map in the middle has kernel $\lim_e H^p(K_e^\bullet)$ by its
-explict description given in the lemma.
-Moreover, the cokernel of this map is $R^1\lim_e H^p(K_e^\bullet)$
-by an application of Lemma \ref{lemma-distinguished-triangle-Rlim}
-to the case of an inverse system of abelian groups (placed in degree $0$).
-The lemma follows.
-\end{proof}
-
-\noindent
-A sheaf of rings on $\mathbf{N}$ is just an inverse system of rings
-$(A_e)$. A sheaf of modules over $(A_e)$ is an inverse system $(M_e)$
-of abelian groups such that each $M_e$ is an $A_e$-module and
-the transition maps $M_{e + 1} \to M_e$ are $A_{e + 1}$-module maps.
-The results on cohomology above apply to sheaves of modules as it
-is true in general that cohomology of groups and modules agree, see
-Lemma \ref{lemma-cohomology-modules-abelian-agree}.
-Alternatively, one can rerun the arguments above for the case of modules.
-In particular we obtain a derived $R\lim$ on modules
-$$
-R\lim :
-D(\textit{Mod}(\mathbf{N}, (A_e)))
-\longrightarrow
-D(A)
-$$
-where $A = \lim A_e$ is the global sections of our given sheaf of modules.
-As in the case of abelian groups an object $M = (M_e^\bullet)$ of
-$D(\textit{Mod}(\mathbf{N}, (A_e)))$ is an inverse system of complexes
-of modules, which is {\bf not} the same thing as an inverse system of objects
-in the derived categories. In the following remark we discuss how to
-construct an $R\lim$ of such a system
-well defined up to noncanonical isomorphism.
-
-\begin{remark}
-\label{remark-how-unique}
-Suppose that we have an inverse system of rings $(A_e)$ as above.
-Now suppose that we have an inverse system of objects $K_e^\bullet$
-of $D(A_e)$. More precisely, suppose that we are given
-\begin{enumerate}
-\item for every $e$ an object $K_e^\bullet$ of $D(A_e)$, and
-\item for every $e$ a map $\varphi_e : K_{e + 1}^\bullet \to K^\bullet_e$ of
-$D(A_{e + 1})$ where we think of $K_e^\bullet$ as an object of $D(A_{e + 1})$
-by restriction via the restriction map $A_{e + 1} \to A_e$.
-\end{enumerate}
-To be completely clear, by our definitions each $K_e^\bullet$ is a
-complex of $A_e$-modules, but the maps $\varphi_e$ are in the derived
-category, hence may not be given by maps of complexes.
-We claim that there exists an object
-$M = (M_e^\bullet) \in D(\textit{Mod}(\mathbf{N}, (A_e)))$
-and isomorphisms $\psi_e : M_e^\bullet \to K_e^\bullet$ in $D(A_e)$ such that
-the diagrams
-$$
-\xymatrix{
-M_{e + 1}^\bullet \ar[d] \ar[r]_{\psi_{e + 1}} &
-K_{e + 1}^\bullet \ar[d]^{\varphi_e} \\
-M_e^\bullet \ar[r]^{\psi_e} & K_e^\bullet
-}
-$$
-commute in $D(A_{e + 1})$. Namely, set $M_1^\bullet = K_1^\bullet$. Suppose
-we have constructed
-$M_n^\bullet \to M_{n - 1}^\bullet \to \ldots \to M_1^\bullet$
-and maps of complexes $\psi_e : M_e^\bullet \to K_e^\bullet$ such that
-the diagrams above commute for all $e < n$. Then we consider the diagram
-$$
-\xymatrix{
-& M_n^\bullet \ar[d]^{\psi_n} \\
-K_{n + 1}^\bullet \ar[r]^{\varphi_n} & K_n^\bullet
-}
-$$
-in $D(A_{n + 1})$. By the definition of morphisms in $D(A_{n + 1})$ we can
-find a quasi-isomorphism
-$\psi_{n + 1} : M_{n + 1}^\bullet \to K_{n + 1}^\bullet$
-of complexes of $A_{n + 1}$-modules such that there exists a morphism
-of complexes $M_{n + 1}^\bullet \to M_n^\bullet$ of $A_{n + 1}$-modules
-representing the composition 
-$\psi_n^{-1} \circ \varphi_n \circ \psi_{n + 1}$ in $D(A_{n + 1})$.
-Thus the claim holds by induction.
-
-\medskip\noindent
-A priori there are many isomorphism classes of objects $M$ of
-$D(\textit{Mod}(\mathbf{N}, (A_e)))$ which give rise to the system
-$(K_e^\bullet, \varphi_e)$ as above. For each such $M$ we can consider the
-complex $R\lim M \in D(A)$ where $A = \lim A_e$. By
-Lemma \ref{lemma-distinguished-triangle-Rlim}
-there exists a canonical distinguished triangle
-$$
-R\lim M \to \prod\nolimits_e K_e^\bullet \to \prod\nolimits_e K_e^\bullet
-\to R\lim M[1]
-$$
-in $D(A)$. Hence we see that the isomorphism class of $R\lim M$ in
-$D(A)$ is independent of the choices made in constructing $M$, by
-axiom TR3 of triangulated categories and
-Derived Categories, Lemma \ref{derived-lemma-third-isomorphism-triangle}.
-\end{remark}
-
-\begin{remark}
-\label{remark-compare-derived-limit}
-Let $(K_n)$ be an inverse system of objects of $D(\textit{Ab})$.
-Let $K = R\lim K_n$ be a derived limit of this system (see
-Derived Categories, Section \ref{derived-section-derived-limit}). Such
-a derived limit exists because $D(\textit{Ab})$ has countable products
-(Injectives, Lemma \ref{injectives-lemma-derived-products}).
-By the discussion in Remark \ref{remark-how-unique} we can also lift
-$(K_n)$ to an object $M$ of $D(\mathbf{N})$.
-Then $K \cong R\lim M$ where $R\lim$ is the functor (\ref{equation-Rlim})
-because $R\lim M$ is also a derived limit of the system $(K_n)$
-(by Lemma \ref{lemma-distinguished-triangle-Rlim})
-and derived limits are unique up to isomorphism. In particular
-for every $p \in \mathbf{Z}$ there is a canonical short exact sequence
-$$
-0 \to R^1\lim H^{p - 1}(K_n) \to H^p(K) \to \lim H^p(K_n) \to 0
-$$
-as follows from Lemma \ref{lemma-distinguished-triangle-Rlim} for $M$.
-This can also been seen directly, without invoking the existence of $M$,
-by applying the argument of the proof of
-Lemma \ref{lemma-distinguished-triangle-Rlim} to the (defining)
-distinguished triangle $K \to \prod K_n \to \prod K_n \to K[1]$.
-\end{remark}
-
-
-
-
-
-
 \section{Spectral sequences for Ext}
 \label{section-spectral-sequence-ext}
 
@@ -3996,7 +3843,7 @@ on a ringed site $(\mathcal{C}, \mathcal{O})$ we denote
 $$
 \text{Ext}^n_\mathcal{O}(\mathcal{G}^\bullet, \mathcal{F}^\bullet)
 =
-\text{Hom}_{D(\mathcal{O})}(\mathcal{G}^\bullet, \mathcal{F}^\bullet[n])
+\Hom_{D(\mathcal{O})}(\mathcal{G}^\bullet, \mathcal{F}^\bullet[n])
 $$
 according to our general conventions in
 Derived Categories, Section \ref{derived-section-ext}.
@@ -4023,7 +3870,7 @@ $$
 To construct these spectral sequences choose an injective resolution
 $\mathcal{F} \to \mathcal{I}^\bullet$ and consider the two spectral
 sequences coming from the double complex
-$\text{Hom}_\mathcal{O}(\mathcal{K}^\bullet, \mathcal{I}^\bullet)$, see
+$\Hom_\mathcal{O}(\mathcal{K}^\bullet, \mathcal{I}^\bullet)$, see
 Homology, Section \ref{homology-section-double-complex}.
 \end{example}
 
@@ -4376,13 +4223,13 @@ for all $n \in \mathbf{Z}$. Since $\mathcal{I}$ is injective we have
 \Hom_{D(\mathcal{O}_\mathcal{D})}(
 g_!\mathcal{K}^\bullet, \mathcal{I}[n])
 & =
-\text{Hom}_{K(\mathcal{O}_\mathcal{D})}(
+\Hom_{K(\mathcal{O}_\mathcal{D})}(
 g_!\mathcal{K}^\bullet, \mathcal{I}[n]) \\
 & =
-H^n(\text{Hom}_{\mathcal{O}_\mathcal{D}}(
+H^n(\Hom_{\mathcal{O}_\mathcal{D}}(
 g_!\mathcal{K}^\bullet, \mathcal{I})) \\
 & =
-H^n(\text{Hom}_{\mathcal{O}_\mathcal{C}}(
+H^n(\Hom_{\mathcal{O}_\mathcal{C}}(
 \mathcal{K}^\bullet, g^{-1}\mathcal{I}))
 \end{align*}
 the last equality by the adjointness of $g_!$ and $g^{-1}$.
@@ -4430,10 +4277,10 @@ Note that the spectral sequence abuts to zero as $\mathcal{K}^\bullet$
 is acyclic (hence vanishes in the derived category, hence produces
 vanishing ext groups). By the vanishing of higher exts proved above
 the only nonzero terms on the $E_1$ page are the terms
-$E_1^{0, q} = \text{Hom}_{\mathcal{O}_\mathcal{C}}(
+$E_1^{0, q} = \Hom_{\mathcal{O}_\mathcal{C}}(
 \mathcal{K}^{-q}, g^{-1}\mathcal{I})$.
 We conclude that the complex
-$\text{Hom}_{\mathcal{O}_\mathcal{C}}(
+$\Hom_{\mathcal{O}_\mathcal{C}}(
 \mathcal{K}^\bullet, g^{-1}\mathcal{I})$
 is acyclic as desired.
 
@@ -6521,6 +6368,81 @@ amplitude in $[a, b]$ so do $K$ and $L$.
 Clear from the fact that the Tor functors are additive.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-bounded}
+Let $(\mathcal{C}, \mathcal{O})$ be a ringed site.
+Let $\mathcal{I} \subset \mathcal{O}$ be a sheaf of ideals.
+Let $K$ be an object of $D(\mathcal{O})$.
+\begin{enumerate}
+\item If $K \otimes_\mathcal{O}^\mathbf{L} \mathcal{O}/\mathcal{I}$
+is bounded above, then
+$K \otimes_\mathcal{O}^\mathbf{L} \mathcal{O}/\mathcal{I}^n$
+is uniformly bounded above for all $n$.
+\item If $K \otimes_\mathcal{O}^\mathbf{L} \mathcal{O}/\mathcal{I}$
+as an object of $D(\mathcal{O}/\mathcal{I})$ has tor amplitude in $[a, b]$,
+then $K \otimes_\mathcal{O}^\mathbf{L} \mathcal{O}/\mathcal{I}^n$
+as an object of $D(\mathcal{O}/\mathcal{I}^n)$
+has tor amplitude in $[a, b]$ for all $n$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Proof of (1). Assume that
+$K \otimes_\mathcal{O}^\mathbf{L} \mathcal{O}/\mathcal{I}$
+is bounded above, say
+$H^i(K \otimes_\mathcal{O}^\mathbf{L} \mathcal{O}/\mathcal{I}) = 0$
+for $i > b$. Note that we have distinguished triangles
+$$
+K \otimes_\mathcal{O}^\mathbf{L}
+\mathcal{I}^n/\mathcal{I}^{n + 1} \to
+K \otimes_\mathcal{O}^\mathbf{L}
+\mathcal{O}/\mathcal{I}^{n + 1} \to
+K \otimes_\mathcal{O}^\mathbf{L}
+\mathcal{O}/\mathcal{I}^n \to
+K \otimes_\mathcal{O}^\mathbf{L}
+\mathcal{I}^n/\mathcal{I}^{n + 1}[1]
+$$
+and that
+$$
+K \otimes_\mathcal{O}^\mathbf{L}
+\mathcal{I}^n/\mathcal{I}^{n + 1} =
+\left(
+K \otimes_\mathcal{O}^\mathbf{L}
+\mathcal{O}/\mathcal{I}\right)
+\otimes_{\mathcal{O}/\mathcal{I}}^\mathbf{L}
+\mathcal{I}^n/\mathcal{I}^{n + 1}
+$$
+By induction we conclude that
+$H^i(K \otimes_\mathcal{O}^\mathbf{L} \mathcal{O}/\mathcal{I}^n) = 0$
+for $i > b$ for all $n$.
+
+\medskip\noindent
+Proof of (2). Assume $K \otimes_\mathcal{O}^\mathbf{L} \mathcal{O}/\mathcal{I}$\
+as an object of $D(\mathcal{O}/\mathcal{I})$ has tor amplitude in $[a, b]$.
+Let $\mathcal{F}$ be a sheaf of $\mathcal{O}/\mathcal{I}^n$-modules.
+Then we have a finite filtration
+$$
+0 \subset \mathcal{I}^{n - 1}\mathcal{F} \subset \ldots
+\subset \mathcal{I}\mathcal{F} \subset \mathcal{F}
+$$
+whose successive quotients are sheaves of $\mathcal{O}/\mathcal{I}$-modules.
+Thus to prove that $K \otimes_\mathcal{O}^\mathbf{L} \mathcal{O}/\mathcal{I}^n$
+has tor amplitude in $[a, b]$ it suffices to show
+$H^i(K \otimes \otimes_\mathcal{O}^\mathbf{L} \mathcal{O}/\mathcal{I}^n
+\otimes_{\mathcal{O}/\mathcal{I}^n}^\mathbf{L} \mathcal{G})$
+is zero for $i \not \in [a, b]$ for all $\mathcal{O}/\mathcal{I}$-modules
+$\mathcal{G}$. Since
+$$
+\left(K \otimes_\mathcal{O}^\mathbf{L} \mathcal{O}/\mathcal{I}^n\right)
+\otimes_{\mathcal{O}/\mathcal{I}^n}^\mathbf{L} \mathcal{G}
+=
+\left(K \otimes_\mathcal{O}^\mathbf{L} \mathcal{O}/\mathcal{I}\right)
+\otimes_{\mathcal{O}/\mathcal{I}}^\mathbf{L} \mathcal{G}
+$$
+for every sheaf of $\mathcal{O}/\mathcal{I}$-modules $\mathcal{G}$
+the result follows.
+\end{proof}
+
 
 
 
@@ -6706,7 +6628,7 @@ Then $K^\wedge = R\SheafHom(K, \mathcal{O})$ is a
 perfect object too and $(K^\wedge)^\wedge = K$. There are
 functorial isomorphisms
 $$
-K^\wedge \otimes^\mathbf{L}_\mathcal{O} M = R\SheafHom(K, M)
+K^\wedge \otimes^\mathbf{L}_\mathcal{O} M = R\SheafHom_\mathcal{O}(K, M)
 $$
 and
 $$
@@ -6778,7 +6700,600 @@ $\mathcal{E}$ is finite free.
 
 
 
+\section{Projection formula}
+\label{section-projection-formula}
 
+\noindent
+A general version of the projection formula is the following.
+
+\begin{lemma}
+\label{lemma-projection-formula}
+Let $f : (\Sh(\mathcal{C}), \mathcal{O}_\mathcal{C}) \to
+(\Sh(\mathcal{D}), \mathcal{O}_\mathcal{D})$ be a morphism of ringed topoi.
+Let $E \in D(\mathcal{O}_\mathcal{C})$ and $K \in D(\mathcal{O}_\mathcal{D})$.
+If $K$ is perfect, then
+$$
+Rf_*E \otimes^\mathbf{L}_{\mathcal{O}_\mathcal{D}} K =
+Rf_*(E \otimes^\mathbf{L}_{\mathcal{O}_\mathcal{C}} Lf^*K)
+$$
+in $D(\mathcal{O}_\mathcal{D})$.
+\end{lemma}
+
+\begin{proof}
+Without any assumptions there is a map
+$Rf_*(E) \otimes^\mathbf{L} K \to Rf_*(E \otimes^\mathbf{L} Lf^*K)$.
+Namely, it is the adjoint to the canonical map
+$$
+Lf^*(Rf_*(E) \otimes^\mathbf{L} K) = Lf^*(Rf_*(E)) \otimes^\mathbf{L} Lf^*K
+\longrightarrow
+E \otimes^\mathbf{L} Lf^*K
+$$
+coming from the map $Lf^*Rf_*E \to E$. See Lemmas
+\ref{lemma-pullback-tensor-product} and \ref{lemma-adjoint}.
+To check it is an isomorphism we may work locally on $\mathcal{D}$, i.e.,
+for any object $V$ of $\mathcal{D}$ we have to find a covering $\{V_j \to V\}$
+such that the map restricts to an isomorphism on $V_j$. By definition
+of perfect objects, this means we may assume $K$ is represented by
+a strictly perfect complex of $\mathcal{O}_\mathcal{D}$-modules.
+Note that, completely generally, the statement is true for
+$K = K_1 \oplus K_2$, if and only if the statement is true for
+$K_1$ and $K_2$. Hence we may assume $K$ is a finite
+complex of finite free $\mathcal{O}_\mathcal{D}$-modules.
+In this case a simple argument involving stupid truncations reduces
+the statement to the case where $K$ is represented by a finite
+free $\mathcal{O}_\mathcal{D}$-module. Since the statement is invariant
+under finite direct summands in the $K$ variable, we conclude
+it suffices to prove it for $K = \mathcal{O}_\mathcal{D}[n]$
+in which case it is trivial.
+\end{proof}
+
+
+
+\section{Weakly contractible objects}
+\label{section-w-contractible}
+
+\noindent
+An object $U$ of a site is {\it weakly contractible} if every surjection
+$\mathcal{F} \to \mathcal{G}$ of sheaves of sets gives rise to a surjection
+$\mathcal{F}(U) \to \mathcal{G}(U)$, see
+Sites, Definition \ref{sites-definition-w-contractible}.
+
+\begin{lemma}
+\label{lemma-w-contractible}
+Let $\mathcal{C}$ be a site. Let $U$ be a weakly contractible
+object of $\mathcal{C}$. Then
+\begin{enumerate}
+\item the functor $\mathcal{F} \mapsto \mathcal{F}(U)$ is an exact
+functor $\textit{Ab}(\mathcal{C}) \to \textit{Ab}$,
+\item $H^p(U, \mathcal{F}) = 0$
+for every abelian sheaf $\mathcal{F}$ and all $p \geq 1$, and
+\item for any sheaf of groups $\mathcal{G}$ any $\mathcal{G}$-torsor
+has a section over $U$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+The first statement follows immediately from the definition
+(see also Homology, Section \ref{homology-section-functors}).
+The higher derived functors vanish by
+Derived Categories, Lemma \ref{derived-lemma-right-derived-exact-functor}.
+Let $\mathcal{F}$ be a $\mathcal{G}$-torsor. Then $\mathcal{F} \to *$
+is a surjective map of sheaves. Hence (3) follows from the
+definition as well.
+\end{proof}
+
+\noindent
+It is convenient to list some consequences of having enough
+weakly contractible objects here.
+
+\begin{proposition}
+\label{proposition-enough-weakly-contractibles}
+Let $\mathcal{C}$ be a site. Let $\mathcal{B} \subset \Ob(\mathcal{C})$
+such that every $U \in \mathcal{B}$ is weakly contractible and
+every object of $\mathcal{C}$ has a covering by elements of $\mathcal{B}$.
+Let $\mathcal{O}$ be a sheaf of rings on $\mathcal{C}$. Then
+\begin{enumerate}
+\item A complex $\mathcal{F}_1 \to \mathcal{F}_2 \to \mathcal{F}_3$
+of $\mathcal{O}$-modules is exact, if and only if
+$\mathcal{F}_1(U) \to \mathcal{F}_2(U) \to \mathcal{F}_3(U)$
+is exact for all $U \in \mathcal{B}$.
+\item Every object $K$ of $D(\mathcal{O})$ is a derived limit
+of its canonical truncations: $K = R\lim \tau_{\geq -n} K$.
+\item Given an inverse system
+$\ldots \to \mathcal{F}_3 \to \mathcal{F}_2 \to \mathcal{F}_1$
+with surjective transition maps, the projection
+$\lim \mathcal{F}_n \to \mathcal{F}_1$ is surjective.
+\item Products are exact on $\textit{Mod}(\mathcal{O})$.
+\item Products on $D(\mathcal{O})$ can be computed by taking
+products of any representative complexes.
+\item If $(\mathcal{F}_n)$ is an inverse system of $\mathcal{O}$-modules,
+then $R^p\lim \mathcal{F}_n = 0$ for all $p > 1$ and
+$$
+R^1\lim \mathcal{F}_n  =
+\text{Coker}(\prod \mathcal{F}_n \to \prod \mathcal{F}_n)
+$$
+where the map is $(x_n) \mapsto (x_n - f(x_{n + 1}))$.
+\item If $(K_n)$ is an inverse system of objects of $D(\mathcal{O})$,
+then there are short exact sequences
+$$
+0 \to R^1\lim H^{p - 1}(K_n) \to H^p(R\lim K_n) \to
+\lim H^p(K_n) \to 0
+$$
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Proof of (1). If the sequence is exact, then evaluating at any
+weakly contractible element of $\mathcal{C}$ gives an exact
+sequence by Lemma \ref{lemma-w-contractible}. Conversely, assume that
+$\mathcal{F}_1(U) \to \mathcal{F}_2(U) \to \mathcal{F}_3(U)$
+is exact for all $U \in \mathcal{B}$.
+Let $V$ be an object of $\mathcal{C}$ and let
+$s \in \mathcal{F}_2(V)$ be an element of the kernel of
+$\mathcal{F}_2 \to \mathcal{F}_3$. By assumption there exists
+a covering $\{U_i \to V\}$ with $U_i \in \mathcal{B}$.
+Then $s|_{U_i}$ lifts to a section $s_i \in \mathcal{F}_1(U_i)$.
+Thus $s$ is a section of the image sheaf
+$\text{Im}(\mathcal{F}_1 \to \mathcal{F}_2)$.
+In other words, the sequence
+$\mathcal{F}_1 \to \mathcal{F}_2 \to \mathcal{F}_3$
+is exact.
+
+\medskip\noindent
+Proof of (2). Lemma \ref{lemma-K-injective} applies to every complex of
+sheaves on $\mathcal{C}$. Thus (1) holds by Lemma \ref{lemma-is-limit}.
+
+\medskip\noindent
+Proof of (3). Let $(\mathcal{F}_n)$ be a system as in (2) and set
+$\mathcal{F} = \lim \mathcal{F}_n$. If $U \in \mathcal{B}$, then
+$\mathcal{F}(U) = \lim \mathcal{F}_n(U)$
+surjects onto $\mathcal{F}_1(U)$ as all the transition maps
+$\mathcal{F}_{n + 1}(U) \to \mathcal{F}_n(U)$ are surjective.
+Thus $\mathcal{F} \to \mathcal{F}_1$ is surjective by
+Sites, Definition \ref{sites-definition-sheaves-injective-surjective}
+and the assumption that every object
+has a covering by elements of $\mathcal{B}$.
+
+\medskip\noindent
+Proof of (4). Let
+$\mathcal{F}_{i, 1} \to \mathcal{F}_{i, 2} \to \mathcal{F}_{i, 3}$
+be a family of exact sequences of $\mathcal{O}$-modules.
+We want to show that
+$\prod \mathcal{F}_{i, 1} \to \prod \mathcal{F}_{i, 2} \to
+\prod \mathcal{F}_{i, 3}$ is exact. We use the criterion of (1).
+Let $U \in \mathcal{B}$. Then
+$$
+(\prod \mathcal{F}_{i, 1})(U) \to
+(\prod \mathcal{F}_{i, 2})(U) \to
+(\prod \mathcal{F}_{i, 3})(U)
+$$
+is the same as
+$$
+\prod \mathcal{F}_{i, 1}(U) \to
+\prod \mathcal{F}_{i, 2}(U) \to
+\prod \mathcal{F}_{i, 3}(U)
+$$
+Each of the sequences
+$\mathcal{F}_{i, 1}(U) \to \mathcal{F}_{i, 2}(U) \to \mathcal{F}_{i, 3}(U)$
+are exact by (1). Thus the displayed sequences are exact by
+Homology, Lemma \ref{homology-lemma-product-abelian-groups-exact}.
+We conclude by (1) again.
+
+\medskip\noindent
+Proof of (5). Follows from (4) and (slightly generalized)
+Derived Categories, Lemma \ref{derived-lemma-product-derived-Ab4*}.
+
+\medskip\noindent
+Proof of (6) and (7). We refer to Section \ref{section-derived-limits}
+for a discussion of derived and homotopy limits and their relationship.
+By Derived Categories, Definition \ref{derived-definition-derived-limit}
+we have a distinguished
+triangle
+$$
+R\lim K_n \to \prod K_n \to \prod K_n \to R\lim K_n[1]
+$$
+Taking the long exact sequence of cohomology sheaves we obtain
+$$
+H^{p - 1}(\prod K_n) \to H^{p - 1}(\prod K_n) \to
+H^p(R\lim K_n) \to H^p(\prod K_n) \to H^p(\prod K_n)
+$$
+Since products are exact by (4) this becomes
+$$
+\prod H^{p - 1}(K_n) \to \prod H^{p - 1}(K_n) \to
+H^p(R\lim K_n) \to \prod H^p(K_n) \to \prod H^p(K_n)
+$$
+Now we first apply this to the case $K_n = \mathcal{F}_n[0]$
+where $(\mathcal{F}_n)$ is as in (6). We conclude that (6) holds.
+Next we apply it to $(K_n)$ as in (7) and we conclude (7) holds.
+\end{proof}
+
+
+
+
+
+
+\section{Compact objects}
+\label{section-compact}
+
+\noindent
+In this section we study compact objects in the derived category of modules
+on a ringed site. We recall that compact objects are defined in
+More on Algebra, Definition \ref{more-algebra-definition-compact-object}.
+
+\begin{lemma}
+\label{lemma-colim-hocolim}
+Let $\mathcal{A}$ be a Grothendieck abelian category. Let $L_n^\bullet$
+be a system of complexes of $\mathcal{A}$. Then the termwise
+colimit $L^\bullet = \colim L_n^\bullet$ is a homotopy colimit of the
+system in $D(\mathcal{A})$.
+\end{lemma}
+
+\begin{proof}
+We have an exact sequence of complexes
+$$
+0 \to \bigoplus L_n^\bullet \to \bigoplus L_n^\bullet \to L^\bullet \to 0
+$$
+by Injectives, Lemma \ref{injectives-lemma-compute-colimit}.
+The direct sums are direct sums in $D(\mathcal{A})$ by
+Derived Categories, Lemma \ref{derived-lemma-product-derived-Ab4*}.
+Thus the result follows from the definition
+of derived colimits in
+Derived Categories, Definition \ref{derived-definition-derived-colimit}
+and the fact that a short exact sequence of complexes
+gives a distinguished triangle
+(Derived Categories, Lemma
+\ref{derived-lemma-derived-canonical-delta-functor}).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-commutes-with-countable-sums}
+Let $\mathcal{D}$ be a triangulated category with countable direct sums.
+Let $K \in \mathcal{D}$ be an object such that for every
+countable set of objects $E_n \in \mathcal{D}$ the canonical map
+$$
+\bigoplus \Hom_\mathcal{D}(K, E_n)
+\longrightarrow
+\Hom_\mathcal{D}(K, \bigoplus E_n)
+$$
+is a bijection. Then, given any system $L_n$ of $\mathcal{D}$ over
+$\mathbf{N}$ whose derived colimit $L = \text{hocolim} L_n$
+exists we have that
+$$
+\colim \Hom_\mathcal{D}(K, L_n) \longrightarrow \Hom_\mathcal{D}(K, L)
+$$
+is a bijection.
+\end{lemma}
+
+\begin{proof}
+This follows from the defining distinguished triangle
+$$
+\bigoplus L_n \to \bigoplus L_n \to L \to \bigoplus L_n[1]
+$$
+applying $\Hom_\mathcal{D}(K, -)$,
+Derived Categories, Lemma \ref{derived-lemma-representable-homological},
+and elementary considerations concerning colimits of abelian groups.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-compact-in-terms-of-generators}
+Let $\mathcal{A}$ be a Grothendieck abelian category. Let
+$S \subset \Ob(\mathcal{A})$ be a set of objects such that
+\begin{enumerate}
+\item any object of $\mathcal{A}$ is a quotient of a direct sum
+of elements of $S$, and
+\item for any $E \in S$ the functor $\Hom_\mathcal{A}(E, -)$
+commutes with direct sums.
+\end{enumerate}
+Then every compact object of $D(\mathcal{A})$ is a direct summand
+in $D(\mathcal{A})$ of a finite complex of finite direct sums of
+elements of $S$.
+\end{lemma}
+
+\begin{proof}
+Assume $K \in D(\mathcal{A})$ is a compact object. Represent $K$ by a complex
+$K^\bullet$ and consider the map
+$$
+K^\bullet
+\longrightarrow
+\bigoplus\nolimits_{n \geq 0} \tau_{\geq n} K^\bullet
+$$
+where we have used the canonical truncations, see
+Homology, Section \ref{homology-section-truncations}.
+This makes sense as in each degree the direct sum on the right is finite.
+By assumption this map factors through a finite direct sum.
+We conclude that $K \to \tau_{\geq n} K$ is zero for at least one $n$,
+i.e., $K$ is in $D^{-}(R)$.
+
+\medskip\noindent
+We may represent $K$ by a bounded above complex $K^\bullet$ each of whose
+terms is a direct sum of objects from $S$, see
+Derived Categories, Lemma \ref{derived-lemma-subcategory-left-resolution}.
+Note that we have
+$$
+K^\bullet = \bigcup\nolimits_{n \leq 0} \sigma_{\geq n}K^\bullet
+$$
+where we have used the stupid truncations, see
+Homology, Section \ref{homology-section-truncations}.
+Hence by
+Lemmas \ref{lemma-colim-hocolim} and \ref{lemma-commutes-with-countable-sums}
+we see that $1 : K^\bullet \to K^\bullet$ factors through
+$\sigma_{\geq n}K^\bullet \to K^\bullet$ in $D(R)$.
+Thus we see that $1 : K^\bullet \to K^\bullet$ factors as
+$$
+K^\bullet \xrightarrow{\varphi} L^\bullet \xrightarrow{\psi} K^\bullet
+$$
+in $D(\mathcal{A})$ for some complex $L^\bullet$ which is bounded and
+whose terms are direct sums of elements of $S$. Say $L^i$ is zero for
+$i \not \in [a, b]$. Let $c$ be the largest integer $\leq b + 1$ such
+that $L^i$ a finite direct sum of elements of $S$ for $i < c$.
+Claim: if $c < b + 1$, then we can modify $L^\bullet$ to increase $c$.
+By induction this claim will show we have a factorization
+of $1_K$ as
+$$
+K \xrightarrow{\varphi} L \xrightarrow{\psi} K
+$$
+in $D(\mathcal{A})$ where $L$ can be represented by a finite
+complex of finite direct sums of elements of $S$. Note that
+$e = \varphi \circ \psi \in \text{End}_{D(\mathcal{A})}(L)$
+is an idempotent. By Derived Categories,
+Lemma \ref{derived-lemma-projectors-have-images-triangulated}
+we see that $L = \text{Ker}(e) \oplus \text{Ker}(1 - e)$
+(see also discussion preceding
+Derived Categories, Lemma \ref{derived-lemma-projectors-have-images}).
+The map $\varphi : K \to L$ induces an isomorphism with
+$\text{Ker}(1 - e)$ in $D(R)$ and we conclude.
+
+\medskip\noindent
+Proof of the claim. Write $L^c = \bigoplus_{\lambda \in \Lambda} E_\lambda$.
+Since $L^{c - 1}$ is a finite direct sum of elements of $S$
+we can by assumption (2) find a finite subset
+$\Lambda' \subset \Lambda$ such that $L^{c - 1} \to L^c$ factors
+through $\bigoplus_{\lambda \in \Lambda'} E_\lambda \subset L^c$.
+Consider the map of complexes
+$$
+\pi :
+L^\bullet
+\longrightarrow
+(\bigoplus\nolimits_{\lambda \in \Lambda \setminus \Lambda'} E_\lambda)[-i]
+$$
+given by the projection onto the factors corresponding to
+$\Lambda \setminus \Lambda'$ in degree $i$.
+By our assumption on $K$ we see that, after possibly replacing $\Lambda'$ by
+a larger finite subset, we may assume that $\pi \circ \varphi = 0$
+in $D(\mathcal{A})$.
+Let $(L')^\bullet \subset L^\bullet$ be the kernel of $\pi$.
+Since $\pi$ is surjective we get a short exact sequence of complexes,
+which gives a distinguished triangle in $D(\mathcal{A})$ (see
+Derived Categories, Lemma \ref{derived-lemma-derived-canonical-delta-functor}).
+Since $\Hom_{D(\mathcal{A})}(K, -)$ is homological (see
+Derived Categories, Lemma \ref{derived-lemma-representable-homological})
+and $\pi \circ \varphi = 0$, we can find a morphism
+$\varphi' : K^\bullet \to (L')^\bullet$ in $D(\mathcal{A})$ whose
+composition with $(L')^\bullet \to L^\bullet$ gives $\varphi$.
+Setting $\psi'$ equal to the composition of $\psi$ with
+$(L')^\bullet \to L^\bullet$ we obtain a new factorization.
+Since $(L')^\bullet$ agrees with $L^\bullet$ except in degree $c$
+and since $(L')^c = \bigoplus_{\lambda \in \Lambda'} E_\lambda$ the
+claim is proved.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-compact-objects-if-enough-qc}
+Let $(\mathcal{C}, \mathcal{O})$ be a ringed site. Assume every object of
+$\mathcal{C}$ has a covering by quasi-compact objects. Then every
+compact object of $D(\mathcal{O})$ is a direct summand in $D(\mathcal{O})$
+of a finite complex whose terms are finite direct sums of
+$\mathcal{O}$-modules of the form $j_!\mathcal{O}_U$
+where $U$ is a quasi-compact object of $\mathcal{C}$.
+\end{lemma}
+
+\begin{proof}
+Apply Lemma \ref{lemma-compact-in-terms-of-generators}
+where $S \subset \Ob(\textit{Mod}(\mathcal{O}))$ is the set of modules
+of the form $j_!\mathcal{O}_U$ with $U \in \Ob(\mathcal{C})$
+quasi-compact. Assumption (1) holds by
+Modules on Sites, Lemma \ref{sites-modules-lemma-module-quotient-flat}
+and the assumption that every $U$ can be covered by quasi-compact
+objects. Assumption (2) follows as
+$$
+\Hom_\mathcal{O}(j_!\mathcal{O}_U, \mathcal{F}) = \mathcal{F}(U)
+$$
+which commutes with direct sums by
+Sites, Lemma \ref{sites-lemma-directed-colimits-sections}.
+\end{proof}
+
+\noindent
+In the situation of the lemma above it is not always true that the
+modules $j_!\mathcal{O}_U$ are compact objects of $D(\mathcal{O})$
+(even if $U$ is a quasi-compact object of $\mathcal{C}$).
+Here is a criterion.
+
+\begin{lemma}
+\label{lemma-when-jshriek-compact}
+Let $(\mathcal{C}, \mathcal{O})$ be a ringed site. Let $U$ be an object of
+$\mathcal{C}$. The $\mathcal{O}$-module
+$j_!\mathcal{O}_U$ is a compact object of $D(\mathcal{O})$ if
+there exists an integer $d$ such that
+\begin{enumerate}
+\item $H^p(U, \mathcal{F}) = 0$ for all $p > d$, and
+\item the functors $\mathcal{F} \mapsto H^p(U, \mathcal{F})$
+commute with direct sums.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Assume (1) and (2). The first means that the functor $F = H^0(U, -)$ has
+finite cohomological dimension. Moreover, any direct sum of injective
+modules is acyclic for $F$ by (2). Since we may compute $RF$ by
+applying $F$ to any complex of acyclics
+(Derived Categories, Lemma \ref{derived-lemma-unbounded-right-derived}).
+Thus, if $K_i$ be a family of objects of $D(\mathcal{O})$,
+then we can choose K-injective representatives $I_i^\bullet$
+and we see that $\bigoplus K_i$ is represented by $\bigoplus I_i^\bullet$.
+Thus $H^0(U, -)$ commutes with direct sums.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-quasi-compact-weakly-contractible-compact}
+Let $(\mathcal{C}, \mathcal{O})$ be a ringed site. Let $U$
+be an object of $\mathcal{C}$ which is quasi-compact and
+weakly contractible. Then
+$j_!\mathcal{O}_U$ is a compact object of $D(\mathcal{O})$.
+\end{lemma}
+
+\begin{proof}
+Combine Lemmas \ref{lemma-when-jshriek-compact} and
+\ref{lemma-w-contractible} with
+Modules on Sites, Lemma \ref{sites-modules-lemma-sections-over-quasi-compact}.
+\end{proof}
+
+
+
+
+
+
+\section{Complexes with locally constant cohomology sheaves}
+\label{section-locally-constant}
+
+\noindent
+Locally constant sheaves are introduced in
+Modules on Sites, Section \ref{sites-modules-section-locally-constant}.
+Let $\mathcal{C}$ be a site.
+Let $\Lambda$ be a ring.
+We denote $D(\mathcal{C}, \Lambda)$ the derived category of the
+abelian category of $\underline{\Lambda}$-modules on $\mathcal{C}$.
+
+\begin{lemma}
+\label{lemma-locally-constant}
+Let $\mathcal{C}$ be a site with final object $X$.
+Let $\Lambda$ be a Noetherian ring.
+Let $K \in D^b(\mathcal{C}, \Lambda)$
+with $H^i(K)$ locally constant sheaves of $\Lambda$-modules
+of finite type. Then there exists a covering $\{U_i \to X\}$
+such that each $K|_{U_i}$ is represented by
+a complex of locally constant sheaves of $\Lambda$-modules
+of finite type.
+\end{lemma}
+
+\begin{proof}
+Let $a \leq b$ be such that $H^i(K) = 0$ for $i \not \in [a, b]$.
+By induction on $b - a$ we will prove there exists a covering
+$\{U_i \to X\}$ such that $K|_{U_i}$ can be represented by a complex
+$\underline{M^\bullet}_{U_i}$ with $M^p$ a finite type $\Lambda$-module
+and $M^p = 0$ for $p \not \in [a, b]$. If $b = a$, then
+the lemma is clear. In general, we may replace $X$ by the members
+of a covering and assume that $H^b(K)$ is constant, say
+$H^b(K) = \underline{M}$. By Modules on Sites, Lemma
+\ref{sites-modules-lemma-locally-constant-finite-type}
+the module $M$ is a finite $\Lambda$-module. Choose a surjection
+$\Lambda^{\oplus r} \to M$ given by generators $x_1, \ldots, x_r$
+of $M$.
+
+\medskip\noindent
+By a slight generalization of
+Lemma \ref{lemma-kill-cohomology-class-on-covering} (details omitted)
+there exists a covering $\{U_i \to X\}$ such that $x_i \in H^0(X, H^b(K))$
+lifts to an element of $H^0(U_i, K)$. Thus, after replacing $X$ by the
+$U_i$ we reach the situation where there is a map
+$\underline{\Lambda^{\oplus r}}[-b] \to K$
+inducing a surjection on cohomology sheaves in degree $b$.
+Choose a distinguished triangle
+$$
+\underline{\Lambda^{\oplus r}}[-b] \to K \to L \to
+\underline{\Lambda^{\oplus r}}[-b + 1]
+$$
+Now the cohomology sheaves of $L$ are nonzero only in the interval
+$[a, b - 1]$, agree with the cohomology sheaves of $K$ in the interval
+$[a, b - 2]$ and there is a short exact sequence
+$$
+0 \to H^{b - 1}(K) \to H^{b - 1}(L) \to
+\underline{\text{Ker}(\Lambda^{\oplus r} \to M)} \to 0
+$$
+in degree $b - 1$. By
+Modules on Sites, Lemma
+\ref{sites-modules-lemma-kernel-finite-locally-constant}
+we see that $H^{b - 1}(L)$ is locally constant of finite type.
+By induction hypothesis we obtain an isomorphism
+$\underline{M^\bullet} \to L$ in $D(\mathcal{C}, \underline{\Lambda})$
+with $M^p$ a finite $\Lambda$-module and $M^p = 0$ for
+$p \not \in [a, b - 1]$. The map $L \to \Lambda^{\oplus r}[-b + 1]$
+gives a map $\underline{M^{b - 1}} \to \underline{\Lambda^{\oplus r}}$
+which locally is constant
+(Modules on Sites, Lemma
+\ref{sites-modules-lemma-morphism-locally-constant}).
+Thus we may assume it is given by a map $M^{b - 1} \to \Lambda^{\oplus r}$.
+The distinguished triangle shows that the composition
+$M^{b - 2} \to M^{b - 1} \to \Lambda^{\oplus r}$ is zero
+and the axioms of triangulated categories produce an isomorphism
+$$
+\underline{M^a \to \ldots \to M^{b - 1} \to \Lambda^{\oplus r}}
+\longrightarrow K
+$$
+in $D(\mathcal{C}, \Lambda)$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-locally-constant-tensor-product}
+Let $\mathcal{C}$ be a site. Let $\Lambda$ be a Noetherian ring.
+Let $K, L \in D^-(\mathcal{C}, \Lambda)$. If the cohomology sheaves of
+$K$ and $L$ are locally constant sheaves of $\Lambda$-modules of
+finite type, then the cohomology sheaves of
+$K \otimes_\Lambda^\mathbf{L} L$
+are locally constant sheaves of $\Lambda$-modules of finite type.
+\end{lemma}
+
+\begin{proof}
+We'll prove this as an application of Lemma \ref{lemma-locally-constant}.
+Note that $H^i(K \otimes_\Lambda^\mathbf{L} L)$ is the same as
+$H^i(\tau_{\geq i - 1}K \otimes_\Lambda^\mathbf{L} \tau_{\geq i - 1}L)$.
+Thus we may assume $K$ and $L$ are bounded. By
+Lemma \ref{lemma-locally-constant}
+we may assume that $K$ and $L$ are represented by
+complexes of locally constant sheaves of $\Lambda$-modules
+of finite type. Then we can replace these complexes by
+bounded above complexes of finite free $\Lambda$-modules.
+In this case the result is clear.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-locally-constant-bounded}
+Let $\mathcal{C}$ be a site. Let $\Lambda$ be a Noetherian ring.
+Let $I \subset \Lambda$ be an ideal.
+Let $K \in D^-(\mathcal{C}, \Lambda)$. If the cohomology sheaves of
+$K \otimes_\Lambda^\mathbf{L} \underline{\Lambda/I}$ are locally constant
+sheaves of $\Lambda/I$-modules of finite type, then the cohomology sheaves of
+$K \otimes_\Lambda^\mathbf{L} \underline{\Lambda/I^n}$
+are locally constant sheaves of $\Lambda/I^n$-modules of finite type for all
+$n \geq 1$.
+\end{lemma}
+
+\begin{proof}
+Recall that the locally constant sheaves of $\Lambda$-modules of finite type
+form a weak Serre subcategory of all $\underline{\Lambda}$-modules, see
+Modules on Sites, Lemma
+\ref{sites-modules-lemma-kernel-finite-locally-constant}.
+Thus the subcategory of $D(\mathcal{C}, \Lambda)$ consisting of
+complexes whose cohomology sheaves are locally constant sheaves
+of $\Lambda$-modules of finite type forms a strictly full, saturated
+triangulated subcategory of $D(\mathcal{C}, \Lambda)$, see
+Derived Categories, Lemma \ref{derived-lemma-cohomology-in-serre-subcategory}.
+Next, consider the distinguished triangles
+$$
+K \otimes_\Lambda^\mathbf{L} \underline{I^n/I^{n + 1}} \to
+K \otimes_\Lambda^\mathbf{L} \underline{\Lambda/I^{n + 1}} \to
+K \otimes_\Lambda^\mathbf{L} \underline{\Lambda/I^n} \to
+K \otimes_\Lambda^\mathbf{L} \underline{I^n/I^{n + 1}}[1]
+$$
+and the isomorphisms
+$$
+K \otimes_\Lambda^\mathbf{L} \underline{I^n/I^{n + 1}}
+=
+\left(K \otimes_\Lambda^\mathbf{L} \underline{\Lambda/I}\right)
+\otimes_{\Lambda/I}^\mathbf{L} \underline{I^n/I^{n + 1}}
+$$
+Combined with Lemma \ref{lemma-locally-constant-tensor-product}
+we obtain the result.
+\end{proof}
 
 
 
