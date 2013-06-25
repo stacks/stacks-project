@@ -1187,26 +1187,36 @@ This follows from More on Algebra, Lemma
 
 \begin{lemma}
 \label{lemma-lift-ind-etale}
-Let $A$ be a ring and let $I \subset A$ be an ideal.
-Let $A/I \to \overline{C}$ be an ind-\'etale ring map.
-Then there exists an ind-\'etale ring map
-$A \to C$ such that $\overline{C} \cong C/IC$ as $A/I$-algebras.
+Let $A$ be a ring and let $I \subset A$ be an ideal. The base change functor
+$$
+\text{ind-\'etale }A\text{-algebras}
+\longrightarrow
+\text{ind-\'etale }A/I\text{-algebras},\quad
+C \longmapsto C/IC
+$$
+has a fully faithful right adjoint $v$. In particular, given
+an ind-\'etale $A/I$-algebra $\overline{C}$ there exists
+an ind-\'etale $A$-algebra $C = v(\overline{C})$ such that
+$\overline{C} = C/IC$.
 \end{lemma}
 
 \begin{proof}
+Let $\overline{C}$ be an ind-\'etale $A/I$-algebra.
 Consider the category $\mathcal{C}$ of factorizations
 $A \to B \to \overline{C}$ where $A \to B$ is \'etale.
+(We ignore some set theoretical issues in this proof.)
 We will show that this category is directed and that
-$C = \colim_\mathcal{C} B$ is a solution to the problem.
+$C = \colim_\mathcal{C} B$ is an ind-\'etale $A$-algebra
+such that $\overline{C} = C/IC$.
 
 \medskip\noindent
 Suppose that $A \to B \to \overline{C}$ and $A \to B' \to \overline{C}$
-are two objects of $\mathcal{C}$. Then $B \otimes_A B' \to \overline{C}$
+are two objects of $\mathcal{C}$. Then $A \to B \otimes_A B' \to \overline{C}$
 is another. Suppose that $f, g : B \to B'$ are two maps between
 objects $A \to B \to \overline{C}$ and $A \to B' \to \overline{C}$
 of $\mathcal{C}$. Then a coequalizer is
-$B' \otimes_{f, B, g} B' \to \overline{C}$. Thus the category $\mathcal{C}$
-is directed.
+$A \to B' \otimes_{f, B, g} B' \to \overline{C}$.
+Thus the category $\mathcal{C}$ is directed.
 
 \medskip\noindent
 Write $\overline{C} = \colim \overline{B_i}$ as a filtered colimit with
@@ -1217,10 +1227,37 @@ Thus $C \to \overline{C}$ is surjective.
 Since $C/IC \to \overline{C}$ is ind-\'etale
 (Lemma \ref{lemma-ind-etale-permanence})
 we see that it is flat. Hence $\overline{C}$ is a localization of
-$C/IC$ at some multiplicative subset $\overline{S} \subset C/IC$
+$C/IC$ at some multiplicative subset $S \subset C/IC$
 (Algebra, Lemma \ref{algebra-lemma-pure}).
-Replacing $C$ by $S^{-1}C$ where $S \subset C$ is the inverse image
-of $\overline{S}$ gives an ind-\'etale extension as in the lemma.
+Take an $f \in C$ mapping to an element of $S \subset C/IC$.
+Choose $A \to B \to \overline{C}$ in $\mathcal{C}$ and $g \in B$
+mapping to $f$ in the colimit. Then we see that $A \to B_g \to \overline{C}$
+is an object of $\mathcal{C}$ as well. Thus $f$ is an invertible
+element of $C$. It follows that $C/IC = \overline{C}$.
+
+\medskip\noindent
+Next, we claim that for an ind-\'etale algebra $D$ over $A$ we have
+$$
+\Mor_A(D, C) = \Mor_{A/I}(D/ID, \overline{C})
+$$
+Namely, let $D/ID \to \overline{C}$ be an $A/I$-algebra map.
+Write $D = \colim_{i \in I} D_i$ as a filtered colimit over
+a partially ordered set $I$ with $D_i$ \'etale
+over $A$. By choice of $\mathcal{C}$
+we obtain a transformation $I \to \mathcal{C}$ and hence a map
+$D \to C$ compatible with maps to $\overline{C}$. Whence the claim.
+
+\medskip\noindent
+It follows that the functor $v$ defined by the rule
+$$
+\overline{C} 
+\longmapsto
+v(\overline{C}) = \colim_{A \to B \to \overline{C}} B
+$$
+is a right adjoint to the base change functor $u$ as required by the lemma.
+The functor $v$ is fully faithful because
+$u \circ v = \text{id}$ by construction, see
+Categories, Lemma \ref{categories-lemma-adjoint-fully-faithful}.
 \end{proof}
 
 
@@ -4072,7 +4109,7 @@ where $G = \mathit{Isom}_\Lambda(M, M)$.
 Since torsors for the \'etale topology
 and the pro-\'etale topology agree by
 Lemma \ref{lemma-compare-cohomology-nonabelian}
-it follows that $\mathcal{I}$ has sections \'etale locall on $X$.
+it follows that $\mathcal{I}$ has sections \'etale locally on $X$.
 Thus $\mathcal{F}$ is \'etale locally a constant sheaf which is
 what we had to show.
 \end{proof}
@@ -4264,7 +4301,7 @@ $$
 \underline{M}^\wedge = \lim \epsilon^{-1}\underline{M_n}
 $$
 to get the sheaf promised in the lemma. Exactly the same argument as
-given in the intrduction of this section gives the comparison
+given in the introduction of this section gives the comparison
 with Tate's continuous Galois cohomology.
 \end{proof}
 
@@ -4571,54 +4608,116 @@ evaluation at $V$ is exact.
 \label{section-closed-immersion}
 
 \noindent
-It is not clear that a closed immersion of schemes determines
-an exact pushforward on abelian pro-\'etale sheaves.
-On the other hand, the following is always true.
+It is not clear (and likely false) that a closed immersion of schemes
+determines an exact pushforward on abelian pro-\'etale sheaves.
 
 \begin{lemma}
-\label{lemma-closed-immersion}
-Let $i : Z \to X$ be a closed immersion morphism of schemes. Then
-$i_{\proetale, *}$ is fully faithful and
-$i_\proetale^{-1}i_{\proetale, *} \cong \text{id}_{\Sh(Z_\proetale)}$.
+\label{lemma-closed-immersion-affines}
+Let $i : Z \to X$ be a closed immersion morphism of affine schemes.
+Denote $X_{app}$ and $Z_{app}$ the sites introduced in
+Lemma \ref{lemma-affine-alternative}.
+The base change functor
+$$
+u : X_{app} \to Z_{app},\quad U \longmapsto u(U) = U \times_X Z
+$$
+is continuous and and has a fully faithful left adjoint $v$.
+For $V$ in $Z_{app}$ the morphism $V \to v(V)$ is a closed immersion
+identifying $V$ with $u(v(V)) = v(V) \times_X Z$ and every point of
+$v(V)$ specializes to a point of $V$.
+The functor $v$ is both continuous and cocontinuous.
 \end{lemma}
 
 \begin{proof}
-The two assertions are equivalent by
-Sites, Lemma \ref{sites-lemma-exactness-properties}.
-The question is (Zariski) local on $X$, hence we may assume that
-$X$ is affine. In this case we see that the
-essential image of the base change functor
-$$
-u : X_\proetale \to Z_\proetale
-$$
-contains all affine schemes which are pro-\'etale over $Z$, see
-Lemma \ref{lemma-lift-ind-etale}. It follows that every object of
-$Z_\proetale$ has a covering by objects in the essential image of $u$.
-The rest of the argument is almost completely formal.
+The existence of the adjoint follows immediately from
+Lemma \ref{lemma-lift-ind-etale} and the definitions.
+It is clear that $u$ is continuous from the definition of
+coverings in $X_{app}$.
 
 \medskip\noindent
-It is clear that for every sheaf of sets $\mathcal{G}$ on $Z_\proetale$
-the map
-$$
-i_\proetale^{-1}i_{\proetale, *}\mathcal{G} \longrightarrow \mathcal{G}
-$$
-is surjective by working out the definition of pullback (details omitted).
-Suppose that $V$ is an object of $Z_\proetale$ and $s, s'$ are sections
-of $i_\proetale^{-1}i_{\proetale, *}\mathcal{G}$ over $V$ which map
-to the same section of $\mathcal{G}$ over $V$. We will show $s = s'$.
-After replacing $V$ by the members of a covering, $s$ and $s'$ come from
-sections $t$, $t'$ of $i_{\proetale, *}\mathcal{G}$ over $U$, $U'$ where
-$U$, $U'$ are objects of $X_\proetale$ endowed with morphisms $V \to U_Z$
-and $V \to U'_Z$ over $Z$. We may assume $U = U'$ by working with
-$U \times_X U'$ and the diagonal map $V \to (U \times_X U')_Z$.
-Now we $t, t' \in \mathcal{G}(U_Z)$ map to the same element of
-$\mathcal{G}(V)$. After replacing $U$ and $V$ by members of coverings
-we may assuem $U$ and $V$ are affine. We may also assume that the
-morphism $V \to U_Z$ is pro-\'etale by
-Proposition \ref{proposition-weakly-etale}.
-Then we can find a pro-\'etale morphism $U' \to U$ such that
-$U'_Z = V$ as schemes over $U_Z$, see Lemma \ref{lemma-lift-ind-etale}.
-Thus we see that $t|_{U'} = t'|_{U'}$ which implies that $s = s'$.
+Write $X = \Spec(A)$ and $Z = \Spec(A/I)$. Let $V = \Spec(\overline{C})$
+be an object of $Z_{app}$ and let $v(V) = \Spec(C)$.
+We have seen in the statement of Lemma \ref{lemma-lift-ind-etale}
+that $V$ equals $v(V) \times_X Z = \Spec(C/IC)$.
+If $g \in C$ which maps to an invertible element of
+$C/IC = \overline{C}$ is invertible in $C$. Namely, we have the
+$A$-algebra maps $C \to C_g \to C/IC$ and by adjointness
+we obtain an $C$-algebra map $C_g \to C$.
+Thus every point of $v(V)$ specializes to a point of $V$.
+
+\medskip\noindent
+Suppose that $\{V_i \to V\}$ is a covering in $Z_{app}$.
+Then $\{v(V_i) \to v(V)\}$ is a finite family of morphisms of
+$Z_{app}$ such that every point of $V \subset v(V)$ is
+in the image of one of the maps $v(V_i) \to v(V)$. As the
+morphisms $v(V_i) \to v(V)$ are flat (since they are weakly \'etale)
+we conclude that $\{v(V_i) \to v(V)\}$ is jointly surjective.
+This proves that $v$ is continuous.
+
+\medskip\noindent
+Let $V$ be an object of $Z_{app}$ and let $\{U_i \to v(V)\}$
+be a covering in $X_{app}$. Then we see that
+$\{u(U_i) \to u(v(V)) = V\}$ is a covering of $Z_{app}$.
+By adjointness we obtain morphisms $v(u(U_i)) \to U_i$.
+Thus the family $\{v(u(U_i)) \to v(V)\}$ refines the given
+covering and we conclude that $v$ is cocontinuous as well.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-closed-immersion-affines-apply}
+Let $Z \to X$ be a closed immersion morphism of affine schemes.
+The corresponding morphism of topoi $i = i_\proetale$
+is equal to the morphism of topoi
+associated to the fully faithful, continuous, and cocontinuous functor
+$v : Z_{app} \to X_{app}$ of Lemma \ref{lemma-closed-immersion-affines}.
+It follows that
+\begin{enumerate}
+\item $i^{-1}\mathcal{F}(V) = \mathcal{F}(v(V))$ for $V \in \Ob(Z_{app})$,
+\item $i^{-1} : \Sh(X_\proetale) \to \Sh(Z_\proetale)$
+has a left adjoint $i^{Sh}_!$,
+\item
+$i^{-1} : \textit{Ab}(X_\proetale) \to \textit{Ab}(Z_\proetale)$
+has a left adjoint $i_!$,
+\item $\text{id} \to i^{-1}i^{Sh}_!$, $\text{id} \to i^{-1}i_!$, and
+$i^{-1}i_* \to \text{id}$ are isomorphisms, and
+\item $i_*$, $i^{Sh}_!$ and $i_!$ are fully faithful.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+By Lemma \ref{lemma-affine-alternative} we may describe $i_\proetale$ in
+terms of the morphism of sites
+$u : X_{app} \to Z_{app}$, $V \mapsto V \times_X Z$.
+The first statement of the lemma follows from
+Sites, Lemma \ref{sites-lemma-have-functor-other-way-morphism}
+(but with the roles of $u$ and $v$ reversed).
+Part (1) follows from Sites, Lemma \ref{sites-lemma-when-shriek}.
+The existence of $i^{Sh}_!$ follows from
+Sites, Lemma \ref{sites-lemma-when-shriek}.
+The existence of $i_!$ is
+Modules on Sites, Lemma \ref{sites-modules-lemma-g-shriek-adjoint}.
+The isomorphisms in (4) follows from
+Sites, Lemma \ref{sites-lemma-back-and-forth}
+and Modules on Sites, Lemma \ref{sites-modules-lemma-back-and-forth}.
+The fully faithfulness statements follow from
+Categories, Lemma \ref{categories-lemma-adjoint-fully-faithful}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-closed-immersion}
+Let $i : Z \to X$ be a closed immersion of schemes. Then
+\begin{enumerate}
+\item $i_\proetale^{-1}$ commutes with limits,
+\item $i_{\proetale, *}$ is fully faithful, and
+\item $i_\proetale^{-1}i_{\proetale, *} \cong \text{id}_{\Sh(Z_\proetale)}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Assertions (2) and (3) are equivalent by
+Sites, Lemma \ref{sites-lemma-exactness-properties}.
+Parts (1) and (3) are (Zariski) local on $X$, hence we may assume that
+$X$ is affine. In this case the result follows from
+Lemma \ref{lemma-closed-immersion-affines-apply}.
 \end{proof}
 
 \begin{lemma}
