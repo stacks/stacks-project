@@ -3606,6 +3606,36 @@ and since $Lf^*\underline{\Lambda/I^n} = \underline{\Lambda/I^n}$
 we get (2).
 \end{proof}
 
+\begin{lemma}
+\label{lemma-completed-pullback-system}
+Let $\Lambda$ be a Noetherian ring. Let $I \subset \Lambda$ be an ideal.
+Let $f : \Sh(\mathcal{D}) \to \Sh(\mathcal{C})$ be a morphism of topoi.
+If $(K_n)$ is an inverse system of objects in $D(\mathcal{C}, \Lambda/I^n)$
+then
+$$
+Lf_{comp}^*R\lim K_n = R\lim Lf^*K_n
+$$
+\end{lemma}
+
+\begin{proof}
+Observe that $R\lim Lf^*K_n$ is a derived complete object by the
+discussion following Definition \ref{definition-derived-complete}.
+For a derived complete object $E$ of $D(\mathcal{D}, \Lambda)$
+we have
+\begin{align*}
+\Hom(E, R\lim Lf^*K_n) & =
+\lim \Hom(E, Lf^*K_n) \\
+& =
+\lim \Hom(Rf_*E, K_n) \\
+& = \Hom(Rf_*E, R\lim K_n) \\
+& = \Hom(E, Lf^* R\lim K_n) \\
+& = \Hom(E, Lf_{comp}^* R\lim K_n)
+\end{align*}
+because $E$ is derived complete.
+Thus the result follows by the Yoneda lemma.
+\end{proof}
+
+
 
 
 
@@ -5272,11 +5302,13 @@ Namely, let $X$ be an affine scheme whose underlying topological space $|X|$
 is homeomorphic to $\Lambda = \mathbf{Z}_\ell$, see
 Example \ref{example-construct-space}. Denote
 $f : |X| \to \mathbf{Z}_\ell = \Lambda$
-a homeomorphism. Using $f$ we can define a two term complex
+a homeomorphism. We can think of $f$ as a section of
+$\underline{\Lambda}^\wedge$ over $X$ and multiplication by $f$
+then defines a two term complex
 $$
 \underline{\Lambda}^\wedge \xrightarrow{f} \underline{\Lambda}^\wedge
 $$
-on $X_\proetale$. The sheaf $\underline{\Lambda}^\wedge$ is a adic lisse.
+on $X_\proetale$. The sheaf $\underline{\Lambda}^\wedge$ is adic lisse.
 However, the cokernel of the map above, is not adic constructible, as
 the isomorphism type of the stalks of this cokernel attains infinitely
 many values: $\mathbf{Z}/\ell^n\mathbf{Z}$ and $\mathbf{Z}_\ell$.
@@ -5348,7 +5380,7 @@ By Lemma \ref{lemma-compare-locally-constant} we have
 $\mathcal{F}/I^n\mathcal{F} = \epsilon^{-1}\mathcal{G}_n$
 for some locally constant sheaf $\mathcal{G}_n$ of $\Lambda/I^n$-modules
 $M_n$. By
-\'Etale  Cohomology, Lemma
+\'Etale Cohomology, Lemma
 \ref{etale-cohomology-lemma-connected-locally-constant}
 there exists a finite $\Lambda/I^n$-module $M_n$ such that
 $\mathcal{G}_n$ is locally isomorphic to $\underline{M_n}$.
@@ -5692,6 +5724,110 @@ which allows us to extend the complex by one. The corresponding
 complex is isomorphic to $K$ in the derived category by the properties
 of triangulated categories. This finishes the proof.
 \end{proof}
+
+
+
+
+
+
+\section{Proper base change}
+\label{section-proper-base-change}
+
+\noindent
+In this section we explain how to prove the proper base change theorem
+for derived complete objects on the pro-\'etale site using the proper
+base change theorem for \'etale cohomology following the general theme
+that we use the pro-\'etale topology only to deal with ``limit issues''
+and we use results proved for the \'etale topology to handle everything
+else.
+
+\begin{theorem}
+\label{theorem-proper-base-change}
+Let $f : X \to Y$ be a proper morphism of schemes. Let $g : Y' \to Y$ be
+a morphism of schemes giving rise to the base change diagram
+$$
+\xymatrix{
+X' \ar[r]_{g'} \ar[d]_{f'} & X \ar[d]^f \\
+Y' \ar[r]^g & Y
+}
+$$
+Let $\Lambda$ be a Noetherian ring and let $I \subset \Lambda$ be an ideal
+such that $\Lambda/I$ is torsion. Let $K$ be an object
+of $D(X_\proetale)$ such that
+\begin{enumerate}
+\item $K$ is derived complete, and
+\item $K \otimes_\Lambda^\mathbf{L} \underline{\Lambda/I^n}$ is
+bounded below with cohomology sheaves coming from $X_\etale$.
+\end{enumerate}
+Then the base change map
+$$
+Lg_{comp}^*Rf_*K \longrightarrow Rf'_*L(g')^*_{comp}K
+$$
+is an isomorphism.
+\end{theorem}
+
+\begin{proof}
+We omit the construction of the base change map (this uses only
+formal properties of derived pushforward and completed derived pullback,
+compare with
+Cohomology on Sites, Remark \ref{sites-cohomology-remark-base-change}).
+Write $K_n = K \otimes^\mathbf{L}_\Lambda \underline{\Lambda/I^n}$
+so that $K = R\lim K_n$ because $K$ is derived complete.
+By Lemmas \ref{lemma-pushforward-Noetherian-case} and
+\ref{lemma-completed-pullback-system} we can unwind the left
+hand side
+$$
+Lg_{comp}^* Rf_* K = Lg_{comp}^* (R\lim Rf_*K_n) = R\lim Lg^* Rf_* K_n
+$$
+Using the same lemmas we can unwind the right hand side
+\begin{align*}
+Rf'_* L(g')^*_{comp} K
+& =
+Rf'_* L(g')^*_{comp} R\lim K_n \\
+& =
+Rf'_* R\lim L(g')^* K_n \\
+& =
+R\lim Rf'_* L(g')^* K_n
+\end{align*}
+the last equality because $Rf'_*$ commutes with homotopy limits as it is
+a right adjoint. Thus it suffices to show the maps
+$$
+Lg^* Rf_* K_n \longrightarrow Rf'_* L(g')^* K_n
+$$
+are isomorphisms. By Lemma \ref{lemma-compare-derived} and our second
+condition we can write $K_n = \epsilon^{-1}L_n$ for some
+$L_n \in D^+(X_\etale, \Lambda/I^n)$. By Lemma \ref{lemma-morphism-comparison}
+and the fact that $\epsilon^{-1}$ commutes with pullbacks
+we obtain
+$$
+Lg^* Rf_* K_n =
+Lg^* Rf_* \epsilon^*L_n =
+Lg^* \epsilon^{-1} Rf_* L_n =
+\epsilon^{-1} Lg^* Rf_* L_n
+$$
+and
+$$
+Rf'_* L(g')^* K_n =
+Rf'_* L(g')^* \epsilon^{-1} L_n =
+Rf'_* \epsilon^{-1} L(g')^* L_n =
+\epsilon^{-1} Rf'_* L(g')^* \epsilon^{-1} L_n
+$$
+(this also uses that $L_n$ is bounded below).
+Finally, by the proper base change theorem for \'etale cohomology
+(\'Etale Cohomology, Theorem
+\ref{etale-cohomology-theorem-proper-base-change}) we have
+$$
+Lg^* Rf_* L_n = Rf'_* L(g')^* L_n
+$$
+(again using that $L_n$ is bounded below)
+and the theorem is proved.
+\end{proof}
+
+
+
+
+
+
 
 
 
