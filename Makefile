@@ -165,10 +165,6 @@ tags/tmp/chapters.tex: chapters.tex
 tags/tmp/%.tex: %.tex tags/tags
 	python ./scripts/tag_up.py "$(CURDIR)" $* > tags/tmp/$*.tex
 
-tags/tmp/%.tex.html: %.tex
-	vim -n -u NONE -S scripts/vim.vim $*.tex
-	mv tmp/syntax-tex.html tags/tmp/$*.tex.html
-
 tags/tmp/stacks-project.cls: stacks-project.cls
 	cp stacks-project.cls tags/tmp/stacks-project.cls
 
