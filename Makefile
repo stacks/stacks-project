@@ -194,9 +194,7 @@ ifndef INSTALLDIR
 	@echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
 else
 	cp tags/tmp/*.pdf $(INSTALLDIR)
-	cp tags/tmp/*.dvi $(INSTALLDIR)
 	tar -c -f $(INSTALLDIR)/stacks-pdfs.tar --exclude book.pdf --transform=s@tags/tmp@stacks-pdfs@ tags/tmp/*.pdf
-	tar -c -f $(INSTALLDIR)/stacks-dvis.tar --exclude book.dvi --transform=s@tags/tmp@stacks-dvis@ tags/tmp/*.dvi
 	git archive --format=tar HEAD | (cd $(INSTALLDIR) && tar xf -)
 	cp stacks-project.tar.bz2 $(INSTALLDIR)
 	git log --pretty=oneline -1 > $(INSTALLDIR)/VERSION

@@ -33,14 +33,12 @@ LIJST_TAGS = $(LIJST) fdl index
 
 FOOS = $(patsubst %,%.foo,$(LIJST_TAGS))
 BARS = $(patsubst %,%.bar,$(LIJST_TAGS))
-DVIS = $(patsubst %,%.dvi,$(LIJST_TAGS))
 PDFS = $(patsubst %,%.pdf,$(LIJST_TAGS))
 
-LATEX := ../latex.sh "latex"
 PDFLATEX := ../latex.sh "pdflatex"
 
 .PHONY: all
-all: book.dvi book.pdf $(DVIS) $(PDFS)
+all: book.pdf $(PDFS)
 
 # We need the following to cancel the built-in rule for
 # dvi files (which uses tex not latex).
@@ -48,8 +46,8 @@ all: book.dvi book.pdf $(DVIS) $(PDFS)
 
 # Make aux file
 %.foo: %.tex
-	$(LATEX) $*
-	$(LATEX) $*
+	$(PDFLATEX) $*
+	$(PDFLATEX) $*
 	touch $*.foo
 
 # These do not get bibtexed
@@ -63,11 +61,6 @@ fdl.bar:
 %.bar: %.foo
 	bibtex $*
 	touch $*.bar
-
-# Make dvi
-%.dvi : %.tex %.bar $(FOOS)
-	$(LATEX) $*
-	$(LATEX) $*
 
 # Make pdf file from others
 %.pdf: %.tex %.bar $(FOOS)
