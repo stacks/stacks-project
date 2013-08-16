@@ -1,0 +1,1288 @@
+\chapter{Fields and Extensions}
+
+In this chapter, we shall discuss the theory of fields.
+Recall that a \textbf{field} is an integral domain for which all non-zero elements are
+invertible; equivalently, the only two ideals of a field are $(0)$ and $(1)$
+since any nonzero element is a unit. Consequently fields will be the
+simplest cases of much of the theory developed later. 
+
+The theory of field extensions has a different feel from standard commutative
+algebra since, for instance, any morphism of fields is injective. Nonetheless,
+it turns out that questions involving rings can often be reduced to questions
+about fields. For instance, any integral domain can be embedded in a field
+(its quotient field), and any \emph{local ring} (that is, a ring with a unique
+maximal ideal; we have not defined this term yet) has associated to it its
+residue field (that is, its quotient by the maximal ideal).
+A knowledge of field extensions will thus be useful.
+
+\section{Introduction}
+
+
+Recall once again that:
+\begin{definition} 
+A \textbf{field} is an integral domain where every non-zero element is
+invertible. Alternatively, it is a set $k$, endowed with binary operations of
+addition and multiplication, which satisfy the usual axioms of commutativity,
+associativity, distributivity, $1$ and $0$ (and $1 \neq 0$!), and additive and
+multiplicative inverses.
+\end{definition} 
+
+A \textbf{subfield} is a subset closed under these operations: equivalently, it
+is a subring that is itself a field.
+
+For a field $k$, we write $k^*$ for the subset $k  \setminus \left\{0\right\}$.
+(This generalizes the usual notation \cref{} $R^*$ that refers to the group of
+invertible elements in a ring $R$.)
+
+\subsection{Examples}
+To get started, let us begin by providing several examples of fields. The reader should
+recall (\cref{maximalfield}) that if $R$ is a ring and $I \subset R$ an
+ideal, then $R/I$ is a field precisely when $I$ is maximal.
+
+\begin{example}
+One of the most familiar examples of a field is the rational
+numbers $\mathbb{Q}$.
+\end{example}
+
+\begin{example}
+If $p$ is a prime number, then $\mathbb{Z}/(p)$ is a field, denoted
+$\mathbb{F}_p$. Indeed, $(p)$ is a
+maximal ideal in $\mathbb{Z}$. Thus, fields may be finite: $\mathbb{F}_p$
+contains $p$ elements.  
+\end{example}
+
+
+\begin{example}[Quotients of the polynomial ring]
+In a principal ideal domain, every prime ideal is principal. Now, by
+\rref{polyringED}, if $k$ is a field, then the polynomial ring $k[x]$ is a PID. 
+It follows that if $P \in k[x]$ is an irreducible polynomial (that is, a
+nonconstant polynomial
+that does not admit a factorization into terms of smaller degrees), then
+$k[x]/(P)$ is a field. It contains a copy of $k$ in a natural way.
+
+This is a very general way of constructing fields. For instance, the
+complex numbers $\mathbb{C}$
+can be constructed as $\mathbb{R}[x]/(x^2 + 1)$.
+\end{example} 
+
+
+
+\begin{exercise} 
+What is $\mathbb{C}[x]/(x^2 + 1)$?
+\end{exercise} 
+
+\begin{example}[Quotient fields]
+Recall from \cref{quotfld1} that, given an integral domain $A$, there is an
+imbedding $A \hookrightarrow K(A)$ into a field $K(A)$ formally constructed as
+quotients $a/b, a, b \in A$ (and $b \neq 0$) modulo an evident equivalence
+relation.
+This is called the \textbf{quotient field.}
+The quotient field has the following universal property: given an injection
+$\phi: A
+\hookrightarrow K$ for a field $K$, there is a unique map $\psi: K(A) \to K$ making
+the diagram commutative (i.e. a map of $A$-algebras).
+Indeed, it is clear how to define such a map: we set
+\[ \psi(a/b) = \phi(a)/\phi(b),  \]
+where injectivity of $\phi$ assures that $\phi(b) \neq 0$ if $ b \neq 0$.
+
+If the map is not injective, then such a factorization may not exist. Consider
+the imbedding $\mathbb{Z} \to \mathbb{Q}$ into its quotient field, and consider
+the map $\mathbb{Z} \to \mathbb{F}_p$: this last map goes from $\mathbb{Z} $
+into a field, but it does not factor through $\mathbb{Q}$ (as $p$ is invertible
+in $\mathbb{Q}$ and zero in $\mathbb{F}_p$!).
+\end{example} 
+
+
+\begin{example}[Rational function field] \label{monofldext}
+\label{rationalfnfld}
+If $k$ is a field, then we can consider the field $k(x)$ of \textbf{rational functions}
+over $k$. This is the quotient field of the polynomial ring $k[x]$; in other
+words, it is the set of quotients $F/G$ for $F, G \in k[x]$ with the obvious
+equivalence relation.
+\end{example} 
+
+
+Here is a fancier example of a field.
+\begin{example} 
+\label{meromorphicfn}
+Let $X$ be a Riemann surface.\footnote{Readers not familiar with Riemann
+surfaces may ignore this example.} Let $\mathbb{C}(X)$ denote the
+set of meromorphic functions on $X$; clearly $\mathbb{C}(X)$ is a ring under
+multiplication and addition of functions. It turns out that in fact
+$\mathbb{C}(X)$ is a
+field; this is because if a nonzero function $f(z)$ is meromorphic, so is $1/f(z)$. For example,
+let $S^2$ be the Riemann sphere; then we know from complex
+analysis that the ring of meromorphic functions $\mathbb{C}(S^2)$ is the
+field of rational functions $\mathbb{C}(z)$. 
+\end{example}
+
+
+
+One reason fields are so nice from the point of view of most other chapters
+in this book is that the theory of $k$-modules (i.e. vector spaces), for $k$ a field, is very simple.
+Namely:
+
+\begin{proposition}  \label{vectorspacefree}
+If $k$ is a field, then every $k$-module is free.
+\end{proposition} 
+\begin{proof} 
+Indeed, by linear algebra we know that a $k$-module (i.e. vector space) $V$ has a
+\emph{basis} $\mathcal{B} \subset V$, which defines an isomorphism from the
+free vector space on $\mathcal{B}$ to $V$.
+\end{proof} 
+
+\begin{corollary} \label{fieldsemisimple}
+Every exact sequence of modules over a field splits.
+\end{corollary} 
+\begin{proof} 
+This follows from \cref{} and \cref{vectorspacefree}, as every vector space is
+projective.
+\end{proof} 
+
+This is another reason why much of the theory in future chapters will not say
+very much about fields, since modules behave in such a simple manner.
+Note that \cref{fieldsemisimple} is a statement about the \emph{category} of
+$k$-modules (for $k$ a field), because the notion of exactness is inherently
+arrow-theoretic (i.e. makes use of purely categorical notions, and can in fact
+be phrased within a so-called \emph{abelian category}).
+
+Henceforth, since the study of modules over a field is linear algebra, and
+since the ideal theory of fields is not very interesting, we shall study what
+this chapter is really about: \emph{extensions} of fields.
+
+\subsection{The characteristic of a field}
+\label{more-fields}
+
+In the category of rings, there is an \emph{initial object} $\mathbb{Z}$: any
+ring $R$ has a map from $\mathbb{Z}$ into it in precisely one way. For fields,
+there is no such initial object.
+Nonetheless, there is a family of objects such that every field can be mapped
+into in exactly one way by exactly one of them, and in no way by the others.
+
+Let $F$ be a field. As $\mathbb{Z}$ is the initial object of the category of
+rings, there is a ring map $f : \mathbb{Z} \to F$, see
+\rref{integersinitial}.
+The image of this ring map is an integral domain (as a subring of a field)
+hence the kernel of $f$ is a prime ideal in $\mathbb{Z}$, see
+\rref{primeifdomain}.
+Hence the kernel of $f$ is either $(0)$ or $(p)$ for some prime number $p$, see
+\rref{integerprimes}.
+
+In the first case we see that $f$ is injective, and in this case
+we think of $\mathbb{Z}$ as a subring of $F$. Moreover, since every
+nonzero element of $F$ is invertible we see that it makes sense to
+talk about $p/q \in F$ for $p, q \in \mathbb{Z}$ with $q \not = 0$.
+Hence in this case we may and we do think of $\mathbb{Q}$ as a subring of $F$.
+One can easily see that this is the smallest subfield of $F$ in this case.
+
+In the second case, i.e., when $\text{Ker}(f) = (p)$ we see that
+$\mathbb{Z}/(p) = \mathbb{F}_p$ is a subring of $F$.  Clearly it is the smallest subfield of $F$.
+
+Arguing in this way we see that every field contains a smallest subfield
+which is either $\mathbb{Q}$ or finite equal to $\mathbb{F}_p$ for some
+prime number $p$.
+
+\begin{definition}
+The \textbf{characteristic} of a field $F$ is $0$ if
+$\mathbb{Z} \subset F$, or is a prime $p$ if $p = 0$ in $F$.
+The \textbf{prime subfield of $F$} is the smallest subfield of $F$
+which is either $\mathbb{Q} \subset F$ if the characteristic is zero, or
+$\mathbb{F}_p \subset F$ if the characteristic is $p > 0$.
+\end{definition}
+
+
+It is easy to see that if $E$ is a field containing $k$, then the characteristic of
+$E$ is the same as the characteristic of $k$. 
+
+\begin{example} 
+The characteristic of $\mathbb{Z}/p$ is $p$, and that of $\mathbb{Q}$ is $0$.
+This is obvious from the definitions.
+\end{example} 
+
+
+\section{Field extensions}
+
+\subsection{Preliminaries}
+
+In general, though, we are interested not so much in fields by themselves but
+in field \emph{extensions.} This is perhaps analogous to studying not rings
+but \emph{algebras} over a fixed ring.
+The nice thing for fields is that the notion of a ``field over another field''
+just recovers the notion of a field extension, by the next result.
+
+\begin{proposition} \label{fieldinj} If $F$ is a field and $R$ is any ring, then any ring homomorphism $f:F\rightarrow
+R$ is either injective or the zero map (in which case $R=0$).
+\end{proposition}
+
+\begin{proof} Indeed, $\ker(f)$ is an ideal in
+$F$. But there are only two ideals in $F$, namely $(0)$ and $(1)$. If $f$ is identically
+zero, then $1=f(1)=0$ in $R$, so $R=0$ too.
+\end{proof}
+
+\begin{definition} If $F$ is a field contained in a field $G$, then $G$ is said
+to be a \textbf{field extension} of $F$. We shall write $G/F$ to indicate
+that  $G$ is an extension of $F$.
+\end{definition}
+
+So if $F, F'$ are fields, and $F \to F'$ is any ring-homomorphism, we see by 
+\cref{fieldinj} that it is injective,\footnote{The zero ring is not a field!} and $F'$ can be regarded as an extension
+of $F$, by a slight abuse of notation. Alternatively, a field extension of $F$
+is just an $F$-algebra that happens to be a field.
+This is completely different than the situation for general rings, since a
+ring homomorphism is not necessarily injective. 
+
+Let $k$ be a field. There is a \emph{category} of field extensions of $k$. 
+An object of this category is an extension $E/k$, that is a
+(necessarily injective) morphism of fields
+\[ k \to E,  \]
+while a morphism between extensions $E/k, E'/k$ is a $k$-algebra morphism $E \to E'$;
+alternatively, it is a commutative diagram
+\[ \xymatrix{
+E \ar[rr] & & E' \\
+& k \ar[ru] \ar[lu] &
+}.\]
+
+
+\begin{definition} 
+A \textbf{tower} of field extensions $E'/E/k$ consists of an extension $E/k$
+and an extension $E'/E$.
+\end{definition} 
+
+It is easy to see that any morphism $E \to E'$ in the category of
+$k$-extensions gives a tower. 
+
+
+Let us give a few examples of field extensions.
+
+\begin{example} 
+Let $k$ be a field, and $P \in k[x]$ an irreducible polynomial. We have seen
+that $k[x]/(P)$ is a field (\rref{monofldext}). Since it is also a $k$-algebra
+in the obvious way, it is an extension of $k$.
+\end{example} 
+
+\begin{example} 
+If $X$ is a Riemann surface, then the field of meromorphic functions
+$\mathbb{C}(X)$ (see \cref{meromorphicfn}) is an extension field of
+$\mathbb{C}$, because any element of $\mathbb{C}$ induces a
+meromorphic---indeed, holomorphic---constant function on $X$.
+\end{example} 
+
+Let $F/k$ be a field extension. Let $S \subset F$ be any subset. 
+Then there is a  \emph{smallest} subextension of $F$ (that is, a subfield of $F$ containing $k$) 
+that contains $S$.
+To see this, consider the family of subfields of $F $ containing $S$ and
+$k$, and take their intersection; one easily checks that this is a field.
+It is easy to see, in fact, that this is the set of elements of $F$ that can
+be obtained via  a finite number of elementary algebraic operations
+(addition, multiplication, subtraction, and division) involving elements of
+$k$ and $S$.
+
+\begin{definition} 
+If $F/k$ is an extension and $S \subset F$, we write $k(S)$ for the smallest
+subextension of $F$ containing $S$.
+We will say that $S$ \textbf{generates} the extension $k(S)/k$.
+\end{definition} 
+
+For instance, $\mathbb{C}$ is generated by $i$ over $\mathbb{R}$.
+
+\begin{exercise} 
+Show that $\mathbb{C}$ does not have a countable set of generators over
+$\mathbb{Q}$.
+\end{exercise} 
+
+
+Let us now classify extensions generated by one element.
+\begin{proposition}[Simple extensions of a field] \label{fldmono} 
+If an extension $F/k$ is generated by one element, then it is $F$ is $k$-isomorphic
+either to the rational function field $k(t)/k$ or to one of the extensions
+$k[t]/(P)$ for $P \in k[t]$ irreducible.
+\end{proposition} 
+
+We will see that many of the most important cases of field extensions are generated 
+by one element, so this is actually useful. 
+
+\begin{proof} 
+Let $\alpha \in F$ be such that $F = k(\alpha)$; by assumption, such an
+$\alpha$ exists. 
+There is a morphism of rings
+\[ k[t] \to F  \]
+sending the indeterminate $t$ to $\alpha$. The image is a domain, so the
+kernel is a prime ideal. Thus, it is either $(0)$ or $(P)$ for $P \in k[t]$
+irreducible.
+
+If the kernel is $(P)$ for $P \in k[t]$ irreducible, then the map factors
+through $k[t]/(P)$, and induces a morphism of fields $k[t]/(P) \to F$. Since
+the image contains $\alpha$, we see easily that the map is surjective, hence
+an isomorphism. In this case, $k[t]/(P) \simeq F$.
+
+If the kernel is trivial, then we have an injection 
+$k[t] \to F$. 
+One may thus define a morphism of the quotient field $k(t)$ into $F$; given a
+quotient $R(t)/Q(t)$ with $R(t), Q(t) \in k[t]$, we map this to
+$R(\alpha)/Q(\alpha)$. The hypothesis that $k[t] \to F$ is injective implies
+that $Q(\alpha) \neq 0$ unless $Q$ is the zero polynomial. 
+The quotient field of $k[t]$ is the rational function field $k(t)$, so we get a  morphism $k(t) \to F$
+whose image contains $\alpha$. It is thus surjective, hence an isomorphism.
+\end{proof}
+
+
+
+
+\subsection{Finite extensions}
+If
+$F/E$ is a field extension,  then evidently  $F$ is also a vector space over $E$
+(the scalar action is just multiplication in $F$). 
+
+\begin{definition} 
+The dimension of $F$
+considered as an $E$-vector space is called the \textbf{degree} of the extension and is
+denoted $[F:E]$. If $[F:E]<\infty$ then $F$ is said to be a
+\textbf{finite} extension.
+\end{definition} 
+
+\begin{example} 
+$\mathbb{C}$ is obviously a finite extension of $\mathbb{R}$ (of degree 2).
+\end{example} 
+
+Let us now consider the degree in the most important special example, that
+given by \cref{fldmono}, in the next two examples.
+
+\begin{example}[Degree of a simple transcendental extension]
+\label{monodeg1}
+If $k$ is any field, then the rational function field $k(t)$ is \emph{not} a
+finite extension. The elements $\left\{t^n, n \in \mathbb{Z}\right\}$
+are linearly independent over $k$.
+
+In fact, if $k$ is uncountable, then $k(t)$ is \emph{uncountably} dimensional
+as a $k$-vector space. To show this, we claim that the family of elements
+$\left\{1/(t- \alpha), \alpha \in k\right\} \subset k(t)$ is linearly independent over $k$. A
+nontrivial relation between them would lead to a contradiction: for instance,
+if one works over $\mathbb{C}$, then this follows because
+$\frac{1}{t-\alpha}$, when considered as a meromorphic function on
+$\mathbb{C}$, has a pole at $\alpha$ and nowhere else.
+Consequently any sum $\sum c_i \frac{1}{t - \alpha_i}$ for the $c_i \in k^*$,
+and $\alpha_i \in k$ distinct, would have poles at each of the $\alpha_i$.
+In particular, it could not be zero.
+
+(Amusingly, this leads
+to a quick if suboptimal proof of the Hilbert Nullstellensatz; see \cref{}.)
+\end{example} 
+
+\begin{example}[Degree of a simple algebraic extension]
+\label{monodeg2}
+Consider a monogenic  field extension $E/k$ of the form in
+\rref{monofldext}, say $E = k[t]/(P)$ for $P \in k[t]$ an irreducible
+polynomial.
+Then the degree $[E:k]$ is just the degree $\deg P$. 
+Indeed, without loss of generality, we can assume $P$ monic, say
+\begin{equation} \label{P} P = t^n + a_1 t^{n-1} + \dots + a_0.\end{equation}
+It is then easy to see that the images of $1, t, \dots, t^{n-1}$ in
+$k[t]/(P)$ are linearly
+independent over $k$, because any relation involving them would have
+degree strictly smaller than that of $P$, and $P$ is the element of smallest
+degree in the ideal $(P)$.
+
+Conversely, the set $S=\left\{1, t, \dots, t^{n-1}\right\}$ (or more
+properly their images) spans $k[t]/(P)$ as a vector space.
+Indeed, we have by \eqref{P} that $t^n$ lies in the span of $S$.
+Similarly, the relation $tP(t)=0$ shows that the image of  $t^{n+1}$ lies in the span of
+$\left\{1, t, \dots, t^n\right\}$---by what was just shown, thus in the span of
+$S$. Working upward inductively, we find
+that the image of $t^M$ for $M  \geq n$ lies in the span of $S$.
+\end{example} 
+
+This confirms the observation that $[\mathbb{C}: \mathbb{R}] = 2$, for instance.
+More generally, if $k$ is a field, and $\alpha \in k$ is not a square, then the
+irreducible polynomial $x^2 - \alpha \in k[x]$ allows one to construct an
+extension $k[x]/(x^2 - \alpha)$ of degree two.
+We shall write this as $k(\sqrt{\alpha})$. Such extensions will be called
+\textbf{quadratic,} for obvious reasons.
+
+
+The basic fact about the degree is that it is \emph{multiplicative in
+towers.}
+
+\begin{proposition}[Multiplicativity]
+Suppose given a tower $F/E/k$. Then
+\[ [F:k] = [F:E][E:k].  \]
+\end{proposition} 
+\begin{proof} 
+Let $\alpha_1, \dots, \alpha_n \in F$ be an $E$-basis for $F$. Let $\beta_1,
+\dots, \beta_m \in E$ be a $k$-basis for $E$. Then the claim is that
+the set of products $\{\alpha_i \beta_j, 1 \leq i \leq n, 1 \leq j \leq m\}$ is a $k$-basis for $F$. 
+Indeed, let us check first that they span $F$ over $k$.
+
+By assumption, the $\left\{\alpha_i\right\}$ span $F$ over $E$. So if $f \in
+F$, there are $a_i \in E$ with 
+\[ f = \sum a_i\alpha_i,  \]
+and, for each $i$, we can write $a_i = \sum b_{ij} \beta_j$ for some $b_{ij} \in k$. Putting
+these together, we find
+\[ f = \sum_{i,j} b_{ij}\alpha_i \beta_j,  \]
+proving that the $\left\{\alpha_i \beta_j\right\}$ span $F$ over $k$.
+
+Suppose now that there existed a nontrivial relation
+\[ \sum_{i,j} c_{ij} \alpha_i \beta_j =0 \]
+for the $c_{ij} \in k$. In that case, we would have
+\[ \sum_i \alpha_i \left( \sum_j c_{ij} \beta_j \right) =0, \]
+and the inner terms lie in $E$ as the $\beta_j$ do. Now $E$-linear independence of
+the $\left\{\alpha_i\right\}$ shows that the inner sums are all zero. Then
+$k$-linear independence of the $\left\{\beta_j\right\}$ shows that the
+$c_{ij}$ all vanish.
+\end{proof} 
+
+We sidetrack to a slightly tangential definition:
+\begin{definition} 
+ A field extensions $K$ of $\mathbb{Q}$ is said to be a \textbf{number field}
+if it is a finite extension of $\mathbb{Q}$.
+\end{definition} 
+Number fields are the basic objects in algebraic number theory. We shall see
+later that,
+for the analog of the integers $\mathbb{Z}$ in a number field, something kind
+of like unique factorization still holds (though strict unique factorization
+generally does not!).
+
+\subsection{Algebraic extensions}
+
+Consider a field extension $F/E$.
+
+\begin{definition}
+An element $\alpha\in F$ is said to be \textbf{algebraic} over $E$ if
+$\alpha$ is the root of some polynomial with coefficients in $E$. If all
+elements of $F$ are \textbf{algebraic} then $F$ is said to be an algebraic extension. 
+\end{definition}
+
+By \cref{fldmono}, the subextension $E(\alpha)$ is isomorphic either to
+the rational function field $E(t)$ or to a quotient ring $E[t]/(P)$ for $P
+\in E[t]$ an irreducible polynomial. 
+In the latter case, $\alpha$ is algebraic over $E$ (in fact, it
+satisfies the polynomial $P$!); in the former case, it is not.
+
+\begin{example} 
+$\mathbb{C}$ is algebraic over $\mathbb{R}$.
+\end{example} 
+
+\begin{example} 
+Let $X$ be a compact Riemann surface, and $f \in \mathbb{C}(X) - \mathbb{C}$ any
+nonconstant meromorphic function on $X$ (see \cref{meromorphicfn}). Then it is known that
+$\mathbb{C}(X)$ is algebraic over the subextension $\mathbb{C}(f)$ generated by
+$f$. We shall not prove this.
+\end{example} 
+
+We now show that there is a deep connection between finiteness and being
+algebraic.
+\begin{proposition} \label{finalgebraic}
+A finite extension is algebraic. 
+In fact, an extension $E/k$ is algebraic if and only if every subextension
+$k(\alpha)/k$ generated by some $\alpha \in E$ is finite.
+\end{proposition} 
+In general, it is very false that an algebraic extension is finite.
+\begin{proof} 
+Let $E/k$ be finite, say of degree $n$. Choose $\alpha \in E$.
+Then the elements 
+$\left\{1, \alpha, \dots, \alpha^n\right\}$ are linearly
+dependent over $E$, or we would necessarily have $[E:k] > n$. A relation of
+linear dependence now gives the desired polynomial that $\alpha$ must satisfy.
+
+For the last assertion, note that a monogenic extension  $k(\alpha)/k$ is
+finite if and only $\alpha$ is algebraic over $k$, by \cref{monodeg1} and
+\cref{monodeg2}.
+So if $E/k$ is algebraic, then each $k(\alpha)/k, \alpha \in E$, is a finite
+extension, and conversely.
+\end{proof} 
+
+
+
+We can extract a corollary of the last proof (really of \cref{monodeg1} and
+\cref{monodeg2}): a monogenic extension is finite
+if and only if it is algebraic.
+We shall use this observation in the next result.
+
+\begin{corollary} \label{fingenalg}
+Let $k$ be a field, and let $\alpha_1, \alpha_2, \dots, \alpha_n$ be elements
+of some extension field such that each $\alpha_i$ is finite over $k$. Then the
+extension $k(\alpha_1, \dots, \alpha_n)/k$ is finite.
+That is, a finitely generated algebraic extension is finite.
+\end{corollary} 
+\begin{proof} 
+Indeed, each $k(\alpha_{1}, \dots, \alpha_{i+1})/k(\alpha_1, \dots,
+\alpha_{i})$ is monogenic and algebraic, hence finite.
+\end{proof} 
+
+The set of complex numbers that are algebraic over $\mathbb{Q}$ are simply
+called the \textbf{algebraic numbers.} For instance, $\sqrt{2}$ is algebraic,
+$i$ is algebraic, but $\pi$ is not.
+It is a basic fact that the algebraic numbers form a field, although it is not
+obvious how to prove this from the definition that a number is algebraic
+precisely when it satisfies a nonzero polynomial equation with rational
+coefficients (e.g. by polynomial equations).
+
+
+
+
+\begin{corollary} 
+Let $E/k$ be a field extension. Then the elements of $E$ algebraic over $k$
+form a field.
+\end{corollary} 
+\begin{proof} 
+Let $\alpha, \beta \in E$ be algebraic over 
+$k$. Then $k(\alpha, \beta)/k$ is a finite extension by \cref{fingenalg}. It follows that $k(\alpha
++ \beta) \subset k(\alpha, \beta)$ is a finite extension, which implies that
+$\alpha + \beta$ is algebraic by \cref{finalgebraic}.
+\end{proof} 
+
+
+Many nice properties of field extensions, like those of rings, will have the property
+that they will be preserved by towers and composita.
+
+
+\begin{proposition}[Towers]
+Let $E/k$ and $F/E$ be algebraic. Then $F/k$ is algebraic.
+\end{proposition} 
+\begin{proof} 
+Choose $\alpha \in F$. Then $\alpha$ is algebraic over $E$. 
+The key observation is that $\alpha$ is algebraic over a \emph{finitely
+generated} subextension of $k$.
+That is, there is a finite set $S \subset E$ such that $\alpha $ is algebraic
+over $k(S)$: this is clear because being algebraic means that a certain
+polynomial in $E[x]$ that $\alpha$ satisfies exists, and as $S$ we can take the
+coefficients of this polynomial.
+
+It follows that $\alpha$ is algebraic over $k(S)$. In particular, $k(S,
+\alpha)/ k(S)$ is finite. Since $S$ is a finite set, and $k(S)/k$ is algebraic,
+\cref{fingenalg} shows that $k(S)/k$ is finite. Together we find that
+$k(S,\alpha)/k$ is finite, so $\alpha$ is algebraic over $k$.
+\end{proof} 
+
+The method of proof in the previous argument---that being algebraic over $E$ was a
+property that \emph{descended} to a finitely generated subextension of $E$---is
+an idea that recurs throughout algebra, and will be put to use more generality
+in \cref{}.
+
+\subsection{Minimal polynomials}
+
+Let $E/k$ be a field extension, and let $\alpha \in E$ be algebraic over $k$.
+Then $\alpha$ satisfies a (nontrivial) polynomial equation in $k[x]$.
+Consider the set of polynomials $P(x) \in k[x]$ such that $P(\alpha) = 0$; by
+hypothesis, this set does not just contain the zero polynomial.
+It is easy to see that this set is an \emph{ideal.} Indeed, it is the kernel
+of the map
+\[ k[x] \to E, \quad x \mapsto \alpha.  \]
+Since $k[x]$ is a PID, 
+there is a \emph{generator} $m(x) \in k[x]$ of this ideal. If we assume $m$
+monic, without loss of generality, then $m$ is uniquely determined.
+
+\begin{definition} 
+$m(x)$ as above is called the \textbf{minimal polynomial} of $\alpha$ over $k$.
+\end{definition} 
+
+The minimal polynomial has the following characterization: it is the monic
+polynomial, of smallest degree, that annihilates $\alpha$. (Any nonconstant
+multiple of $m(x)$ will have larger degree, and only multiples of $m(x)$ can
+annihilate $\alpha$.)
+This explains the name \emph{minimal.}
+
+Clearly the minimal polynomial is \emph{irreducible.} This is equivalent to the
+assertion that the ideal in $k[x]$ consisting of polynomials annihilating
+$\alpha$ is prime. But this follows from the fact that the map $k[x] \to E, x
+\mapsto \alpha$ is
+a map into a domain (even a field), so the kernel is a prime ideal.
+
+\begin{proposition} 
+The degree of the minimal polynomial is $[k(\alpha):k]$.
+\end{proposition} 
+\begin{proof} 
+This is just a restatement of the argument in \cref{monofld}: the observation is that if $m(x)$
+is the minimal polynomial of $\alpha$, then the map
+\[ k[x]/(m(x)) \to k(\alpha), \quad x \mapsto \alpha  \]
+is an isomorphism as in the aforementioned proof, and we have counted the degree
+of such an extension  (see \cref{monodeg2}).
+\end{proof} 
+
+So the observation of the above proof is that if $\alpha \in E$ is algebraic,
+then $k(\alpha) \subset E$ is isomorphic to $k[x]/(m(x))$.
+
+
+\subsection{Algebraic closure}
+
+Now we want to define a ``universal'' algebraic extension of a field. Actually,
+we should be careful: the algebraic closure is \emph{not} a universal object.
+That is, the algebraic closure is not unique up to \emph{unique} isomorphism:
+it is only unique up to isomorphism. But still, it will be very handy, if not
+functorial.
+
+
+\begin{definition} 
+Let $F$ be a field. An \textbf{algebraic closure} of $F$ is a field
+$\overline{F}$ containing $F$ such that:
+\begin{enumerate}[\textbf{AC} 1]
+\item $\overline{F} $ is algebraic over $F$.
+\item $\overline{F}$ is \textbf{algebraically closed} (that is, every
+non-constant polynomial in $\overline{F}[X]$ has a root in $\overline{F}$).
+\end{enumerate}
+\end{definition} 
+
+The ``fundamental theorem of algebra'' states that $\mathbb{C}$ is
+algebraically closed. While the easiest proof of this result uses Liouville's
+theorem in complex analysis, we shall give a mostly algebraic proof below
+(\cref{}).
+
+We now prove the basic existence result.
+
+
+\begin{theorem}
+Every field has an algebraic closure.
+\end{theorem}
+
+The proof will mostly be a red herring to the rest of the chapter. However, we
+will want to know that it is \emph{possible} to embed a field inside an
+algebraically closed field, and we will often assume it done.
+\begin{proof}
+Let $ K$ be a field and $ \Sigma$ be the set of all monic irreducibles in $ K[x]$. Let $ A = K[\{x_f : f \in \Sigma\}]$ be the polynomial ring generated by indeterminates $ x_f$, one for each $ f \in \Sigma$. Then let $ \mathfrak{a}$ be the ideal of $ A$ generated by polynomials of the form $ f(x_f)$ for each $ f \in \Sigma$.
+
+\emph{Claim 1}. $ \mathfrak{a}$ is a proper ideal.
+
+\emph{Proof of claim 1}. Suppose $ \mathfrak{a} = (1)$, so there exist finitely many polynomials $ f_i \in \Sigma$ and $ g_i \in A$ such that $ 1 = f_1(x_{f_1}) g_1 + \dotsb + f_k(x_{f_k}) g_k$. Each $ g_i$ uses some finite collection of indeterminates $ V_i \{x_{f_{i_1}}, \dotsc, x_{f_{i_{k_i}}}\}$. This notation is ridiculous, so we simplify it.
+
+We can take the union of all the $ V_i$, together with the indeterminates $ x_{f_1}, \dotsc, x_{f_k}$ to get a larger but still finite set of indeterminates $ V = \{x_{f_1}, \dotsc, x_{f_n}\}$ for some $ n \geq k$ (ordered so that the original $ x_{f_1}, \dotsc, x_{f_k}$ agree the first $ k$ elements of $ V$). Now we can regard each $ g_i$ as a polynomial in this new set of indeterminates $ V$.
+Then, we can write $ 1 = f_1(x_{f_1}) g_1 + \dotsb + f_n(x_{f_n}) g_n$ where for each $ i > k$, we let $ g_i = 0$ (so that we've adjoined a few zeroes to the right hand side of the equality).
+Finally, we define $ x_i = x_{f_i}$, so that we have
+$ 1 = f_1(x_1)g_1(x_1, \dotsc, x_n) + \dotsb + f_n(x_n) g_n(x_1, \dotsc, x_n)$.
+
+Suppose $ n$ is the minimal integer such that there exists an expression of this form, so that
+\[ \mathfrak{b} = (f_1(x_1), \dotsc, f_{n-1}(x_{n-1})) \]
+is a proper ideal of $ B = K[x_1, \dotsc, x_{n-1}]$, but
+\[ (f_1(x_1), \dotsc, f_n(x_n)) \]
+is the unit ideal in $ B[x_n]$. Let $ \hat{B} = B/\mathfrak{b}$ (observe that this ring is nonzero). We have a composition of maps
+\[ B[x_n] \to \hat{B}[x_n] \to \hat{B}[x_n]/(\widehat{f_n(x_n)}) \]
+where the first map is reduction of coefficients modulo $ \mathfrak{b}$, and the second map is the quotient by the principal ideal generated by the image $ \widehat{f_n(x_n)}$ of $ f_n(x_n)$ in $ \hat{B}[x_n]$. We know $ \hat{B}$ is a nonzero ring, so since $ f_n$ is monic, the top coefficient of $ \widehat{f_n(x_n)}$ is still $ 1 \in \hat{B}$. In particular, the top coefficient cannot be nilpotent. Furthermore, since $ f_n$ was irreducible, it is not a constant polynomial, so by the characterization of units in polynomial rings, $ \widehat{f_n(x_n)}$ is not a unit, so it does not generate the unit ideal. Thus the quotient $ \hat{B}[x_n]/(\widehat{f_n(x_n)})$ should not be the zero ring.
+
+On the other hand, observe that each $ f_i(x_i)$ is in the kernel of this composition, so in fact the entire ideal $ (f_1(x_1), \dotsc, f_n(x_n))$ is contained in the kernel. But this ideal is the unit ideal, so all of $ B[x_n]$ is in the kernel of this composition. In particular, $ 1 \in B[x_n]$ is in the kernel, and since ring maps preserve identity, this forces $ 1 = 0$ in $ \hat{B}[x_n]/(\widehat{f_n(x_n)})$, which makes this the the zero ring. This contradicts our previous observation, and proves the claim that $ \mathfrak{a}$ is a proper ideal.
+
+Now, given claim 1, there exists a maximal ideal $ \mathfrak{m}$ of $ A$ containing $ \mathfrak{a}$. Let $ K_1 = A/\mathfrak{m}$. This is an extension field of $ K$ via the inclusion given by
+\[ K \to A \to A/\mathfrak{m} \]
+(this map is automatically injective as it is a map between fields). Furthermore every $ f \in \Sigma$ has a root in $ K_1$. Specifically, the coset $ x_f + \mathfrak{m}$ in $ A/\mathfrak{m} = K_1$ is a root of $ f$ since
+\[ f(x_f + \mathfrak{m}) = f(x_f) + \mathfrak{m} = 0. \]
+
+Inductively, given $ K_n$ for some $ n \geq 1$, repeat the construction with $ K_n$ in place of $ K$ to get an extension field $ K_{n+1}$ of $ K_n$ in which every irreducible $ f \in K_n[x]$ has a root. Let $ L = \bigcup_{n = 1}^{\infty} K_n$.
+
+\emph{Claim 2}. Every $ f \in L[x]$ splits completely into linear factors in $ L$.
+
+\emph{Proof of claim 2}. We induct on the degree of $ f$. In the base case, when $ f$ itself is linear, there is nothing to prove. Inductively, suppose every polynomial in $ L[x]$ of degree less than $ n$ splits completely into linear factors, and suppose
+\[ f = a_0 + a_1x + \dotsb + a_nx^n \in L[x] \]
+has degree $ n$. Then each $ a_i \in K_{n_i}$ for some $ n_i$, so let $ n = \max n_i$ and regard $ f$ as a polynomial in $ K_n[x]$. If $ f$ is reducible in $ K_n[x]$, then we have a factorization $ f = gh$ with the degree of $ g, h$ strictly less than $ n$. Therefore, inductively, they both split into linear factors in $ L[x]$, so $ f$ must also. On the other hand, if $ f$ is irreducible, then by our construction, it has a root $ a\in K_{n+1}$, so we have $ f = (x - a) g$ for some $ g \in K_{n+1}[x]$ of degree $ n - 1$. Again inductively, we can split $ g$ into linear factors in $ L$, so clearly we can do the same with $ f$ also. This completes the proof of claim 2.
+
+Let $ \bar{K}$ be the set of algebraic elements in $ L$. Clearly $ \bar{K}$ is an algebraic extension of $ K$. If $ f \in \bar{K}[x]$, then we have a factorization of $ f$ in $ L[x]$ into linear factors
+\[ f = b(x - a_1)(x - a_2) \dotsb (x - a_n). \]
+for $ b \in \bar{K}$ and, a priori, $ a_i \in L$. But each $ a_i$ is a root of $ f$, which means it is algebraic over $ \bar{K}$, which is an algebraic extension of $ K$; so by transitivity of "being algebraic," each $ a_i$ is algebraic over $ K$. So in fact we conclude that $ a_i \in \bar{K}$ already, since $ \bar{K}$ consisted of all elements algebraic over $ K$. Therefore, since $ \bar{K}$ is an algebraic extension of $ K$ such that every $ f \in \bar{K}[x]$ splits into linear factors in $ \bar{K}$, $ \bar{K}$ is the algebraic closure of $ K$.
+
+\end{proof}
+
+\add{two algebraic closures are isomorphic}
+
+Let $K$ be an algebraically closed field. Then the ring $K[x]$ has a very
+simple ideal structure.
+Since every polynomial $P \in K[x]$ has a root, it follows that there is always
+a decomposition (by dividing repeatedly)
+\[ P =c (x-\alpha_1)\dots(x-\alpha_n)  ,\]
+where $c$ is the constant term and the $\left\{\alpha_i\right\} \subset k$ are the roots
+of $P$.
+In particular:
+\begin{proposition} 
+For $K$ algebraically closed, the only irreducible polynomials in $K[x]$ are
+the linear polynomials $c(x-\alpha), \ c, \alpha \in K$ (and $c \neq 0$).
+\end{proposition} 
+
+In particular, two polynomials in $K[x]$ are \textbf{relatively prime}
+(i.e., generate the unit ideal) if and only if they have no common roots. This
+follows because the maximal ideals of $K[x]$ are of the form $(x-\alpha),
+\alpha \in K$.
+So if $F, G \in K[x]$ have no common root, then $(F, G)$ cannot be contained
+in any $(x-\alpha)$ (as then they would have a common root at $\alpha$).
+
+
+If $k$ is \emph{not} algebraically closed, then this still gives
+information about when two polynomials in $k[x]$ generate the unit ideal.
+
+\begin{definition} 
+If $k$ is any field, we say that two polynomials in $k[x]$ are
+\textbf{relatively prime} if they generate the unit ideal in $k[x]$.
+\end{definition} 
+
+\begin{proposition} \label{primepoly}
+Two polynomials in $k[x]$ are relatively prime precisely when they
+have no common roots in an algebraic closure $\overline{k}$ of $k$.
+\end{proposition} 
+\begin{proof} 
+The claim is that any two polynomials $P, Q$ generate $(1)$ in $k[x]$ if and
+only if they generate $(1)$ in $\overline{k}[x]$. This is a piece of
+linear algebra: a system of linear equations with coefficients in $k$ has
+a solution if and only if it has a solution in any extension of $k$.
+Consequently, we can reduce to the case of an algebraically closed field, in
+which case the result is clear from what we have already proved.
+\end{proof} 
+
+
+
+\section{Separability and normality}
+
+
+\subsection{Separable extensions}
+
+Throughout, $F \subset K$ is a finite field extension.  We fix once and for
+all an algebraic closure $\overline{F}$ for $F$ and an embedding of $F$ in $M$.
+
+
+\begin{definition}
+For an element $\alpha \in K$ with minimal polynomial $q \in F[x]$, we say
+$q$ and $\alpha$ are \textbf{separable} if $q$ has distinct roots (in some
+algebraic closure $\overline{F}$!), and we say $K$ is
+separable if this holds for all $\alpha \in K$.
+\end{definition}
+
+
+
+By \cref{primepoly}, separability of a polynomial $P \in F[x]$ is equivalent
+to $(P, P') = 1$ in $F[x]$.
+Indeed, this follows from the fact that $P$ has no multiple roots if and only if $P, P'$ have no
+common roots.
+
+\begin{lemma} $q(x) \in F[x]$ is separable if and only if $\gcd(q, q') = 1$,
+where $q'$ is the formal derivative of $q$. 
+\label{der_poly}
+\end{lemma}
+
+
+
+
+\subsection{Purely inseparable extensions}
+
+\begin{definition}
+For an element $\alpha \in K$ with minimal polynomial $q$, we say $\alpha$ is \textbf{purely
+inseparable} if $q$ has only one root.  We say $K$ is splitting if each $q$
+splits in $K$.
+\label{def:sepsplit}
+\end{definition}
+
+
+\begin{definition} If $K = F(\alpha)$ for some $\alpha$ with minimal polynomial
+$q(x) \in F[x]$, then by \rref{sep_poly}, $q(x) = r(x^{p^d})$, where $p =
+\Char{F}$ (or $1$ if $\Char{F} = 0$) and $r$ is separable; in this case we
+also denote $\deg_s(K/F) = \deg(r), \deg_i(K/F) = p^d$.  \label{def:prim_sep}
+\end{definition}
+
+
+\section{Galois theory}
+\subsection{Definitions}
+
+Throughout, $F \subset K$ is a finite field extension.  We fix once and for
+all an algebraic closure $M$ for both and an embedding of $F$ in $M$.  When
+necessary, we write $K = F(\alpha_1, \dots, \alpha_n)$, and $K_0 = F, K_i =
+F(\alpha_1, \dots, \alpha_i)$, $q_i$ the minimal polynomial of $\alpha_i$ over
+$F_{i - 1}$, $Q_i$ that over $F$.
+
+\begin{definition} $\Aut(K/F)$ denotes the group of automorphisms of $K$ which fix
+$F$ (pointwise!).  $\Emb(K/F)$ denotes the set of embeddings of $K$ into $M$
+respecting the chosen embedding of $F$.
+\label{def:gal}
+\end{definition}
+
+\begin{definition} By $\deg(K/F)$ we mean the dimension of $K$ as an $F$-vector
+space.  We denote $K_s/F$ the set of elements of $K$ whose minimal polynomials
+over $F$ have distinct roots; by \rref{sep_subfield} this is a subfield, and
+$\deg(K_s/F) = \deg_s(K/F)$ and $\deg(K/K_s) = \deg_i(K/F)$ by definition.
+\label{def:sep}
+\end{definition}
+\subsection{Theorems}
+\begin{lemma} If $\Char{F} = 0$ then $K_s = K$.  If $\Char{F} = p > 0$, then for
+any irreducible $q(x) \in K[x]$, there is some $d \geq 0$ and polynomial $r(x)
+\in K[x]$ such that $q(x) = r(x^{p^d})$, and $r$ is separable and irreducible.
+\label{sep_poly}
+\end{lemma}
+
+\begin{proof} By formal differentiation, $q'(x)$ has positive degree unless
+each exponent is a multiple of $p$; in characteristic zero this never occurs.
+If this is not the case, since $q$ is irreducible, it can have no factor in
+common with $q'$ and therefore has distinct roots by \rref{der_poly}.
+
+If $p > 0$, let $d$ be the largest integer such that each exponent of $q$ is a
+multiple of $p^d$, and define $r$ by the above equation.  Then by
+construction, $r$ has at least one exponent which is not a multiple of $p$,
+and therefore has distinct roots. \end{proof}
+
+\begin{corollary} In the statement of \rref{sep_poly}, $q$ and $r$ have the same
+number of roots.
+\label{sep_roots}
+\end{corollary}
+
+\begin{proof} $\alpha$ is a root of $q$ if and only if $\alpha^{p^d}$ is a
+root of $r$; i.e. the roots of $q$ are the roots of $x^{p^d} - \beta$, where
+$\beta$ is a root of $r$.  But if $\alpha$ is one such root, then $(x -
+\alpha)^{p^d} = x^{p^d} - \alpha^{p^d} = x^{p^d} - \beta$ since $\Char{K} =
+p$, and therefore $\alpha$ is the only root of $x^{p^d} - \beta$. \end{proof}
+
+\begin{lemma} The correspondence which to each $g \in \Emb(K/F)$ assigns the
+$n$-tuple $(g(\alpha_1), \dots, g(\alpha_n))$ of elements of $M$ is a
+bijection from $\Emb(K/F)$ to the set of tuples of $\beta_i \in M$, such that
+$\beta_i$ is a root of $q_i$ over $K(\beta_1, \dots, \beta_{i - 1})$.
+\label{emb_roots}
+\end{lemma}
+
+\begin{proof} First take $K = F(\alpha) = F[x]/(q)$, in which case the maps $g
+\colon K \to M$ over $F$ are identified with the elements $\beta \in M$ such
+that $q(\beta) = 0$ (where $g(\alpha) = \beta$).
+
+Now, considering the tower $K = K_n / K_{n - 1} / \dots / K_0 = F$, each
+extension of which is primitive, and a given embedding $g$, we define
+recursively $g_1 \in \Emb(K_1/F)$ by restriction and subsequent $g_i$ by
+identifying $K_{i - 1}$ with its image and restricting $g$ to $K_i$.  By the
+above paragraph each $g_i$ corresponds to the image $\beta_i = g_i(\alpha_i)$,
+each of which is a root of $q_i$.  Conversely, given such a set of roots of
+the $q_i$, we define $g$ recursively by this formula. \end{proof}
+
+\begin{corollary} $|\Emb(K/F)| = \prod_{i = 1}^n \deg_s(q_i)$.
+\label{emb_size}
+\end{corollary}
+
+\begin{proof} This follows immediately by induction from \rref{emb_roots} by
+\rref{sep_roots}. \end{proof}
+
+\begin{lemma} For any $f \in \Emb(K/F)$, the map $\Aut(K/F) \to \Emb(K/F)$ given
+by $\sigma \mapsto f \circ \sigma$ is injective.  
+\label{aut_inj}
+\end{lemma}
+
+\begin{proof} This is immediate from the injectivity of $f$. \end{proof}
+
+\begin{corollary} $\Aut(K/F)$ is finite.
+\label{aut_fin}
+\end{corollary}
+
+\begin{proof} By \rref{aut_inj}, $\Aut(K/F)$ injects into $\Emb(K/F)$, which by
+\rref{emb_size} is finite. \end{proof}
+
+\begin{proposition} The inequality
+\begin{equation*}
+|\Aut(K/F)| \leq |\Emb(K/F)|
+\end{equation*}
+is an equality if and only if the $q_i$ all split in $K$.
+\label{aut_ineq}
+\end{proposition}
+
+\begin{proof} The inequality follows from \rref{aut_inj} and from \rref{aut_fin}.
+Since both sets are finite, equality holds if and only if the injection of
+\rref{aut_inj} is surjective (for fixed $f \in \Emb(K/F)$).
+
+If surjectivity holds, let $\beta_1, \dots, \beta_n$ be arbitrary roots of
+$q_1, \dots, q_n$ in the sense of \rref{emb_roots}, and extract an embedding $g
+\colon K \to M$ with $g(\alpha_i) = \beta_i$.  Since the correspondence $f
+\mapsto f \circ \sigma$ ($\sigma \in \Aut(K/F)$) is a bijection, there is some
+$\sigma$ such that $g = f \circ \sigma$, and therefore $f$ and $g$ have the
+same image.  Therefore the image of $K$ in $M$ is canonical, and contains
+$\beta_1, \dots, \beta_n$ for any choice thereof.
+
+If the $q_i$ all split, let $g \in \Emb(K/F)$ be arbitrary, so the
+$g(\alpha_i)$ are roots of $q_i$ in $M$ as in \rref{emb_roots}.  But the $q_i$
+have all their roots in $K$, hence in the image $f(K)$, so $f$ and $g$ again
+have the same image, and $f^{-1} \circ g \in \Aut(K/F)$.  Thus $g = f \circ
+(f^{-1} \circ g)$ shows that the map of \rref{aut_inj} is surjective.
+\end{proof}
+
+\begin{corollary} Define
+\begin{equation*}
+D(K/F) = \prod_{i = 1}^n \deg_s(K_i/K_{i - 1}).
+\end{equation*}
+Then the chain of equalities and inequalities
+\begin{equation*}
+|\Aut(K/F)| \leq |\Emb(K/F)| = D(K/F) \leq \deg(K/F)
+\end{equation*}
+holds; the first inequality is an equality if and only if each $q_i$ splits in
+$K$, and the second if and only if each $q_i$ is separable.
+\label{large_aut_ineq}
+\end{corollary}
+
+\begin{proof} The statements concerning the first inequality are just
+\rref{aut_ineq}; the interior equality is just \rref{emb_size}; the latter
+inequality is obvious from the multiplicativity of the degrees of field
+extensions; and the deduction for equality follows from the definition of
+$\deg_s$. \end{proof}
+
+\begin{corollary} The $q_i$ respectively split and are separable in $K$ if and only
+if the $Q_i$ do and are.
+\label{absolute_sepsplit}
+\end{corollary}
+
+\begin{proof} The ordering of the $\alpha_i$ is irrelevant, so we may take
+each $i = 1$ in turn.  Then $Q_1 = q_1$ and if either of the equalities in
+\rref{large_aut_ineq} holds then so does the corresponding statement here.
+Conversely, clearly each $q_i$ divides $Q_i$, so splitting or separability
+for the latter implies that for the former. \end{proof}
+
+\begin{corollary} Let $\alpha \in K$ have minimal polynomial $q$; if the $Q_i$ are
+respectively split, separable, and purely inseparable over $F$ then $q$ is as
+well.
+\label{global_sepsplit}
+\end{corollary}
+
+\begin{proof} We may take $\alpha$ as the first element of an alternative
+generating set for $K/F$.  The numerical statement of \rref{large_aut_ineq}
+does not depend on the particular generating set, hence the conditions given
+hold of the set containing $\alpha$ if and only if they hold of the canonical
+set ${\alpha_1, \dots, \alpha_n}$.
+
+For purely inseparable, if the $Q_i$ all have only one root then $|\Emb(K/F)|
+= 1$ by \rref{large_aut_ineq}, and taking $\alpha$ as the first element of a
+generating set as above shows that $q$ must have only one root as well for
+this to hold. \end{proof}
+
+\begin{corollary} $K_s$ is a field and $\deg(K_s/F) = D(K/F)$.
+\label{sep_subfield}
+\end{corollary}
+
+\begin{proof} Assume $\Char{F} = p > 0$, for otherwise $K_s = K$.  Using
+\rref{sep_poly}, write each $Q_i = R_i(x^{p^{d_i}})$, and let $\beta_i =
+\alpha_i^{p^{d_i}}$.  Then the $\beta_i$ have $R_i$ as minimal polynomials and
+the $\alpha_i$ satisfy $s_i = x^{p^{d_i}} - \beta_i$ over $K' = F(\beta_1,
+\dots, \beta_n)$.  Therefore the $\alpha_i$ have minimal polynomials over $K'$
+dividing the $s_i$ and hence those polynomials have but one distinct root.
+
+By \rref{global_sepsplit}, the elements of $K'$ are separable, and those of
+$K'$ purely inseparable over $K'$.  In particular, since these minimal
+polynomials divide those over $F$, none of these elements is separable, so $K'
+= K_s$.
+
+The numerical statement follows by computation:
+\begin{equation*}
+\deg(K/K') = \prod_{i = 1}^n p^{d_i}
+	= \prod_{i = 1}^n \frac{\deg(K_i/K_{i - 1})}{\deg_s(K_i/K_{i - 1})}
+	= \frac{\deg(K/F)}{D(K/F)}. 
+	\end{equation*}
+\end{proof}
+
+\begin{theorem} The following inequality holds:
+\begin{equation*}
+|\Aut(K/F)| \leq |\Emb(K/F)| = \deg_s(K/F) \leq \deg(K/F).
+\end{equation*}
+Equality holds on the left if and only if $K/F$ is splitting; it holds on the
+right if and only if $K/F$ is separable.
+\label{galois_size}
+\end{theorem}
+
+\begin{proof} The numerical statement combines \rref{large_aut_ineq} and
+\rref{sep_subfield}.  The deductions combine \rref{absolute_sepsplit} and
+\rref{global_sepsplit}. \end{proof}
+
+\subsection{Definitions}
+
+Throughout, we will denote as before $K/F$ a finite field extension, and $G =
+\Aut(K/F)$, $H$ a subgroup of $G$.  $L/F$ is a subextension of $K/F$.
+
+\begin{definition} When $K/F$ is separable and splitting, we say it is Galois and
+write $G = \Gal(K/F)$, the Galois group of $K$ over $F$.
+\label{defn:galois_extension}
+\end{definition}
+
+\begin{definition} The fixed field of $H$ is the field $K^H$ of elements fixed by
+the action of $H$ on $K$.  Conversely, $G_L$ is the fixing subgroup of $L$,
+the subgroup of $G$ whose elements fix $L$.
+\label{defn:fixing}
+\end{definition}
+
+\subsection{Theorems}
+
+\begin{lemma} A polynomial $q(x) \in K[x]$ which splits in $K$ lies in
+$K^H[x]$ if and only if its roots are permuted by the action of $H$.  In this
+case, the sets of roots of the irreducible factors of $q$ over $K^H$ are the orbits
+of the action of $H$ on the roots of $q$ (counting multiplicity).
+\label{root_action}
+\end{lemma}
+
+\begin{proof} Since $H$ acts by automorphisms, we have $\sigma q(x) = q(\sigma
+x)$ as a functional equation on $K$, so $\sigma$ permutes the roots of $q$.
+Conversely, since the coefficients of $\sigma$ are the elementary symmetric
+polynomials in its roots, $H$ permuting the roots implies that it fixes the
+coefficients.
+
+Clearly $q$ is the product of the polynomials $q_i$ whose roots are the orbits
+of the action of $H$ on the roots of $q$, counting multiplicities, so it
+suffices to show that these polynomials are defined over $K^H$ and are
+irreducible.  Since $H$ acts on the roots of the $q_i$ by construction, the
+former is satisfied.  If some $q_i$ factored over $K^H$, its factors would
+admit an action of $H$ on their roots by the previous paragraph.  The roots of
+$q_i$ are distinct by construction, so its factors do not share roots; hence
+the action on the roots of $q_i$ would not be transitive, a contradiction.
+\end{proof}
+
+\begin{corollary} Let $q(x) \in K[x]$; if it is irreducible, then $H$ acts
+transitively on its roots; conversely, if $q$ is separable and $H$ acts
+transitively on its roots, then $q(x) \in K^H[x]$ is irreducible.
+\label{sep_irred}
+\end{corollary}
+
+\begin{proof} Immediate from \rref{root_action}. \end{proof}
+
+\begin{lemma} If $K/F$ is Galois, so is $K/L$, and $\Gal(K/L) = G_L$..
+\label{sub_galois}
+\end{lemma}
+
+\begin{proof} $K/F$ Galois means that the minimal polynomial over $F$ of every
+element of $K$ is separable and splits in $K$; the minimal polynomials over $L
+= K^H$ divide those over $F$, and therefore this is true of $K/L$ as well;
+hence $K/L$ is likewise a Galois extension. $\Gal(K/L) = \Aut(K/L)$ consists
+of those automorphisms $\sigma$ of $K$ which fix $L$; since $F \subset L$ we
+have \emph{a fortiori} that $\sigma$ fixes $F$, hence $\Gal(K/L) \subset G$
+and consists of the subgroup which fixes $L$; i.e. $G_L$. \end{proof}
+
+\begin{corollary} If $K/F$ and $L/F$ are Galois, then the action of $G$ on elements of $L$
+defines a surjection of $G$ onto $\Gal(L/F)$.  Thus $G_L$ is normal in $G$ and $\Gal(L/F) \cong G/G_L$.  Conversely, if $N \subset G$ is normal, then $K^N/F$ is Galois.
+\label{normal}
+\end{corollary}
+
+\begin{proof} $L/F$ is splitting, so by \rref{root_action} the elements of $G$
+act as endomorphisms (hence automorphisms) of $L/F$, and the kernel of this action is $G_L$.  By
+\rref{sub_galois}, we have $G_L = \Gal(K/L)$, so $|G_L| = |\Gal(K/L)| = [K : L] = [K : F] / [L : F]$,
+or rearranging and using that $K/F$ is Galois, we get $|G|/|G_L| = [L : F] =
+|\Gal(L/F)|$.  Thus the map $G \to \Gal(L/F)$ is surjective and thus the induced map $G/G_L \to
+\Gal(L/F)$ is an isomorphism.
+
+Conversely, let $N$ be normal and take $\alpha \in K^N$.  For any conjugate $\beta$ of $\alpha$, we
+have $\beta = g(\alpha)$ for some $g \in G$; let $n \in N$.  Then $n(\beta) = (ng)(\alpha) =
+g(g^{-1} n g)(\alpha) = g(\alpha) = \beta$, since $g^{-1} n g \in N$ by normality of $N$.  Thus
+$\beta \in K^N$, so $K^N$ is splitting, i.e., Galois. \end{proof}
+
+\begin{proposition} If $K/F$ is Galois and $H = G_L$, then $K^H = L$.
+\label{fixed_field}
+\end{proposition}
+
+\begin{proof} By \rref{sub_galois}, $K/L$ and $K/K^H$ are both Galois.  By
+definition, $\Gal(K/L) = G_L = H$; since $H$ fixes $K^H$ we certainly have
+$H < \Gal(K/K^H)$, but since $L \subset K^H$ we have \emph{a fortiori} that
+$\Gal(K/K^H) < \Gal(K/L) = H$, so $\Gal(K/K^H) = H$ as well.  It follows
+from \rref{galois_size} that $\deg(K/L) = |H| = \deg(K/K^H)$, so that $K^H =
+L$. \end{proof}
+
+\begin{lemma} If $K$ is a finite field, then $K^\ast$ is cyclic.
+\label{fin_cyclic}
+\end{lemma}
+
+\begin{proof} $K$ is then a finite extension of $\mathbb{F}_p$ for $p =
+\Char{K}$, hence has order $p^n$, $n = \deg(K/\mathbb{F}_p)$.  Thus
+$\alpha^{p^n} = \alpha$ for all $\alpha \in K$, since $|K^\ast| = p^n - 1$.
+It follows that every element of $K$ is a root of $q_n(x) = x^{p^n} - x$.  For
+any $d < n$, the elements of order at most $p^d - 1$ satisfy $q_d(x)$, which has
+$p^d$ roots.  It follows that there are at least $p^n(p - 1) > 0$ elements of
+order exactly $p^n - 1$, so $K^\ast$ is cyclic. \end{proof}
+
+\begin{corollary} If $K$ is a finite field, then $\Gal(K/F)$ is cyclic, generated by
+the Frobenius automorphism.
+\label{fin_gal_cyclic}
+\end{corollary}
+
+\begin{proof} First take $F = \mathbb{F}_p$.  Then the map $f_i(\alpha) =
+\alpha^{p^i}$ is an endomorphism, injective since $K$ is a field, and
+surjective since it is finite, hence an automorphism.  Since every $\alpha$
+satisfies $\alpha^{p^n} = \alpha$, $f_n = 1$, but by \rref{fin_cyclic}, $f_{n -
+1}$ is nontrivial (applied to the generator).  Since $n = \deg(K/F)$, $f =
+f_1$ generates $\Gal(K/F)$.
+
+If $F$ is now arbitrary, by \rref{fixed_field} we have $\Gal(K/F) =
+\Gal(K/\mathbb{F}_p)_F$, and every subgroup of a cyclic group is cyclic.
+\end{proof}
+
+\begin{corollary} If $K$ is finite, $K/F$ is primitive.
+\label{fin_prim_elt}
+\end{corollary}
+
+\begin{proof} No element of $G$ fixes the generator $\alpha$ of $K^\ast$, so
+it cannot lie in any proper subfield.  Therefore $F(\alpha) = K$. \end{proof}
+
+\begin{proposition} If $F$ is infinite and $K/F$ has only finitely many subextensions, then it is
+primitive.
+\label{gen_prim_elt}
+\end{proposition}
+
+\begin{proof} We proceed by induction on the number of generators of $K/F$.
+
+If $K = F(\alpha)$ we are done.  If not, $K = F(\alpha_1, \dots, \alpha_n) =
+F(\alpha_1, \dots, \alpha_{n - 1})(\alpha_n) = F(\beta, \alpha_n)$ by
+induction, so we may assume $n = 2$.  There are infinitely many subfields
+$F(\alpha_1 + t \alpha_2)$, with $t \in F$, hence two of them are equal, say for $t_1$ and
+$t_2$.  Thus, $\alpha_1 + t_2 \alpha_2 \in F(\alpha_1 + t_1 \alpha_2)$.  Then
+$(t_2 - t_1)\alpha_2 \in F(\alpha_1 + t_1 \alpha_2)$, hence $\alpha_2$ lies in
+this field, hence $\alpha_1$ does.  Therefore $K = F(\alpha_1 + t_1
+\alpha_2)$. \end{proof}
+
+\begin{corollary} If $K/F$ is separable, it is primitive, and the generator may be
+taken to be a linear combination of any finite set of generators of $K/F$.
+\label{prim_elt}
+\end{corollary}
+
+\begin{proof} We may embed $K/F$ in a Galois extension $M/F$ by adjoining all
+the conjugates of its generators.  Subextensions of $K/F$ are as well subextensions
+of $K'/F$ and by \rref{fixed_field} the map $H \mapsto (K')^H$ is a surjection
+from the subgroups of $G$ to the subextensions of $K'/F$, which are hence
+finite in number.  By \rref{fin_prim_elt} we may assume $F$ is infinite.  The
+result now follows from \rref{gen_prim_elt}. \end{proof}
+
+\begin{corollary}
+ If $K/F$ is Galois and $H \subset G$, then if $L = K^H$, we have $H = G_L$.
+ \label{fixing_subgroup}
+\end{corollary}
+
+\begin{proof}
+ Let $\alpha$ be a primitive element for $K/L$.  The polynomial $\prod_{h \in H} (x - h(\alpha))$ is fixed by $H$, and therefore has coefficients in $L$, so $\alpha$ has $|H|$ conjugate roots over $L$.  But since $\alpha$ is primitive, we have $K = L(\alpha)$, so the minimal polynomial of $\alpha$ has degree $\deg(K/L)$, which is the same as the number of its roots.  Thus $|H| = \deg(K/L)$.  Since $H \subset G_L$ and $|G_L| = \deg(K/L)$, we have equality.
+\end{proof}
+
+
+\begin{theorem} The correspondences $H \mapsto K^H$, $L \mapsto G_L$ define
+inclusion-reversing inverse maps between the set of subgroups of $G$ and the
+set of subextensions of $K/F$, such that normal subgroups and Galois subfields
+correspond.
+\label{fundamental_theorem}
+\end{theorem}
+
+\begin{proof} This combines \rref{fixed_field}, \rref{fixing_subgroup}, and \rref{normal}.
+\end{proof}
+
+
+\section{Transcendental Extensions}
+
+
+There is a distinguished type of transcendental extension: those that are
+``purely transcendental.'' 
+\begin{definition} A field extension $E'/E$ is purely transcendental if it is
+obtained by adjoining a set $B$ of algebraically independent elements. A set of
+elements is algebraically independent over $E$ if there is no nonzero polynomial$P$
+with coefficients in $E$ such
+that $P(b_1,b_2,\cdots b_n)=0$ for any finite subset of elements $b_1, \dots,
+b_n \in B$.
+\end{definition}
+
+\begin{example} The field $\mathbb{Q}(\pi)$ is purely transcendental; in
+particular, $\mathbb{Q}(\pi)\cong\mathbb{Q}(x)$ with the isomorphism fixing
+$\mathbb{Q}$. \end{example}
+Similar to the degree of an algebraic extension, there is a way of keeping
+track of the number of algebraically independent generators that are required to
+generate a purely transcendental extension.
+\begin{definition} Let $E'/E$ be a purely transcendental extension generated by
+some set of algebraically independent elements $B$. Then the transcendence
+degree $trdeg(E'/E)=\#(B)$ and $B$ is called a transcendence basis for $E'/E$
+(we will see later that $trdeg(E'/E)$ is independent of choice of basis).
+\end{definition}
+In general, let $F/E$ be a field extension, we can always construct an
+intermediate extension $F/E'/E$ such that $F/E'$ is algebraic and $E'/E$ is
+purely transcendental. Then if $B$ is a transcendence basis for $E'$, it is
+also called a transcendence basis for $F$. Similarly, $trdeg(F/E)$ is defined to
+be
+$trdeg(E'/E)$.
+\begin{theorem} Let $F/E$ be a field extension, a transcendence basis exists.
+\end{theorem}
+\begin{proof} Let $A$ be an algebraically independent subset of $F$. Now pick a
+subset $G\subset F$ that generates $F/E$, we can find a transcendence basis
+$B$ such that $A\subset B\subset G$. Define a collection of algebraically
+independent sets $\mathcal{B}$ whose members are subsets of $G$ that contain
+$A$. The set can be partially ordered inclusion and contains at least one
+element, $A$. The union of elements of $\mathcal{B}$ is algebraically
+independent since any algebraic dependence relation would have occurred in one
+of the elements of $\mathcal{B}$ since the polynomial is only allowed to be over
+finitely many variables. The union also satisfies $A\subset
+\bigcup\mathcal{B}\subset G$ so by Zorn's lemma, there is a maximal element
+$B\in\mathcal{B}$. Now we claim $F$ is algebraic over $E(B)$. This is because
+if it wasn't then there would be a transcendental element $f\in G$ (since
+$E(G)=F$)such that $B\cup\{f\}$ wold be algebraically independent contradicting
+the
+maximality of $B$. Thus $B$ is our transcendence basis. \end{proof}
+Now we prove that the transcendence degree of a field extension is independent
+of choice of basis.
+\begin{theorem} Let $F/E$ be a field extension. Any two transcendence bases for
+$F/E$ have the same cardinality. This shows that the $trdeg(E/F)$ is well
+defined. \end{theorem}
+\begin{proof} 
+Let $B$ and $B'$ be two transcendence bases. Without loss of generality, we can
+assume that $\#(B')\leq \#(B)$. Now we divide the proof into two cases: the
+first case is that $B$ is an infinite set. Then for each $\alpha\in B'$, there
+is a finite set $B_{\alpha}$ such that $\alpha$ is algebraic over
+$E(B_{\alpha})$ since any algebraic dependence relation only uses finitely many
+indeterminates. Then we define $B^*=\bigcup_{\alpha\in B'} B_{\alpha}$. By
+construction, $B^*\subset B$, but we claim that in fact the two sets are
+equal. To see this, suppose that they are not equal, say there is an element
+$\beta\in B\setminus B^*$. We know $\beta$ is algebraic over $E(B')$ which is
+algebraic over $E(B^*)$. Therefor $\beta$ is algebraic over $E(B^*)$, a
+contradiction. So $\#(B)\leq \sum_{\alpha\in B'} \#(B_{\alpha})$. Now if $B'$ is
+finite, then so is $B$ so we can assume $B'$ is infinite; this means
+\begin{equation} \#(B)\leq \sum_{\alpha\in B'}\#(B_{\alpha})=\#(\coprod
+B_{\alpha})\leq \#(B'\times\mathbb{Z})=\#(B')\end{equation} with the inequality $\#(\coprod
+B_{\alpha}) \leq \#(B'\times \mathbb{Z})$ given by the correspondence
+$b_{\alpha_i}\mapsto (\alpha,i)\in B'\times \mathbb{Z}$ with $B_\alpha =
+\{b_{\alpha_1},b_{\alpha_2}\cdots b_{\alpha_{n_\alpha}}\}$ Therefore in the
+infinite case, $\#(B)=\#(B')$.
+
+Now we need to look at the case where $B$ is finite. In this case, $B'$ is also
+finite, so suppose $B=\{\alpha_1,\cdots\alpha_n\}$ and
+$B'=\{\beta_1,\cdots\beta_m\}$ with $m\leq n$. We perform induction on $m$: if
+$m=0$ then $F/E$ is algebraic so $B=\null$ so $n=0$, otherwise there is an
+irreducible polynomial $f\in E[x,y_1,\cdots y_n]$ such that
+$f(\beta_1,\alpha_1,\cdots \alpha_n) = 0$. Since $\beta_1$ is not algebraic over
+$E$, $f$ must involve some $y_i$ so without loss of generality, assume $f$ uses
+$y_1$. Let $B^*=\{\beta_1,\alpha_2,\cdots\alpha_n\}$. We claim that $B^*$ is a
+basis for $F/E$. To prove this claim, we see that we have a tower of algebraic
+extensions $F/E(B^*,\alpha_1)/E(B^*)$ since $\alpha_1$ is algebraic over
+$E(B^*)$. Now we claim that $B^*$ (counting multiplicity of elements) is
+algebraically independent over $E$ because if it weren't, then there would be an
+irreducible $g\in E[x,y_2,\cdots y_n]$ such that
+$g(\beta_1,\alpha_2,\cdots\alpha_n)=0$ which must involve $x$ making $\beta_1$
+algebraic over $E(\alpha_2,\cdots \alpha_n)$ which would make $\alpha_1$
+algebraic over $E(\alpha_2,\cdots \alpha_n)$ which is impossible. So this means
+that $\{\alpha_2,\cdots\alpha_n\}$ and $\{\beta_2,\cdots\beta_m\}$ are bases for
+$F$ over $E(\beta_1)$ which means by induction, $m=n$. \end{proof}
+
+\begin{example} Consider the field extension $\mathbb{Q}(e,\pi)$ formed by
+adjoining the numbers $e$ and $\pi$. This field extension has transcendence
+degree at least $1$ since both $e$ and $\pi$ are transcendental over the
+rationals. However, this field extension might have transcendence degree $2$ if
+$e$ and $\pi$ are algebraically independent. Whether or not this is true is
+unknown and the problem of determining $trdeg(\mathbb{Q}(e,\pi))$ is an open
+problem.\end{example}
+
+\begin{example} let $E$ be a field and $F=E(t)/E$. Then $\{t\}$ is a
+transcendence basis since $F=E(t)$. However, $\{t^2\}$ is also a transcendence
+basis since $E(t)/E(t^2)$ is algebraic. This illustrates that while we can
+always decompose an extension $F/E$ into an algebraic extension $F/E'$ and a
+purely transcendental extension $E'/E$, this decomposition is not unique and
+depends on choice of transcendence basis. \end{example}
+
+\begin{exercise} If we have a tower of fields $G/F/E$, then $trdeg(G/E)=trdeg(F/E)+trdeg(G/F)$. \end{exercise}
+
+\begin{example} 
+Let $X$ be a compact Riemann surface. Then the function field $\mathbb{C}(X)$
+(see \cref{meromorphicfn}) has transcendence degree one over $\mathbb{C}$. In
+fact, \emph{any} finitely generated extension of $\mathbb{C}$ of transcendence
+degree one arises from a Riemann surface. There is even an equivalence of
+categories between the category of compact Riemann surfaces and
+(non-constant) holomorphic maps 
+and the opposite category of finitely generated extensions of $\mathbb{C}$ and
+morphisms of $\mathbb{C}$-algebras. See \cite{Fo81}.
+
+There is an algebraic version of the above statement as well. Given an
+(irreducible) algebraic curve in projective space over an algebraically
+closed field $k$ (e.g. the complex numbers), one can consider its ``field of rational
+functions:'' basically, functions that look like quotients of polynomials,
+where the denominator does not identically vanish on the curve. 
+There is a similar anti-equivalence of categories between smooth projective curves and
+non-constant morphisms of curves and finitely generated extensions of $k$ of
+transcendence degree one. See \cite{Ha77}.
+\end{example} 
+
+
+\subsection{Linearly Disjoint Field Extensions}
+Let $k$ be a field, $K$ and $L$ field extensions of $k$. Suppose also that $K$ and $L$ are embedded in some larger field $\Omega$. 
+
+\begin{definition} The compositum of $K$ and $L$ written $KL$ is $k(K\cup L)=L(K)=K(L)$. 
+\end{definition}
+
+
+
+\begin{definition} $K$ and $L$ are said to be linearly disjoint over $k$ if the following map is injective:
+\begin{equation} \theta: K\otimes_k L\rightarrow KL \end{equation} defined by $x\otimes y\mapsto xy$. 
+\end{definition}
+
+
