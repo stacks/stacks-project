@@ -6,7 +6,7 @@
 # This should be in order.
 LIJST = introduction conventions sets categories \
 	topology sheaves sites stacks \
-	algebra brauer \
+	fields algebra brauer \
 	homology derived simplicial \
 	more-algebra smoothing \
 	modules sites-modules \
