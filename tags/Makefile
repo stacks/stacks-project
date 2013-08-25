@@ -8,7 +8,7 @@
 LIJST = introduction conventions sets categories \
 	topology sheaves sites stacks \
 	fields algebra brauer \
-	homology derived simplicial \
+	homology derived simplicial dga \
 	more-algebra smoothing \
 	modules sites-modules \
 	injectives cohomology sites-cohomology hypercovering \
