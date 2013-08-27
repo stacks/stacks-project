@@ -89,6 +89,33 @@ compatible with the gradings and $\text{d}$.
 \end{definition}
 
 \begin{definition}
+\label{definition-opposite-dga}
+Let $R$ be a ring. Let $(A, \text{d})$ be a differential graded algebra
+over $R$. The {\it opposite differential graded algebra} is the differential
+graded algebra $(A^{opp}, \text{d})$ over $R$ where $A^{opp} = A$
+as an $R$-module, $\text{d} = \text{d}$, and multiplication is
+given by
+$$
+a \cdot_{opp} b = (-1)^{\deg(a)\deg(b)} b a
+$$
+for homogeneous elements $a, b \in A$.
+\end{definition}
+
+\noindent
+This makes sense because
+\begin{align*}
+\text{d}(a \cdot_{opp} b)
+& =
+(-1)^{\deg(a)\deg(b)} \text{d}(b a) \\
+& =
+(-1)^{\deg(a)\deg(b)} \text{d}(b) a +
+(-1)^{\deg(a)\deg(b) + \deg(b)}b\text{d}(a) \\
+& =
+(-1)^{\deg(a)}a \cdot_{opp} \text{d}(b) + \text{d}(a) \cdot_{opp} b
+\end{align*}
+as desired.
+
+\begin{definition}
 \label{definition-cdga}
 A differential graded algebra $(A, \text{d})$ is {\it commutative} if
 $ab = (-1)^{nm}ba$ for $a$ in degree $n$ and $b$ in degree $m$.
@@ -147,26 +174,41 @@ Just the definitions.
 
 \begin{definition}
 \label{definition-dgm}
-Let $(A, \text{d})$ be a differential graded algebra.
-A (left) {\it differential graded module} $M$ over $A$ is a left $A$-module
+Let $R$ be a ring.
+Let $(A, \text{d})$ be a differential graded algebra over $R$.
+A (right) {\it differential graded module} $M$ over $A$ is a right $A$-module
 $M$ which has a grading $M = \bigoplus M^n$ and a differential $\text{d}$
-such that $A^n M^m \subset M^{n + m}$, such that
+such that $M^n A^m \subset M^{n + m}$, such that
 $\text{d}(M^n) \subset M^{n + 1}$, and such that
 $$
-\text{d}(am) = \text{d}(a)m + (-1)^na\text{d}m
+\text{d}(ma) = \text{d}(m) + (-1)^n m\text{d}(a)
 $$
-for $a \in A^n$ and $m \in M$. A
+for $a \in A$ and $m \in M^n$. A
 {\it homomorphism of differential graded modules} $f : M \to N$
 is an $A$-module map compatible with gradings and differentials.
-The category of differential graded $A$-modules is denoted
+The category of (right) differential graded $A$-modules is denoted
 $\text{Mod}_{(A, \text{d})}$.
 \end{definition}
 
 \noindent
 Note that we can think of $M$ as a cochain complex $M^\bullet$
-of $R$-modules. Namely, for $r \in R$ we have $\text{d}(r) = 0$
+of (right) $R$-modules. Namely, for $r \in R$ we have $\text{d}(r) = 0$
 and $r$ maps to a degree $0$ element of $A$, hence
-$\text{d}(rm) = r\text{d}(m)$
+$\text{d}(mr) = \text{d}(m)r$.
+
+\medskip\noindent
+We can define {\it left differential graded $A$-modules} in exactly the same
+manner. If $M$ is a left $A$-module, then we can think of $M$ as a
+right $A^{opp}$-module with mulitplication $\cdot_{opp}$ defined by
+the rule
+$$
+m \cdot_{opp} a = (-1)^{\deg(a)\deg(m)} a m
+$$
+for $a$ and $m$ homogeneous. The category of left differential graded
+$A$-modules is equivalent to the category of right differential
+graded $A^{opp}$-modules. We prefer to work with right modules
+(essentially because of what happens in Example \ref{example-dgm-dg-cat}), but
+the reader is free to switch to left modules if (s)he so desires.
 
 \begin{lemma}
 \label{lemma-dgm-abelian}
@@ -400,12 +442,12 @@ morphism which makes the diagram commute.
 \end{lemma}
 
 \begin{proof}
-Let $h : A \to D$ be a homotopy between $bf$ and $ga$, i.e.,
-$bf - ga = \text{d}h + h\text{d}$. Suppose that $\pi : B \to A$
+Let $h : K \to N$ be a homotopy between $bf$ and $ga$, i.e.,
+$bf - ga = \text{d}h + h\text{d}$. Suppose that $\pi : L \to K$
 is a graded $A$-module map left inverse to $f$. Take
 $b' = b + \text{d}h\pi + h\pi \text{d}$.
-Suppose $s : D \to C$ is a graded $A$-module map right inverse to
-$g : C \to D$. Take $a' = a + \text{d}sh + sh\text{d}$.
+Suppose $s : N \to M$ is a graded $A$-module map right inverse to $g$.
+Take $a' = a + \text{d}sh + sh\text{d}$.
 Computations omitted.
 \end{proof}
 
@@ -511,8 +553,8 @@ Then $b \circ b' = 0$ as a map of modules.
 
 \noindent
 Let $(A, \text{d})$ be a differential graded algebra. We can think of $A$
-as a differential graded $A$-module over itself. Moreover, we have the
-shifts $A[k]$ for all $k \in \mathbf{Z}$. Direct summands of direct sums
+as a right differential graded $A$-module over itself. Moreover, we have
+the shifts $A[k]$ for all $k \in \mathbf{Z}$. Direct summands of direct sums
 of shifts will play an important role in the following.
 
 \begin{lemma}
@@ -525,7 +567,7 @@ shifts of $A$, then $M \to P$ is an admissible epimorphism.
 
 \begin{proof}
 If $P = A$, then we pick any $m \in M^0$ mapping to $1 \in A$.
-The map $A \to M$, $a \mapsto am$ will be a left inverse to the
+The map $A \to M$, $a \mapsto ma$ will be a left inverse to the
 map $M \to A$. This property extennds in the usual manner to
 direct sums and direct summands of such.
 \end{proof}
@@ -580,8 +622,8 @@ Let $(A, \text{d})$ be a differential graded algebra.
 of differential graded $A$-modules, then the {\it triangle associated
 to $0 \to K \to L \to M \to 0$} is the triangle 
 (\ref{equation-triangle-associated-to-admissible-ses})
-of $K(\text{Mod}_{(A, \text{d})}$.
-\item A triangle of $K(\text{Mod}_{(A, \text{d})}$ is called a
+of $K(\text{Mod}_{(A, \text{d})})$.
+\item A triangle of $K(\text{Mod}_{(A, \text{d})})$ is called a
 {\it distinguished triangle} if it is isomorphic to a triangle
 associated to an admissible short exact sequence
 of differential graded $A$-modules.
@@ -1292,7 +1334,7 @@ quasi-isomorphisms. Thus this lemma is a special case of
 Derived Categories, Lemma \ref{derived-lemma-acyclic-general}.
 
 \medskip\noindent
-Set theoretical remark: The construction of the localization in
+Set theoretical remark. The construction of the localization in
 Derived Categories, Proposition
 \ref{derived-proposition-construct-localization}
 assumes the given triangulated category is ``small'', i.e., that the
@@ -1609,10 +1651,11 @@ $$
 (observe reversal of indices) consisting of those
 $f = (f_{p, q})$ such that
 $$
-f_{p, q}(a x) = (-1)^{n\deg(a)}a f_{p - \deg(a), q + \deg(a)}(m)
+f_{p, q}(x a) = f_{p - i, q + i}(m)a
 $$
-for $a \in A$ homogeneous and $m \in L^{-q - \deg(a)}$.
-For an element $f \in \Hom^n(L, M)$ we set
+for $a \in A^i$ and $m \in L^{-q - i}$. In other words, $\Hom^n(L, M)$
+is the set of (right) $A$-module maps $L \to M$ which are homogeneous of
+degree $n$. For an element $f \in \Hom^n(L, M)$ we set
 $$
 \text{d}(f) = \prod\nolimits_{p + q = n} \text{d}(f_{p, q})
 $$
@@ -1622,8 +1665,8 @@ $$
 \text{d}_M \circ f_{p, q} + (-1)^{p + q} f_{p, q} \circ \text{d}_L
 $$
 Note that the first term of this expression is in
-$\Hom_\mathcal{B}(L^{-q}, M^{p + 1})$ and the second term is in
-$\Hom_\mathcal{B}(L^{-q - 1}, M^p)$ hence the infinite product
+$\Hom_R(L^{-q}, M^{p + 1})$ and the second term is in
+$\Hom_R(L^{-q - 1}, M^p)$ hence the infinite product
 above makes sense. In other words, given $p + q = n + 1$ we have
 $$
 \text{d}(f)_{p, q} =
@@ -1634,9 +1677,8 @@ $\text{d}(f) = \text{d}_M \circ f - (-1)^n f \circ \text{d}_L$.
 The reader checks that
 \begin{enumerate}
 \item $\text{d}$ has square zero,
-\item an element $f = (f_{p, -p})$ in $\Hom^0(L, M)$
-has $\text{d}(f) = 0$ if and only if the morphisms $f_{-p, p} : L^p \to M^p$
-fit together into a homomorphism of differential graded $A$-modules,
+\item an element $f$ in $\Hom^0(L, M)$ has $\text{d}(f) = 0$ if and only if
+$f : L \to M$ is a homomorphism of differential graded $A$-modules,
 \item the homomorphism defined by $f$ as in (2)
 is homotopy equivalent to zero if and only if $f = \text{d}(g)$
 for some $g \in \Hom^{-1}(L, M)$.
@@ -1651,9 +1693,8 @@ Let $K$, $L$, $M$ be complexes. Composition is defined via the maps
 $$
 \Hom^m(L, M) \times \Hom^n(K, L) \longrightarrow \Hom^{n + m}(K, M)
 $$
-$(g, f) \mapsto g \circ f$ with $(g \circ f)_{p, r} = g_{p, q} \circ f_{q, r}$
-where $q$ is such that $p + q = m$ and $q + r = n$. This defines a map
-of differential graded modules as in
+by simple composition of right $A$-module maps: $(g, f) \mapsto g \circ f$.
+This defines a map of differential graded modules as in
 Definition \ref{definition-dga-category}
 because
 \begin{align*}
@@ -1667,6 +1708,9 @@ because
 \end{align*}
 as desired.
 \end{example}
+
+
+
 
 
 
