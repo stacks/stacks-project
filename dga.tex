@@ -607,7 +607,8 @@ a direct summand of a direct sum of the shifts $A[k]$.
 \medskip\noindent
 If $(A, \text{d})$ is a differential graded algebra and $P$ is
 an object of $\text{Mod}_{(A, \text{d})}$ then we say
-{\it $P$ is projective as a graded $A$-module} to mean
+{\it $P$ is projective as a graded $A$-module} or sometimes
+{\it $P$ is graded projective} to mean
 that $P$ is a projective object of the abelian category $\text{Mod}_A$
 of graded $A$-modules.
 
@@ -621,6 +622,24 @@ $M \to P$ is an admissible epimorphism.
 
 \begin{proof}
 This is immediate from the definitions.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-hom-from-shift-free}
+Let $(A, d)$ be a differential graded algebra. Then we have
+$$
+\Hom_{\text{Mod}_{(A, \text{d})}}(A[k], M) =
+\text{Ker}(\text{d} : M^{-k} \to M^{-k + 1})
+$$
+and
+$$
+\Hom_{K(\text{Mod}_{(A, \text{d})})}(A[k], M) = H^{-k}(M)
+$$
+for any differential graded $A$-module $M$.
+\end{lemma}
+
+\begin{proof}
+This is clear from the discussion above.
 \end{proof}
 
 
@@ -695,7 +714,8 @@ If $M$ is a graded $A$-module we set
 $$
 M^\vee =
 \bigoplus\nolimits_{n \in \mathbf{Z}}
-\Hom_\mathbf{Z}(M^{-n}, \mathbf{Q}/\mathbf{Z})
+\Hom_\mathbf{Z}(M^{-n}, \mathbf{Q}/\mathbf{Z}) =
+\bigoplus\nolimits_{n \in \mathbf{Z}} (M^{-n})^\vee
 $$
 as a graded $R$-module with the $A$-module structure defined as above
 (for homogeneous elements). This again switches left and right modules.
@@ -713,7 +733,7 @@ $$
 \Hom_{\text{Mod}_A}(
 N, \bigoplus \Hom_\mathbf{Z}(A^{-n}, \mathbf{Q}/\mathbf{Z})) = (N^0)^\vee
 $$
-and we conclude because the functor $N \mapsto (N*0)^\vee = (N^\vee)^0$
+and we conclude because the functor $N \mapsto (N^0)^\vee = (N^\vee)^0$
 is exact. To see that the second equality holds we use the equalities
 $$
 \Hom_\mathbf{Z}(N^n, \Hom_\mathbf{Z}(A^{-n}, \mathbf{Q}/\mathbf{Z})) =
@@ -770,6 +790,85 @@ of graded $A$-modules, then $I \to M$ is an admissible monomorphism.
 
 \begin{proof}
 This is immediate from the definitions.
+\end{proof}
+
+\noindent
+Let $(A, \text{d})$ be a differential graded algebra. If $M$ is a
+(right) differential graded $A$-module, then $M^\vee$ (as defined above
+for graded modules) is a differential graded module as well with
+differential given by the contragredient of $\text{d}_M$ up to sign.
+The sign rule (see Example \ref{example-dgm-dg-cat}) is to set
+$$
+\text{d}_{M^\vee}(f) = - (-1)^n f \circ \text{d}_M^{-n - 1}
+\quad\text{in }(M^\vee)^{n + 1}
+$$
+where $f \in (M^\vee)^n = \Hom_\mathbf{Z}(M^{-n}, \mathbf{Q}/\mathbf{Z})$
+and $\text{d}_M^{-n - 1} : M^{-n - 1} \to M^{-n}$ is the differential
+of $M$. This does indeed work, namely, if $a \in A^m$, $x \in M^{-n - m - 1}$
+and $f$ as above, then
+\begin{align*}
+\text{d}_{M^\vee}(a f)(x) & =
+- (-1)^{n + m} (a f)(\text{d}(x)) \\
+& =
+- (-1)^{n + m} f(\text{d}(x)a) \\
+& =
+- (-1)^{n + m} f(\text{d}(xa) - (-1)^{n + m}x\text{d}(a)) \\
+& =
+(\text{d}(a) f)(x) + (-1)^m (a \text{d}_{M^\vee}(f))(x)
+\end{align*}
+in other words we have $\text{d}(af) = \text{d}(a)f + (-1)^m a \text{d}(f)$
+as desired.
+
+\medskip\noindent
+Similarly, if $M$ is a left differential graded module, then
+$M^\vee$ becomes a right differential graded module with the same
+sign rule for $\text{d}_{M^\vee}$. Computation omitted.
+
+\begin{lemma}
+\label{lemma-map-into-dual}
+Let $(A, \text{d})$ be a differential graded algebra. If
+$M$ is a left differential graded $A$-module and $N$ is a
+right differential graded $A$-module, then
+$$
+\Hom_{\text{Mod}_{(A, \text{d})}}(N, M^\vee)
+$$
+is isomorphic to the set of sequences $(\psi_n)$ of $\mathbf{Z}$-bilinear
+pairings
+$$
+\psi_n : N^n \times M^{-n} \longrightarrow \mathbf{Q}/\mathbf{Z}
+$$
+such that $\psi_{n + m}(y, ax) = \psi_{n + m}(ya, x)$ for all
+$y \in N^n$, $x \in M^{-m}$, and $a \in A^{m - n}$ and such that
+$\psi_{n + 1}(\text{d}(y), x) + (-1)^n \psi_n(y, \text{d}(x)) = 0$
+for all $y \in N^n$ and $x \in M^{-n - 1}$.
+\end{lemma}
+
+\begin{proof}
+If $f \in \Hom_{\text{Mod}_{(A, \text{d})}}(N, M^\vee)$, then we
+map this to the sequence of pairings defined by
+$\psi_n(y, x) = f(y)(x)$. It is a computation (omitted) to see
+that these pairings satisfy the conditions as in the lemma.
+For the converse, use
+Algebra, Lemma \ref{algebra-lemma-hom-from-tensor-product} to turn a sequence
+of pairings into a map $f : N \to M^\vee$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-hom-into-shift-dual-free}
+Let $(A, \text{d})$ be a differential graded algebra. Then we have
+$$
+\Hom_{\text{Mod}_{(A, \text{d})}}(M, A^\vee[k]) =
+\text{Ker}(\text{d} : (M^\vee)^k \to (M^\vee)^{k + 1})
+$$
+and
+$$
+\Hom_{K(\text{Mod}_{(A, \text{d})})}(A[k], M) = H^k(M^\vee)
+$$
+for any differential graded $A$-module $M$.
+\end{lemma}
+
+\begin{proof}
+This is clear from the discussion above.
 \end{proof}
 
 
@@ -1345,7 +1444,7 @@ In fact, condition (2) is a consequence of condition (3), see
 Lemma \ref{lemma-target-graded-projective}.
 
 \begin{lemma}
-\label{lemma-property-F-sequence}
+\label{lemma-property-P-sequence}
 Let $(A, \text{d})$ be a differential graded algebra.
 Let $P$ be a differential graded $A$-module. If $F_\bullet$
 is a filtration as in property (P), then we obtain an
@@ -1359,7 +1458,15 @@ of differential graded $A$-modules.
 \end{lemma}
 
 \begin{proof}
-Omitted.
+The second map is the direct sum of the inclusion maps.
+The first map on the summand $F_iP$ of the source is the sum
+of the identity $F_iP \to F_iP$ and the negative of the inclusion
+map $F_iP \to P_{i + 1}P$. Choose homomorphisms $s_i : F_{i + 1}P \to F_iP$
+of graded $A$-modules which are left inverse to the inclusion maps.
+Composing gives maps $s_{j, i} : F_jP \to F_iP$ for all $j > i$.
+Then a left inverse of the first arrow maps $x \in F_jP$ to
+$(s_{j, 0}(x), s_{j, 1}(x), \ldots, s_{j, j - 1}(x), 0, \ldots)$
+in $\bigoplus F_iP$.
 \end{proof}
 
 \noindent
@@ -1369,7 +1476,7 @@ property (P) are the dual notion to K-injective modules
 Derived Categories, Definition \ref{derived-definition-K-injective}.
 
 \begin{lemma}
-\label{lemma-property-F-K-projective}
+\label{lemma-property-P-K-projective}
 Let $(A, \text{d})$ be a differential graded algebra.
 Let $P$ be a differential graded $A$-module with property (P).
 Then
@@ -1383,7 +1490,7 @@ for all acyclic differential graded $A$-modules $N$.
 We will use that $K(\text{Mod}_{(A, \text{d})})$ is a triangulated
 category (Proposition \ref{proposition-homotopy-category-triangulated}).
 Let $F_\bullet$ be a filtration on $P$ as in property (P).
-The short exact sequence of Lemma \ref{lemma-property-F-sequence}
+The short exact sequence of Lemma \ref{lemma-property-P-sequence}
 produces a distinguished triangle. Hence by
 Derived Categories, Lemma \ref{derived-lemma-representable-homological}
 it suffices to show that
@@ -1392,18 +1499,14 @@ $$
 $$
 for all acyclic differential graded $A$-modules $N$ and all $i$.
 Each of the differential graded modules $F_iP$ has a finite filtration
-by admissible monomorphisms, whose graded pieces are direct summands
-of direct sums of shifts of $A$. Thus it suffices to prove that
+by admissible monomorphisms, whose graded pieces are projective
+as graded $A$-modules. By the description of graded projective modules
+in Section \ref{section-projectives-over-algebras} it suffices to prove that
 $$
 \Hom_{K(\text{Mod}_{(A, \text{d})})}(A[k], N) = 0
 $$
 for all acyclic differential graded $A$-modules $N$ and all $k$.
-Since
-$$
-\Hom_{K(\text{Mod}_{(A, \text{d})})}(A[k], M) = H^{-k}(M)
-$$
-for any differential graded $A$-module $M$ we conclude. We'd like to
-point out that we use that $A$ is unital here.
+This follows from Lemma \ref{lemma-hom-from-shift-free}.
 \end{proof}
 
 \begin{lemma}
@@ -1465,7 +1568,7 @@ $P^n = \bigoplus_{a + b = n} P_{-a}^b$ and
 differential (as in the construction of the total complex associated
 to a double complex) by
 $$
-\text{d}_P(x) = f_{-a}(x) + (-1)^a \text{d}_{P_{-a}}
+\text{d}_P(x) = f_{-a}(x) + (-1)^a \text{d}_{P_{-a}}(x)
 $$
 for $x \in P_{-a}^b$. With these conventions $P$ is indeed a differential
 graded $A$-module. Recalling that each $P_i$ has a two step filtration
@@ -1481,8 +1584,7 @@ are direct sums of shifts of $A$. By
 Lemma \ref{lemma-target-graded-projective} we see that
 the inclusions $F_iP \to F_{i + 1}P$ are admissible monomorphisms.
 Finally, we have to show that the map $P \to M$ (given by the
-augmentation $P_0 \to M$) is a quasi-isomorphism. This is a special
-case of
+augmentation $P_0 \to M$) is a quasi-isomorphism. This follows from
 Homology, Lemma \ref{homology-lemma-good-resolution-gives-qis}.
 \end{proof}
 
@@ -1511,8 +1613,203 @@ monomorphisms,
 \item the quotients $F_{i - 1}I/F_iI$ are injective as graded $A$-modules.
 \end{enumerate}
 In fact, condition (2) is a consequence of condition (3), see
-Lemma \ref{lemma-target-graded-projective}.
+Lemma \ref{lemma-source-graded-injective}.
 
+\begin{lemma}
+\label{lemma-property-I-sequence}
+Let $(A, \text{d})$ be a differential graded algebra.
+Let $I$ be a differential graded $A$-module. If $F_\bullet$
+is a filtration as in property (I), then we obtain an
+admissible short exact sequence
+$$
+0 \to I \to
+\prod\nolimits I/F_iI \to
+\prod\nolimits I/F_iI \to 0
+$$
+of differential graded $A$-modules.
+\end{lemma}
+
+\begin{proof}
+Omitted. Hint: This is dual to Lemma \ref{lemma-property-P-sequence}.
+\end{proof}
+
+\noindent
+The following lemma shows that differential graded modules with
+property (I) are the analogue of K-injective modules. See
+Derived Categories, Definition \ref{derived-definition-K-injective}.
+
+\begin{lemma}
+\label{lemma-property-I-K-injective}
+Let $(A, \text{d})$ be a differential graded algebra.
+Let $I$ be a differential graded $A$-module with property (I).
+Then
+$$
+\Hom_{K(\text{Mod}_{(A, \text{d})})}(N, I) = 0
+$$
+for all acyclic differential graded $A$-modules $N$.
+\end{lemma}
+
+\begin{proof}
+We will use that $K(\text{Mod}_{(A, \text{d})})$ is a triangulated
+category (Proposition \ref{proposition-homotopy-category-triangulated}).
+Let $F_\bullet$ be a filtration on $I$ as in property (I).
+The short exact sequence of Lemma \ref{lemma-property-I-sequence}
+produces a distinguished triangle. Hence by
+Derived Categories, Lemma \ref{derived-lemma-representable-homological}
+it suffices to show that
+$$
+\Hom_{K(\text{Mod}_{(A, \text{d})})}(N, I/F_iI) = 0
+$$
+for all acyclic differential graded $A$-modules $N$ and all $i$.
+Each of the differential graded modules $I/F_iI$ has a finite filtration
+by admissible monomorphisms, whose graded pieces are injective
+as graded $A$-modules. By the description of graded injective modules in
+Section \ref{section-modules-noncommutative}
+it suffices to prove that
+$$
+\Hom_{K(\text{Mod}_{(A, \text{d})})}(N, A^\vee[k]) = 0
+$$
+for all acyclic differential graded $A$-modules $N$ and all $k$.
+This follows from Lemma \ref{lemma-hom-into-shift-dual-free}
+and the fact that $(-)^\vee$ is an exact functor.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-good-sub}
+Let $(A, \text{d})$ be a differential graded algebra.
+Let $M$ be a differential graded $A$-module. There exists a homomorphism
+$M \to I$ of differential graded $A$-modules with the following
+properties
+\begin{enumerate}
+\item $M \to I$ is injective,
+\item $\text{Coker}(\text{d}_M) \to \text{Coker}(\text{d}_I)$ is injective,
+and
+\item $I$ sits in an admissible short exact sequence
+$0 \to I' \to I \to I'' \to 0$ where $I'$, $I''$ are products
+of shifts of $A^\vee$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+For every $k \in \mathbf{Z}$ let $Q_k$ be the free left $A$-module with
+generators $x, y$ in degrees $k$ and $k + 1$. Define the structure of a
+left differential graded $A$-module on $Q_k$ by setting $\text{d}(x) = y$
+and $\text{d}(y) = 0$. Let $I_k = Q_{-k}^\vee$ be the ``dual'' right
+differential graded $A$-module, see
+Section \ref{section-modules-noncommutative}.
+The next paragraph shows that we can embed $M$ into a product
+of copies of $I_k$ (for varying $k$). The dual statement (that any
+differential graded module is a quotient of a direct sum of of $P_k$'s)
+is easy to prove (see proof of Lemma \ref{lemma-good-quotient})
+and using double duals there should be a noncomputational
+way to deduce what we want. Thus we suggest skipping the next paragraph.
+
+\medskip\noindent
+Given a $\mathbf{Z}$-linear map $\lambda : M^k \to \mathbf{Q}/\mathbf{Z}$
+we construct pairings
+$$
+\psi_n : M^n \times Q_k^{-n} \longrightarrow \mathbf{Q}/\mathbf{Z}
+$$
+by setting
+$$
+\psi_n(m, ax + by) = \lambda(ma + (-1)^{k + 1}\text{d}(mb))
+$$
+for $m \in M^n$, $a \in A^{-n - k}$, and $b \in A^{-n - k - 1}$. We compute
+\begin{align*}
+\psi_{n + 1}(\text{d}(m), ax + by)
+& =
+\lambda\left(\text{d}(m)a + (-1)^{k + 1}\text{d}(\text{d}(m)b)\right) \\
+& =
+\lambda\left(\text{d}(m)a + (-1)^{k + n}\text{d}(m)\text{d}(b)\right)
+\end{align*}
+and because
+$\text{d}(ax + by) = \text{d}(a)x + (-1)^{-n - k}ay + \text{d}(b)y$ we have
+\begin{align*}
+\psi_n(m, \text{d}(ax + by))
+& =
+\lambda\left(
+m\text{d}(a) + (-1)^{k + 1}\text{d}(m((-1)^{-n - k}a + \text{d}(b)))
+\right) \\
+& =
+\lambda\left(
+m\text{d}(a) + (-1)^{-n + 1}\text{d}(ma) + (-1)^{k + 1}\text{d}(m)\text{d}(b)))
+\right)
+\end{align*}
+and we see that
+$$
+\psi_{n + 1}(\text{d}(m), ax + by) + (-1)^n\psi_n(m, \text{d}(ax + by)) = 0
+$$
+Thus these pairings define a homomorphism
+$f_\lambda : M \to I_k$ by Lemma \ref{lemma-map-into-dual}
+such that the composition
+$$
+M^k \xrightarrow{f^k_\lambda} I_k^k = (Q_k^k)^\vee
+\xrightarrow{\text{evaluation at }x} \mathbf{Q}/\mathbf{Z}
+$$
+is the given map $\lambda$. It is clear that we can find an embedding
+into a product of copies of $I_k$'s by using a map of the form
+$\prod f_\lambda$ for a suitable choice of the maps $\lambda$.
+
+\medskip\noindent
+The result of the previous paragraph produces $M \to I$
+having properties (1) and (3). To obtain property (2), suppose
+$\overline{m} \in \text{Coker}(\text{d}_M)$ is a nonzero element of
+degree $k$. Pick a map $\lambda : M^k \to \mathbf{Q}/\mathbf{Z}$
+which vanishes on $\text{Im}(M^{k - 1} \to M^k)$ but not on $m$. By
+Lemma \ref{lemma-hom-into-shift-dual-free}
+this corresponds to a homomorphism $M \to A^\vee[k]$ of
+differential graded $A$-modules which does not vanish on $m$.
+Hence we can achieve (2) by adding
+a product of copies of shifts of $A^\vee$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-right-resolution}
+Let $(A, \text{d})$ be a differential graded algebra.
+Let $M$ be a differential graded $A$-module. There exists a homomorphism
+$M \to I$ of differential graded $A$-modules such that
+\begin{enumerate}
+\item $M \to I$ is a quasi-isomorphism, and
+\item $I$ has property (I).
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Set $M = M_0$. We inductively choose short exact sequences
+$$
+0 \to M_i \to I_i \to M_{i + 1} \to 0
+$$
+where the maps $M_i \to I_i$ are chosen as in Lemma \ref{lemma-good-sub}.
+This gives a ``resolution''
+$$
+0 \to M \to I_0 \xrightarrow{f_0} I_1 \xrightarrow{f_1} I_1 \to \ldots
+$$
+Then we set
+$$
+I = \prod\nolimits_{i \geq 0} I_i
+$$
+where we take the product in the category of graded $A$-modules
+and differential defined by
+$$
+\text{d}_I(x) = f_a(x) + (-1)^a \text{d}_{I_a}(x)
+$$
+for $x \in I_a^b$. With these conventions $I$ is indeed a differential
+graded $A$-module. Recalling that each $I_i$ has a two step filtration
+$0 \to I_i' \to I_i \to I_i'' \to 0$ we set
+$$
+F_{2i}P = \prod\nolimits_{j \geq i} I_j
+\subset
+\prod\nolimits_{i \geq 0} I_i = I
+$$
+and we add a factor $I'_{i + 1}$ to $F_{2i}I$ to get $F_{2i + 1}I$.
+These are differential graded submodules and the successive quotients
+are products of shifts of $A^\vee$. By
+Lemma \ref{lemma-source-graded-injective} we see that
+the inclusions $F_{i + 1}I \to F_iI$ are admissible monomorphisms.
+Finally, we have to show that the map $M \to I$ (given by the
+augmentation $M \to I_0$) is a quasi-isomorphism. This follows from
+Homology, Lemma \ref{homology-lemma-good-right-resolution-gives-qis}.
+\end{proof}
 
 
 
@@ -1613,16 +1910,24 @@ derived category.
 \label{lemma-hom-derived}
 Let $(A, \text{d})$ be a differential graded algebra.
 Let $M$ and $N$ be differential graded $A$-modules.
-Let $P \to M$ be a P-resolution as in
+\begin{enumerate}
+\item Let $P \to M$ be a P-resolution as in
 Lemma \ref{lemma-resolve}. Then
 $$
 \Hom_{D(A, \text{d})}(M, N) =
 \Hom_{K(\text{Mod}_{(A, \text{d})})}(P, N)
 $$
+\item Let $N \to I$ be an I-resolution as in
+Lemma \ref{lemma-right-resolution}. Then
+$$
+\Hom_{D(A, \text{d})}(M, N) =
+\Hom_{K(\text{Mod}_{(A, \text{d})})}(M, I)
+$$
+\end{enumerate}
 \end{lemma}
 
 \begin{proof}
-Since $P \to M$ is a quasi-isomorphism we see that
+Let $P \to M$ be as in (1). Since $P \to M$ is a quasi-isomorphism we see that
 $$
 \Hom_{D(A, \text{d})}(P, N) = \Hom_{D(A, \text{d})}(M, N)
 $$
@@ -1635,10 +1940,15 @@ N \to N' \to Q \to N[1]
 $$
 As $s$ is a quasi-isomorphism, we see that $Q$ is acyclic. Thus
 $\Hom_{K(\text{Mod}_{(A, \text{d})})}(P, Q[k]) = 0$ for all $k$ by
-Lemma \ref{lemma-property-F-K-projective}. Since
+Lemma \ref{lemma-property-P-K-projective}. Since
 $\Hom_{K(\text{Mod}_{(A, \text{d})})}(P, -)$
 is cohomological, we conclude that we can lift $f' : P \to N'$
 uniquely to a morphism $f : P \to N$. This finishes the proof.
+
+\medskip\noindent
+The proof of (2) is dual to that of (1) using
+Lemma \ref{lemma-property-I-K-injective} in stead of
+Lemma \ref{lemma-property-P-K-projective}.
 \end{proof}
 
 
@@ -1786,21 +2096,11 @@ with $f_{p, q} \in \Hom_\mathcal{B}(A^{-q}, B^p)$ we set
 $$
 \text{d}(f) = \prod\nolimits_{p + q = n} \text{d}(f_{p, q})
 $$
-where we define each $\text{d}(f_{p, q})$ by the formula\footnote{
-An ``explanation'' for the convention as in
-(\ref{equation-differential-hom-complex}) is as follows.
-The differential of the ``dual'' $\Hom(A^\bullet, -)$ of $A^\bullet$
-is $(-1)^q$ times the contragredient on the term
-$\Hom(A^{-q}, - ) \to \Hom(A^{-q - 1}, -)$.
-Then we think of $\Hom_{\text{Comp}^{dg}(\mathcal{B})}(A^\bullet, B^\bullet)$
-as $B^\bullet \otimes \Hom(A^\bullet, -)$ and we use
-the convention of the differential on the total complex of a double complex
-as in
-Homology, Definition \ref{homology-definition-associated-simple-complex}.}
+where we define each $\text{d}(f_{p, q})$ by the formula
 \begin{equation}
 \label{equation-differential-hom-complex}
 \text{d}(f_{p, q}) =
-\text{d}_B \circ f_{p, q} + (-1)^{p + q} f_{p, q} \circ \text{d}_A 
+\text{d}_B \circ f_{p, q} + (-1)^{p + q + 1} f_{p, q} \circ \text{d}_A 
 \end{equation}
 Note that the first term of this expression is in
 $\Hom_\mathcal{B}(A^{-q}, B^{p + 1})$ and the second term is in
@@ -1882,7 +2182,7 @@ $$
 where we define each $\text{d}(f_{p, q})$ by the formula
 $$
 \text{d}(f_{p, q}) =
-\text{d}_M \circ f_{p, q} + (-1)^{p + q} f_{p, q} \circ \text{d}_L
+\text{d}_M \circ f_{p, q} + (-1)^{p + q + 1} f_{p, q} \circ \text{d}_L
 $$
 Note that the first term of this expression is in
 $\Hom_R(L^{-q}, M^{p + 1})$ and the second term is in
@@ -2024,34 +2324,20 @@ quasi-isomorphisms in $K(\text{Mod}_{(A, \text{d})})$.
 
 \begin{lemma}
 \label{lemma-derived-restriction}
-In the situation above, if $N$ has property (P) as a differential
-graded $B$-module, then the right derived functor of $F$ exists.
+In the situation above, the right derived functor of $F$ exists.
 We denote it $R\Hom(N, -) : D(A, \text{d}) \to D(B, \text{d})$.
 \end{lemma}
 
 \begin{proof}
-Let $N' \to N''$ be a quasi-isomorphism of differential graded
-$B$-modules. Then the map
-$\Hom_\mathcal{B}(N, N') \to \Hom_\mathcal{B}(N, N'')$
-is a quasi-isomorphism because on $H^0$ it produces the map
-$\Hom_{D(B, \text{d})}(N, N') \to \Hom_{D(B, \text{d})}(N, N')$
-by Lemma \ref{lemma-hom-derived}. Thus the result is clear and
-in fact, $R\Hom(N, -)$ is simply given by $\Hom_\mathcal{B}(N, -)$.
+We will use
+Derived Categories, Lemma \ref{derived-lemma-find-existence-computes}
+to prove this. As our collection $\mathcal{I}$
+of objects we will use the objects with property (I).
+Property (1) was shown in Lemma \ref{lemma-right-resolution}.
+Property (2) holds because if $s : I \to I'$ is a quasi-isomorphism
+of modules with property (I), then $s$ is a homotopy equivalence
+by Lemma \ref{lemma-hom-derived}.
 \end{proof}
-
-\begin{remark}
-\label{remark-injectives-missing}
-We are missing the discussion of objects with property (I)
-dual to property (P) and the existence of right resolutions
-into objects with property (I). Accepting this for the moment
-we see that a right derived functor of $\Hom_\mathcal{B}(N, -)$
-always exists and is given on $N'$ by $\Hom_\mathcal{B}(N, I)$
-where $N' \to I$ is an I-resolution. However, it is then clear
-from what has been already proved that the functor $R\Hom(N, -)$
-is the same as the functor $R\Hom(P, -)$ where $P \to N$ is
-a P-resolution. Thus the lemma above suffices to at least define
-all these derived functors.
-\end{remark}
 
 
 
