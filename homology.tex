@@ -4746,6 +4746,103 @@ and then combine sum of those with the last, or we can first combine the
 last two variables and then combine the first with the sum of the last two.
 \end{remark}
 
+\begin{lemma}
+\label{lemma-good-resolution-gives-qis}
+Let $M^\bullet$ be a complex of abelian groups. Let
+$$
+\ldots \to A_2^\bullet \to A_1^\bullet \to A_0^\bullet \to M^\bullet \to 0
+$$
+be an exact complex of complexes of abelian groups such that for all
+$p \in \mathbf{Z}$ the complexes
+$$
+\ldots \to \text{Ker}(d_{A_2^\bullet}^p) \to \text{Ker}(d_{A_1^\bullet}^p)
+\to \text{Ker}(d_{A_0^\bullet}^p) \to \text{Ker}(d_{M^\bullet}^p) \to 0
+$$
+are exact as well. Set $A^{p, q} = A_{-p}^q$ to obtain a double
+complex. Then $\text{Tot}(A^{\bullet, \bullet}) \to M^\bullet$
+induced by $A_0^\bullet \to M^\bullet$ is a quasi-isomorphism.
+\end{lemma}
+
+\begin{proof}
+Write $T^\bullet = \text{Tot}(A^{\bullet, \bullet})$.
+Let $x \in \text{Ker}(\text{d}_{T^\bullet}^0)$ represent a
+cohomology class $\xi$.
+Write $x = \sum_{i = n, \ldots, 0} x_i$ with $x_i \in A_i^i$.
+Assume $n > 0$. Then $x_n$ is in the kernel of $d_{A_n^\bullet}^n$
+and maps to zero in the cohomology of $A_{n - 1}^\bullet$ (because it maps
+to an element which is the boundary of $x_{n - 1}$ up to sign).
+The condition on exactness of kernels of differentials implies
+that the cohomology class of $x_n$ is in the image of
+$H^n(A_{n + 1}^\bullet) \to H^n(A_n^\bullet)$ (details omitted).
+Thus we can modify $x$ by a boundary and reach the situation
+where $x_n$ is a boundary. Modifying $x$ once more we see that
+we may assume $x_n = 0$. By induction we see that every cohomology
+class $\xi$ is represented by a cocycle $x = x_0$.
+Finally, the condition on exactness of kernels tells us
+two such cocycles $x_0$ and $x_0'$ are cohomologous if
+and only if their image in $H^0(M^\bullet)$ are the same.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-good-right-resolution-gives-qis}
+Let $M^\bullet$ be a complex of abelian groups. Let
+$$
+0 \to M^\bullet \to A_0^\bullet \to A_1^\bullet \to A_2^\bullet
+$$
+be an exact complex of complexes of abelian groups
+such that for all $p \in \mathbf{Z}$ the complexes
+$$
+0 \to
+\text{Coker}(d_{M^\bullet}^p) \to
+\text{Coker}(d_{A_0^\bullet}^p) \to
+\text{Coker}(d_{A_1^\bullet}^p) \to
+\text{Coker}(d_{A_2^\bullet}^p) \to \ldots
+$$
+are exact as well. Set $A^{p, q} = A_p^q$ to obtain a double
+complex. Let $\text{Tot}_\pi(A^{\bullet, \bullet})$ be the
+product total complex associated to the double complex
+(see proof). Then the map
+$M^\bullet \to \text{Tot}_\pi(A^{\bullet, \bullet})$
+induced by $M^\bullet \to A_0^\bullet$ is a quasi-isomorphism.
+\end{lemma}
+
+\begin{proof}
+Abbreviating $T^\bullet = \text{Tot}_\pi(A^{\bullet, \bullet})$
+we define
+$$
+T^n = \prod\nolimits_{p + q = n} A^{p, q} =
+\prod\nolimits_{p + q = n} A_p^q
+$$
+As differential we use
+$$
+\text{d}((x_{p, q})) =
+(f_p(x_{p - 1, q}) + (-1)^p\text{d}_{A_p^\bullet}(x_{p, q - 1}))
+$$
+Let $x \in \text{Ker}(\text{d}_{T^\bullet}^0)$ represent a cohomology
+class $\xi \in H^0(T^\bullet)$. Write $x = (x_i)$ with $x_i \in A_i^{-i}$.
+Note that $x_0$ maps to zero in $\text{Coker}(A_1^{-1} \to A_1^0)$.
+Hence we see that $x_0 = m_0 + \text{d}(y)$ for some $m_0 \in M^0$.
+Then $\text{d}(m_0) = 0$ because $\text{d}(x_0) = 0$ as $x$
+is a cocycle. Thus, replacing $\xi$ by something in the image of
+$H^0(M^\bullet) \to H^0(T^\bullet)$ we may assume that $x_0$
+is in the image of $\text{d} : A_0^{-1} \to A_0^0$.
+
+\medskip\noindent
+Assume $x_0 \in \text{Im}(A_0^{-1} \to A_0^0)$. We claim that in this
+case $\xi = 0$. To prove this we find, by induction on $n$ elements
+$y_1, \ldots, y_n$ with $y_i \in A_i^{-i - 1}$ such that
+$x_0 = \text{d}(y_0)$ and $x_j = f_{j - 1}(y_{j - 1}) + (-1)^j\text{d}(y_j)$.
+This is clear for $n = 0$. Proof of induction step is omitted.
+Taking $y = (y_i)$ we find that $\text{d}(y) = \xi$.
+
+\medskip\noindent
+This shows that $H^0(M^\bullet) \to H^0(T^\bullet)$ is surjective.
+We omit the proof of injectivity.
+\end{proof}
+
+
+
+
 
 
 \section{Injectives}
@@ -5406,97 +5503,6 @@ is a complex of abelian groups with homology $\prod H_i$.
 
 \begin{proof}
 Omitted.
-\end{proof}
-
-
-
-
-
-
-\section{Differential graded algebras}
-\label{section-dga}
-
-\begin{definition}
-\label{definition-dga}
-Let $R$ be a (commutative) ring.
-A {\it differential graded algebra} is either
-\begin{enumerate}
-\item a chain complex $A_\bullet$ of $R$-modules endowed with
-$R$-bilinear maps $A_n \times A_m \to A_{n + m}$,
-$(a, b) \mapsto ab$ such that
-$$
-d_{n + m}(ab) = d_n(a)b + (-1)^n ad_m(b)
-$$
-and such that $\bigoplus A_n$ becomes an associative and unital
-$R$-algebra, or
-\item a cochain complex $A^\bullet$ of $R$-modules endowed with
-$R$-bilinear maps $A^n \times A^m \to A^{n + m}$, $(a, b) \mapsto ab$
-such that
-$$
-d^{n + m}(ab) = d^n(a)b + (-1)^n ad^m(b)
-$$
-and such that $\bigoplus A^n$ becomes an associative and unital $R$-algebra.
-\end{enumerate}
-\end{definition}
-
-\noindent
-We often just write $A = \bigoplus A_n$ or $A = \bigoplus A^n$ and
-think of this as an associative unital $R$-algebra endowed with a
-$\mathbf{Z}$-grading and an additive operator $d$ whose square is zero and
-which satisfies the Leibniz rule as explained above. In this case
-we often say ``Let $(A, d)$ be a differential graded algebra''.
-
-\begin{definition}
-\label{definition-homomorphism-dga}
-A {\it homomorphism of differential graded algebras}
-$f : (A, d) \to (B, d)$ is an algebra map $f : A \to B$
-compatible with the gradings and $d$.
-\end{definition}
-
-\begin{definition}
-\label{definition-cdga}
-A differential graded algebra $(A, d)$ is {\it commutative} if
-$ab = (-1)^{nm}ba$ for $a$ in degree $n$ and $b$ in degree $m$.
-We say $A$ is {\it strictly commutative} if in addition $a^2 = 0$
-for $\deg(a)$ odd.
-\end{definition}
-
-\noindent
-The following definition makes sense in general but is perhaps
-``correct'' only when tensoring commutative differential graded
-algebras.
-
-\begin{definition}
-\label{definition-tensor-product}
-Let $R$ be a ring.
-Let $(A, d)$, $(B, d)$ be differential graded algebras over $R$.
-The {\it tensor product differential graded algebra} of $A$ and $B$
-is the algebra $A \otimes_R B$ with multiplication defined by
-$$
-(a \otimes b)(a' \otimes b') = (-1)^{\deg(a')\deg(b)} aa' \otimes bb'
-$$
-endowed with differential $d$ defined by the rule
-$d(a \otimes b) = d(a) \otimes b + (-1)^m a \otimes d(b)$
-where $m = \deg(b)$.
-\end{definition}
-
-\begin{lemma}
-\label{lemma-total-complex-tensor-product}
-Let $R$ be a ring.
-Let $(A, d)$, $(B, d)$ be differential graded algebras over $R$.
-Denote $A^\bullet$, $B^\bullet$ the underlying cochain complexes.
-As cochain complexes of $R$-modules we have
-$$
-(A \otimes_R B)^\bullet = \text{Tot}(A^\bullet \otimes_A B^\bullet).
-$$
-\end{lemma}
-
-\begin{proof}
-Recall that the differential of the total complex is given by
-$d_1^{p, q} + (-1)^p d_2^{p, q}$ on $A^p \otimes_R B^q$.
-And this is exactly the same as the rule for the differential
-on $A \otimes_R B$ in
-Definition \ref{definition-tensor-product}.
 \end{proof}
 
 
