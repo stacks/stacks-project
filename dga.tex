@@ -149,7 +149,7 @@ Let $(A, \text{d})$, $(B, \text{d})$ be differential graded algebras over $R$.
 Denote $A^\bullet$, $B^\bullet$ the underlying cochain complexes.
 As cochain complexes of $R$-modules we have
 $$
-(A \otimes_R B)^\bullet = \text{Tot}(A^\bullet \otimes_A B^\bullet).
+(A \otimes_R B)^\bullet = \text{Tot}(A^\bullet \otimes_R B^\bullet).
 $$
 \end{lemma}
 
@@ -181,7 +181,7 @@ $M$ which has a grading $M = \bigoplus M^n$ and a differential $\text{d}$
 such that $M^n A^m \subset M^{n + m}$, such that
 $\text{d}(M^n) \subset M^{n + 1}$, and such that
 $$
-\text{d}(ma) = \text{d}(m) + (-1)^n m\text{d}(a)
+\text{d}(ma) = \text{d}(m)a + (-1)^n m\text{d}(a)
 $$
 for $a \in A$ and $m \in M^n$. A
 {\it homomorphism of differential graded modules} $f : M \to N$
@@ -390,7 +390,7 @@ is an {\it admissible monomorphism} if there exists a graded $A$-module
 map $L \to K$ which is left inverse to $K \to L$.
 \item A homomorphism $L \to M$ of differential graded $A$-modules
 is an {\it admissible epimorphism} if there exists a graded $A$-module
-map $M \to L$ which is right inverse to $K \to L$.
+map $M \to L$ which is right inverse to $L \to M$.
 \item A short exact sequence $0 \to K \to L \to M \to 0$ of differential
 graded $A$-modules is an {\it admissible short exact sequence}
 if it is split as a sequence of graded $A$-modules.
@@ -2027,6 +2027,48 @@ Derived Categories, Lemma \ref{derived-lemma-derived-canonical-delta-functor}.
 
 
 
+\section{Linear categories}
+\label{section-linear}
+
+\noindent
+Just the definitions.
+
+\begin{definition}
+\label{definition-linear-category}
+Let $R$ be a ring. An {\it $R$-linear category $\mathcal{A}$} is a category
+where every morphism set is given the structure of an $R$-module
+and where for $x, y, z \in \Ob(\mathcal{A})$ composition law
+$$
+\Hom_\mathcal{A}(y, z) \times \Hom_\mathcal{A}(x, y)
+\longrightarrow
+\Hom_\mathcal{A}(x, z)
+$$
+is $R$-bilinear.
+\end{definition}
+
+\noindent
+Thus composition determines an $R$-linear map
+$$
+\Hom_\mathcal{A}(y, z) \otimes_R \Hom_\mathcal{A}(x, y)
+\longrightarrow
+\Hom_\mathcal{A}(x, z)
+$$
+of $R$-modules. Note that we do not assume $R$-linear categories to be
+additive.
+
+\begin{definition}
+\label{definition-functor-linear-categories}
+Let $R$ be a ring. A {\it functor of $R$-linear categories}, or an
+{\it $R$-linear} is a functor $F : \mathcal{A} \to \mathcal{B}$
+where for all objects $x, y$ of $\mathcal{A}$ the map
+$F : \Hom_\mathcal{A}(x, y) \to \Hom_\mathcal{A}(F(x), F(y))$
+is a homomorphism of $R$-modules.
+\end{definition}
+
+
+
+
+
 
 
 \section{Graded categories}
@@ -2050,14 +2092,118 @@ $$
 of graded $R$-modules (i.e., preserving degrees).
 \end{definition}
 
+\noindent
+In this situation we denote $\Hom_\mathcal{A}^i(x, y)$ the degree $i$
+part of the graded object $\Hom_\mathcal{A}(x, y)$, so that
+$$
+\Hom_\mathcal{A}(x, y) = \bigoplus \Hom_\mathcal{A}^i(x, y)
+$$
+
 \begin{definition}
 \label{definition-functor-graded-categories}
-Let $R$ be a ring. A {\it functor of graded categories over $R$}
+Let $R$ be a ring. A {\it functor of graded categories over $R$}, or a
+{\it graded functor}
 is a functor $F : \mathcal{A} \to \mathcal{B}$ where for all objects
 $x, y$ of $\mathcal{A}$ the map
 $F : \Hom_\mathcal{A}(x, y) \to \Hom_\mathcal{A}(F(x), F(y))$
 is a homomorphism of graded $R$-modules.
 \end{definition}
+
+\noindent
+Given a graded category we are often interested in the
+corresponding ``usual'' category of maps of degree $0$.
+Here is a formal definition.
+
+\begin{definition}
+\label{definition-H0-of-graded-category}
+Let $R$ be a ring. Let $\mathcal{A}$ be a differential graded category
+over $R$. We let {\it $\mathcal{A}^0$} be the category with the
+same objects as $\mathcal{A}$ and with
+$$
+\Hom_{\mathcal{A}^0}(x, y) = \Hom_\mathcal{A}(x, y)^0
+$$
+the degree $0$ graded piece of the graded module of morphisms of
+$\mathcal{A}$.
+\end{definition}
+
+\begin{example}[Graded category of graded objects]
+\label{example-graded-category-graded-objects}
+Let $\mathcal{B}$ be an additive category. Recall that we have defined
+the category $\text{Gr}(\mathcal{B})$ of graded objects of $\mathcal{B}$ in
+Homology, Definition \ref{homology-definition-graded}.
+In this example, we will construct a graded category
+$\text{Gr}^{gr}(\mathcal{B})$ over $R = \mathbf{Z}$
+whose associated category $\text{Gr}^{gr}(\mathcal{B})^0$
+recovers $\text{Gr}(\mathcal{B})$.
+As objects of $\text{Comp}^{gr}(\mathcal{B})$
+we take graded objects of $\mathcal{B}$. Then, given graded objects
+$A = (A^i)$ and $B = (B^i)$ of $\mathcal{B}$ we set
+$$
+\Hom_{\text{Gr}^{gr}(\mathcal{B})}(A, B) =
+\bigoplus\nolimits_{n \in \mathbf{Z}} \Hom^n(A, B)
+$$
+where the graded piece of degree $n$ is the abelian group of homogeneous
+maps of degree $n$ from $A$ to $B$
+defined by the rule
+$$
+\Hom^n(A, B) = \Hom_{\text{Gr}(\mathcal{A})}(A, B[n]) =
+\Hom_{\text{Gr}(\mathcal{A})}(A[-n], B)
+$$
+see Homology, Equation (\ref{homology-equation-hom-into-shift}).
+Explicitly we have
+$$
+\Hom^n(A, B) = \prod\nolimits_{p + q = n} \Hom_\mathcal{B}(A^{-q}, B^p)
+$$
+(observe reversal of indices and observe that we have a product here and
+not a direct sum). In other words, a degree $n$ morphism $f$
+from $A$ to $B$ can be seen as a system $f = (f_{p, q})$ where
+$p, q \in \mathbf{Z}$, $p + q = n$ with
+$f_{p, q} : A^{-q} \to B^p$ a morphism of $\mathcal{B}$.
+Given graded objects $A$, $B$, $C$ of $\mathcal{B}$
+composition of morphisms in $\text{Gr}^{gr}(\mathcal{B})$ is defined
+via the maps
+$$
+\Hom^m(B, C) \times \Hom^n(A, B) \longrightarrow \Hom^{n + m}(A, C)
+$$
+by simple composition $(g, f) \mapsto g \circ f$ of homogeneous
+maps of graded objects. In terms of components we have
+$$
+(g \circ f)_{p, r} = g_{p, q} \circ f_{-q, r}
+$$
+where $q$ is such that $p + q = m$ and $-q + r = n$.
+\end{example}
+
+\begin{example}[Graded category of graded modules]
+\label{example-gm-gr-cat}
+Let $A$ be a $\mathbf{Z}$-graded algebra over a ring $R$. We will construct
+a graded category $\text{Mod}^{gr}_A$ over $R$ whose associated category
+$(\text{Mod}^{gr}_A)^0$ is the category of graded $A$-modules. As objects
+of $\text{Mod}^{gr}_A$ we take right graded $A$-modules (see
+Section \ref{section-projectives-over-algebras}). Given graded
+$A$-modules $L$ and $M$ we set
+$$
+\Hom_{\text{Mod}^{gr}_A}(L, M) =
+\bigoplus\nolimits_{n \in \mathbf{Z}} \Hom^n(L, M)
+$$
+where $\Hom^n(L, M)$ is the set of right $A$-module maps $L \to M$ which
+are homogeneous of degree $n$, i.e., $f(L^i) \subset M^{i + n}$ for
+all $i \in \mathbf{Z}$. In terms of components, we have that
+$$
+\Hom^n(L, M) \subset \prod\nolimits_{p + q = n} \Hom_R(L^{-q}, M^p)
+$$
+(observe reversal of indices) is the subset consisting of those
+$f = (f_{p, q})$ such that
+$$
+f_{p, q}(m a) = f_{p - i, q + i}(m)a
+$$
+for $a \in A^i$ and $m \in L^{-q - i}$. For graded $A$-modules
+$K$, $L$, $M$ we define composition in $\text{Mod}^{gr}_A$ via
+the maps
+$$
+\Hom^m(L, M) \times \Hom^n(K, L) \longrightarrow \Hom^{n + m}(K, M)
+$$
+by simple composition of right $A$-module maps: $(g, f) \mapsto g \circ f$.
+\end{example}
 
 
 
@@ -2140,7 +2286,7 @@ $$
 \end{definition}
 
 \noindent
-Our use of the symbold $K(\mathcal{A})$ is nonstandard, but at least
+Our use of the symbol $K(\mathcal{A})$ is nonstandard, but at least
 is compatible with the use of $K(-)$ in other chapters of the Stacks project.
 
 \begin{lemma}
@@ -2160,26 +2306,37 @@ Omitted.
 \label{example-category-complexes}
 Let $\mathcal{B}$ be an additive category. We will construct
 a differential graded category $\text{Comp}^{dg}(\mathcal{B})$
-over $R = \mathbf{Z}$. As objects of $\text{Comp}^{dg}(\mathcal{B})$
-we take complexes of $\mathcal{B}$. Then, given complexes
-$A^\bullet$ and $B^\bullet$ of $\mathcal{B}$ we set
+over $R = \mathbf{Z}$ whose associated category of complexes
+is $\text{Comp}(\mathcal{B})$ and whose associated homotopy
+category is $K(\mathcal{B})$. As objects of $\text{Comp}^{dg}(\mathcal{B})$
+we take complexes of $\mathcal{B}$. Given complexes
+$A^\bullet$ and $B^\bullet$ of $\mathcal{B}$, we sometimes also
+denote $A^\bullet$ and $B^\bullet$ the corresponding graded objects
+of $\mathcal{B}$ (i.e., forget about the differential).
+Using this abuse of notation, we set
 $$
 \Hom_{\text{Comp}^{dg}(\mathcal{B})}(A^\bullet, B^\bullet) =
-\bigoplus\nolimits_{n \in \mathbf{Z}}
-\Hom^n(A^\bullet, B^\bullet)
+\Hom_{\text{Gr}^{gr}(\mathcal{B})}(A^\bullet, B^\bullet)
 $$
-where the graded piece of degree $n$ is defined by the rule
+as a graded $\mathbf{Z}$-module where the right hand side is defined
+in Example \ref{example-graded-category-graded-objects}.
+In other words, the $n$th graded piece is
 $$
 \Hom^n(A^\bullet, B^\bullet) =
+\Hom_{\text{Gr}(\mathcal{B})}(A^\bullet, B^\bullet[n]) =
 \prod\nolimits_{p + q = n} \Hom_\mathcal{B}(A^{-q}, B^p)
 $$
-(observe reversal of indices). For an element
-$f = (f_{p, q}) \in \Hom^n(A^\bullet, B^\bullet)$
-with $f_{p, q} \in \Hom_\mathcal{B}(A^{-q}, B^p)$ we set
+(observe reversal of indices and observe we have a direct product
+and not a direct sum). For an element
+$f \in \Hom^n(A^\bullet, B^\bullet)$ of degree $n$ we set
 $$
-\text{d}(f) = \prod\nolimits_{p + q = n} \text{d}(f_{p, q})
+\text{d}(f) = \text{d}_B \circ f - (-1)^n f \circ \text{d}_A
 $$
-where we define each $\text{d}(f_{p, q})$ by the formula
+To make sense of this we think of $\text{d}_B$ and $\text{d}_A$
+as maps of graded objects of $\mathcal{B}$ homogeneous of degree $1$
+and we use composition in the category $\text{Gr}^{gr}(\mathcal{B})$
+on the right hand side. In terms of components, if $f = (f_{p, q})$ with
+$f_{p, q} : A^{-q} \to B^p$ we have
 \begin{equation}
 \label{equation-differential-hom-complex}
 \text{d}(f_{p, q}) =
@@ -2187,40 +2344,55 @@ where we define each $\text{d}(f_{p, q})$ by the formula
 \end{equation}
 Note that the first term of this expression is in
 $\Hom_\mathcal{B}(A^{-q}, B^{p + 1})$ and the second term is in
-$\Hom_\mathcal{B}(A^{-q - 1}, B^p)$ hence the infinite product
-above makes sense. In other words, given $p + q = n + 1$ we have
+$\Hom_\mathcal{B}(A^{-q - 1}, B^p)$.
+In other words, given $p + q = n + 1$ we have
 $$
 \text{d}(f)_{p, q} =
 \text{d}_B \circ f_{p - 1, q} - (-1)^n f_{p, q - 1} \circ \text{d}_A
 $$
-with obvious notation. We often simply write
-$\text{d}(f) = \text{d}_B \circ f - (-1)^n f \circ \text{d}_A$.
-The reader checks that
+with obvious notation. The reader checks\footnote{What may be useful
+here is to think of the double complex $H^{\bullet, \bullet}$ with terms
+$H^{p, q} = \Hom_\mathcal{B}(A^{-q}, B^p)$ and differentials
+$d_1$ of degree $(1, 0)$ given by $\text{d}_B$ and $d_2$ of degree
+$(0, 1)$ given by the contragredient of $d_A$. Up to sign and up to
+replacing the direct sum by a direct product, the differential graded
+$\mathbf{Z}$-module
+$\Hom_{\text{Comp}^{dg}(\mathcal{B})}(A^\bullet, B^\bullet)$
+is the total complex associated to $H^{\bullet, \bullet}$, see
+Homology, Definition \ref{homology-definition-associated-simple-complex}.
+To get the sign correct, change $d_2^{p, q} : H^{p, q} \to H^{p, q + 1}$ by
+$(-1)^{q + 1}$ (after this change we still have a double complex).} that
 \begin{enumerate}
 \item $\text{d}$ has square zero,
-\item an element $f = (f_{p, -p})$ in $\Hom^0(A^\bullet, B^\bullet)$
-has $\text{d}(f) = 0$ if and only if the morphisms $f_{-p, p} : A^p \to B^p$
-fit together into a morphism of complexes,
+\item an element $f$ in $\Hom^n(A^\bullet, B^\bullet)$
+has $\text{d}(f) = 0$ if and only if the morphism
+$f : A^\bullet \to B^\bullet[n]$ of graded objects of $\mathcal{B}$
+is actually a map of complexes,
+\item in particular, the category of complexes of
+$\text{Comp}^{dg}(\mathcal{B})$ is equal to $\text{Comp}(\mathcal{B})$,
 \item the morphism of complexes defined by $f$ as in (2)
 is homotopy equivalent to zero if and only if $f = \text{d}(g)$
-for some $g \in \Hom^{-1}(A^\bullet, B^\bullet)$.
-\item in other words, we obtain a canonical isomorphism
+for some $g \in \Hom^{n - 1}(A^\bullet, B^\bullet)$.
+\item in particular, we obtain a canonical isomorphism
 $$
 \Hom_{K(\mathcal{B})}(A^\bullet, B^\bullet)
 \longrightarrow
 H^0(\Hom_{\text{Comp}^{dg}(\mathcal{B})}(A^\bullet, B^\bullet))
 $$
+and the homotopy category of $\text{Comp}^{dg}(\mathcal{B})$ is equal to
+$K(\mathcal{B})$.
 \end{enumerate}
-Let $A^\bullet$, $B^\bullet$, $C^\bullet$ be complexes.
-Composition is defined via the maps
+Given complexes $A^\bullet$, $B^\bullet$, $C^\bullet$ we define
+composition
 $$
 \Hom^m(B^\bullet, C^\bullet) \times \Hom^n(A^\bullet, B^\bullet)
 \longrightarrow
 \Hom^{n + m}(A^\bullet, C^\bullet)
 $$
-$(g, f) \mapsto g \circ f$ with $(g \circ f)_{p, r} = g_{p, q} \circ f_{q, r}$
-where $q$ is such that $p + q = m$ and $q + r = n$. This defines a map
-of differential graded modules as in
+by composition $(g, f) \mapsto g \circ f$ in the graded category
+$\text{Gr}^{gr}(\mathcal{B})$, see
+Example \ref{example-graded-category-graded-objects}.
+This defines a map of differential graded modules as in
 Definition \ref{definition-dga-category}
 because
 \begin{align*}
@@ -2254,66 +2426,68 @@ Omitted.
 
 \begin{example}[Differential graded category of differential graded modules]
 \label{example-dgm-dg-cat}
-Let $(A, \text{d})$ be a differential graded algebra over a ring $R$.
-We will construct a differential graded category
-$\text{Mod}^{dg}_{(A, \text{d})}$ over $R$ which is closely related to
-$\text{Mod}_{(A, \text{d})}$. As objects of $\text{Mod}^{dg}_{(A, \text{d})}$
+Let $(A, \text{d})$ be a differential graded algebra over a ring $R$. We will
+construct a differential graded category $\text{Mod}^{dg}_{(A, \text{d})}$
+over $R$ whose category of complexes is $\text{Mod}_{(A, \text{d})}$ and
+whose homotopy category is $K(\text{Mod}_{(A, \text{d})})$.
+As objects of $\text{Mod}^{dg}_{(A, \text{d})}$
 we take the differential graded $A$-modules. Given differential
 graded $A$-modules $L$ and $M$ we set
 $$
 \Hom_{\text{Mod}^{dg}_{(A, \text{d})}}(L, M) =
-\bigoplus\nolimits_{n \in \mathbf{Z}} \Hom^n(L, M)
+\Hom_{\text{Mod}^{gr}_A}(L, M)
 $$
-where the graded piece of degree $n$ is the submodule
+as a graded $R$-module where the right hand side is defined as in
+Example \ref{example-gm-gr-cat}. In other words, the $n$th graded piece
+is the set of right $A$-module maps homogeneous of degree $n$.
+For an element $f \in \Hom^n(L, M)$ we set
 $$
-\Hom^n(L, M) \subset \prod\nolimits_{p + q = n} \Hom_R(L^{-q}, M^p)
+\text{d}(f) = \text{d}_M \circ f - (-1)^n f \circ \text{d}_L
 $$
-(observe reversal of indices) consisting of those
-$f = (f_{p, q})$ such that
-$$
-f_{p, q}(x a) = f_{p - i, q + i}(m)a
-$$
-for $a \in A^i$ and $m \in L^{-q - i}$. In other words, $\Hom^n(L, M)$
-is the set of (right) $A$-module maps $L \to M$ which are homogeneous of
-degree $n$. For an element $f \in \Hom^n(L, M)$ we set
-$$
-\text{d}(f) = \prod\nolimits_{p + q = n} \text{d}(f_{p, q})
-$$
-where we define each $\text{d}(f_{p, q})$ by the formula
-$$
-\text{d}(f_{p, q}) =
-\text{d}_M \circ f_{p, q} + (-1)^{p + q + 1} f_{p, q} \circ \text{d}_L
-$$
-Note that the first term of this expression is in
-$\Hom_R(L^{-q}, M^{p + 1})$ and the second term is in
-$\Hom_R(L^{-q - 1}, M^p)$ hence the infinite product
-above makes sense. In other words, given $p + q = n + 1$ we have
-$$
-\text{d}(f)_{p, q} =
-\text{d}_M \circ f_{p - 1, q} - (-1)^n f_{p, q - 1} \circ \text{d}_L
-$$
-with obvious notation. We often simply write
-$\text{d}(f) = \text{d}_M \circ f - (-1)^n f \circ \text{d}_L$.
-The reader checks that
+To make sense of this we think of $\text{d}_M$ and $\text{d}_L$
+as graded $R$-module maps and we use composition of graded
+$R$-module maps. It is clear that $\text{d}(f)$ is homogeneous of
+degree $n + 1$ as a graded $R$-module map, and it is linear
+because
+\begin{align*}
+\text{d}(f)(xa)
+& =
+\text{d}_M(f(x) a) - (-1)^n f (\text{d}_L(xa)) \\
+& =
+\text{d}_M(f(x)) a + (-1)^{\deg(x) + n} f(x) \text{d}(a) 
+- (-1)^n f(\text{d}_L(x)) a - (-1)^{n + \deg(x)} f(x) \text{d}(a) \\
+& = \text{d}(f)(x) a
+\end{align*}
+as desired (observe that this calculation would not work without the
+sign in the definition of our differential on $\Hom$). Similar formulae
+to those of Example \ref{example-category-complexes} hold for the
+differential of $f$ in terms of components.
+The reader checks (in the same way as in
+Example \ref{example-category-complexes}) that
 \begin{enumerate}
 \item $\text{d}$ has square zero,
-\item an element $f$ in $\Hom^0(L, M)$ has $\text{d}(f) = 0$ if and only if
-$f : L \to M$ is a homomorphism of differential graded $A$-modules,
-\item the homomorphism defined by $f$ as in (2)
-is homotopy equivalent to zero if and only if $f = \text{d}(g)$
-for some $g \in \Hom^{-1}(L, M)$.
-\item in other words, we obtain a canonical isomorphism
+\item an element $f$ in $\Hom^n(L, M)$ has $\text{d}(f) = 0$ if and only if
+$f : L \to M[n]$ is a homomorphism of differential graded $A$-modules,
+\item in particular, the category of complexes of
+$\text{Mod}^{dg}_{(A, \text{d})}$ is $\text{Mod}_{(A, \text{d})}$,
+\item the homomorphism defined by $f$ as in (2) is homotopy equivalent
+to zero if and only if $f = \text{d}(g)$ for some
+$g \in \Hom^{n - 1}(L, M)$.
+\item in particular, we obtain a canonical isomorphism
 $$
 \Hom_{K(\text{Mod}_{(A, \text{d})})}(L, M)
 \longrightarrow
 H^0(\Hom_{\text{Mod}^{dg}_{(A, \text{d})}}(L, M))
 $$
+and the homotopy category of $\text{Mod}^{dg}_{(A, \text{d})}$ is
+$K(\text{Mod}_{(A, \text{d})})$.
 \end{enumerate}
-Let $K$, $L$, $M$ be complexes. Composition is defined via the maps
+Given differential graded $A$-modules $K$, $L$, $M$ we define
+composition
 $$
 \Hom^m(L, M) \times \Hom^n(K, L) \longrightarrow \Hom^{n + m}(K, M)
 $$
-by simple composition of right $A$-module maps: $(g, f) \mapsto g \circ f$.
+by composition of homogeneous right $A$-module maps $(g, f) \mapsto g \circ f$.
 This defines a map of differential graded modules as in
 Definition \ref{definition-dga-category}
 because
