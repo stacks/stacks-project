@@ -2174,14 +2174,14 @@ of $K(\mathcal{A})$.
 
 \begin{proof}
 Let $h^n : K_1^n \to L_2^{n - 1}$ be a family of morphisms such that
-$f_2 \circ a - b \circ f_1 = d \circ h + h \circ d$.
+$b \circ f_1 - f_2 \circ a= d \circ h + h \circ d$.
 Define $c^n$ by the matrix
 $$
 c^n =
 \left(
 \begin{matrix}
-a^n & h^{n + 1} \\
-0 & b^n
+b^n & h^{n + 1} \\
+0 & a^{n + 1}
 \end{matrix}
 \right) :
 L_1^n \oplus K_1^{n + 1} \to L_2^n \oplus K_2^{n + 1}
@@ -2206,19 +2206,24 @@ $C(f)^\bullet \to M^\bullet$ of $K(\mathcal{A})$.
 \end{lemma}
 
 \begin{proof}
-Let $h^n : K^n \to M^{n - 1}$ is such that $g \circ f = dh + hd$.
-Let $C(f)^n \to M^n$ be the map
+The assumptions say that the diagram
 $$
-(g^n, h^{n + 1}) : L^n \oplus K^{n + 1} \longrightarrow M^n
+\xymatrix{
+K^\bullet \ar[r]_f \ar[d] & L^\bullet \ar[d]^g \\
+0 \ar[r] & M^\bullet
+}
 $$
-A matrix computation shows this is a map of complexes.
+commutes up to homotopy.
+Since the cone on $0 \to M^\bullet$ is $M^\bullet$ the
+map $C(f)^\bullet \to C(0 \to M^\bullet) = M^\bullet$
+of Lemma \ref{lemma-functorial-cone}
+is the desired map.
 \end{proof}
 
 \noindent
-Note that the morphism $C(f)^\bullet \to M^\bullet$
-constructed in the proof of
-Lemma \ref{lemma-map-from-cone} in general depends on the
-chosen homotopy $h$.
+Note that the morphism $C(f)^\bullet \to M^\bullet$ constructed in the proof
+of Lemma \ref{lemma-map-from-cone} in general depends on the
+chosen homotopy.
 
 \begin{definition}
 \label{definition-termwise-split-map}
@@ -2252,15 +2257,14 @@ morphism which makes the diagram commute.
 Let $h^n : A^n \to D^{n - 1}$ be a collection of morphisms
 such that $bf - ga = dh + hd$. Suppose that $\pi^n : B^n \to A^n$
 are morphisms splitting the morphisms $f^n$.
-Take $b' = b + dh\pi + h\pi d$.
+Take $b' = b - dh\pi - h\pi d$.
 Suppose $s^n : D^n \to C^n$ are morphisms splitting the morphisms
 $g^n : C^n \to D^n$. Take $a' = a + dsh + shd$.
 Computations omitted.
 \end{proof}
 
-
 \noindent
-The following lemma can be used to replace an morphism of complexes
+The following lemma can be used to replace a morphism of complexes
 by a morphism where in each degree the map is the injection of a
 direct summand.
 
@@ -2306,6 +2310,7 @@ d^n_L & 0 & 0 \\
 \end{matrix}
 \right)
 $$
+In other words, $\tilde L^\bullet = L^\bullet \oplus C(1_{K^\bullet})$.
 Moreover, we set
 $$
 \tilde \alpha =
@@ -2395,11 +2400,10 @@ then so is $\tilde K^\bullet$.
 \end{lemma}
 
 \begin{proof}
-Dual to
-Lemma \ref{lemma-make-injective}.
+Dual to Lemma \ref{lemma-make-injective}.
 Take
 $$
-\tilde K^n = K^n \oplus L^n \oplus L^{n + 1}
+\tilde K^n = K^n \oplus L^{n - 1} \oplus L^n
 $$
 and we define
 $$
@@ -2407,19 +2411,20 @@ d^n_{\tilde K} =
 \left(
 \begin{matrix}
 d^n_K & 0 & 0 \\
-0 & d^n_L & \text{id}_{L^{n + 1}} \\
-0 & 0 & -d^{n + 1}_L
+0 & - d^{n - 1}_L & \text{id}_{L^n} \\
+0 & 0 & d^n_L
 \end{matrix}
 \right)
 $$
+in other words $\tilde K^\bullet = K^\bullet \oplus C(1_{L^\bullet[-1]})$.
 Moreover, we set
 $$
 \tilde \alpha =
 \left(
 \begin{matrix}
 \alpha &
-\text{id}_{L^n} &
-0
+0 &
+\text{id}_{L^n}
 \end{matrix}
 \right)
 $$
@@ -2448,8 +2453,8 @@ s =
 $$
 so that $s \circ i = \text{id}_{K^\bullet}$. Finally,
 let $h^n : \tilde K^n \to \tilde K^{n - 1}$ be the map
-which maps the summand $L^n$ of $\tilde K^n$ via the identity morphism
-to the summand $L^n$ of $\tilde K^{n - 1}$. Then it is a trivial matter
+which maps the summand $L^{n - 1}$ of $\tilde K^n$ via the identity morphism
+to the summand $L^{n - 1}$ of $\tilde K^{n - 1}$. Then it is a trivial matter
 to prove that
 $$
 \text{id}_{\tilde K^\bullet} - i \circ s
@@ -2481,7 +2486,7 @@ we get an associated morphism of complexes
 $$
 \delta : C^\bullet \longrightarrow A^\bullet[1]
 $$
-which in degree $n$ is the map $\pi^{n + 1} \circ d_C^n \circ s^n$.
+which in degree $n$ is the map $\pi^{n + 1} \circ d_B^n \circ s^n$.
 In other words
 $(A^\bullet, B^\bullet, C^\bullet, \alpha, \beta, \delta)$
 forms a triangle
@@ -2674,7 +2679,7 @@ Proof of (1). We have $C(\alpha)^n = B^n \oplus A^{n + 1}$
 and we simply define $C(\alpha)^n \to C^n$ via the projection
 onto $B^n$ followed by $\beta^n$. This defines
 a morphism of complexes because the compositions
-$A^{n + 1} \to B^{n + 1} \to B^n \to C^n$ are zero.
+$A^{n + 1} \to B^{n + 1} \to C^{n + 1}$ are zero.
 To get a homotopy inverse we take
 $C^\bullet \to C(\alpha)^\bullet$ given by
 $(s^n , -\delta^n)$ in degree $n$. This is a morphism of complexes
@@ -2696,7 +2701,7 @@ s^n \circ \beta^n & 0 \\
 \right)
 $$
 To see that this is homotopic to the identity map
-use the homotopy $h^n : C(\alpha)^n \to C(\alpha)^{n - 1})$
+use the homotopy $h^n : C(\alpha)^n \to C(\alpha)^{n - 1}$
 given by the matrix
 $$
 \left(
@@ -2718,20 +2723,19 @@ $$
 -
 \left(
 \begin{matrix}
-s^n &
+s^n \\
 -\delta^n
 \end{matrix}
 \right)
 \left(
 \begin{matrix}
-\beta^n \\
-0
+\beta^n & 0
 \end{matrix}
 \right)
 =
 \left(
 \begin{matrix}
-d & \alpha^{n + 1} \\
+d & \alpha^n \\
 0 & -d
 \end{matrix}
 \right)
@@ -2810,12 +2814,12 @@ then so are the $B_i^\bullet$.
 The case $n = 1$ is without content.
 Lemma \ref{lemma-make-injective} is the case $n = 2$.
 Suppose we have constructed the diagram
-except for $B_n$. Apply Lemma \ref{lemma-make-injective} to
-the composition $B_{n - 1} \to A_{n - 1} \to A_n$.
-The result is a factorization $B_{n - 1} \to B_n \to A_n$
+except for $B_n^\bullet$. Apply Lemma \ref{lemma-make-injective} to
+the composition $B_{n - 1}^\bullet \to A_{n - 1}^\bullet \to A_n^\bullet$.
+The result is a factorization
+$B_{n - 1}^\bullet \to B_n^\bullet \to A_n^\bullet$
 as desired.
 \end{proof}
-
 
 \begin{lemma}
 \label{lemma-rotate-triangle}
