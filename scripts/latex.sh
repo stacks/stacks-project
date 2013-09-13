@@ -14,7 +14,11 @@ LATEX=$2
 STEM=$3
 
 # Temporary directory
-TMPD=`mktemp -d --tmpdir=$SPD/tmp`
+if [ `uname` == "Darwin" ]; then
+	TMPD=`mktemp -d -t tmp`
+else
+	TMPD=`mktemp -d --tmpdir=$SPD/tmp`
+fi	
 
 # Symbolically link files that are hopefully not modified during process
 ln -s $SPD/preamble.tex $SPD/chapters.tex $SPD/hyperref.cfg \

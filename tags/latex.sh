@@ -10,7 +10,11 @@ STEM=$2
 OLD=${PWD}
 
 # Temporary directory
-TMPD=`mktemp -d --tmpdir=../../tmp`
+if [ `uname` == "Darwin" ]; then
+        TMPD=`mktemp -d -t tmp`      
+else
+        TMPD=`mktemp -d --tmpdir=../../tmp`
+fi
 
 # Symbolically link or copy files to temp dir
 # 	Common for both cases
