@@ -11,7 +11,7 @@ LIJST = introduction conventions sets categories \
 	homology derived simplicial \
 	more-algebra smoothing \
 	modules sites-modules \
-	injectives cohomology sites-cohomology dga hypercovering \
+	injectives cohomology sites-cohomology dga dpa hypercovering \
 	schemes constructions properties morphisms coherent divisors limits \
 	varieties topologies descent perfect more-morphisms flat groupoids \
 	more-groupoids etale \
