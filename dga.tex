@@ -217,14 +217,16 @@ $\text{Mod}_{(A, \text{d})}$ is abelian and has arbitrary limits and colimits.
 \end{lemma}
 
 \begin{proof}
-Kernels and cokernels commute with taking homogeneous components. Similarly
-for colimits. In other words, these operations in $\text{Mod}_{(A, \text{d})}$
-commute with the forgetful functor to the category of (graded) $A$-modules.
-If $N_i$, $i \in I$ is a family of differential graded $A$-modules,
-then the product $\prod N_i$ in $\text{Mod}_{(A, \text{d})}$ is
-given by setting $(\prod N_i)^n = \prod N_i^n$ and then
-$\prod N_i = \bigoplus_n (\prod N_i)^n$. A category with products
-and equalizers has limits, see
+Kernels and cokernels commute with taking underlying $A$-modules.
+Similarly for direct sums and colimits. In other words, these operations
+in $\text{Mod}_{(A, \text{d})}$ commute with the forgetful functor to the
+category of $A$-modules. This is not the case for products and limits.
+Namely, if $N_i$, $i \in I$ is a family of
+differential graded $A$-modules, then the product $\prod N_i$ in
+$\text{Mod}_{(A, \text{d})}$ is given by setting $(\prod N_i)^n = \prod N_i^n$
+and $\prod N_i = \bigoplus_n (\prod N_i)^n$. Thus we see that the product
+does commute with the forgetful functor to the category of graded $A$-modules.
+A category with products and equalizers has limits, see
 Categories, Lemma \ref{categories-lemma-limits-products-equalizers}.
 \end{proof}
 
@@ -350,11 +352,15 @@ consistent with the use of $K(-)$ in other places of the Stacks project.
 \label{lemma-homotopy-direct-sums}
 Let $(A, \text{d})$ be a differential graded algebra.
 The homotopy category $K(\text{Mod}_{(A, \text{d})})$
-has arbitrary direct sums.
+has direct sums and products.
 \end{lemma}
 
 \begin{proof}
-Omitted.
+Omitted. Hint: Just use the direct sums and products as in
+Lemma \ref{lemma-dgm-abelian}. This works because we saw that
+these functors commute with the forgetful functor to the category
+of graded $A$-modules and because $\prod$ is an exact functor
+on the category of families of abelian groups.
 \end{proof}
 
 
@@ -1983,6 +1989,63 @@ Lemma \ref{lemma-property-I-K-injective} in stead of
 Lemma \ref{lemma-property-P-K-projective}.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-derived-products}
+Let $(A, \text{d})$ be a differential graded algebra. Then
+\begin{enumerate}
+\item $D(A, \text{d})$ has both direct sums and products,
+\item direct sums are obtained by taking direct sums of differential graded
+modules,
+\item products are obtained by taking products of differential
+graded modules.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+We will use that $\text{Mod}_{(A, \text{d})}$ is an abelian category
+with arbitrary direct sums and products, and that these give rise
+to direct sums and products in $K(\text{Mod}_{(A, \text{d})})$.
+See Lemmas \ref{lemma-dgm-abelian} and \ref{lemma-homotopy-direct-sums}.
+
+\medskip\noindent
+Let $M_j$ be a family of differential graded $A$-modules.
+Consider the graded direct sum $M = \bigoplus M_j$ which is a
+differential graded $A$-module with the obvious.
+For a differential graded $A$-module $N$ choose a quasi-isomorphism
+$N \to I$ where $I$ is a differential graded $A$-module with property (I).
+See Lemma \ref{lemma-right-resolution}.
+Using Lemma \ref{lemma-hom-derived} we have
+\begin{align*}
+\Hom_{D(A, \text{d})}(M, N)
+& =
+\Hom_{K(A, \text{d})}(M, I) \\
+& =
+\prod \Hom_{K(A, \text{d})}(M_j, I) \\
+& =
+\prod \Hom_{D(A, \text{d})}(M_j, N)
+\end{align*}
+whence the existence of direct sums in $D(A, \text{d})$ as given in
+part (2) of the lemma.
+
+\medskip\noindent
+Let $M_j$ be a family of differential graded $A$-modules.
+Consider the product $M = \prod M_j$ of differential graded $A$-modules.
+For a differential graded $A$-module $N$ choose a quasi-isomorphism
+$P \to N$ where $P$ is a differential graded $A$-module with property (P).
+See Lemma \ref{lemma-resolve}.
+Using Lemma \ref{lemma-hom-derived} we have
+\begin{align*}
+\Hom_{D(A, \text{d})}(N, M)
+& =
+\Hom_{K(A, \text{d})}(P, M) \\
+& =
+\prod \Hom_{K(A, \text{d})}(P, M_j) \\
+& =
+\prod \Hom_{D(A, \text{d})}(N, M_j)
+\end{align*}
+whence the existence of direct sums in $D(A, \text{d})$ as given in
+part (3) of the lemma.
+\end{proof}
 
 
 
@@ -2055,6 +2118,10 @@ This follows from Lemma \ref{lemma-functorial-cone} with a bit of
 work. Compare with
 Derived Categories, Lemma \ref{derived-lemma-derived-canonical-delta-functor}.
 \end{proof}
+
+
+
+
 
 
 
@@ -3315,6 +3382,8 @@ of internal homs of graded modules respects the differentials.
 
 
 
+
+
 \section{Variant of derived tensor product}
 \label{section-variant-base-change}
 
@@ -3516,6 +3585,245 @@ the result holds for these.
 \end{proof}
 
 
+
+
+
+
+
+
+
+
+
+\section{Characterizing compact objects}
+\label{section-compact}
+
+\noindent
+Compact objects of additive categories are defined in
+More on Algebra, Definition \ref{more-algebra-definition-compact-object}.
+In this section we characterize compact objects of the derived
+category of a differential graded algebra.
+
+\begin{lemma}
+\label{lemma-source-graded-projective}
+Let $(A, \text{d})$ be a differential graded algebra.
+Let $P$, $M$ be differential graded $A$-modules.
+Assume $P$ is projective as a graded $A$-module.
+\begin{enumerate}
+\item If $M$ is acyclic, then $\Hom_{K(A, \text{d})}(P, M) = 0$.
+\item In general $\Hom_{K(A, \text{d})}(P, M) = \Hom_{D(A, \text{d})}(P, M)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Consider the functor
+$$
+N \longmapsto \Hom_{\text{Mod}_{(A, \text{d})}^{dg}}(P, N)
+$$
+that to a differential graded $A$-module $N$ associates the differential
+graded $R$-module whose degree $n$ summand is the degree $n$ homogeneous
+$A$-module maps from $P$ to $N$, see
+Example \ref{example-dgm-dg-cat}.
+Since $P$ is graded projective, this functor transforms any short
+exact sequence of differential graded $A$-modules into a short
+exact sequence of complexes of $R$-modules. In particular, if
+$Z \subset M$ is the kernel of $\text{d}_M$, then we get the
+short exact sequence $0 \to Z \to M \to Z[1] \to 0$ because
+$M$ is acyclic. This in turn produces the short exact sequence
+$$
+0 \to \Hom_{\text{Mod}_{(A, \text{d})}^{dg}}(P, Z) \to
+\Hom_{\text{Mod}_{(A, \text{d})}^{dg}}(P, M) \to 
+\Hom_{\text{Mod}_{(A, \text{d})}^{dg}}(P, Z[1]) \to 0
+$$
+The associated long exact sequence of cohomology modules is
+$$
+\begin{matrix}
+\Hom_{K(A, \text{d})}(P, Z) \to
+\Hom_{K(A, \text{d})}(P, Z) \to \\
+\Hom_{K(A, \text{d})}(P, M) \to
+\Hom_{K(A, \text{d})}(P, Z[1]) \to
+\Hom_{K(A, \text{d})}(P, Z[1])
+\end{matrix}
+$$
+A computation, which we omit, shows that the first and the last
+arrows are identity maps, thereby proving part (1).
+
+\medskip\noindent
+Choose a quasi-isomorphism $M \to I$ where $I$ has property (I)
+which is possible by Lemma \ref{lemma-right-resolution}.
+Choose a distinguished triangle
+$$
+M \to I \to Q \to M[1]
+$$
+in $K(A, \text{d})$. Since $M \to I$ is a quasi-isomorphism, we see
+that $Q$ is acyclic. By part (1) we have
+$\Hom_{K(A, \text{d})}(P, Q[n]) = 0$ for all $n$.
+As $\Hom_{K(A, \text{d})}(P, -)$ is homological
+(Derived Categories, Lemma \ref{derived-lemma-representable-homological})
+we see that $\Hom_{K(A, \text{d})}(P, M) = \Hom_{K(A, \text{d})}(P, I)$.
+We finish by applying Lemma \ref{lemma-hom-derived}.
+\end{proof}
+
+\noindent
+Let us say a differential graded $A$-module $M$ is {\it finite}
+if $M$ is generated, as a right $A$-module, by finitely many
+elements.
+
+\begin{lemma}
+\label{lemma-graded-projective-is-compact}
+Let $(A, \text{d})$ be a differential graded algebra. If $P$ is a
+differential graded $A$-module which is finite graded projective,
+then $P$ is a compact object of $D(A, \text{d})$.
+\end{lemma}
+
+\begin{proof}
+Suppose that $P$ is finite and projective as a graded module.
+Choose a quasi-isomorphism $P' \to P$ where $P'$ has property (P).
+Let $K = \text{Ker}(P' \to P)$. Then $K$ is an acyclic differential
+graded $A$-module, whence the boundary $\delta : P \to K[1]$
+(see Lemmas \ref{lemma-target-graded-projective} and
+\ref{lemma-admissible-ses})
+is zero by Lemma \ref{lemma-source-graded-projective}.
+Thus we see that $P' \to P$ is a homotopy equivalence (by general
+properties of triangulated categories). It follows that
+$\Hom_{K(A, \text{d})}(P', -) = \Hom_{K(A, \text{d})}(P, -)$
+as functors, whence we see that
+$$
+\Hom_{D(A, \text{d})}(P, M) = 
+\Hom_{K(A, \text{d})}(P, M)
+$$
+for any differential graded $A$-module $M$ as this is true for $P'$
+by Lemma \ref{lemma-hom-derived}.
+Now, if $M = \bigoplus M_i$,
+then because $P$ is a finite $A$-module, we see that
+$$
+\Hom_{K(A, \text{d})}(P, M) = \bigoplus \Hom_{K(A, \text{d})}(P, M_i)
+$$
+(look at the image of the generators of $P$ for any map or homotopy).
+Moreover, the direct sum is the direct sum in the derived category, see
+Lemma \ref{lemma-derived-products}.
+Thus $P$ represents a compact object of $D(A, \text{d})$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-factor-through-nicer}
+Let $(A, \text{d})$ be a differential graded algebra. Let $E$ be a compact
+object of $D(A, \text{d})$. Let $P$ be a differential graded $A$-module
+which has a finite filtration
+$$
+0 = F_{-1}P \subset F_0P \subset F_1P \subset \ldots \subset F_nP = P
+$$
+by differential graded submodules such that
+$$
+F_{i + 1}P/F_iP \cong \bigoplus\nolimits_{j \in J_i} A[k_{i, j}]
+$$
+as differential graded $A$-modules for some sets $J_i$ and integers $k_{i, j}$.
+Let $E \to P$ be a morphism of $D(A, \text{d})$.
+Then there exists a differential graded submodule $P' \subset P$ such that
+$F_{i + 1}P \cap P'/(F_iP \cap P')$ is equal to
+$\bigoplus_{j \in J'_i} A[k_{i, j}]$ for some finite subsets
+$J'_i \subset J_i$ and such that $E \to P$ factors through $P'$.
+\end{lemma}
+
+\begin{proof}
+We will prove by induction on $-1 \leq m \leq n$ that there exists
+a differential graded submodule $P' \subset P$  such that
+\begin{enumerate}
+\item $F_mP \subset P'$,
+\item for $i \geq m$ the quotient $F_{i + 1}P \cap P'/(F_iP \cap P')$ is
+isomorphic to $\bigoplus_{j \in J'_i} A[k_{i, j}]$ for some finite subsets
+$J'_i \subset J_i$, and
+\item $E \to P$ factors through $P'$.
+\end{enumerate}
+The base case is $m = n$ where we can take $P' = P$.
+
+\medskip\noindent
+Induction step. Assume $P'$ works for $m$.
+For $i \geq m$ and $j \in J'_i$ let $x_{i, j} \in F_{i + 1}P \cap P'$
+be a homogeneous element of degree $k_{i, j}$ whose image in
+$F_{i + 1}P \cap P'/(F_iP \cap P')$ is the generator in
+the summand corresponding to $j \in J_i$. The
+$x_{i, j}$ generate $P'/F_mP$ as an $A$-module. Write
+$$
+\text{d}(x_{i, j}) = \sum x_{i', j'} a_{i, j}^{i', j'} + y_{i, j}
+$$
+with $y_{i, j} \in F_mP$ and $a_{i, j}^{i', j'} \in A$.
+There exists a finite subset
+$J'_{m - 1} \subset J_{m - 1}$ such that each $y_{i, j}$ maps to
+an element of the submodule $\bigoplus_{j \in J'_{m - 1}} A[k_{m - 1, j}]$
+of $F_mP/F_{m - 1}P$. Let $P'' \subset F_mP$ be the inverse
+image of $\bigoplus_{j \in J'_{m - 1}} A[k_{m - 1, j}]$ under
+the map $F_mP \to F_mP/F_{m - 1}P$. Then we see that the $A$-submodule
+$$
+P'' + \sum x_{i, j}A
+$$
+is a differential graded submodule of the type we are looking for. Moreover
+$$
+P'/(P'' + \sum x_{i, j}A) =
+\bigoplus\nolimits_{j \in J_{m - 1} \setminus J'_{m - 1}} A[k_{m - 1, j}]
+$$
+Since $E$ is compact, the composition of the given map $E \to P'$
+with the quotient map, factors through a finite direct subsum of
+the module displayed above. Hence after enlarging $J'_{m - 1}$
+we may assume $E \to P'$ factors through
+$P'' + \sum x_{i, j}A$ as desired.
+\end{proof}
+
+\noindent
+It is not true that every compact object of $D(A, \text{d})$ comes
+from a finite graded projective differential graded $A$-module,
+see Examples, Section \ref{examples-section-interesting-compact}.
+
+\begin{proposition}
+\label{proposition-compact}
+Let $(A, \text{d})$ be a differential graded algebra. Let $E$ be an
+object of $D(A, \text{d})$. Then the followoing are equivalent
+\begin{enumerate}
+\item $E$ is a compact object,
+\item $E$ is a direct summand of an object of $D(A, \text{d})$
+which is represented by a finite graded projective differential graded
+$A$-module, and
+\item $E$ is a direct summand of an object of $D(A, \text{d})$
+which is represented by a differential graded module $P$ which
+has a finite filtration $F_\bullet$ by differential graded submodules
+such that $F_iP/F_{i - 1}P$ are finite direct sums of shifts of $A$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Assume $E$ is compact. By Lemma \ref{lemma-resolve} we may assume that $E$
+is represented by a differential graded $A$-module $P$ with propery (P).
+Consider the distinguished triangle
+$$
+\bigoplus F_iP \to \bigoplus F_iP \to P
+\xrightarrow{\delta} \bigoplus F_iP[1]
+$$
+coming from the admissible short exact sequence of
+Lemma \ref{lemma-property-P-sequence}. Since $E$ is compact we have
+$\delta = \sum_{i = 1, \ldots, n} \delta_i$ for some
+$\delta_i : P \to F_iP[1]$. Since the compostion of $\delta$
+with the map $\bigoplus F_iP[1] \to \bigoplus F_iP[1]$ is zero
+(Derived Categories, Lemma \ref{derived-lemma-composition-zero})
+it follows that $\delta = 0$ (follows as $\bigoplus F_iP \to \bigoplus F_iP$
+maps the summand $F_iP$ via the difference of $\text{id}$ and the inclusion
+map into $F_{i - 1}P$).
+Thus we see that the identity on $E$ factors through
+$\bigoplus F_iP$ in $D(A, \text{d})$ (by
+Derived Categories, Lemma \ref{derived-lemma-split}).
+Next, we use that $P$ is compact again to see that the map
+$E \to \bigoplus F_iP$ factors through $\bigoplus_{i = 1, \ldots, n} F_iP$
+for some $n$. In other words, the identity on $E$ factors through
+$\bigoplus_{i = 1, \ldots, n} F_iP$. By
+Lemma \ref{lemma-factor-through-nicer}
+we see that the identity of $E$ factors as $E \to P \to E$
+where $P$ is as in part (3) of the statement of the lemma.
+In other words, we have proven that (1) implies (3).
+
+\medskip\noindent
+It is clear that (3) implies (2). Finally, (2) implies (1) by
+Lemma \ref{lemma-graded-projective-is-compact}
+and
+More on Algebra, Lemma \ref{more-algebra-lemma-compact-objects-subcategory}.
+\end{proof}
 
 
 
