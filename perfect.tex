@@ -688,14 +688,45 @@ Leray's acyclicity lemma (Derived Categories, Lemma
 \end{proof}
 
 \begin{lemma}
-\label{lemma-affine-flat-coherator}
-Let $f : X \to Y$ be an affine flat morphism of schemes.
-Then $RQ_Y \circ Rf_* = f_* \circ RQ_X$ where $f_*$ is as
-in Lemma \ref{lemma-affine-pushforward}.
+\label{lemma-flat-pushforward-coherator}
+Let $f : X \to Y$ be a morphism of schemes. Assume that
+\begin{enumerate}
+\item $f$ is quasi-compact, quasi-separated, and flat, and
+\item denoting
+$$
+\Phi : D(\textit{QCoh}(\mathcal{O}_X)) \to D(\textit{QCoh}(\mathcal{O}_Y))
+$$
+the right derived functor of
+$f_* : \textit{QCoh}(\mathcal{O}_X) \to \textit{QCoh}(\mathcal{O}_Y)$
+the diagram
+$$
+\xymatrix{
+D(\textit{QCoh}(\mathcal{O}_X)) \ar[d]_\Phi \ar[r] &
+D_{\textit{QCoh}}(\mathcal{O}_X) \ar[d]^{Rf_*} \\
+D(\textit{QCoh}(\mathcal{O}_Y)) \ar[r] &
+D_{\textit{QCoh}}(\mathcal{O}_Y)
+}
+$$
+commutes.
+\end{enumerate}
+Then $RQ_Y \circ Rf_* = \Phi \circ RQ_X$.
 \end{lemma}
 
 \begin{proof}
-Since $f$ is flat, then functor $f^*$ is exact hence defines
+Since $f$ is quasi-compact and quasi-separated, we see that
+$f_*$ preserve quasi-coherence, see
+Schemes, Lemma \ref{schemes-lemma-push-forward-quasi-coherent}.
+Recall that $\textit{QCoh}(\mathcal{O}_X)$ is a Grothendieck abelian category
+(Properties, \ref{properties-proposition-coherator}).
+Hence any $K$ in $D(\textit{QCoh}(\mathcal{O}_X))$
+can be represented by a K-injective complex $\mathcal{I}^\bullet$
+of $\textit{QCoh}(\mathcal{O}_X)$, see
+Injectives, Theorem
+\ref{injectives-theorem-K-injective-embedding-grothendieck}.
+Then we can define $\Phi(K) = f_*\mathcal{I}^\bullet$.
+
+\medskip\noindent
+Since $f$ is flat, the functor $f^*$ is exact. Hence $f^*$ defines
 $f^* : D(\mathcal{O}_Y) \to D(\mathcal{O}_X)$ and also
 $f^* : D(\textit{QCoh}(\mathcal{O}_Y)) \to D(\textit{QCoh}(\mathcal{O}_X))$.
 The functor $f^* = Lf^* : D(\mathcal{O}_Y) \to D(\mathcal{O}_X)$
@@ -705,9 +736,12 @@ see Cohomology, Lemma \ref{cohomology-lemma-adjoint}.
 On the other hand, the functor
 $f^* : D(\textit{QCoh}(\mathcal{O}_Y)) \to D(\textit{QCoh}(\mathcal{O}_X))$
 is left adjoint to
-$f_* : D(\textit{QCoh}(\mathcal{O}_X)) \to D(\textit{QCoh}(\mathcal{O}_Y))$
-just because these are constructed from an adjoint pair of exact functors.
-Now let $A$ be an object of $D(\textit{QCoh}(\mathcal{O}_Y))$ and
+$\Phi : D(\textit{QCoh}(\mathcal{O}_X)) \to D(\textit{QCoh}(\mathcal{O}_Y))$
+because $\Phi$ is computed by evaluating $f_*$ on a K-injective
+complex and $f^*$ is adjoint to $f_*$.
+
+\medskip\noindent
+Let $A$ be an object of $D(\textit{QCoh}(\mathcal{O}_Y))$ and
 $E$ an object of $D(\mathcal{O}_X)$. Then
 \begin{align*}
 \Hom_{D(\textit{QCoh}(\mathcal{O}_Y))}(A, RQ_Y(Rf_*E))
@@ -718,7 +752,7 @@ $E$ an object of $D(\mathcal{O}_X)$. Then
 & =
 \Hom_{D(\textit{QCoh}(\mathcal{O}_X))}(f^*A, RQ_X(E)) \\
 & =
-\Hom_{D(\textit{QCoh}(\mathcal{O}_Y))}(A, f_*RQ_X(E))
+\Hom_{D(\textit{QCoh}(\mathcal{O}_Y))}(A, \Phi(RQ_X(E)))
 \end{align*}
 This implies what we want.
 \end{proof}
@@ -800,7 +834,7 @@ $$
 where $j_*$ is as in Lemma \ref{lemma-affine-pushforward}.
 Note that $A \to j_*(A|_U)$ and $E \to Rj_*(E|_U)$ are quasi-isomorphisms
 over $U = U_n$. Hence $A'$ and $E'$ are supported on the closed
-subset $T \setminus U_1$ contained in $U_1 \cup \ldots \cup U_{n - 1}$.
+subset $T \setminus U_n$ contained in $U_1 \cup \ldots \cup U_{n - 1}$.
 By induction hypothesis the statement is true for $A'$ and $E'$. By
 Derived Categories, Lemma \ref{derived-lemma-third-isomorphism-triangle}
 it suffices to prove the maps
@@ -809,9 +843,11 @@ RQ_X(j_*(A|_U)) \to j_*(A|_U)
 \quad\text{and}\quad
 Rj_*(E|_U) \to RQ_X(Rj_*E|_U)
 $$
-are isomorphisms. By Lemma \ref{lemma-affine-flat-coherator} we have
+are isomorphisms. By
+Lemmas \ref{lemma-affine-pushforward} and
+\ref{lemma-flat-pushforward-coherator} we have
 $RQ_X(j_*(A|_U)) = j_*RQ_U(A|_U)$ and
-$RQ_X(Rj_*E|_U) = j_*RQ_U(E|_U)$. Finally, the maps
+$RQ_X(Rj_*E|_U) = Rj_*RQ_U(E|_U)$. Finally, the maps
 $$
 RQ_U(A|_U) \to A|_U
 \quad\text{and}\quad
@@ -819,6 +855,174 @@ E|_U \to RQ_U(E|_U)
 $$
 are isomorphisms by Lemma \ref{lemma-affine-coherator}. The result follows.
 \end{proof}
+
+
+
+
+
+
+\section{The coherator for Noetherian schemes}
+\label{section-coherator-Noetherian}
+
+\noindent
+In the case of Noetherian schemes we can use the following lemma.
+
+\begin{lemma}
+\label{lemma-injective-quasi-coherent-sheaf-Noetherian}
+Let $X$ be a Noetherian scheme. Let $\mathcal{J}$ be an injective
+object of $\textit{QCoh}(\mathcal{O}_X)$. Then $\mathcal{J}$
+is a flasque sheaf of $\mathcal{O}_X$-modules.
+\end{lemma}
+
+\begin{proof}
+Let $U \subset X$ be an open subset and let $s \in \mathcal{J}(U)$
+be a section. Let $\mathcal{I} \subset X$ be the quasi-coherent sheaf
+of ideals defining the reduced induced scheme structure on $X \setminus U$
+(see Schemes, Definition \ref{schemes-definition-reduced-induced-scheme}).
+By Cohomology of Schemes, Lemma \ref{coherent-lemma-homs-over-open}
+the section $s$ corresponds to a map $\sigma: \mathcal{I}^n \to \mathcal{J}$
+for some $n$. As $\mathcal{J}$ is an injective object of
+$\textit{QCoh}(\mathcal{O}_X)$ we can extend $\sigma$ to a map
+$\tilde s : \mathcal{O}_X \to \mathcal{J}$. Then $\tilde s$ corresponds
+to a global section of $\mathcal{J}$ restricting to $s$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-Noetherian-pushforward}
+Let $f : X \to Y$ be a morphism of Noetherian schemes.
+Then $f_*$ on quasi-coherent sheaves has a right derived
+extension
+$\Phi : D(\textit{QCoh}(\mathcal{O}_X)) \to D(\textit{QCoh}(\mathcal{O}_Y))$
+such that the diagram
+$$
+\xymatrix{
+D(\textit{QCoh}(\mathcal{O}_X)) \ar[d]_{\Phi} \ar[r] &
+D_{\textit{QCoh}}(\mathcal{O}_X) \ar[d]^{Rf_*} \\
+D(\textit{QCoh}(\mathcal{O}_Y)) \ar[r] &
+D_{\textit{QCoh}}(\mathcal{O}_Y)
+}
+$$
+commutes.
+\end{lemma}
+
+\begin{proof}
+Since $X$ and $Y$ are Noetherian schemes the morphism is quasi-compact
+and quasi-separated (see
+Properties, Lemma \ref{properties-lemma-locally-Noetherian-quasi-separated}
+and
+Schemes, Remark \ref{schemes-remark-quasi-compact-and-quasi-separated}).
+Thus $f_*$ preserve quasi-coherence, see
+Schemes, Lemma \ref{schemes-lemma-push-forward-quasi-coherent}.
+Next, Let $K$ be an object of $D(\textit{QCoh}(\mathcal{O}_X))$.
+Since $\textit{QCoh}(\mathcal{O}_X)$ is a Grothendieck abelian category
+(Properties, \ref{properties-proposition-coherator}), we can
+represent $K$ by a K-injective complex $\mathcal{I}^\bullet$
+such that each $\mathcal{I}^n$ is an injective object of
+$\textit{QCoh}(\mathcal{O}_X)$, see
+Injectives, Theorem
+\ref{injectives-theorem-K-injective-embedding-grothendieck}.
+Thus we see that the functor $\Phi$ is defined by setting
+$$
+\Phi(K) = f_*\mathcal{I}^\bullet
+$$
+where the right hand side is viewed as an object of
+$D(\textit{QCoh}(\mathcal{O}_Y))$. To finish the proof of the lemma
+it suffices to show that the canonical map
+$$
+f_*\mathcal{I}^\bullet \longrightarrow Rf_*\mathcal{I}^\bullet
+$$
+is an isomorphism in $D(\mathcal{O}_Y)$. To see this it suffices to
+prove the map induces an isomorphism on cohomology sheaves. Pick any
+$m \in \mathbf{Z}$. Let $N = N(X, Y, f)$ be as in
+Lemma \ref{lemma-quasi-coherence-direct-image}.
+Consider the short exact sequence
+$$
+0 \to \sigma_{\geq m - N - 1}\mathcal{I}^\bullet \to
+\mathcal{I}^\bullet \to \sigma_{\leq m - N - 2}\mathcal{I}^\bullet \to 0
+$$
+of complexes of quasi-coherent sheaves on $X$. By
+Lemma \ref{lemma-quasi-coherence-direct-image}
+we see that the cohomology sheaves of
+$Rf_*\sigma_{\leq m - N - 2}\mathcal{I}^\bullet$
+are zero in degrees $\geq m - 1$. Thus we see that
+$R^mf_*\mathcal{I}^\bullet$ is isomorphic to
+$R^mf_*\sigma_{\geq m - N - 1}\mathcal{I}^\bullet$.
+In other words, we may assume that $\mathcal{I}^\bullet$
+is a bounded below complex of injective objects of
+$\textit{QCoh}(\mathcal{O}_X)$.
+This follows from
+Leray's acyclicity lemma
+(Derived Categories, Lemma \ref{derived-lemma-leray-acyclicity})
+via
+Cohomology, Lemma \ref{cohomology-lemma-flasque-acyclic-pushforward}
+and
+Lemma \ref{lemma-injective-quasi-coherent-sheaf-Noetherian}.
+\end{proof}
+
+\begin{proposition}
+\label{proposition-Noetherian}
+Let $X$ be a Noetherian scheme. Then the functor (\ref{equation-compare})
+$$
+D(\textit{QCoh}(\mathcal{O}_X))
+\longrightarrow
+D_{\textit{QCoh}}(\mathcal{O}_X)
+$$
+is an equivalence with quasi-inverse given by $RQ_X$.
+\end{proposition}
+
+\begin{proof}
+Let $E$ be an object of $D_{\textit{QCoh}}(\mathcal{O}_X)$ and
+let $A$ be an object of $D(\textit{QCoh}(\mathcal{O}_X))$.
+We have to show that the adjunction maps
+$$
+RQ_X(A) \to A
+\quad\text{and}\quad
+E \to RQ_X(E)
+$$
+are isomorphisms. We will prove this by induction on $n$:
+the smallest integer $n \geq 0$ such that $E$ and $A$ are supported
+on a closed subset of $X$ which is contained in the union of $n$
+affine opens of $X$. If $n = 0$ then $E$ and $A$ are zero; this is
+the base case of the induction.
+
+\medskip\noindent
+Suppose that $E$ and $A$ are supported on a closed subset $T$ of
+$U_1 \cup \ldots \cup U_n$ with $U_i \subset X$ affine open.
+Set $U = U_n$. The inclusion morphism
+$j : U \to X$ is a flat morphism of Noetherian schemes.
+Consider the distinguished triangles
+$$
+A \to \Phi(A|_U) \to A' \to A[1]
+\quad\text{and}\quad
+E \to Rj_*(E|_U) \to E' \to E[1]
+$$
+where $\Phi$ is as in Lemma \ref{lemma-Noetherian-pushforward}.
+Note that $A \to \Phi(A|_U)$ and $E \to Rj_*(E|_U)$ are quasi-isomorphisms
+over $U = U_n$. Hence $A'$ and $E'$ are supported on the closed
+subset $T \setminus U_n$ contained in $U_1 \cup \ldots \cup U_{n - 1}$.
+By induction hypothesis the statement is true for $A'$ and $E'$. By
+Derived Categories, Lemma \ref{derived-lemma-third-isomorphism-triangle}
+it suffices to prove the maps
+$$
+RQ_X(\Phi(A|_U)) \to \Phi(A|_U)
+\quad\text{and}\quad
+Rj_*(E|_U) \to RQ_X(Rj_*E|_U)
+$$
+are isomorphisms. By
+Lemmas \ref{lemma-Noetherian-pushforward} and
+\ref{lemma-flat-pushforward-coherator} we have
+$RQ_X(\Phi(A|_U)) = Rj_*(RQ_U(A|_U))$ and $RQ_X(Rj_*E|_U) = \Phi(RQ_U(E|_U))$.
+Finally, the maps
+$$
+RQ_U(A|_U) \to A|_U
+\quad\text{and}\quad
+E|_U \to RQ_U(E|_U)
+$$
+are isomorphisms by Lemma \ref{lemma-affine-coherator}. The result follows.
+\end{proof}
+
+
+
 
 
 
