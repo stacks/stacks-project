@@ -805,24 +805,34 @@ is an equivalence with quasi-inverse given by $RQ_X$.
 \end{proposition}
 
 \begin{proof}
+In this proof we will denote $i_X : D(\textit{QCoh}(\mathcal{O}_X))
+\to D_{\textit{QCoh}}(\mathcal{O}_X)$ the functor of the lemma.
 Let $E$ be an object of $D_{\textit{QCoh}}(\mathcal{O}_X)$ and
 let $A$ be an object of $D(\textit{QCoh}(\mathcal{O}_X))$.
 We have to show that the adjunction maps
 $$
-RQ_X(A) \to A
+RQ_X(i_X(A)) \to A
 \quad\text{and}\quad
-E \to RQ_X(E)
+E \to i_X(RQ_X(E))
 $$
 are isomorphisms. We will prove this by induction on $n$:
-the smallest integer $n \geq 0$ such that $E$ and $A$ are supported
-on a closed subset of $X$ which
-is contained in the union of $n$ affine opens of $X$. If $n = 0$
-then $E$ and $A$ are zero; this is the base case of the induction.
+the smallest integer $n \geq 0$ such that $E$ and $i_X(A)$
+are supported on a closed subset of $X$ which
+is contained in the union of $n$ affine opens of $X$.
 
 \medskip\noindent
-Suppose that $E$ and $A$ are supported on a closed subset $T$ of
-$U_1 \cup \ldots \cup U_n$ with $U_i \subset X$ affine open.
-Set $U = U_n$. The inclusion morphism
+Base case: $n = 0$. In this case $E = 0$, hence the map
+$E \to i_X(RQ_X(E))$ is an isomorphism. Similarly $i_X(A) = 0$.
+Thus the cohomology sheaves of $i_X(A)$ are zero. Since the inclusion
+functor $\textit{QCoh}(\mathcal{O}_X) \to \textit{Mod}(\mathcal{O}_X)$
+is fully faithful and exact, we conclude that the cohomology
+objects of $A$ are zero, i.e., $A = 0$ and
+$RQ_X(i_X(A)) \to A$ is an isomorphism as well.
+
+\medskip\noindent
+Induction step. Suppose that $E$ and $i_X(A)$ are supported on a
+closed subset $T$ of $X$ contained in $U_1 \cup \ldots \cup U_n$
+with $U_i \subset X$ affine open. Set $U = U_n$. The inclusion morphism
 $j : U \to X$ is flat and affine
 (Morphisms, Lemma \ref{morphisms-lemma-affine-permanence}).
 Consider the distinguished triangles
@@ -832,31 +842,69 @@ A \to j_*(A|_U) \to A' \to A[1]
 E \to Rj_*(E|_U) \to E' \to E[1]
 $$
 where $j_*$ is as in Lemma \ref{lemma-affine-pushforward}.
-Note that $A \to j_*(A|_U)$ and $E \to Rj_*(E|_U)$ are quasi-isomorphisms
-over $U = U_n$. Hence $A'$ and $E'$ are supported on the closed
-subset $T \setminus U_n$ contained in $U_1 \cup \ldots \cup U_{n - 1}$.
+Note that $E \to Rj_*(E|_U)$ is a quasi-isomorphism over $U = U_n$.
+Since $i_X \circ j_* = Rj_* \circ i_U$ by Lemma \ref{lemma-affine-pushforward}
+and since $i_X(A)|_U = i_U(A|_U)$
+we see that $i_X(A) \to i_X(j_*(A|_U))$ is a quasi-isomorphism over $U$.
+Hence $i_X(A')$ and $E'$ are supported on the closed
+subset $T \setminus U$ of $X$ which is contained in
+$U_1 \cup \ldots \cup U_{n - 1}$.
 By induction hypothesis the statement is true for $A'$ and $E'$. By
 Derived Categories, Lemma \ref{derived-lemma-third-isomorphism-triangle}
 it suffices to prove the maps
 $$
-RQ_X(j_*(A|_U)) \to j_*(A|_U)
+RQ_X(i_X(j_*(A|_U))) \to j_*(A|_U)
 \quad\text{and}\quad
-Rj_*(E|_U) \to RQ_X(Rj_*E|_U)
+Rj_*(E|_U) \to i_X(RQ_X(Rj_*E|_U))
 $$
 are isomorphisms. By
 Lemmas \ref{lemma-affine-pushforward} and
 \ref{lemma-flat-pushforward-coherator} we have
-$RQ_X(j_*(A|_U)) = j_*RQ_U(A|_U)$ and
-$RQ_X(Rj_*E|_U) = Rj_*RQ_U(E|_U)$. Finally, the maps
 $$
-RQ_U(A|_U) \to A|_U
+RQ_X(i_X(j_*(A|_U))) = RQ_X(Rj_*(i_U(A|_U))) = j_*RQ_U(i_U(A|_U))
+$$
+and
+$$
+i_X(RQ_X(Rj_*(E|_U))) = i_X(j_*RQ_U(E|_U)) = Rj_*(i_U(RQ_U(E|_U)))
+$$
+Finally, the maps
+$$
+RQ_U(i_U(A|_U)) \to A|_U
 \quad\text{and}\quad
-E|_U \to RQ_U(E|_U)
+E|_U \to i_U(RQ_U(E|_U))
 $$
 are isomorphisms by Lemma \ref{lemma-affine-coherator}. The result follows.
 \end{proof}
 
-
+\begin{remark}
+\label{remark-argument-proves}
+Analyzing the proof of
+Proposition \ref{proposition-quasi-compact-affine-diagonal}
+we see that we have shown the following.
+Let $X$ be a quasi-compact and quasi-separated scheme. Suppose that
+for every affine open $U \subset X$ the right derived functor
+$$
+\Phi : D(\textit{QCoh}(\mathcal{O}_U)) \to D(\textit{QCoh}(\mathcal{O}_X))
+$$
+of the left exact functor
+$j_* : \textit{QCoh}(\mathcal{O}_X) \to \textit{QCoh}(\mathcal{O}_Y)$
+fits into a commutative diagram
+$$
+\xymatrix{
+D(\textit{QCoh}(\mathcal{O}_U)) \ar[d]_\Phi \ar[r]_{i_U} &
+D_{\textit{QCoh}}(\mathcal{O}_U) \ar[d]^{Rj_*} \\
+D(\textit{QCoh}(\mathcal{O}_X)) \ar[r]^{i_X} &
+D_{\textit{QCoh}}(\mathcal{O}_X)
+}
+$$
+Then the functor (\ref{equation-compare})
+$$
+D(\textit{QCoh}(\mathcal{O}_X))
+\longrightarrow
+D_{\textit{QCoh}}(\mathcal{O}_X)
+$$
+is an equivalence with quasi-inverse given by $RQ_X$.
+\end{remark}
 
 
 
@@ -971,54 +1019,10 @@ is an equivalence with quasi-inverse given by $RQ_X$.
 \end{proposition}
 
 \begin{proof}
-Let $E$ be an object of $D_{\textit{QCoh}}(\mathcal{O}_X)$ and
-let $A$ be an object of $D(\textit{QCoh}(\mathcal{O}_X))$.
-We have to show that the adjunction maps
-$$
-RQ_X(A) \to A
-\quad\text{and}\quad
-E \to RQ_X(E)
-$$
-are isomorphisms. We will prove this by induction on $n$:
-the smallest integer $n \geq 0$ such that $E$ and $A$ are supported
-on a closed subset of $X$ which is contained in the union of $n$
-affine opens of $X$. If $n = 0$ then $E$ and $A$ are zero; this is
-the base case of the induction.
-
-\medskip\noindent
-Suppose that $E$ and $A$ are supported on a closed subset $T$ of
-$U_1 \cup \ldots \cup U_n$ with $U_i \subset X$ affine open.
-Set $U = U_n$. The inclusion morphism
-$j : U \to X$ is a flat morphism of Noetherian schemes.
-Consider the distinguished triangles
-$$
-A \to \Phi(A|_U) \to A' \to A[1]
-\quad\text{and}\quad
-E \to Rj_*(E|_U) \to E' \to E[1]
-$$
-where $\Phi$ is as in Lemma \ref{lemma-Noetherian-pushforward}.
-Note that $A \to \Phi(A|_U)$ and $E \to Rj_*(E|_U)$ are quasi-isomorphisms
-over $U = U_n$. Hence $A'$ and $E'$ are supported on the closed
-subset $T \setminus U_n$ contained in $U_1 \cup \ldots \cup U_{n - 1}$.
-By induction hypothesis the statement is true for $A'$ and $E'$. By
-Derived Categories, Lemma \ref{derived-lemma-third-isomorphism-triangle}
-it suffices to prove the maps
-$$
-RQ_X(\Phi(A|_U)) \to \Phi(A|_U)
-\quad\text{and}\quad
-Rj_*(E|_U) \to RQ_X(Rj_*E|_U)
-$$
-are isomorphisms. By
-Lemmas \ref{lemma-Noetherian-pushforward} and
-\ref{lemma-flat-pushforward-coherator} we have
-$RQ_X(\Phi(A|_U)) = Rj_*(RQ_U(A|_U))$ and $RQ_X(Rj_*E|_U) = \Phi(RQ_U(E|_U))$.
-Finally, the maps
-$$
-RQ_U(A|_U) \to A|_U
-\quad\text{and}\quad
-E|_U \to RQ_U(E|_U)
-$$
-are isomorphisms by Lemma \ref{lemma-affine-coherator}. The result follows.
+This follows using the exact same argument as in the proof of
+Proposition \ref{proposition-quasi-compact-affine-diagonal}
+using Lemma \ref{lemma-Noetherian-pushforward}.
+See discussion in Remark \ref{remark-argument-proves}.
 \end{proof}
 
 
