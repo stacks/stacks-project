@@ -1645,27 +1645,61 @@ Derived Categories of Schemes, Lemma \ref{perfect-lemma-affine-pushforward}.
 \end{proof}
 
 \begin{lemma}
-\label{lemma-affine-flat-coherator}
-Let $S$ be a scheme. Let $f : X \to Y$ be an affine flat morphism of
-algebraic spaces over $S$.
-Then $RQ_Y \circ Rf_* = f_* \circ RQ_X$ where $f_*$ is as
-in Lemma \ref{lemma-affine-pushforward}.
+\label{lemma-flat-pushforward-coherator}
+Let $S$ be a scheme. Let $f : X \to Y$ be a morphism of algebraic
+spaces over $S$. Assume that
+\begin{enumerate}
+\item $f$ is quasi-compact, quasi-separated, and flat, and
+\item denoting
+$$
+\Phi : D(\textit{QCoh}(\mathcal{O}_X)) \to D(\textit{QCoh}(\mathcal{O}_Y))
+$$
+the right derived functor of
+$f_* : \textit{QCoh}(\mathcal{O}_X) \to \textit{QCoh}(\mathcal{O}_Y)$
+the diagram
+$$
+\xymatrix{
+D(\textit{QCoh}(\mathcal{O}_X)) \ar[d]_\Phi \ar[r] &
+D_{\textit{QCoh}}(\mathcal{O}_X) \ar[d]^{Rf_*} \\
+D(\textit{QCoh}(\mathcal{O}_Y)) \ar[r] &
+D_{\textit{QCoh}}(\mathcal{O}_Y)
+}
+$$
+commutes.
+\end{enumerate}
+Then $RQ_Y \circ Rf_* = \Phi \circ RQ_X$.
 \end{lemma}
 
 \begin{proof}
-Since $f$ is flat, then functor $f^*$ is exact hence defines
+Since $f$ is quasi-compact and quasi-separated, we see that
+$f_*$ preserve quasi-coherence, see
+Morphisms of Spaces, Lemma \ref{spaces-morphisms-lemma-pushforward}.
+Recall that $\textit{QCoh}(\mathcal{O}_X)$ is a Grothendieck abelian category
+(Properties of Spaces, Proposition
+\ref{spaces-properties-proposition-coherator}).
+Hence any $K$ in $D(\textit{QCoh}(\mathcal{O}_X))$
+can be represented by a K-injective complex $\mathcal{I}^\bullet$
+of $\textit{QCoh}(\mathcal{O}_X)$, see
+Injectives, Theorem
+\ref{injectives-theorem-K-injective-embedding-grothendieck}.
+Then we can define $\Phi(K) = f_*\mathcal{I}^\bullet$.
+
+\medskip\noindent
+Since $f$ is flat, the functor $f^*$ is exact. Hence $f^*$ defines
 $f^* : D(\mathcal{O}_Y) \to D(\mathcal{O}_X)$ and also
 $f^* : D(\textit{QCoh}(\mathcal{O}_Y)) \to D(\textit{QCoh}(\mathcal{O}_X))$.
 The functor $f^* = Lf^* : D(\mathcal{O}_Y) \to D(\mathcal{O}_X)$
 is left adjoint to
 $Rf_* : D(\mathcal{O}_X) \to D(\mathcal{O}_Y)$,
-see Cohomology, Lemma \ref{cohomology-lemma-adjoint}.
-On the other hand, the functor
+see Cohomology of Sites, Lemma \ref{sites-cohomology-lemma-adjoint}.
+Similarly, the functor
 $f^* : D(\textit{QCoh}(\mathcal{O}_Y)) \to D(\textit{QCoh}(\mathcal{O}_X))$
 is left adjoint to
-$f_* : D(\textit{QCoh}(\mathcal{O}_X)) \to D(\textit{QCoh}(\mathcal{O}_Y))$
-just because these are constructed from an adjoint pair of exact functors.
-Now let $A$ be an object of $D(\textit{QCoh}(\mathcal{O}_Y))$ and
+$\Phi : D(\textit{QCoh}(\mathcal{O}_X)) \to D(\textit{QCoh}(\mathcal{O}_Y))$
+by Derived Categories, Lemma \ref{derived-lemma-derived-adjoint-functors}.
+
+\medskip\noindent
+Let $A$ be an object of $D(\textit{QCoh}(\mathcal{O}_Y))$ and
 $E$ an object of $D(\mathcal{O}_X)$. Then
 \begin{align*}
 \Hom_{D(\textit{QCoh}(\mathcal{O}_Y))}(A, RQ_Y(Rf_*E))
@@ -1676,7 +1710,7 @@ $E$ an object of $D(\mathcal{O}_X)$. Then
 & =
 \Hom_{D(\textit{QCoh}(\mathcal{O}_X))}(f^*A, RQ_X(E)) \\
 & =
-\Hom_{D(\textit{QCoh}(\mathcal{O}_Y))}(A, f_*RQ_X(E))
+\Hom_{D(\textit{QCoh}(\mathcal{O}_Y))}(A, \Phi(RQ_X(E)))
 \end{align*}
 This implies what we want.
 \end{proof}
@@ -1738,16 +1772,12 @@ is an equivalence with quasi-inverse given by $RQ_X$.
 \end{proposition}
 
 \begin{proof}
-Note that it is enough to prove that (\ref{equation-compare}) is
-an equivalence, since then it will be the case that $RQ_X$ defines
-the quasi-inverse for formal reasons (by uniqueness of adjoints and
-the fact that the quasi-inverse is an adjoint).
-We will use the induction principle to prove this. Let
-$\mathcal{B} \subset \Ob(X_{spaces, \etale})$ be the set of
+We first use the induction principle to prove $i_X$ is fully faithfu.
+Let $\mathcal{B} \subset \Ob(X_{spaces, \etale})$ be the set of
 objects which are quasi-compact and have affine diagonal.
 For $U \in \mathcal{B}$ let $P(U) =$ ``the functor
-$D(\textit{QCoh}(\mathcal{O}_U)) \to D_{\textit{QCoh}}(\mathcal{O}_U)$
-is an equivalence''.
+$i_U : D(\textit{QCoh}(\mathcal{O}_U)) \to D_{\textit{QCoh}}(\mathcal{O}_U)$
+is fully faithful''.
 By Remark \ref{remark-how-to} conditions (1), (2), and (3)(a) of
 Lemma \ref{lemma-induction-principle-separated} hold and we are
 left with proving (3)(b) and (4). Condition (3)(b) holds by
@@ -1760,121 +1790,197 @@ We have to show that $P$ holds for $W$. We may replace $X$ by $W$, i.e.,
 we may assume $W = X$ (we do this just to simplify the notation).
 
 \medskip\noindent
-We first prove that the functor
-$D(\textit{QCoh}(\mathcal{O}_X)) \to D(\mathcal{O}_X)$
-is fully faithful. Suppose that $A, B$ are objects of
-$D(\textit{QCoh}(\mathcal{O}_X))$, i.e., $A$ and $B$ are given to us
-as complexes of quasi-coherent $\mathcal{O}_X$-modules.
+Suppose that $A, B$ are objects of $D(\textit{QCoh}(\mathcal{O}_X))$.
 We want to show that
 $$
 \Hom_{D(\textit{QCoh}(\mathcal{O}_X))}(A, B)
 \longrightarrow
-\Hom_{D(\mathcal{O}_X)}(A, B)
+\Hom_{D(\mathcal{O}_X)}(i_X(A), i_X(B))
 $$
-is bijective. Let $T = |X| \setminus |U|$. If $B$ is supported on $T$, then
-the maps $B \to Rj_{V, *}(B|_V)$ is a quasi-isomorphism
+is bijective. Let $T = |X| \setminus |U|$.
+
+\medskip\noindent
+Assume first $i_X(B)$ is supported on $T$. In this case the map
+$$
+i_X(B) \to Rj_{V, *}(i_X(B)|_V) = Rj_{V, *}(i_V(B|_V))
+$$
+is a quasi-isomorphism
 (Lemma \ref{lemma-pushforward-with-support-in-open}).
 The morphism $V \to X$ is affine as $V$ is affine and $X$ has affine diagonal
 (Morphisms of Spaces, Lemma \ref{spaces-morphisms-lemma-affine-permanence}).
 Thus we have an object $j_{V, *}(B|_V)$ in $\textit{QCoh}(\mathcal{O}_X)$
-and a quasi-isomorphism $j_{V, *}(B|_V) \to Rj_{V, *}B$ in $D(\mathcal{O}_X)$
-(Lemma \ref{lemma-affine-pushforward}). Moreover, $j_{V, *}$ and $j_V^*$ are
-adjoint functors on the derived categories of quasi-coherent modules
-(see proof of Lemma \ref{lemma-affine-flat-coherator}). Hence
+and an isomorphism
+$i_X(j_{V, *}(B|_V)) \to Rj_{V, *}(i_V(B|_V))$ in $D(\mathcal{O}_X)$
+(Lemma \ref{lemma-affine-pushforward}). Moreover, $j_{V, *}$ and
+${-}|_V$ are adjoint functors on the derived categories of
+quasi-coherent modules, see proof Lemma \ref{lemma-flat-pushforward-coherator}.
+The adjunction map $B \to j_{V, *}(B|_V)$ becomes an isomorphism
+after applying $i_X$, whence is an isomorphism in
+$D(\textit{QCoh}(\mathcal{O}_X))$.
+Hence
 \begin{align*}
 \Mor_{D(\textit{QCoh}(\mathcal{O}_X))}(A, B)
 & =
+\Mor_{D(\textit{QCoh}(\mathcal{O}_X))}(A, j_{V, *}(B|_V)) \\
+& =
 \Mor_{D(\textit{QCoh}(\mathcal{O}_V))}(A|_V, B|_V) \\
 & =
-\Mor_{D(\mathcal{O}_V)}(A|_V, B|_V) \\
+\Mor_{D(\mathcal{O}_V)}(i_V(A|_V), i_V(B|_V)) \\
 & =
-\Mor_{D(\mathcal{O}_X)}(A, Rj_{V, *}B|_V) \\
+\Mor_{D(\mathcal{O}_X)}(i_X(A), Rj_{V, *}(i_V(B|_V))) \\
 & =
-\Mor_{D(\mathcal{O}_X)}(A, B)
+\Mor_{D(\mathcal{O}_X)}(i_X(A), i_X(B))
 \end{align*}
-as desired. In general, choose any quasi-isomorphism $s : B|_U \to C$ of
-complexes of quasi-coherent $\mathcal{O}_U$-modules. We obtain a map
-$B \to j_{U, *}B|_U \to j_{U, *}C$ and fit it into a
-distinguished triangle
-$$
-B \to j_{U, *}C \to B' \to B[1]
-$$
-in $D(\textit{QCoh}(\mathcal{O}_X))$. This makes sense because $j_U : U \to X$
-is quasi-compact and quasi-separated, hence $j_{U, *}$ transforms
+as desired.
+
+\medskip\noindent
+In general, choose any complex $\mathcal{B}^\bullet$ of quasi-coherent
+$\mathcal{O}_X$-modules representing $B$. Next, choose any quasi-isomorphism
+$s : \mathcal{B}^\bullet|_U \to \mathcal{C}^\bullet$ of complexes of
+quasi-coherent modules on $U$. As $j_U : U \to X$ is
+quasi-compact and quasi-separated the functor $j_{U, *}$ transforms
 quasi-coherent modules into quasi-coherent modules
 (Morphisms of Spaces, Lemma \ref{spaces-morphisms-lemma-pushforward}).
-Since $s$ is a quasi-isomorphism
-we see that $B'$ is supported on $T$. Hence in the diagram
+Thus there is a canonical map
+$\mathcal{B}^\bullet \to j_{U, *}(\mathcal{B}^\bullet|_U) \to
+j_{U, *}\mathcal{C}^\bullet$
+of complexes of quasi-coherent modules on $X$.
+Set $B'' = j_{U, *}\mathcal{C}^\bullet$ in $D(\textit{QCoh}(\mathcal{O}_X))$
+and choose a distinguished triangle
+$$
+B \to B'' \to B' \to B^\bullet[1]
+$$
+in $D(\textit{QCoh}(\mathcal{O}_X))$. Since the first arrow of the triangle
+restricts to an isomorphism over $U$ we see that $B'$ is supported on $T$.
+Hence in the diagram
 $$
 \xymatrix{
 \Hom_{D(\textit{QCoh}(\mathcal{O}_X))}(A, B'[-1]) \ar[r] \ar[d] &
-\Hom_{D(\mathcal{O}_X)}(A, B'[-1]) \ar[d] \\
+\Hom_{D(\mathcal{O}_X)}(i_X(A), i_X(B')[-1]) \ar[d] \\
 \Hom_{D(\textit{QCoh}(\mathcal{O}_X))}(A, B) \ar[r] \ar[d] &
-\Hom_{D(\mathcal{O}_X)}(A, B) \ar[d] \\
-\Hom_{D(\textit{QCoh}(\mathcal{O}_X))}(A, j_{U, *}C) \ar[r] \ar[d] &
-\Hom_{D(\mathcal{O}_X)}(A, j_{U, *}C) \ar[d] \\
+\Hom_{D(\mathcal{O}_X)}(i_X(A), i_X(B)) \ar[d] \\
+\Hom_{D(\textit{QCoh}(\mathcal{O}_X))}(A, B'') \ar[r] \ar[d] &
+\Hom_{D(\mathcal{O}_X)}(i_X(A), i_X(B'')) \ar[d] \\
 \Hom_{D(\textit{QCoh}(\mathcal{O}_X))}(A, B') \ar[r] &
-\Hom_{D(\mathcal{O}_X)}(A, B')
+\Hom_{D(\mathcal{O}_X)}(i_X(A), i_X(B'))
 }
 $$
 we have exact columns and the top and bottom horizontal arrows are
-bijective. Let $\alpha : A \to B$ be a morphism between $A$ and $B$
-in $D(\mathcal{O}_X)$. The restriction
-$\alpha|_U$ comes from a morphism in $D(\textit{QCoh}(\mathcal{O}_U))$
-by assumption. Hence there exists a choice of $s : B|_U \to C$ as above
+bijective. Finally, choose a complex $\mathcal{A}^\bullet$
+of quasi-coherent modules representing $A$.
+
+\medskip\noindent
+Let $\alpha : i_X(A) \to i_X(B)$ be a morphism between
+in $D(\mathcal{O}_X)$. The restriction $\alpha|_U$ comes from a
+morphism in $D(\textit{QCoh}(\mathcal{O}_U))$ by assumption.
+Hence there exists a choice of
+$s : \mathcal{B}^\bullet|_U \to \mathcal{C}^\bullet$ as above
 such that $\alpha|_U$ is represented by an actual map of complexes
-$A|_U \to C$. This corresponds to a map of complexes $A \to j_{U, *}C$.
+$\mathcal{A}^\bullet|_U \to \mathcal{C}^\bullet$.
+This corresponds to a map of complexes
+$\mathcal{A} \to j_{U, *}\mathcal{C}^\bullet$.
 In other words, the image of $\alpha$ in
-$\Hom_{D(\mathcal{O}_X)}(A, j_{U, *}C)$ comes from
-an element of $\Hom_{D(\textit{QCoh}(\mathcal{O}_X))}(A, j_{U, *}C)$.
+$\Hom_{D(\mathcal{O}_X)}(i_X(A), i_X(B''))$ comes from
+an element of $\Hom_{D(\textit{QCoh}(\mathcal{O}_X))}(A, B'')$.
 A diagram chase then shows that $\alpha$ comes from a morphism
 $A \to B$ in $D(\textit{QCoh}(\mathcal{O}_X))$. Finally, suppose
 that $a : A \to B$ is a morphism of $D(\textit{QCoh}(\mathcal{O}_X))$
-which becomes zero in $D(\mathcal{O}_X)$. Then by the same reasoning
-as above we can pick an $s$ as above such that $\alpha$ maps to
-zero in $\Hom_{D(\textit{QCoh}(\mathcal{O}_X))}(A, j_{U, *}C)$.
+which becomes zero in $D(\mathcal{O}_X)$. After choosing $\mathcal{B}^\bullet$
+suitably, we may assume $a$ is represented by a morphism of complexes
+$a^\bullet : \mathcal{A}^\bullet \to \mathcal{B}^\bullet$.
+Since $P$ holds for $U$ the restriction $a^\bullet|_U$ is zero
+in $D(\textit{QCoh}(\mathcal{O}_U))$. Thus we can choose $s$
+such that
+$s \circ a^\bullet|_U : \mathcal{A}^\bullet|_U \to \mathcal{C}^\bullet$
+is homotopic to zero. Applying the functor $j_{U, *}$ we conclude that
+$\mathcal{A}^\bullet \to j_{U, *}\mathcal{C}^\bullet$ is homotopic
+to zero. Thus $a$ maps to zero in
+$\Hom_{D(\textit{QCoh}(\mathcal{O}_X))}(A, B'')$.
 Thus we may assume that $a$ is the image of an element
 of $b \in \Hom_{D(\textit{QCoh}(\mathcal{O}_X))}(A, B'[-1])$.
-The image of $b$ in $\Hom_{D(\mathcal{O}_X)}(A, B'[-1])$
-comes from a $c' \in \Hom_{D(\mathcal{O}_X)}(A, j_{U, *}C[-1])$
+The image of $b$ in $\Hom_{D(\mathcal{O}_X)}(i_X(A), i_X(B')[-1])$
+comes from a $\gamma \in \Hom_{D(\mathcal{O}_X)}(A, B''[-1])$
 (as $a$ maps to zero in the group on the right). Since we've
 seen above the horizontal arrows are surjective, we see
-that $c'$ comes from a $c$ in
-$\Hom_{D(\textit{QCoh}(\mathcal{O}_X))}(A, j_{U, *}C)$
+that $\gamma$ comes from a $c$ in
+$\Hom_{D(\textit{QCoh}(\mathcal{O}_X))}(A, B''[-1])$
 which implies $a = 0$ as desired.
 
 \medskip\noindent
-To finish the proof we show that the functor
-$D(\textit{QCoh}(\mathcal{O}_X)) \to D_{\textit{QCoh}}(\mathcal{O}_X)$
-is essentially surjective. Let $E$ be an object of
-$D_{\textit{QCoh}}(\mathcal{O}_X)$. Choose a quasi-isomorphism
-$E|_U \to C$ with $C$ a complex of quasi-coherent $\mathcal{O}_U$-modules.
-Choose a distinguised triangle
+Since $i_X$ is fully faithful with right adjoint $RQ_X$ we see that
+$RQ_X \circ i_X = \text{id}$ (Categories, Lemma
+\ref{categories-lemma-adjoint-fully-faithful}).
+To finish the proof we show that for any
+$E$ in $D_{\textit{QCoh}}(\mathcal{O}_X)$ the map
+$i_X(RQ_X(E)) \to E$ is an isomorphism. Choose a distinguished triangle
 $$
-E \to j_{U, *}C \to E' \to E[1]
+i_X(RQ_X(E)) \to E \to E' \to i_X(RQ_X(E))[1]
 $$
-Observe that $E'$ is supported on $T$. By
-Lemma \ref{lemma-pushforward-with-support-in-open}
-we see that $E' = Rj_{V, *}(E'|_V)$. Choose a quasi-isomorphism
-$E'|_V \to C'$ with $C'$ in $D(\textit{QCoh}(\mathcal{O}_V))$.
-Then $C'' = j_{V, *}C'$ is an object of $\textit{QCoh}(\mathcal{O}_X)$
-representing $E'$ (as $V \to X$ is affine and by
-Lemma \ref{lemma-affine-pushforward}).
-Hence we found an isomorphism $E' \to C''$
-in $D(\mathcal{O}_X)$ with $C''$ a complex of quasi-coherent
-$\mathcal{O}_X$-modules. Because we've seen above the functor is
-fully faithful we can pick a morphism $j_{U, *}C \to C''$ in
-$D(\textit{QCoh}(\mathcal{O}_X))$ representing the composition
-$j_{U, *}C \to E' \to C''$.
+in $D_{\textit{QCoh}}(\mathcal{O}_X)$. A formal argument using the
+above shows that $i_X(RQ_X(E')) = 0$. Thus it suffices to prove that
+for $E \in D_{\textit{QCoh}}(\mathcal{O}_X)$ the condition
+$i_X(RQ_X(E)) = 0$ implies that $E = 0$. Consider an \'etale morphism
+$j : V \to X$ with $V$ affine. By
+Lemmas \ref{lemma-affine-coherator},
+\ref{lemma-affine-pushforward}, and
+\ref{lemma-flat-pushforward-coherator}
+we have
+$$
+Rj_*(E|_V) = Rj_*(i_V(RQ_V(E|_V))) = i_X(j_*(RQ_V(E|_V))) =
+i_X(RQ_X(Rj_*(E|_V)))
+$$
 Choose a distinguished triangle
 $$
-A \to j_{U, *}C \to C'' \to A[1]
+E \to Rj_*(E|_V) \to E' \to E[1]
 $$
-in $D(\textit{QCoh}(\mathcal{O}_X))$.
-Using the axioms of triangulated categories we obtain a quasi-isomorphism
-$E \to A$ in $D(\mathcal{O}_X)$ which is what we had to show.
+Apply $RQ_X$ to get a distinguished triangle
+$$
+0 \to RQ_X(Rj_*(E|_V)) \to RQ_X(E') \to 0[1]
+$$
+in other words the map in the middle is an isomorphism.
+Combined with the string of equalities above we find
+that our first distinghuished triangle becomes a distinguished triangle
+$$
+E \to i_X(RQ_X(E')) \to E' \to E[1]
+$$
+where the middle morphism is the adjunction map. However, the composition
+$E \to E'$ is zero, hence $E \to i_X(RQ_X(E'))$ is zero by adjunction!
+Since this morphism is isomorphic to the morphism
+$E \to Rj_*(E|_V)$ adjoint to $\text{id} : E|_V \to E|_V$ we
+conclude that $E|_V$ is zero. Since this holds for all
+affine $V$ \'etale over $X$ we conlude $E$ is zero as desired.
 \end{proof}
 
+\begin{remark}
+\label{remark-argument-proves}
+Analyzing the proof of
+Proposition \ref{proposition-quasi-compact-affine-diagonal}
+we see that we have shown the following.
+Let $X$ be a quasi-compact and quasi-separated scheme. Suppose that
+for every \'etale morphism $j : V \to X$ with $V$ affine
+the right derived functor
+$$
+\Phi : D(\textit{QCoh}(\mathcal{O}_U)) \to D(\textit{QCoh}(\mathcal{O}_X))
+$$
+of the left exact functor
+$j_* : \textit{QCoh}(\mathcal{O}_V) \to \textit{QCoh}(\mathcal{O}_X)$
+fits into a commutative diagram
+$$
+\xymatrix{
+D(\textit{QCoh}(\mathcal{O}_V)) \ar[d]_\Phi \ar[r]_{i_V} &
+D_{\textit{QCoh}}(\mathcal{O}_V) \ar[d]^{Rj_*} \\
+D(\textit{QCoh}(\mathcal{O}_X)) \ar[r]^{i_X} &
+D_{\textit{QCoh}}(\mathcal{O}_X)
+}
+$$
+Then the functor (\ref{equation-compare})
+$$
+D(\textit{QCoh}(\mathcal{O}_X))
+\longrightarrow
+D_{\textit{QCoh}}(\mathcal{O}_X)
+$$
+is an equivalence with quasi-inverse given by $RQ_X$.
+\end{remark}
 
 
 
