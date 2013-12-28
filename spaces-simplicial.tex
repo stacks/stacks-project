@@ -25,27 +25,112 @@ principles which appear difficult to prove in other ways.
 Some example applications can be found in the papers
 \cite{faltings_finiteness}, \cite{Kiehl}, and \cite{HodgeIII}.
 
+\medskip\noindent
+We assume throughout that the reader is familiar with the basic concepts
+and results of the chapter Simplical Methods, see
+Simplicial, Section \ref{simplicial-section-introduction}.
+In particular, we continue to write $X$ and not $X_\bullet$
+for a simplicial object.
 
-
-\section{Conventions}
-\label{section-conventions}
+\section{Simplicial topological spaces}
+\label{section-simplicial-top}
 
 \noindent
-The standing assumption is that all schemes are contained in
-a big fppf site $\Sch_{fppf}$. And all rings $A$ considered
-have the property that $\Spec(A)$ is (isomorphic) to an
-object of this big site.
+A {\it simplicial space} is a simplicial object in the category of
+topological spaces where morphisms are continuous maps of topological
+spaces. (We will use ``simplicial algebraic space'' to refer to simplicial
+objects in the category of algebraic spaces.)
+We may picture a simplicial space $X$ as follows
+$$
+\xymatrix{
+X_2
+\ar@<2ex>[r]
+\ar@<0ex>[r]
+\ar@<-2ex>[r]
+&
+X_1
+\ar@<1ex>[r]
+\ar@<-1ex>[r]
+\ar@<1ex>[l]
+\ar@<-1ex>[l]
+&
+X_0
+\ar@<0ex>[l]
+}
+$$
+Here there are two morphisms $d^1_0, d^1_1 : X_1 \to X_0$
+and a single morphism $s^0_0 : X_0 \to X_1$, etc.
+It is important to keep in mind that $d^n_i : X_n \to X_{n - 1}$
+should be thought of as a ``projection forgetting the
+$i$th coordinate'' and $s^n_j : X_n \to X_{n + 1}$ as the diagonal
+map repeating the $j$th coordinate.
 
 \medskip\noindent
-Let $S$ be a scheme and let $X$ be an algebraic space over $S$.
-In this chapter and the following we will write $X \times_S X$
-for the product of $X$ with itself (in the category of algebraic
-spaces over $S$), instead of $X \times X$.
+Let $X$ be a simplicial space. We associate a site
+$X_{Zar}$\footnote{This notation suck, but at least is
+consistent with the notation in
+Topologies, Definition \ref{topologies-definition-big-small-Zariski}.}
+to $X$ as follows.
+\begin{enumerate}
+\item An object of $X_{Zar}$ is an open $U$ of $X_n$ for some $n$,
+\item a morphism $U \to V$ of $X_{Zar}$ is given by a
+$\varphi : [m] \to [n]$ where $n, m$ are such that
+$U \subset X_n$, $V \subset X_m$ and $\varphi$ is such that
+$X(\varphi)(U) \subset V$, and
+\item a covering $\{U_i \to U\}$ in $X_{Zar}$ means
+that $U, U_i \subset X_n$ are open, the maps $U_i \to U$ are
+given by $\text{id} : [n] \to [n]$, and $U = \bigcup U_i$.
+\end{enumerate}
+Note that in particular, if $U \to V$ is a morphism of $X_{Zar}$
+give by $\varphi$, then $X(\varphi) : X_n \to X_m$ does in fact
+induce a continuous map $U \to V$ of topological spaces.
 
-\medskip\noindent
-We continue our convention to label projection maps starting with
-index $0$, so we have $\text{pr}_0 : X \times_S Y \to X$ and
-$\text{pr}_1 : X \times_S Y \to Y$.
+\noindent
+It is clear that the above is a special case of a construction that
+associates to any diagram of topological spaces a site. We formulate
+the obligatory lemma.
+
+\begin{lemma}
+\label{lemma-simplicial-site}
+Let $X$ be a simplicial space. Then $X_{Zar}$
+as defined above is a site.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-describe-sheaves-simplicial-site}
+Let $X$ be a simplicial space. There is an equivalence of
+categories between
+\begin{enumerate}
+\item $\Sh(X_{Zar})$, and
+\item category of objects $\mathcal{F} = (\mathcal{F}_n, \mathcal{F}(-))$
+where $\mathcal{F}_n$ is a sheaf on $X_n$ and for every
+$\varphi : [n] \to [m]$ the object
+$\mathcal{F}(\varphi) : \mathcal{F}_n \to \mathcal{F}_m$
+is an $X(\varphi)$-map such that
+$\mathcal{F}(\varphi) \circ \mathcal{F}(\psi) =
+\mathcal{F}(\varphi \circ \psi)$ for any pair of composable
+morphisms of $\Delta$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+This is immediate from the definitions and the
+definition of ``$f$-maps'' in
+Sheaves, Definition \ref{sheaves-definition-f-map}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-simplicial-space-site-functorial}
+Let $f : X \to Y$ be a morphism of simplicial spaces.
+Then the functor $u : Y_{Zar} \to X_{Zar}$
+which associates to the open $V \subset Y_n$ the open $f_n^{-1}(V) \subset X_n$
+defines a morphism of sites
+$f_{Zar} : X_{Zar} \to Y_{Zar}$.
+\end{lemma}
 
 
 
@@ -56,8 +141,7 @@ $\text{pr}_1 : X \times_S Y \to Y$.
 \noindent
 A {\it simplicial scheme} is a simplicial object in the category of schemes,
 see Simplicial, Definition \ref{simplicial-definition-simplicial-object}.
-In this chapter we will use a subscript $\bullet$ to denote simplicial
-objects. Recall that a simplicial scheme looks like
+Recall that a simplicial scheme looks like
 $$
 \xymatrix{
 X_2
@@ -84,14 +168,14 @@ map repeating the $j$th coordinate.
 
 \begin{definition}
 \label{definition-cartesian-morphism}
-Let $a : V_\bullet \to X_\bullet$ be a morphism of simplicial schemes.
-We say $a$ is {\it cartesian}, or that {\it $V_\bullet$ is cartesian over
-$X_\bullet$}, if for every morphism
-$\varphi : [n] \to [m]$ of $\Delta$ the corresponding diagram
+Let $a : Y \to X$ be a morphism of simplicial schemes.
+We say $a$ is {\it cartesian}, or that {\it $Y$ is cartesian over $X$},
+if for every morphism $\varphi : [n] \to [m]$ of $\Delta$ the corresponding
+diagram
 $$
 \xymatrix{
-V_m \ar[r]_a \ar[d]_{V_\bullet(\varphi)} & X_m \ar[d]^{X_\bullet(\varphi)}\\
-V_n \ar[r]^{a} & X_n
+Y_m \ar[r]_a \ar[d]_{Y(\varphi)} & X_m \ar[d]^{X(\varphi)}\\
+Y_n \ar[r]^{a} & X_n
 }
 $$
 is a fibre square in the category of schemes.
@@ -105,9 +189,8 @@ the base change functor associated to a morphism of schemes $Y \to X$.
 
 \begin{lemma}
 \label{lemma-characterize-cartesian-schemes}
-Let $X_\bullet$ be a simplicial scheme.
-The category of simplicial schemes cartesian over $X_\bullet$
-is equivalent to the category of pairs $(V, \varphi)$
+Let $X$ be a simplicial scheme. The category of simplicial schemes cartesian
+over $X$ is equivalent to the category of pairs $(V, \varphi)$
 where $V$ is a scheme over $X_0$ and
 $$
 \varphi :
@@ -148,10 +231,13 @@ X_2 \times_{d^1_1 \circ d^2_1, X_0} V
 }
 $$
 and the condition signifies the diagram is commutative. It is clear that
-given a simplicial scheme $V_\bullet$ cartesian over $X_\bullet$ we can
-set $V = V_0$ and $\varphi$ equal to the composition
+given a simplicial scheme $Y$ cartesian over $X$ we can
+set $V = Y_0$ and $\varphi$ equal to the composition
 $$
-V \times_{X_0, d^1_1} X_1 = V_1 = X_1 \times_{X_0, d^1_0} V
+V \times_{X_0, d^1_1} X_1 =
+Y_0 \times_{X_0, d^1_1} X_1 = Y_1 =
+X_1 \times_{X_0, d^1_0} Y_0 =
+X_1 \times_{X_0, d^1_0} V
 $$
 of identifications given by the cartesian structure. To prove this functor
 is an equivalence we construct a quasi-inverse. The construction of
@@ -160,21 +246,21 @@ Descent, Section \ref{descent-section-descent-modules} from which we borrow
 the notation $\tau^n_i : [0] \to [n]$, $0 \mapsto i$ and
 $\tau^n_{ij} : [1] \to [n]$, $0 \mapsto i$, $1 \mapsto j$.
 Namely, given a pair $(V, \varphi)$
-as in the lemma we set $V_n = X_n \times_{X(\tau^n_n), X_0} V$.
+as in the lemma we set $Y_n = X_n \times_{X(\tau^n_n), X_0} V$.
 Then given $\beta : [n] \to [m]$ we define
-$V(\beta) : V_m \to V_n$ as the pullback by $X(\tau^m_{\beta(n)m})$
+$V(\beta) : Y_m \to Y_n$ as the pullback by $X(\tau^m_{\beta(n)m})$
 of the map $\varphi$ postcomposed by the projection
-$X_m \times_{X(\beta), X_n} V_n \to V_n$. This makes sense because
+$X_m \times_{X(\beta), X_n} Y_n \to Y_n$. This makes sense because
 $$
 X_m \times_{X(\tau^m_{\beta(n)m}), X_1} X_1 \times_{d^1_1, X_0} V
 =
-X_m \times_{X(\tau^m_m), X_0} V = V_m
+X_m \times_{X(\tau^m_m), X_0} V = Y_m
 $$
 and
 $$
 X_m \times_{X(\tau^m_{\beta(n)m}), X_1} X_1 \times_{d^1_0, X_0} V =
 X_m \times_{X(\tau^m_{\beta(n)}), X_0} V =
-X_m \times_{X(\beta), X_n} V_n.
+X_m \times_{X(\beta), X_n} Y_n.
 $$
 We omit the verification that the commutativity
 of the displayed diagram
@@ -184,10 +270,9 @@ that the two functors are quasi-inverse to each other.
 
 \begin{definition}
 \label{definition-fibre-products-simplicial-scheme}
-Let $f : X \to S$ be a morphism of schemes.
-The {\it simplicial scheme associated to $f$}, denoted $(X/S)_\bullet$,
-is the functor $\Delta^{opp} \to \Sch$,
-$[n] \mapsto X \times_S \ldots \times_S X$
+Let $f : X \to S$ be a morphism of schemes. The {\it simplicial scheme
+associated to $f$}, denoted $(X/S)_\bullet$, is the functor
+$\Delta^{opp} \to \Sch$, $[n] \mapsto X \times_S \ldots \times_S X$
 described in
 Simplicial, Example \ref{simplicial-example-fibre-products-simplicial-object}.
 \end{definition}
@@ -202,14 +287,15 @@ $X \to X \times_S X$.
 \begin{lemma}
 \label{lemma-cartesian-over}
 Let $f : X \to S$ be a morphism of schemes.
-Let $\pi : V_\bullet \to (X/S)_\bullet$ be a cartesian morphism.
-Set $V = V_0$ considered as a scheme over $X$.
-The morphisms $d^1_0, d^1_1 : V_1 \to V_0$ and the morphism
-$\pi_1 : V_1 \to X \times_S X$ induce isomorphisms
+Let $\pi : Y \to (X/S)_\bullet$ be a cartesian morphism
+of simplicial schemes.
+Set $V = Y_0$ considered as a scheme over $X$.
+The morphisms $d^1_0, d^1_1 : Y_1 \to Y_0$ and the morphism
+$\pi_1 : Y_1 \to X \times_S X$ induce isomorphisms
 $$
 \xymatrix{
 V \times_S X & &
-V_1 \ar[ll]_-{(d^1_1, \text{pr}_1 \circ \pi_1)}
+Y_1 \ar[ll]_-{(d^1_1, \text{pr}_1 \circ \pi_1)}
 \ar[rr]^-{(\text{pr}_0 \circ \pi_1, d^1_0)} & &
 X \times_S V.
 }
@@ -255,7 +341,14 @@ Lemma \ref{lemma-characterize-cartesian-schemes}.
 
 \noindent
 We may reinterpret the pullback of
-Groupoids, Lemma \ref{groupoids-lemma-pullback} as follows.
+Descent, Lemma \ref{descent-lemma-pullback} as follows.
+Suppose given a morphism of simplicial schemes $f : X' \to X$ and a
+cartesian morphism of simplicial schemes $Y \to X$. Then
+the fibre product (viewed as a ``pullback'')
+$$
+f^*Y = Y \times_X X'
+$$
+of simplicial schemes is a simplicial scheme cartesian over $X'$.
 Suppose given a commutative diagram of morphisms of schemes
 $$
 \xymatrix{
@@ -267,19 +360,12 @@ This gives rise to a morphism of simplicial schemes
 $$
 f_\bullet : (X'/S')_\bullet \longrightarrow (X/S)_\bullet.
 $$
-It is a pleasant exercise to check that given any morphism
-of simplicial schemes $f_\bullet : Y_\bullet \to X_\bullet$ and a
-cartesian simplicial scheme $V_\bullet \to X_\bullet$
-the fibre product
-$$
-f_\bullet^*V_\bullet = Y_\bullet \times_{X_\bullet} V_\bullet
-$$
-is a cartesian simplicial scheme over $Y_\bullet$. We omit
-the verification that this applied to the morphism
-$(X'/S')_\bullet \to (X/S)_\bullet$ corresponds via
+We claim that the ``pullback'' $f_\bullet^*$ along the morphism
+$f_\bullet : (X'/S')_\bullet \to (X/S)_\bullet$ corresponds via
 Lemma \ref{lemma-cartesian-equivalent-descent-datum}
-with the pullback defined in terms of descent data.
-
+with the pullback defined in terms of descent data in
+the aforementioned
+Descent, Lemma \ref{descent-lemma-pullback}.
 
 
 
@@ -297,19 +383,16 @@ Sheaves, Section \ref{sheaves-section-ringed-spaces-functoriality-modules}.
 
 \begin{definition}
 \label{definition-cartesian-sheaf}
-Let $S$ be a scheme. Let $U_\bullet$ be a simplicial scheme over $S$.
+Let $S$ be a scheme. Let $U$ be a simplicial scheme over $S$.
 \begin{enumerate}
-\item A {\it quasi-coherent sheaf} on $U_\bullet$ is given by
-quasi-coherent modules $\mathcal{F}_n$ on $U_n$ and for every
-$\varphi : [n] \to [m]$ an $U_\bullet(\varphi)$-map
-$\mathcal{F}(\varphi) : \mathcal{F}_n \to \mathcal{F}_m$ such that
-$\mathcal{F}(\varphi) \circ \mathcal{F}(\psi) =
-\mathcal{F}(\varphi \circ \psi)$ for any pair of composable
-morphisms of $\Delta$.
-\item A quasi-coherent sheaf $\mathcal{F}_\bullet$ on $U_\bullet$
-is {\it cartesian} if and only if all the maps
+\item A {\it quasi-coherent sheaf} on $U$ is given by
+a sheaf of $\mathcal{O}_U$-modules $\mathcal{F}$ such that
+$\mathcal{F}_n$ is quasi-coherent for all $n \geq 0$.
+\item A quasi-coherent sheaf $\mathcal{F}$ on $U$ is {\it cartesian}
+if and only if all the maps
 $\mathcal{F}(\varphi) : \mathcal{F}_n \to \mathcal{F}_m$
-induce isomorphisms $U_\bullet(\varphi)^*\mathcal{F}_n \to \mathcal{F}_m$.
+induce isomorphisms
+$U(\varphi)^*\mathcal{F}_n \to \mathcal{F}_m$.
 \end{enumerate}
 \end{definition}
 
@@ -318,9 +401,9 @@ The property on pullbacks needs only be checked for the degeneracies.
 
 \begin{lemma}
 \label{lemma-check-cartesian-module}
-Let $S$ be a scheme. Let $U_\bullet$ be a simplicial scheme over $S$.
-Let $\mathcal{F}_\bullet$ be a quasi-coherent module on $U_\bullet$.
-Then $\mathcal{F}_\bullet$ is cartesian if and only if the induced
+Let $S$ be a scheme. Let $U$ be a simplicial scheme over $S$.
+Let $\mathcal{F}$ be a quasi-coherent module on $U$.
+Then $\mathcal{F}$ is cartesian if and only if the induced
 maps $(d^n_j)^*\mathcal{F}_{n - 1} \to \mathcal{F}_n$ are
 isomorphisms.
 \end{lemma}
@@ -341,8 +424,8 @@ for $s^n_j$.
 
 \begin{lemma}
 \label{lemma-characterize-cartesian-modules}
-Let $S$ be a scheme. Let $U_\bullet$ be a simplicial scheme over $S$.
-The category of cartesian quasi-coherent modules over $U_\bullet$
+Let $S$ be a scheme. Let $U$ be a simplicial scheme over $S$.
+The category of cartesian quasi-coherent modules over $U$
 is equivalent to the category of pairs $(\mathcal{F}, \alpha)$
 where $\mathcal{F}$ is a quasi-coherent module over $U_0$
 and
@@ -375,7 +458,7 @@ $$
 }
 $$
 and the condition signifies the diagram is commutative. It is clear that
-given a cartesian quasi-coherent sheaf $\mathcal{F}_\bullet$ we can
+given a cartesian quasi-coherent sheaf $\mathcal{F}$ we can
 set $\mathcal{F} = \mathcal{F}_0$ and $\alpha$ equal to the composition
 $$
 (d_1^0)^*\mathcal{F}_0 = \mathcal{F}_1 = (d_0^0)^*\mathcal{F}_0
@@ -399,11 +482,9 @@ that the two functors are quasi-inverse to each other.
 
 \begin{lemma}
 \label{lemma-pullback-cartesian-module}
-Let $f_\bullet : V_\bullet \to U_\bullet$ be a morphism of
-simplicial schemes. Given a cartesian quasi-coherent
-module $\mathcal{F}_\bullet$ on $U_\bullet$ the pullback
-$f_\bullet^* \mathcal{F}_\bullet$ is a cartesian quasi-coherent module
-on $V_\bullet$.
+Let $f : V \to U$ be a morphism of simplicial schemes. Given a cartesian
+quasi-coherent module $\mathcal{F}$ on $U$ the pullback
+$f^*\mathcal{F}$ is a cartesian quasi-coherent module on $V$.
 \end{lemma}
 
 \begin{proof}
@@ -412,16 +493,16 @@ This is immediate from the definitions.
 
 \begin{lemma}
 \label{lemma-pushforward-cartesian-module}
-Let $f_\bullet : V_\bullet \to U_\bullet$ be a cartesian morphism of
-simplicial schemes. Assume the morphisms $d^n_j : U_n \to U_{n - 1}$ are
+Let $f : V \to U$ be a cartesian morphism of simplicial schemes.
+Assume the morphisms $d^n_j : U_n \to U_{n - 1}$ are
 flat and the morphisms $V_n \to U_n$ are quasi-compact and quasi-separated.
-For a cartesian quasi-coherent module $\mathcal{G}_\bullet$ on $V_\bullet$
-the pushforward $f_{\bullet, *} \mathcal{G}_\bullet$ is a cartesian
-quasi-coherent module on $U_\bullet$.
+For a cartesian quasi-coherent module $\mathcal{G}$ on $V$
+the pushforward $f_* \mathcal{G}$ is a cartesian
+quasi-coherent module on $U$.
 \end{lemma}
 
 \begin{proof}
-If $\mathcal{F}_\bullet = f_{\bullet, *} \mathcal{G}_\bullet$, then
+If $\mathcal{F} = f_* \mathcal{G}$, then
 $\mathcal{F}_n = f_{n , *}\mathcal{G}_n$ and the maps $\mathcal{F}(\varphi)$
 are defined using the base change maps, see
 Cohomology, Section \ref{cohomology-section-base-change-map}.
@@ -435,12 +516,11 @@ Hence we are done by Lemma \ref{lemma-check-cartesian-module}.
 
 \begin{lemma}
 \label{lemma-adjoint-functors-cartesian-modules}
-Let $f_\bullet : V_\bullet \to U_\bullet$ be a cartesian morphism of
+Let $f : V \to U$ be a cartesian morphism of
 simplicial schemes. Assume the morphisms $d^n_j : U_n \to U_{n - 1}$ are
 flat and the morphisms $V_n \to U_n$ are quasi-compact and quasi-separated.
-Then $f_\bullet^*$ and $f_{\bullet, *}$ form an adjoint pair of functors
-between the categories of cartesian quasi-coherent modules on
-$U_\bullet$ and $V_\bullet$.
+Then $f^*$ and $f_*$ form an adjoint pair of functors
+between the categories of cartesian quasi-coherent modules on $U$ and $V$.
 \end{lemma}
 
 \begin{proof}
@@ -488,6 +568,11 @@ with $\alpha$ and the canonical isomorphism
 $\text{pr}_0^*f^*\mathcal{G} \to \text{pr}_1^*f^*\mathcal{G}$.
 \end{proof}
 
+
+
+
+
+
 \section{Groupoids and simplicial schemes}
 \label{section-groupoids-simplicial}
 
@@ -500,21 +585,21 @@ sheaves on the associated simplicial scheme.
 \begin{lemma}
 \label{lemma-groupoid-simplicial}
 Let $(U, R, s, t, c, e, i)$ be a groupoid scheme over $S$.
-There exists a simplicial scheme $U_\bullet$ over $S$
+There exists a simplicial scheme $X$ over $S$
 with the following properties
 \begin{enumerate}
-\item $U_0 = U$, $U_1 = R$, $U_2 = R \times_{s, U, t} R$,
-\item $s_0^0 = e : U_0 \to U_1$,
-\item $d^1_0 = s : U_1 \to U_0$, $d^1_1 = t : U_1 \to U_0$,
-\item $s_0^1 = (e \circ t, 1) : U_1 \to U_2$,
-$s_1^1 = (1, e \circ t) : U_1 \to U_2$,
-\item $d^2_0 = \text{pr}_1 : U_2 \to U_1$,
-$d^2_1 = c : U_2 \to U_1$,
+\item $X_0 = U$, $X_1 = R$, $X_2 = R \times_{s, U, t} R$,
+\item $s_0^0 = e : X_0 \to X_1$,
+\item $d^1_0 = s : X_1 \to X_0$, $d^1_1 = t : X_1 \to X_0$,
+\item $s_0^1 = (e \circ t, 1) : X_1 \to X_2$,
+$s_1^1 = (1, e \circ t) : X_1 \to X_2$,
+\item $d^2_0 = \text{pr}_1 : X_2 \to X_1$,
+$d^2_1 = c : X_2 \to X_1$,
 $d^2_2 = \text{pr}_0$, and
-\item $U_\bullet = \text{cosk}_2 \text{sk}_2 U_\bullet$.
+\item $X = \text{cosk}_2 \text{sk}_2 X$.
 \end{enumerate}
-For all $n$ we have $U_n = R \times_{s, U, t} \ldots \times_{s, U, t} R$
-with $n$ factors. The map $d^n_j : U_n \to U_{n - 1}$ is given on
+For all $n$ we have $X_n = R \times_{s, U, t} \ldots \times_{s, U, t} R$
+with $n$ factors. The map $d^n_j : X_n \to X_{n - 1}$ is given on
 functors of points by
 $$
 (r_1, \ldots, r_n) \longmapsto (r_1, \ldots, c(r_j, r_{j + 1}), \ldots, r_n)
@@ -527,7 +612,7 @@ $d^n_n(r_1, \ldots, r_n) = (r_1, \ldots, r_{n - 1})$.
 \begin{proof}
 We only have to verify that the rules prescribed in (1), (2), (3), (4), (5)
 define a $2$-truncated simplicial scheme $U'$ over $S$, since then (6)
-allows us to set $U_\bullet = \text{cosk}_2 U'$, see
+allows us to set $X = \text{cosk}_2 U'$, see
 Simplicial, Lemma \ref{simplicial-lemma-existence-cosk}.
 Using the functor of points approach, all we have to verify is that
 if $(\text{Ob}, \text{Arrows}, s, t, c, e, i)$ is a groupoid, then
@@ -551,8 +636,8 @@ $$
 is a $2$-truncated simplicial set. We omit the details.
 
 \medskip\noindent
-Finally, the description of $U_n$ for $n > 2$ follows by induction from
-the description of $U_0$, $U_1$, $U_2$, and
+Finally, the description of $X_n$ for $n > 2$ follows by induction from
+the description of $X_0$, $X_1$, $X_2$, and
 Simplicial, Remark \ref{simplicial-remark-inductive-coskelet} and
 Lemma \ref{simplicial-lemma-work-out}. Alternately, one shows that
 $\text{cosk}_2$ applied to the $2$-truncated simplicial set displayed above
@@ -565,32 +650,32 @@ Some details omitted.
 \begin{lemma}
 \label{lemma-quasi-coherent-groupoid-simplicial}
 Let $S$ be a scheme. Let $(U, R, s, t, c)$ be a groupoid scheme
-over $S$. Let $U_\bullet$ be the simplicial scheme over $S$ constructed
+over $S$. Let $X$ be the simplicial scheme over $S$ constructed
 in Lemma \ref{lemma-groupoid-simplicial}.
 Then the category of quasi-coherent modules on $(U, R, s, t, c)$
 is equivalent to the category of cartesian quasi-coherent modules
-on $U_\bullet$.
+on $X$.
 \end{lemma}
 
 \begin{proof}
 This is clear from Lemma \ref{lemma-characterize-cartesian-modules}
-and the definitions.
+and Groupoids, Definition \ref{groupoids-definition-groupoid-module}.
 \end{proof}
 
 \noindent
 In the following lemma we will use the concept of a cartesian
-morphism $V_\bullet \to U_\bullet$ of simplicial schemes as defined in
+morphism $V \to U$ of simplicial schemes as defined in
 Definition \ref{definition-cartesian-morphism}.
 
 \begin{lemma}
 \label{lemma-quasi-coherent-groupoid-R-cartesian}
 Let $(U, R, s, t, c)$ be a groupoid scheme over a scheme $S$.
-Let $U_\bullet$ be the simplicial scheme over $S$ constructed
+Let $X$ be the simplicial scheme over $S$ constructed
 in Lemma \ref{lemma-groupoid-simplicial}.
-Let $R_\bullet = (R/U)_\bullet$ be the simplicial
+Let $(R/U)_\bullet$ be the simplicial
 scheme associated to $s : R \to U$, see
 Definition \ref{definition-fibre-products-simplicial-scheme}.
-There exists a cartesian morphism $t_\bullet : R_\bullet \to U_\bullet$
+There exists a cartesian morphism $t_\bullet : (R/U)_\bullet \to X$
 of simplicial schemes with low degree morphisms given by
 $$
 \xymatrix{
@@ -616,7 +701,7 @@ $$
 \end{lemma}
 
 \begin{proof}
-For arbitrary $n$ we define $R_n \to U_n$ by the rule
+For arbitrary $n$ we define $(R/U)_\bullet \to X_n$ by the rule
 $$
 (r_0, \ldots, r_n)
 \longrightarrow
@@ -639,42 +724,42 @@ the morphism is cartesian.
 \label{section-equivalence-relation}
 
 \noindent
-In Section \ref{section-simplicial} we saw how descent
-data relative to $X \to S$ can be formulated in terms of cartesian simplicial
+In Section \ref{section-simplicial} we saw how descent data relative to
+$X \to S$ can be formulated in terms of cartesian simplicial
 schemes over $(X/S)_\bullet$. Here we link this to equivalence
 relations as follows.
 
 \begin{lemma}
 \label{lemma-equivalence-relation}
 Let $f : X \to S$ be a morphism of schemes.
-Let $\pi : V_\bullet \to (X/S)_\bullet$ be a cartesian morphism,
-see Definition \ref{definition-cartesian-morphism}.
+Let $\pi : Y \to (X/S)_\bullet$ be a cartesian morphism of simplicial
+schemes, see Definitions \ref{definition-cartesian-morphism} and
+\ref{definition-fibre-products-simplicial-scheme}.
 Then the morphism
 $$
-j = (d^1_1, d^1_0) : V_1 \to V_0 \times_S V_0
+j = (d^1_1, d^1_0) : Y_1 \to Y_0 \times_S Y_0
 $$
-defines an equivalence relation on $V_0$ over $S$,
+defines an equivalence relation on $Y_0$ over $S$,
 see Groupoids, Definition \ref{groupoids-definition-equivalence-relation}.
 \end{lemma}
 
 \begin{proof}
 Note that $j$ is a monomorphism. Namely the
-composition $V_1 \to V_0 \times_S V_0 \to V_0 \times_S X$
+composition $Y_1 \to Y_0 \times_S Y_0 \to Y_0 \times_S X$
 is an isomorphism as $\pi$ is cartesian.
 
 \medskip\noindent
 Consider the morphism
 $$
-(d^2_2, d^2_0) : V_2 \to V_1 \times_{d^1_0, V_0, d^1_1} V_1.
+(d^2_2, d^2_0) : Y_2 \to Y_1 \times_{d^1_0, Y_0, d^1_1} Y_1.
 $$
 This works because $d_0 \circ d_2 = d_1 \circ d_0$,
 see Simplicial, Remark \ref{simplicial-remark-relations}.
 Also, it is a morphism over $(X/S)_2$. It is an isomorphism
-because $V_\bullet \to (X/S)_\bullet$ is cartesian.
-Note for example that the
+because $Y \to (X/S)_\bullet$ is cartesian. Note for example that the
 right hand side is isomorphic to
-$V_0 \times_{\pi_0, X, \text{pr}_1} (X \times_S X \times_S X) =
-X \times_S V_0 \times_S X$
+$Y_0 \times_{\pi_0, X, \text{pr}_1} (X \times_S X \times_S X) =
+X \times_S Y_0 \times_S X$
 because $\pi$ is cartesian. Details omitted.
 
 \medskip\noindent
@@ -682,13 +767,13 @@ As in Groupoids, Definition \ref{groupoids-definition-equivalence-relation}
 we denote $t = \text{pr}_0 \circ j = d^1_1$ and
 $s = \text{pr}_1 \circ j = d^1_0$.
 The isomorphism above, combined with the morphism
-$d^2_1 : V_2 \to V_1$ give us a composition morphism
+$d^2_1 : Y_2 \to Y_1$ give us a composition morphism
 $$
-c : V_1 \times_{s, V_0, t} V_1 \longrightarrow V_1
+c : Y_1 \times_{s, Y_0, t} Y_1 \longrightarrow Y_1
 $$
-over $V_0 \times_S V_0$. This immediately implies
+over $Y_0 \times_S Y_0$. This immediately implies
 that for any scheme $T/S$ the relation
-$V_1(T) \subset V_0(T) \times V_0(T)$ is transitive.
+$Y_1(T) \subset Y_0(T) \times Y_0(T)$ is transitive.
 
 \medskip\noindent
 Reflexivity follows from the fact that the
@@ -699,21 +784,21 @@ $\Delta : X \to X \times_S X$ is an isomorphism
 \medskip\noindent
 To see symmetry we consider the morphism
 $$
-(d^2_2, d^2_1) : V_2 \to V_1 \times_{d^1_1, V_0, d^1_1} V_1.
+(d^2_2, d^2_1) : Y_2 \to Y_1 \times_{d^1_1, Y_0, d^1_1} Y_1.
 $$
 This works because $d_1 \circ d_2 = d_1 \circ d_1$,
 see Simplicial, Remark \ref{simplicial-remark-relations}.
 It is an isomorphism
-because $V_\bullet \to (X/S)_\bullet$ is cartesian.
+because $Y \to (X/S)_\bullet$ is cartesian.
 Note for example that the
 right hand side is isomorphic to
-$V_0 \times_{\pi_0, X, \text{pr}_0} (X \times_S X \times_S X) =
-V_0 \times_S X \times_S X$
+$Y_0 \times_{\pi_0, X, \text{pr}_0} (X \times_S X \times_S X) =
+Y_0 \times_S X \times_S X$
 because $\pi$ is cartesian. Details omitted.
 
 \medskip\noindent
-Let $T/S$ be a scheme. Let $a \sim b$ for $a, b \in V_0(T)$
-be synonymous with $(a, b) \in V_1(T)$.
+Let $T/S$ be a scheme. Let $a \sim b$ for $a, b \in Y_0(T)$
+be synonymous with $(a, b) \in Y_1(T)$.
 The isomorphism $(d^2_2, d^2_1)$ above
 implies that if $a \sim b$ and $a \sim c$, then $b \sim c$.
 Combined with reflexivity this shows that $\sim$ is
@@ -736,15 +821,14 @@ surjective flat morphism of schemes.
 
 \begin{lemma}
 \label{lemma-equivalence-classes-points}
-Let $X \to S$ be a morphism of schemes.
-Suppose $V_\bullet \to (X/S)_\bullet$ is cartesian.
-For $v \in V_0$ a point define
+Let $X \to S$ be a morphism of schemes. Suppose $Y \to (X/S)_\bullet$
+is a cartesian morphism of simplicial schemes. For $y \in Y_0$ a point define
 $$
-T_v = \{v' \in V_0 \mid \exists\ v_1 \in V_1:
-d^1_1(v_1) = v, d^1_0(v_1) = v'\}
+T_y = \{y' \in Y_0 \mid \exists\ y_1 \in Y_1:
+d^1_1(y_1) = y, d^1_0(y_1) = y'\}
 $$
-as a subset of $V_0$. Then $v \in T_v$ and
-$T_v \cap T_{v'} \not = \emptyset \Rightarrow T_v = T_{v'}$.
+as a subset of $Y_0$. Then $y \in T_y$ and
+$T_y \cap T_{y'} \not = \emptyset \Rightarrow T_y = T_{y'}$.
 \end{lemma}
 
 \begin{proof}
@@ -756,28 +840,28 @@ Groupoids, Lemma
 \begin{lemma}
 \label{lemma-quasi-compact}
 Let $X \to S$ be a morphism of schemes.
-Suppose $V_\bullet \to (X/S)_\bullet$ is cartesian.
-Let $v \in V_0$ be a point. If $X \to S$ is quasi-compact, then
+Suppose $Y \to (X/S)_\bullet$ is a cartesian morphism of simplicial schemes.
+Let $y \in Y_0$ be a point. If $X \to S$ is quasi-compact, then
 $$
-T_v = \{v' \in V_0 \mid \exists\ v_1 \in V_1:
-d^1_1(v_1) = v, d^1_0(v_1) = v'\}
+T_y = \{y' \in Y_0 \mid \exists\ y_1 \in Y_1:
+d^1_1(y_1) = y, d^1_0(y_1) = y'\}
 $$
-is a quasi-compact subset of $V_0$.
+is a quasi-compact subset of $Y_0$.
 \end{lemma}
 
 \begin{proof}
-Let $F_v$ be the scheme theoretic fibre of $d^1_1 : V_1 \to V_0$
-at $v$. Then we see that $T_v$ is the image of the morphism
+Let $F_y$ be the scheme theoretic fibre of $d^1_1 : Y_1 \to Y_0$
+at $y$. Then we see that $T_y$ is the image of the morphism
 $$
 \xymatrix{
-F_v \ar[r] \ar[d] &
-V_1 \ar[r]^{d^1_0} \ar[d]^{d^1_1} &
-V_0 \\
-v \ar[r] &
-V_0 &
+F_y \ar[r] \ar[d] &
+Y_1 \ar[r]^{d^1_0} \ar[d]^{d^1_1} &
+Y_0 \\
+y \ar[r] &
+Y_0 &
 }
 $$
-Note that $F_v$ is quasi-compact. This proves the lemma.
+Note that $F_y$ is quasi-compact. This proves the lemma.
 \end{proof}
 
 \begin{lemma}
@@ -785,15 +869,17 @@ Note that $F_v$ is quasi-compact. This proves the lemma.
 Let $X \to S$ be a quasi-compact flat surjective morphism.
 Let $(V, \varphi)$ be a descent datum relative
 to $X \to S$. If $V$ is a disjoint union of
-spectra of Artinian rings, then $(V, \varphi)$
-is effective.
+spectra of Artinian rings, then $(V, \varphi)$ is effective.
 \end{lemma}
 
 \begin{proof}
-We may write $V = \coprod_{i \in I} \Spec(A_i)$
-with each $A_i$ local Artinian. Moreover, let
-$v_i \in V$ be the unique closed point of $\Spec(A_i)$
-for all $i \in I$. Write $i \sim j$ if and only if
+Let $Y \to (X/S)_\bullet$ be the cartesian morphism of simplicial
+schemes corresponding to $(V, \varphi)$ by
+Lemma \ref{lemma-cartesian-equivalent-descent-datum}.
+Observe that $Y_0 = V$.
+Write $V = \coprod_{i \in I} \Spec(A_i)$ with each $A_i$ local
+Artinian. Moreover, let $v_i \in V$ be the unique closed point of
+$\Spec(A_i)$ for all $i \in I$. Write $i \sim j$ if and only if
 $v_i \in T_{v_j}$ with notation as in
 Lemma \ref{lemma-equivalence-classes-points} above.
 By Lemmas \ref{lemma-equivalence-classes-points} and \ref{lemma-quasi-compact}
@@ -816,7 +902,6 @@ is affine, see Morphisms, Lemma \ref{morphisms-lemma-Artinian-affine}.
 Since $\{X \to S\}$ is an fpqc covering we see that all
 the descent data $(V_{\overline{i}}, \varphi_{\overline{i}})$ are effective
 by Descent, Lemma \ref{descent-lemma-affine}.
-Hence we win.
 \end{proof}
 
 \noindent
