@@ -2704,6 +2704,26 @@ and fibre products since this seems to have more geometric meaning
 in the examples.
 \end{remark}
 
+\noindent
+The following lemma provides another way to prove a continuous functor
+gives rise to a morphism of sites.
+
+\begin{lemma}
+\label{lemma-continuous-with-continuous-left-adjoint}
+A continuous functor of sites which has a continuous left adjoint
+defines a morphism of sites.
+\end{lemma}
+
+\begin{proof}
+Let $u : \mathcal{C} \to \mathcal{D}$ be a continuous functor of sites.
+Let $w : \mathcal{D} \to \mathcal{C}$ be a continuous left adjoint.
+Then $u_p = w^p$ by Lemma \ref{lemma-adjoint-functors}.
+Hence $u_s = w^s$ has a left adjoint, namely $w_s$
+(Lemma \ref{lemma-adjoint-sheaves}). Thus $u_s$ has both a right and a
+left adjoint, whence is exact
+(Categories, Lemma \ref{categories-lemma-exact-adjoint}).
+\end{proof}
+
 \begin{remark}
 \label{remark-quasi-continuous-morphism-sites}
 (Skip on first reading.)
@@ -3197,6 +3217,50 @@ presheaves with values in $\textit{Sets}^{opp}$.
 The result then follows formally from this.
 \end{proof}
 
+\noindent
+Thus given a functor $u : \mathcal{C} \to \mathcal{D}$ of categories
+we obtain a sequence of functors
+$$
+u_p, u^p, {}_pu
+$$
+between categories of presheaves where in each consequtive pair the
+first is left adjoint to the second.
+
+\begin{lemma}
+\label{lemma-adjoint-functors}
+Let $u : \mathcal{C} \to \mathcal{D}$ and $v : \mathcal{D} \to \mathcal{C}$
+be functors of categories. Assume that $v$ is right adjoint to $u$.
+Then we have
+\begin{enumerate}
+\item $u^ph_V = h_{v(V)}$ for any $V$ in $\mathcal{D}$,
+\item ${}_pu = v^p$, and
+\item $u^p = v_p$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Let $V$ be an object of $\mathcal{D}$. We have $u^ph_V = h_{v(V)}$
+because $u^ph_V(U) = \Mor_\mathcal{D}(u(U), V) = \Mor_\mathcal{C}(U, v(V))$
+by assumption. Hence for any presheaf $\mathcal{F}$ on $\mathcal{C}$ we have
+\begin{eqnarray*}
+v^p\mathcal{F}(V)
+& = &
+\mathcal{F}(v(V)) \\
+& = &
+\Mor_{\textit{PSh}(\mathcal{C})}(h_{v(V)}, \mathcal{F}) \\
+& = &
+\Mor_{\textit{PSh}(\mathcal{C})}(u^ph_V, \mathcal{F}) \\
+& = &
+\Mor_{\textit{PSh}(\mathcal{D})}(h_V, {}_pu\mathcal{F}) \\
+& = &
+{}_pu\mathcal{F}(V)
+\end{eqnarray*}
+which proves part (2). Part (3) follows by the uniqueness of adjoint functors.
+\end{proof}
+
+
+
+
 \section{Cocontinuous functors}
 \label{section-cocontinuous-functors}
 
@@ -3355,7 +3419,7 @@ For any sheaf $\mathcal{F}$ on $\mathcal{C}$ we have
 & = &
 \Mor_{\Sh(\mathcal{D})}(\mathcal{G}^\#, {}_su\mathcal{F}) \\
 & = &
-\Mor_{\textit{PSh}(\mathcal{D})}(\mathcal{G}^\#, {}_pu\mathcal{F}) \\
+\Mor_{\textit{Sh}(\mathcal{D})}(\mathcal{G}^\#, {}_pu\mathcal{F}) \\
 & = &
 \Mor_{\textit{PSh}(\mathcal{D})}(\mathcal{G}, {}_pu\mathcal{F}) \\
 & = &
@@ -3779,9 +3843,7 @@ $v^p\mathcal{F}$, in other words, $(g_*\mathcal{F})(V) = \mathcal{F}(v(V))$.
 \end{lemma}
 
 \begin{proof}
-Let $V$ be an object of $\mathcal{D}$. We have $u^ph_V = h_{v(V)}$ because
-$u^ph_V(U) = \Mor_\mathcal{D}(u(U), V) =
-\Mor_\mathcal{C}(U, v(V))$ by assumption.
+We have $u^ph_V = h_{v(V)}$ by Lemma \ref{lemma-adjoint-functors}.
 By Lemma \ref{lemma-technical-pu} this implies that
 $g^{-1}(h_V^\#) = (u^ph_V^\#)^\# = (u^ph_V)^\# = h_{v(V)}^\#$.
 Hence for any sheaf $\mathcal{F}$ on $\mathcal{C}$ we have
@@ -3800,7 +3862,8 @@ which proves the lemma.
 \end{proof}
 
 \noindent
-In the situation of the lemma we see that $v^p$ transforms sheaves
+In the situation of Lemma \ref{lemma-have-functor-other-way}
+we see that $v^p$ transforms sheaves
 into sheaves. Hence we can define $v^s = v^p$ restricted to sheaves.
 Just as in Lemma \ref{lemma-adjoint-sheaves} we see that
 $v_s : \mathcal{G} \mapsto (v_p\mathcal{G})^\#$ is a left adjoint to $v^s$.
@@ -3814,7 +3877,8 @@ We have $g_* = v^s = v^p$ and $g^{-1} = v_s = (v_p\ )^\#$.
 If $v$ is continuous then $v$ defines a morphism of sites $f$
 from $\mathcal{C}$ to $\mathcal{D}$ whose associated morphism
 of topoi is equal to the morphism $g$ associated to the cocontinuous
-functor $u$.
+functor $u$. In other words, a continuous functor which has a
+cocontinuous left adjoint defines a morphism of sites.
 \end{lemma}
 
 \begin{proof}
@@ -3847,25 +3911,21 @@ Lemmas \ref{lemma-cocontinuous-morphism-topoi} and
 \item If $w : \mathcal{D} \to \mathcal{C}$ is a left adjoint to $u$, then
 \begin{enumerate}
 \item $g_!\mathcal{F}$ is the sheaf associated to the presheaf
-$w^p\mathcal{F} : V \mapsto \mathcal{F}(w(V))$, and
+$w^p\mathcal{F}$, and
 \item $g_!$ is exact.
 \end{enumerate}
-\item If in addition $w$ is cocontinuous, then $g_! = h^{-1}$ and
-$g^{-1} = h_*$ where
-$h : \Sh(\mathcal{D}) \to \Sh(\mathcal{C})$ is the morphism of topoi
-associated to $w$.
+\item if $w$ is a continuous left adjoint, then $g_!$
+has a left adjoint.
+\item If $w$ is a cocontinuous left adjoint, then $g_! = h^{-1}$ and
+$g^{-1} = h_*$ where $h : \Sh(\mathcal{D}) \to \Sh(\mathcal{C})$ is
+the morphism of topoi associated to $w$.
 \end{enumerate}
 \end{lemma}
 
 \begin{proof}
 Recall that $g_!\mathcal{F}$ is the sheafification of $u_p\mathcal{F}$.
-The value of $u_p\mathcal{F}$ at $V$ is the colimit of $\mathcal{F}$
-over the opposite of the category $\mathcal{I}_V^u$ whose objects
-are pairs $(U, \varphi)$ with $\varphi : V \to u(U)$. See
-Section \ref{section-functoriality-PSh}. Since $w$ is a left adjoint we
-see that $\varphi$ corresponds to a morphism $w(V) \to U$. Thus the
-pair $(w(V), \text{id})$ is an initial object of $\mathcal{I}_V^u$.
-This proves (1)(a).
+Hence (1)(a) follows from the fact that $u_p = w^p$ by
+Lemma \ref{lemma-adjoint-functors}.
 
 \medskip\noindent
 To see (1)(b) note that $g_!$ commutes with all colimits as $g_!$
@@ -3878,6 +3938,11 @@ we see that $w^p \lim \mathcal{F}_i = \lim w^p\mathcal{F}_i$. Since
 sheafification is exact
 (Lemma \ref{lemma-sheafification-exact})
 we conclude by (1)(a).
+
+\medskip\noindent
+Assume $w$ is continuous. Then $g_! = (w^p\ )^\# = w^s$ but sheafification
+isn't necessary and one has the left adjoint $w_s$, see
+Lemmas \ref{lemma-pushforward-sheaf} and \ref{lemma-adjoint-sheaves}.
 
 \medskip\noindent
 Assume $w$ is cocontinuous. The equality $g_! = h^{-1}$ follows from (1)(a)
