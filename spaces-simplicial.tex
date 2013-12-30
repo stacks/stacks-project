@@ -237,10 +237,13 @@ topoi $g : \Sh(X_n) \to \Sh(X_{Zar})$ satisfies
 \begin{enumerate}
 \item $g^{-1}$ associates to the sheaf $\mathcal{F}$ on $X$
 the sheaf $\mathcal{F}_n$ on $X_n$,
-\item $g^{-1}$ has a left adjoint $g_!$ which commutes
+\item $g^{-1}$ has a left adjoint $g^{Sh}_!$ which commutes
 with finite connected limits,
-\item the adjunction maps $\text{id} \to g^{-1}g_!$ and
-$g^{-1}g_* \to \text{id}$ are isomorphisms.
+\item $g^{-1} : \textit{Ab}(X_{Zar}) \to \textit{Ab}(X_n)$
+has a left adjoint $g_! : \textit{Ab}(X_n) \to \textit{Ab}(X_{Zar})$
+which is exact,
+\item the adjunction maps $\text{id} \to g^{-1}g^{Sh}_!$,
+$\text{id} \to g^{-1}g_!$, and $g^{-1}g_* \to \text{id}$ are isomorphisms.
 \end{enumerate}
 \end{lemma}
 
@@ -249,11 +252,33 @@ The category $\mathcal{T}_{X_n}$ has fibre products and equalizers
 and the functor commutes with them (beware that $X_{Zar}$ does not
 have all fibre products). Hence the lemma follows from the discussion in
 Sites, Sections \ref{sites-section-cocontinuous-functors} and
-\ref{sites-section-cocontinuous-morphism-topoi}. More precisely,
-Lemmas \ref{sites-lemma-cocontinuous-morphism-topoi},
+\ref{sites-section-cocontinuous-morphism-topoi}
+and
+Modules on Sites, Section \ref{sites-modules-section-exactness-lower-shriek}.
+More precisely,
+Sites, Lemmas \ref{sites-lemma-cocontinuous-morphism-topoi},
 \ref{sites-lemma-when-shriek},
 \ref{sites-lemma-preserve-equalizers}, and
-\ref{sites-lemma-back-and-forth}.
+\ref{sites-lemma-back-and-forth}
+and
+Modueles on Sites, Lemmas
+\ref{sites-modules-lemma-g-shriek-adjoint},
+\ref{sites-modules-lemma-exactness-lower-shriek}, and
+\ref{sites-modules-lemma-back-and-forth}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-restriction-injective-to-component}
+Let $X$ be a simplicial space. If $\mathcal{I}$ is an injective abelian
+sheaf on $X_{Zar}$, then $\mathcal{I}_n$ is an injective abelian sheaf
+on $X_n$.
+\end{lemma}
+
+\begin{proof}
+This follows from
+Homology, Lemma \ref{homology-lemma-adjoint-preserve-injectives}
+and
+Lemma \ref{lemma-restriction-to-components}.
 \end{proof}
 
 \begin{lemma}
@@ -331,6 +356,88 @@ Lemma \ref{lemma-constant-simplicial-space}.
 \begin{proof}
 This lemma proves itself.
 \end{proof}
+
+\begin{lemma}
+\label{lemma-simplicial-resolution-Z}
+Let $X$ be a simplicial topological space. The complex of
+abelian presheaves on $X_{Zar}$
+$$
+\ldots \to \mathbf{Z}_{X_2} \to \mathbf{Z}_{X_1} \to \mathbf{Z}_{X_0}
+$$
+with boundary $\sum (-1)^i d^n_i$ is a resolution
+of the constant presheaf $\mathbf{Z}$.
+\end{lemma}
+
+\begin{proof}
+Let $U \subset X_m$ be an object of $X_{Zar}$. Then the value of
+the complex above on $U$ is the complex of abelian groups
+$$
+\ldots \to
+\mathbf{Z}[\Mor_\Delta([2], [m])] \to
+\mathbf{Z}[\Mor_\Delta([1], [m])] \to
+\mathbf{Z}[\Mor_\Delta([0], [m])]
+$$
+In other words, this is the complex associated to the
+free abelian group on the simplicial set $\Delta[m]$, see
+Simplicial, Example \ref{simplicial-example-simplex-simplicial-set}.
+Since $\Delta[m]$ is homotopy equivalent to $\Delta[0]$, see
+Simplicial, Example \ref{simplicial-example-simplex-contractible},
+and since ``taking free abelian groups'' is a functor,
+we see that the complex above is homotopy equivalent to
+the free abelian group on $\Delta[0]$
+(Simplicial, Remark \ref{simplicial-remark-homotopy-better} and
+Lemma \ref{simplicial-lemma-homotopy-equivalence-s-N}).
+This complex is acyclic in positive degrees
+and equal to $\mathbf{Z}$ in degree $0$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-simplicial-sheaf-cohomology}
+Let $X$ be a simplicial topological space. Let $\mathcal{F}$ be an abelian
+sheaf on $X$. There is a spectral sequence $(E_r, d_r)_{r \geq 0}$ with
+$$
+E_1^{p, q} = H^q(X_p, \mathcal{F}_p)
+$$
+converging to $H^{p + q}(X_{Zar}, \mathcal{F})$.
+This spectral sequence is functorial in $\mathcal{F}$.
+\end{lemma}
+
+\begin{proof}
+Let $\mathcal{F} \to \mathcal{I}^\bullet$ be an injective resolution.
+Consider the double complex with terms
+$$
+A^{p, q} = \mathcal{I}^q(X_p)
+$$
+and first differential given by the alternating sum along the maps
+$d^{p + 1}_i$-maps $\mathcal{I}_p^q \to \mathcal{I}_{p + 1}^q$, see
+Lemma \ref{lemma-describe-sheaves-simplicial-site}. Note that
+$$
+A^{p, q} = \Gamma(X_p, \mathcal{I}_p^q) =
+\Mor_{\textit{PSh}}(h_{X_p}, \mathcal{I}^q) =
+\Mor_{\textit{PAb}}(\mathbf{Z}_{X_p}, \mathcal{I}^q)
+$$
+Hence it follows from Lemma \ref{lemma-simplicial-resolution-Z} and
+Cohomology on Sites, Lemma
+\ref{sites-cohomology-lemma-injective-abelian-sheaf-injective-presheaf}
+that the rows of the double complex are exact in positive degrees and
+evaluate to $\Gamma(X_{Zar}, \mathcal{I}^q)$ in degree $0$.
+On the other hand, since restriction is exact
+(Lemma \ref{lemma-restriction-to-components})
+the map
+$$
+\mathcal{F}_p \to \mathcal{I}_p^\bullet
+$$
+is a resolution. The sheaves $\mathcal{I}_p^q$ are injective
+abelian sheaves on $X_p$
+(Lemma \ref{lemma-restriction-injective-to-component}).
+Hence the cohomology of the columns computes the groups
+$H^q(X_p, \mathcal{F}_p)$. We conclude by applying
+Homology, Lemmas \ref{homology-lemma-first-quadrant-ss} and
+\ref{homology-lemma-double-complex-gives-resolution}.
+\end{proof}
+
+
+
 
 
 
