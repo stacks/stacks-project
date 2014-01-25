@@ -7066,13 +7066,6 @@ $$
 \end{enumerate}
 \end{proof}
 
-
-
-
-
-\section{Stalks of higher direct images}
-\label{section-stalks-direct-image}
-
 \begin{lemma}
 \label{lemma-higher-direct-images}
 Let $f: X\to Y$ be a morphism of schemes and $\mathcal{F}\in
@@ -7091,6 +7084,53 @@ Cohomology on Sites, Lemma
 \ref{sites-cohomology-lemma-higher-direct-images}
 for details.
 \end{proof}
+
+\begin{lemma}
+\label{lemma-relative-colimit}
+Let $S$ be a scheme. Let $X = \lim_{i \in I} X_i$ be a limit of a
+directed system of schemes over $S$ with affine transition morphisms
+$f_{i'i} : X_{i'} \to X_i$. We assume the structure morphism
+$g_i : X_i \to S$ is quasi-compact and quasi-separated for all $i \in I$
+and we set $g : X \to S$. Assume given
+\begin{enumerate}
+\item an abelian sheaf $\mathcal{F}_i$ on $(X_i)_\etale$ for all $i \in I$,
+\item for $i' \geq i$ a map
+$\varphi_{i'i} : f_{i'i}^{-1}\mathcal{F}_i \to \mathcal{F}_{i'}$
+of abelian sheaves on $(X_{i'})_\etale$
+\end{enumerate}
+such that $\varphi_{i''i} = \varphi_{i''i'} \circ f_{i'' i'}^{-1}\varphi_{i'i}$
+whenever $i'' \geq i' \geq i$.
+Denote $f_i : X \to X_i$ the projection and set
+$\mathcal{F} = \colim f_i^{-1}\mathcal{F}_i$. Then
+$$
+\colim_{i\in I} R^p g_{i, *} \mathcal{F}_i = R^p g_* \mathcal{F}
+$$
+for all $p \geq 0$.
+\end{lemma}
+
+\begin{proof}
+Recall (Lemma \ref{lemma-higher-direct-images})
+that $R^p g_{i, *} \mathcal{F}_i$ is the sheaf associated to the
+presheaf $U \mapsto H^p_\etale(U \times_S X_i, \mathcal{F}_i)$
+and similarly for $R^pg_*\mathcal{F}$. Moreover, the colimit of a
+system of sheaves is the sheafification of the colimit on the level
+of presheaves. Note that every object of $S_\etale$ has a covering
+by quasi-compact and quasi-separated objects (e.g., affine schemes).
+Moreover, if $U$ is a quasi-compact and quasi-separated object,
+then we have
+$$
+\colim H^p_\etale(U \times_S X_i, \mathcal{F}_i) =
+H^p_\etale(U \times_S X, \mathcal{F})
+$$
+by Theorem \ref{theorem-colimit}. Thus the lemma follows.
+\end{proof}
+
+
+
+
+
+\section{Stalks of higher direct images}
+\label{section-stalks-direct-image}
 
 \begin{theorem}
 \label{theorem-higher-direct-images}
@@ -8986,6 +9026,25 @@ $\mathcal{F}|_{U_i}$ is of finite type and locally constant for all $i$.
 \end{definition}
 
 \noindent
+It seems that this is the accepted definition. An alternative, which lends
+itself more readily to generalizations beyond the \'etale site of a scheme,
+would have been to define constructible sheaves by starting with
+$h_U$, $j_{U!}\mathbf{Z}/n\mathbf{Z}$, and $j_{U!}\underline{\Lambda}$
+where $U$ runs over all quasi-compact and quasi-separated objects
+of $X_\etale$, and then take the smallest full subcategory of
+$\Sh(X_\etale)$, $\textit{Ab}(X_\etale)$, and
+$\textit{Mod}(X_\etale, \underline{\Lambda})$ containing these
+and closed under finite limits and colimits. It follows from
+Lemma \ref{lemma-constructible-abelian}
+and
+Lemmas \ref{lemma-category-constructible-sets},
+\ref{lemma-category-constructible-abelian}, and
+\ref{lemma-category-constructible-modules}
+that this produces the same category if $X$ is quasi-compact and
+quasi-separated. In general this does not produce the same
+category however.
+
+\medskip\noindent
 A disjoint union decomposition $U = \coprod U_i$ of a scheme by
 locally closed subschemes will be called a {\it partition} of $U$
 (compare with Topology, Section \ref{topology-section-stratifications}).
@@ -9056,7 +9115,7 @@ locally closed constructible parts of $T_i$ such that
 $\mathcal{F}|_{T_{i, j}}$ is finite locally constant
 (Lemma \ref{lemma-constructible-quasi-compact-quasi-separated}).
 By Topology, Lemma \ref{topology-lemma-constructible-in-constructible}
-we see that $T_{i, j}$ is a constructible locally closed subschemes of $X$.
+we see that $T_{i, j}$ is a constructible locally closed subscheme of $X$.
 Then we can apply Topology, Lemma
 \ref{topology-lemma-constructible-partition-refined-by-stratification}
 to $X = \bigcup T_{i, j}$ to find the desired partition of $X$.
@@ -9752,6 +9811,37 @@ abelian sheaf is annihilated by some positive integer $n$ (details omitted).
 \end{proof}
 
 \begin{lemma}
+\label{lemma-constructible-is-compact}
+Let $X$ be a quasi-compact and quasi-separated scheme. Let $\Lambda$ be a
+Noetherian ring. Let $\mathcal{F}$ be a constructible sheaf of sets, abelian
+groups, or $\Lambda$-modules on $X_\etale$. Let
+$\mathcal{G} = \colim \mathcal{G}_i$ be a filtered colimit of sheaves of
+sets, abelian groups, or $\Lambda$-modules. Then
+$$
+\Mor(\mathcal{F}, \mathcal{G}) = \colim \Mor(\mathcal{F}, \mathcal{G}_i)
+$$
+in the category of sheaves of sets, abelian groups, or $\Lambda$-modules on
+$X_\etale$.
+\end{lemma}
+
+\begin{proof}
+The case of sheaves of sets. By Lemma \ref{lemma-category-constructible-sets}
+it suffices to prove the lemma for $h_U$ where $U$ is a quasi-compact
+and quasi-separated object of $X_\etale$. Recall that
+$\Mor(h_U, \mathcal{G}) = \mathcal{G}(U)$. Hence the result
+follows from Sites, Lemma \ref{sites-lemma-directed-colimits-sections}.
+
+\medskip\noindent
+In the case of abelian sheaves or sheaves of modules, the result follows
+in the same way using
+Lemmas \ref{lemma-category-constructible-abelian} and
+\ref{lemma-category-constructible-modules}.
+For the case of abelian sheaves, we add that
+$\Mor(j_{U!}\underline{\mathbf{Z}/n\mathbf{Z}}, \mathcal{G})$
+is equal to the $n$-torsion elements of $\mathcal{G}(U)$.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-finite-pushforward-constructible}
 Let $f : X \to Y$ be a finite and finitely presented morphism of schemes.
 Let $\Lambda$ be a Noetherian ring. If $\mathcal{F}$ is a constructible
@@ -9880,6 +9970,35 @@ This is true because for every \'etale morphism $U \to X$
 with $U \not = \emptyset$ the point $\eta$ is in the image.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-push-constant-sheaf-from-open}
+Let $X$ be an integral normal scheme with function field $K$.
+Let $E$ be a set.
+\begin{enumerate}
+\item Let $g : \Spec(K) \to X$ be the inclusion of the generic point.
+Then $g_*\underline{E} = \underline{E}$.
+\item Let $j : U \to X$ be the inclusion of a nonempty open. Then
+$j_*\underline{E} = \underline{E}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Proof of (1). Let $x \in X$ be a point. Let $\mathcal{O}_{X, \overline{x}}$
+be a strict henselization of $\mathcal{O}_{X, x}$. 
+By More on Algebra, Lemma \ref{more-algebra-lemma-henselization-normal}
+we see that $\mathcal{O}_{X, \overline{x}}$ is a normal domain.
+Hence $\Spec(K) \times_X \Spec(\mathcal{O}_{X, \overline{x}})$
+is irreducible. It follows that
+the stalk $(g_*\underline{E}_{\underline{x}}$ is equal to $E$,
+see Theorem \ref{theorem-higher-direct-images}.
+
+\medskip\noindent
+Proof of (2). Since $g$ factors through $j$ there is a map
+$j_*\underline{E} \to g_*\underline{E}$. This map is injective because
+for every scheme $V$ \'etale over $X$ the set $\Spec(K) \times_X V$
+is dense in $U \times_X V$. On the other hand, we have a map
+$\underline{E} \to j_*\underline{E}$ and we conclude.
+\end{proof}
 
 
 
@@ -10021,6 +10140,114 @@ Then the lemma follows from
 Lemma \ref{lemma-colimit-constructible}.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-constructible-maps-into-constant}
+Let $X$ be a Noetherian scheme.
+\begin{enumerate}
+\item Let $\mathcal{F}$ be a constructible sheaf of sets on $X_\etale$.
+There exist an injective map of sheaves
+$$
+\mathcal{F} \longrightarrow
+\coprod\nolimits_{i = 1, \ldots, n} f_{i, *}\underline{E_i}
+$$
+where $f_i : Y_i \to X$ is a finite morphism and $E_i$ is a finite set.
+\item Let $\mathcal{F}$ be a constructible abelian sheaf on $X_\etale$.
+There exist an injective map of abelian sheaves
+$$
+\mathcal{F} \longrightarrow
+\bigoplus\nolimits_{i = 1, \ldots, n} f_{i, *}\underline{M_i}
+$$
+where $f_i : Y_i \to X$ is a finite morphism and
+$M_i$ is a finite abelian group.
+\item Let $\Lambda$ be a Noetherian ring.
+Let $\mathcal{F}$ be a constructible sheaf of $\Lambda$-modules on $X_\etale$.
+There exist an injective map of sheaves of modules
+$$
+\mathcal{F} \longrightarrow
+\bigoplus\nolimits_{i = 1, \ldots, n} f_{i, *}\underline{M_i}
+$$
+where $f_i : Y_i \to X$ is a finite morphism and
+$M_i$ is a finite $\Lambda$-module.
+\end{enumerate}
+Moreover, we may assume each $Y_i$ is irreducible, reduced, maps onto
+an irreducible and reduced closed subscheme $Z_i \subset X$ such that
+$Y_i \to Z_i$ is finite \'etale over a nonempty open of $Z_i$.
+\end{lemma}
+
+\begin{proof}
+Proof of (1). Because we have the ascending chain condition for
+subsheaves of $\mathcal{F}$
+(Lemma \ref{lemma-constructible-over-noetherian-noetherian}), it
+suffices to show that for every point $x \in X$ we
+can find a map $\varphi : \mathcal{F} \to f_*\underline{E}$ where
+$f : Y \to X$ is finite and $E$ is a finite set such that
+$\varphi_{\overline{x}} : \mathcal{F}_{\overline{x}} \to
+(f_*S)_{\overline{x}}$ is injective.
+(This argument can be avoided by picking a partition of $X$ as in
+Lemma \ref{lemma-constructible-quasi-compact-quasi-separated}
+and constructing a $Y_i \to X$ for each irreducible component
+of each part.)
+Let $Z \subset X$ be the induced reduced scheme structure
+(Schemes, Definition \ref{schemes-definition-reduced-induced-scheme})
+on $\overline{\{x\}}$.
+Since $\mathcal{F}$ is constructible, there is a finite separable
+extension $\kappa(x) \subset \Spec(K)$ such that
+$\mathcal{F}|_{\Spec(K)}$ is the constant sheaf with value $E$
+for some finite set $E$. Let $Y \to Z$ be the normalization
+of $Z$ in $\Spec(K)$.
+By Morphisms, Lemma \ref{morphisms-lemma-normal-normalization}
+we see that $Y$ is a normal integral scheme.
+As $\kappa(x) \subset K$ is finite, it is clear that $K$ is the function
+field of $Y$. Denote $g : \Spec(K) \to Y$ the inclusion.
+The map $\mathcal{F}|_{\Spec(K)} \to \underline{E}$ is adjoint
+to a map $\mathcal{F}|_Y \to g_*\underline{E} = \underline{E}$
+(Lemma \ref{lemma-push-constant-sheaf-from-open}).
+This in turn is adjoint to a map
+$\varphi : \mathcal{F} \to f_*\underline{E}$.
+Observe that the stalk of $\varphi$ at a geometric point
+$\overline{x}$ is injective: we may take a lift $\overline{y} \in Y$
+of $\overline{x}$ and the commutative diagram
+$$
+\xymatrix{
+\mathcal{F}_{\overline{x}} \ar@{=}[r] \ar[d] &
+(\mathcal{F}|_Y)_{\overline{y}} \ar@{=}[d] \\
+(f_*\underline{E})_{\overline{x}} \ar[r] &
+\underline{E}_{\overline{y}}
+}
+$$
+proves the injectivity. We are not yet done, however, as the
+morphism $f : Y \to Z$ is integral but in general not
+finite\footnote{If $X$ is a Nagata scheme, for example of finite
+type over a field, then $Y \to Z$ is finite.}.
+
+\medskip\noindent
+To fix the problem stated in the last sentence of the previous paragraph,
+we write $Y = \lim_{i \in I} Y_i$ with $Y_i$ irreducible, integral, and
+finite over $Z$. Namely, apply Properties, Lemma
+\ref{properties-lemma-integral-algebra-directed-colimit-finite}
+to $f_*\mathcal{O}_Y$ viewed as a sheaf of $\mathcal{O}_Z$-algebras
+and apply the functor $\underline{\Spec}_Z$.
+Then $f_*\underline{E} = \colim f_{i, *}\underline{E}$
+by Lemma \ref{lemma-relative-colimit}.
+By Lemma \ref{lemma-constructible-is-compact} the map
+$\mathcal{F} \to f_*\underline{E}$
+factors through $f_{i, *}\underline{E}$ for some $i$.
+Since $Y_i \to Z$ is a finite morphism of integral schemes
+and since the function field extension
+induced by this morphism is finite separable, we see that the
+morphism is finite \'etale over a nonempty open of $Z$ (details
+omitted). This finishes the proof of (1).
+
+\medskip\noindent
+The proofs of (2) and (3) are identical to the proof of (1).
+\end{proof}
+
+
+
+
+
+
+
 
 
 
@@ -10061,7 +10288,7 @@ $$
 \ldots \to H^i_Z(X, K) \to H^i(X, K) \to H^i(U, K) \to
 H^{i + 1}_Z(X, K) \to \ldots
 $$
-for any $K$ in $D(X_\etale$.
+for any $K$ in $D(X_\etale)$.
 
 \medskip\noindent
 For an abelian sheaf $\mathcal{F}$ on $X_\etale$ we can consider
@@ -10130,6 +10357,7 @@ injective abelian sheaves into injective abelian sheaves
 (Cohomology on Sites, Lemma
 \ref{sites-cohomology-lemma-pushforward-injective-flat}).
 \end{proof}
+
 
 
 
