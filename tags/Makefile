@@ -17,9 +17,10 @@ LIJST = introduction conventions sets categories \
 	more-groupoids etale \
 	chow adequate dualizing etale-cohomology crystalline proetale \
 	spaces spaces-properties spaces-morphisms decent-spaces \
-	spaces-cohomology spaces-limits spaces-divisors spaces-topologies \
+	spaces-cohomology spaces-limits spaces-divisors spaces-over-fields \
+	spaces-topologies \
 	spaces-descent spaces-perfect spaces-more-morphisms \
-	spaces-over-fields spaces-groupoids spaces-more-groupoids bootstrap \
+	spaces-groupoids spaces-more-groupoids bootstrap \
 	groupoids-quotients spaces-simplicial \
 	formal-defos defos cotangent \
 	algebraic examples-stacks stacks-sheaves criteria artin quot \
