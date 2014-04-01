@@ -1367,35 +1367,78 @@ This is immediate from the definitions.
 
 \noindent
 Let $(A, \text{d})$ be a differential graded algebra. If $M$ is a
-(right) differential graded $A$-module, then $M^\vee$ (as defined above
-for graded modules) is a differential graded module as well with
-differential given by the contragredient of $\text{d}_M$ up to sign.
-The sign rule (see Example \ref{example-dgm-dg-cat}) is to set
+{\bf left} differential graded $A$-module, then we will endow $M^\vee$
+(with its graded module structure as above) with a right differential
+graded module structure by setting
 $$
 \text{d}_{M^\vee}(f) = - (-1)^n f \circ \text{d}_M^{-n - 1}
 \quad\text{in }(M^\vee)^{n + 1}
 $$
-where $f \in (M^\vee)^n = \Hom_\mathbf{Z}(M^{-n}, \mathbf{Q}/\mathbf{Z})$
-and $\text{d}_M^{-n - 1} : M^{-n - 1} \to M^{-n}$ is the differential
-of $M$. This does indeed work, namely, if $a \in A^m$, $x \in M^{-n - m - 1}$
-and $f$ as above, then
+for $f \in (M^\vee)^n = \Hom_\mathbf{Z}(M^{-n}, \mathbf{Q}/\mathbf{Z})$
+and $\text{d}_M^{-n - 1} : M^{-n - 1} \to M^{-n}$ the differential
+of $M$\footnote{The sign rule is analogous to the one in
+Example \ref{example-dgm-dg-cat}, although there we are working with
+right modules and the same sign rule taken there does not work for
+left modules. Sigh!}.
+We will show by a computation that this works.
+Namely, if $a \in A^m$, $x \in M^{-n - m - 1}$ and $f \in (M^\vee)^n$,
+then we have
 \begin{align*}
-\text{d}_{M^\vee}(a f)(x) & =
-- (-1)^{n + m} (a f)(\text{d}(x)) \\
+\text{d}_{M^\vee}(f a)(x) & =
+- (-1)^{n + m} (f a)(\text{d}_M(x)) \\
 & =
-- (-1)^{n + m} f(\text{d}(x)a) \\
+- (-1)^{n + m} f(a\text{d}_M(x)) \\
 & =
-- (-1)^{n + m} f(\text{d}(xa) - (-1)^{n + m}x\text{d}(a)) \\
+-(-1)^n f(\text{d}_M(ax) - \text{d}(a)x) \\
 & =
-(\text{d}(a) f)(x) + (-1)^m (a \text{d}_{M^\vee}(f))(x)
+-(-1)^n[-(-1)^n \text{d}_{M^\vee}(f)(ax) - (f\text{d}(a))(x)] \\
+& =
+(\text{d}_{M^\vee}(f)a)(x) + (-1)^n (f\text{d}(a))(x)
 \end{align*}
-in other words we have $\text{d}(af) = \text{d}(a)f + (-1)^m a \text{d}(f)$
+the third equality because
+$\text{d}_M(ax) = \text{d}(a)x + (-1)^m a\text{d}_M(x)$.
+In other words we have
+$\text{d}_{M^\vee}(fa) = \text{d}_{M^\vee}(f)a + (-1)^n f \text{d}(a)$
 as desired.
 
 \medskip\noindent
-Similarly, if $M$ is a left differential graded module, then
-$M^\vee$ becomes a right differential graded module with the same
-sign rule for $\text{d}_{M^\vee}$. Computation omitted.
+If $M$ is a {\bf right} differential graded module, then the sign rule above
+does not work. The problem seems to be that in defining the left $A$-module
+structure on $M^\vee$ our conventions for graded modules above defines $af$
+to be the element of $(M^\vee)^{n + m}$ such that $(af)(x) = f(xa)$ for
+$f \in (M^\vee)^n$, $a \in A^m$ and $x \in M^{-n - m}$ which in some sense
+is the ``wrong'' thing to do if $m$ is odd. Anyway, instead of changing
+the sign rule for the module structure, we fix the problem by using
+$$
+\text{d}_{M^\vee}(f) = (-1)^n f \circ \text{d}_M^{-n - 1}
+$$
+when $M$ is a right differential graded $A$-module. The computation for
+$a \in A^m$, $x \in M^{-n - m - 1}$ and $f \in (M^\vee)^n$ then becomes
+\begin{align*}
+\text{d}_{M^\vee}(a f)(x) & =
+(-1)^{n + m} (f a)(\text{d}_M(x)) \\
+& =
+(-1)^{n + m} f(\text{d}_M(x)a) \\
+& =
+(-1)^{n + m} f(\text{d}_M(ax) - (-1)^{m + n + 1} x\text{d}(a)) \\
+& =
+(-1)^m \text{d}_{M^\vee}(f)(ax) + f(x\text{d}(a)) \\
+& =
+(-1)^m (a\text{d}_{M^\vee}(f))(x) + (\text{d}(a)f)(x)
+\end{align*}
+the third equality because
+$\text{d}_M(xa) = \text{d}_M(x)a + (-1)^{n + m + 1} x\text{d}(a)$.
+In other words, we have
+$\text{d}_{M^\vee}(af) = \text{d}(a) f + (-1)^ma\text{d}_{M^\vee}(f)$
+as desired.
+
+\medskip\noindent
+We leave it to the reader to show that with the conventions above
+there is a natural evaluation map $M \to (M^\vee)^\vee$ in the
+category of differential graded modules if $M$ is either a differential
+graded left module or a differential graded right module. This works
+because the sign choices above cancel out and the differentials of
+$((M^\vee)^\vee$ are the natural maps $((M^n)^\vee)^\vee \to ((M^{n + 1})^\vee)^\vee$.
 
 \begin{lemma}
 \label{lemma-map-into-dual}
@@ -1649,7 +1692,7 @@ by differential graded submodules such that
 \item $I = \lim I/F_pI$,
 \item the inclusions $F_iI \to F_{i - 1}I$ are admissible
 monomorphisms,
-\item the quotients $F_{i - 1}I/F_iI$ are direct sums of the\
+\item the quotients $F_{i - 1}I/F_iI$ are direct sums of the
 modules $A^\vee[k]$.
 \end{enumerate}
 In fact, condition (2) is a consequence of condition (3), see
