@@ -11481,7 +11481,7 @@ and vanishing of higher direct images
 (Proposition \ref{proposition-finite-higher-direct-image-zero}),
 we find
 $$
-H^q_\etale(Z, f_*\underline{M}|_Z) = H^q(Y \times_X Z, \underline{M}).
+H^q_\etale(Z, f_*\underline{M}|_Z) = H^q_\etale(Y \times_X Z, \underline{M}).
 $$
 By Lemma \ref{lemma-integral-cover-trivial-cohomology}
 we can find a finite surjective morphism $Y' \to Y$ of finite presentation
@@ -11684,6 +11684,55 @@ This is a translation of
 More on Algebra, Lemma \ref{more-algebra-lemma-finite-etale-equivalence}.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-vanishing-restriction-injective}
+Let $X$ be a scheme with affine diagonal which can be covered by
+$n + 1$ affine opens. Let $Z \subset X$ be a closed subscheme.
+Let $\mathcal{A}$ be a torsion sheaf of rings on $X_\etale$
+and let $\mathcal{I}$ be an injective sheaf of $\mathcal{A}$-modules
+on $X_\etale$.
+Then $H^q_\etale(Z, \mathcal{I}|_Z) = 0$ for $q > n$.
+\end{lemma}
+
+\begin{proof}
+We will prove this by induction on $n$. If $n = 0$, then $X$ is affine.
+Say $X = \Spec(A)$ and $Z = \Spec(A/I)$. Let $A^h$ be the filtered colimit
+of \'etale $A$-algebras $B$ such that $A/I \to B/IB$ is an isomorphism.
+Then $(A^h, IA^h)$ is a henselian pair and $A/I = A^h/IA^h$, see
+More on Algebra, Lemma \ref{more-algebra-lemma-henselization}
+and its proof. Set $X^h = \Spec(A^h)$.
+By Theorem \ref{theorem-gabber}
+we see that
+$$
+H^q_\etale(Z, \mathcal{I}|_Z) = H^q_\etale(X^h, \mathcal{I}|_{X^h})
+$$
+By Theorem \ref{theorem-colimit} we have
+$$
+H^q_\etale(X^h, \mathcal{F}|_{X^h}) =
+\colim_{A \to B} H^q_\etale(\Spec(B), \mathcal{I}|_{\Spec(B)})
+$$
+where the colimit is over the $A$-algebras $B$ as above.
+Since the morphisms $\Spec(B) \to \Spec(A)$ are \'etale,
+the restriction $\mathcal{I}|_{\Spec(B)}$ is an injective
+sheaf of $\mathcal{A}|_{\Spec(B)}$-modules
+(Cohomology on Sites, Lemma \ref{sites-cohomology-lemma-cohomology-of-open}).
+Thus the cohomology groups on the right are zero and we get the
+result in this case.
+
+\medskip\noindent
+Induction step. We can use Mayer-Vietoris to do the induction step.
+Namely, suppose that $X = U \cup V$ where $U$ is a union of $n$ affine
+opens and $V$ is affine. Then, using that the diagonal of $X$ is affine,
+we see that $U \cap V$ is the union of $n$ affine opens. Mayer-Vietoris
+gives an exact sequence
+$$
+H^{q - 1}_\etale(U \cap V \cap Z, \mathcal{F}|_Z) \to
+H^q_\etale(Z, \mathcal{I}|_Z) \to
+H^q_\etale(U \cap Z, \mathcal{F}|_Z) \oplus
+H^q_\etale(V \cap Z, \mathcal{F}|_Z)
+$$
+and by our induction hypothesis we obtain vanishing for $q > n$ as desired.
+\end{proof}
 
 
 
@@ -12196,7 +12245,40 @@ $H^2_\etale(U \cap X_n, \mathcal{F})$ vanishes
 by Theorem \ref{theorem-vanishing-affine-curves}.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-base-change-dim-1-separably-closed}
+Let $k \subset k'$ be an extension of separably closed fields.
+Let $X$ be a proper scheme over $k$ of dimension $\leq 1$.
+Let $\mathcal{F}$ be a torsion abelian sheaf on $X$.
+Then the map $H^q_\etale(X, \mathcal{F}) \to
+H^q_\etale(X_{k'}, \mathcal{F}|_{X_{k'}})$ is an isomorphism
+for $q \geq 0$.
+\end{lemma}
 
+\begin{proof}
+We have seen this for algebraically closed fields in
+Theorem \ref{theorem-vanishing-affine-curves}.
+Given $k \subset k'$ as in the statement of the lemma we can
+choose a diagram
+$$
+\xymatrix{
+k' \ar[r] & \overline{k}' \\
+k \ar[u] \ar[r] & \overline{k} \ar[u]
+}
+$$
+where $k \subset \overline{k}$ and $k' \subset \overline{k}'$ are
+the algebraic closures. Since $k$ and $k'$ are separably closed
+the field extensions
+$k \subset \overline{k}$ and $k' \subset \overline{k}'$
+are algebraic and purely inseparable. In this case the morphisms
+$X_{\overline{k}} \to X$ and $X_{\overline{k}'} \to X_{k'}$
+are universal homeomorphisms. Thus the cohomology of $\mathcal{F}$
+may be computed on $X_{\overline{k}}$ and the cohomology
+of $\mathcal{F}|_{X_{k'}}$ may be computed on $X_{\overline{k}'}$,
+see Proposition \ref{proposition-topological-invariance}.
+Hence we deduce the general case from the case of algebraically
+closed fields.
+\end{proof}
 
 
 
@@ -12358,6 +12440,112 @@ we can find a ring map $A_i^h \to k'$ extending the given
 incusion $A_i \subset k'$. Hence we conclude that $U'$
 is isomorphic to the base change of $U$.
 The proof of fully faithfulness is exactly the same.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-proper-over-henselian-and-h1}
+Let $A$ be a henselian local ring. Let $X$ be a proper scheme over $A$
+with closed fibre $X_0$. Let $M$ be a finite abelian group.
+Then $H^1_\etale(X, \underline{M}) = H^1_\etale(X_0, \underline{M})$.
+\end{lemma}
+
+\begin{proof}
+By Cohomology on Sites, Lemma \ref{sites-cohomology-lemma-torsors-h1}
+an element of $H^1_\etale(X, \underline{M})$ corresponds to a
+$\underline{M}$-torsor $\mathcal{F}$ on $X_\etale$.
+Such a torsor is clearly a finite locally constant sheaf.
+Hence $\mathcal{F}$ is representable by a scheme $V$ finite
+\'etale over $X$, Lemma \ref{lemma-characterize-finite-locally-constant}.
+Conversely, a scheme $V$ finite \'etale over $X$ with an $M$-action
+which turns it into an $M$-torsor over $X$ gives rise to a cohomology
+class. The same translation between cohomology classes over $X_0$ and
+torsors finite \'etale over $X_0$ holds. Thus the lemma
+is a consequence of the equivalence of categories of
+Lemma \ref{lemma-finite-etale-on-proper-over-henselian}.
+\end{proof}
+
+\noindent
+The following technical lemma is a key ingredient in the proof of
+the proper base change theorem. The argument can be made to work
+for any proper scheme over $A$ whose special fibre has dimension
+$\leq 1$, but in fact the conclusion will be a consequence of the
+proper base change theorem and we only need this particular version
+in its proof.
+
+\begin{lemma}
+\label{lemma-efface-cohomology-on-fibre-by-finite-cover}
+Let $A$ be a henselian local ring. Let $X = \mathbf{P}^1_A$.
+Let $X_0 \subset X$ be the closed fibre. Let $\ell$ be a prime
+number. Let $\mathcal{I}$ be an injective sheaf of
+$\mathbf{Z}/\ell\mathbf{Z}$-modules on $X_\etale$. Then
+$H^q_\etale(X_0, \mathcal{I}|_{X_0}) = 0$ for $q > 0$.
+\end{lemma}
+
+\begin{proof}
+Observe that $X$ is a separated scheme which can be covered by $2$
+affine opens. Hence for $q > 1$ this follows from Gabber's affine
+variant of the proper base change theorem, see
+Lemma \ref{lemma-vanishing-restriction-injective}.
+Thus we may assume $q = 1$. Let
+$\xi \in H^1_\etale(X_0, \mathcal{I}|_{X_0})$.
+Goal: show that $\xi$ is $0$.
+By Lemmas \ref{lemma-torsion-colimit-constructible} and
+\ref{lemma-colimit} we can find a map $\mathcal{F} \to \mathcal{I}$
+with $\mathcal{F}$ a constructible sheaf of
+$\mathbf{Z}/\ell\mathbf{Z}$-modules
+and $\xi$ coming from an element $\zeta$ of
+$H^1_\etale(X_0, \mathcal{F}|_{X_0})$. Suppose we have an injective map
+$\mathcal{F} \to \mathcal{F}'$ of sheaves of
+$\mathbf{Z}/\ell\mathbf{Z}$-modules on $X_\etale$.
+Since $\mathcal{I}$ is injective we can extend the given map
+$\mathcal{F} \to \mathcal{I}$ to a map $\mathcal{F}' \to \mathcal{I}$.
+In this situation we may replace $\mathcal{F}$ by $\mathcal{F}'$
+and $\zeta$ by the image of $\zeta$ in $H^1_\etale(X_0, \mathcal{F}'|_{X_0})$.
+Also, if $\mathcal{F} = \mathcal{F}_1 \oplus \mathcal{F}_2$ is a direct sum,
+then we may replace $\mathcal{F}$ by $\mathcal{F}_i$
+and $\zeta$ by the image of $\zeta$ in $H^1_\etale(X_0, \mathcal{F}_i|_{X_0})$.
+
+\medskip\noindent
+By Lemma \ref{lemma-constructible-maps-into-constant-general}
+and the remarks above we may assume $\mathcal{F}$
+is of the form $f_*\underline{M}$ where $M$ is a finite
+$\mathbf{Z}/\ell\mathbf{Z}$-module
+and $f : Y \to X$ is a finite morphism of finite presentation
+(such sheaves are still constructible by
+Lemma \ref{lemma-finite-pushforward-constructible}
+but we won't need this).
+Since formation of $f_*$ commutes with any base change
+(Lemma \ref{lemma-finite-pushforward-commutes-with-base-change})
+we see that the restriction of $f_*\underline{M}$ to $X_0$ is
+equal to the pushforward of $\underline{M}$ via the induced morphism
+$Y_0 \to X_0$ of special fibres. By the Leray spectral sequence
+(Proposition \ref{proposition-leray})
+and vanishing of higher direct images
+(Proposition \ref{proposition-finite-higher-direct-image-zero}),
+we find
+$$
+H^1_\etale(X_0, f_*\underline{M}|_{X_0}) = H^1_\etale(Y_0, \underline{M}).
+$$
+Since $Y \to \Spec(A)$ is proper we can use
+Lemma \ref{lemma-proper-over-henselian-and-h1} to see that
+the $H^1_\etale(Y_0, \underline{M})$ is equal to
+$H^1_\etale(Y, \underline{M})$. Thus we see that our cohomology
+class $\zeta$ lifts to a cohomology class
+$$
+\tilde\zeta \in H^1_\etale(Y, \underline{M}) = H^1_\etale(X, f_*\underline{M})
+$$
+However, $\tilde \zeta$ maps to zero in
+$H^1_\etale(X, \mathcal{I})$ as $\mathcal{I}$ is injective
+and by commutativity of
+$$
+\xymatrix{
+H^1_\etale(X, f_*\underline{M}) \ar[r] \ar[d] &
+H^1_\etale(X, \mathcal{I}) \ar[d] \\
+H^1_\etale(X_0, (f_*\underline{M})|_{X_0}) \ar[r] &
+H^1_\etale(X_0, \mathcal{I}|_{X_0})
+}
+$$
+we conclude that the image $\xi$ of $\zeta$ is zero as well.
 \end{proof}
 
 
@@ -12811,32 +12999,17 @@ Lemmas \ref{lemma-sandwich}, \ref{lemma-finite} and, \ref{lemma-composition}
 one more time we conclude that the lemma is true.
 \end{proof}
 
-\begin{lemma}
-\label{lemma-morphism-finite-type-bounded-dimension}
-Let $f : X \to Y$ be a morphism of finite type with $Y$ quasi-compact.
-Then the dimension of the fibres of $f$ is bounded.
-\end{lemma}
-
-\begin{proof}
-By Morphisms, Lemma \ref{morphisms-lemma-openness-bounded-dimension-fibres}
-the set $U_n \subset X$ of points where the dimension of the fibre
-is $\geq n$ is open. Since $f$ is of finite type, every point is
-contained in some $U_n$. Since $Y$ is quasi-compact and $f$ is of
-finite type, we see that $X$ is quasi-compact. Hence $X = U_n$ for
-some $n$.
-\end{proof}
-
 \begin{theorem}
 \label{theorem-proper-base-change}
 Let $f : X \to Y$ be a proper morphism of schemes. Let $g : Y' \to Y$ be
-a morphism of schemes giving rise to the cartesian diagram
+a morphism of schemes. Set $X' = Y' \times_Y X$
+and consider the cartesian diagram
 $$
 \xymatrix{
 X' \ar[r]_{g'} \ar[d]_{f'} & X \ar[d]^f \\
 Y' \ar[r]^g & Y
 }
 $$
-in the category of schemes.
 Let $\mathcal{F}$ be an abelian torsion sheaf on $X_\etale$.
 Then the base change map
 $$
@@ -12846,11 +13019,88 @@ is an isomorphism.
 \end{theorem}
 
 \begin{proof}
-The map is defined in
-Cohomology on Sites, Lemma
-\ref{sites-cohomology-lemma-base-change-map-flat-case}.
-We omit the proof.
+In the terminology introduced above, this means that cohomology commutes
+with base change for every proper morphism of schemes. By
+Lemma \ref{lemma-reduce-to-P1}
+it suffices to prove that cohomology commutes with base change
+for the morphism $\mathbf{P}^1_S \to S$ for every scheme $S$.
+
+\medskip\noindent
+Let $S$ be the spectrum of a strictly henselian local ring with closed
+point $s$. Set $X = \mathbf{P}^1_S$ and $X_0 = X_s = \mathbf{P}^1_s$.
+Let $\mathcal{F}$ be a sheaf of $\mathbf{Z}/\ell\mathbf{Z}$-modules
+on $X_\etale$. The key to our proof is that
+$$
+H^q_\etale(X, \mathcal{F}) = H^q_\etale(X_0, \mathcal{F}|_{X_0}).
+$$
+Namely, choose a resolution $\mathcal{F} \to \mathcal{I}^\bullet$
+by injective sheaves of $\mathbf{Z}/\ell\mathbf{Z}$-modules.
+Then $\mathcal{I}^\bullet|_{X_0}$ is a resolution of $\mathcal{F}|_{X_0}$
+by right $H^0_\etale(X_0, -)$-acyclic objects, see
+Lemma \ref{lemma-efface-cohomology-on-fibre-by-finite-cover}.
+Leray's acyclicity lemma tells us the right hand side is computed by
+the complex $H^0_\etale(X_0, \mathcal{I}^\bullet|_{X_0})$
+which is equal to $H^0_\etale(X, \mathcal{I}^\bullet)$ by
+Lemma \ref{lemma-h0-proper-over-henselian-local}. This complex
+computes the left hand side.
+
+\medskip\noindent
+Assume $S$ is general and $\mathcal{F}$ is a sheaf of
+$\mathbf{Z}/\ell\mathbf{Z}$-modules on $X_\etale$.
+Let $\overline{s} : \Spec(k) \to S$ be a geometric point
+of $S$ lying over $s \in S$. We have
+$$
+(R^qf_*\mathcal{F})_{\overline{s}} =
+H^q_\etale(\mathbf{P}^1_{\mathcal{O}_{S, \overline{s}}^{sh}},
+\mathcal{F}|_{\mathbf{P}^1_{\mathcal{O}_{S, \overline{s}}^{sh}}}) =
+H^q_\etale(\mathbf{P}^1_{\kappa(s)^{sep}},
+\mathcal{F}|_{\mathbf{P}^1_{\kappa(s)^{sep}}})
+$$
+where $\kappa(s)^{sep}$ is the residue field of
+$\mathcal{O}_{S, \overline{s}}^{sh}$, i.e., the separable algebraic
+closure of $\kappa(s)$ in $k$.
+The first equality by Theorem \ref{theorem-higher-direct-images}
+and the second equality by the displayed formula in the
+previous paragraph.
+
+\medskip\noindent
+Finally, consider any morphism of schemes $g : T \to S$ where
+$S$ and $\mathcal{F}$ are as above.
+Set $f' : \mathbf{P}^1_T \to T$ the projection and let
+$g' : \mathbf{P}^1_T \to \mathbf{P}^1_T$ the morphism induced
+by $g$. Consider the base change map
+$$
+g^{-1}R^qf_*\mathcal{F}
+\longrightarrow
+R^qf'_*(g')^{-1}\mathcal{F}
+$$
+Let $\overline{t}$ be a geometric point of $T$ with image
+$\overline{s} = g(\overline{t})$. By our discussion
+above the map on stalks at $\overline{t}$ is the map
+$$
+H^q_\etale(\mathbf{P}^1_{\kappa(s)^{sep}},
+\mathcal{F}|_{\mathbf{P}^1_{\kappa(s)^{sep}}})
+\longrightarrow
+H^q_\etale(\mathbf{P}^1_{\kappa(t)^{sep}},
+\mathcal{F}|_{\mathbf{P}^1_{\kappa(t)^{sep}}})
+$$
+Since $\kappa(s)^{sep} \subset \kappa(t)^{sep}$ this map is an
+isomorphism by Lemma \ref{lemma-base-change-dim-1-separably-closed}.
+
+\medskip\noindent
+This proves cohomology commutes with base change for
+$\mathbf{P}^1_S \to S$ and sheaves of $\mathbf{Z}/\ell\mathbf{Z}$-modules.
+In particular, for an injective sheaf of $\mathbf{Z}/\ell\mathbf{Z}$-modules
+the higher direct images of any base change are zero.
+In other words, condition (2) of
+Lemma \ref{lemma-proper-base-change-in-terms-of-injectives}
+holds and the proof is complete.
 \end{proof}
+
+
+
+\section{Applications of proper base change}
+\label{section-applications-proper-base-change}
 
 \noindent
 As an application of the proper base change theorem we obtain the following.
@@ -12872,6 +13122,21 @@ above $2\dim X$. By the proper base change theorem and d\'evissage
 one can reduce to the case where the dimension of $X$ is $1$.
 The case of curves is Theorem \ref{theorem-vanishing-curves}.
 See also Remarks \ref{remarks-on-above}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-morphism-finite-type-bounded-dimension}
+Let $f : X \to Y$ be a morphism of finite type with $Y$ quasi-compact.
+Then the dimension of the fibres of $f$ is bounded.
+\end{lemma}
+
+\begin{proof}
+By Morphisms, Lemma \ref{morphisms-lemma-openness-bounded-dimension-fibres}
+the set $U_n \subset X$ of points where the dimension of the fibre
+is $\geq n$ is open. Since $f$ is of finite type, every point is
+contained in some $U_n$. Since $Y$ is quasi-compact and $f$ is of
+finite type, we see that $X$ is quasi-compact. Hence $X = U_n$ for
+some $n$.
 \end{proof}
 
 
