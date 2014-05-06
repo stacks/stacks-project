@@ -1303,8 +1303,8 @@ for all $n \in \mathbf{Z}$.
 
 \begin{lemma}
 \label{lemma-compose}
-Let $R$ be a ring. Given complexes $K, L, M$ of $R$-modules there
-is a canonical isomorphism
+Let $R$ be a ring. Given complexes $K^\bullet, L^\bullet, M^\bullet$
+of $R$-modules there is a canonical isomorphism
 $$
 \Hom^\bullet(K^\bullet, \Hom^\bullet(L^\bullet, M^\bullet))
 =
@@ -1318,17 +1318,17 @@ Let $\alpha$ be an element of degree $n$ on the left hand side.
 Thus
 $$
 \alpha = (\alpha^{p, q}) \in
-\prod\nolimits_{p + q = n} \Hom_A(K^{-q}, \Hom^p(L^\bullet, M^\bullet))
+\prod\nolimits_{p + q = n} \Hom_R(K^{-q}, \Hom^p(L^\bullet, M^\bullet))
 $$
 Each $\alpha^{p, q}$ is an element
 $$
 \alpha^{p, q} = (\alpha^{r, s, q}) \in
-\prod\nolimits_{r + s + q = n} \Hom_A(K^{-q}, \Hom_A(L^{-s}, M^r))
+\prod\nolimits_{r + s + q = n} \Hom_R(K^{-q}, \Hom_R(L^{-s}, M^r))
 $$
 If we make the identifications
 \begin{equation}
 \label{equation-identification}
-\Hom_A(K^{-q}, \Hom_A(L^{-s}, M^r)) = \Hom_A(K^{-q} \otimes_A L^{-s}, M^r)
+\Hom_R(K^{-q}, \Hom_R(L^{-s}, M^r)) = \Hom_R(K^{-q} \otimes_R L^{-s}, M^r)
 \end{equation}
 then by our sign rules we get
 \begin{align*}
@@ -1345,7 +1345,7 @@ On the other hand, if $\beta$ is an element of degree $n$ of
 the right hand side, then
 $$
 \beta = (\beta^{r, s, q}) \in \prod\nolimits_{r + s + q = n}
-\Hom_A(K^{-q} \otimes_A L^{-s}, M^r)
+\Hom_R(K^{-q} \otimes_R L^{-s}, M^r)
 $$
 and by our sign rule (Homology, Definition
 \ref{homology-definition-associated-simple-complex}) we get
@@ -1364,6 +1364,140 @@ and by our sign rule (Homology, Definition
 Thus we see that the map induced by the identifications
 (\ref{equation-identification}) indeed is a morphism of complexes.
 \end{proof}
+
+\begin{lemma}
+\label{lemma-evaluate-and-more}
+Let $R$ be a ring. Given complexes $K^\bullet, L^\bullet, M^\bullet$
+of $R$-modules there is a canonical morphism
+$$
+\text{Tot}(\Hom^\bullet(L^\bullet, M^\bullet) \otimes_R K^\bullet)
+\longrightarrow
+\Hom^\bullet(\Hom^\bullet(K^\bullet, L^\bullet), M^\bullet)
+$$
+of complexes of $R$-modules functorial in all three complexes.
+\end{lemma}
+
+\begin{proof}
+Consider an element $\beta$ of degree $n$ of the right hand side.
+Then
+$$
+\beta = (\beta^{p, q}) \in
+\prod\nolimits_{p + q = n} \Hom_R(\Hom^{-q}(K^\bullet, L^\bullet), M^p)
+$$
+Each $\beta^{p, q}$ is an element
+$$
+\beta^{p, q} = (\beta^{p, r, s}) \in
+\prod\nolimits_{p + r + s = n} \Hom_R(\Hom_R(K^s, L^{-r}), M^p)
+$$
+We can apply the differentials $\text{d}_M$ and
+$\text{d}_{\Hom^\bullet(K^\bullet, L^\bullet)}$
+to the element $\beta^{p, q}$ and we can apply the
+differentials $\text{d}_K$, $\text{d}_L$, $\text{d}_M$
+to the element $\beta^{p, r, s}$. We omit the precise definitions.
+The our sign rules tell us that
+\begin{align*}
+\text{d}(\beta^{p, r, s})
+& =
+\text{d}_M(\beta^{p, r, s})
+- (-1)^n \text{d}_{\Hom^\bullet(K^\bullet, L^\bullet)}(\beta^{p, r, s}) \\
+& =
+\text{d}_M(\beta^{p, r, s})
+- (-1)^n \left(
+\text{d}_L(\beta^{p, r, s}) - (-1)^{r + s} \text{d}_K(\beta^{p, r, s})
+\right) \\
+& =
+\text{d}_M(\beta^{p, r, s})
+- (-1)^n \text{d}_L(\beta^{p, r, s})
++ (-1)^p \text{d}_K(\beta^{p, r, s})
+\end{align*}
+On the other hand, an element $\alpha$
+of degree $n$ of the left hand side looks like
+$$
+\alpha = (\alpha^{t, s}) \in
+\bigoplus\nolimits_{t + s = n} \Hom^t(L^\bullet, M^\bullet) \otimes K^s
+$$
+Each $\alpha^{t, s}$ is an element
+$$
+\alpha^{t, s} = (\alpha^{p, r, s}) \in
+\prod\nolimits_{p + r + s = n} \Hom_R(L^{-r}, M^p) \otimes_R K^s
+$$
+By our sign rules and with conventions as above we get
+\begin{align*}
+\text{d}(\alpha^{p, r, s})
+& =
+\text{d}_{\Hom^\bullet(L^\bullet, M^\bullet)}(\alpha^{p, r, s})
++ (-1)^{p + r} \text{d}_K(\alpha^{p, r, s}) \\
+& =
+\text{d}_M(\alpha^{p, r, s})
+- (-1)^{p + r} \text{d}_L(\alpha^{p, r, s})  +
+(-1)^{p + r} \text{d}_K(\alpha^{p, r, s})
+\end{align*}
+To define our map we will use the canonical maps
+$$
+c_{p, r, s} : 
+\Hom_R(L^{-r}, M^p) \otimes_R K^s
+\longrightarrow
+\Hom_R(\Hom_R(K^s, L^{-r}), M^p)
+$$
+which sends $\varphi \otimes k$ to the map $\psi \mapsto \varphi(\psi(k))$.
+This is functorial in all three variables.
+However, since the signs above do not match we need to use instead
+some map
+$$
+\epsilon_{p, r, s} c_{p, r, s}
+$$
+for some sign $\epsilon_{p, r, s}$. Looking at the signs above we
+find that we need to find a solution for the equations
+$$
+\epsilon_{p, r, s} = \epsilon_{p + 1, r, s}, \quad
+\epsilon_{p, r, s} (-1)^s = \epsilon_{p, r + 1, s}, \quad
+\epsilon_{p, r, s} (-1)^r = \epsilon_{p, r, s + 1}
+$$
+A good solution is to take $\epsilon_{p, r, s} = (-1)^{rs}$.
+The choice of this sign is explained in the remark following
+the proof.
+\end{proof}
+
+\begin{remark}
+\label{remark-sign-explanation}
+In the yoga of super vector spaces the sign used in the proof
+of Lemma \ref{lemma-evaluate-and-more} above can be explained
+as follows. A super vector space is just a vector space
+$V$ which comes with a direct sum decomposition $V = V^+ \oplus V^-$.
+Here we think of the element of $V^+$ as the even element
+and the elements of $V^-$ as the odd ones. Given two super
+vector spaces $V$ and $W$ we set
+$$
+(V \otimes W)^+ = (V^+ \otimes W^+) \oplus (V^- \otimes W^-)
+$$
+and similarly for the odd part. In the category of super vectors the
+isomorphism
+$$
+V \otimes W \longrightarrow W \otimes V
+$$
+is defined to be the usual one, except that on the summand
+$V^- \otimes W^-$ we use the negative of the usual identification.
+In this way we obtain a tensor category (where $\otimes$ is symmetric
+and associative with $1$). The category of super vector spaces has
+an internal hom which we denote $V^\vee$. One checks that the
+canonical isomorphisms $\Hom(V, W) = W \otimes V^\vee$
+and $\Hom(V, W)^\vee = V^\vee \otimes W$ do not involve signs.
+Finally, given three super vector spaces
+$U$, $V$, $W$ we can consider the analogue
+$$
+c : \Hom(V, W) \otimes U \longrightarrow \Hom(\Hom(U, V), W)
+$$
+of the maps $c_{p, r, s}$ which occur in the lemma above.
+Using the formulae given above (which do not involve signs)
+this becomes a map
+$$
+W \otimes V^\vee \otimes U
+\longrightarrow
+W \otimes U \otimes V^\vee
+$$
+which involves a $(-1)$ on elements $w \otimes v^\vee \otimes u$
+if $v^\vee$ and $u$ are odd.
+\end{remark}
 
 \noindent
 The derived hom functor is an internal hom in the derived category of
