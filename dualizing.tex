@@ -284,10 +284,36 @@ using the injectivity of the modules $E_{i_j}$.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-localization-injective-modules}
+Let $R$ be a Noetherian ring. Let $S \subset R$ be a multiplicative
+subset. If $E$ is an injective $R$-module, then $S^{-1}E$ is an
+injective $S^{-1}R$-module.
+\end{lemma}
+
+\begin{proof}
+Since $R \to S^{-1}R$ is an epimorphism of rings, it suffices
+to show that $S^{-1}E$ is injective as an $R$-module, see
+Lemma \ref{lemma-injective-epimorphism}.
+To show this we use Lemma \ref{lemma-characterize-injective}.
+Thus let $I \subset R$ be an ideal and let
+$\varphi : I \to S^{-1} E$ be an $R$-module map.
+As $I$ is a finitely presented $R$-module (because $R$ is Noetherian)
+we can find find an $f \in S$ and an $R$-module map $I \to E$
+such that $f\varphi$ is the composition $I \to E \to S^{-1}E$
+(Algebra, Lemma \ref{algebra-lemma-hom-from-finitely-presented}).
+Then we can extend $I \to E$ to a homomorphism $R \to E$.
+Then the composition
+$$
+R \to E \to S^{-1}E \xrightarrow{f^{-1}} S^{-1}E
+$$
+is the desired extension of $\varphi$ to $R$.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-injective-module-divide}
 Let $R$ be a Noetherian ring. Let $I$ be an injective $R$-module.
 \begin{enumerate}
-\item Let $f \in R$. Then $E = \{x \in I \mid \exists\ n,\ f^n x  = 0\}$
+\item Let $f \in R$. Then $E = \bigcup I[f^n] = I[f^\infty]$
 is an injective submodule of $I$.
 \item Let $J \subset R$ be an ideal. Then the $J$-power torsion
 submodule $I[J^\infty]$ is an injective submodule of $I$.
@@ -1064,22 +1090,32 @@ commutes with base change.
 
 
 
-\section{Sections with support in a closed subscheme}
-\label{section-sections-with-exact-support}
+\section{Elements annihilated by an ideal}
+\label{section-annihilated}
 
 \noindent
-Let $A$ be a ring and let $I \subset A$ be a finitely generated ideal
-(if $I$ is not finitely generated perhaps a different definition
-should be used). Set $B = A/I$. Consider the functor
+Let $A$ be a ring and let $I \subset A$ be an ideal. Set $B = A/I$.
+Consider the functor
 $$
 \Hom(B, -) : \text{Mod}_A \longrightarrow \text{Mod}_B,\quad
 M \longmapsto M[I] = \Hom_A(B, M)
 $$
-which sends $M$ to the submodule of $I$-torsion.
-This functor is left exact and has a derived extension
-$R\Hom(B, -) : D(A) \to D(B)$. Note that for every $K \in D(A)$
-there is a canonical map $i_*R\Hom(B, K) \to K$ where
+which sends $M$ to the submodule of $I$-torsion. This functor is left exact
+and has a derived extension $R\Hom(B, -) : D(A) \to D(B)$. Note that for
+every $K \in D(A)$ there is a canonical map $i_*R\Hom(B, K) \to K$ where
 $i_* : D(B) \to D(A)$ is the obvious functor.
+
+\begin{lemma}
+\label{lemma-exact-support-adjoint}
+With notation as above. The functor $R\Hom(B, -)$ is the
+right adjoint to the functor $i_* : D(B) \to D(A)$.
+\end{lemma}
+
+\begin{proof}
+This is a consequence of the fact that $i_*$ and $\Hom_A(B, -)$ are
+adjoint functors. See
+Derived Categories, Lemma \ref{derived-lemma-derived-adjoint-functors}.
+\end{proof}
 
 \begin{lemma}
 \label{lemma-exact-support-ext}
@@ -1093,6 +1129,39 @@ as $A$-modules (the left hand side starts out as a $B$-module).
 \begin{proof}
 Omitted.
 \end{proof}
+
+\noindent
+Let $A$ be a Noetherian ring. We will denote
+$$
+D_{Coh}(A) \subset D(A)
+$$
+the full subcategory consisting of those objects $K$ of $D(A)$
+whose cohomology modules are all finite $A$-modules. This makes sense
+by Derived Categories, Section \ref{derived-section-triangulated-sub}
+because as $A$ is Noetherian, the subcategory of finite $A$-modules
+is a Serre subcategory of $\text{Mod}_A$.
+
+\begin{lemma}
+\label{lemma-exact-support-coherent}
+With notation as above, assume $A$ is Noetherian. Then $R\Hom(B, -)$ maps
+$D^+_{\textit{Coh}}(A)$ into $D^+_{\textit{Coh}}(B)$.
+\end{lemma}
+
+\begin{proof}
+We have to show: if $K \in D^+(A)$ has finite cohomology modules, then the
+complex $R\Hom(B, K)$ has finite cohomology modules too.
+This follows for example from Lemma \ref{lemma-exact-support-ext}
+by computing the ext modules $\text{Ext}^i_A(B, K)$ by
+resolving $B$ by finite free $A$-modules. Details omitted.
+\end{proof}
+
+
+
+
+
+
+\section{Sections with support in a closed subscheme}
+\label{section-sections-with-exact-support}
 
 \noindent
 Let $X$ be a scheme and let $Z \subset X$ be a closed subscheme
@@ -1184,7 +1253,7 @@ $$
 \xymatrix{
 D^+(B) \ar[r] & D_\QCoh^+(\mathcal{O}_Z) \\
 D^+(A) \ar[r] \ar[u]^{R\Hom(B, -)} &
-D_\QCoh^+(\mathcal{O}_Z) \ar[u]_{R\SheafHom(\mathcal{O}_Z, -)}
+D_\QCoh^+(\mathcal{O}_X) \ar[u]_{R\SheafHom(\mathcal{O}_Z, -)}
 }
 $$
 is commutative.
@@ -1197,8 +1266,7 @@ $i$ is pseudo-coherent by
 More on Morphisms, Lemma \ref{more-morphisms-lemma-Noetherian-pseudo-coherent}.
 
 \medskip\noindent
-Let $K$ be an object of $D^+_\QCoh(\mathcal{O}_X)$.
-To prove (1), by
+Let $K$ be an object of $D^+_\QCoh(\mathcal{O}_X)$. To prove (1), by
 Morphisms, Lemma \ref{morphisms-lemma-i-star-equivalence}
 it suffices to show that $i_*$ applied to
 $H^n(R\SheafHom(\mathcal{O}_Z, K))$ produces a
@@ -1216,8 +1284,35 @@ Assume $X = \Spec(A)$ and $Z = \Spec(B)$ as in (2).
 Let $I^\bullet$ be a bounded below complex of injective $A$-modules
 representing an object $K$ of $D^+(A)$.
 Then we know that $R\Hom(B, K) = \Hom_A(B, I^\bullet)$ viewed
-as a complex of $B$-modules.
-TO BE CONTINUED.
+as a complex of $B$-modules. Choose a quasi-isomorphism
+$$
+\widetilde{I^\bullet} \longrightarrow \mathcal{I}^\bullet
+$$
+where $\mathcal{I}^\bullet$ is a bounded below complex of injective
+$\mathcal{O}_X$-modules. It follows from the description of
+the functor $\SheafHom(\mathcal{O}_Z, -)$ in
+Lemma \ref{lemma-compute-sheaf-with-exact-support}
+that there is a map
+$$
+\Hom_A(B, I^\bullet)
+\longrightarrow
+\Gamma(Z, \SheafHom(\mathcal{O}_Z, \mathcal{I}^\bullet))
+$$
+Observe that $\SheafHom(\mathcal{O}_Z, \mathcal{I}^\bullet)$
+represents $R\SheafHom(\mathcal{O}_Z, \widetilde{K})$.
+Applying the universal property of the $\widetilde{\ }$ functor we
+obtain a map
+$$
+\widetilde{\Hom_A(B, I^\bullet)}
+\longrightarrow
+R\SheafHom(\mathcal{O}_Z, \widetilde{K})
+$$
+in $D(\mathcal{O}_Z)$. We may check that this map is an isomorphism in
+$D(\mathcal{O}_Z)$ after applying $i_*$. However, once we apply
+$i_*$ we obtain the isomorphism of Derived Categories of Schemes,
+Lemma \ref{perfect-lemma-quasi-coherence-internal-hom}
+via the identification of
+Lemma \ref{lemma-sheaf-with-exact-support-ext}.
 \end{proof}
 
 \begin{lemma}
@@ -1228,12 +1323,19 @@ into $D^+_{\textit{Coh}}(\mathcal{O}_Z)$.
 \end{lemma}
 
 \begin{proof}
-Let $K$ be an object of $D^+_{\textit{Coh}}(\mathcal{O}_X)$.
-By Cohomology of Schemes, Lemma \ref{coherent-lemma-i-star-equivalence}
-it suffices to show that $i_*$ applied to
-$H^n(R\SheafHom(\mathcal{O}_Z, K))$ produces a coherent module on $X$.
-TO BE CONTINUED.
+The question is local on $X$, hence we may assume that $X$ is affine.
+Say $X = \Spec(A)$ and $Z = \Spec(B)$ with $A$ Noetherian and
+$A \to B$ surjective. In this case, we can apply
+Lemma \ref{lemma-sheaf-with-exact-support-quasi-coherent}
+to translate the question into algebra.
+The corresponding algebra result is
+Lemma \ref{lemma-exact-support-coherent}.
 \end{proof}
+
+
+
+
+
 
 
 \section{Dualizing complexes}
@@ -1241,15 +1343,6 @@ TO BE CONTINUED.
 
 \noindent
 In this section we define dualizing complexes for Noetherian rings.
-Let $A$ be a Noetherian ring. We will denote
-$$
-D_{Coh}(A) \subset D(A)
-$$
-the full subcategory consisting of those objects $K$ of $D(A)$
-whose cohomology modules are all finite $A$-modules. This makes sense
-by Derived Categories, Section \ref{derived-section-triangulated-sub}
-because as $A$ is Noetherian, the subcategory of finite $A$-modules
-is a Serre subcategory of $\text{Mod}_A$.
 
 \begin{definition}
 \label{definition-dualizing}
@@ -1273,11 +1366,12 @@ the proofs.
 Let $A$ be a Noetherian ring. If $\omega_A^\bullet$ is a dualizing
 complex, then the functor
 $$
-K \longrightarrow R\Hom(K, \omega_A^\bullet)
+D : K \longmapsto R\Hom(K, \omega_A^\bullet)
 $$
 is an anti-equivalence $D_{\textit{Coh}}(A) \to D_{\textit{Coh}}(A)$
 which exchanges $D^+_{\textit{Coh}}(A)$ and $D^-_{\textit{Coh}}(A)$
 and induces an equivalence $D^b_{\textit{Coh}}(A) \to D^b_{\textit{Coh}}(A)$.
+Moreover $D \circ D$ is isomorphic to the identity functor.
 \end{lemma}
 
 \begin{proof}
@@ -1423,7 +1517,8 @@ $F(A)_f$ is isomorphic to $A_f[-a]$. This finishes the proof.
 \label{lemma-dualizing-unique}
 Let $A$ be a Noetherian ring. If $\omega_A^\bullet$ and
 $(\omega'_A)^\bullet$ are dualizing complexes, then
-$(\omega'_A)^\bullet \cong \omega_A^\bullet \otimes_A^\mathbf{L} L$
+$(\omega'_A)^\bullet$ is quasi-isomorphic to
+$\omega_A^\bullet \otimes_A^\mathbf{L} L$
 for some invertible object $L$ of $D(A)$.
 \end{lemma}
 
@@ -1458,7 +1553,53 @@ complex for $B$.
 \end{lemma}
 
 \begin{proof}
-Omitted.
+Let $\omega_A^\bullet \to I^\bullet$ be a quasi-isomorphism
+with $I^\bullet$ a bounded complex of injectives.
+Then $S^{-1}I^\bullet$ is a bounded complex of injective
+$B = S^{-1}A$-modules (Lemma \ref{lemma-localization-injective-modules})
+representing $\omega_A^\bullet \otimes_A B$.
+Thus $\omega_A^\bullet \otimes_A B$ has finite injective dimension.
+Since $H^i(\omega_A^\bullet \otimes_A B) = H^i(\omega_A^\bullet) \otimes_A B$
+by flatness of $A \to B$ we see that $\omega_A^\bullet \otimes_A B$
+has finite cohomology modules. Finally, the map
+$$
+B \longrightarrow
+R\Hom(\omega_A^\bullet \otimes_A B, \omega_A^\bullet \otimes_A B)
+$$
+is a quasi-isomorphism as formation of internal hom commutes with
+flat base change in this case, see
+More on Algebra, Lemma \ref{more-algebra-lemma-base-change-RHom}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-dualizing-quotient}
+Let $A \to B$ be a surjective homomorphism of Noetherian rings.
+Let $\omega_A^\bullet$ be a dualizing complex.
+Then $R\Hom(B, \omega_A^\bullet)$ is a dualizing complex for $B$.
+\end{lemma}
+
+\begin{proof}
+Let $\omega_A^\bullet \to I^\bullet$ be a quasi-isomorphism
+with $I^\bullet$ a bounded complex of injectives.
+Then $\Hom_A(B, I^\bullet)$ is a bounded complex of injective
+$B$-modules (Lemma \ref{lemma-hom-injective}) representing
+$R\Hom(B, \omega_A^\bullet)$.
+Thus $R\Hom(B, \omega_A^\bullet)$ has finite injective dimension.
+By Lemma \ref{lemma-exact-support-coherent} it is an object of
+$D_{\textit{Coh}}(B)$. Finally, we compute
+$$
+\Hom_{D(B)}(R\Hom(B, \omega_A^\bullet), R\Hom(B, \omega_A^\bullet)) =
+\Hom_{D(A)}(R\Hom(B, \omega_A^\bullet), \omega_A^\bullet) = B
+$$
+and for $n \not = 0$ we compute
+$$
+\Hom_{D(B)}(R\Hom(B, \omega_A^\bullet), R\Hom(B, \omega_A^\bullet)[n]) =
+\Hom_{D(A)}(R\Hom(B, \omega_A^\bullet), \omega_A^\bullet[n]) = 0
+$$
+which proves the last property of a dualizing complex.
+In the displayed equations, the first
+equality holds by Lemma \ref{lemma-exact-support-adjoint}
+and the second equality holds by Lemma \ref{lemma-dualizing}.
 \end{proof}
 
 
