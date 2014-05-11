@@ -11239,7 +11239,7 @@ $$
 \prod\nolimits_{n = p + q} \Hom_R(L^{-q}, M^p)
 $$
 It is a good idea to think of $\Hom^n$ as the $R$-module of all $R$-linear
-maps from $L^\bullet$ to $I^\bullet$ (viewed as graded modules)
+maps from $L^\bullet$ to $M^\bullet$ (viewed as graded modules)
 which are homogenous of degree $n$. In this terminology, we define the
 differential by the rule
 $$
@@ -11318,6 +11318,70 @@ and by our sign rule (Homology, Definition
 \end{align*}
 Thus we see that the map induced by the identifications
 (\ref{equation-identification}) indeed is a morphism of complexes.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-composition}
+Let $R$ be a ring. Given complexes
+$K^\bullet, L^\bullet, M^\bullet$
+of $R$-modules there is a canonical morphism
+$$
+\text{Tot}\left(
+\Hom^\bullet(L^\bullet, M^\bullet) \otimes_R \Hom^\bullet(K^\bullet, L^\bullet)
+\right)
+\longrightarrow
+\Hom^\bullet(K^\bullet, M^\bullet)
+$$
+of complexes of $R$-modules.
+\end{lemma}
+
+\begin{proof}
+An element $\alpha$ of degree $n$ of the left hand side is
+$$
+\alpha = (\alpha^{p, q}) \in \bigoplus\nolimits_{p + q = n}
+\Hom^p(L^\bullet, M^\bullet) \otimes_R \Hom^q(K^\bullet, L^\bullet)
+$$
+The element $\alpha^{p, q}$ is a finite sum
+$\alpha^{p, q} = \sum \beta^p_i \otimes \gamma^q_i$
+with
+$$
+\beta^p_i = (\beta^{r, s}_i)
+\in \prod\nolimits_{r + s = p} \Hom_R(L^{-s}, M^r)
+$$
+and
+$$
+\gamma^q_i = (\gamma^{u, v}_i)
+\in \prod\nolimits_{u + v = q} \Hom_R(K^{-v}, L^u)
+$$
+The map is given by sending $\alpha$ to
+$\delta = (\delta^{r, v})$ with
+$$
+\delta^{r, v} =
+\sum\nolimits_{i, s}  \beta^{r, s}_i
+\circ \gamma^{-s, v}_i
+\in \Hom_R(K^{-v}, M^r)
+$$
+For given $r + v = n$ this sum is finite as there are only finitely many
+nonzero $\alpha^{p, q}$, hence only finitely many nonzero
+$\beta^p_i$ and $\gamma^q_i$.
+By our sign rules we have
+\begin{align*}
+\text{d}(\alpha^{p, q})
+& =
+\text{d}_{\Hom^\bullet(L^\bullet, M^\bullet)}(\alpha^{p, q})
++ (-1)^p \text{d}_{\Hom^\bullet(K^\bullet, L^\bullet)}(\alpha^{p, q}) \\
+& =
+\sum \Big( \text{d}_M \circ \beta^p_i \circ \gamma^q_i
+- (-1)^p \beta^p_i \circ \text{d}_L \circ \gamma^q_i \Big) \\
+&
+\quad + (-1)^p \sum \Big( \beta^p_i \circ \text{d}_L \circ \gamma^q_i
+- (-1)^q \beta^p_i \circ \gamma^q_i \circ \text{d}_K \Big) \\
+& =
+\sum \Big( \text{d}_M \circ \beta^p_i \circ \gamma^q_i 
+-(-1)^n \beta^p_i \circ \gamma^q_i \circ \text{d}_K \Big)
+\end{align*}
+It follows that the rules $\alpha \mapsto \delta$ is compatible
+with differentials and the lemma is proved.
 \end{proof}
 
 \begin{lemma}
@@ -11604,6 +11668,35 @@ this is functorial in all three objects of $D(R)$.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-internal-hom-composition}
+Let $R$ be a ring. Given $K, L, M$ in $D(R)$ there is a canonical morphism
+$$
+R\Hom(L, M) \otimes_R^\mathbf{L} R\Hom(K, L) \longrightarrow R\Hom(K, M)
+$$
+in $D(R)$.
+\end{lemma}
+
+\begin{proof}
+In general (without suitable finiteness conditions) we do not see how to
+get this map from Lemma \ref{lemma-composition}. Instead, we use the maps
+$$
+\xymatrix{
+R\Hom(L, M) \otimes_R^\mathbf{L} R\Hom(K, L) \otimes_R^\mathbf{L} K \ar[d] \\
+R\Hom(R\Hom(K, L), M) \otimes_R^\mathbf{L} R\Hom(K, L) \ar[d] \\
+M
+}
+$$
+gotten by applying Lemma \ref{lemma-internal-hom-evaluate} twice.
+Finally, we use Lemma \ref{lemma-internal-hom}
+to translate the composition
+$$
+R\Hom(L, M) \otimes_R^\mathbf{L} R\Hom(K, L) \otimes_R^\mathbf{L} K
+\longrightarrow M
+$$
+into a map as in the statement of the lemma.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-internal-hom-evaluate-isomorphism}
 Let $R$ be a ring. Let $K, L, M$ be objects of $D(R)$.
 the map
@@ -11743,8 +11836,16 @@ in $D(R)$ functorial in both $K$ and $L$.
 \end{lemma}
 
 \begin{proof}
-Apply Lemma \ref{lemma-diagonal} to suitable representatives.
-Details omitted.
+Choose a K-flat complexes $K^\bullet$ and $L^\bullet$ representing $K$
+and $L$. Choose a quasi-isomorphism
+$\text{Tot}(K^\bullet \otimes_R L^\bullet) \to I^\bullet$
+where $I^\bullet$ is K-injective. Then we use the map
+$$
+K^\bullet \to
+\Hom^\bullet(L^\bullet, \text{Tot}(K^\bullet \otimes_R L^\bullet))
+\to \Hom^\bullet(L^\bullet, I^\bullet)
+$$
+where the first map is the map from Lemma \ref{lemma-diagonal}.
 \end{proof}
 
 
