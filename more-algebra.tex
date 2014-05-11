@@ -11454,6 +11454,48 @@ which involves a $(-1)$ on elements $w \otimes v^\vee \otimes u$
 if $v^\vee$ and $u$ are odd.
 \end{remark}
 
+\begin{lemma}
+\label{lemma-diagonal}
+Let $R$ be a ring. Given complexes $K^\bullet, L^\bullet$
+of $R$-modules there is a canonical morphism
+$$
+K^\bullet
+\longrightarrow
+\Hom^\bullet(L^\bullet, \text{Tot}(K^\bullet \otimes_R L^\bullet))
+$$
+of complexes of $R$-modules functorial in both complexes.
+\end{lemma}
+
+\begin{proof}
+Let $\alpha$ be an element of degree $n$ of the right hand side.
+Thus
+$$
+\alpha = (\alpha^{p, q}) \in \prod\nolimits_{p + q = n}
+\Hom_R(L^{-q}, \text{Tot}^p(K^\bullet \otimes_R L^\bullet))
+$$
+Each $\alpha^{p, q}$ is an element
+$$
+\alpha^{p, q} = (\alpha^{r, s, q}) \in
+\bigoplus\nolimits_{r + s + q = n} \Hom_R(L^{-q}, K^r \otimes_R L^s)
+$$
+By our sign rules we get
+\begin{align*}
+\text{d}(\alpha^{r, s, q})
+& =
+\text{d}_{\text{Tot}(K^\bullet \otimes_R L^\bullet)} \circ \alpha^{r, s, q}
+- (-1)^n \alpha^{r, s, q} \circ \text{d}_L \\
+& =
+\text{d}_K \circ \alpha^{r, s, q} + (-1)^r \text{d}_L \circ \alpha^{r, s, q}
+- (-1)^n \alpha^{r, s, q} \circ \text{d}_L
+\end{align*}
+Now an element $\beta \in K^n$ we send to $\alpha$ with
+$\alpha^{n, n - q, q} = \beta \otimes \text{id}_{L^{-q}}$
+and $\alpha^{r, s, q} = 0$ if $r \not = n$. This is indeed
+an element as above, as for fixed $q$ there is only one nonzero
+$\alpha^{r, s, q}$. The description of
+the differential shows this is compatible with differentials.
+\end{proof}
+
 \noindent
 The derived hom functor is an internal hom in the derived category of
 $R$-modules in the sense that it is characterized by the formula
@@ -11688,6 +11730,21 @@ as the products in the definition of $\Hom^\bullet(K^\bullet, L^\bullet)$
 are finite (whence commute with tensor products)
 by the boundedness properties of the complexes $K^\bullet$
 and $L^\bullet$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-internal-hom-diagonal}
+Let $R$ be a ring. Given complexes $K, L$ in $D(R)$
+there is a canonical morphism
+$$
+K \longrightarrow R\Hom(L, K \otimes_R^\mathbf{L} L)
+$$
+in $D(R)$ functorial in both $K$ and $L$.
+\end{lemma}
+
+\begin{proof}
+Apply Lemma \ref{lemma-diagonal} to suitable representatives.
+Details omitted.
 \end{proof}
 
 
@@ -15558,29 +15615,7 @@ $R\Hom(A_f, R\Hom(A_g, K)) = R\Hom(A_{fg}, K)$.
 \end{lemma}
 
 \begin{proof}
-Choose a K-injective complex $I^\bullet$ representing $K$. Then
-$\Hom_A(A_g, I^\bullet)$ represents $R\Hom(A_g, K)$. Note that
-$\Hom_A(A_g, I^\bullet)$ is a K-injective complex of $A_g$-modules
-by Lemma \ref{lemma-hom-K-injective}.
-Hence $\Hom_A(A_g, I^\bullet)$ is a K-injective complex of $A$-modules
-by Lemma \ref{lemma-K-injective-flat}.
-Thus $R\Hom(A_f, R\Hom(A_g, K))$ is represented by the complex
-$\Hom_A(A_f, \Hom_A(A_g, I^\bullet))$. For $A$-any module $M$
-the canonical map
-$$
-\Hom_A(A_{fg}, M) \longrightarrow
-\Hom_A(A_f, \Hom_A(A_g, M))
-$$
-which sends $\varphi$ to the map
-$(a/f^n \mapsto (b/g^m \mapsto \varphi(ab/f^ng^m)))$
-is an isomorphism. Thus we see that
-$$
-\Hom_A(A_{fg}, I^\bullet) \longrightarrow
-\Hom_A(A_f, \Hom_A(A_g, I^\bullet))
-$$
-is an isomorphism. The statement of the lemma follows
-as the left hand side represents
-$R\Hom(A_{fg}, K)$.
+This follows from Lemma \ref{lemma-internal-hom}.
 \end{proof}
 
 \begin{lemma}
@@ -15688,6 +15723,31 @@ Indeed, in this case the $R\Hom(K, L)$ is zero for any derived complete
 complex $L$, see
 Lemma \ref{lemma-hom-from-Af}. Hence $K^\wedge$ is zero by the
 universal property in Lemma \ref{lemma-derived-completion}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-completion-RHom}
+Let $A$ be a ring and let $I \subset A$ be a finitely generated ideal.
+Let $K, L \in D(A)$. Then
+$$
+R\Hom(K, L)^\wedge = R\Hom(K, L^\wedge) = R\Hom(K^\wedge, L^\wedge)
+$$
+\end{lemma}
+
+\begin{proof}
+By Lemma \ref{lemma-derived-completion} we know that derived completion is
+given by $R\Hom(C, -)$ for some $C \in D(A)$. Then
+$$
+R\Hom(C, R\Hom(K, L)) = R\Hom(C \otimes^\mathbf{L} K, L) =
+R\Hom(K, R\Hom(C, L))
+$$
+by Lemma \ref{lemma-internal-hom}. This proves the first equation.
+The map $K \to K^\wedge$ induces a map
+$$
+R\Hom(K^\wedge, L^\wedge) \to R\Hom(K, L^\wedge)
+$$
+which is an isomorphism in $D(A)$ by definition of the derived completion
+as the left adjoint to the inclusion functor.
 \end{proof}
 
 \noindent
