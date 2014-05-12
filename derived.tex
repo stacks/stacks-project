@@ -2073,8 +2073,76 @@ $H' : \mathcal{D}' \to \mathcal{A}$ such that $H \cong H' \circ F$, then
 $F$ factors through the quotient functor
 $Q : \mathcal{D} \to \mathcal{D}/\Ker(H)$.
 
-\medskip\noindent
-We put the following lemma here for lack of a better spot to put it in.
+
+
+
+
+
+
+\section{Adjoints for exact functors}
+\label{section-adjoints}
+
+\noindent
+Results on adjoint functors between triangulated categories.
+
+\begin{lemma}
+\label{lemma-adjoint-is-exact}
+Let $F : \mathcal{D} \to \mathcal{D}'$ be an exact functor between
+triangulated categories. If $F$ has a right adjoint, then it is
+an exact functor.
+\end{lemma}
+
+\begin{proof}
+Let $G$ be a right adjoint. Let $X$ be an object of $\mathcal{D}$ and
+$A$ an object of $\mathcal{D}'$. Since $F$ is an exact functor we see that
+\begin{align*}
+\Mor_\mathcal{D}(X, G(A[1])
+& =
+\Mor_{\mathcal{D}'}(F(X), A[1]) \\
+& =
+\Mor_{\mathcal{D}'}(F(X)[-1], A) \\
+& =
+\Mor_{\mathcal{D}'}(F(X[-1]), A) \\
+& =
+\Mor_\mathcal{D}(X[-1], G(A)) \\
+& =
+\Mor_\mathcal{D}(X, G(A)[1])
+\end{align*}
+By Yoneda's lemma (Categories, Lemma \ref{categories-lemma-yoneda})
+we obtain a canonical isomorphism $G(A)[1] = G(A[1])$.
+Let $A \to B \to C \to A[1]$ be a distinguished triangle in $\mathcal{D}'$.
+Choose a distinguished triangle
+$$
+G(A) \to G(B) \to X \to G(A)[1]
+$$
+in $\mathcal{D}$. Then $F(G(A)) \to F(G(B)) \to F(X) \to F(G(A))[1]$
+is a distinguished triangle in $\mathcal{D}'$. By TR3 we can choose
+a morphism of distinguished triangles
+$$
+\xymatrix{
+F(G(A)) \ar[r] \ar[d] & F(G(B)) \ar[r] \ar[d] & F(X) \ar[r] \ar[d] &
+F(G(A))[1] \ar[d] \\
+A \ar[r] & B \ar[r] & C \ar[r] & A[1]
+}
+$$
+Since $G$ is the adjoint the new morphism determines a morphism $X \to G(C)$
+such that the diagram
+$$
+\xymatrix{
+G(A) \ar[r] \ar[d] & G(B) \ar[r] \ar[d] & X \ar[r] \ar[d] & G(A)[1] \ar[d] \\
+G(A) \ar[r] & G(B) \ar[r] & G(C) \ar[r] & G(A)[1]
+}
+$$
+commutes. Applying the cohomological functor $\Hom_{\mathcal{D}'}(W, -)$
+for an object $W$ of $\mathcal{D}'$ we deduce from the $5$ lemma that
+$$
+\Hom_{\mathcal{D}'}(W, X) \to \Hom_{\mathcal{D}'}(W, G(C))
+$$
+is a bijection and using the Yoneda lemma once more we conclude that
+$X \to G(C)$ is an isomorphism. Hence we conclude that
+$G(A) \to G(B) \to G(C) \to G(A)[1]$ is a distinguished triangle
+which is what we wanted to show.
+\end{proof}
 
 \begin{lemma}
 \label{lemma-fully-faithful-adjoint-kernel-zero}
@@ -9470,12 +9538,138 @@ X = \text{hocolim} X_n
 $$
 as in the lemma. Since $X$ is compact we
 find that $X \to \text{hocolim} X_n$ factors through $X_n$ for
-some $n$. Thus $X$ is a direct summand of $X_n$.
+some $n$ (Lemma \ref{lemma-commutes-with-countable-sums}).
+Thus $X$ is a direct summand of $X_n$.
 By Lemma \ref{lemma-factor-through} we see that $X$ is a direct summand of an
 object of $\langle E \rangle$ and the lemma is proven.
 \end{proof}
 
 
+
+
+
+
+
+\section{Brown representability}
+\label{section-brown}
+
+\noindent
+A reference for the material in this section is \cite{Neeman-Grothendieck}.
+
+\begin{lemma}
+\label{lemma-brown}
+\begin{reference}
+\cite[Theorem 3.1]{Neeman-Grothendieck}.
+\end{reference}
+Let $\mathcal{D}$ be a triangulated with direct sums which is compactly
+generated. Let $H : \mathcal{D} \to \textit{Ab}$ be a contravariant
+cohomological functor which transforms direct sums into products.
+Then $H$ is representable.
+\end{lemma}
+
+\begin{proof}
+Let $E_i$, $i \in I$ be a set of compact objects such that
+$\bigoplus_{i \in I} E_i$ generates $\mathcal{D}$. We may and do assume
+that the set of objects $\{E_i\}$ is preserved under shifts. Consider pairs
+$(i, a)$ where $i \in I$ and $a \in H(E_i)$ and set
+$$
+X_1 = \bigoplus\nolimits_{(i, a)} E_i
+$$
+Since $H(X_1) = \prod_{(i, a)} H(E_i)$ we see that $(a)_{(i, a)}$
+defines an element $a_1 \in H(X_1)$. Set $H_1 = \Hom_\mathcal{D}(- , X_1)$.
+By Yoneda's lemma (Categories, Lemma \ref{categories-lemma-yoneda})
+the element $a_1$ defines a natural transformation $H_1 \to H$.
+
+\medskip\noindent
+We are going to inductively construct $X_n$ and transformations
+$a_n : H_n \to H$ where $H_n = \Hom_\mathcal{D}(-, X_n)$.
+Namely, we apply the procedure
+above to the functor $\Ker(H_n \to H)$ to get an object
+$$
+K_{n + 1} = \bigoplus\nolimits_{(i, k),\ k \in \Ker(H_n(E_i) \to H(E_i))} E_i
+$$
+and a transformation $\Hom_\mathcal{D}(-, K_{n + 1}) \to \Ker(H_n \to H)$.
+By Yoneda's lemma the composition $\Hom_\mathcal{D}(-, K_{n + 1}) \to H_n$
+gives a morphism $K_{n + 1} \to X_n$. We choose
+a distinguished triangle
+$$
+K_{n + 1} \to X_n \to X_{n + 1} \to K_{n + 1}[1]
+$$
+in $\mathcal{D}$. The element $a_n \in H(X_n)$ maps to zero
+in $H(K_{n + 1})$ by construction. Since $H$ is cohomological
+we can lift it to an element $a_{n + 1} \in H(X_{n + 1})$.
+
+\medskip\noindent
+We claim that $X = \text{hocolim} X_n$ represents $H$.
+First of all, by our definition of derived colimits
+and the fact that $H$ transforms direct sums into products,
+we see that $H(X) = \lim H(X_n)$,. Thus $a = (a_n)$ gives
+an element in $H(X)$ and hence a natural transformation
+$\Hom_\mathcal{D}(- , X) \to H$ such that
+$$
+\Hom_\mathcal{D}(-, X_1) \to
+\Hom_\mathcal{D}(-, X_2) \to
+\Hom_\mathcal{D}(-, X_3) \to \ldots \to
+\Hom_\mathcal{D}(-, X) \to H
+$$
+commutes. For each $i$ the map $\Hom_\mathcal{D}(E_i, X) \to H(E_i)$
+is surjective, by construction of $X_1$. On the other hand, by construction
+of $X_n \to X_{n + 1}$ the kernel of $\Hom_\mathcal{D}(E_i, X_n) \to H(E_i)$
+is killed by the map
+$\Hom_\mathcal{D}(E_i, X_n) \to \Hom_\mathcal{D}(E_i, X_{n + 1})$.
+Since
+$$
+\Hom_\mathcal{D}(E_i, X) = \colim \Hom_\mathcal{D}(E_i, X_n)
+$$
+by Lemma \ref{lemma-commutes-with-countable-sums}
+we see that $\Hom_\mathcal{D}(E_i, X) \to H(E_i)$ is injective.
+
+\medskip\noindent
+To finish the proof, consider the subcategory
+$$
+\mathcal{D}' =
+\{Y \in \Ob(\mathcal{D}) \mid \Hom_\mathcal{D}(Y[n], X) \to H(Y[n])
+\text{ is an isomorphism for all }n\}
+$$
+As $\Hom_\mathcal{D}(-, X) \to H$ is a transformation between
+cohomological functors,
+the subcategory $\mathcal{D}'$ is a strictly full, saturated, triangulated
+subcategory of $\mathcal{D}$ (details omitted; see proof of
+Lemma \ref{lemma-homological-functor-kernel}). Moreover, as both
+$H$ and $\Hom_\mathcal{D}(-, X)$ transform direct sums into products,
+we see that direct sums of objects of $\mathcal{D}'$ are in $\mathcal{D}'$.
+Thus derived colimits of objects of $\mathcal{D}'$ are in $\mathcal{D}'$.
+Since $\{E_i\}$ is preserved under shifts, we see that $E_i$
+is an object of $\mathcal{D}'$ for all $i$. It follows from
+Lemma \ref{lemma-write-as-colimit} that $\mathcal{D}' = \mathcal{D}$
+and the proof is complete.
+\end{proof}
+
+\begin{proposition}
+\label{proposition-brown}
+\begin{reference}
+\cite[Theorem 4.1]{Neeman-Grothendieck}.
+\end{reference}
+Let $\mathcal{D}$ be a triangulated with direct sums which is compactly
+generated. Let $F : \mathcal{D} \to \mathcal{D}'$ be an
+additive functor of triangulated categories which transforms direct sums
+into direct sums. Then $F$ has a right adjoint. If $F$ is an exact
+functor, then so is the adjoint.
+\end{proposition}
+
+\begin{proof}
+For an object $Y$ of $\mathcal{D}'$ consider the contravariant functor
+$$
+\mathcal{D} \to \textit{Ab},\quad W \mapsto \Hom_{\mathcal{D}'}(F(W), Y)
+$$
+This is a cohomological functors as $F$ is exact and tranforms direct sums
+into products as $F$ transforms direct sums into direct sums. Thus by
+Lemma \ref{lemma-brown} we find an object $X$ of $\mathcal{D}$ such that
+$\Hom_\mathcal{D}(W, X) = \Hom_{\mathcal{D}'}(F(W), Y)$.
+The existence of the adjoint follows from
+Categories, Lemma \ref{categories-lemma-adjoint-exists}.
+Exactness if $F$ is exact, follows from Lemma \ref{lemma-adjoint-is-exact}.
+\end{proof}
 
 
 
