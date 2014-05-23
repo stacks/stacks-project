@@ -218,28 +218,24 @@ above that $\mathcal{P}$ is in fact fppf local on the target).
 \begin{lemma}
 \label{lemma-immersion-when-closed}
 Let $S$ be a scheme. Let $i : Z \to X$ be an immersion of algebraic
-spaces over $S$. Then $|i|(|Z|) \subset |X|$ is a locally closed subset,
-and $i$ is a closed immersion if and only if
-$|i|(|Z|) \subset |X|$ is a closed subset.
+spaces over $S$. Then $|i| : |Z| \to |X|$ is a homeomorphism onto a
+locally closed subset, and $i$ is a closed immersion if and only if
+the image $|i|(|Z|) \subset |X|$ is a closed subset.
 \end{lemma}
 
 \begin{proof}
+The first statement is Properties of Spaces, Lemma
+\ref{spaces-properties-lemma-subspace-induced-topology}.
 Let $U$ be a scheme and let $U \to X$ be a surjective \'etale morphism.
 By assumption $T = U \times_X Z$ is a scheme and the morphism $j : T \to U$
-is an immersion of schemes. Moreover, note that $|j|(|T|) \subset |U|$ is
-the inverse image of $|i|(|Z|) \subset |X|$, see
+is an immersion of schemes. By Lemma \ref{lemma-closed-immersion-local}
+the morphism $i$ is a closed immersion if and only if $j$ is a closed
+immersion. By Schemes, Lemma \ref{schemes-lemma-immersion-when-closed}
+this is true if and only if $j(T)$ is closed in $U$.
+However, the subset $j(T) \subset U$ is the inverse image of
+$|i|(|Z|) \subset |X|$, see
 Properties of Spaces, Lemma \ref{spaces-properties-lemma-points-cartesian}.
-Recall that $|U| \to |X|$ is surjective and open, see
-Properties of Spaces, Lemma \ref{spaces-properties-lemma-topology-points}.
-Hence since $|T|$ is locally closed in $|U|$ it follows that
-$|i|(|Z|)$ is locally closed in $|X|$, see
-Topology, Lemma \ref{topology-lemma-open-morphism-quotient-topology}.
-And in the same way we see that $|i|(|Z|) \subset |X|$ is closed if and only if
-$T \subset U$ is closed, Thus we can combine
-Lemma \ref{lemma-closed-immersion-local}
-above and
-Schemes, Lemma \ref{schemes-lemma-immersion-when-closed}
-to finish the proof.
+This finishes the proof.
 \end{proof}
 
 \begin{remark}
@@ -4660,6 +4656,60 @@ of schemes by
 Morphisms, Lemma \ref{morphisms-lemma-quasi-finite-locally-quasi-compact}.
 
 \begin{lemma}
+\label{lemma-base-change-quasi-finite-locus}
+Let $S$ be a scheme. Let $f : X \to Y$ and $g : Y' \to Y$ be morphisms
+of algebraic spaces over $S$. Denote $f' : X' \to Y'$ the base change
+of $f$ by $g$. Denote $g' : X' \to X$ the projection.
+Assume $f$ is locally of finite type.
+Let $W \subset |X|$, resp.\ $W' \subset |X'|$
+be the set of points where $f$, resp.\ $f'$ is quasi-finite.
+\begin{enumerate}
+\item $W \subset |X|$ and $W' \subset |X'|$ are open,
+\item $W' = (g')^{-1}(W)$, i.e., formation of the locus where
+$f$ is quasi-finite commutes with base change,
+\item the base change of a locally quasi-finite morphism is
+locally quasi-finite, and
+\item the base change of a quasi-finite morphism is quasi-finite.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Choose a scheme $V$ and a surjective \'etale morphism $V \to Y$.
+Choose a scheme $U$ and a surjective \'etale morphism $U \to V \times_Y X$.
+Choose a scheme $V'$ and a surjective \'etale morphism $V' \to Y' \times_Y V$.
+Set $U' = V' \times_V U$ so that $U' \to X'$ is a surjective \'etale
+morphism as well. Picture
+$$
+\vcenter{
+\xymatrix{
+U' \ar[d] \ar[r] & U \ar[d] \\
+V' \ar[r] & V
+}
+}
+\quad\text{lying over}\quad
+\vcenter{
+\xymatrix{
+X' \ar[d] \ar[r] & X \ar[d] \\
+Y' \ar[r] & Y
+}
+}
+$$
+Choose $u \in |U|$ with image $x \in |X|$.
+The property of being "locally quasi-finite" is \'etale local on
+the source-and-target, see
+Descent, Remark \ref{descent-remark-list-local-source-target}.
+Hence Lemmas \ref{lemma-local-source-target-at-point} and
+\ref{lemma-local-source-target-global-implies-local} apply and
+we see that $f : X \to Y$ is quasi-finite at $x$
+if and only if $U \to V$ is quasi-finite at $u$.
+Similarly for $f' : X' \to Y'$ and the morphism $U' \to V'$.
+Hence parts (1), (2), and (3) reduce to
+Morphisms, Lemmas \ref{morphisms-lemma-base-change-quasi-finite} and
+\ref{morphisms-lemma-quasi-finite-points-open}.
+Part (4) follows from (3) and Lemma \ref{lemma-base-change-quasi-compact}.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-composition-quasi-finite}
 The composition of quasi-finite morphisms is quasi-finite.
 The same holds for locally quasi-finite.
@@ -4676,7 +4726,7 @@ The same holds for locally quasi-finite.
 \end{lemma}
 
 \begin{proof}
-Omitted.
+Immediate consequence of Lemma \ref{lemma-base-change-quasi-finite-locus}.
 \end{proof}
 
 \noindent
@@ -4826,6 +4876,36 @@ Spaces, Lemma \ref{spaces-lemma-lift-morphism-presentations}.)
 Apply
 Morphisms, Lemma \ref{morphisms-lemma-permanence-quasi-finite}
 to the top row.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-quasi-finite-at-a-finite-number-of-points}
+Let $S$ be a scheme. Let $f : X \to Y$ be a finite type
+morphism of algebraic spaces over $S$. Let $y \in |Y|$.
+There are at most finitely many
+points of $|X|$ lying over $y$ at which $f$ is quasi-finite.
+\end{lemma}
+
+\begin{proof}
+Choose a field $k$ and a morphism $\Spec(k) \to Y$ in the equivalence
+class determined by $y$. The fibre $X_k = \Spec(k) \times_Y X$ is an
+algebraic space of finite type over a field, in particular quasi-compact.
+The map $|X_k| \to |X|$ surjects onto the fibre of $|X| \to |Y|$
+over $y$ (Properties of Spaces, Lemma
+\ref{spaces-properties-lemma-points-cartesian}).
+Moreover, the set of points where $X_k \to \Spec(k)$ is
+quasi-finite maps onto the set of points lying over $y$ where
+$f$ is quasi-finite by Lemma \ref{lemma-base-change-quasi-finite-locus}.
+Choose an affine scheme $U$ and a surjective \'etale morphism $U \to X_k$
+(Properties of Spaces, Lemma
+\ref{spaces-properties-lemma-quasi-compact-affine-cover}).
+Then $U \to \Spec(k)$ is a morphism of finite type and there are at
+most a finite number of points where this morphism is quasi-finite,
+see Morphisms, Lemma
+\ref{morphisms-lemma-quasi-finite-at-a-finite-number-of-points}.
+Since $X_k \to \Spec(k)$ is quasi-finite at a point $x'$ if and only
+if it is the image of a point of $U$ where $U \to \Spec(k)$ is
+quasi-finite, we conclude.
 \end{proof}
 
 \begin{lemma}
