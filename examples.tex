@@ -4051,44 +4051,287 @@ $$
 $$
 is nonzero.
 
-\title{An example of a non-algebraic Hom-stack}
-
-\maketitle
 
 
+\section{An example of a non-algebraic Hom-stack}
+\label{section-non-algebraic-hom-stack}
 
-Let $A_0/\C$ be a non-zero abelian variety. Let $S := \Spec(\C\llbracket t \rrbracket)$ be the displayed trait with $S_n := \Spec(\C[t]/(t^n)) \subset S$. Let $f:X \to S$ be a map satisfying  the following:
+
+\noindent
+Let $\mathcal{Y}, \mathcal{Z}$ be algebraic stacks over a scheme $S$.
+The {\it Hom-stack} $\underline{\Mor}_S(\mathcal{Y}, \mathcal{Z})$
+is the stack in groupoids over $S$ whose category of sections over
+a scheme $T$ is given by the category
+$$
+\Mor_T(\mathcal{Y} \times_S T, \mathcal{Z} \times_S T)
+$$
+whose objects are $1$-morphisms and whose morphisms are $2$-morphisms.
+We omit the proof this this is indeed a stack in groupoids over
+$(\Sch/S)_{fppf}$ (insert future reference here). Of course, in
+general the Hom-stack will not be algebraic. In this section we
+give an example where it is not true and where $\mathcal{Y}$ is
+representable by a proper flat scheme over $S$ and $\mathcal{Z}$
+is smooth over $S$.
+
+\medskip\noindent
+Let $k$ be an algebraically closed field which is not the algebraic
+closure of a finite field. Let $S = \Spec(k[[t]])$
+and $S_n = \Spec(k[t]/(t^n)) \subset S$. Let $f : X \to S$ be a map
+satisfying the following
 \begin{enumerate}
-	\item $f$ is projective and flat, and its fibres are geometrically connected curves of arithmetic genus $\geq 1$.
-	\item The fibre $X_0 := X \times_S S_0$ is a nodal curve with smooth irreducible components.
-	\item $X$ is a regular scheme.
+\item $f$ is projective and flat, and its fibres are geometrically
+connected curves of arithmetic genus $\geq 1$,
+\item The fibre $X_0 = X \times_S S_0$ is a nodal curve with smooth
+irreducible components whose dual graph has a loop,
+\item $X$ is a regular scheme.
 \end{enumerate}
-Let $A = A_0 \times S$ be the constant abelian scheme over $S$ associated to $A$. Then we will show:
+To make such a surface $X$ we can take for example
+$$
+X\quad :\quad T_0T_1T_2 - t(T_0^3 + T_1^3 + T_2^3) = 0
+$$
+in $\mathbf{P}^2_{k[[t]]}$. Let $A_0$ be a non-zero abelian variety over $k$
+for example an elliptic curve.  Let $A = A_0 \times_{\Spec(k)} S$ be the
+constant abelian scheme over $S$ associated to $A_0$. We will show that the
+stack $\mathcal{X} = \underline{\Mor}_S(X, [S/A]))$ is not algebraic.
 
-\begin{proposition}
-	\label{prop:NonAlgHomStack}
-	The stack $\calF := \underline{\Hom}_S(X,B(A))$ is not algebraic.
-\end{proposition}
-
-Recall that $B(A) \simeq B(A_0) \times S$. This allows us to write 
-\[ \calF(T) := \underline{\Hom}_S(X,B(A))(T) := \Hom_T(X \times_S T, B(A) \times_S T) \simeq \Hom_S(X \times_S T, B(A)) \simeq \Hom(X \times_S T, B(A_0))\] 
-for any $S$-scheme $T$, i.e., the groupoid $\calF(T)$ is the groupoid of $A_0$-torsors on $X \times_S T$.  
-
-\begin{remark}
-	Proposition \ref{prop:NonAlgHomStack} seems to contradict \cite[Theorem 1.1]{AokiHomStacks}. The problem encountered below is the non-effectivity of formal objects for $\underline{\Hom}_S(X,B(A))$. The same problem is mentioned in the Erratum \cite{AokiHomStacksErr} to \cite{AokiHomStacks}; unfortunately, the Erratum goes on the assert that $\underline{\Hom}_S(X,Y)$ is algebraic if $Y$ is separated, which also contradicts Proposition \ref{prop:NonAlgHomStack} as $Y = B(A)$ is certainly separated.
-\end{remark}
-
-To prove Proposition \ref{prop:NonAlgHomStack}, by \cite[Tag 07x8]{StacksProject}, it is enough to show the following:
+\medskip\noindent
+Recall that $[S/A]$ is on the one hand the quotient stack and on
+the other hand equal to the stack classifying $A$-torsors, see
+Examples of Stacks, Proposition
+\ref{examples-stacks-proposition-equal-quotient-stacks}.
+Observe that $[S/A] = [\Spec(k)/A_0] \times_{\Spec(k)} S$. This allows
+us to describe the fibre category over a scheme $T$ as follows
+\begin{align*}
+\mathcal{X}_T
+& =
+\underline{\Mor}_S(X, [S/A])_T \\
+& =
+\Mor_T(X \times_S T, [S/A] \times_S T) \\
+& =
+\Mor_S(X \times_S T, [S/A]) \\
+& =
+\Mor_{\Spec(k)}(X \times_S T, [\Spec(k)/A_0])
+\end{align*}
+for any $S$-scheme $T$. In other words, the groupoid $\mathcal{X}_T$
+is the groupoid of $A_0$-torsors on $X \times_S T$.
+Before we discuss why $\mathcal{X}$ is not an algebraic stack,
+we need a few lemmas.
 
 \begin{lemma}
-The canonical map $\calF(S) \to \lim \calF(S_n)$ is not essentially surjective.
+\label{lemma-flat-proper-family-cannot-collapse-fibre}
+Let $S$ be a scheme. Let $B$ be an algebraic space over $S$.
+Let $f : X \to Y$ be a morphism of algebraic spaces over $B$.
+Assume $X \to B$ is a proper morphism and $Y \to B$ is separated
+and locally of finite type.
+Let $b : \Spec(k) \to B$ be a morphism where $k$ is a field.
+If the image of $X_b \to Y_b$ is finite, then there is an open
+subspace $B' \subset B$ containing $b$ such that $X_{B'} \to Y_{B'}$
+factors through a closed subspace $Z \subset Y_{B'}$ finite over $B'$.
 \end{lemma}
+
 \begin{proof}
-	Unwinding definitions, it is enough to check that $H^1(X,A_0) \to \lim H^1(X_n, A_0)$ is not surjective.  As $X$ is regular and projective, by Raynaud \cite[Proposition XIII.2.6]{RaynaudAmpleLB}, each $A_0$-torsor over $X$ is projective and hence torsion. In particular, the group $H^1(X,A_0)$ is torsion. It is thus enough to show: (a) the group $H^1(X_0,A_0)$ is non-torsion, and (b) the maps $H^1(X_{n+1},A_0) \to H^1(X_n,A_0)$ are surjective for all $n$. For (a), one constructs a non-torsion $A_0$-torsor on the nodal curve $X_0$ by glueing trivial $A_0$-torsors on each component of $X_0$ using non-torsion points on $A_0$ as the isomorphisms over the nodes; details left to the reader. For (b), deformation theory shows that the obstruction to deforming an $A_0$-torsor on $Y_n \to X_n$ to an $A_0$-torsor $Y_{n+1} \to X_{n+1}$ lies in $H^2(X_0,\omega)$ for a suitable vector bundle $\omega$  on $X_0$; the latter vanishes as $X_0$ is a curve, proving the claim.
+The scheme theoretic image $Z = f(X) \subset Y$ is a proper algebraic
+space over $S$ (Morphisms of Spaces, Lemma
+\ref{spaces-morphisms-lemma-image-proper-is-proper}).
+By asssumption $Z_b$ is finite. Hence $Z \to B$ is finite in
+an open neighbourhood of $b$ for example by
+More on Morphisms of Spaces, Lemma
+\ref{spaces-more-morphisms-lemma-proper-finite-fibre-finite-in-neighbourhood}.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-quotient-power-P1}
+Let $k$ be a field. Let $n \geq 1$ and let $(\mathbf{P}^1_k)^n$
+be the $n$-fold self product over $\Spec(k)$. Let
+$f : (\mathbf{P}^1_k)^n \to Z$ be a morphism of algebraic spaces over $k$.
+If $Z$ is separated of finite type over $k$, then $f$ factors as
+$$
+(\mathbf{P}^1_k)^n \xrightarrow{projection}
+(\mathbf{P}^1_k)^m \xrightarrow{finite} Z.
+$$
+\end{lemma}
 
+\begin{proof}
+We may assume $k$ is algebraically closed (details omitted).
+In the proof products are over $k$.
+The automorphism group of $(\mathbf{P}^1_k)^n$ contains
+$G = \text{GL}_{2, k}^n$. If $C \subset (\mathbf{P}^1_k)^n$
+is mapped to a point, then we can apply
+Lemma \ref{lemma-flat-proper-family-cannot-collapse-fibre}
+to the morphism
+$$
+G \times C \to G \times Z,\quad (g, c) \mapsto (g, f(g \cdot c))
+$$
+over $G$. Hence $g(C)$ is mapped to a point for $g \in G$ in a Zariski open
+$U \subset G$. Suppose $x = (x_1, \ldots, x_n)$, $y = (y_1, \ldots, y_n)$
+are $k$-valued points of $(\mathbf{P}^1_k)^n$. Let
+$I \subset \{1, \ldots, n\}$ be the set of indices $i$
+such that $x_i = y_i$. Then
+$$
+\{g(x) \mid g(y) = y,\ g \in U(k)\}
+$$
+is Zariski dense in the fibre of the projection
+$\pi_I : (\mathbf{P}^1_k)^n \to \prod_{i \in I} \mathbf{P}^1_k$
+(exercise). Hence if $x, y \in C(k)$, we conclude that $f$ maps the whole
+fibre of $\pi_I$ containing $x, y$ to a single point.
+However, the $U(k)$-orbit of $C$ meets a Zariski open set of
+fibres of $\pi_I$. By continuity $f$ collapses all fibres
+of $\pi_I$. Considering the Stein factorization the reader
+finds that $f$ factors through $\pi_I$.
+\end{proof}
 
+\begin{lemma}
+\label{lemma-no-nonconstant-morphism-from-P1-to-group-scheme}
+Let $k$ be a field. Let $G$ be a separated group algebraic space locally
+of finite type over $k$. There does not exist a nonconstant
+morphism $f : \mathbf{P}^1_k \to G$ over $\Spec(k)$.
+\end{lemma}
+
+\begin{proof}
+Assume $f$ is nonconstant. Consider the morphisms
+$$
+\mathbf{P}^1 \times \ldots \times \mathbf{P}^1 \longrightarrow G,
+\quad (t_1, \ldots, t_n) \longmapsto f(g_1) \ldots f(g_n)
+$$
+where on the right hand side we use multiplication in the group.
+By Lemma \ref{lemma-quotient-power-P1} and the assumption that $f$
+this morphism is finite onto its image.
+Hence $\dim(G) \geq n$ for all $n$, which is impossible.
+\end{proof}
+
+\noindent
+The following is a special case of a result of Raynaud, see
+\cite[Proposition XIII.2.6]{RaynaudAmpleLB}.
+
+\begin{lemma}
+\label{lemma-torsors-over-two-dimensional-regular}
+\begin{reference}
+\cite[Proposition XIII.2.6]{RaynaudAmpleLB}
+\end{reference}
+Let $W$ be a two dimensional regular integral Noetherian scheme
+with function field $K$. Let $G \to W$ be an abelian scheme.
+Then then map $H^1_{fppf}(W, G) \to H^1_{fppf}(\Spec(K), G)$
+is injective.
+\end{lemma}
+
+\begin{proof}[Sketch of proof]
+Let $P \to W$ be a $G$-torsor which is trivial in the generic point.
+Then we have a morphism $\Spec(K) \to P$ over $W$ and we can take
+its scheme theoretic image $Z \subset P$. Since $P \to W$ is proper
+(as a torsor for a proper group algebraic space over $W$)
+we see that $Z \to W$ is a proper birational morphism.
+By Spaces over Fields, Lemma \ref{spaces-over-fields-lemma-finite-in-codim-1}
+the morphism $Z \to W$ is finite away from finitely many closed points
+of $W$. By (insert future reference on resolving indeterminacies
+of morphisms by blowing quadratic transformations for surfaces)
+the irreducible components of the geometric fibres of $Z \to W$
+are rational curves. By
+Lemma \ref{lemma-no-nonconstant-morphism-from-P1-to-group-scheme}
+there are no nonconstant morphisms from rational curves
+to group schemes or torsors over such.
+Hence $Z \to W$ is finite, whence $Z$ is a scheme and $Z \to W$
+is an isomorphism by
+Morphisms, Lemma \ref{morphisms-lemma-finite-birational-over-normal}.
+In other words, the torsor $P$ is trivial.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-torsors-over-field-torsion}
+Let $G$ be a smooth commutative group algebraic space over a field $K$.
+Then $H^1_{fppf}(\Spec(K), G)$ is torsion.
+\end{lemma}
+
+\begin{proof}
+Every $G$-torsor $P$ over $\Spec(K)$ is smooth over $K$ as a form of $G$.
+Hence $P$ has a point over a finite separable extension $K \subset L$.
+Say $[L : K] = n$. Let $[n](P)$ denote the $G$-torsor whose class is $n$
+times the class of $P$ in $H^1_{fppf}(\Spec(K), G)$. There is a canonical
+morphism
+$$
+P \times_{\Spec(K)} \ldots \times_{\Spec(K)} P \to [n](P)
+$$
+of algebraic spaces over $K$. This morphism is symmetric as
+$G$ is abelian. Hence it factors through the quotient
+$$
+(P \times_{\Spec(K)} \ldots \times_{\Spec(K)} P)/S_n
+$$
+On the other hand, the morphism $\Spec(L) \to P$ defines a morphism
+$$
+(\Spec(L) \times_{\Spec(K)} \ldots \times_{\Spec(K)} \Spec(L))/S_n
+\longrightarrow (P \times_{\Spec(K)} \ldots \times_{\Spec(K)} P)/S_n
+$$
+and the reader can verify that the scheme on the left has a $K$-rational
+point. Thus we see that $[n](P)$ is the trivial torsor.
+\end{proof}
+
+\noindent
+To prove $\mathcal{X} = \underline{\Mor}_S(X, [S/A])$
+is not an algebraic stack, by
+Artin's Axioms, Lemma \ref{artin-lemma-effective},
+it is enough to show the following.
+
+\begin{lemma}
+\label{lemma-not-essentially-surjective}
+The canonical map $\mathcal{X}(S) \to \lim \mathcal{X}(S_n)$
+is not essentially surjective.
+\end{lemma}
+
+\begin{proof}[Sketch of proof]
+Unwinding definitions, it is enough to check that
+$H^1(X, A_0) \to \lim H^1(X_n, A_0)$ is not surjective.
+As $X$ is regular and projective, by
+Lemmas \ref{lemma-torsors-over-field-torsion} and
+\ref{lemma-torsors-over-two-dimensional-regular}
+each $A_0$-torsor over $X$ is torsion.
+In particular, the group $H^1(X, A_0)$ is torsion.
+It is thus enough to show:
+(a) the group $H^1(X_0, A_0)$ is non-torsion, and
+(b) the maps $H^1(X_{n + 1}, A_0) \to H^1(X_n, A_0)$ are surjective for all $n$.
+
+\medskip\noindent
+Ad (a). One constructs a non-torsion $A_0$-torsor on the nodal
+curve $X_0$ by glueing trivial $A_0$-torsors on each component
+of $X_0$ using non-torsion points on $A_0$ as the isomorphisms
+over the nodes. More precisely, let $x \in X_0$ be a node
+which occurs in a loop (i.e., such that removing the corresponding
+edge from the dual graph decreases the first betti number).
+Let $X'_0 \to X_0$ be the normalization of $X_0$ in $X_0 \setminus \{x\}$.
+Let $x', x'' \in X'_0$ be the two points mapping to $x_0$.
+Then we take $A_0 \times_{\Spec(k)} X'_0$ and we identify
+$A_0 \times {x'}$ with $A_0 \times \{x''\}$ using translation
+$A_0 \to A_0$ by a nontorsion point (there is such a nontorsion
+point as $k$ is algebraically closed and not the algebraic closure
+of a finite field). One can show that the glueing is an algebraic
+space (in fact one can show it is a scheme) and that it is an
+nontorsion $A_0$-torsor over $X_0$.
+
+\medskip\noindent
+Ad (b). Deformation theory shows that the obstruction to deforming an
+$A_0$-torsor $P_n \to X_n$ to an $A_0$-torsor $P_{n + 1} \to X_{n + 1}$
+lies in $H^2(X_0, \omega)$ for a suitable vector bundle $\omega$ on $X_0$.
+The latter vanishes as $X_0$ is a curve, proving the claim.
+\end{proof}
+
+\begin{proposition}
+\label{proposition-nonalghomstack}
+The stack $\mathcal{X} = \underline{\Mor}_S(X, [S/A]))$ is not algebraic.
+\end{proposition}
+
+\begin{proof}
+See discussion above.
+\end{proof}
+
+\begin{remark}
+\label{remark-contradict-aoki}
+Proposition \ref{proposition-nonalghomstack} contradicts
+\cite[Theorem 1.1]{AokiHomStacks}. The problem is the non-effectivity
+of formal objects for $\underline{\Mor}_S(X, [S/A])$. The same problem
+is mentioned in the Erratum \cite{AokiHomStacksErr} to
+\cite{AokiHomStacks}. Unfortunately, the Erratum goes on
+the assert that $\underline{\Mor}_S(\mathcal{Y}, \mathcal{Z})$
+is algebraic if $\mathcal{Z}$ is separated, which also contradicts
+Proposition \ref{proposition-nonalghomstack} as $[S/A]$ is separated.
+\end{remark}
 
 \input{chapters}
 
