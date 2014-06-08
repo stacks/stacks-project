@@ -4095,8 +4095,9 @@ constant abelian scheme over $S$ associated to $A_0$. We will show that the
 stack $\mathcal{X} = \underline{\Mor}_S(X, [S/A]))$ is not algebraic.
 
 \medskip\noindent
-Recall that $[S/A]$ is on the one hand the quotient stack and on
-the other hand equal to the stack classifying $A$-torsors, see
+Recall that $[S/A]$ is on the one hand the quotient stack of $A$ acting
+trivially on $S$ and on
+the other hand equal to the stack classifying fppf $A$-torsors, see
 Examples of Stacks, Proposition
 \ref{examples-stacks-proposition-equal-quotient-stacks}.
 Observe that $[S/A] = [\Spec(k)/A_0] \times_{\Spec(k)} S$. This allows
@@ -4113,30 +4114,86 @@ us to describe the fibre category over a scheme $T$ as follows
 \Mor_{\Spec(k)}(X \times_S T, [\Spec(k)/A_0])
 \end{align*}
 for any $S$-scheme $T$. In other words, the groupoid $\mathcal{X}_T$
-is the groupoid of $A_0$-torsors on $X \times_S T$.
+is the groupoid of fppf $A_0$-torsors on $X \times_S T$.
 Before we discuss why $\mathcal{X}$ is not an algebraic stack,
 we need a few lemmas.
 
 \begin{lemma}
 \label{lemma-flat-proper-family-cannot-collapse-fibre}
-Let $S$ be a scheme. Let $B$ be an algebraic space over $S$.
-Let $f : X \to Y$ be a morphism of algebraic spaces over $B$.
-Assume $X \to B$ is a proper morphism and $Y \to B$ is separated
-and locally of finite type.
-Let $b : \Spec(k) \to B$ be a morphism where $k$ is a field.
-If the image of $X_b \to Y_b$ is finite, then there is an open
+Let $S$ be a scheme. Let
+$$
+\xymatrix{
+X \ar[rr]_h \ar[rd]_f & & Y \ar[ld]^g \\
+& B
+}
+$$
+be a commutative diagram of morphism of algebraic spaces over $S$.
+Let $b \in B$ and let $\Spec(k) \to B$ be a morphism in the equivalence
+class of $b$. Assume
+\begin{enumerate}
+\item $X \to B$ is a proper morphism,
+\item $Y \to B$ is separated and locally of finite type,
+\item one of the following is true
+\begin{enumerate}
+\item the image of $|X_k| \to |Y_k|$ is finite,
+\item the image of $|f|^{-1}(\{b\})$ in $|Y|$ is finite
+and $B$ is decent.
+\end{enumerate}
+\end{enumerate}
+Then there is an open
 subspace $B' \subset B$ containing $b$ such that $X_{B'} \to Y_{B'}$
 factors through a closed subspace $Z \subset Y_{B'}$ finite over $B'$.
 \end{lemma}
 
 \begin{proof}
-The scheme theoretic image $Z = f(X) \subset Y$ is a proper algebraic
-space over $S$ (Morphisms of Spaces, Lemma
+Let $Z \subset Y$ be the scheme theoretic image of $h$, see
+Morphisms of Spaces, Section
+\ref{spaces-morphisms-section-scheme-theoretic-image}.
+Observe that $h$ is quasi-compact
+(Morphisms of Spaces, Lemma
+\ref{spaces-morphisms-lemma-quasi-compact-quasi-separated-permanence})
+hence $|h|(|X|) \subset |Z|$
+is dense (Morphisms of Spaces, Lemma
+\ref{spaces-morphisms-lemma-quasi-compact-scheme-theoretic-image}).
+On the other hand $|h|(|X|)$ is closed in $|Y|$
+(Morphisms of Spaces, Lemma
+\ref{spaces-morphisms-lemma-universally-closed-permanence})
+hence $X \to Z$ is surjective.
+Thus $Z \to B$ is a proper (Morphisms of Spaces, Lemma
 \ref{spaces-morphisms-lemma-image-proper-is-proper}).
-By asssumption $Z_b$ is finite. Hence $Z \to B$ is finite in
-an open neighbourhood of $b$ for example by
+Since $|f|^{-1}(\{b\}) \to |g|^{-1}(\{b\})$ and
+$|X_k \to Z_k$ are surjective,
+we see that (3)(a) and (3)(b) imly that $Z \to B$ is quasi-finite
+all all points of $|Z|$ lying over $b$ by
+Decent Spaces, Lemma \ref{decent-spaces-lemma-conditions-on-fibre-and-qf}.
+Hence $Z \to B$ is finite in an open neighbourhood of $b$ by
 More on Morphisms of Spaces, Lemma
 \ref{spaces-more-morphisms-lemma-proper-finite-fibre-finite-in-neighbourhood}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-factor-through-over-open}
+Let $S$ be a scheme. Let $B$ be an algebraic space over $S$.
+Let $f : X \to Y$ and $g : X \to Z$ be morphisms of algebraic
+spaces over $B$. Assume
+\begin{enumerate}
+\item $Y \to B$ is separated,
+\item $g$ is surjective, flat, and locally of finite presentation,
+\item there is a scheme theoretically dense open $V \subset Z$
+such that $f|_{g^{-1}(V)} : g^{-1}(V) \to Y$ factors through $V$.
+\end{enumerate}
+Then $f$ factors through $g$.
+\end{lemma}
+
+\begin{proof}
+Set $R = X \times_Z X$. By (2) we see that $Z = X/R$ as sheaves.
+Also (2) implies that the inverse image of $V$ in $R$ is scheme
+theoretically dense in $R$ (Morphisms of Spaces, Lemma
+\ref{spaces-morphisms-lemma-flat-morphism-scheme-theoretically-dense-open}).
+The we see that the two compositions
+$R \to X \to Y$ are equal by Morphisms of Spaces, Lemma
+\ref{spaces-morphisms-lemma-equality-of-morphisms}.
+The lemma follows.
 \end{proof}
 
 \begin{lemma}
@@ -4152,18 +4209,21 @@ $$
 \end{lemma}
 
 \begin{proof}
-We may assume $k$ is algebraically closed (details omitted).
-In the proof products are over $k$.
-The automorphism group of $(\mathbf{P}^1_k)^n$ contains
-$G = \text{GL}_{2, k}^n$. If $C \subset (\mathbf{P}^1_k)^n$
-is mapped to a point, then we can apply
+We may assume $k$ is algebraically closed (details omitted); we only
+do this so we may argue using rational points, but the reader can work
+around this if she/he so desires. In the proof products are over $k$.
+The automorphism group algebraic space of $(\mathbf{P}^1_k)^n$ contains
+$G = (\text{GL}_{2, k})^n$. If $C \subset (\mathbf{P}^1_k)^n$ is a
+closed subvariety (in particular irreducible over $k$) which is mapped
+to a point, then we can apply
 Lemma \ref{lemma-flat-proper-family-cannot-collapse-fibre}
 to the morphism
 $$
 G \times C \to G \times Z,\quad (g, c) \mapsto (g, f(g \cdot c))
 $$
-over $G$. Hence $g(C)$ is mapped to a point for $g \in G$ in a Zariski open
-$U \subset G$. Suppose $x = (x_1, \ldots, x_n)$, $y = (y_1, \ldots, y_n)$
+over $G$. Hence $g(C)$ is mapped to a point for $g \in G(k)$
+lying in a Zariski open $U \subset G$. Suppose
+$x = (x_1, \ldots, x_n)$, $y = (y_1, \ldots, y_n)$
 are $k$-valued points of $(\mathbf{P}^1_k)^n$. Let
 $I \subset \{1, \ldots, n\}$ be the set of indices $i$
 such that $x_i = y_i$. Then
@@ -4172,12 +4232,19 @@ $$
 $$
 is Zariski dense in the fibre of the projection
 $\pi_I : (\mathbf{P}^1_k)^n \to \prod_{i \in I} \mathbf{P}^1_k$
-(exercise). Hence if $x, y \in C(k)$, we conclude that $f$ maps the whole
-fibre of $\pi_I$ containing $x, y$ to a single point.
-However, the $U(k)$-orbit of $C$ meets a Zariski open set of
-fibres of $\pi_I$. By continuity $f$ collapses all fibres
-of $\pi_I$. Considering the Stein factorization the reader
-finds that $f$ factors through $\pi_I$.
+(exercise). Hence if $x, y \in C(k)$ are distinct, we conclude
+that $f$ maps the whole fibre of $\pi_I$ containing $x, y$ to a
+single point. Moreover, the $U(k)$-orbit of $C$ meets a Zariski
+open set of fibres of $\pi_I$. By Lemma \ref{lemma-factor-through-over-open}
+the morphism $f$ factors through $\pi_I$.
+After repeating this process finitely many times we reach
+the stage where all fibres of $f$ over $k$ points are finite.
+In this case $f$ is finite by
+More on Morphisms of Spaces, Lemma
+\ref{spaces-more-morphisms-lemma-proper-finite-fibre-finite-in-neighbourhood}
+and the fact that $k$ points are dense in $Z$
+(Spaces over Fields, Lemma
+\ref{spaces-over-fields-lemma-smooth-separable-closed-points-dense}).
 \end{proof}
 
 \begin{lemma}
@@ -4190,13 +4257,17 @@ morphism $f : \mathbf{P}^1_k \to G$ over $\Spec(k)$.
 \begin{proof}
 Assume $f$ is nonconstant. Consider the morphisms
 $$
-\mathbf{P}^1 \times \ldots \times \mathbf{P}^1 \longrightarrow G,
+\mathbf{P}^1_k \times_{\Spec(k)} \ldots \times_{\Spec(k)} \mathbf{P}^1_k
+\longrightarrow G,
 \quad (t_1, \ldots, t_n) \longmapsto f(g_1) \ldots f(g_n)
 $$
 where on the right hand side we use multiplication in the group.
 By Lemma \ref{lemma-quotient-power-P1} and the assumption that $f$
-this morphism is finite onto its image.
-Hence $\dim(G) \geq n$ for all $n$, which is impossible.
+is nonconstant this morphism is finite onto its image.
+Hence $\dim(G) \geq n$ for all $n$, which is impossible by
+More on Groupoids in Spaces, Lemma
+\ref{spaces-more-groupoids-lemma-group-over-field-locally-finite-type-dimension}
+and the fact that $G$ is locally of finite type over $k$.
 \end{proof}
 
 \noindent
@@ -4215,7 +4286,7 @@ is injective.
 \end{lemma}
 
 \begin{proof}[Sketch of proof]
-Let $P \to W$ be a $G$-torsor which is trivial in the generic point.
+Let $P \to W$ be an fppf $G$-torsor which is trivial in the generic point.
 Then we have a morphism $\Spec(K) \to P$ over $W$ and we can take
 its scheme theoretic image $Z \subset P$. Since $P \to W$ is proper
 (as a torsor for a proper group algebraic space over $W$)
@@ -4301,7 +4372,8 @@ Then we take $A_0 \times_{\Spec(k)} X'_0$ and we identify
 $A_0 \times {x'}$ with $A_0 \times \{x''\}$ using translation
 $A_0 \to A_0$ by a nontorsion point (there is such a nontorsion
 point as $k$ is algebraically closed and not the algebraic closure
-of a finite field). One can show that the glueing is an algebraic
+of a finite field -- this is actually not trivial to prove).
+One can show that the glueing is an algebraic
 space (in fact one can show it is a scheme) and that it is an
 nontorsion $A_0$-torsor over $X_0$.
 
