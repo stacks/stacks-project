@@ -210,7 +210,7 @@ are integral over $R$ (since $x$ is integral over $R$ as $a \in R$).
 
 
 
-\section{Formal glueing of algebraic spaces}
+\section{Formal glueing of quasi-coherent modules}
 \label{section-formal-glueing}
 
 \noindent
@@ -229,16 +229,147 @@ with potential applications to nonflat situations
 can be found in \cite[Section 5]{Bhatt-Algebraize}.
 
 \medskip\noindent
-We first reformulate formal glueing in
-terms of quasi-coherent sheaves.
+We start with a lemma on abelian sheaves supported on closed subsets.
+
+\begin{lemma}
+\label{lemma-stalk-pushforward-with-support}
+Let $S$ be a scheme. Let $f : Y \to X$ be a morphism of algebraic spaces
+over $S$. Let $Z \subset X$ closed subspace such that $f^{-1}Z \to Z$ is
+integral and universally injective. Let $\overline{y}$ be a geometric point
+of $Y$ and $\overline{x} = f(\overline{y})$. We have
+$$
+(Rf_*Q)_{\overline{x}} = Q_{\overline{y}}
+$$
+in $D(\textit{Ab})$ for any object $Q$ of $D(Y_\etale)$ supported
+on $|f^{-1}Z|$.
+\end{lemma}
+
+\begin{proof}
+Consider the commutative diagram of algebraic spaces
+$$
+\xymatrix{
+f^{-1}Z \ar[r]_{i'} \ar[d]_{f'} & Y \ar[d]_f \\
+Z \ar[r]^i & X
+}
+$$
+By Cohomology of Spaces, Lemma
+\ref{spaces-cohomology-lemma-complexes-with-support-on-closed} we can write
+$Q = Ri'_*K'$ for some object $K'$ of $D(f^{-1}Z_\etale)$.
+By Morphisms of Spaces, Lemma
+\ref{spaces-morphisms-lemma-integral-universally-injective-push-pull}
+we have $K' = (f')^{-1}K$ with $K = Rf'_*K'$.
+Then we have $Rf_*Q = Rf_*Ri'_*K' = Ri_*Rf'_*K' = Ri_*K$.
+Let $\overline{z}$ be the geometric point of $Z$ corresponding
+to $\overline{x}$ and let $\overline{z}'$ be the geometric point
+of $f^{-1}Z$ corresponding to $\overline{y}$. We obtain
+the result of the lemma as follows
+$$
+Q_{\overline{y}} = (Ri'_*K')_{\overline{y}} = K'_{\overline{z}'} =
+(f')^{-1}K_{\overline{z}'} = K_{\overline{z}} = Ri_*K_{\overline{x}} =
+Rf_*Q_{\overline{x}}
+$$
+The middle equality holds because of the description of the stalk
+of a pullback given in Properties of Spaces, Lemma \ref{spaces-properties-lemma-stalk-pullback}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-stalk-of-module-with-support}
+Let $S$ be a scheme. Let $X$ be an algebraic space over $S$.
+Let $i : Z \to X$ be a closed immersion of finite presentation.
+Let $Q \in D_\QCoh(\mathcal{O}_X)$ be supported on $|Z|$.
+Let $\overline{x}$ be a geometric point of $X$ and let
+$I_{\overline{x}} \subset \mathcal{O}_{X, \overline{x}}$ be the stalk of
+the ideal sheaf of $Z$. Then the cohomology modules
+$H^n(Q_{\overline{x}})$ are $I_{\overline{x}}$-power torsion
+(see More on Algebra, Definition
+\ref{more-algebra-definition-f-power-torsion}).
+\end{lemma}
+
+\begin{proof}
+Choose an affine scheme $U$ and an \'etale morphism $U \to X$ such
+that $\overline{x}$ lifts to a geometric point $\overline{u}$
+of $U$. Then we can replace $X$ by $U$, $Z$ by $U \times_X Z$,
+$Q$ by the restriction $Q|_U$, and $\overline{x}$ by $\overline{u}$.
+Thus we may assume that $X = \Spec(A)$ is affine. Let $I \subset A$
+be the ideal defining $Z$. Since $i : Z \to X$ is of finite presentation,
+the ideal $I = (f_1, \ldots, f_r)$ is finitely generated.
+The object $Q$ comes from a complex of $A$-modules $M^\bullet$, see
+Derived Categories of Spaces, Lemma
+\ref{spaces-perfect-lemma-derived-quasi-coherent-small-etale-site}
+and
+Derived Categories of Schemes, Lemma
+\ref{perfect-lemma-affine-compare-bounded}.
+Since the cohomology sheaves of $Q$ are supported on $Z$
+we see that the localization $M^\bullet_f$ is acyclic for each $f \in I$.
+Take $x \in H^p(M^\bullet)$. By the above we can find $n_i$ such
+that $f_i^{n_i} x = 0$ in $H^p(M^\bullet)$ for each $i$.
+Then with $n = \sum n_i$ we see that $I^n$ annihilates $x$.
+Thus $H^p(M^\bullet)$ is $I$-power torsion. Since the ring
+map $A \to \mathcal{O}_{X, \overline{x}}$ is flat and since
+$I_{\overline{x}} = I\mathcal{O}_{X, \overline{x}}$ we conclude.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-formal-glueing-on-closed}
+Let $S$ be a scheme. Let $f : Y \to X$ be a morphism of algebraic spaces
+over $S$. Let $Z \subset X$ be a closed subspace. Assume $f^{-1}Z \to Z$
+is an isomorphism and that $f$ is flat in every point of $f^{-1}Z$. For any
+$Q$ in $D_\QCoh(\mathcal{O}_Y)$ supported on $f^{-1}Z$ we have $Lf^*Rf_*Q = Q$.
+\end{lemma}
+
+\begin{proof}
+We show the canonical map $Lf^*Rf_*Q \to Q$ is an isomorphism
+by checking on stalks at $\overline{y}$. If $\overline{y}$ is not
+in $f^{-1}Z$, then both sides are zero and the result is true.
+Assume the image $\overline{x}$ of $\overline{y}$ is in $Z$.
+By Lemma \ref{lemma-stalk-pushforward-with-support} we have
+$Rf_*Q_{\overline{x}} = Q_{\overline{y}}$ and since $f$ is flat
+at $\overline{y}$ we see that
+$$
+(Lf^*Rf_*Q)_{\overline{y}} =
+(Rf_*Q)_{\overline{x}}
+\otimes_{\mathcal{O}_{X, \overline{x}}}
+\mathcal{O}_{Y, \overline{y}} =
+Q_{\overline{y}} \otimes_{\mathcal{O}_{X, \overline{x}}}
+\mathcal{O}_{Y, \overline{y}}
+$$
+Thus we have to check that the canonical map
+$$
+Q_{\overline{y}} \otimes_{\mathcal{O}_{X, \overline{x}}}
+\mathcal{O}_{Y, \overline{y}}
+\longrightarrow Q_{\overline{y}}
+$$
+is an isomorphism in the derived category. Let
+$I_{\overline{x}} \subset \mathcal{O}_{X, \overline{x}}$ be the
+stalk of the ideal sheaf defining $Z$. Since $Z \to X$ is locally of
+finite presentation this ideal is finitely generated and the
+cohomology groups of $Q_{\overline{y}}$
+are $I_{\overline{y}} = I_{\overline{x}}\mathcal{O}_{Y, \overline{y}}$-power
+torsion by Lemma \ref{lemma-stalk-of-module-with-support} applied to $Q$ on $Y$.
+It follows that they are also $I_{\overline{x}}$-module torsion.
+The ring map
+$\mathcal{O}_{X, \overline{x}} \to \mathcal{O}_{Y, \overline{y}}$
+is flat and induces an isomorphism after dividing by
+$I_{\overline{x}}$ and $I_{\overline{y}}$ because we assumed
+that $f^{-1}Z \to Z$ is an isomorphism. Hence we see that
+the cohomology modules of
+$Q_{\overline{y}} \otimes_{\mathcal{O}_{X, \overline{x}}}
+\mathcal{O}_{Y, \overline{y}}$
+are equal to the cohomology modules of $Q_{\overline{y}}$ by
+More on Algebra, Lemma \ref{more-algebra-lemma-neighbourhood-isomorphism}
+which finishes the proof.
+\end{proof}
+
+
 
 \begin{situation}
 \label{situation-formal-glueing}
-Here $S$ is a base scheme, $f : Y \to X$ is a flat, quasi-compact,
+Here $S$ is a base scheme, $f : Y \to X$ is a quasi-compact
 and quasi-separated morphism of algebraic spaces over $S$, and
-$Z \to X$ is a closed immersion of finite presentation such that
-$f^{-1}(Z) \to Z$ is an isomorphism.
-We also set $U = X \setminus Z$ and $V = Y \setminus f^{-1}(Z)$.
+$Z \to X$ is a closed immersion of finite presentation. We assume that
+$f^{-1}(Z) \to Z$ is an isomorphism and that $f$ is flat in every
+point $x \in |f^{-1}Z|$. We set $U = X \setminus Z$ and
+$V = Y \setminus f^{-1}(Z)$.
 Picture
 $$
 \xymatrix{
@@ -265,111 +396,6 @@ functor
 which maps $\mathcal{F}$ to the system
 $(\mathcal{F}|_U, f^*\mathcal{F}, can)$.
 
-\begin{lemma}
-\label{lemma-stalk-pushforward-with-support}
-Let $S$ be a scheme. Let $f : Y \to X$ be a quasi-separated and
-quasi-compact morphism of algebraic spaces over $S$. Let $Z \subset X$
-closed subspace such that $f^{-1}Z \to Z$ is integral and universally
-injective. Let $\overline{y}$ be a geometric point of $Y$ and
-$\overline{x} = f(\overline{y})$. We have
-$$
-(R^nf_*Q)_{\overline{x}} = H^n(Q)_{\overline{y}}
-$$
-for $Q$ in $D_\QCoh(\mathcal{O}_Y)$ supported on $|f^{-1}Z|$.
-\end{lemma}
-
-\begin{proof}
-The question is \'etale local on $X$, hence we may assume that $X$
-is an affine scheme. This implies that $Y$ is a quasi-compact and
-quasi-separated algebraic space. In this case the functor $Rf_*$ has
-finite cohomological dimension, see
-Derived Categories of Spaces, Lemma
-\ref{spaces-perfect-lemma-quasi-coherence-direct-image}.
-Using the canonical distinguished triangles
-$$
-\tau_{\leq n - 1}Q \to Q \to \tau_{\geq n}Q \to
-\tau_{\leq n - 1}Q[1]
-$$
-we reduce the case that $Q$ is bounded below. Using the 
-canonical distinguished triangles
-$$
-H^n(Q)[-n] \to \tau_{\geq n}Q \to \tau_{\geq n + 1}Q \to H^n(Q)[-n + 1]
-$$
-we reduce to the case where $Q$ is a quasi-coherent sheaf $\mathcal{G}$
-supported in $|f^{-1}Z|$ sitting in a single degree. By
-Limits of Spaces, Lemma
-\ref{spaces-limits-lemma-directed-colimit-finite-type}
-and
-Cohomology of Spaces, Lemma \ref{spaces-cohomology-lemma-colimit-cohomology}
-we may assume $\mathcal{G}$ is a quasi-coherent
-$\mathcal{O}_Y$-module of finite type.
-
-\medskip\noindent
-Write $X = \Spec(A)$ and let $I \subset A$ be the ideal cutting out $Z$.
-Let $V \to Y$ be a surjective \'etale morphism where $V = \Spec(B)$
-is affine. Let $\mathcal{G}$ correspond to the $B$-module $N$.
-Because $N$ is a finite $B$-module whose support is contained
-in $V(IB)$ for every $f \in I$ there exists an integer $n_f$ such that
-$f^{n_f} N = 0$. Let $I' \subset I$ be the ideal generated by the
-elements $f^{n_f}$. Let $Z' \subset X$ be the closed subscheme defined
-by $I'$. Then we see that $f^{-1}Z'$ is a closed subspace of $Y$
-such that $\mathcal{G}$ is the pushforward of a quasi-coherent
-module $\mathcal{H}$ on $f^{-1}Z'$, see Morphisms of Spaces, Lemma
-\ref{spaces-morphisms-lemma-i-star-equivalence}.
-
-\medskip\noindent
-As $f^{-1}Z \to Z$ is integral we see that $f^{-1}Z$ is affine.
-Since $f^{-1}Z \to f^{-1}Z'$ is a surjective integral
-morphism (it is a thickening) $f^{-1}Z'$ is an affine scheme by
-Limits of Spaces, Lemma \ref{spaces-limits-proposition-affine}.
-We conclude that $f^{-1}Z' \to Z'$ is affine. This already implies
-that the higher direct images of $\mathcal{H}$ under $f^{-1}Z' \to Z'$
-are zero. Using the Leray Spectral Sequence for
-$f^{-1}Z' \to Y \to X$ we see that $R^nf_*\mathcal{G} = 0$
-for $n > 0$. For $n = 0$ it suffices to see that
-the stalk of $f_*\mathcal{G}$ equals the stalk of
-$\mathcal{G}$. Again this follows easily from the corresponding
-result for $\mathcal{H}$.
-\end{proof}
-
-\noindent
-The following lemma can be skipped on a first reading.
-
-\begin{lemma}
-\label{lemma-formal-glueing-on-closed}
-In Situation \ref{situation-formal-glueing} for any $Q$
-in $D_\QCoh(\mathcal{O}_Y)$ supported on $f^{-1}Z$ we have
-$Lf^*Rf_*Q = Q$.
-\end{lemma}
-
-\begin{proof}
-We show the canonical map $Lf^*Rf_*Q \to Q$ is an isomorphism
-by checking on stalks at $\overline{y}$. As $f$ is flat we have
-$$
-(Lf^*Rf_*Q)_{\overline{y}} =
-(Rf_*Q)_{\overline{x}}
-\otimes_{\mathcal{O}_{X, \overline{x}}}
-\mathcal{O}_{Y, \overline{y}} =
-Q_{\overline{y}} \otimes_{\mathcal{O}_{X, \overline{x}}}
-\mathcal{O}_{Y, \overline{y}}
-$$
-Let $I \subset \mathcal{O}_{X, \overline{x}}$ be the ideal
-corresponding to $Z$. Since $Z \to X$ is locally of finite presentation
-the ideal $I$ is finitely generated. The ring map
-$$
-\mathcal{O}_{X, \overline{x}} \to \mathcal{O}_{Y, \overline{y}}
-$$
-is flat and induces an isomorphism after dividing by $I$. Since $Q$ is
-supported on $|f^{-1}Z|$ and has quasi-coherent cohomology sheaves,
-the cohomology modules $H^n(Q)_{\overline{y}}$
-are $I$-power torsion (details omitted). Hence we see that
-the cohomology modules of
-$Q_{\overline{y}} \otimes_{\mathcal{O}_{X, \overline{x}}}
-\mathcal{O}_{Y, \overline{y}}$
-are equal to the cohomology modules of $Q_{\overline{y}}$ by
-More on Algebra, Lemma \ref{more-algebra-lemma-neighbourhood-isomorphism}
-which finishes the proof.
-\end{proof}
 
 \begin{lemma}
 \label{lemma-stalk-formal-glueing}
@@ -512,6 +538,11 @@ our computation of the stalk of the kernel implies that
 the outer square (using the curved arrows) commutes. Thus we
 conclude using the case of affine schemes we saw above.
 \end{proof}
+
+
+
+\section{Formal glueing of algebraic spaces}
+\label{section-formal-glueing-spaces}
 
 \noindent
 In Situation \ref{situation-formal-glueing} we consider the category
