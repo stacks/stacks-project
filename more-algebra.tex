@@ -2007,6 +2007,63 @@ Algebra, Lemma \ref{algebra-lemma-uniqueness-henselian}.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-henselization-flat}
+Let $(A, I)$ be a pair. Let $(A^h, I^h)$ be as in 
+Lemma \ref{lemma-henselization}. Then $A \to A^h$ is flat,
+$I^h = IA^h$ and $A/I^n \to A^h/I^nA^h$ is an isomorphism
+for all $n$.
+\end{lemma}
+
+\begin{proof}
+In the proof of Lemma \ref{lemma-henselization} we have seen that
+$A^h$ is a filtered colimit of \'etale $A$-algebras $B$ such that
+$A/I \to B/IB$ is an isomorphism and we have seen that
+$I^h = IA^h$. As an \'etale ring map is flat
+(Algebra, Lemma \ref{algebra-lemma-etale}) we conclude that
+$A \to A^h$ is flat by Algebra, Lemma \ref{algebra-lemma-colimit-flat}.
+Since each $A \to B$ is flat we find that the maps
+$A/I^n \to B/I^nB$ are isomorphisms as well (for example by
+Algebra, Lemma \ref{algebra-lemma-lift-basis}).
+Taking the colimit we find that $A/I^n = A^h/I^nA^h$
+as desired.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-henselization-Noetherian-pair}
+Let $(A, I)$ be a pair with $A$ Noetherian.  Let $(A^h, I^h)$ be as in 
+Lemma \ref{lemma-henselization}. Then the map of $I$-adic completions
+$$
+A^\wedge \to (A^h)^\wedge
+$$
+is an isomorphism. Moreover, $A^h$ is Noetherian, the maps
+$A \to A^h \to A^\wedge$ are flat, and $A^h \to A^\wedge$ is
+faithfully flat.
+\end{lemma}
+
+\begin{proof}
+The first statement is an immediate consequence of
+Lemma \ref{lemma-henselization-flat}
+and in fact holds without assuming $A$ is Noetherian.
+In the proof of Lemma \ref{lemma-henselization} we have seen that
+$A^h$ is a filtered colimit of \'etale $A$-algebras $B$ such that
+$A/I \to B/IB$ is an isomorphism. For each such $A \to B$
+the induced map $A^\wedge \to B^\wedge$ is an isomorphism
+(see proof of Lemma \ref{lemma-henselization-flat}).
+By Algebra, Lemma \ref{algebra-lemma-completion-flat} the ring map
+$B \to A^\wedge = B^\wedge = (A^h)^\wedge$ is flat for each $B$.
+Thus $A^h \to A^\wedge = (A^h)^\wedge$ is flat by
+Algebra, Lemma \ref{algebra-lemma-colimit-rings-flat}.
+Since $I^h = IA^h$ is contained in the radical ideal of $A^h$
+and since $A^h \to A^\wedge$ induces an isomorphism $A^h/I^h \to A/I$
+we see that $A^h \to A^\wedge$ is faithfully flat by
+Algebra, Lemma \ref{algebra-lemma-ff}.
+By Algebra, Lemma \ref{algebra-lemma-completion-Noetherian-Noetherian}
+the ring $A^\wedge$ is Noetherian.
+Hence we conclude that $A^h$ is Noetherian by
+Algebra, Lemma \ref{algebra-lemma-descent-Noetherian}.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-henselization-colimit}
 Let $(A, I) = \colim (A_i, I_i)$ be a colimit of pairs. The functor of
 Lemma \ref{lemma-henselization} gives
@@ -2017,6 +2074,7 @@ $A^h = \colim A_i^h$ and $I^h = \colim I_i^h$.
 This is true for any left adjoint, see
 Categories, Lemma \ref{categories-lemma-adjoint-exact}.
 \end{proof}
+
 
 
 
@@ -3739,8 +3797,32 @@ Homology, Lemma \ref{homology-lemma-apply-Mittag-Leffler-again}
 that the inverse limit of the right most maps is injective.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-flat-after-completion}
+Let $R$ be a ring. Let $I \subset R$ be an ideal. Let $M$ be
+an $R$-module. Assume
+\begin{enumerate}
+\item $I$ is finitely generated,
+\item $R/I$ is Noetherian,
+\item $M/IM$ is flat over $R/I$,
+\item $\text{Tor}_1^R(M, R/I) = 0$.
+\end{enumerate}
+Then the $I$-adic completion $R^\wedge$
+is a Noetherian ring and $M^\wedge$ is flat over $R^\wedge$.
+\end{lemma}
 
-
+\begin{proof}
+By Algebra, Lemma \ref{algebra-lemma-what-does-it-mean}
+the modules $M/I^nM$ are flat over $R/I^n$ for all $n$.
+By Algebra, Lemmas \ref{algebra-lemma-hathat} and
+\ref{algebra-lemma-hathat-finitely-generated} we have
+(a) $R^\wedge$ and $M^\wedge$ are $I$-adically complete and
+(b) $R/I^n = R^\wedge/I^nR^\wedge$ for all $n$.
+By Algebra, Lemma \ref{algebra-lemma-completion-Noetherian}
+the ring $R^\wedge$ is Noetherian.
+Applying Lemma \ref{lemma-limit-flat} we conclude that
+$M^\wedge = \lim M/I^nM$ is flat as an $R^\wedge$-module.
+\end{proof}
 
 
 
@@ -6705,15 +6787,21 @@ fibre rings are always Noetherian.
 \begin{lemma}[Regular is a local property]
 \label{lemma-regular-local}
 Let $R \to \Lambda$ be a ring map with $\Lambda$ Noetherian.
-Then $R \to \Lambda$ is regular if and only if the local ring maps
-$R_\mathfrak p \to \Lambda_\mathfrak q$ are regular for all
-$\mathfrak q \subset \Lambda$ lying over $\mathfrak p \subset R$.
+The following are equivalent
+\begin{enumerate}
+\item $R \to \Lambda$ is regular,
+\item $R_\mathfrak p \to \Lambda_\mathfrak q$ is regular for all
+$\mathfrak q \subset \Lambda$ lying over $\mathfrak p \subset R$, and
+\item $R_\mathfrak m \to \Lambda_{\mathfrak m'}$ is regular for
+all maximal ideals $\mathfrak m' \subset \Lambda$
+lying over $\mathfrak m$ in $R$.
+\end{enumerate}
 \end{lemma}
 
 \begin{proof}
 This is true because a Noetherian ring is regular if and only if
 all the local rings are regular local rings, see
-Algebra, Definition \ref{definition-regular}
+Algebra, Definition \ref{algebra-definition-regular}
 and a ring map is flat if and only if all the induced maps of local
 rings are flat, see
 Algebra, Lemma \ref{algebra-lemma-flat-localization}.
@@ -6952,6 +7040,33 @@ For (3) see Algebra, Lemmas
 \ref{algebra-lemma-analytically-unramified-easy}.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-flat-unramified}
+Let $A \to B$ be a flat local homomorphism of Noetherian local rings
+such that $\mathfrak m_A B = \mathfrak m_B$ and
+$\kappa(\mathfrak m_A) = \kappa(\mathfrak m_B)$.
+Then $A \to B$ induces an isomorphism $A^\wedge \to B^\wedge$
+of completions.
+\end{lemma}
+
+\begin{proof}
+By Algebra, Lemma \ref{algebra-lemma-finite-after-completion} we see that
+$B^\wedge$ is the $\mathfrak m_A$-adic
+completion of $B$ and that $A^\wedge \to B^\wedge$ is finite.
+Since $A \to B$ is flat we have $\text{Tor}_1^A(B, \kappa(\mathfrak m_A)) = 0$.
+Hence we see that $B^\wedge$ is flat over $A^\wedge$ by
+Lemma \ref{lemma-flat-after-completion}.
+Thus $B^\wedge$ is a free $A^\wedge$-module by
+Algebra, Lemma \ref{algebra-lemma-finite-flat-local}.
+Since $A^\wedge \to B^\wedge$ induces an isomorphism
+$\kappa(\mathfrak m_A) = A^\wedge/\mathfrak m_A A^\wedge \to
+B^\wedge/\mathfrak m_A B^\wedge = B^\wedge/\mathfrak m_B B^\wedge =
+\kappa(\mathfrak m_B)$ by our assumptions
+(and Algebra, Lemmas \ref{algebra-lemma-hathat} and
+\ref{algebra-lemma-hathat-finitely-generated}),
+we see that $B^\wedge$ is free of rank $1$. Thus $A^\wedge \to B^\wedge$
+is an isomorphism.
+\end{proof}
 
 
 
@@ -7322,6 +7437,40 @@ Lemma \ref{lemma-henselization-dimension}
 \end{proof}
 
 \begin{lemma}
+\label{lemma-filtered-colimit-etale-noetherian-fibres}
+Let $A$ be a ring. Let $B$ be a filtered colimit of \'etale $A$-algebras.
+Let $\mathfrak p$ be a prime of $A$. If $B$ is Noetherian, then
+there are finitely many primes $\mathfrak q_1, \ldots, \mathfrak q_r$
+lying over $\mathfrak p$, we have
+$B \otimes_A \kappa(\mathfrak p) = \prod \kappa(\mathfrak q_i)$, and
+each of the field extensions
+$\kappa(\mathfrak p) \subset \kappa(\mathfrak q_i)$ is separable algebraic.
+\end{lemma}
+
+\begin{proof}
+Write $B$ as a filtered colimit $B = \colim B_i$ with $A \to B_i$ \'etale.
+Then on the one hand
+$B \otimes_A \kappa(\mathfrak p) = \colim B_i \otimes_A \kappa(\mathfrak p)$
+is a filtered colimit of \'etale $\kappa(\mathfrak p)$-algebras, and
+on the other hand it is Noetherian. An \'etale
+$\kappa(\mathfrak p)$-algebra is a finite product of finite separable field
+extensions (Algebra, Lemma \ref{algebra-lemma-etale-over-field}).
+Hence there are no nontrivial specializations between the primes
+(which are all maximal and minimal primes) of the algebras
+$B_i \otimes_A \kappa(\mathfrak p)$ and hence there are no
+nontrivial specializations between the primes of
+$B \otimes_A \kappa(\mathfrak p)$. Thus
+$B \otimes_A \kappa(\mathfrak p)$ is reduced and
+has finitely many primes which all minimal.
+Thus it is a finite product of fields (use
+Algebra, Lemma \ref{algebra-lemma-total-ring-fractions-no-embedded-points}
+or
+Algebra, Proposition \ref{algebra-proposition-dimension-zero-ring}).
+Each of these fields is a colimit of finite separable extensions
+and hence the final statement of the lemma follows.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-fibres-henselization}
 Let $R$ be a Noetherian local ring. Let $\mathfrak p \subset R$ be a prime.
 Then
@@ -7342,6 +7491,12 @@ are separable algebraic.
 \end{lemma}
 
 \begin{proof}
+This can be deduced from the more general
+Lemma \ref{lemma-filtered-colimit-etale-noetherian-fibres}
+using that the henselization and strict henselization are Noetherian
+(as we've seen above). But we also give a direct proof as follows.
+
+\medskip\noindent
 We will use without further mention the results of
 Lemmas \ref{lemma-dumb-properties-henselization} and
 \ref{lemma-henselization-noetherian}.
@@ -8614,6 +8769,116 @@ we see that $A = \colim A_i^h$. By
 Lemma \ref{lemma-henselization-G-ring}
 the rings $A_i^h$ are G-rings.
 \end{proof}
+
+\begin{lemma}
+\label{lemma-map-G-ring-to-completion-regular}
+\begin{reference}
+\cite[Theorem 79]{MatCA}
+\end{reference}
+Let $A$ be a Noetherian G-ring. Let $I \subset A$ be an ideal
+and let $A^\wedge$ be the completion of $A$ with respect to $I$.
+Then $A \to A^\wedge$ is regular.
+\end{lemma}
+
+\begin{proof}
+The ring map $A \to A^\wedge$ is flat by
+Algebra, Lemma \ref{algebra-lemma-completion-flat}.
+The ring $A^\wedge$ is Noetherian by
+Algebra, Lemma \ref{algebra-lemma-completion-Noetherian-Noetherian}.
+Thus it suffices to check the third condition of
+Lemma \ref{lemma-regular-local}.
+Let $\mathfrak m' \subset A^\wedge$ be a maximal ideal lying over
+$\mathfrak m \subset A$.
+By Algebra, Lemma \ref{algebra-lemma-radical-completion}
+we have $IA^\wedge \subset \mathfrak m'$.
+Since $A^\wedge/IA^\wedge = A/I$ we see that
+$I \subset \mathfrak m$, $\mathfrak m/I = \mathfrak m'/IA^\wedge$%, and
+$A/\mathfrak m = A^\wedge/\mathfrak m'$. Since $A^\wedge/\mathfrak m'$
+is a field, we conclude that $\mathfrak m$ is a maximal ideal as well.
+Then $A_\mathfrak m \to A^\wedge_{\mathfrak m'}$ is a flat local
+ring homomorphism of Noetherian local rings
+which identifies residue fields and such that
+$\mathfrak m A^\wedge_{\mathfrak m'} = \mathfrak m'A^\wedge_{\mathfrak m'}$.
+Thus it induces an isomorphism on complete local rings, see
+Lemma \ref{lemma-flat-unramified}.
+Let $(A_\mathfrak m)^\wedge$ be the completion of $A_\mathfrak m$
+with respect to its maximal ideal.
+The ring map
+$$
+(A^\wedge)_{\mathfrak m'} \to
+((A^\wedge)_{\mathfrak m'})^\wedge = (A_\mathfrak m)^\wedge
+$$
+is faithfully flat (Algebra, Lemma
+\ref{algebra-lemma-completion-faithfully-flat}). Thus we can apply
+Lemma \ref{lemma-regular-permanence} to the ring maps
+$$
+A_\mathfrak m \to (A^\wedge)_{\mathfrak m'} \to (A_\mathfrak m)^\wedge
+$$
+to conclude because $A_\mathfrak m \to (A_\mathfrak m)^\wedge$
+is regular as $A$ is a G-ring.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-henselization-pair-G-ring}
+Let $A$ be a Noetherian G-ring. Let $I \subset A$ be an ideal.
+Let $(A^h, I^h)$ be the henselization of the pair $(A, I)$, see
+Lemma \ref{lemma-henselization}.
+Then $A^h$ is a Noetherian G-ring.
+\end{lemma}
+
+\begin{proof}
+Let $\mathfrak m^h \subset A^h$ be a maximal ideal. We have to show
+that the map from $A^h_{\mathfrak m^h}$ to its completion has
+geometrically regular fibres, see
+Lemma \ref{lemma-check-G-ring-maximal-ideals}.
+Let $\mathfrak m$ be the inverse image of $\mathfrak m^h$ in $A$.
+Note that $I^h \subset \mathfrak m^h$ and hence $I \subset \mathfrak m$
+as $(A^h, I^h)$ is a henselian pair. Recall that $A^h$ is Noetherian,
+$I^h = IA^h$, and that $A \to A^h$ induces an isomorphism on
+$I$-adic completions, see
+Lemma \ref{lemma-henselization-Noetherian-pair}.
+Then the local homomorphism of Noetherian local rings
+$$
+A_\mathfrak m \to A^h_{\mathfrak m^h}
+$$
+induces an isomorphism on completions at maximal ideals by
+Lemma \ref{lemma-flat-unramified} (details omitted).
+Let $\mathfrak q^h$ be a prime of the middle ring lying
+over $\mathfrak q \subset A_\mathfrak m$.
+Set $\mathfrak q_1 = \mathfrak q^h$
+and let $\mathfrak q_2, \ldots, \mathfrak q_t$
+be the other primes of $A^h$ lying over $\mathfrak q$, so that
+$A^h \otimes_A \kappa(\mathfrak q) =
+\prod\nolimits_{i = 1, \ldots, t} \kappa(\mathfrak q_i)$, see
+Lemma \ref{lemma-filtered-colimit-etale-noetherian-fibres}.
+Using that $(A^h)_{\mathfrak m^h}^\wedge = (A_\mathfrak m)^\wedge$
+as discussed above we see
+$$
+\prod\nolimits_{i = 1, \ldots, t}
+(A^h_{\mathfrak m^h})^\wedge \otimes_{A^h_{\mathfrak m^h}}
+\kappa(\mathfrak q_i) =
+(A^h_{\mathfrak m^h})^\wedge \otimes_{A^h_{\mathfrak m^h}}
+(A^h_{\mathfrak m^h} \otimes_{A_{\mathfrak m}} \kappa(\mathfrak q)) =
+(A_{\mathfrak m})^\wedge \otimes_{A_{\mathfrak m}} \kappa(\mathfrak q)
+$$
+Hence, as one of the components, the ring
+$$
+(A^h_{\mathfrak m^h})^\wedge \otimes_{A^h_{\mathfrak m^h}}
+\kappa(\mathfrak q^h)
+$$
+is geometrically regular over $\kappa(\mathfrak q)$ by assumption on $A$.
+Since $\kappa(\mathfrak q^h)$ is separable algebraic over
+$\kappa(\mathfrak q)$
+it follows from Algebra, Lemma
+\ref{algebra-lemma-geometrically-regular-over-separable-algebraic} that
+$$
+(A^h_{\mathfrak m^h})^\wedge \otimes_{A^h_{\mathfrak m^h}}
+\kappa(\mathfrak q^h)
+$$
+is geometrically regular over $\kappa(\mathfrak q^h)$ as desired.
+\end{proof}
+
+
 
 
 
