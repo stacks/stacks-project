@@ -1157,76 +1157,381 @@ constant with value $X$. See Categories, Definition
 
 
 
-
-\section{Glueing rings along a principal ideal}
-\label{section-approximation-principal}
+\section{Restricted power series}
+\label{section-approximation-pre}
 
 \noindent
-Let $A$ be a Noetherian ring. Let $a \in A$. Set $A_n = A/(a^n)$ so
-that the $a$-adic completion of $A$ is $A^\wedge = \lim A_n$.
-Let $\mathcal{C}$ be the
+Let $A$ be a ring. Let $I \subset A$ be an ideal.
+Let $A[x_1, \ldots, x_r]^\wedge$ denote the $I$-adic completion of the
+polynomial ring. We think of elements of $A[x_1, \ldots, x_r]^\wedge$ as
+power series
+$$
+f = \sum\nolimits_{E = (e_1, \ldots, e_r)} a_E x_1^{e_1} \ldots x_r^{e_r}
+$$
+in $x_1, \ldots, x_r$ with coefficients $a_E \in A^\wedge$ which tend
+to zero in the $I$-adic topology. In other words, for any $t \geq 0$
+all but a finite number of $a_E$ are in $I^t$.
+For this reason elements of $A[x_1, \ldots, x_r]^\wedge$ are sometimes
+called {\it restricted power series} and when $A$ is $I$-adically complete
+the ring $A[x_1, \ldots, x_r]^\wedge$ is sometimes denoted
+$A\{x_1, \ldots, x_r\}$ or $A\langle x_1, \ldots, x_r\rangle$.
+We will refrain from using this notation.
+
+\begin{remark}[Universal property restricted power series]
+\label{remark-universal-property}
+Let $A$ be a ring and $I \subset A$ be a finitely generated ideal.
+Let $C$ be an $I$-adically complete $A$-algebra. Then any $A$-algebra
+map $A[x_1, \ldots x_r] \to C$ extends uniquely to a continuous map
+$A[x_1, \ldots, x_r]^\wedge \to C$ on restricted power series.
+(This even works is $I$ is not finitely generated, but in that
+case the restricted power series ring may not be $I$-adically
+complete itself.)
+\end{remark}
+
+\noindent
+Set $A_n = A/I^n$ so that the $I$-adic completion of $A$ is
+$A^\wedge = \lim A_n$. Let $\mathcal{C}$ be the
 category of systems $(B_n)_{n \in \mathbf{N}}$ where
 \begin{enumerate}
 \item $B_n$ is a finite type $A_n$-algebra, and
 \item $B_{n + 1} \to B_n$ is an $A_{n + 1}$-algebra homomorphism which induces
-an isomorphism $B_{n + 1}/a^nB_{n + 1} \to B_n$.
+an isomorphism $B_{n + 1}/I^nB_{n + 1} \to B_n$.
 \end{enumerate}
 Morphisms in $\mathcal{C}$ are given by systems of homomorphisms.
-Let $\mathcal{C}'$ be the category of $A^\wedge$-algebras $B$ which are
-$(a)$-adically complete and such that $B/aB$ is of finite type over
-$A_1$. Then the functor
+Let $\mathcal{C}'$ be the category of $A$-algebras $B$ which are
+$I$-adically complete and such that $B/IB$ is of finite type over $A/I$.
+There is a functor
+\begin{equation}
+\label{equation-from-complete-to-systems}
+\mathcal{C}' \longrightarrow \mathcal{C},\quad
+B \longmapsto (B/I^nB)
+\end{equation}
+Indeed, since $B/IB$ is of finite type over $A/I$ the ring maps
+$A_n = A/I^n \to B/I^nB$ are of finite type
+(apply Algeba, Lemma \ref{algebra-lemma-NAK}
+to a ring map $A/I^n[x_1, \ldots, x_r] \to B/I^nB$
+such that the images of $x_1, \ldots, x_r$ generate $B/IB$
+over $A/I$).
+
+\begin{lemma}
+\label{lemma-topologically-finite-type}
+Let $A$ be a ring and let $I \subset A$ be a finitely generated ideal.
+The functor
 $$
 \mathcal{C} \longrightarrow \mathcal{C}',\quad
 (B_n) \longmapsto B = \lim B_n
 $$
-is an equivalence of categories. Let $A[x_1, \ldots, x_r]^\wedge$ denote
-the $a$-adic completion of the polynomial ring. We think of elements
-of $A[x_1, \ldots, x_r]^\wedge$ as power series in $x_1, \ldots, x_r$
-with coefficients in $A^\wedge$ which tend to zero in the $a$-adic topology.
-Any object of $\mathcal{C}'$ is of the form
+is a quasi-inverse to (\ref{equation-from-complete-to-systems}).
+The restricted power series rings are in $\mathcal{C}'$ and
+any object of $\mathcal{C}'$ is of the form
+$$
+B = A[x_1, \ldots, x_r]^\wedge / J
+$$
+for some ideal $J \subset A[x_1, \ldots, x_r]^\wedge$.
+\end{lemma}
+
+\begin{proof}
+Let $(B_n)$ be an object of $\mathcal{C}$. By
+Algebra, Lemma \ref{algebra-lemma-limit-complete}
+we see that $B = \lim B_n$ is $I$-adically complete
+and $B/I^nB = B_n$. Hence we see that $B$ is an object of
+$\mathcal{C}'$ and that we can recover the object $(B_n)$ 
+by taking the quotients.
+Conversely, if $B$ is an object of $\mathcal{C}'$, then
+$B = \lim B/I^nB$ by assumption. Thus $B \mapsto (B/I^nB)$ is a quasi-inverse
+to the functor of the lemma.
+
+\medskip\noindent
+Since $A[x_1, \ldots, x_r]^\wedge = \lim A_n[x_1, \ldots, x_r]$
+it is an object of $\mathcal{C}'$ by the first statement of the lemma.
+Finally, let $B$ be an object of $\mathcal{C}'$. Choose
+$b_1, \ldots, b_r \in B$ whose images in $B/IB$ generate
+$B/IB$ as an algebra over $A/I$. Since $B$ is $I$-adically
+complete, the $A$-algebra map $A[x_1, \ldots, x_r] \to B$, $x_i \mapsto b_i$
+extends to an $A$-algebra map $A[x_1, \ldots, x_r]^\wedge \to B$.
+To finish the proof we have to show this map is surjective
+which follows from Algebra, Lemma \ref{algebra-lemma-completion-generalities}
+as our map $A[x_1, \ldots, x_r] \to B$ is surjective modulo $I$
+and as $B = B^\wedge$.
+\end{proof}
+
+\noindent
+We warn the reader that, in case $A$ is not Noetherian, the
+quotient of an object of $\mathcal{C}'$ may not be an object
+of $\mathcal{C}'$. See Examples, Lemma
+\ref{examples-lemma-noncomplete-quotient}.
+Next we show this does not happen when $A$ is Noetherian.
+
+\begin{lemma}
+\label{lemma-topologically-finite-type-Noetherian}
+\begin{reference}
+\cite[Proposition 7.5.5]{EGA1}
+\end{reference}
+Let $A$ be a Noetherian ring and let $I \subset A$ be an ideal. Then
+\begin{enumerate}
+\item every object of the category $\mathcal{C}'$, in particular the
+restricted power series algebra $A[x_1, \ldots, x_r]^\wedge$, is Noetherian,
+\item if $B$ is an object of $\mathcal{C}'$ and $J \subset B$ is an
+ideal, then $B/J$ is an object of $\mathcal{C}'$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+To see (1) by Lemma \ref{lemma-topologically-finite-type}
+we reduce to the case of the restricted power series.
+This case follows from
+Algebra, Lemma \ref{algebra-lemma-completion-Noetherian-Noetherian}
+as $A[x_1, \ldots, x_r]$ is Noetherian
+(Algebra, Lemma \ref{algebra-lemma-Noetherian-permanence}).
+Part (2) follows from Algebra, Lemma \ref{algebra-lemma-completion-tensor}
+which tells us that ever finite $B$-module is
+$IB$-adically complete.
+\end{proof}
+
+\noindent
+Let $A$ be a Noetherian ring and let $I \subset A$ be a ideal.
+Let $B$ be an object of $\mathcal{C}'$, i.e., $B$ is an $A$-algebra
+which is $I$-adically complete such that $A/I \to B/IB$ is of finite type.
+By Lemma \ref{lemma-topologically-finite-type-Noetherian} we can write
 $$
 B = A[x_1, \ldots, x_r]^\wedge / J
 $$
 for some finitely generated ideal $J$. For a choice of presentation as
 above we define
+\begin{equation}
+\label{equation-NL}
+\NL^\wedge_{B/A} = (J/J^2 \longrightarrow \bigoplus B\text{d}x_i)
+\end{equation}
+with terms sitting in degrees $-1$ and $0$
+where the map sends the residue class of $g \in J$ to the differential
+$\text{d}g = \sum (\partial g/\partial x_i) \text{d}x_i$. Here
+the partial derivative is taken by thinking of $g$ as a power series.
+The following lemma shows that $\NL^\wedge_{B/A}$ is well defined
+in $D(B)$, i.e., independent of the chosen presentation, although this
+could be shown directly by comparing presentations as in
+Algebra, Section \ref{algebra-section-netherlander}.
+
+\begin{lemma}
+\label{lemma-NL-is-limit}
+With $I \subset A \to B$ as above we have
+$\NL^\wedge_{B/A} = R\lim \NL_{B_n/A_n}$ in $D(B)$.
+\end{lemma}
+
+\begin{proof}
+In fact, the presentation $B = A[x_1, \ldots, x_r]^\wedge / J$
+defines presentations
 $$
-NL^\wedge_{B/A} = (J/J^2 \longrightarrow \bigoplus B\text{d}x_i)
-$$
-where the map sends the residue class of $g \in J$ to the form
-$\text{d}g = \sum (\partial g/\partial x_i) \text{d}x_i$ where
-the partial derivative is taken by thinking of $g$ as a power
-series. The reader may verify this is well defined. In fact, the
-presentation defines presentations
-$$
-B_n = B/a^nB = A_n[x_1, \ldots, x_r]/J_n
+B_n = B/I^nB = A_n[x_1, \ldots, x_r]/J_n
 $$
 where
 $$
 J_n = JA_n[x_1, \ldots, x_r] =
-J/(J \cap (a^n)) = J + (a^n) / (a^n)
+J/(J \cap I^nA[x_1, \ldots, x_r]^\wedge)
 $$
-and we have
+By Artin-Rees (Algebra, Lemma \ref{algebra-lemma-Artin-Rees})
+in the Noetherian ring $A[x_1, \ldots, x_r]^\wedge$
+(Lemma \ref{lemma-topologically-finite-type-Noetherian})
+we see that we have canonical surjections
 $$
-NL^\wedge_{B/A} =
+J/I^nJ \to J_n \to J/I^{n - c}J,\quad n \geq c
+$$
+for some $c \geq 0$.
+It follows that $\lim J_n/J_n^2 = J/J^2$ as any finite
+$A[x_1, \ldots, x_r]^\wedge$-module is $I$-adically complete
+(Algebra, Lemma \ref{algebra-lemma-completion-tensor}).
+Thus
+$$
+\NL^\wedge_{B/A} =
 \lim (J_n/J_n^2 \longrightarrow \bigoplus B_n \text{d}x_i)
 $$
-as complexes. It follows that $NL^\wedge_{B/A}$ represents
-$R\lim NL_{B_n/A_n}$ in the derived category. In particular, it
-is (up to quasi-isomorphism) independent of the chosen
-presentation.
+(termwise limit)
+and the transition maps in the system are termwise surjective.
+The two term complex $J_n/J_n^2 \longrightarrow \bigoplus B_n \text{d}x_i$
+represents $\NL_{B_n/A_n}$ by
+Algebra, Section \ref{algebra-section-netherlander}.
+It follows that $\NL^\wedge_{B/A}$ represents
+$R\lim \NL_{B_n/A_n}$ in the derived category by
+More on Algebra, Lemma \ref{more-algebra-lemma-compute-Rlim-modules}.
+\end{proof}
+
+\noindent
+Maps in the derived category out of a complex such as (\ref{equation-NL})
+are easy to understand by the result of the following lemma.
+
+\begin{lemma}
+\label{lemma-zero-in-derived}
+Let $R$ be a ring. Let $M^\bullet$ be a two term complex
+$M^{-1} \to M^0$ over $R$ with $M^0$ a projective $R$-module.
+Let $K^\bullet$ be a complex with $K^i = 0$ for $i \leq -2$.
+Then
+\begin{enumerate}
+\item $\Hom_{D(R)}(M^\bullet, K^\bullet) = \Hom_{K(R)}(M^\bullet, K^\bullet)$,
+\item if $\varphi \in \text{End}_{D(R)}(M^\bullet)$
+is zero on $H^i(M^\bullet)$, then $\varphi^2 = 0$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Set $F^0 = M^0$.
+Choose a free $R$-module $F^{-1}$ and a surjection $F^{-1} \to M^{-1}$.
+Choose a free $R$-module $F^{-2}$ and a surjection
+$F^{-2} \to \Ker(F^{-1} \to M^{-1})$. For $i \leq -3$ choose a
+free $R$-module $F^i$ and a surjection $F^i \to \Ker(F^{i + 1} \to F^{i + 2})$.
+Then $p : F^\bullet \to M^\bullet$ is a quasi-isomorphism. By
+Derived Categories, Lemma \ref{derived-lemma-morphisms-from-projective-complex}
+we have
+$$
+\Hom_{D(R)}(M^\bullet, K^\bullet) = \Hom_{K(R)}(F^\bullet, K^\bullet)
+$$
+But since $K^i = 0$ for $i \leq -2$ we see that any morphism of complexes
+$F^\bullet \to K^\bullet$ factors through $p$. Similarly, any
+homotopy $\{h^i : F^i \to K^{i - 1}\}$ factors through $p$.
+In this way we see that (1) holds.
+
+\medskip\noindent
+To see (2) apply 
+Derived Categories, Lemma \ref{derived-lemma-trick-vanishing-composition}
+to see that $\varphi^2$ factors through $\tau_{\leq -2}M^\bullet = 0$.
+\end{proof}
+
+\noindent
+Base change. Let $\varphi : A_1 \to A_2$ be a ring map and let
+$I_i \subset A_i$ be ideals such that $\varphi(I_1^c) \subset I_2$
+for some $c \geq 1$. This induces ring maps
+$A_{1, cn} = A_1/I_1^{cn} \to A_2/I_2^n = A_{2, n}$ for all $n \geq 1$.
+Let $\mathcal{C}_i$, $\mathcal{C}_i'$ be the categories
+of (\ref{equation-from-complete-to-systems}) for $(A_i, I_i)$.
+There is a base change functor
+\begin{equation}
+\label{equation-base-change-systems}
+\mathcal{C}_1 \longrightarrow \mathcal{C}_2,\quad
+(B_n) \longmapsto (B_{cn} \otimes_{A_{1, cn}} A_{2, n})
+\end{equation}
+If $I_2$ is finitely generated, then there is a base change functor
+\begin{equation}
+\label{equation-base-change-complete}
+\mathcal{C}_1' \longrightarrow \mathcal{C}_2',\quad
+B \longmapsto (B \otimes_{A_1} A_2)^\wedge
+\end{equation}
+because in this case the completion is complete
+(Algebra, Lemma \ref{algebra-lemma-hathat-finitely-generated}).
+If $A_1$ and $A_2$ are Noetherian
+the two base change functors agree via the functors
+(\ref{equation-from-complete-to-systems})
+which are equivalences by Lemma \ref{lemma-NL-is-limit}.
+
+\medskip\noindent
+Let $A$ be a Noetherian ring and $I \subset A$ an ideal.
+Let $\mathfrak a \subset A$ be an ideal. Denote $\bar A = A/\mathfrak a$.
+Let $\bar I \subset \bar A$ be an ideal such that
+$I^c \bar A \subset \bar I$ and $\bar I^d \subset I\bar A$
+for some $c, d \geq 1$. In this case the base change functor
+(\ref{equation-base-change-complete}) from the category $\mathcal{C}'$
+for $(A, I)$ to the category for $(\bar A, \bar I)$ is given by
+$B \mapsto \bar B = B/\mathfrak aB$. Namely, we have
+\begin{equation}
+\label{equation-base-change-to-closed}
+\bar B = (B \otimes_A \bar A)^\wedge = (B/\mathfrak a B)^\wedge =
+B/\mathfrak a B
+\end{equation}
+the last equality because any finite $B$-module is $I$-adically complete by
+Algebra, Lemma \ref{algebra-lemma-completion-tensor}
+and if annihilated by $\mathfrak a$ also $\bar I$-adically complete by
+Algebra, Lemma \ref{algebra-lemma-change-ideal-completion}.
+
+\begin{lemma}
+\label{lemma-zero-after-modding-out}
+With $A, I, \mathfrak a$ and $B$ as above, suppose that multiplication
+by $f \in B$ on $\NL^\wedge_{B/A}$ is zero in $D(B)$. Then multiplication by
+the image $\bar f \in \bar B$ on $\NL^\wedge_{\bar B/\bar A}$ is zero
+in $D(\bar B)$.
+\end{lemma}
+
+\begin{proof}
+Choose a presentation $B = A[x_1, \ldots, x_r]^\wedge/J$.
+Note that
+$$
+\bar A[x_1, \ldots, x_r]^\wedge =
+A[x_1, \ldots, x_r]^\wedge/\mathfrak a A[x_1, \ldots, x_r]^\wedge
+$$
+where we use the $\bar I$-adic completion on the left hand side.
+Set $\bar J = J \bar A[x_1, \ldots, x_r]^\wedge$. Then we get the
+presentation
+$$
+\bar B = \bar A[x_1, \ldots, x_r]^\wedge/\bar J
+$$
+for $\bar B$ over $\bar A$. Consider the commutative diagram
+$$
+\xymatrix{
+\NL^\wedge_{B/A} : \ar[d] &
+J/J^2 \ar[r]_-{\text{d}} \ar[d] & \bigoplus B\text{d}x_i \ar[d] \\
+\NL^\wedge_{\bar B/\bar A} : &
+\bar J/\bar J^2 \ar[r] & \bigoplus \bar B\text{d}x_i
+}
+$$
+The vertical arrows are surjective by our discussion above.
+By Lemma \ref{lemma-zero-in-derived}
+there is a map $\alpha : \bigoplus B\text{d}x_i \to J/J^2$
+such that $f \text{id}_{\bigoplus B\text{d}x_i} = \text{d} \circ \alpha$ and
+$f \text{id}_{J/J^2} = \alpha \circ \text{d}$. We define
+$\bar\alpha : \bigoplus \bar B\text{d}x_i \to \bar J/\bar J^2$
+by mapping $\text{d}x_i$ to the image of $\alpha(\text{d}x_i)$
+in $\bar J/\bar J^2$. Because the vertical arrows are surjective
+it follows that $\bar\alpha$ defines a homotopy between
+multiplication by $\bar f$ and the zero map as desired.
+\end{proof}
+
+\begin{remark}[Linear approximation]
+\label{remark-linear-approximation}
+Let $A$ be a ring and $I \subset A$ be a finitely generated ideal.
+Let $C$ be an $I$-adically complete $A$-algebra.
+Let $\psi : A[x_1, \ldots, x_r]^\wedge \to C$ be a continuous
+$A$-algebra map. Suppose given $\delta_i \in C$, $i = 1, \ldots, r$.
+Then we can consider
+$$
+\psi' : A[x_1, \ldots, x_r]^\wedge \to C,\quad
+x_i \longmapsto \psi(x_i) + \delta_i
+$$
+see Remark \ref{remark-universal-property}. Then we have
+$$
+\psi'(g) = \psi(g) + \sum \psi(\partial g/\partial x_i)\delta_i + \xi
+$$
+with error term $\xi \in (\delta_i\delta_j)$. This follows by
+writing $g$ as a power series and working term by term. Convergence
+is automatic as the coefficients of $g$ tend to zero.
+Details omitted.
+\end{remark}
+
+
+
+
+
+
+
+
+
+\section{Glueing rings along a principal ideal}
+\label{section-approximation-principal}
+
+\noindent
+In this situation we prove some results about the categories
+$\mathcal{C}$ and $\mathcal{C}'$ of Section \ref{section-approximation-pre}
+in case $A$ is a Noetherian ring and $I = (a)$ is a principal
+ideal.
 
 \begin{lemma}
 \label{lemma-get-morphism-nonzerodivisor}
+Let $A$ be a Noetherian ring and $I = (a)$ a principal ideal.
 Let $B$, $C$ be objects of the category $\mathcal{C}'$ above.
-Let $c \geq 0$ be an integer such that $a^c$ is homotopic to
-zero on $NL^\wedge_{B/A}$. Assume $a$ is a nonzerodivisor on $C$.
+Let $c \geq 0$ be an integer such that
+multiplication by $a^c$ on $\NL^\wedge_{B/A}$ is zero in $D(B)$.
+Assume $a$ is a nonzerodivisor on $C$.
 Let $n > 2c$. For any $A_n$-algebra map $\psi_n : B_n \to C_n$
 there exists a morphism $\varphi : B \to C$ of $\mathcal{C}'$ such
 that $\psi_n \bmod a^{n - c} = \varphi \bmod a^{n - c}$.
 \end{lemma}
 
 \begin{proof}
-We first prove this in case $a$ is a nonzero divisor on $C$.
 Choose a presentation $B = A[x_1, \ldots, x_r]^\wedge/J$. Choose
 a lift
 $$
@@ -1237,7 +1542,8 @@ which determines a linear map
 $$
 J/J^2 \longrightarrow a^nC/a^{2n}C,\quad g \longmapsto \psi(g)
 $$
-By assumption there is a $B$-module map
+By assumption and Lemma \ref{lemma-zero-in-derived}
+there is a $B$-module map
 $\bigoplus B\text{d}x_i \to a^nC/a^{2n}C$,
 $\text{d}x_i \mapsto \delta_i$ such that
 $a^c \psi(g) = \sum \psi(\partial g/\partial x_i) \delta_i$
@@ -1250,7 +1556,7 @@ $$
 \psi' : A[x_1, \ldots, x_r]^\wedge \to C,\quad
 x_i \longmapsto \psi(x_i) + \delta'_i
 $$
-A computation with power series (omitted)
+A computation with power series (see Remark \ref{remark-linear-approximation})
 shows that $\psi'(J) \subset a^{2n - 2c}C$. Since $n > 2c$
 we see that $n' = 2n - 2c = n + (n - 2c) > n$. Thus we obtain a morphism
 $\psi_{n'} : B_{n'} \to C_{n'}$ agreeing with $\psi_n$ modulo
@@ -1259,10 +1565,12 @@ obtain the lemma.
 \end{proof}
 
 \begin{lemma}
-\label{lemma-get-morphism}
+\label{lemma-get-morphism-principal}
+Let $A$ be a Noetherian ring and $I = (a)$ a principal ideal.
 Let $B$, $C$ be objects of the category $\mathcal{C}'$ above.
-Let $c \geq 0$ be an integer such that $a^c$ is homotopic to
-zero on $NL^\wedge_{B/A}$. Let $d \geq 0$ be an integer such that
+Let $c \geq 0$ be an integer such that
+multiplication by $a^c$ on $\NL^\wedge_{B/A}$ is zero in $D(B)$.
+Let $d \geq 0$ be an integer such that
 $C[a^\infty] \cap a^dC = 0$; such an integer always exists.
 Let $n > \max(2c, c + d)$. For any $A_n$-algebra map $\psi_n : B_n \to C_n$
 there exists a morphism $\varphi : B \to C$ of $\mathcal{C}'$ such
@@ -1276,7 +1584,7 @@ $a^nC \cap C[a^\infty] \subset a^{n - f}C[a^\infty]$ for all $n \geq f$.
 Thus $d = e + f$ works.
 
 \medskip\noindent
-Let $C \to C'$ be the quotient of $C$ by $C[a^d]$. For $m > d$ the
+Let $C \to C'$ be the quotient of $C$ by $C[a^\infty]$. For $m > d$ the
 diagram
 $$
 \xymatrix{
@@ -1292,6 +1600,121 @@ has exact rows. Thus $C$ is the fibre product of $C'$ and
 $C_m$ over $C'_m$. Thus the lemma now follows formally from
 the lifting result of Lemma \ref{lemma-get-morphism-nonzerodivisor}.
 \end{proof}
+
+
+
+
+
+
+
+
+
+
+\section{Glueing rings along an ideal}
+\label{section-approximation}
+
+\noindent
+Let $A$ be a Noetherian ring. Let $I \subset A$ be an ideal.
+In this section we study $I$-adically complete $A$-algebras
+which are, in some vague sense, \'etale over the complement of
+$V(I)$ in $\Spec(A)$.
+
+\begin{lemma}
+\label{lemma-get-morphism-general}
+Let $A$ be a Noetherian ring. Let $I \subset A$ be an ideal.
+Let $t$ be the minimal number of generators for $I$.
+Let $C$ be an object of the category $\mathcal{C}'$ above.
+There exists an integer $d \geq 0$ depending only on
+$I \subset A \to C$ with the following property: given
+\begin{enumerate}
+\item $c \geq 0$ and $B \in  \Ob(\mathcal{C}')$ such that for $a \in I^c$
+multiplication by $a$ on $\NL^\wedge_{B/A}$ is zero in $D(B)$,
+\item an integer $n > 2t\max(c, d)$,
+\item an $A_n$-algebra map $\psi_n : B_n \to C_n$,
+\end{enumerate}
+there exists a morphism $\varphi : B \to C$ of $\mathcal{C}'$ such
+that $\psi_n \bmod I^{m - c} = \varphi \bmod I^{m - c}$
+with $m = \lfloor \frac{n}{t} \rfloor$.
+\end{lemma}
+
+\begin{proof}
+We prove this lemma by induction on the number of generators of $I$.
+Say $I = (a_1, \ldots, a_t)$. If $t = 0$, then $I = 0$ and there
+is nothing to prove. If $t = 1$, then the lemma follows from
+Lemma \ref{lemma-get-morphism-principal} because
+$2\max(c, d) \geq \max(2c, c + d)$. Assume $t > 1$.
+
+\medskip\noindent
+Set $m = \lfloor \frac{n}{t} \rfloor$ as in the lemma.
+Set $\bar A = A/(a_t^m)$. Consider the ideal
+$\bar I = (\bar a_1, \ldots, \bar a_{t - 1})$ in $\bar A$.
+Let $\bar C = C/(a_t^m)$ be the base change of $C$ for the
+map $(A, I) \to (\bar A, \bar I)$, see (\ref{equation-base-change-to-closed}).
+Let $\bar d$ be the integer for $\bar I \subset \bar A \to \bar C$
+which exists by induction hypothesis.
+
+\medskip\noindent
+Let $d_1 \geq 0$ be the integer found in
+Lemma \ref{lemma-get-morphism-principal} for the ring $B$
+and the element $a_t \in A$.
+
+\medskip\noindent
+We claim the lemma holds with $d = \max(\bar d, d_1)$.
+To see this, let $c, B, n, \psi_n$ be as in the lemma.
+
+\medskip\noindent
+Note that $\bar I \subset I\bar A$. Hence by
+Lemma \ref{lemma-zero-after-modding-out}
+multiplication by an element of $\bar I^c$
+on the cotangent complex of $\bar B = B/(a_t^m)$
+is zero in $D(\bar B)$. Also, we have
+$$
+\bar I^{n - m + 1} \supset I^n \bar A
+$$
+Thus $\psi_n$ gives rise to a map
+$$
+\bar \psi_{n - m + 1} : \bar B_{n - m + 1} \to \bar C_{n - m + 1}
+$$
+Since $n > 2t\max(c, d)$ and $d \geq \bar d$ we see that
+$$
+n - m + 1 \geq (t - 1)n/t > 2(t - 1)\max(c, d) \geq 2(t - 1)\max(c, \bar d)
+$$
+Hence we can find a morphism $\varphi_m : \bar B \to \bar C$
+agreeing with $\bar \psi_{n - m + 1}$ modulo the ideal
+$\bar I^{m' - c}$ where $m' = \lfloor \frac{n - m + 1}{t - 1} \rfloor$.
+
+\medskip\noindent
+Since $m \geq n/t > 2\max(c, d) \geq 2\max(c, d_1) \geq \max(2c, c+ d_1)$,
+we can apply Lemma \ref{lemma-get-morphism-principal} for
+the ring map $A \to B$ and the ideal $(a_t)$ to
+find a morphism $\varphi : B \to C$ agreeing modulo
+$a_t^{m - c}$ with $\varphi_m$.
+
+\medskip\noindent
+All in all we find $\varphi : B \to C$ which agrees with
+$\psi_n$ modulo
+$$
+(a_t^{m - c}) + (a_1, \ldots, a_{t - 1})^{m' - c}
+\subset I^{\min(m - c, m' - c)}
+$$
+We leave it to the reader to see that
+$\min(m - c, m' - c) = m - c$. This concludes the proof.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
