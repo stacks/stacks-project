@@ -20,7 +20,7 @@ LIJST = introduction conventions sets categories \
 	spaces-topologies \
 	spaces-descent spaces-perfect spaces-more-morphisms \
 	spaces-groupoids spaces-more-groupoids bootstrap \
-	groupoids-quotients spaces-simplicial resolve \
+	groupoids-quotients spaces-simplicial formal-spaces resolve \
 	formal-defos defos cotangent \
 	algebraic examples-stacks stacks-sheaves criteria artin quot \
 	stacks-properties stacks-morphisms stacks-cohomology stacks-perfect \

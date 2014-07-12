@@ -1,0 +1,1188 @@
+\input{preamble}
+
+% OK, start here.
+%
+\begin{document}
+
+\title{Formal Algebraic Spaces}
+
+
+\maketitle
+
+\phantomsection
+\label{section-phantom}
+
+\tableofcontents
+
+\section{Introduction}
+\label{section-introduction}
+
+\noindent
+Formal scheme were introduced in \cite{EGA}. A more general version
+of formal schemes was introduced in \cite{McQuillan} and another
+in \cite{Yasuda}. Formal algebraic spaces were introduced in \cite{Kn}.
+This chapter introduces the notion of formal algebraic spaces
+we will work with. Our definition is general enough to allow most
+classes of formal schemes/spaces in the literature as subcategories.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Formal schemes \`a la EGA}
+\label{section-formal-schemes-EGA}
+
+\noindent
+In this section we review the construction of formal schemes in \cite{EGA}.
+This notion, although very useful in algebraic geometry,
+may not always be the correct one to consider. Perhaps it is better to say
+that in the setup of the theory a number choices are made, where for
+different purposes others might work better. And indeed in the literature
+one can find many different closely related theories
+adapted to the problem the authors may want to consider. Still, one
+of the major advantages of the theory as sketched here is that one
+gets to work with definite geometric objects.
+
+\medskip\noindent
+Before we start we should point out an issue with the sheaf condition
+for sheaves of topological rings or more generally sheaves of topological
+spaces. Namely, the big categories
+\begin{enumerate}
+\item category of topological spaces,
+\item category of topological abelian groups,
+\item category of topological rings,
+\item category of topological modules over a given topological ring,
+\end{enumerate}
+endowed with their natural forgetful functors to $\textit{Sets}$ are not
+examples of types of algebraic structures as defined in
+Sheaves, Section \ref{sheaves-section-algebraic-structures}.
+Thus we cannot blithely use the machinery developed in that
+chapter to them. On the other hand, each of the categories
+listed above has products, so we can define the notion of a
+sheaf as in Sheaves, Definition
+\ref{sheaves-definition-sheaf-values-in-category}.
+Moreover, products still commute with the forgetful functor
+to $\textit{Sets}$ so the underlying presheaf of sets
+of a sheaf of topological spaces (for example) is a sheaf of
+sets. The key difference is that for an open covering
+$U = \bigcup_{i \in I} U_i$ the diagram
+$$
+\xymatrix{
+\mathcal{F}(U) \ar[r]
+&
+\prod\nolimits_{i\in I}
+\mathcal{F}(U_i)
+\ar@<1ex>[r] \ar@<-1ex>[r]
+&
+\prod\nolimits_{(i_0, i_1) \in I \times I}
+\mathcal{F}(U_{i_0} \cap U_{i_1})
+}
+$$
+has to be an equalizer diagram in the category of topological
+spaces, groups, rings, modules, i.e., that the first map identifies
+$\mathcal{F}(U)$ with a subspace of $\prod_{i \in I} \mathcal{F}(U_i)$
+which is endowed with the product topology.
+
+\medskip\noindent
+The stalk $\mathcal{F}_x$ of a sheaf $\mathcal{F}$
+of topological spaces, abelian groups, rings, or modules
+at a point $x \in X$ is defined as the colimit over open neighbourhoods
+$$
+\mathcal{F}_x = \colim_{x\in U} \mathcal{F}(U)
+$$
+in the corresponding category, which is the same as taking
+the colimit on the level of underlying sheaves of sets, groups,
+rings, or modules but comes equipped with a topology (the colimit
+topology). One can sheafify presheaves of topological spaces,
+abelian groups, rings, or modules and taking stalks commuts
+with this operation, see
+Remark \ref{remark-sheafification-of-presheaves-in-top}.
+
+\medskip\noindent
+Let $f : X \to Y$ be a continuous map of topological spaces.
+There is a functor $f_*$ from the category of sheaves of topological
+spaces, abelian groups, rings, modules, to the corresponding category
+of sheaves on $Y$ which is defined by setting
+$f_*\mathcal{F}(V) = \mathcal{F}(f^{-1}V)$ as usual.
+(We delay discussing the pullback in this setting till later.)
+We define the notion of an $f$-map $\xi : \mathcal{G} \to \mathcal{F}$
+between a sheaf of topoligical spaces $\mathcal{G}$ on $Y$ and
+a sheaf of topological spaces $\mathcal{F}$ on $X$ in exactly the
+same manner as in Sheaves, Definition \ref{sheaves-definition-f-map}
+with the additional constraint that
+$\xi_V : \mathcal{G}(V) \to \mathcal{F}(f^{-1}V)$ be continuous
+for every open $V \subset Y$. We have
+$$
+\{f\text{-maps from }\mathcal{G}\text{ to }\mathcal{F}\} =
+\text{Mor}_{\Sh(Y, \textit{Top})}(\mathcal{G}, f_*\mathcal{F})
+$$
+as in Sheaves, Lemma \ref{sheaves-lemma-f-map}. Similarly for
+sheaves of topological abelian groups, rings, modules. Finally,
+let $\xi : \mathcal{G} \to \mathcal{F}$ be an $f$-map as above.
+Then given $x \in X$ with image $y = f(x)$ there is a continuous
+map
+$$
+\xi_x : \mathcal{G}_y \longrightarrow \mathcal{F}_x
+$$
+of stalks defined in exactly the same manner as in the discussion
+following Sheaves, Definition \ref{sheaves-definition-composition-f-maps}.
+
+\medskip\noindent
+Using the discussion above, we can define a category $LTRS$ of
+``locally topologically ringed spaces''. An object is a pair
+$(X, \mathcal{O}_X)$ consisting of a topological space
+$X$ and a sheaf of topological rings $\mathcal{O}_X$ whose stalks
+$\mathcal{O}_{X, x}$ are local rings (if one forgets about the topology).
+A morphism $(X, \mathcal{O}_X) \to (Y, \mathcal{O}_Y)$ of
+$LTRS$ is a pair $(f, f^\sharp)$ where $f : X \to Y$ is a continuous
+map of topological spaces and $f^\sharp : \mathcal{O}_Y \to \mathcal{O}_X$
+is an $f$-map such that for every $x \in X$ the induced map
+$$
+f^\sharp_x : \mathcal{O}_{Y, f(x)} \longrightarrow \mathcal{O}_{X, x}
+$$
+is a local homomorphism of local rings (forgetting about the topologies).
+The composition works in exactly the same manner as composition of
+morphisms of locally ringed spaces.
+
+\medskip\noindent
+Assume now that the topological space $X$ has a basis consisting
+of quasi-compact opens. Given a sheaf $\mathcal{G}$ of sets, abelian groups,
+rings, modules over a ring, one can endow $\mathcal{G}$ with
+the structure of a sheaf of topological spaces, abelian groups,
+rings, modules. Namely, if $U \subset X$ is quasi-compact open,
+we endow $\mathcal{F}(U)$ with the discrete topology. If $U \subset X$
+is arbitrary, then we choose an open covering $U = \bigcup_{i \in I} U_i$
+by quasi-compact opens and we endow $\mathcal{F}(U)$ with
+the induced topology from $\prod_{i \in I} \mathcal{F}(U_i)$
+(as we should do according to our discussion above).
+The reader may verify (omitted) that we obtain a sheaf of topological
+spaces, groups, rings, modules in this fashion. Let us say
+that a sheaf of topological spaces, groups, rings, modules is
+{\it pseudo-discrete} if the topology on $\mathcal{F}(U)$ is
+discrete for every quasi-compact open $U \subset X$. Then
+the construction given above is an adjoint to the forgetful functor
+and induces an equivalence between the category of sheaves
+of sets and the category of pseudo-discrete sheaves of topological space
+(similarly for groups, rings, modules).
+
+\medskip\noindent
+Grothendieck and Dieudonn\'e first define formal affine schemes.
+These correspond to admissible topological rings $A$, see
+More on Algebra, Definition \ref{more-algebra-definition-topological-ring}.
+Namely, given $A$ one considers a fundamental system $I_\lambda$ of ideals
+of definition for the ring $A$. (In any admissible topological ring
+the family of all ideals of definition forms a fundamental system.)
+For each $\lambda$ we can consider the
+scheme $\Spec(A/I_\lambda)$. For $I_\lambda \subset I_\mu$ the induced
+morphism
+$$
+\Spec(A/I_\mu) \to \Spec(A/I_\lambda)
+$$
+is a thickening because $I_\mu^n \subset I_\lambda$ for some $n$.
+Another way to see this, is to notice that the image of each of the
+maps
+$$
+\Spec(A/I_\lambda) \to \Spec(A)
+$$
+is a homeomorphism onto the set of open prime ideals of $A$.
+This motivates the definition
+$$
+\text{Spf}(A) = \{\text{open prime ideals }\mathfrak p \subset A\}
+$$
+endowed with the topology coming from $\Spec(A)$. For each $\lambda$
+we can consider the structure sheaf $\mathcal{O}_{\Spec(A/I_\lambda}$
+as a sheaf on $\text{Spf}(A)$. Let $\mathcal{O}_\lambda$ be the corresponding
+pseudo-discrete sheaf of topological rings, see above.
+Then we set
+$$
+\mathcal{O}_{\text{Spf}(A)} = \lim \mathcal{O}_\lambda
+$$
+where the limit is taken in the category of sheaves of topological rings.
+The pair $(\text{Spf}(A), \mathcal{O}_{\text{Spf}(A)})$ is called the
+{\it formal spectrum} of $A$.
+
+\medskip\noindent
+At this point one should check several things. The first is that
+the stalks $\mathcal{O}_{\text{Spf}(A), x}$ are local rings
+(forgetting about the topology). The second is that given
+$f \in A$, for the corresponding open $D(f) \cap \text{Spf}(A)$
+we have
+$$
+\Gamma(D(f) \cap \text{Spf}(A), \mathcal{O}_{\text{Spf}(A)})
+= A_{\{f\}} = \lim (A/I_\lambda)_f
+$$
+as topological rings where $I_\lambda$ is a fundamental system of ideals
+of definition as above. Moreover, the ring $A_{\{f\}}$ is admissible too and
+$(\text{Spf}(A_f), \mathcal{O}_{\text{Spf}(A_{\{f\}})})$
+is isomorphic to
+$(D(f) \cap \text{Spf}(A),
+\mathcal{O}_{\text{Spf}(A)}|_{D(f) \cap \text{Spf}(A)})$.
+Finally, given a pair of admissible topological rings $A, B$
+we have
+\begin{equation}
+\label{equation-morphisms-affine-formal-schemes}
+\Mor_{LTRS}((\text{Spf}(B), \mathcal{O}_{\text{Spf}(B)}),
+(\text{Spf}(A), \mathcal{O}_{\text{Spf}(A)}))
+= \Hom_{cont}(A, B)
+\end{equation}
+where $LTRS$ is the category of ``locally topologically ringed spaces''
+as defined above.
+
+\medskip\noindent
+Having said this, in \cite{EGA} a {\it formal scheme} is defined as a pair
+$(\mathfrak X, \mathcal{O}_\mathfrak X)$ where $\mathfrak X$
+is a topological space and $\mathcal{O}_\mathfrak X$ is a sheaf
+of topological rings such that every point has an open neighbourhood
+isomorphic (in $LTRS$) to an affine formal scheme.
+A {\it morphism of formal schemes}
+$f : (\mathfrak X, \mathcal{O}_\mathfrak X) \to
+(\mathfrak Y, \mathcal{O}_\mathfrak Y)$
+is a morphism in the category $LTRS$.
+
+\medskip\noindent
+Let $A$ be a ring endowed with the discrete topology. Then $A$ is
+admissible and the formal scheme $\text{Spf}(A)$ is equal to
+$\Spec(A)$. The structure sheaf $\mathcal{O}_{\text{Spf}(A)}$
+is the pseudo-discrete sheaf of topological rings associated
+to $\mathcal{O}_{\Spec(A)}$, in other words, its underlying
+sheaf of rings is equal to $\mathcal{O}_{\Spec(A)}$ and the
+ring $\mathcal{O}_{\text{Spf}(A)}(U) = \mathcal{O}_{\Spec(A)}(U)$
+over a quasi-compact open $U$ has the discrete topology,
+but not in general. Thus we can associate to every affine scheme
+a formal affine scheme. In exactly the same manner we can start
+with a general scheme $(X, \mathcal{O}_X)$ and associate to
+it $(X, \mathcal{O}'_X)$ where $\mathcal{O}'_X$ is the
+pseudo-discrete sheaf of topological rings whose underlying
+sheaf of rings is $\mathcal{O}_X$. This construction is
+compatible with morphisms and defines a functor
+\begin{equation}
+\label{equation-compare-schemes-formal-schemes}
+\textit{Schemes} \longrightarrow \textit{Formal Schemes}
+\end{equation}
+It follows in a straightforward manner from
+(\ref{equation-morphisms-affine-formal-schemes})
+that this functor is fully faithful.
+
+\medskip\noindent
+Let $\mathfrak X$ be a formal scheme. Let us define the {\it size}
+of the formal scheme by the formula
+$\text{size}(\mathfrak X) = \max(\aleph_0, \kappa_1, \kappa_2)$
+where $\kappa_1$ is the cardinality of the formal affine opens of
+$\mathfrak X$ and $\kappa_2$ is the supremum of the cardinalities
+of $\mathcal{O}_\mathfrak X(\mathfrak U)$ where
+$\mathfrak U \subset \mathfrak X$ is such a formal affine open.
+
+\begin{lemma}
+\label{lemma-fully-faithful}
+Choose a category of schemes $\Sch_\alpha$
+as in Sets, Lemma \ref{sets-lemma-construct-category}.
+Given a formal scheme $\mathfrak X$ let
+$$
+h_\mathfrak X : (\Sch_\alpha)^{opp} \longrightarrow \textit{Sets},\quad
+h_\mathfrak X(S) = \Mor_{\textit{Formal Schemes}}(S, \mathfrak X)
+$$
+be its functor of points. Then we have
+$$
+\Mor_{\textit{Formal Schemes}}(\mathfrak X, \mathfrak Y) =
+\Mor_{\textit{PSh}(\Sch_\alpha)}(h_\mathfrak X, h_\mathfrak Y)
+$$
+provided the sizes of $\mathfrak X$ and $\mathfrak Y$ are not too large.
+\end{lemma}
+
+\begin{proof}
+First we observe that $h_\mathfrak X$ satisfies the sheaf property for
+the Zariski topology for any formal scheme $\mathfrak X$ (see
+Schemes, Definition \ref{schemes-definition-representable-by-open-immersions}).
+This follows from the local nature of morphisms in the category
+of formal schemes. Also, for an open immersion
+$\mathfrak V \to \mathfrak W$ of formal schemes,
+the corresponding tranformation of functors $h_\mathfrak V \to h_\mathfrak W$
+is injective and representable by open immersions (see
+Schemes, Definition \ref{schemes-definition-representable-by-open-immersions}).
+Choose an open covering $\mathfrak X = \bigcup \mathfrak U_i$
+of a formal scheme by affine formal schemes $\mathfrak U_i$.
+Then the collection of functors
+$h_{\mathfrak U_i}$ covers $h_\mathfrak X$ (see
+Schemes, Definition \ref{schemes-definition-representable-by-open-immersions}).
+Finally, note that
+$$
+h_{\mathfrak U_i} \times_{h_\mathfrak X} h_{\mathfrak U_j} =
+h_{\mathfrak U_i \cap \mathfrak U_j}
+$$
+Hence in order to give a map $h_\mathfrak X \to h_\mathfrak Y$
+is equivalent to giving a family of maps
+$h_{\mathfrak U_i} \to h_\mathfrak Y$ which agree on overlaps.
+Thus we can reduce the bijectivity (resp.\ injectivity) of the map
+of the lemma to bijectivity (resp.\ injectivity) for the pairs
+$(\mathfrak U_i, \mathfrak Y)$
+and injectivity (resp.\ nothing)
+for $(\mathfrak U_i \cap \mathfrak U_j, \mathfrak Y)$.
+In this way we reduce to the case where $\mathfrak X$ is an
+affine formal scheme. Say $\mathfrak X = \text{Spf}(A)$
+for some admissible topological ring $A$. Also, choose a
+fundamental system of ideals of definition $I_\lambda \subset A$.
+
+\medskip\noindent
+We can also localize on $\mathfrak Y$.
+Namely, suppose that $\mathfrak V \subset \mathfrak Y$ is an
+open formal subscheme and $\varphi : h_\mathfrak X \to h_\mathfrak Y$.
+Then
+$$
+h_\mathfrak V \times_{h_\mathfrak Y, \varphi} h_\mathfrak X \to h_\mathfrak X
+$$
+is representable by open immersions. Pulling back to
+$\Spec(A/I_\lambda)$ for all $\lambda$ we find an open subscheme
+$U_\lambda \subset \Spec(A/I_\lambda)$. However, for
+$I_\lambda \subset I_\mu$ the morphism $\Spec(A/I_\lambda) \to \Spec(A/I_\mu)$
+pulls back $U_\mu$ to $U_\lambda$. Thus these glue to give
+an open formal subscheme $\mathfrak U \subset \mathfrak X$.
+A straightforward argument (omitted) shows that
+$$
+h_\mathfrak U = h_\mathfrak V \times_{h_\mathfrak Y} h_\mathfrak X
+$$
+In this way we see that given an open covering
+$\mathfrak Y = \bigcup \mathfrak V_j$ and a transformation
+of functors $\varphi :  h_\mathfrak X \to h_\mathfrak Y$
+we obtain a corresponding open covering of $\mathfrak X$.
+Since $\mathfrak X$ is affine, we can refine this covering by
+a finite open covering
+$\mathfrak X = \mathfrak U_1 \cup \ldots \cup \mathfrak U_n$
+by affine formal subschemes. In other words, for each $i$ there
+is a $j$ and a map $\varphi_i : h_{\mathfrak U_i} \to h_{\mathfrak V_j}$
+such that
+$$
+\xymatrix{
+h_{\mathfrak U_i} \ar[r]_{\varphi_i} \ar[d] & h_{\mathfrak V_j} \ar[d] \\
+h_{\mathfrak X} \ar[r]^\varphi & h_\mathfrak Y
+}
+$$
+commutes. With a few additional arguments (which we omit) this implies
+that it suffices to prove the bijectivity of the lemma in case
+both $\mathfrak X$ and $\mathfrak Y$ are affine formal schemes.
+
+\medskip\noindent
+Assume $\mathfrak X$ and $\mathfrak Y$ are affine formal schemes.
+Say $\mathfrak X = \text{Spf}(A)$ and $\mathfrak Y = \text{Spf}(B)$.
+Let $\varphi : h_\mathfrak X \to h_\mathfrak Y$ be a transformation
+of functors. Let $I_\lambda \subset A$ be a fundamental system of
+ideals of definition. The canonical inclusion morphsm
+$i_\lambda : \Spec(A/I_\lambda) \to \mathfrak X$ maps to a morphism
+$\varphi(i_\lambda) : \Spec(A/I_\lambda) \to \mathfrak Y$.
+By (\ref{equation-morphisms-affine-formal-schemes}) this corresponds
+to a continuous map $\chi_\lambda : B \to A/I_\lambda$.
+Since $\varphi$ is a transformation of functors it follows
+that for $I_\lambda \subset I_\mu$ the composition
+$B \to A/I_\lambda \to A/I_\mu$ is equal to $\chi_\mu$.
+In other words we obtain a ring map
+$$
+\chi = \lim \chi_\lambda : B \longrightarrow \lim A/I_\lambda = A
+$$
+This is a continuous homomorphism because the inverse image
+of $I_\lambda$ is open for all $\lambda$ (as $A/I_\lambda$ has the discrete
+topology and $\chi_\lambda$ is continuous). Thus we obtain
+a morphism $\text{Spf}(\chi) : \mathfrak X \to \mathfrak Y$ by
+(\ref{equation-morphisms-affine-formal-schemes}).
+We omit the verification that this construction is the inverse
+to the map of the lemma in this case.
+
+\medskip\noindent
+Set theoretic remarks. To make this work on the given category
+of schemes $\Sch_\alpha$ we just have to make sure all the
+schemes used in the proof above are isomorphic to objects of $\Sch_\alpha$.
+In fact, a careful analysis shows that it suffices if the
+schemes $\Spec(A/I_\lambda)$ occuring above are isomorphic to
+objects of $\Sch_\alpha$. For this it certainly suffices to assume
+the size of $\mathfrak X$ and $\mathfrak Y$ is at most the size of
+a scheme contained in $\Sch_\alpha$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-formal-scheme-sheaf-fppf}
+Let $\mathfrak X$ be a formal scheme. The functor of points
+$h_\mathfrak X$ (see Lemma \ref{lemma-fully-faithful})
+satisfies the sheaf condition for fpqc coverings.
+\end{lemma}
+
+\begin{proof}
+Topologies, Lemma \ref{topologies-lemma-sheaf-property-fpqc}
+reduces us to the case of a Zariski covering and a covering
+$\{\Spec(S) \to \Spec(R)\}$ with $R \to S$ faithfully flat.
+We observed in the proof of Lemma \ref{lemma-fully-faithful} 
+that $h_\mathfrak X$ satisfies the sheaf condition for Zariski coverings.
+
+\medskip\noindent
+Suppose that $R \to S$ is a faithfully flat ring map.
+Denote $\pi : \Spec(S) \to \Spec(R)$ the
+corresponding morphism of schemes. It is surjective and flat.
+Let $f : \Spec(S) \to \mathfrak X$ be a morphism
+such that $f \circ \text{pr}_1 = f \circ \text{pr}_2$
+as maps $\Spec(S \otimes_R S) \to \mathfrak X$.
+By Descent, Lemma \ref{descent-lemma-equiv-fibre-product}
+we see that as a map on the underlying
+sets $f$ is of the form $f = g \circ \pi$ for some
+(set theoretic) map $g : \Spec(R) \to \mathfrak X$.
+By Morphisms, Lemma \ref{morphisms-lemma-fpqc-quotient-topology}
+and the fact that $f$ is continuous we see that $g$
+is continuous.
+
+\medskip\noindent
+Pick $y \in \Spec(R)$. Choose $\mathfrak U \subset \mathfrak X$
+an affine formal open subscheme containing $g(y)$.
+Say $\mathfrak U = \text{Spf}(A)$ for some admissible topological
+ring $A$. By the above we may choose an $r \in R$ such that
+$x \in D(r) \subset g^{-1}(\mathfrak U)$.
+The restriction of $f$ to $\pi^{-1}(D(r))$ into $\mathfrak U$
+corresponds to a continuous ring map $A \to S_r$ by
+(\ref{equation-morphisms-affine-formal-schemes}). The two induced ring maps
+$A \to S_r \otimes_{R_r} S_r = (S \otimes_R S)_r$ are equal
+by assumption on $f$.
+Note that $R_r \to S_r$ is faithfully flat.
+By Descent, Lemma \ref{descent-lemma-ff-exact} the equalizer of
+the two arrows $S_r \to S_r \otimes_{R_r} S_r$ is $R_r$.
+We conclude that $A \to S_r$ factors uniquely through a map $A \to S_r$
+which is also continuous as it has the same (open) kernel as the
+map $A \to S_r$. This map in turn gives a morphism $D(r) \to \mathfrak U$ by
+(\ref{equation-morphisms-affine-formal-schemes}).
+
+\medskip\noindent
+What have we proved so far? We have shown that for any $y \in \Spec(R)$
+there exists a standard affine open
+$y \in D(r) \subset \Spec(R)$ such that the morphism
+$f|_{\pi^{-1}(D(r))} : \pi^{-1}(D(r)) \to \mathfrak X$ factors uniquely
+though some morphism $D(r) \to \mathfrak X$. We omit the
+verification that these morphisms glue to the desired
+morphism $\Spec(R) \to \mathfrak X$.
+\end{proof}
+
+\begin{remark}[McQuillan's variant]
+\label{remark-mcquillan}
+There is a variant of the construction of formal schemes due to
+McQuillan, see \cite{McQuillan}.
+He suggests a slight weakening of the condition of admissibility.
+Namely, recall that an admissible topological ring is a complete
+(and separated by our conventions) topological ring $A$
+which is linearly topologized such that there exists an
+ideal of defintion: an
+open ideal $I$ such that any neighbourhood of $0$ contains $I^n$.
+McQuillan works with what might be called {\it weakly admissible}
+topological rings. A weakly admissible topological ring $A$ is a
+complete (and separated by our conventions) topological ring
+which is linearly topologized such that there exists an
+{\it weak ideal of definition}: an open ideal $I$ such that
+for all $f \in I$ we have
+$f^n \to 0$ for $n \to \infty$. Similarly to the admissible case,
+if $I$ is a weak ideal of definition and $J \subset A$ is an
+open ideal, then $I \cap J$ is a weak ideal of definition.
+Thus the weak ideals of definition form a fundamental system and
+one can proceed along much the same route as above
+to define a larger category of formal schemes based
+on this notion. The analogue of Lemma \ref{lemma-fully-faithful}
+still holds in this setting (with the same proof).
+\end{remark}
+
+\begin{remark}[Sheafification of presheaves of topological spaces]
+\label{remark-sheafification-of-presheaves-in-top}
+\begin{reference}
+\cite{Gray}
+\end{reference}
+In this remark we briefly discuss sheafification of presheaves
+of topological spaces. The exact same arguments work for
+presheaves of topological abelian groups, topological rings, and
+topological modules (over a given topological ring). In order to
+do this in the correct generality let us work over a site
+$\mathcal{C}$. The reader who is interested in the case of (pre)sheaves
+over a topological space $X$ should think of objects of $\mathcal{C}$
+as the opens of $X$, of morphisms of $\mathcal{C}$ as inclusions of
+opens, and of coverings in $\mathcal{C}$ as coverings in $X$, see
+Sites, Example \ref{sites-example-site-topological}.
+Denote $\Sh(\mathcal{C}, \textit{Top})$ the category of sheaves
+of topological spaces on $\mathcal{C}$ and denote
+$\textit{PSh}(\mathcal{C}, \textit{Top})$ the category of presheaves
+of topological spaces on $\mathcal{C}$.
+Let $\mathcal{F}$ be a presheaf of topological spaces on $\mathcal{C}$.
+The sheafification $\mathcal{F}^\#$ should satisfy the formula
+$$
+\Mor_{\textit{PSh}(\mathcal{C}, \textit{Top})}(\mathcal{F}, \mathcal{G})
+=
+\Mor_{\Sh(\mathcal{C}, \textit{Top})}(\mathcal{F}^\#, \mathcal{G})
+$$
+functorially in $\mathcal{G}$ from $\Sh(\mathcal{C}, \textit{Top})$.
+In other words, we are trying to construct the left adjoint
+to the inclusion fuctor
+$\Sh(\mathcal{C}, \textit{Top}) \to \Sh(\mathcal{C}, \textit{Top})$.
+We first claim that $\Sh(\mathcal{C}, \textit{Top})$ has limits
+and that the inclusion functor commutes with them.
+Namely, given a category $\mathcal{I}$ and a functor
+$i \mapsto \mathcal{G}_i$ into $\Sh(\mathcal{C}, \textit{Top})$
+we simply define
+$$
+(\lim \mathcal{G}_i)(U) = \lim \mathcal{G}_i(U)
+$$
+where we take the limit in the category of toplogical spaces
+(Topology, Lemma \ref{topology-lemma-limits}). This defines a sheaf
+because limits commute with limits
+(Categories, Lemma \ref{categories-lemma-colimits-commute})
+and in particular products and equalizers (which are the
+operations used in the sheaf axiom). Finally, a morphism
+of presheaves from $\mathcal{F} \to \lim \mathcal{G}_i$ is
+clearly the same thing as a compatible system of morphisms
+$\mathcal{F} \to \mathcal{G}_i$. In other words, the object
+$\lim \mathcal{G}_i$ is the limit in the category
+of presheaves of topological spaces and a fortiori in the
+category of sheaves of topological spaces.
+Our second claim is that any morphism of presheaves
+$\mathcal{F} \to \mathcal{G}$ with $\mathcal{G}$ an object of
+$\Sh(\mathcal{C}, \textit{Top})$ factors through a subsheaf
+$\mathcal{G}' \subset \mathcal{G}$ whose size is bounded.
+Here we define the {\it size} $|\mathcal{H}|$
+of a sheaf of topological spaces $\mathcal{H}$ to be the cardinal
+$\sup_{U \in \Ob(\mathcal{C})} |\mathcal{H}(U)|$.
+To prove our claim we let
+$$
+\mathcal{G}'(U) =
+\left\{
+\quad
+s \in \mathcal{G}(U)
+\quad \Big | \quad
+\begin{matrix}
+\text{there exists a covering }\{U_i \to U\}_{i \in I} \\
+\text{such that }
+s|_{U_i} \in \Im(\mathcal{F}(U_i) \to \mathcal{G}(U_i))
+\end{matrix}
+\quad
+\right\}
+$$
+We endow $\mathcal{G}'(U)$ with the induced topology.
+Then $\mathcal{G}'$ is a sheaf of topological spaces (details omitted)
+and $\mathcal{G}' \to \mathcal{G}$ is a morphism through which
+the given map $\mathcal{F} \to \mathcal{G}$ factors. Moreover,
+the size of $\mathcal{G}'$ is bounded by some cardinal
+$\kappa$ depending only on $\mathcal{C}$ and the presheaf $\mathcal{F}$
+(hint: use that coverings in $\mathcal{C}$
+form a set by our conventions). Putting everything together we see
+that the assumptions of Categories, Theorem
+\ref{categories-theorem-adjoint-functor}
+are satisfied and we obtain sheafification as the left
+adjoint of the inclusion functor from sheaves to presheaves.
+Finally, let $p$ be a point of the
+site $\mathcal{C}$ given by a functor $u : \mathcal{C} \to \textit{Sets}$,
+see Sites, Definition \ref{sites-definition-point}.
+For a topological space $M$ the presheaf defined by the rule
+$$
+U \mapsto \text{Map}(u(U), M) = \prod\nolimits_{x \in u(U)} M
+$$
+endowed with the product topology is a sheaf of topological spaces.
+Hence the exact same argument as given in the proof of
+Sites, Lemma \ref{sites-lemma-point-pushforward-sheaf} shows that
+$\mathcal{F}_p = \mathcal{F}^\#_p$, in other words, sheafification
+commutes with taking stalks at a point.
+\end{remark}
+
+
+
+
+
+
+
+\section{Affine formal algebraic spaces}
+\label{section-affine-formal-algebraic-spaces}
+
+\noindent
+In this section we introduce affine formal algebraic spaces.
+These will in fact be the same as what are called affine
+formal schemes in \cite{BVGD}. However, we will call
+them affine formal algebraic spaces, in order to prevent confusion with
+the notion of an affine formal scheme as defined in \cite{EGA}.
+
+\medskip\noindent
+Recall that a thickening of schemes is a closed
+immersion which induces a bijection on underlying topological
+spaces, see More on Morphisms, Definition
+\ref{more-morphisms-definition-thickening}.
+
+\begin{definition}
+\label{definition-affine-formal-algebraic-space}
+Let $S$ be a scheme. We say a sheaf $X$ on $(\Sch/S)_{fppf}$ is an
+{\it affine formal algebraic space} if there exist
+\begin{enumerate}
+\item a directed partially ordered set $\Lambda$,
+\item a system $(X_\lambda, f_{\lambda \mu})$ over $\Lambda$
+in $(\Sch/S)_{fppf}$ where
+\begin{enumerate}
+\item each $X_\lambda$ is affine,
+\item each $f_{\lambda \mu} : X_\lambda \to X_\mu$ is a thickening,
+\end{enumerate}
+\end{enumerate}
+such that
+$$
+X \cong \colim_{\lambda \in \Lambda} X_\lambda
+$$
+as fppf sheaves and $X$ satisfies a set theoretic condition
+(see Remark \ref{remark-set-theoretic}). A
+{\it morphism of affine formal algebraic spaces}
+over $S$ is a map of sheaves.
+\end{definition}
+
+\noindent
+Observe that the system $(X_\lambda, f_{\lambda \mu})$ is not
+part of the data. Suppose that $U$ is a quasi-compact scheme over $S$.
+Since the transition maps are monomorphisms, we see that
+$$
+X(U) = \colim X_\lambda(U)
+$$
+by Sites, Lemma \ref{sites-lemma-directed-colimits-sections}.
+Thus the fppf sheafification inherent in the colimit of the
+definition is a Zariski sheafification which does not do
+anything for quasi-compact schemes.
+
+\begin{lemma}
+\label{lemma-diagonal-affine-formal-algebraic-space}
+Let $S$ be a scheme. If $X$ is an affine formal algebraic space over
+$S$, then the diagonal transformation $\Delta : X \to X \times X$
+is representable and a closed immersion.
+\end{lemma}
+
+\begin{proof}
+Suppose given $U \to X$ and $V \to X$ where $U, V \in \Ob((\Sch/S)_{fppf})$.
+Let us show that $U \times_X V$ is representable. Write $X = \colim X_\lambda$
+as in Definition \ref{definition-affine-formal-algebraic-space}.
+The discussion above shows that Zariski locally on $U$ and $V$ the morphisms
+factors through some $X_\lambda$. In this case
+$U \times_X V = U \times_{X_\lambda} V$ which is a scheme.
+Thus the diagonal is representable, see
+Spaces, Lemma \ref{spaces-lemma-representable-diagonal}.
+Given $(a, b) : W \to X \times X$ for $W \in (\Sch/S)_{fppf}$
+consider the map $X \times_{\Delta, X \times X, (a, b)} W \to W$.
+As before locally on $W$ the morphisms $a$ and $b$ map into
+the affine scheme $X_\lambda$ for some $\lambda$ and then
+we get the morphism
+$X_\lambda
+\times_{\Delta_\lambda, X_\lambda \times_S X_\lambda, (a, b)} W \to W$.
+This is the base change of
+$\Delta_\lambda : X_\lambda \to X_\lambda \times_S X_\lambda$
+which is a closed immersion as $X_\lambda \to S$ is separated
+(because $X_\lambda$ is affine).
+Thus $X \to X \times X$ is a closed immersion.
+\end{proof}
+
+\noindent
+A morphism of schemes $X \to X'$ is a thickening if it is
+a closed immersion and induces a bijection on underlying sets of points, see
+(More on Morphisms, Definition
+\ref{more-morphisms-definition-thickening}).
+Observe that $X \to X'$ is a thickening if and only if
+it is a closed immersion, surjective, and universally injective.
+In this way we see that the property of being a thickening
+is preserved under arbitrary base change and fpqc local on the target, see
+Spaces, Section \ref{spaces-section-lists}.
+Thus Spaces, Definition \ref{spaces-definition-relative-representable-property}
+applies to ``thickening'' and we know what it means for a
+representable transformation $F \to G$ of
+presheaves on $(\Sch/S)_{fppf}$ to be a thickening.
+We observe that this does not clash with our definition
+(More on Morphisms of Spaces, Definition
+\ref{spaces-more-morphisms-definition-thickening})
+of thickenings in case $F$ and $G$ are algebraic spaces.
+
+\begin{lemma}
+\label{lemma-covering-by-thickenings}
+Let $X_\lambda, \lambda \in \Lambda$ and $X = \colim X_\lambda$
+be as in Definition \ref{definition-affine-formal-algebraic-space}.
+Then $X_\lambda \to X$ is representable and a thickening.
+\end{lemma}
+
+\begin{proof}
+The statement makes sense by the discussion in
+Spaces, Section \ref{spaces-section-representable} and
+\ref{spaces-section-representable-properties}.
+By Lemma \ref{lemma-diagonal-affine-formal-algebraic-space}
+the morphisms $X_\lambda \to X$ are representable.
+Given $U \to X$ where $U$ is a scheme,
+then the discussion following
+Definition \ref{definition-affine-formal-algebraic-space}
+shows that Zariski locally on $U$ the
+morphism factors through some $X_\mu$ with $\lambda \leq \mu$.
+In this case $U \times_X X_\lambda = U \times_{X_\mu} X_\lambda$
+so that $U \times_X X_\lambda \to U$ is a base change of
+the thickening $X_\lambda \to X_\mu$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-factor-through-thickening}
+Let $X_\lambda, \lambda \in \Lambda$ and $X = \colim X_\lambda$
+be as in Definition \ref{definition-affine-formal-algebraic-space}.
+If $Y$ is a quasi-compact algebraic space over $S$, then any
+morphism $Y \to X$ factors through an $X_\lambda$.
+\end{lemma}
+
+\begin{proof}
+Choose an affine scheme $V$ and a surjective \'etale morphism
+$V \to Y$. The composition $V \to Y \to X$ factors through
+$X_\lambda$ for some $\lambda$ by the discussion following
+Definition \ref{definition-affine-formal-algebraic-space}.
+Since $V \to Y$ is a surjection of sheaves, we conclude.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-characterize-affine-formal-algebraic-space}
+Let $S$ be a scheme. Let $X$ be a sheaf on $(\Sch/S)_{fppf}$.
+Then $X$ is an affine formal algebraic space if and only if
+the following hold
+\begin{enumerate}
+\item any morphism $U \to X$ with $U \in \Ob((\Sch/S)_{fppf})$
+affine factors through $T \to X$ which is representable and a
+thickening with $T \in \Ob((\Sch/S)_{fppf})$ affine, and
+\item a set theoretic condition as in Remark \ref{remark-set-theoretic}.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+It follows from Lemmas \ref{lemma-covering-by-thickenings} and
+\ref{lemma-factor-through-thickening} that an affine formal algebraic space
+satisfies (1) and (2). In order to prove the converse we may
+assume $X$ is not empty.
+Let $\Lambda$ be the category of representable morphisms $T \to X$ which are
+thickenings where $T \in \Ob((\Sch/S)_{fppf})$ is affine. This category
+is directed. Since $X$ is not empty, $\Lambda$ contains at least one
+object. If $T \to X$ and $T' \to X$ are in $\Lambda$, then we can
+factor $T \amalg T' \to X$ through $T'' \to X$ in $\Lambda$. Between
+any two objects of $\Lambda$ there is a unique arrow or none. Thus
+$\Lambda$ is a directed partially ordered set and by assumption
+$X = \colim_{T \to X\text{ in }\Lambda} T$.
+\end{proof}
+
+\noindent
+For a general affine formal algebraic space $X$ there is no guarantee
+that $X$ has enough functions to separate points (for example).
+To characterize those that do we offer the following lemma.
+
+\begin{lemma}
+\label{lemma-classical-affine-formal-algebraic-space}
+Let $S$ be a scheme. Let $X$ be an fppf sheaf on $(\Sch/S)_{fppf}$
+which satisfies the set theoretic condition of
+Remark \ref{remark-set-theoretic}.
+The following are equivalent:
+\begin{enumerate}
+\item there exists a weakly admissible topological ring $A$ over $S$
+(see Remark \ref{remark-mcquillan}) such that
+$X = \colim_{I \subset A\text{ weak ideal of definition}} \Spec(A/I)$,
+\item $X$ is an affine formal algebraic space and
+there exists an $S$-algebra $A$ and a map $X \to \Spec(A)$
+such that for a closed immersion $T \to X$ with $T$ an affine scheme
+the composition $T \to \Spec(A)$ is a closed immersion,
+\item $X$ is an affine formal algebraic space and
+there exists an $S$-algebra $A$ and a map $X \to \Spec(A)$
+such that for a closed immersion $T \to X$ with $T$ a scheme
+the composition $T \to \Spec(A)$ is a closed immersion,
+\item $X$ is an affine formal algebraic space and
+for some choice of $X = \colim X_\lambda$ as in
+Definition \ref{definition-affine-formal-algebraic-space}
+the projections $\lim \Gamma(X_\lambda, \mathcal{O}_{X_\lambda})
+\to \Gamma(X_\lambda, \mathcal{O}_{X_\lambda})$ are surjective,
+\item $X$ is an affine formal algebraic space and for any choice
+of $X = \colim X_\lambda$ as in
+Definition \ref{definition-affine-formal-algebraic-space}
+the projections $\lim \Gamma(X_\lambda, \mathcal{O}_{X_\lambda})
+\to \Gamma(X_\lambda, \mathcal{O}_{X_\lambda})$ are surjective.
+\end{enumerate}
+Moreover, the weakly admissible topological ring is
+$A = \lim \Gamma(X_\lambda, \mathcal{O}_{X_\lambda})$
+endowed with its limit topology and the weak ideals of definition
+classify exactly the morphisms $T \to X$ which are representable
+and thickenings.
+\end{lemma}
+
+\begin{proof}
+It is clear that (5) implies (4).
+
+\medskip\noindent
+Assume (4) for $X = \colim X_\lambda$ as in
+Definition \ref{definition-affine-formal-algebraic-space}.
+Set $A = \lim \Gamma(X_\lambda, \mathcal{O}_{X_\lambda})$.
+Let $T \to X$ be a closed immersion with $T$ a scheme
+(note that $T \to X$ is representable by
+Lemma \ref{lemma-diagonal-affine-formal-algebraic-space}).
+Since $X_\lambda \to X$ is a thickening, so is
+$X_\lambda \times_X T \to T$. On the other hand,
+$X_\lambda \times_X T \to X_\lambda$ is a closed immersion,
+hence $X_\lambda \times_X T$ is affine. Hence $T$ is affine
+by Limits, Proposition \ref{limits-proposition-affine}.
+Then $T \to X$ factors through $X_\lambda$ for some $\lambda$
+by Lemma \ref{lemma-factor-through-thickening}.
+Thus $A \to \Gamma(X_\lambda, \mathcal{O}) \to \Gamma(T, \mathcal{O})$
+is surjective. In this way we see that (3) holds.
+
+\medskip\noindent
+It is clear that (3) implies (2).
+
+\medskip\noindent
+Assume (2) for $A$ and $X \to \Spec(A)$. Write $X = \colim X_\lambda$
+as in Definition \ref{definition-affine-formal-algebraic-space}.
+Then $A_\lambda = \Gamma(X_\lambda, \mathcal{O})$ is a quotient
+of $A$ by assumption (2). Hence $A^\wedge = \lim A_\lambda$
+is a complete topological ring, see discussion in
+More on Algebra, Section \ref{more-algebra-section-topological-ring}.
+The maps $A^\wedge \to A_\lambda$ are surjective as $A \to A_\lambda$ is.
+We claim that for any $\lambda$ the kernel $I_\lambda \subset A^\wedge$ of
+$A^\wedge \to A_\lambda$ is a weak ideal of definition.
+Namely, it is open by definition of the limit topology.
+If $f \in I_\lambda$, then for any $\mu \in \Lambda$
+the image of $f$ in $A_\mu$ is zero in all the residue fields
+of the points of $X_\mu$. Hence it is a nilpotent element
+of $A_\mu$. Hence some power $f^n \in I_\mu$. Thus $f^n \to 0$
+as $n \to 0$. Thus $A^\wedge$ is weakly admissible.
+Finally, suppose that $I \subset A^\wedge$ is a weak ideal
+of definition. Then $I \subset A^\wedge$ is open and hence there exists
+some $\lambda$ such that $I \supset I_\lambda$. Thus we obtain a morphism
+$\Spec(A^\wedge/I) \to \Spec(A_\lambda) \to X$.
+Then it follows that $X = \colim \Spec(A^\wedge/I)$ where now
+the colimit is over all weak ideals of definition.
+Thus (1) holds.
+
+\medskip\noindent
+Assume (1). In this case it is clear that $X$ is an affine formal
+algebraic space. Let $X = \colim X_\lambda$ be any presentation as in
+Definition \ref{definition-affine-formal-algebraic-space}.
+For each $\lambda$ we can find a weak ideal of definition
+$I \subset A$ such that $X_\lambda \to X$ factors through
+$\Spec(A/I) \to X$, see Lemma \ref{lemma-factor-through-thickening}.
+Then $X_\lambda = \Spec(A/I_\lambda)$ with $I \subset I_\lambda$.
+Conversely, for any weak ideal of definition $I \subset A$
+the morphism $\Spec(A/I) \to X$ factors through $X_\lambda$
+for some $\lambda$, i.e., $I_\lambda \subset I$.
+It follows that each $I_\lambda$ is a weak ideal of definition
+and that they form a cofinal subset of the set of weak ideals
+of definition. Hence $A = \lim A/I = \lim A/I_\lambda$
+and we see that (5) is true and moreover that
+$A = \lim \Gamma(X_\lambda, \mathcal{O}_{X_\lambda})$.
+\end{proof}
+
+\noindent
+With this lemma in hand we can make the following definition.
+
+\begin{definition}
+\label{definition-types-affine-formal-algebraic-space}
+Let $S$ be a scheme. Let $X$ be an affine formal algebraic space over $S$.
+We say
+\begin{enumerate}
+\item $X$ is {\it McQuillan} if $X$ satisfies the equivalent conditions
+of Lemma \ref{lemma-classical-affine-formal-algebraic-space}. Let $A$
+be the weakly admissible topological ring associated to $X$.
+\item $X$ is {\it classical} if $X$ is McQuillan and $A$ is admissible.
+\item $X$ is {\it adic} if $X$ is McQuillan and $A$ is adic.
+\item $X$ is {\it Noetherian} if $X$ is McQuillan and $A$ is
+both Noetherian and adic.
+\end{enumerate}
+\end{definition}
+
+\noindent
+The classical affine formal algebraic spaces correspond to the
+affine formal schemes considered in \cite{EGA}.
+
+\begin{lemma}
+\label{lemma-presentation-representable}
+Let $S$ be a scheme. Let $f : X \to Y$ be a transformation
+of presheaves on $(\Sch/S)_{fppf}$. If $X$ is an affine formal algebraic
+space and $f$ is representable by algebraic spaces and locally quasi-finite,
+then $f$ is representable (by schemes).
+\end{lemma}
+
+\begin{proof}
+Let $T \in \Ob((\Sch/S)_{fppf})$ and $T \to Y$ a map. We have to show that
+the algebraic space $X \times_Y T$ is a scheme.
+Write $X = \colim X_\lambda$ as in Definition
+\ref{definition-affine-formal-algebraic-space}.
+Let $W \subset X \times_Y T$
+be a quasi-compact open subspace. The restriction of the projection
+$X \times_Y T \to X$ to $W$ factors through $X_\lambda$ for some $\lambda$.
+Then
+$$
+W \to X_\lambda \times_S T
+$$
+is a monomorphism (hence separated) and locally quasi-finite (because
+$W \to X \times_Y T \to T$ is locally quasi-finite by our assumption
+on $X \to Y$, see Morphisms of Spaces, Lemma
+\ref{spaces-morphisms-lemma-permanence-quasi-finite}).
+Hence $W$ is a scheme by
+Morphisms of Spaces, Proposition
+\ref{spaces-morphisms-proposition-locally-quasi-finite-separated-over-scheme}.
+Thus $X \times_Y T$ is a scheme by
+Properties of Spaces, Lemma \ref{spaces-properties-lemma-subscheme}.
+\end{proof}
+
+
+
+
+
+
+
+\section{Formal algebraic spaces}
+\label{section-formal-algebraic-spaces}
+
+\noindent
+We take a break from our habit of introducing new concepts first
+for rings, then for schemes, and then for algebraic spaces, by
+introducing formal algebraic spaces without first introducing
+formal schemes. The general idea will be that a formal algebraic space
+is a sheaf in the fppf topology which \'etale locally is an
+affine formal scheme in the sense of \cite{BVGD}.
+Related material can be found in \cite{Yasuda}.
+
+\medskip\noindent
+In the definition of a formal algebraic space we are going to
+borrow some terminology from
+Bootstrap, Sections
+\ref{bootstrap-section-morphism-representable-by-spaces} and
+\ref{bootstrap-section-representable-by-spaces-properties}.
+
+\begin{definition}
+\label{definition-formal-algebraic-space}
+Let $S$ be a scheme. We say a sheaf $X$ on $(\Sch/S)_{fppf}$ is a
+{\it formal algebraic space} if there exist a family of maps
+$\{X_i \to X\}_{i \in I}$ of sheaves such that
+\begin{enumerate}
+\item $X_i$ is an affine formal algebraic space,
+\item $X_i \to X$ is representable by algebraic spaces and \'etale,
+\item $\coprod X_i \to X$ is surjective as a map of sheaves
+\end{enumerate}
+and $X$ satisfies a set theoretic condition
+(see Remark \ref{remark-set-theoretic}). A
+{\it morphism of formal algebraic spaces}
+over $S$ is a map of sheaves.
+\end{definition}
+
+\noindent
+Discussion. Sanity check: an affine formal algebraic space is
+a formal algebraic space. In the situation of the definition
+the morphisms $X_i \to X$ are representable (by schemes), see
+Lemma \ref{lemma-presentation-representable}.
+By Bootstrap, Lemma
+\ref{bootstrap-lemma-surjective-flat-locally-finite-presentation}
+we could instead of asking $\coprod X_i \to X$
+to be surjective as a map of sheaves, require that it be
+surjective (which makes sense because it is representable).
+
+\medskip\noindent
+Our notion of a formal algebraic space is {\bf very general}.
+In fact, even affine formal algebraic spaces as defined above
+are very nasty objects. However, they do have an underlying
+reduced algebraic space as the following lemma demonstrates.
+
+\begin{lemma}
+\label{lemma-reduction-formal-algebraic-space}
+Let $S$ be a scheme. Let $X$ be a formal algebraic space over $S$.
+There exists a reduced algebraic space $X_{red}$ and a representable
+morphism $X_{red} \to X$ which is a thickening. A morphism $U \to X$
+with $U$ a reduced algebraic space factors uniquely through $X_{red}$.
+\end{lemma}
+
+\begin{proof}
+First assume that $X$ is an affine formal algebraic space.
+Say $X = \colim X_\lambda$ as in
+Definition \ref{definition-affine-formal-algebraic-space}.
+Since the transition morphisms are thickenings, the affine
+schemes $X_\lambda$ all have isomorphic reductions $X_{red}$.
+The morphism $X_{red} \to X$ is representable and a thickening
+by Lemma \ref{lemma-covering-by-thickenings} and the fact that
+compositions of thickenings are thickenings. We omit the
+verification of the universal
+property (use Schemes, Definition
+\ref{schemes-definition-reduced-induced-scheme},
+Schemes, Lemma \ref{schemes-lemma-map-into-reduction},
+Properties of Spaces, Definition
+\ref{spaces-properties-definition-reduced-induced-space}, and
+Properties of Spaces, Lemma \ref{spaces-properties-lemma-map-into-reduction}).
+
+\medskip\noindent
+Let $X$ and $\{X_i \to X\}_{i \in I}$ be as in
+Definition \ref{definition-formal-algebraic-space}.
+For each $i$ let $X_{i, red} \to X_i$ be the reduction as
+constructed above. For $i, j \in I$ the projection
+$X_{i, red} \times_X X_j \to X_{i, red}$ is an \'etale (by assumption)
+morphism of schemes (by Lemma \ref{lemma-presentation-representable}).
+Hence $X_{i, red} \times_X X_j$ is reduced (see
+Descent, Lemma \ref{descent-lemma-reduced-local-smooth}).
+Thus the projection $X_{i, red} \times_X X_j \to X_j$ factors
+through $X_{j, red}$ by the universal property. We conclude that
+$$
+R_{ij} = X_{i, red} \times_X X_j = X_{i, red} \times_X X_{j, red} =
+X_i \times_X X_{j, red}
+$$
+because the morphisms $X_{i, red} \to X_i$ are injections of sheaves.
+Set $U = \coprod X_{i, red}$, set
+$R = \coprod R_{ij}$, and denote $s, t : R \to U$ the two
+projections. As a sheaf $R = U \times_X U$ and $s$ and $t$
+are \'etale. Then $(t, s) : R \to U$ defines an \'etale equivalence
+relation by our observations above. Thus $X_{red} = U/R$ is an
+algebraic space by Spaces, Theorem \ref{spaces-theorem-presentation}.
+By construction the diagram
+$$
+\xymatrix{
+\coprod X_{i, red} \ar[r] \ar[d] & \coprod X_i \ar[d] \\
+X_{red} \ar[r] & X
+}
+$$
+is cartesian. Since the right vertical arrow is \'etale surjective
+and the top horizontal arrow is representable and a thickening
+we conclude that $X_{red} \to X$ is representable by
+Bootstrap, Lemma \ref{bootstrap-lemma-after-fppf-sep-lqf}
+(to verify the assumptions of the lemma use that a surjective
+\'etale morphism is surjective, flat, and locally of finite
+presentation and use that thickenings are separated and locally quasi-finite).
+Then we can use Spaces, Lemma
+\ref{spaces-lemma-descent-representable-transformations-property}
+to conclude that $X_{red} \to X$ is a thickening
+(use that being a thickening is equivalent to being
+a surjective, universally injective, closed immersion).
+
+\medskip\noindent
+Finally, suppose that $U \to X$ is a morphism with
+$U$ a reduced algebraic space over $S$. Then each $X_i \times_X U$
+is \'etale over $U$ and therefore reduced (by our defintion of
+reduced algebraic spaces in Properties of Spaces, Section
+\ref{spaces-properties-section-types-properties}).
+Then $X_i \times_X U \to X_i$ factors through $X_{i, red}$.
+Hence $U \to X$ factors through $X_{red}$ because
+$\{X_i \times_X U \to U\}$ is an \'etale covering.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-diagonal-formal-algebraic-space}
+Let $S$ be a scheme. If $X$ is a formal algebraic space over
+$S$, then the diagonal transformation $\Delta : X \to X \times X$
+is representable, a monomorphism, locally quasi-finite,
+locally of finite type, and separated.
+\end{lemma}
+
+\begin{proof}
+Suppose given $U \to X$ and $V \to X$ with $U, V \in \Ob((\Sch/S)_{fppf})$.
+Then $U \times_X V$ is a sheaf. Choose $\{X_i \to X\}$ as in
+Definition \ref{definition-formal-algebraic-space}.
+For every $i$ the morphism
+$$
+(U \times_X X_i) \times_{X_i} (V \times_X X_i)
+= (U \times_X V) \times_X X_i \to U \times_X V
+$$
+is representable and \'etale as a base change of $X_i \to X$
+and its source is a scheme (use
+Lemmas \ref{lemma-diagonal-affine-formal-algebraic-space} and
+\ref{lemma-presentation-representable}). These maps are jointly surjective
+hence $U \times_X V$ is an algebraic space by
+Bootstrap, Theorem \ref{bootstrap-theorem-final-bootstrap}.
+The morphism $U \times_X V \to U \times_S V$ is a monomorphism.
+It is also locally quasi-finite, because on precomposing with
+the morphism displayed above we obtain the composition
+$$
+(U \times_X X_i) \times_{X_i} (V \times_X X_i)
+\to (U \times_X X_i) \times_S (V \times_X X_i)
+\to U \times_S V
+$$
+which is locally quasi-finite as a composition of a closed
+immersion (Lemma \ref{lemma-diagonal-affine-formal-algebraic-space})
+and an \'etale morphism, see
+Descent on Spaces, Lemma
+\ref{spaces-descent-lemma-locally-quasi-finite-etale-local-source}.
+Hence we conclude that $U \times_X V$ is a scheme by
+Morphisms of Spaces, Proposition
+\ref{spaces-morphisms-proposition-locally-quasi-finite-separated-over-scheme}.
+Thus $\Delta$ is representable, see
+Spaces, Lemma \ref{spaces-lemma-representable-diagonal}.
+
+\medskip\noindent
+Let $W \to X \times X$ be a morphism where $W$ is a scheme over $S$.
+For each $i$ consider the diagram
+$$
+\xymatrix{
+W \times_{(X \times X)} X_i \ar[d] \ar[r] &
+W \times_{(X \times X)} (X_i \times X_i) \ar[d] \\
+W \times_{(X \times X)} X \ar[r] & W
+}
+$$
+The vertical arrows are \'etale because $X_i \to X$ is \'etale.
+The top horizontal arrow is a closed immersion by
+Lemma \ref{lemma-diagonal-affine-formal-algebraic-space}.
+Because the maps $X_i \to X$ are jointly surjective, this certainly
+implies that the lower horizontal arrow is locally of finite type, see
+Morphisms of Spaces, Lemma \ref{spaces-morphisms-lemma-finite-type-local}.
+Since it is clearly a monomorphism, we conclude that
+it is locally quasi-finite (Morphisms of Spaces, Lemma
+\ref{spaces-morphisms-lemma-monomorphism-loc-finite-type-loc-quasi-finite}).
+It is separated because any monomorphism is separated
+(Morphisms of Spaces, Lemma
+\ref{spaces-morphisms-lemma-monomorphism-separated}). This finishes
+the proof.
+\end{proof}
+
+\begin{remark}
+\label{remark-set-theoretic}
+Let $S$ be a scheme and let $(\Sch/S)_{fppf}$ be a big fppf site as
+in Topologies, Section \ref{topologies-definition-big-small-fppf}.
+As our set theoretic condition on $X$ in
+Definitions \ref{definition-affine-formal-algebraic-space} and
+\ref{definition-formal-algebraic-space} we take:
+there exist objects $U, R$ of $(\Sch/S)_{fppf}$, a
+morphism $U \to X$ which is a surjection of fppf sheaves, and
+a morphism $R \to U \times_X U$ which is a surjection of fppf sheaves.
+In other words, we require our sheaf to be a coequalizer of
+two maps between representable sheaves.
+Here are some observations which imply this notion behaves
+reasonably well:
+\begin{enumerate}
+\item Suppose $X = \colim_{\lambda \in \Lambda} X_\lambda$
+and the system satisfies conditions (1) and (2) of
+Definition \ref{definition-affine-formal-algebraic-space}. Then
+$U = \coprod_{\lambda \in \Lambda} X_\lambda \to X$ is a surjection
+of fppf sheaves. Moreover, $U \times_X U$ is a closed subscheme
+of $U \times_S U$ by Lemma \ref{lemma-diagonal-affine-formal-algebraic-space}.
+Hence if $U$ is representable by an object of $(\Sch/S)_{fppf}$
+then $U \times_S U$ is too (see Sets, Lemma \ref{sets-lemma-what-is-in-it})
+and the set theoretic condition is satisfied. This is always the case
+if $\Lambda$ is countable, see Sets, Lemma \ref{sets-lemma-what-is-in-it}.
+\item Sanity check. Let $\{X_i \to X\}_{i \in I}$ be as in
+Definition \ref{definition-formal-algebraic-space}
+(with the set theoretic condition as formulated above)
+and assume that each $X_i$ is actually an affine scheme.
+Then $X$ is an algebraic space. Namely, if we choose a larger
+big fppf site $(\Sch'/S)_{fppf}$ such that $U' = \coprod X_i$
+and $R' = \coprod X_i \times_X X_j$ are representable by objects
+in it, then $X' = U'/R'$ will be an object of the category
+of algebraic spaces for this choice. Then an application of
+Spaces, Lemma \ref{spaces-lemma-fully-faithful} shows that
+$X$ is an algebraic space for $(\Sch/S)_{fppf}$.
+\item Let $\{X_i \to X\}_{i \in I}$ be a family of maps of sheaves
+satisfying conditions (1), (2), (3) of
+Definition \ref{definition-formal-algebraic-space}.
+For each $i$ we can pick $U_i \in \Ob((\Sch/S)_{fppf})$
+and $U_i \to X_i$ which is a surjection of sheaves.
+Thus if $I$ is not too large (for example countable) then
+$U = \coprod U_i \to X$ is a surjection of sheaves and
+$U$ is representable by an object of $(\Sch/S)_{fppf}$.
+To get $R \in \Ob((\Sch/S)_{fppf})$ surjecting onto $U \times_X U$
+it suffices to assume the diagonal $\Delta : X \to X \times X$ is not
+too wild, for example this always works if the diagonal of $X$ is
+quasi-compact, i.e., $X$ is quasi-separated.
+\end{enumerate}
+\end{remark}
+
+
+
+
+
+
+
+\input{chapters}
+
+\bibliography{my}
+\bibliographystyle{amsalpha}
+
+\end{document}
+
