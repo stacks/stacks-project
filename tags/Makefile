@@ -19,7 +19,7 @@ LIJST = introduction conventions sets categories \
 	spaces spaces-properties spaces-morphisms decent-spaces \
 	spaces-cohomology spaces-limits spaces-divisors spaces-over-fields \
 	spaces-topologies \
-	spaces-descent spaces-perfect spaces-more-morphisms \
+	spaces-descent spaces-perfect spaces-more-morphisms spaces-pushouts \
 	spaces-groupoids spaces-more-groupoids bootstrap \
 	groupoids-quotients spaces-simplicial formal-spaces resolve \
 	formal-defos defos cotangent \
