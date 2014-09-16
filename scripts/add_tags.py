@@ -1,6 +1,6 @@
 from functions import *
 
-path = get_path()
+path = './'
 
 tags = get_tags(path)
 
