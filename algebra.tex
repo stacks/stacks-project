@@ -18558,7 +18558,7 @@ $$
 \xymatrix{
   &  M  & \\
 M_i \ar[dr]_g \ar[ur]^{f_i} \ar[rr]^{f_{ij}} &
-& M_j \ar[ul]_{f_j} .\\
+& M_j \ar[ul]_{f_j} \\
   & Q  \ar[ur]_{h'} &
 }
 $$
@@ -18574,7 +18574,7 @@ commutative diagram
 $$
 \xymatrix{
 P \ar[d]_{g'} \ar[r]^{f}           & M  \\
-M_i \ar[ur]^{f_i} \ar[r]_{f_{ij}} & M_j \ar[u]_{f_j} ~.
+M_i \ar[ur]^{f_i} \ar[r]_{f_{ij}} & M_j \ar[u]_{f_j}
 }
 $$
 From the diagram and the fact that $f_{ij}$ dominates $f_i$, we find that $f$
@@ -19107,6 +19107,26 @@ Proposition \ref{proposition-ML-tensor}.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-colimit-universally-injective-ML}
+If $M = \colim M_i$ is the colimit of a directed system of Mittag-Leffler
+$R$-modules $M_i$ with universally injective transition maps, then $M$ is
+Mittag-Leffler.
+\end{lemma}
+
+\begin{proof}
+Let $(Q_{\alpha})_{\alpha \in A}$ be a family of $R$-modules. We have to
+show that $M \otimes_R (\prod Q_\alpha) \to \prod M \otimes_R Q_\alpha$
+is injective and we know that
+$M_i \otimes_R (\prod Q_\alpha) \to \prod M_i \otimes_R Q_\alpha$
+is injective for each $i$, see Proposition \ref{proposition-ML-tensor}.
+Since $\otimes$ commutes with filtered colimits, it suffices to show that
+$\prod M_i \otimes_R Q_\alpha \to \prod M \otimes_R Q_\alpha$
+is injective. This is clear as each of the maps
+$M_i \otimes_R Q_\alpha \to M \otimes_R Q_\alpha$ is injective
+by our assumption that the transition maps are universally injective.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-direct-sum-ML}
 If $M = \bigoplus_{i \in I} M_i$ is a direct sum of $R$-modules, then $M$ is
 Mittag-Leffler if and only if each $M_i$ is Mittag-Leffler.
@@ -19114,8 +19134,10 @@ Mittag-Leffler if and only if each $M_i$ is Mittag-Leffler.
 
 \begin{proof}
 The ``only if'' direction follows from Lemma \ref{lemma-pure-submodule-ML} (1)
-and the fact that a split short exact sequence is universally exact.  For the
-converse, first note that if $I$ is finite then this follows from Lemma
+and the fact that a split short exact sequence is universally exact. The
+converse follows from Lemma \ref{lemma-colimit-universally-injective-ML}
+but we can also argue it directly as follows. First note that if $I$ is
+finite then this follows from Lemma
 \ref{lemma-pure-submodule-ML} (2).  For general $I$, if all $M_i$ are
 Mittag-Leffler then we prove the same of $M$ by verifying condition (1) of
 Proposition \ref{proposition-ML-characterization}.
@@ -19642,9 +19664,9 @@ Write $M = \colim_{i \in I} M_i$ as a directed colimit of finitely
 presented $R$-modules with $I$ countable, see
 Lemma \ref{lemma-ML-countable-colimit}.
 The transition maps are denoted $f_{ij}$ and we use $f_i : M_i \to M$
-to note the canonical maps into $M$. Set $N = \prod_{s \in I} M_s$. Denote
+to denote the canonical maps into $M$. Set $N = \prod_{s \in I} M_s$. Denote
 $$
-M_i^* = \Hom_R(M_i, N) = \prod_{s \in S} \Hom_R(M_i, M_s)
+M_i^* = \Hom_R(M_i, N) = \prod\nolimits_{s \in I} \Hom_R(M_i, M_s)
 $$
 so that $(M_i^*)$ is an inverse system of $R$-modules over $I$.
 Note that $\Hom_R(M, N) = \lim M_i^*$.
@@ -19655,30 +19677,30 @@ E_i := \bigcap\nolimits_{i' \geq i} \Im(M_{i'}^* \to M_i^*)
 =
 \Im(M_{k(i)}^* \to M_i^*)
 $$
-Choose $i \in I$ such that $\Im(P \to M) \subset \Im(M_i \to M)$.
-This is possible as $P$ is finitely generated. Set $k = k(i)$ for this $i$.
+Choose and fix $j \in I$ such that $\Im(P \to M) \subset \Im(M_j \to M)$.
+This is possible as $P$ is finitely generated. Set $k = k(j)$.
 Let
 $x = (0, \ldots, 0, \text{id}_{M_k}, 0, \ldots, 0) \in M_k^*$ and
-note that this maps to $y = (0, \ldots, 0, f_{ik}, 0, \ldots, 0) \in M_i^*$.
-By our choice of $k$ we see that $y \in E_i$. By
+note that this maps to $y = (0, \ldots, 0, f_{jk}, 0, \ldots, 0) \in M_j^*$.
+By our choice of $k$ we see that $y \in E_j$. By
 Example \ref{example-ML-surjective-maps}
-the transition maps $E_{i'} \to E_i$ are surjective for each $i' \geq i$
+the transition maps $E_i \to E_j$ are surjective for each $i \geq j$
 and $\lim E_i = \lim M_i^* = \Hom_R(M, N)$. Hence
 Lemma \ref{lemma-ML-limit-nonempty}
 guarantees there exists an element $z \in \Hom_R(M, N)$
-which maps to $y$ in $E_i \subset M_i^*$. Let $z_k$ be the $k$th component
+which maps to $y$ in $E_j \subset M_j^*$. Let $z_k$ be the $k$th component
 of $z$. Then $z_k : M \to M_k$ is a homomorphism such that
 $$
 \xymatrix{
 M \ar[r]_{z_k} & M_k \\
-M_i \ar[ru]_{f_{ik}} \ar[u]^{f_i}
+M_j \ar[ru]_{f_{jk}} \ar[u]^{f_j}
 }
 $$
 commutes. Let $\alpha : M \to M$ be the composition
 $f_k \circ z_k : M \to M_k \to M$.
 Then $\alpha$ factors through a finitely presented module by construction and
-$\alpha \circ f_i = f_i$. Since the image of $f$ is contained in the image of
-$f_i$ this also implies that $\alpha \circ f = f$.
+$\alpha \circ f_j = f_j$. Since the image of $f$ is contained in the image of
+$f_j$ this also implies that $\alpha \circ f = f$.
 \end{proof}
 
 \noindent
