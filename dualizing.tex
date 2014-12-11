@@ -1795,7 +1795,7 @@ Omitted.
 \noindent
 Let $A$ be a Noetherian ring. We will denote
 $$
-D_{Coh}(A) \subset D(A)
+D_{\textit{Coh}}(A) \subset D(A)
 $$
 the full subcategory consisting of those objects $K$ of $D(A)$
 whose cohomology modules are all finite $A$-modules. This makes sense
@@ -3015,7 +3015,8 @@ D_{\textit{Coh}}(\mathcal{O}_X)
 \longrightarrow
 D_{\textit{Coh}}(\mathcal{O}_X)
 $$
-such that $D \circ D \cong \text{id}$. If $X$ is quasi-compact, then
+which comes equipped with a canonical isomorphism
+$\text{id} \to D \circ D$. If $X$ is quasi-compact, then
 $D$ exchanges $D^+_{\textit{Coh}}(\mathcal{O}_X)$ and
 $D^-_{\textit{Coh}}(\mathcal{O}_X)$ and induces an equivalence
 $D^b_{\textit{Coh}}(\mathcal{O}_X) \to D^b_{\textit{Coh}}(\mathcal{O}_X)$.
@@ -3346,8 +3347,7 @@ $f$ is proper and pseudo-coherent. This is the correct generality
 for this lemma and some of the other results in this section.}
 morphism of Noetherian schemes.
 The assumption and hence the conclusion of
-Lemma \ref{lemma-when-sheafy} holds for all
-quasi-compact opens $V$ of $Y$.
+Lemma \ref{lemma-when-sheafy} holds for all opens $V$ of $Y$.
 \end{lemma}
 
 \begin{proof}
@@ -4871,6 +4871,26 @@ This is a restatement of Lemma \ref{lemma-twisted-inverse-image-closed}.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-shriek-coherent}
+Let $S$ be a Noetherian scheme. Let $f : X \to Y$ be a morphism
+of compactifyable schemes over $S$. Then $f^!$ maps
+$D_{\textit{Coh}}^+(\mathcal{O}_Y)$ into $D_{\textit{Coh}}^+(\mathcal{O}_X)$.
+\end{lemma}
+
+\begin{proof}
+The question is local on $X$ hence we may assume that $X$ and $Y$ are
+affine schemes. In this case we can factor $f : X \to Y$ as
+$$
+X \xrightarrow{i} \mathbf{A}^n_Y \to \mathbf{A}^{n - 1}_Y \to \ldots \to
+\mathbf{A}^1_Y \to Y
+$$
+where $i$ is a closed immersion. The lemma follows from
+By Lemmas \ref{lemma-shriek-affine-line},
+\ref{lemma-dualizing-polynomial-ring},
+\ref{lemma-sheaf-with-exact-support-coherent} and induction.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-shriek-dualizing}
 Let $S$ be a Noetherian scheme. Let $f : X \to Y$ be a morphism
 of compactifyable schemes over $S$. If $K$ is a dualizing complex
@@ -4895,6 +4915,67 @@ Lemmas \ref{lemma-dualizing-quotient},
 transforms dualizing complexes into dualizing complexes.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-shriek-via-duality}
+Let $S$ be a Noetherian scheme. Let $f : X \to Y$ be a morphism
+of compactifyable schemes over $S$. Let $K$ be a dualizing complex
+on $Y$. Set $D_Y(M) = R\SheafHom_{\mathcal{O}_Y}(M, K)$ for
+$M \in D_{\textit{Coh}}(\mathcal{O}_Y)$ and
+$D_X(E) = R\SheafHom_{\mathcal{O}_X}(E, f^!K)$ for
+$E \in D_{\textit{Coh}}(\mathcal{O}_X)$. Then there is a canonical
+isomorphism
+$$
+f^!M \longrightarrow D_X(Lf^*D_Y(M))
+$$
+for $M \in D_{\textit{Coh}}^+(\mathcal{O}_Y)$.
+\end{lemma}
+
+\begin{proof}
+Choose compactification $j : X \subset \overline{X}$ of $X$ over $Y$
+(Lemma \ref{lemma-compactifyable}). Let $a$ be the twisted inverse
+image for $\overline{X} \to Y$. Set
+$D_{\overline{X}}(E) = R\SheafHom_{\mathcal{O}_{\overline{X}}}(E, a(K))$
+for $E \in D_{\textit{Coh}}(\mathcal{O}_{\overline{X}})$.
+Since formation of $R\SheafHom$ commutes with restriction to opens
+and since $f^! = j^* \circ a$ we see that it suffices to prove that
+there is a canonical isomorphism
+$$
+a(M) \longrightarrow D_{\overline{X}}(L\overline{f}^*D_Y(M))
+$$
+for $M \in D_{\textit{Coh}}(\mathcal{O}_Y)$. For
+$F \in D_\QCoh(\mathcal{O}_X)$ we have
+\begin{align*}
+\Hom_{\overline{X}}(
+F, D_{\overline{X}}(L\overline{f}^*D_Y(M)))
+& =
+\Hom_{\overline{X}}(
+F \otimes_{\mathcal{O}_X}^\mathbf{L} L\overline{f}^*D_Y(M), a(K)) \\
+& =
+\Hom_Y(
+R\overline{f}_*(F \otimes_{\mathcal{O}_X}^\mathbf{L} L\overline{f}^*D_Y(M)),
+K) \\
+& =
+\Hom_Y(
+R\overline{f}_*(F) \otimes_{\mathcal{O}_Y}^\mathbf{L} D_Y(M),
+K) \\
+& =
+\Hom_Y(
+R\overline{f}_*(F), D_Y(D_Y(M))) \\
+& =
+\Hom_Y(R\overline{f}_*(F), M) \\
+& = \Hom_{\overline{X}}(F, a(M))
+\end{align*}
+The first equality by Cohomology, Lemma \ref{cohomology-lemma-internal-hom}.
+The second by definition of the twisted inverse image.
+The third by Derived Categories of Schemes, Lemma
+\ref{perfect-lemma-cohomology-base-change}.
+The fourth equality by Cohomology, Lemma \ref{cohomology-lemma-internal-hom}
+and the definition of $D_Y$.
+The fifth equality by Lemma \ref{lemma-dualizing-schemes}.
+The final equality by definition of the twisted inverse image.
+Hence we see that $a(M) = D_{\overline{X}}(L\overline{f}^*D_Y(M))$
+by Yoneda's lemma.
+\end{proof}
 
 
 \section{Glueing dualizing complexes}
@@ -4923,16 +5004,24 @@ By Lemma \ref{lemma-shriek-dualizing} $\omega_X^\bullet$
 is a dualizing complex for $X$. If $f : X \to Y$ is a morphism of
 compactifyable schemes over $S$, then we have
 \begin{enumerate}
-\item $\omega_X^\bullet = f^!\omega_Y^\bullet$, and
+\item $\omega_X^\bullet = f^!\omega_Y^\bullet$,
+\item there is a canonical isomorphism
+$$
+f^!M = R\SheafHom_{\mathcal{O}_X}(
+Lf^*R\SheafHom_{\mathcal{O}_Y}(M, \omega_Y^\bullet), \omega_X^\bullet)
+$$
+for $M \in D_{\textit{Coh}}^+(\mathcal{O}_Y)$, and
 \item if in addition $f$ is proper there is a canonical map
 $$
-Rf_*R\SheafHom_{\mathcal{O}_X}(K, \omega_X^\bullet)
+Rf_*R\SheafHom_{\mathcal{O}_X}(K, f^!M)
 \to
-R\SheafHom_{\mathcal{O}_Y}(Rf_*K, \omega_Y^\bullet)
+R\SheafHom_{\mathcal{O}_Y}(Rf_*K, M)
 $$
-which is an isomorphism for all $K \in D_\QCoh(\mathcal{O}_X)$.
+which is an isomorphism for all $K \in D_\QCoh(\mathcal{O}_X)$
+and $M \in D_\QCoh^+(\mathcal{O}_Y)$.
 \end{enumerate}
-See Lemmas \ref{lemma-upper-shriek-composition} and
+See Lemmas \ref{lemma-upper-shriek-composition},
+\ref{lemma-shriek-via-duality}, and
 \ref{lemma-proper-noetherian-relative}. We will now use
 a bootstrap procedure to get a theory which works for
 all finite type schemes over $S$.
@@ -4955,7 +5044,9 @@ as above,
 \item for each $i, j$ a canonical isomorphism
 $\varphi_{ij} :
 \omega_i^\bullet|_{U_i \cap U_j} \to \omega_j^\bullet|_{U_i \cap U_j}$, and
-\item for each $i, j, k$ we have
+\item
+\label{item-cocycle-glueing}
+for each $i, j, k$ we have
 $$
 \varphi_{ik}|_{U_i \cap U_j \cap U_k} =
 \varphi_{jk}|_{U_i \cap U_j \cap U_k} \circ
@@ -5033,7 +5124,7 @@ To go from a good dualizing complex $(K, \alpha_i)$ for $\mathcal{V}$ to a
 good dualizing complex for $\mathcal{U}$ is achieved by forgetting
 about $\alpha_i$ for $i = n + 1$. Conversely, let $(K, \alpha_i)$ be a
 good dualizing complex for $\mathcal{U}$.
-To finish the proof we need to construct maps
+To finish the proof we need to construct a map
 $\alpha_{n + 1} : K|_{U_{n + 1}} \to \omega_{n + 1}^\bullet$ satisfying
 the desired conditions.
 To do this we observe that $U_{n + 1} = \bigcup U_i \cap U_{n + 1}$
@@ -5041,7 +5132,7 @@ is an open covering.
 It is clear that $(K|_{U_{n + 1}}, \alpha_i|_{U_i \cap U_{n + 1}})$
 is a good dualizing complex for the covering
 $U_{n + 1} = \bigcup U_i \cap U_{n + 1}$.
-On the other hand, the pair
+On the other hand, by condition (\ref{item-cocycle-glueing}) the pair
 $(\omega_{n + 1}^\bullet|_{U_{n + 1}}, \varphi_{n + 1i})$
 is another good dualizing complex for the covering
 $U_{n + 1} = \bigcup U_i \cap U_{n + 1}$.
@@ -5073,7 +5164,7 @@ $\mathcal{U}' : X' = \bigcup_{i = 1, \ldots, n - 1} U_i$.
 It is clear that $(K'|_{X' \cap U_n}, \alpha'_i|_{U_i \cap U_n})$
 is a good dualizing complex for the covering
 $X' \cap U_n = \bigcup_{i = 1, \ldots, n - 1} U_i \cap U_n$.
-On the other hand, the pair
+On the other hand, by condition (\ref{item-cocycle-glueing}) the pair
 $(\omega_n^\bullet|_{X' \cap U_n}, \varphi_{ni})$
 is another good dualizing complex for the covering
 $X' \cap U_n = \bigcup_{i = 1, \ldots, n - 1} U_i \cap U_n$.
@@ -5182,7 +5273,7 @@ omit the details.
 \end{proof}
 
 \begin{lemma}
-\label{lemma-proper-map-good-dualizing-complex}
+\label{lemma-open-immersion-good-dualizing-complex}
 Let $(S, \omega_S^\bullet)$ be as in Situation \ref{situation-dualizing}.
 Let $j : X \to Y$ be an open immersion of schemes of finite type over $S$.
 Then there is a canonical isomorphism
@@ -5215,7 +5306,58 @@ to reduce to the case $Y = S$. In this case $X$ and $Y$
 are compactifyable over $S$ and we've just seen the result.
 \end{proof}
 
-
+\noindent
+{\bf Bootstrap.}
+Let $(S, \omega_S^\bullet)$ be as in Situation \ref{situation-dualizing}.
+For a scheme $X$ of finite type over $S$ denote $\omega_X^\bullet$ a
+good dualizing complex for $X$ with respect to $\omega_S^\bullet$.
+Define
+$$
+D_X(-) = R\SheafHom_{\mathcal{O}_X}(-, \omega_X^\bullet)
+$$
+as in Lemma \ref{lemma-dualizing-schemes}.
+Let $f : X \to Y$ be a morphism of finite type schemes over $S$.
+Define
+$$
+f^! = D_X \circ Lf^* \circ D_Y :
+D_{\textit{Coh}}^+(\mathcal{O}_Y)
+\to
+D_{\textit{Coh}}^+(\mathcal{O}_X)
+$$
+This agrees with the previously defined upper shriek functor
+if $X$ and $Y$ are compactifyable over $S$ by
+Lemma \ref{lemma-shriek-via-duality}.
+Moreover, if $f : X \to Y$ and $g : Y \to Z$ are composable
+morphisms between schemes of finite type over $S$, then
+there is a canonical isomorphism
+\begin{align*}
+(g \circ f)^! & = D_X \circ L(g \circ f)^* \circ D_Z \\
+& = D_X \circ Lf^* \circ Lg^* \circ D_Z \\
+& \to D_X \circ Lf^* \circ D_Y \circ D_Y \circ Lg^* \circ D_Z \\
+& = f^! \circ g^!
+\end{align*}
+where the arrow is defined in Lemma \ref{lemma-dualizing-schemes}.
+It is immediately verified that the functors $f^!$ and the arrows
+$(g \circ f)^! \to f^! \circ g^!$ turn $X \mapsto D_{\textit{Coh}}^+(X)$
+into a pseudo functor from the category of schemes of finite type
+over $S$ into the $2$-category of categories. Finally, if
+$f$ is proper there is a canonical map
+$$
+Rf_*R\SheafHom_{\mathcal{O}_X}(K, f^!M)
+\to
+R\SheafHom_{\mathcal{O}_Y}(Rf_*K, M)
+$$
+which is an isomorphism for all $K \in D_\QCoh(\mathcal{O}_X)$
+and $M \in D_{\textit{Coh}}^+(\mathcal{O}_Y)$. Namely, in this case
+$\omega_X^\bullet = a(\omega_Y^\bullet)$ by
+Lemma \ref{lemma-proper-map-good-dualizing-complex}
+where $a$ is the twisted inverse image for $f$,
+hence $f^!$ is the restriction of $a$ to $D_{\textit{Coh}}^+(\mathcal{O}_Y)$
+by Lemma \ref{lemma-shriek-via-duality} applied to $f : X \to Y$
+over the base scheme $Y$ (the issue is that we do not know $Y$ is
+compactifyable over $S$ hence we cannot immediately apply
+Lemma \ref{lemma-shriek-via-duality} to $f$ over $S$), and we see the
+result is true by Lemma \ref{lemma-proper-noetherian-relative}.
 
 
 
