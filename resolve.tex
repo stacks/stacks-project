@@ -31,11 +31,10 @@ in \cite{Artin-Lipman}.
 
 \noindent
 In this section $p$ will be a prime number. Let $R$ be an
-$\mathbf{F}_p$-algebra. Let $M$ be an $R$-module and let $D : R \to M$ be a
-derivation. Given an $a \in R$ set $A = R[x]/(x^p - a)$.
+$\mathbf{F}_p$-algebra. Given an $a \in R$ set $S = R[x]/(x^p - a)$.
 Define an $R$-linear map
 $$
-\text{Tr}_{x, D} : \Omega_{A/R} \longrightarrow M
+\text{Tr}_x : \Omega_{S/R} \longrightarrow \Omega_R
 $$
 by the rule
 $$
@@ -43,11 +42,11 @@ x^i\text{d}x \longmapsto
 \left\{
 \begin{matrix}
 0 & \text{if} & 0 \leq i \leq p - 2, \\
-D(a) & \text{if} & i = p - 1
+\text{d}a & \text{if} & i = p - 1
 \end{matrix}
 \right.
 $$
-This makes sense as $\Omega_{A/R}$ is a free $R$-module with
+This makes sense as $\Omega_{S/R}$ is a free $R$-module with
 basis $x^i\text{d}x$, $0 \leq i \leq p - 1$.
 The following lemma implies that the trace map is well defined,
 i.e., independent of the choice of the coordinate $x$.
@@ -55,8 +54,7 @@ i.e., independent of the choice of the coordinate $x$.
 \begin{lemma}
 \label{lemma-trace-well-defined}
 Let $\varphi : R[x]/(x^p - a) \to R[y]/(y^p - b)$ be an $R$-algebra
-homomorphism. Then
-$\text{Tr}_{x, D} = \text{Tr}_{y, D} \circ \varphi$.
+homomorphism. Then $\text{Tr}_x = \text{Tr}_y \circ \varphi$.
 \end{lemma}
 
 \begin{proof}
@@ -74,33 +72,29 @@ R_{univ} = \mathbf{F}_p[b, \lambda_0, \ldots, \lambda_{p - 1}]
 $$
 with the element
 $a = \lambda_0^p + \lambda_1^p b + \ldots + \lambda_{p - 1}^pb^{p - 1}$
-and
-with its universal derivation given by
-$$
-D_{univ} = \text{d} :
-R_{univ}
-\longrightarrow
-M_{univ} = \Omega_{R_{univ}/\mathbf{F}_p}
-$$
 Consider the universal algebra map
 $\varphi_{univ} : R_{univ}[x]/(x^p - a) \to R_{univ}[y]/(y^p - b)$
 given by mapping $x$ to
 $\lambda_0 + \lambda_1 y + \ldots + \lambda_{p - 1}y^{p - 1}$.
-We obtain a canonical maps
+We obtain a canonical map
 $$
-R_{univ} \longrightarrow R,\quad
-M_{univ} \longrightarrow M
+R_{univ} \longrightarrow R
 $$
-compatible with derivations by sending $b, \lambda_i$ to $b, \lambda_i$
-and sending $\text{d}b, \text{d}\lambda_i$ to $D(b), D(\lambda_i)$.
-By construction the maps
+sending $b, \lambda_i$ to $b, \lambda_i$. By construction we get a
+commutative diagram
 $$
-R_{univ}[x]/(x^p - a) \to R[x]/(x^p - a),\quad
-R_{univ}[y]/(y^p - b) \to R[y]/(y^p - b)
+\xymatrix{
+R_{univ}[x]/(x^p - a) \ar[r] \ar[d]_{\varphi_{univ}} &
+R[x]/(x^p - a) \ar[d]^\varphi \\
+R_{univ}[y]/(y^p - b) \ar[r] & R[y]/(y^p - b)
+}
 $$
-are compatible with the trace maps. Hence it suffices to prove the
-lemma for the map $\varphi_{univ}$. We will do this by evaluating
-$\text{Tr}_{y, D}(\varphi(x)^i\text{d}\varphi(x))$ for $i = 0 , \ldots, p - 1$.
+and the horizontal arrows are compatible with the trace maps. Hence it
+suffices to prove the lemma for the map $\varphi_{univ}$. Thus we may
+assume $R = \mathbf{F}_p[b, \lambda_0, \ldots, \lambda_{p - 1}]$
+is a polynomial ring. We will check the lemma holds in this case
+by evaluating
+$\text{Tr}_y(\varphi(x)^i\text{d}\varphi(x))$ for $i = 0 , \ldots, p - 1$.
 
 \medskip\noindent
 The case $0 \leq i \leq p - 2$. Expand
@@ -126,9 +120,9 @@ $$
 (\lambda_1 + 2 \lambda_2 y + \ldots + (p - 1)\lambda_{p - 1}y^{p - 2})
 $$
 in the ring $R[y]/(y^p - b)$. To finish the proof we have to show that
-the coefficient of $y^{p - 1}$ times $D(b)$ is $D(a)$. Here we use that
-$R$ is $S/pS$ where
-$S = \mathbf{Z}[b, \xi_j, \lambda_0, \ldots, \lambda_{p - 1}, \xi_{ij}]$.
+the coefficient of $y^{p - 1}$ times $\text{d}b$ is $\text{d}a$.
+Here we use that $R$ is $S/pS$ where
+$S = \mathbf{Z}[b, \lambda_0, \ldots, \lambda_{p - 1}]$.
 Then the above, as a polynomial in $y$, is equal to
 $$
 \frac{\text{d}}{p\text{d}y}
@@ -152,62 +146,98 @@ for the coefficient of $y^{p - 1}$ we wanted to compute. Now because
 $a = \lambda_0^p + \lambda_1^p b + \ldots + \lambda_{p - 1}^pb^{p - 1}$
 in $R$ we obtain that
 $$
-D(a) = (\lambda_1^p  + 2 \lambda_2^p b + \ldots +
-(p - 1) \lambda_{p - 1}^p b^{p - 2}) D(b)
+\text{d}a = (\lambda_1^p  + 2 \lambda_2^p b + \ldots +
+(p - 1) \lambda_{p - 1}^p b^{p - 2}) \text{d}b
 $$
 in $R$. This proves that the coefficient of $y^{p - 1}$ is as desired.
 \end{proof}
 
 \begin{lemma}
-\label{lemma-Noetherian-normal-domain-insep-extension}
-Let $R$ be a Noetherian normal domain with fraction field $K$.
-Let $a \in K$ be an element such that there exists a derivation
-$D : R \to R$ with $D(a) \not = 0$. Then the integral closure
-of $R$ in $L = K[x]/(x^p - a)$ is finite over $R$.
+\label{lemma-trace-higher}
+Let $\mathbf{F}_p \subset \Lambda \subset R \subset S$ be ring extensions
+and assume that $S$ is isomorphic to $R[x]/(x^p - a)$ for some $a \in R$.
+Then there are canonical $R$-linear maps
+$$
+\text{Tr} :
+\Omega^{t + 1}_{S/\Lambda}
+\longrightarrow
+\Omega_{R/\Lambda}^{t + 1}
+$$
+for $t \geq 0$ such that
+$$
+\eta_1 \wedge \ldots \wedge \eta_t \wedge x^i\text{d}x
+\longmapsto
+\left\{
+\begin{matrix}
+0 & \text{if} & 0 \leq i \leq p - 2, \\
+\eta_1 \wedge \ldots \wedge \eta_t \wedge \text{d}a & \text{if} & i = p - 1
+\end{matrix}
+\right.
+$$
+for $\eta_i \in \Omega_{R/\Lambda}$ and such that $\text{Tr}$ annihilates the
+image of
+$S \otimes_R \Omega_{R/\Lambda}^{t + 1} \to \Omega_{S/\Lambda}^{t + 1}$.
 \end{lemma}
 
 \begin{proof}
-After replacing $x$ by $fx$ and $a$ by $f^pa$ for some $f \in R$
-we may assume $a \in R$. Hence also $D(a) \in R$. We will show
-by induction on $i \leq p - 1$ that if
+For $t = 0$ we use the composition
 $$
-y = a_0 + a_1x + \ldots + a_i x^i,\quad a_j \in K
+\Omega_{S/\Lambda} \to \Omega_{S/R} \to \Omega_R \to \Omega_{R/\Lambda}
 $$
-is integral over $R$, then $D(a)^i a_j \in R$. Thus the integral
-closure is contained in the finite $R$-module with basis
-$D(a)^{-p + 1}x^j$, $j = 0, \ldots, p - 1$. Since $R$ is Noetherian
-this proves the lemma.
-
-\medskip\noindent
-If $i = 0$, then $y = a_0$ is integral over $R$ if and only if $a_0 \in R$
-and the statement is true. Suppose the statement holds for some $i < p - 1$
-and suppose that
+where the second map is Lemma \ref{lemma-trace-well-defined}.
+There is an exact sequence
 $$
-y = a_0 + a_1x + \ldots + a_{i + 1} x^{i + 1},\quad a_j \in K
+H_1(L_{S/R}) \xrightarrow{\delta} \Omega_{R/\Lambda} \otimes_R S \to
+\Omega_{S/\Lambda} \to \Omega_{S/R} \to 0
 $$
-is integral over $R$. Then
+(More on Algebra, Lemma \ref{more-algebra-lemma-transitive-lci-at-end}).
+The module $\Omega_{S/R}$ is free over $S$ with basis $\text{d}x$
+and the module $H^1(L_{S/R})$ is free over $S$ with basis $x^p - a$
+which $\delta$ maps to $-\text{d}a \otimes 1$ in
+$\Omega_{R/\Lambda} \otimes_R S$. In particular, if we set
 $$
-y^p = a_0^p + a_1^p a + \ldots + a_{i + 1}^pa^{i + 1}
+M = \Coker(R \to \Omega_{R/\Lambda}, 1 \mapsto -\text{d}a)
 $$
-is an element of $R$ (as it is in $K$ and integral over $R$). Applying
-$D$ we obtain
+then we see that $\Coker(\delta) = M \otimes_R S$. We obtain a
+canonical map
 $$
-(a_1^p + 2a_2^p a + \ldots + (i + 1)a_{i + 1}^p a^i)D(a)
+\Omega^{t + 1}_{S/\Lambda} \to
+\wedge_S^t(\Coker(\delta)) \otimes_S \Omega_{S/R} =
+\wedge^t_R(M) \otimes_R \Omega_{S/R}
 $$
-is in $R$. Hence it follows that
+Now, since the image of the map
+$\text{Tr} : \Omega_{S/R} \to \Omega_{R/\lambda}$
+of Lemma \ref{lemma-trace-well-defined} is contained in $R\text{d}a$ we
+see that wedging with an element in the image annihilates $\text{d}a$.
+Hence there is a canonical map
 $$
-D(a)a_1 + 2D(a) a_2 x + \ldots + (i + 1)D(a) a_{i + 1} x^i
+\wedge^t_R(M) \otimes_R \Omega_{S/R} \to \Omega_{R/\Lambda}^{t + 1}
 $$
-is integral over $R$. By induction we find $D(a)^{i + 1}a_j \in R$
-for $j = 1, \ldots, i + 1$. (Here we use that $1, \ldots, i + 1$
-are invertible.) Hence $D(a)^{i + 1}a_0$ is also in $R$ because it
-is the difference of $y$ and $\sum_{j > 0} D(a)^{i + 1}a_jx^j$ which
-are integral over $R$ (since $x$ is integral over $R$ as $a \in R$).
+mapping
+$\overline{\eta}_1 \wedge \ldots \wedge \overline{\eta}_t \wedge \omega$
+to $\eta_1 \wedge \ldots \wedge \eta_t \wedge \text{Tr}(\omega)$.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-trace-extends}
+Let $S$ be a scheme over $\mathbf{F}_p$.
+Let $f : X \to Y$ be a finite morphism of Noetherian normal integral schemes
+over $S$. Assume the extension of function fields is
+purely inseparable of degree $p$. For $i \geq 1$ there is a canonical map
+$$
+\text{Tr} : f_*\Omega^i_{X/S} \longrightarrow (\Omega_{Y/S}^i)^{**}
+$$
+whose stalk in the generic point of $Y$ recovers the trace map of
+Lemma \ref{lemma-trace-higher}.
+\end{lemma}
+
+\begin{proof}
 
 
 
+
+
+\end{proof}
 
 
 
