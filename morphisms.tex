@@ -10797,8 +10797,10 @@ U \longmapsto \{f \in \mathcal{A}(U) \mid
 f_x \in \mathcal{A}_x \text{ integral over } \mathcal{O}_{X, x}
 \text{ for all }x \in U\}
 $$
-is a quasi-coherent $\mathcal{O}_X$-algebra, and for any affine open
-$U \subset X$ the ring $\mathcal{A}'(U) \subset \mathcal{A}(U)$ is
+is a quasi-coherent $\mathcal{O}_X$-algebra, the stalk $\mathcal{A}'_x$
+is the integral closure of $\mathcal{O}_{X, x}$ in $\mathcal{A}_x$, and
+for any affine open $U \subset X$ the ring
+$\mathcal{A}'(U) \subset \mathcal{A}(U)$ is
 the integral closure of $\mathcal{O}_X(U)$ in $\mathcal{A}(U)$.
 \end{lemma}
 
@@ -10816,6 +10818,7 @@ the lemma. To prove that $\mathcal{A}'$ is quasi-coherent, it
 suffices to show that $\mathcal{A}'(D(f)) = A'_f$. This follows
 from the fact that integral closure and localization commute, see
 Algebra, Lemma \ref{algebra-lemma-integral-closure-localize}.
+The same fact shows that the stalks are as advertised.
 \end{proof}
 
 \begin{definition}
@@ -11057,8 +11060,7 @@ Let $f : Y \to X$ be a quasi-compact and quasi-separated morphism
 of schemes. Assume
 \begin{enumerate}
 \item $Y$ is a normal scheme,
-\item any quasi-compact open $V \subset Y$ has a finite number of
-irreducible components.
+\item quasi-compact opens of $Y$ have finitely many irreducible components.
 \end{enumerate}
 Then the normalization $X'$ of $X$ in $Y$ is a normal scheme. Moreover,
 the morphism $Y \to X'$ is dominant and induces a bijection of
@@ -11098,14 +11100,15 @@ argument (omitted).
 \end{proof}
 
 \begin{lemma}
-\label{lemma-nagata-normalization-finite}
-Let $f : X \to S$ be a morphism.
-Assume that
+\label{lemma-nagata-normalization-finite-general}
+Let $f : X \to S$ be a morphism. Assume that
 \begin{enumerate}
 \item $S$ is a Nagata scheme,
-\item $f$ is of finite type\footnote{The proof
-shows that the lemma holds if $f$ is quasi-compact and ``essentially
-of finite type''.}, and
+\item $f$ is quasi-compact and quasi-separated,
+\item quasi-compact opens of $X$ have finitely many irreducible components,
+\item if $x \in X$ is a generic point of an irreducible component,
+then the field extension $\kappa(f(x)) \subset \kappa(x)$ is finitely
+generated, and
 \item $X$ is reduced.
 \end{enumerate}
 Then the normalization $\nu : S' \to S$ of $S$ in $X$ is finite.
@@ -11113,18 +11116,59 @@ Then the normalization $\nu : S' \to S$ of $S$ in $X$ is finite.
 
 \begin{proof}
 There is an immediate reduction to the case $S = \Spec(R)$
-where $R$ is a Nagata ring. In this case we have to show that
+where $R$ is a Nagata ring by assumption (1). We have to show that
 the integral closure $A$ of $R$ in $\Gamma(X, \mathcal{O}_X)$ is
-finite over $R$. Since $f$ is of finite type we can write
+finite over $R$. Since $f$ is quasi-compact by assumption (2) we can write
 $X = \bigcup_{i = 1, \ldots, n} U_i$ with each $U_i$ affine.
-Say $U_i = \Spec(B_i)$. Each $B_i$ is a reduced ring of finite type
-over $R$ (Lemma \ref{lemma-locally-finite-type-characterize}).
-Moreover, $\Gamma(X, \mathcal{O}_X) \subset B = B_1 \times \ldots \times B_n$.
-So $A$ is contained in the integral closure $A'$ of $R$ in $B$.
-Note that $B$ is a reduced finite type $R$-algebra. Since $R$ is Noetherian
-it suffices to prove that $A'$ is finite over $R$. This is
-Algebra, Lemma
+Say $U_i = \Spec(B_i)$. Each $B_i$ is reduced by assumption (5)
+and has finitely many minial primes
+$\mathfrak q_{i1}, \ldots, \mathfrak q_{im_i}$
+by assumption (3) and
+Algebra, Lemma \ref{algebra-lemma-irreducible}.
+We have
+$$
+\Gamma(X, \mathcal{O}_X) \subset B_1 \times \ldots \times B_n
+\subset
+\prod\nolimits_{i = 1, \ldots, n}
+\prod\nolimits_{j = 1, \ldots, m_i} (B_i)_{\mathfrak q_{ij}}
+$$
+the second inclusion by
+Algebra, Lemma \ref{algebra-lemma-reduced-ring-sub-product-fields}.
+We have $\kappa(\mathfrak q_{ij}) = (B_i)_{\mathfrak q_{ij}}$ by
+Algebra, Lemma \ref{algebra-lemma-minimal-prime-reduced-ring}.
+Hence the integral closure $A$ of $R$ in $\Gamma(X, \mathcal{O}_X)$
+is contained in the product of the integral closures $A_{ij}$ of
+$R$ in $\kappa(\mathfrak q_{ij})$. Since $R$ is Noetherian
+it suffices to show that $A_{ij}$ is a finite $R$-module for each $i, j$.
+Let $\mathfrak p_{ij} \subset R$ be the image of $\mathfrak q_{ij}$.
+As $\kappa(\mathfrak p_{ij}) \subset \kappa(\mathfrak q_{ij})$
+is a finitely generated field extension by assumption (4),
+we see that $R \to \kappa(\mathfrak q_{ij})$ is essentially of finite type.
+Thus $R \to A_{ij}$ is finite by Algebra, Lemma
 \ref{algebra-lemma-nagata-in-reduced-finite-type-finite-integral-closure}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-nagata-normalization-finite}
+Let $f : X \to S$ be a morphism. Assume that
+\begin{enumerate}
+\item $S$ is a Nagata scheme,
+\item $f$ is of finite type,
+\item $X$ is reduced.
+\end{enumerate}
+Then the normalization $\nu : S' \to S$ of $S$ in $X$ is finite.
+\end{lemma}
+
+\begin{proof}
+This is a special case of
+Lemma \ref{lemma-nagata-normalization-finite-general}.
+Namely, (2) holds as the finite type morphism $f$ is quasi-compact
+by definition and quasi-separated by
+Lemma \ref{lemma-finite-type-Noetherian-quasi-separated}.
+Condition (3) holds because $X$ is locally Noetherian by
+Lemma \ref{lemma-finite-type-noetherian}. Finally, condition (4)
+holds because a finite type morphism induces finitely generated
+residue field extensions.
 \end{proof}
 
 \noindent
@@ -11310,12 +11354,12 @@ We omit the verification that it is unique.
 
 \begin{lemma}
 \label{lemma-finite-birational-over-normal}
-A finite (or even integral) birational morphism of normal integral schemes
-is an isomorphism.
+A finite (or even integral) birational morphism $f : X \to Y$
+of integral schemes with $Y$ normal is an isomorphism.
 \end{lemma}
 
 \begin{proof}
-Let $f : X \to Y$ be such a morphism. Let $V \subset Y$ be an affine open
+Let $V \subset Y$ be an affine open
 with inverse image $U \subset X$ which is an affine open too.
 Since $f$ is a birational morphism of integral schemes, the homomorphism
 $\mathcal{O}_Y(V) \to \mathcal{O}_X(U)$ is an injective map of domains
@@ -11349,7 +11393,10 @@ The normalization $\nu : X^\nu \to X$ is a finite morphism.
 \begin{proof}
 Note that a Nagata scheme is locally Noetherian, thus
 Definition \ref{definition-normalization}
-does apply. Write $X^\nu \to X$ as the composition
+does apply. The lemma is now a special case of
+Lemma \ref{lemma-nagata-normalization-finite-general}
+but we can also prove it directly as follows.
+Write $X^\nu \to X$ as the composition
 $X^\nu \to X_{red} \to X$. As $X_{red} \to X$ is a closed immersion
 it is finite. Hence it suffices to prove the lemma for a reduced
 Nagata scheme (by Lemma \ref{lemma-composition-finite}).
