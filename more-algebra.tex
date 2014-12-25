@@ -11998,6 +11998,34 @@ and the definitions. The third statement is a rephrasing of the second.
 
 
 
+\section{Spectral sequences for Ext}
+\label{section-spectral-sequence-ext}
+
+\noindent
+In this section we collect various spectral sequences that come up
+when considering the Ext functors. For any pair of objects
+$L$, $K$ of the derived category $D(R)$ of a ring $R$
+we denote
+$$
+\text{Ext}^n_R(L, K) = \Hom_{D(R)}(L, K[n])
+$$
+according to our general conventions in
+Derived Categories, Section \ref{derived-section-ext}.
+
+\medskip\noindent
+FOr $M$ an $R$-module and $K \in D^+(R)$ there is a spectral sequence
+\begin{equation}
+\label{equation-first-ss-ext}
+\text{Ext}_R^j(M, H^i(K)) \Rightarrow \text{Ext}_R^{i + j}(M, K)
+\end{equation}
+and if $K$ is represented by the bounded below complex $K^\bullet$
+of $R$-modules there is a spectral sequence
+\begin{equation}
+\label{equation-second-ss-ext}
+\text{Ext}_R^j(M, K^i) \Rightarrow \text{Ext}_R^{i + j}(M, K)
+\end{equation}
+
+
 
 
 \section{Projective dimension}
@@ -12138,7 +12166,9 @@ The following are equivalent
 \begin{enumerate}
 \item $K$ has injective-amplitude in $[a, b]$,
 \item $\text{Ext}^i_R(N, K) = 0$ for all $R$-modules $N$ and all
-$i \not \in [a, b]$.
+$i \not \in [a, b]$,
+\item $\text{Ext}^i(R/I, K) = 0$ for all ideals $I \subset R$ and
+all $i \not \in [a, b]$.
 \end{enumerate}
 \end{lemma}
 
@@ -12154,12 +12184,12 @@ $$
 \ldots \to 0 \to \Hom_R(N, I^a) \to \ldots \to
 \Hom_R(N, I^b) \to 0 \to \ldots
 $$
-and we obtain (2).
+and we obtain (2). It is clear that (2) implies (3).
 
 \medskip\noindent
-Assume (2) holds. Choose an surjection $P \to H^n(K)$ where $P$
-is a projective $R$-module. Since $\Hom_R(P, -)$ is an exact functor,
-we see that $\text{Ext}^n(P, K) = \Hom_R(P, H^n(K))$.
+Assume (3) holds. Choose a nonzero map $R \to H^n(K)$. Since $\Hom_R(R, -)$
+is an exact functor, we see that
+$\text{Ext}^n_R(R, K) = \Hom_R(R, H^n(K)) = H^n(K)$.
 We conclude that $H^n(K)$ is zero for $n \not \in [a, b]$.
 In particular, $K$ is bounded below and we can choose a quasi-isomorphism
 $$
@@ -12178,14 +12208,14 @@ $D(R)$. We obtain a distinguished triangle
 $$
 J[-b] \to K \to K' \to J[1 - b]
 $$
-in $D(R)$. Thus for every $R$-module $N$ an exact sequence
+in $D(R)$. Thus for every ideal $I \subset R$ an exact sequence
 $$
-\text{Ext}^b(N, K') \to \text{Ext}^1(N, J) \to \text{Ext}^{1 + b}(N, K)
+\text{Ext}^b(R/I, K') \to \text{Ext}^1(R/I, J) \to \text{Ext}^{1 + b}(R/I, K)
 $$
 By assumption the term on the right vanishes. By the implication
 (1) $\Rightarrow$ (2) the term on the left vanishes. Thus $J$
 is a injective $R$-module by
-Homology, Lemma \ref{homology-lemma-characterize-injectives}.
+Injectives, Lemma \ref{injectives-lemma-characterize-injective}.
 \end{proof}
 
 \begin{example}
@@ -12222,6 +12252,65 @@ Derived Categories, Lemma \ref{derived-lemma-two-ss-complex-functor}
 to the functor $F = \Hom_R(N, -)$ to get a computation of
 $\text{Ext}^i_A(N, K)$ and use the criterion of
 Lemma \ref{lemma-injective-amplitude}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-finite-injective-dimension-Noetherian-local}
+Let $(R, \mathfrak m, \kappa)$ be a local Noetherian ring.
+Let $K \in D^+(R)$ have finite cohomology modules.
+Then the following are equivalent
+\begin{enumerate}
+\item $K$ has finite injective dimension, and
+\item $\text{Ext}^i_R(\kappa, K) = 0$ for $i \gg 0$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Say $H^i(K) = 0$ for $i < a$. Then $\text{Ext}^i(M, K) = 0$ for $i < a$ and
+all $R$-modules $M$. Say $\text{Ext}^i_R(\kappa, K) = 0$ for $i > b$.
+We will show by induction on $\dim(M)$ that $\text{Ext}^i(M, K) = 0$
+for all finite $R$-modules $M$. This will prove the lemma by
+Lemma \ref{lemma-injective-amplitude}. We will use that the modules
+$\text{Ext}^i(M, K)$ are finite by our assumption on $K$
+(bounded below with finite cohomology modules), the spectral
+sequence (\ref{equation-first-ss-ext}), and
+Algebra, Lemma \ref{algebra-lemma-ext-noetherian}.
+
+\medskip\noindent
+The base case. If $\dim(M) = 0$ then we can use induction on the
+length of $M$, see Algebra, Lemma \ref{algebra-lemma-support-point}.
+If the length is $1$, then $M = \kappa$ and the result holds.
+If $\text{length}(M) > 1$, then we can find an exact sequence
+$0 \to M' \to M \to \kappa \to 0$ with $\text{length}(M') < \text{length}(M)$
+and the result for $M$ follows from the result for $M'$ and $\kappa$
+by the long exact sequence of $\text{Ext}$'s.
+
+\medskip\noindent
+Assume $\dim(M) > 0$. Consider the exact sequence $0 \to C \to M \to M' \to 0$
+of Algebra, Lemma \ref{algebra-lemma-remove-embedded-primes}.
+Using the long exact sequence of $\text{Ext}$'s and the induction hypothesis
+for $C$, we see that it suffices to prove the vanishing for $M'$.
+Thus we may assume $M$ has no embedded associated primes.
+Let $f \in \mathfrak m$ be an element which is
+not contained in any associated primes of $M$
+(to find $f$ use $\dim(M) > 0$, use $M$ has no embedded associated
+primes, and use Algebra, Lemma \ref{algebra-lemma-silly}).
+Then $f$ is a nonzerodivisor on $M$
+(Algebra, Lemma \ref{algebra-lemma-ass-zero-divisors}) and
+we can consider the short exact sequence
+$$
+0 \to M \to M \to M/fM \to 0
+$$
+This produces the long exact sequence
+$$
+\ldots \to
+\text{Ext}^b(M, K) \xrightarrow{f} \text{Ext}^b(M, K) \to
+\text{Ext}^{b + 1}(M/fM, K) \to \ldots
+$$
+By induction hypothesis for $M/fM$ we see that $\text{Ext}^{b + 1}(M/fM, K)$
+is zero. Since $f \in \mathfrak m$ and $\text{Ext}^b(M, K)$ is finite,
+we conclude by Nakayama's lemma (Algebra, Lemma \ref{algebra-lemma-NAK})
+that $\text{Ext}^b(M, K)$ is zero.
 \end{proof}
 
 
