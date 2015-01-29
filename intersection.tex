@@ -132,6 +132,17 @@ $f_*[Z] = [f_*\mathcal{O}_Z]_k$.
 See Chow Homology, Lemma \ref{chow-lemma-cycle-push-sheaf}.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-compose-pushforward}
+Let $f : X \to Y$ and $g : Y \to Z$ be morphisms of nonsingular projective
+varieties. Then $g_* \circ f_* = (g \circ f)_*$ as maps $Z_k(X) \to Z_k(Z)$.
+\end{lemma}
+
+\begin{proof}
+Special case of Chow Homology, Lemma \ref{chow-lemma-compose-pushforward}.
+\end{proof}
+
+
 
 \section{Flat pullback}
 \label{section-flat-pullback}
@@ -149,7 +160,11 @@ $f^*[Z]$ to be the $k + r$-cycle associated to the scheme theoretic
 inverse image: $f^*[Z] = [f^{-1}(Z)]_{k + r}$. Let
 $\alpha = \sum n_i [Z_i]$ be a $k$-cycle on $Y$. The {\it pullback} of
 $\alpha$ is the sum $f_* \alpha = \sum n_i f^*[Z_i]$ where each $f^*[Z_i]$
-is defined as above.
+is defined as above. This defines a homomorphism
+$$
+f^* : Z_k(Y) \longrightarrow Z_{k + r}(X)
+$$
+See Chow Homology, Section \ref{chow-section-flat-pullback}.
 
 \begin{lemma}
 \label{lemma-pullback}
@@ -162,6 +177,18 @@ support of $\mathcal{F}$ is at most $k$.
 
 \begin{proof}
 See Chow Homology, Lemma \ref{chow-lemma-pullback-coherent}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-compose-flat-pullback}
+Let $f : X \to Y$ and $g : Y \to Z$ be flat morphisms of
+nonsingular projective varieties. Then $g \circ f$ is flat
+and $f^* \circ g^* = (g \circ f)^*$
+as maps $Z_k(Z) \to Z_{k + \dim(X) - \dim(Z)}(X)$.
+\end{lemma}
+
+\begin{proof}
+Special case of Chow Homology, Lemma \ref{chow-lemma-compose-flat-pullback}.
 \end{proof}
 
 
@@ -327,7 +354,7 @@ Chow Homology, Lemma \ref{chow-lemma-flat-pullback-rational-equivalence}.
 Therefore we obtain a commutative diagram
 $$
 \xymatrix{
-Z_k(X) \ar[r] & A_k(X) \\
+Z_{k + r}(X) \ar[r] & A_{k + r}(X) \\
 Z_k(Y) \ar[r] \ar[u]^{f^*} & A_k(Y) \ar[u]_{f^*}
 }
 $$
@@ -427,24 +454,32 @@ Proof of (2). Choose a factorization as in the definition of a
 local complete intersection and apply (1). Some details omitted.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-diagonal-regular-immersion}
+Let $X$ be a nonsingular projective variety. Then the diagonal
+$\Delta : X \to X \times X$ is a regular immersion of codimension $\dim(X)$.
+\end{lemma}
+
+\begin{proof}
+In fact, any closed immersion between nonsingular projective
+varieties is a regular immersion, see Divisors,
+Lemma \ref{divisors-lemma-immersion-smooth-into-smooth-regular-immersion}.
+\end{proof}
+
 \noindent
 The following lemma demonstrates how reduction to the diagonal works.
 
 \begin{lemma}
 \label{lemma-intersect-in-smooth}
-Suppose that $X$ is a nonsingular projective variety and that $W,V \subset X$
-are closed subvarieties with $\dim(W) = s$ and $\dim(V) = r$. Then every
+Let $X$ be a nonsingular projective variety and let $W,V \subset X$
+be closed subvarieties with $\dim(W) = s$ and $\dim(V) = r$. Then every
 irreducible component $Z$ of $V \cap W$ has dimension $\geq r + s - \dim(X)$.
 \end{lemma}
 
 \begin{proof}
-Since $X \to \Spec(\mathbf{C})$ is smooth the diagonal morphism
-$\Delta : X \to X \times X$ is a regular immersion of codimension
-$\dim(X)$. In fact, any closed immersion between nonsingular projective
-varieties is a regular immersion, see Divisors,
-Lemma \ref{divisors-lemma-immersion-smooth-into-smooth-regular-immersion}.
 Since $V \cap W = \Delta^{-1}(V \times W)$ (scheme theoretically)
-we conclude by Lemma \ref{lemma-pullback-by-regular-immersion}.
+we conclude by Lemmas \ref{lemma-diagonal-regular-immersion} and
+\ref{lemma-pullback-by-regular-immersion}.
 \end{proof}
 
 \noindent
@@ -501,7 +536,7 @@ so is $L \otimes_{\mathcal{O}_X}^\mathbf{L} K$.
 
 \begin{proof}
 Let us explain how to prove (1) in a more elementary way and part (2)
-using prviously developed general theory.
+using previously developed general theory.
 
 \medskip\noindent
 Proof of (1). Since formation of $\text{Tor}$ commutes with localization
@@ -916,7 +951,7 @@ Theorem \ref{theorem-multiplicity-with-koszul} in this case as well.
 Let $X$ be a nonsingular projective variety. Let $W,V \subset X$ be
 closed subvarieties which intersect properly. Let $Z$ be an irreducible
 component of $V \cap W$ with generic point $\xi$.
-Suppose the ideal of $V$ in $A$ is cut out by
+Suppose the ideal of $V$ in $\mathcal{O}_{X, \xi}$ is cut out by
 a regular sequence $f_1, \ldots, f_c \in \mathcal{O}_{X, \xi}$.
 Then $e(X, V\cdot W, Z)$ is equal to $c!$ times the leading coefficient in
 the Hilbert polynomial
@@ -924,11 +959,37 @@ $$
 t \mapsto \text{length}_{\mathcal{O}_{X, \xi}}
 \mathcal{O}_{W, \xi}/(f_1, \ldots, f_c)^t,\quad t \gg 0.
 $$
+In particular, this coefficient is $> 0$.
 \end{lemma}
 
 \begin{proof}
-This follows immediately from the more general
-Lemma \ref{lemma-one-ideal-ci}.
+The equality
+$$
+e(X, V\cdot W, Z) = e_{(f_1, \dots, f_c)}(\mathcal{O}_{W, \xi}, c)
+$$
+follows from the more general Lemma \ref{lemma-one-ideal-ci}.
+To see that $e_{(f_1, \dots, f_c)}(\mathcal{O}_{W, \xi}, c)$ is
+$> 0$ or equivalently that $e_{(f_1, \dots, f_c)}(\mathcal{O}_{W, \xi}, c)$
+is the leading coefficient of the Hilbert polynomial
+it suffices to show that the
+dimension of $\mathcal{O}_{W, \xi}$ is $c$, because the degree of the
+Hilbert polynomial is equal to the dimension by
+Algebra, Proposition \ref{algebra-proposition-dimension}.
+Say $\dim(V) = r$, $\dim(W) = s$, and $\dim(X) = n$. Then
+$\dim(Z) = r + s - n$ as the intersection is proper. Thus
+the transcendence degree of $\kappa(\xi)$ over $\mathbf{C}$ is
+$r + s - n$, see Algebra, Lemma
+\ref{algebra-lemma-dimension-prime-polynomial-ring}.
+We have $r + c = n$ because $V$ is cut out by a regular sequence
+in a neighbourhood of $\xi$, see
+Divisors, Lemma \ref{divisors-lemma-Noetherian-scheme-regular-ideal}
+and then Lemma \ref{lemma-pullback-by-regular-immersion}
+applies (for example). Thus
+$$
+\dim(\mathcal{O}_{W, \xi}) = s - (r + s - n) = s - ((n - c) + s - n) = c
+$$
+the first equality by Algebra, Lemma
+\ref{algebra-lemma-dimension-at-a-point-finite-type-field}.
 \end{proof}
 
 \begin{lemma}
@@ -1117,7 +1178,8 @@ $$
 In this formula we may replace
 $\mathcal{O}_{Y, \zeta}$ by $\mathcal{O}_{W_a, \zeta}$ and
 we may replace
-$\mathcal{O}_{X \times Y, \zeta}$ by $\mathcal{O}_{V \times W_a, \zeta}$.
+$\mathcal{O}_{X \times Y, \zeta}$ by $\mathcal{O}_{V \times W_a, \zeta}$
+(see Algebra, Lemma \ref{algebra-lemma-length-independent}).
 As $\mathcal{O}_{W_a, \zeta} \to \mathcal{O}_{V \times W_a, \xi}$ is flat,
 by Algebra, Lemma \ref{algebra-lemma-pullback-module} it suffices
 to show that
@@ -1148,27 +1210,196 @@ $$
 \label{section-reduction-diagonal}
 
 \noindent
-Let $X$ be a nonsingular projective
-variety. Let $\Delta \subset X \times X$ denote the diagonal.
-We will identify $\Delta$ with $X$.
-Let $\alpha$, resp.\ $\beta$ be $r$-cycles, resp.\ $s$-cycles
-on $X$. Assume $\alpha$ and $\beta$ intersect properly. In this case
-$\alpha \times \beta$ and $[\Delta]$ intersect properly. Note that
-the cycle $\Delta \cdot \alpha\times\beta$ is supported on the diagonal
-and hence we can think of it as a cycle on $X$. With this convention
-we have $\alpha \cdot \beta = \Delta \cdot \alpha\times\beta$.
-See \cite[Chapter V]{Serre_algebre_locale}.
+Let $X$ be a nonsingular projective variety. We will use $\Delta$
+to denote either the diagonal morphism $\Delta : X \to X \times X$
+or the image $\Delta \subset X \times X$.
+Reduction to the diagonal is the statement that
+intersection products on $X$ can be reduced to intersection products
+of exterior products with the diagonal on $X \times X$.
+
+\begin{lemma}
+\label{lemma-tor-and-diagonal}
+Let $X$ be a nonsingular projective variety.
+\begin{enumerate}
+\item If $\mathcal{F}$ and $\mathcal{G}$ are coherent $\mathcal{O}_X$-modules,
+then there are canonical isomorphisms
+$$
+\text{Tor}_i^{\mathcal{O}_{X \times X}}(\mathcal{O}_\Delta,
+\text{pr}_1^*\mathcal{F} \otimes_{\mathcal{O}_{X \times X}}
+\text{pr}_2^*\mathcal{G})
+=
+\Delta_*\text{Tor}_i^{\mathcal{O}_X}(\mathcal{F}, \mathcal{G})
+$$
+\item If $K$ and $M$ are in $D_\QCoh(\mathcal{O}_X)$, then
+there is a canonical isomorphism
+$$
+L\Delta^* \left(
+L\text{pr}_1^*K \otimes_{\mathcal{O}_{X \times X}}^\mathbf{L} L\text{pr}_2^*M
+\right)
+= K \otimes_{\mathcal{O}_X}^\mathbf{L} M
+$$
+in $D_\QCoh(\mathcal{O}_X)$ and a canonical isomorphism
+$$
+\mathcal{O}_\Delta \otimes_{\mathcal{O}_{X \times X}}^\mathbf{L}
+L\text{pr}_1^*K \otimes_{\mathcal{O}_{X \times X}}^\mathbf{L} L\text{pr}_2^*M
+= \Delta_*(K \otimes_{\mathcal{O}_X}^\mathbf{L} M)
+$$
+in $D_\QCoh(X \times X)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Let us explain how to prove (1) in a more elementary way and part (2) using
+more general theory. As (2) implies (1) the reader can skip the proof
+of (1).
 
 \medskip\noindent
-Perhaps a less confusing formulation would be that
-$pr_{1,*}( \Delta \cdot \alpha\times\beta ) = \alpha\cdot\beta$,
+Proof of (1). Choose an affine open $\Spec(A) \subset X$.
+Then $A$ is a Noetherian $\mathbf{C}$-algebra and
+$\mathcal{F}$, $\mathcal{G}$ correspond to finite $A$-modules
+$M$ and $N$ (Cohomology of Schemes, Lemma
+\ref{coherent-lemma-coherent-Noetherian}).
+By Derived Categories of Schemes, Lemma
+\ref{perfect-lemma-quasi-coherence-tensor-product} we may
+compute $\text{Tor}_i$ over $\mathcal{O}_X$
+by first computing the $\text{Tor}$'s
+of $M$ and $N$ over $A$, and then taking the associated $\mathcal{O}_X$-module.
+For the $\text{Tor}_i$ over $\mathcal{O}_{X \times X}$ we compute
+the tor of $A$ and $M \otimes_\mathbf{C} N$ over $A \otimes_\mathbf{C} A$
+and then take the associated $\mathcal{O}_{X \times X}$-module.
+Hence on this afffine patch we have to prove that
+$$
+\text{Tor}_i^{A \otimes_\mathbf{C} A}(A, M \otimes_\mathbf{C} N) =
+\text{Tor}_i^A(M, N)
+$$
+To see this choose resolutions $F_\bullet \to M$ and $G_\bullet \to M$
+by finite free $A$-modules
+(Algebra, Lemma \ref{algebra-lemma-resolution-by-finite-free}).
+Note that $\text{Tot}(F_\bullet \otimes_\mathbf{C} G_\bullet)$
+is a resolution of $M \otimes_\mathbf{C} N$ as it computes
+Tor groups over $\mathbf{C}$! Of course the terms of
+$F_\bullet \otimes_\mathbf{C} G_\bullet$ are finite free
+$A \otimes_\mathbf{C} A$-modules. Hence the left hand side
+of the displayed equation is the module
+$$
+H_i(A \otimes_{A \otimes_\mathbf{C} A}
+\text{Tot}(F_\bullet \otimes_\mathbf{C} G_\bullet))
+$$
+and the right hand side is the module
+$$
+H_i(\text{Tot}(F_\bullet \otimes_A G_\bullet))
+$$
+Since $A \otimes_{A \otimes_\mathbf{C} A} (F_p \otimes_\mathbf{C} G_q)
+= F_p \otimes_A G_q$ we see that these modules are equal.
+This defines an isomorphism over the affine open $\Spec(A) \times \Spec(A)$
+(which is good enough for the application to equality of intersection numbers).
+We omit the proof that these isomorphisms glue.
+
+\medskip\noindent
+Proof of (2). The second statement follows from the first by the
+projection formula as stated in
+Derived Categories of Schemes, Lemma \ref{perfect-lemma-cohomology-base-change}.
+To see the first, represent $K$ and $M$ by K-flat complexes
+$\mathcal{K}^\bullet$ and $\mathcal{M}^\bullet$.
+Since pullback and tensor product preserve K-flat complexes
+(Cohomology, Lemmas \ref{cohomology-lemma-tensor-product-K-flat} and
+\ref{cohomology-lemma-pullback-K-flat})
+we see that it suffices to show
+$$
+\Delta^*\text{Tot}(
+\text{pr}_1^*\mathcal{K}^\bullet
+\otimes_{\mathcal{O}_{X \times X}} \text{pr}_2^*\mathcal{M}^\bullet)
+=
+\text{Tot}(
+\mathcal{K}^\bullet \otimes_{\mathcal{O}_X} \mathcal{M}^\bullet)
+$$
+Thus it suffices to see that there are canonical isomorphisms
+$$
+\Delta^*(\text{pr}_1^*\mathcal{K}
+\otimes_{\mathcal{O}_{X \times X}} \text{pr}_2^*\mathcal{M})
+\longrightarrow
+\mathcal{K} \otimes_{\mathcal{O}_X} \mathcal{M}
+$$
+whenever $\mathcal{K}$ and $\mathcal{M}$ are $\mathcal{O}_X$-modules
+(not necessarily quasi-coherent or flat).
+We omit the details.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-reduction-diagonal}
+Let $X$ be a nonsingular projective variety. Let $\alpha$, resp.\ $\beta$
+be an $r$-cycle, resp.\ $s$-cycle on $X$. Assume $\alpha$ and $\beta$
+intersect properly. Then
+\begin{enumerate}
+\item $\alpha \times \beta$ and $[\Delta]$ intersect properly
+\item we have $\Delta_*(\alpha \cdot \beta) = [\Delta] \cdot \alpha\times\beta$
+as cycles on $X \times X$,
+\item $\text{pr}_{1, *}([\Delta] \cdot \alpha\times\beta) = \alpha\cdot\beta$,
 where $pr_1 : X\times X \to X$ is the projection.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+By linearity it suffices to prove this when $\alpha = [V]$ and $\beta = [W]$
+for some closed subvarieties $V \subset X$ and $W \subset Y$ which intersect
+properly. Recall that $V \times W$ is a closed subvariety of dimension $r + s$.
+Observe that scheme theoretically we have
+$V \cap W = \Delta^{-1}(V \times W)$ as well as
+$\Delta(V \cap W) = \Delta \cap V \times W$.
+This proves (1). Part (2) implies (3) because
+$\text{pr}_{1, *} \circ \Delta_* = \text{id}$ by
+Lemma \ref{lemma-compose-pushforward}.
 
 \medskip\noindent
-Combined with the fact that $\Delta$ is a regular immersion
-and Lemma \ref{lemma-one-ideal-ci} this implies that the
-intersection multiplicities $e(X, V \cdot W, Z)$ are {\it positive}!
-Formulate this precisely and prove it here.
+Proof of (2). Let $Z \subset V \cap W$ be an irreducible component
+with generic point $\xi$. We have to show that the coefficient of
+$Z$ in $\alpha \cdot \beta$ is the same as the coefficient of
+$\Delta(Z)$ in $[\Delta] \cdot \alpha \times \beta$. The first is given
+by the integer
+$$
+\sum (-1)^i
+\text{length}_{\mathcal{O}_{X, \xi}}
+\text{Tor}_i^{\mathcal{O}_X}(\mathcal{O}_V, \mathcal{O}_W)_\xi
+$$
+and the second by the integer
+$$
+\sum (-1)^i
+\text{length}_{\mathcal{O}_{X \times Y, \Delta(\xi)}}
+\text{Tor}_i^{\mathcal{O}_{X \times Y}}(
+\mathcal{O}_\Delta, \mathcal{O}_{V \times W})_{\Delta(\xi)}
+$$
+However, by Lemma \ref{lemma-tor-and-diagonal} we have
+$$
+\text{Tor}_i^{\mathcal{O}_X}(\mathcal{O}_V, \mathcal{O}_W)_\xi \cong
+\text{Tor}_i^{\mathcal{O}_{X \times Y}}(
+\mathcal{O}_\Delta, \mathcal{O}_{V \times W})_{\Delta(\xi)}
+$$
+as $\mathcal{O}_{X \times X, \Delta(\xi)}$-modules. Thus equality
+of lengths (by Algebra, Lemma \ref{algebra-lemma-length-independent}
+to be precise).
+\end{proof}
+
+\begin{proposition}
+\label{proposition-positivity}
+\begin{reference}
+This is one of the main results of \cite{Serre_algebre_locale}.
+\end{reference}
+Let $X$ be a nonsingular projective variety. Let $V \subset X$ and
+$W \subset Y$ be closed subvarieties which intersect properly.
+Let $Z \subset V \cap W$ be an irreducible component.
+Then $e(X, V \cdot W, Z) > 0$.
+\end{proposition}
+
+\begin{proof}
+By Lemma \ref{lemma-reduction-diagonal} we have
+$$
+e(X, V \cdot W, Z) = e(X \times X, \Delta \cdot V \times W, \Delta(Z))
+$$
+Since $\Delta : X \to X \times X$ is a regular immersion
+(see Lemma \ref{lemma-diagonal-regular-immersion}), we see that
+$e(X \times X, \Delta \cdot V \times W, \Delta(Z))$ is a positive
+integer by Lemma \ref{lemma-multiplicity-with-lci}.
+\end{proof}
 
 \begin{lemma}
 \label{lemma-tor-sheaf}
@@ -1189,7 +1420,118 @@ $$
 \end{lemma}
 
 \begin{proof}
-
+The statement that $[\mathcal{F}]_r$ and $[\mathcal{G}]_s$ intersect properly
+is immediate. Let $Z$ be an irreducible component of
+$\text{Supp}(\mathcal{F}) \cap \text{Supp}(\mathcal{G})$ of dimension
+$r + s - \dim(X)$. Let $\xi \in Z$ be the generic point.
+Write $A = \mathcal{O}_{X, \xi}$ and
+$B = \mathcal{O}_{X \times X, \Delta(\xi)}$. We have a commutative diagram
+$$
+\xymatrix{
+A \ar[rd]_{p_1} \ar[rrd] \\
+& B \ar[r] & A \\
+A \ar[ru]^{p_2} \ar[rru]
+}
+$$
+where the outer maps are identity, the map $B \to A$ corresponds to the
+diagonal morphism and the two maps $A \to B$ to the projection morphisms.
+In fact, $B = \Sigma^{-1}(A \otimes_\mathbf{C} A)$ for some multiplicative
+subset $\Sigma \subset A \otimes_\mathbf{C} A$. Namely, $B$ is the
+localization of $A \otimes_\mathbf{C} A$ at the maximal ideal corresponding
+to $A \otimes_\mathbf{C} A \to A \to \kappa(\xi)$.
+Let $M = \mathcal{F}_\xi$ and $N = \mathcal{G}_\xi$.
+These are finite $A$-modules. Then
+$$
+\left(\text{pr}_1^*\mathcal{F}
+\otimes_{\mathcal{O}_{X \times X}} \mathcal{G}\right)_{\Delta(\xi)} =
+M \otimes_{A, p_1} B \otimes_{p_2, A} N =
+\Sigma^{-1}(M \otimes_\mathbf{C} N)
+$$
+Hence by Lemma \ref{lemma-tor-and-diagonal}
+the coefficient of $Z$ in the right hand side is equal to
+$$
+\sum (-1)^i
+\text{length}_B \text{Tor}_i^B(A, \Sigma^{-1}(M \otimes_\mathbf{C} N))
+$$
+We may write
+$$
+A = B/(f_1, \ldots, f_n)
+$$
+where $n = \dim(X)$ and $f_1, \ldots, f_n \in B$ is a regular sequence, see
+Lemma \ref{lemma-diagonal-regular-immersion}. Since $Z$ is an irreducible
+component of $\text{Supp}(\mathcal{F}) \cap \text{Supp}(\mathcal{G})$
+we see that
+$$
+\dim\left(
+\text{Supp}\left(
+\Sigma^{-1}(M \otimes_\mathbf{C} N)/
+(f_1, \ldots, f_r)\Sigma^{-1}(M \otimes_\mathbf{C} N)
+\right)\right)
+= 0.
+$$
+Choose filtrations
+$$
+0 = M_0 \subset M_1 \subset \ldots \subset M_m = M,
+\quad\text{resp.}\quad
+0 = N_0 \subset N_1 \subset \ldots \subset N_{m'} = N$$
+such that each quotient $M_j/M_{j - 1}$, resp.\ $N_j/N_{j - 1}$
+is isomorphic to $A/\mathfrak p_j$, resp.\ $A/\mathfrak q_j$
+for some prime ideal $\mathfrak p_j$, resp.\ $\mathfrak q_j$, see
+Algebra, Lemma \ref{algebra-lemma-filter-Noetherian-module}.
+Each $\mathfrak p_j$, resp.\ $\mathfrak q_j$ corresponds to a
+closed subvariety $V_j \subset X$, resp.\ $W_j \subset Y$
+containing $Z$. Moreover, the number of times a given
+$Z \subset V \subset X$, resp.\ $Z \subset W \subset Y$
+of dimension $r$, resp.\ $s$ occurs is the coefficient of
+$[V]$, resp.\ $[W]$ in $[\mathcal{F}]_r$, resp.\ $[\mathcal{G}]_s$, see
+Algebra, Lemma \ref{algebra-lemma-filter-minimal-primes-in-support}.
+The functor
+$$
+\text{Mod}_A \times \text{Mod}_A \longrightarrow \text{Mod}_B,\quad
+(M, N) \longmapsto F(M, N) = \Sigma^{-1}(M \otimes_\mathbf{C} N)
+$$
+is exact in each variable.
+For any subquotients $M'$ of $M$ and $N'$ of $N$ the module
+$F(M', N')$ is a subquotient of $F(M, N)$, hence
+$$
+\dim(\text{Supp}(F(M', N')/(f_1, \ldots, f_r)F(M', N'))) = 0.
+$$
+Using the long exact sequences of $\text{Tor}$'s and additivity of lengths
+we see that the coefficient of $Z$ in the right hand side is
+$$
+\sum\nolimits_{i, j, j'}
+(-1)^i
+\text{length}_B \text{Tor}_i^B(A, F(A/\mathfrak p_j, A/\mathfrak q_{j'}))
+$$
+By our remarks above we see that it suffices to show: If $M = A/\mathfrak p$
+and $N = A/\mathfrak q$ where $\mathfrak p$ corresponds to the closed
+subvariety $Z \subset V \subset \text{Supp}(\mathcal{F})$ and $\mathfrak q$
+to the closed subvariety $Z \subset W \subset \text{Supp}(\mathcal{G})$, then
+$$
+\sum (-1)^i
+\text{length}_B
+\text{Tor}_i^B(A,
+\Sigma^{-1}(A/\mathfrak p \otimes_\mathbf{C} A/\mathfrak q))
+=
+\left\{
+\begin{matrix}
+0 & \text{if } \dim(V) < r \\
+0 & \text{if } \dim(W) < s \\
+e(X, V \cdot W, Z) & \text{else}
+\end{matrix}
+\right.
+$$
+Note that
+$\Sigma^{-1}(A/\mathfrak p \otimes_\mathbf{C} A/\mathfrak q) =
+\mathcal{O}_{V \times W, \Delta(\xi)}$.
+If $\dim(V) < r$ or $\dim(W) < s$ then $\dim(V \times W) < r + s$
+which implies $\dim(\mathcal{O}_{V \times W, \Delta(\xi)}) < n$.
+Hence vanishing by Lemma \ref{lemma-one-ideal-ci} because
+the Hilbert function of $\mathcal{O}_{V \times W, \Delta(\xi)}$
+has degree $< n$. If $\dim(V) = r$ and $\dim(W) = s$
+then the alternating sum of lengths tors is the coefficient of
+$[\Delta(Z)]$ in $[\Delta] \cdot [V \times W]$ which is
+equal to $e(X, V \cdot W, Z)$ by Lemma \ref{lemma-reduction-diagonal}.
 \end{proof}
 
 
