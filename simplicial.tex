@@ -511,6 +511,16 @@ The two maps $U_0 = Y \to U_1 = Y \coprod_X Y$ are the two
 natural maps.
 \end{example}
 
+\begin{example}
+\label{example-simplex-cosimplicial-set}
+For every $n \geq 0$ we denote $C[n]$ the cosimplicial set
+$$
+\Delta \longrightarrow \textit{Sets},\quad
+[k] \longmapsto \Mor_{\Delta}([n], [k])
+$$
+This example is dual to Example \ref{example-simplex-simplicial-set}.
+\end{example}
+
 \begin{lemma}
 \label{lemma-di-injective}
 Let $\mathcal{C}$ be a category.
@@ -1170,7 +1180,141 @@ products of simplicial sets with simplicial objects.
 
 
 
+\section{Hom from cosimplicial sets into simplicial objects}
+\label{section-hom-from-cosimplicial-sets-into-simplicial}
 
+\noindent
+Let $\mathcal{C}$ be a category. Let $U$ be a cosimplicial object of
+$\mathcal{C}$, and let $V$ be a simplicial object of $\mathcal{C}$.
+Then we get a simplicial set $\Hom_\mathcal{C}(U, V)$ as follows:
+\begin{enumerate}
+\item we set
+$\Hom_\mathcal{C}(U, V)_n = \Mor_\mathcal{C}(U_n, V_n)$, and
+\item for $\varphi : [m] \to [n]$ we take the map
+$\Hom_\mathcal{C}(U, V)_n \to \Hom_\mathcal{C}(U, V)_m$
+given by $f \mapsto V(\varphi) \circ f \circ U(\varphi)$.
+\end{enumerate}
+This is our motivation for the following definition.
+
+\begin{definition}
+\label{definition-hom-deltak-simplicial}
+Let $\mathcal{C}$ be a category with finite products.
+Let $V$ be a simplicial object of $\mathcal{C}$.
+Let $U$ be a cosimplicial set such that each $U_n$ is finite nonempty.
+We define {\it $\Hom(U, V)$} to be
+the simplicial object of $\mathcal{C}$ defined
+as follows:
+\begin{enumerate}
+\item we set $\Hom(U, V)_n = \prod_{u \in U_n} V_n$,
+in other words the unique object of $\mathcal{C}$ such
+that its $X$-valued points satisfy
+$$
+\Mor_\mathcal{C}(X, \Hom(U, V)_n)
+=
+\text{Map}(U_n, \Mor_\mathcal{C}(X, V_n))
+$$
+and
+\item for $\varphi : [m] \to [n]$ we take the map
+$\Hom(U, V)_n \to \Hom(U, V)_m$
+given by $f \mapsto V(\varphi) \circ f \circ U(\varphi)$
+on $X$-valued points as above.
+\end{enumerate}
+\end{definition}
+
+\noindent
+We leave it to the reader to spell out the
+definition in terms of maps between products.
+We also point out that the construction is functorial
+in both $U$ (contravariantly) and $V$ (covariantly), exactly as in
+Lemma \ref{lemma-back-to-U} in the case of
+products of simplicial sets with simplicial objects.
+
+\medskip\noindent
+We spell out the construction above in a special case.
+Let $X$ be an object of a category $\mathcal{C}$.
+Assume that self products $X \times \ldots \times X$ exist.
+Let $k$ be an integer.
+Consider the simplicial object $U$ with terms
+$$
+U_n = \prod\nolimits_{\alpha \in \Mor([k], [n])} X
+$$
+and maps given $\varphi : [m] \to [n]$
+$$
+U(\varphi) :
+\prod\nolimits_{\alpha \in \Mor([k], [n])} X
+\longrightarrow
+\prod\nolimits_{\alpha' \in \Mor([k], [m])} X, \quad
+(f_{\alpha})_{\alpha} \longmapsto
+(f_{\varphi \circ \alpha'})_{\alpha'}
+$$
+In terms of ``coordinates'', the element $(x_\alpha)_\alpha$
+is mapped to the element $(x_{\varphi \circ \alpha'})_{\alpha'}$.
+We claim this object is equal to $\Hom(C[k], X)$
+where we think of $X$ as the constant simplicial object $X$
+and where $C[k]$ is the cosimplicial set from
+Example \ref{example-simplex-cosimplicial-set}.
+
+\begin{lemma}
+\label{lemma-morphism-into-product}
+With $X$, $k$ and $U$ as above.
+\begin{enumerate}
+\item For any simplicial object $V$ of
+$\mathcal{C}$ we have the following
+canonical bijection
+$$
+\Mor_{\text{Simp}(\mathcal{C})}(V, U)
+\longrightarrow
+\Mor_\mathcal{C}(V_k, X).
+$$
+wich maps $\gamma$ to the morphism $\gamma_k$ composed with
+the projection onto the factor corresponding to $\text{id}_{[k]}$.
+\item Similarly, if $W$ is an $k$-truncated simplicial object
+of $\mathcal{C}$, then we have
+$$
+\Mor_{\text{Simp}_k(\mathcal{C})}(W, \text{sk}_k U)
+=
+\Mor_\mathcal{C}(W_k, X).
+$$
+\item The object $U$ constructed above is an
+incarnation of $\Hom(C[k], X)$ where $C[k]$ is the cosimplicial set from
+Example \ref{example-simplex-cosimplicial-set}.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+We first prove (1).
+Suppose that $\gamma : V \to U$ is a morphism.
+This is given by a family of morphisms
+$\gamma_{\alpha} : V_n \to X$ for $\alpha : [k] \to [n]$.
+The morphisms have to satisfy the
+rules that for all $\varphi : [m] \to [n]$ the diagrams
+$$
+\xymatrix{
+X \ar[d]^{\text{id}_X} &
+V_n \ar[d]^{V(\varphi)}
+\ar[l]^{\gamma_{\varphi \circ \alpha'}} \\
+X &
+V_m \ar[l]_{\gamma_{\alpha'}}
+}
+$$
+commute for all $\alpha' : [k] \to [m]$.
+Taking $\alpha' = \text{id}_{[k]}$, we see that
+for any $\varphi : [k] \to [n]$ we have $\gamma_\varphi =
+\gamma_{\text{id}_{[k]}} \circ V(\varphi)$. Thus the morphism
+$\gamma$ is determined by the component of $\gamma_k$
+corresponding to $\text{id}_{[k]}$. Conversely,
+given such a morphism $f : V_k \to X$ we easily
+construct a morphism $\gamma$ by putting
+$\gamma_\alpha = f \circ V(\alpha)$.
+
+\medskip\noindent
+The truncated case is similar, and left to the reader.
+
+\medskip\noindent
+Part (3) is immediate from the construction of $U$ and the
+fact that $C[k]_n = \Mor([k], [n])$ which are the index sets
+used in the construction of $U_n$.
+\end{proof}
 
 
 
@@ -1182,30 +1326,28 @@ products of simplicial sets with simplicial objects.
 Let $\mathcal{C}$ be a category with finite nonempty
 products. Let $U$, $V$ be simplicial objects $\mathcal{C}$.
 In some cases the functor
-\begin{eqnarray*}
-\text{Simp}(\mathcal{C})^{opp} & \longrightarrow & \textit{Sets} \\
-W & \longmapsto & \Mor_{\text{Simp}(\mathcal{C})}(W \times V, U)
-\end{eqnarray*}
+$$
+\text{Simp}(\mathcal{C})^{opp} \longrightarrow \textit{Sets}, \quad
+W \longmapsto \Mor_{\text{Simp}(\mathcal{C})}(W \times V, U)
+$$
 is representable. In this case we denote $\SheafHom(V, U)$
 the resulting simplicial object of $\mathcal{C}$, and we say
 that the {\it internal hom of $V$ into $U$ exists}. Moreover,
-in this case we would have
-\begin{eqnarray*}
+in this case, given $X$ in $\mathcal{C}$, we would have
+\begin{align*}
 \Mor_\mathcal{C}(X, \SheafHom(V, U)_n)
-& = &
-\Mor_{\text{Simp}(\mathcal{C})}(X \times \Delta[n], \SheafHom(V, U))
-\\
-& = &
+& =
+\Mor_{\text{Simp}(\mathcal{C})}(X \times \Delta[n], \SheafHom(V, U)) \\
+& =
 \Mor_{\text{Simp}(\mathcal{C})}(X \times \Delta[n]\times V, U) \\
-& = &
-\Mor_{\text{Simp}(\mathcal{C})}(X, \SheafHom(\Delta[n] \times V, U))
-\\
-& = &
+& =
+\Mor_{\text{Simp}(\mathcal{C})}(X, \SheafHom(\Delta[n] \times V, U)) \\
+& =
 \Mor_\mathcal{C}(X, \SheafHom(\Delta[n] \times V, U)_0)
-\end{eqnarray*}
+\end{align*}
 provided that $\SheafHom(\Delta[n] \times V, U)$
-exists also. Here we have used the material from Section
-\ref{section-product-with-simplicial-sets}.
+exists also. The first and last equalities follow from
+Lemma \ref{lemma-morphism-from-coproduct}.
 
 \medskip\noindent
 The lesson we learn from this is that, given $U$ and $V$,
@@ -1527,103 +1669,6 @@ desired.
 We also leave it to the reader to see that
 $f \mapsto f'$ and $f' \mapsto f$ are mutually inverse
 operations.
-\end{proof}
-
-\noindent
-We spell out the construction above in a special case.
-Let $X$ be an object of a category $\mathcal{C}$.
-Assume that self products $X \times \ldots \times X$ exist.
-Let $k$ be an integer.
-Consider the simplicial object $U$ with terms
-$$
-U_n = \prod\nolimits_{\alpha \in \Mor([k], [n])} X
-$$
-and maps given $\varphi : [m] \to [n]$
-\begin{eqnarray*}
-U(\varphi) :
-\prod\nolimits_{\alpha \in \Mor([k], [n])} X
-& \longrightarrow &
-\prod\nolimits_{\alpha' \in \Mor([k], [m])} X \\
-(f_{\alpha})_{\alpha} & \longmapsto &
-(f_{\varphi \circ \alpha'})_{\alpha'}
-\end{eqnarray*}
-In terms of ``coordinates'', the element $(x_\alpha)_\alpha$
-is mapped to the element $(x_{\varphi \circ \alpha'})_{\alpha'}$.
-We claim this object is equal to
-$$
-\Hom(\Delta[k], X)
-$$
-where we think of $X$ as the constant simplicial object $X$.
-
-\begin{lemma}
-\label{lemma-morphism-into-product}
-With $X$, $k$ and $U$ as above.
-\begin{enumerate}
-\item For any simplicial object $V$ of
-$\mathcal{C}$ we have the following
-canonical bijection
-$$
-\Mor_{\text{Simp}(\mathcal{C})}(V, U)
-\longrightarrow
-\Mor_\mathcal{C}(V_k, X).
-$$
-wich maps $\gamma$ to the morphism $\gamma_k$ composed with
-the projection onto the factor corresponding to $\text{id}_{[k]}$.
-\item Similarly, if $W$ is an $k$-truncated simplicial object
-of $\mathcal{C}$, then we have
-$$
-\Mor_{\text{Simp}_k(\mathcal{C})}(W, \text{sk}_k U)
-=
-\Mor_\mathcal{C}(W_k, X).
-$$
-\item The object $U$ constructed above is an
-incarnation of $\Hom(\Delta[k], X)$.
-\end{enumerate}
-\end{lemma}
-
-\begin{proof}
-We first prove (1).
-Suppose that $\gamma : V \to U$ is a morphism.
-This is given by a family of morphisms
-$\gamma_{\alpha} : V_n \to X$ for $\gamma : [k] \to [n]$.
-The morphisms have to satisfy the
-rules that for all $\varphi : [m] \to [n]$ the diagrams
-$$
-\xymatrix{
-X \ar[d]^{\text{id}_X} &
-V_n \ar[d]^{V(\varphi)}
-\ar[l]^{\gamma_{\varphi \circ \alpha'}} \\
-X &
-V_m \ar[l]_{\gamma_{\alpha'}}
-}
-$$
-commute for all $\alpha' : [k] \to [m]$.
-Taking $\alpha' = \text{id}_{[k]}$, we see that
-for any $\varphi : [k] \to [n]$ we have $\gamma_\varphi =
-\gamma_{\text{id}_{[k]}} \circ V(\varphi)$. Thus the morphism
-$\gamma$ is determined by the component of $\gamma_k$
-corresponding to $\text{id}_{[k]}$. Conversely,
-given such a morphism $f : V_k \to X$ we easily
-construct a morphism $\gamma$ by putting
-$\gamma_\alpha = f \circ V(\alpha)$.
-
-\medskip\noindent
-The truncated case is similar, and left to the reader.
-
-\medskip\noindent
-To see (3) we argue as follows:
-\begin{eqnarray*}
-\Mor(V, \Hom(\Delta[k], X)) & = &
-\Mor(V \times \Delta[k], X) \\
-& = & \{ (f_n : V_n \times \Delta[k]_n \to X) \mid
-f_n \text{ compatible}\} \\
-& = & \{ (f_n : V_n \to \prod\nolimits_{\Delta[k]_n} X) \mid
-f_n \text{ compatible}\} \\
-& = & \Mor(V, U)
-\end{eqnarray*}
-Thus $U$ and $\Hom(\Delta[k], X)$ define the same
-functor on the category of simplicial objects and
-hence are canonically isomorphic.
 \end{proof}
 
 \begin{lemma}
@@ -3198,80 +3243,6 @@ it follows that $\Mor(U \times X, W) =
 \Mor(i_{n!}(X \times \text{sk}_n \Delta[n + 1]), W).
 \end{eqnarray*}
 This proves the second equality used, and ends the proof of the lemma.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-cosk-hom-deltak}
-Let $\mathcal{C}$ be a category with finite coproducts
-and finite limits. Let $X$ be an object of $\mathcal{C}$.
-Let $k \geq 0$. The canonical map
-$$
-\Hom(\Delta[k], X)
-\longrightarrow
-\text{cosk}_1 \text{sk}_1 \Hom(\Delta[k], X)
-$$
-is an isomorphism.
-\end{lemma}
-
-\begin{proof}
-For any simplicial object $V$ we have
-\begin{eqnarray*}
-\Mor(V, \text{cosk}_1 \text{sk}_1 \Hom(\Delta[k], X))
-& = &
-\Mor(\text{sk}_1 V, \text{sk}_1 \Hom(\Delta[k], X)) \\
-& = &
-\Mor(i_{1!} \text{sk}_1 V, \Hom(\Delta[k], X)) \\
-& = &
-\Mor(i_{1!} \text{sk}_1 V \times \Delta[k], X)
-\end{eqnarray*}
-The first equality by the adjointness of $\text{sk}$ and $\text{cosk}$,
-the second equality by the adjointness of $i_{1!}$ and $\text{sk}_1$, and
-the first equality by Definition \ref{definition-hom-from-simplicial-set}
-where the last $X$ denotes the constant simplicial object with value $X$.
-By Lemma \ref{lemma-augmentation-howto} an element
-in this set depends only on the terms of degree $0$ and $1$
-of $i_{1!} \text{sk}_1 V \times \Delta[k]$. These
-agree with the degree $0$ and $1$ terms of
-$V \times \Delta[k]$, see Lemma \ref{lemma-recovering-U-for-real}.
-Thus the set above is equal to
-$\Mor(V \times \Delta[k], X) = \Mor(V, \Hom(\Delta[k], X))$.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-cosk0-hom-deltak}
-Let $\mathcal{C}$ be a category with finite coproducts
-and finite limits. Let $X$ be an object of $\mathcal{C}$.
-Let $k \geq 0$. The canonical map
-$$
-\Hom(\Delta[k], X)_1
-\longrightarrow
-(\text{cosk}_0 \text{sk}_0 \Hom(\Delta[k], X))_1
-$$
-is identified with the map
-$$
-\prod\nolimits_{\alpha : [k] \to [1]} X
-\longrightarrow
-X \times X
-$$
-which is the projection onto the factors where $\alpha$
-is a constant map.
-\end{lemma}
-
-\begin{proof}
-It is shown in Example \ref{example-cosk0} that
-$\text{cosk}_0 Z$ equals $Z \times Z$ in degree $1$.
-Moreover, it is true in general that the morphism
-$V_1 \to (\text{cosk}_0 \text{sk}_0 V)_1$ is
-the morphism $(d^1_0, d^1_1) : V_1 \to V_0 \times V_0$
-(left to the reader). Thus we simply have to compute
-the $0$th and $1$st term of $\Hom(\Delta[k], X)$.
-According to Lemma \ref{lemma-morphism-into-product}
-we have
-$\Hom(\Delta[k], X)_0 = \prod_{\alpha : [k] \to [0]} X = X$,
-and $\Hom(\Delta[k], X)_0 = \prod_{\alpha : [k] \to [1]} X$.
-The lemma follows from the description of the
-morphisms of the simplicial object just above
-Lemma \ref{lemma-morphism-into-product}.
 \end{proof}
 
 
