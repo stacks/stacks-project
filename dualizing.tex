@@ -4298,52 +4298,6 @@ Thus the map defined above is an isomorphism on cohomology
 and hence an isomorphism in the derived category.
 \end{proof}
 
-\noindent
-Let $f : X \to Y$ be a morphism of quasi-compact and quasi-separated
-schemes. Let $a$ be the twisted inverse image
-(Lemma \ref{lemma-twisted-inverse-image}). There is a canonical
-map
-\begin{equation}
-\label{equation-compare-with-pullback}
-Lf^*K \otimes^\mathbf{L}_{\mathcal{O}_X} a(\mathcal{O}_Y) \longrightarrow a(K)
-\end{equation}
-functorial in $K$ and compatible with distinguished triangles.
-Namely, this map is adjoint to a map
-$$
-Rf_*(Lf^*K \otimes^\mathbf{L}_{\mathcal{O}_X} a(\mathcal{O}_Y)) =
-K \otimes^\mathbf{L}_{\mathcal{O}_X} Rf_*(a(\mathcal{O}_Y))
-\longrightarrow K
-$$
-(equality by Derived Categories of Schemes, Lemma
-\ref{perfect-lemma-cohomology-base-change})
-for which we use the adjunction map $Rf_*a(\mathcal{O}_Y) \to \mathcal{O}_Y$
-and the indentity on $K$.
-
-\begin{lemma}
-\label{lemma-compare-with-pullback-perfect}
-Let $f : X \to Y$ be a morphism of quasi-compact and quasi-separated
-schemes. The map (\ref{equation-compare-with-pullback}) is an isomorphism
-for every perfect object $K$ of $D(\mathcal{O}_Y)$.
-\end{lemma}
-
-\begin{proof}
-For a perfect object $K$ on $Y$ and $L \in D_\QCoh(\mathcal{O}_X)$
-we have
-\begin{align*}
-\Hom_{D(\mathcal{O}_Y)}(Rf_*L, K)
-& =
-\Hom_{D(\mathcal{O}_Y)}(
-Rf_*L \otimes^\mathbf{L}_{\mathcal{O}_Y} K^\wedge, \mathcal{O}_Y) \\
-& =
-\Hom_{D(\mathcal{O}_X)}(
-L \otimes^\mathbf{L}_{\mathcal{O}_X} Lf^*K^\wedge, a(\mathcal{O}_Y)) \\
-& =
-\Hom_{D(\mathcal{O}_X)}(L,
-a(\mathcal{O}_Y) \otimes^\mathbf{L}_{\mathcal{O}_X} Lf^*K)
-\end{align*}
-Hence the result by the Yoneda lemma.
-\end{proof}
-
 \begin{lemma}
 \label{lemma-twisted-inverse-image-closed}
 Let $X$ be a quasi-compact and quasi-separated scheme.
@@ -4847,24 +4801,463 @@ Categories, Definition \ref{categories-definition-horizontal-composition}.
 
 
 
-\section{Flat and proper morphisms}
+\section{Trace maps for twisted inverse image}
+\label{section-trace}
+
+\noindent
+Let $f : X \to Y$ be a morphism of quasi-compact and quasi-separated
+schemes. Let $a : D_\QCoh(\mathcal{O}_Y) \to D_\QCoh(\mathcal{O}_X)$
+be the twisted inverse image of $f$ as in
+Lemma \ref{lemma-twisted-inverse-image}. By Categories, Section
+\ref{categories-section-adjoint} we obtain a transformation of functors
+$$
+\text{Tr}_f : Rf_* \circ a \longrightarrow \text{id}
+$$
+The defining maps $\text{Tr}_{f, K} : Rf_*a(K) \longrightarrow K$
+for $K \in D_\QCoh(\mathcal{O}_Y)$ are sometimes called the {\it trace map}.
+This is the map which has the property that the bijection
+$$
+\Hom_X(L, a(K)) \longrightarrow \Hom_Y(Rf_*L, K)
+$$
+for $L \in D_\QCoh(\mathcal{O}_X)$ which characterizes twisted inverse
+image is given by
+$$
+\varphi \longmapsto \text{Tr}_{f, K} \circ Rf_*\varphi
+$$
+If $f$ is a proper morphism of Noetherian schemes and $K$ is bounded
+below, then Lemma \ref{lemma-proper-noetherian-relative} shows that
+the isomorphism
+$$
+R\SheafHom_{\mathcal{O}_X}(L, a(K))
+\longrightarrow
+R\SheafHom_{\mathcal{O}_Y}(Rf_*L, K)
+$$
+comes about by composition with $\text{Tr}_{f, K}$.
+Every trace map we are going to consider in this section will be a
+special case of this trace map. Before we discuss some special cases
+we show that formation of the trace map commutes with base change.
+
+\begin{lemma}[Trace map and base change]
+\label{lemma-trace-map-and-base-change}
+Suppose we have a diagram (\ref{equation-base-change}) where $f$ and $g$
+are tor independent. Then the maps
+$1 \star \text{Tr}_f : Lg^* \circ Rf_* \circ a \to Lg^*$ and
+$\text{Tr}_{f'} \star 1 : Rf'_* \circ a' \circ Lg^* \to Lg^*$
+agree via the base change maps
+$\beta : Lg^* \circ Rf_* \to Rf'_* \circ L(g')^*$
+(Cohomology, Remark \ref{cohomology-remark-base-change})
+and $\alpha : L(g')^* \circ a \to a' \circ Lg^*$
+(\ref{equation-base-change-map}).
+More precisely, the diagram
+$$
+\xymatrix{
+Lg^* \circ Rf_* \circ a
+\ar[d]_{\beta \star 1} \ar[r]_-{1 \star \text{Tr}_f} &
+Lg^* \\
+Rf'_* \circ L(g')^* \circ a \ar[r]^{1 \star \alpha} &
+Rf'_* \circ a' \circ Lg^* \ar[u]_{\text{Tr}_{f'} \star 1}
+}
+$$
+of transformations of functors commutes.
+\end{lemma}
+
+\begin{proof}
+In this proof we write $f_*$ for $Rf_*$ and $g^*$ for $Lg^*$ and we
+drop $\star$ products with identities as one can figure out which ones
+to add as long as the source and target of the transformation is known.
+Recall that $\beta : g^* \circ f_* \to f'_* \circ (g')^*$ is an isomorphism
+and that $\alpha$ is defined using
+the isomorphism $\beta^\vee : g'_* \circ a' \to a \circ g_*$
+which is the adjoint of $\beta$, see Lemma \ref{lemma-flat-precompose-pus}
+and its proof. First we note that the top horizontal arrow
+of the diagram in the lemma is equal to the composition
+$$
+g^* \circ f_* \circ a \to
+g^* \circ f_* \circ a \circ g_* \circ g^* \to
+g^* \circ g_* \circ g^* \to g^*
+$$
+where the first arrow is the unit for $(g^*, g_*)$, the second arrow
+is $\text{Tr}_f$, and the third arrow is the counit for $(g^*, g_*)$.
+This is a simple consequence of the fact that the composition
+$g^* \to g^* \circ g_* \circ g^* \to g^*$ of unit and counit is the identity.
+Consider the diagram
+$$
+\xymatrix{
+& g^* \circ f_* \circ a \ar[ld]_\beta \ar[d] \ar[r]_{\text{Tr}_f} & g^* \\
+f'_* \circ (g')^* \circ a \ar[dr] &
+g^* \circ f_* \circ a \circ g_* \circ g^* \ar[d]_\beta \ar[ru] &
+g^* \circ f_* \circ g'_* \circ a' \circ g^* \ar[l]_{\beta^\vee} \ar[d]_\beta &
+f'_* \circ a' \circ g^* \ar[lu]_{\text{Tr}_{f'}} \\
+& f'_* \circ (g')^* \circ a \circ g_* \circ g^* &
+f'_* \circ (g')^* \circ g'_* \circ a' \circ g^* \ar[ru] \ar[l]_{\beta^\vee}
+}
+$$
+In this diagram the two squares commute 
+Categories, Lemma \ref{categories-lemma-properties-2-cat-cats}
+or more simply the discussion preceding
+Categories, Definition \ref{categories-definition-horizontal-composition}.
+The triangle commutes by the discussion above. By
+Categories, Lemma
+\ref{categories-lemma-transformation-between-functors-and-adjoints}
+the square
+$$
+\xymatrix{
+g^* \circ f_* \circ g'_* \circ a' \ar[d]_{\beta^\vee} \ar[r]_-\beta &
+f'_* \circ (g')^* \circ g'_* \circ a' \ar[d] \\
+g^* \circ f_* \circ a \circ g_* \ar[r] &
+\text{id}
+}
+$$
+commutes which implies the pentagon in the big diagram commutes.
+Since $\beta$ and $\beta^\vee$ are isomorphisms, and since going on
+the outside of the big diagram equals
+$\text{Tr}_f \circ \alpha \circ \beta$ by definition this proves the lemma.
+\end{proof}
+
+\noindent
+Let $f : X \to Y$ be a morphism of quasi-compact and quasi-separated
+schemes. Let $a : D_\QCoh(\mathcal{O}_Y) \to D_\QCoh(\mathcal{O}_X)$
+be the twisted inverse image of $f$ as in
+Lemma \ref{lemma-twisted-inverse-image}. By Categories, Section
+\ref{categories-section-adjoint} we obtain a transformation of functors
+$$
+\eta_f : \text{id} \to  a \circ Rf_*
+$$
+which is called the unit of the adjunction.
+
+\begin{lemma}
+\label{lemma-unit-and-base-change}
+Suppose we have a diagram (\ref{equation-base-change}) where $f$ and $g$
+are tor independent. Then the maps
+$1 \star \eta_f : L(g')^* \to L(g')^* \circ a \circ Rf_*$ and
+$\eta_{f'} \star 1 : L(g')^* \to a' \circ Rf'_* \circ L(g')^*$
+agree via the base change maps
+$\beta : Lg^* \circ Rf_* \to Rf'_* \circ L(g')^*$
+(Cohomology, Remark \ref{cohomology-remark-base-change})
+and $\alpha : L(g')^* \circ a \to a' \circ Lg^*$
+(\ref{equation-base-change-map}).
+More precisely, the diagram
+$$
+\xymatrix{
+L(g')^* \ar[r]_-{1 \star \eta_f} \ar[d]_{\eta_{f'} \star 1} &
+L(g')^* \circ a \circ Rf_* \ar[d]^\alpha \\
+a' \circ Rf'_* \circ L(g')^* &
+a' \circ Lg^* \circ Rf_* \ar[l]_-\beta
+}
+$$
+of transformations of functors commutes.
+\end{lemma}
+
+\begin{proof}
+This proof is dual to the proof of Lemma \ref{lemma-trace-map-and-base-change}.
+In this proof we write $f_*$ for $Rf_*$ and $g^*$ for $Lg^*$ and we
+drop $\star$ products with identities as one can figure out which ones
+to add as long as the source and target of the transformation is known.
+Recall that $\beta : g^* \circ f_* \to f'_* \circ (g')^*$ is an isomorphism
+and that $\alpha$ is defined using
+the isomorphism $\beta^\vee : g'_* \circ a' \to a \circ g_*$
+which is the adjoint of $\beta$, see Lemma \ref{lemma-flat-precompose-pus}
+and its proof. First we note that the left vertical arrow
+of the diagram in the lemma is equal to the composition
+$$
+(g')^* \to (g')^* \circ g'_* \circ (g')^* \to
+(g')^* \circ g'_* \circ a' \circ f'_* \circ (g')^* \to
+a' \circ f'_* \circ (g')^*
+$$
+where the first arrow is the unit for $((g')^*, g'_*)$, the second arrow
+is $\eta_{f'}$, and the third arrow is the counit for $((g')^*, g'_*)$.
+This is a simple consequence of the fact that the composition
+$(g')^* \to (g')^* \circ (g')_* \circ (g')^* \to (g')^*$
+of unit and counit is the identity. Consider the diagram
+$$
+\xymatrix{
+& (g')^* \circ a \circ f_* \ar[r] &
+(g')^* \circ a \circ g_* \circ g^* \circ f_*
+\ar[ld]_\beta \\
+(g')^* \ar[ru]^{\eta_f} \ar[dd]_{\eta_{f'}} \ar[rd] &
+(g')^* \circ a \circ g_* \circ f'_* \circ (g')^* &
+(g')^* \circ g'_* \circ a' \circ g^* \circ f_*
+\ar[u]_{\beta^\vee} \ar[ld]_\beta \ar[d] \\
+& (g')^* \circ g'_* \circ a' \circ f'_* \circ (g')^*
+\ar[ld] \ar[u]_{\beta^\vee} &
+a' \circ g^* \circ f_* \ar[lld]^\beta \\
+a' \circ f'_* \circ (g')^*
+}
+$$
+In this diagram the two squares commute 
+Categories, Lemma \ref{categories-lemma-properties-2-cat-cats}
+or more simply the discussion preceding
+Categories, Definition \ref{categories-definition-horizontal-composition}.
+The triangle commutes by the discussion above. By the dual of
+Categories, Lemma
+\ref{categories-lemma-transformation-between-functors-and-adjoints}
+the square
+$$
+\xymatrix{
+\text{id} \ar[r] \ar[d] &
+g'_* \circ a' \circ g^* \circ f_* \ar[d]^\beta \\
+g'_* \circ a' \circ g^* \circ f_* \ar[r]^{\beta^\vee} &
+a \circ g_* \circ f'_* \circ (g')^*
+}
+$$
+commutes which implies the pentagon in the big diagram commutes.
+Since $\beta$ and $\beta^\vee$ are isomorphisms, and since going on
+the outside of the big diagram equals
+$\beta \circ \alpha \circ \eta_f$ by definition this proves the lemma.
+\end{proof}
+
+\begin{example}
+\label{example-trace-affine}
+Let $A \to B$ be a ring map. Let $Y = \Spec(A)$ and $X = \Spec(B)$
+and $f : X \to Y$ the morphism corresponding to $A \to B$. As seen
+in Example \ref{example-affine-twisted-inverse-image}
+the twisted inverse image sends an object
+$K$ of $D(A) = D_\QCoh(\mathcal{O}_Y)$ to $R\Hom(B, K)$ in
+$D(B) = D_\QCoh(\mathcal{O}_X)$. The trace map is the map
+$$
+\text{Tr}_{f, K} : R\Hom(B, K) \longrightarrow R\Hom(A, K) = K
+$$
+induced by the $A$-module map $A \to B$.
+\end{example}
+
+\begin{example}
+\label{example-trace-closed-immersion}
+If $i : Z \to X$ is closed immersion of Noetherian schemes, then
+the diagram
+$$
+\xymatrix{
+i_*a(K) \ar[rr]_-{\text{Tr}_{i, K}} \ar@{=}[d] & &
+K \ar@{=}[d] \\
+i_*R\SheafHom(\mathcal{O}_Z, K) \ar@{=}[r] &
+R\SheafHom_{\mathcal{O}_X}(i_*\mathcal{O}_Z, K)
+\ar[r] & K
+}
+$$
+is commutative for $K \in D_\QCoh^+(\mathcal{O}_X)$.
+Here the horizontal equality sign is
+Lemma \ref{lemma-sheaf-with-exact-support-ext} and the
+lower horizontal arrow is induced by
+by the map $\mathcal{O}_X \to i_*\mathcal{O}_Z$. The commutativity
+of the diagram is a consequence of
+Lemma \ref{lemma-twisted-inverse-image-closed}.
+\end{example}
+
+
+
+\section{Twisted inverse image and pullback}
+\label{section-compare-with-pullback}
+
+\noindent
+Let $f : X \to Y$ be a morphism of quasi-compact and quasi-separated
+schemes. Let $a$ be the twisted inverse image
+(Lemma \ref{lemma-twisted-inverse-image}). There is a canonical
+map
+\begin{equation}
+\label{equation-compare-with-pullback}
+Lf^*K \otimes^\mathbf{L}_{\mathcal{O}_X} a(\mathcal{O}_Y) \longrightarrow a(K)
+\end{equation}
+functorial in $K$ and compatible with distinguished triangles.
+Namely, this map is adjoint to a map
+$$
+Rf_*(Lf^*K \otimes^\mathbf{L}_{\mathcal{O}_X} a(\mathcal{O}_Y)) =
+K \otimes^\mathbf{L}_{\mathcal{O}_Y} Rf_*(a(\mathcal{O}_Y))
+\longrightarrow K
+$$
+(equality by Derived Categories of Schemes, Lemma
+\ref{perfect-lemma-cohomology-base-change})
+for which we use the adjunction map $Rf_*a(\mathcal{O}_Y) \to \mathcal{O}_Y$
+and the identity on $K$. This map is an isomorphism for every
+perfect object.
+
+\begin{lemma}
+\label{lemma-compare-with-pullback-perfect}
+Let $f : X \to Y$ be a morphism of quasi-compact and quasi-separated
+schemes. The map (\ref{equation-compare-with-pullback}) is an isomorphism
+for every perfect object $K$ of $D(\mathcal{O}_Y)$.
+\end{lemma}
+
+\begin{proof}
+Let $K$ be a perfect object on $Y$ with ``dual'' $K^\wedge$, see
+Cohomology, Lemma \ref{cohomology-lemma-dual-perfect-complex}.
+For $L \in D_\QCoh(\mathcal{O}_X)$ we have
+\begin{align*}
+\Hom_{D(\mathcal{O}_Y)}(Rf_*L, K)
+& =
+\Hom_{D(\mathcal{O}_Y)}(
+Rf_*L \otimes^\mathbf{L}_{\mathcal{O}_Y} K^\wedge, \mathcal{O}_Y) \\
+& =
+\Hom_{D(\mathcal{O}_X)}(
+L \otimes^\mathbf{L}_{\mathcal{O}_X} Lf^*K^\wedge, a(\mathcal{O}_Y)) \\
+& =
+\Hom_{D(\mathcal{O}_X)}(L,
+a(\mathcal{O}_Y) \otimes^\mathbf{L}_{\mathcal{O}_X} Lf^*K)
+\end{align*}
+Hence the result by the Yoneda lemma.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-restriction-compare-with-pullback}
+Suppose we have a diagram (\ref{equation-base-change}) where $f$ and $g$
+are tor independent. Let $K \in D_\QCoh(\mathcal{O}_Y)$. The diagram
+$$
+\xymatrix{
+L(g')^*(Lf^*K \otimes^\mathbf{L}_{\mathcal{O}_X} a(\mathcal{O}_Y))
+\ar[r] \ar[d] & L(g')^*a(K) \ar[d] \\
+L(f')^*Lg^*K \otimes_{\mathcal{O}_{X'}}^\mathbf{L} a'(\mathcal{O}_{Y'})
+\ar[r] & a'(Lg^*K)
+}
+$$
+commutes where the horizontal arrows are the maps
+(\ref{equation-compare-with-pullback}) for $K$ and $Lg^*K$
+and the vertical maps are constructed using
+Cohomology, Remark \ref{cohomology-remark-base-change} and
+(\ref{equation-base-change-map}).
+\end{lemma}
+
+\begin{proof}
+In this proof we will write $f_*$ for $Rf_*$ and $f^*$ for $Lf^*$, etc,
+and we will write $\otimes$ for $\otimes^\mathbf{L}_{\mathcal{O}_X}$, etc.
+Let us write (\ref{equation-compare-with-pullback}) as the composition
+\begin{align*}
+f^*K \otimes a(\mathcal{O}_Y)
+& \to
+a(f_*(f^*K \otimes a(\mathcal{O}_Y))) \\
+& \leftarrow
+a(K \otimes f_*a(\mathcal{O}_K)) \\
+& \to
+a(K \otimes \mathcal{O}_Y) \\
+& \to
+a(K)
+\end{align*}
+Here the first arrow is the unit $\eta_f$, the second arrow is $a$
+applied to Cohomology, Equation
+(\ref{cohomology-equation-projection-formula-map}) which is an
+isomorphism by Derived Categories of Schemes, Lemma
+\ref{perfect-lemma-cohomology-base-change}, the third arrow is
+$a$ applied to $\text{id}_K \otimes \text{Tr}_f$, and the fourth
+arrow is $a$ applied to the isomorphism $K \otimes \mathcal{O}_Y = K$.
+The proof of the lemma consists in showing that each of these
+maps gives rise to a commutative square as in the statement of the lemma.
+For $\eta_f$ and $\text{Tr}_f$ this is
+Lemmas \ref{lemma-unit-and-base-change} and
+\ref{lemma-trace-map-and-base-change}.
+For the arrow using Cohomology, Equation
+(\ref{cohomology-equation-projection-formula-map})
+this is Cohomology, Remark \ref{cohomology-remark-compatible-with-diagram}.
+For the multiplication map it is clear. This finishes the proof.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-compare-on-open}
+Let $f : X \to Y$ be a proper morphism of Noetherian schemes. Let $V \subset Y$
+be an open such that $f^{-1}(V) \to V$ is an isomorphism. Then for
+$K \in D_\QCoh^+(\mathcal{O}_Y)$ the map (\ref{equation-compare-with-pullback})
+restricts to an isomorphism over $f^{-1}(V)$.
+\end{lemma}
+
+\begin{proof}
+By Lemma \ref{lemma-proper-noetherian} the map (\ref{equation-sheafy}) is an
+ismorphism for objects of $D_\QCoh^+(\mathcal{O}_Y)$. Hence
+Lemma \ref{lemma-restriction-compare-with-pullback} tells us the
+restriction of (\ref{equation-compare-with-pullback}) for $K$
+to $f^{-1}(V)$ is the map (\ref{equation-compare-with-pullback})
+for $K|_V$ and $f^{-1}(V) \to V$. Thus it suffices to show that
+the map is an isomorphism when $f$ is the identity morphism. This is clear.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-transitivity-compare-with-pullback}
+Let $f : X \to Y$ and $g : Y \to Z$ be composable morphisms of quasi-compact
+and quasi-separated schemes and set $h = g \circ f$. Let $a, b, c$ be the
+twisted inverse image for $f, g, h$. For any $K \in D_\QCoh(\mathcal{O}_Z)$
+the diagram
+$$
+\xymatrix{
+Lf^*(Lg^*K \otimes_{\mathcal{O}_Y}^\mathbf{L}
+b(\mathcal{O}_Z)) \otimes_{\mathcal{O}_X}^\mathbf{L} a(\mathcal{O}_Y)
+\ar@{=}[d] \ar[r] &
+a(Lg^*K \otimes_{\mathcal{O}_Y}^\mathbf{L} b(\mathcal{O}_Z)) \ar[r] &
+a(b(K)) \ar@{=}[d] \\
+Lh^*K \otimes_{\mathcal{O}_X}^\mathbf{L} Lf^*b(\mathcal{O}_Z)
+\otimes_{\mathcal{O}_X}^\mathbf{L} a(\mathcal{O}_Y) \ar[r] &
+Lh^*K \otimes_{\mathcal{O}_X}^\mathbf{L} c(\mathcal{O}_Z) \ar[r] &
+c(K)
+}
+$$
+is commutative where the arrows are (\ref{equation-compare-with-pullback})
+and we have used $Lh^* = Lf^* \circ Lg^*$ and $c = a \circ b$.
+\end{lemma}
+
+\begin{proof}
+In this proof we will write $f_*$ for $Rf_*$ and $f^*$ for $Lf^*$, etc,
+and we will write $\otimes$ for $\otimes^\mathbf{L}_{\mathcal{O}_X}$, etc.
+The composition of the top arrows is adjoint to a map
+$$
+g_*f_*(f^*(g^*K \otimes b(\mathcal{O}_Z)) \otimes a(\mathcal{O}_Y)) \to K
+$$
+The left hand side is equal to
+$K \otimes g_*f_*(f^*b(\mathcal{O}_Z) \otimes a(\mathcal{O}_Y))$ by
+Derived Categories of Schemes, Lemma
+\ref{perfect-lemma-cohomology-base-change}
+and inspection of the definitions shows the map comes from the map
+$$
+g_*f_*(f^*b(\mathcal{O}_Z) \otimes a(\mathcal{O}_Y))
+\xleftarrow{g_*\epsilon}
+g_*(b(\mathcal{O}_Z) \otimes f_*a(\mathcal{O}_Y)) \xrightarrow{g_*\alpha}
+g_*(b(\mathcal{O}_Z)) \xrightarrow{\beta} \mathcal{O}_Z
+$$
+tensored with $\text{id}_K$. Here $\epsilon$ is the isomorphism from
+Derived Categories of Schemes, Lemma
+\ref{perfect-lemma-cohomology-base-change} and
+$\beta$ comes from the counit map
+$g_*b \to \text{id}$. Similarly, the composition of the lower
+horizontal arrows is adjoint to $\text{id}_K$ tensored with the composition 
+$$
+g_*f_*(f^*b(\mathcal{O}_Z) \otimes a(\mathcal{O}_Y)) \xrightarrow{g_*f_*\delta}
+g_*f_*(ab(\mathcal{O}_Z)) \xrightarrow{g_*\gamma}
+g_*(b(\mathcal{O}_Z)) \xrightarrow{\beta}
+\mathcal{O}_Z
+$$
+where $\gamma$ comes from the counit map $f_*a \to \text{id}$
+and $\delta$ is the map whose adjoint is the composition
+$$
+f_*(f^*b(\mathcal{O}_Z) \otimes a(\mathcal{O}_Y))
+\xleftarrow{\epsilon}
+b(\mathcal{O}_Z) \otimes f_*a(\mathcal{O}_Y) \xrightarrow{\alpha}
+b(\mathcal{O}_Z)
+$$
+By general properties of adjoint functors, adjoint maps, and counits
+(see Categories, Section \ref{categories-section-adjoint})
+we have $\gamma \circ f_*\delta = \alpha \circ \epsilon^{-1}$ as desired.
+\end{proof}
+
+
+
+
+
+
+
+\section{Perfect proper morphisms}
 \label{section-flat-and-proper}
 
 \noindent
 The correct generality for this section would be to consider
-proper perfect morphisms of quasi-compact and quasi-separated
-schemes, see \cite{LN}.
+perfect proper morphisms of quasi-compact and quasi-separated
+schemes, see \cite{LN}. A flat proper morphism of Noetherian
+schemes is perfect, see
+More on Morphisms, Lemma
+\ref{more-morphisms-lemma-flat-finite-presentation-perfect}.
 
 \begin{lemma}
 \label{lemma-proper-flat-noetherian}
-Let $f : X \to Y$ be a flat and proper morphism of Noetherian schemes.
-Let $a$ be the twisted inverse image. Then
-$a$ commutes with direct sums.
+Let $f : X \to Y$ be a perfect proper morphism of Noetherian schemes.
+Let $a$ be the twisted inverse image. Then $a$ commutes with direct sums.
 \end{lemma}
 
 \begin{proof}
 Let $P$ be a perfect object of $D(\mathcal{O}_X)$. By
-Derived Categories of Schemes, Lemma \ref{perfect-lemma-perfect-direct-image}
+More on Morphisms, Lemma
+\ref{more-morphisms-lemma-perfect-proper-perfect-direct-image}
 the complex $Rf_*P$ is perfect on $Y$.
 Let $K_i$ be a family of objects of $D_\QCoh(\mathcal{O}_Y)$.
 Then
@@ -4888,7 +5281,7 @@ is an isomorphism, i.e., $a$ commutes with direct sums.
 
 \begin{lemma}
 \label{lemma-proper-flat-noetherian-relative}
-Let $f : X \to Y$ be a flat and proper morphism of Noetherian schemes.
+Let $f : X \to Y$ be a perfect proper morphism of Noetherian schemes.
 Let $a$ be the twisted inverse image. Let $T \subset Y$ be closed. Then
 \begin{enumerate}
 \item if $Q \in D_\QCoh(Y)$ is supported on $T$,
@@ -4934,13 +5327,13 @@ every object $Q$ of $D_{\QCoh, T}(\mathcal{O}_Y)$ is a derived
 colimit of a system $Q_1 \to Q_2 \to Q_3 \to \ldots$
 such that the cones of the transition maps are direct sums
 of shifts of $E$. Arguing by induction we see that
-$E_n \in \mathcal{D}$ for all $n$ and finally that $Q$ is
+$Q_n \in \mathcal{D}$ for all $n$ and finally that $Q$ is
 in $\mathcal{D}$. Thus (1) is true.
 \end{proof}
 
 \begin{lemma}
 \label{lemma-compare-with-pullback-flat-proper-noetherian}
-Let $f : X \to Y$ be a proper flat morphism of Noetherian
+Let $f : X \to Y$ be a perfect proper morphism of Noetherian
 schemes. The map (\ref{equation-compare-with-pullback}) is an isomorphism
 for every object $K$ of $D_\QCoh(\mathcal{O}_Y)$.
 \end{lemma}
@@ -4966,7 +5359,7 @@ Lemma \ref{lemma-compare-with-pullback-perfect}.
 
 \begin{lemma}
 \label{lemma-proper-flat-base-change}
-Let $f : X \to Y$ be a proper flat morphism of Noetherian schemes.
+Let $f : X \to Y$ be a flat proper morphism of Noetherian schemes.
 Let $g : Y' \to Y$ be a morphism of finite type. Then the base
 change map (\ref{equation-base-change-map}) is an isomorphism
 for all $K \in D_\QCoh(\mathcal{O}_X)$.
@@ -5365,7 +5758,7 @@ $$
 is an isomorphism of functors which we will denote by $\alpha_g$.
 
 \medskip\noindent
-To finish the proof, since the category of compactifications ove $X$ over $Y$
+To finish the proof, since the category of compactifications of $X$ over $Y$
 is cofiltered, it suffices to show compositions of morphisms of
 compactifications of $X$ over $Y$ are turned into compositions of
 isomorphisms of functors\footnote{Namely, if $\alpha, \beta : F \to G$
@@ -5691,6 +6084,85 @@ intersect in one point (similar to the last argument in
 Remark \ref{remark-going-around}).
 \end{proof}
 
+\begin{lemma}
+\label{lemma-map-pullback-to-shriek-well-defined}
+Let $f : X \to Y$ be a morphism between compactifyable schemes over a
+Noetherian scheme $S$. There are canonical maps
+$$
+\mu_{f, K} :
+Lf^*K \otimes_{\mathcal{O}_X}^\mathbf{L} f^!\mathcal{O}_Y
+\longrightarrow
+f^!K
+$$
+functorial in $K$ in $D^+_\QCoh(\mathcal{O}_Y)$.
+If $g : Y \to Z$ is another morphism between compactifyable schemes, then
+the diagram
+$$
+\xymatrix{
+Lf^*(Lg^*K \otimes_{\mathcal{O}_Y}^\mathbf{L} g^!\mathcal{O}_Z)
+\otimes_{\mathcal{O}_X}^\mathbf{L} f^!\mathcal{O}_Y
+\ar@{=}[d] \ar[r]_-{\mu_f} &
+f^!(Lg^*K \otimes_{\mathcal{O}_Y}^\mathbf{L} g^!\mathcal{O}_Z)
+\ar[r]_-{f^!\mu_g} &
+f^!g^!K \ar@{=}[d] \\
+Lf^*Lg^*K \otimes_{\mathcal{O}_X}^\mathbf{L} Lf^* g^!\mathcal{O}_Z
+\otimes_{\mathcal{O}_X}^\mathbf{L} f^!\mathcal{O}_Y \ar[r]^-{\mu_f} &
+Lf^*Lg^*K \otimes_{\mathcal{O}_X}^\mathbf{L} f^!g^!\mathcal{O}_Z
+\ar[r]^-{\mu_{g \circ f}} & f^!g^!K
+}
+$$
+commutes for all $K \in D^+_\QCoh(\mathcal{O}_Z)$.
+\end{lemma}
+
+\begin{proof}
+If $f$ is proper, then $f^! = a$ and we can use
+(\ref{equation-compare-with-pullback}) and if $g$ is also proper,
+then Lemma \ref{lemma-transitivity-compare-with-pullback} proves
+the commutativity of the diagram (in greater generality).
+
+\medskip\noindent
+In general, choose a compactification $j : X \to \overline{X}$
+of $X$ over $Y$. Since $f^!$ is defined as $j^* \circ \overline{a}$
+we obtain $\mu_f$ as the restriction of the map
+(\ref{equation-compare-with-pullback})
+$$
+L\overline{f}^*K \otimes_{\mathcal{O}_{\overline{X}}}^\mathbf{L}
+\overline{a}(\mathcal{O}_Y)
+\longrightarrow
+\overline{a}(K)
+$$
+to $X$. To see this is independent of the choice of the compactification,
+we may assume given a morphism $g : \overline{X}_1 \to \overline{X}_2$
+between compactifications $j_i : X \to \overline{X}_i$ over $Y$.
+But now we know that the maps
+$$
+L\overline{f}_1^*K \otimes_{\mathcal{O}_{\overline{X}}}^\mathbf{L}
+\overline{a}_1(\mathcal{O}_Y)
+\longrightarrow
+\overline{a}_1(K)
+\quad\text{and}\quad
+L\overline{f}_2^*K \otimes_{\mathcal{O}_{\overline{X}}}^\mathbf{L}
+\overline{a}_2(\mathcal{O}_Y)
+\longrightarrow
+\overline{a}_2(K)
+$$
+fit into a commutative diagram by
+Lemma \ref{lemma-transitivity-compare-with-pullback}
+with two other maps given by $\mu_g$ which restrict to an
+isomorphism on $X$ by Lemma \ref{lemma-compare-on-open}.
+This implies the two displayed maps above restrict to the
+same map on the open, via the identification
+$\overline{a}_1(K)|_X = \overline{a}_2(K)|_X$ used in the definition
+of $f^!$. Having said this, the commutativity of the diagram
+follows from the construction of the isomorphism
+$(g \circ f)^! \to f^! \circ g^!$ (first part of the proof of
+Lemma \ref{lemma-upper-shriek-composition} using
+$\overline{X} \to \overline{Y} \to Z$) and the result
+of Lemma \ref{lemma-transitivity-compare-with-pullback}
+for $\overline{X} \to \overline{Y} \to Z$.
+\end{proof}
+
+
 
 \section{Properties of upper shriek functors}
 \label{section-upper-shriek-properties}
@@ -5845,6 +6317,77 @@ Hence we see that $a(M) = D_{\overline{X}}(L\overline{f}^*D_Y(M))$
 by Yoneda's lemma.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-flat-comparison-shriek}
+Let $S$ be a Noetherian scheme. Let $f : X \to Y$ be a perfect
+(e.g., flat) morphism of compactifyable schemes over $S$. Then the map
+$$
+\mu_{f,  K} :
+Lf^*K \otimes_{\mathcal{O}_X}^\mathbf{L} f^!\mathcal{O}_Y
+\longrightarrow
+f^!K
+$$
+of Lemma \ref{lemma-map-pullback-to-shriek-well-defined}
+is an isomorphism for all $K \in D_\QCoh^+(\mathcal{O}_Y)$.
+\end{lemma}
+
+\begin{proof}
+(A flat morphism of finite presentation is perfect, see
+More on Morphisms, Lemma
+\ref{more-morphisms-lemma-flat-finite-presentation-perfect}.)
+If $f$ is an open immersion, then this is true because we can take
+$\overline{X} = Y$ in the construction of $f^!$ and the map. If $f$
+is a perfect proper morphism, then $f^! = a$ and the result is true by
+Lemma \ref{lemma-compare-with-pullback-flat-proper-noetherian}.
+If $f = g \circ h$ and the result is true for $g$ and $h$, then
+the result is true for $f$ by the commutative diagram
+of Lemma \ref{lemma-map-pullback-to-shriek-well-defined}.
+
+\medskip\noindent
+Let $j : U \to X$ be an open immersion. Then $\mu_j$ being an isomorphism
+and $j^! = j^*$ we see that $\mu_{f \circ j}$ is isomorphic to the
+restriction of $\mu_f$ to $U$. Hence it suffices to prove the
+result in case $X$ is affine. Choose an immersion $X \to \mathbf{A}^n_Y$
+(Morphisms, Lemma \ref{morphisms-lemma-quasi-affine-finite-type-over-S})
+which we factor as $X \to U \to \mathbf{A}^n_Y \to Y$ where $X \to U$
+is a closed immersion and $U \subset \mathbf{A}^n_Y$ is open.
+Then $U \subset \mathbf{P}^n_Y$ is open and the result is true for
+$U \to Y$ because it is true for $\mathbf{P}^n_Y \to Y$ (flat and proper)
+and for the open immersion $U \to \mathbf{P}^n_Y$. Finally, the
+morphism $X \to U$ is a perfect closed immersion by
+More on Morphisms, Lemma \ref{more-morphisms-lemma-perfect-permanence}.
+Hence the result is true for $X \to U$ and the proof is complete.
+\end{proof}
+
+\begin{remark}
+\label{remark-relative-dualizing-complex}
+Let $f : X \to Y$ be a flat proper morphism of Noetherian schemes
+In this situation, $\omega_{X/Y}^\bullet = f^!\mathcal{O}_Y$
+is sometimes called the {\it relative dualizing complex}
+(for reasons that will become clear later). By
+Lemma \ref{lemma-flat-comparison-shriek} there is a functorial isomorphism
+$f^!K = Lf^*K \otimes_{\mathcal{O}_X}^\mathbf{L} \omega_{X/Y}^\bullet$
+for $K \in D_\QCoh^+(\mathcal{O}_Y)$. Moreover, the trace map
+$$
+\text{Tr}_f : Rf_*\omega_{X/Y}^\bullet \to \mathcal{O}_Y
+$$
+Induces the trace map
+$$
+Rf_*f^!K = Rf_*(Lf^*K \otimes_{\mathcal{O}_X}^\mathbf{L} \omega_{X/Y}^\bullet)
+= K \otimes_{\mathcal{O}_Y}^\mathbf{L} Rf_*\omega_{X/Y}^\bullet
+\to K
+$$
+for every $K \in D_\QCoh^+(\mathcal{O}_Y)$. Moreover, if $g : Y' \to Y$ is a
+morphism of Noetherian schemes and $X' = Y' \times_Y X$, then by
+Lemma \ref{lemma-more-base-change} we have
+$\omega_{X'/Y'}^\bullet = L(g')^*\omega_{X/Y}^\bullet$ where $g' : X' \to X$
+is the projection and by Lemma \ref{lemma-trace-map-and-base-change}
+the trace map
+$$
+\text{Tr}_{f'} : Rf'_*\omega_{X'/Y'}^\bullet \to \mathcal{O}_{Y'}
+$$
+for the projection is the base change of $\text{Tr}_f$.
+\end{remark}
 
 
 
@@ -5914,8 +6457,6 @@ This means we have no explicit description of the functors $f^!$.
 This can sometimes be a problem. However, as we will see,
 often it is enough to know the existence of a dualizing complex
 and the duality isomorphism to pin down what it is more exactly.
-
-
 
 
 
@@ -6347,164 +6888,15 @@ The final assertions follow from the construction of normalized
 dualizing complexes and the already used Lemma \ref{lemma-shriek-via-duality}.
 \end{proof}
 
-
-
-
-
-
-\section{Trace maps}
-\label{section-trace}
-
-\noindent
-Let $f : X \to Y$ be a morphism of quasi-compact and quasi-separated
-schemes. Let $a : D_\QCoh(\mathcal{O}_Y) \to D_\QCoh(\mathcal{O}_X)$
-be the twisted inverse image of $f$ as in
-Lemma \ref{lemma-twisted-inverse-image}. By Categories, Section
-\ref{categories-section-adjoint} we obtain a transformation of functors
-$$
-\text{Tr}_f : Rf_* \circ a \longrightarrow \text{id}
-$$
-The defining maps $\text{Tr}_{f, K} : Rf_*a(K) \longrightarrow K$
-for $K \in D_\QCoh(\mathcal{O}_Y)$ are sometimes called the {\it trace map}.
-This is the map which has the property that the bijection
-$$
-\Hom_X(L, a(K)) \longrightarrow \Hom_Y(Rf_*L, K)
-$$
-for $L \in D_\QCoh(\mathcal{O}_X)$ which characterizes twisted inverse
-image is given by
-$$
-\varphi \longmapsto \text{Tr}_{f, K} \circ Rf_*\varphi
-$$
-If $f$ is a proper morphism of Noetherian schemes and $K$ is bounded
-below, then Lemma \ref{lemma-proper-noetherian-relative} shows that
-the isomorphism
-$$
-R\SheafHom_{\mathcal{O}_X}(L, a(K))
-\longrightarrow
-R\SheafHom_{\mathcal{O}_Y}(Rf_*L, K)
-$$
-comes about by composition with $\text{Tr}_{f, K}$.
-Every trace map we are going to consider in this section will be a
-special case of this trace map. Before we discuss some special cases
-we show that formation of the trace map commutes with base change.
-
-\begin{lemma}[Trace map and base change]
-\label{lemma-trace-map-and-base-change}
-Suppose we have a diagram (\ref{equation-base-change}) where $f$ and $g$
-are $\text{Tor}$-independent. Then the map
-$1 \star \text{Tr}_f : Lg^* \circ Rf_* \circ a \to Lg^*$ and
-$\text{Tr}_{f'} \star 1 : Rf'_* \circ a' \circ Lg^* \to Lg^*$
-agree via the base change maps
-$\beta : Lg^* \circ Rf_* \to Rf'_* \circ L(g')^*$
-(Cohomology, Remark \ref{cohomology-remark-base-change})
-and $\alpha : L(g')^* \circ a \to a' \circ Lg^*$
-(\ref{equation-base-change-map}).
-More precisely, the diagram
-$$
-\xymatrix{
-Lg^* \circ Rf_* \circ a
-\ar[d]_{\beta \star 1} \ar[r]_-{1 \star \text{Tr}_f} &
-Lg^* \\
-Rf'_* \circ L(g')^* \circ a \ar[r]^{1 \star \alpha} &
-Rf'_* \circ a' \circ Lg^* \ar[u]_{\text{Tr}_{f'} \star 1}
-}
-$$
-of transformations of functors commutes.
-\end{lemma}
-
-\begin{proof}
-In this proof we write $f_*$ for $Rf_*$ and $g^*$ for $Lg^*$ and we
-drop $\star$ products with identities as one can figure out which ones
-to add as long as the source and target of the transformation is known.
-Recall that $\beta : g^* \circ f_* \to f'_* \circ (g')^*$ is an isomorphism
-and that $\alpha$ is defined using
-the isomorphism $\beta^\vee : g'_* \circ a' \to a \circ g_*$
-which is the adjoint of $\beta$, see Lemma \ref{lemma-flat-precompose-pus}
-and its proof. First we note that the top horizontal arrow
-of the diagram in the lemma is equal to the composition
-$$
-g^* \circ f_* \circ a \to
-g^* \circ f_* \circ a \circ g_* \circ g^* \to
-g^* \circ g_* \circ g^* \to g^*
-$$
-where the first arrow is the unit for $(g^*, g_*)$, the second arrow
-is $\text{Tr}_f$, and the third arrow is the counit for $(g^*, g_*)$.
-This is a simple consequence of the fact that the composition
-$g^* \to g^* \circ g_* \circ g^* \to g^*$ of unit and counit is the identity.
-Consider the diagram
-$$
-\xymatrix{
-& g^* \circ f_* \circ a \ar[ld]_\beta \ar[d] \ar[r]_{\text{Tr}_f} & g^* \\
-f'_* \circ (g')^* \circ a \ar[dr] &
-g^* \circ f_* \circ a \circ g_* \circ g^* \ar[d]_\beta \ar[ru] &
-g^* \circ f_* \circ g'_* \circ a' \circ g^* \ar[l]_{\beta^\vee} \ar[d]_\beta &
-f'_* \circ a' \circ g^* \ar[lu]_{\text{Tr}_{f'}} \\
-& f'_* \circ (g')^* \circ a \circ g_* \circ g^* &
-f'_* \circ (g')^* \circ g'_* \circ a' \circ g^* \ar[ru] \ar[l]_{\beta^\vee}
-}
-$$
-In this diagram the two squares commute 
-Categories, Lemma \ref{categories-lemma-properties-2-cat-cats}
-or more simply the discussion preceding
-Categories, Definition \ref{categories-definition-horizontal-composition}.
-The triangle commutes by the discussion above. By
-Categories, Lemma
-\ref{categories-lemma-transformation-between-functors-and-adjoints}
-the square
-$$
-\xymatrix{
-g^* \circ f_* \circ g'_* \circ a' \ar[d]_{\beta^\vee} \ar[r]_-\beta &
-f'_* \circ (g')^* \circ g'_* \circ a' \ar[d] \\
-g^* \circ f_* \circ a \circ g_* \ar[r] &
-\text{id}
-}
-$$
-commutes which implies the pentagon in the big diagram commutes.
-Since $\beta$ and $\beta^\vee$ are isomorphisms, and since going on
-the outside of the diagram equals
-$\text{Tr}_f \circ \alpha \circ \beta$ by definition this proves the lemma.
-\end{proof}
-
-\noindent
-For example, let $A \to B$ be a ring map. Let $Y = \Spec(A)$ and $X = \Spec(B)$
-and $f : X \to Y$ the morphism corresponding to $A \to B$. As seen
-in Example \ref{example-affine-twisted-inverse-image}
-the twisted inverse image sends an object
-$K$ of $D(A) = D_\QCoh(\mathcal{O}_Y)$ to $R\Hom(B, K)$ in
-$D(B) = D_\QCoh(\mathcal{O}_X)$. The trace map is the map
-$$
-\text{Tr}_{f, K} : R\Hom(B, K) \longrightarrow R\Hom(A, K) = K
-$$
-induced by the $A$-module map $A \to B$.
-
-\medskip\noindent
-If $i : Z \to X$ is closed immersion of Noetherian schemes, then
-similarly to the paragraph above the diagram
-$$
-\xymatrix{
-i_*a(K) \ar[rr]_-{\text{Tr}_{i, K}} \ar@{=}[d] & &
-K \ar@{=}[d] \\
-i_*R\SheafHom(\mathcal{O}_Z, K) \ar@{=}[r] &
-R\SheafHom_{\mathcal{O}_X}(i_*\mathcal{O}_Z, K)
-\ar[r] & K
-}
-$$
-is commutative for $K \in D_\QCoh^+(\mathcal{O}_X)$.
-Here the horizontal equality sign is
-Lemma \ref{lemma-sheaf-with-exact-support-ext} and the
-lower horizontal arrow is induced by
-by the map $\mathcal{O}_X \to i_*\mathcal{O}_Z$. The commutativity
-of the diagram is a consequence of
-Lemma \ref{lemma-twisted-inverse-image-closed}.
-
-\medskip\noindent
+\begin{example}
+\label{example-trace-proper}
 Let $S$ be a Noetherian scheme and let $\omega_S^\bullet$ be a
 dualizing complex. Let $f : X \to Y$ be a proper morphism of finite
 type schemes over $S$. Let $\omega_X^\bullet$ and $\omega_Y^\bullet$
 be dualizing complexes normalized relative to $\omega_S^\bullet$.
 In this situation we have $a(\omega_Y^\bullet) = \omega_X^\bullet$
 (Lemma \ref{lemma-proper-map-good-dualizing-complex})
-and hence the trace map is a canonical arrow
+and hence the trace map (Section \ref{section-trace}) is a canonical arrow
 $$
 \text{Tr}_f : Rf_*\omega_X^\bullet \longrightarrow \omega_Y^\bullet
 $$
@@ -6518,7 +6910,7 @@ Rf_*R\SheafHom_{\mathcal{O}_X}(L, \omega_X^\bullet) =
 R\SheafHom_{\mathcal{O}_Y}(Rf_*L, \omega_Y^\bullet)
 $$
 for $L$ in $D_\QCoh(\mathcal{O}_X)$.
-
+\end{example}
 
 
 
@@ -7130,7 +7522,7 @@ f_*\omega_X^\bullet = R\SheafHom(f_*\mathcal{O}_X, \omega_Y^\bullet)
 $$
 in $D_\QCoh^+(f_*\mathcal{O}_X)$ by Lemmas \ref{lemma-finite-twisted} and
 \ref{lemma-proper-map-good-dualizing-complex}
-and the trace map of Section \ref{section-trace} is the map
+and the trace map of Example \ref{example-trace-proper} is the map
 $$
 \text{Tr}_f : Rf_*\omega_X^\bullet = f_*\omega_X^\bullet =
 R\SheafHom(f_*\mathcal{O}_X, \omega_Y^\bullet) \longrightarrow
@@ -7222,6 +7614,16 @@ Cohomology, Lemma \ref{cohomology-lemma-projection-formula-closed-immersion}
 and the arrow comes from the canonical map
 $R\SheafHom(i_*\mathcal{O}_D, \mathcal{O}_X) \to \mathcal{O}_X$
 induced by $\mathcal{O}_X \to i_*\mathcal{O}_D$.
+
+\medskip\noindent
+If $K \in D_\QCoh(\mathcal{O}_X)$, then
+(\ref{equation-map-effective-Cartier}) is equal to
+(\ref{equation-compare-with-pullback}) via the identification
+$a(K) = R\SheafHom(\mathcal{O}_D, K)$ of
+Lemma \ref{lemma-twisted-inverse-image-closed}.
+If $K \in D_\QCoh(\mathcal{O}_X)$ and $X$ is Noetherian, then
+the following lemma is a special case of
+Lemma \ref{lemma-compare-with-pullback-flat-proper-noetherian}.
 
 \begin{lemma}
 \label{lemma-sheaf-with-exact-support-effective-Cartier}
