@@ -518,8 +518,9 @@ $R[x_1, \ldots, x_n]/(f_1, \ldots, f_m) \cong S$.
 \end{definition}
 
 \noindent
-Informally this means that $S$ is finitely generated as an $R$-algebra
-and that the ideal of relations among the generators is finitely generated.
+Informally, $R \to S$ is of finite presentation if and only if
+$S$ is finitely generated as an $R$-algebra
+and the ideal of relations among the generators is finitely generated.
 A choice of a surjection $R[x_1, \ldots, x_n] \to S$ as in the definition
 is sometimes called a {\it presentation} of $S$.
 
@@ -582,7 +583,7 @@ Lemma \ref{lemma-compose-finite-type}.
 We may assume $S = R[x_1, \ldots, x_n]/J$.
 Choose $y_1, \ldots, y_m \in M$ which generate $M$ as an $R$-module
 and choose relations $\sum a_{ij} y_j = 0$, $i = 1, \ldots, t$ which
-generate the kernel of $R^{\oplus n} \to M$. For any
+generate the kernel of $R^{\oplus m} \to M$. For any
 $i = 1, \ldots, n$ and $j = 1, \ldots, m$ write
 $$
 x_i y_j = \sum a_{ijk} y_k
@@ -636,7 +637,7 @@ Lemma \ref{lemma-finite-over-subring}.
 To see the other assume that $M$ is finite as an $S$-module.
 Pick $x_1, \ldots, x_n \in S$ which generate $S$ as an $R$-module.
 Pick $y_1, \ldots, y_m \in M$ which generate $M$ as an $S$-module.
-Then $x_j y_j$ generate $M$ as an $R$-module.
+Then $x_i y_j$ generate $M$ as an $R$-module.
 \end{proof}
 
 \begin{lemma}
@@ -963,11 +964,27 @@ $$
 \end{lemma}
 
 \begin{proof}
+It is clear that
+$
+\xymatrix{
+\colim_i L_i \ar[r]^\varphi &
+\colim_i M_i \ar[r]^\psi &
+\colim_i N_i
+}
+$
+is a complex. For each $i \in I$, there is a canonical
+$R$-module morphism $H_i \to H$ (sending each
+$[m] \in H_i = \Ker(\psi_i) / \Im(\varphi_i)$ to the
+residue class in $H = \Ker(\psi) / \Im(\varphi)$
+of the image of $m$ in $\colim_i M_i$). These give rise
+to a morphism $\colim_i H_i \to H$. It remains to
+show that this morphism is surjective and injective.
+
 We are going to repeatedly use the description of colimits over $I$
 as in Lemma \ref{lemma-directed-colimit} without further mention.
 Let $h \in H$.
-Since $H = \Ker(\varphi)/\Im(\psi)$ we see that
-$h$ is the class mod $\Im(\psi)$ of an element $[m]$
+Since $H = \Ker(\psi)/\Im(\varphi)$ we see that
+$h$ is the class mod $\Im(\varphi)$ of an element $[m]$
 in $\Ker(\psi) \subset \colim_i M_i$. Choose an
 $i$ such that $[m]$ comes from an element $m \in M_i$. Choose
 a $j \geq i$ such that $\nu_{ij}(\psi_i(m)) = 0$ which is possible
@@ -981,7 +998,7 @@ $H_i = \Ker(\psi_i)/\Im(\varphi_i)$ we may represent
 $h_i$ by an element $m \in \Ker(\psi_i) \subset M_i$.
 The assumption on the vanishing of $h_i$ in $H$ means that
 the class of $m$ in $\colim_i M_i$ lies in the image
-of $\varphi$. Hence there exists an $j \geq i$ and a $l \in L_j$
+of $\varphi$. Hence there exists a $j \geq i$ and an $l \in L_j$
 such that $\varphi_j(l) = \mu_{ij}(m)$. Clearly this shows that
 the image of $h_i$ in $H_j$ is zero. This proves the
 injectivity of $\colim_i H_i \to H$.
@@ -17505,7 +17522,17 @@ R^m$ and $g: R^m \to M$ such that $f = g \circ h$ and $N \subset
 
 \begin{proof}
 That (1) is equivalent to (2) is just a reformulation of the equational
-criterion for flatness.   To show (2) implies (3), let $g: R^m \to M$
+criterion for flatness\footnote{In fact, a module map $f : R^n \to M$
+corresponds to a choice of elements $x_1, x_2, \ldots, x_n$ of $M$
+(namely, the images of the standard basis elements $e_1, e_2, \ldots,
+e_n$); furthermore, an element $x \in \Ker(f)$ corresponds to a
+relation between these $x_1, x_2, \ldots, x_n$ (namely, the relation
+$\sum_i f_i x_i = 0$, where the $f_i$ are the coordinates of $x$).
+The module map $h$ (represented as an $m \times n$-matrix)
+corresponds to the matrix $(a_{ij})$ from Lemma \ref{lemma-flat-eq},
+and the $y_j$ of Lemma \ref{lemma-flat-eq} are the images of the
+standard basis vectors of $R^m$ under $g$.}.   To show
+(2) implies (3), let $g: R^m \to M$
 be the map such that $f$ factors as $f = g \circ h$.  By (2) find $h'': R^m
 \to R^{m'}$ such that $h''$ kills $h(x)$ and $g: R^m \to M$
 factors through $h''$.  Then taking $h' = h'' \circ h$ works.  (3) implies (4)
@@ -17594,14 +17621,24 @@ e$.
 Let $\{ b_1, \ldots, b_n \}$ be a finite basis of $F$.  Choose $n$ distinct
 elements $i_1, \ldots, i_n \in I$ such that $i_{\ell} \notin J$ for all $\ell$,
 and such that the image of $x_{i_{\ell}}$ under $f: R^I \to M$ equals
-the image of $b_{\ell}$ under $g: F \to M$.  This is possible by our
-choice of $I$.  Now let $J' = J \cup \{i_1, \ldots , i_n \}$, and define $R^{J'}
+the image of $b_{\ell}$ under $g: F \to M$.  This is possible since
+every element of $M$ can be written as $f(x_i)$ for infinitely many
+distinct $i \in I$ (by our choice of $I$).  Now let
+$J' = J \cup \{i_1, \ldots , i_n \}$, and define $R^{J'}
 \to F$ by $x_i \mapsto h(x_i)$ for $i \in J$ and $x_{i_{\ell}} \mapsto
 b_{\ell}$ for $\ell = 1, \ldots, n$.  Let $N' = \Ker(R^{J'} \to F)$.
 Observe:
 \begin{enumerate}
-\item $R^{J'} \to F$ factors $f: R^I \to M$, hence $N' \subset
-K = \Ker(f)$;
+\item The square
+$$
+\xymatrix{
+R^{J'} \ar[r] \ar@{^{(}->}[d] & F \ar[d]^{g} \\
+R^{I} \ar[r]_{f} & M
+}
+$$
+is commutative,
+%$R^{J'} \to F$ factors $f: R^I \to M$,
+hence $N' \subset K = \Ker(f)$;
 \item $R^{J'} \to F$ is a surjection onto a free finite module, hence
 it splits and so $N'$ is finitely generated;
 \item $J \subset J'$ and $N \subset N'$.
