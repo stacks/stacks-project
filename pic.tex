@@ -1,0 +1,457 @@
+\input{preamble}
+
+% OK, start here.
+%
+\begin{document}
+
+\title{Picard Schemes of Curves}
+
+
+\maketitle
+
+\phantomsection
+\label{section-phantom}
+
+\tableofcontents
+
+
+\section{Introduction}
+\label{section-introduction}
+
+\noindent
+In this chapter we do just enough work to construct the Picard scheme
+of a projective nonsingular curve over an algebraically closed field.
+See \cite{Kleiman-Picard} for a more thorough discussion as well as
+historical background.
+
+\medskip\noindent
+Later in the Stacks project we will discuss Hilbert and Quot functors
+in much greater generality.
+
+
+\section{Hilbert scheme of points}
+\label{section-hilbert-scheme-points}
+
+\noindent
+Let $X \to S$ be a morphism of schemes. Let $d \geq 0$ be an integer.
+For a scheme $T$ over $S$ we let
+$$
+\text{Hilb}^d_{X/S}(T) =
+\left\{
+\begin{matrix}
+Z \subset X_T\text{ closed subscheme such that }\\
+Z \to T\text{ is finite locally free of degree }d
+\end{matrix}
+\right\}
+$$
+If $T' \to T$ is a morphism of schemes over $S$ and if
+$Z \in \text{Hilb}^d_{X/S}(T)$, then the base change
+$Z_{T'} \subset X_{T'}$ is an element of $\text{Hilb}^d_{X/S}(T')$.
+In this way we obtain a functor
+$$
+\text{Hilb}^d_{X/S} :
+(\Sch/S)^{opp} \longrightarrow \textit{Sets},\quad
+T \longrightarrow \text{Hilb}^d_{X/S}(T)
+$$
+In general $\text{Hilb}^d_{X/S}$ is an algebraic space
+(insert future reference here). In this section we will
+show that $\text{Hilb}^d_{X/S}$ is representable
+by a scheme if any finite number of points in a fibre of
+$X \to S$ are contained in an affine open.
+
+\begin{lemma}
+\label{lemma-hilb-d-sheaf}
+Let $X \to S$ be a morphism of schemes. The functor $\text{Hilb}^d_{X/S}$
+satisfies the sheaf property for the fpqc topology
+(Topologies, Definition \ref{topologies-definition-sheaf-property-fpqc}).
+\end{lemma}
+
+\begin{proof}
+Let $\{T_i \to T\}_{i \in I}$ be an fpqc covering of schemes over $S$.
+Set $X_i = X_{T_i} = X \times_S T_i$.
+Note that $\{X_i \to X_T\}_{i \in I}$ is an fpqc covering of
+$X_T$ (Topologies, Lemma \ref{topologies-lemma-fpqc})
+and that $X_{T_i \times_T T_{i'}} = X_i \times_{X_T} X_{i'}$.
+Suppose that $Z_i \in \text{Hilb}^d_{X/S}(T_i)$ is a collection of
+elements such that $Z_i$ and $Z_{i'}$ map to the same element of
+$\text{Hilb}^d_{X/S}(T_i \times_T T_{i'})$. By effective descent
+for closed immersions (Descent, Lemma \ref{descent-lemma-closed-immersion})
+there is a closed immersion $Z \to X_T$ whose base change by
+$X_i \to X_T$ is equal to $Z_i \to X_i$. The morphism $Z \to T$
+then has the property that its base change to $T_i$ is the morphism
+$Z_i \to T_i$. Hence $Z \to T$ is finite locally free of degree $d$
+by Descent, Lemma \ref{descent-lemma-descending-property-finite-locally-free}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-hilb-d-limit-preserving}
+Let $X \to S$ be a morphism of schemes. If $X \to S$ is
+of finite presentation, then the functor $\text{Hilb}^d_{X/S}$
+is limit preserving (Limits, Remark \ref{limits-remark-limit-preserving}).
+\end{lemma}
+
+\begin{proof}
+Let $T = \lim T_i$ be a limit of affine schemes over $S$. We have to show
+that $\text{Hilb}^d_{X/S}(T) = \colim \text{Hilb}^d_{X/S}(T_i)$.
+Observe that if $Z \to X_T$ is an element of $\text{Hilb}^d_{X/S}(T)$,
+then $Z \to T$ is of finite presentation. Hence by
+Limits, Lemma \ref{limits-lemma-descend-finite-presentation}
+there exists an $i$, a scheme $Z_i$ of finite presentation over $T_i$,
+and a morphism $Z_i \to X_{T_i}$ over $T_i$ whose base change to $T$
+gives $Z \to X_T$. We apply Limits, Lemma
+\ref{limits-lemma-descend-closed-immersion-finite-presentation}
+to see that we may assume $Z_i \to X_{T_i}$ is a closed immersion
+after increasing $i$.
+We apply Limits, Lemma \ref{limits-lemma-descend-finite-locally-free}
+to see that $Z_i \to T_i$ is finite locally free of degree $d$
+after possibly increasing $i$.
+Then $Z_i \in \text{Hilb}^d_{X/S}(T_i)$ as desired.
+\end{proof}
+
+\noindent
+Let $S$ be a scheme. Let $i : X \to Y$ be a closed immersion of schemes
+over $S$. Then there is a transformation of functors
+$$
+\text{Hilb}^d_{X/S} \longrightarrow \text{Hilb}^d_{Y/S}
+$$
+which maps an element $Z \in \text{Hilb}^d_{X/S}(T)$ to
+$i_T(Z) \subset Y_T$ in $\text{Hilb}^d_{Y/S}$. Here $i_T : X_T \to Y_T$
+is the base change of $i$.
+
+\begin{lemma}
+\label{lemma-hilb-d-of-closed}
+Let $S$ be a scheme. Let $i : X \to Y$ be a closed immersion of schemes.
+If $\text{Hilb}^d_{Y/S}$ is representable by a scheme, so is
+$\text{Hilb}^d_{X/S}$ and the transformation
+$\text{Hilb}^d_{X/S} \to \text{Hilb}^d_{Y/S}$
+is a closed immersion.
+\end{lemma}
+
+\begin{proof}
+Let $T$ be a scheme over $S$ and let $Z \in \text{Hilb}^d_{Y/S}(T)$.
+Claim: there is a closed subscheme $T_X \subset T$ such
+that a morphism of schemes $T' \to T$ factors through $T_X$ if
+and only if $Z_{T'} \to Y_{T'}$ factors through $X_{T'}$.
+Applying this to a scheme $T_{univ}$ representing $\text{Hilb}^d_{Y/S}$ and the
+universal object\footnote{See
+Categories, Section \ref{categories-section-opposite}}
+$Z_{univ} \in \text{Hilb}^d_{Y/S}(T_{univ})$
+we get a closed subscheme $T_{univ, X} \subset T_{univ}$ such that
+$Z_{univ, X} = Z_{univ} \times_{T_{univ}} T_{univ, X}$
+is a closed subscheme of $X \times_S T_{univ, X}$ and hence
+defines an element of $\text{Hilb}^d_{X/S}(T_{univ, X})$.
+A formal argument then shows that $T_{univ, X}$ is a scheme
+representing $\text{Hilb}^d_{X/S}$ with universal object $Z_{univ, X}$.
+
+\medskip\noindent
+Proof of the claim. Consider $Z' = X_T \times_{Y_T} Z$. Given $T' \to T$
+we see that $Z_{T'} \to Y_{T'}$ factors through $X_{T'}$ if and
+only if $Z'_{T'} \to Z_{T'}$ is an isomorphism. Thus the claim follows
+from the very general
+More on Flatness, Lemma \ref{flat-lemma-Weil-restriction-closed-subschemes}.
+However, in this special case one can prove the statement directly as
+follows: first reduce to the case $T = \Spec(A)$ and $Z = \Spec(B)$.
+After shrinking $T$ further we may assume there is an isomorphism
+$\varphi : B \to A^{\oplus d}$ as $A$-modules. Then $Z' = \Spec(B/J)$
+for some ideal $J \subset B$. Let $g_\beta \in J$ be a collection of
+generators and write $\varphi(g_\beta) = (g_\beta^1, \ldots, g_\beta^d)$.
+Then it is clear that $T_X$ is given by $\Spec(A/(g_\beta^j))$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-hilb-d-separated}
+Let $X \to S$ be a morphism of schemes. If $X \to S$ is separated and
+$\text{Hilb}^d_{X/S}$ is representable by a scheme $H$,
+then $H \to S$ is separated.
+\end{lemma}
+
+\begin{proof}
+In this proof all unadorned products are over $S$.
+Let $Z \in \text{Hilb}^d_{X/S}(H)$ be the universal object.
+Consider the two objects $Z_1, Z_2 \in \text{Hilb}^d_{X/S}(H \times H)$
+we get by pulling back $Z$ by the two projections $H \times H \to H$.
+Then $Z_1 = Z \times H \subset X_{H \times H}$ and $Z_2 = H \times Z
+\subset X_{H \times H}$. Since $H$ represents the functor
+$\text{Hilb}^d_{X/S}$, the diagonal morphism $\Delta : H \to H \times H$
+has the following universal property: A morphism of schemes
+$T \to H \times H$ factors through $\Delta$ if and only if
+$Z_{1, T} = Z_{2, T}$ as elements of $\text{Hilb}^d_{X/S}(T)$.
+Set $Z = Z_1 \times_{X_{H \times H}} Z_2$. Then we see that
+$T \to H \times H$ factors through $\Delta$ if and only if
+the morphisms $Z_T \to Z_{1, T}$ and $Z_T \to Z_{2, T}$ are
+isomorphisms. It follows from the very general
+More on Flatness, Lemma \ref{flat-lemma-Weil-restriction-closed-subschemes}
+that $\Delta$ is a closed immersion. In the proof of
+Lemma \ref{lemma-hilb-d-of-closed}
+the reader finds an alternative easier proof of the needed result
+in our special case.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-hilb-d-An}
+Let $X \to S$ be a morphism of affine schemes. Let $d \geq 0$. Then
+$\text{Hilb}^d_{X/S}$ is representable.
+\end{lemma}
+
+\begin{proof}
+Say $S = \Spec(R)$. Then we can choose a closed immersion of $X$
+into the spectrum of $R[x_i; i \in I]$ for some set $I$ (of sufficiently
+large cardinality. Hence by Lemma \ref{lemma-hilb-d-of-closed}
+we may assume that $X = \Spec(A)$ where $A = R[x_i; i \in I]$.
+We will use Schemes, Lemma \ref{schemes-lemma-glue-functors} to prove the
+lemma in this case.
+
+\medskip\noindent
+Condition (1) of the lemma follows from Lemma \ref{lemma-hilb-d-sheaf}.
+
+\medskip\noindent
+For every subset $W \subset A$ of cardinality $d$ we will
+construct a subfunctor $F_W$ of $\text{Hilb}^d_{X/S}$.
+(It would be enough to consider the case where $W$ consists of a
+collection of monomials in the $x_i$ but we do not need this.)
+Namely, we will say that $Z \in \text{Hilb}^d_{X/S}(T)$ is in $F_W(T)$
+if and only if the $\mathcal{O}_T$-linear map
+$$
+\bigoplus\nolimits_{f \in W} \mathcal{O}_T
+\longrightarrow
+(Z \to T)_*\mathcal{O}_Z,\quad
+(g_f) \longmapsto \sum g_f f|_Z
+$$
+is surjective (equivalently an isomorphism). Here for $f \in A$
+and $Z \in \text{Hilb}^d_{X/S}(T)$ we denote $f|_Z$ the pullback of $f$
+by the morphism $Z \to X_T \to X$.
+
+\medskip\noindent
+Openness, i.e., condition (2)(b) of the lemma. This follows from
+Algebra, Lemma \ref{algebra-lemma-cokernel-flat}.
+
+\medskip\noindent
+Covering, i.e., condition (2)(c) of the lemma. Since
+$$
+A \otimes_R \mathcal{O}_T =
+(X_T \to T)_*\mathcal{O}_{X_T} \to (Z \to T)_*\mathcal{O}_Z
+$$
+is surjective and since $(Z \to T)_*\mathcal{O}_Z$ is finite locally
+free of rank $d$, for every point $t \in T$ we can find a finite
+subset $W \subset A$ of cardinality $d$ whose images form a basis
+of the $d$-dimensional $\kappa(t)$-vector space
+$((Z \to T)_*\mathcal{O}_Z)_t \otimes_{\mathcal{O}_{T, t}} \kappa(t)$.
+By Nakayama's lemma there is an open neighbourhood $V \subset T$
+of $t$ such that $Z_V \in F_W(V)$.
+
+\medskip\noindent
+Representable, i.e., condition (2)(a) of the lemma. Let $W \subset A$
+have cardinality $d$. We claim that $F_W$ is representable by an affine
+scheme over $R$. We will construct this affine scheme here, but we encourage
+the reader to think it trough for themselves. Choose a numbering
+$f_1, \ldots, f_d$ of the elements of $W$. We will construct a universal
+element $Z_{univ} = \Spec(B_{univ})$ of $F_W$ over $T_{univ} = \Spec(R_{univ})$
+which will be the spectrum of
+$$
+B_{univ} = R_{univ}[e_1, \ldots, e_d]/
+(e_ke_l - \sum c_{kl}^m e_m)
+$$
+where the $e_l$ will be the images of the $f_l$
+and where the closed immersion $Z_{univ} \to X_{T_{univ}}$ is given
+by the ring map
+$$
+A \otimes_R R_{univ} \longrightarrow B_{univ}
+$$
+mapping $1 \otimes 1$ to $\sum b^le_l$ and $x_i$ to $\sum b_i^le_l$.
+In fact, we claim that $F_W$ is represented by the spectrum of the ring
+$$
+R_{univ} = R[c_{kl}^m, b^l, b_i^l]/\mathfrak a_{univ}
+$$
+where the ideal $\mathfrak a_{univ}$ is generated by the
+following elements:
+\begin{enumerate}
+\item multiplication on $B_{univ}$ is commutative, i.e.,
+$c_{lk}^m - c_{kl}^m \in \mathfrak a_{univ}$,
+\item multiplication on $B_{univ}$ is associative, i.e.,
+$c_{lk}^m c_{m n}^p - c_{lq}^p c_{kn}^q \in \mathfrak a_{univ}$,
+\item $\sum b^le_l$ is a multiplicative $1$ in $B_{univ}$,
+in other words, we should have $(\sum b^le_l)e_k = e_k$ for all $k$,
+which means $\sum b^lc_{lk}^m - \delta_{km} \in \mathfrak a_{univ}$
+(Kronecker delta).
+\end{enumerate}
+After dividing out by the ideal $\mathfrak a'_{univ}$ of the elements listed sofar we obtain a well defined of the elements listed sofar we obtain a well
+defined ring map
+$$
+\Psi :
+A \otimes_R R[c_{kl}^m, b^l, b_i^l]/\mathfrak a'_{univ}
+\longrightarrow
+\left(R[c_{kl}^m, b^l, b_i^l]/\mathfrak a'_{univ}\right)
+[e_1, \ldots, e_d]/(e_ke_l - \sum c_{kl}^m e_m)
+$$
+sending $1 \otimes 1$ to $\sum b^le_l$ and $x_i \otimes 1$ to $\sum b_i^le_l$.
+We need to add some more elements to our ideal because we need
+\begin{enumerate}
+\item[(5)] $f_l$ to map to $e_l$ in $B_{univ}$. Write
+$\Psi(f_l) - e_l = \sum h_l^me_m$ with
+$h_l^m \in R[c_{kl}^m, b^l, b_i^l]/\mathfrak a'_{univ}$
+then we need to set $h_l^m$ equal to zero.
+\end{enumerate}
+Thus setting $\mathfrak a_{univ} \subset R[c_{kl}^m, b^l, b_i^l]$
+equal to $\mathfrak a'_{univ} + $ ideal generated by
+lifts of $h_l^m$ to $R[c_{kl}^m, b^l, b_i^l]$, then
+it is clear that $F_W$ is represented by $\Spec(R_{univ})$.
+\end{proof}
+
+\begin{proposition}
+\label{proposition-hilb-d-representable}
+Let $X \to S$ be a morphism of schemes. Let $d \geq 0$. Assume
+for all $(s, x_1, \ldots, x_d)$ where $s \in S$ and
+$x_1, \ldots, x_d \in X_s$ there exists an affine open $U \subset X$
+with $x_1, \ldots, x_d \in U$. Then $\text{Hilb}^d_{X/S}$ is
+representable by a scheme.
+\end{proposition}
+
+\begin{proof}
+Either using relative glueing (Constructions, Section
+\ref{constructions-section-relative-glueing}) or using
+the functorial point of view
+(Schemes, Lemma \ref{schemes-lemma-glue-functors})
+we reduce to the case where $S$ is affine. Details omitted.
+
+\medskip\noindent
+Assume $S$ is affine. For $U \subset X$ affine open, denote
+$F_U \subset \text{Hilb}^d_{X/S}$ the subfunctor parametrizing
+closed subschemes of $U$. We will use
+Schemes, Lemma \ref{schemes-lemma-glue-functors}
+and the subfunctors $F_U$ to conclude.
+
+\medskip\noindent
+Condition (1) is Lemma \ref{lemma-hilb-d-sheaf}.
+
+\medskip\noindent
+Condition (2)(a) follows from the fact that
+$F_U = \text{Hilb}^d_{U/S}$ and that this is representable
+by Lemma \ref{lemma-hilb-d-An}.
+
+\medskip\noindent
+Let $Z \in \text{Hilb}^d_{X/S}(T)$ for some scheme $T$ over $S$. Let
+$$
+B = (Z \to T)\left((Z \to X_T \to X)^{-1}(X \setminus U)\right)
+$$
+This is a closed subset of $T$ and it is clear that over the open
+$T_{Z, U} = T \setminus B$ the restriction $Z_{t'}$ maps into $U_{T'}$.
+On the other hand, for any $b \in B$ the fibre $Z_b$ does not map
+into $U$. Thus we see that given a morphism $T' \to T$ we
+have $Z_{T'} \in F_U(T')$ $\Leftrightarrow$ $T' \to T$ factors through
+the open $T_{Z, U}$. This proves condition (2)(b).
+
+\medskip\noindent
+Condition (2)(c) follows from our assuption on $X/S$. All we have
+to do is show the following: If $T$ is the spectrum of a field
+and $Z \subset X_T$ is a closed subscheme, finite flat of degree
+$d$ over $T$, then $Z \to X_T \to X$ factors through an affine open
+$U$ of $X$. This is clear because $Z$ will have at most $d$ points
+and these will all map into the fibre of $X$ over the image point
+of $T \to S$.
+\end{proof}
+
+
+
+
+\section{Moduli of divisors on smooth curves}
+\label{section-divisors}
+
+\noindent
+A few remarks on divisors on smooth curves.
+
+\begin{lemma}
+\label{lemma-divisors-on-curves}
+Let $X \to S$ be a smooth morphism of schemes of relative dimension $1$.
+Let $D \subset X$ be a closed subscheme. The following are equivalent
+\begin{enumerate}
+\item $D$ is a relative effective Cartier divisor on $X/S$, and
+\item $D \to S$ is locally quasi-finite, flat, and
+locally of finite presentation.
+\end{enumerate}
+If $S$ is Noetherian, then (1) and (2) are also equivalent to
+\begin{enumerate}
+\item[(3)] $D \to S$ is locally quasi-finite and flat.
+\end{enumerate}
+If $X \to S$ is proper (and $S$ arbitrary), then (1) and (2)
+are also equivalent to
+\begin{enumerate}
+\item[(4)] $D \to S$ is finite locally free.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Equivalence of (1) and (2). This follows from
+Divisors, Lemma \ref{divisors-lemma-fibre-Cartier}
+if we can show the equivalence of (1) and (2) when
+$S$ is the spectrum of a field $k$. Since $X$ is smooth of dimension $1$
+over $k$, we see that $X$ is a disjoint union of smooth curves
+over $k$. Hence the local rings at closed points are discrete
+valuation rings. It follows that every sheaf of ideals
+$\mathcal{I} \subset \mathcal{O}_X$ which is nonvanishing at all
+the generic points of $X$ is invertible.
+
+\medskip\noindent
+FIXME.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-sum-divisors-on-curves}
+Let $X \to S$ be a smooth morphism of schemes of relative dimension $1$.
+Let $D_1, D_2 \subset X$ be closed subschemes finite locally free of
+degrees $d_1$, $d_2$ over $S$. Then $D_1 + D_2$ is finite locally free
+of degree $d_1 + d_2$ over $S$.
+\end{lemma}
+
+\begin{proof}
+By Lemma \ref{lemma-divisors-on-curves} we see that $D_1$
+and $D_2$ are relative effective Cartier divisors on $X/S$.
+Thus $D = D_1 + D_2$ is a relative effective Cartier divisor
+on $X/S$ by
+Divisors, Lemma \ref{divisors-lemma-sum-relative-effective-Cartier-divisor}.
+Hence $D \to S$ is locally quasi-finite, flat, and
+locally of finite presentation by
+Lemma \ref{lemma-divisors-on-curves}.
+Applying
+Morphisms, Lemma \ref{morphisms-lemma-image-universally-closed-separated}
+the the surjective integral morphism $D_1 \amalg D_2 \to D$
+we find that $D \to S$ is separated. Then
+Morphisms, Lemma \ref{morphisms-lemma-image-proper-is-proper}
+implies that $D \to S$ is proper.
+This implies that $D \to S$ is finite
+(More on Morphisms, Lemma \ref{more-morphisms-lemma-characterize-finite})
+and in turn we see that $D \to S$ is finite locally free
+(Morphisms, Lemma \ref{morphisms-lemma-finite-flat}).
+Thus it suffice to show that the degree of $D \to S$ is $d_1 + d_2$.
+To do this we may base change to a fibre of $X \to S$, hence we may
+assume that $S = \Spec(k)$ for some field $k$.
+In this case, there exists a finite set of closed points
+$x_1, \ldots, x_n \in X$ such that $D_1$ and $D_2$
+are supported on $\{x_1, \ldots, x_n\}$.
+In fact, there are nonzerodivisors $f_{i, j} \in \mathcal{O}_{X, x_i}$
+such that
+$$
+D_1 = \coprod \Spec(\mathcal{O}_{X, x_i}/(f_{i, 1}))
+\quad\text{and}\quad
+D_2 = \coprod \Spec(\mathcal{O}_{X, x_i}/(f_{i, 2}))
+$$
+Then we see that
+$$
+D = \coprod \Spec(\mathcal{O}_{X, x_i}/(f_{i, 1}f_{i, 2}))
+$$
+From this one sees easily that $D$ has degree $d_1 + d_2$
+over $k$ (if need be, use Algebra, Lemma \ref{algebra-lemma-ord-additive}).
+\end{proof}
+
+
+
+
+
+
+
+
+\input{chapters}
+
+\bibliography{my}
+\bibliographystyle{amsalpha}
+
+\end{document}

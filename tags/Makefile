@@ -15,7 +15,7 @@ LIJST = introduction conventions sets categories \
 	schemes constructions properties morphisms coherent divisors limits \
 	varieties topologies descent perfect more-morphisms flat groupoids \
 	more-groupoids etale \
-	chow intersection \
+	chow intersection pic \
 	adequate dualizing etale-cohomology crystalline proetale \
 	spaces spaces-properties spaces-morphisms decent-spaces \
 	spaces-cohomology spaces-limits spaces-divisors spaces-over-fields \
