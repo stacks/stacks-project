@@ -207,6 +207,37 @@ and the Leray spectral sequence. See
 Cohomology, Lemma \ref{cohomology-lemma-apply-Leray}.
 \end{proof}
 
+\noindent
+The following two lemmas explain when {\v C}ech cohomology
+can be used to compute cohomology of quasi-coherent modules.
+
+\begin{lemma}
+\label{lemma-affine-diagonal}
+Let $X$ be a scheme. The following are equivalent
+\begin{enumerate}
+\item $X$ has affine diagonal $\Delta : X \to X \times X$,
+\item for $U, V \subset X$ affine open, the intersection
+$U \cap V$ is affine, and
+\item there exists an open covering $\mathcal{U} : X = \bigcup_{i \in I} U_i$
+such that $U_{i_0 \ldots i_p}$ is affine open for all $p \ge 0$ and all
+$i_0, \ldots, i_p \in I$.
+\end{enumerate}
+In particular this holds if $X$ is separated.
+\end{lemma}
+
+\begin{proof}
+Assume $X$ has affine diagonal. Let $U, V \subset X$ be affine opens.
+Then $U \cap V = \Delta^{-1}(U \times V)$ is affine. Thus (2) holds.
+It is immediate that (2) implies (3). Conversely, if there is a
+covering of $X$ as in (3), then $X \times X = \bigcup U_i \times U_{i'}$
+is an affine open covering, and we see that
+$\Delta^{-1}(U_i \times U_{i'}) = U_i \cap U_{i'}$
+is affine. Then $\Delta$ is an affine morphism by
+Morphisms, Lemma \ref{morphisms-lemma-characterize-affine}.
+The final assertion follows from Schemes, Lemma
+\ref{schemes-lemma-characterize-separated}.
+\end{proof}
+
 \begin{lemma}
 \label{lemma-cech-cohomology-quasi-coherent}
 Let $X$ be a scheme.
@@ -517,10 +548,10 @@ $U_i \cap U_n$ is separated as an open subscheme of the affine scheme $U_n$.
 
 \begin{lemma}
 \label{lemma-vanishing-nr-affines}
-Let $X$ be a quasi-compact separated scheme.
+Let $X$ be a quasi-compact scheme with affine diagonal (for example
+if $X$ is separated).
 Let $t = t(X)$ be the minimal number of affine opens needed to
-cover $X$.
-Then $H^n(X, \mathcal{F}) = 0$ for all $n \geq t$ and all
+cover $X$. Then $H^n(X, \mathcal{F}) = 0$ for all $n \geq t$ and all
 quasi-coherent sheaves $\mathcal{F}$.
 \end{lemma}
 
@@ -533,8 +564,9 @@ If $t > 1$ write $X = U \cup V$ with $V$ affine open and
 $U = U_1 \cup \ldots \cup U_{t - 1}$ a union of $t - 1$ open affines.
 Note that in this case
 $U \cap V =  (U_1 \cap V) \cup \ldots (U_{t - 1} \cap V)$
-is also a union of $t - 1$ affine open subschemes, see
-Schemes, Lemma \ref{schemes-lemma-characterize-separated}.
+is also a union of $t - 1$ affine open subschemes.
+Namely, since the diagonal is affine, the intersection of two
+affine opens is affine, see Lemma \ref{lemma-affine-diagonal}.
 We apply the Mayer-Vietoris long exact sequence
 $$
 0 \to
@@ -552,9 +584,9 @@ is zero for $i \geq t$.
 \medskip\noindent
 Second proof.
 Let $\mathcal{U} : X = \bigcup_{i = 1}^t U_i$ be a finite affine open
-covering. Since $X$ is separated the multiple intersections
+covering. Since $X$ is has affine diagonal the multiple intersections
 $U_{i_0 \ldots i_p}$ are all affine, see
-Schemes, Lemma \ref{schemes-lemma-characterize-separated}.
+Lemma \ref{lemma-affine-diagonal}.
 By Lemma \ref{lemma-cech-cohomology-quasi-coherent} the Cech
 cohomology groups $\check{H}^p(\mathcal{U}, \mathcal{F})$
 agree with the cohomology groups. By
@@ -564,6 +596,45 @@ Cech complex $\check{\mathcal{C}}_{alt}^\bullet(\mathcal{U}, \mathcal{F})$.
 As the covering consists of $t$ elements we see immediately
 that $\check{\mathcal{C}}_{alt}^p(\mathcal{U}, \mathcal{F}) = 0$
 for all $p \geq t$. Hence the result follows.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-affine-diagonal-universal-delta-functor}
+Let $X$ be a quasi-compact scheme with affine diaganal
+(for example if $X$ is separated). Then
+\begin{enumerate}
+\item given a quasi-coherent $\mathcal{O}_X$-module $\mathcal{F}$
+there exists an embedding $\mathcal{F} \to \mathcal{F}'$ of
+quasi-coherent $\mathcal{O}_X$-modules
+such that $H^p(X, \mathcal{F}') = 0$ for all $p \geq 1$, and
+\item $\{H^n(X, -)\}_{n \geq 0}$
+is a universal $\delta$-functor from $\QCoh(\mathcal{O}_X)$ to
+$\textit{Ab}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Let $X = \bigcup U_i$ be an affine open covering.
+Set $U = \coprod U_i$ and denote $f : U \to X$
+the morphism inducing the given open immersions $U_i \to X$.
+For every $\mathcal{O}_X$-module $\mathcal{F}$ there is
+a canonical map $\mathcal{F} \to j_*j^*\mathcal{F}$.
+This map is injective as can be seen by checking on stalks:
+if $x \in U_i$, then we have a factorization
+$$
+\mathcal{F}_x \to (j_*j^*\mathcal{F})_x
+\to (j^*\mathcal{F})_{x'} = \mathcal{F}_x
+$$
+where $x' \in U$ is the point $x$ viewed as a point of $U_i \subset U$.
+Now if $\mathcal{F}$ is quasi-coherent, then $j^*\mathcal{F}$
+is quasi-coherent on the affine scheme $U$ hence has vanishing
+higher cohomology. Then $H^p(X, j_*j^*\mathcal{F}) = 0$ for
+$p > 0$ by Lemma \ref{lemma-relative-affine-cohomology} as $j$ is affine by
+Morphisms, Lemma \ref{morphisms-lemma-affine-permanence}.
+This proves (1).
+Then $H^p(X, \mathcal{F}) \to H^p(X, j_*j^*\mathcal{F})$
+is zero and part (2) follows from
+Homology, Lemma \ref{homology-lemma-efface-implies-universal}.
 \end{proof}
 
 \begin{lemma}
@@ -1023,7 +1094,8 @@ f_*{\mathfrak C}^\bullet(\mathcal{U}, \mathcal{F})$
 of quasi-coherent $\mathcal{O}_S$-modules.
 The morphisms $j_{i_0 \ldots i_p} : U_{i_0 \ldots i_p} \to X$
 and the morphisms $f_{i_0 \ldots i_p} : U_{i_0 \ldots i_p} \to S$
-are affine by Morphisms, Lemma \ref{morphisms-lemma-affine-permanence}.
+are affine by Morphisms, Lemma \ref{morphisms-lemma-affine-permanence}
+and Lemma \ref{lemma-affine-diagonal}.
 Hence $R^qj_{i_0 \ldots i_p *}\mathcal{F}_{i_0 \ldots i_p}$
 as well as $R^qf_{i_0 \ldots i_p *}\mathcal{F}_{i_0 \ldots i_p}$
 are zero for $q > 0$ (Lemma \ref{lemma-relative-affine-vanishing}).
