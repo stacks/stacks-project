@@ -16,13 +16,14 @@ LIJST = introduction conventions sets categories \
 	varieties topologies descent perfect more-morphisms flat groupoids \
 	more-groupoids etale \
 	chow intersection pic \
-	adequate dualizing etale-cohomology crystalline proetale \
+	adequate dualizing resolve etale-cohomology crystalline proetale \
 	spaces spaces-properties spaces-morphisms decent-spaces \
 	spaces-cohomology spaces-limits spaces-divisors spaces-over-fields \
 	spaces-topologies \
 	spaces-descent spaces-perfect spaces-more-morphisms spaces-pushouts \
 	spaces-groupoids spaces-more-groupoids bootstrap \
-	groupoids-quotients spaces-simplicial formal-spaces restricted resolve \
+	groupoids-quotients spaces-simplicial formal-spaces restricted \
+	spaces-resolve \
 	formal-defos defos cotangent \
 	algebraic examples-stacks stacks-sheaves criteria artin quot \
 	stacks-properties stacks-morphisms stacks-cohomology stacks-perfect \
