@@ -14049,37 +14049,88 @@ Lemma \ref{lemma-cohomology-perfect}
 
 \begin{lemma}
 \label{lemma-dual-perfect-complex}
-Let $K^\bullet$ be a perfect complex over a ring $A$. There exists a
-perfect complex $E^\bullet$ such that we have functorial isomorphisms
+Let $A$ be a ring. Let $K \in D(A)$ be perfect. Then $K^\vee = R\Hom(K, A)$
+is a perfect complex and $K = (K^\vee)^\vee$. There are functorial
+isomorphisms
 $$
-H^0(K^\bullet \otimes_A^\mathbf{L} L^\bullet) =
-\text{Ext}_A^0(E^\bullet, L^\bullet)
+K^\vee \otimes_A^\mathbf{L} L = R\Hom(K, L)
+\quad\text{and}\quad
+H^0(K^\vee \otimes_A^\mathbf{L} L) = \text{Ext}_A^0(K, L)
 $$
-for $L^\bullet \in D(A)$.
+for $L \in D(A)$.
 \end{lemma}
 
 \begin{proof}
-We may assume that $K^\bullet$ is a finite complex of finite projective
-$A$-modules. The cohomology group on the left is simply
-$H^0(\text{Tot}(K^\bullet \otimes_A L^\bullet))$. Set
-$E^\bullet = \Hom_A(K^\bullet, A)$, i.e., $E^n = \Hom_A(K^{-n}, A)$
-with differentials the transpose of the differentials of $K^\bullet$.
-Observe that $E^\bullet$ is a finite complex of finite projective $A$-modules.
-The group on the right
-is $\Mor_{K(\text{Mod}_A)}(E^\bullet, L^\bullet)$ by
+We can represent $K$ by a complex $K^\bullet$ of finite projective
+$A$-modules. By
+Lemma \ref{lemma-RHom-out-of-projective} the object $K^\vee$
+is represented by the complex $E^\bullet = \Hom^\bullet(K^\bullet, A)$.
+Note that $E^n = \Hom_A(K^{-n}, A)$ and the differentials of
+$E^\bullet$ are the transpose of the differentials of $K^\bullet$.
+Thus the formula $(K^\vee)^\vee = K$ is clear from the fact that
+the double dual of a finite projective module is itself.
+
+\medskip\noindent
+The second equality follows from the first by
+Lemma \ref{lemma-internal-hom} and
 Derived Categories, Lemma \ref{derived-lemma-morphisms-from-projective-complex}
-and the definition of Ext groups, see
+as well as the definition of Ext groups, see
 Derived Categories, Section \ref{derived-section-ext}.
-By definition this is the cohomology of
+Let us prove the first equality.
+
+\medskip\noindent
+Let $L^\bullet$ be a complex of $A$-modules representing $L$.
+The object on the left of the first equality is represented by
+$\text{Tot}(E^\bullet \otimes_A L^\bullet)$.
+The object on the right of the first equality sign
+is represented by the complex $\Hom^\bullet(K^\bullet, L^\bullet)$ by
+the same lemma as before. Thus the equality follows from the
+fact that
 $$
-\prod\nolimits_n \Hom_A(E^n, L^{n - 1})
-\to
-\prod\nolimits_n \Hom_A(E^n, L^n)
-\to
-\prod\nolimits_n \Hom_A(E^n, L^{n + 1})
+\Hom_A(K^n, A) \otimes_A L^m = \Hom_A(K^n, L^m)
 $$
-Using $\Hom_A(E^n, L) = K^{-n} \otimes_A L$ as $K^{-n}$ is finite
-projective, we see that the cohomology groups are the same.
+for all $n, m$ because $K^n$ is finite projective.
+To be a bit more precise we define the map on the level of complexes
+$$
+\text{Tot}(E^\bullet \otimes_A L^\bullet) =
+\text{Tot}(\Hom^\bullet(A, L^\bullet) \otimes_A \Hom^\bullet(K^\bullet, A))
+\longrightarrow
+\Hom^\bullet(K^\bullet, L^\bullet)
+$$
+using Lemma \ref{lemma-composition} and then the statement above
+shows this is an isomorphism of complexes.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-colim-and-lim-of-duals}
+\begin{slogan}
+Trivial duality for systems of perfect objects.
+\end{slogan}
+Let $A$ be a ring. Let $(K_n)_{n \in \mathbf{N}}$ be a system of
+perfect objects of $D(A)$. Let $K = \text{hocolim} K_n$ be the derived colimit
+(Derived Categories, Definition \ref{derived-definition-derived-colimit}).
+Then for any object $E$ of $D(A)$ we have
+$$
+R\SheafHom(K, E) = R\lim E \otimes^\mathbf{L}_\mathcal{O} K_n^\vee
+$$
+where $(K_n^\vee)$ is the inverse system of dual perfect complexes.
+\end{lemma}
+
+\begin{proof}
+By Lemma \ref{lemma-dual-perfect-complex} we have
+$R\lim E \otimes^\mathbf{L}_A K_n^\vee =
+R\lim R\SheafHom(K_n, E)$
+which fits into the distinguished triangle
+$$
+R\lim R\SheafHom(K_n, E) \to
+\prod R\SheafHom(K_n, E) \to
+\prod R\SheafHom(K_n, E)
+$$
+Because $K$ similarly fits into the distinguished triangle
+$\bigoplus K_n \to \bigoplus K_n \to K$ it suffices to show that
+$\prod R\SheafHom(K_n, E) = R\SheafHom(\bigoplus K_n, E)$.
+This is a formal consequence of (\ref{equation-internal-hom})
+and the fact that derived tensor product commutes with direct sums.
 \end{proof}
 
 \begin{lemma}
@@ -18494,7 +18545,7 @@ adjoint to the inclusion functor $D_{comp}(A) \to D(A)$
 constructed in Lemma \ref{lemma-derived-completion}.
 \end{lemma}
 
-\begin{proof}
+\begin{proof}[First proof]
 The assignment $K \leadsto K'$ is a functor and $K'$ is derived
 complete with respect to $I$ by
 Lemma \ref{lemma-koszul-derived-completion-complete}.
@@ -18502,6 +18553,36 @@ By a formal argument (omitted) we see that it suffices
 to show $K \to K'$ is an isomorphism if $K$ is derived complete
 with respect to $I$. This is
 Lemma \ref{lemma-characterize-derived-complete-Koszul}.
+\end{proof}
+
+\begin{proof}[Second proof]
+Denote $K \mapsto K^\wedge$ the adjoint constructed in
+Lemma \ref{lemma-derived-completion}. By that lemma we have
+$$
+K^\wedge = R\Hom\left((A \to \prod\nolimits_{i_0} A_{f_{i_0}} \to
+\prod\nolimits_{i_0 < i_1} A_{f_{i_0}f_{i_1}}
+\to \ldots \to A_{f_1\ldots f_r}), K\right)
+$$
+In Lemma \ref{lemma-extended-alternating-Cech-is-colimit-koszul}
+we have seen that the extended alternating {\v C}ech complex
+$$
+A \to \prod\nolimits_{i_0} A_{f_{i_0}} \to
+\prod\nolimits_{i_0 < i_1} A_{f_{i_0}f_{i_1}}
+\to \ldots \to A_{f_1\ldots f_r}
+$$
+is a colimit of the Koszul complexes
+$K^n = K(A, f_1^n, \ldots, f_r^n)$ sitting in
+degrees $0, \ldots, r$. Note that $K^n$ is a finite chain complex
+of finite free $A$-modules with dual (as in
+Lemma \ref{lemma-dual-perfect-complex})
+$R\Hom_A(K^n, A) = K_n$ where $K_n$ is the Koszul cochain
+complex sitting in degrees $-r, \ldots, 0$ (as usual).
+Thus it suffices to show that
+$$
+R\Hom(\text{hocolim} K^n, K) =  R\lim (K \otimes_A^\mathbf{L} K_n)
+$$
+This follows from
+Lemma \ref{lemma-colim-and-lim-of-duals}.
 \end{proof}
 
 \begin{lemma}
