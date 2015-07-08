@@ -2622,12 +2622,20 @@ proves the equivalence.
 \noindent
 We first prove some results \'a la Lefschetz.
 
+\begin{situation}
+\label{situation-local-lefschetz}
+Let $(A, \mathfrak m)$ is a Noetherian local ring and $f \in \mathfrak m$.
+We set $X = \Spec(A)$ and $X_0 = \Spec(A/fA)$ and we
+let $U = X \setminus \{\mathfrak m\}$ and
+$U_0 = X_0 \setminus \{\mathfrak m\}$ be the punctured spectrum of
+$A$ and $A/fA$.
+\end{situation}
+
 \begin{lemma}
 \label{lemma-faithful}
-Let $(A, \mathfrak m)$ be a Noetherian local ring. Let $f \in \mathfrak m$.
+In Situation \ref{situation-local-lefschetz}.
 Assume $\dim(A/\mathfrak p) \geq 2$ for every minimal prime
 $\mathfrak p \subset A$ with $f \not \in \mathfrak p$.
-Let $U$, resp.\ $U_0$ be the punctured spectrum of $A$, resp.\ $A/fA$.
 Then
 $$
 V \longmapsto V_0 = V \times_U U_0
@@ -2651,11 +2659,9 @@ we conclude that $a = b$ by \'Etale Morphisms, Proposition
 
 \begin{lemma}
 \label{lemma-fully-faithful}
-Let $(A, \mathfrak m)$ be a Noetherian local ring. Let $f \in \mathfrak m$
-be a nonzerodivisor such that $A$ is $f$-adically complete and such that
-$H^0_\mathfrak m(A/fA) = H^1_\mathfrak m(A/fA) = 0$.
-Let $U$, resp.\ $U_0$ be the punctured spectrum of $A$, resp.\ $A/fA$.
-Then
+In Situation \ref{situation-local-lefschetz}.
+Asssume $f$ is a nonzerodivisor, that $A$ has depth $\geq 3$, and that
+$A$ is $f$-adically complete. Then
 $$
 V \longmapsto V_0 = V \times_U U_0
 $$
@@ -2666,9 +2672,8 @@ over $U_0$.
 
 \begin{proof}
 The functor is faithful by Lemma \ref{lemma-faithful} (to see the
-assumption of that lemma holds, note that
-$A$ has depth $\geq 3$ by Lemma \ref{lemma-depth}
-and apply Algebra, Lemma \ref{algebra-lemma-depth-dim-associated-primes}).
+assumption of that lemma holds, apply
+Algebra, Lemma \ref{algebra-lemma-depth-dim-associated-primes}).
 Since the category of finite \'etale coverings has an internal hom
 (\'Etale Morphisms, Lemma \ref{etale-lemma-internal-hom-finite-etale})
 it suffices to prove the following: Given $V$ finite \'etale over $U$ we have
@@ -2690,7 +2695,13 @@ into open and closed subschemes whose base change to $U_0$ recovers
 the given decomposition.
 
 \medskip\noindent
-The vanishing of $H^0_\mathfrak m(A/fA)$ and $H^1_\mathfrak m(A/fA)$
+Since $A$ has depth $\geq 3$ and $f$ is a nonzerodivisor, we see
+that $A/fA$ has depth $\geq 2$
+(Algebra, Lemma \ref{algebra-lemma-depth-drops-by-one}).
+This implies the
+vanishing of $H^0_\mathfrak m(A/fA)$ and $H^1_\mathfrak m(A/fA)$, see
+Lemma \ref{lemma-depth}.
+This in turn
 tells us that $A/fA \to \Gamma(U_0, \mathcal{O}_{U_0})$ is an isomorphism, see
 Lemma \ref{lemma-finiteness-pushforwards-and-H1-local}.
 As $f$ is a nonzerodivisor we obtain short exact sequences
@@ -2710,6 +2721,128 @@ $$
 $$
 Since $V \to U$ is affine, this $A$-algebra map corresponds to
 a section $U \to V$ as desired.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-reformulate-purity}
+In Situation \ref{situation-local-lefschetz}. Let $V$ be finite \'etale
+over $U$. Assume $A$ has depth $\geq 2$. The following are equivalent
+\begin{enumerate}
+\item $V = Y \times_X U$ for some $Y \to X$ finite \'etale,
+\item $B = \Gamma(V, \mathcal{O}_V)$ is finite \'etale over $A$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Denote $\pi : V \to U$ the given finite \'etale morphism.
+Assume $Y$ as in (1) exists. Then we obtain an
+$\mathcal{O}_X$-module map
+$$
+(Y \to X)_*\mathcal{O}_Y \longrightarrow j_*\pi_*\mathcal{O}_V
+$$
+We claim
+Divisors, Lemma \ref{divisors-lemma-check-isomorphism-via-depth-and-ass}
+applies to this map. If so, then $B = \Gamma(Y, \mathcal{O}_Y)$
+and we see that (2) holds. Let $x \in X$. If $x \in U$, then the map is an
+isomorphism on stalks as $V = Y \times_X U$.
+If $x$ is the closed point, then
+$x \not \in \text{Ass}(j_*\pi_*\mathcal{O}_V)$
+(Divisors, Lemmas \ref{divisors-lemma-weakass-pushforward} and
+\ref{divisors-lemma-weakly-ass-support}).
+Thus it suffices to show that
+$\text{depth}(((Y \to X)_*\mathcal{O}_Y)_x \geq 2$.
+Let $y_1, \ldots, y_n \in Y$ be the points mapping to $x$.
+By Algebra, Lemma \ref{algebra-lemma-depth-goes-down-finite}
+it suffices to show that
+$\text{depth}(\mathcal{O}_{Y, y_i}) \geq 2$ for $i = 1, \ldots, n$.
+This is true because $Y \to X$ is \'etale and hence
+$A = \mathcal{O}_{X, x}$ and $\mathcal{O}_{Y, y_i}$ have
+the same depth (Algebra, Lemma \ref{algebra-lemma-apply-grothendieck}).
+
+\medskip\noindent
+The implication (2) $\Rightarrow$ (1) is easier and the
+details are omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-purity-and-completion}
+In Situation \ref{situation-local-lefschetz}. Let $V$ be finite \'etale
+over $U$. Let $A^\wedge$ be the completion of $A$, let $X' = \Spec(A^\wedge)$
+and let $U'$ and $V'$ be the base changes of $U$ and $V$ to $X'$.
+The following are equivalent
+\begin{enumerate}
+\item $V = Y \times_X U$ for some $Y \to X$ finite \'etale, and
+\item $V' = Y' \times_{X'} U'$ for some $Y' \to X'$ finite \'etale.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+The implication (1) $\Rightarrow$ (2) follows from taking the base change
+of a solution $Y \to X$. Let $Y' \to X'$ be as in (2). The implication
+in the opposite direction is a straightforward application of
+More on Algebra, Proposition \ref{more-algebra-proposition-equivalence}.
+Namely, choose generators $f_1, \ldots, f_t$ of $\mathfrak m$.
+For each $i$ write $V \times_U D(f_i) = \Spec(B_i)$.
+For $1 \leq i, j \leq n$ we obtain an isomorphism
+$\alpha_{ij} : (B_i)_{f_j} \to (B_j)_{f_i}$ of $A_{f_if_j}$-algebras
+because the spectrum of both represent $V \times_U D(f_if_j)$.
+Write $Y' = \Spec(B')$. Since $V \times_U U' = Y \times_{X'} U'$
+we get isomorphisms $\alpha_i : B'_{f_i} \to B_i \otimes_A A^\wedge$.
+A straightforward argument shows that $(B', B_i, \alpha_i, \alpha_{ij})$
+is an object of $\text{Glue}(A \to A^\wedge, f_1, \ldots, f_t)$, see
+More on Algebra, Remark \ref{more-algebra-remark-glueing-data}.
+Applying the proposition cited above (and using
+More on Algebra, Remark \ref{more-algebra-remark-formal-glueing-algebras}
+to obtain the algebra structure)
+we find an $A$-algebra $B$ such that
+$\text{Can}(B)$ is isomorphic to
+$(B', B_i, \alpha_i, \alpha_{ij})$.
+Setting $Y = \Spec(B)$ we see that $Y \to X$ is a morphism
+which comes equipped with compatible isomorphisms
+$V \cong Y \times_X U$ and $Y' = Y \times_X X'$.
+Finally, by descent we see that $Y \to X$ is finite \'etale
+(Algebra, Lemmas \ref{algebra-lemma-descend-properties-modules} and
+\ref{algebra-lemma-etale}).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-lift-purity}
+In Situation \ref{situation-local-lefschetz}.
+Let $V$ be finite \'etale over $U$. Assume
+\begin{enumerate}
+\item $f$ is a nonzerodivisor,
+\item $A$ has depth $\geq 3$,
+\item $V_0 = V \times_U U_0$ is equal to $Y_0 \times_{X_0} U_0$
+for some $Y_0 \to X_0$ finite \'etale.
+\end{enumerate}
+Then $V = Y \times_X U$ for some $Y \to X$ finite \'etale.
+\end{lemma}
+
+\begin{proof}
+We can reduce to the complete case using
+Lemma \ref{lemma-purity-and-completion}
+but in this case an easier option is available.
+Namely, by Lemma \ref{lemma-reformulate-purity} we have to show that
+$B = \Gamma(V, \mathcal{O}_V)$ is a finite \'etale algebra over $A$.
+Let $A^\wedge$ be the completion of $A$ with respect to $f$.
+Recall that $A \to A^\wedge$ is faithfully flat
+(Algebra, Lemma \ref{algebra-lemma-completion-faithfully-flat}).
+Then $B \otimes_A A^\wedge$ is equal to the global sections
+of the base change of $V$ to $\Spec(A^\wedge)$, see
+Cohomology of Schemes, Lemma \ref{coherent-lemma-flat-base-change-cohomology}.
+Hence we may assume $A$ is $f$-adically complete by descent
+(Algebra, Lemmas \ref{algebra-lemma-descend-properties-modules} and
+\ref{algebra-lemma-etale}).
+
+\medskip\noindent
+In the complete case we can lift $Y_0 \to X_0$ to a finite
+\'etale morphism $Y \to X$ by
+More on Algebra, Lemma \ref{more-algebra-lemma-finite-etale-equivalence};
+observe that $(A, fA)$ is a henselian pair by
+More on Algebra, Lemma \ref{more-algebra-lemma-complete-henselian}.
+Then we can use Lemma \ref{lemma-fully-faithful}
+to see that $V$ is isomorphic to $Y \times_X U$ and
+the proof is complete.
 \end{proof}
 
 \noindent
@@ -2749,7 +2882,7 @@ $f : M \to M$ is injective. The cokernel of $f : M \to M$
 is the image of $M \to M_0$. Namely, if $m = (m_n)$ is an element
 of $M$ with $m_0 = 0$, then each $m_{n + 1}$ is in the image of
 $M_n \to M_{n + 1}$ by assumption (2).
-If $m'_n \in B_n$ maps to $m_{n + 1}$ then $f(m'_n) = (m_n)$ in $M$.
+If $m'_n \in M_n$ maps to $m_{n + 1}$ then $f(m'_n) = (m_n)$ in $M$.
 Since $A$ is Noetherian and $M_0$ is finite, we see that
 $M/fM \subset M_0$ is a finite module. By
 Algebra, Lemma \ref{algebra-lemma-finite-over-complete-ring}
@@ -2758,10 +2891,9 @@ we conclude that $M$ is finite over $A$.
 
 \begin{lemma}
 \label{lemma-faithful-general}
-Let $(A, \mathfrak m)$ be a Noetherian local ring. Let $f \in \mathfrak m$.
+In Situation \ref{situation-local-lefschetz}.
 Assume $\dim(A/\mathfrak p) \geq 2$ for every minimal prime
 $\mathfrak p \subset A$ with $f \not \in \mathfrak p$.
-Let $U$, resp.\ $U_0$ be the punctured spectrum of $A$, resp.\ $A/fA$.
 If $U' \subset U$ is open and contains $U_0$, then
 $$
 V' \longmapsto V_0 = V' \times_{U'} U_0
@@ -2780,17 +2912,16 @@ every minimal prime $\mathfrak p$ of $A$. This implies that every
 irreducible component of $U'$ meets $U_0$.
 The image of any irreducible component of $V'$ is an
 irreducible component of $U'$ and hence meets $U_0$.
-Hence $V'_0$ meets every connected component of $V'$ and
+Hence $V_0$ meets every connected component of $V'$ and
 we conclude that $a = b$ by \'Etale Morphisms, Proposition
 \ref{etale-proposition-equality}.
 \end{proof}
 
 \begin{lemma}
 \label{lemma-fully-faithful-general}
-Let $(A, \mathfrak m)$ be a Noetherian local ring. Let $f \in \mathfrak m$
-be a nonzerodivisor. Assume $A$ is $f$-adically complete and that
+In Situation \ref{situation-local-lefschetz}.
+Assume $f$ is a nonzerodivisor, $A$ is $f$-adically complete, and that
 $H^1_\mathfrak m(A/fA)$ is a finite $A$-module.
-Let $U$, resp.\ $U_0$ be the punctured spectrum of $A$, resp.\ $A/fA$.
 Let $V'$, $W'$ be finite \'etale over an open $U' \subset U$
 which contains $U_0$. Let
 $\varphi_0 : V' \times_{U'} U_0 \to W' \times_{U'} U_0$
@@ -2809,7 +2940,8 @@ any section $U_0 \to V' \times_{U'} U_0$ extends to a section of $V'$
 over some open $U'' \subset U'$ containing $U_0$.
 Given our section we obtain a decomposition
 $V' \times_{U'} U_0 = U_0 \amalg R_0$ into open and closed subschemes.
-We will show that this implies the same thing for $V$ thereby
+We will show that this implies the same thing for $V' \times_{U'} U''$
+for some $U'' \subset U'$ open containing $U_0$ thereby
 finishing the proof.
 
 \medskip\noindent
@@ -2860,6 +2992,145 @@ isomorphism over an open $U'' \subset U'$ which produces
 the desired section by the above.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-same-etale-extensions}
+In Situation \ref{situation-local-lefschetz}. Assume the punctured spectrum
+of the strict henselization of $A$ is connected. Then the functor
+$$
+Y \longmapsto Y \times_X U
+$$
+is a fully faithful functor between the category of schemes
+finite \'etale over $X$ and the category of schemes finite \'etale
+over $U$.
+\end{lemma}
+
+\begin{proof}
+Assume $A$ is strictly henselian. In this case any finite \'etale
+cover $Y$ of $X$ is isomorphic to a finite disjoint union of
+copies of $X$. Thus it suffices to prove that any morphism
+$U \to U \amalg \ldots \amalg U$ over $U$, extends uniquely to a morphism
+$X \to X \amalg \ldots \amalg X$ over $X$.
+If $U$ is connected, then this is true.
+
+\medskip\noindent
+The general case.
+Since the category of finite \'etale coverings has an internal hom
+(\'Etale Morphisms, Lemma \ref{etale-lemma-internal-hom-finite-etale})
+it suffices to prove the following: Given $Y$ finite \'etale over $X$
+any morphism $s : U \to Y$ over $X$ extends to a morphism $t : X \to Y$
+over $Y$. If so, then $t(X) \subset Y$ is an open and closed subscheme
+isomorphic to $X$. In other words, $t$ exists if and only if
+the closure of $s(U) \subset Y$ is open and maps isomorphically to $X$.
+This we may check after base change to the strict henselization
+where the result is true by the discussion in the first paragraph.
+Some details omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-depth-2-connected-punctured-spectrum}
+\begin{reference}
+\cite[Proposition 2.1]{lemma-finiteness-pushforwards-and-H1-local}
+\end{reference}
+\begin{slogan}
+Hartshorne's connectedness
+\end{slogan}
+Let $A$ be a Noetherian local ring of depth $\geq 2$.
+Then the punctured spectrum of $A$ is connected.
+\end{lemma}
+
+\begin{proof}
+Let $U$ be the puctured spectrum of $A$.
+If $U$ is disconnected then we see that
+$\Gamma(U, \mathcal{O}_U)$ has a nontrivial idempotent.
+But $A$, being local, does not have a nontrivial idempotent.
+Hence $A \to \Gamma(U, \mathcal{O}_U)$ is not an isomorphism.
+By Lemma \ref{lemma-finiteness-pushforwards-and-H1-local}
+we conclude that either $H^0_\mathfrak m(A)$ or $H^1_\mathfrak m(A)$
+is nonzero. Thus $\text{depth}(A) \leq 1$ by
+Lemma \ref{lemma-depth}.
+\end{proof}
+
+\noindent
+The point of the following lemma is that the assumptions do not force
+$A$ to have depth $\geq 3$. For example if $A$ is a complete normal
+local domain of dimension $\geq 3$ and $f \in \mathfrak m$ is nonzero,
+then the assumptions are satisfied.
+
+\begin{lemma}
+\label{lemma-lift-purity-general}
+In Situation \ref{situation-local-lefschetz}.
+Let $V$ be finite \'etale over $U$. Assume
+\begin{enumerate}
+\item $f$ is a nonzerodivisor,
+\item $A$ is universally catenary,
+\item $A[1/f]$ satisfies $(S_2)$,
+\item the formal fibres of $A$ are $(S_2)$,
+\item $H^1_\mathfrak m(A/fA)$ is a finite $A$-module,
+\item $\dim(A/\mathfrak p) \geq 3$ for every minimal prime
+$\mathfrak p \subset A$,
+\item $V_0 = V \times_U U_0$ is equal to $Y_0 \times_{X_0} U_0$
+for some $Y_0 \to X_0$ finite \'etale.
+\end{enumerate}
+Then $V = Y \times_X U$ for some $Y \to X$ finite \'etale.
+\end{lemma}
+
+\begin{proof}
+Let $A^\wedge$ be the completion of $A$.
+Assumptions (3) and (4) serve to guarantee that $A^\wedge[1/f]$
+is $(S_2)$, see Algebra, Lemma \ref{algebra-lemma-Sk-goes-up}.
+Conditions (2) and (6) imply (6) for $A^\wedge$ via
+Proposition \ref{proposition-ratliff} (note that minimal
+primes of $A^\wedge$ lie over minimal primes of $A$ because
+$A \to A^\wedge$ is flat). Property (5) is preserved by
+passing from $A$ to $A^\wedge$ as follows from
+Lemma \ref{lemma-torsion-change-rings}. Thus we reduce to the complete
+case using Lemma \ref{lemma-purity-and-completion}.
+
+\medskip\noindent
+Assume $A$ is complete. In this case there exists a finite \'etale
+morphism $Y \to X$ lifting $Y_0 \to X_0$ by
+More on Algebra, Lemma \ref{more-algebra-lemma-finite-etale-equivalence}
+(also uses
+More on Algebra, Lemma \ref{more-algebra-lemma-complete-henselian}).
+By Lemmas \ref{lemma-fully-faithful-general} and \ref{lemma-faithful-general}
+there exists an isomorphism $V \times_U U' \to Y \times_X U'$ for some
+$U' \subset U$ open containing $U_0$ lifting the given isomorphism over $U_0$.
+To finish the proof we will show that this isomorphism extends to an
+isomorphism $V \to Y \times_X U$.
+
+\medskip\noindent
+Namely, let $\mathfrak p \subset A$ correspond to a point of $U$ but not
+a point of $U'$. Then $V(\mathfrak p) \cap V(f) = \{\mathfrak m\}$.
+Hence $\dim(A/\mathfrak p) = 1$ by
+Algebra, Lemma \ref{algebra-lemma-one-equation}.
+Hence $\mathfrak p$ corresponds to a closed point of $U$.
+In particular $U \setminus U'$ is finite.
+If we can extend our isomorphism to a morphism over
+$U \cup \{\mathfrak p\}$, then we win by induction on
+the cardinality of $U \setminus U'$.
+To extend over $U \cup \{\mathfrak p\}$
+it suffices to extend the morphism over $\Spec(A_\mathfrak p)$.
+This is true because the category of schemes of finite presentation
+over $A_\mathfrak p$ is the limit of the category of schemes of
+finite presentation over $A_g$, $g \in A \setminus \mathfrak p$ by
+Limits, Lemma \ref{limits-lemma-descend-finite-presentation}.
+Note that both $V \times_U \Spec(A_\mathfrak p)$
+and $Y \times_U \Spec(A_\mathfrak p)$ are finite \'etale
+over $A_\mathfrak p$. Hence we will obtain our extension if
+Lemma \ref{lemma-same-etale-extensions}
+applies to the local ring $A_\mathfrak p$.
+Below we will show that $\text{depth}(A_\mathfrak p) \geq 2$.
+This will show that $A_\mathfrak p^{sh}$ has depth $\geq 2$
+(More on Algebra, Lemma \ref{more-algebra-lemma-henselization-depth})
+and hence the assumption of the lemma above by
+Lemma \ref{lemma-depth-2-connected-punctured-spectrum}.
+
+\medskip\noindent
+Recall that $\dim(A/\mathfrak p) = 1$. Hence condition (6) and the
+fact that $A$ is catenary give $\dim(A_\mathfrak p) \geq 2$.
+Since $A_\mathfrak p$ is a localization of $A[1/f]$ we find the
+desired depth condition holds by (3).
+\end{proof}
 
 
 
@@ -2991,7 +3262,8 @@ the set of points where $f$ is \'etale and that this set is open.
 See Morphisms, Definitions \ref{morphisms-definition-unramified}
 and \ref{morphisms-definition-etale} and
 Lemma \ref{morphisms-lemma-flat-unramified-etale}.
-To check $f$ is \'etale at $x$ we may work locally on the base and on the
+To check $f$ is \'etale at $x$ we may work \'etale
+locally on the base and on the
 target (Descent, Lemmas \ref{descent-lemma-descending-property-etale} and
 \ref{descent-lemma-etale-etale-local-source}).
 Thus we can apply More on Morphisms, Lemma
@@ -3021,6 +3293,7 @@ is finite it is closed, and hence $x' \leadsto x$.
 We have $\dim(\mathcal{O}_{X, x'}) = \dim(\mathcal{O}_{Y, y'}) = 1$
 as before. This contradicts property (4).
 \end{proof}
+
 
 
 
@@ -8582,16 +8855,24 @@ It follows easily that $A[0]$ is a dualizing complex.
 \noindent
 This section is a continuation of
 More on Algebra, Section \ref{more-algebra-section-properties-formal-fibres}.
-There we saw there is a (fairly) good theory of Noetherian rings
-whose local rings have Cohen-Macaulay formal fibres. Similarly,
-for Noetherian rings whose local rings have $(S_n)$ formal fibres.
-Namely, we proved it suffices to check formal fibres at
-maximal ideals and we checked that the property is inherited
-by finite type ring extensions. see
-More on Algebra, Lemma \ref{more-algebra-lemma-check-P-ring-maximal-ideals} and
-Proposition \ref{more-algebra-proposition-finite-type-over-P-ring}.
-The following lemma implies that the same is true for Noetherian rings
-whose local rings have formal fibres which are Gorenstein.
+There we saw there is a (fairly) good theory of Noetherian rings $A$
+whose local rings have Cohen-Macaulay formal fibres. Namely, we proved
+(1) it suffices to check the formal fibres of localizations at
+maximal ideals are Cohen-Macaulay,
+(2) the property is inherited by rings of finite type over $A$,
+(3) the fibres of $A \to A^\wedge$ are Cohen-Macaulay for
+any completion $A^\wedge$ of $A$, and
+(4) the property is inherited by henselizations of $A$. See
+More on Algebra, Lemma \ref{more-algebra-lemma-check-P-ring-maximal-ideals},
+Proposition \ref{more-algebra-proposition-finite-type-over-P-ring},
+Lemma \ref{more-algebra-lemma-map-P-ring-to-completion-P}, and
+Lemma \ref{more-algebra-lemma-henselization-pair-P-ring}.
+Similarly, for Noetherian rings whose local rings have formal fibres
+which are geometrically reduced, geometrically normal, $(S_n)$, and
+geometrically $(R_n)$.
+In this section we will see that the same is true for Noetherian rings
+whose local rings have formal fibres which are Gorenstein
+or local complete intersections.
 This is relevant to this chapter because a Noetherian ring which has a
 dualizing complex is an example.
 
@@ -8628,8 +8909,7 @@ In this way we see that $R \otimes_k A$ is a Gorenstein ring.
 Thus $R \otimes_k K$ is too as a localization.
 
 \medskip\noindent
-Proof of (B). If a product of rings is Gorenstein, then each of
-the factors is Gorenstein. This is clear because a ring is Gorenstein
+Proof of (B). This is clear because a ring is Gorenstein
 if and only if all of its local rings are Gorenstein.
 
 \medskip\noindent
@@ -8699,8 +8979,7 @@ It follows that $R \otimes_k A$ is a local complete intersection
 by Divided Power Algebra, Lemma \ref{dpa-lemma-avramov}.
 
 \medskip\noindent
-Proof of (B). If a product of rings is a local complete intersection,
-then each of the factors is a local complete intersection. This is clear
+Proof of (B). This is clear
 because a ring is a local complete intersection if and only if all of its
 local rings are complete intersections.
 
