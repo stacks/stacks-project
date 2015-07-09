@@ -18308,7 +18308,11 @@ consisting of derived complete objects is a strictly full, saturated
 triangulated subcategory, see
 Derived Categories, Definitions
 \ref{derived-definition-triangulated-subcategory} and
-\ref{derived-definition-saturated}. This subcategory is preserved
+\ref{derived-definition-saturated}.
+By Lemma \ref{lemma-ideal-of-elements-complete-wrt}
+the subcategory $D_{comp}(A, I)$ depends only on the radical
+$\sqrt{I}$ of $I$, in other words it depends only on the closed
+subset $Z = V(I)$ of $\Spec(A)$. The subcategory $D_{comp}(A, I)$ is preserved
 under products and homotopy limits in $D(A)$.
 But it is not preserved under countable direct sums in general.
 We will often simply say $M$ is a derived complete module if
@@ -18499,118 +18503,64 @@ which is an isomorphism in $D(A)$ by definition of the derived completion
 as the left adjoint to the inclusion functor.
 \end{proof}
 
-\noindent
-Let $A$ be a ring and let $I \subset A$ be an ideal. For any
-$K \in D(A)$ we can consider the derived limit
-$$
-K' = R\lim (K \otimes_A^\mathbf{L} A/I^n)
-$$
-This is a functor in $K$, see
-Remark \ref{remark-constructing-tensor-with-limits-functorially}.
-The system of maps $A \to A/I^n$ induces a map $K \to K'$.
-It turns out that $K'$ is derived complete with respect to $I$.
-This ``naive'' derived completion construction does not agree
-with the adjoint of Lemma \ref{lemma-derived-completion} in general.
-For example, if $A = \mathbf{Z}_p \oplus \mathbf{Q}_p/\mathbf{Z}_p$
-with the second summand an ideal of square zero, $K = A[0]$, and $I = (p)$,
-then the naive derived completion gives $\mathbf{Z}_p[0]$, but the
-construction of Lemma \ref{lemma-derived-completion} gives
-$K^\wedge \cong \mathbf{Z}_p[1] \oplus \mathbf{Z}_p[0]$ (computation omitted).
-
 \begin{lemma}
 \label{lemma-naive-derived-completion}
-Let $A$ be a ring and let $I \subset A$ be an ideal. For
-$K \in D(A)$ the naive derived completion
-$K' = R\lim (K \otimes_A^\mathbf{L} A/I^n)$
+Let $A$ be a ring and let $I \subset A$ be an ideal. Let $(K_n)$ be an inverse
+system of objects of $D(A)$ such that for all $f \in I$ and $n$
+there exists an $e = e(n, f)$ such that $f^e$ is zero on $K_n$.
+Then for $K \in D(A)$ the object $K' = R\lim (K \otimes_A^\mathbf{L} K_n)$
 is derived complete with respect to $I$.
 \end{lemma}
 
 \begin{proof}
-Let $f \in I$. The groups $\text{Ext}^p_A(A_f, K')$
-sit in short exact sequences
-$$
-0 \to R^1\lim \text{Ext}^{p - 1}_A(A_f, K \otimes_A^\mathbf{L} A/I^n) \to
-\text{Ext}^p_A(A_f, K') \to
-\lim \text{Ext}^p_A(A_f, K \otimes_A^\mathbf{L} A/I^n) \to 0
-$$
-by Lemma \ref{lemma-map-into-Rlim}. We conclude since $f$ acts both
-as an isomorphism and nilpotently on the outer terms.
+Since the category of derived complete objects is preserved under $R\lim$
+it suffices to show that each $K \otimes_A^\mathbf{L} K_n$ is derived
+complete. By assumption for all $f \in I$ there is an $e$ such
+that $f^e$ is zero on $K \otimes_A^\mathbf{L} K_n$. Of course this
+implies that $T(K \otimes_A^\mathbf{L} K_n, f) = 0$ and we win.
 \end{proof}
 
-\begin{lemma}
-\label{lemma-lift-universally}
-Let $A$ be a ring. Let $f \in A$. If there exists an integer $c \geq 1$
-such that $A[f^c] = A[f^{c + 1}] = A[f^{c + 2}] = \ldots$ (for example
-if $A$ is Noetherian), then for all $n \geq 1$ there exist maps
-$$
-(A \xrightarrow{f^n} A) \longrightarrow A/(f^n),
-\quad\text{and}\quad
-A/(f^{n + c}) \longrightarrow (A \xrightarrow{f^n} A)
-$$
-in $D(A)$ inducing an isomorphism of the pro-objects $\{A/(f^n)\}$ and
-$\{(f^n : A \to A)\}$ in $D(A)$.
-\end{lemma}
-
-\begin{proof}
-The first displayed arrow is obvious. We can define the second arrow of
-the lemma by the diagram
-$$
-\xymatrix{
-A/A[f^c] \ar[r]_-{f^{n + c}} \ar[d]_{f^c} & A \ar[d]^1 \\
-A \ar[r]^{f^n} & A
-}
-$$
-Since the top horizontal arrow is injective the complex
-in the top row is quasi-isomorphic to $A/f^{n + c}A$.
-We omit the calculation of compositions needed to show
-the statement on pro objects.
-\end{proof}
-
-\noindent
-Let $A$ be a ring. Let $f_1, \ldots, f_r \in A$. We are going
-to consider the sequence of Koszul complexes
+\begin{situation}
+\label{situation-koszul}
+Let $A$ be a ring. Let $I = (f_1, \ldots, f_r) \subset A$. Let
 $K_n^\bullet = K_\bullet(A, f_1^n, \ldots, f_r^n)$
-placed in cohomological degrees $-r, -r + 1, \ldots, 0$.
+be the Koszul complex on $f_1^n, \ldots, f_r^n$
+viewed as a cochain complex in degrees $-r, -r + 1, \ldots, 0$.
 Using the functoriality of Lemma \ref{lemma-functorial}
-we get maps
+we obtain an inverse system
 $$
 \ldots \to K_3^\bullet \to K_2^\bullet \to K_1^\bullet
 $$
-compatible with $H^0(K_n^\bullet) = A/(f_1^n, \ldots, f_r^n)$
-and the natural maps between these quotients. A key feature of the
-discussion below will use that for $m > n$ the map
+compatible with the inverse system
+$H^0(K_n^\bullet) = A/(f_1^n, \ldots, f_r^n)$
+and compatible with the maps $A \to K_n^\bullet$.
+\end{situation}
+
+\noindent
+A key feature of the discussion below will use that for $m > n$ the map
 $$
 K_m^{-p} = \wedge^p(A^{\oplus r}) \to \wedge^p(A^{\oplus r}) = K_n^{-p}
 $$
 is given by multiplication by $f_{i_1}^{m - n} \ldots f_{i_p}^{m - n}$
 on the basis element $e_{i_1} \wedge \ldots \wedge e_{i_p}$.
-Finally, note that there is a compatible system of maps $A \to K_n^\bullet$.
 
 \begin{lemma}
 \label{lemma-koszul-derived-completion-complete}
-With notation as above, let $I = (f_1, \ldots, f_r) \subset A$. For
+In Situation \ref{situation-koszul}. For
 $K \in D(A)$ the object $K' = R\lim (K \otimes_A^\mathbf{L} K_n^\bullet)$
 is derived complete with respect to $I$.
 \end{lemma}
 
 \begin{proof}
-Let $f \in I$. We have short exact sequences
-$$
-0 \to
-R^1\lim \text{Ext}^{p - 1}_A(A_f, K \otimes_A^\mathbf{L} K_n^\bullet) \to
-\text{Ext}^p_A(A_f, K') \to
-\lim \text{Ext}^p_A(A_f, K \otimes_A^\mathbf{L} K_n^\bullet) \to 0
-$$
-by Lemma \ref{lemma-map-into-Rlim}. We conclude the middle term is zero
-as $f$ acts both as an isomorphism and nilpotently on the outer terms
-(recall that $f_i^n$ acts by an endomorphism of $K_n^\bullet$ which is
-homotopic to zero). Thus $K$ is derived complete with respect to $I$.
+This is a special case of Lemma \ref{lemma-naive-derived-completion}
+because $f_i^n$ acts by an endomorphism of $K_n^\bullet$ which is
+homotopic to zero by Lemma \ref{lemma-homotopy-koszul}.
 \end{proof}
 
 \begin{lemma}
 \label{lemma-characterize-derived-complete-Koszul}
-With notation as above. Let $I = (f_1, \ldots, f_r)$.
-Let $K \in D(A)$. The following are equivalent
+In Situation \ref{situation-koszul}. Let $K \in D(A)$.
+The following are equivalent
 \begin{enumerate}
 \item $K$ is derived complete with respect to $I$, and
 \item the canonical map $K \to R\lim (K \otimes_A^\mathbf{L} K_n^\bullet)$
@@ -18655,7 +18605,7 @@ which is zero for $p < 0$ by assumption on $K$.
 
 \begin{lemma}
 \label{lemma-derived-completion-koszul}
-With notation as above. Let $I = (f_1, \ldots, f_r) \subset A$.
+In Situation \ref{situation-koszul}.
 The functor which sends $K \in D(A)$ to the derived limit
 $K' = R\lim( K \otimes_A^\mathbf{L} K_n^\bullet )$ is the left
 adjoint to the inclusion functor $D_{comp}(A) \to D(A)$
@@ -18702,6 +18652,10 @@ This follows from
 Lemma \ref{lemma-colim-and-lim-of-duals}.
 \end{proof}
 
+\noindent
+As an application of the relationship with the Koszul complex
+we obtain that derived completion has finite cohomological dimension.
+
 \begin{lemma}
 \label{lemma-derived-completion-finite-cohomological-dimension}
 Let $A$ be a ring and let $I \subset A$ be an ideal which can be
@@ -18736,8 +18690,216 @@ this follows from an straightforward argument which we omit.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-restriction-derived-complete}
+Let $A \to B$ be a ring map. Let $I \subset A$ be an ideal. The inverse
+image of $D_{comp}(A, I)$ under the restriction functor $D(B) \to D(A)$ is
+$D_{comp}(B, IB)$.
+\end{lemma}
+
+\begin{proof}
+Using Lemma \ref{lemma-ideal-of-elements-complete-wrt}
+we see that $L \in D(B)$ is in $D_{comp}(B, IB)$
+if and only if $T(L, f)$ is zero for every local section
+$f \in I$. Observe that the cohomology of
+$T(L, f)$ is computed in the category of abelian groups,
+so it doesn't matter whether we think of $f$ as an element of $A$
+or take the image of $f$ in $B$.
+The lemma follows immediately from this and the
+definition of derived complete objects.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-restriction-derived-complete-equivalence}
+Let $A \to B$ be a ring map. Let $I \subset A$ be a finitely generated ideal.
+If $A \to B$ is flat and $A/I \cong B/IB$, then the restriction functor
+$D(B) \to D(A)$ induces an equivalence
+$D_{comp}(B, IB) \to D_{comp}(A, I)$.
+\end{lemma}
+
+\begin{proof}
+Choose generators $f_1, \ldots, f_r$ of $I$.
+Denote $\check{\mathcal{C}}^\bullet_A \to \check{\mathcal{C}}^\bullet_B$
+the quasi-isomorphism of extended alternating {\v C}ech complexes of
+Lemma \ref{lemma-map-identifies-koszul-and-cech-complexes}.
+Let $K \in D_{comp}(A, I)$. Let $I^\bullet$ be a K-injective
+complex of $A$-modules representing $K$. Since $\text{Ext}^n_A(A_f, K)$
+and $\text{Ext}^n_A(B_f, K)$ are zero for all $f \in I$ and
+$n \in \mathbf{Z}$ (Lemma \ref{lemma-hom-from-Af}) we conclude that
+$\check{\mathcal{C}}^\bullet_A \to A$ and
+$\check{\mathcal{C}}^\bullet_B \to B$ induce quasi-isomorphisms
+$$
+I^\bullet = \Hom_A(A, I^\bullet) \longrightarrow
+\text{Tot}(\Hom_A(\check{\mathcal{C}}^\bullet_A, I^\bullet))
+$$
+and
+$$
+\Hom_A(B, I^\bullet) \longrightarrow
+\text{Tot}(\Hom_A(\check{\mathcal{C}}^\bullet_B, I^\bullet))
+$$
+Some details omitted.
+Since $\check{\mathcal{C}}^\bullet_A \to \check{\mathcal{C}}^\bullet_B$
+is a quasi-isomorphism and $I^\bullet$ is K-injective we conclude
+that $\Hom_A(B, I^\bullet) \to I^\bullet$ is a quasi-isomorphism.
+As the complex $\Hom_A(B, I^\bullet)$ is a complex of $B$-modules
+we conclude that $K$ is in the image of the restriction map, i.e.,
+the functor is essentially surjective
+
+\medskip\noindent
+In fact, the argument shows that
+$F : D_{comp}(A, I) \to D_{comp}(B, IB)$, $K \mapsto \Hom_A(B, I^\bullet)$
+is a left inverse to restriction. Finally, suppose that
+$L \in D_{comp}(B, IB)$. Represent $L$ by a K-injective complex
+$J^\bullet$ of $B$-modules.
+Then $J^\bullet$ is also K-injective as a complex of $A$-modules
+(Lemma \ref{lemma-K-injective-flat}) hence
+$F(\text{restriction of }L) = \Hom_A(B, J^\bullet)$.
+There is a map $J^\bullet \to \Hom_A(B, J^\bullet)$
+of complexes of $B$-modules, whose composition with
+$\Hom_A(B, J^\bullet) \to J^\bullet$ is the identity.
+We conclude that $F$ is also a right inverse to restriction
+and the proof is finished.
+\end{proof}
+
+
+
+
+
+\section{Derived completion for a principal ideal}
+\label{section-derived-completion-principal}
+
+\noindent
+In this section we discuss what happens with derived completion
+when the ideal is generated by a single element.
+
+\begin{lemma}
+\label{lemma-lift-universally}
+Let $A$ be a ring. Let $f \in A$. If there exists an integer $c \geq 1$
+such that $A[f^c] = A[f^{c + 1}] = A[f^{c + 2}] = \ldots$ (for example
+if $A$ is Noetherian), then for all $n \geq 1$ there exist maps
+$$
+(A \xrightarrow{f^n} A) \longrightarrow A/(f^n),
+\quad\text{and}\quad
+A/(f^{n + c}) \longrightarrow (A \xrightarrow{f^n} A)
+$$
+in $D(A)$ inducing an isomorphism of the pro-objects $\{A/(f^n)\}$ and
+$\{(f^n : A \to A)\}$ in $D(A)$.
+\end{lemma}
+
+\begin{proof}
+The first displayed arrow is obvious. We can define the second arrow of
+the lemma by the diagram
+$$
+\xymatrix{
+A/A[f^c] \ar[r]_-{f^{n + c}} \ar[d]_{f^c} & A \ar[d]^1 \\
+A \ar[r]^{f^n} & A
+}
+$$
+Since the top horizontal arrow is injective the complex
+in the top row is quasi-isomorphic to $A/f^{n + c}A$.
+We omit the calculation of compositions needed to show
+the statement on pro objects.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-when-does-it-work}
+Let $A$ be a ring and $f \in A$. Set $I = (f)$. In this situation
+we have the naive derived completion
+$K \mapsto K' = R\lim (K \otimes_A^\mathbf{L} A/f^nA)$ and the
+derived completion
+$$
+K \mapsto K^\wedge = R\lim (K \otimes_A^\mathbf{L} (A \xrightarrow{f^n} A))
+$$
+of Lemma \ref{lemma-derived-completion-koszul}.
+The natural transformation of functors $K^\wedge \to K'$
+is an isomorphism if and only if the $f$-power torsion of is bounded.
+\end{lemma}
+
+\begin{proof}
+If the $f$-power torsion is bounded, then the pro-objects
+$\{(f^n : A \to A)\}$ and $\{A/f^nA\}$ are isomorphic by
+Lemma \ref{lemma-lift-universally}.
+Hence the functors are isomorphic by Lemma \ref{lemma-Rlim-pro-equal}.
+Conversely, we see from Lemma \ref{lemma-tensor-Rlim-exact}
+that the condition is exactly that
+$$
+R\lim (K \otimes_A^\mathbf{L} A[f^n])
+$$
+is zero for all $K \in D(A)$. Here the maps of the system $(A[f^n])$
+are given by multiplication by $f$. Taking $K = A$ and
+$K = \bigoplus_{i \in \mathbf{N}} A$ we see from
+Lemma \ref{lemma-Rlim-zero-of-direct-sums}
+this implies $(A[f^n])$ is zero as a pro-object, i.e.,
+$f^{n - 1}A[f^n] = 0$ for some $n$, i.e., $A[f^{n - 1}] = A[f^n]$, i.e.,
+the $f$-torsion is bounded.
+\end{proof}
+
+\begin{example}
+\label{example-derived-complete-modules}
+Let $A$ be a ring. Let $f \in A$ be a nonzerodivisor. An example
+to keep in mind is $A = \mathbf{Z}_p$ and $f = p$. Let $M$ be
+an $A$-module. Claim: $M$ is derived complete with respect to $f$
+if and only if there exists a short exact sequence
+$$
+0 \to K \to L \to M \to 0
+$$
+where $K, L$ are $f$-adically complete modules whose $f$-torsion is zero.
+Namely, if there is a such a short exact sequence, then
+$$
+M \otimes_A^\mathbf{L} (A \xrightarrow{f^n} A) = (K/f^nK \to L/f^nL)
+$$
+because $f$ is a nonzerodivisor on $K$ and $L$
+and we conclude that $R\lim (M \otimes_A^\mathbf{L} (A \xrightarrow{f^n} A))$
+is quasi-isomorphic to $K \to L$, i.e., $M$. This shows that $M$ is
+derived complete by Lemma \ref{lemma-characterize-derived-complete-Koszul}.
+Conversely, suppose that $M$ is derived complete. Choose a surjection
+$F \to M$ where $F$ is a free $A$-module. Since $f$ is a nonzerodivisor
+on $F$ the derived completion of $F$ is $L = \lim F/f^nF$.
+Note that $L$ is $f$-torsion free: if $(x_n)$ with $x_n \in F$ represents
+an element $\xi$ of $L$ and $f\xi = 0$, then $x_n = x_{n + 1} + f^nz_n$
+and $fx_n = f^ny_n$ for some $z_n, y_n \in F$. Then $f^n y_n = fx_n =
+fx_{n + 1} + f^{n + 1}z_n = f^{n + 1}y_{n + 1} + f^{n + 1}z_n$ and since
+$f$ is a nonzerodivisor on $F$ we see that $y_n \in fF$ which implies
+that $x_n \in f^nF$, i.e., $\xi = 0$. Since $L$ is the derived
+completion, the universal property gives a map $L \to M$ factoring
+$F \to M$. Let $K = \Ker(L \to M)$ be the kernel.
+Again $K$ is $f$-torsion free, hence the derived completion of
+$K$ is $\lim K/f^nK$. On the other hand, both $K$ and $L$ are derived
+complete, hence $K$ is too by Lemma \ref{lemma-serre-subcategory}.
+It follows that $K = \lim K/f^nK$ and the claim is proved.
+\end{example}
+
+
+\section{Derived completion for Noetherian rings}
+\label{section-derived-completion-noetherian}
+
+\noindent
+Let $A$ be a ring and let $I \subset A$ be an ideal. For any
+$K \in D(A)$ we can consider the derived limit
+$$
+K' = R\lim (K \otimes_A^\mathbf{L} A/I^n)
+$$
+This is a functor in $K$, see
+Remark \ref{remark-constructing-tensor-with-limits-functorially}.
+The system of maps $A \to A/I^n$ induces a map $K \to K'$
+and $K'$ is derived complete with respect to $I$
+(Lemma \ref{lemma-naive-derived-completion}).
+This ``naive'' derived completion construction does not agree
+with the adjoint of Lemma \ref{lemma-derived-completion} in general.
+For example, if $A = \mathbf{Z}_p \oplus \mathbf{Q}_p/\mathbf{Z}_p$
+with the second summand an ideal of square zero, $K = A[0]$, and $I = (p)$,
+then the naive derived completion gives $\mathbf{Z}_p[0]$, but the
+construction of Lemma \ref{lemma-derived-completion} gives
+$K^\wedge \cong \mathbf{Z}_p[1] \oplus \mathbf{Z}_p[0]$ (computation omitted).
+
+\medskip\noindent
+The main goal of this section is the show that the naive
+derived completion is equal to derived completion if $A$
+is Noetherian.
+
+\begin{lemma}
 \label{lemma-sequence-Koszul-complexes}
-With notation as above. If $A$ is Noetherian, then for every $n$
+In Situation \ref{situation-koszul}.
+If $A$ is Noetherian, then for every $n$
 there exists an $m \geq n$ such that $K_m^\bullet \to K_n^\bullet$
 factors through the map $K_m^\bullet \to A/(f_1^m, \ldots, f_r^m)$.
 In other words, the pro-objects $\{K_n^\bullet\}$ and
@@ -18870,144 +19032,6 @@ it follows that $M$ is $I$-adically complete (use
 Algebra, Lemmas \ref{algebra-lemma-completion-Noetherian},
 \ref{algebra-lemma-when-finite-module-complete-over-complete-ring}, and
 \ref{algebra-lemma-Artin-Rees}).
-\end{proof}
-
-\begin{remark}
-\label{remark-when-does-it-work}
-Let $A$ be a ring and $f \in A$. Set $I = (f)$. In this situation
-we have the naive derived $I$-adic completion functor
-$K \mapsto K' = R\lim (K \otimes_A^\mathbf{L} A/f^nA)$ and the functor
-$$
-K \mapsto K^\wedge = R\lim (K \otimes_A^\mathbf{L} (A \xrightarrow{f^n} A))
-$$
-of Lemmas \ref{lemma-derived-completion-koszul} and
-\ref{lemma-derived-completion}.
-There is a natural transformation of functors $K^\wedge \to K'$.
-Thus we ask: When is this transformation an isomorphism of functors?
-We have seen in
-Proposition \ref{proposition-noetherian-naive-completion-is-completion}
-that this is true if $A$ is Noetherian. More generally, the same
-argument shows this is true if the pro-objects
-$\{(f^n : A \to A)\}$ and $\{A/f^nA\}$ are equal, for example
-if $f$-torsion is bounded (Lemma \ref{lemma-lift-universally}).
-Conversely, we see from Lemma \ref{lemma-tensor-Rlim-exact}
-that the condition is exactly that
-$$
-R\lim (K \otimes_A^\mathbf{L} A[f^n])
-$$
-is zero for all $K \in D(A)$. Here the maps of the system $(A[f^n])$
-are given by multiplication by $f$. Taking $K = A$ and
-$K = \bigoplus_{i \in \mathbf{N}} A$ we see from
-Lemma \ref{lemma-Rlim-zero-of-direct-sums}
-this implies $(A[f^n])$ is zero as a pro-object, i.e.,
-$f^{n - 1}A[f^n] = 0$ for some $n$, i.e., $A[f^{n - 1}] = A[f^n]$, i.e.,
-the $f$-torsion is bounded.
-\end{remark}
-
-\begin{example}
-\label{example-derived-complete-modules}
-Let $A$ be a ring. Let $f \in A$ be a nonzerodivisor. An example
-to keep in mind is $A = \mathbf{Z}_p$ and $f = p$. Let $M$ be
-an $A$-module. Claim: $M$ is derived complete with respect to $f$
-if and only if there exists a short exact sequence
-$$
-0 \to K \to L \to M \to 0
-$$
-where $K, L$ are $f$-adically complete modules whose $f$-torsion is zero.
-Namely, if there is a such a short exact sequence, then
-$$
-M \otimes_A^\mathbf{L} (A \xrightarrow{f^n} A) = (K/f^nK \to L/f^nL)
-$$
-because $f$ is a nonzerodivisor on $K$ and $L$
-and we conclude that $R\lim (M \otimes_A^\mathbf{L} (A \xrightarrow{f^n} A))$
-is quasi-isomorphic to $K \to L$, i.e., $M$. This shows that $M$ is
-derived complete by Lemma \ref{lemma-characterize-derived-complete-Koszul}.
-Conversely, suppose that $M$ is derived complete. Choose a surjection
-$F \to M$ where $F$ is a free $A$-module. Since $f$ is a nonzerodivisor
-on $F$ the derived completion of $F$ is $L = \lim F/f^nF$.
-Note that $L$ is $f$-torsion free: if $(x_n)$ with $x_n \in F$ represents
-an element $\xi$ of $L$ and $f\xi = 0$, then $x_n = x_{n + 1} + f^nz_n$
-and $fx_n = f^ny_n$ for some $z_n, y_n \in F$. Then $f^n y_n = fx_n =
-fx_{n + 1} + f^{n + 1}z_n = f^{n + 1}y_{n + 1} + f^{n + 1}z_n$ and since
-$f$ is a nonzerodivisor on $F$ we see that $y_n \in fF$ which implies
-that $x_n \in f^nF$, i.e., $\xi = 0$. Since $L$ is the derived
-completion, the universal property gives a map $L \to M$ factoring
-$F \to M$. Let $K = \Ker(L \to M)$ be the kernel.
-Again $K$ is $f$-torsion free, hence the derived completion of
-$K$ is $\lim K/f^nK$. On the other hand, both $K$ and $L$ are derived
-complete, hence $K$ is too by Lemma \ref{lemma-serre-subcategory}.
-It follows that $K = \lim K/f^nK$ and the claim is proved.
-\end{example}
-
-\begin{lemma}
-\label{lemma-restriction-derived-complete}
-Let $A \to B$ be a ring map. Let $I \subset A$ be an ideal. The inverse
-image of $D_{comp}(A, I)$ under the restriction functor $D(B) \to D(A)$ is
-$D_{comp}(B, IB)$.
-\end{lemma}
-
-\begin{proof}
-Using Lemma \ref{lemma-ideal-of-elements-complete-wrt}
-we see that $L \in D(B)$ is in $D_{comp}(B, IB)$
-if and only if $T(L, f)$ is zero for every local section
-$f \in I$. Observe that the cohomology of
-$T(L, f)$ is computed in the category of abelian groups,
-so it doesn't matter whether we think of $f$ as an element of $A$
-or take the image of $f$ in $B$.
-The lemma follows immediately from this and the
-definition of derived complete objects.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-restriction-derived-complete-equivalence}
-Let $A \to B$ be a ring map. Let $I \subset A$ be a finitely generated ideal.
-If $A \to B$ is flat and $A/I \cong B/IB$, then the restriction functor
-$D(B) \to D(A)$ induces an equivalence
-$D_{comp}(B, IB) \to D_{comp}(A, I)$.
-\end{lemma}
-
-\begin{proof}
-Choose generators $f_1, \ldots, f_r$ of $I$.
-Denote $\check{\mathcal{C}}^\bullet_A \to \check{\mathcal{C}}^\bullet_B$
-the quasi-isomorphism of extended alternating {\v C}ech complexes of
-Lemma \ref{lemma-map-identifies-koszul-and-cech-complexes}.
-Let $K \in D_{comp}(A, I)$. Let $I^\bullet$ be a K-injective
-complex of $A$-modules representing $K$. Since $\text{Ext}^n_A(A_f, K)$
-and $\text{Ext}^n_A(B_f, K)$ are zero for all $f \in I$ and
-$n \in \mathbf{Z}$ (Lemma \ref{lemma-hom-from-Af}) we conclude that
-$\check{\mathcal{C}}^\bullet_A \to A$ and
-$\check{\mathcal{C}}^\bullet_B \to B$ induce quasi-isomorphisms
-$$
-I^\bullet = \Hom_A(A, I^\bullet) \longrightarrow
-\text{Tot}(\Hom_A(\check{\mathcal{C}}^\bullet_A, I^\bullet))
-$$
-and
-$$
-\Hom_A(B, I^\bullet) \longrightarrow
-\text{Tot}(\Hom_A(\check{\mathcal{C}}^\bullet_B, I^\bullet))
-$$
-Some details omitted.
-Since $\check{\mathcal{C}}^\bullet_A \to \check{\mathcal{C}}^\bullet_B$
-is a quasi-isomorphism and $I^\bullet$ is K-injective we conclude
-that $\Hom_A(B, I^\bullet) \to I^\bullet$ is a quasi-isomorphism.
-As the complex $\Hom_A(B, I^\bullet)$ is a complex of $B$-modules
-we conclude that $K$ is in the image of the restriction map, i.e.,
-the functor is essentially surjective
-
-\medskip\noindent
-In fact, the argument shows that
-$F : D_{comp}(A, I) \to D_{comp}(B, IB)$, $K \mapsto \Hom_A(B, I^\bullet)$
-is a left inverse to restriction. Finally, suppose that
-$L \in D_{comp}(B, IB)$. Represent $L$ by a K-injective complex
-$J^\bullet$ of $B$-modules.
-Then $J^\bullet$ is also K-injective as a complex of $A$-modules
-(Lemma \ref{lemma-K-injective-flat}) hence
-$F(\text{restriction of }L) = \Hom_A(B, J^\bullet)$.
-There is a map $J^\bullet \to \Hom_A(B, J^\bullet)$
-of complexes of $B$-modules, whose composition with
-$\Hom_A(B, J^\bullet) \to J^\bullet$ is the identity.
-We conclude that $F$ is also a right inverse to restriction
-and the proof is finished.
 \end{proof}
 
 
