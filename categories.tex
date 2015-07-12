@@ -1152,7 +1152,8 @@ together with morphisms $p_i : \lim_\mathcal{I} M \to M_i$ such that
 \item for $\phi : i \to i'$ a morphism
 in $\mathcal{I}$ we have $p_{i'} =  M(\phi) \circ p_i$, and
 \item for any object $W$ in $\mathcal{C}$ and any family of
-morphisms $q_i : W \to M_i$ such that for all $\phi : i \to i'$
+morphisms $q_i : W \to M_i$ (indexed by $i \in \mathcal{I}$)
+such that for all $\phi : i \to i'$
 in $\mathcal{I}$ we have $q_{i'} = M(\phi) \circ q_i$ there
 exists a unique morphism $q : W \to \lim_\mathcal{I} M$ such that
 $q_i = p_i \circ q$ for every object $i$ of $\mathcal{I}$.
@@ -1178,7 +1179,8 @@ together with morphisms $s_i : M_i \to \colim_\mathcal{I} M$ such that
 \item for $\phi : i \to i'$ a morphism
 in $\mathcal{I}$ we have $s_i = s_{i'} \circ M(\phi)$, and
 \item for any object $W$ in $\mathcal{C}$ and any family of
-morphisms $t_i : M_i \to W$ such that for all $\phi : i \to i'$
+morphisms $t_i : M_i \to W$ (indexed by $i \in \mathcal{I}$)
+such that for all $\phi : i \to i'$
 in $\mathcal{I}$ we have $t_i = t_{i'} \circ M(\phi)$ there
 exists a unique morphism $t : \colim_\mathcal{I} M \to W$ such that
 $t_i = t \circ s_i$ for every object $i$ of $\mathcal{I}$.
@@ -3683,7 +3685,7 @@ $g_i : X_i \to Y$ of morphisms of $S^{-1}\mathcal{C}$
 (indexed by $i$),
 we can find an element $s : Y \to Y'$ of $S$ and
 a family of morphisms $f_i : X_i \to Y'$ of $\mathcal{C}$ such that
-$g_i$ is the equivalence class of the pair
+each $g_i$ is the equivalence class of the pair
 $(f_i : X_i \to Y', s : Y \to Y')$.
 \end{lemma}
 
@@ -3808,20 +3810,154 @@ Details omitted.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-cocones-left-localization}
+Let $\mathcal{C}$ be a category and let $S$ be a left multiplicative
+system of morphisms of $\mathcal{C}$.
+
+Let $\mathcal{I}$ be a finite category, and let $M : \mathcal{I}
+\to \mathcal{C}$ be an $\mathcal{I}$-diagram (i.e., a functor).
+Let $W$ be any object of $S^{-1} \mathcal{C}$. Assume that we
+have a family of morphisms $t_i : M_i \to W$ in $S^{-1} \mathcal{C}$
+(indexed by $i \in \mathcal{I}$) such that for every morphism
+$\phi : i \to i'$ in $\mathcal{I}$, we have
+$t_i = t_{i'} \circ Q\left(M\left(\phi\right)\right)$. Here, we
+write $M_i$ for $M\left(i\right)$.
+
+Then, there exists an
+object $W'$ of $\mathcal{C}$, a morphism $s : W \to W'$ in $S$, and
+a family of morphisms $f_i : M_i \to W'$ of $\mathcal{C}$ (indexed by
+$i \in \mathcal{I}$) such that
+each $t_i$ is the equivalence class of the pair
+$(f_i : M_i \to W', s : W \to W')$, and such that for every morphism
+$\phi : i \to i'$ in $\mathcal{I}$, we have
+$f_i = f_{i'} \circ M\left(\phi\right)$.
+\end{lemma}
+
+\begin{proof}
+Let $M$ denote the set of all morphisms of $\mathcal{I}$. This set
+$M$ is finite.
+
+If $T$ is a subset of $M$, then we define a \textit{$T$-cocone} to
+mean a triple
+$\left(W', s, \left(f_i\right)_{i \in \mathcal{I}}\right)$,
+where $W'$ is an object of $\mathcal{C}$, where $s : W \to W'$ is a
+morphism in $S$, and where the $f_i : M_i \to W'$ are a family of
+morphisms of $\mathcal{C}$ (indexed by $i \in \mathcal{I}$) such
+that each $t_i$ is the equivalence class of the pair
+$(f_i : M_i \to W', s : W \to W')$, and such that for every morphism
+$\phi : i \to i'$ in $\mathcal{I}$ belonging to $T$, we have
+$f_i = f_{i'} \circ M\left(\phi\right)$.
+
+To prove the lemma, we need to show that an $M$-cocone exists.
+We will prove, more generally, that a $T$-cocone exists for every
+subset $T$ of $M$. We argue by induction over $\left|T\right|$
+(which makes sense since $M$ is finite). If
+$\left|T\right| = 0$, then the existence of a $T$-cocone follows
+from Lemma \ref{lemma-morphisms-left-localization} (applied to
+$X_i = M_i$, $Y = W$ and $g_i = t_i$). It remains to do the
+induction step.
+So let $T$ be a subset of $M$ with $\left|T\right| > 0$, and
+we assume (as induction hypothesis) that a $T'$-cocone exists
+for every subset $T'$ of $M$ which has fewer elements than $T$.
+
+Pick any morphism $t : j \to j'$ in $T$, and let
+$T' = T \setminus \left\{t\right\}$. Then, the induction
+hypothesis shows that a $T'$-cocone exists. Let
+$\left(W'', s', \left(f'_i\right)_{i \in \mathcal{I}}\right)$
+be such a $T'$-cocone. Then, each $t_i$ is the equivalence class
+of the pair $(f'_i : M_i \to W'', s' : W \to W'')$. Let $A$
+and $B$ be the equivalence classes of
+$(f'_j : M_j \to W'', s' : W \to W'')$ and
+$(f'_{j'} \circ M\left(t\right) : M_j \to W'', s' : W \to W'')$.
+Then, $A = t_j = t_{j'} \circ Q\left(M\left(t\right)\right)
+= B$. Hence, applying
+Lemma \ref{lemma-equality-morphisms-left-localization} to
+$X = M_i$, $Y = W$, $Y' = W''$, $f = f'_j$, $s = s'$ and
+$g = f'_{j'} \circ M\left(t\right)$, we obtain that there exists
+a morphism $a : W'' \to W'$ with $a \circ s' \in S$ and
+such that $a \circ f'_j = a \circ f'_{j'} \circ M\left(t\right)$.
+It is now straightforward to verify that
+$\left(W', a \circ s',
+\left(a \circ f'_i\right)_{i \in \mathcal{I}}\right)$ is a
+$T$-cocone. Hence, a $T$-cocone exists, and the induction step
+is complete.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-left-localization-limits}
 Let $\mathcal{C}$ be a category and let $S$ be a left multiplicative
 system of morphisms of $\mathcal{C}$. The localization functor
 $Q : \mathcal{C} \to S^{-1}\mathcal{C}$ commutes with finite colimits.
 \end{lemma}
 
-\begin{proof}
+\begin{proof}[First proof.]
 This is clear from (\ref{equation-left-localization-morphisms-colimit}),
 Remark \ref{remark-limit-colim}, and
 Lemma \ref{lemma-directed-commutes}.
-% [DG] I think this is direly in need of detail. (In particular, the
-%      limit-colimit commutativity needs to be concretized -- we need
-%      to know what the isomorphism is, so that we can use it here to
-%      show that it is functorial).
+% [DG] I think this is direly in need of detail. (I have essentially
+%      guessed that you are using Lemma \ref{lemma-directed-commutes},
+%      because the lim-lim and colim-colim commutativities do not need
+%      finiteness (nor directedness). But in truth I don't understand
+%      this proof.
+%      I have added a second proof below,
+%      which does not rely on colimits (which, I think, are somewhat
+%      of a detour in proving this lemma.)
+\end{proof}
+
+\begin{proof}[Second proof.]
+Let $\mathcal{I}$ be a finite category, and let $M : \mathcal{I}
+\to \mathcal{C}$ be an $\mathcal{I}$-diagram (i.e., a functor).
+Assume that this diagram has a colimit $C = \colim_\mathcal{I} M$
+in $\mathcal{C}$, and let $s_i : M_i \to C$ be the corresponding
+morphisms (as in Definition \ref{definition-colimit}). Here, as
+usual, $M_i$ means $M\left(i\right)$. We need to show that the
+object $Q\left(C\right)$ of $S^{-1} \mathcal{C}$ (together with
+the morphisms
+$Q\left(s_i\right) : Q\left(M_i\right) \to Q\left(C\right)$) is
+the colimit of the $\mathcal{I}$-diagram $Q \circ M$.
+
+Indeed, this object (and these morphisms) clearly satisfies axiom
+(1) in Definition \ref{definition-colimit} (since $C$ and $s_i$
+satisfy it in $\mathcal{C}$); thus it only remains to prove that
+it satisfies axiom (2). So let $W$ be any object in
+$S^{-1} \mathcal{C}$, and let $t_i : Q\left(M_i\right) \to W$ be
+any family of morphisms (indexed by $i \in \mathcal{I}$) such that
+for all $\phi : i \to i'$ in $\mathcal{I}$ we have
+$t_i = t_{i'} \circ \left(Q \circ M\right)\left(\phi\right)$. We
+must show that there exists a unique morphism
+$t : Q\left(C\right) \to W$ such that
+$t_i = t \circ Q\left(s_i\right)$ for every object $i$ of
+$\mathcal{I}$.
+
+Before we start proving this, let us get a few things out of the
+way. We have
+$W \in \operatorname{Ob} \left(S^{-1} \mathcal{C}\right)
+= \operatorname{Ob} \mathcal{C}$.
+Lemma \ref{lemma-cocones-left-localization} shows that
+there exists an object $W'$ of $\mathcal{C}$, a morphism
+$s : W \to W'$ in $S$, and a family of morphisms $f_i : M_i \to W'$
+of $\mathcal{C}$ (indexed by $i \in \mathcal{I}$) such that
+each $t_i$ is the equivalence class of the pair
+$(f_i : M_i \to W', s : W \to W')$, and such that for every morphism
+$\phi : i \to i'$ in $\mathcal{I}$, we have
+$f_i = f_{i'} \circ M\left(\phi\right)$.
+
+Now, by the universal property of the colimit
+$C = \colim_\mathcal{I} M$,
+there exists a unique morphism $w : C \to W'$ such that
+we have $f_i = w \circ s_i$ for every $i \in \mathcal{I}$.
+
+Recall that we need to prove that there exists a unique morphism
+$t : Q\left(C\right) \to W$ such that
+$t_i = t \circ Q\left(s_i\right)$ for every object $i$ of
+$\mathcal{I}$.
+
+\textit{Proof of the existence of $t$:} It is easy to check
+that $t$ exists, because we can set $t$ to be the equivalence
+class of the pair $(w : C \to W', s : W \to W')$.
+
+\textit{Proof of the uniqueness of $t$:} 
+[...]
 \end{proof}
 
 \begin{lemma}
