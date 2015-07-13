@@ -1152,7 +1152,8 @@ together with morphisms $p_i : \lim_\mathcal{I} M \to M_i$ such that
 \item for $\phi : i \to i'$ a morphism
 in $\mathcal{I}$ we have $p_{i'} =  M(\phi) \circ p_i$, and
 \item for any object $W$ in $\mathcal{C}$ and any family of
-morphisms $q_i : W \to M_i$ such that for all $\phi : i \to i'$
+morphisms $q_i : W \to M_i$ (indexed by $i \in \mathcal{I}$)
+such that for all $\phi : i \to i'$
 in $\mathcal{I}$ we have $q_{i'} = M(\phi) \circ q_i$ there
 exists a unique morphism $q : W \to \lim_\mathcal{I} M$ such that
 $q_i = p_i \circ q$ for every object $i$ of $\mathcal{I}$.
@@ -1178,7 +1179,8 @@ together with morphisms $s_i : M_i \to \colim_\mathcal{I} M$ such that
 \item for $\phi : i \to i'$ a morphism
 in $\mathcal{I}$ we have $s_i = s_{i'} \circ M(\phi)$, and
 \item for any object $W$ in $\mathcal{C}$ and any family of
-morphisms $t_i : M_i \to W$ such that for all $\phi : i \to i'$
+morphisms $t_i : M_i \to W$ (indexed by $i \in \mathcal{I}$)
+such that for all $\phi : i \to i'$
 in $\mathcal{I}$ we have $t_i = t_{i'} \circ M(\phi)$ there
 exists a unique morphism $t : \colim_\mathcal{I} M \to W$ such that
 $t_i = t \circ s_i$ for every object $i$ of $\mathcal{I}$.
@@ -1262,7 +1264,7 @@ identities as morphisms and having the elements of $I$ as objects.
 
 \noindent
 An important special case is where $I = \emptyset$ in which case the
-product is an initial object of the category.
+coproduct is an initial object of the category.
 Note that the coproduct comes equipped with morphisms
 $M_i \to \coprod M_i$. These are sometimes called the
 {\it coprojections}.
@@ -3131,7 +3133,7 @@ functor. Assume that
 and for each $i \in I$ an element $f_i \in F(x_i)$
 such that for $y \in \Ob(\mathcal{C})$ and $g \in F(y)$
 there exists an $i$ and a morphism $\varphi : x_i \to y$
-with $F(\varphi)(f_i)) = g$.
+with $F(\varphi)(f_i) = g$.
 \end{enumerate}
 Then $F$ is representable, i.e., there exists an object $x$
 of $\mathcal{C}$ such that
@@ -3317,7 +3319,8 @@ A set of arrows $S$ of $\mathcal{C}$ is called a {\it multiplicative system}
 if it is both a left multiplicative system and a right multiplicative system.
 In other words, this means that MS1, MS2, MS3 hold, where
 MS1 $=$ LMS1 $+$ RMS1, MS2 $=$ LMS2 $+$ RMS2, and
-MS3 $=$ LMS3 $+$ RMS3.
+MS3 $=$ LMS3 $+$ RMS3. (That said, of course LMS1 $=$ RMS1
+$=$ MS1.)
 \end{definition}
 
 \noindent
@@ -3334,7 +3337,8 @@ Lemma \ref{lemma-left-localization}):
 \item We set $\Ob(S^{-1}\mathcal{C}) = \Ob(\mathcal{C})$.
 \item Morphisms $X \to Y$ of $S^{-1}\mathcal{C}$ are given by pairs
 $(f : X \to Y', s : Y \to Y')$ with $s \in S$ up to equivalence.
-(Think of this as $s^{-1}f : X \to Y$.)
+(The equivalence is defined below. Think of the equivalence class
+of a pair $(f, s)$ as $s^{-1}f : X \to Y$.)
 \item Two pairs $(f_1 : X \to Y_1, s_1 : Y \to Y_1)$ and
 $(f_2 : X \to Y_2, s_2 : Y \to Y_2)$ are said to be equivalent
 if there exists a third pair $(f_3 : X \to Y_3, s_3 : Y \to Y_3)$
@@ -3361,6 +3365,9 @@ Y' \ar[r]^h & Z''
 }
 $$
 which exists by assumption.
+\item The identity morphism $X \to X$ in $S^{-1} \mathcal{C}$ is the
+equivalence class of the pair $(\operatorname{id} : X \to X,
+\operatorname{id} : X \to X)$.
 \end{enumerate}
 
 \begin{lemma}
@@ -3371,8 +3378,8 @@ system.
 \item The relation on pairs defined above is an equivalence relation.
 \item The composition rule given above is well defined on equivalence
 classes.
-\item Composition is associative and hence $S^{-1}\mathcal{C}$
-is a category.
+\item Composition is associative (and the identity morphisms satisfy
+the identity axioms), and hence $S^{-1}\mathcal{C}$ is a category.
 \end{enumerate}
 \end{lemma}
 
@@ -3389,10 +3396,14 @@ X \ar[r]^{f_2} & Y_2 & Y \ar[l]_{s_2}
 $$
 Let us denote this property by saying $p_1Ep_2$.
 Note that $pEp$ and $aEb, bEc \Rightarrow aEc$.
+(Despite its name, $E$ is not an equivalence
+relation.)
 Part (1) claims that the relation
 $p \sim p' \Leftrightarrow \exists q: pEq \wedge p'Eq$
+(where $q$ is supposed to be a pair satisfying the
+same conditions as $p$ and $p'$)
 is an equivalence relation. A simple formal argument, using the properties
-of $E$ above shows that it suffices to prove
+of $E$ above, shows that it suffices to prove
 $p_3Ep_1, p_3Ep_2 \Rightarrow p_1 \sim p_2$.
 Thus suppose that we are given a commutative diagram
 $$
@@ -3404,36 +3415,99 @@ Y \ar[lu]_{s_1} \ar[l]_{s_3} \ar[ld]^{s_2} \\
 & Y_2 &
 }
 $$
-with $s_i \in S$. First we apply LMS2 to get a commutative diagram
+with $s_i \in S$.
+% First we apply LMS2 to get a commutative diagram
+% $$
+% \xymatrix{
+% Y \ar[d]_{s_1} \ar[r]_{s_3} & Y_3 \ar@{..>}[d]^{s_{34}} \\
+% Y_1 \ar@{..>}[r]^{a_{14}} & Y_4
+% }
+% $$
+% with $s_{34} \in S$. Then we have
+% $s_{34} \circ s_3 = a_{14} \circ a_{31} \circ s_3$.
+% Hence by LMS3 there exists a morphism $s_{44} : Y_4 \to Y'_4$, $s_{44} \in S$
+% such that $s_{44} \circ s_{34} = s_{44} \circ a_{14} \circ a_{31}$.
+% Hence after
+% replacing $Y_4$ by $Y'_4$,
+% $a_{14}$ by $s_{44} \circ a_{14}$, and
+% $s_{34}$ by $s_{44} \circ s_{34}$ we may assume that
+% $s_{34} = a_{14} \circ a_{31}$. Next, we apply LMS2 to get a
+% commutative diagram
+% $$
+% \xymatrix{
+% Y_3 \ar[d]_{a_{32}} \ar[r]_{s_{34}} & Y_4 \ar@{..>}[d]^{s_{45}} \\
+% Y_2 \ar@{..>}[r]^{a_{25}} & Y_5
+% }
+% $$
+% with $s_{45} \in S$. Thus we obtain a pair
+% $p_5 =
+% (s_{45} \circ s_{34} \circ f_3 : X \to Y_5,
+% s_{45} \circ s_{34} \circ s_3 : Y \to Y_5)$
+% and the morphisms $s_{45} \circ a_{14} : Y_1 \to Y_5$ and
+% $a_{25} : Y_2 \to Y_5$ show that indeed $p_1Ep_5$ and $p_2Ep_5$
+% as desired.
+% [DG] I cannot follow this proof. LMS2 does not give $s_{45} \in S$,
+%      but $a_{25} \in S$ (and that is useless). Below is a proof I
+%      believe to be correct.
+First we apply LMS2 to get a commutative diagram
 $$
 \xymatrix{
-Y \ar[d]_{s_1} \ar[r]_{s_3} & Y_3 \ar@{..>}[d]^{s_{34}} \\
+Y \ar[d]_{s_1} \ar[r]_{s_2} & Y_2 \ar@{..>}[d]^{a_{24}} \\
 Y_1 \ar@{..>}[r]^{a_{14}} & Y_4
 }
 $$
-with $s_{34} \in S$. Then we have
-$s_{34} \circ s_3 = a_{14} \circ a_{31} \circ s_3$.
-Hence by LMS3 there exists a morphism $s_{44} : Y_4 \to Y'_4$, $s_{44} \in S$
-such that $s_{44} \circ s_{34} = s_{44} \circ a_{14} \circ a_{31}$.
-Hence after
-replacing $Y_4$ by $Y'_4$,
-$a_{14}$ by $s_{44} \circ a_{14}$, and
-$s_{34}$ by $s_{44} \circ s_{34}$ we may assume that
-$s_{34} = a_{14} \circ a_{31}$. Next, we apply LMS2 to get a
-commutative diagram
+with $a_{24} \in S$. Then, we have
+$a_{14} \circ \underbrace{a_{31} \circ s_3}_{= s_1}
+= a_{14} \circ s_1
+= a_{24} \circ \underbrace{s_2}_{= a_{32} \circ s_3}
+= a_{24} \circ a_{32} \circ s_3$. Hence, by LMS3, there exists a
+morphism $s_{44} : Y_4 \to Y'_4$ such that $s_{44} \in S$ and
+$s_{44} \circ a_{14} \circ a_{31}
+= s_{44} \circ a_{24} \circ a_{32}$.
+Hence, after replacing $Y_4$, $a_{14}$ and $a_{24}$ by $Y'_4$,
+$s_{44} \circ a_{14}$ and $s_{44} \circ a_{24}$, we may assume
+that $a_{14} \circ a_{31} = a_{24} \circ a_{32}$ (and
+we still have $a_{24} \in S$ and
+$a_{14} \circ s_1 = a_{24} \circ s_2$). Set
+$f_4 = a_{14} \circ f_1 = a_{24} \circ f_2$ (this is well-defined
+since $a_{14} \circ \underbrace{f_1}_{= a_{31} \circ f_3}
+= \underbrace{a_{14} \circ a_{31}}_{= a_{24} \circ a_{32}} \circ f_3
+= a_{24} \circ \underbrace{a_{32} \circ f_3}_{= f_2}
+= a_{24} \circ f_2$) and
+$s_4 = a_{14} \circ s_1 = a_{24} \circ s_2$. Then, the diagram
 $$
 \xymatrix{
-Y_3 \ar[d]_{a_{32}} \ar[r]_{s_{34}} & Y_4 \ar@{..>}[d]^{s_{45}} \\
-Y_2 \ar@{..>}[r]^{a_{25}} & Y_5
+X \ar@{=}[d] \ar[r]_{f_1} & Y_1 \ar[d]^{a_{14}} & Y \ar[l]^{s_1} \ar@{=}[d] \\
+X \ar[r]^{f_4} & Y_4 & Y \ar[l]_{s_4}
 }
 $$
-with $s_{45} \in S$. Thus we obtain a pair
-$p_5 =
-(s_{45} \circ s_{34} \circ f_3 : X \to Y_5,
-s_{45} \circ s_{34} \circ s_3 : Y \to Y_5)$
-and the morphisms $s_{45} \circ a_{14} : Y_1 \to Y_5$ and
-$a_{25} : Y_2 \to Y_5$ show that indeed $p_1Ep_5$ and $p_2Ep_5$
-as desired.
+commutes, and we have $s_4 \in S$ (by LMS1). Thus, $p_1 E p_4$,
+where $p_4 = (f_4, s_4)$. Similarly, $p_2 E p_4$. Combining these,
+we find $p_1 \sim p_2$.
+
+% with $s_{34} \in S$. Then we have
+% $s_{34} \circ s_3 = a_{14} \circ a_{31} \circ s_3$.
+% Hence by LMS3 there exists a morphism $s_{44} : Y_4 \to Y'_4$, $s_{44} \in S$
+% such that $s_{44} \circ s_{34} = s_{44} \circ a_{14} \circ a_{31}$.
+% Hence after
+% replacing $Y_4$ by $Y'_4$,
+% $a_{14}$ by $s_{44} \circ a_{14}$, and
+% $s_{34}$ by $s_{44} \circ s_{34}$ we may assume that
+% $s_{34} = a_{14} \circ a_{31}$. Next, we apply LMS2 to get a
+% commutative diagram
+% $$
+% \xymatrix{
+% Y_3 \ar[d]_{a_{32}} \ar[r]_{s_{34}} & Y_4 \ar@{..>}[d]^{s_{45}} \\
+% Y_2 \ar@{..>}[r]^{a_{25}} & Y_5
+% }
+% $$
+% with $s_{45} \in S$. Thus we obtain a pair
+% $p_5 =
+% (s_{45} \circ s_{34} \circ f_3 : X \to Y_5,
+% s_{45} \circ s_{34} \circ s_3 : Y \to Y_5)$
+% and the morphisms $s_{45} \circ a_{14} : Y_1 \to Y_5$ and
+% $a_{25} : Y_2 \to Y_5$ show that indeed $p_1Ep_5$ and $p_2Ep_5$
+% as desired.
 
 \medskip\noindent
 Proof of (2). Let  $p = (f : X \to Y', s : Y \to Y')$ and
@@ -3457,14 +3531,36 @@ Z' \ar[d]_{u_2} \ar[r]_{u_3} & Z_3 \ar[d]^{u_{34}} \\
 Z_2 \ar[r]^{h_{24}} & Z_4
 }
 $$
-with $u_{34} \in S$. Hence we obtain a pair
+with $u_{34} \in S$. We have $h_2 \circ s = u_2 \circ g$
+and similarly $h_3 \circ s = u_3 \circ g$. Now,
+$u_{34} \circ \underbrace{h_3 \circ s}_{= u_3 \circ g}
+= \underbrace{u_{34} \circ u_3}_{= h_{24} \circ u_2} \circ g
+= h_{24} \circ \underbrace{u_2 \circ g}_{= h_2 \circ s}
+= h_{24} \circ h_2 \circ s$. Hence, LMS3 shows that there
+exists a $Z'_4$ and an $s_{44} : Z_4 \to Z'_4$ such that
+$s_{44} \circ u_{34} \circ h_3 = s_{44} \circ h_{24} \circ h_2$.
+Replacing $Z_4$, $h_{24}$ and $u_{34}$ by $Z'_4$,
+$s_{44} \circ h_{24}$ and $s_{44} \circ u_{34}$, we can thus
+WLOG assume that $u_{34} \circ h_3 = h_{24} \circ h_2$.
+Meanwhile, the relations $u_{34} \circ u_3 = h_{24} \circ u_2$
+and $u_{34} \in S$ continue to hold. We can now set
+$h_4 = u_{34} \circ h_3 = h_{24} \circ h_2$ and
+$u_4 = u_{34} \circ u_3 = h_{24} \circ u_2$. Then, we have a
+commutative diagram
+$$
+\xymatrix{
+X \ar@{=}[d] \ar[r]_{h_2\circ f} & Z_2 \ar[d]^{h_{24}} & Z \ar[l]^{u_2 \circ t} \ar@{=}[d] \\
+X \ar@{=}[d] \ar[r]^{h_4\circ f} & Z_4 & Z \ar@{=}[d] \ar[l]_{u_4 \circ t} \\
+X \ar[r]_{h_3 \circ f} & Z_3 \ar[u]^{u_{34}} & Z \ar[l]^{u_3 \circ t}
+}
+$$
+Hence we obtain a pair
 $r_4 =
-(h_{24} \circ h_2 \circ f : X \to Z_4, u_{34} \circ u_3 \circ t : Z \to Z_4)$
-and the morphisms $h_{24} : Z_2 \to Z_4$ and
-$u_{34} : Z_3 \to Z_4$ show that we have $r_2Er_4$ and
-$r_3Er_4$ as desired. Thus it now makes sense to define
-$p \circ q$ as the equivalence class of all possible pairs $r$
-obtained as above.
+(h_4 \circ f : X \to Z_4, u_4 \circ t : Z \to Z_4)$
+and the above diagram shows that we have $r_2Er_4$ and
+$r_3Er_4$, whence $r_2 \sim r_3$, as desired. Thus it now
+makes sense to define $p \circ q$ as the equivalence class of
+all possible pairs $r$ obtained as above.
 
 \medskip\noindent
 To finish the proof of (2) we have to show that given pairs
@@ -3493,13 +3589,15 @@ Y_1 \ar[r]^{h \circ a} & Z''
 }
 }
 $$
+(with $u \in S$),
 which implies the diagram on the right is commutative as well.
-Using these diagrams we see that both compositions are the
-equivalence class of
+Using these diagrams we see that both compositions $q \circ p_1$
+and $q \circ p_2$ are the equivalence class of
 $(h \circ a \circ f_1 : X \to Z'', u \circ t : Z \to Z'')$.
-Thus $p_1 \circ q = p_2 \circ q$.
+Thus $q \circ p_1 = q \circ p_2$.
 The proof of the other case, in which we have to show
-$q \circ p_1 = q \circ p_2$, is omitted.
+$p_1 \circ q = p_2 \circ q$, is omitted. (It is similar to the
+case we did.)
 
 \medskip\noindent
 Proof of (3). We have to prove associativity of composition.
@@ -3512,6 +3610,7 @@ $$
 W \ar[r] & X' \ar@{..>}[r] & Y'' \ar@{..>}[r] & Z'''
 }
 $$
+(whose vertical arrows belong to $S$)
 which gives rise to three composable pairs.
 Using LMS2 we can choose the dotted arrows making the squares commutative
 and such that the vertical arrows are in $S$.
@@ -3520,7 +3619,59 @@ is the equivalence class of the pair
 $(W \to Z''', Z \to Z''')$ gotten by composing the
 horizontal arrows on the bottom row and the vertical arrows
 on the right column.
+
+We leave it to the reader to check the identity axioms.
 \end{proof}
+
+\begin{remark}
+The motivation for the construction of $S^{-1} \mathcal{C}$ is to
+``force'' the morphisms in $S$ to be invertible by artificially
+creating inverses to them (at the cost of some existing morphisms
+possibly becoming identified with each other). This is similar to
+the localization of a commutative ring at a multiplicative subset,
+and more generally to the localization of a noncommutative ring
+at a right denominator set (\cite[Section 10A]{Lam99}). This is
+more than just a similarity: The construction of
+$S^{-1} \mathcal{C}$ (or, more precisely, its version for
+additive categories $\mathcal{C}$) actually generalizes the
+latter type of localization. Namely, a noncommutative ring can be
+viewed as an additive category with a single object (the morphisms
+being the elements of the ring); a multiplicative subset of this
+ring then becomes a set $S$ of morphisms satisfying LMS1 (aka
+RMS1). Then, the conditions RMS2 and RMS3 for this category and
+this subset $S$ translate into the two conditions
+(``right permutable'' and ``right reversible'') of a right
+denominator set (and similarly for LMS and left denominator sets),
+and $S^{-1} \mathcal{C}$ (with a properly defined additive
+structure) is the one-object category corresponding to the
+localization of the ring.
+\end{remark}
+
+\begin{definition}
+\label{definition-left-localization-as-fraction}
+Let $\mathcal{C}$ be a category and let $S$ be a left multiplicative
+system of morphisms of $\mathcal{C}$. Given any morphism
+$f : X \to Y'$ in $\mathcal{C}$ and any morphism $s : Y \to Y'$ in
+$S$, we denote by $s^{-1} f$ the equivalence class of the pair
+$(f : X \to Y', s : Y \to Y')$. This is a morphism from $X$ to $Y$
+in $S^{-1} \mathcal{C}$.
+
+This notation is suggestive, and the things it suggests are true:
+Given any morphism $f : X \to Y'$ in $\mathcal{C}$ and any two
+morphisms $s : Y \to Y'$ and $t : Y' \to Y''$ in $S$, we have
+$\left(t \circ s\right)^{-1} \left(t \circ f\right) = s^{-1} f$.
+Also, for any
+$f : X \to Y'$ and $g : Y' \to Z'$ in $\mathcal{C}$ and all
+$s : Z \to Z'$ in $S$, we have
+$s^{-1} \left(g \circ f\right) = \left(s^{-1} g\right) \circ
+\left(\operatorname{id}_{Y'}^{-1} f\right)$.
+Finally, for any $f : X \to Y'$ in $\mathcal{C}$, all
+$s : Y \to Y'$ in $S$, and $t : Z \to Y$ in $S$, we have
+$\left(s \circ t\right)^{-1} f
+= \left(t^{-1} \operatorname{id}_Y\right)
+\circ \left(s^{-1} f\right)$.
+This is all clear from the definition.
+\end{definition}
 
 \noindent
 We can ``write any finite collection of morphisms with the same target
@@ -3531,14 +3682,16 @@ as fractions with common denominator''.
 Let $\mathcal{C}$ be a category and let $S$ be a left multiplicative
 system of morphisms of $\mathcal{C}$. Given any finite collection
 $g_i : X_i \to Y$ of morphisms of $S^{-1}\mathcal{C}$
+(indexed by $i$),
 we can find an element $s : Y \to Y'$ of $S$ and
-$f_i : X_i \to Y'$ such that
-$g_i$ is the equivalence class of the pair
+a family of morphisms $f_i : X_i \to Y'$ of $\mathcal{C}$ such that
+each $g_i$ is the equivalence class of the pair
 $(f_i : X_i \to Y', s : Y \to Y')$.
 \end{lemma}
 
 \begin{proof}
-For each $i$ choose a representative $(X_i \to Y_i, s_i : Y \to Y_i)$.
+For each $i$ choose a representative $(X_i \to Y_i, s_i : Y \to Y_i)$
+of $g_i$.
 The lemma follows if we can find a morphism $s : Y \to Y'$ in $S$ such that
 for each $i$ there is a morphism $a_i : Y_i \to Y'$ with
 $a_i \circ s_i = s$. If we have two indices $i = 1, 2$, then we can
@@ -3604,7 +3757,7 @@ where $a : Y' \to Y''$ is arbitrary. We claim that the category
 $Y/S$ is filtered (see
 Definition \ref{definition-directed}).
 Namely, LMS1 implies that $\text{id}_Y : Y \to Y$
-is in $Y/S$ hence $Y/S$ is nonempty. LMS2 implies that given
+is in $Y/S$; hence $Y/S$ is nonempty. LMS2 implies that given
 $s_1 : Y \to Y_1$ and $s_2 : Y \to Y_2$ we can find a diagram
 $$
 \xymatrix{
@@ -3613,10 +3766,11 @@ Y_1 \ar[r]^a & Y_3
 }
 $$
 with $t \in S$. Hence $s_1 : Y \to Y_1$ and $s_2 : Y \to Y_2$
-both map to $t \circ s_2 : Y \to Y_3$ in $Y/S$. Finally, given
+both have maps to $t \circ s_2 : Y \to Y_3$ in $Y/S$. Finally, given
 two morphisms $a, b$ from $s_1 : Y \to Y_1$ to $s_2 : Y \to Y_2$
-in $Y/S$ we see that $a \circ s_1 = b \circ s_1$ hence by LMS3
-there exists a $t : Y_2 \to Y_3$ such that $t \circ a = t \circ b$.
+in $Y/S$ we see that $a \circ s_1 = b \circ s_1$; hence by LMS3
+there exists a $t : Y_2 \to Y_3$ in $S$ such that
+$t \circ a = t \circ b$.
 Now the combined results of
 Lemmas \ref{lemma-morphisms-left-localization} and
 \ref{lemma-equality-morphisms-left-localization}
@@ -3648,9 +3802,85 @@ such that $H \circ Q = G$.
 \end{lemma}
 
 \begin{proof}
-Parts (1) and (2) are clear. To see (3) just set $H(X) = G(X)$
+Parts (1) and (2) are clear. (In (2), the inverse of $Q(s)$ is
+the equivalence class of the pair $(\operatorname{id}_Y, s)$.)
+To see (3) just set $H(X) = G(X)$
 and set $H((f : X \to Y', s : Y \to Y')) = G(s)^{-1} \circ G(f)$.
 Details omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-cocones-left-localization}
+Let $\mathcal{C}$ be a category and let $S$ be a left multiplicative
+system of morphisms of $\mathcal{C}$.
+
+Let $\mathcal{I}$ be a finite category, and let $M : \mathcal{I}
+\to \mathcal{C}$ be an $\mathcal{I}$-diagram (i.e., a functor).
+Let $W$ be any object of $S^{-1} \mathcal{C}$. Assume that we
+have a family of morphisms $t_i : M_i \to W$ in $S^{-1} \mathcal{C}$
+(indexed by $i \in \mathcal{I}$) such that for every morphism
+$\phi : i \to i'$ in $\mathcal{I}$, we have
+$t_i = t_{i'} \circ Q\left(M\left(\phi\right)\right)$. Here, we
+write $M_i$ for $M\left(i\right)$.
+
+Then, there exists an
+object $W'$ of $\mathcal{C}$, a morphism $s : W \to W'$ in $S$, and
+a family of morphisms $f_i : M_i \to W'$ of $\mathcal{C}$ (indexed by
+$i \in \mathcal{I}$) such that
+each $t_i$ is the equivalence class of the pair
+$(f_i : M_i \to W', s : W \to W')$, and such that for every morphism
+$\phi : i \to i'$ in $\mathcal{I}$, we have
+$f_i = f_{i'} \circ M\left(\phi\right)$.
+\end{lemma}
+
+\begin{proof}
+Let $M$ denote the set of all morphisms of $\mathcal{I}$. This set
+$M$ is finite.
+
+If $T$ is a subset of $M$, then we define a \textit{$T$-cocone} to
+mean a triple
+$\left(W', s, \left(f_i\right)_{i \in \mathcal{I}}\right)$,
+where $W'$ is an object of $\mathcal{C}$, where $s : W \to W'$ is a
+morphism in $S$, and where the $f_i : M_i \to W'$ are a family of
+morphisms of $\mathcal{C}$ (indexed by $i \in \mathcal{I}$) such
+that each $t_i$ is the equivalence class of the pair
+$(f_i : M_i \to W', s : W \to W')$, and such that for every morphism
+$\phi : i \to i'$ in $\mathcal{I}$ belonging to $T$, we have
+$f_i = f_{i'} \circ M\left(\phi\right)$.
+
+To prove the lemma, we need to show that an $M$-cocone exists.
+We will prove, more generally, that a $T$-cocone exists for every
+subset $T$ of $M$. We argue by induction over $\left|T\right|$
+(which makes sense since $M$ is finite). If
+$\left|T\right| = 0$, then the existence of a $T$-cocone follows
+from Lemma \ref{lemma-morphisms-left-localization} (applied to
+$X_i = M_i$, $Y = W$ and $g_i = t_i$). It remains to do the
+induction step.
+So let $T$ be a subset of $M$ with $\left|T\right| > 0$, and
+we assume (as induction hypothesis) that a $T'$-cocone exists
+for every subset $T'$ of $M$ which has fewer elements than $T$.
+
+Pick any morphism $t : j \to j'$ in $T$, and let
+$T' = T \setminus \left\{t\right\}$. Then, the induction
+hypothesis shows that a $T'$-cocone exists. Let
+$\left(W'', s', \left(f'_i\right)_{i \in \mathcal{I}}\right)$
+be such a $T'$-cocone. Then, each $t_i$ is the equivalence class
+of the pair $(f'_i : M_i \to W'', s' : W \to W'')$. Let $A$
+and $B$ be the equivalence classes of
+$(f'_j : M_j \to W'', s' : W \to W'')$ and
+$(f'_{j'} \circ M\left(t\right) : M_j \to W'', s' : W \to W'')$.
+Then, $A = t_j = t_{j'} \circ Q\left(M\left(t\right)\right)
+= B$. Hence, applying
+Lemma \ref{lemma-equality-morphisms-left-localization} to
+$X = M_i$, $Y = W$, $Y' = W''$, $f = f'_j$, $s = s'$ and
+$g = f'_{j'} \circ M\left(t\right)$, we obtain that there exists
+a morphism $a : W'' \to W'$ with $a \circ s' \in S$ and
+such that $a \circ f'_j = a \circ f'_{j'} \circ M\left(t\right)$.
+It is now straightforward to verify that
+$\left(W', a \circ s',
+\left(a \circ f'_i\right)_{i \in \mathcal{I}}\right)$ is a
+$T$-cocone. Hence, a $T$-cocone exists, and the induction step
+is complete.
 \end{proof}
 
 \begin{lemma}
@@ -3663,7 +3893,15 @@ $Q : \mathcal{C} \to S^{-1}\mathcal{C}$ commutes with finite colimits.
 \begin{proof}
 This is clear from (\ref{equation-left-localization-morphisms-colimit}),
 Remark \ref{remark-limit-colim}, and
-Lemma \ref{lemma-colimits-commute}.
+Lemma \ref{lemma-directed-commutes}.
+% [DG] I think this is direly in need of detail. (I have essentially
+%      guessed that you are using Lemma \ref{lemma-directed-commutes},
+%      because the lim-lim and colim-colim commutativities do not need
+%      finiteness (nor directedness). But in truth I don't understand
+%      this proof.
+%      I have added a second proof below,
+%      which does not rely on colimits (which, I think, are somewhat
+%      of a detour in proving this lemma.)
 \end{proof}
 
 \begin{lemma}
@@ -3709,16 +3947,44 @@ by postcomposing both $t$ and $f''$ by a morphism $d : Y'' \to Y'''$
 with the property that $d \circ t \in S$. According to
 Remark \ref{remark-left-localization-morphisms-colimit}
 we may after such a replacement assume that there exists a morphism
-$h : Y \to Y''$ such that $b = t^{-1}h$. At this point we have everything
+$h : Y \to Y''$ such that $b = t^{-1}h$\ \ \ \ \footnote{Here is a
+more down-to-earth way to see this:
+% [DG] because I don't understand what it has to do with
+%      Remark \ref{remark-left-localization-morphisms-colimit}
+Write $b = q^{-1}i$ for some $q : Y' \to Z$ in $S$ and some
+$i : Y \to Z$. By LMS2 we can find $r : Y'' \to Y'''$ in $S$ and
+$j : Z \to Y'''$ such that $j \circ q = r \circ t$. Now, set
+$d = r$ and $h = j \circ i$.}. At this point we have everything
 as in the lemma except that we don't know that the left square of the
-diagram commutes. However, we do know that $Q(f''g) = Q(hf)$ in
-$S^{-1}\mathcal{D}$ because the right square commutes,
-the outer square commutes in $S^{-1}\mathcal{D}$ by assumption, and
-because $Q(s), Q(t)$ are isomorphisms. Hence using
+diagram commutes.
+% However, we do know that $Q(f''g) = Q(hf)$ in
+% $S^{-1}\mathcal{D}$ because the right square commutes,
+% the outer square commutes in $S^{-1}\mathcal{D}$ by assumption, and
+% because $Q(s), Q(t)$ are isomorphisms.
+% [DG] I don't understand this :/ Instead here is what I do:
+But the definition of composition in $S^{-1} \mathcal{C}$ shows that
+$b \circ Q\left(f\right)$ is the equivalence class of the pair
+$(h \circ f : X \to Y'', t : Y' \to Y'')$ (since $b$ is the
+equivalence class of the pair $(g : X \to X'', s : X' \to X'')$,
+while $Q\left(f\right)$ is the equivalence class of the pair
+$(f : X \to Y, \operatorname{id} : Y \to Y)$), while
+$Q\left(f'\right) \circ a$ is the equivalence class of the pair
+$(f'' \circ g : X \to Y'', t : Y' \to Y'')$ (since $a$ is the
+equivalence class of the pair $(h : Y \to Y'', t : Y' \to Y'')$,
+while $Q\left(f'\right)$ is the equivalence class of the pair
+$(f' : X' \to Y', \operatorname{id} : Y' \to Y')$).
+Since we know that
+$b \circ Q\left(f\right) = Q\left(f'\right) \circ a$, we thus
+conclude that the equivalence classes of the pairs
+$(h \circ f : X \to Y'', t : Y' \to Y'')$ and
+$(f'' \circ g : X \to Y'', t : Y' \to Y'')$ are equal.
+Hence using
 Lemma \ref{lemma-equality-morphisms-left-localization}
-we can find a morphism $d : Y'' \to Y'''$ in $S$ (!) such that
-$df''g = dhf$. Hence we make one more replacement of the kind described
+we can find a morphism $d : Y'' \to Y'''$ such that
+$d \circ t \in S$ and $d \circ h \circ f = d \circ f'' \circ g$.
+Hence we make one more replacement of the kind described
 above and we win.
+% [DG] I don't see how you get $d \in S$, nor why you want it.
 \end{proof}
 
 \noindent
@@ -3731,7 +3997,8 @@ Lemma \ref{lemma-right-localization}):
 \item We set $\Ob(S^{-1}\mathcal{C}) = \Ob(\mathcal{C})$.
 \item Morphisms $X \to Y$ of $S^{-1}\mathcal{C}$ are given by pairs
 $(f : X' \to Y, s : X' \to X)$ with $s \in S$ up to equivalence.
-(Think of this as $fs^{-1} : X \to Y$.)
+(The equivalence is defined below. Think of the equivalence class
+of a pair $(f, s)$ as $fs^{-1} : X \to Y$.)
 \item Two pairs $(f_1 : X_1 \to Y, s_1 : X_1 \to X)$ and
 $(f_2 : X_2 \to Y, s_2 : X_2 \to X)$ are said to be equivalent
 if there exists a third pair $(f_3 : X_3 \to Y, s_3 : X_3 \to X)$
@@ -3758,6 +4025,9 @@ X' \ar[r]^f & Y
 }
 $$
 which exists by assumption.
+\item The identity morphism $X \to X$ in $S^{-1} \mathcal{C}$ is the
+equivalence class of the pair $(\operatorname{id} : X \to X,
+\operatorname{id} : X \to X)$.
 \end{enumerate}
 
 \begin{lemma}
@@ -3768,8 +4038,8 @@ system.
 \item The relation on pairs defined above is an equivalence relation.
 \item The composition rule given above is well defined on equivalence
 classes.
-\item Composition is associative and hence $S^{-1}\mathcal{C}$
-is a category.
+\item Composition is associative (and the identity morphisms satisfy
+the identity axioms), and hence $S^{-1}\mathcal{C}$ is a category.
 \end{enumerate}
 \end{lemma}
 
@@ -3781,6 +4051,18 @@ $\mathcal{C}$ by its opposite category in which
 $S$ is a left multiplicative system.
 \end{proof}
 
+\begin{definition}
+Let $\mathcal{C}$ be a category and let $S$ be a right multiplicative
+system of morphisms of $\mathcal{C}$. Given any morphism
+$f : X' \to Y$ in $\mathcal{C}$ and any morphism $s : X' \to X$ in
+$S$, we denote by $f s^{-1}$ the equivalence class of the pair
+$(f : X' \to Y, s : X' \to X)$. This is a morphism from $X$ to $Y$
+in $S^{-1} \mathcal{C}$.
+
+Identities similar (actually, dual) to the ones in Definition
+\ref{definition-left-localization-as-fraction} hold.
+\end{definition}
+
 \noindent
 We can ``write any finite collection of morphisms with the same source
 as fractions with common denominator''.
@@ -3790,8 +4072,9 @@ as fractions with common denominator''.
 Let $\mathcal{C}$ be a category and let $S$ be a right multiplicative
 system of morphisms of $\mathcal{C}$. Given any finite collection
 $g_i : X \to Y_i$ of morphisms of $S^{-1}\mathcal{C}$
-we can find an element $s : X' \to X$ of $S$ and
-$f_i : X' \to Y_i$ such that
+(indexed by $i$),
+we can find an element $s : X' \to X$ of $S$ and a family
+of morphisms $f_i : X' \to Y_i$ of $\mathcal{C}$ such that
 $g_i$ is the equivalence class of the pair
 $(f_i : X' \to Y_i, s : X' \to X)$.
 \end{lemma}
@@ -3886,9 +4169,7 @@ $Q : \mathcal{C} \to S^{-1}\mathcal{C}$ commutes with finite limits.
 \end{lemma}
 
 \begin{proof}
-This is clear from (\ref{equation-right-localization-morphisms-colimit}),
-Remark \ref{remark-limit-colim}, and
-Lemma \ref{lemma-colimits-commute}.
+This is dual to Lemma \ref{lemma-left-localization-limits}.
 \end{proof}
 
 \begin{lemma}
