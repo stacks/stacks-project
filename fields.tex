@@ -756,6 +756,30 @@ $a_0^{-1} (- a_1  - \ldots - a_d \alpha^{d - 1})$
 of $R$.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-algebraic-extension-self-map}
+Let $E/F$ an algebraic extension of fields. Any $F$-algebra map
+$f : E \to E$ is an automorphism.
+\end{lemma}
+
+\begin{proof}
+If $E/F$ is finite, then $f : E \to E$ is an $F$-linear 
+injective map (Lemma \ref{lemma-field-maps-injective})
+of finite dimensional vector spaces, and hence bijective.
+In general we still see that $f$ is injective.
+Let $\alpha \in E$ and let $P \in F[x]$ be a
+polynomial such that $P(\alpha) = 0$.
+Let $E' \subset E$ be the subfield of $E$ generated
+by the roots $\alpha = \alpha_1, \ldots, \alpha_n$ of $P$ in $E$.
+Then $E'$ is finite over $F$ by Lemma \ref{lemma-algebraic-finitely-generated}.
+Since $f$ preserves the set of roots, we find that
+$f|_{E'} : E' \to E'$. Hence $f|_{E'}$ is an isomorphism
+by the first part of the proof and we conclude that $\alpha$
+is in the image of $f$.
+\end{proof}
+
+
+
 
 
 
@@ -1700,6 +1724,42 @@ $P = (x - \alpha_1) \ldots (x - \alpha_n)$ splits completely over $E$.
 This finishes the proof.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-lift-maps}
+Let $L/M/K$ be a tower of algebraic extensions.
+\begin{enumerate}
+\item If $M/K$ is normal, then any automorphism $\tau$ of $L/K$
+induces an automorphism $\tau|_M : M \to M$.
+\item If $L/K$ is normal, then $K$-algebra map $\sigma : M \to L$
+extends to an automorphism of $L$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Choose an algebraic closure $\overline{L}$ of $L$
+(Theorem \ref{theorem-existence-algebraic-closure}).
+
+\medskip\noindent
+Let $\tau$ be as in (1). Then $\tau(M) = M$ as subfields of $\overline{L}$
+by Lemma \ref{lemma-characterize-normal} and hence
+$\tau|_M : M \to M$ is an automorphism.
+
+\medskip\noindent
+Let $\sigma : M \to L$ be as in (2).
+By Lemma \ref{lemma-map-into-algebraic-closure}
+we can extend $\sigma$ to a map
+$\tau : L \to \overline{L}$, i.e., such that
+$$
+\xymatrix{
+L \ar[r]_\tau & \overline{L} \\
+M \ar[u] \ar[ru]_\sigma & K \ar[l] \ar[u]
+}
+$$
+is commutative. By Lemma \ref{lemma-characterize-normal} we see that
+$\tau(L) = L$. Hence $\tau : L \to L$ is an automorphism which
+extends $\sigma$.
+\end{proof}
+
 \begin{definition}
 \label{definition-automorphisms}
 Let $E/F$ be an extension of fields. Then $\text{Aut}(E/F)$ or
@@ -1792,15 +1852,10 @@ The field extension $E/F$ constructed in Lemma \ref{lemma-splitting-field}
 is called the {\it splitting field of $P$ over $F$}.
 \end{definition}
 
-\noindent
-The field constructed in the next lemma is sometimes called the
-{\it normal closure} of $E$ over $F$.
-
 \begin{lemma}
 \label{lemma-normal-closure}
 Let $E/F$ be a finite extension of fields. There exists a unique
-(up to nonunique isomorphism) smallest finite extension $K/E$ such
-that $K$ is normal over $F$.
+smallest finite extension $K/E$ such that $K$ is normal over $F$.
 \end{lemma}
 
 \begin{proof}
@@ -1831,6 +1886,31 @@ By minimality we conclude that $\sigma(K) = \sigma(K')$.
 Thus $\sigma \circ (\sigma')^{-1} : K' \to K$ gives an isomorphism
 of extensions of $E$.
 \end{proof}
+
+\begin{definition}
+\label{definition-normal-closure}
+Let $E/F$ be a finite extension of fields. The field extension $K/E$
+constructed in Lemma \ref{lemma-normal-closure}
+is called the {\it normal closure $E$ over $F$}.
+\end{definition}
+
+\noindent
+One can construct the normal closure inside any given normal extension.
+
+\begin{lemma}
+\label{lemma-normal-closure-inside-normal}
+Let $L/M/K$ be a tower of fields. Assume that $L/K$ is normal and that
+$M/K$ is finite. Then there exists a tower $L/M'/M/K$
+with $M'/K$ finite and normal.
+\end{lemma}
+
+\begin{proof}
+Let $M'$ be the smallest subextension of $L/K$ containing $M$ which
+is normal over $K$. By Lemma \ref{lemma-normal-closure}
+this is the normal closure of $M/K$ and is finite over $K$.
+\end{proof}
+
+
 
 
 
@@ -2313,10 +2393,9 @@ called the {\it Galois group} and it is denoted $\text{Gal}(E/F)$.
 \end{definition}
 
 \noindent
-It turns out that if $L/K$ is an infinite Galois extension, then
-one should think of the Galois group as a topological group.
-We will return to this later (insert future reference here).
-In this chapter we mainly restrict ourselves to finite Galois extensions.
+If $L/K$ is an infinite Galois extension, then one should think of the
+Galois group as a topological group. We will return to this in
+Section \ref{section-infinite-galois}.
 
 \begin{lemma}
 \label{lemma-galois-goes-up}
@@ -2404,6 +2483,8 @@ $$
 H \longmapsto L^H
 $$
 is a bijection whose inverse maps $M$ to $\text{Gal}(L/M)$.
+The normal subgroups $H$ of $G$ correspond exactly to those
+subextensions $M$ with $M/K$ Galois.
 \end{theorem}
 
 \begin{proof}
@@ -2415,7 +2496,241 @@ Conversely, if $H \subset G$ is a finite subgroup, then
 $[L : L^H] = |H|$ by Lemma \ref{lemma-galois-over-fixed-field}.
 It follows formally from these two observations that we obtain
 a bijective correspondence as in the theorem.
+
+\medskip\noindent
+If $H \subset G$ is normal, then $L^H$ is fixed by the action of
+$G$ and we obtain a canonical map $G/H \to \text{Aut}(L^H/K)$.
+This map has to be injective as $\text{Gal}(L/L^H) = H$. Hence
+$|G/H| = [L^H : K]$ and $L^H$ is Galois by
+Lemma \ref{lemma-finite-Galois}.
+
+\medskip\noindent
+Conversely, assume that $K \subset M \subset L$ with $M/K$ Galois.
+By Lemma \ref{lemma-lift-maps} we see that every
+element $\tau \in \text{Gal}(L/K)$ induces an element
+$\tau|_M \in \text{Gal}(M/K)$. This induces a homomorphism
+of Galois groups $\text{Gal}(L/K) \to \text{Gal}(M/K)$ whose
+kernel is $H$. Thus $H$ is a normal subgroup.
 \end{proof}
+
+\begin{lemma}
+\label{lemma-ses-galois}
+Let $L/M/K$ be a tower of fields. Assume $L/K$ and $M/K$ are finite Galois.
+Then we obtain a short exact sequence
+$$
+1 \to \text{Gal}(L/M) \to \text{Gal}(L/K) \to \text{Gal}(M/K) \to 1
+$$
+of finite groups.
+\end{lemma}
+
+\begin{proof}
+Namely, by Lemma \ref{lemma-lift-maps}
+we see that every element $\tau \in \text{Gal}(L/K)$ induces an element
+$\tau|_M \in \text{Gal}(M/K)$ which gives us the homomorphism on the
+right. The map on the left identifies the left group with the kernel
+of the right arrow. The sequence is exact because the sizes
+of the groups work out correctly by multiplicativity of degrees
+in towers of finite extensions
+(Lemma \ref{lemma-multiplicativity-degrees}).
+One can also use Lemma \ref{lemma-lift-maps}
+directly to see that the map on the right is surjective.
+\end{proof}
+
+
+
+
+
+
+\section{Infinite Galois theory}
+\label{section-infinite-galois}
+
+\noindent
+The Galois group comes with a canonical topology.
+
+\begin{lemma}
+\label{lemma-galois-profinite}
+Let $E/F$ be a Galois extension. There is a
+canonical topology on $\text{Gal}(E/F)$ such that
+\begin{enumerate}
+\item $\text{Gal}(E/F)$ is a profinite topological group,
+\item the action $\text{Gal}(E/F) \times E \to E$
+is continuous when $E$ is given the discrete topology.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Throughout this proof we think of $E$ as a discrete topological space.
+Recall that the set of invertible self maps $\text{Aut}(E)$
+endowed with the compact open topology forms a topological group,
+see Topology, Example \ref{topology-example-automorphisms-of-a-set}.
+Let us use the injection
+$$
+\text{Gal}(E/F) \subset \text{Aut}(E)
+$$
+to endow $\text{Gal}(E/F)$ with the induced structure of a topological group
+(see Topology, Section \ref{topology-section-topological-groups}).
+By construction the action $\text{Gal}(E/F) \times E \to E$ is continuous.
+
+\medskip\noindent
+To show that $\text{Gal}(E/F)$ is profinite we argue as follows
+(this is a bit nonstandard and the reader may want to read more below first).
+For any subset $S \subset E$ consider the set
+$$
+G(S) = \{ f : S \to E \mid
+\begin{matrix}
+f(\alpha)\text{ is a root of the minimal polynomial}\\
+\text{of }\alpha\text{ over }F\text{ for all }\alpha \in S
+\end{matrix}
+\}
+$$
+Since a polynomial has only a finite number of roots we see that
+$G(S)$ is finite for all $S \subset E$ finite. If $S \subset S'$
+then restriction gives a map $G(S') \to G(S)$. Also, observe
+that if $\alpha \in S \cap F$ and $f \in G(S)$, then $f(\alpha) = \alpha$
+because the minimal polynomial is linear in this case.
+Consider the profinite topological space
+$$
+G = \lim_{S \subset E\text{ finite}} G(S)
+$$
+Consider the canonical map
+$$
+c : \text{Gal}(E/F) \longrightarrow G,\quad
+\sigma \longmapsto (\sigma|_S : S \to E)_S
+$$
+This is injective and unwinding the definitions the
+reader sees the topology on $\text{Gal}(E/F)$ as defined above
+is the induced topology from $G$. An element $(f_S) \in G$ is in
+the image of $c$ exactly if
+(A) $f_S(\alpha) + f_S(\beta) = f_S(\alpha + \beta)$ and
+(M) $f_S(\alpha)f_S(\beta) = f_S(\alpha\beta)$ whenever
+this makes sense (i.e., 
+$\alpha, \beta, \alpha + \beta, \alpha\beta \in S$).
+Namely, this means
+$\lim f_S : E \to E$ will be an $F$-algebra map
+and hence an automorphism by
+Lemma \ref{lemma-algebraic-extension-self-map}.
+The conditions (A) and (M) for a given triple
+$(S, \alpha, \beta)$ define a closed subset of
+$G$ and hence $\text{Gal}(E/F)$ is homeomorphic
+to a closed subset of a profinite space and therefore
+profinite itself.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-galois-infinite}
+Let $L/M/K$ be a tower of fields. Assume both $L/K$ and
+$M/K$ are Galois. Then there is a canonical surjective continuous
+homomorphism $c : \text{Gal}(L/K) \to \text{Gal}(M/K)$.
+\end{lemma}
+
+\begin{proof}
+By Lemma \ref{lemma-lift-maps} given $\tau : L \to L$ in
+$\text{Gal}(L/K)$ the restriction $\tau|_M : M \to M$
+is an element of $\text{Gal}(M/K)$. This defines the homomorphism.
+We omit the proof of continuity. The same lemma shows
+that the map is surjective.
+\end{proof}
+
+\begin{theorem}[Fundamental theorem of infinite Galois theory]
+\label{theorem-inifinite-galois-theory}
+Let $L/K$ be a Galois extension. Let $G = \text{Gal}(L/K)$
+be the Galois group viewed as a profinite topoological group
+(Lemma \ref{lemma-galois-profinite}). Then we have $K = L^G$ and the map
+$$
+\{\text{closed subgroups of }G\}
+\longrightarrow
+\{\text{subextensions }K \subset M \subset L\},\quad
+H \longmapsto L^H
+$$
+is a bijection whose inverse maps $M$ to $\text{Gal}(L/M)$.
+The finite subextensions $M$ correspond exactly to the open
+subgroups $H \subset G$. The normal closed subgroups $H$ of $G$
+correspond exactly to subextensions $M$ Galois over $K$.
+\end{theorem}
+
+\begin{proof}
+We will use the result of finite Galois theory
+(Theorem \ref{theorem-galois-theory})
+without further mention.
+Let $S \subset L$ be a finite subset. There exists a tower
+$L/E/K$ such that $K(S) \subset E$ and such that
+$E/K$ is finite Galois, see Lemma \ref{lemma-normal-closure-inside-normal}.
+In other words, we see that $L/K$ is the union of its finite
+Galois subextensions.
+For such an $E$, by Lemma \ref{lemma-galois-infinite}
+the map $\text{Gal}(L/K) \to \text{Gal}(E/K)$ is surjective
+and continuous, i.e., the kernel is open because the topology
+on $\text{Gal}(E/K)$ is discrete.
+In particular we see that no element of $M \setminus K$ is fixed by
+$\text{Gal}(L/K)$ as $E^{\text{Gal}(E/K)} = K$.
+This proves that $L^G = K$.
+
+\medskip\noindent
+Lemma \ref{lemma-galois-goes-up} given a subextension $L/M/K$
+the extension $L/M$ is Galois. It is immediate from the definition
+of the topology on $G$ that the subgroup $\text{Gal}(L/M)$ is closed.
+By the above applied to $L/M$ we see that $L^{\text{Gal}(L/M)} = M$
+
+\medskip\noindent
+Conversely, let $H \subset G$ be a closed subgroup. We claim that
+$H = \text{Gal}(L/L^H)$. The inclusion $H \subset \text{Gal}(L/L^H)$
+is clear. Suppose that $g \in \text{Gal}(L/L^H)$. Let $S \subset L$
+be a finite subset. We will show that the open neighbourhood
+$U_S(g) = \{g' \in G \mid g'(s) = g(s)\}$ of $g$ meets $H$.
+This implies that $g \in H$ because $H$ is closed.
+Let $L/E/K$ be a finite Galois subextension containing $K(S)$
+as in the first paragraph of the proof and consider the homomorphism
+$c : \text{Gal}(L/K) \to \text{Gal}(E/K)$.
+Then $L^H \cap E = E^{c(H)}$. Since $g$ fixes $L^H$ it fixes
+$E^{c(H)}$ and hence $c(g) \in c(H)$ by finite Galois theory.
+Pick $h \in H$ with $c(h) = c(g)$. Then $h \in U_S(g)$ as desired.
+
+\medskip\noindent
+At this point we have established the correspondence between closed
+subgroups and subextensions.
+
+\medskip\noindent
+Assume $H \subset G$ is open. Arguing as above we find that
+$H$ containes $\text{Gal}(E/K)$ for some large enough finite
+Galois subextension $E$ and we find that $L^H$ is contained
+in $E$ whence finite over $K$. Conversely, if $M$ is a finite
+subextension, then $M$ is generated by a finite subset $S$
+and the corresponding subgroup is the open subset $U_S(e)$
+where $e \in G$ is the neutral element.
+
+\medskip\noindent
+Assume that $K \subset M \subset L$ with $M/K$ Galois.
+By Lemma \ref{lemma-galois-infinite} there is a surjective
+continuous homomorphism of Galois groups
+$\text{Gal}(L/K) \to \text{Gal}(M/K)$ whose
+kernel is $\text{Gal}(L/M)$. Thus $\text{Gal}(L/M)$ is a normal
+closed subgroup.
+
+\medskip\noindent
+Finally, assume $N \subset G$ is normal and closed. For any
+$L/E/K$ as in the first paragraph of the proof, the image
+$c(N) \subset \text{Gal}(E/K)$ is a normal subgroup.
+Hence $L^N = \bigcup E^{c(N)}$ is a union of Galois extensions
+of $K$ (by finite Galois theory) whence Galois over $K$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-ses-infinite-galois}
+Let $L/M/K$ be a tower of fields. Assume $L/K$ and $M/K$ are Galois.
+Then we obtain a short exact sequence
+$$
+1 \to \text{Gal}(L/M) \to \text{Gal}(L/K) \to \text{Gal}(M/K) \to 1
+$$
+of profinite topological groups.
+\end{lemma}
+
+\begin{proof}
+This is a reformulation of Lemma \ref{lemma-galois-infinite}.
+\end{proof}
+
+
+
+
 
 
 
