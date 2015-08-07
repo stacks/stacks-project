@@ -10535,7 +10535,7 @@ consisting of $R$-modules $M$ such that multiplication by $s \in S$
 is an isomorphism on $M$ is a Serre subcategory of $\text{Mod}_R$.
 This follows from Algebra, Lemma \ref{algebra-lemma-localization-and-modules}.
 \item Let $I \subset R$ be a finitely generated ideal. The full subcategory of
-$f$-power torsion modules is a Serre subcategory of $\text{Mod}_R$.
+$I$-power torsion modules is a Serre subcategory of $\text{Mod}_R$.
 See Lemma \ref{lemma-I-power-torsion}.
 \item In some texts a {\it torsion module} is defined as a module $M$
 such that for all $x \in M$ there exists a nonzerodivisor $f \in R$
@@ -10988,7 +10988,7 @@ Thus we can define the left derived functors of any additive functor
 from $\text{Mod}_R$ to any abelian category.
 
 \medskip\noindent
-This implies in particular to the functor
+This applies in particular to the functor
 $ - \otimes_R M : \text{Mod}_R \to \text{Mod}_R$
 whose right derived functors are the Tor functors $\text{Tor}_i^R(-, M)$, see
 Algebra, Section \ref{algebra-section-tor}.
@@ -18131,333 +18131,715 @@ allow us to work with formal neighbourhoods instead.
 
 
 
-\title{A refinement of the Beauville-Laszlo theorem}
-\author{Kiran S. Kedlaya}
-\date{July 31, 2015}
-\maketitle
+\section{The Beauville-Laszlo theorem}
+\label{section-beauville-laszlo}
 
-Let $R$ be a (commutative unital) ring, let $f$ be an element of $R$, and let $\widehat{R} = \varprojlim_n R/f^n R$ be the $f$-adic completion of $R$; for any $R$-module $M$, write $M_f$ for $M \otimes_R R_f$. A well-known theorem of Beauville and Laszlo 
-\cite{beauville-laszlo} asserts that under suitable conditions, a module over $R$ can be constructed by ``glueing together'' its base extensions to $\widehat{R}$ and $R_f$
-along a compatibility isomorphism between the further base extensions to $\widehat{R}_f$;
-for instance, finite projective modules can be glued in this fashion. This is formally reminiscent of, but not a direct consequence of, faithfully flat descent for modules (see  Remark~\ref{R:not descent}). 
+\noindent
+Let $R$ be a ring and let $f$ be an element of $R$. Denote
+$R^\wedge = \lim R/f^n R$ be the $f$-adic completion of $R$.
+In this section we discuss a slight generalization of
+a theorem of Beauville and Laszlo \cite{Beauville-Laszlo}.
+The theorem of Beauville and Laszlo in turn can be compared with
+Theorem \ref{theorem-formal-glueing} taken with $S = R^\wedge$ and
+its specialization Proposition \ref{proposition-formal-glueing}.
+The theorem asserts that under suitable conditions, a module over 
+$R$ can be constructed by ``glueing together'' modules over
+$R^\wedge$ and $R_f$ along an isomorphism between the
+base extensions to  $(R^\wedge)_f$.
+For a comparison with flat descent, please see
+Remark \ref{remark-not-descent}.
 
-The purpose of this document is to optimize the range of applicability of the Beauville-Laszlo theorem; namely, in \cite{beauville-laszlo} it is assumed that both $R$ and $M$ are $f$-torsion-free, but in fact one only needs to assume that
-\[
-R \to \widehat{R} \oplus R_f, \qquad M \to M \otimes_R (\widehat{R} \oplus R_f)
-\]
-are injective. This optimization was partly inspired by an alternate approach to glueing introduced in \cite[\S 1.3]{part1} for use in the theory of nonarchimedean analytic spaces, though we make only limited use of results from \cite{part1}.
+\medskip\noindent
+In \cite{Beauville-Laszlo} it is assumed that $f$ is a nonzerodivisor on
+both $R$ and $M$. In fact one only needs to assume that
+$$
+R[f^\infty] \longrightarrow R^\wedge[f^\infty]
+$$
+is bijective and that
+$$
+M[f^\infty] \longrightarrow M \otimes_R R^\wedge
+$$
+is injective. This optimization was partly inspired by an alternate approach 
+to glueing introduced in \cite[\S 1.3]{Kedlaya-Liu-I} for use in the theory of 
+nonarchimedean analytic spaces.
+One can establish similar results even without any restrictions on $R$ and $M$, 
+but for this one must work at the level of derived categories. See
+\cite[\S 5]{Bhatt-Algebraize} for more details.
 
-One can establish similar results even without any restrictions on $R$ and $M$, but for this one must work at the level of derived categories. See \cite[\S 5]{bhatt} for more details.
-
-\section{Preliminaries}
-
-We begin with a few basic facts that will be used repeatedly.
-
-\begin{lemma} \label{L:torsion}
-For every positive integer $m$, the map $R/f^n R \to \widehat{R}/f^n \widehat{R}$ is an isomorphism.
+\begin{lemma}
+\label{lemma-same-quotients}
+Let $R$ be a ring and let $f \in R$. For every positive integer $n$ the map
+$R/f^nR \to R^\wedge/f^n R^\wedge$ is an isomorphism.
 \end{lemma}
+
 \begin{proof}
-Let $\pi_n: \widehat{R} \to R/f^n R$ denote the projection map coming from the inverse limit. 
-Since the maps $R/f^{n+1} R \to R/f^n R$ are surjective, so is $\pi_n$.
-By \cite[Tags 0318, 05GG]{stacks-project}, we have $\ker(\pi_n) = f^n \widehat{R}$,
-so we have an isomorphism $\widehat{R}/f^n \widehat{R} \cong R/f^n R$ which is a left inverse of the given map. This proves the claim.
+This is a special case of Algebra, Lemma
+\ref{algebra-lemma-hathat-finitely-generated}.
 \end{proof}
 
-The following lemma and corollary are \cite[Lemme~1]{beauville-laszlo}.
-\begin{defn}
-For an $R$-module $M$, let $M_{\tors,n}$ be the submodule of $M$ annihilated by $f^n$, and put 
-\[
-M_{\tors} = \bigcup_{n=1}^\infty M_{\tors,n} = \ker(M \to M_f).
-\]
-If $M = M_{\tors}$, we say that $M$ is \emph{torsion}.
-\end{defn}
+\noindent
+We will use the notation introduced in Section \ref{section-torsion}.
+Thus for an $R$-module $M$, we denote $M[f^n]$ be the submodule of
+$M$ annihilated by  $f^n$ and we put
+$$
+M[f^\infty] = \bigcup\nolimits_{n = 1}^\infty M[f^n] = \ker(M \to M_f).
+$$
+If $M = M[f^\infty]$, we say that $M$ is an $f$-power torsion module.
 
-\begin{lemma} \label{L:torsion completion}
-For any torsion $R$-module $M$, 
-we have $M \cong M \otimes_R \widehat{R}$.
+\begin{lemma}
+\label{lemma-torsion-completion}
+\begin{reference}
+\cite[Lemme~1]{Beauville-Laszlo}.
+\end{reference}
+Let $R$ be a ring and $f \in R$. For any $f$-power torsion $R$-module $M$,
+we have $M \cong M \otimes_R R^\wedge$.
 \end{lemma}
-\begin{proof}
-By Lemma~\ref{L:torsion}, for each positive integer $n$, the map $M_{\tors,n} \to M_{\tors,n} \otimes_R \widehat{R}$ is bijective. Taking direct limits over $n$ yields the desired isomorphism.
-\end{proof}
-\begin{cor} \label{C:BL faithful}
-The $R$-module $\widehat{R} \oplus R_f$ is \emph{faithful}: for every nonzero $R$-module $M$, $M \otimes_R (\widehat{R} \oplus R_f)$ is also nonzero.
-(However, the map $M \to M \otimes_R (\widehat{R} \oplus R_f)$ need not be injective; see Example~\ref{exa:not glueing pair}.)
-\end{cor}
-\begin{proof}
-If $M \neq 0$ but $M \otimes_R R_f = 0$, then $M$ is torsion,  so Lemma~\ref{L:torsion completion} ensures that $M \otimes_R \widehat{R} \cong M \neq 0$.
-\end{proof}
 
-\begin{cor} \label{C:cover spec}
-The image of the map $\Spec(\widehat{R} \oplus R_f) \to \Spec(R)$ contains $\Maxspec(R)$.
-\end{cor}
 \begin{proof}
-By Corollary~\ref{C:BL faithful},
-for each $\frakp \in \Maxspec(R)$, $R_{\frakp} \otimes_R (\widehat{R} \oplus R_f) \neq 0$.
-If $f \notin \frakp$, then $\frakp \in \Spec(R_f)$; otherwise,
-$\widehat{R}_{\frakp} \neq 0$ and any maximal ideal of this ring maps to $\frakp$.
+By Lemma \ref{lemma-same-quotients} we see that if $M$ is annihilated
+by $f^n$, then
+$$
+M \otimes_R R^\wedge =
+M \otimes_{R/f^nR} R^\wedge/f^n R^\wedge =
+M \otimes_{R/f^nR} R/f^n R = M.
+$$
+Since $M = \bigcup M[f^n]$ and since tensor products commute
+with colimits
+(Algebra, Lemma \ref{algebra-lemma-tensor-products-commute-with-limits}),
+we obtain the desired isomorphism.
 \end{proof}
 
-The following is \cite[Lemme~2(a)]{beauville-laszlo}.
-\begin{cor} \label{C:faithful descent}
-Let $M$ be an $R$-module. 
-If $M \otimes_R (\widehat{R} \oplus R_f)$ is finitely generated
-as a module over $\widehat{R} \oplus R_f$, then $M$ is a finitely generated $R$-module.
-\end{cor}
+\begin{lemma}
+\label{lemma-BL-faithful}
+Let $R$ be a ring and $f \in R$.
+The $R$-module $R^\wedge \oplus R_f$ is faithful: for every nonzero 
+$R$-module $M$, the module $M \otimes_R (R^\wedge \oplus R_f)$
+is also nonzero.
+\end{lemma}
+
+\noindent
+However, the map $M \to M \otimes_R (R^\wedge \oplus R_f)$ need not be 
+injective; see Example \ref{example-not-glueing-pair}.
+
 \begin{proof}
-If $M \otimes_R (\widehat{R} \oplus R_f)$ is finitely generated, then (by writing each generator as a sum of simple tensors) it admits a finite generating set consisting of elements of $M$.
-That is, there exists a morphism from a finite free $R$-module to $M$ whose cokernel is killed by tensoring with $\widehat{R} \oplus R_f$; 
-we may thus deduce the claim by applying Corollary~\ref{C:BL faithful} to this cokernel.
+If $M \neq 0$ but $M \otimes_R R_f = 0$, then $M$ is $f$-power torsion.
+By Lemma \ref{lemma-torsion-completion} we find that
+$M \otimes_R R^\wedge \cong M \neq 0$.
 \end{proof}
 
-\begin{remark} \label{R:not descent}
-While $R \to R_f$ is always flat, $R \to \widehat{R}$ is typically not flat unless $R$ is noetherian \cite[Tag 00MB]{stacks-project}. Consequently, we cannot in general apply faithfully flat descent to the morphism $R \to \widehat{R} \oplus R_f$. Moreover, even in the noetherian case, the usual definition of a descent datum for this morphism
-refers to the ring $\widehat{R} \otimes_R \widehat{R}$, which we will never consider.
-\end{remark}
+\begin{lemma}
+\label{lemma-cover-spec}
+Let $R$ be a ring and $f \in R$.
+The map $\Spec(R^\wedge \times R_f) \to \Spec(R)$ is surjective.
+\end{lemma}
 
-\section{Glueing pairs}
+\begin{proof}
+Recall that $\Spec(R) = V(f) \amalg D(f)$ where $V(f) = \Spec(R/fR)$
+and $D(f) = \Spec(R_f)$, see
+Algebra, Section \ref{algebra-section-spectrum-ring}
+and especially Lemmas \ref{algebra-lemma-spec-closed} and
+\ref{algebra-lemma-standard-open}.
+Thus the lemma follows as the map $R \to R/fR$ factors through $R^\wedge$.
+\end{proof}
 
-We now introduce a key restriction on the pair $(R,f)$.
+\begin{lemma}
+\label{lemma-faithful-descent}
+\begin{reference}
+\cite[Lemme~2(a)]{Beauville-Laszlo}.
+\end{reference}
+Let $R$ be a ring and $f \in R$.
+Let $M$ be an $R$-module. If $M \otimes_R (R^\wedge \oplus R_f)$
+is finitely generated as a module over $R^\wedge \oplus R_f$, then
+$M$ is a finitely generated $R$-module.
+\end{lemma}
 
-\begin{defn}
-The sequence
-\begin{equation} \label{eq:BL cech}
-0 \to R \to \widehat{R} \oplus R_f \to \widehat{R}_f \to 0,
-\end{equation}
-in which the map on the right is the difference between the two canonical homomorphisms,
-is exact at the middle (trivially) and the right (by Lemma~\ref{L:torsion completion}).
-If it is also exact at the left, we say that $(R,f)$ is a \emph{glueing pair}. 
-\end{defn}
-
-\begin{remark} \label{R:same f-torsion}
-Note that 
-\[
-\ker(R \to \widehat{R}) = \bigcap_{n=1}^\infty f^n R, \qquad
-\ker(R \to R_f) = R_{\tors},
-\]
-so $(R,f)$ is a glueing pair if and only if $R_{\tors} \to \widehat{R}_{\tors}$ is injective (and hence bijective).
-Equivalently, there is no nonzero element of $R$ which is both annihilated by $f$ and $f$-divisible.
-\end{remark}
-
-\begin{remark} \label{R:BL special case}
-Suppose that $f$ is not a zero-divisor in $R$.
-In this case, $(R,f)$ is evidently a glueing pair;
-in particular, $f$ is not a zero-divisor in $\widehat{R}$ either.
-\end{remark}
-
-\begin{remark} \label{R:noetherian case}
-For any positive integer $n$, we have $f^n R \cap R_{\tors} = f^n R_{\tors}$. 
-In particular, if $R$ is noetherian, then $f^n R_{\tors} = 0$ for some $n$, so $(R,f)$ is a glueing pair.
-\end{remark}
-
-\begin{example} \label{exa:not glueing pair}
-Let $k$ be a field and put
-\[
-R = k[f, T_1, T_2, \dots]/(fT_1, fT_2-T_1, fT_3-T_2, \dots).
-\]
-Then $(R,f)$ is not a glueing pair.
-\end{example}
-
-\section{Glueable modules}
-
-By analogy with the definition of a glueing pair, we make a similar definition for modules.
-
-\begin{defn}
-Let $(R,f)$ be a glueing pair. For any $R$-module $M$, we may tensor \eqref{eq:BL cech} with $M$ to obtain a sequence
-\begin{equation} \label{eq:BL cech mod}
-0 \to M \to (M \otimes_R \widehat{R}) \oplus (M \otimes_R R_f) \to M \otimes_R \widehat{R}_f \to 0
-\end{equation}
-which is again exact at the middle and the right. If it is also exact at the left, we say that $M$ is \emph{glueable}.
-\end{defn}
+\begin{proof}
+If $M \otimes_R (R^\wedge \oplus R_f)$ is finitely generated, then (by 
+writing each generator as a sum of simple tensors) it admits a finite 
+generating set consisting of elements of $M$.
+That is, there exists a morphism from a finite free $R$-module to $M$ whose 
+cokernel is killed by tensoring with $R^\wedge \oplus R_f$; 
+we may thus deduce the claim by applying
+Lemma \ref{lemma-BL-faithful} to this cokernel.
+\end{proof}
 
 \begin{remark}
-Let $(R,f)$ be a glueing pair and let $M$ be an $R$-module. Here are some observations which can be used to determine whether $M$ is glueable.
-\begin{itemize}
-\item
-By analogy with Remark~\ref{R:same f-torsion},
-$M$ is glueable if and only if $M_{\tors} \to (M \otimes_R \widehat{R})_{\tors}$ is injective (and hence bijective). This holds if $M_{\tors} \cap \bigcap_{n=1}^\infty f^n M = 0$, but unlike for rings we do not have the converse implication.
-\item
-If $\Tor_1^R(M, \widehat{R}_f) = 0$ (i.e., $\Tor_1^R(M, \widehat{R})$ is torsion), then $M$ is glueable. In particular, any flat $R$-module is glueable.
-\item 
-If $R$ is noetherian, then $\Tor_1^R(M, \widehat{R}) = 0$ by Remark~\ref{R:not descent},
-so every $R$-module is glueable.
-\end{itemize}
+\label{remark-not-descent}
+While $R \to R_f$ is always flat, $R \to R^\wedge$ is typically not flat 
+unless $R$ is noetherian (see
+Algebra, Lemma \ref{algebra-lemma-completion-flat}
+and the discussion in
+Examples, Section \ref{examples-section-nonflat}).
+Consequently, we cannot in general apply faithfully flat descent
+as discussed in Descent, Section
+\ref{descent-section-descent-modules}
+to the morphism $R \to R^\wedge \oplus R_f$.
+Moreover, even in the Noetherian case, the usual 
+definition of a descent datum for this morphism
+refers to the ring $R^\wedge \otimes_R R^\wedge$, which we will
+avoid considering in this section.
 \end{remark}
 
-We reproduce from \cite[\S 4, Remarques]{beauville-laszlo} an example of a non-glueable module.
-\begin{example} \label{exa:not glueable module}
-Let $R$ be the ring of germs at $0$ of $C^\infty$ functions on $\RR$.
-Let $f \in R$ be the identity map $f(x) = x$; it is not a zero-divisor, so $(R,f)$ is a glueing pair and $\widehat{R} \cong \RR \llbracket x \rrbracket$. Let $\varphi \in R$ be the map $\varphi(x) = \exp(-1/x^2)$; then $\varphi$ has zero Taylor series, so $\varphi \in \ker(R \to \widehat{R})$. Since $\varphi(x) \neq 0$ for $x \neq 0$, $\varphi$ is not a zero-divisor in $R$. The function $\varphi/f$ also has zero Taylor series, so its image in $M = R/\varphi R$ is a nonzero torsion element which maps to zero in $\widehat{R} \cong \widehat{R}/\varphi \widehat{R} \cong M \otimes_R \widehat{R}$. Hence $M$ is not glueable.
+\noindent
+Let $R$ be a ring and let $f \in R$. We now introduce a key restriction on
+the pair $(R, f)$. Consider the sequence
+\begin{equation}
+\label{equation-BL-cech}
+0 \to R \to R^\wedge \oplus R_f \to (R^\wedge)_f \to 0,
+\end{equation}
+in which the map on the right is the difference between the two canonical 
+homomorphisms. If this sequence is exact, then
+we say that $(R,f)$ is a \emph{glueing pair}. 
+
+\begin{lemma}
+\label{lemma-same-f-torsion}
+Let $R$ be a ring and let $f \in R$. The sequence (\ref{equation-BL-cech})
+is
+\begin{enumerate}
+\item exact on the right,
+\item exact on the left if and only if $R[f^\infty] \to R^\wedge[f^\infty]$
+is injective, and
+\item exact in the middle if and only if $R[f^\infty] \to R^\wedge[f^\infty]$
+is surjective.
+\end{enumerate}
+In particular, $(R, f)$ is a glueing pair if and only if
+$R[f^\infty] \to R^\wedge[f^\infty]$ is bijective.
+\end{lemma}
+
+\begin{proof}
+Let $x \in (R^\wedge)_f$. Write $x = x'/f^n$ with $x' \in R^\wedge$.
+Write $x' = x'' + f^n y$ with $x'' \in R$ and $y \in R^\wedge$
+using that $R/f^nR = R^\wedge/f^nR^\wedge$ by Lemma \ref{lemma-same-quotients}.
+Then we see that $(y, -x''/f^n)$ maps to $x$. Thus (1) holds.
+
+\medskip\noindent
+Part (2) follows from the fact that $\Ker(R \to R_f) = R[f^\infty]$.
+
+\medskip\noindent
+If the sequence is exact in the middle, then elements of the form
+$(x, 0)$ with $x \in R^\wedge[f^\infty]$ are in the image of
+the first arrow. This implies that $R[f^\infty] \to R^\wedge[f^\infty]$
+is surjective. Conversely, assume that $R[f^\infty] \to R^\wedge[f^\infty]$
+is surjective. Let $(x, y)$ be an element in the middle
+which maps to zero on the right. Write $y = y'/f^n$ for some $y' \in R$.
+Then we see that $f^n x - y'$ is annihilated by some power of $f$ in
+$R^\wedge$. By assumption we can write $f^nx - y' = z$ for some
+$z \in R[f^\infty]$. Then $y = y''/f^n$ where $y'' = y' + z$
+is in the kernel of $R \to R/f^nR$. Hence we see that $y$ can be
+represented as $y'''/1$ for some $y''' \in R$. Then
+$x - y'''$ is in $R^\wedge[f^\infty]$. Thus $x - y''' = z' \in R[f^\infty]$.
+Then $(x, y'''/1) = (y''' + z', (y''' + z')/1)$ as desired.
+\end{proof}
+
+\begin{remark}
+\label{remark-BL-special-case}
+Suppose that $f$ is a nonzerodivisor. Then
+Algebra, Lemma \ref{algebra-lemma-completion-differ-by-torsion}
+shows that $f$ is a nonzerodivisor in $R^\wedge$.
+Hence $(R,f)$ is a glueing pair.
+\end{remark}
+
+\begin{remark}
+\label{remark-noetherian-case}
+If $R \to R^\wedge$ is flat, then for each positive integer $n$ tensoring
+the sequence $0 \to R[f^n] \to R \to R$ with $R^\wedge$ gives the sequence
+$0 \to R[f^n] \otimes_R R^\wedge \to R^\wedge \to R^\wedge$.
+Combined with Lemma \ref{lemma-torsion-completion}
+we conclude that $R[f^n] \to R^\wedge[f^n]$ is an isomorphism.
+Thus $(R, f)$ is a glueing pair. 
+This holds in particular if $R$ is noetherian, see
+Algebra, Lemma \ref{algebra-lemma-completion-flat}.
+\end{remark}
+
+\begin{example}
+\label{example-not-glueing-pair}
+Let $k$ be a field and put
+$$
+R = k[f, T_1, T_2, \ldots]/(fT_1, fT_2 - T_1, fT_3 - T_2, \ldots).
+$$
+Then $(R,f)$ is not a glueing pair because the map
+$R[f^\infty] \to R^\wedge[f^\infty]$ is not injective
+as the image of $T_1$ is $f$-divisible in $R^\wedge$.
+For
+$$
+R = k[f, T_1, T_2, \dots]/(fT_1, f^2T_2, \dots),
+$$
+the map $R[f^\infty] \to R^\wedge[f^\infty]$ is not surjective
+as the element $T_1 + fT_2 + f^2 T_3 + \ldots$ is not in the image.
+In particular, by
+Remark \ref{remark-noetherian-case}, these are both examples where
+$R \to R^\wedge$ is not flat.
 \end{example}
 
-\section{Some Tor calculations}
+\noindent
+By analogy with the definition of a glueing pair, we make a similar definition 
+for modules. Let $R$ be a ring and let $f \in R$. For any $R$-module $M$, we
+may tensor (\ref{equation-BL-cech}) with $M$ to obtain a sequence
+\begin{equation}
+\label{equation-BL-cech-mod}
+0 \to M \to (M \otimes_R R^\wedge) \oplus (M \otimes_R R_f) \to
+M \otimes_R (R^\wedge)_f \to 0
+\end{equation}
+Observe that $M \otimes_R R_f = M_f$ and that
+$M \otimes_R (R^\wedge)_f = (M \otimes_R R^\wedge)_f$.
+If this sequence is exact, we say that $M$ is \emph{glueable}.
 
-We next make some key calculations of Tor groups.
-
-\begin{lemma} \label{L:first tor}
-Let $(R,f)$ be a glueing pair. For each positive integer $n$,
-$\Tor^R_1(\widehat{R}, f^n R) = 0$.
+\begin{lemma}
+\label{lemma-same-f-torsion-module}
+Let $R$ be a ring and let $f \in R$. Let $M$ be an $R$-module.
+The sequence (\ref{equation-BL-cech-mod}) is
+\begin{enumerate}
+\item exact on the right,
+\item exact on the left if and only if
+$M[f^\infty] \to (M \otimes_R R^\wedge)[f^\infty]$
+is injective, and
+\item exact in the middle if and only if
+$M[f^\infty] \to (M \otimes_R R^\wedge)[f^\infty]$
+is surjective.
+\end{enumerate}
+Thus $M$ is glueable if and only if
+$M[f^\infty] \to (M \otimes_R R^\wedge)[f^\infty]$
+is bijective. If $(R, f)$ is a glueing pair, then $M$ is glueable
+if $M[f^\infty] \to (M \otimes_R R^\wedge)[f^\infty]$ is 
+injective.
 \end{lemma}
+
 \begin{proof}
->From the exact sequence
-\[
-0 \to R_{\tors,n} \to R \stackrel{\times f^n}{\to} f^n R \to 0,
-\]
-we see that it suffices to check that $R_{\tors,n} \otimes_R \widehat{R} \to \widehat{R}$ is injective. Choose $\sum_i x_i \otimes r_i$ in the kernel of this map.
-Choose  $r_{i,n} \in R, s_{i,n} \in \widehat{R}$ such that
-$r_i - r_{i,n} = f^n s_{i,n}$. Then
-$\sum_i x_i \otimes (r_i - r_{i,n}) = \sum_i (f^n x_i) \otimes s_{i,n} = 0$,
-so
-\[
-\sum_i x_i \otimes r_{i,n} = 
-\left( \sum_i x_i r_{i,n} \right) \otimes 1
-\]
-also belongs to the kernel. Since $R_{\tors} \to \widehat{R}$ is injective by Remark~\ref{R:same f-torsion}, it follows that $\sum_i x_i r_{i,n} = 0$, proving the claim.
-\end{proof}
-\begin{cor} \label{C:first tor}
-Let $(R,f)$ be a glueing pair. Then $\Tor^R_1(\widehat{R}, R/R_{\tors}) = 0$.
-\end{cor}
-\begin{proof}
-View $R/R_{\tors}$ as the direct limit of the modules $f^n R$  and apply Lemma~\ref{L:first tor}.
+We will use the results of Lemma \ref{lemma-same-f-torsion} without
+further mention. The functor $M \otimes_R -$ is right exact
+(Algebra, Lemma \ref{algebra-lemma-tensor-product-exact})
+hence we get (1).
+
+\medskip\noindent
+The kernel of $M \to M \otimes_R R_f = M_f$ is $M[f^\infty]$.
+Thus (2) follows.
+
+\medskip\noindent
+If the sequence is exact in the middle, then elements of the form
+$(x, 0)$ with $x \in (M \otimes_R R^\wedge)[f^\infty]$ are in the image of
+the first arrow. This implies that
+$M[f^\infty] \to (M \otimes_R R^\wedge)[f^\infty]$
+is surjective. Conversely, assume that
+$M[f^\infty] \to (M \otimes_R R^\wedge)[f^\infty]$
+is surjective. Let $(x, y)$ be an element in the middle
+which maps to zero on the right. Write $y = y'/f^n$ for some $y' \in M$.
+Then we see that $f^n x - y'$ is annihilated by some power of $f$ in
+$M \otimes_R R^\wedge$. By assumption we can write $f^nx - y' = z$ for some
+$z \in M[f^\infty]$. Then $y = y''/f^n$ where $y'' = y' + z$
+is in the kernel of $M \to M/f^nM$. Hence we see that $y$ can be
+represented as $y'''/1$ for some $y''' \in M$. Then
+$x - y'''$ is in $(M \otimes_R R^\wedge)[f^\infty]$.
+Thus $x - y''' = z' \in M[f^\infty]$.
+Then $(x, y'''/1) = (y''' + z', (y''' + z')/1)$ as desired.
+
+\medskip\noindent
+If $(R, f)$ is a glueing pair, then (\ref{equation-BL-cech-mod})
+is exact in the middle for any $M$ by
+Algebra, Lemma \ref{algebra-lemma-tensor-product-exact}.
+This gives the final statement of the lemma.
 \end{proof}
 
-The following lemma is a mild generalization of  \cite[Lemme~3(a)]{beauville-laszlo}.
-\begin{lemma} \label{L:BL3}
-Let $(R,f)$ be a glueing pair. For every $R$-module $M$, we have $\Tor^R_1(\widehat{R}, \coker(M \to M_f)) = 0$.
+\begin{remark}
+\label{remark-glueable}
+Let $(R, f)$ be a glueing pair and let $M$ be an $R$-module. Here are some 
+observations which can be used to determine whether $M$ is glueable.
+\begin{enumerate}
+\item By Lemma \ref{lemma-same-f-torsion-module} we see that $M$ is glueable
+if and only if $M[f^\infty] \to M \otimes_R R^\wedge$ is injective.
+This holds if $M[f] \to M^\wedge$ is injective,
+i.e., when $M[f] \cap \bigcap_{n = 1}^\infty f^n M = 0$.
+\item If $\text{Tor}_1^R(M, (R^\wedge)_f) = 0$, then $M$ is glueable
+(use Algebra, Lemma \ref{algebra-lemma-long-exact-sequence-tor}).
+This is equivalent to saying that $\text{Tor}_1^R(M, R^\wedge)$ is
+$f$-power torsion. In particular, any flat $R$-module is glueable.
+\item If $R \to R^\wedge$ is flat, then $\text{Tor}_1^R(M, R^\wedge) = 0$
+for every $R$-module so every $R$-module is glueable. This holds
+in particular when $R$ is Noetherian, see
+Algebra, Lemma \ref{algebra-lemma-completion-flat}
+\end{enumerate}
+\end{remark}
+
+\begin{example}[Non glueable module]
+\label{example-not-glueable-module}
+\begin{reference}
+\cite[\S 4, Remarques]{Beauville-Laszlo}
+\end{reference}
+Let $R$ be the ring of germs at $0$ of $C^\infty$ functions on $\mathbf{R}$.
+Let $f \in R$ be the function $f(x) = x$. Then $f$ is a nonzerodivisor
+in $R$, so $(R,f)$ is a glueing pair and $R^\wedge \cong \mathbf{R}[[x]]$. 
+Let $\varphi \in R$ be the function $\varphi(x) = \exp(-1/x^2)$.
+Then $\varphi$ has zero Taylor series, so $\varphi \in \Ker(R \to R^\wedge)$.
+Since $\varphi(x) \neq 0$ for $x \neq 0$, we see that $\varphi$ is a
+nonzerodivisor in $R$. The function $\varphi/f$ also has zero Taylor series,
+so its image in $M = R/\varphi R$ is a nonzero element of $M[f]$
+which maps to zero in
+$M \otimes_R R^\wedge = R^\wedge/\varphi R^\wedge = R^\wedge$.
+Hence $M$ is not glueable.
+\end{example}
+
+\noindent
+We next make some calculations of Tor groups.
+
+\begin{lemma}
+\label{lemma-first-tor}
+Let $(R, f)$ be a glueing pair. For each positive integer $n$, we have
+$\text{Tor}^R_1(R^\wedge, f^n R) = 0$.
 \end{lemma}
+
 \begin{proof}
-Put $I = \bigcup_{n=1}^\infty \ann_R(f^n)$.
-Quotienting $M$ by torsion elements does not change either $M_f$ or $\image(M \to M_f)$, so we may assume from the outset that $M$ is $f$-torsion-free, and hence an $(R/R_{\tors})$-module.  We may then view $\coker(M \to M_f)$ as the direct limit of the modules $M/f^n M$ as $n$ runs over all positive integers; it thus suffices to check that 
-$\Tor^R_1(\widehat{R}, M/f^n M) = 0$. 
+From the exact sequence $0 \to R[f^n] \to R \to f^n R \to 0$ we see that it
+suffices to check that $R[f^n] \otimes_R R^\wedge \to R^\wedge$ is injective.
+By Lemma \ref{lemma-torsion-completion} we have
+$R[f^n] \otimes_R R^\wedge = R[f^n]$ and by Lemma \ref{lemma-same-f-torsion}
+we see that $R[f^n] \to R^\wedge$ is injective as $(R, f)$ is a glueing pair.
+\end{proof}
 
-We first treat the case $M = R/R_{\tors}$. Tensoring the exact sequence
-\[
-0 \to R/R_{\tors} \stackrel{\times f^n}{\to} R/R_{\tors} \to (R/R_{\tors})/f^n (R/R_{\tors}) \to 0
-\]
-with $\widehat{R}$, then identifying $R_{\tors}$ with $\widehat{R}_{\tors}$
-using Remark~\ref{R:same f-torsion}, yields the exact sequence
-\[
-\widehat{R}/\widehat{R}_{\tors} \stackrel{\times f^n}{\to} \widehat{R}/\widehat{R}_{\tors} \to (\widehat{R}/\widehat{R}_{\tors})/(f^n (\widehat{R}/\widehat{R}_{\tors})) \to 0
-\]
-in which the left map is again injective. 
-Since $\Tor_1^R(\widehat{R}, R/R_{\tors}) = 0$ by Corollary~\ref{C:first tor},
-we deduce that $\Tor_1^R(\widehat{R}, (R/R_{\tors})/f^n (R/R_{\tors})) = 0$.
+\begin{lemma}
+\label{lemma-first-tor-total}
+Let $(R,f)$ be a glueing pair.
+Then $\text{Tor}^R_1(R^\wedge, R/R[f^\infty]) = 0$.
+\end{lemma}
 
-To treat the general case, choose a surjection $F \to M$ with $F$ a free $(R/R_{\tors})$-module, and form an exact sequence
-\[
+\begin{proof}
+We have $R/R[f^\infty] = \colim R/R[f^n] = \colim f^nR$.
+As formation of Tor groups commutes with filtered colimits
+(Algebra, Lemma \ref{algebra-lemma-tor-commutes-filtered-colimits})
+we may apply Lemma \ref{lemma-first-tor}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-BL3}
+\begin{reference}
+Slight generalization of \cite[Lemme 3(a)]{Beauville-Laszlo}
+\end{reference}
+Let $(R, f)$ be a glueing pair. For every $R$-module $M$, we have 
+$\text{Tor}^R_1(R^\wedge, \Coker(M \to M_f)) = 0$.
+\end{lemma}
+
+\begin{proof}
+Set $M' = M/M[f^\infty]$. Then $\Coker(M \to M_f) \cong \Coker(M' \to M'_f)$
+hence we may and do assume that $f$ is a nonzerodivisor on $M$.
+In this case $M \subset M_f$ and $M_f/M = \colim M/f^nM$ where the
+transition maps are given by multiplication by $f$. Since
+formation of Tor groups commutes with colimits
+(Algebra, Lemma \ref{algebra-lemma-tor-commutes-filtered-colimits})
+it suffices to show that $\text{Tor}^R_1(R^\wedge, M/f^n M) = 0$.
+
+\medskip\noindent
+We first treat the case $M = R/R[f^\infty]$. By
+Lemma \ref{lemma-same-f-torsion}
+we have $M \otimes_R R^\wedge = R^\wedge/R^\wedge[f^\infty]$.
+From the short exact sequence $0 \to M \to M \to M/f^nM \to 0$
+we obtain the exact sequence
+$$
+\xymatrix{
+\text{Tor}_1^R(R^\wedge, R/R[f^\infty]) \ar[r] &
+\text{Tor}_1^R(R^\wedge, M/f^n M) \ar[r] &
+R^\wedge/R^\wedge[f^\infty] \ar[dll]_{f^n} \\
+R^\wedge/R^\wedge[f^\infty] \ar[r] &
+(R^\wedge/R^\wedge[f^\infty])/(f^n 
+(R^\wedge/R^\wedge[f^\infty])) \ar[r] & 0
+}
+$$
+by Algebra, Lemma \ref{algebra-lemma-long-exact-sequence-tor}.
+Here the diagonal arrow is injective. Since the first group
+$\text{Tor}_1^R(R^\wedge, R/R[f^\infty])$ is zero by
+Lemma \ref{lemma-first-tor-total}, we deduce that
+$\text{Tor}_1^R(R^\wedge, M/f^nM) = 0$ as desired.
+
+\medskip\noindent
+To treat the general case, choose a surjection $F \to M$ with $F$ a free 
+$R/R[f^\infty]$-module, and form an exact sequence
+$$
 0 \to N \to F/f^n F \to M/f^n M \to 0.
-\]
-By Lemma~\ref{L:torsion completion}, this sequence remains unchanged, and hence exact, upon tensoring with $\widehat{R}$.
-Since $\Tor^R_1(\widehat{R}, F/f^n F)  =0$ by the previous paragraph, we deduce that
-$\Tor^R_1(\widehat{R}, M/f^n M) = 0$ as desired.
+$$
+By Lemma \ref{lemma-torsion-completion}
+this sequence remains unchanged, and hence 
+exact, upon tensoring with $R^\wedge$.
+Since $\text{Tor}^R_1(R^\wedge, F/f^n F)  =0$ by the
+previous paragraph, we deduce  that
+$\text{Tor}^R_1(R^\wedge, M/f^n M) = 0$ as desired.
 \end{proof}
 
-\section{Glueing results}
-
-We conclude by proving our theorem on glueing of modules, then showing that some basic properties persist across the glueing process.
-
-\begin{defn}
-Let $(R,f)$ be a glueing pair. This means that the diagram
-\[
+\noindent
+Let $(R, f)$ be a glueing pair. This means that the diagram
+$$
 \xymatrix{
-R \ar[r] \ar[d] & R_1 = \widehat{R} \ar[d] \\ 
-R_2 = R_f \ar[r] & R_{12} = \widehat{R}_f
+R \ar[r] \ar[d] & R^\wedge \ar[d] \\ 
+R_f \ar[r] & (R^\wedge)_f
 }
-\]
-satisfies the hypotheses of \cite[Definition~1.3.7]{part1}; as therein, we define a
-\emph{glueing datum} for this diagram as a tuple $(M_1, M_2, M_{12}, \psi_1, \psi_2)$ in which $M_i$ is an $R_i$-module for $i=1,2,12$ and $\psi_i: M_i \otimes_R R_{12} \cong M_{12}$ is an isomorphism of $R_{12}$-modules for $i=1,2$.
-There is an obvious functor from $R$-modules to glueing data taking
-$M$ to the tuple in which $M_i = M \otimes_R R_i$ and $\psi_1, \psi_2$ are the natural identifications given by associativity of the tensor product.
-\end{defn}
+$$
+is cocartesian. Consider the category $\text{Glue}(R \to R^\wedge, f)$
+introduced in Remark \ref{remark-glueing-data}. We will call an object
+$(M', M_1, \alpha_1)$ of $\text{Glue}(R \to R^\wedge, f)$
+a \emph{glueing datum}. It consists of an $R^\wedge$-module $M'$,
+a $R_f$-module $M_1$, and
+an isomorphism $\alpha_1 : (M')_f \to M_1 \otimes_R R^\wedge$.
+There is an obvious functor
+$$
+\text{Can} : \text{Mod}_R \longrightarrow \text{Glue}(R \to R^\wedge, f),\quad
+M \longmapsto (M \otimes_R R^\wedge, M_f, \text{can}_1)
+$$
+and there is a functor
+$$
+H^0 : \text{Glue}(R \to S, f_1, \ldots, f_t) \longrightarrow \text{Mod}_R,\quad
+(M', M_1, \alpha_1) \longmapsto \Ker(M' \oplus M_1 \to (M')_f)
+$$
+in the reverse direction, see Remark \ref{remark-glueing-data}.
 
-\begin{theorem} \label{T:BL glueing}
-For $(R,f)$ a glueing pair,
-the functor from glueable $R$-modules to glueing data is an equivalence of categories.
+\begin{theorem}
+\label{theorem-BL-glueing}
+\begin{reference}
+Slight generalization of the main theorem of \cite{Beauville-Laszlo}.
+\end{reference}
+Let $(R,f)$ be a glueing pair. The functor
+$\text{Can} : \text{Mod}_R \longrightarrow \text{Glue}(R \to R^\wedge, f)$
+is determines an equivalence of the full subcategory of glueable $R$-modules
+to the category $\text{Glue}(R \to R^\wedge, f)$ of glueing data.
 \end{theorem}
+
 \begin{proof}
-The functor is fully faithful due to the exactness of \eqref{eq:BL cech mod}, so it suffices to check essential surjectivity. That is, we must show that an arbitrary glueing datum $(M_1, M_2, M_{12}, \psi_1, \psi_2)$ arises from some glueable $R$-module.
+The functor is fully faithful due to the exactness of
+(\ref{equation-BL-cech-mod}) for glueable modules, which tells
+us exactly that $H^0 \circ \text{Can} = \text{id}$ on the
+full subcategory of glueable modules.
+Hence it suffices to check essential surjectivity.
+That is, we must show that an arbitrary glueing datum
+$(M', M_1, \alpha_1)$ arises from some glueable $R$-module.
 
-We first check that $\psi_1 - \psi_2: M_1 \oplus M_2 \to M_{12}$ is surjective.
-We start by composing the canonical identification
-$M_2 \otimes_R \widehat{R} \cong M_2 \otimes_{R_f} \widehat{R}_f$,
-the given isomorphism $\psi_2: M_2 \otimes_{R_f} \widehat{R}_f \to M_{12}$,
-and the surjection $M_{12} \to M_{12}/\psi_1(M_1)$ to obtain a surjection
-$M_2 \otimes_R \widehat{R} \to M_{12}/\psi_1(M_1)$.
-By Lemma~\ref{L:torsion completion}, we may identify the target of this morphism with
-$M_{12}/\psi_1(M_1) \otimes_R \widehat{R}$; consequently, the map
-\[
-M_{12} \oplus M_2 = 
-M_2 \otimes_R (\widehat{R} \oplus R_f) \to (M_{12}/\psi_1(M_1)) \otimes_R
-(\widehat{R} \oplus R_f) = (M_{12}/\psi_1(M_1)) \oplus 0
-\]
-is surjective. By Corollary~\ref{C:BL faithful},
-the cokernel of $M_2 \to M_{12}/\psi_1(M_1)$ vanishes; this proves that $\psi_1-\psi_2$ is surjective.
+\medskip\noindent
+We first check that the map $M' \oplus M_1 \to (M')_f$ used in the
+definition of the functor $H^0$ is surjective. Observe that
+$(x, y) \in M' \oplus M_1$ maps to
+$\text{d}(x, y) = x/1 - \alpha_1^{-1}(y \otimes 1)$
+in $(M')_f$. If $z \in (M')_f$, then we can write
+$\alpha_1(z) = \sum y_i \otimes g_i$ with $g_i \in R^\wedge$
+and $y_i \in M_1$. Write $\alpha_i^{-1}(y_i \otimes 1) = y_i'/f^n$
+for some $y'_i \in M'$ and $n \geq 0$ (we can pick the same $n$
+for all $i$). Write $g_i = a_i + f^n b_i$ with $a_i \in R$ and
+$b_i \in R^\wedge$. Then with $y = \sum a_i y_i \in M_1$ and
+$x = \sum b_i y'_i \in M'$ we have $\text{d}(x, -y) = z$
+as desired.
 
-Put $M = \ker(\psi_1 - \psi_2: M_1 \oplus M_2 \to M_{12})$, so that we obtain an exact sequence of $R$-modules
-\begin{equation} \label{eq:define M}
-0 \to M \to M_1 \oplus M_2 \to M_{12} \to 0.
+\medskip\noindent
+Put $M = H^0((M', M_1, \alpha_1)) = \Ker(\text{d})$. We obtain 
+an exact sequence of $R$-modules
+\begin{equation}
+\label{equation-define-M}
+0 \to M \to M' \oplus M_1 \to (M')_f \to 0.
 \end{equation}
-We will prove that the maps $M \to M_1, M \to M_2$ induce isomorphisms
-$M \otimes_R \widehat{R} \to M_1$, $M \otimes_R R_f \to R_2$; this will imply that $M$ is a glueable $R$-module giving rise to the original descent datum.
+We will prove that the maps $M \to M'$ and $M \to M_1$ induce isomorphisms
+$M \otimes_R R^\wedge \to M'$ and $M \otimes_R R_f \to M_1$.
+This will imply  that $M$ is a glueable $R$-module giving rise to the
+original glueing datum.
 
-Since $M_2$ is $f$-torsion-free, we have $M_{\tors} \cong M_{1,\tors}$, yielding an exact sequence
-\begin{equation} \label{eq:exact mod torsion}
-0 \to M/M_{\tors} \to M_2 \to M_{12}/\psi_1(M_1) \to 0.
+\medskip\noindent
+Since $f$ is a nonzerodivisor on $M_1$, we have
+$M[f^\infty] \cong M'[f^\infty]$. This yields an exact sequence
+\begin{equation}
+\label{equation-exact-mod-torsion}
+0 \to M/M[f^\infty] \to M_1 \to (M')_f/M' \to 0.
 \end{equation}
-Since $R \to R_f$ is flat, we may tensor this exact sequence with $R_f$ to deduce that 
-$M \otimes_R R_f \cong (M/M_{\tors}) \otimes_R R_f \to M_2$ is an isomorphism. 
+Since $R \to R_f$ is flat, we may tensor this exact sequence with $R_f$
+to deduce that $M \otimes_R R_f = (M/M[f^\infty]) \otimes_R R_f \to M_1$
+is an isomorphism. 
 
-We now have an isomorphism $M \otimes_R \widehat{R}_f \to M_{12}$
-and thus a surjection $M \otimes_R (\widehat{R} \oplus R_f) \to M_{12}$.
-For any $\bv \in M_1$, we can thus write $\psi_1(\bv)$ as $\psi_1(\bv_1)+ \psi_2(\bv_2)$
-for some $\bv_i \in M_i$ in the image of $M \otimes_R R_i \to M_i$.
-Then $(\bv - \bv_1, \bv_2) \in M$, so both $\bv_1$ and $\bv-\bv_1$ are in the image of $M \otimes_R \widehat{R} \to M_1$. It follows that this map is surjective.
+\medskip\noindent
+We now have an isomorphism $M_f \to M_1$, hence an isomorphism
+$M \otimes_R (R^\wedge)_f \to M_1 \otimes_R R^\wedge$, and
+thus using $\alpha_1$ and Lemma \ref{lemma-same-f-torsion-module}
+a surjection $M \otimes_R (R^\wedge \oplus R_f) \to (M')_f$.
+Thus given $z \in M'$ we can write $z/1 = z' + z_1$ in $(M')_f$
+for some $z' \in M \otimes_R R^\wedge$ and $z_1 \in M_f$.
+Then $(z - z', z_1) \in M = \Ker(\text{d})$.
+Hence $z - z'$ and $z'$ are in the image of $M \otimes_R R^\wedge \to M'$.
+It follows that $M \otimes_R R^\wedge \to M'$ is surjective.
 
-Since $\coker(M_1\to M_{1,f}) = M_{12}/\psi_1(M_1)$, we may apply Lemma~\ref{L:BL3} to deduce that 
-\[
-\Tor_1^{R}(\widehat{R}, M_{12}/\psi_1(M_1)) = 0.
-\]
-The sequence \eqref{eq:exact mod torsion} thus remains exact upon tensoring over $R$ with $\widehat{R}$. By Lemma~\ref{L:torsion completion}, the resulting exact sequence can be written as
-\begin{equation} \label{eq:mod torsion sequence}
-0 \to (M/M_{\tors}) \otimes_{R} \widehat{R} \to M_{12} \to M_{12}/\psi(M_1) \to 0;
+\medskip\noindent
+By Lemma \ref{lemma-BL3} we have
+$\text{Tor}_1^{R}(R^\wedge, \Coker(M' \to (M')_f)) = 0$.
+The sequence (\ref{equation-exact-mod-torsion})
+thus remains exact upon tensoring
+over $R$ with $R^\wedge$. Using $\alpha_1$ and
+Lemma \ref{lemma-torsion-completion}
+the resulting exact sequence can be written as
+\begin{equation}
+\label{equation-mod-torsion-sequence}
+0 \to (M/M[f^\infty]) \otimes_{R} R^\wedge \to
+(M')_f \to (M')_f/M' \to 0
 \end{equation}
-this yields an isomorphism $(M/M_{\tors}) \otimes_{R} \widehat{R} \cong M_1/M_{\tors}$. This implies that in the diagram
-\[
+This yields an isomorphism
+$(M/M[f^\infty]) \otimes_R R^\wedge \cong M'/M'[f^\infty]$.
+This implies that in the diagram
+$$
 \xymatrix{
-& M_{\tors} \otimes_R \widehat{R} \ar[r] \ar[d] & M \otimes_R \widehat{R} \ar[r] \ar[d] & (M/M_{\tors}) \otimes_R \widehat{R} \ar[r] \ar[d] & 0 \\
-0 \ar[r] & M_{\tors} \ar[r] & M_1 \ar[r] & M_1/M_{\tors} \ar[r] & 0,
+& M[f^\infty] \otimes_R R^\wedge \ar[r] \ar[d] &
+M \otimes_R R^\wedge  \ar[r] \ar[d] &
+(M/M[f^\infty]) \otimes_R R^\wedge \ar[r] \ar[d] & 0 \\
+0 \ar[r] &
+M'[f^\infty] \ar[r] &
+M' \ar[r] &
+M'/M'[f^\infty] \ar[r] & 0,
 }
-\]
+$$
 the third vertical arrow is an isomorphism. Since the rows are exact and the
-first vertical arrow is an isomorphism by Lemma~\ref{L:torsion completion},
-the five lemma implies that $M \otimes_R \widehat{R} \to M_1$ is injective.
+first vertical arrow is an isomorphism by
+Lemma \ref{lemma-torsion-completion} and $M[f^\infty] = M'[f^\infty]$,
+the five lemma implies that $M \otimes_R R^\wedge \to M'$ is injective.
 This completes the proof.
 \end{proof}
 
-\begin{cor} \label{C:BL properties}
-Let $(R,f)$ be a glueing pair. Let $M$ be a (not necessarily glueable) $R$-module. Then $M$ is finitely generated (resp.\ finite projective) if and only if 
-$M \otimes_R (\widehat{R} \oplus R_f)$ has the same property as a module over
-$\widehat{R} \oplus R_f$.
-\end{cor}
+\begin{lemma}
+\label{lemma-BL-properties}
+Let $(R, f)$ be a glueing pair. Let $M$ be a (not necessarily glueable) 
+$R$-module. Then $M$ is finitely generated (resp.\ finite projective) if
+and only if 
+$M \otimes_R (R^\wedge \oplus R_f)$ has the same property as a module over
+$R^\wedge \times R_f$.
+\end{lemma}
+
 \begin{proof}
-The finitely generated case follows from Corollary~\ref{C:faithful descent}.
-Suppose that $M \otimes_R (\widehat{R} \oplus R_f)$ is a finite projective module over
-$\widehat{R} \oplus R_f$. Then Corollary~\ref{C:cover spec} and Theorem~\ref{T:BL glueing}
-imply that the hypotheses of \cite[Lemma~1.3.9]{part1} are satisfied, so there exists a finite projective module $M'$ over $R$ such that
-$M \otimes_R (\widehat{R} \oplus R_f) \cong M' \otimes_R (\widehat{R} \oplus R_f)$.
->From the exactness of the sequences
-\begin{gather*}
-M \to M \otimes_R(\widehat{R} \oplus R_f) \to M \otimes_R \widehat{R}_f  \to 0\\
-0 \to M' \to M' \otimes_R(\widehat{R} \oplus R_f) \to M' \otimes_R \widehat{R}_f \to 0
-\end{gather*}
-we obtain a surjection $M \to M'$. Let $K$ be the kernel of this map; since $M'$ is a flat $R$-module, we must have $K \otimes_R (\widehat{R} \oplus R_f) = 0$.
-By Corollary~\ref{C:BL faithful}, this forces $K = 0$, so $M \cong M'$.
+The finitely generated case follows from Lemma \ref{lemma-faithful-descent}.
+To prove the second assertion assume that $M \otimes_R (R^\wedge \oplus R_f)$
+is a finite projective module over $R^\wedge \times R_f$.
+
+\medskip\noindent
+Case I: Assume that $M \otimes_R R^\wedge \cong (R^\wedge)^{\oplus n}$
+and $M_f \cong R_f^{\oplus n}$ for some $n$. Choose a presentation
+$$
+\bigoplus\nolimits_{i \in I} R \to R^{\oplus m} \to M \to 0
+$$
+This is possible because $M$ is a finite $R$-module by the first case
+of the lemma. Let $A = (a_{ij})$ be the matrix of the first map so that
+$\text{Fit}_k(M)$ is generated by the $(m - k) \times (m - k)$-minors
+of $A$. By our assumption we see that
+$\text{Fit}_{n - 1}(M)$, resp.\ $\text{Fit}_n(M)$
+generates the zero, resp.\ unit ideal in $R^\wedge$ and $R_f$, see
+Lemma \ref{lemma-fitting-ideal-finite-locally-free}.
+Since $\Spec(R^\wedge \times R_f) \to \Spec(R)$ is surjective
+(Lemma \ref{lemma-cover-spec}) we conclude that $\text{Fit}_n(M)$
+generates the unit ideal in $R$. Since $R \to R^\wedge \times R_f$
+is injective, we see that $\text{Fit}_{n - 1}(M)$ is zero.
+Hence $M$ is finite locally free of rank $n$ by the lemma cited
+above.
+
+\medskip\noindent
+Case II: general case. Choose an $n$ and isomorphisms
+$(R^\wedge)^{\oplus n} = M \otimes_R R^\wedge \oplus C'$
+and $R_f^{\oplus n} = M_f \oplus C_1$. Then we have
+$$
+(C')_f \oplus (R^\wedge)_f^{\oplus n} =
+(C')_f \oplus M_f \otimes_R R^\wedge \oplus C_1 \otimes_R R^\wedge =
+(R^\wedge)_f^{\oplus n} \oplus C_1 \otimes_R R^\wedge
+$$
+In other words, the $(R^\wedge)_f$-modules $(C')_f$ and
+$C_1 \otimes_R R^\wedge$ become isomorphic after adding
+$n$ copies of the free module. This gives a glueing datum
+$$
+((C')_f \oplus (R^\wedge)^{\oplus n}, C_1 \oplus R_f^{\oplus n}, \alpha_1)
+$$
+such that in $\text{Glue}(R \to R^\wedge, f)$ we have
+$$
+((R^\wedge)^{\oplus 2n}, R_f^{\oplus 2n}, \alpha_1 \oplus can)
+=
+((C')_f \oplus (R^\wedge)^{\oplus n}, C_1 \oplus R_f^{\oplus n}, \alpha_1)
+\oplus
+(M \otimes_R R^\wedge, M_f, can)
+$$
+By Case I we see that
+$H^0(((R^\wedge)^{\oplus 2n}, R_f^{\oplus 2n}, \alpha_1 \oplus can))$
+is a finite projective $R$-module and hence the summand
+$P = H^0((M \otimes_R R^\wedge, M_f, can))$ is a finite projective
+$R$-module as well. There is a canonical map
+$M \to P$ and by Theorem \ref{theorem-BL-glueing}
+the maps $M \otimes_R R^\wedge \to P \otimes_R R^\wedge$
+and $M_f \to P_f$ are isomorphisms.
+From the exactness of the sequences
+$$
+M \to M \otimes_R R^\wedge \oplus M_f \to M \otimes_R (R^\wedge)_f  \to 0
+$$
+and
+$$
+0 \to P \to P \otimes_R R^\wedge \oplus P_f \to P \otimes_R  (R^\wedge)_f \to 0
+$$
+we obtain a surjection $M \to P$. Let $K$ be the kernel of this map; since 
+$P$ is a flat $R$-module, we must have
+$K \otimes_R (R^\wedge \oplus R_f) = 0$.
+By Lemma \ref{lemma-BL-faithful}, this forces $K = 0$, so $M \cong P$.
+\end{proof}
+
+\noindent
+Recall that flat $R$-modulesm over a glueing pair $(R, f)$ are glueable
+(Remark \ref{remark-glueable}). Hence the following lemma shows that
+Theorem \ref{theorem-BL-glueing} determines an equivalence between
+the category of flat $R$-modules and
+the category of glueing data $(M', M_1, \alpha_1)$ where $M'$
+and $M_1$ are flat over $R^\wedge$ and $R_f$.
+
+\begin{lemma}
+\label{lemma-BL-flat}
+Let $(R, f)$ be a glueing pair. Let $M$ be a glueable $R$-module. Then $M$
+is flat if and only if $M \otimes_R (R^\wedge \oplus R_f)$ is flat over
+$R^\wedge \times R_f$.
+\end{lemma}
+
+\begin{proof}
+One direction of the lemma follows from
+Algebra, Lemma \ref{algebra-lemma-flat-base-change}.
+For the other direction, assume $M \otimes_R (R^\wedge \oplus R_f)$
+is flat over $R^\wedge \times R_f$ and let $N$ be a second $R$-module.
+It suffices to prove that $\text{Tor}_1^R(M, N) = 0$, see
+Algebra, Lemma \ref{algebra-lemma-characterize-flat}.
+
+\medskip\noindent
+The long the exact sequence of Tors associated to the
+short exact sequence $0 \to R \to R^\wedge \oplus R_f \to (R^\wedge)_f \to 0$
+and $N$ gives an exact sequence
+$$
+0 \to \text{Tor}_1^R(R^\wedge, N) \to \text{Tor}_1^R((R^\wedge)_f, N)
+$$
+and isomorphisms
+$\text{Tor}_i^R(R^\wedge, N) = \text{Tor}_i^R((R^\wedge)_f, N)$
+for $i \geq 2$. Since
+$\text{Tor}_i((R^\wedge)_f, N) = \text{Tor}_i^R(R^\wedge, N)_f$
+we conclude that $f$ is a nonzerodivisor on $\text{Tor}_1^R(R^\wedge, N)$
+and invertible on $\text{Tor}_i^R(R^\wedge, N)$ for $i \geq 2$.
+Since $M \otimes_R R^\wedge$ is flat over $R^\wedge$ we have
+$$
+\text{Tor}_i^R(M \otimes_R R^\wedge, N) =
+(M \otimes_R R^\wedge) \otimes_{R^\wedge} \text{Tor}_i^R(R^\wedge, N)
+$$
+by the spectral sequence of Example \ref{example-tor-change-rings}.
+Writing $M \otimes_R R^\wedge$ as a filtered colimit of
+finite free $R^\wedge$-modules we conclude that $f$ is a nonzerodivisor
+on $\text{Tor}_1^R(M \otimes_R R^\wedge, N)$ and invertible on
+$\text{Tor}_i^R(M \otimes_R R^\wedge, N)$. Next, we consider
+the exact sequence
+$0 \to M \to M \otimes_R R^\wedge \oplus M_f \to M \otimes_R (R^\wedge)_f \to 0$
+coming from the fact that $M$ is glueable and the associated long exact
+sequence of $\text{Tor}$. The relevant part is
+$$
+\xymatrix{
+\text{Tor}_1^R(M, N) \ar[r] &
+\text{Tor}_1^R(M \otimes_R R^\wedge, N) \ar[r] &
+\text{Tor}_1^R(M \otimes_R (R^\wedge)_f, N) \\
+& \text{Tor}_2^R(M \otimes_R R^\wedge, N) \ar[r] &
+\text{Tor}_2^R(M \otimes_R (R^\wedge)_f, N) \ar[llu]
+}
+$$
+We conclude that $\text{Tor}_1^R(M, N) = 0$ by our remarks above on the
+action on $f$ on $\text{Tor}_i^R(M \otimes_R R^\wedge, N)$.
 \end{proof}
 
 \begin{remark}
-In \cite{beauville-laszlo}, it is assumed that $f$ is not a zero-divisor in $R$.
-Even in this setting, Theorem~\ref{T:BL glueing} says something new: the results of \cite{beauville-laszlo} only apply to modules which are $f$-torsion-free (and hence glueable in our sense). Corollary~\ref{C:BL properties} also provides a slight extension of the results of \cite{beauville-laszlo}: not only can we allow $M$ to have $f$-torsion, we do not even require it to be glueable.
-
-However, there is one result from \cite{beauville-laszlo} which is not included in our results: if $f$ is not a zero-divisor in $R$ and $M$ is $f$-torsion-free, then $M$ is flat if and only if $M \otimes_R (\widehat{R} \oplus R_f)$ is flat over $\widehat{R} \oplus R_f$. The proof uses \cite[Lemme~3(b)]{beauville-laszlo}, for which we have not found a satisfactory replacement.
+\label{remark-compare-BL}
+In \cite{Beauville-Laszlo} it is assumed that $f$ is a nonzerodivisor in $R$.
+Even in this setting Theorem \ref{theorem-BL-glueing} says something new: the 
+results of \cite{Beauville-Laszlo} only apply to modules on which
+$f$ is a nonzerodivisor (and hence glueable in our sense).
+Lemma \ref{lemma-BL-properties} also provides a slight extension
+of the results of  \cite{Beauville-Laszlo}: not only can we allow $M$
+to have nonzero $f$-power torsion, we do not even require it to be glueable.
 \end{remark}
 
 
