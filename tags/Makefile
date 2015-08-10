@@ -27,7 +27,7 @@ LIJST = introduction conventions sets categories \
 	formal-defos defos cotangent \
 	algebraic examples-stacks stacks-sheaves criteria artin quot \
 	stacks-properties stacks-morphisms stacks-cohomology stacks-perfect \
-	stacks-introduction \
+	stacks-introduction stacks-more-morphisms \
 	examples exercises guide \
 	desirables coding obsolete bibliography
 
