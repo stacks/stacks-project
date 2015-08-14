@@ -881,10 +881,10 @@
   \z@{.7\linespacing\@plus\linespacing}{.5\linespacing}%
   {\normalfont\bfseries\centering}}
 \def\subsection{\@startsection{subsection}{2}%
-  \normalparindent{.5\linespacing\@plus.7\linespacing}{-.5em}%
+  \z@{.5\linespacing\@plus.7\linespacing}{-.5em}%
   {\normalfont\bfseries}}
 \def\subsubsection{\@startsection{subsubsection}{3}%
-  \normalparindent\z@{-.5em}%
+  \z@{.5\linespacing\@plus.7\linespacing}{-.5em}%
   {\normalfont\itshape}}
 \def\paragraph{\@startsection{paragraph}{4}%
   \normalparindent\z@{-\fontdimen2\font}%

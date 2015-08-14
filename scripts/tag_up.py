@@ -95,7 +95,16 @@ for line in tex_file:
 		print line,
 		# don't put in hypertarget if label does not have a tag
 		if label in label_tags:
-			print "\\reversemarginpar\\marginnote{" + label_tags[label] + "}\\hypertarget{" + label_tags[label] + "}{}"
+                        print "\\hypertarget{" + label_tags[label] + "}{}"
+                        # there is a bug in marginnotes that eats subsection titles...
+                        if short.find("subsection") >= 0:
+				line = tex_file.next()
+				print line,
+				line = tex_file.next()
+				print line,
+				print "\\reversemarginpar\\marginnote{" + label_tags[label] + "}"
+			else:
+				print "\\reversemarginpar\\marginnote{" + label_tags[label] + "}"
 		continue
 
 	# Lines with labeled environments
