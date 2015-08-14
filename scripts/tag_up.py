@@ -16,13 +16,14 @@ path = path + "/"
 name = argv[2]
 
 def replace_newtheorem(line):
-	if not line.find("\\newtheorem{") == 0:
-			return line
-	line = line.replace("]{", "]{\\href{http://stacks.math.columbia.edu/tag/\\TAG}{",1)
-	line = line.rstrip()
-	return line + "}"
-
-
+	if line.find("\\newtheorem{") == 0:
+		line = line.replace("]{", "]{\\href{http://stacks.math.columbia.edu/tag/\\TAG}{",1)
+		line = line.rstrip()
+		return line + "}\n"
+	if line.find("\\documentclass") == 0:
+		line = line.replace("\\documentclass", "\\documentclass[oneside]")
+		return line
+	return line
 
 
 
@@ -30,12 +31,15 @@ def replace_newtheorem(line):
 if name == "preamble":
 	tex_file = open(path + name + ".tex", 'r')
 	for line in tex_file:
-		print replace_newtheorem(line)
+		print replace_newtheorem(line),
 
 	version = git_version(path)
 
 	from datetime import date
 	now = date.today()
+
+	print "\\usepackage{marginnote}"
+	print "\\renewcommand*{\\marginfont}{\\normalfont}"
 
 	print "\\date{This is a chapter of the Stacks Project, version " + version + ", compiled on " + now.strftime('%h %d, %Y.}')
 
@@ -72,6 +76,9 @@ for line in tex_file:
 	if not document:
 		if name == "book":
 			line = replace_newtheorem(line)
+			if line.find("\\begin{document}") == 0:
+				print "\\usepackage{marginnote}"
+				print "\\renewcommand*{\\marginfont}{\\normalfont}"
 		print line,
 		if line.find("\\begin{document}") == 0:
 			print "\\newcommand{\\TAG}{ZZZZ}"
@@ -88,7 +95,7 @@ for line in tex_file:
 		print line,
 		# don't put in hypertarget if label does not have a tag
 		if label in label_tags:
-			print "\\hypertarget{" + label_tags[label] + "}{}"
+			print "\\reversemarginpar\\marginnote{" + label_tags[label] + "}\\hypertarget{" + label_tags[label] + "}{}"
 		continue
 
 	# Lines with labeled environments
@@ -109,7 +116,15 @@ for line in tex_file:
 		print "\\renewcommand{\\TAG}{" + label_tags[label] + "}"
 		print oldline,
 		print line,
-		print "\\hypertarget{" + label_tags[label] + "}{}"
+		print "\\reversemarginpar\\marginnote{" + label_tags[label] + "}\\hypertarget{" + label_tags[label] + "}{}"
+		continue
+
+	if line.find("\\begin{reference}") == 0:
+		print "\\normalmarginpar\\marginnote{"
+		continue
+
+	if line.find("\\end{reference}") == 0:
+		print "}"
 		continue
 
 	print line,
