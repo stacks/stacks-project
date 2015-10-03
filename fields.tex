@@ -455,6 +455,20 @@ the complex numbers. For a slightly more general result, see
 Algebra, Theorem \ref{algebra-theorem-uncountable-nullstellensatz}. 
 \end{example}
 
+\begin{lemma}
+\label{lemma-finite-finitely-generated}
+A finite extension of fields is a finitely generated field extension.
+The converse is not true.
+\end{lemma}
+
+\begin{proof}
+Let $F/E$ be a finite extension of fields. Let $\alpha_1, \ldots, \alpha_n$
+be a basis of $F$ as a vector space over $E$. Then
+$F = E(\alpha_1, \ldots, \alpha_n)$ hence $F/E$ is a finitely generated
+field extension. The converse is not true as follows from
+Example \ref{example-degree-rational-function-field}.
+\end{proof}
+
 \begin{example}[Degree of a simple algebraic extension]
 \label{example-degree-simple-algebraic-extension}
 Consider a monogenic field extension $E/k$ of the form discussed in
@@ -2599,34 +2613,51 @@ The Galois group comes with a canonical topology.
 
 \begin{lemma}
 \label{lemma-galois-profinite}
-Let $E/F$ be a Galois extension. There is a
-canonical topology on $\text{Gal}(E/F)$ such that
+Let $E/F$ be a Galois extension. Endow $\text{Gal}(E/F)$ with the coarsest
+topology such that
+$$
+\text{Gal}(E/F) \times E \longrightarrow E
+$$
+is continuous when $E$ is given the discrete topology. Then
 \begin{enumerate}
-\item $\text{Gal}(E/F)$ is a profinite topological group,
-\item the action $\text{Gal}(E/F) \times E \to E$
-is continuous when $E$ is given the discrete topology.
+\item for any topological space $X$ and map $X \to \text{Aut}(E/F)$
+such that the action $X \times E \to E$ is continuous the induced map
+$X \to \text{Gal}(E/F)$ is continuous,
+\item this topology turns $\text{Gal}(E/F)$ into
+a profinite topological group.
 \end{enumerate}
 \end{lemma}
 
 \begin{proof}
 Throughout this proof we think of $E$ as a discrete topological space.
-Recall that the set of invertible self maps $\text{Aut}(E)$
-endowed with the compact open topology forms a topological group,
-see Topology, Example \ref{topology-example-automorphisms-of-a-set}.
-Let us use the injection
+Recall that the compact open topology on the set of self maps
+$\text{Map}(E, E)$ is the universal topology such that the action
+$\text{Map}(E, E) \times E \to E$ is continuous. See
+Topology, Example \ref{topology-example-automorphisms-of-a-set}
+for a precise statement. The topology of the lemma on
+$\text{Gal}(E/F)$ is the induced topology coming from the
+injective map $\text{Gal}(E/F) \to \text{Map}(E, E)$.
+Hence the universal property (1) follows from the corresponding
+universal property of the compact open topology.
+Since the set of invertible self maps $\text{Aut}(E)$
+endowed with the compact open topology forms a topological group, see
+Topology, Example \ref{topology-example-automorphisms-of-a-set},
+and since $\text{Gal}(E/F) = \text{Aut}(E/F) \to \text{Map}(E, E)$
+factors through $\text{Aut}(E)$ we obtain a topological group.
+In other words, we are using the injection
 $$
 \text{Gal}(E/F) \subset \text{Aut}(E)
 $$
 to endow $\text{Gal}(E/F)$ with the induced structure of a topological group
-(see Topology, Section \ref{topology-section-topological-groups}).
-By construction the action $\text{Gal}(E/F) \times E \to E$ is continuous.
+(see Topology, Section \ref{topology-section-topological-groups})
+and by construction this is the coarsest structure of a topological
+group such that the action $\text{Gal}(E/F) \times E \to E$ is continuous.
 
 \medskip\noindent
 To show that $\text{Gal}(E/F)$ is profinite we argue as follows
-(our argument is nonstandard; the usual proof goes by writing
-$E$ as the union of all finite Galois subextensions and proving
-that $\text{Gal}(E/F)$ is the inverse limit of the corresponding
-finite Galois groups).
+(our argument is necessarily nonstandard because we have defined
+the topology before showing that the Galois group is an inverse
+limit of finite groups).
 By Topology, Lemma \ref{topology-lemma-profinite-group}
 it suffices to show that the underlying
 topological space of $\text{Gal}(E/F)$ is profinite.
@@ -2682,9 +2713,97 @@ homomorphism $c : \text{Gal}(L/K) \to \text{Gal}(M/K)$.
 \begin{proof}
 By Lemma \ref{lemma-lift-maps} given $\tau : L \to L$ in
 $\text{Gal}(L/K)$ the restriction $\tau|_M : M \to M$
-is an element of $\text{Gal}(M/K)$. This defines the homomorphism.
-We omit the proof of continuity. Lemma \ref{lemma-lift-maps} also
+is an element of $\text{Gal}(M/K)$. This defines the homomorphism $c$.
+Continuity follows from the universal property of the topology:
+the action
+$$
+\text{Gal}(L/K) \times M \longrightarrow M,\quad
+(\tau, x) \longmapsto \tau(x) = c(\tau)(x)
+$$
+is continuous as $M \subset L$ and the action
+$\text{Gal}(L/K) \times L \to L$ is continuous.
+Hence continuity of $c$ by part (1) of
+Lemma \ref{lemma-galois-profinite}.
+Lemma \ref{lemma-lift-maps} also
 shows that the map is surjective.
+\end{proof}
+
+\noindent
+Here is a more standard way to think about
+the Galois group of an infinite Galois extension.
+
+\begin{lemma}
+\label{lemma-infinite-galois-limit}
+Let $L/K$ be a Galois extension with Galois group $G$.
+Let $\Lambda$ be the set of finite Galois subextensions,
+i.e., $\lambda \in \Lambda$ corresponds to $L/L_\lambda/K$
+with $L_\lambda/K$ finite Galois with Galois group $G_\lambda$.
+Define a partial ordering on $\Lambda$ by the rule
+$\lambda \geq \lambda'$ if and only if
+$L_\lambda \supset L_{\lambda'}$. Then
+\begin{enumerate}
+\item $\Lambda$ is a directed partially ordered set,
+\item $L_\lambda$ is a system of $K$-extensions over $\Lambda$
+and $L = \colim L_\lambda$,
+\item $G_\lambda$ is an inverse system of finite groups over $\Lambda$,
+the transition maps are surjective, and
+$$
+G = \lim_{\lambda \in \Lambda} G_\lambda
+$$
+as a profinite group, and
+\item each of the projections $G \to G_\lambda$ is continuous and surjective.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Every subfield of $L$ containing $K$ is separable over $K$
+(follows immediately from the definition). Let $S \subset L$
+be a finite subset. Then $K(S)/K$ is finite and there exists
+a tower $L/E/K(S)/K$ such that $E/K$ is finite Galois, see
+Lemma \ref{lemma-normal-closure-inside-normal}.
+Hence $E = L_\lambda$ for some $\lambda \in \Lambda$.
+This certainly implies the set $\Lambda$ is not empty.
+Also, given $\lambda_1, \lambda_2 \in \Lambda$ we can
+write $L_{\lambda_i} = K(S_i)$ for finite sets
+$S_1, S_2 \subset L$ (Lemma \ref{lemma-finite-finitely-generated}).
+Then there exists a $\lambda \in \Lambda$ such that
+$K(S_1 \cup S_2) \subset L_\lambda$. Hence
+$\lambda \geq \lambda_1, \lambda_2$ and
+$\Lambda$ is directed (Categories, Definition
+\ref{categories-definition-directed-system}).
+Finally, since every element in $L$ is contained in
+$L_\lambda$ for some $\lambda \in \Lambda$, it follows
+from the description of filtered colimits in
+Categories, Section \ref{categories-section-directed-colimits}
+that $\colim L_\lambda = L$.
+
+\medskip\noindent
+If $\lambda \geq \lambda'$ in $\Lambda$, then we obtain a
+canonical surjective map $G_\lambda \to G_{\lambda'}$,
+$\sigma \mapsto \sigma|_{L_{\lambda'}}$
+by Lemma \ref{lemma-ses-galois}. Thus we get an inverse
+system of finite groups with surjective transition maps.
+
+\medskip\noindent
+Recall that $G = \text{Aut}(L/K)$. By Lemma \ref{lemma-galois-infinite}
+the restriction $\sigma|_{L_\lambda}$ of a $\sigma \in G$ to $L_\lambda$
+is an element of $G_\lambda$. Moreover, this procedure gives a continuous
+surjection $G \to G_\lambda$. Since the transition mappings
+in the inverse system of $G_\lambda$ are given by restriction
+also, it is clear that we obtain a canonical continuous map
+$$
+G \longrightarrow \lim_{\lambda \in \Lambda} G_\lambda
+$$
+Continuity by definition of limits in the category of topological
+groups; recall that these limits commute with the forgetful functor
+to the categories of sets and topological spaces by
+Topology, Lemma \ref{topology-lemma-topological-group-limits}.
+On the other hand, since $L = \colim L_\lambda$ it is clear
+that any element of the inverse limit (viewed as a set) defines an
+automorphism of $L$. Thus the map is bijective. Since the topology
+on both sides is profinite, and since a bijective continuous map
+of profinite spaces is a homeomorphism
+(Topology, Lemma \ref{topology-lemma-bijective-map}), the proof is complete.
 \end{proof}
 
 \begin{theorem}[Fundamental theorem of infinite Galois theory]
@@ -2783,7 +2902,6 @@ of profinite topological groups.
 \begin{proof}
 This is a reformulation of Lemma \ref{lemma-galois-infinite}.
 \end{proof}
-
 
 
 
