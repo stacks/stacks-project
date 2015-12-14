@@ -29675,10 +29675,59 @@ Lemma \ref{lemma-characterize-zero-local}.
 \noindent
 In this section we prove some preliminary lemmas
 which will eventually help us prove result using
-absolute Noetherian reduction. We begin discussing
-how we will think about colimits in this section.
+absolute Noetherian reduction.
+In Categories, Section \ref{categories-section-directed-colimits}
+we discuss filtered colimits in general.
+Here is an example of this very general notion.
+
+\begin{lemma}
+\label{lemma-ring-colimit-fp-category}
+Let $R \to A$ be a ring map. Consider the category $\mathcal{I}$ of all
+diagrams of $R$-algebra maps $A' \to A$ with $A'$ finitely presented over
+$R$. Then $\mathcal{I}$ is filtered, and the colimit of the $A'$ over
+$\mathcal{I}$ is isomorphic to $A$.
+\end{lemma}
+
+\begin{proof}
+The category\footnote{To avoid set theoretical difficulties we
+consider only $A' \to A$ such that the underlying set of $A'$
+is a subset of a fixed set of sufficiently large cardinality,
+for example the power set of $A$.}
+$\mathcal{I}$ is nonempty as $R \to A$ is an object of it.
+Consider a pair of objects $A' \to A$, $A'' \to A$ of $\mathcal{I}$.
+Then $A' \otimes_R A'' \to A$ is in
+$\mathcal{I}$ (use Lemmas \ref{lemma-compose-finite-type} and
+\ref{lemma-base-change-finiteness}). The ring maps
+$A' \to A' \otimes_R A''$ and $A'' \to A' \otimes_R A''$
+define arrows in $\mathcal{I}$ thereby proving the second defining
+property of a filtered category, see
+Categories, Definition \ref{categories-definition-directed}.
+Finally, suppose that we have two morphisms $\sigma, \tau : A' \to A''$
+in $\mathcal{I}$. If $x_1, \ldots, x_r \in A'$ are generators of
+$A'$ as an $R$-algebra, then we can consider
+$A''' = A''/(\sigma(x_i) - \tau(x_i))$.
+This is a finitely presented $R$-algebra and the given $R$-algebra map
+$A'' \to A$ factors through the surjection $\nu : A'' \to A'''$.
+Thus $\nu$ is a morphism in $\mathcal{I}$ equalizing $\sigma$ and $\tau$
+as desired.
 
 \medskip\noindent
+The fact that our index category is cofiltered means that we may
+compute the value of $B = \colim_{A' \to A} A'$ in the category of sets
+(some details omitted; compare with the discussion in
+Categories, Section \ref{categories-section-directed-colimits} especially
+Categories, Lemma \ref{categories-lemma-colimits-abelian-as-sets}).
+To see that $B \to A$ is surjective, for
+every $a \in A$ we can use $R[x] \to A$, $x \mapsto a$ to see that
+$a$ is in the image of $B \to A$. Conversely, if $b \in B$ is mapped
+to zero in $A$, then we can find $A' \to A$ in $\mathcal{I}$ and
+$a' \in A'$ which maps to $b$. Then $A'/(a') \to A$ is in $\mathcal{I}$
+as well and the map $A' \to B$ factors as $A' \to A'/(a') \to B$
+which shows that $b = 0$ as desired.
+\end{proof}
+
+\noindent
+Often it is easier to think about colimits over partially ordered sets.
 Let $(\Lambda, \geq)$ a partially ordered set.
 A system of rings over $\Lambda$ is given by
 a ring $R_\lambda$ for every $\lambda \in \Lambda$,
@@ -29695,18 +29744,26 @@ Recall that the colimit $\colim_\lambda R_\lambda$
 is sometimes called a ``direct limit'' in this case
 (but we will not use this terminology).
 
+\medskip\noindent
+Note that Categories, Lemma \ref{categories-lemma-directed-category-system}
+tells us that colimits over filtered index categories are the same
+thing as colimits over directed partially ordered sets.
+
 \begin{lemma}
 \label{lemma-ring-colimit-fp}
-Let $R \to A$ be a ring map.
-There exists a directed system $A_\lambda$ of
-$R$-algebras of finite presentation such that
-$A = \colim_\lambda A_\lambda$.
-If $A$ is of finite type over $R$ we may
-arrange it so that all the transition maps
-are surjective.
+Let $R \to A$ be a ring map. There exists a directed system $A_\lambda$ of
+$R$-algebras of finite presentation such that $A = \colim_\lambda A_\lambda$.
+If $A$ is of finite type over $R$ we may arrange it so that all the
+transition maps in the system of $A_\lambda$ are surjective.
 \end{lemma}
 
 \begin{proof}
+The first proof is that this follows from
+Lemma \ref{lemma-ring-colimit-fp-category} and
+Categories, Lemma \ref{categories-lemma-directed-category-system}.
+
+\medskip\noindent
+Second proof.
 Compare with the proof of Lemma \ref{lemma-module-colimit-fp}.
 Consider any finite subset $S \subset A$, and any finite
 collection of polynomial relations $E$ among the elements of $S$.
@@ -29784,6 +29841,42 @@ Lemma \ref{lemma-compose-finite-type} part (4)
 applied to $S \to S_\lambda \to S$. Applying part (2) of the same
 lemma to $R \to S_\lambda \to S$ we conclude that $S$ is of finite
 presentation over $R$.
+\end{proof}
+
+\noindent
+Using the basic material above we can give a criterion of when
+an algebra $A$ is a filtered colimit of given type of algebra
+as follows.
+
+\begin{lemma}
+\label{lemma-when-colimit}
+Let $R \to \Lambda$ be a ring map. Let $\mathcal{E}$ be a set of $R$-algebras
+such that each $A \in \mathcal{E}$ is of finite presentation over $R$.
+Then the following two statements are equivalent
+\begin{enumerate}
+\item $\Lambda$ is a filtered colimit of elements of $\mathcal{E}$, and
+\item for any $R$ algebra map $A \to \Lambda$ with $A$ of finite
+presentation over $R$ we can find a factorization $A \to B \to \Lambda$
+with $B \in \mathcal{E}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Suppose that $\mathcal{I} \to \mathcal{E}$, $i \mapsto A_i$
+is a filtered diagram such that $\Lambda = \colim_i A_i$.
+Let $A \to \Lambda$ be an $R$-algebra map with $A$ of finite
+presentation over $R$. Then we get a factorization $A \to A_i \to \Lambda$
+by applying Lemma \ref{lemma-characterize-finite-presentation}.
+Thus (1) implies (2).
+
+\medskip\noindent
+Consider the category
+$\mathcal{I}$ of Lemma \ref{lemma-ring-colimit-fp-category}.
+By Categories, Lemma \ref{categories-lemma-cofinal-in-filtered}
+the full subcategory $\mathcal{J}$ consisting of those
+$A \to \Lambda$ with $A \in \mathcal{E}$ is cofinal in $\mathcal{I}$ and
+is a filtered category. Then $\Lambda$ is also the colimit
+over $\mathcal{J}$ by Categories, Lemma \ref{categories-lemma-cofinal}.
 \end{proof}
 
 \noindent
@@ -39490,15 +39583,26 @@ of \'etale ring maps, then $A \to C$ is a filtered colimit of
 \end{lemma}
 
 \begin{proof}
+We will use the criterion of Lemma \ref{lemma-when-colimit}.
+Let $A \to P \to C$ be a factorization of $A \to C$
+with $P$ of finite presentation over $A$.
 Write $B = \colim_{i \in I} B_i$ where $I$ is a directed partially
 ordered set and where $B_i$ is an \'etale $A$-algebra. 
 Write $C = \colim_{j \in J} C_j$ where $J$ is a directed partially
 ordered set and where $C_j$ is an \'etale $B$-algebra.
-By Lemma \ref{lemma-etale} for each $j \in J$ we can find an
-$i(j) \in I$ and an \'etale ring map $B_{i(j)} \to C'_j$
-such that $C_j = B \otimes_{B_{i(j)}} C'_j$. Then
-$A \to C'_j$ is \'etale as compositions of \'etale ring maps
-are \'etale. Then $C = \colim C'_j$ and the proof is complete.
+We can factor $P \to C$ as $P \to C_j \to C$ for
+some $j$ by Lemma \ref{lemma-characterize-finite-presentation}.
+By Lemma \ref{lemma-etale} we can find an
+$i \in I$ and an \'etale ring map $B_i \to C'_j$
+such that $C_j = B \otimes_{B_i} C'_j$.
+Then $C_j = \colim_{i' \geq i} B_{i'} \otimes_{B_i} C'_j$
+and again we see that $P \to C_j$ factors as
+$P \to B_{i'} \otimes_{B_i} C'_j \to C$.
+As $A \to C' = B_{i'} \otimes_{B_i} C'_j$ is \'etale as
+compositions and tensor products of \'etale ring maps
+are \'etale. Hence we have factored $P \to C$ as
+$P \to C' \to C$ with $C'$ \'etale over $A$ and the criterion
+of Lemma \ref{lemma-when-colimit} applies.
 \end{proof}
 
 \begin{lemma}
