@@ -1724,7 +1724,8 @@ Hence $\Hom_A(A/I, M)$
 is nonzero. Thus equality holds in this case.
 
 \medskip\noindent
-Assume that $\text{depth}_I(M) > 0$. Let $f \in I$ be $M$-regular.
+Assume that $\text{depth}_I(M) > 0$. Let $f \in I$ be a nonzerodivisor
+on $M$ such that $\text{depth}_I(M/fM) = \text{depth}_I(M) - 1$.
 Consider the short exact sequence
 $$
 0 \to M \to M \to M/fM \to 0
@@ -1769,6 +1770,119 @@ For $i = \text{depth}_I(M)$, using the vanishing of
 $\text{Ext}_A^{i - 1}(I/I^n, M)$ we see that the map
 $\text{Ext}_A^i(A/I, M) \to H_I^i(M)$ is injective which
 proves nonvanishing in the correct degree.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-depth-in-ses}
+Let $A$ be a Noetherian ring. Let $0 \to N' \to N \to N'' \to 0$
+be a short exact sequence of finite $A$-modules.
+Let $I \subset A$ be an ideal.
+\begin{enumerate}
+\item
+$\text{depth}_I(N) \geq \min\{\text{depth}_I(N'), \text{depth}_I(N'')\}$
+\item
+$\text{depth}_I(N'') \geq \min\{\text{depth}_I(N), \text{depth}_I(N') - 1\}$
+\item
+$\text{depth}_I(N') \geq \min\{\text{depth}_I(N), \text{depth}_I(N'') + 1\}$
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Assume $IN \not = N$, $IN' \not = N'$, and $IN'' \not = N''$. Then we
+can use the characterization of depth using the Ext groups
+$\text{Ext}^i(A/I, N)$, see Lemma \ref{lemma-depth},
+and use the long exact cohomology sequence
+$$
+\begin{matrix}
+0
+\to \Hom_A(A/I, N')
+\to \Hom_A(A/I, N)
+\to \Hom_A(A/I, N'')
+\\
+\phantom{0\ }
+\to \text{Ext}^1_A(A/I, N')
+\to \text{Ext}^1_A(A/I, N)
+\to \text{Ext}^1_A(A/I, N'')
+\to \ldots
+\end{matrix}
+$$
+from Algebra, Lemma \ref{algebra-lemma-long-exact-seq-ext}.
+This argument also works if $IN = N$
+because in this case $\text{Ext}^i_A(A/I, N) = 0$ for all $i$.
+Similarly in case $IN' \not = N'$ and/or $IN'' \not = N''$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-depth-drops-by-one}
+Let $A$ be a Noetherian ring, let $I \subset A$ be an ideal, and
+let $M$ a finite $A$-module with $IM \not = M$.
+\begin{enumerate}
+\item If $x \in I$ is a nonzerodivisor on $M$, then
+$\text{depth}_I(M/xM) = \text{depth}_I(M) - 1$.
+\item Any $M$-regular sequence $x_1, \ldots, x_r$ in $I$ can be extended to an
+$M$-regular sequence in $I$ of length $\text{depth}_I(M)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Part (2) is a formal consequence of part (1). Let $x \in I$ be as in (1).
+By the short exact sequence $0 \to M \to M \to M/xM \to 0$ and
+Lemma \ref{lemma-depth-in-ses} we see that
+$\text{depth}_I(M/xM) \geq \text{depth}_I(M) - 1$.
+On the other hand, if $x_1, \ldots, x_r \in I$
+is a regular sequence for $M/xM$, then $x, x_1, \ldots, x_r$
+is a regular sequence for $M$. Hence (1) holds.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-depth-CM}
+Let $R$ be a Noetherian local ring. If $M$ is a finite Cohen-Macaulay
+$R$-module and $I \subset R$ a nontrivial ideal. Then
+$$
+\text{depth}_I(M) = \dim(\text{Supp}(M)) - \dim(\text{Supp}(M/IM)).
+$$
+\end{lemma}
+
+\begin{proof}
+We will prove this by induction on $\text{depth}_I(M)$.
+
+\medskip\noindent
+If $\text{depth}_I(M) = 0$, then $I$ is contained in one
+of the associated primes $\mathfrak p$ of $M$
+(Algebra, Lemma \ref{algebra-lemma-ideal-nonzerodivisor}).
+Then $\mathfrak p \in \text{Supp}(M/IM)$, hence
+$\dim(\text{Supp}(M/IM)) \geq \dim(R/\mathfrak p) = \dim(\text{Supp}(M))$
+where equality holds by
+Algebra, Lemma \ref{algebra-lemma-CM-ass-minimal-support}.
+Thus the lemma holds in this case.
+
+\medskip\noindent
+If $\text{depth}_I(M) > 0$, we pick $x \in I$ which is a
+nonzerodivisor on $M$. Note that $(M/xM)/I(M/xM) = M/IM$.
+On the other hand we have
+$\text{depth}_I(M/xM) = \text{depth}_I(M) - 1$
+by Lemma \ref{lemma-depth-drops-by-one}
+and $\dim(\text{Supp}(M/xM)) = \text{dim}(\text{Supp}(M)) -  1$
+by Algebra, Lemma \ref{algebra-lemma-one-equation-module}.
+Thus the result by induction hypothesis.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-depth-flat-CM}
+Let $R \to S$ be a flat local ring homomorphism of Noetherian local
+rings. Denote $\mathfrak m \subset R$ the maximal ideal.
+Let $I \subset S$ be an ideal.
+If $S/\mathfrak mS$ is Cohen-Macaulay, then
+$$
+\text{depth}_I(S) \geq \dim(S/\mathfrak mS) - \dim(S/\mathfrak mS + I)
+$$
+\end{lemma}
+
+\begin{proof}
+By Algebra, Lemma \ref{algebra-lemma-grothendieck-regular-sequence}
+any sequence in $S$ which maps to a regular sequence in $S/\mathfrak mS$
+is a regular sequence in $S$. Thus it suffices to prove the lemma
+in case $R$ is a field. This is a special case of Lemma \ref{lemma-depth-CM}.
 \end{proof}
 
 \begin{lemma}
@@ -2883,7 +2997,9 @@ See Derived Categories, Lemma \ref{derived-lemma-derived-adjoint-functors}.
 \label{lemma-RHom-ext}
 With notation as above. For $K$ in $D(A)$ we have
 $R^q\Hom(B, K) = \text{Ext}_A^q(B, K)$
-as $A$-modules (the left hand side starts out as a $B$-module).
+as $B$-modules (the left hand side starts out as a $B$-module
+and the right hand side has a $B$-module structure via the action
+of $B$ on $B$).
 \end{lemma}
 
 \begin{proof}
@@ -3659,7 +3775,7 @@ we see that the remaining module has to be nonzero.
 
 
 
-\section{The dimension function of a dualizing complex}
+\section{Dualizing complexes and dimension functions}
 \label{section-dimension-function}
 
 \noindent
@@ -3882,10 +3998,10 @@ hull of the residue field.
 By Lemma \ref{lemma-dualizing-finite-length}
 we can find isomorphisms
 $$
-R\Hom_A(A/\mathfrak m^n, \omega_A^\bullet) \cong \Hom_A(A/I^n, E')[0]
+R\Hom_A(A/\mathfrak m^n, \omega_A^\bullet) \cong \Hom_A(A/\mathfrak m^n, E')[0]
 $$
 compatible with transition maps. Since
-$E' = \bigcup E'[\mathfrak m^n] = \colim \Hom_A(A/I^n, E')$
+$E' = \bigcup E'[\mathfrak m^n] = \colim \Hom_A(A/\mathfrak m^n, E')$
 by Lemma \ref{lemma-union-artinian}
 we conclude that $E \cong E'$ and that all other cohomology
 groups of the complex $R\Gamma_Z(\omega_A^\bullet)$ are zero.
@@ -4182,7 +4298,7 @@ x \longmapsto \delta(x)\text{ such that }
 \text{ is a normalized dualizing complex over }
 \mathcal{O}_{X, x}
 $$
-is a dimension functor.
+is a dimension function.
 \end{lemma}
 
 \begin{proof}
@@ -4407,7 +4523,7 @@ $$
 because $B$ has the free periodic resolution
 $\ldots \to A \to A \to A$ with maps given by multiplication by $\epsilon$.
 Consider the object
-$K = \bigoplus K_n[n] = \prod K_n[n]$
+$K = \bigoplus M_n[n] = \prod M_n[n]$
 of $D_{\textit{Coh}}(A)$ (equality in $D(A)$ by
 Derived Categories, Lemmas \ref{derived-lemma-direct-sums} and
 \ref{derived-lemma-products}). Then we see that $a(K)$ correspnds
@@ -5284,47 +5400,61 @@ induced by the $A$-module map $A \to B$.
 \noindent
 Let $f : X \to Y$ be a morphism of quasi-compact and quasi-separated
 schemes. Let $a$ be the right adjoint of pushforward as in
-Lemma \ref{lemma-twisted-inverse-image}. There is a canonical map
+Lemma \ref{lemma-twisted-inverse-image}. For $K, L \in D_\QCoh(\mathcal{O}_Y)$
+there is a canonical map
+$$
+Lf^*K \otimes^\mathbf{L}_{\mathcal{O}_X} a(L)
+\longrightarrow
+a(K \otimes_{\mathcal{O}_Y}^\mathbf{L} L)
+$$
+Namely, this map is adjoint to a map
+$$
+Rf_*(Lf^*K \otimes^\mathbf{L}_{\mathcal{O}_X} a(L)) =
+K \otimes^\mathbf{L}_{\mathcal{O}_Y} Rf_*(a(L))
+\longrightarrow
+K \otimes^\mathbf{L}_{\mathcal{O}_Y} L
+$$
+(equality by Derived Categories of Schemes, Lemma
+\ref{perfect-lemma-cohomology-base-change})
+for which we use the trace map $Rf_*a(L) \to L$.
+When $L = \mathcal{O}_Y$ we obtain a map
 \begin{equation}
 \label{equation-compare-with-pullback}
 Lf^*K \otimes^\mathbf{L}_{\mathcal{O}_X} a(\mathcal{O}_Y) \longrightarrow a(K)
 \end{equation}
 functorial in $K$ and compatible with distinguished triangles.
-Namely, this map is adjoint to a map
-$$
-Rf_*(Lf^*K \otimes^\mathbf{L}_{\mathcal{O}_X} a(\mathcal{O}_Y)) =
-K \otimes^\mathbf{L}_{\mathcal{O}_Y} Rf_*(a(\mathcal{O}_Y))
-\longrightarrow K
-$$
-(equality by Derived Categories of Schemes, Lemma
-\ref{perfect-lemma-cohomology-base-change})
-for which we use the adjunction map $Rf_*a(\mathcal{O}_Y) \to \mathcal{O}_Y$
-and the identity on $K$. This map is an isomorphism for every
-perfect object.
 
 \begin{lemma}
 \label{lemma-compare-with-pullback-perfect}
 Let $f : X \to Y$ be a morphism of quasi-compact and quasi-separated
-schemes. The map (\ref{equation-compare-with-pullback}) is an isomorphism
-for every perfect object $K$ of $D(\mathcal{O}_Y)$.
+schemes. The map
+$Lf^*K \otimes^\mathbf{L}_{\mathcal{O}_X} a(L) \to
+a(K \otimes_{\mathcal{O}_Y}^\mathbf{L} L)$
+defined above for $K, L \in D_\QCoh(\mathcal{O}_Y)$
+is an isomorphism if $K$ is perfect. In particular,
+(\ref{equation-compare-with-pullback}) is an isomorphism if $K$ is perfect.
 \end{lemma}
 
 \begin{proof}
-Let $K$ be a perfect object on $Y$ with ``dual'' $K^\wedge$, see
+Let $K^\wedge$ be the ``dual'' to $K$, see
 Cohomology, Lemma \ref{cohomology-lemma-dual-perfect-complex}.
-For $L \in D_\QCoh(\mathcal{O}_X)$ we have
+For $M \in D_\QCoh(\mathcal{O}_X)$ we have
 \begin{align*}
-\Hom_{D(\mathcal{O}_Y)}(Rf_*L, K)
+\Hom_{D(\mathcal{O}_Y)}(Rf_*M, K \otimes^\mathbf{L}_{\mathcal{O}_Y} L)
 & =
 \Hom_{D(\mathcal{O}_Y)}(
-Rf_*L \otimes^\mathbf{L}_{\mathcal{O}_Y} K^\wedge, \mathcal{O}_Y) \\
+Rf_*M \otimes^\mathbf{L}_{\mathcal{O}_Y} K^\wedge, L) \\
 & =
 \Hom_{D(\mathcal{O}_X)}(
-L \otimes^\mathbf{L}_{\mathcal{O}_X} Lf^*K^\wedge, a(\mathcal{O}_Y)) \\
+M \otimes^\mathbf{L}_{\mathcal{O}_X} Lf^*K^\wedge, a(L)) \\
 & =
-\Hom_{D(\mathcal{O}_X)}(L,
-a(\mathcal{O}_Y) \otimes^\mathbf{L}_{\mathcal{O}_X} Lf^*K)
+\Hom_{D(\mathcal{O}_X)}(M,
+Lf^*K \otimes^\mathbf{L}_{\mathcal{O}_X} a(L))
 \end{align*}
+Second equality by the definition of $a$ and the projection formula
+(Cohomology, Lemma \ref{cohomology-lemma-projection-formula-perfect})
+or the more general Derived Categories of Schemes, Lemma
+\ref{perfect-lemma-cohomology-base-change}.
 Hence the result by the Yoneda lemma.
 \end{proof}
 
@@ -7433,6 +7563,33 @@ $i^!(-) = R\SheafHom(\mathcal{O}_X, -)$ of functors.
 This is a restatement of Lemma \ref{lemma-twisted-inverse-image-closed}.
 \end{proof}
 
+\begin{remark}
+\label{remark-local-calculation-shriek}
+Let $S$ be a Noetherian scheme. Let $f : X \to Y$ be a morphism of
+compactifyable schemes over $S$. Let $K \in D_\QCoh^+(\mathcal{O}_Y)$.
+Using the lemmas above we can compute $f^!K$ locally as follows.
+Suppose that we are given affine opens
+$$
+\xymatrix{
+\Spec(A) = U \ar[r] \ar[d] & X \ar[d] \\
+\Spec(R) = V \ar[r] & Y
+}
+$$
+Choose a presentation $A = P/I$ where $P = R[x_1, \ldots, x_n]$
+is a polynomial algebra in $n$ variables over $R$. Choose an
+object $K' \in D^+(R)$ corresponding to $K|_V$. Then $f^!K|_U$
+corresponds to
+$$
+R\Hom(A, K' \otimes_R P)[n]
+$$
+where $R\Hom(A, -) : D(P) \to D(A)$ is the functor of
+Section \ref{section-trivial}.
+This follows from Lemmas \ref{lemma-sheaf-with-exact-support-quasi-coherent},
+\ref{lemma-shriek-affine-line}, and
+\ref{lemma-shriek-closed-immersion}.
+\end{remark}
+
+
 \begin{lemma}
 \label{lemma-shriek-coherent}
 Let $S$ be a Noetherian scheme. Let $f : X \to Y$ be a morphism
@@ -7462,8 +7619,7 @@ for $Y$, then $f^!K$ is a dualizing complex for $X$.
 
 \begin{proof}
 The question is local on $X$ hence we may assume that $X$ and $Y$ are
-affine schemes mapping into an affine open of $S$. In this case
-we can factor $f : X \to Y$ as
+affine schemes. In this case we can factor $f : X \to Y$ as
 $$
 X \xrightarrow{i} \mathbf{A}^n_Y \to \mathbf{A}^{n - 1}_Y \to \ldots \to
 \mathbf{A}^1_Y \to Y
@@ -7546,9 +7702,9 @@ by Yoneda's lemma.
 Let $S$ be a Noetherian scheme. Let $f : X \to Y$ be a perfect
 (e.g., flat) morphism of compactifyable schemes over $S$. Then
 \begin{enumerate}
-\item $f^!$ maps $D_{\textit{Coh}}^b(\mathcal{O}_Y)$ into
+\item[(a)] $f^!$ maps $D_{\textit{Coh}}^b(\mathcal{O}_Y)$ into
 $D_{\textit{Coh}}^b(\mathcal{O}_X)$,
-\item the map
+\item[(b)] the map
 $\mu_{f,  K} :
 Lf^*K \otimes_{\mathcal{O}_X}^\mathbf{L} f^!\mathcal{O}_Y
 \to
@@ -7567,25 +7723,25 @@ We begin with a series of preliminary remarks.
 \item We already know that $f^!$ sends $D_{\textit{Coh}}^+(\mathcal{O}_Y)$
 into $D_{\textit{Coh}}^+(\mathcal{O}_X)$, see
 Lemma \ref{lemma-shriek-coherent}.
-\item If $f$ is an open immersion, then (1) and (2) are true because
+\item If $f$ is an open immersion, then (a) and (b) are true because
 we can take $\overline{X} = Y$ in the construction of $f^!$ and $\mu_f$.
 See also Lemma \ref{lemma-shriek-open-immersion}.
-\item If $f$ is a perfect proper morphism, then (2) is true by
+\item If $f$ is a perfect proper morphism, then (b) is true by
 Lemma \ref{lemma-compare-with-pullback-flat-proper-noetherian}.
-\item If there exists an open covering $X = \bigcup U_i$ and (1) is
-true for $U_i \to Y$, then (1) is true for $X \to Y$. Same for (2).
+\item If there exists an open covering $X = \bigcup U_i$ and (a) is
+true for $U_i \to Y$, then (a) is true for $X \to Y$. Same for (b).
 This holds because the construction of $f^!$ and $\mu_f$ commutes
 with passing to open subschemes.
 \item If $g : Y \to Z$ is a second perfect morphism of compactifyable
-schemes over $S$ and (2) holds for $f$ and $g$, then
+schemes over $S$ and (b) holds for $f$ and $g$, then
 $f^!g^!\mathcal{O}_Z =
 Lf^*g^!\mathcal{O}_Z \otimes_{\mathcal{O}_X}^\mathbf{L} f^!\mathcal{O}_Y$
-and (2) holds for $f$ by the commutative diagram
+and (b) holds for $g \circ f$ by the commutative diagram
 of Lemma \ref{lemma-map-pullback-to-shriek-well-defined}.
-\item If (1) and (2) hold for both $f$ and $g$, then
-(1) and (2) hold for $g \circ f$. Namely, then $f^!g^!\mathcal{O}_Z$
+\item If (a) and (b) hold for both $f$ and $g$, then
+(a) and (b) hold for $g \circ f$. Namely, then $f^!g^!\mathcal{O}_Z$
 is bounded above (by the previous point) and $L(g \circ f)^*$ has finite
-cohomological dimension and (1) follows from (2) which we saw above.
+cohomological dimension and (a) follows from (b) which we saw above.
 \end{enumerate}
 From these points we see it suffices to prove the result in case $X$ is affine.
 Choose an immersion $X \to \mathbf{A}^n_Y$
@@ -7598,19 +7754,19 @@ Thus it suffices to prove the lemma for a perfect closed immersion
 and for the projection $\mathbf{A}^n_Y \to Y$.
 
 \medskip\noindent
-Let $f : X \to Y$ be a perfect closed immersion. We already know (2) holds.
+Let $f : X \to Y$ be a perfect closed immersion. We already know (b) holds.
 Let $K \in D^b_{\textit{Coh}}(\mathcal{O}_Y)$.
 Then $f^!K = R\SheafHom(\mathcal{O}_X, K)$
 (Lemma \ref{lemma-shriek-closed-immersion})
 and $f_*f^!K = R\SheafHom(f_*\mathcal{O}_X, K)$.
 Since $f$ is perfect, the complex $f_*\mathcal{O}_X$ is perfect
 and hence $R\SheafHom(f_*\mathcal{O}_X, K)$ is bounded above.
-This proves that (1) holds. Some details omittted.
+This proves that (a) holds. Some details omittted.
 
 \medskip\noindent
-Let $f : \mathbf{A}^n_Y \to Y$ be the projection. Then (1) holds
+Let $f : \mathbf{A}^n_Y \to Y$ be the projection. Then (a) holds
 by repeated application of Lemma \ref{lemma-shriek-affine-line}.
-Finally, (2) is true because it holds for $\mathbf{P}^n_Y \to Y$
+Finally, (b) is true because it holds for $\mathbf{P}^n_Y \to Y$
 (flat and proper) and because $\mathbf{A}^n_Y \subset \mathbf{P}^n_Y$
 is an open.
 \end{proof}
@@ -7678,7 +7834,7 @@ complex.
 \end{situation}
 
 \noindent
-For $(S, \omega_S^\bullet)$ as in Situation \ref{situation-dualizing}.
+Let $(S, \omega_S^\bullet)$ be as in Situation \ref{situation-dualizing}.
 We summarize the most important points of the results obtained above:
 \begin{enumerate}
 \item the functors $f^!$ for morphisms between compactifyable
@@ -7838,7 +7994,7 @@ $U_1, \ldots, U_n$ and $\mathcal{V}$ by the opens $U_1, \ldots, U_{n + m}$.
 In fact, we may and do even assume $m = 1$.
 To go from a dualizing complex $(K, \alpha_i)$ normalized
 relative to $\omega_S^\bullet$ and $\mathcal{V}$ to a
-dualizing complex normalized relative to $\omega_S^\bullet$ amd $\mathcal{U}$
+dualizing complex normalized relative to $\omega_S^\bullet$ and $\mathcal{U}$
 is achieved by forgetting about $\alpha_i$ for $i = n + 1$. Conversely, let
 $(K, \alpha_i)$ be a dualizing complex normalized relative to
 $\omega_S^\bullet$ and $\mathcal{U}$.
@@ -8159,6 +8315,49 @@ The final assertions follow from the construction of normalized
 dualizing complexes and the already used Lemma \ref{lemma-shriek-via-duality}.
 \end{proof}
 
+\begin{remark}
+\label{remark-independent-omega-S}
+Let $S$ be a Noetherian scheme which has a dualizing complex.
+Let $f : X \to Y$ be a morphism of schemes of finite type
+over $S$. Then the functor
+$$
+f_{new}^! : D^+_{Coh}(\mathcal{O}_Y) \to D^+_{Coh}(\mathcal{O}_X)
+$$
+is independent of the choice of the dualizing complex $\omega_S^\bullet$
+up to canonical isomorphism. We sketch the proof. Any second dualizing complex
+is of the form $\omega_S^\bullet \otimes_{\mathcal{O}_S}^\mathbf{L} \mathcal{L}$
+where $\mathcal{L}$ is an invertible object of $D(\mathcal{O}_S)$, see
+Lemma \ref{lemma-dualizing-unique-schemes}.
+For any compactifyable $p : U \to S$ we have
+$p^!(\omega_S^\bullet \otimes^\mathbf{L}_{\mathcal{O}_S} \mathcal{L}) =
+p^!(\omega_S^\bullet) \otimes^\mathbf{L}_{\mathcal{O}_U} Lp^*\mathcal{L}$
+by Lemma \ref{lemma-compare-with-pullback-perfect}.
+Hence, if $\omega_X^\bullet$ and $\omega_Y^\bullet$ are the
+dualizing complexes normalized relative to $\omega_S^\bullet$ we see that
+$\omega_X^\bullet \otimes_{\mathcal{O}_X}^\mathbf{L} La^*\mathcal{L}$ and
+$\omega_Y^\bullet \otimes_{\mathcal{O}_Y}^\mathbf{L} Lb^*\mathcal{L}$
+are the dualizing complexes normalized relative to
+$\omega_S^\bullet \otimes_{\mathcal{O}_S}^\mathbf{L} \mathcal{L}$
+(where $a : X \to S$ and $b : Y \to S$ are the structure morphisms).
+Then the result follows as
+\begin{align*}
+& R\SheafHom( Lf^*R\SheafHom(K,
+\omega_Y^\bullet \otimes_{\mathcal{O}_Y}^\mathbf{L} Lb^*\mathcal{L}),
+\omega_X^\bullet \otimes_{\mathcal{O}_X}^\mathbf{L} La^*\mathcal{L}) \\
+& = R\SheafHom(Lf^*R(\SheafHom(K,
+\omega_Y^\bullet) \otimes_{\mathcal{O}_Y}^\mathbf{L} Lb^*\mathcal{L}),
+\omega_X^\bullet \otimes_{\mathcal{O}_X}^\mathbf{L} La^*\mathcal{L}) \\
+& = R\SheafHom(Lf^*R\SheafHom(K,
+\omega_Y^\bullet) \otimes_{\mathcal{O}_X}^\mathbf{L} La^*\mathcal{L},
+\omega_X^\bullet \otimes_{\mathcal{O}_X}^\mathbf{L} La^*\mathcal{L}) \\
+& = R\SheafHom(Lf^*R\SheafHom(K, \omega_Y^\bullet), \omega_X^\bullet)
+\end{align*}
+for $K \in D^+_{Coh}(\mathcal{O}_Y)$.
+The last equality because $La^*\mathcal{L}$ is invertible in
+$D(\mathcal{O}_X)$.
+\end{remark}
+
+
 \begin{example}
 \label{example-trace-proper}
 Let $S$ be a Noetherian scheme and let $\omega_S^\bullet$ be a
@@ -8221,6 +8420,259 @@ in $D(\mathcal{O}_X)$. The second canonical isomorphism follows from the
 discussion in Remark \ref{remark-relative-dualizing-complex}.
 \end{remark}
 
+
+
+
+\section{Dimension functions}
+\label{section-dimension-functions}
+
+\noindent
+We need a bit more information about how the dimension functions change
+when passing to a scheme of finite type over another.
+
+\begin{lemma}
+\label{lemma-good-dualizing-normalized}
+Let $S$ be a Noetherian scheme and let $\omega_S^\bullet$ be a
+dualizing complex. Let $X$ be a scheme of finite type over $S$ and let
+$\omega_X^\bullet$ be the dualizing complex normalized relative
+to $\omega_S^\bullet$. If $x \in X$ is a closed point lying over
+a closed point $s$ of $S$, then $\omega_{X, x}^\bullet$
+is a normalized dualizing complex over $\mathcal{O}_{X, x}$
+provided that $\omega_{S, s}^\bullet$ is a normalized dualizing
+complex over $\mathcal{O}_{S, s}$.
+\end{lemma}
+
+\begin{proof}
+We may replace $X$ by an affine neighbourhood of $x$, hence we may
+and do assume that $f : X \to S$ is compactifyable.
+Then $\omega_X^\bullet = f^!\omega_S^\bullet$. We have to show that
+$R\Hom_{\mathcal{O}_{X, x}}(\kappa(x), \omega_{X, x}^\bullet)$
+is sitting in degree $0$. Let $i_x : x \to X$ denote the inclusion
+morphism which is a closed immersion as $x$ is a closed point.
+Hence $R\Hom_{\mathcal{O}_{X, x}}(\kappa(x), \omega_{X, x}^\bullet)$
+represents $i_x^!\omega_X^\bullet$ by
+Lemma \ref{lemma-shriek-closed-immersion}.
+Consider the commutative diagram
+$$
+\xymatrix{
+x \ar[r]_{i_x} \ar[d]_\pi & X \ar[d]^f \\
+s \ar[r]^{i_s} & S
+}
+$$
+By Morphisms, Lemma
+\ref{morphisms-lemma-closed-point-fibre-locally-finite-type}
+the extension $\kappa(s) \subset \kappa(x)$ is finite and hence
+$\pi$ is a finite morphism. We conclude that
+$$
+i_x^!\omega_X^\bullet = i_x^! f^! \omega_S^\bullet =
+\pi^! i_s^! \omega_S^\bullet
+$$
+Thus if $\omega_{S, s}^\bullet$ is a normalized dualizing complex
+over $\mathcal{O}_{S, s}$, then $i_s^!\omega_S^\bullet = \kappa(s)[0]$
+by the same reasoning as above. We have
+$$
+R\pi_*(\pi^!(\kappa(s)[0])) = R\SheafHom(R\pi_*(\kappa(x)[0]), \kappa(s)[0]) =
+\widetilde{\Hom_\kappa(\kappa(x), \kappa(s))}
+$$
+The first equality by Lemma \ref{lemma-proper-noetherian-relative}
+applied with $L = \kappa(x)[0]$. The second equality holds because
+$\pi_*$ is exact.
+Thus $\pi^!(\kappa(s)[0])$ is supported in degree $0$ and we win.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-good-dualizing-dimension-function}
+Let $S$ be a Noetherian scheme and let $\omega_S^\bullet$ be a
+dualizing complex. Let $f : X \to S$ be of finite type
+and let $\omega_X^\bullet$ be the dualizing complex
+normalized relative to $\omega_S^\bullet$. For all $x \in X$ we have
+$$
+\delta_X(x) - \delta_S(f(x)) = \text{trdeg}_{\kappa(f(x))}(\kappa(x))
+$$
+where $\delta_S$, resp.\ $\delta_X$
+is the dimension function of
+$\omega_S^\bullet$, resp.\ $\omega_X^\bullet$, see
+Lemma \ref{lemma-dimension-function-scheme}.
+\end{lemma}
+
+\begin{proof}
+We may replace $X$ by an affine neighbourhood of $x$. Hence we may
+and do assume there is a compactification $X \subset \overline{X}$
+over $S$. Then we may replace $X$ by $\overline{X}$ and assume
+that $X$ is proper over $S$. We may also assume $X$ is connected
+by replacing $X$ by the connected component of $X$ containing $x$.
+Next, recall that both $\delta_X$ and the function
+$x \mapsto \delta_S(f(x)) + \text{trdeg}_{\kappa(f(x))}(\kappa(x))$
+are dimension functions on $X$, see
+Morphisms, Lemma \ref{morphisms-lemma-dimension-function-propagates}
+(and the fact that $S$ is universally catenary by
+Lemma \ref{lemma-dimension-function-scheme}).
+By Topology, Lemma \ref{topology-lemma-dimension-function-unique}
+we see that the difference is locally constant, hence constant as $X$ is
+connected. Thus it suffices to prove equality in any point of $X$.
+By Properties, Lemma \ref{properties-lemma-locally-Noetherian-closed-point}
+the scheme $X$ has a closed point $x$. Since $X \to S$ is proper
+the image $s$ of $x$ is closed in $S$. Thus we may apply
+Lemma \ref{lemma-good-dualizing-normalized} to conclude.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-shriek}
+Let $S$ be a Noetherian scheme. Let $f : X \to Y$ be a morphism of
+compactifyable schemes over $S$. Let $x \in X$ with image $y \in Y$.
+Then
+$$
+H^i(f^!\mathcal{O}_Y)_x \not = 0
+\Rightarrow - \dim_x(X_y) \leq i.
+$$
+\end{lemma}
+
+\begin{proof}
+Since the statement is local on $X$ we may assume $X$
+and $Y$ are affine schemes. Write
+$X = \Spec(A)$ and $Y = \Spec(R)$.
+Write $A = P/I$ where $P = R[x_1, \ldots, x_n]$.
+Let $I \subset \mathfrak p \subset P$ be the prime ideal
+corresponding to $x \in V(I) = \Spec(A) = X$.
+By Remark \ref{remark-local-calculation-shriek}
+we have to show that $R\Hom(P/I, P)_\mathfrak p$
+has vanishing cohomology in degrees $< n - \dim_x(X_y)$.
+By Lemma \ref{lemma-RHom-ext} this means we have to
+show that $\text{Ext}_P^i(P/I, P)_\mathfrak p = 0$
+for $i < n - \dim_x(X_y)$. We may rewrite this as
+$\text{Ext}_{P_\mathfrak p}^i(P_\mathfrak p/IP_\mathfrak p, P_\mathfrak p)$
+by More on Algebra, Remark
+\ref{more-algebra-remark-pseudo-coherence-and-base-change-ext}.
+Thus we have to show
+$$
+\text{depth}_{IP_\mathfrak p}(P_\mathfrak p) \geq n - \dim_x(X_y)
+$$
+by Lemma \ref{lemma-depth}. By
+Lemma \ref{lemma-depth-flat-CM}
+we have
+$$
+\text{depth}_{IP_\mathfrak p}(P_\mathfrak p) \geq
+\dim((P \otimes_R \kappa(y))_\mathfrak p) -
+\dim((P/I \otimes_R \kappa(y))_\mathfrak p)
+$$
+The two expressions on the right hand side agree by
+Algebra, Lemma \ref{algebra-lemma-codimension}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-flat-shriek}
+Let $S$ be a Noetherian scheme. Let $f : X \to Y$ be a flat morphism of
+compactifyable schemes over $S$. Let $x \in X$ with image $y \in Y$.
+Then
+$$
+H^i(f^!\mathcal{O}_Y)_x \not = 0
+\Rightarrow - \dim_x(X_y) \leq i \leq 0.
+$$
+In fact, if all fibres of $f$ have dimension $\leq d$, then
+$f^!\mathcal{O}_Y$ has tor-amplitude in $[-d, 0]$ as an object
+of $D(X, f^{-1}\mathcal{O}_Y)$.
+\end{lemma}
+
+\begin{proof}
+The lower bound has been shown in Lemma \ref{lemma-shriek}.
+By exactly the same arguments as in the proof of
+Lemma \ref{lemma-shriek} we reduce the upper bound to the
+following problem: Given a Noetherian ring $R$, an
+ideal $I \subset P = R[x_1, \ldots, x_n]$ such that $P/I$
+is flat over $R$, show that $\text{Ext}^i_P(P/I, P)$ is
+zero for $i > n$. This follows from
+More on Algebra, Lemma \ref{more-algebra-lemma-perfect-over-polynomial-ring}
+which shows that $P/I$ is a perfect $P$-module with
+tor amplitude in $[-n, 0]$.
+
+\medskip\noindent
+To prove the final statement, it suffices to show that
+$R\Hom_P(P/I, P)$ has tor-amplitude in $[-d, 0]$ as a complex
+of $R$-modules. To do this we choose a resolution of $P/I$ by
+a bounded complex $F_\bullet$ of $P$-modules (possible as
+it is a perfect $P$-module). Then we see that $R\Hom_P(P/I, P)$ is represented
+by the finite complex with terms $\Hom_P(F_i, P)$ which are finite
+projective $P$-modules, in particular $R$-flat. Thus for any $R$-algebra
+$R'$ we see that $R\Hom_P(P/I, P) \otimes_R^\mathbf{L} R'$
+is represented by the complex with terms
+$$
+\Hom_P(F_i, P) \otimes_R R' = \Hom_{P'}(F_i', P')
+$$
+where $P' = P \otimes_R R'$ and $F_i' = F_i \otimes_R R'$. Since
+$P/I$ is flat over $R$ we see that $F'_\bullet$ is a resolution
+of $P'/I'$ where $I' = I \otimes_R R' \subset P'$. By the
+first part of the proof (note that the fibres of $\Spec(P'/I') \to \Spec(R')$
+have dimension $\leq d$) we conclude that
+$R\Hom_P(P/I, P) \otimes_R^\mathbf{L} R'$
+has cohomology only in degrees $[-d, 0]$. Since $R \to R'$
+was arbitrary, we conclude.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-flat-quasi-finite-shriek}
+Let $S$ be a Noetherian scheme. Let $f : X \to Y$ be a flat quasi-finite
+morphism of schemes of compactifyable schemes over $S$. Then
+$$
+f^!\mathcal{O}_Y = \omega_{X/Y}[0]
+$$
+for some coherent $\mathcal{O}_X$-module $\omega_{X/Y}$ flat over $Y$.
+\end{lemma}
+
+\begin{proof}
+Consquence of Lemma \ref{lemma-flat-shriek} and the fact that the
+cohomology sheaves of $f^!\mathcal{O}_Y$ are coherent by
+Lemma \ref{lemma-shriek-coherent}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-CM-shriek}
+Let $S$ be a Noetherian scheme. Let $f : X \to Y$ be a Cohen-Macaulay
+morphism (More on Morphisms, Definition \ref{more-morphisms-definition-CM})
+of compactifyable schemes over $S$. Then
+$$
+f^!\mathcal{O}_Y = \omega_{X/Y}[d]
+$$
+for some coherent $\mathcal{O}_X$-module $\omega_{X/Y}$ flat over $Y$
+where $d$ is the locally constant
+function on $X$ which gives the relative dimension of $X$ over $Y$.
+\end{lemma}
+
+\begin{proof}
+The relative dimension $d$ is well defined and locally constant by
+Morphisms, Lemma
+\ref{morphisms-lemma-flat-finite-presentation-CM-fibres-relative-dimension}.
+The cohomology sheaves of $f^!\mathcal{O}_Y$ are coherent by
+Lemma \ref{lemma-shriek-coherent}.
+We will get flatness of $\omega_{X/Y}$ from Lemma \ref{lemma-flat-shriek}
+if we can show the other cohomology sheaves of $f^!\mathcal{O}_Y$
+are zero.
+
+\medskip\noindent
+The question is local on $X$, hence we may assume $X$ and $Y$ are affine
+and the morphism has relative dimension $d$. If $d = 0$, then the
+result follows directly from Lemma \ref{lemma-flat-quasi-finite-shriek}.
+If $d > 0$, then we may assume there is a factorization
+$$
+X \xrightarrow{g} \mathbf{A}^d_Y \xrightarrow{p} Y
+$$
+with $g$ quasi-finite and flat, see More on Morphisms, Lemma
+\ref{more-morphisms-lemma-flat-finite-presentation-characterize-CM}.
+Then $f^! = g^! \circ p^!$. By Lemma \ref{lemma-shriek-affine-line}
+we see that $p^!\mathcal{O}_Y \cong \mathcal{O}_{\mathbf{A}^d_Y}[-d]$.
+We conclude by the case $d = 0$.
+\end{proof}
+
+\begin{remark}
+\label{remark-the-same-is-true}
+Let $S$ be a Noetherian scheme endowed with a dualizing complex
+$\omega_S^\bullet$. In this case
+Lemmas \ref{lemma-shriek}, \ref{lemma-flat-shriek},
+\ref{lemma-flat-quasi-finite-shriek}, and \ref{lemma-CM-shriek}
+are true for any morphism $f : X \to Y$ of finite type schemes over $S$
+but with $f^!$ replaced by $f_{new}^!$. This is clear because in each
+case the proof reduces immediately to the affine case
+and then $f^! = f_{new}^!$ by Lemma \ref{lemma-duality-bootstrap}.
+\end{remark}
 
 
 
@@ -8342,97 +8794,6 @@ and the definitions (in particular
 Cohomology of Schemes, Definition \ref{coherent-definition-depth}).
 \end{proof}
 
-\noindent
-To say a bit more about dualizing modules we need a bit more information
-about how the dimension functions change when passing to a scheme
-of finite type over another.
-
-\begin{lemma}
-\label{lemma-good-dualizing-normalized}
-Let $(A, \mathfrak m, \kappa)$ be a Noetherian local ring.
-Let $\omega_A^\bullet$ be a normalized dualizing complex.
-Let $X$ be a scheme of finite type over $A$ and let
-$\omega_X^\bullet$ be the dualizing complex normalized relative
-to $\omega_A^\bullet$. If $x \in X$ is a closed point
-lying over the closed point $s$ of $S = \Spec(A)$, then
-$\omega_{X, x}^\bullet$
-is a normalized dualizing complex over $\mathcal{O}_{X, x}$,
-\end{lemma}
-
-\begin{proof}
-We may replace $X$ by an affine neighbourhood of $x$, hence we may
-and do assume that $f : X \to S = \Spec(A)$ is compactifyable.
-Then $\omega_X^\bullet = f^!\omega_S^\bullet$. We have to show that
-$R\Hom_{\mathcal{O}_{X, x}}(\kappa(x), \omega_{X, x}^\bullet)$
-is sitting in degree $0$. Let $i_x : x \to X$ denote the inclusion
-morphism which is a closed immersion as $x$ is a closed point.
-Hence $R\Hom_{\mathcal{O}_{X, x}}(\kappa(x), \omega_{X, x}^\bullet)$
-represents $i_x^!\omega_X^\bullet$ by
-Lemma \ref{lemma-shriek-closed-immersion}.
-Since $x$ lives over the closed point we see that
-$A \to \kappa(x)$ factors through $\kappa$ and since $x$
-is a closed point of $X$ we see that
-$\kappa \subset \kappa(x)$ is a finite extension
-(Morphisms, Lemma
-\ref{morphisms-lemma-closed-point-fibre-locally-finite-type}).
-Thus we get a commutative diagram
-$$
-\xymatrix{
-x \ar[r]_{i_x} \ar[d]_\pi & X \ar[d]^f \\
-s \ar[r]^{i_s} & S
-}
-$$
-with $\pi$ finite. We conclude that
-$$
-i_x^!\omega_X^\bullet = i_x^! f^! \omega_S^\bullet =
-\pi^! i_s^! \omega_S^\bullet
-$$
-Since $\omega_A^\bullet$ is normalized and $s$ is the closed
-point we see that $i_s^!\omega_S^\bullet = \kappa[0]$. We have
-$$
-R\pi_*(\pi^!(\kappa[0])) = R\SheafHom(R\pi_*(\kappa(x)[0]), \kappa[0]) =
-\widetilde{\Hom_\kappa(\kappa(x), \kappa)}
-$$
-The first equality by Lemma \ref{lemma-proper-noetherian-relative}
-applied with $L = \kappa(x)[0]$. The second equality holds because
-$\pi_*$ is exact.
-Thus $\pi^!(\kappa[0])$ is supported in degree $0$ and we win.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-good-dualizing-dimension-function}
-Let $S$ be a Noetherian scheme and let $\omega_S^\bullet$ be a
-dualizing complex. Let $f : X \to S$ be of finite type
-and let $\omega_X^\bullet$ be the dualizing complex
-normalized relative to $\omega_S^\bullet$. For all $x \in X$
-$$
-\delta_X(x) - \delta_S(f(x)) = \text{trdeg}_{\kappa(f(x))}(\kappa(x))
-$$
-where $\delta_S$, resp.\ $\delta_X$
-is the dimension function of
-$\omega_S^\bullet$, resp.\ $\omega_X^\bullet$, see
-Lemma \ref{lemma-dimension-function-scheme}.
-\end{lemma}
-
-\begin{proof}
-We may replace $X$ by an affine neighbourhood of $x$. Hence we may
-and do assume there is a compactification $X \subset \overline{X}$
-over $S$. Then we may replace $X$ by $\overline{X}$ and assume
-that $X$ is proper over $S$. We may also assume $X$ is connected
-by replacing $X$ by the connected component of $X$ containing $x$.
-Next, recall that both $\delta_X$ and the function
-$x \mapsto \delta_S(f(x)) + \text{trdeg}_{\kappa(f(x))}(\kappa(x))$
-are dimension functions on $X$, see
-Morphisms, Lemma \ref{morphisms-lemma-dimension-function-propagates}.
-By Topology, Lemma \ref{topology-lemma-dimension-function-unique}
-we see that the difference is locally constant, hence constant as $X$ is
-connected. Thus it suffices to prove equality in any point of $X$.
-By Properties, Lemma \ref{properties-lemma-locally-Noetherian-closed-point}
-the scheme $X$ has a closed point $x$. Since $X \to S$ is proper
-the image $s$ of $x$ is closed in $S$. Thus we may apply
-Lemma \ref{lemma-good-dualizing-normalized} to conclude.
-\end{proof}
-
 \begin{lemma}
 \label{lemma-vanishing-good-dualizing}
 Let $X/A$ with $\omega_X^\bullet$ and $\omega_X$ be as in
@@ -8454,7 +8815,7 @@ Lemma \ref{lemma-good-dualizing-dimension-function}.
 As $X$ is proper over $A$, every closed subscheme of $X$ contains
 a closed point $x$ which maps to the closed point $s \in S$
 and $\delta_X(x) = \delta_S(s) = 0$. Hence
-$\delta_X(\xi) = \dim(\overline{\{\xi\}}$ for any point
+$\delta_X(\xi) = \dim(\overline{\{\xi\}})$ for any point
 $\xi \in X$. Hence we can check each of
 the statements of the lemma by looking at what happens over
 $\Spec(\mathcal{O}_{X, x})$ in which case the result follows
@@ -9741,6 +10102,41 @@ gives the lemma.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-dualizing-base-flat-flat}
+Let $A \to B$ be a flat quasi-finite homomorphism of Noetherian rings.
+Then $\omega_{B/A}$ is a flat $A$-module.
+\end{lemma}
+
+\begin{proof}
+Let $\mathfrak q \subset B$ be a prime lying over $\mathfrak p \subset A$.
+We will show that the localization $\omega_{B/A, \mathfrak q}$ is flat
+over $A_\mathfrak p$.
+This suffices by Algebra, Lemma \ref{algebra-lemma-flat-localization}.
+By
+Algebra, Lemma \ref{algebra-lemma-etale-makes-quasi-finite-finite-one-prime}
+we can find an \'etale ring map $A \to A'$ and a prime
+ideal $\mathfrak p' \subset A'$ lying over $\mathfrak p$
+such that $\kappa(\mathfrak p') = \kappa(\mathfrak p)$ and
+such that
+$$
+B' = B \otimes_A A' = C \times D
+$$
+with $A' \to C$ finite and such that the unique prime $\mathfrak q'$
+of $B \otimes_A A'$ lying over $\mathfrak q$ and $\mathfrak p'$
+corresponds to a prime of $C$. By 
+Lemma \ref{lemma-dualizing-flat-base-change}
+and Algebra, Lemma \ref{algebra-lemma-base-change-flat-up-down}
+it suffices to show $\omega_{B'/A', \mathfrak q'}$
+is flat over $A'_{\mathfrak p'}$.
+Since $\omega_{B'/A'} = \omega_{C/A'} \times \omega_{D/A'}$
+by Lemma \ref{lemma-dualizing-product}
+this reduces us to the case where $B$ is finite flat over $A$.
+In this case $B$ is finite locally free as an $A$-module
+amd $\omega_{B/A} = \Hom_A(B, A)$ is the dual finite
+locally free $A$-module.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-dualizing-base-change-of-flat}
 If $A \to B$ is flat, then the base change map (\ref{equation-bc-dualizing})
 induces an isomorphism $\omega_{B/A} \otimes_B B_1 \to \omega_{B_1/A_1}$.
@@ -10264,8 +10660,29 @@ to see this). Thus the desired compatibility follows from the result
 of the previous paragraph.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-compare-trace}
+Let $f : Y \to X$ be a finite flat morphism of Noetherian schemes.
+The map
+$$
+\text{Trace}_f : f_*\mathcal{O}_Y \longrightarrow \mathcal{O}_X
+$$
+(see Section \ref{section-discriminant})
+corresponds to a map $\mathcal{O}_Y \to f^!\mathcal{O}_X$.
+Denote $\tau_{Y/X} \in H^0(Y, f^!\mathcal{O}_X)$ the image of $1$.
+For every pair of affine opens $\Spec(B) = V \subset Y$,
+$\Spec(A) = U \subset X$ with $f(V) \subset U$
+the image of $\tau_{Y/X}$ in $H^0(V, f^!\mathcal{O}_X) = \omega_{B/A}$,
+via the isomorphism given by Lemma \ref{lemma-compare-dualizing},
+is the trace element of $B$ over $A$.
+\end{lemma}
 
-
+\begin{proof}
+Unwinding all the definitions, this is immediate from the fact
+that if $A \to B$ is finite flat, then $\tau_{B/A} = \text{Trace}_{B/A}$
+(Lemma \ref{lemma-finite-flat-trace}) and the compatibility
+of traces with localizations (Lemma \ref{lemma-trace-base-change}).
+\end{proof}
 
 
 
