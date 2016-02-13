@@ -5794,7 +5794,37 @@ Lemma \ref{lemma-Noetherian-permanence}.
 \end{proof}
 
 \noindent
-Here is fun lemma that is sometimes useful.
+Here are some fun lemmas that are sometimes useful.
+
+\begin{lemma}
+\label{lemma-subring-of-local-ring}
+Let $R$ be a ring and $\mathfrak p \subset R$ be a prime.
+There exists an $f \in R$, $f \not \in \mathfrak p$ such
+that $R_f \to R_\mathfrak p$ is injective in each of the
+following cases
+\begin{enumerate}
+\item $R$ is a domain,
+\item $R$ is Noetherian, or
+\item $R$ is reduced and has finitely many minimal primes.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+If $R$ is a domain, then $R \subset R_\mathfrak p$, hence $f = 1$ works.
+If $R$ is Noetherian, then the kernel $I$ of $R \to R_\mathfrak p$
+is a finitely generated ideal and we can find
+$f \in R$, $f \not \in \mathfrak p$ such that $IR_f = 0$.
+For this $f$ the map $A_f \to A_\mathfrak p$ is injective
+and $f$ works. If $R$ is reduced with finitely
+many minimal primes $\mathfrak p_1, \ldots, \mathfrak p_n$,
+then we can choose
+$f \in \bigcap_{\mathfrak p_i \not \subset \mathfrak p} \mathfrak p_i$,
+$f \not \in \mathfrak p$ (by prime avoidance Lemma \ref{lemma-silly}).
+For this $f$ we have $R_f \subset R_\mathfrak p$ because the minimal
+primes of $R_f$ correspond to minimal primes of $R_\mathfrak p$
+and we can apply Lemma \ref{lemma-reduced-ring-sub-product-fields}
+(some details omitted).
+\end{proof}
 
 \begin{lemma}
 \label{lemma-surjective-endo-noetherian-ring-is-iso}
@@ -8941,10 +8971,44 @@ Hence $f^nM = 0$ for $n = \max\{n_i\}$ as desired.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-support-base-change}
+Let $R \to R'$ be a ring map and let $M$ be a finite $R$-module.
+Then $\text{Supp}(M \otimes_R R')$ is the inverse image of
+$\text{Supp}(M)$.
+\end{lemma}
+
+\begin{proof}
+Let $\mathfrak p \in \text{Supp}(M)$. By Nakayama's lemma
+(Lemma \ref{lemma-NAK}) we see that
+$$
+M \otimes_R \kappa(\mathfrak p) = M_\mathfrak p/\mathfrak p M_\mathfrak p
+$$
+is a nonzero $\kappa(\mathfrak p)$ vector space.
+Hence for every prime $\mathfrak p' \subset R'$ lying
+over $\mathfrak p$ we see that
+$$
+(M \otimes_R R')_{\mathfrak p'}/\mathfrak p' (M \otimes_R R')_{\mathfrak p'} =
+(M \otimes_R R') \otimes_{R'} \kappa(\mathfrak p') =
+M \otimes_R \kappa(\mathfrak p) \otimes_{\kappa(\mathfrak p)}
+\kappa(\mathfrak p')
+$$
+is nonzero. This implies $\mathfrak p' \in \text{Supp}(M \otimes_R R')$.
+For the converse, if $\mathfrak p' \subset R'$ is a prime lying
+over an arbitrary prime $\mathfrak p \subset R$, then
+$$
+(M \otimes_R R')_{\mathfrak p'} =
+M_\mathfrak p \otimes_{R_\mathfrak p} R'_{\mathfrak p'}.
+$$
+Hence if $\mathfrak p' \in \text{Supp}(M \otimes_R R')$
+lies over the prime $\mathfrak p \subset R$, then
+$\mathfrak p \in \text{Supp}(M)$.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-support-element}
-Let $R$ be a ring, let $M$ be an $R$-module, and let $x \in M$.
+Let $R$ be a ring, let $M$ be an $R$-module, and let $m \in M$.
 Then $\mathfrak p \in V(\text{Ann}(m))$ if and only if
-$x$ does not map to zero in $M_\mathfrak p$.
+$m$ does not map to zero in $M_\mathfrak p$.
 \end{lemma}
 
 \begin{proof}
@@ -15641,7 +15705,7 @@ This follows immediately from the definitions.
 \begin{lemma}
 \label{lemma-regular-sequence-powers}
 Let $R$ be a ring. Let $M$ be an $R$-module.
-Let $f_1, \ldots, f_r \in R$ be $M$-regular.
+Let $f_1, \ldots, f_r \in R$ be an $M$-regular sequence.
 Then for $e_1, \ldots, e_r > 0$ the sequence
 $f_1^{e_1}, \ldots, f_r^{e_r}$
 is $M$-regular too.
@@ -15649,8 +15713,8 @@ is $M$-regular too.
 
 \begin{proof}
 We will prove this by induction on $r$.
-If $r = 1$ this follows from the fact that a power of an $M$-regular
-element is an $M$-regular element. If $r > 1$, then by induction
+If $r = 1$ this follows from the fact that a power of a nonzerodivisor
+on $M$ is a nonzerodivisor on $M$. If $r > 1$, then by induction
 applied to $M/f_1M$ we have that $f_1, f_2^{e_2}, \ldots, f_r^{e_r}$
 is an $M$-regular sequence. Thus it suffices to show that
 $f_1^e, f_2, \ldots, f_r$ is an $M$-regular sequence if $f_1, \ldots, f_r$
@@ -16121,7 +16185,7 @@ Let $I \subset R$ be an ideal and $a \in I$. Suppose $x/a^n$ with
 $x \in I^n$ is a nilpotent element of $R[\frac{I}{a}]$. Then
 $(x/a^n)^m = 0$. Hence $a^N x^m = 0$ in $R$ for some $N \geq 0$.
 After increasing $N$ if necessary we may assume $N = me$ for some
-$e \geq 0$. Then $(a^e x)^m = 0$ and since $A$ is reduced we find
+$e \geq 0$. Then $(a^e x)^m = 0$ and since $R$ is reduced we find
 $a^e x = 0$. This means that $x/a^n = 0$ in $R[\frac{I}{a}]$.
 \end{proof}
 
@@ -16163,12 +16227,12 @@ $R'' = R[y_2, \ldots, y_r]/(a y_i - a_i)$.
 \end{lemma}
 
 \begin{proof}
-There is a canonical map $A'' \to A'$ sending $y_i$ to the class
+There is a canonical map $R'' \to R'$ sending $y_i$ to the class
 of $a_i/a$. Since every element $x$ of $I$ can be written
 as $ra + \sum r_i a_i$ we see that
 $x/a = r + \sum r_i a_i/a$ is in the image of the map. Hence
-our map is surjective. Suppose that $z = \sum r_E y^E \in A''$
-maps to zero in $A'$. Here we use the multi-index notation
+our map is surjective. Suppose that $z = \sum r_E y^E \in R''$
+maps to zero in $R'$. Here we use the multi-index notation
 $E = (e_2, \ldots, e_r)$ and $y^E = y_2^{e_2} \ldots y_r^{e_r}$.
 Let $d$ be the maximum of the degrees $|E| = \sum e_i$ of the
 multi-indices which occur with a nonzero coefficient $r_E$ in $z$.
@@ -16180,8 +16244,8 @@ is zero in $R$; here we use that $a$ is a nonzerodivisor on $R$.
 Since a regular sequence is quasi-regular
 by Lemma \ref{lemma-regular-quasi-regular}
 we conclude that $r_E \in I$ for all $E$.
-This means that $z$ is divisible by $a$ in $A''$.
-Say $z = az'$. Then $z'$ is in the kernel of $A'' \to A'$
+This means that $z$ is divisible by $a$ in $R''$.
+Say $z = az'$. Then $z'$ is in the kernel of $R'' \to R'$
 and we see that $z'$ is divisible by $a$ and so on.
 In other words, $z$ is an element of $\bigcap a^n R''$.
 Since $R''$ is Noetherian by Krull's intersection theorem
@@ -16604,8 +16668,8 @@ equal to $+\infty$. Note that if $I = R$, then $\text{depth}_I(M) = \infty$
 for all finite $R$-modules $M$. If $I$ is contained in the radical ideal
 of $R$ (e.g., if $R$ is local and $I \subset \mathfrak m_R$), then
 $M \not = 0 \Rightarrow IM \not = M$ by Nakayama's lemma.
-A module $M$ has $I$-depth $0$ if and
-only if $M$ is nonzero and $I$ does not contain an $M$-regular element.
+A module $M$ has $I$-depth $0$ if and only if $M$ is nonzero and $I$ does
+not contain a nonzerodivisor on $M$.
 
 \medskip\noindent
 Example \ref{example-global-regular} shows depth does not
@@ -16716,6 +16780,8 @@ Let $R$ be a local Noetherian ring. Let $0 \to N' \to N \to N'' \to 0$
 be a short exact sequence of finite $R$-modules.
 \begin{enumerate}
 \item
+$\text{depth}(N) \geq \min\{\text{depth}(N'), \text{depth}(N'')\}$
+\item
 $\text{depth}(N'') \geq \min\{\text{depth}(N), \text{depth}(N') - 1\}$
 \item
 $\text{depth}(N') \geq \min\{\text{depth}(N), \text{depth}(N'') + 1\}$
@@ -16758,7 +16824,7 @@ $M$-regular sequence of length $\text{depth}(M)$.
 Part (2) is a formal consequence of part (1). Let $x \in R$ be as in (1).
 By the short exact sequence $0 \to M \to M \to M/xM \to 0$
 and Lemma \ref{lemma-depth-in-ses} we see that the depth drops by at most 1.
-On the other hand, if $x_1, \ldots, x_\delta \in \mathfrak m$
+On the other hand, if $x_1, \ldots, x_r \in \mathfrak m$
 is a regular sequence for $M/xM$, then $x, x_1, \ldots, x_r$
 is a regular sequence for $M$. Hence we see that the depth drops by
 at least 1.
@@ -16784,19 +16850,19 @@ and the lemma is true in this case as well.
 
 \medskip\noindent
 We will prove the lemma in general by induction on $\text{depth}(M)$
-which we may and do assume to be $> 1$. Pick an $M$-regular element
-$x \in \mathfrak m$. Then $x \not \in \mathfrak p$ for
-$\mathfrak p \in \text{Ass}(M)$ by our definition of associated primes.
-Since $x$ is a nonzerodivisor on $M$ we have
+which we may and do assume to be $> 1$. Pick $x \in \mathfrak m$ which
+is a nonzerodivisor on $M$. Since $x$ is a nonzerodivisor on $M$ we have
 $\text{depth}(M/x^nM) = \text{depth}(M) - 1$ by
 Lemma \ref{lemma-depth-drops-by-one}.
-For $\mathfrak p \in \text{Ass}(M)$ pick an embedding
-$R/\mathfrak p \subset M$. By the Artin-Rees lemma
+Fix $\mathfrak p \in \text{Ass}(M)$. Pick a submodule
+$N \subset M$ with $N \cong R/\mathfrak p$.
+Since $x$ is a nonzerodivisor on $M$ and hence on $N$
+we see $x \not \in \mathfrak p$. By the Artin-Rees lemma
 (Lemma \ref{lemma-Artin-Rees})
-we can pick $n > 0$ such that $(R/\mathfrak p) \cap x^nM$
-is contained in $x(R/\mathfrak p)$. Let $N \subset M/x^nM$
-be the image of $R/\mathfrak p \to M \to M/x^nM$.
-By our choice of $n$ there is a surjection $N \to R/\mathfrak p + (x)$.
+we can pick $n > 0$ such that $N \cap x^nM \subset xN$.
+Let $\overline{N} \subset M/x^nM$ be the image of $N \to M \to M/x^nM$.
+By our choice of $n$ there is a surjection
+$\overline{N} \to N/xN = R/\mathfrak p + (x)$.
 By Lemma \ref{lemma-one-equation} we have
 $\dim(R/\mathfrak p + (x)) = \dim(R/\mathfrak p) - 1$.
 Thus there exists a prime $\mathfrak q$ minimal over $\mathfrak p + (x)$ with
@@ -16804,9 +16870,9 @@ $\dim(R/\mathfrak q) = \dim(R/\mathfrak p) - 1$ (small argument omitted;
 hint: the dimension of a Noetherian local ring $A$ is the maximum
 of the dimensions of $A/\mathfrak r$ taken over the minimal
 primes $\mathfrak r$ of $A$). Then $\mathfrak q$ is in the support
-of $N$ as $N$ surjects onto $R/\mathfrak p + (x)$.
-Since $N$ is annihilated by $x^n$ and $\mathfrak p$ we see that
-$\mathfrak q$ is minimal among the primes in the support of $N$.
+of $\overline{N}$ as $\overline{N}$ surjects onto $R/\mathfrak p + (x)$.
+Since $\overline{N}$ is annihilated by $x^n$ and $\mathfrak p$ we see that
+$\mathfrak q$ is minimal among the primes in the support of $\overline{N}$.
 Thus $\mathfrak q$ is an associated prime of $M/x^nM$, see
 Lemmas \ref{lemma-ass-minimal-prime-support} and
 \ref{lemma-ass}. By induction we find
@@ -23184,7 +23250,7 @@ using Ext groups to establish the connection with duality and so on.
 Let $R$ be a Noetherian local ring.
 Let $M$ be a finite $R$-module.
 We say $M$ is {\it Cohen-Macaulay}
-if $\dim(\text{Support}(M)) = \text{depth}(M)$.
+if $\dim(\text{Supp}(M)) = \text{depth}(M)$.
 \end{definition}
 
 \noindent
@@ -23201,16 +23267,40 @@ if and only if $N$ is Cohen-Macaulay as an $R$-module.
 Omitted.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-CM-ass-minimal-support}
+Let $R$ be a Noetherian local ring. Let $M$ be a finite Cohen-Macaulay
+$R$-module. If $\mathfrak p \in \text{Ass}(M)$, then
+$\dim(R/\mathfrak p) = \dim(\text{Supp}(M))$ and $\mathfrak p$
+is a minimal prime in the support of $M$.
+In particular, $M$ has no embedded associated primes.
+\end{lemma}
+
+\begin{proof}
+By Lemma \ref{lemma-depth-dim-associated-primes} we have
+$\text{depth}(M) \leq \dim(R/\mathfrak p)$.
+Of course $\dim(R/\mathfrak p) \leq \dim(\text{Supp}(M))$
+as $\mathfrak p \in \text{Supp}(M)$ (Lemma \ref{lemma-ass-support}).
+Thus we have equality in both inequalities as $M$ is Cohen-Macaulay.
+Then $\mathfrak p$ must be minimal in $\text{Supp}(M)$ otherwise
+we would have $\dim(R/\mathfrak p) < \dim(\text{Supp}(M))$.
+Finally, minimal primes in the support of $M$ are equal to
+the minimal elements of $\text{Ass}(M)$
+(Proposition \ref{proposition-minimal-primes-associated-primes})
+hence $M$ has no embedded associated primes
+(Definition \ref{definition-embedded-primes}).
+\end{proof}
+
 \noindent
 Let $R$ be a local Noetherian ring. Let $M$ be
 a Cohen-Macaulay module, and let $f_1, \ldots, f_d$
-be an $M$-regular sequence with $d = \dim(\text{Support}(M))$.
+be an $M$-regular sequence with $d = \dim(\text{Supp}(M))$.
 We say that $g \in \mathfrak m$ is {\it good with respect to
 $(M, f_1, \ldots, f_d)$} if for all $i = 0, 1, \ldots, d-1$
-we have $\dim (\text{Support}(M) \cap V(g, f_1, \ldots, f_i))
+we have $\dim (\text{Supp}(M) \cap V(g, f_1, \ldots, f_i))
 = d - i - 1$. This is equivalent to the condition that
-$\dim(\text{Support}(M/(f_1, \ldots, f_i)M) \cap V(g)) =
-d - i - 1$ for $i = 0, 1, \ldots, d-1$.
+$\dim(\text{Supp}(M/(f_1, \ldots, f_i)M) \cap V(g)) =
+d - i - 1$ for $i = 0, 1, \ldots, d - 1$.
 
 \begin{lemma}
 \label{lemma-good-element}
@@ -23460,8 +23550,8 @@ the support of $M_{\mathfrak p}/(f_1, \ldots, f_d)M_{\mathfrak p}$
 is equal to $\{\mathfrak p\}$ (details omitted; hint: follows from
 Lemmas \ref{lemma-annihilator-flat-base-change} and
 \ref{lemma-support-closed}). Hence the dimension is $1$.
-To finish the proof it suffices to find a single
-$Q$-regular element $f \in \mathfrak m$. Since $\mathfrak m$ is
+To finish the proof it suffices to find an $f \in \mathfrak m$
+which is a nonzerodivisor on $Q$. Since $\mathfrak m$ is
 a maximal ideal, the field extension
 $\kappa(\mathfrak p) \subset \kappa(\mathfrak m)$
 is finite (Theorem \ref{theorem-nullstellensatz}).
@@ -31417,7 +31507,7 @@ is open.
 \begin{lemma}
 \label{lemma-where-CM}
 Let $S$ be a finite type algebra over a field $k$.
-Let $\varphi : k[y_1, \ldots, y_d] \to S$ be a finite ring map.
+Let $\varphi : k[y_1, \ldots, y_d] \to S$ be a quasi-finite ring map.
 As subsets of $\Spec(S)$ we have
 $$
 \{ \mathfrak q \mid
@@ -33914,7 +34004,7 @@ holds in $\mathbf{Z}[\alpha_i, x]$. Another way to say this
 is that $a_i$ maps to the $i$th elementary symmetric function
 in $\alpha_1, \ldots, \alpha_n$. Note that $S$ is generated by
 $n$ elements over $R$ subject to $n$ equations. Hence to show
-that $S$ is a global relative complete intersection over
+that $S$ is a relative global complete intersection over
 $R$ we have to show that the fibre rings $S \otimes_R \kappa(\mathfrak p)$
 have dimension $0$. This follows as in
 Example \ref{example-factor-polynomials} because the ring map
@@ -35159,8 +35249,11 @@ canonical map $P/J^2 \to S$. This means that
 $$
 P/J^2 \cong S \oplus J/J^2
 $$
-as $R$-algebras. Note that the middle term of the exact
-sequence is $\Omega_{P/R} \otimes_P S \cong \Omega_{(P/J^2)/R} \otimes_P S$
+as an $R$-algebra where the multiplication on the right is
+such that $S$ is a subalgebra and $J/J^2$ is an ideal of square zero
+with the obvious $S$-module structure. Note that the middle term of
+the exact sequence is
+$\Omega_{P/R} \otimes_P S \cong \Omega_{(P/J^2)/R} \otimes_P S$
 by Lemma \ref{lemma-differential-mod-power-ideal}.
 A direct computation shows that
 $$
@@ -42804,14 +42897,14 @@ Hence the annihilator of $z \otimes y$ is $\mathfrak m_S$.
 Thus $\text{depth}(M \otimes_R N) = 0$ as well.
 
 \medskip\noindent
-Assume $n > 0$. If $\text{depth}(N/\mathfrak m_RN) > 0$,
-then choose an $f \in \mathfrak m_S$ which maps to an
-$N/\mathfrak m_RN$-regular element $\overline{f} \in S/\mathfrak m_RS$.
+Assume $n > 0$. If $\text{depth}(N/\mathfrak m_RN) > 0$, then we may choose
+$f \in \mathfrak m_S$ mapping to $\overline{f} \in S/\mathfrak m_RS$ which
+is a nonzerodivisor on $N/\mathfrak m_RN$.
 Then $\text{depth}(N/\mathfrak m_RN) =
 \text{depth}(N/(f, \mathfrak m_R)N) + 1$
 by Lemma \ref{lemma-depth-drops-by-one}.
 According to Lemma \ref{lemma-mod-injective} the element $f \in S$ is a
-$N$-regular element and $N/fN$ is flat over $R$.
+nonzerodivisor on $N$ and $N/fN$ is flat over $R$.
 Hence by induction on $n$ we have
 $$
 \text{depth}(M \otimes_R N/fN) =
@@ -42829,9 +42922,9 @@ and we conclude that equality holds in the formula of the lemma.
 
 \medskip\noindent
 If $n > 0$, but $\text{depth}(N/\mathfrak m_RN) = 0$,
-then we can choose an $M$-regular element $f \in \mathfrak m_R$.
-As $N$ is flat over $R$ it is also the case that $f$ is
-$M \otimes_R N$-regular. By induction on $n$ again we have
+then we can choose $f \in \mathfrak m_R$ which is a nonzerodivisor on $M$.
+As $N$ is flat over $R$ it is also the case that $f$ is a nonzerodivisor on
+$M \otimes_R N$. By induction on $n$ again we have
 $$
 \text{depth}(M/fM \otimes_R N) =
 \text{depth}(M/fM) + \text{depth}(N/\mathfrak m_RN).
@@ -43322,17 +43415,28 @@ Let $k$ be a field. Let $A$ be a $k$-algebra.
 The following properties of $A$ are equivalent:
 \begin{enumerate}
 \item $k' \otimes_k A$ is a normal ring
-for every field extension $k \subset k'$,
+for every field extension $k'/k$,
 \item $k' \otimes_k A$ is a normal ring
-for every finitely generated field extension $k \subset k'$, and
+for every finitely generated field extension $k'/k$,
 \item $k' \otimes_k A$ is a normal ring
-for every finite purely inseparable extension $k \subset k'$.
+for every finite purely inseparable extension $k'/k$,
+\item $k^{perf} \otimes_k A$ is a normal ring.
 \end{enumerate}
-where normal ring is as defined in Definition \ref{definition-ring-normal}.
+Here normal ring is defined in Definition \ref{definition-ring-normal}.
 \end{lemma}
 
 \begin{proof}
-It is clear that (1) $\Rightarrow$ (2) $\Rightarrow$ (3).
+It is clear that (1) $\Rightarrow$ (2) $\Rightarrow$ (3)
+and (1) $\Rightarrow$ (4).
+
+\medskip\noindent
+If $k'/k$ is a finite purely inseparable extension, then
+there is an embedding $k' \to k^{perf}$ of $k$-extensions.
+The ring map $k' \otimes_k A \to k^{perf} \otimes_k A$
+is faithfully flat, hence $k' \otimes_k A$ is normal if
+$k^{perf} \otimes_k A$ is normal by
+Lemma \ref{lemma-descent-normal}. In this way we see that
+(4) $\Rightarrow$ (3).
 
 \medskip\noindent
 Assume (2) and let $k \subset k'$ be any field extension.

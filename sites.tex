@@ -3554,7 +3554,7 @@ which then defines a morphism $(u(U), \eta) \to (V, \phi)$.
 \medskip\noindent
 Proof of (3). Let $V$ be an object of $\mathcal{D}$. Let
 $\xi : u(v(V)) \to V$ be the map adjoint to the map
-$\text{id} : v(V) \to v(V)$. Then we calim $(v(V), \xi)$
+$\text{id} : v(V) \to v(V)$. Then we claim $(v(V), \xi)$
 is a final object of ${}_V^u\mathcal{I}$. Namely, given
 an object $(U, \psi : u(U) \to V)$ of ${}_V^u\mathcal{I}$
 the morphism $\psi$ is adjoint to a map $\phi : U \to v(V)$
@@ -4821,12 +4821,82 @@ U \longmapsto
 \Mor_{\Sh(\mathcal{C}/U)}(
 \mathcal{F}|_{\mathcal{C}/U}, \mathcal{G}|_{\mathcal{C}/U})
 $$
-defines a sheaf. This is a kind of {\it internal hom sheaf}. It is
+defines a sheaf $\SheafHom(\mathcal{F},\mathcal{G})$.
+This is a kind of {\it internal hom sheaf}. It is
 seldom used in the setting of sheaves of sets, and more usually
 in the setting of sheaves of modules, see
 Modules on Sites, Section \ref{sites-modules-section-internal-hom}.
 
-\medskip\noindent
+\begin{lemma}
+\label{lemma-internal-hom-sheaf}
+Let $\mathcal{C}$ be a site. Let $\mathcal{F}$, $\mathcal{G}$ and
+$\mathcal{H}$ be sheaves on $\mathcal{C}$. There is a canonical bijection
+$$
+\Mor_{\Sh(\mathcal{C})}(\mathcal{F}\times\mathcal{G},\mathcal{H}) =
+\Mor_{\Sh(\mathcal{C})}(\mathcal{F},\SheafHom(\mathcal{G},\mathcal{H}))
+$$
+which is functorial in all three entries.
+\end{lemma}
+
+\begin{proof}
+The lemma says that the functors $-\times\mathcal{G}$ and
+$\SheafHom(\mathcal{G},-)$ are adjoint to each other. 
+To show this, we use the notion of unit and counit, see
+Categories, Section \ref{categories-section-adjoint}.
+The unit
+$$
+\eta_\mathcal{F} :
+\mathcal{F}
+\longrightarrow
+\SheafHom(\mathcal{G},\mathcal{F}\times\mathcal{G})
+$$
+sends $s \in \mathcal{F}(U)$ to the map
+$\mathcal{G}|_{\mathcal{C}/U} \to
+\mathcal{F}|_{\mathcal{C}/U}\times\mathcal{G}|_{\mathcal{C}/U}$
+which over $V/U$ is given by
+$$
+\mathcal{G}(V) \longrightarrow \mathcal{F}(V)\times \mathcal{G}(V), \quad
+t \longmapsto (s|_{V},t).
+$$
+The counit
+$$
+\epsilon_{\mathcal{H}} :
+\SheafHom(\mathcal{G}, \mathcal{H}) \times \mathcal{G}
+\longrightarrow
+\mathcal{H}
+$$
+is the evaluation map. It is given by the rule
+$$
+\Mor_{\Sh(\mathcal{C}/U)}(
+\mathcal{G}|_{\mathcal{C}/U}, \mathcal{H}|_{\mathcal{C}/U})
+\times \mathcal{G}(U)
+\longrightarrow
+\mathcal{H}(U),\quad
+(\varphi, s) \longmapsto \varphi(s).
+$$
+Then for each $\varphi : \mathcal{F} \times \mathcal{G} \to \mathcal{H}$,
+the corresponding morphism
+$\mathcal{F} \to \SheafHom(\mathcal{G},\mathcal{H})$
+is given by mapping each section $s \in \mathcal{F}(U)$
+to the morphism of sheaves on $\mathcal{C}/U$ which on
+sections over $V/U$ is given by
+$$
+\mathcal{G}(V) \longrightarrow \mathcal{H}(V),\quad
+t \longmapsto \varphi(s|_V, t).
+$$
+Conversely, for each
+$\psi : \mathcal{F} \to \SheafHom(\mathcal{G}, \mathcal{H})$,
+the corresponding morphism
+$\mathcal{F} \times \mathcal{G} \to \mathcal{H}$ is given by
+$$
+\mathcal{F}(U) \times \mathcal{G}(U) \longrightarrow \mathcal{H}(U),\quad
+(s, t) \longmapsto \psi(s)(t)
+$$
+on sections over an object $U$. We omit the details of the proof showing
+that these constructions are mutually inverse.
+\end{proof}
+
+\noindent
 Let $\mathcal{C}$ be a site.
 Let $\{U_i \to U\}_{i \in I}$ be a covering of $\mathcal{C}$.
 For each $i \in I$ let $\mathcal{F}_i$ be a sheaf of sets on
@@ -5041,7 +5111,7 @@ $v : (X/V) \mapsto (X \times_V U/U)$,
 \item the functor $v$ defines a morphism of sites
 $\mathcal{C}/U \to \mathcal{C}/V$ whose associated morphism of topoi equals
 $j$, and
-\item we have $j_*\mathcal{F}(X/U) = \mathcal{F}(X \times_V U/U)$.
+\item we have $j_*\mathcal{F}(X/V) = \mathcal{F}(X \times_V U/U)$.
 \end{enumerate}
 \end{lemma}
 
@@ -6054,24 +6124,77 @@ $j_\mathcal{F}^{-1}$ follows from
 Lemma \ref{lemma-compute-j-shriek-restrict}.
 \end{proof}
 
-\begin{remark}
-\label{remark-localize-pushforward}
-In the situation of
-Lemma \ref{lemma-localize-topos}
-we can also describe the functor $j_{\mathcal{F}, *}$.
-It is the functor which associates to
-$\varphi : \mathcal{G} \to \mathcal{F}$ the
-sheaf
+\begin{lemma}
+\label{lemma-localize-pushforward}
+In the situation of Lemma \ref{lemma-localize-topos}, the functor
+$j_{\mathcal{F}, *}$ is the one associates to
+$\varphi : \mathcal{G} \to \mathcal{F}$ the sheaf
 $$
 U
 \longmapsto
 \{\alpha : \mathcal{F}|_U \to \mathcal{G}|_U
-\text{ such that } \alpha \text{ is a right inverse to }\varphi|_U \}
+\text{ such that } \alpha \text{ is a right inverse to }\varphi|_U \}.
 $$
-In order to prove that this works the introduction
-of $\SheafHom$-sheaves is desirable, hence we postpone this to
-a later time.
-\end{remark}
+\end{lemma}
+
+\begin{proof}
+For any $\varphi : \mathcal{G} \to \mathcal{F}$, let us use
+the notation $\mathcal{G}/\mathcal{F}$ to denote the corresponding
+object of $\Sh(\mathcal{C})/\mathcal{F}$. We have
+$$
+(j_{\mathcal{F}, *}(\mathcal{G}/\mathcal{F}))(U) =
+\Mor_{\Sh(\mathcal{C})}(h_U^\#, j_{\mathcal{F}, *}(\mathcal{G}/\mathcal{F})) =
+\Mor_{\Sh(\mathcal{C})/\mathcal{F}}(j_{\mathcal{F}}^{-1}h_U^{\#},
+(\mathcal{G}/\mathcal{F})).
+$$
+By Lemma \ref{lemma-localize-topos} this set is the fiber over
+the element $h_U^\# \times \mathcal{F} \to \mathcal{F}$ under the
+map of sets
+$$
+\Mor_{\Sh(\mathcal{C})}(h_U^\# \times \mathcal{F}, \mathcal{G})
+\xrightarrow{\varphi \circ}
+\Mor_{\Sh(\mathcal{C})}(h_U^\# \times \mathcal{F}, \mathcal{F}).
+$$
+By the adjunction in Lemma \ref{lemma-internal-hom-sheaf}, we have
+\begin{align*}
+\Mor_{\Sh(\mathcal{C})}(h_U^{\#}\times\mathcal{F}, \mathcal{G})
+& =
+\Mor_{\Sh(\mathcal{C})}(h_U^{\#},\SheafHom(\mathcal{F}, \mathcal{G})) \\
+& =
+\Mor_{\Sh(\mathcal{C}/U)}(\mathcal{F}|_{\mathcal{C}/U},
+\mathcal{G}|_{\mathcal{C}/U}), \\
+\Mor_{\Sh(\mathcal{C})}(h_U^{\#} \times \mathcal{F}, \mathcal{F})
+& =
+\Mor_{\Sh(\mathcal{C})}(h_U^{\#},\SheafHom(\mathcal{F},\mathcal{F})) \\
+& =
+\Mor_{\Sh(\mathcal{C}/U)}(\mathcal{F}|_{\mathcal{C}/U},
+\mathcal{F}|_{\mathcal{C}/U}),
+\end{align*}
+and under the adjunction, the map $\varphi\circ$ becomes the map
+$$
+\Mor_{\Sh(\mathcal{C}/U)}(\mathcal{F}|_{\mathcal{C}/U},
+\mathcal{G}|_{\mathcal{C}/U})
+\longrightarrow
+\Mor_{\Sh(\mathcal{C}/U)}(\mathcal{F}|_{\mathcal{C}/U},
+\mathcal{F}|_{\mathcal{C}/U}),\quad
+\psi \longmapsto \varphi|_{\mathcal{C}/U} \circ \psi,
+$$
+the element $h_U^\# \times \mathcal{F} \to \mathcal{F}$
+becomes $\text{id}_{\mathcal{F}|_{\mathcal{C}/U}}$.
+Therefore $(j_{\mathcal{F}, *}\mathcal{G}/\mathcal{F})(U)$
+is isomorphic to the fiber of
+$\text{id}_{\mathcal{F}|_{\mathcal{C}/U}}$ under the map
+$$
+\Mor_{\Sh(\mathcal{C}/U)}(\mathcal{F}|_{\mathcal{C}/U},
+\mathcal{G}|_{\mathcal{C}/U})
+\xrightarrow{\varphi|_{\mathcal{C}/U}\circ}
+\Mor_{\Sh(\mathcal{C}/U)}(\mathcal{F}|_{\mathcal{C}/U},
+\mathcal{F}|_{\mathcal{C}/U}),
+$$
+which is $\{\alpha : \mathcal{F}|_U \to \mathcal{G}|_U
+\text{ such that } \alpha \text{ is a right inverse to }\varphi|_U \}$
+as desired.
+\end{proof}
 
 \begin{lemma}
 \label{lemma-localize-topos-site}

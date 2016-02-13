@@ -871,7 +871,7 @@ Algebra, Lemma \ref{algebra-lemma-flat-tor-zero}.
 Let $A, A', B, B', I$ be as in
 Situation \ref{situation-module-over-fibre-product}.
 Let $(D, C', \varphi)$ be a system consisting of an $B$-algebra $D$,
-a $A'$-algebra $C'$ and an isomorphism $D \otimes_B A \to C'/IC = C$.
+a $A'$-algebra $C'$ and an isomorphism $D \otimes_B A \to C'/IC' = C$.
 Set $D' = D \times_C C'$ (as in
 Lemma \ref{lemma-module-over-fibre-product}). Then
 \begin{enumerate}
@@ -907,7 +907,7 @@ We will use the results of
 Lemma \ref{lemma-module-over-fibre-product}
 without further mention. Choose generators $x_1, \ldots, x_r$ of $D$ over $B$
 and generators $y_1, \ldots, y_s$ of $C'$ over $A'$. Using that
-$N = N' \otimes_{B'} B$ and $B' \to B$ is surjective we can find
+$D = D' \otimes_{B'} B$ and $B' \to B$ is surjective we can find
 $u_1, \ldots, u_r \in D'$ mapping to $x_1, \ldots, x_r$ in $D$.
 Using that $C' = D' \otimes_{B'} A'$ we can find $v_1, \ldots, v_t \in D'$
 such that $y_i = \sum v_j \otimes a'_{ij}$ for some $a'_{ij} \in A'$.
@@ -1162,7 +1162,7 @@ $\text{Fit}_k(M) \subset \text{Fit}_k(M')$.
 \begin{proof}
 Part (1) follows from the fact that $I_0(A) = R$ in
 Lemma \ref{lemma-ideals-generated-by-minors}.
-part (2) follows form the corresponding statement in
+Part (2) follows form the corresponding statement in
 Lemma \ref{lemma-ideals-generated-by-minors}.
 Part (3) follows from the fact that $\otimes_R R'$ is right exact,
 so the base change of a presentation of $M$ is a presentation of
@@ -15092,7 +15092,7 @@ Lemma \ref{lemma-check-perfect-pointwise}.
 \noindent
 The following lemma is a local version of
 Lemma \ref{lemma-perfect-over-polynomial-ring}.
-It can be used to find perfect complexes over reglar local rings.
+It can be used to find perfect complexes over regular local rings.
 
 \begin{lemma}
 \label{lemma-perfect-over-regular-local-ring}
@@ -25154,6 +25154,553 @@ Observe that the left matrix is invertible because it has determinant $1$.
 
 
 
+
+
+
+\section{Principal radical ideals}
+\label{section-principal-radical-ideals}
+
+\noindent
+In this section we prove that a catenary Noetherian normal local domain
+there exists a nontrivial principal radical ideal. This result can be
+found in \cite{Artin-Lipman}.
+
+\begin{lemma}
+\label{lemma-polypoly}
+Let $(R,\mathfrak m)$ be a Noetherian local ring of dimension one, and
+let $x\in\mathfrak m$ be an element not contained in any minimal prime
+of $R$. Then
+\begin{enumerate}
+\item the function $P : n \mapsto \text{length}_R(R/x^n R)$
+satisfies $P(n) \leq n P(1)$ for $n \geq 0$,
+\item if $x$ is a nonzerodivisor, then $P(n) = nP(1)$ for $n \geq 0$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Since $\dim(R) = 1$, we have $\dim(R/x^n R) = 0$
+and so $\text{length}_R(R/x^n R)$ is finite for each $n$
+(Algebra, Lemma \ref{algebra-lemma-support-point}).
+To show the lemma we will induct on $n$. Since $x^0 R = R$, we have that
+$P(0) = \text{length}_R(R/x^0R) = \text{length}_R 0 = 0$.
+The statement also holds for $n = 1$.
+Now let $n \geq 2$ and suppose the statement holds for $n - 1$.
+The following sequence is exact
+$$
+R/x^{n-1}R \xrightarrow{x} R/x^nR \to R/xR \to 0
+$$
+where $x$ denotes the multiplication by $x$ map.
+Since length is additive
+(Algebra, Lemma \ref{algebra-lemma-length-additive}),
+we have that $P(n) \leq P(n - 1) + P(1)$. By induction
+$P(n - 1) \leq (n - 1)P(1)$, whence $P(n) \leq nP(1)$.
+This proves the induction step.
+
+\medskip\noindent
+If $x$ is a nonzerodivisor, then the displayed exact sequence
+above is exact on the left also. Hence we get
+$P(n) = P(n - 1) + P(1)$ for all $n \geq 1$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-minprimespoly}
+Let $(R, \mathfrak m)$ be a Noetherian local ring of dimension $1$.
+Let $x \in \mathfrak m$ be an element not contained in any minimal
+prime of $R$. Let $t$ be the number of minimal prime ideals of $R$.
+Then $t \leq \text{length}_R(R/xR)$.
+\end{lemma}
+
+\begin{proof}
+Let $\mathfrak p_1, \ldots, \mathfrak p_t$ be the minimal prime ideals
+of $R$. Set $R' = R/\sqrt{0} = R/(\bigcap_{i = 1}^t \mathfrak p_i)$.
+We claim it suffices to prove the lemma for $R'$. Namely, it is clear
+that $R'$ has $t$ minimal primes
+too and $\text{length}_{R'}(R'/xR') = \text{length}_R(R'/xR')$
+is less than $\text{length}_R(R/xR)$ as there is a surjection
+$R/xR \to R'/xR'$. Thus we may assume $R$ is reduced.
+
+\medskip\noindent
+Assume $R$ is reduced with minimal primes
+$\mathfrak p_1, \ldots, \mathfrak p_t$.
+This means there is an exact sequence
+$$
+0 \to R \to
+\prod\nolimits_{i = 1}^t R/\mathfrak p_i \to Q \to 0
+$$
+Here $Q$ is the cokernel of the first map.
+Write $M = \prod_{i = 1}^t R/\mathfrak p_i$.
+Localizing at $\mathfrak p_j$ we see that
+$$
+R_{\mathfrak p_j} \to M_{\mathfrak p_j} =
+\left(\prod\nolimits_{i=1}^t R/\mathfrak p_i\right)_{\mathfrak p_j} =
+(R/\mathfrak p_j)_{\mathfrak p_j}
+$$
+is surjective. Thus $Q_{\mathfrak p_j} = 0$ for all $j$.
+We conclude that $\text{Supp}(Q) = \{\mathfrak m\}$ as $\mathfrak m$
+is the only prime of $R$ different from the $\mathfrak p_i$.
+It follows that $Q$ has finite length
+(Algebra, Lemma \ref{algebra-lemma-support-point}).
+Since $\text{Supp}(Q) = \{\mathfrak m\}$ we
+can pick an $n \gg 0$ such that $x^n$
+acts as $0$ on $Q$
+(Algebra, Lemma \ref{algebra-lemma-Noetherian-power-ideal-kills-module}).
+Now consider the diagram
+$$
+\xymatrix{
+0 \ar[r] & R \ar[r] \ar[d]^-{x^n} & M
+\ar[r] \ar[d]^-{x^n} & Q \ar[r] \ar[d]^-{x^n} & 0 \\
+0 \ar[r] & R \ar[r] & M \ar[r] & Q \ar[r] & 0
+}
+$$
+where the vertical maps are multiplication by $x^n$. This is injective on
+$R$ and on $M$ since $x$ is not contained in any of the $\mathfrak p_i$.
+By the snake lemma (Algebra, Lemma \ref{algebra-lemma-snake}),
+the following sequence is exact:
+$$
+0 \to Q \to R/x^nR \to M/x^nM \to Q \to 0
+$$
+Hence we find that $\text{length}_R(R/x^nR) = \text{length}_R(M/x^nM)$
+for large enough $n$. Writing $R_i = R/\mathfrak p_i$ we see
+that $\text{length}(M/x^nM) =
+\sum_{i = 1}^t \text{length}_R(R_i/x^nR_i)$.
+Applying Lemma \ref{lemma-polypoly} and the fact that $x$ is a nonzerodivisor
+on $R$ and $R_i$, we conclude that
+$$
+n \text{length}_R(R/xR) =
+\sum\nolimits_{i = 1}^t n \text{length}_{R_i}(R_i/x R_i)
+$$
+Since $\text{length}_{R_i}(R_i/x R_i) \geq 1$ the lemma is proved.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-sopexists}
+Let $(R,\mathfrak m)$ be a Noetherian local ring of dimension $d > 1$,
+let $f \in \mathfrak m$ be an element not contained in any minimal prime
+ideal of $R$, and let $k\in\mathbf{N}$. Then there exist elements
+$g_1, \ldots, g_{d - 1} \in \mathfrak m^k$ such that
+$f, g_1, \ldots, g_{d - 1}$ is a system of parameters.
+\end{lemma}
+
+\begin{proof}
+We have $\dim(R/fR) = d - 1$ by
+Algebra, Lemma \ref{algebra-lemma-one-equation}.
+Choose a system of parameters
+$\overline{g}_1, \ldots, \overline{g}_{d - 1}$
+in $R/fR$ (Algebra, Proposition \ref{algebra-proposition-dimension})
+and take lifts $g_1, \ldots, g_{d - 1}$ in $R$.
+It is straigthforward to see that
+$f, g_1, \ldots, g_{d - 1}$ is a system of parameters in $R$.
+Then $f, g_1^k, \ldots, g_{d - 1}^k$ is also a system of
+parameters and the proof is complete.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-syspar}
+Let $(R,\mathfrak m)$ be a Noetherian local ring of dimension
+two, and let $f \in \mathfrak m$ be an element not contained in
+any minimal prime ideal of $R$. Then there exist
+$g \in \mathfrak m$ and $N \in \mathbf{N}$ such that
+\begin{enumerate}
+\item[(a)] $f,g$ form a system of parameters for $R$.
+\item[(b)] If $h \in \mathfrak m^N$, then $f + h, g$ is a
+system of parameters and
+$\text{length}_R (R/(f, g)) = \text{length}_R(R/(f + h, g))$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+By Lemma \ref{lemma-sopexists} there exists a $g \in \mathfrak m$
+such that $f, g$ is a system of parameters for $R$.
+Then $\mathfrak m = \sqrt{(f, g)}$. Thus there exists an $n$
+such that $\mathfrak m^n \subset (f, g)$, see
+Algebra, Lemma \ref{algebra-lemma-Noetherian-power}. We claim that
+$N = n + 1$ works.
+Namely, let $h \in \mathfrak m^N$. By our choice of $N$ we can write
+$h = af + bg$ with $a, b \in \mathfrak m$. Thus
+$$
+(f + h, g) = (f + af + bg, g) = ((1 + a)f, g) = (f, g)
+$$
+because $1 + a$ is a unit in $R$. This proves the equality
+of lengths and the fact that $f + h, g$ is a system of parameters.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-radical-element}
+Let $R$ be a Noetherian local normal domain of dimension $2$.
+Let $\mathfrak p_1, \ldots, \mathfrak p_r$ be pairwise distinct
+primes of height $1$. There exists a nonzero element
+$f \in \mathfrak p_1 \cap \ldots \cap \mathfrak p_r$ such
+that $R/fR$ is reduced.
+\end{lemma}
+
+\begin{proof}
+Let $f \in \mathfrak p_1 \cap \ldots \cap \mathfrak p_r$ be a nonzero element.
+We will modify $f$ slightly to obtain an element that generates a radical ideal.
+The localization $R_\mathfrak p$ of $R$ at each height one prime
+ideal $\mathfrak p$ is a discrete valuation ring, see
+Algebra, Lemma \ref{algebra-lemma-characterize-dvr} or
+Algebra, Lemma \ref{algebra-lemma-criterion-normal}.
+We denote by $\text{ord}_\mathfrak p(f)$ the corresponding
+valuation of $f$ in $R_{\mathfrak p}$. Let
+$\mathfrak q_1, \ldots, \mathfrak q_s$
+be the distinct height one prime ideals containing $f$.
+Write $\text{ord}_{\mathfrak q_j}(f) = m_j \geq 1$ for each $j$.
+Then we define $\text{div}(f) = \sum_{j = 1}^s m_j\mathfrak q_j$
+as a formal linear combination of
+height one primes with integer coefficients.
+Note for later use that each of the primes $\mathfrak p_i$
+occurs among the primes $\mathfrak q_j$.
+The ring $R/fR$ is reduced if and only if
+$m_j = 1$ for $j = 1, \ldots, s$. Namely, if $m_j$ is $1$ then
+$(R/fR)\mathfrak q_j$ is reduced and
+$R/fR \subset \prod (R/fR)_{\mathfrak q_j}$ as
+$\mathfrak q_1, \ldots, \mathfrak q_j$ are the associated primes
+of $R/fR$, see Algebra, Lemmas
+\ref{algebra-lemma-zero-at-ass-zero} and
+\ref{algebra-lemma-normal-domain-intersection-localizations-height-1}.
+
+\medskip\noindent
+Choose and fix $g$ and $N$ as in Lemma \ref{lemma-syspar}.
+For a nonzero $y \in R$ denote $t(y)$ the number of primes minimal over $y$.
+Since $R$ is a normal domain, these primes
+are height one and correspond $1$-to-$1$ to the minimal primes of
+$R/yR$ (Algebra, Lemmas \ref{algebra-lemma-minimal-over-1} and
+\ref{algebra-lemma-normal-domain-intersection-localizations-height-1}).
+For example $t(f) = s$ is the number
+of primes $\mathfrak q_j$ occuring in $\text{div}(f)$.
+Let $h \in \mathfrak m^N$. By Lemma \ref{lemma-minprimespoly} we have
+\begin{align*}
+t(f + h) & \leq \text{length}_{R/(f + h)}(R/(f + h, g)) \\
+& = \text{length}_R(R/(f + h, g)) \\
+& = \text{length}_R(R/(f, g))
+\end{align*}
+see Algebra, Lemma \ref{algebra-lemma-length-independent}
+for the first equality.
+Therefore we see that $t(f + h)$ is bounded independent of
+$h \in \mathfrak m^N$.
+
+\medskip\noindent
+By the boundedness proved above we may pick
+$h \in \mathfrak m^N \cap \mathfrak p_1 \cap \ldots \cap \mathfrak p_r$
+such that $t(f + h)$ is maximal among such $h$. Set $f' = f + h$.
+Given $h' \in \mathfrak m^N \cap \mathfrak p_1 \cap \ldots \cap \mathfrak p_r$
+we see that the number $t(f' + h') \leq t(f + h)$.
+Thus after replacing $f$ by $f'$ we may assume that for every
+$h \in \mathfrak m^N \cap \mathfrak p_1 \cap \ldots \cap \mathfrak p_r$
+we have $t(f + h) \leq s$.
+
+\medskip\noindent
+Next, assume that we can find an element $h \in \mathfrak m^N$ such that
+for each $j$ we have $\text{ord}_{\mathfrak q_j}(h) \geq 1$ and
+$\text{ord}_{\mathfrak q_j}(h) = 1 \Leftrightarrow m_j > 1$.
+Observe that
+$h \in \mathfrak m^N \cap \mathfrak p_1 \cap \ldots \cap \mathfrak p_r$.
+Then $\text{ord}_{\mathfrak q_j}(f + h) = 1$
+for every $j$ by elementary properties of valuations.
+Thus
+$$
+\text{div}(f + h) = \sum\nolimits_{j = 1}^s \mathfrak q_j +
+\sum\nolimits_{k = 1}^v e_k \mathfrak r_k
+$$
+for some pairwise distinct height one prime ideals
+$\mathfrak r_1, \ldots, \mathfrak r_v$ and $e_k \geq 1$.
+However, since $s = t(f) \geq t(f + h)$ we see that $v = 0$
+and we have found the desired element.
+
+\medskip\noindent
+Now we will pick $h$ that satisfies the above criteria.
+By prime avoidance (Algebra, Lemma \ref{algebra-lemma-silly})
+for each $1 \leq j \leq s$ we can find an element $a_j \in \mathfrak q_j$
+such that $a_j \not \in \mathfrak q_{j'}$ for $j' \not = j$
+and $a_j \not \in \mathfrak q_j^{(2)}$. Here
+$\mathfrak q_j^{(2)} = \{x \in R \mid \text{ord}_{\mathfrak q_j}(x) \geq 2\}$
+is the second symbolic power of $\mathfrak q_j$.
+Then we take
+$$
+h = \prod\nolimits_{m_j = 1} a_j^2 \times
+\prod\nolimits_{m_j > 1} a_j
+$$
+Then $h$ clearly satisfies the conditions on valuations imposed above.
+If $h \not \in \mathfrak m^N$, then we multiply by an element of
+$\mathfrak m^N$ which is not contained in $\mathfrak q_j$ for all $j$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-divides-radical}
+Let $(A, \mathfrak m, \kappa)$ be a Noetherian normal local domain
+of dimension $2$. If $a \in \mathfrak m$ is nonzero, then there exists an
+element $c \in A$ such that $A/cA$ is reduced and such that $a$ divides
+$c^n$ for some $n$.
+\end{lemma}
+
+\begin{proof}
+Let $\text{div}(a) = \sum_{i = 1, \ldots, r} n_i \mathfrak p_i$
+with notation as in the proof of Lemma \ref{lemma-radical-element}.
+Choose $c \in \mathfrak p_1 \cap \ldots \cap \mathfrak p_r$ with $A/cA$
+reduced, see Lemma \ref{lemma-radical-element}. For $n \geq \max(n_i)$
+we see that $-\text{div}(a) + \text{div}(c^n)$
+is an effective divisor (all coefficients nonnegative).
+Thus $c^n/a \in A$ by Algebra, Lemma
+\ref{algebra-lemma-normal-domain-intersection-localizations-height-1}.
+\end{proof}
+
+\noindent
+In the rest of this section we prove the result in dimension $> 2$.
+
+\begin{lemma}
+\label{lemma-multiplicity}
+Let $(R, \mathfrak m)$ be a Noetherian local ring of dimension $d$, let
+$g_1, \ldots, g_d$ be a system of parameters, and let
+$I = (g_1, \ldots, g_d)$. If $e_I/d!$ is the leading coefficient of the
+numerical polynomial
+$n \mapsto \text{length}_R(R/I^{n+1})$, then $e_I \leq \text{length}_R(R/I)$.
+\end{lemma}
+
+\begin{proof}
+The function is a numerical polynomial by
+Algebra, Proposition \ref{algebra-proposition-hilbert-function-polynomial}.
+It has degree $d$ by
+Algebra, Proposition \ref{algebra-proposition-dimension}.
+If $d = 0$, then the result is trivial.
+If $d = 1$, then the result is Lemma \ref{lemma-polypoly}.
+To prove it in general, observe that there is a surjection
+$$
+\bigoplus\nolimits_{i_1, \ldots, i_d \geq 0,\ \sum i_j = n} R/I
+\longrightarrow
+I^n/I^{n + 1}
+$$
+sending the basis element corresponding to $i_1, \ldots, i_d$
+to the class of $g_1^{i_1} \ldots g_d^{i_d}$ in $I^n/I^{n + 1}$.
+Thus we see that
+$$
+\text{length}_R(R/I^{n + 1}) - \text{length}_R(R/I^n)
+\leq  \text{length}_R(R/I) {n + d - 1 \choose d - 1}
+$$
+Since $d \geq 2$ the numerical polynomial on the left has
+degree $d - 1$ with leading coefficient $e_I / (d - 1)!$.
+The polynomial on the right has degree $d - 1$ and its
+leading coefficient is $\text{length}_R(R/I)/ (d - 1)!$.
+This proves the lemma.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-minprimespolyhigher}
+Let $(R, \mathfrak m)$ be a Noetherian local ring of dimension $d$, let $t$
+be the number of minimal prime ideals of $R$ of dimension $d$, and let
+$(g_1,\ldots,g_d)$ be a system of parameters. Then
+$t \leq \text{length}_R(R/(g_1,\ldots,g_n))$.
+\end{lemma}
+
+\begin{proof}
+If $d = 0$ the lemma is trivial. If $d = 1$ the lemma is
+Lemma \ref{lemma-minprimespoly}. Thus we may assume $d > 1$.
+Let $\mathfrak p_1, \ldots, \mathfrak p_s$ be the minimal prime ideals of
+$R$ where the first $t$ have dimension $d$, and denote
+$I = (g_1, \ldots, g_n)$. Arguing in exactly the same way as in
+the proof of Lemma \ref{lemma-minprimespoly} we can assume $R$ is reduced.
+
+\medskip\noindent
+Assume $R$ is reduced with minimal primes
+$\mathfrak p_1, \ldots, \mathfrak p_t$.
+This means there is an exact sequence
+$$
+0 \to R \to
+\prod\nolimits_{i = 1}^t R/\mathfrak p_i \to Q \to 0
+$$
+Here $Q$ is the cokernel of the first map.
+Write $M = \prod_{i = 1}^t R/\mathfrak p_i$.
+Localizing at $\mathfrak p_j$ we see that
+$$
+R_{\mathfrak p_j} \to M_{\mathfrak p_j} =
+\left(\prod\nolimits_{i=1}^t R/\mathfrak p_i\right)_{\mathfrak p_j} =
+(R/\mathfrak p_j)_{\mathfrak p_j}
+$$
+is surjective. Thus $Q_{\mathfrak p_j} = 0$ for all $j$. Therefore no
+height $0$ prime of $R$ is in the support of $Q$. It follows that
+the degree of the numerical polynomial
+$n \mapsto \text{length}_R(Q/I^nQ)$ equals $\dim(\text{Supp}(Q))<d$, see
+Algebra, Lemma \ref{algebra-lemma-support-dimension-d}.
+By Algebra, Lemma \ref{algebra-lemma-hilbert-ses-chi}
+(which applies as $R$ does not have finite length) the polynomial
+$$
+n \longmapsto
+\text{length}_R(M/I^nM) - \text{length}_R(R/I^n) - \text{length}_R(Q/I^nQ)
+$$
+has degree $< d$. Since $M = \prod R/\mathfrak p_i$ and since
+$n \to \text{length}_R(R/\mathfrak p_i + I^n)$ is a numerical
+polynomial of degree exactly(!) $d$ for $i = 1, \ldots, t$ (by
+Algebra, Lemma \ref{algebra-lemma-support-dimension-d})
+we see that the leading coefficient of $n \mapsto \text{length}_R(M/I^nM)$
+is at least $t/d!$. Thus we conclude by Lemma \ref{lemma-multiplicity}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-sysparhigher}
+Let $(R, \mathfrak m)$ be a Noetherian local ring of dimension $d$, and let
+$f \in \mathfrak m$ be an element not contained in any minimal
+prime ideal of $R$. Then there exist elements
+$g_1, \ldots, g_{d - 1} \in \mathfrak m$ and $N \in \mathbf{N}$ such that
+\begin{enumerate}
+\item $f, g_1, \ldots, g_{d - 1}$ form a system of parameters for $R$
+\item If $h \in \mathfrak m^N$, then $f + h, g_1, \ldots, g_{d - 1}$ is a
+system of parameters and we have
+$\text{length}_R R/(f, g_1, \ldots, g_{d-1}) =
+\text{length}_R R/(f + h, g_1, \ldots, g_{d-1})$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+By Lemma \ref{lemma-sopexists} there exist
+$g_1, \ldots, g_{d - 1} \in \mathfrak m$
+such that $f, g_1, \ldots, g_{d - 1}$ is a system of parameters for $R$.
+Then $\mathfrak m = \sqrt{(f, g_1, \ldots, g_{d - 1})}$.
+Thus there exists an $n$ such that $\mathfrak m^n \subset (f, g)$, see
+Algebra, Lemma \ref{algebra-lemma-Noetherian-power}. We claim that
+$N = n + 1$ works.
+Namely, let $h \in \mathfrak m^N$. By our choice of $N$ we can write
+$h = af + \sum b_ig_i$ with $a, b_i \in \mathfrak m$. Thus
+\begin{align*}
+(f + h, g_1, \ldots, g_{d - 1})
+& =
+(f + af + \sum b_ig_i, g_1, \ldots, g_{d - 1}) \\
+& =
+((1 + a)f, g_1, \ldots, g_{d - 1}) \\
+& =
+(f, g_1, \ldots, g_{d - 1})
+\end{align*}
+because $1 + a$ is a unit in $R$. This proves the equality
+of lengths and the fact that $f + h, g_1, \ldots, g_{d - 1}$
+is a system of parameters.
+\end{proof}
+
+\begin{proposition}
+\label{proposition-propdimd}
+\begin{reference}
+\cite[Lemma 3.14]{Artin-Lipman} has this result without the
+assumption that the ring is catenary
+\end{reference}
+Let $R$ be a catenary Noetherian local normal domain.
+Let $J \subset R$ be a radical ideal.
+Then there exists a nonzero element $f \in J$
+such that $R/fR$ is reduced.
+\end{proposition}
+
+\begin{proof}
+The proof is the same as that of
+Lemma \ref{lemma-radical-element},
+using Lemma \ref{lemma-minprimespolyhigher} instead of
+Lemma \ref{lemma-minprimespoly} and
+Lemma \ref{lemma-sysparhigher} instead of
+Lemma \ref{lemma-syspar}.
+We can use Lemma \ref{lemma-minprimespolyhigher} because $R$
+is a catenary domain, so every height one prime ideal of $R$
+has dimension $d - 1$, and hence $R/(f + h)$ is
+equidimensional. For the convenience of the reader we write out
+the details.
+
+\medskip\noindent
+Let $f \in J$ be a nonzero element.
+We will modify $f$ slightly to obtain an element that generates a radical ideal.
+The localization $R_\mathfrak p$ of $R$ at each height one prime
+ideal $\mathfrak p$ is a discrete valuation ring, see
+Algebra, Lemma \ref{algebra-lemma-characterize-dvr} or
+Algebra, Lemma \ref{algebra-lemma-criterion-normal}.
+We denote by $\text{ord}_\mathfrak p(f)$ the corresponding
+valuation of $f$ in $R_{\mathfrak p}$. Let
+$\mathfrak q_1, \ldots, \mathfrak q_s$
+be the distinct height one prime ideals containing $f$.
+Write $\text{ord}_{\mathfrak q_j}(f) = m_j \geq 1$
+for each $j$. Then we define
+$\text{div}(f) = \sum_{j = 1}^s m_j\mathfrak q_j$
+as a formal linear combination of
+height one primes with integer coefficients.
+The ring $R/fR$ is reduced if and only if
+$m_j = 1$ for $j = 1, \ldots, s$. Namely, if $m_j$ is $1$ then
+$(R/fR)\mathfrak q_j$ is reduced and
+$R/fR \subset \prod (R/fR)_{\mathfrak q_j}$ as
+$\mathfrak q_1, \ldots, \mathfrak q_j$ are the associated primes
+of $R/fR$, see Algebra, Lemmas
+\ref{algebra-lemma-zero-at-ass-zero} and
+\ref{algebra-lemma-normal-domain-intersection-localizations-height-1}.
+
+\medskip\noindent
+Choose and fix $g_2, \ldots, g_{d - 1}$ and $N$ as in
+Lemma \ref{lemma-sysparhigher}.
+For a nonzero $y \in R$ denote $t(y)$ the number of primes minimal over $y$.
+Since $R$ is a normal domain, these primes
+are height one and correspond $1$-to-$1$ to the minimal primes of
+$R/yR$ (Algebra, Lemmas \ref{algebra-lemma-minimal-over-1} and
+\ref{algebra-lemma-normal-domain-intersection-localizations-height-1}).
+For example $t(f) = s$ is the number
+of primes $\mathfrak q_j$ occuring in $\text{div}(f)$.
+Let $h \in \mathfrak m^N$. Because $R$ is catenary, for each
+height one prime $\mathfrak p$ of $R$ we have
+$\dim(R/\mathfrak p) = d$. Hence by
+Lemma \ref{lemma-minprimespolyhigher}
+we have
+\begin{align*}
+t(f + h) & \leq \text{length}_{R/(f + h)}(R/(f + h, g_1, \ldots, g_{d - 1})) \\
+& = \text{length}_R(R/(f + h, g_1, \ldots, g_{d - 1})) \\
+& = \text{length}_R(R/(f, g_1, \ldots, g_{d - 1}))
+\end{align*}
+see Algebra, Lemma \ref{algebra-lemma-length-independent}
+for the first equality.
+Therefore we see that $t(f + h)$ is bounded independent of
+$h \in \mathfrak m^N$.
+
+\medskip\noindent
+By the boundedness proved above we may pick $h \in \mathfrak m^N \cap J$
+such that $t(f + h)$ is maximal among such $h$. Set $f' = f + h$.
+Given $h' \in \mathfrak m^N \cap J$
+we see that the number $t(f' + h') \leq t(f + h)$.
+Thus after replacing $f$ by $f'$ we may assume that for every
+$h \in \mathfrak m^N \cap J$ we have $t(f + h) \leq s$.
+
+\medskip\noindent
+Next, assume that we can find an element $h \in \mathfrak m^N \cap J$
+such that for each $j$ we have $\text{ord}_{\mathfrak q_j}(h) \geq 1$ and
+$\text{ord}_{\mathfrak q_j}(h) = 1 \Leftrightarrow m_j > 1$.
+Then $\text{ord}_{\mathfrak q_j}(f + h) = 1$
+for every $j$ by elementary properties of valuations.
+Thus
+$$
+\text{div}(f + h) = \sum\nolimits_{j = 1}^s \mathfrak q_j +
+\sum\nolimits_{k = 1}^v e_k \mathfrak r_k
+$$
+for some pairwise distinct height one prime ideals
+$\mathfrak r_1, \ldots, \mathfrak r_v$ and $e_k \geq 1$.
+However, since $s = t(f) \geq t(f + h)$ we see that $v = 0$
+and we have found the desired element.
+
+\medskip\noindent
+Now we will pick $h$ that satisfies the above criteria.
+By prime avoidance (Algebra, Lemma \ref{algebra-lemma-silly})
+for each $1 \leq j \leq s$ we can find an element
+$a_j \in \mathfrak q_j \cap J$
+such that $a_j \not \in \mathfrak q_{j'}$ for $j' \not = j$.
+Next, we can pick $b_j \in J \cap \mathfrak q_1 \cap \ldots \cap q_s$
+with $b_j \not \in \mathfrak q_j^{(2)}$. Here
+$\mathfrak q_j^{(2)} = \{x \in R \mid \text{ord}_{\mathfrak q_j}(x) \geq 2\}$
+is the second symbolic power of $\mathfrak q_j$.
+Prime avoidance applies because the ideal
+$J' = J \cap \mathfrak q_1 \cap \ldots \cap q_s$
+is radical, hence $R/J'$ is reduced, hence $(R/J')_{\mathfrak q_j}$
+is reduced, hence $J'$ contains an element $x$ with
+$\text{ord}_{\mathfrak q_j}(x) = 1$, hence
+$J' \not \subset \mathfrak q_j^{(2)}$. Then the element
+$$
+c = \sum\nolimits_{j = 1, \ldots, s}
+b_j \times \prod\nolimits_{j' \not = j} a_{j'}
+$$
+is an element of $J$
+with $\text{ord}_{\mathfrak q_j}(c) = 1$ for all $j = 1, \ldots, s$
+by elementary properties of valuations. Finally, we let
+$$
+h = c \times \prod\nolimits_{m_j = 1} a_j \times y
+$$
+where $y \in \mathfrak m^N$ is an element
+which is not contained in $\mathfrak q_j$ for all $j$.
+\end{proof}
 
 
 
