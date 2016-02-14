@@ -11228,17 +11228,19 @@ Let $R$ be a ring.
 Let $K_1^\bullet \to K_2^\bullet \to \ldots$
 be a system of K-flat complexes.
 Then $\colim_i K_i^\bullet$ is K-flat.
+More generally any filtered colimit of K-flat complexes
+is K-flat.
 \end{lemma}
 
 \begin{proof}
-Because we are taking termwise colimits it is clear that
+Because we are taking termwise colimits we have
 $$
-\colim_i \text{Tot}(M^\bullet \otimes_R K_i^\bullet)
-=
+\colim_i \text{Tot}(M^\bullet \otimes_R K_i^\bullet) =
 \text{Tot}(M^\bullet \otimes_R \colim_i K_i^\bullet)
 $$
+by Algebra, Lemma \ref{algebra-lemma-tensor-products-commute-with-limits}.
 Hence the lemma follows from the fact that filtered colimits are
-exact.
+exact, see Algebra, Lemma \ref{algebra-lemma-directed-colimit-exact}.
 \end{proof}
 
 \begin{lemma}
@@ -13749,6 +13751,78 @@ if $v^\vee$ and $u$ are odd.
 \end{remark}
 
 \begin{lemma}
+\label{lemma-diagonal-better}
+Let $R$ be a ring. Given complexes $K^\bullet, L^\bullet, M^\bullet$
+of $R$-modules there is a canonical morphism
+$$
+\text{Tot}(K^\bullet \otimes_R \Hom^\bullet(M^\bullet, L^\bullet))
+\longrightarrow
+\Hom^\bullet(M^\bullet, \text{Tot}(K^\bullet \otimes_R L^\bullet))
+$$
+of complexes of $R$-modules functorial in all three complexes.
+\end{lemma}
+
+\begin{proof}
+Let $\alpha$ be an element of degree $n$ of the right hand side.
+Thus
+$$
+\alpha = (\alpha^{p, q}) \in \prod\nolimits_{p + q = n}
+\Hom_R(M^{-q}, \text{Tot}^p(K^\bullet \otimes_R L^\bullet))
+$$
+Each $\alpha^{p, q}$ is an element
+$$
+\alpha^{p, q} = (\alpha^{r, s, q}) \in
+\Hom_R(M^{-q}, \bigoplus\nolimits_{r + s + q = n} K^r \otimes_R L^s)
+$$
+where we think of $\alpha^{r, s, q}$ as a family of maps such that
+for every $x \in M^{-q}$ only a finite number of
+$\alpha^{r, s, q}(x)$ are nonzero. By our sign rules we get
+\begin{align*}
+\text{d}(\alpha^{r, s, q})
+& =
+\text{d}_{\text{Tot}(K^\bullet \otimes_R L^\bullet)} \circ \alpha^{r, s, q}
+- (-1)^n \alpha^{r, s, q} \circ \text{d}_M \\
+& =
+\text{d}_K \circ \alpha^{r, s, q} + (-1)^r \text{d}_L \circ \alpha^{r, s, q}
+- (-1)^n \alpha^{r, s, q} \circ \text{d}_M
+\end{align*}
+On the other hand, if $\beta$ is an element of degree $n$ of the
+left hand side, then
+$$
+\beta = (\beta^{p, q}) \in
+\bigoplus\nolimits_{p + q = n} K^p \otimes_R \Hom^q(M^\bullet, L^\bullet)
+$$
+and we can write $\beta^{p, q} = \sum \gamma_i^p \otimes \delta_i^q$ with
+$\gamma_i^p \in K^p$ and
+$$
+\delta_i^q = (\delta_i^{r, s}) \in
+\prod\nolimits_{r + s = q} \Hom_R(M^{-s}, L^r)
+$$
+By our sign rules we have
+\begin{align*}
+\text{d}(\beta^{p, q})
+& =
+\text{d}_K(\beta^{p, q}) +
+(-1)^p \text{d}_{\Hom^\bullet(M^\bullet, L^\bullet)}(\beta^{p, q}) \\
+& =
+\sum \text{d}_K(\gamma_i^p) \otimes \delta_i^q +
+(-1)^p \sum \gamma_i^p \otimes
+(\text{d}_L \circ \delta_i^q - (-1)^q \delta_i^q \circ \text{d}_M)
+\end{align*}
+We send the element $\beta$ to $\alpha$ with
+$$
+\alpha^{r, s, q} = c^{r, s, q}(\sum \gamma_i^r \otimes \delta_i^{s, q})
+$$
+where $c^{r, s, q} : K^r \otimes_R \Hom_R(M^{-q}, L^s) \to
+\Hom_R(M^{-q}, K^r \otimes_R L^s)$ is the canonical map.
+For a given $\beta$ and $r$ there are only finitely many nonzero
+$\gamma_i^r$ hence only finitely many nonzero $\alpha^{r, s, q}$
+are nonzero (for a given $r$). Thus this family of maps satisfies
+the conditions above and the map is well defined.
+Comparing signs we see that this is compatible with differentials.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-diagonal}
 Let $R$ be a ring. Given complexes $K^\bullet, L^\bullet$
 of $R$-modules there is a canonical morphism
@@ -13761,6 +13835,8 @@ of complexes of $R$-modules functorial in both complexes.
 \end{lemma}
 
 \begin{proof}
+This is a special case of Lemma \ref{lemma-diagonal-better}
+but we will also construct it directly here.
 Let $\alpha$ be an element of degree $n$ of the right hand side.
 Thus
 $$
@@ -13770,9 +13846,11 @@ $$
 Each $\alpha^{p, q}$ is an element
 $$
 \alpha^{p, q} = (\alpha^{r, s, q}) \in
-\bigoplus\nolimits_{r + s + q = n} \Hom_R(L^{-q}, K^r \otimes_R L^s)
+\Hom_R(L^{-q}, \bigoplus\nolimits_{r + s + q = n} K^r \otimes_R L^s)
 $$
-By our sign rules we get
+where we think of $\alpha^{r, s, q}$ as a family of maps such that
+for every $x \in L^{-q}$ only a finite number of
+$\alpha^{r, s, q}(x)$ are nonzero. By our sign rules we get
 \begin{align*}
 \text{d}(\alpha^{r, s, q})
 & =
@@ -13783,7 +13861,7 @@ By our sign rules we get
 - (-1)^n \alpha^{r, s, q} \circ \text{d}_L
 \end{align*}
 Now an element $\beta \in K^n$ we send to $\alpha$ with
-$\alpha^{n, n - q, q} = \beta \otimes \text{id}_{L^{-q}}$
+$\alpha^{n, -q, q} = \beta \otimes \text{id}_{L^{-q}}$
 and $\alpha^{r, s, q} = 0$ if $r \not = n$. This is indeed
 an element as above, as for fixed $q$ there is only one nonzero
 $\alpha^{r, s, q}$. The description of
@@ -13916,31 +13994,69 @@ Let $R$ be a ring. Given $K, L, M$ in $D(R)$ there is a canonical morphism
 $$
 R\Hom(L, M) \otimes_R^\mathbf{L} R\Hom(K, L) \longrightarrow R\Hom(K, M)
 $$
-in $D(R)$.
+in $D(R)$ functorial in $K, L, M$.
 \end{lemma}
 
 \begin{proof}
-In general (without suitable finiteness conditions) we do not see how to
-get this map from Lemma \ref{lemma-composition}. Instead, we use the maps
+Choose a K-injective complex $I^\bullet$ representing $M$,
+a K-injective complex $J^\bullet$ representing $L$, and
+any complex of $R$-modules $K^\bullet$ representing $K$.
+By Lemma \ref{lemma-composition} there is a map of complexes
 $$
-\xymatrix{
-R\Hom(L, M) \otimes_R^\mathbf{L} R\Hom(K, L) \otimes_R^\mathbf{L} K \ar[d] \\
-R\Hom(L, M) \otimes_R^\mathbf{L} R\Hom(R\Hom(K, K), L) \ar[d] \\
-R\Hom(L, M) \otimes_R^\mathbf{L} L \ar[d] \\
-R\Hom(R\Hom(L, L), M) \ar[d] \\
-M
-}
+\text{Tot}\left(
+\Hom^\bullet(J^\bullet, I^\bullet) \otimes_R \Hom^\bullet(K^\bullet, J^\bullet)
+\right)
+\longrightarrow
+\Hom^\bullet(K^\bullet, I^\bullet)
 $$
-gotten by applying Lemma \ref{lemma-internal-hom-evaluate}, then
-$R \to R\Hom(K, K)$ induces the next arrow, then apply
-Lemma \ref{lemma-internal-hom-evaluate}, then $R \to R\Hom(L, L)$
-induces the final arrow. Finally, we use Lemma \ref{lemma-internal-hom}
-to translate the composition
+The complexes of $R$-modules $\Hom^\bullet(J^\bullet, I^\bullet)$,
+$\Hom^\bullet(K^\bullet, J^\bullet)$, and $\Hom^\bullet(K^\bullet, I^\bullet)$
+represent $R\Hom(L, M)$, $R\Hom(K, L)$, and $R\Hom(K, M)$.
+If we choose a K-flat complex $H^\bullet$ and a quasi-isomorphism
+$H^\bullet \to \Hom^\bullet(K^\bullet, J^\bullet)$, then there is a map
 $$
-R\Hom(L, M) \otimes_R^\mathbf{L} R\Hom(K, L) \otimes_R^\mathbf{L} K
-\longrightarrow M
+\text{Tot}\left(
+\Hom^\bullet(J^\bullet, I^\bullet) \otimes_R H^\bullet
+\right)
+\longrightarrow
+\text{Tot}\left(
+\Hom^\bullet(J^\bullet, I^\bullet) \otimes_R \Hom^\bullet(K^\bullet, J^\bullet)
+\right)
 $$
-into a map as in the statement of the lemma.
+whose source represents $R\Hom(L, M) \otimes_R^\mathbf{L} R\Hom(K, L)$.
+Composing the two displayed arrows gives the desired map. We omit the
+proof that the construction is functorial.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-internal-hom-diagonal-better}
+Let $R$ be a ring. Given complexes $K, L, M$ in $D(R)$
+there is a canonical morphism
+$$
+K \otimes_R^\mathbf{L} R\Hom(M, L)
+\longrightarrow
+R\Hom(M, K \otimes_R^\mathbf{L} L)
+$$
+in $D(R)$ functorial in $K$, $L$, $M$.
+\end{lemma}
+
+\begin{proof}
+Choose a K-flat complex $K^\bullet$ representing $K$,
+and a K-injective complex $I^\bullet$ representing $L$, and
+choose any complex $M^\bullet$ representing $M$.
+Choose a quasi-isomorphism
+$\text{Tot}(K^\bullet \otimes_R I^\bullet) \to J^\bullet$
+where $J^\bullet$ is K-injective. Then we use the map
+$$
+\text{Tot}\left(
+K^\bullet \otimes_R \Hom^\bullet(M^\bullet, I^\bullet)
+\right)
+\to
+\Hom^\bullet(M^\bullet, \text{Tot}(K^\bullet \otimes_R I^\bullet))
+\to
+\Hom^\bullet(M^\bullet, J^\bullet)
+$$
+where the first map is the map from Lemma \ref{lemma-diagonal-better}.
 \end{proof}
 
 \begin{lemma}
@@ -13954,14 +14070,16 @@ in $D(R)$ functorial in both $K$ and $L$.
 \end{lemma}
 
 \begin{proof}
-Choose a K-flat complexes $K^\bullet$ and $L^\bullet$ representing $K$
-and $L$. Choose a quasi-isomorphism
-$\text{Tot}(K^\bullet \otimes_R L^\bullet) \to I^\bullet$
-where $I^\bullet$ is K-injective. Then we use the map
+This is a special case of Lemma \ref{lemma-internal-hom-diagonal-better}
+but we will also prove it directly.
+Choose a K-flat complex $K^\bullet$ representing $K$ and
+any complex $L^\bullet$ representing $L$. Choose a quasi-isomorphism
+$\text{Tot}(K^\bullet \otimes_R L^\bullet) \to J^\bullet$
+where $J^\bullet$ is K-injective. Then we use the map
 $$
 K^\bullet \to
 \Hom^\bullet(L^\bullet, \text{Tot}(K^\bullet \otimes_R L^\bullet))
-\to \Hom^\bullet(L^\bullet, I^\bullet)
+\to \Hom^\bullet(L^\bullet, J^\bullet)
 $$
 where the first map is the map from Lemma \ref{lemma-diagonal}.
 \end{proof}
@@ -20232,13 +20350,13 @@ and $L^\bullet$.
 
 \begin{lemma}
 \label{lemma-internal-hom-evaluate-tensor-isomorphism}
-Let $R$ be a ring. Let $K, L, M$ be objects of $D(R)$. There is a
-canonical map
+Let $R$ be a ring. Let $K, L, M$ be objects of $D(R)$. The map
 $$
 K \otimes_R^\mathbf{L} R\Hom(M, L) \longrightarrow
 R\Hom(M, K \otimes_R^\mathbf{L} L)
 $$
-which is an isomorphism in the following cases
+of Lemma \ref{lemma-internal-hom-diagonal-better}
+is an isomorphism in the following cases
 \begin{enumerate}
 \item $M$ perfect, or
 \item $K$ is perfect, or
@@ -20248,16 +20366,6 @@ tor dimension.
 \end{lemma}
 
 \begin{proof}
-The map is obtained as the composition
-$$
-K \otimes_R^\mathbf{L} R\Hom(M, L) \to
-R\Hom(L, K \otimes_R^\mathbf{L} L) \otimes_R^\mathbf{L} R\Hom(M, L) \to
-R\Hom(M, K \otimes_R^\mathbf{L} L)
-$$
-where we have used the maps of Lemmas \ref{lemma-internal-hom-diagonal} and
-\ref{lemma-internal-hom-composition}.
-
-\medskip\noindent
 Proof in case $M$ is perfect. Note that both sides of the arrow
 transform distinguished triangles in $M$ into distinguished triangles
 and commute with direct sums. Hence it suffices to check
@@ -20288,10 +20396,11 @@ $$
 \bigoplus\nolimits_{p + q + r = n} K^p \otimes \Hom_R(M^{-r}, L^q) =
 \bigoplus\nolimits_{p + q + r = n} \Hom_R(M^{-r}, K^p \otimes_R L^q)
 $$
-because $M^{-r}$ is finite free
-(as well these are finite direct sums).
-We omit the verification that the map defined above
-induces the canonical isomorphism between these modules.
+because $M^{-r}$ is finite free (as well these are finite direct sums).
+The map defined in Lemma \ref{lemma-internal-hom-diagonal-better}
+comes from the map of complexes defined in
+Lemma \ref{lemma-diagonal-better} which uses
+the canonical isomorphisms between these modules.
 \end{proof}
 
 
