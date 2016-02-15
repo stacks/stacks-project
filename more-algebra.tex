@@ -11412,7 +11412,7 @@ is the exact functor of triangulated categories described above.
 \noindent
 This functor extends the functor (\ref{equation-derived-tensor-module}).
 It is clear from our explicit constructions that
-there is a canonical isomorphism
+there is an isomorphism (involving a choice of signs, see below)
 $$
 M^\bullet \otimes_R^{\mathbf{L}} L^\bullet
 \cong
@@ -11423,6 +11423,67 @@ Hence when we write $M^\bullet \otimes_R^{\mathbf{L}} L^\bullet$
 we will usually be agnostic about which variable we are using to
 define the derived tensor product with.
 
+\begin{lemma}
+\label{lemma-flip-douoble-tensor-product}
+Let $R$ be a ring. Let $K^\bullet, L^\bullet$ be complexes of $R$-modules.
+There is a canonical isomorphism
+$$
+K^\bullet \otimes_R^\mathbf{L} L^\bullet \longrightarrow
+L^\bullet \otimes_R^\mathbf{L} K^\bullet
+$$
+functorial in both complexes which uses a sign of $(-1)^{pq}$
+for the map $K^p \otimes_R L^q \to L^q \otimes_R K^p$ (see proof
+for explanation).
+\end{lemma}
+
+\begin{proof}
+Replace the complexes by K-flat complexes $K^\bullet, L^\bullet$.
+Then we consider the map
+$$
+\text{Tot}(K^\bullet \otimes_R L^\bullet)
+\longrightarrow
+\text{Tot}(L^\bullet \otimes_R K^\bullet)
+$$
+given by using $(-1)^{pq}$ times the canonical map
+$K^p \otimes_R L^q \to L^q \otimes_R K^p$. This is an isomorphism.
+To see that it is a map of complexes we compute for
+$x \in K^p$ and $y \in L^q$ that
+$$
+\text{d}(x \otimes y) =
+\text{d}_K(x) \otimes y + (-1)^px \otimes \text{d}_L(y)
+$$
+Our rule says the right hand side is mapped to
+$$
+(-1)^{(p + 1)q}y \otimes \text{d}_K(x) +
+(-1)^{p + p(q + 1)} \text{d}_L(y) \otimes x
+$$
+On the other hand, we see that
+$$
+\text{d}((-1)^{pq}y \otimes x) =
+(-1)^{pq} \text{d}_L(y) \otimes x +
+(-1)^{pq + q} y \otimes \text{d}_K(x)
+$$
+These two expressions agree by inspection and the lemma is proved.
+\end{proof}
+
+
+\begin{lemma}
+\label{lemma-triple-tensor-product}
+Let $R$ be a ring. Let $K^\bullet, L^\bullet, M^\bullet$
+be complexes of $R$-modules. There is a canonical isomorphism
+$$
+(K^\bullet \otimes_R^\mathbf{L} L^\bullet) \otimes_R^\mathbf{L} M^\bullet
+=
+K^\bullet \otimes_R^\mathbf{L} (L^\bullet \otimes_R^\mathbf{L} M^\bullet)
+$$
+functorial in all three complexes.
+\end{lemma}
+
+\begin{proof}
+Replace the complexes by K-flat complexes and apply
+Homology, Remark \ref{homology-remark-triple-complex}.
+\end{proof}
+
 
 
 
@@ -11431,21 +11492,26 @@ define the derived tensor product with.
 \label{section-derived-base-change}
 
 \noindent
-Let $R \to A$ be a ring map. Let $N$ be an $A$-module. We can also use K-flat
-resolutions to define a functor
+Let $R \to A$ be a ring map. Let $N^\bullet$ be a complex of $A$-modules.
+We can also use K-flat resolutions to define a functor
 $$
-- \otimes_R^{\mathbf{L}} N : D(R) \to D(A)
+- \otimes_R^{\mathbf{L}} N^\bullet : D(R) \to D(A)
 $$
-which is the left derived functor of the functor
-$\text{Mod}_R \to \text{Mod}_A$, $M \mapsto M \otimes_R N$.
-In particular, taking $N = A$ we obtain a derived base change functor
+as the left derived functor of the functor
+$K(\text{Mod}_R) \to K(\text{Mod}_A)$,
+$M^\bullet \mapsto \text{Tot}(M^\bullet \otimes_R N^\bullet)$.
+In particular, taking $N^\bullet = A[0]$ we obtain a
+derived base change functor
 $$
 - \otimes_R^{\mathbf{L}} A : D(R) \to D(A)
 $$
 extending the functor (\ref{equation-derived-tensor-algebra}).
 Namely, for every complex of $R$-modules $M^\bullet$ we can
 choose a K-flat resolution $K^\bullet \to M^\bullet$ and set
-$M^\bullet \otimes_R^{\mathbf{L}} N = K^\bullet \otimes_R N$.
+$$
+M^\bullet \otimes_R^{\mathbf{L}} N^\bullet =
+\text{Tot}(K^\bullet \otimes_R N^\bullet).
+$$
 You can use
 Lemmas \ref{lemma-K-flat-resolution} and
 \ref{lemma-derived-tor-quasi-isomorphism-other-side}
@@ -11455,22 +11521,28 @@ the i's it is perhaps more convenient to use some general theory.
 \begin{lemma}
 \label{lemma-derived-base-change}
 The construction above is independent of choices and defines an exact
-functor of triangulated categories $- \otimes_R^\mathbf{L} N : D(R) \to D(A)$.
+functor of triangulated categories
+$- \otimes_R^\mathbf{L} N^\bullet : D(R) \to D(A)$.
 There is a functorial isomorphism
 $$
-E \otimes_R^\mathbf{L} N = (E \otimes_R^\mathbf{L} A) \otimes_A^\mathbf{L} N
+E^\bullet \otimes_R^\mathbf{L} N^\bullet =
+(E^\bullet \otimes_R^\mathbf{L} A) \otimes_A^\mathbf{L} N^\bullet
 $$
-for $E$ in $D(R)$.
+for $E^\bullet$ in $D(R)$.
 \end{lemma}
 
 \begin{proof}
-To prove the existence of the derived functor $- \otimes_R^\mathbf{L} N$
+To prove the existence of the derived functor
+$- \otimes_R^\mathbf{L} N^\bullet$
 we use the general theory developed in
 Derived Categories, Section \ref{derived-section-derived-functors}.
 Set $\mathcal{D} = K(\text{Mod}_R)$ and $\mathcal{D}' = D(A)$.
 Let us write $F : \mathcal{D} \to \mathcal{D}'$ the exact functor
 of triangulated categories defined by the rule
-$F(M^\bullet) = M^\bullet \otimes_R N$. We let $S$ be the set of
+$F(M^\bullet) = \text{Tot}(M^\bullet \otimes_R N^\bullet)$.
+To prove the stated properties of $F$ use
+Lemmas \ref{lemma-derived-tor-homotopy} and \ref{lemma-derived-tor-exact}.
+We let $S$ be the set of
 quasi-isomorphisms in $\mathcal{D} = K(\text{Mod}_R)$.
 This gives a situation as in
 Derived Categories, Situation \ref{derived-situation-derived-functor}
@@ -11493,18 +11565,45 @@ see
 Derived Categories, Equation (\ref{derived-equation-everywhere}).
 Finally,
 Derived Categories, Lemma \ref{derived-lemma-find-existence-computes}
-guarantees that $LF(K^\bullet) = F(K^\bullet) = K^\bullet \otimes_R N$
+guarantees that $LF(K^\bullet) = F(K^\bullet) =
+\text{Tot}(K^\bullet \otimes_R N^\bullet)$
 when $K^\bullet$ is K-flat, i.e., $LF$ is indeed computed in the way
 described above. Moreover, by Lemma \ref{lemma-base-change-K-flat}
 the complex $K^\bullet \otimes_R A$ is a K-flat complex of $A$-modules.
 Hence
 $$
-(K^\bullet \otimes_R^\mathbf{L} A) \otimes_A^\mathbf{L} N =
-(K^\bullet \otimes_R A) \otimes_A N =
-K^\bullet \otimes_A N =
-K^\bullet \otimes_A^\mathbf{L} N
+(K^\bullet \otimes_R^\mathbf{L} A) \otimes_A^\mathbf{L} N^\bullet =
+\text{Tot}((K^\bullet \otimes_R A) \otimes_A N^\bullet) =
+\text{Tot}(K^\bullet \otimes_A N^\bullet) =
+K^\bullet \otimes_A^\mathbf{L} N^\bullet
 $$
 which proves the final statement of the lemma.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-functoriality-derived-base-change}
+Let $R \to A$ be a ring map. Let $f : L^\bullet \to N^\bullet$ be a
+map of complexes of $A$-modules. Then $f$ induces a tranformation
+of functors
+$$
+1 \otimes f :
+- \otimes_A^\mathbf{L} L^\bullet
+\longrightarrow
+- \otimes_A^\mathbf{L} N^\bullet
+$$
+If $f$ is a quasi-isomorphism, then $1 \otimes f$ is an isomorphism
+of functors.
+\end{lemma}
+
+\begin{proof}
+Since the functors are computing by evaluating on K-flat complexes
+$K^\bullet$ we can simply use the functoriality
+$$
+\text{Tot}(K^\bullet \otimes_R L^\bullet) \to
+\text{Tot}(K^\bullet \otimes_R N^\bullet)
+$$
+to define the transformation. The last statement follows from
+Lemma \ref{lemma-K-flat-quasi-isomorphism}.
 \end{proof}
 
 \begin{remark}[Warning]
@@ -11535,68 +11634,100 @@ whereas the second one is. Some details omitted.
 
 \begin{lemma}
 \label{lemma-double-base-change}
-Let $A \to B \to C$ be ring maps. Let $M$ be an $A$-module,
-$N$ a $B$-module, and $K$ a $C$-module. Then
+Let $A \to B \to C$ be ring maps. Let $N^\bullet$ be a complex of
+$B$-modules and $K^\bullet$ a complex of $C$-modules.
+The compositions of the functors
+$$
+D(A) \xrightarrow{- \otimes_A^\mathbf{L} N^\bullet}
+D(B) \xrightarrow{- \otimes_A^\mathbf{L} K^\bullet} D(C)
+$$
+is the functor
+$- \otimes_A^\mathbf{L} (N^\bullet \otimes_B^\mathbf{L} K^\bullet) :
+D(A) \to D(C)$. If $M$, $N$, $K$ are modules over $A$, $B$, $C$, then
+we have
 $$
 (M \otimes_A^\mathbf{L} N) \otimes_B^\mathbf{L} K =
-(M \otimes_A^\mathbf{L} K) \otimes_C^\mathbf{L} (N \otimes_B^\mathbf{L} C) =
+M \otimes_A^\mathbf{L} (N \otimes_B^\mathbf{L} K) =
 (M \otimes_A^\mathbf{L} C) \otimes_C^\mathbf{L} (N \otimes_B^\mathbf{L} K)
 $$
-in $D(C)$.
+in $D(C)$. We also have a canonical isomorphism
+$$
+(M \otimes_A^\mathbf{L} N) \otimes_B^\mathbf{L} K \longrightarrow
+(M \otimes_A^\mathbf{L} K) \otimes_C^\mathbf{L} (N \otimes_B^\mathbf{L} C)
+$$
+using signs. Similar results holds for complexes.
 \end{lemma}
 
 \begin{proof}
-Let $M^\bullet \to M$ be a free resolution of $M$ as an $A$-module
-and let $N^\bullet$ be a free resolution of $N$ as a $B$-module.
-We have
-\begin{align*}
-M \otimes_A^\mathbf{L} N
-& =
-M^\bullet \otimes_A N \\
-& =
-M^\bullet \otimes_A B \otimes_B N \\
-& \leftarrow
-\text{Tot}((M^\bullet \otimes_A B) \otimes_B N^\bullet) \\
-& = \text{Tot}(M^\bullet \otimes_A N^\bullet)
-\end{align*}
-Here the arrow is a quasi-isomorphism in $D(B)$ as $M^\bullet \otimes_A B$
-is a bounded above complex of free $B$-modules, hence K-flat
-(Lemma \ref{lemma-derived-tor-quasi-isomorphism})
-and hence Lemma \ref{lemma-K-flat-quasi-isomorphism} applies.
-Now the complex $\text{Tot}(M^\bullet \otimes_A N^\bullet)$ is a
-complex of free $B$-modules hence we see that
+Choose a K-flat complex $P^\bullet$ of $B$-modules and a quasi-isomorphism
+$P^\bullet \to N^\bullet$ (Lemma \ref{lemma-K-flat-resolution}).
+Let $M^\bullet$ be a K-flat complex of $A$-modules representing an
+arbitrary object of $D(A)$. Then we see that
+$$
+(M^\bullet \otimes_A^\mathbf{L} P^\bullet) \otimes_B^\mathbf{L} K^\bullet
+\longrightarrow
+(M^\bullet \otimes_A^\mathbf{L} N^\bullet) \otimes_B^\mathbf{L} K^\bullet
+$$
+is an isomorphism by Lemma \ref{lemma-functoriality-derived-base-change}
+applied to the material inside the brackets. By
+Lemmas \ref{lemma-base-change-K-flat} and \ref{lemma-tensor-product-K-flat}
+the complex
+$$
+\text{Tot}(M^\bullet \otimes_A P^\bullet) =
+\text{Tot}((M^\bullet \otimes_R A) \otimes_A P^\bullet
+$$
+is K-flat as a complex of $B$-modules and it represents
+the derived tensor product in $D(B)$ by construction.
+Hence we see that
+$(M^\bullet \otimes_A^\mathbf{L} P^\bullet) \otimes_B^\mathbf{L} K^\bullet$
+is represented by the complex
+$$
+\text{Tot}(\text{Tot}(M^\bullet \otimes_A P^\bullet)\otimes_B K^\bullet) =
+\text{Tot}(M^\bullet \otimes_A \text{Tot}(P^\bullet \otimes_B K^\bullet))
+$$
+of $C$-modules. Equality by
+Homology, Remark \ref{homology-remark-triple-complex}.
+Going back the way we came we see that this is equal to
+$$
+M^\bullet \otimes_A^\mathbf{L} (P^\bullet \otimes_B^\mathbf{L} K^\bullet)
+\longleftarrow
+M^\bullet \otimes_A^\mathbf{L} (N^\bullet \otimes_B^\mathbf{L} K^\bullet)
+$$
+The arrow is an isomorphism by definition of the functor
+$-\otimes_B^\mathbf{L} K^\bullet$. All of these constructions
+are functorial in the complex $M^\bullet$ and hence we obtain
+our isomorphism of functors.
+
+\medskip\noindent
+By the above we have the first equality in
 $$
 (M \otimes_A^\mathbf{L} N) \otimes_B^\mathbf{L} K =
-\text{Tot}(M^\bullet \otimes_A N^\bullet) \otimes_B K =
-\text{Tot}(M^\bullet \otimes_A N^\bullet \otimes_B K)
+M \otimes_A^\mathbf{L} (N \otimes_B^\mathbf{L} K) =
+(M \otimes_A^\mathbf{L} C) \otimes_C^\mathbf{L} (N \otimes_B^\mathbf{L} K)
 $$
-On the other hand,
-$$
-M \otimes_A^\mathbf{L} K = M^\bullet \otimes_A K
-\quad\text{and}\quad
-N \otimes_B^\mathbf{L} C = N^\bullet \otimes_B C
-$$
-and the second is a bounded above
-complex of free $C$-modules hence we see that
-$$
-(M \otimes_A^\mathbf{L} K) \otimes_C^\mathbf{L} (N \otimes_B^\mathbf{L} C) =
-\text{Tot}((M^\bullet \otimes_A K) \otimes_C (N^\bullet \otimes_B C)) =
-\text{Tot}(M^\bullet \otimes_A N^\bullet \otimes_B K)
-$$
-which proves the first equality of the statement of the lemma.
-To prove the second we use that
-$$
-M \otimes_A^\mathbf{L} C = M^\bullet \otimes_A C
-\quad\text{and}\quad
-N \otimes_B^\mathbf{L} K = N^\bullet \otimes_B K
-$$
-and the first is a bounded above complex of free $C$-modules so that
-$$
-(M \otimes_A^\mathbf{L} C) \otimes_C^\mathbf{L} (N \otimes_B^\mathbf{L} K) =
-\text{Tot}((M^\bullet \otimes_A C) \otimes_C (N^\bullet \otimes_B K)) =
-\text{Tot}(M^\bullet \otimes_A N^\bullet \otimes_B K)
-$$
-as before.
+The second equality follows from the final statement of
+Lemma \ref{lemma-derived-base-change}.
+The same thing allows us to write
+$N \otimes_B^\mathbf{L} K = (N \otimes_B^\mathbf{L} C) \otimes_C^\mathbf{L} K$
+and substituting we get
+\begin{align*}
+(M \otimes_A^\mathbf{L} N) \otimes_B^\mathbf{L} K
+& =
+(M \otimes_A^\mathbf{L} C) \otimes_C^\mathbf{L}
+((N \otimes_B^\mathbf{L} C) \otimes_C^\mathbf{L} K) \\
+& =
+(M \otimes_A^\mathbf{L} C) \otimes_C^\mathbf{L}
+(K \otimes_C^\mathbf{L} (N \otimes_B^\mathbf{L} C)) \\
+& =
+((M \otimes_A^\mathbf{L} C) \otimes_C^\mathbf{L} K)
+\otimes_C^\mathbf{L} (N \otimes_B^\mathbf{L} C)) \\
+& =
+(M \otimes_C^\mathbf{L} K)
+\otimes_C^\mathbf{L} (N \otimes_B^\mathbf{L} C)
+\end{align*}
+by Lemmas \ref{lemma-flip-douoble-tensor-product} and
+\ref{lemma-triple-tensor-product}
+as well as the previously mentioned lemma.
 \end{proof}
 
 
