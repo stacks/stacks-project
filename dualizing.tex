@@ -7782,6 +7782,51 @@ $i^!(-) = R\SheafHom(\mathcal{O}_X, -)$ of functors.
 This is a restatement of Lemma \ref{lemma-twisted-inverse-image-closed}.
 \end{proof}
 
+\begin{remark}[Local description upper shriek]
+\label{remark-local-calculation-shriek}
+Let $S$ be a Noetherian scheme. Let $f : X \to Y$ be a morphism of
+compactifyable schemes over $S$. Using the lemmas above we can compute
+$f^!$ locally as follows. Suppose that we are given affine opens
+$$
+\xymatrix{
+U \ar[r]_j \ar[d]_g & X \ar[d]^f \\
+V \ar[r]^i & Y
+}
+$$
+Since $j^! \circ f^! = g^! \circ i^!$
+(Lemma \ref{lemma-upper-shriek-composition})
+and since $j^!$ and $i^!$ are given by restriction
+(Lemma \ref{lemma-shriek-open-immersion})
+we see that
+$$
+(f^!E)|_U = g^!(E|_V)
+$$
+for any $E \in D^+_\QCoh(\mathcal{O}_X)$. Write
+$U = \Spec(A)$ and $V = \Spec(R)$.
+Choose a presentation $A = P/I$ where $P = R[x_1, \ldots, x_n]$
+is a polynomial algebra in $n$ variables over $R$. Choose an
+object $K \in D^+(R)$ corresponding to $E|_V$
+(Derived Categories of Schemes, Lemma
+\ref{perfect-lemma-affine-compare-bounded}).
+Then we claim that $f^!E|_U$ corresponds to
+$$
+R\Hom(A, K \otimes_R^\mathbf{L} P)[n]
+$$
+where $R\Hom(A, -) : D(P) \to D(A)$ is the functor of
+Section \ref{section-trivial}. Namely, the choice of presentation
+gives a factorization
+$$
+U \rightarrow \mathbf{A}^n_V \to \mathbf{A}^{n - 1}_V \to \ldots \to
+\mathbf{A}^1_V \to V
+$$
+Applying \ref{lemma-shriek-affine-line} exactly $n$ times we see that
+$(\mathbf{A}^n_V \to V)^!(E|_V)$ corresponds to
+$K \otimes_R^\mathbf{L} P[n]$. By Lemmas
+\ref{lemma-sheaf-with-exact-support-quasi-coherent} and
+\ref{lemma-shriek-closed-immersion} the last step corresponds to
+applying $R\Hom(A, -)$.
+\end{remark}
+
 \begin{lemma}
 \label{lemma-shriek-coherent}
 Let $S$ be a Noetherian scheme. Let $f : X \to Y$ be a morphism
@@ -8012,12 +8057,16 @@ Lemma \ref{lemma-compute-for-effective-Cartier} and the proof is complete.
 \label{section-relative-dualizing-complex-algebraic}
 
 \noindent
+The motivation for the following definition/construction is
+Remark \ref{remark-local-calculation-shriek}.
+
+\medskip\noindent
 Let $\varphi : R \to A$ be a finite type homomorphism of Noetherian rings.
 We will define a functor $\varphi^! : D(R) \to D(A)$ in the following way
 \begin{enumerate}
 \item If $\varphi : R \to A$ is surjective we set
 $\varphi^!(K) = R\Hom(A, K)$. Here we use the functor
-$R\Hom(A, -) : D(P) \to D(A)$ of Section \ref{section-trivial}, and
+$R\Hom(A, -) : D(R) \to D(A)$ of Section \ref{section-trivial}, and
 \item in general we choose a surjection $\psi : P \to A$ with
 $P = R[x_1, \ldots, x_n]$ and we set
 $\varphi^!(K) = \psi^!(K \otimes_R^\mathbf{L} P[n])$.
@@ -8203,9 +8252,11 @@ an isomorphism of $E'$-modules which finishes the proof.
 
 \begin{lemma}
 \label{lemma-bc}
-Let $\varphi : R \to A$ be a homomorphism of Noetherian rings.
-Let $R \to R'$ be a homomorphism of Noetherian rings. Assume
-$R \to A$ is flat and of finite type.
+Let $R \to R'$ be a homomorphism of Noetherian rings.
+Let $\varphi : R \to A$ be a perfect ring map
+(More on Algebra, Definition
+\ref{more-algebra-definition-pseudo-coherent-perfect})
+such that $R'$ and $A$ are tor independent over $R$.
 Let $\varphi' : R' \to A' = A \otimes_R R'$ be the map induced by $\varphi$.
 Then we have a functorial isomorphism
 $$
@@ -8216,26 +8267,67 @@ for $K$ in $D(R)$.
 \end{lemma}
 
 \begin{proof}
-Choose a factorization $R \to P \to A$ where $P$ is a polynomial
-ring over $R$. This gives a corresponding factorization
+We can choose a factorization $R \to P \to A$ where $P$ is a polynomial
+ring over $R$ and then $A$ is a perfect $P$-module, see
+More on Algebra, Lemma \ref{more-algebra-lemma-perfect-ring-map}.
+This gives a corresponding factorization
 $R' \to P' \to A'$ by base change. Since we have
 $(K \otimes_R^\mathbf{L} P) \otimes_P^\mathbf{L} P' =
 (K \otimes_R^\mathbf{L} R') \otimes_{R'}^\mathbf{L} P'$
+by More on Algebra, Lemma \ref{more-algebra-lemma-double-base-change}
 it suffices to prove the statement for
-$P \to A$ and $P \to P'$. By Lemma \ref{lemma-bc-surjection}
+$P \to A$ and $P \to P'$.
+By Lemma \ref{lemma-bc-surjection}
 it suffices to prove that $A$ is a perfect $P$-module
 and that $A$ and $P'$ are tor independent over $P$.
-The $P$-module $A$ is a perfect by
-More on Algebra, Lemma \ref{more-algebra-lemma-perfect-over-polynomial-ring}.
+The $P$-module $A$ is a perfect as seen above.
 For tor independence
 $$
 A \otimes_P^\mathbf{L} P' = A \otimes_R^\mathbf{L} R' = A'
 $$
-The first equality because a resolution by free $P$-modules is $R$-flat
-and $M \otimes_P P' = M \otimes_R R'$. The second equality because
-$A$ is flat over $R$.
+The first equality by
+More on Algebra, Lemma \ref{more-algebra-lemma-base-change-comparison}
+applied to $R, R', P, P'$. The second equality because
+$A$ and $R'$ are tor independent over $R$.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-bc-flat}
+Let $R \to R'$ be a homomorphism of Noetherian rings.
+Let $\varphi : R \to A$ be flat of finite type.
+Let $\varphi' : R' \to A' = A \otimes_R R'$ be the map induced by $\varphi$.
+Then we have a functorial isomorphism
+$$
+\varphi^!(K) \otimes_A^\mathbf{L} A' =
+(\varphi')^!(K \otimes_R^\mathbf{L} R')
+$$
+for $K$ in $D(R)$.
+\end{lemma}
+
+\begin{proof}
+Special case of Lemma \ref{lemma-bc} by
+More on Algebra, Lemma
+\ref{more-algebra-lemma-flat-finite-presentation-perfect}.
+\end{proof}
+
+\noindent
+Let $\varphi : R \to A$ be a finite type homomorphism of
+Noetherian rings. Then we define the {\it relative dualizing
+complex of $A$ over $R$} as the object
+$\omega_{A/R}^\bullet = \varphi^!(R)$ of $D(R)$.
+It is well defined up to (non-unique) isomorphism.
+
+\begin{lemma}
+\label{lemma-base-change-relative-algebraic}
+Let $R \to R'$ be a homomorphism of Noetherian rings.
+Let $R \to A$ be flat and of finite type. There is an isomorphism
+$\omega_{A/R}^\bullet \otimes_A^\mathbf{L} A' \to \omega^\bullet_{A'/R'}$
+in $D(A')$.
+\end{lemma}
+
+\begin{proof}
+Immediate from Lemma \ref{lemma-bc-flat} and the definitions.
+\end{proof}
 
 
 
@@ -8293,107 +8385,7 @@ and prove it, if we ever need this result).
 \medskip\noindent
 In the rest of this section, we formulate some easy to prove
 results which would be consequences of a good theory of the
-base change map. But first, we give a local description of $f^!$.
-
-\begin{remark}
-\label{remark-local-calculation-shriek}
-Let $S$ be a Noetherian scheme. Let $f : X \to Y$ be a morphism of
-compactifyable schemes over $S$. Let $K \in D_\QCoh^+(\mathcal{O}_Y)$.
-Using the lemmas above we can compute $f^!K$ locally as follows.
-Suppose that we are given affine opens
-$$
-\xymatrix{
-\Spec(A) = U \ar[r] \ar[d] & X \ar[d] \\
-\Spec(R) = V \ar[r] & Y
-}
-$$
-Choose a presentation $A = P/I$ where $P = R[x_1, \ldots, x_n]$
-is a polynomial algebra in $n$ variables over $R$. Choose an
-object $K' \in D^+(R)$ corresponding to $K|_V$. Then $f^!K|_U$
-corresponds to
-$$
-R\Hom(A, K' \otimes_R^\mathbf{L} P)[n]
-$$
-where $R\Hom(A, -) : D(P) \to D(A)$ is the functor of
-Section \ref{section-trivial}.
-This follows from Lemmas \ref{lemma-sheaf-with-exact-support-quasi-coherent},
-\ref{lemma-shriek-affine-line}, and
-\ref{lemma-shriek-closed-immersion}.
-\end{remark}
-
-\begin{lemma}
-\label{lemma-base-change-relative-algebraic}
-Let $R \to A$ be a finite type homomorphism of Noetherian rings.
-Let $R \to R'$ be a homomorphism of Noetherian rings.
-If $R \to A$ is flat, then there is an isomorphism
-$\omega_{A/R}^\bullet \otimes_A^\mathbf{L} A' \to \omega^\bullet_{A'/R'}$
-in $D(A')$.
-\end{lemma}
-
-\begin{proof}
-We choose a presentation $A = P/I$ with $P = R[x_1, \ldots, x_n]$.
-To prove the lemma will first construct a map
-$$
-b_0 :
-R\Hom(A, P) \otimes_A^\mathbf{L} A'
-\longrightarrow
-R\Hom(A', P')
-$$
-in $D(A')$ where $P' = P \otimes_R R'$ and $A' = A \otimes_R R'$.
-We have to be careful with coefficient rings, so we introduce
-a bit of pedantic notation. For a ring map $f : S \to S'$
-restriction via $f$ is denoted $\{ - \}_S : D(S') \to D(S)$ and its
-left adjoint (base change) is denoted
-$- \otimes_S^\mathbf{L} S' : D(S) \to D(S')$.
-By Lemma \ref{lemma-right-adjoint} finding $b_0$ is the same thing
-as finding a map
-$$
-b_1 : \{R\Hom(A, P) \otimes_A^\mathbf{L} A'\}_{P'} \longrightarrow P'
-$$
-in $D(P')$. Since $R \to A$ and $R \to P$ are flat,
-for any $K \in D(A)$ the canonical map
-$$
-\{K\}_P \otimes_P^\mathbf{L} P'
-\longrightarrow
-\{K \otimes_A^\mathbf{L} A'\}_{P'}
-$$
-is an isomorphism because both complexes are quasi-isomorphic
-to $\{K\}_R \otimes_R R'$ as complexes of abelian groups.
-Since $\{R\Hom(A, P)\}_P = R\Hom_P(A, P)$ by
-Lemma \ref{lemma-RHom-ext}
-to get $b_1$ we need to construct a map
-$$
-b_2 : R\Hom_P(A, P) \otimes_P^\mathbf{L} P' \to P'
-$$
-in $D(P')$. This is the same as constructing a map
-$R\Hom_P(A, P) \to \{P'\}_P$ in $D(P)$. For this we can use
-the evaluation at $1$ map $R\Hom_P(A, P) \to P$ followed
-by the obvious map $P \to \{P'\}_P$.
-
-\medskip\noindent
-Now that we have $b_0$ we can forget all about the module structure
-and just show that $b_0$ induces a bijection on cohomology groups.
-Thus in the rest of the proof we will be sloppy about which derived
-category we are working in. The $P$-module $A$ is a perfect by
-More on Algebra, Lemma \ref{more-algebra-lemma-perfect-over-polynomial-ring}.
-Choose a resolution of $A$ by a bounded complex $F_\bullet$ of
-finite projective $P$-modules. Then we see that $R\Hom_P(A, P)$ is represented
-by the finite complex with terms $\Hom_P(F_i, P)$ which are finite
-projective $P$-modules. Thus
-$R\Hom_P(A, P) \otimes_A^\mathbf{L} A' =
-R\Hom_P(A, P) \otimes_P^\mathbf{L} P'$ (see above)
-is represented by the complex with terms
-$$
-\Hom_P(F_i, P) \otimes_P P' = \Hom_{P'}(F_i', P')
-$$
-where $F_i' = F_i \otimes_P P' = F_i \otimes_R R'$. Since
-$A$ is flat over $R$ we see that $F'_\bullet$ is a projective resolution
-of $A' = P'/I'$ where $I' = I \otimes_R R' \subset P'$.
-Thus $\Hom_{P'}(F'_\bullet, P')$ computes $R\Hom_{P'}(A', P')$.
-We conclude that the source and target of $b_0$ are
-isomorphic in $D(P)$.
-FIXME: Proof this isomorphism is given by $b_0$.
-\end{proof}
+base change map.
 
 \begin{lemma}[Poor man's base change]
 \label{lemma-base-change-locally}
@@ -8405,44 +8397,26 @@ Y' \ar[r]^g & Y
 }
 $$
 be a cartesian diagram of compactifyable schemes over $S$.
-Assume $f$ is flat.
-Let $U' \subset X'$ be an affine open mapping into an affine
-open of $Y$ and $X$. Then $L(g')^*f^!\mathcal{O}_Y$ and
-$(f')^!\mathcal{O}_{Y'}$
-restrict to isomorphic complexes on $U'$.
+Let $E \in D^+_\QCoh(\mathcal{O}_Y)$.
+If $f$ is flat, then $L(g')^*f^!E$ and $(f')^!Lg^*E$
+restrict to isomorphic objects of $D(\mathcal{O}_{U'})$
+for $U' \subset X'$ be affine open mapping into affine opens of $Y$ and $X$.
 \end{lemma}
 
 \begin{proof}
 By our assumptions we immediately reduce to the case where
-$X$, $Y$, $Y'$, and $X'$ are affine. Say $Y = \Spec(R)$,
-$Y' = \Spec(R')$, $X = \Spec(A)$, and we choose a presentation
-$A = P/I$ with $P = R[x_1, \ldots, x_n]$. By
+$X$, $Y$, $Y'$, and $X'$ are affine.
+Say $Y = \Spec(R)$, $Y' = \Spec(R')$, $X = \Spec(A)$, and $X' = \Spec(A')$.
+Then $A' = A \otimes_R R'$. Let
+$E$ correspond to $K \in D^+(R)$.
+Denoting $\varphi : R \to A$ and $\varphi' : R' \to A'$
+the given maps we see from
 Remark \ref{remark-local-calculation-shriek}
-it suffices to show the canonical map
-$$
-R\Hom(A, P) \otimes_A^\mathbf{L} A'
-\longrightarrow
-R\Hom(A', P')
-$$
-is an isomorphism where $P' = P \otimes_R R'$ and $A' = A \otimes_R R'$.
-The $P$-module $A = P/I$ is a perfect by
-More on Algebra, Lemma \ref{more-algebra-lemma-perfect-over-polynomial-ring}.
-Choose a resolution of $P/I$ by
-a bounded complex $F_\bullet$ of finite projective $P$-modules.
-Then we see that $R\Hom_P(P/I, P)$ is represented
-by the finite complex with terms $\Hom_P(F_i, P)$ which are finite
-projective $P$-modules, in particular $R$-flat. Thus
-$R\Hom_P(P/I, P) \otimes_R^\mathbf{L} R'$
-is represented by the complex with terms
-$$
-\Hom_P(F_i, P) \otimes_R R' = \Hom_{P'}(F_i', P')
-$$
-where $F_i' = F_i \otimes_R R'$. Since
-$P/I$ is flat over $R$ we see that $F'_\bullet$ is a projective resolution
-of $A' = P'/I'$ where $I' = I \otimes_R R' \subset P'$.
-Thus $\Hom_{P'}(F'_\bullet, P')$ computes the image of
-$R\Hom(A', P')$ in $D(P')$ and we conclude the desired
-result is true.
+that $L(g')^*f^!E$ and $(f')^!Lg^*E$ correspond to
+$\varphi^!(K) \otimes_A^\mathbf{L} A'$ and
+$(\varphi')^!(K \otimes_R^\mathbf{L} R')$.
+The result follows from
+Lemma \ref{lemma-bc-flat}.
 \end{proof}
 
 
