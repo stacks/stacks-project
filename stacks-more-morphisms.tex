@@ -633,6 +633,483 @@ the discussion in the first paragraph of the proof.
 
 
 
+\section{Lifting affines}
+\label{section-lifting-affines}
+
+\noindent
+Consider a solid diagram
+$$
+\xymatrix{
+W \ar[d] \ar@{..>}[r] & W' \ar@{..>}[d] \\
+\mathcal{X} \ar[r] & \mathcal{X}'
+}
+$$
+where $\mathcal{X} \subset \mathcal{X}'$ is a thickening of algebraic stacks,
+$W$ is an affine scheme and $W \to \mathcal{X}$ is smooth. The question
+we address in this section is whether we can find $W'$ and the dotted
+arrows so that the square is cartesian and $W' \to \mathcal{X}'$ is smooth.
+We do not know the answer in general, but if $\mathcal{X} \subset \mathcal{X}'$
+is a first order thickening we will prove the answer is yes.
+
+\medskip\noindent
+To study this problem we introduce the following category.
+
+\begin{remark}[Category of lifts]
+\label{remark-gerbe-of-lifts}
+Consider a diagram
+$$
+\xymatrix{
+W \ar[d]_x \\
+\mathcal{X} \ar[r] & \mathcal{X}'
+}
+$$
+where $\mathcal{X} \subset \mathcal{X}'$ is a thickening of algebraic stacks,
+$W$ is an algebraic space, and $W \to \mathcal{X}$ is smooth.
+We will construct a category $\mathcal{C}$ and a functor
+$$
+p : \mathcal{C} \longrightarrow W_{spaces, \etale}
+$$
+(see Properties of Spaces, Definition
+\ref{spaces-properties-definition-spaces-etale-site} for notation)
+as follows. An object of $\mathcal{C}$ will be a system
+$(U, U', a, i, y', \alpha)$
+which forms a commutative diagram
+\begin{equation}
+\label{equation-object}
+\vcenter{
+\xymatrix{
+U \ar[d]_a \ar[r]_i & U' \ar[dd]^{x'} \\
+W \ar[d]_x & \\
+\mathcal{X} \ar[r] & \mathcal{X}'
+}
+}
+\end{equation}
+with commutativity witnessed by the $2$-morphism
+$\alpha : x \circ a \to x' \circ i$ such that
+$U$ and $U'$ are algebraic spaces,
+$a : U \to W$ is \'etale, $x' : U' \to \mathcal{X}'$ is smooth,
+and such that $U = \mathcal{X} \times_{\mathcal{X}'} U'$.
+In particular $U \subset U'$ is a thickening.
+A morphism
+$$
+(U, U', a, i, x', \alpha) \to (V, V', b, j, y', \beta)
+$$
+is given by $(f, f', \gamma)$ where $f : U \to V$ is a morphism
+over $W$, $f' : U' \to V'$ is a morphism whose restriction
+to $U$ gives $f$, and $\gamma : x' \circ f' \to y'$ is a $2$-morphism
+witnessing the commutativity in right triangle of the diagram below
+\begin{equation}
+\label{equation-morphism}
+\vcenter{
+\xymatrix{
+& V \ar[ld]_f \ar[ldd]^b \ar[rr]_j & & V' \ar[ld]_{f'} \ar[lddd]^{y'} \\
+U \ar[d]_a \ar[rr]_i & & U' \ar[dd]_{x'} \\
+W \ar[d]_x & \\
+\mathcal{X} \ar[rr] & & \mathcal{X}'
+}
+}
+\end{equation}
+Finally, we require that $\gamma$ is compatible with $\alpha$ and $\beta$:
+in the calculus of $2$-categories of Categories, Sections
+\ref{categories-section-formal-cat-cat} and
+\ref{categories-section-2-categories} this reads
+$$
+\beta = (\gamma \star \text{id}_j) \circ (\alpha \star \text{id}_f)
+$$
+(more succintly: $\beta = j^*\gamma \circ f^*\alpha$).
+Another formulation is that objects are commutative diagrams
+(\ref{equation-object}) with some additional properties and
+morphisms are commutative diagrams
+(\ref{equation-morphism}) in the category $\textit{Spaces}/\mathcal{X}'$
+introduced in Properties of Stacks, Remark
+\ref{stacks-properties-remark-representable-over}.
+This makes it clear that $\mathcal{C}$ is a category
+and that the rule $p : \mathcal{C} \to W_{spaces, \etale}$
+sending $(U, U', a, i, x', \alpha)$ to $a : U \to W$
+is a functor.
+\end{remark}
+
+\begin{lemma}
+\label{lemma-morphisms-lifts-etale}
+For any morphism (\ref{equation-morphism}) the map $f' : V' \to U'$ is \'etale.
+\end{lemma}
+
+\begin{proof}
+Namely $f : V \to U$ is \'etale as a morphism in $W_{spaces, \etale}$
+and we can apply
+Lemma \ref{lemma-deform-property-fp-over-ft} because $U' \to \mathcal{X}'$
+and $V' \to \mathcal{X}'$ are smooth and
+$U = \mathcal{X} \times_{\mathcal{X}'} U'$ and
+$V = \mathcal{X} \times_{\mathcal{X}'} V'$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-gerbe-of-lifts-fibred}
+The category $p : \mathcal{C} \to W_{spaces, \etale}$ constructed
+in Remark \ref{remark-gerbe-of-lifts} is fibred in groupoids.
+\end{lemma}
+
+\begin{proof}
+We claim the fibre categories of $p$ are groupoids.
+If $(f, f', \gamma')$ as in (\ref{equation-morphism})
+is a morphism such that $f : U \to V$ is an isomorphism, then
+$f'$ is an isomorphism by Lemma \ref{lemma-deform-property-fp-over-ft}
+and hence $(f, f', \gamma')$ is an isomorphism.
+
+\medskip\noindent
+Consider a morphism $f : V \to U$ in $W_{spaces, \etale}$
+and an object $\xi = (U, U', a, i, x', \alpha)$
+of $\mathcal{C}$ over $U$. We are going to construct the ``pullback''
+$f^*\xi$ over $V$. 
+Namely, set $b = a \circ f$. Let $f' : V' \to U'$ be the \'etale morphism
+whose restriction to $V$ is $f$ (More on Morphisms of Spaces,
+Lemma \ref{spaces-more-morphisms-lemma-topological-invariance}).
+Denote $j : V \to V'$ the corresponding thickening.
+Let $y' = x' \circ f'$ and $\gamma = \text{id} : x' \circ f' \to y'$.
+Set
+$$
+\beta = \alpha \star \text{id}_f :
+x \circ b = x \circ a \circ f \to
+x' \circ i \circ f = x' \circ f' \circ j = y' \circ j
+$$
+It is clear that $(f, f', \gamma) : (V, V', b, j, y', \beta) \to
+(U, U', a, i, x', \alpha)$ is a morphism as in
+(\ref{equation-morphism}). The morphisms $(f, f', \gamma)$
+so constructed are strongly cartesian
+(Categories, Definition \ref{categories-definition-cartesian-over-C}).
+We omit the detailed proof, but essentially the reason is that
+given a morphism
+$(g, g', \epsilon) : (Y, Y', c, k, z', \delta) \to (U, U', a, i, x', \alpha)$
+in $\mathcal{C}$ such that $g$ factors as $g = f \circ h$ for some
+$h : Y \to V$, then we get a unique factorization $g' = f' \circ h'$
+from More on Morphisms of Spaces,
+Lemma \ref{spaces-more-morphisms-lemma-topological-invariance}
+and after that one can produce the necessary $\zeta$ such that
+$(h, h', \zeta) :  (Y, Y', c, k, z', \delta) \to
+(V, V', b, j, y', \beta)$ is a morphism of $\mathcal{C}$
+with $(g, g', \epsilon) = (f, f', \gamma) \circ (h, h', \zeta)$.
+
+\medskip\noindent
+Therefore $p : \mathcal{C} \to W_\etale$ is a fibred
+category (Categories, Definition \ref{categories-definition-fibred-category}).
+Combined with the fact that the fibre categories are groupoids
+seen above we conclude that $p : \mathcal{C} \to W_\etale$
+is fibred in groupoids by Categories, Lemma
+\ref{categories-lemma-fibred-groupoids}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-gerbe-of-lifts-stack}
+The category $p : \mathcal{C} \to W_{spaces, \etale}$ constructed
+in Remark \ref{remark-gerbe-of-lifts} is a stack in groupoids.
+\end{lemma}
+
+\begin{proof}
+By Lemma \ref{lemma-gerbe-of-lifts-fibred} we see the first condition
+of Stacks, Definition \ref{stacks-definition-stack-in-groupoids} holds.
+As is customary we check descent of objects and we leave it to the reader
+to check descent of morphisms. Thus suppose we have $a : U \to W$
+in $W_{spaces, \etale}$, a covering $\{U_k \to U\}_{k \in K}$ in
+$W_{spaces, \etale}$, objects $\xi_k = (U_k, U'_k, a_k, i_k, x'_k, \alpha_k)$
+of $\mathcal{C}$ over $U_k$, and morphisms
+$$
+\varphi_{kk'} = (f_{kk'}, f'_{kk'}, \gamma_{kk'}) :
+\xi_k|_{U_k \times_U U_{k'}} \to
+\xi_{k'}|_{U_k \times_U U_{k'}}
+$$
+between restrictions satisfying the cocycle condition. In order to prove
+effectivity we may first refine the covering. Hence we may assume each
+$U_k$ is a scheme (even an affine scheme if you like). Let us write
+$$
+\xi_k|_{U_k \times_U U_{k'}} =
+(U_k \times_U U_{k'}, U'_{kk'}, a_{kk'}, x'_{kk'}, \alpha_{kk'})
+$$
+Then we get an \'etale (by Lemma \ref{lemma-morphisms-lifts-etale}) morphism
+$s_{kk'} : U'_{kk'} \to U'_k$
+as the second component of the morphism
+$x_k|_{U_k \times_U U_{k'}} \to x_k$ of $\mathcal{C}$.
+Similarly we obtain an \'etale morphism $t_{kk'} : U'_{kk'} \to U'_{k'}$
+by looking at the second component of the composition
+$$
+\xi_k|_{U_k \times_U U_{k'}} \xrightarrow{\varphi_{kk'}}
+\xi_{k'}|_{U_k \times_U U_{k'}} \to \xi_{k'}
+$$
+We claim that
+$$
+j :
+\coprod\nolimits_{(k, k') \in K \times K} U'_{kk'}
+\xrightarrow{(\coprod s_{kk'}, \coprod t_{kk'})}
+(\coprod\nolimits_{k \in K} U'_k) \times (\coprod\nolimits_{k \in K} U'_k)
+$$
+is an \'etale equivalence relation. First, we have already seen
+that the components $s, t$ of the displayed morphism are \'etale.
+The base change of the morphism $j$ by
+$(\coprod U_k) \times (\coprod U_k) \to (\coprod U'_k) \times (\coprod U'_k)$
+is a monomorphism because it is the map
+$$
+\coprod\nolimits_{(k, k') \in K \times K} U_k \times_U U_{k'}
+\longrightarrow
+(\coprod\nolimits_{k \in K} U_k) \times (\coprod\nolimits_{k \in K} U_k)
+$$
+Hence $j$ is a monomorphism by More on Morphisms, Lemma
+\ref{more-morphisms-lemma-properties-that-extend-over-thickenings}.
+Finally, symmetry of the relation $j$ comes from the fact that
+$\varphi_{kk'}^{-1}$ is the ``flip'' of $\varphi_{k'k}$ (see
+Stacks, Remarks \ref{stacks-remarks-definition-descent-datum})
+and transitivity comes from the cocycle condition (details omitted).
+Thus the quotient of $\coprod U'_k$ by $j$ is an algebraic space $U'$
+(Spaces, Theorem \ref{spaces-theorem-presentation}).
+Above we have already shown that there is a thickening
+$i : U \to U'$ as we saw that the restriction of $j$ on
+$\coprod U_k$ gives $(\coprod U_k) \times_U (\coprod U_k)$.
+Finally, if we temporarily view the $1$-morphisms
+$x'_k : U'_k \to \mathcal{X}'$ as objects of the stack
+$\mathcal{X}'$ over $U'_k$ then we see that these come endowed with a
+descent datum with respect to the \'etale covering
+$\{U'_k \to U'\}$ given by the third component $\gamma_{kk'}$
+of the morphisms $\varphi_{kk'}$ in $\mathcal{C}$.
+Since $\mathcal{X}'$ is a stack
+this descent datum is effective and translating back we obtain
+a $1$-morphism $x' : U' \to \mathcal{X}'$ such that the compositions
+$U'_k \to U' \to \mathcal{X}'$ come equipped with isomorphisms to $x'_k$
+compatible with $\gamma_{kk'}$. This means that the morphisms
+$\alpha_k : x \circ a_k \to x'_k \circ i_k$ glue to a morphism
+$\alpha : x \circ a \to x' \circ i$. Then $\xi = (U, U', a, i, x', \alpha)$
+is the desired object over $U$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-etale-local-lifts}
+Let $\mathcal{X} \subset \mathcal{X}'$ be a thickening of algebraic stacks.
+Let $W$ be an algebraic space and let $W \to \mathcal{X}$ be a smooth morphism.
+There exists an \'etale covering $\{W_i \to W\}_{i \in I}$ and for each $i$
+a cartesian diagram
+$$
+\xymatrix{
+W_i \ar[r] \ar[d] & W_i' \ar[d] \\
+\mathcal{X} \ar[r] & \mathcal{X}'
+}
+$$
+with $W_i' \to \mathcal{X}'$ smooth.
+\end{lemma}
+
+\begin{proof}
+Choose a scheme $U'$ and a surjective smooth morphism $U' \to \mathcal{X}'$.
+As usual we set $U = \mathcal{X} \times_{\mathcal{X}'} U'$. Then
+$U \to \mathcal{X}$ is a surjective smooth morphism. Therefore the base change
+$$
+V = W \times_{\mathcal{X}} U \longrightarrow W
+$$
+is a surjective smooth morphism of algebraic spaces.
+By Topologies on Spaces, Lemma
+\ref{spaces-topologies-lemma-etale-dominates-smooth}
+we can find an \'etale covering $\{W_i \to W\}$ such
+that $W_i \to W$ factors through $V \to W$.
+After covering $W_i$ by affines (Properties of Spaces, Lemma
+\ref{spaces-properties-lemma-cover-by-union-affines})
+we may assume each $W_i$ is affine. We may and do replace $W$ by $W_i$
+which reduces us to the situation discussed in the next paragraph.
+
+\medskip\noindent
+Assume $W$ is affine and the given morphism $W \to \mathcal{X}$ factors
+through $U$. Picture
+$$
+W \xrightarrow{i} U \to \mathcal{X}
+$$
+Since $W$ and $U$ are smooth over $\mathcal{X}$ we see that
+$i$ is locally of finite type (Morphisms of Stacks, Lemma
+\ref{stacks-morphisms-lemma-finite-type-permanence}).
+After replacing $U$ by $\mathbf{A}^n_U$ we may assume
+that $i$ is an immersion, see
+Morphisms, Lemma \ref{morphisms-lemma-quasi-affine-finite-type-over-S}.
+By Morphisms of Stacks,
+Lemma \ref{stacks-morphisms-lemma-lci-permanence}
+the morphism $i$ is a local complete intersection.
+Hence $i$ is a Koszul-regular immersion (as defined in
+Divisors, Definition \ref{divisors-definition-regular-immersion})
+by More on Morphisms, Lemma \ref{more-morphisms-lemma-lci}.
+
+\medskip\noindent
+We may still replace $W$ by an affine open covering.
+For every point $w \in W$ we can choose an affine open
+$U'_w \subset U'$ such that if $U_w \subset U$ is the
+corresponding affine open, then $w \in i^{-1}(U_w)$ and
+$i^{-1}(U_w) \to U_w$ is a closed immersion cut out
+by a Koszul-regular sequence
+$f_1, \ldots, f_r \in \Gamma(U_w, \mathcal{O}_{U_w})$.
+This follows from the definition of Koszul-regular immersions
+and Divisors, Lemma \ref{divisors-lemma-regular-ideal-sheaf-scheme}.
+Set $W_w = i^{-1}(U_w)$; this is an affine open neighbourhood
+of $w \in W$.
+Choose lifts $f'_1, \ldots, f'_r \in \Gamma(U'_w, \mathcal{O}_{U'_w})$
+of $f_1, \ldots, f_r$. This is possible as $U_w \to U'_w$
+is a closed immersion of affine schemes.
+Let $W'_w \subset U'_w$ be the closed subscheme cut out by
+$f'_1, \ldots, f'_r$.
+We claim that $W'_w \to \mathcal{X}'$ is smooth.
+The claim finishes the proof as
+$W_w = \mathcal{X} \times_{\mathcal{X}'} W'_w$
+by construction.
+
+\medskip\noindent
+To check the claim it suffices to check that the base change
+$W'_w \times_{\mathcal{X}'} X' \to X'$ is smooth for every
+affine scheme $X'$ smooth over $\mathcal{X}'$. Choose an
+\'etale morphism
+$$
+Y' \to U'_w \times_{\mathcal{X}'} X'
+$$
+with $Y'$ affine. Because $U'_w \times_{\mathcal{X}'} X'$ is covered
+by the images of such morphisms, it is enough to show that the closed
+subscheme $Z'$ of $Y'$ cut out by $f'_1, \ldots, f'_r$ is smooth over $X'$.
+Picture
+$$
+\xymatrix{
+Z' \ar[r] \ar[d] & Y' \ar[d] \\
+W'_w \times_{\mathcal{X}'} X' \ar[d] \ar[r] &
+U'_w \times_{\mathcal{X}'} X' \ar[d] \ar[r] & X' \\
+W'_w = V(f'_1, \ldots, f'_r) \ar[r] & U'_w
+}
+$$
+Set $X = \mathcal{X} \times_{\mathcal{X}'} X'$,
+$Y = X \times_{X'} Y' = \mathcal{X} \times_{\mathcal{X}'} Y'$, and
+$Z = Y \times_{Y'} Z' = X \times_{X'} Z' =
+\mathcal{X} \times_{\mathcal{X}'} Z'$.
+Then $(Z \subset Z') \to (Y \subset Y') \subset (X \subset X')$
+are (cartesian) morphisms of thickenings of affine schemes and
+we are given that $Z \to X$ and $Y' \to X'$ are smooth.
+Finally, the sequence of functions $f'_1, \ldots, f'_r$
+map to a Koszul-regular sequence in $\Gamma(Y', \mathcal{O}_{Y'})$ by
+More on Algebra, Lemma \ref{more-algebra-lemma-koszul-regular-flat-base-change}
+because $Y' \to U'_w$ is smooth and hence flat.
+By More on Algebra, Lemma \ref{more-algebra-lemma-cut-by-koszul}
+(and the fact that Koszul-regular sequences are quasi-regular sequences
+by More on Algebra, Lemmas \ref{more-algebra-lemma-regular-koszul-regular},
+\ref{more-algebra-lemma-koszul-regular-H1-regular}, and
+\ref{more-algebra-lemma-H1-regular-quasi-regular})
+we conclude that $Z' \to X'$ is smooth as desired.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-etale-local-lifts-isomorphic}
+Let $\mathcal{X} \subset \mathcal{X}'$ be a thickening of algebraic stacks.
+Consider a commutative diagram
+$$
+\xymatrix{
+W'' \ar[d]_{x''} & W \ar[l] \ar[r] \ar[d]_x & W' \ar[d]^{x'} \\
+\mathcal{X}' & \mathcal{X} \ar[l] \ar[r] & \mathcal{X}'
+}
+$$
+with cartesian squares where $W', W, W''$ are algebraic spaces and
+the vertical arrows are smooth. Then there exist
+\begin{enumerate}
+\item an \'etale covering $\{f'_k : W'_k \to W'\}_{k \in K}$,
+\item \'etale morphisms $f''_k : W'_k \to W''$, and
+\item $2$-morphisms $\gamma_k : x'' \circ f''_k \to x' \circ f'_k$
+\end{enumerate}
+such that (a) $(f'_k)^{-1}(W) = (f''_k)^{-1}(W)$, (b)
+$f'_k|_{(f'_k)^{-1}(W)} = f''_k|_{(f''_k)^{-1}(W)}$, and
+(c) pulling back $\gamma_k$ to the closed subscheme of (a)
+agrees with the $2$-morphism given by the commutativity of
+the initial diagram over $W$.
+\end{lemma}
+
+\begin{proof}
+Denote $i : W \to W'$ and $i'' : W \to W''$ the given thickenings.
+The commutativity of the diagram in the statement of the lemma
+means there is a $2$-morphism $\delta : x' \circ i' \to x'' \circ i''$
+This is the $2$-morphism referred to in part (c) of the statement.
+Consider the algebraic space
+$$
+I' = W' \times_{x', \mathcal{X}', x''} W''
+$$
+with projections $p : I' \to W'$ and $p' : I' \to W''$.
+Observe that there is a ``universal'' $2$-morphism
+$\gamma : x' \circ p \to x'' \circ p'$ (we will use this later).
+The choice of $\delta$ defines a morphism
+$$
+\xymatrix{
+W \ar[rr]_\delta & & I' \ar[ld]^p \ar[rd]_{p'} \\
+& W' & & W''
+}
+$$
+such that the compositions $W \to I' \to W'$ and $W \to I' \to W''$
+are $i : W \to W'$ and $i' : W \to W''$.
+Since $x''$ is smooth, the morphism $p : I' \to W'$ is smooth
+as a base change of $x''$.
+
+\medskip\noindent
+Suppose we can find an \'etale covering $\{f'_k : W'_k \to W'\}$
+and morphisms $\delta_k : W'_k \to I'$ such that the restriction
+of $\delta_k$ to $W_k = (f'_k)^{-1}$ is equal to $\delta \circ f_k$
+where $f_k = f'_k|_{W_k}$. Picture
+$$
+\xymatrix{
+W_k \ar[r]^{f_k} \ar[d] & W \ar[r]^\delta & I' \ar[d]^p \\
+W'_k \ar[rr]^{f'_k} \ar[rru]^{\delta_k} & & W'
+}
+$$
+In other words, we want to be able to extend the given section
+$\delta : W \to I'$ of $p$ to a section over $W'$ after possibly
+replacing $W'$ by an \'etale covering.
+
+\medskip\noindent
+If this is true, then we can set $f''_k = p' \circ \delta_k$
+and $\gamma_k = \gamma \star \text{id}_{\delta_k}$ (more succintly
+$\gamma_k = \delta_k^*\gamma$). Namely, the only thing left to show
+at this is that the morphism $f''_k$ is \'etale.
+By construction the morphism $x' \circ p'$ is $2$-isomorphic
+to $x'' \circ p''$. Hence $x'' \circ f''_k$ is $2$-isomorphic
+to $x' \circ f'_k$. We conclude that the composition
+$$
+W'_k \xrightarrow{f''_k} W'' \xrightarrow{x''} \mathcal{X}'
+$$
+is smooth because $x' \circ f'_k$ is so.
+As $f_k$ is \'etale we conclude $f''_k$ is \'etale
+by Lemma \ref{lemma-deform-property-fp-over-ft}.
+
+\medskip\noindent
+If the thickening is a first order thickening, then we can
+choose any \'etale covering $\{W'_k \to W'\}$ with $W_k'$ affine.
+Namely, since $p'$ is smooth we see that $p'$ is formally smooth by the
+infinitesimal lifting criterion (More on Morphisms of Spaces, Lemma
+\ref{spaces-more-morphisms-lemma-smooth-formally-smooth}).
+As $W_k$ is affine and as $W_k \to W'_k$ is a first order thickening
+(as a base change of $\mathcal{X} \to \mathcal{X}'$, see
+Lemma \ref{lemma-base-change-thickening}) we get $\delta_k$ as
+desired.
+
+\medskip\noindent
+In the general case the existence of the covering and the morphisms
+$\delta_k$ follows from More on Morphisms of Spaces, Lemma
+\ref{spaces-more-morphisms-lemma-smooth-strong-lift}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-gerbe-of-lifts}
+The category $p : \mathcal{C} \to W_{spaces, \etale}$ constructed
+in Remark \ref{remark-gerbe-of-lifts} is a gerbe.
+\end{lemma}
+
+\begin{proof}
+In Lemma \ref{lemma-gerbe-of-lifts-stack}
+we have seen that it is a stack in groupoids.
+Thus it remains to check conditions (2) and (3) of
+Stacks, Definition \ref{stacks-definition-gerbe}.
+Condition (2) follows from
+Lemma \ref{lemma-etale-local-lifts}.
+Condition (3) follows from
+Lemma \ref{lemma-etale-local-lifts-isomorphic}.
+\end{proof}
+
+
+
+
+
+
+
+
+
 \input{chapters}
 
 \bibliography{my}
