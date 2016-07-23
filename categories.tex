@@ -2371,16 +2371,50 @@ nonempty sets.
 
 
 
-\section{Limits and colimits over partially ordered sets}
+\section{Limits and colimits over preordered sets}
 \label{section-posets-limits}
 
 \noindent
-A special case of diagrams is given by systems over partially ordered sets.
+A special case of diagrams is given by systems over preordered sets.
+
+\begin{definition}
+\label{definition-directed-set}
+Let $I$ be a set and let $\leq$ be a binary relation on $I$.
+\begin{enumerate}
+\item We say $\leq$ is a {\it preorder} if it is
+transitive (if $i \leq j$ and $j \leq k$ then $i \leq k$) and
+reflexive ($i \leq i$ for all $i \in I$).
+\item A {\it preordered set} is a set endowed with a preorder.
+\item A {\it directed set} is a preordered set $(I, \leq)$
+such that $I$ is not empty and such that $\forall i, j \in I$,
+there exists $k \in I$ with $i \leq k, j \leq k$.
+\item We say $\leq$ is a {\it partial order} if it is a preorder
+which is antisymmetric (if $i \leq j$ and $j \leq i$, then $i = j$).
+\item A {\it partially ordered set} is a set endowed with a partial order.
+\item A {\it directed partially ordered set} is a direct set
+whose ordering is a partial order.
+\end{enumerate}
+\end{definition}
+
+\noindent
+It is customary to drop the $\leq$ from the notation when talking
+about preordered sets, that is, one speaks of
+the preordered set $I$ rather than of the preordered set $(I, \leq)$.
+Given a preordered set $I$ the symbol $\geq$ is defined by
+the rule $i \geq j \Leftrightarrow j \leq i$ for all $i, j \in I$.
+The phrase ``partially ordered set'' is sometimes abbreviated to ``poset''.
+
+\medskip\noindent
+Given a preordered set $I$ we can construct a category: the objects are
+the elements of $I$, there is exactly one morphism $i \to i'$
+if $i \leq i'$, and otherwise none. Conversely, given a category $\mathcal{C}$
+with at most one arrow between any two objects, the set
+$\Ob(\mathcal{C})$ is endowed with a preorder defined by the rule
+$x \leq y \Leftrightarrow \Mor_\mathcal{C}(x, y) \not = \emptyset$.
 
 \begin{definition}
 \label{definition-system-over-poset}
-Let $(I, \geq)$ be a partially ordered set.
-Let $\mathcal{C}$ be a category.
+Let $(I, \leq)$ be a preordered set. Let $\mathcal{C}$ be a category.
 \begin{enumerate}
 \item A {\it system over $I$ in $\mathcal{C}$}, sometimes called a
 {\it inductive system over $I$ in $\mathcal{C}$} is given by
@@ -2390,10 +2424,10 @@ morphism $f_{ii'} : M_i \to M_{i'}$ such that $f_{ii}
 whenever $i \leq i' \leq i''$.
 \item An {\it inverse system over $I$ in $\mathcal{C}$},
 sometimes called a {\it projective system over $I$ in $\mathcal{C}$}
-is given by objects $M_i$ of $\mathcal{C}$ and for every $i \geq i'$ a
+is given by objects $M_i$ of $\mathcal{C}$ and for every $i' \leq i$ a
 morphism $f_{ii'} : M_i \to M_{i'}$ such that $f_{ii}
 = \text{id}$ and such that $f_{ii''} = f_{i'i''} \circ f_{i i'}$
-whenever $i \geq i' \geq i''$. (Note reversal of inequalities.)
+whenever $i'' \leq i' \leq i$. (Note reversal of inequalities.)
 \end{enumerate}
 We will say $(M_i, f_{ii'})$ is a (inverse) system over $I$ to
 denote this. The maps $f_{ii'}$ are sometimes
@@ -2402,10 +2436,10 @@ called the {\it transition maps}.
 
 \noindent
 In other words a system over $I$ is just a diagram
-$M : \mathcal{I} \to \mathcal{C}$ where $\mathcal{I}$ is the category with
-objects $I$ and a unique arrow $i \to i'$ if and only
-$i \leq i'$. And an inverse system is a diagram
-$M : \mathcal{I}^{opp} \to \mathcal{C}$.
+$M : \mathcal{I} \to \mathcal{C}$ where $\mathcal{I}$ is the category
+we associated to $I$ above: objects are elements of $I$ and
+there is a unique arrow $i \to i'$ in $\mathcal{I}$ if and only $i \leq i'$.
+An inverse system is a diagram $M : \mathcal{I}^{opp} \to \mathcal{C}$.
 From this point of view we could take (co)limits of any (inverse)
 system over $I$. However, it is customary to take
 {\it only colimits of systems over $I$} and
@@ -2424,12 +2458,52 @@ $$
 $$
 i.e., as the limit of the corresponding diagram.
 
+\begin{remark}
+\label{remark-preorder-versus-partial-order}
+Let $I$ be a preordered set. From $I$ we can construct a canonical
+partially ordered set $\overline{I}$ and an order preserving map
+$\pi : I \to \overline{I}$. Namely, we can define an equivalence
+relation $\sim$ on $I$ by the rule
+$$
+i \sim j \Leftrightarrow (i \leq j\text{ and }j \leq i).
+$$
+We set $\overline{I} = I/\sim$ and we let $\pi : I \to \overline{I}$
+be the quotient map. Finally, $\overline{I}$ comes with a unique
+partial ordering such that
+$\pi(i) \leq \pi(j) \Leftrightarrow i \leq j$.
+Observe that if $I$ is a directed set, then $\overline{I}$
+is a directed partially ordered set.
+Given an (inverse) system $N$ over $\overline{I}$ we obtain an
+(inverse) system $M$ over $I$ by setting $M_i = N_{\pi(i)}$.
+This construction defines a functor between the category
+of inverse systems over $I$ and $\overline{I}$.
+In fact, this is an equivalence.
+The reason is that if $i \sim j$, then for any system
+$M$ over $I$ the maps $M_i \to M_j$ and $M_j \to M_i$ are
+mutually inverse isomorphisms. More precisely, choosing
+a section $s : \overline{I} \to I$ of $\pi$ a quasi-inverse
+of the functor above sends $M$ to $N$ with
+$N_{\overline{i}} = M_{s(\overline{i})}$.
+Finally, this correspondence is compatible with colimits of systems:
+if $M$ and $N$ are related as above and
+if either $\colim_{\overline{I}} N$ or $\colim_I M$ exists
+then so does the other and
+$\colim_{\overline{I}} N = \colim_I M$.
+Similar results hold for inverse systems and limits of inverse systems.
+\end{remark}
+
+\noindent
+The upshot of Remark \ref{remark-preorder-versus-partial-order}
+is that while computing a colimit of a system or a limit of
+an inverse system, we may always assume the preorder is a partial order.
+
 \begin{definition}
 \label{definition-directed-system}
-With notation as above.
-We say the system (resp.\ inverse system) $(M_i, f_{ii'})$ is a
+Let $I$ be a preordered set. We say a system (resp.\ inverse system)
+$(M_i, f_{ii'})$ is a
 {\it directed system} (resp.\ {\it directed inverse system})
-if the partially ordered set $I$ is {\it directed}: $I$ is nonempty and
+if $I$ is a directed set
+(Definition \ref{definition-directed-set}): $I$ is nonempty and
 for all $i_1, i_2 \in I$ there exists $i\in I$ such that
 $i_1 \leq i$ and $i_2 \leq i$.
 \end{definition}
@@ -2439,12 +2513,13 @@ In this case the colimit is sometimes (unfortunately)
 called the ``direct limit''. We will not use this last
 terminology. It turns out that diagrams over a filtered
 category are no more general than directed systems in the
-following sense.
+following sense. Before we do so we discuss the difference
+between
 
 \begin{lemma}
 \label{lemma-directed-category-system}
 Let $\mathcal{I}$ be a filtered index category.
-There exists a directed partially ordered set $(I, \geq)$
+There exists a directed set $I$
 and a system $(x_i, \varphi_{ii'})$ over $I$ in $\mathcal{I}$
 with the following properties:
 \begin{enumerate}
@@ -2477,12 +2552,13 @@ of Lemma \ref{lemma-functorial-limit} is an isomorphism.
 \end{lemma}
 
 \begin{proof}
-As mentioned in the beginning of the section, we may view
-partially ordered sets as categories and systems as functors.
-Throughout the proof, we will freely shift between these two points
-of view.
+As explained in the text following
+Definition \ref{definition-system-over-poset}, we may view
+preordered sets as categories and systems as functors.
+Throughout the proof, we will freely shift between these two points of view.
 We prove the first statement by constructing a category
-$\mathcal{I}_0$, corresponding to a directed set, and a cofinal
+$\mathcal{I}_0$, corresponding to a directed set\footnote{In fact,
+our construction will produce a directed partially ordered set.}, and a cofinal
 functor $M_0 : \mathcal{I}_0 \to \mathcal{I}$. Then, by
 Lemma \ref{lemma-cofinal}, the colimit of a diagram
 $M : \mathcal{I} \to \mathcal{C}$ coincides with the
@@ -2604,7 +2680,7 @@ is nonempty.
 \begin{proof}
 The two statements are equivalent by
 Lemma \ref{lemma-directed-category-system}.
-Let $I$ be a directed partially ordered set and let $(S_i)_{i \in I}$
+Let $I$ be a directed set and let $(S_i)_{i \in I}$
 be an inverse system of finite nonempty sets over $I$.
 Let us say that a {\it subsystem} $T$ is a family $T = (T_i)_{i \in I}$
 of nonempty subsets $T_i \subset S_i$ such that $T_{i'}$ is mapped
@@ -2621,7 +2697,7 @@ apply Zorn's lemma to see that $\mathcal{T}$ has minimal elements.
 \medskip\noindent
 Let's analyze what a minimal element $T \in \mathcal{T}$ looks like.
 First observe that the maps $T_{i'} \to T_i$ are all surjective.
-Namely, as $I$ is a directed partially ordered set and $T_i$ is finite,
+Namely, as $I$ is a directed set and $T_i$ is finite,
 the intersection $T'_i = \bigcap_{i' \geq i} \Im(T_{i'} \to T_i)$
 is nonempty. Thus $T' = (T'_i)$ is a subsystem contained in $T$ and
 by minimality $T' = T$. Finally, we claim that $T_i$ is a singleton
@@ -2694,8 +2770,7 @@ the second case we will say it is essentially constant as a {\it pro-object}.
 This terminology is further explained in
 Remarks \ref{remark-ind-category} and \ref{remark-pro-category}.
 In fact we will often use the terminology ``essentially constant system''
-which formally speaking is only defined for systems over directed partially
-ordered sets.
+which formally speaking is only defined for systems over directed sets.
 
 \begin{definition}
 \label{definition-essentially-constant-system}
