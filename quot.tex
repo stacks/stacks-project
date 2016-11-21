@@ -125,14 +125,9 @@ T
 \end{situation}
 
 \noindent
-In Situation \ref{situation-hom} we sometimes think of the functor
+In Situation \ref{situation-hom} we sometimes think of
 $\mathit{Hom}(\mathcal{F}, \mathcal{G})$ as a functor
-$$
-\mathit{Hom}(\mathcal{F}, \mathcal{G}) :
-(\Sch/S)^{opp}
-\longrightarrow
-\textit{Sets}
-$$
+$(\Sch/S)^{opp} \to \textit{Sets}$
 endowed with a morphism
 $\mathit{Hom}(\mathcal{F}, \mathcal{G}) \to B$.
 Namely, if $T$ is a scheme over $S$, then an element of
@@ -897,7 +892,7 @@ $(T, g, \mathcal{F}) \mapsto (T, g)$ defines a $1$-morphism
 $$
 \textit{Coh}_{X/B} \longrightarrow \mathcal{S}_B
 $$
-of categories fibred in groupoids
+of stacks in groupoids
 (see Lemma \ref{lemma-coherent-stack},
 Algebraic Stacks, Section \ref{algebraic-section-split}, and
 Examples of Stacks, Section
@@ -910,9 +905,24 @@ We obtain a stack in groupoids $\textit{Coh}_{X'/B'} \to (\Sch/S)_{fppf}$
 associated to the base change $f' : X' \to B'$. In this situation
 the diagram
 $$
+\vcenter{
 \xymatrix{
 \textit{Coh}_{X'/B'} \ar[r] \ar[d] & \textit{Coh}_{X/B} \ar[d] \\
 \mathcal{S}_{B'} \ar[r] & \mathcal{S}_B
+}
+}
+\quad
+\begin{matrix}
+\text{or in} \\
+\text{another} \\
+\text{notation}
+\end{matrix}
+\quad
+\vcenter{
+\xymatrix{
+\textit{Coh}_{X'/B'} \ar[r] \ar[d] & \textit{Coh}_{X/B} \ar[d] \\
+\Sch/B' \ar[r] & \Sch/B
+}
 }
 $$
 is $2$-fibre product square. This trivial remark
@@ -2355,6 +2365,399 @@ Theorem \ref{theorem-coherent-algebraic-general}
 
 
 
+\section{Relative morphisms}
+\label{section-relative-morphisms}
+
+\noindent
+We continue the discussion from
+Criteria, Section \ref{criteria-section-relative-morphisms}.
+In that section, starting with a scheme $S$ and morphisms
+of algebraic spaces $Z \to B$ and $X \to B$ over $S$
+we constructed a functor
+$$
+\mathit{Mor}_B(Z, X) : (\Sch/B)^{opp} \longrightarrow \textit{Sets}, \quad
+T \longmapsto \{f : Z_T \to X_T\}
+$$
+We sometimes think of $\mathit{Mor}_B(Z, X)$
+as a functor $(\Sch/S)^{opp} \to \textit{Sets}$ endowed with a morphism
+$\mathit{Mor}_B(Z, X) \to B$.
+Namely, if $T$ is a scheme over $S$, then an element
+of $\mathit{Mor}_B(Z, X)(T)$ is a pair $(f, h)$
+where $h$ is a morphism $h : T \to B$
+and $f : Z \times_{B, h} T \to X \times_{B, h} T$
+is a morphism of algebraic spaces over $T$. In particular, when we say
+that $\mathit{Mor}_B(Z, X)$ is an algebraic space, we mean that the
+corresponding functor $(\Sch/S)^{opp} \to \textit{Sets}$ is an algebraic space.
+
+\begin{lemma}
+\label{lemma-Mor-into-Hilb}
+Let $S$ be a scheme. Consider morphisms
+of algebraic spaces $Z \to B$ and $X \to B$ over $S$.
+If $X \to B$ is separated and $Z \to B$ is
+of finite presentation, flat, and proper,
+then there is a natural
+injective transformation of functors
+$$
+\mathit{Mor}_B(Z, X) \longrightarrow \text{Hilb}_{Z \times_B X/B}
+$$
+which maps a morphism $f : Z_T \to X_T$ to its graph.
+\end{lemma}
+
+\begin{proof}
+Given a scheme $T$ over $B$ and a morphism $f_T : Z_T \to X_T$
+over $T$, the graph of $f$ is the morphism
+$\Gamma_f = (\text{id}, f) : Z_T \to Z_T \times_T X_T = (Z \times_B X)_T$.
+Recall that being separated, flat, proper, or finite presentation
+are properties of morphisms of algebraic spaces which are stable
+under base change (Morphisms of Spaces, Lemmas
+\ref{spaces-morphisms-lemma-base-change-separated},
+\ref{spaces-morphisms-lemma-base-change-flat},
+\ref{spaces-morphisms-lemma-base-change-proper}, and
+\ref{spaces-morphisms-lemma-base-change-finite-presentation}).
+Hence $\Gamma_f$ is a closed immersion by
+Morphisms of Spaces, Lemma \ref{spaces-morphisms-lemma-semi-diagonal}.
+Moreover, $\Gamma_f(Z_T)$ is flat, proper, and of finite presentation over $T$.
+Thus $\Gamma_f(Z_T)$ defines an element of $\text{Hilb}_{Z \times_B X/B}(T)$.
+To show the transformation is injective it suffices to show that
+two morphisms with the same graph are the same. This is true because
+if $Y \subset (Z \times_B X)_T$ is the graph of a morphism $f$, then
+we can recover $f$ by using the inverse of $\text{pr}_1|_Y : Y \to Z_T$
+composed with $\text{pr}_2|_Y$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-Mor-into-Hilb-open}
+Assumption and notation as in Lemma \ref{lemma-Mor-into-Hilb}.
+The transformation
+$\mathit{Mor}_B(Z, X) \longrightarrow \text{Hilb}_{Z \times_B X/B}$
+is representable by open immersions.
+\end{lemma}
+
+\begin{proof}
+Let $T$ be a scheme over $B$ and let $Y \subset (Z \times_B X)_T$
+be an element of $\text{Hilb}_{Z \times_B X/B}(T)$. Then we see that
+$Y$ is the graph of a morphism $Z_T \to X_T$ over $T$ if and only
+if $k = \text{pr}_1|_Y : Y \to Z_T$ is an isomorphism. By
+More on Morphisms of Spaces, Lemma
+\ref{spaces-more-morphisms-lemma-where-isomorphism}
+there exists an open subscheme $V \subset T$ such that
+for any morphism of schemes $T' \to T$ we have
+$k_{T'} : Y_{T'} \to Z_{T'}$ is an isomorphism if and
+only if $T' \to T$ factors through $V$.
+This proves the lemma.
+\end{proof}
+
+\begin{proposition}
+\label{proposition-Mor}
+Let $S$ be a scheme. Let $Z \to B$ and $X \to B$ be morphisms of algebraic
+spaces over $S$. Assume $X \to B$ is of finite presentation and separated and
+$Z \to B$ is of finite presentation, flat, and proper. Then
+$\mathit{Mor}_B(Z, X)$ is an algebraic space locally of finite
+presentation over $B$.
+\end{proposition}
+
+\begin{proof}
+Immediate consequence of
+Lemma \ref{lemma-Mor-into-Hilb-open}
+and Proposition \ref{proposition-hilb}.
+\end{proof}
+
+
+
+
+
+
+
+
+\section{The stack of algebraic spaces}
+\label{section-stack-of-spaces}
+
+\noindent
+This section continuous the discussion started in
+Examples of Stacks, Sections
+\ref{examples-stacks-section-stack-of-spaces},
+\ref{examples-stacks-section-stack-of-finite-type-spaces}, and
+\ref{examples-stacks-section-stack-in-groupoids-of-finite-type-spaces}.
+Working over $\mathbf{Z}$, the discussion therein shows
+that we have a stack in groupoids
+$$
+p'_{ft} : \textit{Spaces}'_{ft} \longrightarrow \Sch_{fppf}
+$$
+parametrizing (nonflat) families of finite type algebraic spaces.
+More precisely, an object\footnote{We always perform a replacement as in
+Examples of Stacks, Lemma \ref{examples-stacks-lemma-stack-ft-spaces}.}
+of $\textit{Spaces}'_{ft}$ is a finite type morphism $X \to S$
+from an algebraic space $X$ to a scheme $S$ and a morphism
+$(X' \to S') \to (X \to S)$ is given by a pair $(f, g)$
+where $f : X' \to X$ is a morphism of algebraic spaces
+and $g : S' \to S$ is a morphism of schemes
+which fit into a commutative diagram
+$$
+\xymatrix{
+X' \ar[d] \ar[r]_f & X \ar[d] \\
+S' \ar[r]^g & S
+}
+$$
+inducing an isomorphism $X' \to S' \times_S X$, in other words, the
+diagram is cartesian in the category of algebraic spaces.
+The functor $p'_{ft}$ sends $(X \to S)$ to $S$ and sends
+$(f, g)$ to $g$. We define a full subcategory
+$$
+\textit{Spaces}'_{fp, flat, proper} \subset
+\textit{Spaces}'_{ft}
+$$
+consisting of objects $X \to S$ of $\textit{Spaces}'_{ft}$
+such that $X \to S$ is of finite presentation, flat, and proper.
+We denote
+$$
+p'_{fp, flat, proper} :
+\textit{Spaces}'_{fp, flat, proper}
+\longrightarrow
+\Sch_{fppf}
+$$
+the restriction of the functor $p'_{ft}$ to the indicated subcategory.
+We first review the results already obtained in the references
+listed above, and then we start adding further results.
+
+\begin{lemma}
+\label{lemma-spaces-fibred-in-groupoids}
+The category $\textit{Spaces}'_{ft}$ is fibred in groupoids
+over $\Sch_{fppf}$. The same is true for
+$\textit{Spaces}'_{fp, flat, proper}$.
+\end{lemma}
+
+\begin{proof}
+We have seen this in
+Examples of Stacks, Section
+\ref{examples-stacks-section-stack-in-groupoids-of-finite-type-spaces}
+for the case of $\textit{Spaces}'_{ft}$ and this easily implies the
+result for the other case. However, let us also prove
+this directly by checking conditions (1) and (2) of
+Categories, Definition \ref{categories-definition-fibred-groupoids}.
+
+\medskip\noindent
+Condition (1). Let $X \to S$ be an object of $\textit{Spaces}'_{ft}$
+and let $S' \to S$ be a morphism of schemes. Then we set
+$X' = S' \times_S X$. Note that $X' \to S'$ is of finite type
+by Morphisms of Spaces, Lemma
+\ref{spaces-morphisms-lemma-base-change-finite-type}.
+to obtain a morphism $(X' \to S') \to (X \to S)$
+lying over $S' \to S$.
+Argue similarly for the other case using
+Morphisms of Spaces, Lemmas
+\ref{spaces-morphisms-lemma-base-change-finite-presentation},
+\ref{spaces-morphisms-lemma-base-change-flat}, and
+\ref{spaces-morphisms-lemma-base-change-proper}.
+
+\medskip\noindent
+Condition (2). Consider morphisms
+$(f, g) : (X' \to S') \to (X \to S)$ and $(a, b) : (Y \to T) \to (X \to S)$
+of $\textit{Spaces}'_{ft}$. Given a morphism $h : T \to S'$ with
+$g \circ h = b$ we have to show
+there is a unique morphism $(k, h) : (Y \to T) \to (X' \to S')$ of
+$\textit{Spaces}'_{ft}$ such that
+$(f, g) \circ (k, h) = (a, b)$.
+This is clear from the fact that $X' = S' \times_S X$.
+The same therefore works for any full subcategory of
+$\textit{Spaces}'_{ft}$ satisfying (1).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-spaces-diagonal}
+The diagonal
+$$
+\Delta : \textit{Spaces}'_{fp, flat, proper} \longrightarrow
+\textit{Spaces}'_{fp, flat, proper} \times \textit{Spaces}'_{fp, flat, proper}
+$$
+representable by algebraic spaces.
+\end{lemma}
+
+\begin{proof}
+We will use criterion (2) of
+Algebraic Stacks, Lemma \ref{algebraic-lemma-representable-diagonal}.
+Let $S$ be a scheme and let $X$ and $Y$ be algebraic spaces
+of finite presentation over $S$, flat over $S$, and proper over $S$.
+We have to show that the functor
+$$
+\mathit{Isom}_S(X, Y) : (\Sch/S)_{fppf} \longrightarrow \textit{Sets}, \quad
+T \longmapsto \{f : X_T \to Y_T \text{ isomorphism}\}
+$$
+is an algebraic space. An elementary argument shows that
+$\mathit{Isom}_S(X, Y)$ sits in a fibre product
+$$
+\xymatrix{
+\mathit{Isom}_S(X, Y) \ar[r] \ar[d] & S \ar[d]_{(\text{id}, \text{id})} \\
+\mathit{Mor}_S(X, Y) \times \mathit{Mor}_S(Y, X) \ar[r] &
+\mathit{Mor}_S(X, X) \times \mathit{Mor}_S(Y, Y)
+}
+$$
+By Proposition \ref{proposition-Mor} the functors on the bottom row
+are algebraic spaces over $S$. 
+Hence the result follows from the fact that the category of
+algebraic spaces over $S$ has fibre products.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-spaces-stack}
+The category $\textit{Spaces}'_{ft}$ is a stack in groupoids
+over $\Sch_{fppf}$. The same is true for
+$\textit{Spaces}'_{fp, flat, proper}$.
+\end{lemma}
+
+\begin{proof}
+The reason this lemma holds is the slogan: any fppf descent datum for algebraic
+spaces is effective, see Bootstrap, Section
+\ref{bootstrap-section-applications}.
+More precisely, the lemma for $\textit{Spaces}'_{ft}$ follows from
+Examples of Stacks, Lemma
+\ref{examples-stacks-lemma-stack-of-finite-type-spaces}
+as we saw in Examples of Stacks, Section
+\ref{examples-stacks-section-stack-in-groupoids-of-finite-type-spaces}.
+However, let us review the proof. We need to check conditions
+(1), (2), and (3) of Stacks, Definition
+\ref{stacks-definition-stack-in-groupoids}.
+
+\medskip\noindent
+Property (1) we have seen in Lemma \ref{lemma-spaces-fibred-in-groupoids}.
+
+\medskip\noindent
+Property (2) follows from
+Lemma \ref{lemma-spaces-diagonal} in the case of
+$\textit{Spaces}'_{fp, flat, proper}$.
+In the case of $\textit{Spaces}'_{ft}$ it follows
+from Examples of Stacks, Lemma
+\ref{examples-stacks-lemma-pre-stack-of-spaces}
+(and this is really the ``correct'' reference).
+
+\medskip\noindent
+Condition (3) for $\textit{Spaces}'_{ft}$ is checked as follows. Suppose given
+\begin{enumerate}
+\item an fppf covering $\{U_i \to U\}_{i \in I}$ in $\Sch_{fppf}$,
+\item for each $i \in I$ an algebraic space $X_i$ of finite type over
+$U_i$, and
+\item for each $i, j \in I$ an isomorphism
+$\varphi_{ij} : X_i \times_U U_j \to U_i \times_U X_j$ of algebraic spaces
+over $U_i \times_U U_j$ satisfying the cocycle condition over
+$U_i \times_U U_j \times_U U_k$.
+\end{enumerate}
+We have to show there exists an algebraic space $X$ of finite type over $U$
+and isomorphisms $X_{U_i} \cong X_i$ over $U_i$ recovering the
+isomorphisms $\varphi_{ij}$.
+First, note that by Sites, Lemma \ref{sites-lemma-glue-sheaves}
+there exists a sheaf $X$ on $(\Sch/U)_{fppf}$ recovering
+the $X_i$ and the $\varphi_{ij}$. Then by
+Bootstrap, Lemma \ref{bootstrap-lemma-locally-algebraic-space-finite-type}
+we see that $X$ is an algebraic space.
+By Descent on Spaces, Lemma
+\ref{spaces-descent-lemma-descending-property-finite-type}
+we see that $X \to U$ is of finite type.
+In the case of $\textit{Spaces}'_{fp, flat, proper}$
+one additionally uses
+Descent on Spaces, Lemma
+\ref{spaces-descent-lemma-descending-property-finite-presentation},
+\ref{spaces-descent-lemma-descending-property-flat}, and
+\ref{spaces-descent-lemma-descending-property-proper}
+in the last step.
+\end{proof}
+
+\begin{remark}
+\label{remark-spaces-base-change}
+Let $B$ be an algebraic space over $\Spec(\mathbf{Z})$.
+Let $B\textit{-Spaces}'_{ft}$ be the category consisting
+of pairs $(X \to S, h : S \to B)$
+where $X \to S$ is an object of
+$\textit{Spaces}'_{ft}$ and $h : S \to B$ is a morphism.
+A morphism $(X' \to S', h') \to (X \to S, h)$
+in $B\textit{-Spaces}'_{ft}$ is a morphism $(f, g)$
+in $\textit{Spaces}'_{ft}$ such that $h \circ g = h'$.
+In this situation the diagram
+$$
+\xymatrix{
+B\textit{-Spaces}'_{ft} \ar[r] \ar[d] & \textit{Spaces}'_{ft} \ar[d] \\
+(\Sch/B)_{fppf} \ar[r] & \Sch_{fppf}
+}
+$$
+is $2$-fibre product square. This trivial remark
+will occasionally be useful to deduce results from
+the absolute case $\textit{Spaces}'_{ft}$ to the case
+of families over a given base algebraic space.
+Of course, a similar construction works for
+$B\textit{-Spaces}'_{fp, flat, proper}$
+\end{remark}
+
+\begin{lemma}
+\label{lemma-spaces-limits}
+The stack
+$p'_{fp, flat, proper} :
+\textit{Spaces}'_{fp, flat, proper} \to (\Sch/S)_{fppf}$ is limit preserving
+(Artin's Axioms, Definition \ref{artin-definition-limit-preserving}).
+\end{lemma}
+
+\begin{proof}
+Let $T = \lim T_i$ be the limits of a
+directed inverse system of affine schemes.
+By Limits of Spaces, Lemma
+\ref{spaces-limits-lemma-descend-finite-presentation}
+the category of algebraic spaces of finite presentation
+over $T$ is the colimit of the categories of algebraic spaces
+of finite presentation over $T_i$.
+To finish the proof use that flatness and properness
+descends through the limit, see
+Limits of Spaces, Lemmas
+\ref{spaces-limits-lemma-descend-flat} and
+\ref{spaces-limits-lemma-eventually-proper}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-spaces-RS-star}
+Let
+$$
+\xymatrix{
+T \ar[r] \ar[d] & T' \ar[d] \\
+S \ar[r] & S'
+}
+$$
+be a pushout in the category of schemes where
+$T \to T'$ is a thickening and $T \to S$ is affine, see
+More on Morphisms, Lemma \ref{more-morphisms-lemma-pushout-along-thickening}.
+Then the functor on fibre categories
+$$
+\begin{matrix}
+\textit{Spaces}'_{fp, flat, proper, S'} \\
+\downarrow \\
+\textit{Spaces}'_{fp, flat, proper, S}
+\times_{\textit{Spaces}'_{fp, flat, proper, T}}
+\textit{Spaces}'_{fp, flat, proper, T'}
+\end{matrix}
+$$
+is an equivalence.
+\end{lemma}
+
+\begin{proof}
+The functor is an equivalence if we drop ``proper'' from the list
+of conditions and replace ``of finite presentation'' by
+``locally of finite presentation'', see Pushouts of Spaces, Lemma
+\ref{spaces-pushouts-lemma-equivalence-categories-spaces-pushout-flat}.
+Thus it suffices to show that given a morphism
+$X' \to S'$ of an algebraic space to $S'$ which is
+flat and locally of finite presentation, then
+$X' \to S'$ is proper if and only if $S \times_{S'} X' \to S$
+and $T' \times_{S'} X' \to T'$ is proper.
+One implication follows from the fact that
+properness is preserved under base change
+(Morphisms of Spaces, Lemma \ref{spaces-morphisms-lemma-base-change-proper})
+and the other from the fact that properness
+of $T' \times_{S'} X' \to T'$ implies properness of
+$X' \to S'$ by
+More on Morphisms of Spaces, Lemma
+\ref{spaces-more-morphisms-lemma-thicken-property-morphisms-cartesian}.
+\end{proof}
+
+
+
+
+
+
 
 \section{Polarized proper schemes}
 \label{section-polarized}
@@ -2404,14 +2807,17 @@ is how we view $\textit{Polarized}$ as a category over $\Sch_{fppf}$
 \begin{remark}
 \label{remark-polarized-base-change}
 Let $B$ be an algebraic space over $\Spec(\mathbf{Z})$.
-Let $\textit{Polarized}_B$ be the category consisting
+Let $B\textit{-Polarized}$ be the category consisting
 of triples $(X \to S, \mathcal{L}, h : S \to B)$
 where $(X \to S, \mathcal{L})$ is an object of
 $\textit{Polarized}$ and $h : S \to B$ is a morphism.
+A morphism $(X' \to S', \mathcal{L}', h') \to (X \to S, \mathcal{L}, h)$
+in $B\textit{-Polarized}$ is a morphism $(f, g, \varphi)$
+in $\textit{Polarized}$ such that $h \circ g = h'$.
 In this situation the diagram
 $$
 \xymatrix{
-\textit{Polarized}_B \ar[r] \ar[d] & \textit{Polarized} \ar[d] \\
+B\textit{-Polarized} \ar[r] \ar[d] & \textit{Polarized} \ar[d] \\
 (\Sch/B)_{fppf} \ar[r] & \Sch_{fppf}
 }
 $$
