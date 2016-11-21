@@ -23171,35 +23171,62 @@ imply the lemma.
 \end{proof}
 
 \noindent
-Let us say that an acyclic complex of the form
-$\ldots \to 0 \to R \to R \to 0 \to \ldots $
-is {\it trivial}. The lemma above clearly says that
+In Situation \ref{situation-complex} we say a complex of the form
+$$
+0 \to \ldots \to 0 \to R \xrightarrow{1} R \to 0 \to \ldots \to 0
+$$
+or of the form
+$$
+0 \to \ldots \to 0 \to R
+$$
+is {\it trivial}. More precisely, we say
+$0 \to R^{n_e} \to R^{n_{e-1}} \to \ldots \to R^{n_0}$
+is trivial if either there exists an $e \geq i \geq 1$
+with $n_i = n_{i - 1} = 1$, $\varphi_i = \text{id}_R$, and
+$n_j = 0$ for $j \not \in \{i, i - 1\}$ or
+$n_0 = 1$ and $n_i = 0$ for $i > 0$.
+The lemma above clearly says that
 any finite complex of finite free modules over a local ring is up to direct
 sums with trivial complexes the same as a complex
 all of whose maps have all matrix coefficients in
 the maximal ideal.
 
 \begin{lemma}
-\label{lemma-exact-artinian-local}
-In Situation \ref{situation-complex}.
-Let $R$ be a Artinian local ring.
-Suppose that $0 \to R^{n_e} \to R^{n_{e-1}}
-\to \ldots \to R^{n_0}$ is an exact complex.
-Then the complex is isomorphic to a direct sum of
-trivial complexes.
+\label{lemma-exact-depth-zero-local}
+In Situation \ref{situation-complex}. Suppose $R$ is
+a local Noetherian ring with maximal ideal $\mathfrak m$.
+Assume $\mathfrak m \in \text{Ass}(R)$, in other words
+$R$ has depth $0$. Suppose that
+$0 \to R^{n_e} \to R^{n_{e-1}} \to \ldots \to R^{n_0}$
+is exact at $R^{n_e}, \ldots, R^{n_1}$.
+Then the complex is isomorphic to a direct sum of trivial
+complexes.
 \end{lemma}
 
 \begin{proof}
-By induction on the integer $\sum n_i$.
-Clearly $\text{Ass}(R) = \{\mathfrak m\}$.
-Pick $x \in R$, $x \not = 0$, $\mathfrak m x = 0$.
-Pick a basis vector $e_i \in R^{n_e}$.
-Since $xe_i$ is not mapped to zero by
+Pick $x \in R$, $x \not = 0$, with $\mathfrak m x = 0$.
+Let $i$ be the biggest index such that $n_i > 0$.
+If $i = 0$, then the statement is true. If
+$i > 0$ denote $f_1$ the first basis vector of $R^{n_i}$.
+Since $xf_1$ is not mapped to zero by
 exactness of the complex we deduce that some matrix
-coefficient of the map $R^{n_e} \to R^{n_{e-1}}$
+coefficient of the map $R^{n_i} \to R^{n_{i - 1}}$
 is not in $\mathfrak m$.
 Lemma \ref{lemma-add-trivial-complex} then allows
-us to decrease $\sum n_i$.
+us to decrease $n_e + \ldots + n_1$. Induction finishes the proof.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-exact-artinian-local}
+In Situation \ref{situation-complex}. Let $R$ be a Artinian local ring.
+Suppose that $0 \to R^{n_e} \to R^{n_{e-1}} \to \ldots \to R^{n_0}$
+is exact at $R^{n_e}, \ldots, R^{n_1}$. Then the complex is isomorphic
+to a direct sum of trivial complexes.
+\end{lemma}
+
+\begin{proof}
+This is a special case of Lemma \ref{lemma-exact-depth-zero-local}
+because an Artinian local ring has depth $0$.
 \end{proof}
 
 \noindent
@@ -23229,7 +23256,7 @@ we have
 \begin{enumerate}
 \item the maps $\varphi_i$ have rank
 $r_i = n_i - n_{i + 1} + \ldots + (-1)^{e-i-1} n_{e-1} + (-1)^{e-i} n_e$,
-\item for all $i$, $1 \leq i \leq e$ we have
+\item for all $i$, $1 \leq i \leq e - 1$ we have
 $\text{rank}(\varphi_{i + 1}) + \text{rank}(\varphi_i) = n_i$,
 \item each $I(\varphi_i) = R$.
 \end{enumerate}
@@ -23240,13 +23267,18 @@ We may assume the complex is the direct sum of trivial
 complexes. Then for each $i$ we can split the standard basis
 elements of $R^{n_i}$ into those that map to a basis element
 of $R^{n_{i-1}}$ and those that are mapped to zero (and these
-are mapped onto by basis elements of $R^{n_{i + 1}}$).
+are mapped onto by basis elements of $R^{n_{i + 1}}$ if $i > 0$).
 Using descending
 induction starting with $i = e$ it is easy to prove that there
 are $r_{i + 1}$-basis elements of $R^{n_i}$ which are mapped
 to zero and $r_i$ which are mapped to basis elements of
 $R^{n_{i-1}}$. From this the result follows.
 \end{proof}
+
+\noindent
+The following lemma is a special case of
+Proposition \ref{proposition-what-exact}. The reader can skip it because
+it is not used in the proof of the proposition.
 
 \begin{lemma}
 \label{lemma-exact-length-1}
@@ -23274,12 +23306,17 @@ Suppose $\varphi$ is injective. We may assume $m > 0$.
 Let $\mathfrak q \in \text{Ass}(R)$. Let $x \in R$ be an element
 whose annihilator is $\mathfrak q$. Note that $\varphi$
 induces a injective map $xR^m \to xR^n$ which is isomorphic
-to the map $\varphi_{\mathfrak q} : (R/\mathfrak q)^m \to (R/\mathfrak q)^n$
+to the map $\varphi \bmod \mathfrak q : (R/\mathfrak q)^m \to (R/\mathfrak q)^n$
 induced by $\varphi$. Since $R/\mathfrak q$ is a domain
 we deduce immediately by localizing to its fraction field
-that the rank of $\varphi_{\mathfrak q}$ is $m$ and that
-$I(\varphi_{\mathfrak q})$ is not the zero ideal. Hence we
-conclude by Lemma \ref{lemma-ideal-nonzerodivisor}.
+that the rank of $\varphi \bmod \mathfrak q$ is $m$ and that
+$I(\varphi \bmod \mathfrak q)$ is not the zero ideal.
+Since $m$ is the maximum rank $\varphi$ can have, we conclude
+that $\varphi$ has rank $m$ as well (ranks of matrices as defined
+above can only drop on passing to a quotient ring). Hence
+$I(\varphi) \bmod \mathfrak q = I(\varphi \bmod \mathfrak q)$ and
+we find a nonzerodivisor in $I(\varphi)$ by
+Lemma \ref{lemma-ideal-nonzerodivisor}.
 
 \medskip\noindent
 Conversely, assume that the rank of $\varphi$ is $m$
@@ -23292,31 +23329,30 @@ is injective.
 \end{proof}
 
 \begin{lemma}
-\label{lemma-exact-depth-zero-local}
-In Situation \ref{situation-complex}. Suppose $R$ is
-a local Noetherian ring with maximal ideal $\mathfrak m$.
-Assume $\mathfrak m \in \text{Ass}(R)$, in other words
-$R$ has depth $0$. Suppose that the complex is exact.
-In this case the complex is isomorphic to a direct sum of trivial
-complexes.
-\end{lemma}
-
-\begin{proof}
-The proof is the same as in Lemma \ref{lemma-exact-artinian-local}.
-\end{proof}
-
-\begin{lemma}
 \label{lemma-div-x-exact-one-less}
-In Situation \ref{situation-complex}, suppose $R$ is
-a local Noetherian ring, and suppose that the complex
-is exact. Let $x$ be an element of the maximal ideal
-which is a nonzerodivisor. The complex
+In Situation \ref{situation-complex}. Suppose $R$ is
+a local ring with maximal ideal $\mathfrak m$.
+Suppose that $0 \to R^{n_e} \to R^{n_{e-1}} \to \ldots \to R^{n_0}$
+is exact at $R^{n_e}, \ldots, R^{n_1}$.
+Let $x \in \mathfrak m$ be a nonzerodivisor. The complex
 $0 \to (R/xR)^{n_e} \to \ldots \to (R/xR)^{n_1}$
-is still exact.
+is exact at $(R/xR)^{n_e}, \ldots, (R/xR)^{n_2}$.
 \end{lemma}
 
 \begin{proof}
-Follows easily from the snake lemma.
+Denote $F_\bullet$ the complex with terms $F_i = R^{n_i}$
+and differential given by $\varphi_i$. Then we have a short
+exact sequence of complexes
+$$
+0 \to F_\bullet \xrightarrow{x} F_\bullet \to F_\bullet/xF_\bullet \to 0
+$$
+Applying the snake lemma we get a long exact sequence
+$$
+H_i(F_\bullet) \xrightarrow{x} H_i(F_\bullet) \to
+H_i(F_\bullet/xF_\bullet) \to H_{i - 1}(F_\bullet)
+\xrightarrow{x} H_{i - 1}(F_\bullet)
+$$
+The lemma follows.
 \end{proof}
 
 \begin{lemma}[Acyclicity lemma]
@@ -23360,27 +23396,33 @@ implies the result.
 \begin{proposition}
 \label{proposition-what-exact}
 In Situation \ref{situation-complex}, suppose $R$ is
-a local Noetherian ring. The complex is exact if and
-only if for all $i$, $1 \leq i \leq e$
+a local Noetherian ring. The following are equivalent
+\begin{enumerate}
+\item $0 \to R^{n_e} \to R^{n_{e-1}} \to \ldots \to R^{n_0}$
+is exact at $R^{n_e}, \ldots, R^{n_1}$, and
+\item for all $i$, $1 \leq i \leq e$
 the following two conditions are satisfied:
 \begin{enumerate}
-\item we have $\text{rank}(\varphi_{i + 1}) + \text{rank}(\varphi_i)
-= n_i$, and
+\item $\text{rank}(\varphi_i) = r_i$ where
+$r_i = n_i - n_{i + 1} + \ldots + (-1)^{e-i-1} n_{e-1} + (-1)^{e-i} n_e$,
 \item $I(\varphi_i) = R$, or $I(\varphi_i)$ contains a
 regular sequence of length $i$.
+\end{enumerate}
 \end{enumerate}
 \end{proposition}
 
 \begin{proof}
-This proof is very similar to the proof of Lemma
-\ref{lemma-exact-length-1}.
-As in the proof of Lemma \ref{lemma-exact-length-1} we may assume
-that all matrix entries of each $\varphi_i$ are elements of
-the maximal ideal. We may also assume that $e \geq 1$.
-Set $r_i = n_i - n_{i + 1} + \ldots + (-1)^{e-i-1} n_{e-1} + (-1)^{e-i} n_e$.
+If for some $i$ some matrix coefficient of $\varphi_i$
+is not in $\mathfrak m$, then we apply Lemma \ref{lemma-add-trivial-complex}.
+It is easy to see that the proposition for a complex and
+for the same complex with a trivial complex added to it
+are equivalent. Thus we may assume that all matrix entries
+of each $\varphi_i$ are elements of the maximal ideal.
+We may also assume that $e \geq 1$.
 
 \medskip\noindent
-Assume the complex is exact. Let $\mathfrak q \in \text{Ass}(R)$.
+Assume the complex is at $R^{n_e}, \ldots, R^{n_1}$.
+Let $\mathfrak q \in \text{Ass}(R)$.
 Note that the ring $R_{\mathfrak q}$ has depth $0$
 and that the complex remains exact after localization at $\mathfrak q$.
 We apply Lemmas \ref{lemma-exact-depth-zero-local} and
@@ -23403,25 +23445,37 @@ $x \in I(\varphi_e)I(\varphi_{e - 1})\ldots I(\varphi_1)$,
 $x \not \in \mathfrak q$ for all $\mathfrak q \in \text{Ass}(R)$.
 Observe that $x$ is a nonzerodivisor (Lemma \ref{lemma-ass-zero-divisors}).
 According to Lemma \ref{lemma-div-x-exact-one-less}
-the complex $0 \to (R/xR)^{n_e} \to \ldots \to (R/xR)^{n_1}$ is exact.
-By induction
+the complex $0 \to (R/xR)^{n_e} \to \ldots \to (R/xR)^{n_1}$ is exact
+at $(R/xR)^{n_e}, \ldots, (R/xR)^{n_2}$. By induction
 on $e$ all the ideals $I(\varphi_i)/xR$ have a regular
 sequence of length $i - 1$. This proves that $I(\varphi_i)$
 contains a regular sequence of length $i$.
 
 \medskip\noindent
-Assume the two conditions on the ranks of $\varphi_i$
-and the ideals $I(\varphi_i)$ is satisfied. Note that
-$I(\varphi_i) \subset \mathfrak m$ for all $i$ because
-of what was said in the first paragraph of the proof.
-Hence the assumption in particular implies that
-$\text{depth}(R) \geq e$. By induction
-on the dimension of $R$ we may assume the complex
-is exact when localized at any nonmaximal prime of $R$.
-Thus $\Ker(\varphi_i)/\Im(\varphi_{i + 1})$
-has support $\{\mathfrak m\}$ and hence (if nonzero)
-depth $0$. By Lemma \ref{lemma-acyclic} we see
-that the complex is exact.
+Assume (2)(a) and (2)(b) hold. We claim that for any prime
+$\mathfrak p \subset R$ conditions (2)(a) and (2)(b)
+hold for the complex
+$0 \to R_\mathfrak p^{n_e} \to R_\mathfrak p^{n_{e - 1}} \to \ldots \to
+R_\mathfrak p^{n_0}$ with maps $\varphi_{i, \mathfrak p}$
+over $R_\mathfrak p$. Namely, since $I(\varphi_i)$ contains a
+nonzero divisor, the image of $I(\varphi_i)$ in $R_\mathfrak p$
+is nonzero. This implies that the rank of $\varphi_{i, \mathfrak p}$
+is the same as the rank of $\varphi_i$: the rank as defined above
+of a matrix $\varphi$ over a ring $R$ can only drop when passing
+to an $R$-algebra $R'$ and this happens if and only $I(\varphi)$
+maps to zero in $R'$. Thus (2)(a) holds. Having said this
+we know that $I(\varphi_{i, \mathfrak p}) = I(\varphi_i)_\mathfrak p$
+and we see that (2)(b) is preserved under localization as well.
+By induction on the dimension of $R$ we may assume the complex
+is exact when localized at any nonmaximal prime $\mathfrak p$ of $R$.
+Thus $\Ker(\varphi_i)/\Im(\varphi_{i + 1})$ has support contained in
+$\{\mathfrak m\}$ and hence if nonzero has depth $0$.
+As $I(\varphi_i) \subset \mathfrak m$ for all $i$ because
+of what was said in the first paragraph of the proof, we
+see that (2)(b) implies $\text{depth}(R) \geq e$.
+By Lemma \ref{lemma-acyclic} we see
+that the complex is exact at $R^{n_e}, \ldots, R^{n_1}$
+concluding the proof.
 \end{proof}
 
 
