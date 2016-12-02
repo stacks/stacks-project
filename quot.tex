@@ -2426,12 +2426,12 @@ $(\Sch/T)_{fppf}$.
 \label{lemma-pic-over-pic}
 In Situation \ref{situation-pic}
 the functor $\text{Pic}_{X/B}$ is the sheafification of
-the functor $T \mapsto \Ob(\mathit{Pic}_{X/B, T})/\cong$.
+the functor $T \mapsto \Ob(\textit{Pic}_{X/B, T})/\cong$.
 \end{lemma}
 
 \begin{proof}
-Since the fibre category $\mathit{Pic}_{X/B, T}$ of the Picard stack
-$\mathit{Pic}_{X/B}$ over $T$ is the category of invertible sheaves on
+Since the fibre category $\textit{Pic}_{X/B, T}$ of the Picard stack
+$\textit{Pic}_{X/B}$ over $T$ is the category of invertible sheaves on
 $X_T$ (see Section \ref{section-picard-stack} and
 Examples of Stacks, Section \ref{examples-stacks-section-picard-stack})
 this is immediate from the definitions.
@@ -2492,14 +2492,258 @@ functor from descent data to modules is fully faithful.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-flat-geometrically-connected-fibres-with-section}
+In Situation \ref{situation-pic} let $\sigma : B \to X$ be a section.
+Assume that $\mathcal{O}_T \to f_{T, *}\mathcal{O}_{X_T}$ is an isomorphism
+for all $T$ over $B$. Then
+$$
+0 \to \text{Pic}(T) \to \text{Pic}(X_T) \to \text{Pic}_{X/B}(T) \to 0
+$$
+is a split exact sequence with splitting given by
+$\sigma_T^* : \text{Pic}(X_T) \to \text{Pic}(T)$.
+\end{lemma}
+
+\begin{proof}
+Denote $K(T) = \Ker(\sigma_T^* : \text{Pic}(X_T) \to \text{Pic}(T))$.
+Since $\sigma$ is a section of $f$ we see that $\text{Pic}(X_T)$ is the direct
+sum of $\text{Pic}(T)$ and $K(T)$.
+Thus by Lemma \ref{lemma-flat-geometrically-connected-fibres} we see that
+$K(T) \subset \text{Pic}_{X/B}(T)$ for all $T$. Moreover, it is clear
+from the construction that $\text{Pic}_{X/B}$ is the sheafification
+of the presheaf $K$. To finish the proof it suffices to show that
+$K$ satisfies the sheaf condition for fppf coverings which we do
+in the next paragraph.
+
+\medskip\noindent
+Let $\{T_i \to T\}$ be an fppf covering. Let $\mathcal{L}_i$ be
+elements of $K(T_i)$ which map to the same elements of $K(T_i \times_T T_j)$
+for all $i$ and $j$. Choose an isomorphism
+$\alpha_i : \mathcal{O}_{T_i} \to \sigma_{T_i}^*\mathcal{L}_i$
+for all $i$. Choose an isomorphism
+$$
+\varphi_{ij} :
+\mathcal{L}_i|_{X_{T_i \times_T T_j}}
+\longrightarrow
+\mathcal{L}_j|_{X_{T_i \times_T T_j}}
+$$
+If the map
+$$
+\alpha_j|_{T_i \times_T T_j} \circ
+\sigma_{T_i \times_T T_j}^*\varphi_{ij} \circ
+\alpha_i|_{T_i \times_T T_j} :
+\mathcal{O}_{T_i \times_T T_j} \to \mathcal{O}_{T_i \times_T T_j}
+$$
+is not equal to multiplication by $1$ but some $u_{ij}$, then we can scale
+$\varphi_{ij}$ by $u_{ij}^{-1}$ to correct this. Having done this, consider
+the self map
+$$
+\varphi_{ki}|_{X_{T_i \times_T T_j \times_T T_k}} \circ
+\varphi_{jk}|_{X_{T_i \times_T T_j \times_T T_k}} \circ
+\varphi_{ij}|_{X_{T_i \times_T T_j \times_T T_k}}
+\quad\text{on}\quad
+\mathcal{L}_i|_{X_{T_i \times_T T_j \times_T T_k}}
+$$
+which is given by multiplication by some section $f_{ijk}$
+of the structure sheaf of $X_{T_i \times_T T_j \times_T T_k}$.
+By our choice of $\varphi_{ij}$ we see that the pullback of
+this map by $\sigma$ is equal to multiplication by $1$. By
+our assumption on functions on $X$, we see that $f_{ijk} = 1$.
+Thus we obtain a descent datum for the fppf covering
+$\{X_{T_i} \to X\}$. By
+Descent on Spaces, Proposition
+\ref{spaces-descent-proposition-fpqc-descent-quasi-coherent}
+there is an invertible $\mathcal{O}_{X_T}$-module $\mathcal{L}$
+and an isomorphism $\alpha : \mathcal{O}_T \to \sigma_T^*\mathcal{L}$
+whose pullback to $X_{T_i}$ recovers $(\mathcal{L}_i, \alpha_i)$
+(small detail omitted). Thus $\mathcal{L}$ defines an object
+of $K(T)$ as desired.
+\end{proof}
+
+\noindent
+In Situation \ref{situation-pic} let $\sigma : B \to X$ be a section.
+We denote $\textit{Pic}_{X/B, \sigma}$ the category defined as follows:
+\begin{enumerate}
+\item An object is a quadruple $(T, h, \mathcal{L}, \alpha)$, where
+$(T, h, \mathcal{L})$ is an object of $\textit{Pic}_{X/B}$ over $T$ and
+$\alpha : \mathcal{O}_T \to \sigma_T^*\mathcal{L}$
+is an isomorphism.
+\item A morphism $(g, \varphi) : (T, h, \mathcal{L}, \alpha)
+\to (T', h', \mathcal{L}', \alpha')$
+is given by a morphism of schemes $g : T \to T'$ with $h = h' \circ g$
+and an isomorphism $\varphi : (g')^*\mathcal{L}' \to \mathcal{L}$
+such that $\sigma_T^*\varphi \circ g^*\alpha' = \alpha$.
+Here $g' : X_{T'} \to X_T$ is the base change of $g$.
+\end{enumerate}
+There is a natural faithful forgetful functor
+$$
+\textit{Pic}_{X/B, \sigma} \longrightarrow
+\textit{Pic}_{X/B}
+$$
+In this way we view $\textit{Pic}_{X/B, \sigma}$ as a category
+over $(\Sch/S)_{fppf}$.
+
+\begin{lemma}
+\label{lemma-pic-with-section-stack}
+In Situation \ref{situation-pic} let $\sigma : B \to X$ be a section.
+Then $\textit{Pic}_{X/B, \sigma}$ as defined above is a stack in
+groupoids over $(\Sch/S)_{fppf}$.
+\end{lemma}
+
+\begin{proof}
+We already know that $\textit{Pic}_{X/B}$ is a stack in groupoids
+over $(\Sch/S)_{fppf}$ by
+Examples of Stacks, Lemma \ref{examples-stacks-lemma-picard-stack}.
+Let us show descent for objects for $\textit{Pic}_{X/B, \sigma}$.
+Let $\{T_i \to T\}$ be an fppf covering and let
+$\xi_i = (T_i, h_i, \mathcal{L}_i, \alpha_i)$ be an object of
+$\textit{Pic}_{X/B, \sigma}$ lying over $T_i$, and let
+$\varphi_{ij} : \text{pr}_0^*\xi_i \to \text{pr}_1^*\xi_j$
+be a descent datum. Applying the result for $\textit{Pic}_{X/B}$
+we see that we may assume we have an object $(T, h, \mathcal{L})$
+of $\textit{Pic}_{X/B}$ over $T$ which pulls back to $\xi_i$ for all $i$.
+Then we get
+$$
+\alpha_i : \mathcal{O}_{T_i} \to \sigma_{T_i}^*\mathcal{L}_i =
+(T_i \to T)^*\sigma_T^*\mathcal{L}
+$$
+Since the maps $\varphi_{ij}$ are compatible with the $\alpha_i$
+we see that $\alpha_i$ and $\alpha_j$ pullback to the same map
+on $T_i \times_T T_j$. By descent of quasi-coherent sheaves
+(Descent, Proposition \ref{descent-proposition-fpqc-descent-quasi-coherent},
+we see that the $\alpha_i$ are the restriction of a single map
+$\alpha : \mathcal{O}_T \to \sigma_T^*\mathcal{L}$ as desired.
+We omit the proof of descent for morphisms.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-compare-pic-with-section}
+In Situation \ref{situation-pic} let $\sigma : B \to X$ be a section.
+The morphism $\textit{Pic}_{X/B, \sigma} \to \textit{Pic}_{X/B}$
+is representable, surjective, and smooth.
+\end{lemma}
+
+\begin{proof}
+Let $T$ be a scheme and let $(\Sch/T)_{fppf} \to \textit{Pic}_{X/B}$
+be given by the object $\xi = (T, h, \mathcal{L})$ of $\textit{Pic}_{X/B}$
+over $T$. We have to show that
+$$
+(\Sch/T)_{fppf} \times_{\xi, \textit{Pic}_{X/B}} \textit{Pic}_{X/B, \sigma}
+$$
+is representable by a scheme $V$ and that the corresponding morphism
+$V \to T$ is surjective and smooth. See
+Algebraic Stacks, Sections \ref{algebraic-section-representable-morphism},
+\ref{algebraic-section-morphisms-representable-by-algebraic-spaces}, and
+\ref{algebraic-section-representable-properties}.
+The forgetful functor $\textit{Pic}_{X/B, \sigma} \to \textit{Pic}_{X/B}$
+is faithful on fibre categories and for $T'/T$ the set of isomorphism
+classes is the set of isomorphisms
+$$
+\alpha' : \mathcal{O}_{T'} \longrightarrow (T' \to T)^*\sigma_T^*\mathcal{L}
+$$
+See Algebraic Stacks, Lemma
+\ref{algebraic-lemma-criterion-map-representable-spaces-fibred-in-groupoids}.
+We know this functor is representable by an affine scheme $U$ of finite
+presentation over $T$ by Proposition \ref{proposition-isom}
+(applied to $\text{id} : T \to T$ and $\mathcal{O}_T$ and
+$\sigma^*\mathcal{L}$). Working Zariski locally on $T$ we may
+assume that $\sigma_T^*\mathcal{L}$ is isomorphic to $\mathcal{O}_T$
+and then we see that our functor is representable by
+$\mathbf{G}_m \times T$ over $T$. Hence
+$U \to T$ Zariski locally on $T$ looks like 
+the projection $\mathbf{G}_m \times T \to T$ which
+is indeed smooth and surjective.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-flat-geometrically-connected-fibres-with-section-functor-stack}
+In Situation \ref{situation-pic} let $\sigma : B \to X$ be a section.
+If $\mathcal{O}_T \to f_{T, *}\mathcal{O}_{X_T}$ is an isomorphism
+for all $T$ over $B$, then
+$\textit{Pic}_{X/B, \sigma} \to (\Sch/S)_{fppf}$
+is fibred in setoids with set of isomorphism classes over $T$ given by
+$$
+\coprod\nolimits_{h : T \to B}
+\Ker(\sigma_T^* : \text{Pic}(X \times_{B, h} T) \to \text{Pic}(T))
+$$
+\end{lemma}
+
+\begin{proof}
+If $\xi = (T, h, \mathcal{L}, \alpha)$
+is an object of $\textit{Pic}_{X/B, \sigma}$
+over $T$, then an automorphism $\varphi$ of
+$\xi$ is given by multiplication with an invertible global section $u$
+of the structure sheaf of $X_T$ such that moreover $\sigma_T^*u = 1$.
+Then $u = 1$ by our assumption that
+$\mathcal{O}_T \to f_{T, *}\mathcal{O}_{X_T}$ is an isomorphism.
+Hence $\textit{Pic}_{X/B, \sigma}$
+is fibred in setoids over $(\Sch/S)_{fppf}$.
+Given $T$ and $h : T \to B$
+the set of isomorphism classes of pairs $(\mathcal{L}, \alpha)$
+is the same as the set of isomorphism classes of $\mathcal{L}$
+with $\sigma_T^*\mathcal{L} \cong \mathcal{O}_T$ (isomorphism
+not specified). This is clear because any two choices
+of $\alpha$ differ by a global unit on $T$ and this is the
+same thing as a global unit on $X_T$.
+\end{proof}
+
+\begin{proposition}
+\label{proposition-pic-functor}
+Let $S$ be a scheme. Let $f : X \to B$ be a morphism of algebraic
+spaces over $S$. Assume that
+\begin{enumerate}
+\item $f$ is flat, of finite presentation, and proper, and
+\item $\mathcal{O}_T \to f_{T, *}\mathcal{O}_{X_T}$ is an isomorphism
+for all schemes $T$ over $B$.
+\end{enumerate}
+Then $\text{Pic}_{X/B}$ is an algebraic space.
+\end{proposition}
+
+\noindent
+In the situation of the proposition the algebraic stack
+$\textit{Pic}_{X/B}$ is a gerbe over the algebraic space
+$\text{Pic}_{X/B}$. After developing the general
+theory of gerbes, this provides a shorter proof of
+the proposition (but using more general theory).
+
+\begin{proof}
+There exists a surjective, flat, finitely presented morphism
+$B' \to B$ of algebraic spaces such that the base change $X' = X \times_B B'$
+over $B'$ has a section: namely, we can take $B' = X$.
+Observe that $\text{Pic}_{X'/B'} = B' \times_B \text{Pic}_{X/B}$.
+Hence $\text{Pic}_{X'/B'} \to \text{Pic}_{X/B}$ is representable
+by algebraic spaces, surjective, flat, and finitely presented.
+Hence, if we can show that $\text{Pic}_{X'/B'}$ is an algebraic space,
+then it follows that $\text{Pic}_{X/B}$
+is an algebraic space by Bootstrap, Theorem
+\ref{bootstrap-theorem-final-bootstrap}.
+In this way we reduce to the case described in the next paragraph.
+
+\medskip\noindent
+In addition to the assumptions of the proposition, assume that
+we have a section $\sigma : B \to X$. By
+Proposition \ref{proposition-pic} we see that
+$\textit{Pic}_{X/B}$ is an algebraic stack.
+By Lemma \ref{lemma-compare-pic-with-section} and
+Algebraic Stacks, Lemma
+\ref{algebraic-lemma-representable-morphism-to-algebraic}
+we see that $\textit{Pic}_{X/B, \sigma}$ is an algebraic stack.
+By Lemma
+\ref{lemma-flat-geometrically-connected-fibres-with-section-functor-stack}
+and Algebraic Stacks, Lemma
+\ref{algebraic-lemma-characterize-representable-by-space}
+we see that $T \mapsto \Ker(\sigma_T^* : \text{Pic}(X_T) \to \text{Pic}(T))$
+is an algebraic space.
+By Lemma \ref{lemma-flat-geometrically-connected-fibres-with-section}
+this functor is the same as $\text{Pic}_{X/B}$.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-diagonal-pic}
-In Situation \ref{situation-pic} assume that $X \to B$ is flat, proper,
-and of finite presentation, and that
-$\mathcal{O}_T \to f_{T, *}\mathcal{O}_{X_T}$
-is an isomorphism for all schemes $T$ over $B$.
+With assumptions and notation as in Proposition \ref{proposition-pic-functor}.
 Then the diagonal
 $\text{Pic}_{X/B} \to \text{Pic}_{X/B} \times_B \text{Pic}_{X/B}$
-is representable by immersions.
+is representable by immersions. In other words, $\text{Pic}_{X/B} \to B$
+is locally separated.
 \end{lemma}
 
 \begin{proof}
@@ -2540,22 +2784,6 @@ Lemma \ref{lemma-flat-geometrically-connected-fibres}.
 Hence the existence of $Z$ follows from
 More on Morphisms of Spaces, Lemma
 \ref{spaces-more-morphisms-lemma-diagonal-picard-flat-proper}.
-\end{proof}
-
-\begin{proposition}
-\label{proposition-pic-functor}
-Let $S$ be a scheme. Let $f : X \to B$ be a morphism of algebraic
-spaces over $S$. Assume that
-\begin{enumerate}
-\item $f$ is flat, of finite presentation, and proper, and
-\item $\mathcal{O}_T \to f_{T, *}\mathcal{O}_{X_T}$ is an isomorphism
-for all schemes $T$ over $B$.
-\end{enumerate}
-Then $\text{Pic}_{X/B}$ is an algebraic space.
-\end{proposition}
-
-\begin{proof}
-COMING SOON
 \end{proof}
 
 
@@ -3003,7 +3231,7 @@ and the proof is complete.
 \label{remark-spaces-defo-thy}
 The stack in groupoids $\textit{Spaces}'_{fp, flat, proper}$
 also satisfies openness of versality over $\Spec(\mathbf{Z})$.
-Simlarly, after base change (Remark \ref{remark-spaces-base-change})
+Similarly, after base change (Remark \ref{remark-spaces-base-change})
 openness of versality holds over any Noetherian base scheme $S$.
 This can be shown using
 Artin's Axioms, Lemma \ref{artin-lemma-dual-openness}
