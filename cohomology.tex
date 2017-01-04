@@ -6302,26 +6302,6 @@ coming from the counit $Lf^* \circ Rf_* \to \text{id}$.
 \end{remark}
 
 \begin{lemma}
-\label{lemma-sheafification-cohomology}
-Let $(X, \mathcal{O}_X)$ be a ringed space. Let $K$ be an object of
-$D(\mathcal{O}_X)$. The sheafification of $U \mapsto H^q(U, K)$
-is the $q$th cohomology sheaf $H^q(K)$ of $K$.
-\end{lemma}
-
-\begin{proof}
-Choose a K-injective complex $\mathcal{I}^\bullet$ representing $K$.
-Then
-$$
-H^q(U, K) =
-\frac{\Ker(\mathcal{I}^q(U) \to \mathcal{I}^{q + 1}(U))}
-{\Im(\mathcal{I}^{q - 1}(U) \to \mathcal{I}^q(U))}.
-$$
-by the discussion above. Since
-$H^q(K) = \Ker(\mathcal{I}^q \to \mathcal{I}^{q + 1})/
-\Im(\mathcal{I}^{q - 1} \to \mathcal{I}^q)$ the result is clear.
-\end{proof}
-
-\begin{lemma}
 \label{lemma-spectral-sequence-filtered-object}
 Let $(X, \mathcal{O}_X)$ be a ringed space. Let $\mathcal{F}^\bullet$ be a
 filtered complex of $\mathcal{O}_X$-modules. There exists a canonical
@@ -6428,11 +6408,8 @@ Derived Categories, Lemma \ref{derived-lemma-two-ss-complex-functor}
 
 
 
-
-
-
-\section{Unbounded Mayer-Vietoris}
-\label{section-unbounded-mayer-vietoris}
+\section{Some properties of K-injective complexes}
+\label{section-properties-K-injective}
 
 \noindent
 Let $(X, \mathcal{O}_X)$ be a ringed space. Let $U \subset X$ be an
@@ -6465,10 +6442,57 @@ to $U$ is a K-injective complex of $\mathcal{O}_U$-modules.
 \end{lemma}
 
 \begin{proof}
-Follows immediately from
+Follows from
 Derived Categories, Lemma \ref{derived-lemma-adjoint-preserve-K-injectives}
 and the fact that the restriction functor has the
-exact adjoint $j_!$. See discussion above.
+exact left adjoint $j_!$.
+For the construction of $j_!$ see
+Sheaves, Section \ref{sheaves-section-open-immersions}
+and for exactness see Modules, Lemma \ref{modules-lemma-j-shriek-exact}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-unbounded-cohomology-of-open}
+Let $X$ be a ringed space. Let $U \subset X$ be an open subspace.
+For $K$ in $D(\mathcal{O}_X)$ we have
+$H^p(U, K) = H^p(U, K|_U)$.
+\end{lemma}
+
+\begin{proof}
+Let $\mathcal{I}^\bullet$ be a K-injective complex of $\mathcal{O}_X$-modules
+representing $K$. Then
+$$
+H^q(U, K) = H^q(\Gamma(U, \mathcal{I}^\bullet)) =
+H^q(\Gamma(U, \mathcal{I}^\bullet|_U))
+$$
+by construction of cohomology. By Lemma \ref{lemma-restrict-K-injective-to-open}
+the complex $\mathcal{I}^\bullet|_U$ is a K-injective complex
+representing $K|_U$ and the lemma follows.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-sheafification-cohomology}
+Let $(X, \mathcal{O}_X)$ be a ringed space. Let $K$ be an object of
+$D(\mathcal{O}_X)$. The sheafification of
+$$
+U \mapsto H^q(U, K) = H^q(U, K|_U)
+$$
+is the $q$th cohomology sheaf $H^q(K)$ of $K$.
+\end{lemma}
+
+\begin{proof}
+The equality $H^q(U, K) = H^q(U, K|_U)$ holds by
+Lemma \ref{lemma-unbounded-cohomology-of-open}.
+Choose a K-injective complex $\mathcal{I}^\bullet$ representing $K$.
+Then
+$$
+H^q(U, K) =
+\frac{\Ker(\mathcal{I}^q(U) \to \mathcal{I}^{q + 1}(U))}
+{\Im(\mathcal{I}^{q - 1}(U) \to \mathcal{I}^q(U))}.
+$$
+by our construction of cohomology. Since
+$H^q(K) = \Ker(\mathcal{I}^q \to \mathcal{I}^{q + 1})/
+\Im(\mathcal{I}^{q - 1} \to \mathcal{I}^q)$ the result is clear.
 \end{proof}
 
 \begin{lemma}
@@ -6489,6 +6513,47 @@ Hence the result follows from Lemma \ref{lemma-localize-higher-direct-images}
 \end{proof}
 
 \begin{lemma}
+\label{lemma-Leray-unbounded}
+Let $f : X \to Y$ be a morphism of ringed spaces.
+Then $R\Gamma(Y, -) \circ Rf_* = R\Gamma(X, -)$ as functors
+$D(\mathcal{O}_X) \to D(\Gamma(Y, \mathcal{O}_Y))$.
+More generally for $V \subset Y$ open and $U = f^{-1}(V)$
+we have $R\Gamma(U, -) = R\Gamma(V, -) \circ Rf_*$.
+\end{lemma}
+
+\begin{proof}
+Let $Z$ be the ringed space consisting of a singleton
+space with $\Gamma(Z, \mathcal{O}_Z) = \Gamma(Y, \mathcal{O}_Y)$.
+There is a canonical morphism $Y \to Z$ of ringed spaces
+inducing the identification on global sections of structure sheaves.
+Then $D(\mathcal{O}_Z) = D(\Gamma(Y, \mathcal{O}_Y))$.
+Hence the assertion $R\Gamma(Y, -) \circ Rf_* = R\Gamma(X, -)$
+follows from Lemma \ref{lemma-derived-pushforward-composition}
+applied to $X \to Y \to Z$.
+
+\medskip\noindent
+The second (more general) statement follows from the first statement
+after applying Lemma \ref{lemma-restrict-direct-image-open}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-unbounded-describe-higher-direct-images}
+Let $f : (X, \mathcal{O}_X) \to (Y, \mathcal{O}_Y)$ be a morphism of ringed
+spaces. Let $K$ be in $D(\mathcal{O}_X)$. Then $H^i(Rf_*K)$ is the sheaf
+associated to the presheaf
+$$
+V \mapsto H^i(f^{-1}(V), K) = H^i(V, Rf_*K)
+$$
+\end{lemma}
+
+\begin{proof}
+The equality $H^i(f^{-1}(V), K) = H^i(V, Rf_*K)$ follows upon taking
+cohomology from the second statement in
+Lemma \ref{lemma-Leray-unbounded}. Then the statement on sheafification
+follows from Lemma \ref{lemma-sheafification-cohomology}.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-adjoint-lower-shriek-restrict}
 Let $(X, \mathcal{O}_X)$ be a ringed space. Let $U \subset X$ be an
 open subset. Denote $j : (U, \mathcal{O}_U) \to (X, \mathcal{O}_X)$
@@ -6498,24 +6563,41 @@ extension by zero $j_! : D(\mathcal{O}_U) \to D(\mathcal{O}_X)$.
 \end{lemma}
 
 \begin{proof}
-We have to show that
-$$
-\Hom_{D(\mathcal{O}_X)}(j_!E, F) = \Hom_{D(\mathcal{O}_U)}(E, F|_U)
-$$
-Choose a complex $\mathcal{E}^\bullet$ of $\mathcal{O}_U$-modules
-representing $E$ and choose
-a K-injective complex $\mathcal{I}^\bullet$ representing $F$.
-By Lemma \ref{lemma-restrict-K-injective-to-open} the complex
-$\mathcal{I}^\bullet|_U$ is K-injective as well. Hence we see that
-the formula above becomes
-$$
-\Hom_{D(\mathcal{O}_X)}(j_!\mathcal{E}^\bullet, \mathcal{I}^\bullet) =
-\Hom_{D(\mathcal{O}_U)}(\mathcal{E}^\bullet, \mathcal{I}^\bullet|_U)
-$$
-which holds as $|_U$ and $j_!$ are adjoint functors
-(Sheaves, Lemma \ref{sheaves-lemma-j-shriek-modules}) and
-Derived Categories, Lemma \ref{derived-lemma-K-injective}.
+This follows formally from the fact that $j_!$ and $j^*$ are adjoint and
+exact (and hence $Lj_! = j_!$ and $Rj^* = j^*$ exist), see
+Derived Categories, Lemma \ref{derived-lemma-derived-adjoint-functors}.
 \end{proof}
+
+\begin{lemma}
+\label{lemma-K-injective-flat}
+Let $f : X \to Y$ be a flat morphism of ringed spaces.
+If $\mathcal{I}^\bullet$ is a K-injective complex of $\mathcal{O}_X$-modules,
+then $f_*\mathcal{I}^\bullet$ is K-injective as a complex of
+$\mathcal{O}_Y$-modules.
+\end{lemma}
+
+\begin{proof}
+This is true because
+$$
+\Hom_{K(\mathcal{O}_Y)}(\mathcal{F}^\bullet, f_*\mathcal{I}^\bullet)
+=
+\Hom_{K(\mathcal{O}_X)}(f^*\mathcal{F}^\bullet, \mathcal{I}^\bullet)
+$$
+by
+Sheaves, Lemma
+\ref{sheaves-lemma-adjoint-pullback-pushforward-modules}
+and the fact that $f^*$ is exact as $f$ is assumed to be flat.
+\end{proof}
+
+
+
+
+
+\section{Unbounded Mayer-Vietoris}
+\label{section-unbounded-mayer-vietoris}
+
+\noindent
+There is a Mayer-Vietoris sequence for unbounded cohomology as well.
 
 \begin{lemma}
 \label{lemma-exact-sequence-lower-shriek}
@@ -6532,7 +6614,8 @@ in $D(\mathcal{O}_X)$.
 \end{lemma}
 
 \begin{proof}
-We have seen above that the restriction functors and the extension
+We have seen in Section \ref{section-properties-K-injective}
+that the restriction functors and the extension
 by zero functors are computed by just applying the functors to
 any complex. Let $\mathcal{E}^\bullet$ be a complex of $\mathcal{O}_X$-modules
 representing $E$. The distinguished triangle of the lemma is the
@@ -6759,8 +6842,22 @@ from the definition of extension by zero). Since both
 $(Rj_*F)|_U = F$ and $(j_!F)|_U = F$ we see that (2) holds.
 \end{proof}
 
+
+
+
+
+
+
+
+\section{Glueing complexes}
+\label{section-glueing-complexes}
+
 \noindent
-We can glue complexes!
+We can glue complexes! More precisely, in certain circumstances we can
+glue locally given objects of the derived category to a global object.
+We first prove some easy cases and then we'll prove the very general
+\cite[Theorem 3.2.4]{BBD}
+in the setting of topological spaces and open coverings.
 
 \begin{lemma}
 \label{lemma-glue}
@@ -6817,6 +6914,222 @@ isomorphism. The existence of the morphism $F \to E$ follows
 from the Mayer-Vietoris sequence for $\Hom$, see
 Lemma \ref{lemma-mayer-vietoris-hom}.
 \end{proof}
+
+\begin{lemma}
+\label{lemma-vanishing-and-glueing}
+Let $f : (X, \mathcal{O}_X) \to (Y, \mathcal{O}_Y)$ be a morphism
+of ringed spaces. Let $\mathcal{B}$ be a basis for the topology on $Y$.
+\begin{enumerate}
+\item Assume $K$ is in $D(\mathcal{O}_X)$ such that
+for $V \in \mathcal{B}$ we have $H^i(f^{-1}(V), K) = 0$ for $i < 0$.
+Then $Rf_*K$ has vanishing cohomology sheaves in negative degrees,
+$H^i(f^{-1}(V), K) = 0$ for $i < 0$ for all opens $V \subset Y$, and
+the rule $V \mapsto H^0(f^{-1}V, K)$ is a sheaf on $Y$.
+\item Assume $K, L$ are in $D(\mathcal{O}_X)$ such that
+for $V \in \mathcal{B}$ we have
+$\text{Ext}^i(K|_{f^{-1}V}, L|_{f^{-1}V}) = 0$ for $i < 0$.
+Then $\text{Ext}^i(K|_{f^{-1}V}, L|_{f^{-1}V}) = 0$ for $i < 0$
+for all opens $V \subset Y$ and
+the rule $V \mapsto \Hom(K|_{f^{-1}V}, L|_{f^{-1}V})$ is a sheaf on $Y$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Lemma \ref{lemma-unbounded-describe-higher-direct-images} tells us
+$H^i(Rf_*K)$ is the sheaf associated to the presheaf
+$V \mapsto H^i(f^{-1}(V), K) = H^i(V, Rf_*K)$.
+The assumptions in (1) imply that $Rf_*K$ has vanishing cohomology
+sheaves in degrees $< 0$. We conclude that for any open $V \subset Y$
+the cohomology group $H^i(V, Rf_*K)$ is zero for $i < 0$ and is equal to
+$H^0(V, H^0(Rf_*K))$ for $i = 0$. This proves (1).
+
+\medskip\noindent
+To prove (2) apply (1) to the complex $R\SheafHom(K, L)$ using
+Lemma \ref{lemma-section-RHom-over-U} to do the translation.
+\end{proof}
+
+\begin{situation}
+\label{situation-locally-given}
+Let $(X, \mathcal{O}_X)$ be a ringed space. We are given
+\begin{enumerate}
+\item a collection of opens $\mathcal{B}$ of $X$,
+\item for $U \in \mathcal{B}$ an object $K_U$ in $D(\mathcal{O}_U)$,
+\item for $V \subset U$ with $V, U \in \mathcal{B}$ an isomorphism
+$\rho^U_V : K_U|_V \to K_V$ in $D(\mathcal{O}_V)$,
+\end{enumerate}
+such that whenever we have $W \subset V \subset U$ with $U, V, W$ in
+$\mathcal{B}$, then $\rho^U_W = \rho^V_W \circ \rho ^U_V|_W$.
+\end{situation}
+
+\noindent
+We won't be able to prove anything about this without making more
+assumptions. An interesting case is where $\mathcal{B}$ is a basis
+for the topology on $X$. Another is the case where we have a morphism
+$f : X \to Y$ of topological spaces and the elements of $\mathcal{B}$
+are the inverse images of the elements of a basis for the topology of $Y$.
+
+\medskip\noindent
+In Situation \ref{situation-locally-given} a {\it solution}
+will be a pair $(K, \rho_U)$ where $K$ is an object of $D(\mathcal{O}_X)$
+and $\rho_U : K|_U \to K_U$, $U \in \mathcal{B}$
+are isomorphisms such that
+we have $\rho^U_V \circ \rho_U|_V = \rho_V$ for all $V \subset U$,
+$U, V \in \mathcal{B}$. In certain cases solutions are unique.
+
+\begin{lemma}
+\label{lemma-uniqueness}
+In Situation \ref{situation-locally-given} assume
+\begin{enumerate}
+\item $X = \bigcup_{U \in \mathcal{B}} U$ and
+for $U, V \in \mathcal{B}$ we have
+$U \cap V = \bigcup_{W \in \mathcal{B}, W \subset U \cap V} W$,
+\item for any $U \in \mathcal{B}$ we have $\text{Ext}^i(K_U, K_U) = 0$
+for $i < 0$.
+\end{enumerate}
+If a solution $(K, \rho_U)$ exists, then it is unique up to unique isomorphism
+and moreover $\text{Ext}^i(K, K) = 0$ for $i < 0$.
+\end{lemma}
+
+\begin{proof}
+Let $(K, \rho_U)$ and $(K', \rho'_U)$ be a pair of solutions.
+Let $f : X \to Y$ be the continuous map constructed
+in Topology, Lemma \ref{topology-lemma-create-map-from-subcollection}.
+Set $\mathcal{O}_Y = f_*\mathcal{O}_X$.
+Then $K, K'$ and $\mathcal{B}$ are as in
+Lemma \ref{lemma-vanishing-and-glueing} part (2).
+Hence we obtain the vanishing of negative exts for $K$ and we see that
+the rule
+$$
+V \longmapsto \Hom(K|_{f^{-1}V}, K'|_{f^{-1}V})
+$$
+is a sheaf on $Y$. As both $(K, \rho_U)$ and $(K', \rho'_U)$ are solutions
+the maps
+$$
+(\rho'_U)^{-1} \circ \rho_U : K|_U \longrightarrow K'|_U
+$$
+over $U = f^{-1}(f(U))$ agree on overlaps. Hence we get a unique global
+section of the sheaf above which defines the desired isomorphism
+$K \to K'$ compatible with all structure available.
+\end{proof}
+
+\begin{remark}
+\label{remark-uniqueness}
+With notation and assumptions as in Lemma \ref{lemma-uniqueness}.
+Suppose that $U, V \in \mathcal{B}$. Let $\mathcal{B}'$ be the set of
+elements of $\mathcal{B}$ contained in $U \cap V$. Then
+$$
+(\{K_{U'}\}_{U' \in \mathcal{B}'}, \{\rho_{V'}^{U'}\}_{U', V' \in \mathcal{B}'})
+$$
+is a system on the ringed space $U \cap V$
+satisfying the assumptions of Lemma \ref{lemma-uniqueness}.
+Moreover, both $(K_U|_{U \cap V}, \rho^U_{U'})$ and
+$(K_V|_{U \cap V}, \rho^V_{U'})$ are solutions to this system.
+By the lemma we find a unique isomorphism
+$$
+\rho_{U, V} : K_U|_{U \cap V} \longrightarrow K_V|_{U \cap V}
+$$
+such that for every $U' \subset U \cap V$, $U' \in \mathcal{B}$ the
+diagram
+$$
+\xymatrix{
+K_U|_{U'} \ar[rr]_{\rho_{U, V}|_{U'}} \ar[rd]_{\rho^U_{U'}} & &
+K_V|_{U'} \ar[ld]^{\rho^V_{U'}} \\
+& K_{U'}
+}
+$$
+commutes. Pick a third element $W \in \mathcal{B}$. We obtain isomorphisms
+$\rho_{U, W} : K_U|_{U \cap W} \to K_W|_{U \cap W}$ and
+$\rho_{V, W} : K_U|_{V \cap W} \to K_W|_{V \cap W}$ satisfying
+similar properties to those of $\rho_{U, V}$. Finally,
+we have
+$$
+\rho_{U, W}|_{U \cap V \cap W} =
+\rho_{V, W}|_{U \cap V \cap W} \circ \rho_{U, V}|_{U \cap V \cap W}
+$$
+This is true by the uniqueness in the lemma
+because both sides of the equality are the unique isomorphism
+compatible with the maps $\rho^U_{U''}$ and $\rho^W_{U''}$
+for $U'' \subset U \cap V \cap W$, $U'' \in \mathcal{B}$.
+Some minor details omitted.
+The collection $(K_U, \rho_{U, V})$ is a descent datum
+in the derived category for the open covering
+$\mathcal{U} : X = \bigcup_{U \in \mathcal{B}} U$ of $X$.
+In this language we are looking for ``effectiveness of the descent datum''
+when we look for the existence of a solution.
+\end{remark}
+
+\begin{lemma}
+\label{lemma-solution-in-finite-case}
+In Situation \ref{situation-locally-given} assume
+\begin{enumerate}
+\item $X = U_1 \cup \ldots \cup U_n$ with $U_i \in \mathcal{B}$,
+\item for $U, V \in \mathcal{B}$ we have
+$U \cap V = \bigcup_{W \in \mathcal{B}, W \subset U \cap V} W$,
+\item for any $U \in \mathcal{B}$ we have $\text{Ext}^i(K_U, K_U) = 0$
+for $i < 0$.
+\end{enumerate}
+Then a solution exists and is unique up to unique isomorphism.
+\end{lemma}
+
+\begin{proof}
+Uniqueness was seen in Lemma \ref{lemma-uniqueness}. We may prove the lemma
+by induction on $n$. The case $n = 1$ is immediate.
+
+\medskip\noindent
+The case $n = 2$.
+Consider the isomorphism
+$\rho_{U_1, U_2} : K_{U_1}|_{U_1 \cap U_2} \to K_{U_2}|_{U_1 \cap U_2}$
+constructed in Remark \ref{remark-uniqueness}.
+By Lemma \ref{lemma-glue} we obtain an object $K$ in $D(\mathcal{O}_X)$
+and isomorphisms $\rho_{U_1} : K|_{U_1} \to K_{U_1}$ and
+$\rho_{U_2} : K|_{U_2} \to K_{U_2}$ compatible with $\rho_{U_1, U_2}$.
+Take $U \in \mathcal{B}$. We will construct an isomorphism
+$\rho_U : K|_U \to K_U$ and we will leave it to the reader to verify
+that $(K, \rho_U)$ is a solution. Consider the set $\mathcal{B}'$
+of elements of $B$ contained in either $U \cap U_1$ or contained in
+$U \cap U_2$. Then $(K_U, \rho^U_{U'})$ is a solution for the system
+$(\{K_{U'}\}_{U' \in \mathcal{B}'},
+\{\rho_{V'}^{U'}\}_{U', V' \in \mathcal{B}'})$ on the ringed space $U$.
+We claim that $(K|_U, \tau_{U'})$ is another solution where
+$\tau_{U'}$ for $U' \in \mathcal{B}'$ is chosen as follows:
+if $U' \subset U_1$ then we take the composition
+$$
+K|_{U'} \xrightarrow{\rho_{U_1}|_{U'}}
+K_{U_1}|_{U'} \xrightarrow{\rho^{U_1}_{U'}}
+K_{U'}
+$$
+and if $U' \subset U_2$ then we take the composition
+$$
+K|_{U'} \xrightarrow{\rho_{U_2}|_{U'}}
+K_{U_2}|_{U'} \xrightarrow{\rho^{U_2}_{U'}}
+K_{U'}.
+$$
+To verify this is a solution use the property of the map $\rho_{U_1, U_2}$
+described in Remark \ref{remark-uniqueness} and the compatibility of
+$\rho_{U_1}$ and $\rho_{U_2}$ with $\rho_{U_1, U_2}$. Having said this
+we apply Lemma \ref{lemma-uniqueness} to see that we obtain a unique
+isomorphism $K|_{U'} \to K_{U'}$ compatible with the maps $\tau_{U'}$ and
+$\rho^U_{U'}$ for $U' \in \mathcal{B}'$.
+
+\medskip\noindent
+The case $n > 2$. Consider the open subspace
+$X' = U_1 \cup \ldots \cup U_{n - 1}$ and let $\mathcal{B}'$ be the set of
+elements of $\mathcal{B}$ contained in $X'$. Then we find a system
+$(\{K_U\}_{U \in \mathcal{B}'}, \{\rho_V^U\}_{U, V \in \mathcal{B}'})$
+on the ringed space $X'$ to which we may apply our induction hypothesis.
+We find a solution $(K_{X'}, \rho^{X'}_U)$.
+Then we can consider the collection
+$\mathcal{B}^* = \mathcal{B} \cup \{X'\}$ of opens of $X$ and we see that
+we obtain a system
+$(\{K_U\}_{U \in \mathcal{B}^*}, \{\rho_V^U\}_{U, V \in \mathcal{B}^*})$.
+Note that this new system also satisfies condition (3)
+by Lemma \ref{lemma-uniqueness} applied to the solution $K_{X'}$.
+For this system we have $X = X' \cup U_n$.
+This reduces us to the case $n = 2$ we worked out above.
+\end{proof}
+
+
+
 
 
 
