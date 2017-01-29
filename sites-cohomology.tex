@@ -3926,6 +3926,30 @@ by definition of homotopy limits in triangulated categories.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-RGamma-commutes-with-Rlim}
+Let $(\mathcal{C}, \mathcal{O})$ be a ringed site. The functors
+$R\Gamma(\mathcal{C}, -)$ and $R\Gamma(U, -)$ for $U \in \Ob(\mathcal{C})$
+commute with $R\lim$. Moreover, there are
+short exact sequences
+$$
+0 \to
+R^1\lim H^{m - 1}(U, K_n) \to H^m(U, R\lim K_n) \to
+\lim H^m(U, K_n) \to 0
+$$
+for any inverse system $(K_n)$ in $D(\mathcal{O})$ and $m \in \mathbf{Z}$.
+Similar for $H^m(\mathcal{C}, R\lim K_n)$.
+\end{lemma}
+
+\begin{proof}
+The first statement follows from
+Injectives, Lemma \ref{injectives-lemma-RF-commutes-with-Rlim}.
+Then we may apply 
+More on Algebra, Remark \ref{more-algebra-remark-compare-derived-limit}
+to $R\lim R\Gamma(U, K_n) = R\Gamma(U, R\lim K_n)$ to get the short
+exact sequences.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-Rf-commutes-with-Rlim}
 Let $f : (\Sh(\mathcal{C}), \mathcal{O}) \to (\Sh(\mathcal{C}'), \mathcal{O}')$
 be a morphism of ringed topoi. Then $Rf_*$ commutes with $R\lim$, i.e.,
@@ -4014,9 +4038,7 @@ R^1\lim \underline{\mathcal{H}}^{m - 1}_n(U) \to
 \underline{\mathcal{H}}^m(U) \to
 \lim \underline{\mathcal{H}}^m_n(U) \to 0
 \end{equation}
-This follows from the fact that $R\Gamma(U, -)$ commutes with derived limits
-(Injectives, Lemma \ref{injectives-lemma-RF-commutes-with-Rlim})
-and More on Algebra, Remark \ref{more-algebra-remark-compare-derived-limit}.
+by Lemma \ref{lemma-RGamma-commutes-with-Rlim}.
 \end{remark}
 
 \noindent
@@ -4057,81 +4079,187 @@ Since $H^m(U, K) = \underline{\mathcal{H}}^m(U) = 0$ for $m > 0$
 \end{proof}
 
 \begin{lemma}
-\label{lemma-is-limit}
-Let $(\mathcal{C}, \mathcal{O})$ be a ringed site. Let $E \in D(\mathcal{O})$.
-Assume there exists a subset $\mathcal{B} \subset \Ob(\mathcal{C})$ such that
+\label{lemma-cohomology-derived-limit-injective}
+Let $(\mathcal{C}, \mathcal{O})$ be a ringed site. Let $(K_n)$ be an
+inverse system in $D(\mathcal{O})$. Let $V \in \Ob(\mathcal{C})$
+and $m \in \mathbf{Z}$. Assume there exist an integer $n(V)$
+and a cofinal system $\text{Cov}_V$ of coverings of $V$ such that
+for $\{V_i \to V\} \in \text{Cov}_V$
 \begin{enumerate}
-\item every object of $\mathcal{C}$ has a covering whose members are
-elements of $\mathcal{B}$,
-\item $\forall m$, $\exists p(m)$ such that
-$H^p(U, H^{m - p}(E)) = 0$ for all $p > p(m)$ and $U \in \mathcal{B}$.
-(For example if $H^p(U, H^q(E)) = 0$ for all
-$p > 0$, $q < 0$, $U \in \mathcal{B}$.)
+\item $R^1\lim H^{m - 1}(V_i, K_n) = 0$, and
+\item $H^m(V_i, K_n) \to H^m(V_i, K_{n(V)})$ is injective
+for $n \geq n(V)$.
 \end{enumerate}
-Then the canonical map
+Then the map on sections $H^m(R\lim K_n)(V) \to H^m(K_{n(V)})(V)$ is injective.
+\end{lemma}
+
+\begin{proof}
+Let $\gamma \in H^m(R\lim K_n)(V)$ map to zero in
+$H^m(K_{n(V)})(V)$. Since $H^m(R\lim K_n)$ is the sheafification of
+$U \mapsto H^m(U, R\lim K_n)$ (by Lemma \ref{lemma-sheafification-cohomology})
+we can choose $\{V_i \to V\} \in \text{Cov}_V$
+and elements $\tilde\gamma_i \in H^m(V_i, R\lim K_n)$ mapping to
+$\gamma|_{V_i}$.
+Then $\tilde\gamma_i$ maps to $\tilde\gamma_{i, n(V)} \in H^m(V_i, K_{n(V)})$.
+Using that $H^m(K_{n(V)})$ is the sheafification of
+$U \mapsto H^m(U, K_{n(V)})$
+(by Lemma \ref{lemma-sheafification-cohomology} again)
+we see that after replacing $\{V_i \to V\}$ by a refinement
+we may assume that $\tilde\gamma_{i, n(V)} = 0$ for all $i$.
+For this covering we consider the short exact sequences
 $$
-E \longrightarrow R\lim \tau_{\geq -n} E
+0 \to
+R^1\lim H^{m - 1}(V_i, K_n) \to H^m(V_i, R\lim K_n) \to
+\lim H^m(V_i, K_n) \to 0
 $$
+of Lemma \ref{lemma-RGamma-commutes-with-Rlim}.
+By assumption (1) the group on the left is zero and by
+assumption (2) the group on the right maps injectively
+into $H^m(V_i, K_{n(V)})$. We conclude $\tilde\gamma_i = 0$
+and hence $\gamma = 0$ as desired.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-is-limit-per-object}
+Let $(\mathcal{C}, \mathcal{O})$ be a ringed site. Let $E \in D(\mathcal{O})$.
+Let $\mathcal{B} \subset \Ob(\mathcal{C})$ be a subset. Assume
+\begin{enumerate}
+\item every object of $\mathcal{C}$ has a covering whose members
+are elements of $\mathcal{B}$, and
+\item for every $V \in \mathcal{B}$ there exist a function
+$p(V, -) : \mathbf{Z} \to \mathbf{Z}$ and a cofinal system $\text{Cov}_V$
+of coverings of $V$ such that
+$$
+H^p(V_i, H^{m - p}(E)) = 0 \text{ for }
+\{V_i \to V\} \in \text{Cov}_V \text{ and } p > p(V, m)
+$$
+\end{enumerate}
+Then the canonical map $E \to R\lim \tau_{\geq -n} E$
 is an isomorphism in $D(\mathcal{O})$.
 \end{lemma}
 
 \begin{proof}
-(The parenthetical statement holds because the condition
-$H^p(U, H^q(E)) = 0$ for all $p > 0$, $q < 0$, $U \in \mathcal{B}$
-is equivalent to $p(m) = \max(0, m)$ in the lemma.)
-The canonical map $E \to R\lim \tau_{\geq -n}E$
-comes from the canonical maps $E \to \tau_{\geq -n}E$.
 Set $K_n = \tau_{\geq -n}E$ and $K = R\lim K_n$.
-We will use the notation introduced in
-Remark \ref{remark-discuss-derived-limit}.
-Fix $m \in \mathbf{Z}$.
+The canonical map $E \to K$
+comes from the canonical maps $E \to K_n = \tau_{\geq -n}E$.
+We have to show that $E \to K$ induces an isomorphism
+$H^m(E) \to H^m(K)$ of cohomology sheaves. In the rest of the
+proof we fix $m$. If $n \geq -m$, then
+the map $E \to \tau_{\geq -n}E = K_n$ induces an isomorphism
+$H^m(E) \to H^m(K_n)$.
+To finish the proof it suffices to show that for every $V \in \mathcal{B}$
+there exists an integer $n(V) \geq -m$ such that the map
+$H^m(K)(V) \to H^m(K_{n(V)})(V)$ is injective. Namely, then
+the composition
+$$
+H^m(E)(V) \to H^m(K)(V) \to H^m(K_{n(V)})(V)
+$$
+is a bijection and the second arrow is injective, hence the
+first arrow is bijective. By property (1) this will imply
+$H^m(E) \to H^m(K)$ is an isomorphism. Set
+$$
+n(V) = 1 + \max\{-m, p(V, m - 1) - m, -1 + p(V, m) - m, -2 + p(V, m + 1) - m\}.
+$$
+so that in any case $n(V) \geq -m$. Claim: the maps
+$$
+H^{m - 1}(V_i, K_{n + 1}) \to H^{m - 1}(V_i, K_n)
+\quad\text{and}\quad
+H^m(V_i, K_{n + 1}) \to H^m(V_i, K_n)
+$$
+are isomorphisms for $n \geq n(V)$ and $\{V_i \to V\} \in \text{Cov}_V$.
+The claim implies conditions
+(1) and (2) of Lemma \ref{lemma-cohomology-derived-limit-injective}
+are satisfied and hence implies the desired injectivity.
 Recall (Derived Categories, Remark
 \ref{derived-remark-truncation-distinguished-triangle})
 that we have distinguished triangles
 $$
-K_{n + 1} \to K_n \to \mathcal{E}^{-n}[n] \to K_{n + 1}[1]
+H^{-n - 1}(E)[n + 1] \to
+K_{n + 1} \to K_n \to H^{-n - 1}(E)[n + 2]
 $$
-where $\mathcal{E}^i = H^i(E)$ denotes the $i$th cohomology sheaf of $E$.
-Let $U \in \mathcal{B}$.
-The associated long exact cohomology sequence gives
+Looking at the asssociated long exact cohomology sequence the claim follows if
 $$
-H^m(U, \mathcal{E}^{-n}[n - 1]) \to
-H^m(U, K_{n + 1}) \to H^m(U, K_n) \to
-H^m(U, \mathcal{E}^{-n}[n])
+H^{m + n}(V_i, H^{-n - 1}(E)),\quad
+H^{m + n + 1}(V_i, H^{-n - 1}(E)),\quad
+H^{m + n + 2}(V_i, H^{-n - 1}(E))
 $$
-The first and the last groups are equal to
-$H^{m + n - 1}(U, \mathcal{E}^{-n})$ and
-$H^{m + n}(U, \mathcal{E}^{-n})$.
-By assumption (2) if $m + n - 1 > p(m - 1)$ and $m + n > p(m)$, i.e., if
-$n \geq n_m = 1 + \max(p(m - 1) - m + 1, p(m) - m)$, then these two groups
-are zero. We conclude that the inverse system
+are zero for $n \geq n(V)$ and $\{V_i \to V\} \in \text{Cov}_V$.
+This follows from our choice of $n(V)$
+and the assumption in the lemma.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-is-limit-spaltenstein}
+\begin{reference}
+This is \cite[Proposition 2.1.4]{six-I} with slightly changed
+hypotheses; it is the analogue of \cite[Proposition 3.13]{Spaltenstein}
+for sites.
+\end{reference}
+Let $(\mathcal{C}, \mathcal{O})$ be a ringed site. Let $E \in D(\mathcal{O})$.
+Let $\mathcal{B} \subset \Ob(\mathcal{C})$ be a subset. Assume
+\begin{enumerate}
+\item every object of $\mathcal{C}$ has a covering whose members are
+elements of $\mathcal{B}$, and
+\item for every $V \in \mathcal{B}$ there exist an integer $d_V \geq 0$ and
+a cofinal system $\text{Cov}_V$ of coverings of $V$ such that
 $$
-\ldots \to
-\underline{\mathcal{H}}^m_3(U) \to
-\underline{\mathcal{H}}^m_2(U) \to
-\underline{\mathcal{H}}^m_1(U)
+H^p(V_i, H^q(E)) = 0 \text{ for }
+\{V_i \to V\} \in \text{Cov}_V,\ p > d_V, \text{ and }q < 0
 $$
-is constant for $n \geq n_m$. We conclude that these inverse systems have
-vanishing $R^1\lim$ (for all $m$). By Equation (\ref{equation-ses-Rlim-over-U})
-$$
-\underline{\mathcal{H}}^m(U) =
-\ldots =
-\underline{\mathcal{H}}^m_{n_m + 2}(U) =
-\underline{\mathcal{H}}^m_{n_m + 1}(U) =
-\underline{\mathcal{H}}^m_{n_m}(U)
-$$
-for all $U \in \mathcal{B}$. By property (1) we find that
-$\underline{\mathcal{H}}^m$ and $\underline{\mathcal{H}}^m_{n_m + i}$
-have the same sheafification for $i \geq 0$. If $-n_m - i < m$, then
-this sheafification is equal to $\mathcal{E}^m$ by
-Lemma \ref{lemma-sheafification-cohomology}
-applied to $K_{n_m + i} = \tau_{\geq -n_m - i}E$.
-This implies that $E \to K$ induces an isomorphism
-on cohomology sheaves which is what we wanted to prove.
+\end{enumerate}
+Then the canonical map $E \to R\lim \tau_{\geq -n} E$
+is an isomorphism in $D(\mathcal{O})$.
+\end{lemma}
+
+\begin{proof}
+This follows from Lemma \ref{lemma-is-limit-per-object}
+with $p(V, m) = d_V + \max(0, m)$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-is-limit}
+Let $(\mathcal{C}, \mathcal{O})$ be a ringed site. Let $E \in D(\mathcal{O})$.
+Assume there exists a function $p(-) : \mathbf{Z} \to \mathbf{Z}$
+and a subset $\mathcal{B} \subset \Ob(\mathcal{C})$ such that
+\begin{enumerate}
+\item every object of $\mathcal{C}$ has a covering whose members are
+elements of $\mathcal{B}$,
+\item $H^p(V, H^{m - p}(E)) = 0$ for $p > p(m)$ and $V \in \mathcal{B}$.
+\end{enumerate}
+Then the canonical map $E \to R\lim \tau_{\geq -n} E$
+is an isomorphism in $D(\mathcal{O})$.
+\end{lemma}
+
+\begin{proof}
+Apply Lemma \ref{lemma-is-limit-per-object}
+with $p(V, m) = p(m)$ and $\text{Cov}_V$
+equal to the set of coverings $\{V_i \to V\}$ with
+$V_i \in \mathcal{B}$ for all $i$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-is-limit-dimension}
+Let $(\mathcal{C}, \mathcal{O})$ be a ringed site. Let $E \in D(\mathcal{O})$.
+Assume there exists an integer $d \geq 0$
+and a subset $\mathcal{B} \subset \Ob(\mathcal{C})$ such that
+\begin{enumerate}
+\item every object of $\mathcal{C}$ has a covering whose members are
+elements of $\mathcal{B}$,
+\item $H^p(V, H^q(E)) = 0$ for $p > d$, $q < 0$, and $V \in \mathcal{B}$.
+\end{enumerate}
+Then the canonical map $E \to R\lim \tau_{\geq -n} E$
+is an isomorphism in $D(\mathcal{O})$.
+\end{lemma}
+
+\begin{proof}
+Apply Lemma \ref{lemma-is-limit-spaltenstein}
+with $d_V = d$ and $\text{Cov}_V$
+equal to the set of coverings $\{V_i \to V\}$ with
+$V_i \in \mathcal{B}$ for all $i$.
 \end{proof}
 
 \noindent
-The lemma above can be used to compute cohomology
+The lemmas above can be used to compute cohomology
 in certain situations.
 
 \begin{lemma}
@@ -4150,7 +4278,8 @@ and $U \in \mathcal{B}$.
 \end{lemma}
 
 \begin{proof}
-Observe that $K = R\lim \tau_{\geq -n} K$ by Lemma \ref{lemma-is-limit}.
+Observe that $K = R\lim \tau_{\geq -n} K$ by
+Lemma \ref{lemma-is-limit-dimension} with $d = 0$.
 Let $U \in \mathcal{B}$. By Equation (\ref{equation-ses-Rlim-over-U})
 we get a short exact sequence
 $$
@@ -4265,7 +4394,7 @@ elements of $\mathcal{B}$,
 \item for every $U \in \mathcal{B}$ we have $H^p(U, \mathcal{H}^q) = 0$
 for $p > d$ and $q < 0$\footnote{It suffices if
 $\forall m$, $\exists p(m)$, $H^p(U. \mathcal{H}^{m - p}) = 0$ for
-$p > p(m)$.}.
+$p > p(m)$, see Lemma \ref{lemma-is-limit}.}.
 \end{enumerate}
 Then (\ref{equation-into-candidate-K-injective}) is a quasi-isomorphism.
 \end{lemma}
@@ -4274,8 +4403,7 @@ Then (\ref{equation-into-candidate-K-injective}) is a quasi-isomorphism.
 By Derived Categories, Lemma \ref{derived-lemma-difficulty-K-injectives}
 it suffices to show that the canonical map
 $\mathcal{F}^\bullet \to R\lim \tau_{\geq -n} \mathcal{F}^\bullet$
-is an isomorphism. This follows from Lemma \ref{lemma-is-limit}
-with $p(m) = \max(d, m)$.
+is an isomorphism. This follows from Lemma \ref{lemma-is-limit-dimension}.
 \end{proof}
 
 \noindent
@@ -8638,7 +8766,7 @@ $\mathcal{F}_1 \to \mathcal{F}_2 \to \mathcal{F}_3$
 is exact.
 
 \medskip\noindent
-Proof of (2). This holds by Lemma \ref{lemma-is-limit}.
+Proof of (2). This holds by Lemma \ref{lemma-is-limit-dimension} with $d = 0$.
 
 \medskip\noindent
 Proof of (3). Let $(\mathcal{F}_n)$ be a system as in (2) and set
