@@ -6940,6 +6940,28 @@ If $(K_n)$ is an inverse system in $D(\mathcal{O}_X)$ then we
 denote $R\lim K_n$ the derived limit.
 
 \begin{lemma}
+\label{lemma-RGamma-commutes-with-Rlim}
+Let $(X, \mathcal{O}_X)$ be a ringed space. For $U \subset X$ open the
+functor $R\Gamma(U, -)$ commutes with $R\lim$. Moreover, there are
+short exact sequences
+$$
+0 \to
+R^1\lim H^{m - 1}(U, K_n) \to H^m(U, R\lim K_n) \to
+\lim H^m(U, K_n) \to 0
+$$
+for any inverse system $(K_n)$ in $D(\mathcal{O}_X)$ and any $m \in \mathbf{Z}$.
+\end{lemma}
+
+\begin{proof}
+The first statement follows from
+Injectives, Lemma \ref{injectives-lemma-RF-commutes-with-Rlim}.
+Then we may apply 
+More on Algebra, Remark \ref{more-algebra-remark-compare-derived-limit}
+to $R\lim R\Gamma(U, K_n) = R\Gamma(U, R\lim K_n)$ to get the short
+exact sequences.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-Rf-commutes-with-Rlim}
 Let $f : (X, \mathcal{O}_X) \to (Y, \mathcal{O}_Y)$ be a morphism of ringed
 spaces. Then $Rf_*$ commutes with $R\lim$, i.e., $Rf_*$ commutes with
@@ -7007,9 +7029,7 @@ R^1\lim \underline{\mathcal{H}}^{m - 1}_n(U) \to
 \underline{\mathcal{H}}^m(U) \to
 \lim \underline{\mathcal{H}}^m_n(U) \to 0
 \end{equation}
-This follows from the fact that $R\Gamma(U, -)$ commutes with derived limits
-(Injectives, Lemma \ref{injectives-lemma-RF-commutes-with-Rlim})
-and More on Algebra, Remark \ref{more-algebra-remark-compare-derived-limit}.
+by Lemma \ref{lemma-RGamma-commutes-with-Rlim}.
 \end{remark}
 
 \noindent
@@ -7048,81 +7068,170 @@ Since $H^m(U, K) = \underline{\mathcal{H}}^m(U) = 0$ for $m > 0$
 \end{proof}
 
 \begin{lemma}
-\label{lemma-is-limit}
-Let $(X, \mathcal{O}_X)$ be a ringed space. Let $E \in D(\mathcal{O}_X)$.
-Assume there exists a set $\mathcal{B}$ of opens of $X$ such that
+\label{lemma-cohomology-derived-limit-injective}
+Let $(X, \mathcal{O}_X)$ be a ringed space. Let $(K_n)$ be an
+inverse system in $D(\mathcal{O}_X)$. Let $x \in X$ and $m \in \mathbf{Z}$.
+Assume there exist an integer $n(x)$ and a fundamental system $\mathfrak{U}_x$
+of open neighbourhoods of $x$ such that for $U \in \mathfrak{U}_x$
 \begin{enumerate}
-\item every open in $X$ has a covering whose members are
-elements of $\mathcal{B}$,
-\item $\forall m$, $\exists p(m)$ such that
-$H^p(U, H^{m - p}(E)) = 0$ for all $p > p(m)$ and $U \in \mathcal{B}$.
-(For example if $H^p(U, H^q(E)) = 0$ for all
-$p > 0$, $q < 0$, $U \in \mathcal{B}$.)
+\item $R^1\lim H^{m - 1}(U, K_n) = 0$, and
+\item $H^m(U, K_n) \to H^m(U, K_{n(x)})$ is injective
+for $n \geq n(x)$.
 \end{enumerate}
-Then the canonical map
+Then the map on stalks $H^m(R\lim K_n)_x \to H^m(K_{n(x)})_x$ is injective.
+\end{lemma}
+
+\begin{proof}
+Let $\gamma$ be an element of $H^m(R\lim K_n)_x$ which maps to zero
+in $H^m(K_{n(x)})_x$. Since $H^m(R\lim K_n)$ is the sheafification
+of $U \mapsto H^m(U, R\lim K_n)$
+(by Lemma \ref{lemma-sheafification-cohomology})
+we can choose $U \in \mathfrak{U}_x$
+and an element $\tilde \gamma \in H^m(U, R\lim K_n)$ mapping to $\gamma$.
+Then $\tilde\gamma$ maps to $\tilde\gamma_{n(x)} \in H^m(U, K_{n(x)})$.
+Using that $H^m(K_{n(x)})$ is the sheafification of
+$U \mapsto H^m(U, K_{n(x)})$
+(by Lemma \ref{lemma-sheafification-cohomology} again)
+we see that after shrinking $U$ we may assume that $\tilde\gamma_{n(x)} = 0$.
+For this $U$ we consider the short exact sequence
 $$
-E \longrightarrow R\lim \tau_{\geq -n} E
+0 \to
+R^1\lim H^{m - 1}(U, K_n) \to H^m(U, R\lim K_n) \to
+\lim H^m(U, K_n) \to 0
 $$
+of Lemma \ref{lemma-RGamma-commutes-with-Rlim}.
+By assumption (1) the group on the left is zero and by
+assumption (2) the group on the right maps injectively
+into $H^m(U, K_{n(x)})$. We conclude $\tilde\gamma = 0$
+and hence $\gamma = 0$ as desired.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-is-limit-per-point}
+Let $(X, \mathcal{O}_X)$ be a ringed space. Let $E \in D(\mathcal{O}_X)$.
+Assume that for every $x \in X$ there exist
+a function $p(x, -) : \mathbf{Z} \to \mathbf{Z}$ and
+a fundamental system $\mathfrak{U}_x$ of open neighbourhoods of $x$
+such that
+$$
+H^p(U, H^{m - p}(E)) = 0 \text{ for }
+U \in \mathfrak{U}_x \text{ and } p > p(x, m)
+$$
+Then the canonical map $E \to R\lim \tau_{\geq -n} E$
 is an isomorphism in $D(\mathcal{O}_X)$.
 \end{lemma}
 
 \begin{proof}
-(The parenthetical statement holds because the condition
-$H^p(U, H^q(E)) = 0$ for all $p > 0$, $q < 0$, $U \in \mathcal{B}$
-is equivalent to $p(m) = \max(0, m)$ in the lemma.)
-The canonical map $E \to R\lim \tau_{\geq -n}E$
-comes from the canonical maps $E \to \tau_{\geq -n}E$.
 Set $K_n = \tau_{\geq -n}E$ and $K = R\lim K_n$.
-We will use the notation introduced in
-Remark \ref{remark-discuss-derived-limit}.
-Fix $m \in \mathbf{Z}$.
+The canonical map $E \to K$
+comes from the canonical maps $E \to K_n = \tau_{\geq -n}E$.
+We have to show that $E \to K$ induces an isomorphism
+$H^m(E) \to H^m(K)$ of cohomology sheaves. In the rest of the
+proof we fix $m$. If $n \geq -m$, then
+the map $E \to \tau_{\geq -n}E = K_n$ induces an isomorphism
+$H^m(E) \to H^m(K_n)$.
+To finish the proof it suffices to show that for every $x \in X$
+there exists an integer $n(x) \geq -m$ such that the map
+$H^m(K)_x \to H^m(K_{n(x)})_x$ is injective. Namely, then
+the composition
+$$
+H^m(E)_x \to H^m(K)_x \to H^m(K_{n(x)})_x
+$$
+is a bijection and the second arrow is injective, hence the
+first arrow is bijective. Set
+$$
+n(x) = 1 + \max\{-m, p(x, m - 1) - m, -1 + p(x, m) - m, -2 + p(x, m + 1) - m\}.
+$$
+so that in any case $n(x) \geq -m$. Claim: the maps
+$$
+H^{m - 1}(U, K_{n + 1}) \to H^{m - 1}(U, K_n)
+\quad\text{and}\quad
+H^m(U, K_{n + 1}) \to H^m(U, K_n)
+$$
+are isomorphisms for $n \geq n(x)$ and $U \in \mathfrak{U}_x$.
+The claim implies conditions
+(1) and (2) of Lemma \ref{lemma-cohomology-derived-limit-injective}
+are satisfied and hence implies the desired injectivity.
 Recall (Derived Categories, Remark
 \ref{derived-remark-truncation-distinguished-triangle})
 that we have distinguished triangles
 $$
-K_{n + 1} \to K_n \to \mathcal{E}^{-n}[n] \to K_{n + 1}[1]
+H^{-n - 1}(E)[n + 1] \to
+K_{n + 1} \to K_n \to H^{-n - 1}(E)[n + 2]
 $$
-where $\mathcal{E}^i = H^i(E)$ denotes the $i$th cohomology sheaf of $E$.
-Let $U \in \mathcal{B}$.
-The associated long exact cohomology sequence gives
+Looking at the asssociated long exact cohomology sequence the claim follows if
 $$
-H^m(U, \mathcal{E}^{-n}[n - 1]) \to
-H^m(U, K_{n + 1}) \to H^m(U, K_n) \to
-H^m(U, \mathcal{E}^{-n}[n])
+H^{m + n}(U, H^{-n - 1}(E)),\quad
+H^{m + n + 1}(U, H^{-n - 1}(E)),\quad
+H^{m + n + 2}(U, H^{-n - 1}(E))
 $$
-The first and the last groups are equal to
-$H^{m + n - 1}(U, \mathcal{E}^{-n})$ and
-$H^{m + n}(U, \mathcal{E}^{-n})$.
-By assumption (2) if $m + n - 1 > p(m - 1)$ and $m + n > p(m)$, i.e., if
-$n \geq n_m = 1 + \max(p(m - 1) - m + 1, p(m) - m)$, then these two groups
-are zero. We conclude that the inverse system
+are zero for $n \geq n(x)$ and $U \in \mathfrak{U}_x$.
+This follows from our choice of $n(x)$
+and the assumption in the lemma.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-is-limit-spaltenstein}
+\begin{reference}
+\cite[Proposition 3.13]{Spaltenstein}
+\end{reference}
+Let $(X, \mathcal{O}_X)$ be a ringed space. Let $E \in D(\mathcal{O}_X)$.
+Assume that for every $x \in X$ there exist an integer $d_x \geq 0$ and
+a fundamental system $\mathfrak{U}_x$ of open neighbourhoods of $x$
+such that
 $$
-\ldots \to
-\underline{\mathcal{H}}^m_3(U) \to
-\underline{\mathcal{H}}^m_2(U) \to
-\underline{\mathcal{H}}^m_1(U)
+H^p(U, H^q(E)) = 0 \text{ for }
+U \in \mathfrak{U}_x,\ p > d_x, \text{ and }q < 0
 $$
-is constant for $n \geq n_m$. We conclude that these inverse systems have
-vanishing $R^1\lim$ (for all $m$). By Equation (\ref{equation-ses-Rlim-over-U})
+Then the canonical map $E \to R\lim \tau_{\geq -n} E$
+is an isomorphism in $D(\mathcal{O}_X)$.
+\end{lemma}
+
+\begin{proof}
+This follows from Lemma \ref{lemma-is-limit-per-point}
+with $p(x, m) = d_x + \max(0, m)$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-is-limit}
+Let $(X, \mathcal{O}_X)$ be a ringed space. Let $E \in D(\mathcal{O}_X)$.
+Assume there exist a function $p(-) : \mathbf{Z} \to \mathbf{Z}$
+and a set $\mathcal{B}$ of opens of $X$ such that
+\begin{enumerate}
+\item every open in $X$ has a covering whose members are
+elements of $\mathcal{B}$, and
+\item $H^p(U, H^{m - p}(E)) = 0$ for $p > p(m)$ and $U \in \mathcal{B}$.
+\end{enumerate}
+Then the canonical map $E \to R\lim \tau_{\geq -n} E$
+is an isomorphism in $D(\mathcal{O}_X)$.
+\end{lemma}
+
+\begin{proof}
+Apply Lemma \ref{lemma-is-limit-per-point}
+with $p(x, m) = p(m)$ and
+$\mathfrak{U}_x = \{U \in \mathcal{B} \mid x \in U\}$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-is-limit-dimension}
+Let $(X, \mathcal{O}_X)$ be a ringed space. Let $E \in D(\mathcal{O}_X)$.
+Assume there exist an integer $d \geq 0$ and a basis $\mathcal{B}$ for the
+topology of $X$ such that
 $$
-\underline{\mathcal{H}}^m(U) =
-\ldots =
-\underline{\mathcal{H}}^m_{n_m + 2}(U) =
-\underline{\mathcal{H}}^m_{n_m + 1}(U) =
-\underline{\mathcal{H}}^m_{n_m}(U)
+H^p(U, H^q(E)) = 0 \text{ for }
+U \in \mathcal{B},\ p > d, \text{ and }q < 0
 $$
-for all $U \in \mathcal{B}$. By property (1) we find that
-$\underline{\mathcal{H}}^m$ and $\underline{\mathcal{H}}^m_{n_m + i}$
-have the same sheafification for $i \geq 0$. If $-n_m - i < m$, then
-this sheafification is equal to $\mathcal{E}^m$ by
-Lemma \ref{lemma-sheafification-cohomology}
-applied to $K_{n_m + i} = \tau_{\geq -n_m - i}E$.
-This implies that $E \to K$ induces an isomorphism
-on cohomology sheaves which is what we wanted to prove.
+Then the canonical map $E \to R\lim \tau_{\geq -n} E$
+is an isomorphism in $D(\mathcal{O}_X)$.
+\end{lemma}
+
+\begin{proof}
+Apply Lemma \ref{lemma-is-limit-spaltenstein} with $d_x = d$
+and $\mathfrak{U}_x = \{U \in \mathcal{B} \mid x \in U\}$.
 \end{proof}
 
 \noindent
-The lemma above can be used to compute cohomology
+The lemmas above can be used to compute cohomology
 in certain situations.
 
 \begin{lemma}
@@ -7141,7 +7250,8 @@ and $U \in \mathcal{B}$.
 \end{lemma}
 
 \begin{proof}
-Observe that $K = R\lim \tau_{\geq -n} K$ by Lemma \ref{lemma-is-limit}.
+Observe that $K = R\lim \tau_{\geq -n} K$ by
+Lemma \ref{lemma-is-limit-dimension} with $d = 0$.
 Let $U \in \mathcal{B}$. By Equation (\ref{equation-ses-Rlim-over-U})
 we get a short exact sequence
 $$
@@ -7258,7 +7368,7 @@ elements of $\mathcal{B}$,
 \item for every $U \in \mathcal{B}$ we have $H^p(U, \mathcal{H}^q) = 0$
 for $p > d$ and $q < 0$\footnote{It suffices if
 $\forall m$, $\exists p(m)$, $H^p(U. \mathcal{H}^{m - p}) = 0$ for
-$p > p(m)$.}.
+$p > p(m)$, see Lemma \ref{lemma-is-limit}.}.
 \end{enumerate}
 Then (\ref{equation-into-candidate-K-injective}) is a quasi-isomorphism.
 \end{lemma}
@@ -7267,8 +7377,7 @@ Then (\ref{equation-into-candidate-K-injective}) is a quasi-isomorphism.
 By Derived Categories, Lemma \ref{derived-lemma-difficulty-K-injectives}
 it suffices to show that the canonical map
 $\mathcal{F}^\bullet \to R\lim \tau_{\geq -n} \mathcal{F}^\bullet$
-is an isomorphism. This follows from Lemma \ref{lemma-is-limit}
-with $p(m) = \max(d, m)$.
+is an isomorphism. This is Lemma \ref{lemma-is-limit-dimension}.
 \end{proof}
 
 \noindent
