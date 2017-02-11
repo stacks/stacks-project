@@ -2432,33 +2432,6 @@ This is obvious.
 \end{proof}
 
 \begin{lemma}
-\label{lemma-basic-postnikov}
-In Situation \ref{situation-simplicial-site}. Set
-$$
-X_n = g_{n!}\mathbf{Z}
-\quad\text{and}\quad
-Y_n = (X_n \to \ldots \to X_0)[-n]
-$$
-as objects of $D(\mathcal{C}_{total})$ where the maps are
-as in Lemma \ref{lemma-simplicial-resolution-Z-site}.
-With the evident canonical maps $X_n \to Y_n$ and
-$Y_0 \to Y_1[1] \to Y_2[2] \to \ldots$ we have
-\begin{enumerate}
-\item the distinguished triangles $Y_n \to X_n \to Y_{n - 1} \to Y_n[1]$
-define a Postnikov system
-(Derived Categories, Definition \ref{derived-definition-postnikov-system})
-for $\ldots \to X_2 \to X_1 \to X_0$,
-\item $g_m^{-1}(Y_n) \cong \mathbf{Z}[-n] \oplus \mathbf{Z}^{\oplus r_{n, m}}$
-for some integers $r_{n, m} \geq 0$,
-\item $\mathbf{Z} = \text{hocolim} Y_n[n]$ in $D(\mathcal{C}_{total})$.
-\end{enumerate}
-\end{lemma}
-
-\begin{proof}
-Omitted.
-\end{proof}
-
-\begin{lemma}
 \label{lemma-abelian-postnikov}
 In Situation \ref{situation-simplicial-site}. Let $K$ be
 an object of $D(\mathcal{C}_{total})$. Set
@@ -2472,24 +2445,34 @@ Y_n =
 $$
 as objects of $D(\mathcal{C}_{total})$ where the maps are
 as in Lemma \ref{lemma-simplicial-resolution-Z-site}.
-With the evident canonical maps $X_n \to Y_n$ and
+With the evident canonical maps $Y_n \to X_n$ and
 $Y_0 \to Y_1[1] \to Y_2[2] \to \ldots$ we have
 \begin{enumerate}
 \item the distinguished triangles $Y_n \to X_n \to Y_{n - 1} \to Y_n[1]$
 define a Postnikov system
 (Derived Categories, Definition \ref{derived-definition-postnikov-system})
 for $\ldots \to X_2 \to X_1 \to X_0$,
-\item $g_m^{-1}(Y_n) \cong K_m[-n] \oplus K_m^{\oplus r_{n, m}}$
-for some integers $r_{n, m} \geq 0$,
 \item $K = \text{hocolim} Y_n[n]$ in $D(\mathcal{C}_{total})$.
 \end{enumerate}
 \end{lemma}
 
 \begin{proof}
-This is a consequence of Lemma \ref{lemma-basic-postnikov}
-and the fact that an exact functor of triangulated categories
-sends Postnikov systems to Postnikov systems and that
-$\otimes^\mathbf{L}$ commutes with homotopy colimits.
+First, if $K = \mathbf{Z}$, then this is the construction of
+Derived Categories, Example \ref{derived-example-key-postnikov}
+applied to the complex
+$$
+\ldots \to
+g_{2!}\mathbf{Z} \to
+g_{1!}\mathbf{Z} \to
+g_{0!}\mathbf{Z}
+$$
+in $\textit{Ab}(\mathcal{C}_{total})$ combined with the fact that
+this complex represents $K = \mathbf{Z}$ in $D(\mathcal{C}_{total})$
+by Lemma \ref{lemma-simplicial-resolution-Z-site}.
+The general case follows from this, the fact that the exact functor
+$- \otimes^\mathbf{L}_\mathbf{Z} K$ sends Postnikov systems to
+Postnikov systems, and
+that $- \otimes^\mathbf{L}_\mathbf{Z} K$ commutes with homotopy colimits.
 \end{proof}
 
 \begin{lemma}
@@ -2514,7 +2497,7 @@ By (1) and Lemma \ref{lemma-derived-cartesian-shriek} we have
 $X_n = g_{n!}K_n$. Since $Y_0 = X_0$ we find that
 $K_0 \to K'_0$ being zero implies $Y_0 \to K'$ is zero.
 Suppose we've shown that the map $Y_n[n] \to K'$ is zero
-for some $n$. From the distinguished triangle
+for some $n \geq 0$. From the distinguished triangle
 $$
 Y_n[n] \to Y_{n + 1}[n + 1] \to X_{n + 1}[n + 1] \to Y_n[n + 1]
 $$
@@ -2541,11 +2524,12 @@ to show that
 $$
 \Hom((\bigoplus Y_n[n])[1], K') = \prod \Hom(Y_n[n + 1], K')
 $$
-is zero. To see this, arguing as above, it suffices to show that
+is zero for all $n \geq 0$. To see this, arguing as above,
+it suffices to show that
 $$
 \Hom(K_n[n + 1], K'_n)  = 0
 $$
-for all $n$ which follows from condition (3).
+for all $n \geq 0$ which follows from condition (3).
 \end{proof}
 
 \begin{lemma}
@@ -2557,8 +2541,8 @@ Assume
 \item $K$ is cartesian,
 \item $\Hom(K_i[i - 1], K'_i) = 0$ for $i > 1$.
 \end{enumerate}
-Then any map $\{K_n \to K'_n\}$ of simplicial systems 
-comes from a map $K \to K'$ in $D(\mathcal{C}_{total})$.
+Then any map $\{K_n \to K'_n\}$ between the associated simplicial systems 
+of $K$ and $K'$ comes from a map $K \to K'$ in $D(\mathcal{C}_{total})$.
 \end{lemma}
 
 \begin{proof}
@@ -2618,6 +2602,171 @@ $\mathcal{C}_0$ we deduce that the map $\gamma_0 : K_0 \to K'_0$
 is the same as the first map $K_0 \to K'_0$ of the morphism
 of simplicial systems. Since $K$ is cartesian, this easily gives that
 $\{\gamma_n\}$ is the map of simplicial systems we started out with.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-cartesian-object-derived-from-simplicial}
+In Situation \ref{situation-simplicial-site}. Let
+$(K_n, K_\varphi)$ be a simplicial system of the derived category.
+Assume
+\begin{enumerate}
+\item $(K_n, K_\varphi)$ is cartesian,
+\item $\Hom(K_i[t], K_i) = 0$ for $i \geq 0$ and $t > 0$.
+\end{enumerate}
+Then there exists a cartesian object $K$ of $D(\mathcal{C}_{total})$
+whose associated simplicial system is isomorphic to $(K_n, K_\varphi)$.
+\end{lemma}
+
+\begin{proof}
+Set $X_n = g_{n!}K_n$ in $D(\mathcal{C}_{total})$. For each $n \geq 1$
+we have
+$$
+\Hom(X_n, X_{n - 1}) =
+\Hom(K_n, g_n^{-1}g_{n - 1!}K_{n - 1}) =
+\bigoplus\nolimits_{\varphi : [n - 1] \to [n]}
+\Hom(K_n, f_\varphi^{-1}K_{n - 1})
+$$
+Thus we get a map $X_n \to X_{n - 1}$ corresponding to the
+alternating sum of the maps
+$K_\varphi^{-1} : K_n \to f_\varphi^{-1}K_{n - 1}$
+where $\varphi$ runs over $\delta^n_0, \ldots, \delta^n_n$.
+We can do this because $K_\varphi$ is invertible by assumption (1).
+Please observe the similarity with the definition of the maps
+in the proof of Lemma \ref{lemma-simplicial-resolution-Z-site}.
+We obtain a complex
+$$
+\ldots \to X_2 \to X_1 \to X_0
+$$
+in $D(\mathcal{C}_{total})$. We omit the computation which shows
+that the compositions are zero. By
+Derived Categories, Lemma \ref{derived-lemma-existence-postnikov-system}
+if we have
+$$
+\Hom(X_i[i - j - 2], X_j) = 0\text{ for }i > j + 2
+$$
+then we can extend this complex to a Postnikov system.
+The group is equal to
+$$
+\Hom(K_i[i - j - 2], g_i^{-1}g_{j!}K_j)
+$$
+Again using that $(K_n, K_\varphi)$ is cartesian we see that
+$g_i^{-1}g_{j!}K_j$ is isomorphic to a finite direct sum of copies of
+$K_i$. Hence the group vanishes by assumption (2).
+Let the Postnikov system be given by $Y_0 = X_0$ and distinguished
+sequences $Y_n \to X_n \to Y_{n - 1} \to Y_n[1]$ for $n \geq 1$.
+We set
+$$
+K = \text{hocolim} Y_n[n]
+$$
+To finish the proof we have to show that $g_m^{-1}K$ is isomorphic
+to $K_m$ for all $m$ compatible with the maps $K_\varphi$. Observe that
+$$
+g_m^{-1} K = \text{hocolim} g_m^{-1}Y_n[n]
+$$
+and that $g_m^{-1}Y_n[n]$ is a Postnikov system for $g_m^{-1}X_n$.
+Consider the isomorphisms
+$$
+g_m^{-1}X_n =
+\bigoplus\nolimits_{\varphi : [n] \to [m]} f_\varphi^{-1}K_n
+\xrightarrow{\bigoplus K_\varphi}
+\bigoplus\nolimits_{\varphi : [n] \to [m]} K_m
+$$
+These maps define an isomorphism of complexes
+$$
+\xymatrix{
+\ldots \ar[r] &
+g_m^{-1}X_2 \ar[r] \ar[d] &
+g_m^{-1}X_1 \ar[r] \ar[d] &
+g_m^{-1}X_0 \ar[d] \\
+\ldots \ar[r] &
+\bigoplus\nolimits_{\varphi : [2] \to [m]} K_m \ar[r] &
+\bigoplus\nolimits_{\varphi : [1] \to [m]} K_m \ar[r] &
+\bigoplus\nolimits_{\varphi : [0] \to [m]} K_m
+}
+$$
+in $D(\mathcal{C}_m)$ where the arrows in the bottom row are as
+in the proof of Lemma \ref{lemma-simplicial-resolution-Z-site}.
+The squares commute by our choice of the arrows of the complex
+$\ldots \to X_2 \to X_1 \to X_0$; we omit the computation.
+The bottom row complex has a postnikov tower given by
+$$
+Y'_{m, n} =
+\left(\bigoplus\nolimits_{\varphi : [n] \to [m]} \mathbf{Z} \to
+\ldots \to
+\bigoplus\nolimits_{\varphi : [0] \to [m]} \mathbf{Z}\right)[-n]
+\otimes^\mathbf{L}_\mathbf{Z} K_m
+$$
+and $\text{hocolim} Y'_{m, n} = K_m$
+(please compare with the proof of Lemma \ref{lemma-abelian-postnikov}
+and Derived Categories, Example \ref{derived-example-key-postnikov}).
+Applying the second part of
+Derived Categories, Lemma \ref{derived-lemma-existence-postnikov-system}
+the vertical maps in the big diagram extend to an isomorphism
+of Postnikov systems provided we have
+$$
+\Hom(g_m^{-1}X_i[i - j - 1], \bigoplus\nolimits_{\varphi : [j] \to [m]} K_m)
+= 0\text{ for }i > j + 1
+$$
+The is true if $\Hom(K_m[i - j - 1], K_m) = 0$ for $i > j + 1$
+which holds by assumption (2). Choose an isomorphism given
+by $\gamma_{m, n} : g_m^{-1}Y_n \to Y'_{m, n}$ of Postnikov systems
+in $D(\mathcal{C}_m)$. By uniqueness of homotopy colimits,
+we can find an isomorphism
+$$
+g_m^{-1} K = \text{hocolim} g_m^{-1}Y_n[n]
+\xrightarrow{\gamma_m}
+\text{hocolim} Y'_{m, n} = K_m
+$$
+compatible with $\gamma_{m, n}$.
+
+\medskip\noindent
+We still have to prove that the maps $\gamma_m$ fit into commutative diagrams
+$$
+\xymatrix{
+f_\varphi^{-1}g_m^{-1}K \ar[d]_{f_\varphi^{-1}\gamma_m} \ar[r]_{K(\varphi)} &
+g_n^{-1}K \ar[d]^{\gamma_n} \\
+f_\varphi^{-1}K_m \ar[r]^{K_\varphi} &
+K_n
+}
+$$
+for every $\varphi : [m] \to [n]$. Consider the diagram
+$$
+\xymatrix{
+f_\varphi^{-1}(\bigoplus_{\psi : [0] \to [m]} f_\psi^{-1}K_0)
+\ar@{=}[r] \ar[d]_{f_\varphi^{-1}(\bigoplus K_\psi)} &
+f_\varphi^{-1}g_m^{-1}X_0 \ar[d] \ar[r]_{X_0(\varphi)} &
+g_n^{-1}X_0 \ar[d] &
+\bigoplus_{\chi : [0] \to [n]} f_\chi^{-1}K_0
+\ar@{=}[l] \ar[d]^{\bigoplus K_\chi} \\
+f_\varphi^{-1}(\bigoplus_{\psi : [0] \to [m]} K_m) \ar@{=}[d] &
+f_\varphi^{-1}g_m^{-1}K \ar[d]_{f_\varphi^{-1}\gamma_m} \ar[r]_{K(\varphi)} &
+g_n^{-1}K \ar[d]^{\gamma_n} &
+\bigoplus_{\chi : [0] \to [n]} K_n \ar@{=}[d] \\
+f_\varphi^{-1}Y'_{0, m} \ar[r] &
+f_\varphi^{-1}K_m \ar[r]^{K_\varphi} &
+K_n &
+Y'_{0, n} \ar[l]
+}
+$$
+The top middle square is commutative as $X_0 \to K$ is a morphism
+of simplicial objects. The left, resp.\ the right rectangles are
+commutative as $\gamma_m$, resp.\ $\gamma_n$ is compatible with
+$\gamma_{0, m}$, resp.\ $\gamma_{0, n}$ which are the arrows
+$\bigoplus K_\psi$ and $\bigoplus K_\chi$ in the diagram.
+Going around the outer rectangle of the diagram
+is commutative as $(K_n, K_\varphi)$ is a simplical system
+and the map $X_0(\varphi)$ is given by the obvious identifications
+$f_\varphi^{-1}f_\psi^{-1}K_0 = f_{\varphi \circ \psi}^{-1}K_0$.
+Note that the arrow $\bigoplus_\psi K_m \to Y'_{0, m} \to K_m$
+induces an isomorphism on any of the direct summands
+(because of our explicit construction of the Postnikov
+systems $Y'_{i, j}$ above).
+Hence, if we take a direct summand summand of
+the upper left and corner, then this maps isomorphically to
+$f_\varphi^{-1}g_m^{-1}K$ as $\gamma_m$ is an isomorphism.
+Working out what the above says,
+but looking only at this direct summand we conclude the lower
+middle square commutes as we well. This concludes the proof.
 \end{proof}
 
 
