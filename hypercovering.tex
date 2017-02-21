@@ -2694,7 +2694,9 @@ We omit the precise details, except for the following comments.
 First, we do not need assumption (2) in the proof of the current
 lemma as we do not need the morphism
 $K_{n + 1} \to (\text{cosk}_n K)_{n + 1}$ to be covering;
-we only need it to induce a surjection on associated sheaves of sets.
+we only need it to induce a surjection on associated sheaves of sets
+which follows from
+Sites, Lemma \ref{sites-lemma-covering-surjective-after-sheafification}.
 Second, the assumption that $\mathcal{C}$ has fibre products and equalizers
 guarantees that $\text{SR}(\mathcal{C})$ has fibre products
 and equalizers and $F$ commutes with these
@@ -2708,20 +2710,13 @@ Categories, Lemma \ref{categories-lemma-fibre-products-equalizers-exist}).
 \label{lemma-hypercovering-morphism-sites}
 Let $f : \mathcal{C} \to \mathcal{D}$ be a morphism of sites
 given by the functor $u : \mathcal{D} \to \mathcal{C}$.
-\begin{enumerate}
-\item Assume $\mathcal{D}$ and $\mathcal{C}$ have equalizers and
+Assume $\mathcal{D}$ and $\mathcal{C}$ have equalizers and
 fibre products and $u$ commutes with them.
 If a simplicial object $K$ of $\textit{SR}(\mathcal{D})$
 is a hypercovering, then $u(K)$ is a hypercovering.
-\item Assume $\mathcal{D}$ and $\mathcal{C}$ have fibre products
-and $u$ commutes with them. Let $Y \in \mathcal{D}$ and
-$K \in \textit{SR}(\mathcal{D}, Y)$ a hypercovering of $Y$.
-Then $u(K)$ is a hypercovering of $u(Y)$.
-\end{enumerate}
 \end{lemma}
 
 \begin{proof}
-Proof of (1).
 If we write $K_n = \{U_{n, i}\}_{i \in I_n}$ as in the introduction
 to this section, then $u(K)$ is the object of $\textit{SR}(\mathcal{C})$
 given by $u(K_n) = \{u(U_i)\}_{i \in I_n}$.
@@ -2752,10 +2747,21 @@ $(\text{cosk}_n \text{sk}_n K)_{n + 1}$ for $n \geq 1$.
 By Simplicial, Remark \ref{simplicial-remark-existence-cosk}
 these limits are finite connected limits and $u$ commutes with these
 by assumption.
+\end{proof}
 
-\medskip\noindent
-Proof of (2). This is easier than the above because the notion
-of being a hypercovering of an object is stronger, see
+\begin{lemma}
+\label{lemma-hypercovering-continuous-functor}
+Let $\mathcal{C}$, $\mathcal{D}$ be sites. Let
+$u : \mathcal{D} \to \mathcal{C}$ be a continuous functor.
+Assume $\mathcal{D}$ and $\mathcal{C}$ have fibre products
+and $u$ commutes with them. Let $Y \in \mathcal{D}$ and
+$K \in \textit{SR}(\mathcal{D}, Y)$ a hypercovering of $Y$.
+Then $u(K)$ is a hypercovering of $u(Y)$.
+\end{lemma}
+
+\begin{proof}
+This is easier than the proof of Lemma \ref{lemma-hypercovering-morphism-sites}
+because the notion of being a hypercovering of an object is stronger, see
 Definitions \ref{definition-hypercovering} and \ref{definition-covering-SR}.
 Namely, $u$ sends coverings to coverings by the definition of
 a morphism of sites. It suffices to check $u$ commutes with the
@@ -2767,92 +2773,156 @@ $\mathcal{D}/Y \to \mathcal{C}/X$ commutes with all finite limits
 Categories, Lemma \ref{categories-lemma-finite-limits-exist}).
 \end{proof}
 
-
-
-
-
-
-\section{Hypercoverings and weakly contractible objects}
-\label{section-w-contractible}
-
-\noindent
-In this section we construct hypercoverings in the presence of
-enough weakly contractible objects
-(Sites, Definition \ref{sites-definition-w-contractible}).
-With our conventions this is particularly straightforward if
-every object has a covering by a single weakly contractible object.
-
 \begin{lemma}
 \label{lemma-w-contractible}
 Let $\mathcal{C}$ be a site. Let $\mathcal{B} \subset \Ob(\mathcal{C})$
 be a subset. Assume
 \begin{enumerate}
 \item $\mathcal{C}$ has fibre products,
-\item for all $X \in \Ob(\mathcal{C})$ there exists a covering
-$\{U \to X\}$ with $U \in \mathcal{B}$,
-\item every element of $\mathcal{B}$ is weakly contractible,
-\item the topology is subcanonical.
+\item for all $X \in \Ob(\mathcal{C})$ there exists a finite covering
+$\{U_i \to X\}_{i \in I}$ with $U_i \in \mathcal{B}$,
+\item if $\{U_i \to X\}_{i \in I}$ is a finite covering with
+$U_i \in \mathcal{B}$ and $U \to X$ is a morphism with $U \in \mathcal{B}$,
+then $\{U_i \to X\}_{i \in I} \amalg \{U \to X\}$ is a covering.
 \end{enumerate}
 Then for every $X$ there exists a hypercovering $K$ of $X$
-such that each $K_n = \{U_n \to X\}$ with $U_n \in \mathcal{B}$.
+such that each $K_n = \{U_{n, i} \to X\}_{i \in I_n}$ with
+$I_n$ finite and $U_{n, i} \in \mathcal{B}$.
 \end{lemma}
 
 \begin{proof}
-We will construct $K$ by induction. As a first approximation choose
-a covering $\{U_0 \to X\}$ with $U_0 \in \mathcal{B}$ and set
-$K_0 = \{U_0 \to X\}$ and $K = \text{cosk}_0 K_0$, see
-Example \ref{example-cech}. (This object will be denoted $K^0$ in
-the final paragraph of the proof.)
-
-\medskip\noindent
-Suppose for some $n \geq 0$ we have constructed a hypercovering $K$
-such that $K_k$ consists of a single object of $\mathcal{B}$
-mapping to $X$ for $0 \leq k \leq n$ and such that
-$K = \text{cosk}_n \text{sk}_n K$. In particular
-$K_{n + 1} = (\text{cosk}_n \text{sk}_n K)_{n + 1}$ is a finite
-limit of $K_k$ for $k \leq n$, see
-Simplicial, Section \ref{simplicial-section-skeleton}
-(especially Lemmas \ref{simplicial-lemma-existence-cosk} and
-\ref{simplicial-lemma-formula-limit}).
-By the description of finite limits
-in $\text{SR}(\mathcal{C}, X)$ (see proof of
-Lemma \ref{lemma-coprod-prod-SR})
-we see that $K_{n + 1} = \{X_{n + 1} \to X\}$ for some object $X_{n + 1}$
-of $\mathcal{C}$. Choose a covering $\{U_{n + 1} \to X_{n + 1}\}$
-with $U_{n + 1} \in \mathcal{B}$. Since $U_n$ is weakly contractible,
-the topology is subcanonical, and $\{U_{n + 1} \to X_{n + 1}\}$
-is a covering, the morphisms $s_i : U_n \to X_{n + 1}$ lift to morphisms
-$s'_i : U_n \to U_{n + 1}$. Set $d'_j : U_{n + 1} \to U_n$
-equal to the composition of $U_{n + 1} \to X_{n + 1}$ and
-$d_j : X_{n + 1} \to U_n$.
-We obtain a truncated simplicial object $K'$ of $\text{SR}(\mathcal{C}, X)$
-by setting $K'_k = K_k$ for $k \leq n$ and $K'_{n + 1} = U_{n + 1}$
-and morphisms $d'_i = d_i$ and $s'_i = s_i$ in degrees $k \leq n - 1$
-and using the morphisms $d'_j$ and $s'_i$ in degree $n$.
-Extend this to a full simplicial object $K'$ of
-$\text{SR}(\mathcal{C}, X)$ using $\text{cosk}_{n + 1}$. By
-functoriality of the coskeleton functors there is a morphism
-$K' \to K$ of simplicial objects extending the
-given morphism of $(n + 1)$-truncated simplicial objects.
-
-\medskip\noindent
-It is immediately clear from the construction that the simplicial object $K'$
-so constructed is a hypercovering of $X$. Moreover, note that $K' \to K$
-is the identity morphism in degrees $\leq n$.
-
-\medskip\noindent
-To finish the proof we take the inverse limit $K = \lim K^n$
-of the sequence of simplicial objects
-$$
-\ldots \to K^2 \to K^1 \to K^0
-$$
-constructed above. Since we have stabilization in each degree it is
-clear that $K$ agrees with $K^n$ in degrees $\leq n$ and therefore
-is a hypercovering of $X$.
+This lemma is the analogue of
+Lemma \ref{lemma-quasi-separated-quasi-compact-hypercovering}
+for sites. To prove the lemma we follow exactly the proof of
+Lemma \ref{lemma-hypercovering-object}
+paying attention to the following two points
+\begin{enumerate}
+\item[(a)] We choose our initial covering $\{U_{0, i} \to X\}_{i \in I_0}$
+with $U_{0, i} \in \mathcal{B}$ such that the index set $I_0$ is finite, and
+\item[(b)] in choosing the coverings
+(\ref{equation-choose-covering-B})
+we choose $J_{i'}$ finite.
+\end{enumerate}
+The reader sees easily that with these modifications we end up
+with finite index sets $I_n$ for all $n$.
 \end{proof}
 
+\begin{remark}
+\label{remark-taking-disjoint-unions}
+Let $\mathcal{C}$ be a site. Let
+$K$ and $L$ be objects of $\textit{SR}(\mathcal{C})$.
+Write $K = \{U_i\}_{i \in I}$ and $L = \{V_j\}_{j \in J}$.
+Assume $U = \coprod_{i \in I} U_i$ and $V = \coprod_{j \in J} V_j$
+exist. Then we get
+$$
+\Mor_{\textit{SR}(\mathcal{C})}(K, L) \longrightarrow \Mor_\mathcal{C}(U, V)
+$$
+as follows. Given $f : K \to L$ given by $\alpha : I \to J$
+and $f_i : U_i \to V_{\alpha(i)}$ we obtain a transformation of functors
+$$
+\Mor_\mathcal{C}(V, -) =
+\prod\nolimits_{j \in J} \Mor_\mathcal{C}(V_j, -)
+\to
+\prod\nolimits_{i \in I} \Mor_\mathcal{C}(U_i, -) =
+\Mor_\mathcal{C}(U, -)
+$$
+sending $(g_j)_{j \in J}$ to
+$(g_{\alpha(i)} \circ f_i)_{i \in I}$. Hence the Yoneda lemma
+produces the corresponding map $U \to V$. Of course, $U \to V$
+maps the summand $U_i$ into the summand $V_{\alpha(i)}$ via
+the morphism $f_i$.
+\end{remark}
 
+\begin{remark}
+\label{remark-take-unions-hypercovering}
+Let $\mathcal{C}$ be a site. Assume $\mathcal{C}$ has
+fibre products and equalizers and let $K$ be a hypercovering.
+Write $K_n = \{U_{n, i}\}_{i \in I_n}$. Suppose that
+\begin{enumerate}
+\item[(a)] $U_n = \coprod_{i \in I_n} U_{n, i}$ exists, and
+\item[(b)] $\coprod_{i \in I_n} h_{U_{n, i}} \to h_{U_n}$ induces
+an isomorphism on sheafifications.
+\end{enumerate}
+Then we get another simplicial object $L$ of $\textit{SR}(\mathcal{C})$
+with $L_n = \{U_n\}$, see
+Remark \ref{remark-taking-disjoint-unions}.
+Now we claim that $L$ is a hypercovering.
+To see this we check conditions (1), (2), (3) of
+Definition \ref{definition-hypercovering-variant}.
+Condition (1) follows from (b) and (1) for $K$.
+Condition (2) follows in exactly the same way.
+Condition (3) follows because
+\begin{align*}
+F((\text{cosk}_n \text{sk}_n L)_{n + 1})^\#
+& =
+((\text{cosk}_n \text{sk}_n F(L)^\#)_{n + 1}) \\
+& =
+((\text{cosk}_n \text{sk}_n F(K)^\#)_{n + 1}) \\
+& =
+F((\text{cosk}_n \text{sk}_n K)_{n + 1})^\#
+\end{align*}
+for $n \geq 1$ and hence the condition for $K$ implies the condition for
+$L$ exactly as in (1) and (2).
+Note that $F$ commutes with connected limits and sheafification is exact
+proving the first and last equality; the middle equality follows as
+$F(K)^\# = F(L)^\#$ by (b).
+\end{remark}
 
+\begin{remark}
+\label{remark-take-unions-hypercovering-X}
+Let $\mathcal{C}$ be a site. Let $X \in \Ob(\mathcal{C})$.
+Assume $\mathcal{C}$ has fibre products and let $K$ be a hypercovering of $X$.
+Write $K_n = \{U_{n, i}\}_{i \in I_n}$. Suppose that
+\begin{enumerate}
+\item[(a)] $U_n = \coprod_{i \in I_n} U_{n, i}$ exists,
+\item[(b)] given morphisms
+$(\alpha, f_i) : \{U_i\}_{i \in I} \to \{V_j\}_{j \in J}$ and
+$(\beta, g_k) : \{W_k\}_{k \in K} \to \{V_j\}_{j \in J}$
+in $\textit{SR}(\mathcal{C})$ such that
+$U = \coprod U_i$, $V = \coprod V_j$, and $W = \coprod W_j$
+exist, then $U \times_V W =
+\coprod_{(i, j, k), \alpha(i) = j = \beta(k)} U_i \times_{V_i} W_k$,
+\item[(c)] if $(\alpha, f_i) : \{U_i\}_{i \in I} \to \{V_j\}_{j \in J}$
+is a covering in the sense of
+Definition \ref{definition-covering-SR}
+and $U = \coprod U_i$ and $V = \coprod V_j$ exist,
+then the corresponding morphism $U \to V$
+of Remark \ref{remark-taking-disjoint-unions}
+is a covering of $\mathcal{C}$.
+\end{enumerate}
+Then we get another simplicial object $L$ of $\textit{SR}(\mathcal{C})$
+with $L_n = \{U_n\}$, see
+Remark \ref{remark-taking-disjoint-unions}.
+Now we claim that $L$ is a hypercovering of $X$.
+To see this we check conditions (1), (2) of
+Definition \ref{definition-hypercovering}.
+Condition (1) follows from (c) and (1) for $K$
+because (1) for $K$ says $K_0 = \{U_{0, i}\}_{i \in I_0}$
+is a covering of $\{X\}$ in the sense of
+Definition \ref{definition-covering-SR}.
+Condition (2) follows because $\mathcal{C}/X$ has
+all finite limits hence $\textit{SR}(\mathcal{C}/X)$
+has all finite limits, and condition (b) says the
+construction of ``taking disjoint unions'' commutes
+with these fimite limits. Thus the morphism
+$$
+L_{n + 1} \longrightarrow (\text{cosk}_n \text{sk}_n L)_{n + 1}
+$$
+is a covering as it is the consequence of applying our
+``taking disjoint unions'' functor to the morphism
+$$
+K_{n + 1} \longrightarrow (\text{cosk}_n \text{sk}_n K)_{n + 1}
+$$
+which is assumed to be a covering in the sense of
+Definition \ref{definition-covering-SR} by (2) for $K$.
+This makes sense because property (b) in particular assures
+us that if we start with a finite diagram of
+semi-representable objects over $X$
+for which we can take disjoint unions, then
+the limit of the diagram in $\textit{SR}(\mathcal{C}/X)$
+still is a semi-representable object over $X$ for which
+we can take disjoint unions.
+\end{remark}
 
 
 
