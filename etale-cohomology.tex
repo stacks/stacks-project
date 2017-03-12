@@ -13771,8 +13771,6 @@ determine a morphism of sites
 $$
 a_S : (\Sch/S)_{fppf} \longrightarrow S_\etale
 $$
-Observe that $\epsilon_{S, *} \circ a_S^{-1} = \pi_S^{-1}$
-by Lemma \ref{lemma-describe-pullback-pi-fppf}.
 
 \begin{lemma}
 \label{lemma-push-pull-fppf-etale}
@@ -13781,28 +13779,390 @@ Let $f : X \to Y$ be a morphism of $(\Sch/S)_{fppf}$.
 Then there are commutative diagrams of topoi
 $$
 \xymatrix{
-\Sh((\Sch/X)_{fppf}) \ar[r]_{j_{fppf}} \ar[d]_{\epsilon_X} &
+\Sh((\Sch/X)_{fppf}) \ar[rr]_{f_{big, fppf}} \ar[d]_{\epsilon_X} & &
 \Sh((\Sch/Y)_{fppf}) \ar[d]^{\epsilon_Y} \\
-\Sh((\Sch/X)_\etale) \ar[r]^j &
+\Sh((\Sch/X)_\etale) \ar[rr]^{f_{big, \etale}} & &
 \Sh((\Sch/Y)_\etale)
 }
 $$
 and
 $$
 \xymatrix{
-\Sh((\Sch/X)_{fppf}) \ar[r]_{j_{fppf}} \ar[d]_{a_X} &
+\Sh((\Sch/X)_{fppf}) \ar[rr]_{f_{big, fppf}} \ar[d]_{a_X} & &
 \Sh((\Sch/Y)_{fppf}) \ar[d]^{a_Y} \\
-\Sh(X_\etale) \ar[r]^f &
+\Sh(X_\etale) \ar[rr]^{f_{small}} & &
 \Sh(Y_\etale)
 }
 $$
-with $a_X = \pi_X \circ \epsilon_X$, $a_Y = \pi_X \circ \epsilon_X$.
+with $a_X = \pi_X \circ \epsilon_X$ and $a_Y = \pi_X \circ \epsilon_X$.
 \end{lemma}
 
 \begin{proof}
 The commutativity of the diagrams follows from the discussion in
 Topologies, Section \ref{topologies-section-change-topologies}.
 \end{proof}
+
+\begin{lemma}
+\label{lemma-proper-push-pull-fppf-etale}
+In Lemma \ref{lemma-push-pull-fppf-etale} if $f$ is proper, then we have
+$a_Y^{-1} \circ f_{small, *} = f_{big, fppf, *} \circ a_X^{-1}$.
+\end{lemma}
+
+\begin{proof}
+You can prove this by repeating the proof of
+Lemma \ref{lemma-compare-higher-direct-image-proper} part (1);
+we will instead deduce the result from this.
+As $\epsilon_{Y, *}$ is the identity functor on underlying presheaves,
+it reflects isomorphisms. The description
+in Lemma \ref{lemma-describe-pullback-pi-fppf}
+shows that $\epsilon_{Y, *} \circ a_Y^{-1} = \pi_Y^{-1}$
+and similarly for $X$. To show that the canonical map
+$a_Y^{-1}f_{small, *}\mathcal{F} \to f_{big, fppf, *}a_X^{-1}\mathcal{F}$
+is an isomorphism, it suffices to show that
+\begin{align*}
+\pi_Y^{-1}f_{small, *}\mathcal{F}
+& =
+\epsilon_{Y, *}a_Y^{-1}f_{small, *}\mathcal{F} \\
+& \to 
+\epsilon_{Y, *}f_{big, fppf, *}a_X^{-1}\mathcal{F} \\
+& =
+f_{big, \etale, *} \epsilon_{X, *}a_X^{-1}\mathcal{F} \\
+& =
+f_{big, \etale, *}\pi_X^{-1}\mathcal{F}
+\end{align*}
+is an isomorphism. This is part
+(1) of Lemma \ref{lemma-compare-higher-direct-image-proper}.
+\end{proof}
+
+\noindent
+Our next goal is to prove Lemmas \ref{lemma-compare-cohomology-etale-fppf} and
+\ref{lemma-cohomological-descent-etale-fppf}. We will do this by an induction
+argument using the following two statements:
+\begin{enumerate}
+\item[($V_n$)] For an object $X$ of $(\Sch/S)_{fppf}$ and
+abelian sheaf $\mathcal{F}$ on $X_\etale$ we have
+$\epsilon_{X, *}a_X^{-1}\mathcal{F} = \pi_X^{-1}\mathcal{F}$ and
+$R^i\epsilon_{X, *}(a_X^{-1}\mathcal{F}) = 0$
+for $1 \leq i \leq n$.
+\item[($C_n$)] For a finite morphism $f : X \to Y$ in $(\Sch/S)_{fppf}$
+and abelian sheaf $\mathcal{F}$ on $X_\etale$ we have
+$a_Y^{-1}(R^if_{small, *}\mathcal{F}) =
+R^if_{big, fppf, *}(a_X^{-1}\mathcal{F})$
+for $i = 0, \ldots, n$\footnote{Since \'etale higher direct images along
+a finite morphism are zero, the statement $C_n$ is equivalent to the
+requirement that
+$a_Y^{-1}f_{small, *}\mathcal{F} = f_{big, fppf, *}a_X^{-1}\mathcal{F}$
+and the vanishing of $R^if_{big, fppf, *}(a_X^{-1}\mathcal{F})$ for
+$1 \leq i \leq n$. We will not use this below.}.
+\end{enumerate}
+Observe that $V_0$ holds by Lemma \ref{lemma-describe-pullback-pi-fppf}
+and that $C_0$ holds by
+Lemma \ref{lemma-proper-push-pull-fppf-etale}.
+
+\begin{lemma}
+\label{lemma-V-implies-C-etale-fppf}
+With notation as above, we have $V_n + C_{n - 1} \Rightarrow C_n$.
+\end{lemma}
+
+\begin{proof}
+Let $f : X \to Y$ and $\mathcal{F}$ be as in $C_n$.
+We will use the commutative diagrams of
+Lemma \ref{lemma-push-pull-fppf-etale}
+without further mention. In particular have
+$$
+R\epsilon_{Y, *}(Rf_{big, fppf, *}(a_X^{-1}\mathcal{F})) =
+Rf_{big, \etale, *}(R\epsilon_{X, *}(a_X^{-1}\mathcal{F}))
+$$
+Using the spectral sequences of
+Cohomology on Sites, Lemma \ref{sites-cohomology-lemma-relative-Leray}
+on both sides, the description of $R^if_{big, fppf, *}a_X^{-1}\mathcal{F}$
+for $i \leq n - 1$ given to us by $C_{n - 1}$, and
+the vanishing furnished to us by $V_n$
+(for both $X$ and $Y$) we obtain 
+$$
+\epsilon_{Y, *}(R^nf_{big, fppf, *}(a_X^{-1}\mathcal{F})) =
+R^nf_{big, \etale, *}(\epsilon_{X, *}(a_X^{-1}\mathcal{F}))
+$$
+The sheaf on the right is equal to
+$R^nf_{big, \etale, *}(\pi_X^{-1}\mathcal{F})$ by $V_0$.
+This is equal to $\pi_Y^{-1} R^nf_{small, *}\mathcal{F}$
+by Lemma \ref{lemma-compare-higher-direct-image-proper} part (3).
+If we rewrite this as
+$\epsilon_{Y, *}(a_Y^{-1}R^nf_{small, *}\mathcal{F})$, then we get
+$$
+\epsilon_{Y, *}(R^nf_{big, fppf, *}(a_X^{-1}\mathcal{F})) =
+\epsilon_{Y, *}(a_Y^{-1}R^nf_{small, *}\mathcal{F})
+$$
+This finishes the proof since $\epsilon_{Y, *}$ reflects
+isomorphisms (compare with the
+proof of Lemma \ref{lemma-proper-push-pull-fppf-etale}).
+\end{proof}
+
+\noindent
+If $\mathcal{H}$ is an abelian sheaf on $(\Sch/X)_{fppf}$,
+then we will write $H^n_{fppf}(U, \mathcal{H})$ for the cohomology
+of $\mathcal{H}$ over an object $U$ of $(\Sch/X)_{fppf}$.
+
+\begin{lemma}
+\label{lemma-V-implies-cohomology-etale-fppf}
+Notation as above. If $V_n$ holds, then for
+$X$ in $(\Sch/S)_{fppf}$ and $L \in D(X_\etale)$
+with $H^i(L) = 0$ for $i < 0$
+we have $H^n(X_\etale, L) = H^n_{fppf}(X, a_X^{-1}L)$.
+\end{lemma}
+
+\begin{proof}
+We have $H^n(X_\etale, L) = H^n_\etale(X, \pi_X^{-1}L)$ by
+Lemma \ref{lemma-compare-cohomology-big-small} (or the more general
+Lemma \ref{lemma-compare-cohommology}).
+By Cohomology on Sites, Lemma \ref{sites-cohomology-lemma-Leray-unbounded}
+we have
+$H^n_{fppf}(X, a_X^{-1}L) = H^n_\etale(X, R\epsilon_{X, *}a_X^{-1}L)$.
+Represent $L$ by a complex $\mathcal{F}^\bullet$ of abelian
+sheaves on $X_\etale$ with $\mathcal{F}^i = 0$ for $i < 0$. We have
+$\epsilon_{X, *} a_X^{-1} \mathcal{F}^\bullet = \pi_X^{-1} \mathcal{F}^\bullet$
+by $V_0$.
+Looking at the first spectral sequence of
+Derived Categories, Lemma \ref{derived-lemma-two-ss-complex-functor}
+the vanishing of $R^i\epsilon_{X, *}\mathcal{F}^j$ for
+$i + j \leq n$ and $i > 0$ implies that
+$\tau_{\leq n} \pi_X^{-1} L \to \tau_{\leq n} R\epsilon_{X, *}a_X^{-1}L$
+is an isomorphism. Combining the above gives the lemma
+as cohomology in degree $n$ only depends on the truncation
+$\tau_{\leq n}$ (Derived Categories, Lemma
+\ref{derived-lemma-negative-vanishing}).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-induction-step-V-C-etale-fppf}
+With notation as above, we have $V_n + C_n \Rightarrow V_{n + 1}$.
+\end{lemma}
+
+\begin{proof}
+Let $X$ be a scheme and $\mathcal{F}$ an abelian sheaf on $X_\etale$.
+Let $\xi \in H^{n + 1}_{fppf}(U, a_X^{-1}\mathcal{F})$ for some $U/X$.
+We have to show that $\xi$ restricts to zero on the members of an
+\'etale covering of $U$. See Cohomology on Sites,
+Lemma \ref{sites-cohomology-lemma-unbounded-describe-higher-direct-images}.
+Pick $u \in U$. We have to find an \'etale neighbourhood
+$(V, v) \to (U, u)$
+such that $\xi$ maps to zero in $H^{n + 1}_{fppf}(V, a_X^{-1}\mathcal{F})$.
+
+\medskip\noindent
+By locality of cohomology (Cohomology on Sites, Lemma
+\ref{sites-cohomology-lemma-kill-cohomology-class-on-covering})
+we can choose an fppf covering $\{U_i \to U\}$
+such that $\xi$ restricts to zero on $U_i$.
+By More on Morphisms, Lemma
+\ref{more-morphisms-lemma-qf-fp-flat-dominates-fppf}
+we may assume that $U_i \to U$ is locally quasi-finite.
+Pick an $i \in I$ and a point $u_i \in u_i$ mapping to $s$.
+Choose an elementary \'etale neighbourhood
+$(V, v) \to (U, u)$ such that there exists an open
+$$
+U_i \times_U V  \supset W
+$$
+which contains a unique point $w \in W$ mapping to $v \in V$
+and such that $W \to V$ is finite, see
+More on Morphisms, Lemma
+\ref{more-morphisms-lemma-etale-makes-quasi-finite-finite-at-point}.
+Then $W \to V$ is finite locally free, because it is finite
+and because $U_i \times_U V \to V$ is flat and locally of finite presentation
+as a base change of the morphism $U_i \to U$, see
+Morphisms, Lemmas \ref{morphisms-lemma-base-change-finite-presentation},
+\ref{morphisms-lemma-base-change-flat}, and
+\ref{morphisms-lemma-finite-flat}.
+Hence $W \to V$ is open, and after shrinking $V$
+we may assume that $W \to V$ is surjective finite locally free.
+After replacing $(U, u)$ by $(V, v)$ we may assume there exists
+a surjective finite locally free morphism $U' \to U$ such that
+the restriction of $\xi$ to $U'$ is zero. This reduces us to the
+problem discussed in the next paragraph.
+
+\medskip\noindent
+Let $f : X \to Y$ be a surjective finite morphism.
+Let $\mathcal{F}$ be an abelian sheaf on $Y_\etale$.
+Let $\xi \in H^{n + 1}_{fppf}(Y, a_Y^{-1}\mathcal{F})$
+which maps to zero in $H^{n + 1}_{fppf}(X, a_Y^{-1}\mathcal{F})$.
+Problem: show that $\xi$ restricts to zero on an \'etale covering of $Y$.
+The assumption implies that $\xi$ maps to zero under the map
+$$
+a_Y^{-1}\mathcal{F} \longrightarrow
+Rf_{big, fppf, *}f_{big, fppf}^{-1}a_Y^{-1}\mathcal{F} =
+Rf_{big, fppf, *}a_X^{-1}f_{small}^{-1}\mathcal{F}
+$$
+Use Cohomology on Sites, Lemma \ref{sites-cohomology-lemma-Leray-unbounded}.
+A simple argument using the distinguished triangle of truncations
+(Derived Categories, Remark
+\ref{derived-remark-truncation-distinguished-triangle}) shows that
+$\xi$ maps to zero under the map
+$$
+a_Y^{-1}\mathcal{F} \longrightarrow
+\tau_{\leq n}Rf_{big, fppf, *}a_X^{-1}f_{small}^{-1}\mathcal{F}
+$$
+Set $K = \tau_{\leq n}Rf_{small, *}f_{small}^{-1}\mathcal{F}$
+in $D^+(Y_\etale)$ and choose a distinguished triangle
+$\mathcal{F} \to K \to L$.
+Note that $\mathcal{F} \to f_{small, *}f_{small}^{-1}\mathcal{F}$ is injective
+as $f : X \to Y$ is surjective, hence $L$ only has nonzero
+cohomology sheaves in degrees $0, \ldots, n$. By $C_n$ the canonical map
+$a_Y^{-1}Rf_{small, *}f_{small}^{-1}\mathcal{F} \to
+Rf_{big, fppf, *}a_X^{-1}f_{small}^{-1}\mathcal{F}$
+induces an isomorphism
+$$
+a_Y^{-1}K \longrightarrow
+\tau_{\leq n}Rf_{big, fppf, *}a_X^{-1}f_{small}^{-1}\mathcal{F}
+$$
+Pulling back the distinshed triangle $\mathcal{F} \to K \to L$
+by $a_Y$ we find that $\xi$ is the image of an element
+$\xi' \in H^n_{fppf}(Y, a_Y^{-1}L)$.
+By induction, more precisely by $V_n$, we have
+$$
+H^n(Y_\etale, L) = H^n_{fppf}(Y, a_Y^{-1}L)
+$$
+see Lemma \ref{lemma-V-implies-cohomology-etale-fppf}.
+Thus we may lift $\xi'$ to an element of $H^n(Y_\etale, L)$
+and take the boundary into $H^{n + 1}(Y_\etale, \mathcal{F})$
+to see that $\xi$ is in the image of the canonical map
+$H^{n + 1}(Y_\etale, \mathcal{F}) \to
+H^{n + 1}_{fppf}(Y, a_Y^{-1}\mathcal{F})$.
+By locality of cohomology for $H^{n + 1}(Y_\etale, \mathcal{F})$, see
+Cohomology on Sites, Lemma
+\ref{sites-cohomology-lemma-kill-cohomology-class-on-covering},
+we conclude.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-V-C-all-n-etale-fppf}
+With notation as above, $V_n$ and $C_n$ are true for all $n$. Moreover:
+\begin{enumerate}
+\item For a scheme $X$ and $K$ in $D^+(X_\etale)$ the map
+$\pi_X^{-1}K \to R\epsilon_{X, *}(a_X^{-1}K)$ is an isomorphism.
+\item For a finite morphism $f : X \to Y$ of schemes
+and $K$ in $D^+(X_\etale)$ we have
+$a_Y^{-1}(Rf_{small, *}K) = Rf_{big, fppf, *}(a_X^{-1}K)$.
+\item For a proper morphism $f : X \to Y$ of schemes
+and $K$ in $D^+(X_\etale)$ with torsion cohomology sheaves we have
+$a_Y^{-1}(Rf_{small, *}K) = Rf_{big, fppf, *}(a_X^{-1}K)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Recall that $V_0$ holds trivially and that $C_0$ holds by
+Lemma \ref{lemma-proper-push-pull-fppf-etale}.
+Then we get $V_n$ and $C_n$ for all
+$n$ by Lemmas \ref{lemma-V-implies-C-etale-fppf} and
+\ref{lemma-induction-step-V-C-etale-fppf}.
+The reader immediately proves (1) and (2) from $V_n$ and $C_n$
+by representing $K$
+by a bounded below complex of abelian sheaves. We omit the details.
+To see (3) we use that
+\begin{align*}
+R\epsilon_{Y, *}Rf_{big, fppf, *}a_X^{-1}K
+& =
+Rf_{big, \etale, *}R\epsilon_{X, *}a_X^{-1}K \\
+& =
+Rf_{big, \etale, *}\pi_X^{-1}K \\
+& =
+\pi_Y^{-1}Rf_{small, *}K \\
+& =
+R\epsilon_{Y, *} a_Y^{-1}Rf_{small, *}K
+\end{align*}
+The first equality by the commutative diagram in
+Lemma \ref{lemma-push-pull-fppf-etale}
+and Cohomology on Sites, Lemma
+\ref{sites-cohomology-lemma-derived-pushforward-composition}.
+Then second equality is (1). The third is
+Lemma \ref{lemma-compare-higher-direct-image-proper} part (2).
+The fourth is (1) again.
+Thus the base change map
+$a_Y^{-1}(Rf_{small, *}K) \to Rf_{big, fppf, *}(a_X^{-1}K)$
+induces an isomorphism
+$$
+R\epsilon_{Y, *}a_Y^{-1}Rf_{small, *}K \to
+R\epsilon_{Y, *}Rf_{big, fppf, *}a_X^{-1}K
+$$
+The proof is finished by the following remark: a map
+$\alpha : a_Y^{-1}L \to M$ with $L$ in $D^+(Y_\etale)$
+and $M$ in $D^+((\Sch/Y)_{fppf})$ such that $R\epsilon_{Y, *}\alpha$
+is an isomorphism, is an isomorphism. Namely, 
+we show by induction on $i$ that $H^i(\alpha)$ is an isomorphism.
+This is true for all sufficiently small $i$.
+If it holds for $i \leq i_0$, then we see that
+$R^j\epsilon_{Y, *}H^i(M) = 0$ for $j > 0$ and $i \leq i_0$
+by $V_n$ because $H^i(M) = a_Y^{-1}H^i(L)$ in this range.
+Hence $\epsilon_{Y, *}H^{i_0 + 1}(M) = H^{i_0 + 1}(R\epsilon_{Y, *}M)$
+by a spectral sequence argument.
+Thus $\epsilon_{Y, *}H^{i_0 + 1}(M) = \pi_Y^{-1}H^{i_0 + 1}(L) =
+\epsilon_{Y, *}a_Y^{-1}H^{i_0 + 1}(L)$.
+This implies $H^{i_0 + 1}(\alpha)$ is an isomorphism
+(because $\epsilon_{Y, *}$ reflects isomorphisms as it is the
+identity on underlying presheaves) as desired.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-cohomological-descent-etale-fppf}
+Let $X$ be a scheme. For $K \in D^+(X_\etale)$ the map
+$$
+K \longrightarrow Ra_{X, *}a_X^{-1}K
+$$
+is an isomorphism with $a_X : \Sh((\Sch/X)_{fppf}) \to \Sh(X_\etale)$
+as above.
+\end{lemma}
+
+\begin{proof}
+This statement has an immediate reduction to the case where
+$K$ is given by a single abelian sheaf. Namely, represent $K$
+by a bounded below complex $\mathcal{F}^\bullet$. By the case of a
+sheaf we see that
+$\mathcal{F}^n = a_{X, *} a_X^{-1} \mathcal{F}^n$
+and that the sheaves $R^qa_{X, *}a_X^{-1}\mathcal{F}^n$
+are zero for $q > 0$. By Leray's acyclicity lemma
+(Derived Categories, Lemma \ref{derived-lemma-leray-acyclicity})
+applied to $a_X^{-1}\mathcal{F}^\bullet$
+and the functor $a_{X, *}$ we conclude. From now on assume $K = \mathcal{F}$.
+
+\medskip\noindent
+By Lemma \ref{lemma-describe-pullback-pi-fppf} we have
+$a_{X, *}a_X^{-1}\mathcal{F} = \mathcal{F}$. Thus it suffices to show that
+$R^qa_{X, *}a_X^{-1}\mathcal{F} = 0$ for $q > 0$.
+For this we can use $a_X = \epsilon_X \circ \pi_X$ and
+the Leray spectral sequence
+(Cohomology on Sites, Lemma \ref{sites-cohomology-lemma-relative-Leray}).
+By Lemma \ref{lemma-V-C-all-n-etale-fppf}
+we have $R^i\epsilon_{X, *}(a_X^{-1}\mathcal{F}) = 0$ for $i > 0$.
+By $V_0$ we have
+$\epsilon_{X, *}a_X^{-1}\mathcal{F} = \pi_X^{-1}\mathcal{F}$
+and by Lemma \ref{lemma-cohomological-descent-etale} we have
+$R^j\pi_{X, *}(\pi_X^{-1}\mathcal{F}) = 0$ for $j > 0$.
+This concludes the proof.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-compare-cohomology-etale-fppf}
+For a scheme $X$ and $a_X : \Sh((\Sch/X)_{fppf}) \to \Sh(X_\etale)$
+as above:
+\begin{enumerate}
+\item $H^q(X_\etale, \mathcal{F}) = H^q_{fppf}(X, a_X^{-1}\mathcal{F})$
+for an abelian sheaf $\mathcal{F}$ on $X_\etale$,
+\item $H^q(X_\etale, K) = H^q_{fppf}(X, a_X^{-1}K)$ for $K \in D^+(X_\etale)$.
+\end{enumerate}
+Example: if $A$ is an abelian group, then
+$H^q_\etale(X, \underline{A}) = H^q_{fppf}(X, \underline{A})$.
+\end{lemma}
+
+\begin{proof}
+This follows from Lemma \ref{lemma-cohomological-descent-etale-fppf}
+by Cohomology on Sites, Remark \ref{sites-cohomology-remark-before-Leray}.
+\end{proof}
+
+
+
+
+
+
+
+
 
 
 
@@ -13923,6 +14283,451 @@ of these pullback maps are constant on all of
 $V_{\overline{u}} \times_{\overline{u}} V_{\overline{u}}$, i.e.,
 these come from elements of $\Omega$ as desired.
 \end{proof}
+
+\noindent
+In the situation of Lemma \ref{lemma-describe-pullback-pi-ph}
+the composition of $\epsilon_S$ and $\pi_S$ and the equality
+determine a morphism of sites
+$$
+a_S : (\Sch/S)_{ph} \longrightarrow S_\etale
+$$
+
+\begin{lemma}
+\label{lemma-push-pull-ph-etale}
+With notation as above.
+Let $f : X \to Y$ be a morphism of $(\Sch/S)_{ph}$.
+Then there are commutative diagrams of topoi
+$$
+\xymatrix{
+\Sh((\Sch/X)_{ph}) \ar[rr]_{f_{big, ph}} \ar[d]_{\epsilon_X} & &
+\Sh((\Sch/Y)_{ph}) \ar[d]^{\epsilon_Y} \\
+\Sh((\Sch/X)_\etale) \ar[rr]^{f_{big, \etale}} & &
+\Sh((\Sch/Y)_\etale)
+}
+$$
+and
+$$
+\xymatrix{
+\Sh((\Sch/X)_{ph}) \ar[rr]_{f_{big, ph}} \ar[d]_{a_X} & &
+\Sh((\Sch/Y)_{ph}) \ar[d]^{a_Y} \\
+\Sh(X_\etale) \ar[rr]^{f_{small}} & &
+\Sh(Y_\etale)
+}
+$$
+with $a_X = \pi_X \circ \epsilon_X$ and $a_Y = \pi_X \circ \epsilon_X$.
+\end{lemma}
+
+\begin{proof}
+The commutativity of the diagrams follows from the discussion in
+Topologies, Section \ref{topologies-section-change-topologies}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-proper-push-pull-ph-etale}
+In Lemma \ref{lemma-push-pull-ph-etale} if $f$ is proper, then we have
+$a_Y^{-1} \circ f_{small, *} = f_{big, ph, *} \circ a_X^{-1}$.
+\end{lemma}
+
+\begin{proof}
+You can prove this by repeating the proof of
+Lemma \ref{lemma-compare-higher-direct-image-proper} part (1);
+we will instead deduce the result from this.
+As $\epsilon_{Y, *}$ is the identity functor on underlying presheaves,
+it reflects isomorphisms. The description
+in Lemma \ref{lemma-describe-pullback-pi-ph}
+shows that $\epsilon_{Y, *} \circ a_Y^{-1} = \pi_Y^{-1}$
+and similarly for $X$. To show that the canonical map
+$a_Y^{-1}f_{small, *}\mathcal{F} \to f_{big, ph, *}a_X^{-1}\mathcal{F}$
+is an isomorphism, it suffices to show that
+\begin{align*}
+\pi_Y^{-1}f_{small, *}\mathcal{F}
+& =
+\epsilon_{Y, *}a_Y^{-1}f_{small, *}\mathcal{F} \\
+& \to 
+\epsilon_{Y, *}f_{big, ph, *}a_X^{-1}\mathcal{F} \\
+& =
+f_{big, \etale, *} \epsilon_{X, *}a_X^{-1}\mathcal{F} \\
+& =
+f_{big, \etale, *}\pi_X^{-1}\mathcal{F}
+\end{align*}
+is an isomorphism. This is part
+(1) of Lemma \ref{lemma-compare-higher-direct-image-proper}.
+\end{proof}
+
+\noindent
+Our next goal is to prove Lemmas \ref{lemma-compare-cohomology-etale-ph} and
+\ref{lemma-cohomological-descent-etale-ph}. We will do this by an induction
+argument using the following two statements
+\begin{enumerate}
+\item[($V_n$)] For an object $X$ of $(\Sch/S)_{ph}$ and a
+torsion abelian sheaf $\mathcal{F}$ on $X_\etale$ we have
+$\epsilon_{X, *}a_X^{-1}\mathcal{F} = \pi_X^{-1}\mathcal{F}$ and
+$R^i\epsilon_{X, *}(a_X^{-1}\mathcal{F}) = 0$
+for $1 \leq i \leq n$.
+\item[($C_n$)] For a proper morphism $f : X \to Y$ in $(\Sch/S)_{ph}$
+and a torsion abelian sheaf $\mathcal{F}$ on $X_\etale$ we have
+$a_Y^{-1}(R^if_{small, *}\mathcal{F}) =
+R^if_{big, ph, *}(a_X^{-1}\mathcal{F})$
+for $i = 0, \ldots, n$.
+\end{enumerate}
+Observe that $V_0$ holds by Lemma \ref{lemma-describe-pullback-pi-ph}
+and that $C_0$ holds by
+Lemma \ref{lemma-proper-push-pull-ph-etale}.
+
+\begin{lemma}
+\label{lemma-V-implies-C-etale-ph}
+With notation as above, we have $V_n + C_{n - 1} \Rightarrow C_n$.
+\end{lemma}
+
+\begin{proof}
+Let $f : X \to Y$ and $\mathcal{F}$ be as in $C_n$.
+We will use the commutative diagrams of
+Lemma \ref{lemma-push-pull-ph-etale}
+without further mention. In particular have
+$$
+R\epsilon_{Y, *}(Rf_{big, ph, *}(a_X^{-1}\mathcal{F})) =
+Rf_{big, \etale, *}(R\epsilon_{X, *}(a_X^{-1}\mathcal{F}))
+$$
+Using the spectral sequences of
+Cohomology on Sites, Lemma \ref{sites-cohomology-lemma-relative-Leray}
+on both sides, the description of $R^if_{big, ph, *}a_X^{-1}\mathcal{F}$
+for $i \leq n - 1$ given to us by $C_{n - 1}$, and
+the vanishing furnished to us by $V_n$
+(for both $X$ and $Y$) we obtain 
+$$
+\epsilon_{Y, *}(R^nf_{big, ph, *}(a_X^{-1}\mathcal{F})) =
+R^nf_{big, \etale, *}(\epsilon_{X, *}(a_X^{-1}\mathcal{F}))
+$$
+The sheaf on the right is equal to
+$R^nf_{big, \etale, *}(\pi_X^{-1}\mathcal{F})$ by $V_0$.
+This is equal to
+$\pi_Y^{-1} R^nf_{small, *}\mathcal{F}$
+by Lemma \ref{lemma-compare-higher-direct-image-proper} part (2).
+If we rewrite this as
+$\epsilon_{Y, *}(a_Y^{-1}R^nf_{small, *}\mathcal{F})$, then we get
+$$
+\epsilon_{Y, *}(R^nf_{big, ph, *}(a_X^{-1}\mathcal{F})) =
+\epsilon_{Y, *}(a_Y^{-1}R^nf_{small, *}\mathcal{F})
+$$
+This finishes the proof since $\epsilon_{Y, *}$ reflects
+isomorphisms (compare with the
+proof of Lemma \ref{lemma-proper-push-pull-ph-etale}).
+\end{proof}
+
+\noindent
+If $\mathcal{H}$ is an abelian sheaf on $(\Sch/X)_{ph}$,
+then we will write $H^n_{ph}(U, \mathcal{H})$ for the cohomology
+of $\mathcal{H}$ over an object $U$ of $(\Sch/X)_{ph}$.
+
+\begin{lemma}
+\label{lemma-V-implies-cohomology-etale-ph}
+Notation as above. If $V_n$ holds, then for
+$X$ in $(\Sch/S)_{ph}$ and $L \in D(X_\etale)$
+with $H^i(L) = 0$ for $i < 0$ and $H^i(L)$ torsion for all $i$
+we have $H^i(X_\etale, L) = H^i_{ph}(X, a_X^{-1}L)$ for $i \leq n$.
+\end{lemma}
+
+\begin{proof}
+By Cohomology on Sites, Lemma \ref{sites-cohomology-lemma-Leray-unbounded}
+we have
+$$
+H^n_{ph}(X, a_X^{-1}L) = H^n_\etale(X, R\epsilon_{X, *}a_X^{-1}L).
+$$
+Represent $L$ by a complex $\mathcal{F}^\bullet$ of torsion abelian
+sheaves on $X_\etale$ with $\mathcal{F}^i = 0$ for $i < 0$; this is
+possible by Cohomology on Sites, Lemma \ref{sites-cohomology-lemma-torsion}.
+Consider the first spectral sequence
+$$
+E_1^{p, q} = R^q\epsilon_{X, *}(a_X^{-1}\mathcal{F}^p)
+\Rightarrow H^{p + q}(R\epsilon_{X, *}(a_X^{-1}L))
+$$
+of Derived Categories, Lemma \ref{derived-lemma-two-ss-complex-functor}.
+Observe that $d_1 : E_1^{p, q} \to E_1^{p + 1, q}$.
+The first row of the $E_1$-page is the complex
+$\pi_X^{-1}\mathcal{F}^\bullet$ by $V_0$.
+The rows with $1 \leq q \leq n$ vanish by $V_n$.
+This implies we get an isomorphism
+$$
+\tau_{\leq n}(\pi_X^{-1} L)
+\longrightarrow
+\tau_{\leq n}(R\epsilon_{X, *}(a_X^{-1}L))
+$$
+Combined with $H^n(X_\etale, L) = H^n_\etale(X, \pi_X^{-1}L)$
+(see Lemma \ref{lemma-compare-cohommology}) this
+gives (1) as cohomology in degree $\leq n$ only depends on the truncation
+$\tau_{\leq n}$ (Derived Categories, Lemma
+\ref{derived-lemma-negative-vanishing}).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-V-implies-cohomology-etale-ph-extra}
+Notation as above. If $V_n$ holds, then for
+$X$ in $(\Sch/S)_{ph}$ and a torsion abelian sheaf $\mathcal{F}$ on $X_\etale$
+the map
+$H^{n + 1}(X_\etale, \mathcal{F}) \to H^{n + 1}_{ph}(X, a_X^{-1}\mathcal{F})$
+is injective with image those classes which become trivial on
+an \'etale covering of $X$.
+\end{lemma}
+
+\begin{proof}
+The Leray spectral sequence (Cohomology on Sites, Lemma
+\ref{sites-cohomology-lemma-Leray})
+$$
+E_2^{p, q} = H^p_\etale(X, R^q\epsilon_{X, *}a_X^{-1}\mathcal{F})
+\Rightarrow
+H^{p + q}_{ph}(X, a_X^{-1}\mathcal{F})
+$$
+combined with the assumed vanishing gives an exact sequence
+$$
+0 \to
+H^{n + 1}_\etale(X, \pi_X^{-1}\mathcal{F}) \to
+H^{n + 1}_{ph}(X, a_X^{-1}\mathcal{F}) \to
+H^0_\etale(X, R^{n + 1}\epsilon_{X, *}(a_X^{-1}\mathcal{F}))
+$$
+Combined with
+$H^n(X_\etale, \mathcal{F}) = H^n_\etale(X, \pi_X^{-1}\mathcal{F})$
+(see Lemma \ref{lemma-compare-cohommology}) this easily gives the lemma.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-make-class-zero}
+Let $f : X \to Y$ be a proper morphism of schemes. Let $\mathcal{F}$
+be a torsion abelian sheaf on $Y_\etale$. If $n \geq 0$ and
+$$
+\theta \in
+\text{Equalizer}\left(
+\xymatrix{
+H^{n + 1}_\etale(X, \pi_Y^{-1}\mathcal{F})
+\ar@<1ex>[r] \ar@<-1ex>[r] &
+H^{n + 1}_\etale(X \times_Y X, \pi_Y^{-1}\mathcal{F})
+}
+\right)
+$$
+then there exists an \'etale covering $\{Y_i \to Y\}$
+such that $\theta$ restricts to zero in
+$H^{n + 1}_\etale(Y_i \times_Y X, \pi_Y^{-1}\mathcal{F})$.
+\end{lemma}
+
+\begin{proof}
+We will use that
+$H^{n + 1}_\etale(X, \pi_Y^{-1}\mathcal{F}) =
+H^{n + 1}(X_\etale, f_{small}^{-1}\mathcal{F})$
+and similarly for $X \times_Y X$, etc, see
+Lemma \ref{lemma-compare-cohommology}.
+Let $\overline{y}$ be a geometric point of $Y$.
+We have to show that $\theta$ dies after restricting
+to an \'etale neighbourhood of $\overline{y}$.
+In other words, we want to show that the value of $\theta$ in the stalk
+$(R^{n + 1}f_{small, *}f_{small}^{-1}\mathcal{F})_{\overline{y}}$
+is zero. Let $\Omega = \mathcal{F}_{\overline{y}}$. This is a torsion
+abelian group. Observe that $f_{small}^{-1}\mathcal{F}$ pulls back
+to the constant sheaf $\underline{\Omega}$ on the geometric fibre
+$X_{\overline{y}}$. By the proper base change theorem
+(in the form of Lemma \ref{lemma-proper-base-change-stalk})
+we reduce to proving that
+$$
+\text{Equalizer}\left(
+\xymatrix{
+H^{n + 1}_\etale(X_{\overline{y}}, \underline{\Omega})
+\ar@<1ex>[r] \ar@<-1ex>[r] &
+H^{n + 1}_\etale(X_{\overline{y}} \times_{\overline{y}} X_{\overline{y}},
+\underline{\Omega})
+}
+\right)
+$$
+is zero. If $X_{\overline{y}}$ is empty, then this is true.
+If $X_{\overline{y}}$ is nonempty, then we can choose an
+algebraically closed field $k$ and a point $x : \Spec(k) \to X_{\overline{y}}$.
+Pulling back a cohomology class $t$ in the equalizer to
+$x \times_{\overline{y}} X_{\overline{y}}$ via either projections,
+we conclude that $t$ dies under pullback by
+$$
+X_{\overline{y}} \longleftarrow x \times_{\overline{y}} X_{\overline{y}}
+$$
+This implies $t$ is zero by Lemma \ref{lemma-base-change-separably-closed}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-induction-step-V-C-etale-ph}
+With notation as above, we have $V_n + C_n \Rightarrow V_{n + 1}$.
+\end{lemma}
+
+\begin{proof}
+Let $X$ be a scheme and $\mathcal{F}$ a torsion abelian sheaf on $X_\etale$.
+Let $\xi \in H^{n + 1}_{ph}(U, a_X^{-1}\mathcal{F})$ for some $U/X$.
+We have to show that $\xi$ restricts to zero on the members of an
+\'etale covering of $U$. See Cohomology on Sites,
+Lemma \ref{sites-cohomology-lemma-unbounded-describe-higher-direct-images}.
+Pick $u \in U$. We have to find an \'etale neighbourhood
+$(V, v) \to (U, u)$
+such that $\xi$ maps to zero in $H^{n + 1}_{ph}(V, a_X^{-1}\mathcal{F})$.
+In particular, we may replace $U$ by any such \'etale neighbourhood.
+Thus we may and do assume $U$ is affine.
+
+\medskip\noindent
+By locality of cohomology (Cohomology on Sites, Lemma
+\ref{sites-cohomology-lemma-kill-cohomology-class-on-covering})
+we can choose a ph covering $\{U_i \to U\}$
+such that $\xi$ restricts to zero on $U_i$.
+By definition of ph coverings (Topologies, Section \ref{topologies-section-ph})
+we may assume there is a surjective proper morphism
+$U' \to U$ and an affine open covering $U' = \bigcup U'_i$
+such that $\xi$ restricts to zero on $U'_i$. This reduces us to the
+problem discussed in the next paragraph.
+
+\medskip\noindent
+Let $f : X \to Y$ be a proper surjective morphism with $Y$ affine.
+Let $X = U_1 \cup \ldots \cup U_m$ be a finite affine open covering.
+Let $\mathcal{F}$ be a torsion abelian sheaf on $Y_\etale$.
+Let $\xi \in H^{n + 1}_{ph}(Y, a_Y^{-1}\mathcal{F})$
+which maps to zero in $H^{n + 1}_{ph}(U_j, a_Y^{-1}\mathcal{F})$
+for $j = 1, \ldots, m$.
+Problem: show that $\xi$ restricts to zero on an \'etale covering of $Y$.
+
+\medskip\noindent
+By Lemma \ref{lemma-V-implies-cohomology-etale-ph-extra} there exists a
+unique \'etale cohomology class
+$\theta \in H^{n + 1}_\etale(X, \pi_Y^{-1}\mathcal{F})$
+whose image is $\xi|_X$.
+Since $\xi|_X$ pulls back to the same class on $X \times_Y X$
+via the two projections, we find that the same is true for $\theta$
+(by uniqueness).
+By Lemma \ref{lemma-make-class-zero}
+we see that after replacing $Y$ by the members of an \'etale covering,
+we may assume that $\theta = 0$.
+Consequently, we may assume that $\xi|_X$ is zero.
+
+\medskip\noindent
+The result of the previous paragraph is that we may assume
+$\xi$ maps to zero under the map
+$$
+a_Y^{-1}\mathcal{F} \longrightarrow
+Rf_{big, ph, *}f_{big, ph}^{-1}a_Y^{-1}\mathcal{F} =
+Rf_{big, ph, *}a_X^{-1}f_{small}^{-1}\mathcal{F}
+$$
+Use Cohomology on Sites, Lemma \ref{sites-cohomology-lemma-Leray-unbounded}.
+A simple argument using the distinguished triangle of truncations
+(Derived Categories, Remark
+\ref{derived-remark-truncation-distinguished-triangle}) shows that
+$\xi$ maps to zero under the map
+$$
+a_Y^{-1}\mathcal{F} \longrightarrow
+\tau_{\leq n}Rf_{big, ph, *}a_X^{-1}f_{small}^{-1}\mathcal{F}
+$$
+Set $K = \tau_{\leq n}Rf_{small, *}f_{small}^{-1}\mathcal{F}$
+in $D^+(Y_\etale)$. Observe that the cohomology sheaves of $K$ are
+torsion abelian sheaves by Lemma \ref{lemma-torsion-direct-image}.
+Choose a distinguished triangle $\mathcal{F} \to K \to L$.
+Note that $\mathcal{F} \to f_{small, *}f_{small}^{-1}\mathcal{F}$ is injective
+as $f : X \to Y$ is surjective, hence $L$ only has nonzero
+cohomology sheaves in degrees $0, \ldots, n$. By $C_n$ the canonical map
+$a_Y^{-1}Rf_{small, *}f_{small}^{-1}\mathcal{F} \to
+Rf_{big, ph, *}a_X^{-1}f_{small}^{-1}\mathcal{F}$
+induces an isomorphism
+$$
+a_Y^{-1}K \longrightarrow
+\tau_{\leq n}Rf_{big, ph, *}a_X^{-1}f_{small}^{-1}\mathcal{F}
+$$
+Pulling back the distinshed triangle $\mathcal{F} \to K \to L$
+by $a_Y$ we find that $\xi$ is the image of an element
+$\xi' \in H^n_{ph}(Y, a_Y^{-1}L)$.
+By induction, more precisely by $V_n$, we have
+$$
+H^n(Y_\etale, L) = H^n_{ph}(Y, a_Y^{-1}L),
+$$
+see Lemma \ref{lemma-V-implies-cohomology-etale-ph}.
+Thus we may lift $\xi'$ to an element of $H^n(Y_\etale, L)$
+and take the boundary into $H^{n + 1}(Y_\etale, \mathcal{F})$
+to see that $\xi$ is in the image of the canonical map
+$H^{n + 1}(Y_\etale, \mathcal{F}) \to
+H^{n + 1}_{ph}(Y, a_Y^{-1}\mathcal{F})$.
+By locality of cohomology for $H^{n + 1}(Y_\etale, \mathcal{F})$, see
+Cohomology on Sites, Lemma
+\ref{sites-cohomology-lemma-kill-cohomology-class-on-covering},
+we conclude.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-V-C-all-n-etale-ph}
+With notation as above, $V_n$ and $C_n$ are true for all $n$. Moreover:
+\begin{enumerate}
+\item For a scheme $X$ and $K$ in $D^+(X_\etale)$ with torsion
+cohomology sheaves the map
+$\pi_X^{-1}K \to R\epsilon_{X, *}(a_X^{-1}K)$ is an isomorphism.
+\item For a proper morphism $f : X \to Y$ of schemes
+and $K$ in $D^+(X_\etale)$ with torsion cohomology sheaves we have
+$a_Y^{-1}(Rf_{small, *}K) = Rf_{big, ph, *}(a_X^{-1}K)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Recall that $V_0$ holds trivially and that $C_0$ holds by
+Lemma \ref{lemma-proper-push-pull-ph-etale}.
+Then we get $V_n$ and $C_n$ for all
+$n$ by Lemmas \ref{lemma-V-implies-C-etale-ph} and
+\ref{lemma-induction-step-V-C-etale-ph}.
+The reader immediately proves (1) and (2) from $V_n$ and $C_n$
+by representing $K$
+by a bounded below complex of abelian sheaves. We omit the details.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-cohomological-descent-etale-ph}
+Let $X$ be a scheme. For $K \in D^+(X_\etale)$ with torsion cohomology
+sheaves the map
+$$
+K \longrightarrow Ra_{X, *}a_X^{-1}K
+$$
+is an isomorphism with $a_X : \Sh((\Sch/X)_{ph}) \to \Sh(X_\etale)$ as above.
+\end{lemma}
+
+\begin{proof}
+This statement has an immediate reduction to the case where
+$K$ is given by a single abelian sheaf. Namely, represent $K$
+by a bounded below complex $\mathcal{F}^\bullet$. By the case of a
+sheaf we see that
+$\mathcal{F}^n = a_{X, *} a_X^{-1} \mathcal{F}^n$
+and that the sheaves $R^qa_{X, *}a_X^{-1}\mathcal{F}^n$
+are zero for $q > 0$. By Leray's acyclicity lemma
+(Derived Categories, Lemma \ref{derived-lemma-leray-acyclicity})
+applied to $a_X^{-1}\mathcal{F}^\bullet$
+and the functor $a_{X, *}$ we conclude. From now on assume $K = \mathcal{F}$.
+
+\medskip\noindent
+By Lemma \ref{lemma-describe-pullback-pi-ph} we have
+$a_{X, *}a_X^{-1}\mathcal{F} = \mathcal{F}$. Thus it suffices to show that
+$R^qa_{X, *}a_X^{-1}\mathcal{F} = 0$ for $q > 0$.
+For this we can use $a_X = \epsilon_X \circ \pi_X$ and
+the Leray spectral sequence
+(Cohomology on Sites, Lemma \ref{sites-cohomology-lemma-relative-Leray}).
+By Lemma \ref{lemma-V-C-all-n-etale-ph}
+we have $R^i\epsilon_{X, *}(a_X^{-1}\mathcal{F}) = 0$ for $i > 0$.
+By $V_0$ we have
+$\epsilon_{X, *}a_X^{-1}\mathcal{F} = \pi_X^{-1}\mathcal{F}$
+and by Lemma \ref{lemma-cohomological-descent-etale} we have
+$R^j\pi_{X, *}(\pi_X^{-1}\mathcal{F}) = 0$ for $j > 0$.
+This concludes the proof.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-compare-cohomology-etale-ph}
+For a scheme $X$ and $a_X : \Sh((\Sch/X)_{ph}) \to \Sh(X_\etale)$
+as above:
+\begin{enumerate}
+\item $H^q(X_\etale, \mathcal{F}) = H^q_{ph}(X, a_X^{-1}\mathcal{F})$
+for a torsion abelian sheaf $\mathcal{F}$ on $X_\etale$,
+\item $H^q(X_\etale, K) = H^q_{ph}(X, a_X^{-1}K)$
+for $K \in D^+(X_\etale)$ with torsion cohomology sheaves.
+\end{enumerate}
+Example: if $A$ is a torsion abelian group, then
+$H^q_\etale(X, \underline{A}) = H^q_{ph}(X, \underline{A})$.
+\end{lemma}
+
+\begin{proof}
+This follows from Lemma \ref{lemma-cohomological-descent-etale-ph}
+by Cohomology on Sites, Remark \ref{sites-cohomology-remark-before-Leray}.
+\end{proof}
+
 
 
 
