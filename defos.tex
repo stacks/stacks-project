@@ -4250,7 +4250,7 @@ one uses that $\mathcal{F}^e \to \mathcal{F}^e_0$
 is a surjective maps of sheaves of sets. Then we set
 to put
 $$
-B = \bigoplus\nolimits_{i \in I} j_{U!}\mathcal{O}_U
+B = \bigoplus\nolimits_{i \in I} j_{U_i!}\mathcal{O}_{U_i}
 $$
 and define the maps $B \to \mathcal{F}^e$ and $B \to \mathcal{K}_0^{e - 1}$
 by using $s_i$ and $t_i$ to determine where to send the summand
@@ -4400,6 +4400,51 @@ paragraph.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-induced-map}
+Let $(\mathcal{C}, \mathcal{O})$ be a ringed site.
+Let $\alpha : K \to L$ be a map of $D^-(\mathcal{O})$.
+Let $\mathcal{F}$ be a sheaf of $\mathcal{O}$-modules.
+Let $n \in \mathbf{Z}$.
+\begin{enumerate}
+\item If $H^i(\alpha)$ is an isomorphism for $i \geq n$,
+then $H^i(\alpha \otimes_\mathcal{O}^\mathbf{L} \text{id}_\mathcal{F})$
+is an isomorphism for $i \geq n$.
+\item If $H^i(\alpha)$ is an isomorphism for $i > n$ 
+and surjective for $i = n$,
+then $H^i(\alpha \otimes_\mathcal{O}^\mathbf{L} \text{id}_\mathcal{F})$
+is an isomorphism for $i > n$ and surjective for $i = n$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Choose a distinguished triangle
+$$
+K \to L \to C \to K[1]
+$$
+In case (2) we see that $H^i(C) = 0$ for $i \geq n$.
+Hence $H^i(C \otimes_\mathcal{O}^\mathbf{L} \mathcal{F}) = 0$
+for $i \geq n$ by (the dual of)
+Derived Categories, Lemma \ref{derived-lemma-negative-vanishing}.
+This in turn shows that
+$H^i(\alpha \otimes_\mathcal{O}^\mathbf{L} \text{id}_\mathcal{F})$
+is an isomorphism for $i > n$ and surjective for $i = n$.
+In case (1) we moreover see that $H^{n - 1}(L) \to H^{n - 1}(C)$
+is surjective. Considering the diagram
+$$
+\xymatrix{
+H^{n - 1}(L) \otimes_\mathcal{O} \mathcal{F} \ar[r] \ar[d] &
+H^{n - 1}(C) \otimes_\mathcal{O} \mathcal{F} \ar@{=}[d] \\
+H^{n - 1}(L \otimes_\mathcal{O}^\mathbf{L} \mathcal{F}) \ar[r] &
+H^{n - 1}(C \otimes_\mathcal{O}^\mathbf{L} \mathcal{F})
+}
+$$
+we conclude the lower horizontal arrow is surjective. Combined with what
+was said before this implies that
+$H^n(\alpha \otimes_\mathcal{O}^\mathbf{L} \text{id}_\mathcal{F})$
+is an isomorphism.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-canonical-class-obstruction}
 Let $\mathcal{C}$ be a site. Let $\mathcal{O} \to \mathcal{O}_0$
 be a surjection of sheaves of rings whose kernel is an ideal sheaf
@@ -4437,7 +4482,7 @@ is zero in $D(\mathcal{O}_0)$. By definition of the derived category
 as the localization of the homotopy category of complexes
 of $\mathcal{O}_0$-modules, there exists a quasi-isomorphism
 $\alpha : \mathcal{G}_0^\bullet \to \mathcal{F}_0^\bullet$
-such that there exist
+such that there exist $\mathcal{O}_0$-modules maps
 $h^n : \mathcal{G}_0^n \to
 \mathcal{F}_0^{n + 1} \otimes_\mathcal{O} \mathcal{I}$
 with
@@ -4489,14 +4534,27 @@ $$
 0
 }
 $$
-Observe that $\mathcal{E}^\bullet \otimes_\mathcal{O} \mathcal{I}$
-represents $\mathcal{E}_0 \otimes_{\mathcal{O}_0}^\mathbf{L} \mathcal{I}$
+We claim that $\delta$ is a quasi-isomorphism. Since $H^i(\delta)$
+is an isomorphism for $i \gg 0$, we can use descending induction
+on $n$ such that $H^i(\delta)$ is an isomorphism for $i \geq n$.
+Observe that
+$\mathcal{E}^\bullet \otimes_\mathcal{O} \mathcal{I}$
+represents
+$\mathcal{E}_0^\bullet \otimes_{\mathcal{O}_0}^\mathbf{L} \mathcal{I}$,
+that
+$\mathcal{F}_0^\bullet \otimes_{\mathcal{O}_0} \mathcal{I}$
+represents
+$\mathcal{G}_0^\bullet \otimes_{\mathcal{O}_0}^\mathbf{L} \mathcal{I}$,
 and that
 $\beta = \delta \otimes_{\mathcal{O}_0}^\mathbf{L} \text{id}_\mathcal{I}$
-as maps in $D(\mathcal{O}_0)$.
+as maps in $D(\mathcal{O}_0)$. This is true because
+$\beta =
+(\alpha \otimes \text{id}_\mathcal{I})
+\circ
+(\delta \otimes \text{id}_\mathcal{I})$.
 Suppose that $H^i(\delta)$ is an isomorphism in degrees $\geq n$.
 Then the same is true for $\beta$ by what we just said
-(details omitted; use spectral sequence for Tor).
+and Lemma \ref{lemma-induced-map}.
 Then we can look at the diagram
 $$
 \xymatrix{
@@ -4504,7 +4562,8 @@ H^{n - 1}(\mathcal{E}^\bullet \otimes_\mathcal{O} \mathcal{I})
 \ar[r] \ar[d]^{H^{n - 1}(\beta)} &
 H^{n - 1}(\mathcal{E}^\bullet) \ar[r] \ar[d] &
 H^{n - 1}(\mathcal{E}_0^\bullet) \ar[r] \ar[d]^{H^{n - 1}(\delta)} &
-H^n(\mathcal{E}^\bullet \otimes_\mathcal{O} \mathcal{I}) \ar[r] \ar[d] &
+H^n(\mathcal{E}^\bullet \otimes_\mathcal{O} \mathcal{I})
+\ar[r] \ar[d]^{H^n(\beta)} &
 H^n(\mathcal{E}^\bullet) \ar[d] \\
 H^{n - 1}(\mathcal{F}_0^\bullet \otimes_\mathcal{O} \mathcal{I}) \ar[r] &
 H^{n - 1}(\mathcal{H}^\bullet) \ar[r] &
@@ -4516,11 +4575,220 @@ $$
 Using Homology, Lemma \ref{homology-lemma-four-lemma}
 we see that $H^{n - 1}(\delta)$ is surjective.
 This in turn implies that $H^{n - 1}(\beta)$ is surjective
-(details omitted; use spectral sequence for Tor again).
+by Lemma \ref{lemma-induced-map}.
 Using Homology, Lemma \ref{homology-lemma-four-lemma}
 again we see that $H^{n - 1}(\delta)$ is an isomorphism.
-By induction $\delta$ is a quasi-isomorphism
+The claim holds by induction, so $\delta$ is a quasi-isomorphism
 which is what we wanted to show.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-lift-map-complexes}
+Let $\mathcal{C}$ be a site. Let $\mathcal{O} \to \mathcal{O}_0$
+be a surjection of sheaves of rings. Assume given the following data
+\begin{enumerate}
+\item a complex of $\mathcal{O}$-modules $\mathcal{F}^\bullet$,
+\item a complex $\mathcal{K}_0^\bullet$ of $\mathcal{O}_0$-modules,
+\item a quasi-isomorphism $\mathcal{K}_0^\bullet \to
+\mathcal{F}^\bullet \otimes_\mathcal{O} \mathcal{O}_0$,
+\end{enumerate}
+Then there exist a quasi-isomorphism
+$\mathcal{G}^\bullet \to \mathcal{F}^\bullet$ such that the map
+of complexes
+$\mathcal{G}^\bullet  \otimes_\mathcal{O} \mathcal{O}_0 \to
+\mathcal{F}^\bullet \otimes_\mathcal{O} \mathcal{O}_0$ factors
+through $\mathcal{K}_0^\bullet$ in the homotopy category
+of complexes of $\mathcal{O}_0$-modules.
+\end{lemma}
+
+\begin{proof}
+Set $\mathcal{F}_0^\bullet =
+\mathcal{F}^\bullet \otimes_\mathcal{O} \mathcal{O}_0$.
+By Derived Categories, Lemma \ref{derived-lemma-make-surjective}
+there exists a factorization
+$$
+\mathcal{K}_0^\bullet \to \mathcal{L}_0^\bullet \to \mathcal{F}_0^\bullet
+$$
+of the given map such that the first arrow has an inverse up
+to homotopy and the second arrow is termwise split surjective.
+Hence we may assume that $\mathcal{K}_0^\bullet \to \mathcal{F}_0^\bullet$
+is termwise surjective.
+In that case we take
+$$
+\mathcal{G}^n = \mathcal{F}^n \times_{\mathcal{F}^n_0} \mathcal{K}_0^n
+$$
+and everything is clear.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-inf-obs-map-defo-complex}
+Let $\mathcal{C}$ be a site. Let $\mathcal{O} \to \mathcal{O}_0$
+be a surjection of sheaves of rings whose kernel is an ideal sheaf
+$\mathcal{I}$ of square zero. Let $K, L \in D^-(\mathcal{O})$.
+Set $K_0 = K \otimes_\mathcal{O}^\mathbf{L} \mathcal{O}_0$
+and $L_0 = L \otimes_\mathcal{O}^\mathbf{L} \mathcal{O}_0$
+in $D^-(\mathcal{O}_0)$. Given $\alpha_0 : K_0 \to L_0$ in $D(\mathcal{O}_0)$
+there is a canonical element
+$$
+o(\alpha_0) \in \text{Ext}^1_{\mathcal{O}_0}(K_0,
+L_0 \otimes_{\mathcal{O}_0}^\mathbf{L} \mathcal{I})
+$$
+whose vanishing is necessary and sufficient for the
+existence of a map $\alpha : K \to L$ in $D(\mathcal{O})$
+with $\alpha_0 = \alpha \otimes_\mathcal{O}^\mathbf{L} \text{id}$.
+\end{lemma}
+
+\begin{proof}
+Finding $\alpha : K \to L$ lifing $\alpha_0$ is the same as finding
+$\alpha : K \to L$ such that the composition $K \xrightarrow{\alpha} L \to L_0$
+is equal to the composition $K \to K_0 \xrightarrow{\alpha_0} L_0$.
+The short exact sequence
+$0 \to \mathcal{I} \to \mathcal{O} \to \mathcal{O}_0 \to 0$
+gives rise to a canonical distinguished triangle
+$$
+L \otimes_\mathcal{O}^\mathbf{L} \mathcal{I} \to
+L \to
+L_0 \to
+(L \otimes_\mathcal{O}^\mathbf{L} \mathcal{I})[1]
+$$
+in $D(\mathcal{O})$.
+By Derived Categories, Lemma \ref{derived-lemma-representable-homological}
+the composition
+$$
+K \to K_0 \xrightarrow{\alpha_0} L_0 \to
+(L \otimes_\mathcal{O}^\mathbf{L} \mathcal{I})[1]
+$$
+is zero if and only if we can find $\alpha : K \to L$
+lifting $\alpha_0$. The composition is an element in
+$$
+\Hom_{D(\mathcal{O})}(K, (L \otimes_\mathcal{O}^\mathbf{L} \mathcal{I})[1]) =
+\Hom_{D(\mathcal{O}_0)}(K_0,
+(L \otimes_\mathcal{O}^\mathbf{L} \mathcal{I})[1]) =
+\text{Ext}^1_{\mathcal{O}_0}(K_0,
+L_0 \otimes_{\mathcal{O}_0}^\mathbf{L} \mathcal{I})
+$$
+by adjunction.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-first-order-defos-complex}
+Let $\mathcal{C}$ be a site. Let $\mathcal{O} \to \mathcal{O}_0$
+be a surjection of sheaves of rings whose kernel is an ideal sheaf
+$\mathcal{I}$ of square zero. Let $K_0 \in D^-(\mathcal{O})$.
+A lift of $K_0$ is a pair $(K, \alpha_0)$ consisting of an object
+$K$ in $D^-(\mathcal{O})$ and an isomorphism
+$\alpha_0 : K \otimes_\mathcal{O}^\mathbf{L} \mathcal{O}_0 \to K_0$
+in $D(\mathcal{O}_0)$.
+\begin{enumerate}
+\item Given a lift $(K, \alpha)$ the group of automorphism of the pair
+is canonically the cokernel of a map
+$$
+\text{Ext}^{-1}_{\mathcal{O}_0}(K_0, K_0)
+\longrightarrow
+\Hom_{\mathcal{O}_0}(K_0, K_0 \otimes_{\mathcal{O}_0}^\mathbf{L} \mathcal{I})
+$$
+\item If there is a lift, then the set of isomorphism classes of lifts
+is principal homogenenous under
+$\text{Ext}^1_{\mathcal{O}_0}(K_0,
+K_0 \otimes_{\mathcal{O}_0}^\mathbf{L} \mathcal{I})$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+An automorphism of $(K, \alpha)$ is a map $\varphi : K \to K$
+in $D(\mathcal{O})$ with
+$\varphi \otimes_\mathcal{O} \text{id}_{\mathcal{O}_0} = \text{id}$.
+This is the same thing as saying that
+$$
+K \xrightarrow{\varphi - \text{id}} K \to
+K \otimes_\mathcal{O}^\mathbf{L} \mathcal{O}_0
+$$
+is zero. We conclude the group of automorphisms is
+the cokernel of a map
+$$
+\Hom_\mathcal{O}(K, K_0[-1])
+\longrightarrow
+\Hom_\mathcal{O}(K, K_0 \otimes_{\mathcal{O}_0}^\mathbf{L} \mathcal{I})
+$$
+by the distinguished triangle
+$$
+K \otimes_\mathcal{O}^\mathbf{L} \mathcal{I} \to
+K \to
+K \otimes_\mathcal{O}^\mathbf{L} \mathcal{O}_0 \to
+(K \otimes_\mathcal{O}^\mathbf{L} \mathcal{I})[1]
+$$
+in $D(\mathcal{O})$ and 
+Derived Categories, Lemma \ref{derived-lemma-representable-homological}.
+To translate into the groups in the lemma use adjunction
+of the restriction functor $D(\mathcal{O}_0) \to D(\mathcal{O})$ and
+$- \otimes_\mathcal{O} \mathcal{O}_0 : D(\mathcal{O}) \to D(\mathcal{O}_0)$.
+This proves (1).
+
+\medskip\noindent
+Proof of (2).
+Assume that $K_0 = K \otimes_\mathcal{O}^\mathbf{L} \mathcal{O}_0$
+in $D(\mathcal{O})$. By Lemma \ref{lemma-inf-obs-map-defo-complex}
+the map sending a lift $(K', \alpha_0)$ to the obstruction $o(\alpha_0)$
+to lifting $\alpha_0$ defines a canonical injective map
+from the set of isomomorphism classes of pairs
+to $\text{Ext}^1_{\mathcal{O}_0}(K_0,
+K_0 \otimes_{\mathcal{O}_0}^\mathbf{L} \mathcal{I})$.
+To finish the proof we show that it is surjective.
+Pick $\xi : K_0 \to (K_0 \otimes_{\mathcal{O}_0}^\mathbf{L} \mathcal{I})[1]$
+in the $\text{Ext}^1$ of the lemma.
+Choose a bounded above complex $\mathcal{F}^\bullet$
+of flat $\mathcal{O}$-modules representing $K$.
+The map $\xi$ can be represented as $t \circ s^{-1}$
+where $s : \mathcal{K}_0^\bullet \to \mathcal{F}_0^\bullet$
+is a quasi-isomorphism and
+$t : \mathcal{K}_0^\bullet \to
+\mathcal{F}_0^\bullet \otimes_{\mathcal{O}_0} \mathcal{I}[1]$
+is a map of complexes.
+By Lemma \ref{lemma-lift-map-complexes}
+we can assume there exists a quasi-isomorphism
+$\mathcal{G}^\bullet \to \mathcal{F}^\bullet$
+of complexes of $\mathcal{O}$-modules
+such that $\mathcal{G}_0^\bullet \to \mathcal{F}_0^\bullet$
+factors through $s$ up to homotopy.
+We may and do replace $\mathcal{G}^\bullet$ by a bounded
+above complex of flat $\mathcal{O}$-modules (by picking a qis
+from such to $\mathcal{G}^\bullet$ and replacing).
+Then we see that $\xi$ is represented by
+a map of complexes
+$t : \mathcal{G}_0^\bullet \to
+\mathcal{F}_0^\bullet \otimes_{\mathcal{O}_0} \mathcal{I}[1]$
+and the quasi-isomorphism $\mathcal{G}_0^\bullet \to \mathcal{F}_0^\bullet$.
+Set
+$$
+\mathcal{H}^n = \mathcal{F}^n \times_{\mathcal{F}_0^n} \mathcal{G}_0^n
+$$
+with differentials
+$$
+\mathcal{H}^n \to \mathcal{H}^{n + 1},\quad
+(f^n, g_0^n) \mapsto (d(f^n) + t(g_0^n), d(g_0^n))
+$$
+This makes sense as
+$\mathcal{F}_0^{n + 1} \otimes_{\mathcal{O}_0} \mathcal{I} =
+\mathcal{F}^{n + 1} \otimes_\mathcal{O} \mathcal{I} =
+\mathcal{I}\mathcal{F}^{n + 1} \subset \mathcal{F}^{n + 1}$.
+We omit the computation that shows that $\mathcal{H}^\bullet$
+is a complex of $\mathcal{O}$-modules. By construction there is
+a short exact sequence
+$$
+0 \to \mathcal{F}_0^\bullet \otimes_{\mathcal{O}_0} \mathcal{I} \to
+\mathcal{H}^\bullet \to \mathcal{G}_0^\bullet \to 0
+$$
+of complexes of $\mathcal{O}$-modules.
+Exactly as in the proof of Lemma \ref{lemma-canonical-class-obstruction}
+one shows that this sequence induces an isomorphism
+$\alpha_0 :
+\mathcal{H}^\bullet \otimes_\mathcal{O}^\mathbf{L} \mathcal{O}_0 \to
+\mathcal{G}_0^\bullet$ in $D(\mathcal{O}_0)$.
+In other words, we have produced a pair $(\mathcal{H}^\bullet, \alpha_0)$.
+We omit the verification that $o(\alpha_0) = \xi$; hint: $o(\alpha_0)$
+can be computed explitly in this case as we have maps
+$\mathcal{H}^n \to \mathcal{F}^n$ (not compatible with differentials)
+lifting the components of $\alpha_0$. This finishes the proof.
 \end{proof}
 
 
