@@ -5258,12 +5258,25 @@ Thus the perfectness of $K$ follows from Lemma \ref{lemma-tensor-perfect}.
 
 
 
-\section{Computing Ext groups and base change}
+\section{A projection formula for Ext}
 \label{section-ext}
 
 \noindent
-The results in this section will be used to verify one of Artin's criteria
+Lemma \ref{lemma-compute-ext} (or similar results in the literature)
+is sometimes useful to verify properties of an obstruction theory needed
+to verify one of Artin's criteria
 for Quot functors, Hilbert schemes, and other moduli problems.
+Suppose that $f : X \to Y$ is a proper, flat, finitely presented
+morphism of algebraic spaces and $E \in D(\mathcal{O}_X)$ is perfect.
+Here the lemma says
+$$
+\text{Ext}^i_X(E, f^*\mathcal{F}) =
+\text{Ext}^i_Y((Rf_*E^\vee)^\vee, \mathcal{F})
+$$
+for $\mathcal{F}$ quasi-coherent on $Y$.
+Writing it this way makes it look like a projection formula
+for Ext and indeed the result follows rather
+easily from Lemma \ref{lemma-cohomology-base-change}.
 
 \begin{lemma}
 \label{lemma-compute-tensor-perfect}
@@ -5677,8 +5690,9 @@ and use the translation of Lemma \ref{lemma-descend-perfect}.
 \noindent
 A final section on cohomology and base change continuing
 the discussion of Sections
-\ref{section-cohomology-and-base-change-perfect}
-and \ref{section-producing-perfect}.
+\ref{section-cohomology-and-base-change-perfect},
+\ref{section-cohomology-base-change}, and
+\ref{section-producing-perfect}.
 An easy to grok special case is given in
 Remark \ref{remark-explain-perfect-direct-image}.
 
@@ -5686,10 +5700,10 @@ Remark \ref{remark-explain-perfect-direct-image}.
 \label{lemma-base-change-tensor-perfect}
 Let $S$ be a scheme. Let $f : X \to Y$ be a morphism of finite presentation
 between algebraic spaces over $S$. Let $E \in D(\mathcal{O}_X)$ be a perfect
-object. Let $\mathcal{G}$ be a finitely presented $\mathcal{O}_X$-module,
-flat over $Y$, with support proper over $Y$. Then
+object. Let $\mathcal{G}^\bullet$ be a bounded complex of finitely presented
+$\mathcal{O}_X$-modules, flat over $Y$, with support proper over $Y$. Then
 $$
-K = Rf_*(E \otimes_{\mathcal{O}_X}^\mathbf{L} \mathcal{G})
+K = Rf_*(E \otimes_{\mathcal{O}_X}^\mathbf{L} \mathcal{G}^\bullet)
 $$
 is a perfect object of $D(\mathcal{O}_Y)$ and its formation
 commutes with arbitrary base change.
@@ -5699,7 +5713,7 @@ commutes with arbitrary base change.
 The statement on base change is Lemma \ref{lemma-base-change-tensor}.
 Thus it suffices to show that $K$ is a perfect object. If $Y$ is
 Noetherian, then this follows from
-Lemma \ref{lemma-compute-tensor-perfect}.
+Lemma \ref{lemma-tensor-perfect}.
 We will reduce to this case by Noetherian approximation.
 We encourage the reader to skip the rest of this proof.
 
@@ -5712,20 +5726,21 @@ there exists an $i$ and an algebraic space $X_i$ of finite presentation
 over $R_i$ whose base change to $R$ is $X$. By
 Limits of Spaces, Lemma
 \ref{spaces-limits-lemma-descend-modules-finite-presentation}
-we may assume after increasing $i$, that there exists a finitely
-presented $\mathcal{O}_{X_i}$-module $\mathcal{G}_i$ whose
-pullback to $X$ is $\mathcal{G}$. After increasing $i$
-we may assume $\mathcal{G}_i$ is flat over $R_i$, see
+we may assume after increasing $i$, that there exists a
+bounded complex of finitely
+presented $\mathcal{O}_{X_i}$-modules $\mathcal{G}_i^\bullet$ whose
+pullback to $X$ is $\mathcal{G}^\bullet$. After increasing $i$
+we may assume $\mathcal{G}_i^n$ is flat over $R_i$, see
 Limits of Spaces, Lemma
 \ref{spaces-limits-lemma-descend-flat}.
-After increasing $i$ we may assume the support of $\mathcal{G}_i$
+After increasing $i$ we may assume the support of $\mathcal{G}_i^n$
 is proper over $R_i$, see
 Limits of Spaces, Lemma \ref{spaces-limits-lemma-eventually-proper-support}.
 Finally, by Lemma \ref{lemma-descend-perfect}
 we may, after increasing $i$, assume there exists a perfect
 object $E_i$ of $D(\mathcal{O}_{X_i})$ whose pullback to
 $X$ is $E$. Applying Lemma \ref{lemma-compute-tensor-perfect}
-to $X_i \to \Spec(R_i)$, $E_i$, $\mathcal{G}_i$ and using the
+to $X_i \to \Spec(R_i)$, $E_i$, $\mathcal{G}_i^\bullet$ and using the
 base change property already shown we obtain the result.
 \end{proof}
 
@@ -5749,10 +5764,11 @@ Let $S$ be a scheme.
 Let $f : X \to Y$ be a morphism of finite presentation
 between algebraic spaces over $S$.
 Let $E \in D(\mathcal{O}_X)$ be a pseudo-coherent object.
-Let $\mathcal{G}$ be a finitely presented $\mathcal{O}_X$-module,
+Let $\mathcal{G}^\bullet$ be a bounded above complex of
+finitely presented $\mathcal{O}_X$-modules,
 flat over $Y$, with support proper over $Y$. Then
 $$
-K = Rf_*(E \otimes_{\mathcal{O}_X}^\mathbf{L} \mathcal{G})
+K = Rf_*(E \otimes_{\mathcal{O}_X}^\mathbf{L} \mathcal{G}^\bullet)
 $$
 is a pseudo-coherent object of $D(\mathcal{O}_Y)$ and its formation
 commutes with arbitrary base change.
@@ -5772,22 +5788,37 @@ exists an integer $N$ such that total direct image
 $Rf_* : D_\QCoh(\mathcal{O}_X) \to D_\QCoh(\mathcal{O}_Y)$
 has cohomological dimension $N$ as explained in
 Lemma \ref{lemma-quasi-coherence-direct-image}.
-Now it suffices to show that $K$ is $m$-pseudo-coherent for
+Choose an integer $b$ such that $\mathcal{G}^i = 0$ for $i > b$.
+It suffices to show that $K$ is $m$-pseudo-coherent for
 every $m$. Choose an approximation $P \to E$ by a perfect complex $P$
-of $(X, E, m - N - 1)$. This is possible by
+of $(X, E, m - N - 1 - b)$. This is possible by
 Theorem \ref{theorem-approximation}.
 Choose a distinguished triangle
 $$
 P \to E \to C \to P[1]
 $$
 in $D_\QCoh(\mathcal{O}_X)$. The cohomology sheaves of $C$ are zero
-in degrees $\geq m - N - 1$ and hence
-the same is true for $C \otimes^\mathbf{L} \mathcal{G}$.
+in degrees $\geq m - N - 1 - b$. Hence
+the cohomology sheaves of $C \otimes^\mathbf{L} \mathcal{G}^\bullet$
+are zero in degrees $\geq m - N - 1$.
 Thus the cohomology sheaves of $Rf_*(C \otimes^\mathbf{L} \mathcal{G})$
 are zero in degrees $\geq m - 1$. Hence
 $$
 Rf_*(P \otimes^\mathbf{L} \mathcal{G}) \to
 Rf_*(E \otimes^\mathbf{L} \mathcal{G})
+$$
+is an isomorphism on cohomology sheaves in degrees $\geq m$.
+Next, suppose that $H^i(P) = 0$ for $i > a$. Then
+$
+P \otimes^\mathbf{L} \sigma_{\geq m - N - 1 - a}\mathcal{G}^\bullet
+\longrightarrow
+P \otimes^\mathbf{L} \mathcal{G}^\bullet
+$
+is an isomorphism on cohomology sheaves in degrees $\geq m - N - 1$.
+Thus again we find that
+$$
+Rf_*(P \otimes^\mathbf{L} \sigma_{\geq m - N - 1 - a}\mathcal{G}^\bullet) \to
+Rf_*(P \otimes^\mathbf{L} \mathcal{G}^\bullet)
 $$
 is an isomorphism on cohomology sheaves in degrees $\geq m$.
 By Lemma \ref{lemma-base-change-tensor-perfect} the source
@@ -5812,7 +5843,9 @@ $D(\mathcal{O}_Y)$ and its formation commutes with arbitrary base change.
 \begin{proof}
 Special cases of
 Lemma \ref{lemma-base-change-tensor-perfect} applied with
-$\mathcal{G} = \mathcal{O}_X$ and $E = \mathcal{O}_X$.
+(1) $\mathcal{G}^\bullet$ equal to $\mathcal{O}_X$ in degree $0$
+and (2) $E = \mathcal{O}_X$ and $\mathcal{G}^\bullet$ consisting
+of $\mathcal{G}$ sitting in degree $0$.
 \end{proof}
 
 \begin{lemma}
@@ -5944,11 +5977,11 @@ is $m$-pseudo-coherent as desired.
 Let $S$ be a scheme.
 Let $f : X \to Y$ be a morphism of finite presentation
 between algebraic spaces over $S$.
-Let $E \in D(\mathcal{O}_X)$ be a perfect object. Let $\mathcal{G}$ be a
-finitely presented $\mathcal{O}_X$-module, flat over $Y$, with support
-proper over $Y$. Then
+Let $E \in D(\mathcal{O}_X)$ be a perfect object. Let $\mathcal{G}^\bullet$
+be a bounded complex of finitely presented $\mathcal{O}_X$-modules,
+flat over $Y$, with support proper over $Y$. Then
 $$
-K = Rf_*R\SheafHom(E, \mathcal{G})
+K = Rf_*R\SheafHom(E, \mathcal{G}^\bullet)
 $$
 is a perfect object of $D(\mathcal{O}_Y)$ and its formation
 commutes with arbitrary base change.
@@ -5957,8 +5990,7 @@ commutes with arbitrary base change.
 \begin{proof}
 The statement on base change is Lemma \ref{lemma-base-change-RHom}.
 Thus it suffices to show that $K$ is a perfect object. If $Y$ is
-Noetherian, then this follows from
-Lemma \ref{lemma-compute-ext-perfect}.
+Noetherian, then this follows from Lemma \ref{lemma-ext-perfect}.
 We will reduce to this case by Noetherian approximation.
 We encourage the reader to skip the rest of this proof.
 
@@ -5971,20 +6003,21 @@ there exists an $i$ and an algebraic space $X_i$ of finite presentation
 over $R_i$ whose base change to $R$ is $X$. By
 Limits of Spaces, Lemma
 \ref{spaces-limits-lemma-descend-modules-finite-presentation}
-we may assume after increasing $i$, that there exists a finitely
-presented $\mathcal{O}_{X_i}$-module $\mathcal{G}_i$ whose
+we may assume after increasing $i$, that there exists a bounded
+complex of finitely
+presented $\mathcal{O}_{X_i}$-module $\mathcal{G}_i^\bullet$ whose
 pullback to $X$ is $\mathcal{G}$. After increasing $i$
-we may assume $\mathcal{G}_i$ is flat over $R_i$, see
+we may assume $\mathcal{G}_i^n$ is flat over $R_i$, see
 Limits of Spaces, Lemma
 \ref{spaces-limits-lemma-descend-flat}.
-After increasing $i$ we may assume the support of $\mathcal{G}_i$
+After increasing $i$ we may assume the support of $\mathcal{G}_i^n$
 is proper over $R_i$, see
 Limits of Spaces, Lemma \ref{spaces-limits-lemma-eventually-proper-support}.
 Finally, by Lemma \ref{lemma-descend-perfect}
 we may, after increasing $i$, assume there exists a perfect
 object $E_i$ of $D(\mathcal{O}_{X_i})$ whose pullback to
 $X$ is $E$. Applying Lemma \ref{lemma-compute-ext-perfect}
-to $X_i \to \Spec(R_i)$, $E_i$, $\mathcal{G}_i$ and using the
+to $X_i \to \Spec(R_i)$, $E_i$, $\mathcal{G}_i^\bullet$ and using the
 base change property already shown we obtain the result.
 \end{proof}
 
