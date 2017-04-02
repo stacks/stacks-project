@@ -4646,7 +4646,7 @@ $S$. Let $f : X \to Y$ be a quasi-compact and quasi-separated morphism of
 algebraic spaces over $S$. Consider the base change diagram
 $$
 \xymatrix{
-X' \ar[r]_h \ar[d]_{f'} &
+X' \ar[r]_{g'} \ar[d]_{f'} &
 X \ar[d]^f \\
 Y' \ar[r]^g &
 Y
@@ -4654,34 +4654,34 @@ Y
 $$
 If $X$ and $Y'$ are Tor independent over $Y$, then for all
 $E \in D_\QCoh(\mathcal{O}_X)$ we have
-$Rf'_*Lh^*E = Lg^*Rf_*E$.
+$Rf'_*L(g')^*E = Lg^*Rf_*E$.
 \end{lemma}
 
 \begin{proof}
 For any object $E$ of $D(\mathcal{O}_X)$ we can use
 Cohomology on Sites, Remark \ref{sites-cohomology-remark-base-change}
-to get a canonical base change map $Lg^*Rf_*E \to Rf'_*Lh^*E$. To check this
+to get a canonical base change map $Lg^*Rf_*E \to Rf'_*L(g')^*E$. To check this
 is an isomorphism we may work \'etale locally on $Y'$. Hence we may assume
 $g : Y' \to Y$ is a morphism of affine schemes. In particular, $g$
 is affine and it suffices to show that
 $$
-Rg_*Lg^*Rf_*E \to Rg_*Rf'_*Lh^*E = Rf_*(Rh_* Lh^* E)
+Rg_*Lg^*Rf_*E \to Rg_*Rf'_*L(g')^*E = Rf_*(Rg'_* L(g')^* E)
 $$
 is an isomorphism, see Lemma \ref{lemma-affine-morphism}
 (and use Lemmas \ref{lemma-quasi-coherence-pullback},
 \ref{lemma-quasi-coherence-tensor-product}, and
 \ref{lemma-quasi-coherence-direct-image}
-to see that the objects $Rf'_*Lh^*E$ and $Lg^*Rf_*E$
-have quasi-coherent cohomology sheaves). Note that $h$ is
+to see that the objects $Rf'_*L(g')^*E$ and $Lg^*Rf_*E$
+have quasi-coherent cohomology sheaves). Note that $g'$ is
 affine as well (Morphisms of Spaces, Lemma
 \ref{spaces-morphisms-lemma-base-change-affine}).
 By Lemma \ref{lemma-affine-morphism-pull-push} the map becomes a map
 $$
 Rf_*E \otimes_{\mathcal{O}_Y}^\mathbf{L} g_*\mathcal{O}_{Y'}
 \longrightarrow
-Rf_*(E \otimes_{\mathcal{O}_X}^\mathbf{L} h_*\mathcal{O}_{X'})
+Rf_*(E \otimes_{\mathcal{O}_X}^\mathbf{L} g'_*\mathcal{O}_{X'})
 $$
-Observe that $h_*\mathcal{O}_{X'} = f^*g_*\mathcal{O}_{Y'}$. Thus by
+Observe that $g'_*\mathcal{O}_{X'} = f^*g_*\mathcal{O}_{Y'}$. Thus by
 Lemma \ref{lemma-cohomology-base-change} it suffices to prove that
 $Lf^*g_*\mathcal{O}_{Y'} = f^*g_*\mathcal{O}_{Y'}$. This follows from our
 assumption that $X$ and $Y'$ are Tor independent over $Y$. Namely, to
@@ -4697,101 +4697,283 @@ $A \otimes_R^\mathbf{L} R' = A \otimes_R R'$ which exactly means
 that $Lf^*g_*\mathcal{O}_{Y'} = f^*g_*\mathcal{O}_{Y'}$.
 \end{proof}
 
+
+
+
+
+
+
+
+
+
+\section{Cohomology and base change, V}
+\label{section-cohomology-base-change}
+
 \noindent
-The following two lemmas remain true if we replace $\mathcal{G}$ with a
-bounded complex of quasi-coherent $\mathcal{O}_X$-modules each flat over $S$.
+This section is the analogue of Derived Categories of Schemes, Section
+\ref{perfect-section-cohomology-base-change}. In
+Section \ref{section-cohomology-and-base-change-perfect}
+we saw a base change theorem holds when the morphisms are tor independent.
+Even in the affine case there cannot be a base change theorem without such
+a condition, see
+More on Algebra, Section \ref{more-algebra-section-tor-independence}.
+In this section we analyze when one can get a base change result
+``one complex at a time''.
 
-\begin{lemma}
-\label{lemma-base-change-tensor}
-Let $S$ be a scheme. Let $f : X \to Y$ be a quasi-compact and
-quasi-separated morphism of algebraic spaces over $S$.
-Let $E \in D_\QCoh(\mathcal{O}_X)$.
-Let $\mathcal{G}$ be a quasi-coherent $\mathcal{O}_X$-module
-flat over $Y$. Then formation of
-$$
-Rf_*(E \otimes^\mathbf{L}_{\mathcal{O}_X} \mathcal{G})
-$$
-commutes with arbitrary base change (see proof for precise statement).
-\end{lemma}
-
-\begin{proof}
-The statement means the following. Let $g : Y' \to Y$ be a morphism of
-algebraic spaces and consider the base change diagram
+\medskip\noindent
+To make this work, let $S$ be a base scheme and
+suppose we have a commutative diagram
 $$
 \xymatrix{
-X' \ar[r]_h \ar[d]_{f'} &
+X' \ar[r]_{g'} \ar[d]_{f'} &
 X \ar[d]^f \\
 Y' \ar[r]^g &
 Y
 }
 $$
-in other words $X' = Y' \times_Y X$. Set $E' = Lh^*E$ and
-$\mathcal{G}' = h^*\mathcal{G}$ (here we do {\bf not} use the derived
-pullback). The lemma asserts that we have
+of algebraic spaces over $S$ (usually we will assume it is cartesian).
+Let $K \in D_\QCoh(\mathcal{O}_X)$
+and let $L(g')^*K \to K'$ be a map in $D_\QCoh(\mathcal{O}_{X'})$.
+For a geometric point $\overline{x}'$ of $X'$ consider the geometric
+points
+$\overline{x} = g'(\overline{x}')$,
+$\overline{y}' = f'(\overline{x}')$,
+$\overline{y} = f(\overline{x}) = g(\overline{y}')$
+of $X$, $Y'$, $Y$.
+Then we can consider the maps
 $$
-Lg^*Rf_*(E \otimes^\mathbf{L}_{\mathcal{O}_X} \mathcal{G}) =
-Rf'_*(E' \otimes^\mathbf{L}_{\mathcal{O}_{X'}} \mathcal{G}')
+K_{\overline{x}}
+\otimes_{\mathcal{O}_{Y, \overline{y}}}^\mathbf{L}
+\mathcal{O}_{Y', \overline{y}'}
+\to
+K_{\overline{x}}
+\otimes_{\mathcal{O}_{X, \overline{x}}}^\mathbf{L}
+\mathcal{O}_{X', \overline{x}'} \to
+K'_{\overline{x}'}
 $$
-To prove this, note that in
-Cohomology on Sites, Remark \ref{sites-cohomology-remark-base-change}
-we have constructed an arrow
-$$
-Lg^*Rf_*(E \otimes^\mathbf{L}_{\mathcal{O}_X} \mathcal{G})
+where the first arrow is More on Algebra,
+Equation (\ref{more-algebra-equation-comparison-map})
+and the second comes from
+$(L(g')^*K)_{\overline{x}'} =
+K_{\overline{x}} \otimes_{\mathcal{O}_{X, \overline{x}}}^\mathbf{L}
+\mathcal{O}_{X', \overline{x}'}$
+and the given map $L(g')^*K \to K'$.
+For each $i \in \mathbf{Z}$ we obtain a
+$\mathcal{O}_{X, \overline{x}} \otimes_{\mathcal{O}_{Y, \overline{y}}}
+\mathcal{O}_{Y', \overline{y}'}$-module structure on
+$H^i(K_{\overline{x}}
+\otimes_{\mathcal{O}_{Y, \overline{y}}}^\mathbf{L}
+\mathcal{O}_{Y', \overline{y}'})$.
+Putting everything together we obtain canonical maps
+\begin{equation}
+\label{equation-bc}
+H^i(K_{\overline{x}}
+\otimes_{\mathcal{O}_{Y, \overline{y}}}^\mathbf{L}
+\mathcal{O}_{Y', \overline{y}'})
+\otimes_{(\mathcal{O}_{X, \overline{x}}
+\otimes_{\mathcal{O}_{Y, \overline{y}}}
+\mathcal{O}_{Y', \overline{y}'})}
+\mathcal{O}_{X', \overline{x}'}
 \longrightarrow
-R(f')_*(Lh^*(E \otimes^\mathbf{L}_{\mathcal{O}_X} \mathcal{G})) =
-R(f')_*(E' \otimes^\mathbf{L}_{\mathcal{O}_{X'}} lh^*\mathcal{G}))
+H^i(K'_{\overline{x}'})
+\end{equation}
+of $\mathcal{O}_{X', \overline{x}'}$-modules.
+
+\begin{lemma}
+\label{lemma-single-complex-base-change-condition}
+Let $S$ be a scheme. Let
 $$
-which we can compose with the map $Lh^*\mathcal{G} \to h^*\mathcal{G}$
-to get a canonical map
+\xymatrix{
+X' \ar[r]_{g'} \ar[d]_{f'} &
+X \ar[d]^f \\
+Y' \ar[r]^g &
+Y
+}
 $$
-Lg^*Rf_*(E \otimes^\mathbf{L}_{\mathcal{O}_X} \mathcal{G})
-\longrightarrow
-Rf'_*(E' \otimes^\mathbf{L}_{\mathcal{O}_{X'}} \mathcal{G}')
+be a cartesian diagram of algebraic spaces over $S$.
+Let $K \in D_\QCoh(\mathcal{O}_X)$ and let $L(g')^*K \to K'$
+be a map in $D_\QCoh(\mathcal{O}_{X'})$. The following are equivalent
+\begin{enumerate}
+\item for any $x' \in X'$ and $i \in \mathbf{Z}$ the map (\ref{equation-bc})
+is an isomorphism,
+\item for any commutative diagram
 $$
-To check this map is an isomorphism we may work \'etale locally on $Y'$.
+\xymatrix{
+& U \ar[d] \ar[rd]^a \\
+V' \ar[r] \ar[rd]^c & V \ar[rd]^b & X \ar[d]^f \\
+& Y' \ar[r]^g & Y
+}
+$$
+with $a, b, c$ \'etale, $U, V, V'$ schemes, and with $U' = V' \times_V U$
+the equivalent conditions of
+Derived Categories of Schemes, Lemma
+\ref{lemma-single-complex-base-change-condition}
+hold for $(U \to X)^*K$ and $(U' \to X')^*K'$, and
+\item there is some diagram as in (2) with $U' \to X'$ surjective.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Observe that (1) is \'etale local on $X'$. Working through formal
+implications of what is known, we see that it suffices to prove
+condition (1) of this lemma is equivalent to condition
+(1) of Derived Categories of Schemes, Lemma
+\ref{lemma-single-complex-base-change-condition}
+if $X, Y, Y', X'$ are representable by schemes
+$X_0, Y_0, Y'_0, X'_0$. Denote $f_0, g_0, g'_0, f'_0$ the
+morphisms between these schemes corresponding to $f, g, g', f'$.
+We may assume $K = \epsilon^*K_0$ and $K' = \epsilon^*K'_0$
+for some objects $K_0 \in D_\QCoh(\mathcal{O}_{X_0})$
+and $K'_0 \in D_\QCoh(\mathcal{O}_{X'_0})$, see
+Lemma \ref{lemma-derived-quasi-coherent-small-etale-site}.
+Moreover, the map $Lg^*K \to K'$ is the pullback
+of a map $L(g_0)^*K_0 \to K'_0$ with notation as in
+Remark \ref{remark-match-total-direct-images}.
+Recall that $\mathcal{O}_{X, \overline{x}}$ is the
+strict henselization of $\mathcal{O}_{X, x}$
+(Properties of Spaces, Lemma
+\ref{spaces-properties-lemma-describe-etale-local-ring})
+and that we have
+$$
+K_{\overline{x}} =
+K_{0, x} \otimes_{\mathcal{O}_{X, x}}^\mathbf{L} \mathcal{O}_{X, \overline{x}}
+\quad\text{and}\quad
+K'_{\overline{x}'} =
+K'_{0, x'} \otimes_{\mathcal{O}_{X', x'}}^\mathbf{L}
+\mathcal{O}_{X', \overline{x}'}
+$$
+(akin to Properties of Spaces, Lemma
+\ref{spaces-properties-lemma-stalk-quasi-coherent}).
+Consider the commutative diagram
+$$
+\xymatrix{
+H^i(K_{\overline{x}}
+\otimes_{\mathcal{O}_{Y, \overline{y}}}^\mathbf{L}
+\mathcal{O}_{Y', \overline{y}'})
+\otimes_{(\mathcal{O}_{X, \overline{x}}
+\otimes_{\mathcal{O}_{Y, \overline{y}}}
+\mathcal{O}_{Y', \overline{y}'})}
+\mathcal{O}_{X', \overline{x}'}
+\ar[r] &
+H^i(K'_{\overline{x}'}) \\
+H^i(K_{0, x} \otimes_{\mathcal{O}_{Y, y}}^\mathbf{L} \mathcal{O}_{Y', y'})
+\otimes_{(\mathcal{O}_{X, x} \otimes_{\mathcal{O}_{Y, y}} \mathcal{O}_{Y', y'})}
+\mathcal{O}_{X', x'}
+\ar[u] \ar[r] &
+H^i(K'_{0, x'}) \ar[u]
+}
+$$
+We have to show that the lower horizontal arrow is an isomorphism if and only
+if the upper horizontal arrow is an isomorphism. Since
+$\mathcal{O}_{X', x'} \to \mathcal{O}_{X', \overline{x}'}$
+is faithfully flat (More on Algebra, Lemma
+\ref{more-algebra-lemma-dumb-properties-henselization})
+it suffices to show that the top arrow is the base
+change of the bottom arrow by this map.
+This follows immediately from the relationships between
+stalks given above for the objects on the right.
+For the objects on the left it suffices to show that
+\begin{align*}
+&
+H^i\left(
+(K_{0, x}
+\otimes_{\mathcal{O}_{X, x}}^\mathbf{L} \mathcal{O}_{X, \overline{x}})
+\otimes_{\mathcal{O}_{Y, \overline{y}}}^\mathbf{L}
+\mathcal{O}_{Y', \overline{y}'}\right) \\
+& =
+H^i(K_{0, x} \otimes_{\mathcal{O}_{Y, y}}^\mathbf{L} \mathcal{O}_{Y', y'})
+\otimes_{(\mathcal{O}_{X, x} \otimes_{\mathcal{O}_{Y, y}} \mathcal{O}_{Y', y'})}
+(\mathcal{O}_{X, \overline{x}}
+\otimes_{\mathcal{O}_{Y, \overline{y}}}
+\mathcal{O}_{Y', \overline{y}'})
+\end{align*}
+This follows from More on Algebra, Lemma
+\ref{more-algebra-lemma-lemma-tor-independent-flat-compare}.
+The flatness assumptions of this lemma hold by what was said
+above as well as Algebra, Lemma
+\ref{algebra-lemma-strictly-henselian-functorial-improve}
+implying that
+$\mathcal{O}_{X, \overline{x}}$ is the strict henselization of
+$\mathcal{O}_{X, x} \otimes_{\mathcal{O}_{Y, y}}
+\mathcal{O}_{Y, \overline{y}}$
+and that
+$\mathcal{O}_{Y', \overline{y}'}$ is the strict henselization of
+$\mathcal{O}_{Y', y'} \otimes_{\mathcal{O}_{Y, y}}
+\mathcal{O}_{Y, \overline{y}}$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-single-complex-base-change}
+Let $S$ be a scheme. Let
+$$
+\xymatrix{
+X' \ar[r]_{g'} \ar[d]_{f'} &
+X \ar[d]^f \\
+Y' \ar[r]^g &
+Y
+}
+$$
+be a cartesian diagram of algebraic spaces over $S$.
+Let $K \in D_\QCoh(\mathcal{O}_X)$ and let $L(g')^*K \to K'$
+be a map in $D_\QCoh(\mathcal{O}_{X'})$. If
+\begin{enumerate}
+\item the equivalent conditions of
+Lemma \ref{lemma-single-complex-base-change-condition} hold, and
+\item $f$ is quasi-compact and quasi-separated,
+\end{enumerate}
+then the composition $Lg^*Rf_*K \to Rf'_*L(g')^*K \to Rf'_*K'$
+is an isomorphism.
+\end{lemma}
+
+\begin{proof}
+To check the map is an isomorphism we may work \'etale locally on $Y'$.
 Hence we may assume $g : Y' \to Y$ is a morphism of affine schemes.
-In this case, we will use the induction principle to prove this map
-is always an isomorphism for any quasi-compact and quasi-separated
-algebraic space $X$ over $Y$ (Lemma
-\ref{lemma-induction-principle}).
+In this case, we will use the induction principle of
+Lemma \ref{lemma-induction-principle}
+to prove that for a quasi-compact and quasi-separated
+algebraic space $U$ \'etale over $X$
+the similarly constructed map
+$Lg^*R(U \to Y)_*K|_U \to R(U' \to Y')_*K'|_{U'}$
+is an isomorphism. Here $U' = X' \times_{g', X} U = Y' \times_{g, Y} U$.
 
 \medskip\noindent
-If $X$ is a scheme (for example affine), then the result holds.
-Namely, $E$ comes from an object of the derived category of the
-underlying scheme by Lemma \ref{lemma-derived-quasi-coherent-small-etale-site}.
-Furthermore, the constructions $Rf_*$ (derived pushforward) and $Lg^*$
-(derived pullback) are (in the current situation) compatible with pulling back
-from the Zariski site (Remark \ref{remark-match-total-direct-images}).
-Thus in this case the result follows from the case of schemes which is
-Derived Categories of Schemes, Lemma \ref{perfect-lemma-base-change-tensor}.
+If $U$ is a scheme (for example affine), then the result holds.
+Namely, then $Y, Y', U, U'$ are schemes, $K$ and $K'$ come from
+objects of the derived category of the underlying schemes by
+Lemma \ref{lemma-derived-quasi-coherent-small-etale-site}
+and the condition of
+Derived Categories of Schemes,
+Lemma \ref{perfect-lemma-single-complex-base-change-condition}
+holds for these complexes by
+Lemma \ref{lemma-single-complex-base-change-condition}.
+Thus (by the compatibilities explained in
+Remark \ref{remark-match-total-direct-images})
+we can apply the result in the case of schemes
+which is
+Derived Categories of Schemes, Lemma
+\ref{perfect-lemma-single-complex-base-change}.
 
 \medskip\noindent
-The induction step. Let $(U \subset X, f : V \to X)$ be an elementary
-distinguished square with $U$, $V$, $U \times_X V$ quasi-compact such that
-the result holds for the restriction of $E$ and
-$\mathcal{G}$ to $U$, $V$, and $U \times_X V$. Denote $a = f|_U$,
-$b = f|_V$ and $c = f|_{U \times_X V}$. Let $a' : U' \to Y'$, $b' : V' \to Y'$
+The induction step. Let $(U \subset W, V \to W)$ be an elementary
+distinguished square with $W$ a quasi-compact and quasi-separated
+algebraic space \'etale over $X$, with $U$ quasi-compact, $V$ affine
+and the result holds for $U$, $V$, and $U \times_W V$.
+To easy notation we replace $W$ by $X$ (this is permissible at this point).
+Denote $a : U \to Y$, $b : V \to Y$, and $c : U \times_X V \to Y$
+the obvious morphisms. Let $a' : U' \to Y'$, $b' : V' \to Y'$
 and $c' : U' \times_{X'} V' \to Y'$ be the base changes of $a$, $b$, and $c$.
-Note that formation of $R\SheafHom$ commutes with restriction
-(Cohomology on Sites, Lemma
-\ref{sites-cohomology-lemma-restriction-RHom-to-U}).
-Set $H = E \otimes^\mathbf{L}_{\mathcal{O}_X} \mathcal{G}$
-and $H' = E' \otimes^\mathbf{L}_{\mathcal{O}_{X'}} \mathcal{G}'$.
 Using the distinguished triangles from relative Mayer-Vietoris
 (Lemma \ref{lemma-unbounded-relative-mayer-vietoris})
 we obtain a commutative diagram
 $$
 \xymatrix{
-Lg^*Rf_* H \ar[r] \ar[d] &
-Rf'_* H' \ar[d] \\
-Lg^*Ra_* H|_U \oplus
-Lg^*Rb_* H|_V \ar[r] \ar[d] &
-Ra'_* H'|_{U'} \oplus
-Rb'_* H'|_{V'} \ar[d] \\
-Lg^*Rc_* H|_{U \times_X V} \ar[r] \ar[d] &
-Rc'_* H'|_{U' \times_{X'} V'} \ar[d] \\
-Lg^*Rf_* H[1] \ar[r] &
-Rf'_* H'[1]
+Lg^*Rf_*K \ar[r] \ar[d] & Rf'_*K' \ar[d] \\
+Lg^*Ra_*K|_U \oplus Lg^*Rb_*K|_V \ar[r] \ar[d] &
+Ra'_* K'|_{U'} \oplus Rb'_* K'|_{V'} \ar[d] \\
+Lg^*Rc_*K|_{U \times_X V} \ar[r] \ar[d] &
+Rc'_*K'|_{U' \times_{X'} V'} \ar[d] \\
+Lg^*Rf_* K[1] \ar[r] &
+Rf'_* K'[1]
 }
 $$
 Since the 2nd and 3rd horizontal arrows are isomorphisms so is the first
@@ -4800,14 +4982,128 @@ and the proof of the lemma is finished.
 \end{proof}
 
 \begin{lemma}
-\label{lemma-base-change-RHom}
+\label{lemma-single-complex-base-change-condition-inherited}
+Let $S$ be a scheme. Let
+$$
+\xymatrix{
+X' \ar[r]_{g'} \ar[d]_{f'} &
+X \ar[d]^f \\
+S' \ar[r]^g &
+S
+}
+$$
+be a cartesian diagram of algebraic spaces over $S$.
+Let $K \in D_\QCoh(\mathcal{O}_X)$ and let $L(g')^*K \to K'$
+be a map in $D_\QCoh(\mathcal{O}_{X'})$. If the equivalent conditions of
+Lemma \ref{lemma-single-complex-base-change-condition} hold, then
+\begin{enumerate}
+\item for $E \in D_\QCoh(\mathcal{O}_X)$ the equivalent
+conditions of Lemma \ref{lemma-single-complex-base-change-condition} hold
+for $L(g')^*(E \otimes^\mathbf{L} K) \to L(g')^*E \otimes^\mathbf{L} K'$,
+\item if $E$ in $D(\mathcal{O}_X)$ is perfect the equivalent conditions of
+Lemma \ref{lemma-single-complex-base-change-condition} hold for
+$L(g')^*R\SheafHom(E, K) \to R\SheafHom(L(g')^*E, K')$, and
+\item if $K$ is bounded below and $E$ in $D(\mathcal{O}_X)$
+pseudo-coherent the equivalent conditions of
+Lemma \ref{lemma-single-complex-base-change-condition} hold for
+$L(g')^*R\SheafHom(E, K) \to R\SheafHom(L(g')^*E, K')$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+The statement makes sense as the complexes involved have quasi-coherent
+cohomology sheaves by Lemmas
+\ref{lemma-quasi-coherence-pullback},
+\ref{lemma-quasi-coherence-tensor-product}, and
+\ref{lemma-quasi-coherence-internal-hom} and
+Cohomology on Sites, Lemmas
+\ref{sites-cohomology-lemma-pseudo-coherent-pullback} and
+\ref{sites-cohomology-lemma-perfect-pullback}.
+Having said this, we can check the maps (\ref{equation-bc})
+are isomorphisms in case (1) by computing the source and target
+of (\ref{equation-bc}) using the transitive property of tensor product, see
+More on Algebra, Lemma \ref{more-algebra-lemma-triple-tensor-product}.
+The map in (2) and (3) is the composition
+$$
+L(g')^*R\SheafHom(E, K) \to R\SheafHom(L(g')^*E, L(g')^*K)
+\to R\SheafHom(L(g')^*E, K')
+$$
+where the first arrow is
+Cohomology on Sites, Remark
+\ref{sites-cohomology-remark-prepare-fancy-base-change}
+and the second arrow comes from the given map $L(g')^*K \to K'$.
+To prove the maps (\ref{equation-bc}) are isomorphisms one represents
+$E_x$ by a bounded complex of finite projective $\mathcal{O}_{X. x}$-modules
+in case (2) or by a bounded above complex of finite free modules in case (3)
+and computes the source and target of the arrow.
+Some details omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-base-change-tensor}
 Let $S$ be a scheme. Let $f : X \to Y$ be a quasi-compact and
 quasi-separated morphism of algebraic spaces over $S$.
-Let $E \in D(\mathcal{O}_X)$ be perfect.
-Let $\mathcal{G}$ be a quasi-coherent $\mathcal{O}_X$-module
-flat over $Y$. Then formation of
+Let $E \in D_\QCoh(\mathcal{O}_X)$.
+Let $\mathcal{G}^\bullet$ be a bounded above complex of
+quasi-coherent $\mathcal{O}_X$-modules flat over $Y$.
+Then formation of
 $$
-Rf_*R\SheafHom(E, \mathcal{G})
+Rf_*(E \otimes^\mathbf{L}_{\mathcal{O}_X} \mathcal{G}^\bullet)
+$$
+commutes with arbitrary base change (see proof for precise statement).
+\end{lemma}
+
+\begin{proof}
+The statement means the following. Let $g : Y' \to Y$ be a morphism of
+algebraic spaces and consider the base change diagram
+$$
+\xymatrix{
+X' \ar[r]_{g'} \ar[d]_{f'} &
+X \ar[d]^f \\
+Y' \ar[r]^g &
+Y
+}
+$$
+in other words $X' = Y' \times_Y X$. The lemma asserts that
+$$
+Lg^*Rf_*(E \otimes^\mathbf{L}_{\mathcal{O}_X} \mathcal{G}^\bullet)
+\longrightarrow
+Rf'_*(L(g')^*E \otimes^\mathbf{L}_{\mathcal{O}_{X'}} (g')^*\mathcal{G}^\bullet)
+$$
+is an isomorphism. Observe that on the right hand side we do {\bf not}
+use derived pullback on $\mathcal{G}^\bullet$.
+To prove this, we apply Lemmas \ref{lemma-single-complex-base-change} and
+\ref{lemma-single-complex-base-change-condition-inherited} to see that it
+suffices to prove the canonical map
+$$
+L(g')^*\mathcal{G}^\bullet \to (g')^*\mathcal{G}^\bullet
+$$
+satisfies the equivalent conditions of
+Lemma \ref{lemma-single-complex-base-change-condition}.
+This follows by checking the condition on stalks, where it
+immediately follows from the fact that
+$\mathcal{G}^\bullet_{\overline{x}}
+\otimes_{\mathcal{O}_{Y, \overline{y}}}
+\mathcal{O}_{Y', \overline{y}'}$
+computes the derived tensor product by our assumptions on the complex
+$\mathcal{G}^\bullet$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-base-change-RHom}
+Let $S$ be a scheme. Let $f : X \to Y$ be a quasi-compact and
+quasi-separated morphism of algebraic spaces over $S$. Let $E$
+be an object of $D(\mathcal{O}_X)$. Let $\mathcal{G}^\bullet$
+be a complex of quasi-coherent $\mathcal{O}_X$-modules. If
+\begin{enumerate}
+\item $E$ is perfect, $\mathcal{G}^\bullet$ is a bounded above,
+and $\mathcal{G}^n$ is flat over $Y$, or
+\item $E$ is pseudo-coherent, $\mathcal{G}^\bullet$ is bounded,
+and $\mathcal{G}^n$ is flat over $Y$,
+\end{enumerate}
+then formation of
+$$
+Rf_*R\SheafHom(E, \mathcal{G}^\bullet)
 $$
 commutes with arbitrary base change (see proof for precise statement).
 \end{lemma}
@@ -4823,34 +5119,23 @@ Y' \ar[r]^g &
 Y
 }
 $$
-in other words $X' = Y' \times_Y X$. Set $E' = Lh^*E$ and
-$\mathcal{G}' = h^*\mathcal{G}$ (here we do {\bf not} use the derived
-pullback). The lemma asserts that we have
+in other words $X' = Y' \times_Y X$. The lemma asserts that
 $$
-Lg^*Rf_*R\SheafHom(E, \mathcal{G}) = Rf'_*R\SheafHom(E', \mathcal{G}')
-$$
-To prove this, note that in
-Cohomology on Sites, Remark \ref{sites-cohomology-remark-fancy-base-change}
-we have constructed an arrow
-$$
-Lg^*Rf_*R\SheafHom(E, \mathcal{G})
+Lg^*Rf_*R\SheafHom(E, \mathcal{G}^\bullet)
 \longrightarrow
-R(f')_*R\SheafHom(Lh^*E, Lh^*\mathcal{G})
+R(f')_*R\SheafHom(L(g')^*E, (g')^*\mathcal{G}^\bullet)
 $$
-which we can compose with the map $Lh^*\mathcal{G} \to h^*\mathcal{G}$
-to get a canonical map
+is an isomorphism. Observe that on the right hand side we do {\bf not}
+use the derived pullback on $\mathcal{G}^\bullet$. To prove this, we apply
+Lemmas \ref{lemma-single-complex-base-change} and
+\ref{lemma-single-complex-base-change-condition-inherited} to see that it
+suffices to prove the canonical map
 $$
-Lg^*Rf_*R\SheafHom(E, \mathcal{G}) \to Rf'_*R\SheafHom(E', \mathcal{G}')
+L(g')^*\mathcal{G}^\bullet \to (g')^*\mathcal{G}^\bullet
 $$
-With these preliminaries out of the way, we deduce the result from
-Lemma \ref{lemma-base-change-tensor}. Namely, since $E$ is a perfect
-complex there exists a dual perfect complex $E_{dual}$, see
-Cohomology on Sites, Lemma \ref{sites-cohomology-lemma-dual-perfect-complex},
-such that $R\SheafHom(E, \mathcal{G}) =
-E_{dual} \otimes_{\mathcal{O}_X}^\mathbf{L} \mathcal{G}$.
-We omit the verification that the base change map of
-Lemma \ref{lemma-base-change-tensor} for $E_{dual}$ agrees with the
-base change map for $E$ constructed above.
+satisfies the equivalent conditions of
+Lemma \ref{lemma-single-complex-base-change-condition}.
+This was shown in the proof of Lemma \ref{lemma-base-change-tensor}.
 \end{proof}
 
 
@@ -5302,7 +5587,7 @@ and use the translation of Lemma \ref{lemma-descend-perfect}.
 
 
 
-\section{Cohomology and base change, V}
+\section{Cohomology and base change, VI}
 \label{section-cohomology-and-base-change-final}
 
 \noindent
