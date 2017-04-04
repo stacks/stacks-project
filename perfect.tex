@@ -5215,6 +5215,31 @@ $\text{Ext}^i_{\mathcal{O}_S}(L, \mathcal{F}) =
 for $i \leq n + a - 3$ which finishes the proof.
 \end{proof}
 
+\begin{remark}
+\label{remark-base-change-of-L}
+The pseudo-coherent complex $L$ of part (B) of Lemma \ref{lemma-compute-ext}
+is canonically associated to the situation. For example,
+formation of $L$ as in (B) is compatible with base change.
+In other words, given a cartesian diagram
+$$
+\xymatrix{
+X' \ar[r]_{g'} \ar[d]_{f'} &
+X \ar[d]^f \\
+S' \ar[r]^g &
+S
+}
+$$
+of schemes we have canonical functorial isomorphisms
+$$
+\text{Ext}^i_{\mathcal{O}_{S'}}(Lg^*L, \mathcal{F}') \longrightarrow
+\text{Ext}^i_{\mathcal{O}_X}(L(g')^*E,
+(g')^*\mathcal{G}^\bullet \otimes_{\mathcal{O}_{X'}} (f')^*\mathcal{F}')
+$$
+for $\mathcal{F}'$ quasi-coherent on $S'$. Obsere that we do {\bf not} use
+derived pullback on $\mathcal{G}^\bullet$ on the right hand side.
+If we ever need this, we will
+formulate a precise result here and give a detailed proof.
+\end{remark}
 
 
 
@@ -6733,6 +6758,8 @@ This follows from Cohomology, Lemmas
 \label{lemma-perfect-relatively-perfect}
 Let $f : X \to S$ be a morphism of schemes which is flat and locally
 of finite presentation. A perfect object of $D(\mathcal{O}_X)$ is $S$-perfect.
+If $K, M \in D(\mathcal{O}_X)$, then $K \otimes_{\mathcal{O}_X}^\mathbf{L} M$
+is $S$-perfect if $K$ is perfect and $M$ is $S$-perfect.
 \end{lemma}
 
 \begin{proof}
@@ -6740,18 +6767,6 @@ First proof: reduce to the affine case using
 Lemma \ref{lemma-affine-locally-rel-perfect}
 and then apply More on Algebra, Lemma
 \ref{more-algebra-lemma-perfect-relatively-perfect}.
-
-\medskip\noindent
-Second proof: follows from Cohomology, Lemma \ref{cohomology-lemma-perfect}
-and the claim that a complex in $D(\mathcal{O}_X)$ having
-locally bounded tor dimension has locally bounded tor dimension
-in $D(f^{-1}\mathcal{O}_S)$. The claim follows from the fact
-that the ring homomorphisms
-$\mathcal{O}_{S, f(x)} = (f^{-1}\mathcal{O}_S)_x \to \mathcal{O}_{X, x}$
-are flat,
-More on Algebra, Lemma \ref{more-algebra-lemma-flat-push-tor-amplitude},
-and the criterion for tor dimension in terms of stalks from
-Cohomology, Lemma \ref{cohomology-lemma-tor-amplitude-stalk}.
 \end{proof}
 
 \begin{lemma}
@@ -6920,16 +6935,169 @@ The translation into algebra is done by
 Lemma \ref{lemma-affine-locally-rel-perfect}.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-derived-pushforward-rel-perfect}
+Let $f : X \to S$ be a morphism of schemes which is flat, proper, and
+of finite presentation. Let $E \in D(\mathcal{O}_X)$ be $S$-perfect.
+Then $Rf_*E$ is a perfect object of $D(\mathcal{O}_S)$
+and its formation commutes with arbitrary base change.
+\end{lemma}
 
+\begin{proof}
+The statement on base change is Lemma \ref{lemma-base-change-tensor}
+(with $\mathcal{G}^\bullet$ equal to $\mathcal{O}_X$ in degree $0$).
+Thus it suffices to show that $Rf_*E$ is a perfect object. We will reduce
+to the case where $S$ is Noetherian affine by a limit argument.
 
+\medskip\noindent
+The question is local on $S$, hence we may assume $S$ is affine.
+Say $S = \Spec(R)$. We write $R = \colim R_i$ as a filtered colimit
+of Noetherian rings $R_i$. By Limits, Lemma
+\ref{limits-lemma-descend-finite-presentation}
+there exists an $i$ and a scheme $X_i$ of finite presentation over $R_i$
+whose base change to $R$ is $X$. By
+Limits, Lemmas \ref{limits-lemma-eventually-proper} and
+\ref{limits-lemma-descend-flat-finite-presentation}
+we may assume $X_i$ is proper and flat over $R_i$.
+By Lemma \ref{lemma-descend-relatively-perfect}
+we may assume there exists a $R_i$-perfect object $E_i$ of
+$D(\mathcal{O}_{X_i})$ whose pullback to $X$ is $E$.
+Applying Lemma \ref{lemma-perfect-direct-image}
+to $X_i \to \Spec(R_i)$ and $E_i$ and using the
+base change property already shown we obtain the result.
+\end{proof}
 
+\begin{lemma}
+\label{lemma-compute-ext-rel-perfect}
+Let $f : X \to S$ be a morphism of schemes. Let $E, K \in D(\mathcal{O}_X)$.
+Assume
+\begin{enumerate}
+\item $S$ is quasi-compact and quasi-separated,
+\item $f$ is proper, flat, and of finite presentation,
+\item $E$ is $S$-perfect,
+\item $K$ is pseudo-coherent.
+\end{enumerate}
+Then there exists a pseudo-coherent $L \in D(\mathcal{O}_S)$ such that
+$$
+Rf_*R\SheafHom(K, E) = R\SheafHom(L, \mathcal{O}_S)
+$$
+and the same is true after arbitrary base change: given
+$$
+\vcenter{
+\xymatrix{
+X' \ar[r]_{g'} \ar[d]_{f'} &
+X \ar[d]^f \\
+S' \ar[r]^g &
+S
+}
+}
+\quad\quad
+\begin{matrix}
+\text{cartesian, then we have } \\
+Rf'_*R\SheafHom(L(g')^*K, L(g')^*E) \\
+= R\SheafHom(Lg^*L, \mathcal{O}_{S'})
+\end{matrix}
+$$
+\end{lemma}
 
+\begin{proof}
+Since $S$ is quasi-compact and quasi-separated, the same is true for $X$.
+By Lemma \ref{lemma-pseudo-coherent-hocolim} we can write
+$K = \text{hocolim} K_n$ with $K_n$ perfect and $K_n \to K$ inducing
+an isomorphism on truncations $\tau_{\geq -n}$. Let $K_n^\vee$
+be the dual perfect complex
+(Cohomology, Lemma \ref{cohomology-lemma-dual-perfect-complex}).
+We obtain an inverse system $\ldots \to K_3^\vee \to K_2^\vee \to K_1^\vee$
+of perfect objects. By Lemma \ref{lemma-perfect-relatively-perfect}
+we see that $K_n^\vee \otimes_{\mathcal{O}_X} E$ is $S$-perfect.
+Thus we may apply Lemma \ref{lemma-derived-pushforward-rel-perfect}
+to $K_n^\vee \otimes_{\mathcal{O}_X} E$ and we obtain an inverse system
+$$
+\ldots \to M_3 \to M_2 \to M_1
+$$
+of perfect complexes on $S$ with
+$$
+M_n = Rf_*(K_n^\vee \otimes_{\mathcal{O}_X}^\mathbf{L} E) =
+Rf_*R\SheafHom(K_n, E)
+$$
+Moreover, the formation of these complexes commutes with any
+base change, namely $Lg^*M_n =
+Rf'_*((L(g')^*K_n)^\vee \otimes_{\mathcal{O}_{X'}}^\mathbf{L} L(g')^*E) =
+Rf'_*R\SheafHom(L(g')^*K_n, L(g')^*E)$.
 
+\medskip\noindent
+As $K_n \to K$ induces an isomorphism on $\tau_{\geq -n}$, we see that
+$K_n \to K_{n + 1}$ induces an isomorphism on $\tau_{\geq -n}$.
+It follows that $K_{n + 1}^\vee \to K_n^\vee$
+induces an isomorphism on $\tau_{\leq n}$ as
+$K_n^\vee = R\SheafHom(K_n, \mathcal{O}_X)$.
+Suppose that $E$ has tor amplitude in $[a, b]$ as a complex
+of $f^{-1}\mathcal{O}_Y$-modules. Then the same is true after
+any base change, see Lemma \ref{lemma-tor-independence-and-tor-amplitude}.
+We find that
+$K_{n + 1}^\vee \otimes_{\mathcal{O}_X} E \to
+K_n^\vee \otimes_{\mathcal{O}_X} E$
+induces an isomorphism on $\tau_{\leq n + a}$
+and the same is true after any base change.
+Applying the right derived functor $Rf_*$
+we conclude the maps $M_{n + 1} \to M_n$
+induce isomorphisms on $\tau_{\leq n + a}$
+and the same is true after any base change.
+Choose a distinguished triangle
+$$
+M_{n + 1} \to M_n \to C_n \to M_{n + 1}[1]
+$$
+Take $S'$ equal to the spectrum of the residue field at a point
+$s \in S$ and pull back to see that
+$C_n \otimes_{\mathcal{O}_S}^\mathbf{L} \kappa(s)$
+has nonzero cohomology only in degrees $\geq n + a$. By
+More on Algebra, Lemma
+\ref{more-algebra-lemma-lift-perfect-from-residue-field}
+we see that the perfect complex $C_n$ has tor amplitude in
+$[n + a, m_n]$ for some integer $m_n$.
+In particular, the dual perfect complex $C_n^\vee$ has tor amplitude in
+$[-m_n, -n - a]$.
 
+\medskip\noindent
+Let $L_n = M_n^\vee$ be the dual perfect complex. The
+conclusion from the discussion in the previous paragraph is that
+$L_n \to L_{n + 1}$ induces isomorphisms on $\tau_{\geq -n - a}$.
+Thus $L = \text{hocolim} L_n$ is pseudo-coherent, see
+Lemma \ref{lemma-pseudo-coherent-hocolim}.
+Since we have
+$$
+R\SheafHom(K, E) = R\SheafHom(\text{hocolim} K_n, E) =
+R\lim R\SheafHom(K_n, E) = R\lim K_n^\vee \otimes_{\mathcal{O}_X} E
+$$
+(Cohomology, Lemma \ref{cohomology-lemma-colim-and-lim-of-duals})
+and since $R\lim$ commutes with $Rf_*$ we find that
+$$
+Rf_*R\SheafHom(K, E) = R\lim M_n = R\lim R\SheafHom(L_n, \mathcal{O}_S) =
+R\SheafHom(L, \mathcal{O}_S)
+$$
+This proves the formula over $S$. Since the construction of $M_n$ is
+compatible with base chance, the formula continues to hold after
+any base change.
+\end{proof}
 
-
-
-
+\begin{remark}
+\label{remark-compare-L}
+The reader may have noticed the similarity between
+Lemma \ref{lemma-compute-ext-rel-perfect} and
+Lemma \ref{lemma-compute-ext}.
+Indeed, the pseudo-coherent complex $L$ of
+Lemma \ref{lemma-compute-ext-rel-perfect}
+may be characterized as the unique pseudo-coherent complex
+on $S$ such that there are functorial isomorphisms
+$$
+\text{Ext}^i_{\mathcal{O}_S}(L, \mathcal{F}) \longrightarrow
+\text{Ext}^i_{\mathcal{O}_X}(K,
+E \otimes_{\mathcal{O}_X}^\mathbf{L} Lf^*\mathcal{F})
+$$
+compatible with boundary maps for $\mathcal{F}$ ranging over
+$\QCoh(\mathcal{O}_S)$. If we ever need this we will
+formulate a precise result here and give a detailed proof.
+\end{remark}
 
 \begin{remark}
 \label{remark-discuss-rel-perfect}
