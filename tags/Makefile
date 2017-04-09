@@ -29,7 +29,7 @@ LIJST = introduction conventions sets categories \
 	algebraic examples-stacks stacks-sheaves criteria artin quot \
 	stacks-properties stacks-morphisms stacks-limits \
 	stacks-cohomology stacks-perfect \
-	stacks-introduction stacks-more-morphisms \
+	stacks-introduction stacks-more-morphisms moduli \
 	examples exercises guide \
 	desirables coding obsolete bibliography
 
