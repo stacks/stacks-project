@@ -28,7 +28,7 @@ LIJST = introduction conventions sets categories \
 	algebraic examples-stacks stacks-sheaves criteria artin quot \
 	stacks-properties stacks-morphisms stacks-limits \
 	stacks-cohomology stacks-perfect \
-	stacks-introduction stacks-more-morphisms moduli \
+	stacks-introduction stacks-more-morphisms moduli moduli-curves \
 	examples exercises guide \
 	desirables coding obsolete
 
