@@ -1213,6 +1213,59 @@ or pullback of the given short exact sequence.
 \label{section-functors}
 
 \noindent
+First a completely silly lemma characterizing additive functors
+between additive categories.
+
+\begin{lemma}
+\label{lemma-additive-functor}
+Let $\mathcal{A}$ and $\mathcal{B}$ be additive categories.
+Let $F : \mathcal{A} \to \mathcal{B}$ be a functor.
+The following are equivalent
+\begin{enumerate}
+\item $F$ is additive,
+\item $F(A) \oplus F(B) \to F(A \oplus B)$ is an isomorphism for
+all $A, B \in \mathcal{A}$, and
+\item $F(A \oplus B) \to F(A) \oplus F(B)$  is an isomorphism for
+all $A, B \in \mathcal{A}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Additive functors commute with direct sums by
+Lemma \ref{lemma-additive-additive} hence (1)
+implies (2) and (3). On the other hand (2) and (3)
+are equivalent because the composition
+$F(A) \oplus F(B) \to F(A \oplus B) \to F(A) \oplus F(B)$
+is the identity map. Assume (2) and (3) hold.
+Let $f, g : A \to B$ be maps. Then $f + g$ is equal to
+the composition
+$$
+A \to A \oplus A \xrightarrow{\text{diag}(f, g)} B \oplus B \to B
+$$
+Apply the functor $F$ and consider the following diagram
+$$
+\xymatrix{
+F(A) \ar[r] \ar[rd] &
+F(A \oplus A) \ar[rr]_{\text{diag}(f, g)} & &
+F(B \oplus B) \ar[r] \ar[d] &
+F(B) \\
+&
+F(A) \oplus F(A) \ar[u] \ar[rr]^{\text{diag}(F(f), F(g))} & &
+F(B) \oplus F(B) \ar[ru]
+}
+$$
+We claim this is commutative. For the middle square we can verify it
+separately for each of the for induced maps $F(A) \to F(B)$
+where it follows from the fact that $F$ is a functor (in other words
+this square commutes even if $F$ does not satisfy any properties
+beyond being a functor). For the triangle on the left, we use that
+$F(A \oplus A) \to F(A) \oplus F(A)$ is an isomorphism
+to see that it suffice to check after composition with
+this map and this check is trivial. Dually for the other triangle.
+Thus going around the bottom is equal to $F(f + g)$ and we conclude.
+\end{proof}
+
+\noindent
 Recall that we defined, in
 Categories, Definition \ref{categories-definition-exact}
 the notion of a ``right exact'', ``left exact'' and
@@ -1227,18 +1280,16 @@ Let $\mathcal{A}$ and $\mathcal{B}$ be abelian categories.
 Let $F : \mathcal{A} \to \mathcal{B}$ be a functor.
 \begin{enumerate}
 \item If $F$ is either left or right exact, then it is additive.
-\item If $F$ is additive then it is left exact if and only if
+\item If $F$ is left exact if and only if
 for every short exact sequence
 $0 \to A \to B \to C \to 0$
 the sequence $0 \to F(A) \to F(B) \to F(C)$
 is exact.
-\item If $F$ is additive then it is right exact if and only if
-for every short exact sequence
+\item If $F$ is right exact if and only if for every short exact sequence
 $0 \to A \to B \to C \to 0$
 the sequence $F(A) \to F(B) \to F(C) \to 0$
 is exact.
-\item If $F$ is additive then it is exact if and only if
-for every short exact sequence
+\item If $F$ is exact if and only if for every short exact sequence
 $0 \to A \to B \to C \to 0$
 the sequence $0 \to F(A) \to F(B) \to F(C) \to 0$
 is exact.
@@ -1246,45 +1297,35 @@ is exact.
 \end{lemma}
 
 \begin{proof}
-Let us first note that if $F$ commutes with the empty limit or
-the empty colimit, then $F(0) = 0$. In particular $F$ applied
-to the zero morphism is zero. We will use this below without mention.
-
-\medskip\noindent
-Suppose that $F$ is left exact, i.e., commutes with finite limits.
-Then $F(A \times A) = F(A) \times F(A)$ with
-projections $F(p)$ and $F(q)$. Hence
-$F(A \oplus A) = F(A) \oplus F(A)$ with all
-four morphisms $F(i), F(j), F(p), F(q)$ equal to their
-counterparts in $\mathcal{B}$ as they satisfy the same
-relations, see Remark \ref{remark-direct-sum}.
-Then $f = F(p + q)$ is a morphism $f : F(A) \oplus F(A) \to F(A)$
-such that $f \circ F(i) = F(p \circ i + q \circ i) = F(\text{id}_A)
-= \text{id}_{F(A)}$. And similarly $f \circ F(j) = \text{id}_A$.
-We conclude that $F(p + q) = F(p) + F(q)$. For
-any pair of morphisms $a, b : B \to A$ the map
-$g = F(i \circ a + j \circ b) : F(B) \to F(A) \oplus F(A)$
-is a morphism such that $F(p) \circ g =
-F(p \circ (i \circ a + j \circ b)) = F(a)$ and similarly
-$F(q) \circ g = F(b)$. Hence $g = F(i) \circ F(a) + F(j) \circ F(b)$.
-The sum of $a$ and $b$ is the composition
+If $F$ is left exact, i.e., $F$ commutes with finite limits, then
+$F$ sends products to products, hence $F$ preserved direct sums,
+hence $F$ is additive by Lemma \ref{lemma-additive-functor}.
+On the other hand, suppose that for every short exact sequence
+$0 \to A \to B \to C \to 0$ the sequence $0 \to F(A) \to F(B) \to F(C)$
+is exact. Let $A, B$ be two objects. Then we have a short
+exact sequence
+$$
+0 \to A \to A \oplus B \to B \to 0
+$$
+see for example Lemma \ref{lemma-additive-cat-biproduct-kernel}.
+By assumption, the lower row in the commutative diagram
 $$
 \xymatrix{
-B \ar[rr]^-{i \circ a + j \circ b} & &
-A \oplus A \ar[r]^-{p + q} & A.
+0 \ar[r] &
+F(A) \ar[d] \ar[r] &
+F(A) \oplus F(B) \ar[r] \ar[d] &
+F(B) \ar[d] \ar[r] &
+0 \\
+0 \ar[r] &
+F(A) \ar[r] &
+F(A \oplus B) \ar[r] &
+F(B)
 }
 $$
-Applying $F$ we get
-$$
-\xymatrix{
-F(B) \ar[rrr]^-{F(i) \circ F(a) + F(j) \circ F(b)} & & &
-F(A) \oplus F(A) \ar[rr]^-{F(p) + F(q)} & &
-A.
-}
-$$
-where we used the expressions for $f$ and $g$ obtained above.
-Hence $F$ is additive.\footnote{I'm sure there is an infinitely
-slicker proof of this.}
+is exact. Hence by the snake lemma (Lemma \ref{lemma-snake})
+we conclude that $F(A) \oplus F(B) \to F(A \oplus B)$ is an
+isomorphism. Hence $F$ is additive in this case as well.
+Thus for the rest of the proof we may assume $F$ is additive.
 
 \medskip\noindent
 Denote $f : B \to C$ a map from $B$ to $C$.
