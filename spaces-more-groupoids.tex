@@ -2185,15 +2185,27 @@ Let $S$ be a scheme. Let $B$ be an algebraic space over $S$
 Let $(U, R, s, t, c)$ be a groupoid in algebraic spaces over $B$.
 Let $u \in |U|$ be a point.
 \begin{enumerate}
+\item We say $R$ is {\it strongly split over $u$} if there exists an open
+subspace $P \subset R$ such that
+\begin{enumerate}
+\item $(U, P, s|_P, t|_P, c|_{P \times_{s, U, t} P})$ is a
+groupoid in algebraic spaces over $B$,
+\item $s|_P$, $t|_P$ are finite, and
+\item $\{r \in |R| : s(r) = u, t(r) = u\} \subset |P|$.
+\end{enumerate}
+The choice of such a $P$ will be called a
+{\it strong splitting of $R$ over $u$}.
 \item We say $R$ is {\it split over $u$} if there exists an open
 subspace $P \subset R$ such that
 \begin{enumerate}
 \item $(U, P, s|_P, t|_P, c|_{P \times_{s, U, t} P})$ is a
 groupoid in algebraic spaces over $B$,
 \item $s|_P$, $t|_P$ are finite, and
-\item $\{r \in |R| : s(r) = u, t(r) = u\} \subset P$.
+\item $\{g \in |G| : g\text{ maps to }u\} \subset |P|$ where
+$G \to U$ is the stabilizer.
 \end{enumerate}
-The choice of such a $P$ will be called a {\it splitting of $R$ over $u$}.
+The choice of such a $P$ will be called a
+{\it splitting of $R$ over $u$}.
 \item We say $R$ is {\it quasi-split over $u$} if there exists an open
 subspace $P \subset R$ such that
 \begin{enumerate}
@@ -2230,9 +2242,8 @@ the case where the morphisms $s$, $t$
 are also flat and of finite presentation, in which case
 we end up back in the category of schemes.
 
-\begin{situation}
-\label{situation-etale-localize}
-(Assumptions for splitting.)
+\begin{situation}[Strong splitting]
+\label{situation-strong-splitting}
 Let $S$ be a scheme.
 Let $(U, R, s, t, c)$ be a groupoid scheme over $S$.
 Let $u \in U$ be a point. Assume that
@@ -2247,9 +2258,22 @@ that the fibre $s^{-1}(\{u\})$ is finite, see
 Morphisms, Lemma \ref{morphisms-lemma-finite-fibre}.
 \end{situation}
 
-\begin{situation}
-\label{situation-etale-localize-quasi}
-(Assumptions for quasi-splitting.)
+\begin{situation}[Splitting]
+\label{situation-splitting}
+Let $S$ be a scheme.
+Let $(U, R, s, t, c)$ be a groupoid scheme over $S$.
+Let $u \in U$ be a point. Assume that
+\begin{enumerate}
+\item $s, t : R \to U$ are separated,
+\item $s$, $t$ are locally of finite type,
+\item the set $\{g \in G : g\text{ maps to }u\}$ is finite where $G \to U$
+is the stabilizer, and
+\item $s$ is quasi-finite at each point of the set in (3).
+\end{enumerate}
+\end{situation}
+
+\begin{situation}[Quasi-splitting]
+\label{situation-quasi-splitting}
 Let $S$ be a scheme.
 Let $(U, R, s, t, c)$ be a groupoid scheme over $S$.
 Let $u \in U$ be a point. Assume that
@@ -2261,22 +2285,22 @@ Let $u \in U$ be a point. Assume that
 \end{situation}
 
 \noindent
-It turns out that for applications to the existence theorems for algebraic
-spaces the case of quasi-splittings is sufficient. In fact, it is for us
-somehow a more natural case to consider, as in the Stacks project there
-are no finiteness conditions on the diagonal of an algebraic space, hence
-the assumption that $\{r \in R : s(r) = u, t(r) = u\}$ is finite need
-not hold even for a presentation $X = U/R$ of an algebraic space $X$.
+For our application to the existence theorems for algebraic spaces
+the case of quasi-splittings is sufficient. Moreover, the quasi-splitting
+case will allow us to prove an \'etale local structure theorem for
+quasi-DM stacks. The splitting case will be used to prove a version
+of the Keel-Mori theorem. The strong splitting case applies to give
+an \'etale local structure theorem for quasi-DM algebraic stacks
+with quasi-compact diagonal.
 
-\begin{lemma}
-\label{lemma-splitting-general}
-Assumptions and notation as in
-Situation \ref{situation-etale-localize}.
-Then there exists an algebraic space $U'$, an \'etale morphism
+\begin{lemma}[Existence of strong splitting]
+\label{lemma-strong-splitting}
+In Situation \ref{situation-strong-splitting}
+there exists an algebraic space $U'$, an \'etale morphism
 $U' \to U$, and a point $u' : \Spec(\kappa(u)) \to U'$
 lying over $u : \Spec(\kappa(u)) \to U$
 such that the restriction $R' = R|_{U'}$ of $R$ to $U'$
-splits over $u'$.
+is strongly split over $u'$.
 \end{lemma}
 
 \begin{proof}
@@ -2289,7 +2313,7 @@ $$
 (U', Z_{univ}, s', t', c') \to (U', R', s', t', c')
 $$
 (by abuse of notation we indicate the morphisms in the two groupoids
-by the same symbols). Now, as $Z \subset R \times_{s, U, g} U'$ is open
+by the same symbols). Now, as $Z_{univ} \subset R \times_{s, U, g} U'$ is open
 and $R' \to R \times_{s, U, g} U'$ is \'etale (as a base change
 of $U' \to U$) we see that $Z_{univ} \to R'$ is an open immersion.
 By construction the morphisms $s', t' : Z_{univ} \to U'$ are finite.
@@ -2300,8 +2324,8 @@ We think of $u$ as a morphism $\Spec(\kappa(u)) \to U$ as in
 the statement of the lemma. Set $F_u = R \times_{s, U} \Spec(\kappa(u))$.
 The set $\{r \in R : s(r) = u, t(r) = u\}$ is finite by assumption
 and $F_u \to \Spec(\kappa(u))$ is quasi-finite at each
-of its elements. Hence we can find a decomposition into open and closed
-subschemes
+of its elements by assumption. Hence we can find a decomposition into
+open and closed subschemes
 $$
 F_u = Z_u \amalg Rest
 $$
@@ -2317,39 +2341,38 @@ We still have to show that the set
 $\{r' \in |R'| : s'(r') = u', t'(r') = u'\}$
 is contained in $|Z_{univ}|$.
 Pick any point $r'$ in this set and represent it by a morphism
-$r' : \Spec(k) \to R'$. Denote $z : \Spec(k) \to R$
-the composition of $r'$ with the map $R' \to R$.
-Since $\kappa(u) = \kappa(u')$, and since $s'(r') = u'$, $t(r') = u'$
-no information is lost by considering the point $z$ rather than the
-point $r'$, i.e., we can recover $r'$ from the point $z$.
-For example $z$ is an element of the set $\{r \in R : s(r) = u, t(r) = u\}$
-by our assumption on $r'$. The composition
-$s \circ z : \Spec(k) \to U$ factors through $u$, so we may
-think of $s \circ z$ as a morphism $\Spec(k) \to \Spec(\kappa(u))$.
-Hence we can consider the triple
+$z' : \Spec(k) \to R'$. Denote $z : \Spec(k) \to R$
+the composition of $z'$ with the map $R' \to R$.
+Clearly, $z$ defines an element of the set
+$\{r \in R : s(r) = u, t(r) = u\}$.
+Also, the compositions $s \circ z, t \circ z : \Spec(k) \to U$
+factor through $u$, so we may think of $s \circ z, t \circ z$
+as a morphism $\Spec(k) \to \Spec(\kappa(u))$. Then
+$z' = (z, u' \circ t \circ z, u'\circ s \circ u)$ as morphisms into
+$R' = R \times_{(U \times_S U)} (U' \times_S U')$.
+Consider the triple
 $$
 (s \circ z, Z_u \times_{\Spec(\kappa(u)), s \circ z} \Spec(k), z)
 $$
 where $Z_u$ is as above. This defines a $\Spec(k)$-valued point
-of $Z_{univ}$ above whose image under the map $Z_{univ} \to R'$
-is the point $r'$ by the relationship between $z$ and $r'$ mentioned
-above. This finishes the proof.
+of $Z_{univ}$ whose image via $s', t'$ in $U'$ is $u'$ and
+whose image via
+$Z_{univ} \to R'$ is the point $r'$ by the relationship between
+$z$ and $z'$ mentioned above.
+This finishes the proof.
 \end{proof}
 
-\begin{lemma}
-\label{lemma-quasi-splitting-general}
-Assumptions and notation as in
-Situation \ref{situation-etale-localize-quasi}.
-Then there exists an algebraic space $U'$, an \'etale morphism
+\begin{lemma}[Existence of splitting]
+\label{lemma-splitting}
+In Situation \ref{situation-splitting}
+there exists an algebraic space $U'$, an \'etale morphism
 $U' \to U$, and a point $u' : \Spec(\kappa(u)) \to U'$
 lying over $u : \Spec(\kappa(u)) \to U$
 such that the restriction $R' = R|_{U'}$ of $R$ to $U'$
-is quasi-split over $u'$.
+is split over $u'$.
 \end{lemma}
 
 \begin{proof}
-The proof is almost exactly the same as the proof of
-Lemma \ref{lemma-splitting-general}.
 Let $f : (U', Z_{univ}, s', t', c') \to (U, R, s, t, c)$ be as constructed in
 Lemma \ref{lemma-finite-part-groupoid}.
 Recall that $R' = R \times_{(U \times_S U)} (U' \times_S U')$.
@@ -2359,7 +2382,67 @@ $$
 (U', Z_{univ}, s', t', c') \to (U', R', s', t', c')
 $$
 (by abuse of notation we indicate the morphisms in the two groupoids
-by the same symbols). Now, as $Z \subset R \times_{s, U, g} U'$ is open
+by the same symbols). Now, as $Z_{univ} \subset R \times_{s, U, g} U'$ is open
+and $R' \to R \times_{s, U, g} U'$ is \'etale (as a base change
+of $U' \to U$) we see that $Z_{univ} \to R'$ is an open immersion.
+By construction the morphisms $s', t' : Z_{univ} \to U'$ are finite.
+It remains to find the point $u'$ of $U'$.
+
+\medskip\noindent
+We think of $u$ as a morphism $\Spec(\kappa(u)) \to U$ as in
+the statement of the lemma. Set $F_u = R \times_{s, U} \Spec(\kappa(u))$.
+Let $G_u \subset F_u$ be the scheme theoretic fibre of $G \to U$ over $u$.
+By assumption $G_u$ is finite and $F_u \to \Spec(\kappa(u))$
+is quasi-finite at each point of $G_u$ by assumption.
+Hence we can find a decomposition into open and closed subschemes
+$$
+F_u = Z_u \amalg Rest
+$$
+for some scheme $Z_u$ finite over $\kappa(u)$ whose support is $G_u$.
+Note that $e(u) \in Z_u$. Hence by the construction of $U'$ in
+Section \ref{section-finite-part-groupoid}
+$(u, Z_u)$ defines a $\Spec(\kappa(u))$-valued
+point $u'$ of $U'$.
+
+\medskip\noindent
+We still have to show that the set $\{g' \in |G'| : g'\text{ maps to }u'\}$
+is contained in $|Z_{univ}|$. Pick any point $g'$ in this set and
+represent it by a morphism $z' : \Spec(k) \to G'$. Denote
+$z : \Spec(k) \to G$ the composition of $z'$ with the map $G' \to G$.
+Clearly, $z$ defines a point of $G_u$. In fact, let us write
+$\tilde u : \Spec(k) \to u \to U$ for the corresponding map to $u$ or $U$.
+Consider the triple
+$$
+(\tilde u, Z_u \times_{u, \tilde u} \Spec(k), z)
+$$
+where $Z_u$ is as above. This defines a $\Spec(k)$-valued point
+of $Z_{univ}$ whose image via $s', t'$ in $U'$ is $u'$ and
+whose image via $Z_{univ} \to R'$ is the point $z'$
+(because the image in $R$ is $z$).
+This finishes the proof.
+\end{proof}
+
+\begin{lemma}[Existence of quasi-splitting]
+\label{lemma-quasi-splitting}
+In Situation \ref{situation-quasi-splitting}
+there exists an algebraic space $U'$, an \'etale morphism
+$U' \to U$, and a point $u' : \Spec(\kappa(u)) \to U'$
+lying over $u : \Spec(\kappa(u)) \to U$
+such that the restriction $R' = R|_{U'}$ of $R$ to $U'$
+is quasi-split over $u'$.
+\end{lemma}
+
+\begin{proof}
+Let $f : (U', Z_{univ}, s', t', c') \to (U, R, s, t, c)$ be as constructed in
+Lemma \ref{lemma-finite-part-groupoid}.
+Recall that $R' = R \times_{(U \times_S U)} (U' \times_S U')$.
+Thus we get a morphism $(f, t', s') : Z_{univ} \to R'$ of groupoids
+in algebraic spaces
+$$
+(U', Z_{univ}, s', t', c') \to (U', R', s', t', c')
+$$
+(by abuse of notation we indicate the morphisms in the two groupoids
+by the same symbols). Now, as $Z_{univ} \subset R \times_{s, U, g} U'$ is open
 and $R' \to R \times_{s, U, g} U'$ is \'etale (as a base change
 of $U' \to U$) we see that $Z_{univ} \to R'$ is an open immersion.
 By construction the morphisms $s', t' : Z_{univ} \to U'$ are finite.
@@ -2386,20 +2469,39 @@ $e'(u') \in Z_{univ}$ which is clear.
 Finally, when we add additional assumptions we obtain schemes.
 
 \begin{lemma}
-\label{lemma-splitting-scheme}
-Assumptions and notation as in
-Situation \ref{situation-etale-localize}.
-Assume in addition that $s, t$ are flat and locally of finite presentation.
+\label{lemma-strong-splitting-scheme}
+In Situation \ref{situation-strong-splitting} assume in addition that
+$s, t$ are flat and locally of finite presentation.
 Then there exists a scheme $U'$, a separated \'etale morphism
 $U' \to U$, and a point $u' \in U'$
 lying over $u$ with $\kappa(u) = \kappa(u')$
 such that the restriction $R' = R|_{U'}$ of $R$ to $U'$
-splits over $u'$.
+is strongly split over $u'$.
 \end{lemma}
 
 \begin{proof}
 This follows from the construction of $U'$ in the proof of
-Lemma \ref{lemma-splitting-general}
+Lemma \ref{lemma-strong-splitting}
+because in this case $U' = (R_s/U, e)_{fin}$ is a scheme separated over
+$U$ by
+Lemmas \ref{lemma-finite-separated-flat-locally-finite-presentation} and
+\ref{lemma-finite-plus-section}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-splitting-scheme}
+In Situation \ref{situation-splitting} assume in addition that
+$s, t$ are flat and locally of finite presentation.
+Then there exists a scheme $U'$, a separated \'etale morphism
+$U' \to U$, and a point $u' \in U'$
+lying over $u$ with $\kappa(u) = \kappa(u')$
+such that the restriction $R' = R|_{U'}$ of $R$ to $U'$
+is split over $u'$.
+\end{lemma}
+
+\begin{proof}
+This follows from the construction of $U'$ in the proof of
+Lemma \ref{lemma-splitting}
 because in this case $U' = (R_s/U, e)_{fin}$ is a scheme separated over
 $U$ by
 Lemmas \ref{lemma-finite-separated-flat-locally-finite-presentation} and
@@ -2408,9 +2510,8 @@ Lemmas \ref{lemma-finite-separated-flat-locally-finite-presentation} and
 
 \begin{lemma}
 \label{lemma-quasi-splitting-scheme}
-Assumptions and notation as in
-Situation \ref{situation-etale-localize-quasi}.
-Assume in addition that $s, t$ are flat and locally of finite presentation.
+In Situation \ref{situation-quasi-splitting} assume in addition that
+$s, t$ are flat and locally of finite presentation.
 Then there exists a scheme $U'$, a separated \'etale morphism
 $U' \to U$, and a point $u' \in U'$ lying over $u$ with
 $\kappa(u) = \kappa(u')$ such that the restriction $R' = R|_{U'}$ of
@@ -2419,7 +2520,7 @@ $R$ to $U'$ is quasi-split over $u'$.
 
 \begin{proof}
 This follows from the construction of $U'$ in the proof of
-Lemma \ref{lemma-quasi-splitting-general}
+Lemma \ref{lemma-quasi-splitting}
 because in this case $U' = (R_s/U, e)_{fin}$ is a scheme separated
 over $U$ by
 Lemmas \ref{lemma-finite-separated-flat-locally-finite-presentation} and
@@ -2431,21 +2532,19 @@ In fact we can obtain affine schemes by applying an earlier result
 on finite locally free groupoids.
 
 \begin{lemma}
-\label{lemma-splitting-affine-scheme}
-Assumptions and notation as in
-Situation \ref{situation-etale-localize}.
-Assume in addition that $s, t$ are flat and locally of finite presentation
-and that $U$ is affine.
+\label{lemma-strong-splitting-affine-scheme}
+In Situation \ref{situation-strong-splitting} assume in addition that
+$s, t$ are flat and locally of finite presentation and that $U$ is affine.
 Then there exists an affine scheme $U'$, an \'etale morphism
 $U' \to U$, and a point $u' \in U'$ lying over $u$ with
 $\kappa(u) = \kappa(u')$ such that the restriction $R' = R|_{U'}$ of
-$R$ to $U'$ splits over $u'$.
+$R$ to $U'$ is strongly split over $u'$.
 \end{lemma}
 
 \begin{proof}
 Let $U' \to U$ and $u' \in U'$ be the \'etale morphism of schemes we found in
-Lemma \ref{lemma-splitting-scheme}.
-Let $P \subset R'$ be the splitting of $R'$ over $u'$. By
+Lemma \ref{lemma-strong-splitting-scheme}.
+Let $P \subset R'$ be the strong splitting of $R'$ over $u'$. By
 More on Groupoids, Lemma \ref{more-groupoids-lemma-restrict-preserves-type}
 the morphisms $s', t' : R' \to U'$ are flat and locally of finite presentation.
 They are finite by assumption. Hence $s', t'$ are finite locally
@@ -2480,7 +2579,7 @@ $P|_{U''} = (s'|_P)^{-1}(U'') = (t'|_P)^{-1}(U'')$
 (see discussion in
 Groupoids, Section \ref{groupoids-section-invariant})
 so the restrictions of $s''$ and $t''$ to $P|_{U''}$ are still finite.
-The sub groupoid scheme $P|_{U''}$ is still a splitting of
+The sub groupoid scheme $P|_{U''}$ is still a strong splitting of
 $R''$ over $u''$; above we verified (a), (b) and (c) holds as
 $\{r' \in R': t'(r') = u', s'(r') = u'\} =
 \{r'' \in R'': t''(r'') = u', s''(r'') = u'\}$ trivially.
@@ -2488,11 +2587,29 @@ The lemma is proved.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-splitting-affine-scheme}
+In Situation \ref{situation-splitting} assume in addition that
+$s, t$ are flat and locally of finite presentation and that $U$ is affine.
+Then there exists an affine scheme $U'$, an \'etale morphism
+$U' \to U$, and a point $u' \in U'$ lying over $u$ with
+$\kappa(u) = \kappa(u')$ such that the restriction $R' = R|_{U'}$ of
+$R$ to $U'$ is split over $u'$.
+\end{lemma}
+
+\begin{proof}
+The proof of this lemma is literally the same as the proof of
+Lemma \ref{lemma-strong-splitting-affine-scheme}
+except that ``strong splitting'' needs to be replaced by ``splitting''
+(2 times) and that the reference to
+Lemma \ref{lemma-strong-splitting-scheme}.
+needs to be replaced by a reference to
+Lemma \ref{lemma-splitting-scheme}.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-quasi-splitting-affine-scheme}
-Assumptions and notation as in
-Situation \ref{situation-etale-localize-quasi}.
-Assume in addition that $s, t$ are flat and locally of finite presentation
-and that $U$ is affine.
+In Situation \ref{situation-quasi-splitting} assume in addition that
+$s, t$ are flat and locally of finite presentation and that $U$ is affine.
 Then there exists an affine scheme $U'$, an \'etale morphism
 $U' \to U$, and a point $u' \in U'$ lying over $u$ with
 $\kappa(u) = \kappa(u')$ such that the restriction $R' = R|_{U'}$ of
@@ -2501,10 +2618,10 @@ $R$ to $U'$ is quasi-split over $u'$.
 
 \begin{proof}
 The proof of this lemma is literally the same as the proof of
-Lemma \ref{lemma-splitting-affine-scheme}
-except that ``splitting'' needs to be replaced by ``quasi-splitting''
+Lemma \ref{lemma-strong-splitting-affine-scheme}
+except that ``strong splitting'' needs to be replaced by ``quasi-splitting''
 (2 times) and that the reference to
-Lemma \ref{lemma-splitting-scheme}.
+Lemma \ref{lemma-strong-splitting-scheme}.
 needs to be replaced by a reference to
 Lemma \ref{lemma-quasi-splitting-scheme}.
 \end{proof}
