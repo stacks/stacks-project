@@ -5608,6 +5608,58 @@ and then combine sum of those with the last, or we can first combine the
 last two variables and then combine the first with the sum of the last two.
 \end{remark}
 
+
+
+
+\section{Double complexes of abelian groups}
+\label{section-double-complexes-abelian-groups}
+
+\noindent
+In this section we put some results on double complexes of abelian groups
+for which do not (yet) have the analogues results for general abelian
+categories. Please be careful not to use these lemmas except when the
+underlying abelian category is the category of abelian groups or some
+such (e.g., the cateogry of modules over a ring). Some of the arguments
+will be difficult to follow without drawing ``zig-zags'' on a napkin --
+compare with the proof of
+Algebra, Lemma \ref{algebra-lemma-no-spectral-sequence}.
+
+\begin{lemma}
+\label{lemma-right-resolution-gives-qis}
+Let $M^\bullet$ be a complex of abelian groups. Let
+$$
+0 \to M^\bullet \to A_0^\bullet \to A_1^\bullet \to A_2^\bullet \to \ldots
+$$
+be an exact complex of complexes of abelian groups. Set
+$A^{p, q} = A_p^q$ to obtain a double complex.
+Then the map $M^\bullet \to \text{Tot}(A^{\bullet, \bullet})$
+induced by $M^\bullet \to A_0^\bullet$ is a quasi-isomorphism.
+\end{lemma}
+
+\begin{proof}
+If there exists a $t \in \mathbf{Z}$ such that $A_0^q = 0$ for $q < t$, then
+this follows immediately from
+Lemma \ref{lemma-double-complex-gives-resolution}
+(with $p$ and $q$ swapped as in the final statement of that lemma).
+OK, but for every $t \in \mathbf{Z}$ we have a complex
+$$
+0 \to
+\sigma_{\geq t}M^\bullet \to
+\sigma_{\geq t}A_0^\bullet \to
+\sigma_{\geq t}A_1^\bullet \to
+\sigma_{\geq t}A_2^\bullet \to \ldots
+$$
+of stupid truncations. Denote $A(t)^{\bullet, \bullet}$ the corresponding
+double complex. Every element $\xi$ of $H^n(\text{Tot}(A^{\bullet, \bullet}))$
+is the image of an element of $H^n(\text{Tot}(A(t)^{\bullet, \bullet}))$
+for some $t$ (look at explicit representatives of cohomology classes).
+Hence $\xi$ is in the image of $H^n(\sigma_{\geq t}M^\bullet)$.
+Thus the map $H^n(M^\bullet) \to H^n(\text{Tot}(A^{\bullet, \bullet}))$
+is surjective. It is injective because for all $t$ the map
+$H^n(\sigma_{\geq t}M^\bullet) \to H^n(\text{Tot}(A(t)^{\bullet, \bullet}))$
+is injective and similar arguments.
+\end{proof}
+
 \begin{lemma}
 \label{lemma-good-resolution-gives-qis}
 Let $M^\bullet$ be a complex of abelian groups. Let
@@ -5626,16 +5678,34 @@ induced by $A_0^\bullet \to M^\bullet$ is a quasi-isomorphism.
 \end{lemma}
 
 \begin{proof}
-Write $T^\bullet = \text{Tot}(A^{\bullet, \bullet})$.
-Let $x \in \Ker(\text{d}_{T^\bullet}^0)$ represent a
-cohomology class $\xi$.
+Using the short exact sequences
+$0 \to \Ker(d^p_{A_n^\bullet}) \to A_n^p \to \Im(d^p_{A_n^\bullet}) \to 0$
+and the assumptions we see that
+$$
+\ldots \to \Im(d_{A_2^\bullet}^p) \to \Im(d_{A_1^\bullet}^p)
+\to \Im(d_{A_0^\bullet}^p) \to \Im(d_{M^\bullet}^p) \to 0
+$$
+is exact for all $p \in \mathbf{Z}$. Repeating with the exact sequences
+$0 \to \Im(d^{p - 1}_{A_n^\bullet}) \to \Ker(d^p_{A_n^\bullet})
+\to H^p(A_n^\bullet) \to 0$ we find that
+$$
+\ldots \to H^p(A_2^\bullet) \to H^p(A_1^\bullet)
+\to H^p(A_0^\bullet) \to H^p(M^\bullet) \to 0
+$$
+is exact for all $p \in \mathbf{Z}$.
+
+\medskip\noindent
+Write $T^\bullet = \text{Tot}(A^{\bullet, \bullet})$. We will show that
+$H^0(T^\bullet) \to H^0(M^\bullet)$ is an isomorphism. The same argument
+works for other degrees. Let $x \in \Ker(\text{d}_{T^\bullet}^0)$ represent
+an element $\xi \in H^0(T^\bullet)$.
 Write $x = \sum_{i = n, \ldots, 0} x_i$ with $x_i \in A_i^i$.
 Assume $n > 0$. Then $x_n$ is in the kernel of $d_{A_n^\bullet}^n$
-and maps to zero in the cohomology of $A_{n - 1}^\bullet$ (because it maps
-to an element which is the boundary of $x_{n - 1}$ up to sign).
-The condition on exactness of kernels of differentials implies
-that the cohomology class of $x_n$ is in the image of
-$H^n(A_{n + 1}^\bullet) \to H^n(A_n^\bullet)$ (details omitted).
+and maps to zero in $H^n(A_{n - 1}^\bullet)$ because it maps
+to an element which is the boundary of $x_{n - 1}$ up to sign.
+By the first paragraph of the proof, we find that
+$x_n \bmod \Im(d^{n - 1}_{A_n^\bullet})$
+is in the image of $H^n(A_{n + 1}^\bullet) \to H^n(A_n^\bullet)$.
 Thus we can modify $x$ by a boundary and reach the situation
 where $x_n$ is a boundary. Modifying $x$ once more we see that
 we may assume $x_n = 0$. By induction we see that every cohomology
@@ -5674,32 +5744,114 @@ we define
 $$
 T^n = \prod\nolimits_{p + q = n} A^{p, q} =
 \prod\nolimits_{p + q = n} A_p^q
+\quad\text{with}\quad
+\text{d}_{T^\bullet}^n =
+\prod\nolimits_{n = p + q} (f_p^q + (-1)^pd_{A_p^\bullet}^q)
 $$
-As differential we use
-$$
-\text{d}((x_{p, q})) =
-(f_p(x_{p - 1, q}) + (-1)^p\text{d}_{A_p^\bullet}(x_{p, q - 1}))
-$$
-Let $x \in \Ker(\text{d}_{T^\bullet}^0)$ represent a cohomology
-class $\xi \in H^0(T^\bullet)$. Write $x = (x_i)$ with $x_i \in A_i^{-i}$.
+where $f_p^\bullet : A_p^\bullet \to A_{p + 1}^\bullet$
+are the maps of complexes in the lemma.
+
+\medskip\noindent
+We will show that $H^0(M^\bullet) \to H^0(T^\bullet)$ is an isomorphism.
+The same argument works for other degrees.
+Let $x \in \Ker(\text{d}_{T^\bullet}^0)$ represent $\xi \in H^0(T^\bullet)$.
+Write $x = (x_i)$ with $x_i \in A_i^{-i}$.
 Note that $x_0$ maps to zero in $\Coker(A_1^{-1} \to A_1^0)$.
-Hence we see that $x_0 = m_0 + \text{d}(y)$ for some $m_0 \in M^0$.
-Then $\text{d}(m_0) = 0$ because $\text{d}(x_0) = 0$ as $x$
-is a cocycle. Thus, replacing $\xi$ by something in the image of
+Hence we see that $x_0 = m_0 + d_{A_0^\bullet}^{-1}(y)$ for some
+$m_0 \in M^0$ and $y \in A_0^{-1}$.
+Then $d_{M^\bullet}(m_0) = 0$ because $\text{d}_{A_0^\bullet}(x_0) = 0$
+as $\text{d}_{T^\bullet}(x) = 0$.
+Thus, replacing $\xi$ by something in the image of
 $H^0(M^\bullet) \to H^0(T^\bullet)$ we may assume that $x_0$
-is in the image of $\text{d} : A_0^{-1} \to A_0^0$.
+is in $\Im(d^{-1}_{A_0^\bullet})$.
 
 \medskip\noindent
-Assume $x_0 \in \Im(A_0^{-1} \to A_0^0)$. We claim that in this
+Assume $x_0 \in \Im(d^{-1}_{A_0^\bullet})$. We claim that in this
 case $\xi = 0$. To prove this we find, by induction on $n$ elements
-$y_1, \ldots, y_n$ with $y_i \in A_i^{-i - 1}$ such that
-$x_0 = \text{d}(y_0)$ and $x_j = f_{j - 1}(y_{j - 1}) + (-1)^j\text{d}(y_j)$.
-This is clear for $n = 0$. Proof of induction step is omitted.
-Taking $y = (y_i)$ we find that $\text{d}(y) = \xi$.
+$y_0, y_1, \ldots, y_n$ with $y_i \in A_i^{-i - 1}$ such that
+$x_0 = \text{d}_{A_0}^{-1}(y_0)$ and
+$x_j = f_{j - 1}^{-j}(y_{j - 1}) + (-1)^j d^{-j - 1}_{A_{-j}^\bullet}(y_j)$
+for $j = 1, \ldots, n$. This is clear for $n = 0$. Proof of induction step:
+suppose we have found $y_0, \ldots, y_{n - 1}$. Then
+$w_n = x_n - f_{n - 1}^{-n}(y_{n - 1})$ is in the kernel of
+$d^{-n}_{A_n^\bullet}$ and maps to zero in $H^n(A_{n + 1}^\bullet)$
+(because it maps to an element which is a boundary the boundary
+of $x_{n + 1}$ up to sign). Exactly as in the proof of
+Lemma \ref{lemma-good-resolution-gives-qis}
+the assumptions of the lemma imply that
+$$
+0 \to
+H^p(M^\bullet) \to
+H^p(A_0^\bullet) \to
+H^p(A_1^\bullet) \to
+H^p(A_2^\bullet) \to \ldots
+$$
+is exact for all $p \in \mathbf{Z}$. Thus after changing $y_{n - 1}$
+by an element in $\Ker(d^{n - 1}_{A_{n - 1}^\bullet})$ we may assume
+that $w_n$ maps to zero in $H^{-n}(A_n^\bullet)$. This means we
+can find $y_n$ as desired. Observe that this procedure does not
+change $y_0, \ldots, y_{n - 2}$. Hence continuing ad infinitum
+we find an element $y = (y_i)$ in $T^{n - 1}$ with $d_{T^\bullet}(y) = \xi$.
+This shows that $H^0(M^\bullet) \to H^0(T^\bullet)$ is surjective.
 
 \medskip\noindent
-This shows that $H^0(M^\bullet) \to H^0(T^\bullet)$ is surjective.
-We omit the proof of injectivity.
+Suppose that $m_0 \in \Ker(d^0_{M^\bullet})$ maps to zero in $H^0(T^\bullet)$.
+Say it maps to the differential applied to $y = (y_i) \in T^{-1}$ .
+Then $y_0 \in A_0^{-1}$ maps to zero in $\Coker(d^{-2}_{A_1^\bullet})$.
+By assumption this means that $y_0 \bmod \Im(d^{-2}_{A_0^\bullet})$
+is the image of some $z \in M^{-1}$. It follows that
+$m_0 = d^{-1}_{M^\bullet}(z)$. This proves injectivity and the proof is
+complete.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-resolution-gives-qis}
+Let $M^\bullet$ be a complex of abelian groups. Let
+$$
+\ldots \to A_2^\bullet \to A_1^\bullet \to A_0^\bullet \to M^\bullet \to 0
+$$
+be an exact complex of complexes of abelian groups. Set $A^{p, q} = A_{-p}^q$
+to obtain a double complex. Let $\text{Tot}_\pi(A^{\bullet, \bullet})$
+be the product total complex associated to the double complex (see proof).
+Then the map $\text{Tot}_\pi(A^{\bullet, \bullet}) \to M^\bullet$
+induced by $A_0^\bullet \to M^\bullet$ is a quasi-isomorphism.
+\end{lemma}
+
+\begin{proof}
+Abbreviating $T^\bullet = \text{Tot}_\pi(A^{\bullet, \bullet})$
+we define
+$$
+T^n = \prod\nolimits_{p + q = n} A^{p, q} =
+\prod\nolimits_{p + q = n} A_{-p}^q
+\quad\text{with}\quad
+\text{d}_{T^\bullet}^n =
+\prod\nolimits_{n = p + q} (f_{-p}^q + (-1)^pd_{A_{-p}^\bullet}^q)
+$$
+where $f_p^\bullet : A_p^\bullet \to A_{p - 1}^\bullet$
+are the maps of complexes in the lemma.
+We will show that $T^\bullet$ is acyclic when
+$M^\bullet$ is the zero complex. This will suffice by
+the following trick. Set $B_n^\bullet = A_{n + 1}^\bullet$
+and $B_0^\bullet = M^\bullet$. Then we have an exact sequence
+$$
+\ldots \to B_2^\bullet \to B_1^\bullet \to B_0^\bullet \to 0 \to 0
+$$
+as in the lemma. Let $S^\bullet = \text{Tot}_\pi(B^{\bullet, \bullet})$.
+Then there is an obvious short exact sequence of complexes
+$$
+0 \to M^\bullet \to S^\bullet \to T^\bullet[1] \to 0
+$$
+and we conclude by the long exact cohomology sequence. Some details omitted.
+
+\medskip\noindent
+Assume $M^\bullet = 0$. We will show $H^0(T^\bullet) = 0$. The same argument
+works for other degrees. Let $x =(x_n) \in \Ker(d_{T^\bullet})$
+map to $\xi \in H^0(T^\bullet)$ with $x_n \in A^{-n, n} = A_n^n$.
+Since $M^0 = 0$ we find that $x_0 = f_1^0(y_0)$ for some $y_0 \in A_1^0$.
+Then $x_1 - d^0_{A_1^\bullet}(y_0) = f_2^1(y_1)$
+because it is mapped to zero by $f_1^1$ as $x$ is a cocycle.
+for some $y_1 \in A_2^1$. Continuing, using induction, we find
+$y = (y_i) \in T^{-1}$ with $d_{T^\bullet}(y) = x$ as desired.
 \end{proof}
 
 
