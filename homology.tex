@@ -76,12 +76,14 @@ The following are equivalent
 \item $x$ is a final object, and
 \item $\text{id}_x = 0$ in $\Mor_\mathcal{A}(x, x)$.
 \end{enumerate}
-Furthermore, if such an object $0$ exists, then a morphism
-$\alpha : x \to y$ factors through $0$ if and only if $\alpha = 0$.
+
+Furthermore, if such an object exists, then a morphism
+$\alpha : y \to z$ factors through it if and only if $\alpha = 0$.
 \end{lemma}
 
 \begin{proof}
 Omitted.
+(Bilinearity of the composition map is the main tool here.)
 \end{proof}
 
 \begin{definition}
@@ -176,6 +178,12 @@ to Remark \ref{remark-direct-sum}. Clearly $F(x), F(y), F(z)$
 and the morphisms $F(i), F(j), F(p), F(q)$ satisfy exactly the
 same relations (by additivity) and we see that $F(z)$ is
 a direct sum of $F(x)$ and $F(y)$.
+Hence, $F$ transforms direct sums to direct sums.
+
+\medskip\noindent
+To see that $F$ transforms zero to zero, use the
+characterization (3) of the zero object in
+Lemma \ref{lemma-preadditive-zero}.
 \end{proof}
 
 \begin{definition}
@@ -219,6 +227,20 @@ this $\Im(f) \to y$.
 \end{enumerate}
 \end{definition}
 
+\noident
+In the above definition, we have spoken of ``the kernel''
+and ``the cokernel'', tacitly using their uniqueness
+(up to isomorphism).
+The reason for this uniqueness is the following:
+A kernel of a morphism $f : x \to y$ in a preadditive
+category $\mathcal{A}$ is a final object
+in the category of morphisms $j : w \to x$ satisfying
+$f \circ w = 0$; hence, it is unique (up to unique
+isomorphism) if it exists.
+Similarly, a cokernel of a morphism can be characterized
+as an initial object, whence it also is unique (up to
+unique isomorphism).
+
 \noindent
 We first relate the direct sum to kernels as follows.
 
@@ -233,8 +255,8 @@ a cokernel for $j$.
 \end{lemma}
 
 \begin{proof}
-Let $f : z \to x \oplus y$ be a morphism such that $q \circ f = 0$.
-We have to show that there exists a unique morphism $g : z \to x$
+Let $f : z' \to x \oplus y$ be a morphism such that $q \circ f = 0$.
+We have to show that there exists a unique morphism $g : z' \to x$
 such that $f = i \circ g$. Since $i \circ p + j \circ q$ is the identity on
 $x \oplus y$ we see that
 $$
@@ -242,6 +264,29 @@ f = (i \circ p + j \circ q) \circ f = i \circ p \circ f
 $$
 and hence $g = p \circ f$ works. Uniqueness holds because $p \circ i$
 is the identity on $x$. The proof of the second statement is dual.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-kernel-mono}
+Let $\mathcal{C}$ be a preadditive category.
+Let $f : x \to y$ be a morphism in $\mathcal{C}$.
+\begin{enumerate}
+\item If a kernel of $f$ exists, then
+this kernel is a monomorphism.
+\item If a cokernel of $f$ exists, then
+this cokernel is an epimorphism.
+\item If a kernel and coimage of $f$ exist, then
+the coimage is an epimorphism.
+\item If a cokernel and image of $f$ exist, then
+the image is a monomorphism.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(1) follows easily from the uniqueness required in the
+definition of a kernel. The proof of (2) is dual.
+(3) follows from (2), since the coimage is a cokernel.
+Similarly, (4) follows from (1).
 \end{proof}
 
 \begin{lemma}
@@ -258,7 +303,10 @@ because $\Ker(f) \to x \to y$ is zero.
 The composition $\Coim(f) \to y \to \Coker(f)$
 is zero, because it is the unique morphism which gives
 rise to the morphism $x \to y \to \Coker(f)$ which
-is zero. Hence $\Coim(f) \to y$ factors uniquely through
+is zero
+(the uniqueness follows from
+Lemma \ref{lemma-kernel-mono} (3)).
+Hence $\Coim(f) \to y$ factors uniquely through
 $\Im(f) \to y$, which gives us the desired map.
 \end{proof}
 
@@ -428,7 +476,17 @@ $\mathcal{A}$ is abelian if and only if $\mathcal{A}^{opp}$ is abelian.
 \end{lemma}
 
 \begin{proof}
-Omitted.
+The first statement is straightforward.
+To see that $\mathcal{A}$ is additive if and only if $\mathcal{A}^{opp}$
+is additive, just recall that additivity can be characterized by
+the existence of a zero object and direct sums, which are both
+preserved when passing to the opposite category.
+Finally, to see that
+$\mathcal{A}$ is abelian if and only if $\mathcal{A}^{opp}$ is abelian,
+observes that kernels, cokernels, images and coimages in
+$\mathcal{A}^{opp}$ correspond to
+cokernels, kernels, coimages and images in $\mathcal{A}$,
+respectively.
 \end{proof}
 
 \begin{definition}
@@ -453,7 +511,49 @@ Let $f : x \to y$ be a morphism in an abelian category. Then
 \end{lemma}
 
 \begin{proof}
-Omitted.
+(1) $\Rightarrow$:
+Assume first that $f$ is injective.
+We must show that $f$ is a monomorphism.
+In other words, we must prove that if $\alpha : w \to x$
+and $\beta : w \to x$ satisfy $f \circ \alpha = f \circ \beta$,
+then $\alpha = \beta$.
+Consider such $\alpha$ and $\beta$.
+
+Since composition of morphisms is bilinear, we have
+$f \circ \left(\alpha - \beta\right)
+= f \circ \alpha - f \circ \beta = 0$.
+Thus, the morphism $\alpha - \beta : w \to x$ factors
+uniquely through $\Ker(f)$ (by the definition of the kernel).
+Since $\Ker(f) = 0$ (because $f$ is injective), this shows
+that $\alpha - \beta$ factors through $0$, hence is the
+zero morphism (by the last claim of
+Lemma \ref{lemma-preadditive-zero}).
+In other words, $\alpha = \beta$.
+This shows that $f$ is a monomorphism.
+
+$\Leftarrow$:
+Assume that $f$ is a monomorphism.
+We must show that $f$ is injective.
+
+Let $i : \Ker(f) \to x$ be the kernel of $f$.
+Compare this with the zero morphism $0 : \Ker(f) \to x$.
+Both morphisms $i$ and $0$ become zero when composed
+with $f$ (since $f \circ i = 0 = f \circ 0$), and thus
+must be equal (since $f$ is a monomorphism).
+Hence, $i = 0$.
+But Lemma \ref{lemma-kernel-mono} (1) shows that
+$i$ is a monomorphism.
+Hence, from $i \circ \text{id}_{\Ker(f)} = i = 0
+= i \circ 0$, we obtain $\text{id}_{\Ker(f)} = 0$.
+By the equivalent condition (3) of
+Lemma \ref{lemma-preadditive-zero}, this shows that
+$\Ker(f)$ is the zero object.
+In other words, $f$ is injective.
+
+Hence, we have proven claim (1).
+Claim (2) is shown in a dual fashion (or by applying
+claim (1) to the opposite category
+$\mathcal{A}^{opp}$).
 \end{proof}
 
 \noindent
@@ -1039,6 +1139,18 @@ exact sequence
 $$
 0 \to A \to E \to B \to 0.
 $$
+An {\it morphism of extensions} between two
+extensions $0 \to A \to E \to B \to 0$ and
+$0 \to A \to F \to B \to 0$ means a morphism
+$f : E \to F$ in $\mathcal{A}$ making the diagram
+$$
+\xymatrix{
+0 \ar[r] & A \ar[r] \ar[d]^{\text{id}} & E \ar[r] \ar[d]^f & B \ar[r] \ar[d]^{\text{id}} & 0 \\
+0 \ar[r] & A \ar[r]                    & F \ar[r]          & B \ar[r]                    & 0
+}
+$$
+commutative.
+Thus, the extensions of $B$ by $A$ form a category.
 \end{definition}
 
 \noindent
@@ -2330,15 +2442,19 @@ In other words, a chain complex $A_\bullet$ belongs to
 $\text{Ch}_{\geq 0}(\mathcal{A})$ if and only if
 $A_i = 0$ for all $i < 0$.
 A {\it homotopy $h$} between a pair of morphisms
-of chain complexes $f, g : A_\bullet \to B_\bullet$ is
+of chain complexes $f, g : A_\bullet \to B_\bullet$
 is a collection of morphisms $h_i : A_i \to B_{i + 1}$
 such that we have
 $$
 f_i - g_i = d_{i + 1} \circ h_i + h_{i - 1} \circ d_i
 $$
-for all $i$. Clearly, the notions of chain complex, morphism of
+for all $i$.
+Two morphisms $f, g : A_\bullet \to B_\bullet$ are
+said to be {\it homotopic} if a homotopy between $f$
+and $g$ exists.
+Clearly, the notions of chain complex, morphism of
 chain complexes, and homotopies between morphisms of chain complexes
-makes sense even in a preadditive category.
+make sense even in a preadditive category.
 
 \begin{lemma}
 \label{lemma-compose-homotopy}
@@ -2500,6 +2616,21 @@ C_i/\Im(d_{C, i + 1}) \ar[r] \ar[d]^{d_{C, i}} &
 $$
 \end{proof}
 
+\begin{definition}
+\label{definition-skyscraper-complex}
+Let $\mathcal{A}$ be an abelian category.
+Let $V$ be an object of $\mathcal{A}$.
+Then, there is a chain complex $A_\bullet$ such
+that $A_0 = V$ and $A_i = 0$ for all $i \neq 0$
+(which, of course, forces all $d_i$ to be zero maps).
+This chain complex is denoted by $V$ (by abuse of
+notation).
+Sending each object $V$ of $\mathcal{A}$ to its
+corresponding chain complex $V$ yields a full and
+faithful embedding of categories
+$\mathcal{A} \to \text{Ch}(\mathcal{A})$.
+\end{definition}
+
 \noindent
 A {\it cochain complex $A^\bullet$} in an additive category $\mathcal{A}$
 is a complex
@@ -2534,15 +2665,19 @@ In other words, a cochain complex $A^\bullet$ belongs to the subcategory
 $\text{CoCh}_{\geq 0}(\mathcal{A})$ if and only if
 $A^i = 0$ for all $i < 0$.
 A {\it homotopy $h$} between a pair of morphisms
-of cochain complexes $f, g : A^\bullet \to B^\bullet$ is
+of cochain complexes $f, g : A^\bullet \to B^\bullet$
 is a collection of morphisms $h^i : A^i \to B^{i - 1}$
 such that we have
 $$
 f^i - g^i = d^{i - 1} \circ h^i + h^{i + 1} \circ d^i
 $$
-for all $i$. Clearly, the notions of cochain complex, morphism of
+for all $i$.
+Two morphisms $f, g : A^\bullet \to B^\bullet$ are
+said to be {\it homotopic} if a homotopy between $f$
+and $g$ exists.
+Clearly, the notions of cochain complex, morphism of
 cochain complexes, and homotopies between morphisms of cochain complexes
-makes sense even in a preadditive category.
+make sense even in a preadditive category.
 
 \begin{lemma}
 \label{lemma-compose-homotopy-cochain}
@@ -2709,246 +2844,20 @@ C^i/\Im(d_C^{i - 1}) \ar[r] \ar[d]^{d_C^i} &
 $$
 \end{proof}
 
-
-
-
-
-
-\section{Truncation of complexes}
-\label{section-truncations}
-
-\noindent
+\begin{definition}
+\label{definition-skyscraper-cocomplex}
 Let $\mathcal{A}$ be an abelian category.
-Let $A_\bullet$ be a chain complex. There
-are several ways to {\it truncate} the complex $A_\bullet$.
-\begin{enumerate}
-\item The {\it ``stupid'' truncation $\sigma_{\leq n}$}
-is the subcomplex $\sigma_{\leq n} A_\bullet$ defined
-by the rule $(\sigma_{\leq n} A_\bullet)_i = 0$ if
-$i > n$ and $(\sigma_{\leq n} A_\bullet)_i = A_i$ if
-$i \leq n$. In a picture
-$$
-\xymatrix{
-\sigma_{\leq n}A_\bullet \ar[d]  &
-\ldots \ar[r] &
-0 \ar[r] \ar[d] &
-A_n \ar[r] \ar[d] &
-A_{n - 1} \ar[r] \ar[d] &
-\ldots \\
-A_\bullet  &
-\ldots \ar[r] &
-A_{n + 1} \ar[r] &
-A_n \ar[r] &
-A_{n - 1} \ar[r] &
-\ldots
-}
-$$
-Note the property
-$\sigma_{\leq n}A_\bullet / \sigma_{\leq n - 1}A_\bullet = A_n[-n]$.
-\item The {\it ``stupid'' truncation $\sigma_{\geq n}$}
-is the quotient complex $\sigma_{\geq n} A_\bullet$ defined
-by the rule $(\sigma_{\geq n} A_\bullet)_i = A_i$ if
-$i \geq n$ and $(\sigma_{\geq n} A_\bullet)_i = 0$ if
-$i < n$. In a picture
-$$
-\xymatrix{
-A_\bullet \ar[d]  &
-\ldots \ar[r] &
-A_{n + 1} \ar[r] \ar[d] &
-A_n \ar[r] \ar[d] &
-A_{n - 1} \ar[r] \ar[d] &
-\ldots \\
-\sigma_{\geq n}A_\bullet  &
-\ldots \ar[r] &
-A_{n + 1} \ar[r] &
-A_n \ar[r] &
-0 \ar[r] &
-\ldots
-}
-$$
-The map of complexes
-$\sigma_{\geq n}A_\bullet \to \sigma_{\geq n + 1}A_\bullet$ is surjective
-with kernel $A_n[-n]$.
-\item The {\it canonical truncation} $\tau_{\geq n}A_\bullet$
-is defined by the picture
-$$
-\xymatrix{
-\tau_{\geq n}A_\bullet \ar[d]  &
-\ldots \ar[r] &
-A_{n + 1} \ar[r] \ar[d] &
-\Ker(d_n) \ar[r] \ar[d] &
-0 \ar[r] \ar[d] &
-\ldots \\
-A_\bullet  &
-\ldots \ar[r] &
-A_{n + 1} \ar[r] &
-A_n \ar[r] &
-A_{n - 1} \ar[r] &
-\ldots
-}
-$$
-Note that these complexes have the property that
-$$
-H_i(\tau_{\geq n}A_\bullet) =
-\left\{
-\begin{matrix}
-H_i(A_\bullet) & \text{if} & i \geq n \\
-0 & \text{if} & i < n
-\end{matrix}
-\right.
-$$
-\item The {\it canonical truncation} $\tau_{\leq n}A_\bullet$
-is defined by the picture
-$$
-\xymatrix{
-A_\bullet \ar[d]  &
-\ldots \ar[r] &
-A_{n + 1} \ar[r] \ar[d] &
-A_n \ar[r] \ar[d] &
-A_{n - 1} \ar[r] \ar[d] &
-\ldots \\
-\tau_{\leq n}A_\bullet  &
-\ldots \ar[r] &
-0 \ar[r] &
-\Coker(d_{n + 1}) \ar[r] &
-A_{n - 1} \ar[r] &
-\ldots
-}
-$$
-Note that these complexes have the property that
-$$
-H_i(\tau_{\leq n}A_\bullet) =
-\left\{
-\begin{matrix}
-H_i(A_\bullet) & \text{if} & i \leq n \\
-0 & \text{if} & i > n
-\end{matrix}
-\right.
-$$
-\end{enumerate}
-
-\noindent
-Let $\mathcal{A}$ be an abelian category.
-Let $A^\bullet$ be a cochain complex. There
-are four ways to truncate the complex $A^\bullet$.
-\begin{enumerate}
-\item The {\it ``stupid'' truncation $\sigma_{\geq n}$} is the subcomplex
-$\sigma_{\geq n} A^\bullet$ defined by the rule
-$(\sigma_{\geq n} A^\bullet)^i = 0$ if
-$i < n$ and $(\sigma_{\geq n} A^\bullet)^i = A_i$ if
-$i \geq n$. In a picture
-$$
-\xymatrix{
-\sigma_{\geq n}A^\bullet \ar[d]  &
-\ldots \ar[r] &
-0 \ar[r] \ar[d] &
-A^n \ar[r] \ar[d] &
-A^{n + 1} \ar[r] \ar[d] &
-\ldots \\
-A^\bullet  &
-\ldots \ar[r] &
-A^{n - 1} \ar[r] &
-A^n \ar[r] &
-A^{n + 1} \ar[r] &
-\ldots
-}
-$$
-Note the property
-$\sigma_{\geq n}A^\bullet / \sigma_{\geq n + 1}A^\bullet
-= A^n[-n]$.
-\item The {\it ``stupid'' truncation $\sigma_{\leq n}$}
-is the quotient complex $\sigma_{\leq n} A^\bullet$ defined
-by the rule $(\sigma_{\leq n} A^\bullet)^i = 0$ if
-$i > n$ and $(\sigma_{\leq n} A^\bullet)^i = A^i$ if
-$i \leq n$. In a picture
-$$
-\xymatrix{
-A^\bullet \ar[d]  &
-\ldots \ar[r] &
-A^{n - 1} \ar[r] \ar[d] &
-A^n \ar[r] \ar[d] &
-A^{n + 1} \ar[r] \ar[d] &
-\ldots \\
-\sigma_{\leq n}A^\bullet &
-\ldots \ar[r] &
-A^{n - 1} \ar[r] &
-A^n \ar[r] &
-0 \ar[r] &
-\ldots \\
-}
-$$
-The map of complexes
-$\sigma_{\leq n}A^\bullet \to \sigma_{\leq n - 1}A^\bullet$ is surjective
-with kernel $A^n[-n]$.
-\item The {\it canonical truncation} $\tau_{\leq n}A^\bullet$
-is defined by the picture
-$$
-\xymatrix{
-\tau_{\leq n}A^\bullet \ar[d]  &
-\ldots \ar[r] &
-A^{n - 1} \ar[r] \ar[d] &
-\Ker(d^n) \ar[r] \ar[d] &
-0 \ar[r] \ar[d] &
-\ldots \\
-A^\bullet  &
-\ldots \ar[r] &
-A^{n - 1} \ar[r] &
-A^n \ar[r] &
-A^{n + 1} \ar[r] &
-\ldots
-}
-$$
-Note that these complexes have the property that
-$$
-H^i(\tau_{\leq n}A^\bullet) =
-\left\{
-\begin{matrix}
-H^i(A^\bullet) & \text{if} & i \leq n \\
-0 & \text{if} & i > n
-\end{matrix}
-\right.
-$$
-\item The {\it canonical truncation} $\tau_{\geq n}A^\bullet$
-is defined by the picture
-$$
-\xymatrix{
-A^\bullet \ar[d] &
-\ldots \ar[r] &
-A^{n - 1} \ar[r] \ar[d] &
-A^n \ar[r] \ar[d] &
-A^{n + 1} \ar[r] \ar[d] &
-\ldots \\
-\tau_{\geq n}A^\bullet &
-\ldots \ar[r] &
-0 \ar[r] &
-\Coker(d^{n - 1}) \ar[r] &
-A^{n + 1} \ar[r] &
-\ldots
-}
-$$
-Note that these complexes have the property that
-$$
-H^i(\tau_{\geq n}A^\bullet) =
-\left\{
-\begin{matrix}
-0 & \text{if} & i < n \\
-H^i(A^\bullet) & \text{if} & i \geq n
-\end{matrix}
-\right.
-$$
-\end{enumerate}
-
-
-
-
-
-
-
-
-
-
-
-
+Let $V$ be an object of $\mathcal{A}$.
+Then, there is a cochain complex $A^\bullet$ such
+that $A^0 = V$ and $A^i = 0$ for all $i \neq 0$
+(which, of course, forces all $d^i$ to be zero maps).
+This cochain complex is denoted by $V$ (by abuse of
+notation).
+Sending each object $V$ of $\mathcal{A}$ to its
+corresponding cochain complex $V$ yields a full and
+faithful embedding of categories
+$\mathcal{A} \to \text{CoCh}(\mathcal{A})$.
+\end{definition}
 
 
 
@@ -3291,6 +3200,255 @@ $$
 Since $h^n = -g^n$ and since $d_{A[1]}^{n - 1} = -d_A^n$ we conclude that (2)
 holds.
 \end{proof}
+
+
+
+
+\section{Truncation of complexes}
+\label{section-truncations}
+
+\noindent
+Let $\mathcal{A}$ be an abelian category.
+Let $A_\bullet$ be a chain complex. There
+are several ways to {\it truncate} the complex $A_\bullet$.
+\begin{enumerate}
+\item The {\it ``stupid'' truncation $\sigma_{\leq n}$}
+is the subcomplex $\sigma_{\leq n} A_\bullet$ defined
+by the rule $(\sigma_{\leq n} A_\bullet)_i = 0$ if
+$i > n$ and $(\sigma_{\leq n} A_\bullet)_i = A_i$ if
+$i \leq n$. In a picture
+$$
+\xymatrix{
+\sigma_{\leq n}A_\bullet \ar[d]  &
+\ldots \ar[r] &
+0 \ar[r] \ar[d] &
+A_n \ar[r] \ar[d] &
+A_{n - 1} \ar[r] \ar[d] &
+\ldots \\
+A_\bullet  &
+\ldots \ar[r] &
+A_{n + 1} \ar[r] &
+A_n \ar[r] &
+A_{n - 1} \ar[r] &
+\ldots
+}
+$$
+Note the property
+$\sigma_{\leq n}A_\bullet / \sigma_{\leq n - 1}A_\bullet = A_n[-n]$.
+(Here, $A_n[-n]$ means the $-n$-shifted chain complex of $A_n$,
+where the chain complex $A_n$ is defined as in
+Definition \ref{definition-skyscraper-complex} from the
+object $A_n \in \mathcal{A}$.)
+\item The {\it ``stupid'' truncation $\sigma_{\geq n}$}
+is the quotient complex $\sigma_{\geq n} A_\bullet$ defined
+by the rule $(\sigma_{\geq n} A_\bullet)_i = A_i$ if
+$i \geq n$ and $(\sigma_{\geq n} A_\bullet)_i = 0$ if
+$i < n$. In a picture
+$$
+\xymatrix{
+A_\bullet \ar[d]  &
+\ldots \ar[r] &
+A_{n + 1} \ar[r] \ar[d] &
+A_n \ar[r] \ar[d] &
+A_{n - 1} \ar[r] \ar[d] &
+\ldots \\
+\sigma_{\geq n}A_\bullet  &
+\ldots \ar[r] &
+A_{n + 1} \ar[r] &
+A_n \ar[r] &
+0 \ar[r] &
+\ldots
+}
+$$
+The map of complexes
+$\sigma_{\geq n}A_\bullet \to \sigma_{\geq n + 1}A_\bullet$ is surjective
+with kernel $A_n[-n]$.
+\item The {\it canonical truncation} $\tau_{\geq n}A_\bullet$
+is defined by the picture
+$$
+\xymatrix{
+\tau_{\geq n}A_\bullet \ar[d]  &
+\ldots \ar[r] &
+A_{n + 1} \ar[r] \ar[d] &
+\Ker(d_n) \ar[r] \ar[d] &
+0 \ar[r] \ar[d] &
+\ldots \\
+A_\bullet  &
+\ldots \ar[r] &
+A_{n + 1} \ar[r] &
+A_n \ar[r] &
+A_{n - 1} \ar[r] &
+\ldots
+}
+$$
+Note that these complexes have the property that
+$$
+H_i(\tau_{\geq n}A_\bullet) =
+\left\{
+\begin{matrix}
+H_i(A_\bullet) & \text{if} & i \geq n \\
+0 & \text{if} & i < n
+\end{matrix}
+\right.
+$$
+\item The {\it canonical truncation} $\tau_{\leq n}A_\bullet$
+is defined by the picture
+$$
+\xymatrix{
+A_\bullet \ar[d]  &
+\ldots \ar[r] &
+A_{n + 1} \ar[r] \ar[d] &
+A_n \ar[r] \ar[d] &
+A_{n - 1} \ar[r] \ar[d] &
+\ldots \\
+\tau_{\leq n}A_\bullet  &
+\ldots \ar[r] &
+0 \ar[r] &
+\Coker(d_{n + 1}) \ar[r] &
+A_{n - 1} \ar[r] &
+\ldots
+}
+$$
+Note that these complexes have the property that
+$$
+H_i(\tau_{\leq n}A_\bullet) =
+\left\{
+\begin{matrix}
+H_i(A_\bullet) & \text{if} & i \leq n \\
+0 & \text{if} & i > n
+\end{matrix}
+\right.
+$$
+\end{enumerate}
+
+\noindent
+Let $\mathcal{A}$ be an abelian category.
+Let $A^\bullet$ be a cochain complex. There
+are four ways to truncate the complex $A^\bullet$.
+\begin{enumerate}
+\item The {\it ``stupid'' truncation $\sigma_{\geq n}$} is the subcomplex
+$\sigma_{\geq n} A^\bullet$ defined by the rule
+$(\sigma_{\geq n} A^\bullet)^i = 0$ if
+$i < n$ and $(\sigma_{\geq n} A^\bullet)^i = A_i$ if
+$i \geq n$. In a picture
+$$
+\xymatrix{
+\sigma_{\geq n}A^\bullet \ar[d]  &
+\ldots \ar[r] &
+0 \ar[r] \ar[d] &
+A^n \ar[r] \ar[d] &
+A^{n + 1} \ar[r] \ar[d] &
+\ldots \\
+A^\bullet  &
+\ldots \ar[r] &
+A^{n - 1} \ar[r] &
+A^n \ar[r] &
+A^{n + 1} \ar[r] &
+\ldots
+}
+$$
+Note the property
+$\sigma_{\geq n}A^\bullet / \sigma_{\geq n + 1}A^\bullet
+= A^n[-n]$.
+(Here, $A^n[-n]$ means the $-n$-shifted cochain complex of $A^n$,
+where the cochain complex $A^n$ is defined as in
+Definition \ref{definition-skyscraper-cocomplex} from the
+object $A^n \in \mathcal{A}$.)
+\item The {\it ``stupid'' truncation $\sigma_{\leq n}$}
+is the quotient complex $\sigma_{\leq n} A^\bullet$ defined
+by the rule $(\sigma_{\leq n} A^\bullet)^i = 0$ if
+$i > n$ and $(\sigma_{\leq n} A^\bullet)^i = A^i$ if
+$i \leq n$. In a picture
+$$
+\xymatrix{
+A^\bullet \ar[d]  &
+\ldots \ar[r] &
+A^{n - 1} \ar[r] \ar[d] &
+A^n \ar[r] \ar[d] &
+A^{n + 1} \ar[r] \ar[d] &
+\ldots \\
+\sigma_{\leq n}A^\bullet &
+\ldots \ar[r] &
+A^{n - 1} \ar[r] &
+A^n \ar[r] &
+0 \ar[r] &
+\ldots \\
+}
+$$
+The map of complexes
+$\sigma_{\leq n}A^\bullet \to \sigma_{\leq n - 1}A^\bullet$ is surjective
+with kernel $A^n[-n]$.
+\item The {\it canonical truncation} $\tau_{\leq n}A^\bullet$
+is defined by the picture
+$$
+\xymatrix{
+\tau_{\leq n}A^\bullet \ar[d]  &
+\ldots \ar[r] &
+A^{n - 1} \ar[r] \ar[d] &
+\Ker(d^n) \ar[r] \ar[d] &
+0 \ar[r] \ar[d] &
+\ldots \\
+A^\bullet  &
+\ldots \ar[r] &
+A^{n - 1} \ar[r] &
+A^n \ar[r] &
+A^{n + 1} \ar[r] &
+\ldots
+}
+$$
+Note that these complexes have the property that
+$$
+H^i(\tau_{\leq n}A^\bullet) =
+\left\{
+\begin{matrix}
+H^i(A^\bullet) & \text{if} & i \leq n \\
+0 & \text{if} & i > n
+\end{matrix}
+\right.
+$$
+\item The {\it canonical truncation} $\tau_{\geq n}A^\bullet$
+is defined by the picture
+$$
+\xymatrix{
+A^\bullet \ar[d] &
+\ldots \ar[r] &
+A^{n - 1} \ar[r] \ar[d] &
+A^n \ar[r] \ar[d] &
+A^{n + 1} \ar[r] \ar[d] &
+\ldots \\
+\tau_{\geq n}A^\bullet &
+\ldots \ar[r] &
+0 \ar[r] &
+\Coker(d^{n - 1}) \ar[r] &
+A^{n + 1} \ar[r] &
+\ldots
+}
+$$
+Note that these complexes have the property that
+$$
+H^i(\tau_{\geq n}A^\bullet) =
+\left\{
+\begin{matrix}
+0 & \text{if} & i < n \\
+H^i(A^\bullet) & \text{if} & i \geq n
+\end{matrix}
+\right.
+$$
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3656,7 +3814,7 @@ The proof of the other cases is similar.
 \label{lemma-pushout-filtered}
 Let $\mathcal{A}$ be an abelian category.
 Let $A, B, C \in \text{Fil}(\mathcal{A})$.
-Let $f : A \to B$ and $g : A \to C$ be morphisms
+Let $f : A \to B$ and $g : A \to C$ be morphisms.
 Then there exists a pushout
 $$
 \xymatrix{
@@ -3685,7 +3843,7 @@ Whence the last statement.
 \label{lemma-fibre-product-filtered}
 Let $\mathcal{A}$ be an abelian category.
 Let $A, B, C \in \text{Fil}(\mathcal{A})$.
-Let $f : B \to A$ and $g : C \to A$ be morphisms
+Let $f : B \to A$ and $g : C \to A$ be morphisms.
 Then there exists a fibre product
 $$
 \xymatrix{
