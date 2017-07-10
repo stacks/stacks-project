@@ -26,7 +26,7 @@ LIJST = introduction conventions sets categories \
 	spaces-flat spaces-groupoids spaces-more-groupoids bootstrap \
 	spaces-pushouts \
 	groupoids-quotients spaces-more-cohomology spaces-simplicial \
-	formal-spaces restricted spaces-resolve \
+	spaces-duality formal-spaces restricted spaces-resolve \
 	formal-defos defos cotangent examples-defos \
 	algebraic examples-stacks stacks-sheaves criteria artin quot \
 	stacks-properties stacks-morphisms stacks-limits \
