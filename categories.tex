@@ -2090,29 +2090,44 @@ some lemmas on the possible things one can require.
 Let $\mathcal{I}$ be an index category, i.e., a category. Assume
 that for every pair of objects $x, y$ of $\mathcal{I}$
 there exists an object $z$ and morphisms $x \to z$ and $y \to z$.
-Then colimits of diagrams of sets over $\mathcal{I}$
-commute with finite nonempty products.
+Then
+\begin{enumerate}
+\item If $M$ and $N$ are diagrams of sets over $\mathcal{I}$,
+then $\colim (M_i \times N_i) \to \colim M_i \times \colim N_i$
+is surjective,
+\item in general colimits of diagrams of sets over $\mathcal{I}$
+do not commute with finite nonempty products.
+\end{enumerate}
 \end{lemma}
 
 \begin{proof}
-Let $M$ and $N$ be diagrams of sets over $\mathcal{I}$.
-To prove the lemma we have to show that the canonical map
-$$
-\colim (M_i \times N_i) \longrightarrow \colim M_i \times \colim N_i
-$$
-is an isomorphism.
-If $\mathcal{I}$ is empty, then this is true because the colimit
-of sets over the empty category is the empty set.
-If $\mathcal{I}$ is nonempty, then we construct a map
-$\colim M_i \times \colim N_i \to \colim (M_i \times N_i)$ as follows.
-Suppose that $m \in M_i$ and $n \in N_j$ give rise to elements
-$s$ and $t$ of the respective colimits. By assumption we can find
-$a : i \to k$ and $b : j \to k$
+Proof of (1). Let $(\overline{m}, \overline{n})$
+be an element of $\colim M_i \times \colim N_i$.
+Then we can find $m \in M_x$ and $n \in N_y$ for some
+$x, y \in \Ob(\mathcal{I})$ such that $m$ mapsto
+$\overline{m}$ and $n$ mapsto $\overline{n}$. See
+Section \ref{section-limit-sets}.
+Choose $a : x \to z$ and $b : y \to z$
 in $\mathcal{I}$. Then $(M(a)(m), N(b)(n))$ is an element of
-$M_k \times N_k$ and we map $(s, t)$ to the corresponding element
-of $\colim M_i \times N_i$. We omit the verification that this map
-is well defined and that it is an inverse of the map displayed
-above.
+$(M \times N)_z$ whose image in $\colim (M_i \times N_i)$
+maps to $(\overline{m}, \overline{n})$ as desired.
+
+\medskip\noindent
+Proof of (2). Let $G$ be a non-trivial group and
+let $\mathcal{I}$ be the one-object category with endomorphism monoid $G$.
+Then $\mathcal{I}$ trivially satisfies the condition stated in the lemma.
+Now let $G$ act on itself by translation and view the $G$-set $G$
+as a set-valued $\mathcal{I}$-diagram. Then
+$$
+\colim_\mathcal{I} G \times \colim_\mathcal{I} G \cong G/G \times G/G
+$$
+is not isomorphic to
+$$
+\colim_\mathcal{I} (G \times G) \cong (G \times G)/G
+$$
+This example indicates that you cannot just drop the additional
+condition Lemma \ref{lemma-directed-commutes}
+even if you only care about finite products.
 \end{proof}
 
 \begin{lemma}
@@ -2121,18 +2136,23 @@ Let $\mathcal{I}$ be an index category, i.e., a category. Assume
 that for every pair of objects $x, y$ of $\mathcal{I}$
 there exists an object $z$ and morphisms $x \to z$ and $y \to z$.
 Let $M : \mathcal{I} \to \textit{Ab}$ be a diagram of abelian
-groups over $\mathcal{I}$. Then the set underlying $\colim_i M_i$
-is the colimit of $M$ viewed as a diagram of sets over $\mathcal{I}$.
+groups over $\mathcal{I}$. Then the colimit of $M$ in the category
+of sets surjects onto the colimit of $M$ in the category of
+abelian groups.
 \end{lemma}
 
 \begin{proof}
-In this proof all colimits are taken in the category of sets.
-By Lemma \ref{lemma-preserve-products} we have
-$\colim M_i \times \colim M_i = \colim (M_i \times M_i)$
-hence we can use the maps $+ : M_i \times M_i \to M_i$
-to define an addition map on $\colim M_i$. A straightforward
-argument, which we omit, shows that the set $\colim M_i$ with this
-addition is the colimit in the category of abelian groups.
+Recall that the colimit in the category of sets is the quotient of
+the disjoint union $\coprod M_i$ by relation, see
+Section \ref{section-limit-sets}.
+Similarly, the colimit in the category of abelian groups is a quotient
+of the direct sum $\bigoplus M_i$.
+The assumption of the lemma means that given $i, j \in \Ob(\mathcal{I})$
+and $m \in M_i$ and $n \in M_j$, then we can find an object
+$k$ and morphisms $a : i \to k$ and $b : j \to k$.
+Thus $m + n$ is represented in the colimit by the element
+$M(a)(m) + M(b)(n)$ of $M_k$. Thus the $\coprod M_i$
+surjects onto the colimit.
 \end{proof}
 
 \begin{lemma}
@@ -2146,9 +2166,9 @@ z \ar@{..>}[r] & w
 }
 $$
 in $\mathcal{I}$ there exists an object $w$ and dotted arrows
-making the diagram commute. Then $\mathcal{I}$ is a (possibly empty)
-disjoint union of categories satisfying the condition above and
-the condition of Lemma \ref{lemma-preserve-products}.
+making the diagram commute. Then $\mathcal{I}$ is either empty
+or a nonempty disjoint union of connected categories having
+the same property.
 \end{lemma}
 
 \begin{proof}
@@ -2159,7 +2179,8 @@ morphisms $x \to z$ and $y \to z$. This is an equivalence
 relation by the assumption of the lemma. Hence $\Ob(\mathcal{I})$
 is a disjoint union of equivalence classes. Let $\mathcal{I}_j$
 be the full subcategories corresponding to these equivalence classes.
-Then $\mathcal{I} = \coprod \mathcal{I}_j$ as desired.
+Then $\mathcal{I} = \coprod \mathcal{I}_j$ with $\mathcal{I}_j$
+nonempty as desired.
 \end{proof}
 
 \begin{lemma}
@@ -2173,33 +2194,30 @@ z \ar@{..>}[r] & w
 }
 $$
 in $\mathcal{I}$ there exists an object $w$ and dotted arrows
-making the diagram commute. Then an injective morphism $M \to N$
-of diagrams of sets (resp.\ abelian groups) over $\mathcal{I}$ gives
-rise to an injective map $\colim M_i \to \colim N_i$ of sets
-(resp.\ abelian groups).
+making the diagram commute. Then
+\begin{enumerate}
+\item an injective morphism $M \to N$ of diagrams of sets over
+$\mathcal{I}$ gives rise to an injective map $\colim M_i \to \colim N_i$
+of sets,
+\item in general the same is not the case for diagrams of abelian
+groups and their colimits.
+\end{enumerate}
 \end{lemma}
 
 \begin{proof}
-We first show that it suffices to prove the lemma for the case of
-a diagram of sets. Namely, by Lemma \ref{lemma-split-into-connected}
+If $\mathcal{I}$ is the empty category, then the lemma is true.
+Thus we may assume $\mathcal{I}$ is nonempty. In this case
 we can write $\mathcal{I} = \coprod \mathcal{I}_j$ where each
-$\mathcal{I}_j$ satisfies the condition of the lemma as well as the
-condition of Lemma \ref{lemma-preserve-products}.
-Thus, if $M$ is a diagram of abelian groups over $\mathcal{I}$, then
-$$
-\colim_\mathcal{I} M =
-\bigoplus\nolimits_j \colim_{\mathcal{I}_j} M|_{\mathcal{I}_j}
-$$
-It follows that it suffices to prove the result for the categories
-$\mathcal{I}_j$. However, colimits of abelian groups over these categories 
-are computed by the colimits of the underlying sets
-(Lemma \ref{lemma-colimits-abelian-as-sets})
-hence we reduce to the case of an injective map of diagrams of sets.
+$\mathcal{I}_j$ is nonempty and satisfies the same property, see
+Lemma \ref{lemma-split-into-connected}. Since
+$\colim_\mathcal{I} M = \coprod_j \colim_{\mathcal{I}_j} M|_{\mathcal{I}_j}$
+this reduces the proof of (1) to the connected case.
 
 \medskip\noindent
-Here we say that $M \to N$ is injective if all the maps $M_i \to N_i$
-are injective. In fact, we will identify $M_i$ with the image of
-$M_i \to N_i$, i.e., we will think of $M_i$ as a subset of $N_i$.
+Assume $\mathcal{I}$ is connected and $M \to N$ is injective, i.e.,
+all the maps $M_i \to N_i$ are injective.
+We identify $M_i$ with the image of $M_i \to N_i$, i.e.,
+we will think of $M_i$ as a subset of $N_i$.
 We will use the description of the colimits given in
 Section \ref{section-limit-sets} without further mention.
 Let $s, s' \in \colim M_i$ map to the same element of $\colim N_i$.
@@ -2252,10 +2270,21 @@ i_{2n} = i'
 $$
 and the elements $n_{i_j}$ for $j \geq 3$ which has a smaller length
 than the chain we started with. This proves the induction step and the
-proof of the lemma is complete.
+proof of (1) is complete.
+
+\medskip\noindent
+Let $G$ be a group and let $\mathcal{I}$ be the one-object category with
+endomorphism monoid $G$. Then $\mathcal{I}$ satisfies the condition stated
+in the lemma because given $g_1, g_2 \in G$ we can find $h_1, h_2 \in G$
+with $h_1 g_1 = h_2 g_2$. An diagram $M$ over $\mathcal{I}$ in
+$\textit{Ab}$ is the same thing as an abelian group $M$ with $G$-action
+and $\colim_\mathcal{I} M$ is the coinvariants $M_G$ of $M$.
+Take $G$ the group of order $2$ acting trivially on $M = \mathbf{Z}/2\mathbf{Z}$
+mapping into the first summand of
+$N = \mathbf{Z}/2\mathbf{Z} \times \mathbf{Z}/2\mathbf{Z}$
+where the nontrivial element of $G$ acts by
+$(x, y) \mapsto (x + y, y)$. Then $M_G \to N_G$ is zero.
 \end{proof}
-
-
 
 \begin{lemma}
 \label{lemma-split-into-directed}
