@@ -2710,7 +2710,7 @@ as desired.
 \end{proof}
 
 \begin{lemma}
-\label{lemma-smoothing-affine}
+\label{lemma-smoothing-affine-lci}
 Let $k$ be a field. Let $A$ be a global complete interesection
 over $k$. There exists a flat finite type ring map
 $k[[t]] \to B$ with $B/tB \cong A$ such that
@@ -2755,7 +2755,39 @@ $a_{ij}$ which vanishes on $(t)^{\oplus c(n + 1)}$.
 \end{proof}
 
 \begin{lemma}
-\label{lemma-smoothing-at-point}
+\label{lemma-smoothing-artinian-lci}
+Let $k$ be a field. Let $A$ be a finite dimensional $k$-algebra
+which is a local complete intersection over $k$. Then there is
+a finite flat $k[[t]]$-algebra $B$ with $B/tB \cong A$
+and $B[1/t]$ \'etale over $k((t))$.
+\end{lemma}
+
+\begin{proof}
+Since $A$ is Artinian
+(Algebra, Lemma \ref{algebra-lemma-finite-dimensional-algebra}),
+we can write $A$ as a product of local Artinian rings
+(Algebra, Lemma \ref{algebra-lemma-artinian-finite-length}).
+Thus it suffices to prove the lemma if $A$ is local
+(this uses that being a local complete intersection is
+preserved under taking principal localizations, see
+Algebra, Lemma \ref{algebra-lemma-localize-lci}).
+In this case $A$ is a global complete intersection.
+Consider the algebra $B$ constructed in
+Lemma \ref{lemma-smoothing-affine-lci}.
+Then $k[[t]] \to B$ is quasi-finite at the unique prime of $B$
+lying over $(t)$ (Algebra, Definition \ref{algebra-definition-quasi-finite}).
+Observe that $k[[t]]$ is a henselian local ring
+(Algebra, Lemma \ref{algebra-lemma-complete-henselian}).
+Thus $B = B' \times C$ where $B'$ is finite over $k[[t]]$
+and $C$ has no prime lying over $(t)$, see
+Algebra, Lemma \ref{algebra-lemma-characterize-henselian}.
+Then $B'$ is the ring we are looking for
+(recall that \'etale is the same thing as
+smooth of relative dimension $0$).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-smoothing-at-lci-point}
 Let $k$ be a field. Let $A$ be a $k$-algebra. Assume
 \begin{enumerate}
 \item $A$ is a local ring essentially of finite type over $k$,
@@ -2774,7 +2806,7 @@ By Algebra, Lemma \ref{algebra-lemma-lci-local} we can write $A$ as the
 localization at a prime $\mathfrak p$ of a global complete intersection $P$
 over $k$. Observe that $\dim(P) = d$ by
 Algebra, Lemma \ref{algebra-lemma-dimension-at-a-point-finite-type-field}.
-By Lemma \ref{lemma-smoothing-affine} we can find a
+By Lemma \ref{lemma-smoothing-affine-lci} we can find a
 flat, finite type ring map $k[[t]] \to Q$ such that $P \cong Q/tQ$ and
 such that $k((t)) \to Q[1/t]$ is smooth. It follows from the construction
 of $Q$ in the lemma that $k[[t]] \to Q$ is a relative global
@@ -2791,7 +2823,7 @@ The lemma is proved.
 \end{proof}
 
 \begin{lemma}
-\label{lemma-smooth-proper-curve-isolated}
+\label{lemma-smoothing-proper-curve-isolated-lci}
 Let $X$ be a scheme over a field $k$. Assume
 \begin{enumerate}
 \item $X$ is proper over $k$,
@@ -2805,6 +2837,21 @@ isomorphic to $X$.
 \end{lemma}
 
 \begin{proof}
+Observe that $X$ is Cohen-Macaulay, see
+Algebra, Lemma \ref{algebra-lemma-lci-CM}.
+Thus $X = X' \amalg X''$ with $\dim(X') = 0$
+and $X''$ equidimensional of dimension $1$, see Morphisms, Lemma
+\ref{morphisms-lemma-flat-finite-presentation-CM-fibres-relative-dimension}.
+Since $X'$ is finite over $k$ (Varieties, Lemma
+\ref{varieties-lemma-algebraic-scheme-dim-0})
+we can find $Y' \to \Spec(k[[t]])$ with special
+fibre $X'$ and generic fibre smooth by
+Lemma \ref{lemma-smoothing-artinian-lci}.
+Thus it suffices to prove the lemma for $X''$.
+After replacing $X$ by $X''$ we have $X$ is
+Cohen-Macaulay and equidimensional of dimension $1$.
+
+\medskip\noindent
 We are going to use deformation theory for the situation $\Lambda = k \to k$.
 Let $p_1, \ldots, p_r \in X$ be the closed singular points of $X$, i.e.,
 the points where $X \to \Spec(k)$ isn't smooth. For each $i$ we pick
@@ -2814,7 +2861,7 @@ k[[t]] \longrightarrow B_i
 $$
 with $B_i/tB_i \cong \mathcal{O}_{X, p_i}$ such that
 $t^{n_i}$ is in the $1$st Fitting ideal of $\Omega_{B_i/k[[t]]}$.
-This is possible by Lemma \ref{lemma-smoothing-at-point}.
+This is possible by Lemma \ref{lemma-smoothing-at-lci-point}.
 Observe that the system $(B_i/t^nB_i)$ defines a formal object of
 $\Deformationcategory_{\mathcal{O}_{X, p_i}}$ over $k[[t]]$.
 By Lemma \ref{lemma-curve-isolated} the map
@@ -2835,10 +2882,12 @@ isomorphisms $Y \times_{\Spec(k[[t]])} \Spec(k[t]/(t^n)) \cong X_n$.
 By More on Morphisms, Lemma
 \ref{more-morphisms-lemma-check-flatness-on-infinitesimal-nbhds}
 we see that $Y \to \Spec(k[[t]])$ is flat.
-Since $X$ is Cohen-Macaulay of dimension $1$
-(Algebra, Lemma \ref{algebra-lemma-lci-CM})
+Since $X$ is Cohen-Macaulay and equidimensional of dimension $1$
 we may apply Lemma \ref{lemma-criterion-smoothing}
-to check $Y$ has smooth generic fibre.
+to check $Y$ has smooth generic fibre\footnote{Warning: in general it is
+{\bf not} true that the local ring of $Y$ at the point
+$p_i$ is isomorphic to $B_i$. We only know that this is true after
+dividing by $t^n$ on both sides!}.
 Choose $n$ strictly larger than the maximum of the integers $n_i$ found above.
 It we can show $t^{n - 1}$ is in the first Fitting ideal of
 $\Omega_{X_n/S_n}$ with $S_n = \Spec(k[t]/(t^n))$, then the proof is done.
@@ -2861,7 +2910,7 @@ in the Fitting ideal of this module over $B_i/t^nB_i$ as desired.
 \end{proof}
 
 \begin{lemma}
-\label{lemma-smooth-curve-isolated}
+\label{lemma-smoothing-curve-isolated-lci}
 Let $k$ be a field and let $X$ be a scheme over $k$. Assume
 \begin{enumerate}
 \item $X$ is separated, finite type over $k$ and $\dim(X) \leq 1$,
@@ -2874,7 +2923,8 @@ isomorphic to $X$.
 \end{lemma}
 
 \begin{proof}
-Choose an embedding $X \subset \overline{X}$ as in
+If $X$ is reduced, then we can choose an embedding
+$X \subset \overline{X}$ as in
 Varieties, Lemma \ref{varieties-lemma-reduced-dim-1-projective-completion}.
 Writing $X = \overline{X} \setminus \{x_1, \ldots, x_n\}$
 we see that $\mathcal{O}_{\overline{X}, x_i}$ is a discrete
@@ -2883,11 +2933,19 @@ valuation ring and hence in particular a local complete intersection
 Thus $\overline{X}$ is a local complete intersection
 over $k$ because this holds over the open $X$ and
 at the points $x_i$ by Algebra, Lemma \ref{algebra-lemma-lci-local}.
-Thus we may apply Lemma \ref{lemma-smooth-proper-curve-isolated}
+Thus we may apply Lemma \ref{lemma-smoothing-proper-curve-isolated-lci}
 to find a projective flat morphism $\overline{Y} \to \Spec(k[[t]])$
 whose generic fibre is smooth and whose special fibre
 is $\overline{X}$. Then we remove $x_1, \ldots, x_n$
-from $\overline{Y}$ to obtain $Y$. Some details omitted.
+from $\overline{Y}$ to obtain $Y$.
+
+\medskip\noindent
+In the general case, write $X = X' \amalg X''$ where
+with $\dim(X') = 0$ and $X''$ equidimensional of dimension $1$.
+Then $X''$ is reduced and the first paragraph applies to it.
+On the other hand, $X'$ can be dealt with
+as in the proof of Lemma \ref{lemma-smoothing-proper-curve-isolated-lci}.
+Some details omitted.
 \end{proof}
 
 
