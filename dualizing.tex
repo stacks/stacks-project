@@ -4446,18 +4446,11 @@ above. Either Lemma \ref{lemma-flat-bc} or
 Lemma \ref{lemma-bc} will do.
 \end{proof}
 
-\noindent
-Let $\varphi : R \to A$ be a finite type homomorphism of
-Noetherian rings. Then we define the {\it relative dualizing
-complex of $A$ over $R$} as the object
-$\omega_{A/R}^\bullet = \varphi^!(R)$ of $D(R)$.
-It is well defined up to (non-unique) isomorphism.
-
 \begin{lemma}
 \label{lemma-upper-shriek-is-tensor-functor}
 Let $\varphi : R \to A$ be a perfect homomorphism of Noetherian rings
 (for example $\varphi$ is flat of finite type).
-Then $\varphi^!(K) = K \otimes_R^\mathbf{L} \omega_{A/R}^\bullet$
+Then $\varphi^!(K) = K \otimes_R^\mathbf{L} \varphi^!(R)$
 for $K \in D(R)$.
 \end{lemma}
 
@@ -4475,15 +4468,135 @@ and More on Algebra, Lemma \ref{more-algebra-lemma-double-base-change}.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-relative-dualizing-if-have-omega}
+Let $\varphi : A \to B$ be a finite type homomorphism of Noetherian rings.
+Let $\omega_A^\bullet$ be a dualizing complex for $A$. Set
+$\omega_B^\bullet = \varphi^!(\omega_A^\bullet)$. Denote
+$D_A(K) = R\Hom_A(K, \omega_A^\bullet)$ for $K \in D_{\textit{Coh}}(A)$
+and
+$D_B(L) = R\Hom_B(L, \omega_B^\bullet)$ for $L \in D_{\textit{Coh}}(B)$.
+Then there is a functorial isomorphism
+$$
+\varphi^!(K) = D_B(D_A(K) \otimes_A^\mathbf{L} B)
+$$
+for $K \in D_{\textit{Coh}}(A)$.
+\end{lemma}
+
+\begin{proof}
+Observe that $\omega_B^\bullet$ is a dualizing complex for $B$ by
+Lemma \ref{lemma-shriek-dualizing-algebraic}.
+Let $A \to B \to C$ be finite type homomorphisms of Noetherian rings.
+If the lemma holds for $A \to B$ and $B \to C$, then the lemma holds for
+$A \to C$. This follows from
+Lemma \ref{lemma-composition-shriek-algebraic}
+and the fact that $D_B \circ D_B \cong \text{id}$ by
+Lemma \ref{lemma-dualizing}.
+Thus it suffices to prove the lemma in case $A \to B$ is
+a surjection and in the case where $B$ is a
+polynomial ring over $A$.
+
+\medskip\noindent
+Assume $B = A[x_1, \ldots, x_n]$. Since $D_A \circ D_A \cong \text{id}$,
+it suffices to prove
+$D_B(K \otimes_A B) \cong D_A(K) \otimes_A B[n]$ for $K$
+in $D_{\textit{Coh}}(A)$.
+Choose a bounded complex $I^\bullet$ of injectives representing
+$\omega_A^\bullet$. Choose a quasi-isomorphism
+$I^\bullet \otimes_A B \to J^\bullet$ where $J^\bullet$
+is a bounded complex of $B$-modules. Given a complex
+$K^\bullet$ of $A$-modules, consider the obvious
+map of complexes
+$$
+\Hom^\bullet(K^\bullet, I^\bullet) \otimes_A B[n]
+\longrightarrow
+\Hom^\bullet(K^\bullet \otimes_A B, J^\bullet[n])
+$$
+The left hand side represents $D_A(K) \otimes_A B[n]$ and the right hand
+side represents $D_B(K \otimes_A B)$. Thus it suffices to prove this
+map is a quasi-isomorphism if the cohomology modules
+of $K^\bullet$ are finite $A$-modules. Observe that the
+cohomology of the complex in degree $r$ (on either side)
+only depends on finitely many of the $K^i$. Thus we may
+replace $K^\bullet$ by a truncation, i.e., we may assume
+$K^\bullet$ represents an object of $D^-_{\textit{Coh}}(A)$.
+Then $K^\bullet$ is quasi-isomorphic to a bounded
+above complex of finite free $A$-modules.
+Therefore we may assume $K^\bullet$ is a bounded
+above complex of finite free $A$-modules.
+In this case it is easy to that the
+displayed map is an isomorphism of complexes which finishes
+the proof in this case.
+
+\medskip\noindent
+Assume that $A \to B$ is surjective. Denote $i_* : D(B) \to D(A)$
+the restriction functor and recall that $\varphi^!(-) = R\Hom(A, -)$
+is a right adjoint to $i_*$ (Lemma \ref{lemma-right-adjoint}).
+For $F \in D(B)$ we have
+\begin{align*}
+\Hom_B(F, D_B(D_A(K) \otimes_A^\mathbf{L} B))
+& =
+\Hom_B((D_A(K) \otimes_A^\mathbf{L} B) \otimes_B^\mathbf{L} F,
+\omega_B^\bullet) \\
+& =
+\Hom_A(D_A(K) \otimes_A^\mathbf{L} i_*F, \omega_A^\bullet) \\
+& =
+\Hom_A(i_*F, D_A(D_A(K))) \\
+& =
+\Hom_A(i_*F, K) \\
+& =
+\Hom_B(F, \varphi^!(K))
+\end{align*}
+The first equality follows from More on Algebra, Lemma
+\ref{more-algebra-lemma-internal-hom} and the definition
+of $D_B$. The second equality by the adjointness mentioned
+above and the equality
+$i_*((D_A(K) \otimes_A^\mathbf{L} B) \otimes_B^\mathbf{L} F) =
+D_A(K) \otimes_A^\mathbf{L} i_*F$
+(More on Algebra, Lemma \ref{more-algebra-lemma-derived-base-change}).
+The third equality follows from More on Algebra, Lemma
+\ref{more-algebra-lemma-internal-hom}. The fourth because
+$D_A \circ D_A = \text{id}$. The final equality by adjointness again.
+Thus the result holds by the Yoneda lemma.
+\end{proof}
+
+
+
+
+
+
+\section{Relative dualizing complexes in the Noetherian case}
+\label{section-relative-dualizing-complexes-Noetherian}
+
+\noindent
+Let $\varphi : R \to A$ be a finite type homomorphism of
+Noetherian rings. Then we define the {\it relative dualizing
+complex of $A$ over $R$} as the object
+$$
+\omega_{A/R}^\bullet = \varphi^!(R)
+$$
+of $D(A)$. Here $\varphi^!$ is as in
+Section \ref{section-relative-dualizing-complex-algebraic}.
+From the material in that section we see that
+$\omega_{A/R}^\bullet$ is well defined up to (non-unique) isomorphism.
+
+\begin{lemma}
 \label{lemma-base-change-relative-algebraic}
 Let $R \to R'$ be a homomorphism of Noetherian rings.
-Let $R \to A$ be flat and of finite type. There is an isomorphism
+Let $R \to A$ be of finite type. Set $A' = A \otimes_R R'$. If
+\begin{enumerate}
+\item $R \to R'$ is flat, or
+\item $R \to A$ is flat, or
+\item $R \to A$ is perfect
+and $R'$ and $A$ are tor independent over $R$,
+\end{enumerate}
+then there is an isomorphism
 $\omega_{A/R}^\bullet \otimes_A^\mathbf{L} A' \to \omega^\bullet_{A'/R'}$
 in $D(A')$.
 \end{lemma}
 
 \begin{proof}
-Immediate from Lemma \ref{lemma-bc-flat} and the definitions.
+Follows from Lemmas \ref{lemma-flat-bc}, \ref{lemma-bc-flat}, and
+\ref{lemma-bc} and the definitions.
 \end{proof}
 
 \begin{lemma}
@@ -4563,6 +4676,308 @@ We conclude by
 Lemma \ref{lemma-relative-dualizing-algebraic}.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-lci-shriek}
+Let $\varphi : R \to A$ be a local complete intersection homomorphism of
+Noetherian rings. Then $\omega_{A/R}^\bullet$ is an invertible object of
+$D(A)$ and $\varphi^!(K) = K \otimes_R^\mathbf{L} \omega_{A/R}^\bullet$
+for all $K \in D(R)$.
+\end{lemma}
+
+\begin{proof}
+Recall that a local complete intersection homomorphism is a perfect
+ring map by More on Algebra, Lemma \ref{more-algebra-lemma-lci-perfect}.
+Hence the final statement holds by
+Lemma \ref{lemma-upper-shriek-is-tensor-functor}.
+By More on Algebra, Definition
+\ref{more-algebra-definition-local-complete-intersection}
+we can write $A = R[x_1, \ldots, x_n]/I$ where $I$ is a
+Koszul-regular ideal.
+The construction of $\varphi^!$ in
+Section \ref{section-relative-dualizing-complex-algebraic}
+shows that it suffices to show the lemma in case
+$A = R/I$ where $I \subset R$ is a Koszul-regular ideal.
+Checking $\omega_{A/R}^\bullet$ is invertible in $D(A)$
+is local on $\Spec(A)$ by definition.
+Moreover, formation of $\omega_{A/R}^\bullet$ commutes with
+localization on $R$ by Lemma \ref{lemma-flat-bc}.
+Combining
+More on Algebra, Definition \ref{more-algebra-definition-regular-ideal} and
+Lemma \ref{more-algebra-lemma-noetherian-finite-all-equivalent} and
+Algebra, Lemma \ref{algebra-lemma-regular-sequence-in-neighbourhood}
+we can find $g_1, \ldots, g_r \in R$ generating the unit ideal in $A$
+such that $I_{g_j} \subset R_{g_j}$ is generated by a regular sequence.
+Thus we may assume $A = R/(f_1, \ldots, f_c)$ where $f_1, \ldots, f_c$
+is a regular sequence in $R$. Then we consider the ring maps
+$$
+R \to R/(f_1) \to R/(f_1, f_2) \to \ldots \to R/(f_1, \ldots, f_c) = A
+$$
+and we use Lemma \ref{lemma-composition-shriek-algebraic}
+(and the final statement already proven)
+to see that it suffices to prove the lemma for each step.
+Finally, in case $A = R/(f)$ for some nonzerodivisor $f$
+we see that the lemma is true since $\varphi^!(R) = R\Hom(A, R)$
+is invertible by Lemma \ref{lemma-compute-for-effective-Cartier-algebraic}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-gorenstein-shriek}
+Let $\varphi : R \to A$ be a flat finite type homomorphism of Noetherian rings.
+The following are equivalent
+\begin{enumerate}
+\item the fibres $A \otimes_R \kappa(\mathfrak p)$ are Gorenstein
+for all primes $\mathfrak p \subset R$, and
+\item $\omega_{A/R}^\bullet$ is an invertible object of $D(A)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+If (2) holds, then the fibre rings $A \otimes_R \kappa(\mathfrak p)$
+have invertible dualizing complexes, and hence are Gorenstein.
+See Lemmas \ref{lemma-relative-dualizing-algebraic} and \ref{lemma-gorenstein}.
+
+\medskip\noindent
+For the converse, assume (1).
+Observe that $\omega_{A/R}^\bullet$ is in $D^b_{\textit{Coh}}(A)$
+by Lemma \ref{lemma-shriek-boundedness} (since flat finite type homomorphisms
+of Noetherian rings are perfect, see 
+More on Algebra, Lemma
+\ref{more-algebra-lemma-flat-finite-presentation-perfect}).
+Take a prime $\mathfrak q \subset A$ lying over $\mathfrak p \subset R$.
+Then
+$$
+\omega_{A/R}^\bullet \otimes_A^\mathbf{L} \kappa(\mathfrak q) =
+\omega_{A/R}^\bullet \otimes_A^\mathbf{L}
+(A \otimes_R \kappa(\mathfrak p))
+\otimes_{(A \otimes_R \kappa(\mathfrak p))}^\mathbf{L}
+\kappa(\mathfrak q)
+$$
+Applying Lemmas \ref{lemma-relative-dualizing-algebraic} and
+\ref{lemma-gorenstein} and assumption (1) we find that this complex has $1$
+nonzero cohomology group which is a $1$-dimensional
+$\kappa(\mathfrak q)$-vector space. By
+More on Algebra, Lemma
+\ref{more-algebra-lemma-lift-bounded-pseudo-coherent-to-perfect}
+we conclude that $(\omega_{A/R}^\bullet)_f$ is an invertible
+object of $D(A_f)$ for some $f \in A$, $f \not \in \mathfrak q$.
+This proves (2) holds.
+\end{proof}
+
+\noindent
+The following lemma is useful to see how dimension functions change
+when passing to a finite type algebra over a Noetherian ring.
+
+\begin{lemma}
+\label{lemma-shriek-normalized}
+Let $\varphi : R \to A$ be a finite type homomorphism of Noetherian rings.
+Assume $R$ local and let $\mathfrak m \subset A$ be a maximal
+ideal lying over the maximal ideal of $R$. If $\omega_R^\bullet$
+is a normalized dualizing complex for $R$, then
+$\varphi^!(\omega_R^\bullet)_\mathfrak m$ is a normalized
+dualizing complex for $A_\mathfrak m$.
+\end{lemma}
+
+\begin{proof}
+We already know that $\varphi^!(\omega_R^\bullet)$ is a dualizing
+complex for $A$, see Lemma \ref{lemma-shriek-dualizing-algebraic}.
+Choose a factorization $R \to P \to A$ with $P = R[x_1, \ldots, x_n]$
+as in the construction of $\varphi^!$. If we can prove the
+lemma for $R \to P$ and the maximal ideal $\mathfrak m'$ of $P$ corresponding to
+$\mathfrak m$, then we obtain the result for $R \to A$ by
+applying Lemma \ref{lemma-normalized-quotient} to
+$P_{\mathfrak m'} \to A_\mathfrak m$ or by applying
+Lemma \ref{lemma-quotient-function} to $P \to A$.
+In the case $A = R[x_1, \ldots, x_n]$ we see that
+$\dim(A_\mathfrak m) = \dim(R) + n$ for example by
+Algebra, Lemma \ref{algebra-lemma-dimension-base-fibre-equals-total}
+(combined with Algebra, Lemma \ref{algebra-lemma-dim-affine-space}
+to compute the dimension of the fibre).
+The fact that $\omega_R^\bullet$ is normalized means
+that $i = -\dim(R)$ is the smallest index such that
+$H^i(\omega_R^\bullet)$ is nonzero (follows from
+Lemmas \ref{lemma-sitting-in-degrees} and
+\ref{lemma-nonvanishing-generically-local}).
+Then $\varphi^!(\omega_R^\bullet)_\mathfrak m =
+\omega_R^\bullet \otimes_R A_\mathfrak m[n]$
+has its first nonzero cohomology module in degree $-\dim(R) - n$
+and therefore is the normalized dualizing complex for $A_\mathfrak m$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-relative-dualizing-trivial-vanishing}
+Let $R \to A$ be a finite type homomorphism of Noetherian rings.
+Let $\mathfrak q \subset A$ be a prime ideal lying over
+$\mathfrak p \subset R$. Then
+$$
+H^i(\omega_{A/R}^\bullet)_\mathfrak q \not = 0
+\Rightarrow - d \leq i
+$$
+where $d$ is the dimension of the fibre of $\Spec(A) \to \Spec(R)$
+over $\mathfrak p$ at the point $\mathfrak q$.
+\end{lemma}
+
+\begin{proof}
+Choose a factorization $R \to P \to A$ with $P = R[x_1, \ldots, x_n]$
+as in Section \ref{section-relative-dualizing-complex-algebraic}
+so that $\omega_{A/R}^\bullet = R\Hom(A, P)[n]$.
+We have to show that $R\Hom(A, P)_\mathfrak q$
+has vanishing cohomology in degrees $< n - d$.
+By Lemma \ref{lemma-RHom-ext} this means we have to
+show that $\Ext_P^i(P/I, P)_{\mathfrak r} = 0$ for $i < n - d$
+where $\mathfrak r \subset P$ is the prime corresponding to $\mathfrak q$
+and $I$ is the kernel of $P \to A$.
+We may rewrite this as
+$\Ext_{P_\mathfrak r}^i(P_\mathfrak r/IP_\mathfrak r, P_\mathfrak r)$
+by More on Algebra, Remark
+\ref{more-algebra-remark-pseudo-coherence-and-base-change-ext}.
+Thus we have to show
+$$
+\text{depth}_{IP_\mathfrak r}(P_\mathfrak r) \geq n - d
+$$
+by Lemma \ref{lemma-depth}. By Lemma \ref{lemma-depth-flat-CM}
+we have
+$$
+\text{depth}_{IP_\mathfrak r}(P_\mathfrak r) \geq
+\dim((P \otimes_R \kappa(\mathfrak p))_\mathfrak r) -
+\dim((P/I \otimes_R \kappa(\mathfrak p))_\mathfrak r)
+$$
+The two expressions on the right hand side agree by
+Algebra, Lemma \ref{algebra-lemma-codimension}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-relative-dualizing-flat-vanishing}
+Let $R \to A$ be a flat finite type homomorphism of Noetherian rings.
+Let $\mathfrak q \subset A$ be a prime ideal lying over
+$\mathfrak p \subset R$. Then
+$$
+H^i(\omega_{A/R}^\bullet)_\mathfrak q \not = 0
+\Rightarrow - d \leq i \leq 0
+$$
+where $d$ is the dimension of the fibre of $\Spec(A) \to \Spec(R)$
+over $\mathfrak p$ at the point $\mathfrak q$. If all fibres of
+$\Spec(A) \to \Spec(R)$ have dimension $\leq d$, then
+$\omega_{A/R}^\bullet$ has tor amplitude in $[-d, 0]$
+as a complex of $R$-modules.
+\end{lemma}
+
+\begin{proof}
+The lower bound has been shown in
+Lemma \ref{lemma-relative-dualizing-trivial-vanishing}.
+Choose a factorization $R \to P \to A$ with $P = R[x_1, \ldots, x_n]$
+as in Section \ref{section-relative-dualizing-complex-algebraic}
+so that $\omega_{A/R}^\bullet = R\Hom(A, P)[n]$.
+The upper bound means that $\Ext^i_P(A, P)$ is zero for $i > n$.
+This follows from
+More on Algebra, Lemma \ref{more-algebra-lemma-perfect-over-polynomial-ring}
+which shows that $A$ is a perfect $P$-module with
+tor amplitude in $[-n, 0]$.
+
+\medskip\noindent
+Proof of the final statement. Let $R \to R'$ be a ring homomorphism
+of Noetherian rings. Set $A' = A \otimes_R R'$. Then
+$$
+\omega_{A'/R'}^\bullet =
+\omega_{A/R}^\bullet \otimes_A^\mathbf{L} A' =
+\omega_{A/R}^\bullet \otimes_R^\mathbf{L} R'
+$$
+The first isomorphism by Lemma \ref{lemma-base-change-relative-algebraic}
+and the second, which takes place in $D(R')$, by
+More on Algebra, Lemma \ref{more-algebra-lemma-base-change-comparison}.
+By the first part of the proof
+(note that the fibres of $\Spec(A') \to \Spec(R')$ have dimension $\leq d$)
+we conclude that $\omega_{A/R}^\bullet \otimes_R^\mathbf{L} R'$
+has cohomology only in degrees $[-d, 0]$. Taking $R' = R \oplus M$
+to be the square zero thickening of $R$ by a finite $R$-module $M$,
+we see that $R\Hom(A, P) \otimes_R^\mathbf{L} M$
+has cohomology only in the interval $[-d, 0]$ for any finite $R$-module $M$.
+Since any $R$-module is a filtered colimit of finite $R$-modules
+and since tensor products commute with colimits we conclude.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-relative-dualizing-CM-vanishing}
+Let $R \to A$ be a finite type homomorphism of Noetherian rings.
+Let $\mathfrak p \subset R$ be a prime ideal. Assume
+\begin{enumerate}
+\item $R_\mathfrak p$ is Cohen-Macaulay, and
+\item for any minimal prime $\mathfrak q \subset A$ we have
+$\text{trdeg}_{\kappa(R \cap \mathfrak q)} \kappa(\mathfrak q) \leq r$.
+\end{enumerate}
+Then
+$$
+H^i(\omega_{A/R}^\bullet)_\mathfrak p = 0 \Rightarrow - r \leq i
+$$
+and $H^{-r}(\omega_{A/R}^\bullet)_\mathfrak p$ is $(S_2)$
+as an $A_\mathfrak p$-module.
+\end{lemma}
+
+\begin{proof}
+We may replace $R$ by $R_\mathfrak p$ by
+Lemma \ref{lemma-base-change-relative-algebraic}.
+Thus we may assume $R$ is a Cohen-Macaulay local ring
+and we have to show the assertions of the lemma
+for the $A$-modules $H^i(\omega_{A/R}^\bullet)$.
+
+\medskip\noindent
+Let $R^\wedge$ be the completion of $R$.
+The map $R \to R^\wedge$ is flat and $R^\wedge$ is Cohen-Macaulay
+(More on Algebra, Lemma \ref{more-algebra-lemma-completion-CM}).
+Observe that the minimal primes of $A \otimes_R R^\wedge$
+lie over minimal primes of $A$ by the flatness of
+$A \to A \otimes_R R^\wedge$ (and going down for flatness, see
+Algebra, Lemma \ref{algebra-lemma-flat-going-down}).
+Thus condition (2) holds for the finite type ring map
+$R^\wedge \to A \otimes_R R^\wedge$ by
+Morphisms, Lemma \ref{morphisms-lemma-dimension-fibre-after-base-change}.
+Appealing to Lemma \ref{lemma-base-change-relative-algebraic}
+once again it suffices to prove the lemma for
+$R^\wedge \to A \otimes_R R^\wedge$. In this way, using
+Lemma \ref{lemma-ubiquity-dualizing},
+we may assume $R$ is a Noetherian local
+Cohen-Macaulay ring which has a dualizing complex $\omega_R^\bullet$.
+
+\medskip\noindent
+Let $\mathfrak m \subset A$ be a maximal ideal.
+It suffices to show that the assertions of
+the lemma hold for $H^i(\omega_{A/R}^\bullet)_\mathfrak m$.
+If $\mathfrak m$ does not lie over the maximal ideal of $R$,
+then we replace $R$ by a localization to reduce to this case
+(small detail omitted). 
+
+\medskip\noindent
+We may assume $\omega_R^\bullet$ is normalized.
+Setting $d = \dim(R)$ we see that $\omega_R^\bullet = \omega_R[d]$
+for some $R$-module $\omega_R$, see
+Lemma \ref{lemma-apply-CM}. Set
+$\omega_A^\bullet = \varphi^!(\omega_R^\bullet)$.
+By Lemma \ref{lemma-relative-dualizing-if-have-omega} we have
+$$
+\omega_{A/R}^\bullet =
+R\Hom_A(\omega_R[d] \otimes_R^\mathbf{L} A, \omega_A^\bullet)
+$$
+By the dimension formula we have $\dim(A_\mathfrak m) \leq d + r$, see
+Morphisms, Lemma \ref{morphisms-lemma-dimension-formula-general}
+and use that $\kappa(\mathfrak m)$ is finite over the residue field of $R$
+by the Hilbert Nullstellensatz.
+By Lemma \ref{lemma-shriek-normalized}
+we see that $(\omega_A^\bullet)_\mathfrak m$
+is a normalized dualizing complex for $A_\mathfrak m$.
+Hence $H^i((\omega_A^\bullet)_\mathfrak m)$ is nonzero
+only for $-d - r \leq i \leq 0$, see
+Lemma \ref{lemma-sitting-in-degrees}.
+Since $\omega_R[d] \otimes_R^\mathbf{L} A$ lives in
+degrees $\leq -d$ we conclude the vanishing holds.
+Finally, we also see that
+$$
+H^{-r}(\omega_{A/R}^\bullet)_\mathfrak m =
+\Hom_A(\omega_R \otimes_R A, H^{-d - r}(\omega_A^\bullet))_\mathfrak m
+$$
+Since $H^{-d - r}(\omega_A^\bullet)_\mathfrak m$ is $(S_2)$ by
+Lemma \ref{lemma-depth-dualizing-module}
+we find that the final statement is true by
+More on Algebra, Lemma \ref{more-algebra-lemma-hom-into-S2}.
+\end{proof}
 
 
 
@@ -4606,95 +5021,6 @@ More on Algebra, Lemma \ref{more-algebra-lemma-base-change-RHom}
 and the fact that
 $B \to R\Hom_B(K \otimes_A^\mathbf{L} B, K \otimes_A^\mathbf{L} B)$
 is an isomorphism.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-lci-shriek}
-Let $\varphi : R \to A$ be a local complete intersection homomorphism of
-Noetherian rings. Then $\omega_{A/R}^\bullet = \varphi^!(R)$
-is an invertible object of $D(A)$ and
-$\varphi^!(K) = K \otimes_R^\mathbf{L} \omega_{A/R}^\bullet$
-for all $K \in D(R)$.
-\end{lemma}
-
-\begin{proof}
-Recall that a local complete intersection homomorphism is a perfect
-ring map by More on Algebra, Lemma \ref{more-algebra-lemma-lci-perfect}.
-Hence the final statement holds by
-Lemma \ref{lemma-upper-shriek-is-tensor-functor}.
-By More on Algebra, Definition
-\ref{more-algebra-definition-local-complete-intersection}
-we can write $A = R[x_1, \ldots, x_n]/I$ where $I$ is a
-Koszul-regular ideal.
-The construction of $\varphi^!$ in
-Section \ref{section-relative-dualizing-complex-algebraic}
-shows that it suffices to show the lemma in case
-$A = R/I$ where $I \subset R$ is a Koszul-regular ideal.
-Checking $\omega_{A/R}^\bullet$ is invertible in $D(A)$
-is local on $\Spec(A)$ by definition.
-Moreover, formation of $\omega_{A/R}$ commutes with
-localization on $R$ by Lemma \ref{lemma-flat-bc}.
-Combining
-More on Algebra, Definition \ref{more-algebra-definition-regular-ideal} and
-Lemma \ref{more-algebra-lemma-noetherian-finite-all-equivalent} and
-Algebra, Lemma \ref{algebra-lemma-regular-sequence-in-neighbourhood}
-we can find $g_1, \ldots, g_r \in R$ generating the unit ideal in $A$
-such that $I_{g_j} \subset R_{g_j}$ is generated by a regular sequence.
-Thus we may assume $A = R/(f_1, \ldots, f_c)$ where $f_1, \ldots, f_c$
-is a regular sequence in $R$. Then we consider the ring maps
-$$
-R \to R/(f_1) \to R/(f_1, f_2) \to \ldots \to R/(f_1, \ldots, f_c) = A
-$$
-and we use Lemma \ref{lemma-composition-shriek-algebraic}
-(and the final statement already proven)
-to see that it suffices to prove the lemma for each step.
-Finally, in case $A = R/(f)$ for some nonzerodivisor $f$
-we see that the lemma is true since $\varphi^!(R) = R\Hom(A, R)$
-is invertible by Lemma \ref{lemma-compute-for-effective-Cartier-algebraic}.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-gorenstein-shriek}
-Let $\varphi : R \to A$ be a flat finite type homomorphism of Noetherian rings.
-The following are equivalent
-\begin{enumerate}
-\item the fibres $A \otimes_R \kappa(\mathfrak p)$ are Gorenstein
-for all primes $\mathfrak p \subset R$, and
-\item $\omega_{A/R}^\bullet = \varphi^!(R)$
-is an invertible object of $D(A)$.
-\end{enumerate}
-\end{lemma}
-
-\begin{proof}
-If (2) holds, then the fibre rings $A \otimes_R \kappa(\mathfrak p)$
-have invertible dualizing complexes, and hence are Gorenstein.
-See Lemmas \ref{lemma-relative-dualizing-algebraic} and \ref{lemma-gorenstein}.
-
-\medskip\noindent
-For the converse, assume (1).
-Observe that $\omega_{A/R}^\bullet$ is in $D^b_{\textit{Coh}}(A)$
-by Lemma \ref{lemma-shriek-boundedness} (since flat finite type homomorphisms
-of Noetherian rings are perfect, see 
-More on Algebra, Lemma
-\ref{more-algebra-lemma-flat-finite-presentation-perfect}).
-Take a prime $\mathfrak q \subset A$ lying over $\mathfrak p \subset R$.
-Then
-$$
-\omega_{A/R}^\bullet \otimes_A^\mathbf{L} \kappa(\mathfrak q) =
-\omega_{A/R}^\bullet \otimes_A^\mathbf{L}
-(A \otimes_R \kappa(\mathfrak p))
-\otimes_{(A \otimes_R \kappa(\mathfrak p))}^\mathbf{L}
-\kappa(\mathfrak q)
-$$
-Applying Lemmas \ref{lemma-relative-dualizing-algebraic} and
-\ref{lemma-gorenstein} and assumption (1) we find that this complex has $1$
-nonzero cohomology group which is a $1$-dimensional
-$\kappa(\mathfrak q)$-vector space. By
-More on Algebra, Lemma
-\ref{more-algebra-lemma-lift-bounded-pseudo-coherent-to-perfect}
-we conclude that $(\omega_{A/R}^\bullet)_f$ is an invertible
-object of $D(A_f)$ for some $f \in A$, $f \not \in \mathfrak q$.
-This proves (2) holds.
 \end{proof}
 
 \begin{lemma}
@@ -4815,13 +5141,23 @@ by Lemma \ref{lemma-injective-hull-goes-up} we conclude.
 \label{section-relative-dualizing-complexes}
 
 \noindent
-For a flat and finitely presented ring map we can define the notion
-of a relative dualizing complex and show that such complexes exist
-and are unique up to (noncanonical) isomorphism. This is different from
-the definition given in
-Section \ref{section-relative-dualizing-complex-algebraic}
-because we do not require our rings to be Noetherian.
-The Noetherian reader may safely skip this section.
+For a finite type ring map $\varphi : R \to A$ of Noetherian rings
+we have the relative dualizing complex $\omega_{A/R}^\bullet = \varphi^!(R)$
+considered in Section \ref{section-relative-dualizing-complexes-Noetherian}.
+If $R$ is not Noetherian, a similarly constructed complex will
+in general not have good properties. In this section, we give a
+definition of a relative dualizing complex for a flat and finitely presented
+ring maps $R \to A$ of non-Noetherian rings. The definition is
+chosen to globalize to flat and finitely presented morphisms
+of schemes, see Duality for Schemes, Section
+\ref{duality-section-relative-dualizing-complexes}. We will
+show that relative dualizing complexes exist (when the definition
+applies), are unique up to (noncanonical) isomorphism,
+and that in the Noetherian case we recover the complex of
+Section \ref{section-relative-dualizing-complexes-Noetherian}.
+
+\medskip\noindent
+The Noetherian reader may safely skip this section!
 
 \begin{definition}
 \label{definition-relative-dualizing-complex}
@@ -4840,7 +5176,7 @@ To understand this definition you may have to read and understand some
 of the following lemmas. Lemmas \ref{lemma-relative-dualizing-noetherian} and
 \ref{lemma-uniqueness-relative-dualizing} show this definition
 does not clash with the definition in
-Section \ref{section-relative-dualizing-complex-algebraic}.
+Section \ref{section-relative-dualizing-complexes-Noetherian}.
 
 \begin{lemma}
 \label{lemma-uniqueness-relative-dualizing}
@@ -4871,7 +5207,7 @@ for either coprojection we obtain the desired result.
 \label{lemma-relative-dualizing-noetherian}
 Let $\varphi : R \to A$ be a flat finite type ring map of Noetherian rings.
 Then the relative dualizing complex $\omega_{A/R}^\bullet = \varphi^!(R)$
-defined in Section \ref{section-relative-dualizing-complex-algebraic}
+of Section \ref{section-relative-dualizing-complexes-Noetherian}
 is a relative dualizing complex in the sense of
 Definition \ref{definition-relative-dualizing-complex}.
 \end{lemma}
