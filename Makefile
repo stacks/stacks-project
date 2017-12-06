@@ -23,7 +23,7 @@ LIJST = introduction conventions sets categories \
 	spaces-topologies \
 	spaces-descent spaces-perfect spaces-more-morphisms \
 	spaces-flat spaces-groupoids spaces-more-groupoids bootstrap \
-	spaces-pushouts \
+	spaces-pushouts spaces-chow \
 	groupoids-quotients spaces-more-cohomology spaces-simplicial \
 	spaces-duality formal-spaces restricted spaces-resolve \
 	formal-defos defos cotangent examples-defos \
