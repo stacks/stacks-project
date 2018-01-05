@@ -98,13 +98,16 @@ print "The following people have contributed to this work:"
 print_list_contrib(path)
 print "\\end{titlepage}"
 print_license_blurp(path)
-print "\\tableofcontents"
 
 lijstje = list_text_files(path)
 lijstje.append("index")
 
+parts = get_parts(path)
+
 ext = ".tex"
 for name in lijstje:
+        if name in parts:
+                print "\\part{" + parts[name] + "}"
 	if name == "index":
 		filename = path + "tmp/index.tex"
 	else:

@@ -151,6 +151,23 @@ def write_new_tags(path, new_tags):
 	tag_file.close()
 	return
 
+def get_parts(path):
+        lijst = list_text_files(path)
+	lijst.append('index')
+	lijst.append('xxx')
+        parts = {}
+        chapters = open(path + "chapters.tex", 'r')
+        n = 0
+        name = lijst[n]
+	for line in chapters:
+                if line.find(name + '-section-phantom') >= 0:
+                        n = n + 1
+                        name = lijst[n]
+                if line.find('\\') < 0:
+			parts[name] = line.rstrip()
+	chapters.close()
+	return(parts)
+
 ########################################################################
 #
 #
