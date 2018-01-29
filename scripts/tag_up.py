@@ -17,7 +17,7 @@ name = argv[2]
 
 def replace_newtheorem(line):
 	if line.find("\\newtheorem{") == 0:
-		line = line.replace("]{", "]{\\href{http://stacks.math.columbia.edu/tag/\\TAG}{",1)
+		line = line.replace("]{", "]{\\href{https://stacks.math.columbia.edu/tag/\\TAG}{",1)
 		line = line.rstrip()
 		return line + "}\n"
 	if line.find("\\documentclass") == 0:
