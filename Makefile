@@ -246,3 +246,15 @@ install:
 	@echo "% To install the project, use the tags_install target %"
 	@echo "% Be sure to change INSTALLDIR value in the Makefile! %"
 	@echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
+
+WEBDIR=../WEB
+.PHONE: web
+web: tmp/index.tex
+	@echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
+	@echo "% Stuff in WEBDIR will be overwritten!!!!!!!!!        %"
+	@echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
+	cp my.bib $(WEBDIR)/my.bib
+	python ./scripts/web_book.py "$(CURDIR)" > tmp/web_book.tex
+	python ./scripts/tag_up.py "$(CURDIR)" web_book > $(WEBDIR)/book.tex
+	cp tags/tags $(WEBDIR)/tags
+	python ./scripts/web_tags.py "$(CURDIR)" >> $(WEBDIR)/tags

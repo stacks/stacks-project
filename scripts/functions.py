@@ -156,6 +156,8 @@ def get_parts(path):
 	lijst.append('index')
 	lijst.append('xxx')
         parts = {}
+        # This will give us about 35 parts
+        tag = 'ZZZ0'
         chapters = open(path + "chapters.tex", 'r')
         n = 0
         name = lijst[n]
@@ -164,7 +166,10 @@ def get_parts(path):
                         n = n + 1
                         name = lijst[n]
                 if line.find('\\') < 0:
-			parts[name] = line.rstrip()
+			title = line.rstrip()
+                        label = 'book-part-' + title.lower().replace(" ", "-")
+                        parts[name] = [title, label, tag]
+                        tag = next_tag(tag)
 	chapters.close()
 	return(parts)
 

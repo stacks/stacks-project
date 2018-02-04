@@ -3,20 +3,31 @@ from functions import *
 # Preamble for the book does not have external references
 def print_preamble(path):
 	preamble = open(path + "preamble.tex", 'r')
+	next(preamble)
+	next(preamble)
+	next(preamble)
+	next(preamble)
+	next(preamble)
+        print "\\documentclass{book}"
+        print "\\usepackage{amsmath}"
 	for line in preamble:
 		if line.find("%") == 0:
 			continue
 		if line.find("externaldocument") >= 0:
 			continue
+                if line.find("\\newenvironment{reference}") >= 0:
+			continue
+                if line.find("\\newenvironment{slogan}") >= 0:
+			continue
+                if line.find("\\newenvironment{history}") >= 0:
+			continue
 		if line.find("xr-hyper") >= 0:
 			continue
-		if line.find("\\IfFileExists{") == 0:
-			line = line.replace("stacks-project", "stacks-project-book")
-		if line.find("\\documentclass") == 0:
-			line = line.replace("amsart", "amsbook")
-			line = line.replace("stacks-project", "stacks-project-book")
 		print line,
 	preamble.close()
+	print "\\def\\reversemarginpar{}"
+	print "\\def\\marginnote#1{}"
+	print "\\def\\hypertarget#1#2{}"
 	return
 
 # Use full labels everywhere in book.tex
@@ -108,6 +119,9 @@ ext = ".tex"
 for name in lijstje:
         if name in parts:
                 print "\\part{" + parts[name][0] + "}"
+		print "\\label{" + parts[name][1] + "}"
+                print "\\hypertarget{" + parts[name][2] + "}"
+                print "\\reversemarginpar\\marginnote{" + parts[name][2] + "}"
 	if name == "index":
 		filename = path + "tmp/index.tex"
 	else:
@@ -146,7 +160,6 @@ for name in lijstje:
 		print line,
 
 	tex_file.close()
-	print_chapters(path)
 
 print "\\bibliography{my}"
 print "\\bibliographystyle{amsalpha}"
