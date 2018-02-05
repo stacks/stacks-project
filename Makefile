@@ -254,7 +254,5 @@ web: tmp/index.tex
 	@echo "% Stuff in WEBDIR will be overwritten!!!!!!!!!        %"
 	@echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
 	cp my.bib $(WEBDIR)/my.bib
-	python ./scripts/web_book.py "$(CURDIR)" > tmp/web_book.tex
-	python ./scripts/tag_up.py "$(CURDIR)" web_book > $(WEBDIR)/book.tex
 	cp tags/tags $(WEBDIR)/tags
-	python ./scripts/web_tags.py "$(CURDIR)" >> $(WEBDIR)/tags
+	python ./scripts/web_book.py "$(CURDIR)" > tmp/web_book.tex

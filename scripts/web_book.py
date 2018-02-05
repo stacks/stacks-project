@@ -8,26 +8,25 @@ def print_preamble(path):
 	next(preamble)
 	next(preamble)
 	next(preamble)
-        print "\\documentclass{book}"
-        print "\\usepackage{amsmath}"
+	print "\\documentclass{book}"
+	print "\\usepackage{amsmath}"
 	for line in preamble:
 		if line.find("%") == 0:
 			continue
 		if line.find("externaldocument") >= 0:
 			continue
-                if line.find("\\newenvironment{reference}") >= 0:
+		if line.find("\\newenvironment{reference}") >= 0:
 			continue
-                if line.find("\\newenvironment{slogan}") >= 0:
+		if line.find("\\newenvironment{slogan}") >= 0:
 			continue
-                if line.find("\\newenvironment{history}") >= 0:
+		if line.find("\\newenvironment{history}") >= 0:
+			continue
+		if line.find("multicol")>= 0:
 			continue
 		if line.find("xr-hyper") >= 0:
 			continue
 		print line,
 	preamble.close()
-	print "\\def\\reversemarginpar{}"
-	print "\\def\\marginnote#1{}"
-	print "\\def\\hypertarget#1#2{}"
 	return
 
 # Use full labels everywhere in book.tex
@@ -111,21 +110,16 @@ print "\\end{titlepage}"
 print_license_blurp(path)
 
 lijstje = list_text_files(path)
-lijstje.append("index")
 
 parts = get_parts(path)
 
 ext = ".tex"
 for name in lijstje:
-        if name in parts:
-                print "\\part{" + parts[name][0] + "}"
+	if name in parts:
+		print "\\part{" + parts[name][0] + "}"
 		print "\\label{" + parts[name][1] + "}"
-                print "\\hypertarget{" + parts[name][2] + "}"
-                print "\\reversemarginpar\\marginnote{" + parts[name][2] + "}"
-	if name == "index":
-		filename = path + "tmp/index.tex"
-	else:
-		filename = path + name + ext
+	
+	filename = path + name + ext
 	tex_file = open(filename, 'r')
 	verbatim = 0
 	for line in tex_file:

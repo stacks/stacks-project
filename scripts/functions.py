@@ -131,6 +131,11 @@ def get_new_tags(path, tags):
 				last_tag = next_tag(last_tag)
 				new_tags.append([last_tag, labels[n]])
 			n = n + 1
+	parts = get_parts(path)
+	for part in parts:
+		if parts[part][1] not in label_tags:
+				last_tag = next_tag(last_tag)
+				new_tags.append([last_tag, parts[part][1]])
 	return new_tags
 
 # print out the new tags as found by get_new_tags
@@ -152,24 +157,21 @@ def write_new_tags(path, new_tags):
 	return
 
 def get_parts(path):
-        lijst = list_text_files(path)
+	lijst = list_text_files(path)
 	lijst.append('index')
 	lijst.append('xxx')
-        parts = {}
-        # This will give us about 35 parts
-        tag = 'ZZZ0'
-        chapters = open(path + "chapters.tex", 'r')
-        n = 0
-        name = lijst[n]
+	parts = {}
+	chapters = open(path + "chapters.tex", 'r')
+	n = 0
+	name = lijst[n]
 	for line in chapters:
-                if line.find(name + '-section-phantom') >= 0:
-                        n = n + 1
-                        name = lijst[n]
-                if line.find('\\') < 0:
+		if line.find(name + '-section-phantom') >= 0:
+			n = n + 1
+			name = lijst[n]
+		if line.find('\\') < 0:
 			title = line.rstrip()
-                        label = 'book-part-' + title.lower().replace(" ", "-")
-                        parts[name] = [title, label, tag]
-                        tag = next_tag(tag)
+			label = 'book-part-' + "-".join(title.lower().split())
+			parts[name] = [title, label]
 	chapters.close()
 	return(parts)
 
