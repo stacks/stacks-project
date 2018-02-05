@@ -255,4 +255,4 @@ web: tmp/index.tex
 	@echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
 	cp my.bib $(WEBDIR)/my.bib
 	cp tags/tags $(WEBDIR)/tags
-	python ./scripts/web_book.py "$(CURDIR)" > tmp/web_book.tex
+	python ./scripts/web_book.py "$(CURDIR)" > $(WEBDIR)/book.tex
