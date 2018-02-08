@@ -55,7 +55,7 @@ tags = get_tags(path)
 
 label_tags = dict((tags[n][1], tags[n][0]) for n in range(0, len(tags)))
 
-if name == "book" or name == "web_book":
+if name == "book":
 	tex_file = open(path + "tmp/" + name + ".tex", 'r')
 else:
 	tex_file = open(path + name + ".tex", 'r')
@@ -74,7 +74,7 @@ for line in tex_file:
 
 	# Do stuff in preamble or just after \begin{document}
 	if not document:
-		if name == "book" or name == "web_book":
+		if name == "book":
 			line = replace_newtheorem(line)
 			if line.find("\\begin{document}") == 0:
 				print "\\usepackage{marginnote}"
@@ -88,7 +88,7 @@ for line in tex_file:
 	# labels all get hypertargets
 	if is_label(line):
 		short = find_label(line)
-		if name == "book" or name == "web_book":
+		if name == "book":
 			label = short
 		else:
 			label = name + "-" + short
@@ -112,7 +112,7 @@ for line in tex_file:
 		oldline = line
 		line = tex_file.next()
 		short = find_label(line)
-		if name == "book" or name == "web_book":
+		if name == "book":
 			label = short
 		else:
 			label = name + "-" + short
