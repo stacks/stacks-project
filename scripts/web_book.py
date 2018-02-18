@@ -54,25 +54,6 @@ def print_version(path):
 	version = git_version(path)
 	print "Version " + version + ", compiled on " + now.strftime('%h %d, %Y.')
 
-# Print names contributors
-def print_list_contrib(path):
-	filename = path + 'CONTRIBUTORS'
-	CONTRIBUTORS = open(filename, 'r')
-	first = 1
-	for line in CONTRIBUTORS:
-		if line.find("%") == 0:
-			continue
-		if len(line.rstrip()) == 0:
-			continue
-		if first:
-			names = line.rstrip()
-			first = 0
-			continue
-		names = names + ", " + line.rstrip()
-	CONTRIBUTORS.close()
-	names = names + "."
-	print names
-
 # Print license blurp
 def print_license_blurp(path):
 	filename = path + 'introduction.tex'
@@ -102,10 +83,6 @@ print "\\noindent"
 print "\\centerline{"
 print_version(path)
 print "}"
-print "\\vskip1in"
-print "\\noindent"
-print "The following people have contributed to this work:"
-print_list_contrib(path)
 print "\\end{titlepage}"
 print_license_blurp(path)
 
