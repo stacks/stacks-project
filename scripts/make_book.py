@@ -9,7 +9,7 @@ def print_preamble(path):
 		if line.find("externaldocument") >= 0:
 			continue
 		if line.find("xr-hyper") >= 0:
-			continue
+			line = line.replace("xr-hyper", "CJKutf8")
 		if line.find("\\IfFileExists{") == 0:
 			line = line.replace("stacks-project", "stacks-project-book")
 		if line.find("\\documentclass") == 0:
@@ -54,14 +54,17 @@ def print_list_contrib(path):
 			continue
 		if len(line.rstrip()) == 0:
 			continue
+		contributor = line.rstrip()
+		contributor = contributor.replace("(", "(\\begin{CJK}{UTF8}{min}")
+		contributor = contributor.replace(")", "\\end{CJK})")
 		if first:
-			names = line.rstrip()
+			contributors = contributor
 			first = 0
 			continue
-		names = names + ", " + line.rstrip()
+		contributors = contributors + ", " + contributor
 	CONTRIBUTORS.close()
-	names = names + "."
-	print names
+	contributors = contributors + "."
+	print contributors
 
 # Print license blurp
 def print_license_blurp(path):
@@ -106,8 +109,8 @@ parts = get_parts(path)
 
 ext = ".tex"
 for name in lijstje:
-        if name in parts:
-                print "\\part{" + parts[name][0] + "}"
+	if name in parts:
+		print "\\part{" + parts[name][0] + "}"
 	if name == "index":
 		filename = path + "tmp/index.tex"
 	else:
