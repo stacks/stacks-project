@@ -16,7 +16,7 @@ LIJST = introduction conventions sets categories \
 	more-groupoids etale \
 	chow intersection pic \
 	adequate dualizing duality discriminant local-cohomology \
-	curves resolve models pione etale-cohomology \
+	algebraization curves resolve models pione etale-cohomology \
 	crystalline proetale \
 	spaces spaces-properties spaces-morphisms decent-spaces \
 	spaces-cohomology spaces-limits spaces-divisors spaces-over-fields \
