@@ -5047,38 +5047,66 @@ See Cohomology of Schemes, Lemmas
 
 
 
-\section{Algebraization of coherent formal modules, III}
-\label{section-uniqueness}
+\section{A distance function}
+\label{section-distance}
 
 \noindent
-We continue the discussion started in Sections
-\ref{section-algebraization-modules} and
-\ref{section-algebraization-modules-general}.
-In Situation \ref{situation-algebraize} we define a function
+Let $Y$ be a Noetherian scheme and let $Z \subset Y$ be a closed subset.
+We define a function
 \begin{equation}
 \label{equation-delta-Z}
-\delta_Z : Y \longrightarrow \mathbf{Z}_{\geq 0}
+\delta^Y_Z = \delta_Z : Y \longrightarrow \mathbf{Z}_{\geq 0} \cup \{\infty\}
 \end{equation}
-by the following inductive procedure
+which measures the ``distance'' of a point of $Y$ from $Z$.
+For an informal discussion, please see Remark \ref{remark-discussion}.
+Let $y \in Y$. We set $\delta_Z(y) = \infty$ if $y$ is contained
+in a connected component of $Y$ which does not meet $Z$.
+If $y$ is contained in a connected component of $Y$ which meets $Z$,
+then we can find $k \geq 0$ and a system
+$$
+V_0 \subset W_0 \supset V_1 \subset W_1 \supset \ldots \supset
+V_k \subset W_k
+$$
+of integral closed subschemes of $Y$ such that $V_0 \subset Z$
+and $y \in V_k$ is the generic point. Set
+$c_i = \text{codim}(V_i, W_i)$ for $i = 0, \ldots, k$
+and $b_i = \text{codim}(V_{i + 1}, W_i)$ for $i = 0, \ldots, k - 1$.
+For such a system we set
+$$
+\delta(V_0, W_0, V_1, \ldots, W_k) =
+k +
+\max_{i = 0, 1, \ldots, k}
+(c_i + c_{i + 1} + \ldots + c_k - b_i - b_{i + 1} - \ldots - b_{k - 1})
+$$
+This is $\geq k$ as we can take $i = k$ and we have $c_k \geq 0$.
+Finally, we set
+$$
+\delta_Z(y) = \min \delta(V_0, W_0, V_1, \ldots, W_k)
+$$
+where the minimum is over all systems of integral closed subschemes of $Y$
+as above.
+
+\begin{lemma}
+\label{lemma-discussion}
+Let $Y$ be a Noetherian scheme and let $Z \subset Y$ be a closed subset.
 \begin{enumerate}
-\item If $y \in Z$, then we set $\delta_Z(y) = 0$.
-\item If $y \not \in Z$ and there exists a specialization
-$y' \leadsto y$ and an immediate specialization $y' \leadsto y''$
-with $y'' \in Z$, then we set $\delta_Z(y) = 1$.
-\item If $y \not \in Z$ and $\delta_Z(y) \not = 1$ and there exists a
-specialization $y' \leadsto y$ and an immediate specialization
-$y' \leadsto y''$
-with $\delta_Z(y'') = 1$, then we set $\delta_Z(y) = 2$.
-\item And so on.
-\end{enumerate}
-You can also say this as follows: for $y \in Y$
-the value $\delta_Z(y)$ is the smallest $k \geq 0$
-such that there exist a pattern of specializations
+\item For $y \in Y$ we have $\delta_Z(y) = 0 \Leftrightarrow y \in Z$.
+\item The subsets $\{y \in Y \mid \delta_Z(y) \leq k\}$ are
+stable under specialization.
+\item For $y \in Y$ and $z \in \overline{\{y\}} \cap Z$ we have
+$\dim(\mathcal{O}_{\overline{\{y\}}, z}) \geq \delta_Z(y)$.
+\item If $\delta$ is a dimension function on $Y$, then
+$\delta(y) \leq \delta_Z(y) + \delta_{max}$ where $\delta_{max}$
+is the maximum value of $\delta$ on $Z$.
+\item If $Y = \Spec(A)$ is the spectrum of a catenary Noetherian local ring
+with maximal ideal $\mathfrak m$ and $Z = \{\mathfrak m\}$, then
+$\delta_Z(y) = \dim(\overline{\{y\}})$.
+\item Given a pattern of specializations
 $$
 \xymatrix{
-& y'_1 \ar@{~>}[ld] \ar@{~>}[rd] &
-& y'_2 \ar@{~>}[ld] & \ldots
-& y'_k \ar@{~>}[rd] &
+& y'_0 \ar@{~>}[ld] \ar@{~>}[rd] &
+& y'_1 \ar@{~>}[ld] & \ldots
+& y'_{k - 1} \ar@{~>}[rd] &
 \\
 y_0 & &
 y_1 & &
@@ -5086,18 +5114,234 @@ y_1 & &
 y_k = y
 }
 $$
-between points of $Y$ with $y_0 \in Z$ and $y_i' \leadsto y_{i - 1}$
-an immediate specialization. Observe that the sets
-$\{y \in Y \mid \delta_Z(y) \leq k\}$ are stable under specialization.
-Moreover, for $y \in Y$ and $z \in \overline{\{y\}} \cap Z$ we have
+between points of $Y$ with $y_0 \in Z$ and $y_i' \leadsto y_i$
+an immediate specialization, then $\delta_Z(y_k) \leq k$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Part (1) is essentially true by definition. Namely, if $y \in Z$,
+then we can take $k = 0$ and $V_0 = W_0 = \overline{\{y\}}$.
+
+\medskip\noindent
+Proof of (2). Let $y \leadsto y'$ be a nontrivial specialization and let
+$V_0 \subset W_0 \supset V_1 \subset W_1 \supset \ldots \subset W_k$
+is a system for $y$. Here there are two cases.
+Case I: $V_k = W_k$, i.e., $c_k = 0$. In this case
+we can set $V'_k = W'_k = \overline{\{y'\}}$.
+An easy computation shows that
+$\delta(V_0, W_0, \ldots, V'_k, W'_k) \leq
+\delta(V_0, W_0, \ldots, V_k, W_k)$
+because only $b_{k - 1}$ is changed into a bigger integer.
+Case II: $V_k \not = W_k$, i.e., $c_k > 0$. Observe that
+in this case $\max_{i = 0, 1, \ldots, k}
+(c_i + c_{i + 1} + \ldots + c_k - b_i - b_{i + 1} - \ldots - b_{k - 1}) > 0$.
+Hence if we set $V'_{k + 1} = W_{k + 1} = \overline{\{y'\}}$,
+then although $k$ is replaced by $k + 1$, the maximum now looks like
 $$
-\dim(\mathcal{O}_{\overline{\{y\}}, z}) \geq \delta_Z(y)
+\max_{i = 0, 1, \ldots, k + 1}
+(c_i + c_{i + 1} + \ldots + c_k + c_{k + 1}
+- b_i - b_{i + 1} - \ldots - b_{k - 1} - b_k)
 $$
-Also, if $\delta$ is a dimension function on $Y$, then
-$\delta(y) \leq \delta_Z(y) + \delta_{max}$ where $\delta_{max}$
-is the maximum value of $\delta$ on $Z$. In particular, if $A$
-is a local ring with maximal $\mathfrak m = \mathfrak a$, i.e.,
-$Z = \{\mathfrak m\}$, then $\delta_Z(y) = \dim(\overline{\{y\}})$. 
+with $c_{k + 1} = 0$ and $b_k = \text{codim}(V_{k + 1}, W_k) > 0$.
+This is strictly smaller than
+$\max_{i = 0, 1, \ldots, k}
+(c_i + c_{i + 1} + \ldots + c_k - b_i - b_{i + 1} - \ldots - b_{k - 1})$
+and hence
+$\delta(V_0, W_0, \ldots, V'_{k + 1}, W'_{k + 1}) \leq
+\delta(V_0, W_0, \ldots, V_k, W_k)$ as desired.
+
+\medskip\noindent
+Proof of (3). Given $y \in Y$ and $z \in \overline{\{y\}} \cap Z$
+we get the system
+$$
+V_0 = \overline{\{z\}} \subset W_0 = \overline{\{y\}}
+$$
+and $c_0 = \text{codim}(V_0, W_0) = \dim(\mathcal{O}_{\overline{\{y\}}, z})$
+by Properties, Lemma \ref{properties-lemma-codimension-local-ring}.
+Thus we see that $\delta(V_0, W_0) = 0 + c_0 = c_0$ which proves
+what we want.
+
+\medskip\noindent
+Proof of (4). Let $\delta$ be a dimension function on $Y$.
+Let $V_0 \subset W_0 \supset V_1 \subset W_1 \supset \ldots \subset W_k$
+be a system for $y$. Let $y'_i \in W_i$ and $y_i \in V_i$ be the
+generic points, so $y_0 \in Z$ and $y_k = y$. Then we see that
+$$
+\delta(y_i) - \delta(y_{i - 1}) =
+\delta(y'_{i - 1}) - \delta(y_{i - 1}) - \delta(y'_{i - 1}) + \delta(y_i) =
+c_{i - 1} - b_{i - 1}
+$$
+Finally, we have $\delta(y'_k) - \delta(y_{k - 1}) = c_k$.
+Thus we see that
+$$
+\delta(y) - \delta(y_0) =
+c_0 + \ldots + c_k - b_0 - \ldots - b_{k - 1}
+$$
+We conclude
+$\delta(V_0, W_0, \ldots, W_k) \geq k + \delta(y) - \delta(y_0)$
+which proves what we want.
+
+\medskip\noindent
+Proof of (5). The function $\delta(y) = \dim(\overline{\{y\}})$
+is a dimension function. Hence $\delta(y) \leq \delta_Z(y)$ by
+part (4). By part (3) we have $\delta_Z(y) \leq \delta(y)$
+and we are done.
+
+\medskip\noindent
+Proof of (6). Given such a sequence of points, we may assume
+all the specializations $y'_i \leadsto y_{i + 1}$ are nontrivial
+(otherwise we can shorten the chain of specializations).
+Then we set $V_i = \overline{\{y_i\}}$ and $W_i = \overline{\{y'_i\}}$
+and we compute $\delta(V_0, W_1, V_1, \ldots, W_{k - 1}) = k$ because all
+the codimensions $c_i$ of $V_i \subset W_i$ are $1$ and all $b_i > 0$.
+This implies $\delta_Z(y'_{k - 1}) \leq k$ as $y'_{k - 1}$ is the generic
+point of $W_k$. Then $\delta_Z(y) \leq k$ by part (2) as $y$ is a
+specialization of $y_{k - 1}$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-change-distance-function}
+Let $Y$ be a universally catenary Noetherian scheme. Let $Z \subset Y$
+be a closed subscheme. Let $f : Y' \to Y$ be a finite type
+morphism all of whose fibres have dimension $\leq e$. Set $Z' = f^{-1}(Z)$.
+Then
+$$
+\delta_Z(y) \leq \delta_{Z'}(y') + e
+$$
+for $y' \in Y'$ with image $y \in Y$.
+\end{lemma}
+
+\begin{proof}
+If $\delta_{Z'}(y') = \infty$, then there is nothing to prove.
+If $\delta_{Z'}(y') < \infty$, then we choose a system
+of integral closed subschemes
+$$
+V'_0 \subset W'_0 \supset V'_1 \subset W'_1 \supset \ldots \subset W'_k
+$$
+of $Y'$ with $V'_0 \subset Z'$ and $y'$ the generic point of $W'_k$
+such that $\delta_{Z'}(y') = \delta(V'_0, W'_0, \ldots, W'_k)$.
+Denote
+$$
+V_0 \subset W_0 \supset V_1 \subset W_1 \supset \ldots \subset W_k
+$$
+the scheme theoretic images of the above schemes in $Y$. Observe
+that $y$ is the generic point of $V_k$ and that $V_0 \subset Z$.
+For each $i$ we look at the diagram
+$$
+\xymatrix{
+V'_i \ar[r] \ar[d] & W'_i \ar[d] & V'_{i + 1} \ar[l] \ar[d] \\
+V_i \ar[r] & W_i & V_{i + 1} \ar[l]
+}
+$$
+Denote $n_i$ the relative dimension of $V'_i/V_i$ and
+$m_i$ the relative dimension of $W'_i/W_i$; more precisely
+these are the transcendence degrees of the corresponding extensions of
+the function fields. Set
+$c_i = \text{codim}(V_i, W_i)$,
+$c'_i = \text{codim}(V'_i, W'_i)$,
+$b_i = \text{codim}(V_{i + 1}, W_i)$, and
+$b'_i = \text{codim}(V'_{i + 1}, W'_i)$.
+By the dimension formula we have
+$$
+c_i = c'_i + n_i - m_i
+\quad\text{and}\quad
+b_i = b'_i + n_{i + 1} - m_i
+$$
+See Morphisms, Lemma \ref{morphisms-lemma-dimension-formula}.
+Hence $c_i - b_i = c'_i - b'_i + n_i - n_{i + 1}$. Thus we see that
+\begin{align*}
+& c_i + c_{i + 1} + \ldots + c_k - b_i - b_{i + 1} - \ldots - b_{k - 1} \\
+& =
+c'_i + c'_{i + 1} + \ldots + c'_k - b'_i - b'_{i + 1} - \ldots - b'_{k - 1}
++ n_i - n_k + c_k - c'_k \\
+& =
+c'_i + c'_{i + 1} + \ldots + c'_k - b'_i - b'_{i + 1} - \ldots - b'_{k - 1}
++ n_i - m_k
+\end{align*}
+Thus we see that
+\begin{align*}
+\max_{i = 0, \ldots, k}
+& (c_i + c_{i + 1} + \ldots + c_k - b_i - b_{i + 1} - \ldots - b_{k - 1}) \\
+& =
+\max_{i = 0, \ldots, k}
+(c'_i + c'_{i + 1} + \ldots + c'_k - b'_i - b'_{i + 1} - \ldots - b'_{k - 1}
++ n_i - m_k) \\
+& =
+\max_{i = 0, \ldots, k}
+(c'_i + c'_{i + 1} + \ldots + c'_k - b'_i - b'_{i + 1} - \ldots - b'_{k - 1}
++ n_i) - m_k \\
+& \leq
+\max_{i = 0, \ldots, k}
+(c'_i + c'_{i + 1} + \ldots + c'_k - b'_i - b'_{i + 1} - \ldots - b'_{k - 1})
++ e - m_k
+\end{align*}
+Since $m_k \geq 0$ we conclude that
+$\delta(V_0, W_0, \ldots, W_k) \leq e + \delta(V'_0, W'_0, \ldots, W'_k)$.
+\end{proof}
+
+\begin{remark}
+\label{remark-discussion}
+Let $Y$ be a Noetherian scheme and let $Z \subset Y$ be a closed subset.
+By Lemma \ref{lemma-discussion} we have
+$$
+\delta_Z(y) \leq \min
+\left\{ k \middle|
+\begin{matrix}
+\text{ there exist specializations in }Y \\
+y_0 \leftarrow y'_0 \rightarrow y_1 \leftarrow y'_1 \rightarrow \ldots
+\leftarrow y'_{k - 1} \rightarrow y_k = y \\
+\text{ with }y_0 \in Z\text{ and }y_i' \leadsto y_i
+\text{ immediate}
+\end{matrix}
+\right\}
+$$
+We claim that if $Y$ is of finite type over a field,
+then equality holds. If we ever need this result we
+will formulate a precise result and prove it here.
+However, in general if we define $\delta_Z$
+by the right hand side of this inequality, then we don't
+know if Lemma \ref{lemma-change-distance-function} remains true.
+\end{remark}
+
+\begin{example}
+\label{example-distance}
+Let $k$ be a field and $Y = \mathbf{A}^n_k$. Denote
+$\delta : Y \to \mathbf{Z}_{\geq 0}$ the usual dimension function.
+\begin{enumerate}
+\item If $Z = \{z\}$ for some closed point $z$, then
+\begin{enumerate}
+\item $\delta_Z(y) = \delta(y)$ if $y \leadsto z$ and
+\item $\delta_Z(y) = \delta(y) + 1$ if $y \not \leadsto z$.
+\end{enumerate}
+\item If $Z$ is a closed subvariety and $W = \overline{\{y\}}$, then
+\begin{enumerate}
+\item $\delta_Z(y) = 0$ if $W \subset Z$,
+\item $\delta_Z(y) = \dim(W) - \dim(Z)$ if $Z$ is contained in $W$,
+\item $\delta_Z(y) = 1$ if $\dim(W) \leq \dim(Z)$ and $W \not \subset Z$,
+\item $\delta_Z(y) = \dim(W) - \dim(Z) + 1$ if $\dim(W) > \dim(Z)$
+and $Z \not \subset W$.
+\end{enumerate}
+\end{enumerate}
+A generalization of case (1) is if $Y$ is of finite type over a field
+and $Z = \{z\}$ is a closed point. Then $\delta_Z(y) = \delta(y) + t$
+where $t$ is the minimum length of a chain of curves connecting
+$z$ to a closed point of $\overline{\{y\}}$.
+\end{example}
+
+
+
+
+
+
+
+\section{Algebraization of coherent formal modules, III}
+\label{section-uniqueness}
+
+\noindent
+We continue the discussion started in Sections
+\ref{section-algebraization-modules} and
+\ref{section-algebraization-modules-general}.
 
 \medskip\noindent
 Given a point $y \in U \cap Y$ we can consider the $I$-adic completion
@@ -5119,7 +5363,9 @@ Algebra, Lemmas \ref{algebra-lemma-limit-complete} and
 \begin{definition}
 \label{definition-s-d-inequalities}
 In Situation \ref{situation-algebraize} let $(\mathcal{F}_n)$ be an object
-of $\textit{Coh}(U, I\mathcal{O}_U)$. Let $s, d$ be integers. We say
+of $\textit{Coh}(U, I\mathcal{O}_U)$. Let $s, d$ be integers.
+Let $\delta^Y_Z$ be as in (\ref{equation-delta-Z}).
+We say
 {\it $(\mathcal{F}_n)$ satisfies the $(s, d)$-inequalities} if
 we have
 \begin{enumerate}
@@ -5131,15 +5377,15 @@ $\mathfrak p \not \in V(I\mathcal{O}_{X, y}^\wedge)$
 \item if $V(\mathfrak p) \cap V(I\mathcal{O}_{X, y}^\wedge) \not =
 \{\mathfrak m_y^\wedge\}$, then
 $$
-\text{depth}((\mathcal{F}^\wedge_y)_\mathfrak p) + \delta_Z(y) \geq s
+\text{depth}((\mathcal{F}^\wedge_y)_\mathfrak p) + \delta^Y_Z(y) \geq s
 \quad\text{or}\quad
 \text{depth}((\mathcal{F}^\wedge_y)_\mathfrak p) +
-\dim(\mathcal{O}_{X, y}^\wedge/\mathfrak p) + \delta_Z(y) > s + d
+\dim(\mathcal{O}_{X, y}^\wedge/\mathfrak p) + \delta^Y_Z(y) > s + d
 $$
 \item if $V(\mathfrak p) \cap V(I\mathcal{O}_{X, y}^\wedge) =
 \{\mathfrak m_y^\wedge\}$, then
 $$
-\text{depth}((\mathcal{F}^\wedge_y)_\mathfrak p) + \delta_Z(y) > s
+\text{depth}((\mathcal{F}^\wedge_y)_\mathfrak p) + \delta^Y_Z(y) > s
 $$
 \end{enumerate}
 \end{enumerate}
@@ -5152,10 +5398,10 @@ $\mathfrak p \subset \mathcal{O}_{X, y}^\wedge$ with
 $\mathfrak p \not \in V(I\mathcal{O}_{X, y}^\wedge)$
 we have
 $$
-\text{depth}((\mathcal{F}^\wedge_y)_\mathfrak p) + \delta_Z(y) > s
+\text{depth}((\mathcal{F}^\wedge_y)_\mathfrak p) + \delta^Y_Z(y) > s
 \quad\text{or}\quad
 \text{depth}((\mathcal{F}^\wedge_y)_\mathfrak p) +
-\dim(\mathcal{O}_{X, y}^\wedge/\mathfrak p) + \delta_Z(y) > s + d
+\dim(\mathcal{O}_{X, y}^\wedge/\mathfrak p) + \delta^Y_Z(y) > s + d
 $$
 \end{enumerate}
 \end{definition}
@@ -5170,7 +5416,7 @@ for any $s$.
 $(\mathcal{F}_n)$ satisfies the $(s, d)$-inequalities
 if and only if for all $y \in U \cap Y$ the tuple
 $\mathcal{O}_{X, y}^\wedge, I\mathcal{O}_{X, y}^\wedge,
-\{\mathfrak m_y^\wedge\}, s - \delta_Z(y), d$
+\{\mathfrak m_y^\wedge\}, s - \delta^Y_Z(y), d$
 is as in Situation \ref{situation-bootstrap}.
 \item If $(\mathcal{F}_n)$ satisfies the strict $(s, d)$-inequalities, then
 $(\mathcal{F}_n)$ satisfies the $(s, d)$-inequalities, see
@@ -5213,7 +5459,7 @@ $z \in W_i \cap W_j$ such that $\dim(\mathcal{O}_{W, z}) \leq d + 1$.
 Choose an immediate specialization $y \leadsto z$ with
 $y \in W_j$, $y \not \in Z$; existence of $y$ follows from
 Properties, Lemma \ref{properties-lemma-complement-closed-point-Jacobson}.
-Observe that $\delta_Z(y) = 1$ and $\dim(\mathcal{O}_{W, y}) \leq d$.
+Observe that $\delta^Y_Z(y) = 1$ and $\dim(\mathcal{O}_{W, y}) \leq d$.
 Let $\mathfrak p \subset \mathcal{O}_{X, y}$ be the prime corresponding to $x$.
 Let $\mathfrak p' \subset \mathcal{O}_{X, y}^\wedge$ be a minimal prime
 over $\mathfrak p\mathcal{O}_{X, y}^\wedge$. Then we have
@@ -5252,7 +5498,7 @@ Thus if $z \in W \cap Z$, then there is an immediate
 specialization $y \leadsto z$, $y \in W \cap Y$, $y \not \in Z$.
 For existence of $y$ use
 Properties, Lemma \ref{properties-lemma-complement-closed-point-Jacobson}.
-Then $\delta_Z(y) = 1$ and the assumption
+Then $\delta^Y_Z(y) = 1$ and the assumption
 implies that $\dim(\mathcal{O}_{W, y}) > d$.
 Hence $\dim(\mathcal{O}_{W, z}) > 1 + d$ and we win.
 \end{proof}
@@ -5340,7 +5586,7 @@ be an immediate specialization with $y \not \in Z$; existence of $y$
 follows from $W'_1 \not \subset Z$ (see above) and
 Properties, Lemma \ref{properties-lemma-complement-closed-point-Jacobson}.
 Then we have the following $z \in Z$, $x \leadsto z$,
-$x' \leadsto y \leadsto z$, $y \in Y \setminus Z$, and $\delta_Z(y) = 1$.
+$x' \leadsto y \leadsto z$, $y \in Y \setminus Z$, and $\delta^Y_Z(y) = 1$.
 By Local Cohomology, Lemma \ref{local-cohomology-lemma-cd-bound-dim-local}
 and the fact that $z$
 is a generic point of $W \cap Y$ we have
@@ -5538,7 +5784,7 @@ length for $n'' \gg n' \gg 0$.
 
 \begin{proof}
 Let $\omega_A^\bullet$ be a normalized dualizing complex. Then
-$\delta_Z = \delta$ is the dimension function associated with
+$\delta^Y_Z = \delta$ is the dimension function associated with
 this dualizing complex.
 Observe that $\Ext^{-i}_A(M_n, \omega_A^\bullet)$ is a finite $A$-module
 annihilated by $I^n$. Fix $0 \leq i \leq s$.
@@ -6118,8 +6364,8 @@ Then there exists a canonical map $(\mathcal{F}_n) \to (\mathcal{F}_n'')$
 of inverse systems of coherent $\mathcal{O}_U$-modules
 with the following properties
 \begin{enumerate}
-\item if $\delta_Z(y) = 2$ we have $\text{depth}(\mathcal{F}''_{n, y}) \geq 1$,
-\item for $\delta_Z(y) = 1$ we have $\text{depth}(\mathcal{F}''_{n, y}) \geq 2$,
+\item if $\delta^Y_Z(y) = 2$ we have $\text{depth}(\mathcal{F}''_{n, y}) \geq 1$,
+\item for $\delta^Y_Z(y) = 1$ we have $\text{depth}(\mathcal{F}''_{n, y}) \geq 2$,
 \item $(\mathcal{F}''_n)$ is isomorphic as a pro-system to an object
 $(\mathcal{H}_n)$ of $\textit{Coh}(U, I\mathcal{O}_U)$,
 \item the induced morphism $(\mathcal{F}_n) \to (\mathcal{H}_n)$ of
@@ -6133,13 +6379,13 @@ are finite $A$-modules for all $n$.
 \begin{proof}
 The existence and properties (1), (2), (3), (4) follow immediately from
 Lemma \ref{lemma-improvement-formal-coherent-module-better} applied
-to $U$, $U \cap Y$, $T = \{y \in U \cap Y : \delta_Z(y) \leq 2\}$,
-$T' = \{y \in U \cap Y : \delta_Z(y) \leq 1\}$, and $(\mathcal{F}_n)$.
+to $U$, $U \cap Y$, $T = \{y \in U \cap Y : \delta^Y_Z(y) \leq 2\}$,
+$T' = \{y \in U \cap Y : \delta^Y_Z(y) \leq 1\}$, and $(\mathcal{F}_n)$.
 The finiteness of the modules $H^0(U, \mathcal{F}''_n)$ and
 $H^1(U, \mathcal{F}''_n)$ follows from
 Local Cohomology, Lemma \ref{local-cohomology-lemma-finiteness-Rjstar}
-and the elementary properties of the function $\delta_Z(-)$
-mentioned above.
+and the elementary properties of the function $\delta^Y_Z(-)$
+proved in Lemma \ref{lemma-discussion}.
 \end{proof}
 
 
