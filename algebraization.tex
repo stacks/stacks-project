@@ -4986,19 +4986,39 @@ Similarly in the other case.
 \begin{lemma}
 \label{lemma-map-kernel-cokernel-on-closed}
 In Situation \ref{situation-algebraize}. Let
-$(\mathcal{F}_n) \to (\mathcal{G}_n)$ be a morphism of
+$(\mathcal{F}_n) \to (\mathcal{F}'_n)$ be a morphism of
 $\textit{Coh}(U, I\mathcal{O}_U)$
-whose kernel and cokernel are annihilated by a power of $I$.
-Then $(\mathcal{F}_n)$ is in the essential image of
-the completion functor
-$\textit{Coh}(\mathcal{O}_U) \to
-\textit{Coh}(U, I\mathcal{O}_U)$
-if and only if $(\mathcal{G}_n)$ is.
+whose kernel and cokernel are annihilated by a power of $I$. Then
+\begin{enumerate}
+\item $(\mathcal{F}_n)$ extends to $X$ if and only if
+$(\mathcal{F}'_n)$ extends to $X$, and
+\item $(\mathcal{F}_n)$ is the completion of a coherent $\mathcal{O}_U$-module
+if and only if $(\mathcal{F}'_n)$ is.
+\end{enumerate}
 \end{lemma}
 
 \begin{proof}
-This follows immediately from
+Part (2) follows immediately from
 Cohomology of Schemes, Lemma \ref{coherent-lemma-existence-easy}.
+To see part (1), denote $A', I', \mathfrak a'$ the $I$-adic completions
+of $A, I, \mathfrak a$, set $X' = \Spec(A')$, $Y' = V(I')$, and
+$U' = X' \setminus V(\mathfrak a')$. Note that $X' \to X$ is a
+flat morphism inducing an isomorphism $Y' \to Y$. Thus $U' \to U$
+is a flat morphism which induces an isomorphism $U' \cap Y' \to U \cap Y$.
+This implies that in the commutative diagram
+$$
+\xymatrix{
+\textit{Coh}(X', I\mathcal{O}_{X'}) \ar[r] &
+\textit{Coh}(U', I\mathcal{O}_{U'}) \\
+\textit{Coh}(X, I\mathcal{O}_X) \ar[u] \ar[r] &
+\textit{Coh}(U, I\mathcal{O}_U) \ar[u]
+}
+$$
+the vertical functors are equivalences. Some details omitted, but
+see More on Algebra, Lemma \ref{more-algebra-lemma-neighbourhood-equivalence}
+for the affine case. Hence it suffices to prove (1) in the
+$I$-adically complete case. However, in that case (1) reduces to (2) by
+Lemma \ref{lemma-essential-image-completion}.
 \end{proof}
 
 \begin{lemma}
@@ -5116,6 +5136,8 @@ y_k = y
 $$
 between points of $Y$ with $y_0 \in Z$ and $y_i' \leadsto y_i$
 an immediate specialization, then $\delta_Z(y_k) \leq k$.
+\item If $Y' \subset Y$ is an open subscheme, then
+$\delta^{Y'}_{Y' \cap Z}(y') \geq \delta^Y_Z(y')$ for $y' \in Y'$.
 \end{enumerate}
 \end{lemma}
 
@@ -5198,6 +5220,10 @@ the codimensions $c_i$ of $V_i \subset W_i$ are $1$ and all $b_i > 0$.
 This implies $\delta_Z(y'_{k - 1}) \leq k$ as $y'_{k - 1}$ is the generic
 point of $W_k$. Then $\delta_Z(y) \leq k$ by part (2) as $y$ is a
 specialization of $y_{k - 1}$.
+
+\medskip\noindent
+Proof of (7). This is clear as their are fewer systems to consider
+in the computation of $\delta^{Y'}_{Y' \cap Z}$.
 \end{proof}
 
 \begin{lemma}
@@ -5207,7 +5233,7 @@ be a closed subscheme. Let $f : Y' \to Y$ be a finite type
 morphism all of whose fibres have dimension $\leq e$. Set $Z' = f^{-1}(Z)$.
 Then
 $$
-\delta_Z(y) \leq \delta_{Z'}(y') + e
+\delta_Z(y) \leq \delta_{Z'}(y') + e - \text{trdeg}_{\kappa(y)}(\kappa(y'))
 $$
 for $y' \in Y'$ with image $y \in Y$.
 \end{lemma}
@@ -5226,7 +5252,7 @@ $$
 V_0 \subset W_0 \supset V_1 \subset W_1 \supset \ldots \subset W_k
 $$
 the scheme theoretic images of the above schemes in $Y$. Observe
-that $y$ is the generic point of $V_k$ and that $V_0 \subset Z$.
+that $y$ is the generic point of $W_k$ and that $V_0 \subset Z$.
 For each $i$ we look at the diagram
 $$
 \xymatrix{
@@ -5276,8 +5302,12 @@ Thus we see that
 (c'_i + c'_{i + 1} + \ldots + c'_k - b'_i - b'_{i + 1} - \ldots - b'_{k - 1})
 + e - m_k
 \end{align*}
-Since $m_k \geq 0$ we conclude that
-$\delta(V_0, W_0, \ldots, W_k) \leq e + \delta(V'_0, W'_0, \ldots, W'_k)$.
+Since $m_k = \text{trdeg}_{\kappa(y)}(\kappa(y'))$ we conclude that
+$$
+\delta(V_0, W_0, \ldots, W_k) \leq
+\delta(V'_0, W'_0, \ldots, W'_k) + e - \text{trdeg}_{\kappa(y)}(\kappa(y'))
+$$
+as desired.
 \end{proof}
 
 \begin{remark}
@@ -5363,81 +5393,88 @@ Algebra, Lemmas \ref{algebra-lemma-limit-complete} and
 \begin{definition}
 \label{definition-s-d-inequalities}
 In Situation \ref{situation-algebraize} let $(\mathcal{F}_n)$ be an object
-of $\textit{Coh}(U, I\mathcal{O}_U)$. Let $s, d$ be integers.
+of $\textit{Coh}(U, I\mathcal{O}_U)$. Let $a, b$ be integers.
 Let $\delta^Y_Z$ be as in (\ref{equation-delta-Z}).
 We say
-{\it $(\mathcal{F}_n)$ satisfies the $(s, d)$-inequalities} if
-we have
-\begin{enumerate}
-\item $\text{cd}(A, I) \leq d$, 
-\item for $y \in U \cap Y$ and a prime
-$\mathfrak p \subset \mathcal{O}_{X, y}^\wedge$ with
-$\mathfrak p \not \in V(I\mathcal{O}_{X, y}^\wedge)$
+{\it $(\mathcal{F}_n)$ satisfies the $(a, b)$-inequalities} if for
+$y \in U \cap Y$ and a prime $\mathfrak p \subset \mathcal{O}_{X, y}^\wedge$
+with $\mathfrak p \not \in V(I\mathcal{O}_{X, y}^\wedge)$
 \begin{enumerate}
 \item if $V(\mathfrak p) \cap V(I\mathcal{O}_{X, y}^\wedge) \not =
 \{\mathfrak m_y^\wedge\}$, then
 $$
-\text{depth}((\mathcal{F}^\wedge_y)_\mathfrak p) + \delta^Y_Z(y) \geq s
+\text{depth}((\mathcal{F}^\wedge_y)_\mathfrak p) + \delta^Y_Z(y) \geq a
 \quad\text{or}\quad
 \text{depth}((\mathcal{F}^\wedge_y)_\mathfrak p) +
-\dim(\mathcal{O}_{X, y}^\wedge/\mathfrak p) + \delta^Y_Z(y) > s + d
+\dim(\mathcal{O}_{X, y}^\wedge/\mathfrak p) + \delta^Y_Z(y) > b
 $$
 \item if $V(\mathfrak p) \cap V(I\mathcal{O}_{X, y}^\wedge) =
 \{\mathfrak m_y^\wedge\}$, then
 $$
-\text{depth}((\mathcal{F}^\wedge_y)_\mathfrak p) + \delta^Y_Z(y) > s
+\text{depth}((\mathcal{F}^\wedge_y)_\mathfrak p) + \delta^Y_Z(y) > a
 $$
 \end{enumerate}
-\end{enumerate}
-We say {\it $(\mathcal{F}_n)$ satisfies the strict $(s, d)$-inequalities}
-if we have
-\begin{enumerate}
-\item $\text{cd}(A, I) \leq d$, 
-\item for $y \in U \cap Y$ and a prime
+We say {\it $(\mathcal{F}_n)$ satisfies the strict $(a, b)$-inequalities}
+if for $y \in U \cap Y$ and a prime
 $\mathfrak p \subset \mathcal{O}_{X, y}^\wedge$ with
 $\mathfrak p \not \in V(I\mathcal{O}_{X, y}^\wedge)$
 we have
 $$
-\text{depth}((\mathcal{F}^\wedge_y)_\mathfrak p) + \delta^Y_Z(y) > s
+\text{depth}((\mathcal{F}^\wedge_y)_\mathfrak p) + \delta^Y_Z(y) > a
 \quad\text{or}\quad
 \text{depth}((\mathcal{F}^\wedge_y)_\mathfrak p) +
-\dim(\mathcal{O}_{X, y}^\wedge/\mathfrak p) + \delta^Y_Z(y) > s + d
+\dim(\mathcal{O}_{X, y}^\wedge/\mathfrak p) + \delta^Y_Z(y) > b
 $$
-\end{enumerate}
 \end{definition}
 
 \noindent
-Here are some observations:
+Here are some elementary observations.
+
+\begin{lemma}
+\label{lemma-elementary}
+In Situation \ref{situation-algebraize} let $(\mathcal{F}_n)$ be an object
+of $\textit{Coh}(U, I\mathcal{O}_U)$. Let $a, b$ be integers.
 \begin{enumerate}
-\item If $\text{cd}(A, I) \leq d$ and if $(\mathcal{F}_n)$ is annihilated
-by a power of $I$, then $(\mathcal{F}_n)$ satisfies the $(s, d)$-inequalities
-for any $s$.
-\item If $\text{cd}(A, I) \leq d$ and $A$ has a dualizing complex, then
-$(\mathcal{F}_n)$ satisfies the $(s, d)$-inequalities
+\item If $(\mathcal{F}_n)$ is annihilated by a power of $I$, then
+$(\mathcal{F}_n)$ satisfies the $(a, b)$-inequalities for any $a, b$.
+\item If $(\mathcal{F}_n)$ satisfies the $(a + 1, b)$-inequalities, then
+$(\mathcal{F}_n)$ satisfies the strict $(a, b)$-inequalities.
+\end{enumerate}
+If $\text{cd}(A, I) \leq d$ and $A$ has a dualizing complex, then
+\begin{enumerate}
+\item[(3)] $(\mathcal{F}_n)$ satisfies the $(s, s + d)$-inequalities
 if and only if for all $y \in U \cap Y$ the tuple
 $\mathcal{O}_{X, y}^\wedge, I\mathcal{O}_{X, y}^\wedge,
 \{\mathfrak m_y^\wedge\}, s - \delta^Y_Z(y), d$
 is as in Situation \ref{situation-bootstrap}.
-\item If $(\mathcal{F}_n)$ satisfies the strict $(s, d)$-inequalities, then
-$(\mathcal{F}_n)$ satisfies the $(s, d)$-inequalities, see
-Lemma \ref{lemma-bootstrap-bis-bis}.
-\item If $(\mathcal{F}_n)$ satisfies the $(s + 1, d)$-inequalities, then
-$(\mathcal{F}_n)$ satisfies the strict $(s, d)$-inequalities.
+\item[(4)]
+If $(\mathcal{F}_n)$ satisfies the strict $(s, s + d)$-inequalities, then
+$(\mathcal{F}_n)$ satisfies the $(s, s + d)$-inequalities.
 \end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Immediate except for part (4) which is a consequence of
+Lemma \ref{lemma-bootstrap-bis-bis}.
+\end{proof}
+
+\noindent
 In the rest of this section we will show that the category of
 {\it algebraizable} objects $(\mathcal{F}_n)$ of
 $\textit{Coh}(U, I\mathcal{O}_U)$
-which satisfy the strict $(1, d)$-inequalities is equivalent to
-a full subcategory of the category of coherent $\mathcal{O}_U$-modules.
+which satisfy the strict $(1, 1 + \text{cd}(A, I))$-inequalities
+is equivalent to a full subcategory of the category of coherent
+$\mathcal{O}_U$-modules.
 
 \begin{lemma}
 \label{lemma-sanity}
-In Situation \ref{situation-algebraize}. Let $\mathcal{F}$ be a
-coherent $\mathcal{O}_U$-module. Assume
+In Situation \ref{situation-algebraize} let $\mathcal{F}$ be a
+coherent $\mathcal{O}_U$-module and $d \geq 1$. Assume
 \begin{enumerate}
-\item $A$ is $I$-adically complete and has a dualizing complex,
+\item $A$ is $I$-adically complete, has a dualizing complex, and
+$\text{cd}(A, I) \leq d$,
 \item the completion $\mathcal{F}^\wedge$ of $\mathcal{F}$
-satisfies the strict $(1, d)$-inequalities.
+satisfies the strict $(1, 1 + d)$-inequalities.
 \end{enumerate}
 Let $x \in X$ be a point. Let $W = \overline{\{x\}}$.
 If $W \cap Y$ has an irreducible component contained in $Z$
@@ -5474,12 +5511,13 @@ Now we read off the conclusion from the inequalities given to us.
 
 \begin{lemma}
 \label{lemma-recover}
-In Situation \ref{situation-algebraize}. Let $\mathcal{F}$ be a
-coherent $\mathcal{O}_U$-module. Assume
+In Situation \ref{situation-algebraize} let $\mathcal{F}$ be a
+coherent $\mathcal{O}_U$-module and $d \geq 1$. Assume
 \begin{enumerate}
-\item $A$ is $I$-adically complete and has a dualizing complex,
+\item $A$ is $I$-adically complete, has a dualizing complex, and
+$\text{cd}(A, I) \leq d$,
 \item the completion $\mathcal{F}^\wedge$ of $\mathcal{F}$
-satisfies the strict $(1, d)$-inequalities, and
+satisfies the strict $(1, 1+ d)$-inequalities, and
 \item for $x \in U$ with $\overline{\{x\}} \cap Y \subset Z$
 we have $\text{depth}(\mathcal{F}_x) \geq 2$.
 \end{enumerate}
@@ -5505,12 +5543,13 @@ Hence $\dim(\mathcal{O}_{W, z}) > 1 + d$ and we win.
 
 \begin{lemma}
 \label{lemma-fully-faithful-inequalities}
-In Situation \ref{situation-algebraize}. Let $\mathcal{F}$ be a
-coherent $\mathcal{O}_U$-module. Assume
+In Situation \ref{situation-algebraize} let $\mathcal{F}$ be a
+coherent $\mathcal{O}_U$-module and $d \geq 1$. Assume
 \begin{enumerate}
-\item $A$ is $I$-adically complete and has a dualizing complex,
+\item $A$ is $I$-adically complete, has a dualizing complex, and
+$\text{cd}(A, I) \leq d$,
 \item the completion $\mathcal{F}^\wedge$ of $\mathcal{F}$
-satisfies the strict $(1, d)$-inequalities, and
+satisfies the strict $(1, 1 + d)$-inequalities, and
 \item for $x \in U$ with $\overline{\{x\}} \cap Y \subset Z$
 we have $\text{depth}(\mathcal{F}_x) \geq 2$.
 \end{enumerate}
@@ -5529,7 +5568,7 @@ Using Cohomology of Schemes, Lemma
 \ref{coherent-lemma-hom-into-depth} or
 More on Algebra, Lemma \ref{more-algebra-lemma-hom-into-depth}
 we see that the completion of $\mathcal{H}$
-satisfies the $(2, d)$-inequalities and that for
+satisfies the strict $(1, 1 + d)$-inequalities and that for
 $x \in U$ with $\overline{\{x\}} \cap Y \subset Z$
 we have $\text{depth}(\mathcal{H}_x) \geq 2$. Details omitted.
 Thus by Lemma \ref{lemma-recover} we have
@@ -5546,13 +5585,13 @@ for the final equality.
 
 \begin{lemma}
 \label{lemma-construct-unique}
-In Situation \ref{situation-algebraize}. Let $(\mathcal{F}_n)$ be an
-object of $\textit{Coh}(U, I\mathcal{O}_U)$. Let $d \geq \text{cd}(A, I)$.
-With notation as above assume
+In Situation \ref{situation-algebraize} let $(\mathcal{F}_n)$ be an
+object of $\textit{Coh}(U, I\mathcal{O}_U)$ and $d \geq 1$. Assume
 \begin{enumerate}
-\item $A$ is $I$-adically complete and has a dualizing complex,
+\item $A$ is $I$-adically complete, has a dualizing complex, and
+$\text{cd}(A, I) \leq d$,
 \item $(\mathcal{F}_n)$ is the completion of a coherent $\mathcal{O}_U$-module,
-\item $(\mathcal{F}_n)$ satisfies the strict $(1, d)$-inequalities.
+\item $(\mathcal{F}_n)$ satisfies the strict $(1, 1 + d)$-inequalities.
 \end{enumerate}
 Then there exists a unique coherent $\mathcal{O}_U$-module $\mathcal{F}$
 whose completion is $(\mathcal{F}_n)$ such that for
@@ -5762,13 +5801,13 @@ please also compare with Remark \ref{remark-interesting-case-bis}.
 In Situation \ref{situation-algebraize} let $(M_n)$ be an inverse system of
 $A$-modules as in Lemma \ref{lemma-system-of-modules} and let
 $(\mathcal{F}_n)$ be the corresponding object of
-$\textit{Coh}(U, I\mathcal{O}_U)$. Let $d = \text{cd}(A, I)$.
-Let $s \geq 0$ be an integer.
+$\textit{Coh}(U, I\mathcal{O}_U)$. Let $d \geq \text{cd}(A, I)$
+and $s \geq 0$ be integers.
 With notation as above assume
 \begin{enumerate}
 \item $A$ is local with maximal ideal $\mathfrak m = \mathfrak a$,
 \item $A$ has a dualizing complex, and
-\item $(\mathcal{F}_n)$ satisfies the $(s, d)$-inequalities
+\item $(\mathcal{F}_n)$ satisfies the $(s, s + d)$-inequalities
 (Definition \ref{definition-s-d-inequalities}).
 \end{enumerate}
 Let $E$ be an injective hull of the residue field of $A$. Then for $i \leq s$
@@ -5842,7 +5881,8 @@ $\delta(\mathfrak q) = \dim(\overline{\{y\}})$
 is also the value of the dimension function associated to $\omega_B^\bullet$
 (we omit the details; use that $\omega_B^\bullet$ is gotten from
 $\omega_A^\bullet$ by tensoring up with $B$). Assumption
-(3) guarantees that Lemma \ref{lemma-algebraize-local-cohomology-bis}
+(3) guarantees via Lemma \ref{lemma-elementary}
+that Lemma \ref{lemma-algebraize-local-cohomology-bis}
 applies to
 $B_\mathfrak q, IB_\mathfrak q, \mathfrak qB_\mathfrak q, M_\mathfrak q$
 with $s$ replaced by $s - \delta(y)$. We obtain that
@@ -5902,7 +5942,7 @@ of $\textit{Coh}(U, I\mathcal{O}_U)$. Assume
 \item $A$ is local and $\mathfrak a = \mathfrak m$ is the maximal ideal,
 \item $A$ has a dualizing complex and is complete with respect to $I$,
 \item $I = (f)$ is a principal ideal,
-\item $(\mathcal{F}_n)$ satisfies the $(2, 1)$-inequalities.
+\item $(\mathcal{F}_n)$ satisfies the $(2, 3)$-inequalities.
 \end{enumerate}
 Then there exists a coherent $\mathcal{O}_U$-module $\mathcal{F}$
 such that $(\mathcal{F}_n)$ is the completion of $\mathcal{F}$.
@@ -6356,16 +6396,16 @@ $H^1_{T'}(M')$ is killed by a power of $I$.
 \begin{lemma}
 \label{lemma-improvement-application}
 In Situation \ref{situation-algebraize} assume that $A$ has
-a dualizing complex. Let $d = \text{cd}(A, I)$. Let $(\mathcal{F}_n)$
+a dualizing complex. Let $d \geq \text{cd}(A, I)$. Let $(\mathcal{F}_n)$
 be an object of $\textit{Coh}(U, I\mathcal{O}_U)$. Assume
-$(\mathcal{F}_n)$ satisfies the $(2, d)$-inequalities, see
+$(\mathcal{F}_n)$ satisfies the $(2, 2 + d)$-inequalities, see
 Definition \ref{definition-s-d-inequalities}.
 Then there exists a canonical map $(\mathcal{F}_n) \to (\mathcal{F}_n'')$
 of inverse systems of coherent $\mathcal{O}_U$-modules
 with the following properties
 \begin{enumerate}
-\item if $\delta^Y_Z(y) = 2$ we have $\text{depth}(\mathcal{F}''_{n, y}) \geq 1$,
-\item for $\delta^Y_Z(y) = 1$ we have $\text{depth}(\mathcal{F}''_{n, y}) \geq 2$,
+\item if $\text{depth}(\mathcal{F}''_{n, y}) + \delta^Y_Z(y) \geq 3$
+for all $y \in U \cap Y$,
 \item $(\mathcal{F}''_n)$ is isomorphic as a pro-system to an object
 $(\mathcal{H}_n)$ of $\textit{Coh}(U, I\mathcal{O}_U)$,
 \item the induced morphism $(\mathcal{F}_n) \to (\mathcal{H}_n)$ of
@@ -6377,7 +6417,7 @@ are finite $A$-modules for all $n$.
 \end{lemma}
 
 \begin{proof}
-The existence and properties (1), (2), (3), (4) follow immediately from
+The existence and properties (2), (3), (4) follow immediately from
 Lemma \ref{lemma-improvement-formal-coherent-module-better} applied
 to $U$, $U \cap Y$, $T = \{y \in U \cap Y : \delta^Y_Z(y) \leq 2\}$,
 $T' = \{y \in U \cap Y : \delta^Y_Z(y) \leq 1\}$, and $(\mathcal{F}_n)$.
@@ -6403,44 +6443,37 @@ proved in Lemma \ref{lemma-discussion}.
 
 \noindent
 In this section we prove our most general results on algebraization
-of coherent formal modules. First, let us prove the result in case
-the ideal has cohomological dimension $1$.
+of coherent formal modules. We first prove it in case
+the ideal has cohomological dimension $1$. Then we apply this
+to a blowup to prove a more general result.
 
-\begin{proposition}[Algebraization in cohomological dimension 1]
-\label{proposition-cd-1}
-\begin{reference}
-The local case of this result is \cite[IV Corollaire 2.9]{MRaynaud-book}.
-\end{reference}
-In Situation \ref{situation-algebraize} assume $A$ is $I$-adically complete and
-has a dualizing complex. Let $(\mathcal{F}_n)$ be an object of
-$\textit{Coh}(U, I\mathcal{O}_U)$. Assume $(\mathcal{F}_n)$ satisfies the
-$(2, 1)$-inequalities, see Definition \ref{definition-s-d-inequalities}.
-Then there exists a coherent $\mathcal{O}_U$-module
-$\mathcal{F}$ such that $(\mathcal{F}_n)$ is the completion of $\mathcal{F}$.
-\end{proposition}
-
-\noindent
-Observe that our assumptions imply $\text{cd}(A, I) = 1$.
+\begin{lemma}
+\label{lemma-cd-1-canonical}
+In Situation \ref{situation-algebraize} let $(\mathcal{F}_n)$
+be an object of $\textit{Coh}(U, I\mathcal{O}_U)$. Assume
+\begin{enumerate}
+\item $A$ has a dualizing complex and $\text{cd}(A, I) = 1$,
+\item $(\mathcal{F}_n)$ is pro-isomorphic to an inverse system
+$(\mathcal{F}_n'')$ of coherent $\mathcal{O}_U$-modules such that
+$\text{depth}(\mathcal{F}''_{n, y}) + \delta^Y_Z(y) \geq 3$
+for all $y \in U \cap Y$.
+\end{enumerate}
+Then $(\mathcal{F}_n)$ extends canonically to $X$, see
+Definition \ref{definition-canonically-algebraizable}.
+\end{lemma}
 
 \begin{proof}
-By Lemma \ref{lemma-map-kernel-cokernel-on-closed}
-we may replace $(\mathcal{F}_n)$ by the object
-of $\textit{Coh}(U, I\mathcal{O}_U)$ found in
-Lemma \ref{lemma-improvement-application}.
-Thus we may assume that $(\mathcal{F}_n)$ is pro-isomorphic
-to a inverse system $(\mathcal{F}_n'')$ with the properties
-mentioned in Lemma \ref{lemma-improvement-application}.
-We will use this without further mention in the following.
-
-\medskip\noindent
-We will check hypotheses (a), (b), (c), and (d) of
-Lemma \ref{lemma-when-done}. Hypothesis (a) holds by assumption.
+We will check hypotheses (a), (b), and (c) of Lemma \ref{lemma-when-done}.
+Before we start, let us point out that the modules
+$H^0(U, \mathcal{F}''_n)$ and $H^1(U, \mathcal{F}''_n)$
+are finite $A$-modules for all $n$ by
+Local Cohomology, Lemma \ref{local-cohomology-lemma-finiteness-Rjstar}.
 
 \medskip\noindent
 Observe that for each $p \geq 0$
 the limit topology on $\lim H^p(U, \mathcal{F}_n)$
 is the $I$-adic topology by Lemma \ref{lemma-topology-I-adic}.
-In particular, hypothesis (c) holds.
+In particular, hypothesis (b) holds.
 
 \medskip\noindent
 We know that $M = \lim H^0(U, \mathcal{F}_n)$ is an $A$-module whose
@@ -6450,7 +6483,7 @@ Since the inverse system $\{H^0(U, \mathcal{F}_N)\}$ is pro-isomorphic to an
 inverse system of finite $A$-modules, namely $\{H^0(U, \mathcal{F}''_N)\}$,
 we conclude that $M/I^nM$ is finite. It follows that $M$ is finite, see
 Algebra, Lemma \ref{algebra-lemma-finite-over-complete-ring}.
-In particular hypothesis (d)\footnote{As modified by the footnote.} holds.
+In particular hypothesis (c) holds.
 
 \medskip\noindent
 For each $n \geq 0$ let us write $Ob_n = \lim_N H^1(U, I^n\mathcal{F}_N)$.
@@ -6544,92 +6577,289 @@ the image of $M' \to M_n$ contains the image of
 $H^0(U, \mathcal{F}_{n'c}) \to H^0(U, \mathcal{F}_n)$.
 Thus we see that $\{M_n\}$ and $\{H^0(U, \mathcal{F}_n)\}$
 are pro-isomorphic. Therefore $\{H^0(U, \mathcal{F}_n)\}$
-has ML and we finally conclude that hypothesis (b) holds.
+has ML and we finally conclude that hypothesis (a) holds.
 This concludes the proof.
+\end{proof}
+
+\begin{proposition}[Algebraization in cohomological dimension 1]
+\label{proposition-cd-1}
+\begin{reference}
+The local case of this result is \cite[IV Corollaire 2.9]{MRaynaud-book}.
+\end{reference}
+In Situation \ref{situation-algebraize} let $(\mathcal{F}_n)$
+be an object of $\textit{Coh}(U, I\mathcal{O}_U)$. Assume
+\begin{enumerate}
+\item $A$ has a dualizing complex and $\text{cd}(A, I) = 1$,
+\item $(\mathcal{F}_n)$ satisfies the $(2, 3)$-inequalities, see
+Definition \ref{definition-s-d-inequalities}.
+\end{enumerate}
+Then $(\mathcal{F}_n)$ extends to $X$. In particular, if $A$ is
+$I$-adically complete, then $(\mathcal{F}_n)$ is the completion
+of a coherent $\mathcal{O}_U$-module. 
+\end{proposition}
+
+\begin{proof}
+By Lemma \ref{lemma-map-kernel-cokernel-on-closed}
+we may replace $(\mathcal{F}_n)$ by the object $(\mathcal{H}_n)$
+of $\textit{Coh}(U, I\mathcal{O}_U)$ found in
+Lemma \ref{lemma-improvement-application}.
+Thus we may assume that $(\mathcal{F}_n)$ is pro-isomorphic
+to a inverse system $(\mathcal{F}_n'')$ with the properties
+mentioned in Lemma \ref{lemma-improvement-application}.
+In Lemma \ref{lemma-cd-1-canonical} we proved that
+$(\mathcal{F}_n)$ canonically extends to $X$.
+The final statement follows from Lemma \ref{lemma-canonically-algebraizable}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-blowup}
+In Situation \ref{situation-algebraize} let $(\mathcal{F}_n)$
+be an object of $\textit{Coh}(U, I\mathcal{O}_U)$. Assume
+\begin{enumerate}
+\item $A$ has a dualizing complex,
+\item all fibres of the blowing up $b : X' \to X$ of $I$
+have dimension $\leq d - 1$,
+\item $(\mathcal{F}_n)$ satisfies the $(d + 1, d + 2)$-inequalities.
+\end{enumerate}
+Then $(\mathcal{F}_n)$ extends to $X$.
+\end{lemma}
+
+\begin{proof}
+Let $Y' \subset X'$ be the exceptional divisor.
+Let $Z' \subset Y'$ be the inverse image of $Z \subset Y$.
+Then $U' = X' \setminus Z'$ is the inverse image of $U$.
+With $\delta^{Y'}_{Z'}$ as in (\ref{equation-delta-Z}) we set
+$$
+T' = \{y' \in Y' \mid \delta^{Y'}_{Z'}(y') = 1\text{ or }2\}
+\subset
+T = \{y' \in Y' \mid \delta^{Y'}_{Z'}(y') = 1\}
+$$
+These are specialization stable subsets of
+$U' \cap Y' = Y' \setminus Z'$. Consider the
+object $(b|_{U'}^*\mathcal{F}_n)$ of $\textit{Coh}(U', I\mathcal{O}_{U'})$,
+see Cohomology of Schemes, Lemma \ref{coherent-lemma-inverse-systems-pullback}.
+For $y' \in U' \cap Y'$ let us denote
+$$
+\mathcal{F}_{y'}^\wedge = \lim (b|_{U'}^*\mathcal{F}_n)_{y'}
+$$
+the ``stalk'' of this pullback at $y'$. We claim that conditions
+(a), (b), (c), (d), and (e) of
+Lemma \ref{lemma-improvement-formal-coherent-module-better}
+hold for the object $(b|_{U'}^*\mathcal{F}_n)$ on $U'$ with $d$
+replaced by $1$ and the subsets $T' \subset T \subset U' \cap Y'$.
+Condition (a) holds because $Y'$ is an effective Cartier divisor
+and hence locally cut out by $1$ equation. Condition (e) holds
+by Lemma \ref{lemma-discussion} parts (1) and (2).
+To prove (b), (c), and (d) we need some preparation.
+
+\medskip\noindent
+Let $y' \in U' \cap Y'$ with image $y \in U \cap Y$.
+Choose $f \in I$ such that
+$y'$ is contained in the spectrum of the affine blowup algebra $A[I/f]$.
+For any $A$-algebra $B$ denote $B' = B[IB/f]$ the corresponding affine
+blowup algebra. Denote $I$-adic completion by ${\ }^\wedge$.
+By our choice of $f$ we get a ring map
+$(\mathcal{O}_{X, y}^\wedge)' \to \mathcal{O}_{X', y'}^\wedge$.
+If we let $\mathfrak q' \subset (\mathcal{O}_{X, y}^\wedge)'$
+be the inverse image of $\mathfrak m_{y'}^\wedge$, then
+we see that
+$((\mathcal{O}_{X, y}^\wedge)'_{\mathfrak q'})^\wedge =
+\mathcal{O}_{X', y'}^\wedge$.
+Let $\mathfrak p' \subset \mathcal{O}_{X', y'}^\wedge$
+be a prime ideal not contained in $V(I\mathcal{O}_{X', y'}^\wedge)$.
+Let $\mathfrak p \subset \mathcal{O}_{X, y}^\wedge$ be the corresponding
+prime. At this point we have a commutative diagram
+$$
+\xymatrix{
+\mathcal{O}_{X, y}^\wedge \ar[d] \ar[r] &
+(\mathcal{O}_{X, y}^\wedge)' \ar[d] \ar[r] &
+(\mathcal{O}_{X, y}^\wedge)'_{\mathfrak q'} \ar[d] \ar[r] &
+\mathcal{O}_{X', y'}^\wedge \ar[d] \\
+\mathcal{O}_{X, y}^\wedge/\mathfrak p \ar[r] &
+(\mathcal{O}_{X, y}^\wedge/\mathfrak p)' \ar[r] &
+(\mathcal{O}_{X, y}^\wedge/\mathfrak p)'_{\mathfrak q'} \ar[r] &
+((\mathcal{O}_{X, y}^\wedge/\mathfrak p)'_{\mathfrak q'})^\wedge \ar[d] \\
+ & & &
+\mathcal{O}_{X', y'}^\wedge/\mathfrak p'
+}
+$$
+whose vertical arrows are surjective. By the dimension formula we have
+$$
+\dim(((\mathcal{O}_{X, y}^\wedge/\mathfrak p)'_{\mathfrak q'})^\wedge) =
+\dim((\mathcal{O}_{X, y}^\wedge/\mathfrak p)'_{\mathfrak q'}) =
+\dim(\mathcal{O}_{X, y}^\wedge/\mathfrak p)
+- \text{trdeg}(\kappa(y')/\kappa(y))
+$$
+Finally, we have
+$$
+(\mathcal{F}_y^\wedge)_{\mathfrak p}
+\otimes_{(\mathcal{O}_{X, y}^\wedge)_\mathfrak p}
+(\mathcal{O}_{X', y'}^\wedge)_{\mathfrak p'}
+=
+(\mathcal{F}_{y'}^\wedge)_{\mathfrak p'}
+$$
+Observe that
+$(\mathcal{O}_{X, y}^\wedge)_\mathfrak p \to
+(\mathcal{O}_{X', y'}^\wedge)_{\mathfrak p'}$
+is flat with CM fibres. Hence we see that
+$$
+\text{depth}((\mathcal{F}_{y'}^\wedge)_{\mathfrak p'}) =
+\text{depth}((\mathcal{F}_y^\wedge)_{\mathfrak p}) +
+\dim_t(F)
+$$
+where $F$ is the generic formal fibre of
+$(\mathcal{O}_{X, y}^\wedge/\mathfrak p)'_{\mathfrak q'}$
+and $t$ is the point corresponding to $\mathfrak p'$.
+We also have
+$$
+\dim(((\mathcal{O}_{X, y}^\wedge/\mathfrak p)'_{\mathfrak q'})^\wedge) =
+\dim_t(F) + \dim(\mathcal{O}_{X', y'}^\wedge/\mathfrak p')
+$$
+Combined with Lemma \ref{lemma-change-distance-function}
+we get
+\begin{align*}
+&
+\text{depth}((\mathcal{F}_{y'}^\wedge)_{\mathfrak p'}) +
+\delta^{Y'}_{Z'}(y') \\
+& =
+\text{depth}((\mathcal{F}_y^\wedge)_{\mathfrak p}) +
+\dim_t(F) + \delta^{Y'}_{Z'}(y') \\
+& \geq
+\text{depth}((\mathcal{F}_y^\wedge)_{\mathfrak p}) + \delta^Y_Z(y) +
+\dim_t(F) + \text{trdeg}(\kappa(y')/\kappa(y)) - (d - 1) \\
+& =
+\text{depth}((\mathcal{F}_y^\wedge)_{\mathfrak p}) + \delta^Y_Z(y) - (d - 1)
++ \dim(\mathcal{O}_{X, y}^\wedge/\mathfrak p) -
+\dim(\mathcal{O}_{X', y'}^\wedge/\mathfrak p')
+\end{align*}
+Similarly we have
+\begin{align*}
+&
+\text{depth}((\mathcal{F}_{y'}^\wedge)_{\mathfrak p'}) +
+\dim(\mathcal{O}_{X', y'}^\wedge/\mathfrak p') +
+\delta^{Y'}_{Z'}(y') \\
+& \geq
+\text{depth}((\mathcal{F}_y^\wedge)_{\mathfrak p}) +
+\dim(\mathcal{O}_{X, y}^\wedge/\mathfrak p) +
+\delta^Y_Z(y) - (d - 1)
+\end{align*}
+
+
+\medskip\noindent
+Conditions (b) and (d). Assume
+$V(\mathfrak p') \cap V(I\mathcal{O}_{X', y'}^\wedge) =
+\{\mathfrak m_{y'}^\wedge\}$.
+This implies that $\dim(\mathcal{O}_{X', y'}^\wedge/\mathfrak p') = 1$
+because $Z'$ is an effective Cartier divisor.
+The combination of (b) and (d) is equivalent with
+$$
+\text{depth}((\mathcal{F}_{y'}^\wedge)_{\mathfrak p'}) + \delta^{Y'}_{Z'}(y')
+> 2
+$$
+Since $(\mathcal{F}_n)$ satisfies the $(d + 1, d + 2)$-inequalities,
+we see that in any case
+$$
+\text{depth}((\mathcal{F}_y^\wedge)_{\mathfrak p}) + \delta^Y_Z(y)
+\geq d + 1
+\quad\text{or}\quad
+\text{depth}((\mathcal{F}_y^\wedge)_{\mathfrak p}) +
+\dim(\mathcal{O}_{X, y}^\wedge/\mathfrak p) +
+\delta^Y_Z(y) > d + 2
+$$
+Looking at the inequalities we proved above this gives what we want
+except possibly if $\dim(\mathcal{O}_{X, y}^\wedge/\mathfrak p) = 1$.
+However, if $\mathcal{O}_{X, y}^\wedge/\mathfrak p) = 1$, then we have
+$V(\mathfrak p) \cap V(I\mathcal{O}_{X, y}^\wedge) = \{\mathfrak m_y^\wedge\}$
+and we see that actually
+$$
+\text{depth}((\mathcal{F}_y^\wedge)_{\mathfrak p}) + \delta^Y_Z(y) > d + 1
+$$
+as $(\mathcal{F}_n)$ satisfies the $(d + 1, d + 2)$-inequalities and we
+conclude again.
+
+\medskip\noindent
+Condition (c) is equivalent to
+$$
+\text{depth}((\mathcal{F}_{y'}^\wedge)_{\mathfrak p'}) + \delta^{Y'}_{Z'}(y')
+\geq 2
+\quad\text{or}\quad
+\text{depth}((\mathcal{F}_{y'}^\wedge)_{\mathfrak p'}) +
+\dim(\mathcal{O}_{X', y'}^\wedge/\mathfrak p') +
+\delta^{Y'}_{Z'}(y') > 3
+$$
+This follows immediately from the inequalities above and the
+fact that $(\mathcal{F}_n)$ satisfies the $(d + 1, d + 2)$-inequalities.
+This finishes the proof of our claim.
+
+\medskip\noindent
+Choose $(b|_{U'}^*\mathcal{F}_n) \to (\mathcal{F}_n'')$
+and $(\mathcal{H}_n)$ in $\textit{Coh}(U', I\mathcal{O}_{U'})$
+as in Lemma \ref{lemma-improvement-formal-coherent-module-better}.
+For any affine open $W \subset X'$ observe that
+$\delta^{W \cap Y'}_{W \cap Z'}(y') \geq \delta^{Y'}_{Z'}(y')$ by
+Lemma \ref{lemma-discussion} part (7). Hence we see that
+$(\mathcal{H}_n|_W)$ satisfies the assumptions of
+Lemma \ref{lemma-cd-1-canonical}.
+Thus $(\mathcal{H}_n|_W)$ extends canonically to $W$.
+Let $(\mathcal{G}_{W, n})$ in $\textit{Coh}(W, I\mathcal{O}_W)$
+be the canonical extension as in
+Lemma \ref{lemma-canonically-algebraizable}.
+By Lemma \ref{lemma-canonically-extend-base-change}
+we see that for $W' \subset W$ there is a unique isomorphism
+$$
+(\mathcal{G}_{W, n}|_{W'}) \longrightarrow
+(\mathcal{G}_{W', n})
+$$
+compatible with the given isomorphisms
+$(\mathcal{G}_{W, n}|_{W \cap U}) \cong (\mathcal{H}_n|_{W \cap U})$.
+We conclude that there exists an object
+$(\mathcal{G}_n)$ of $\textit{Coh}(X', I\mathcal{O}_{X'})$
+whose restriction to $U$ is isomorphic to $(\mathcal{H}_n)$.
+
+\medskip\noindent
+If $A$ is $I$-adically complete we can finish the proof as follows.
+By Grothedieck's existence theorem
+(Cohomology of Schemes, Lemma \ref{coherent-lemma-existence-projective})
+we see that $(\mathcal{G}_n)$ is the completion of a coherent
+$\mathcal{O}_{X'}$-module. Then by
+Cohomology of Schemes, Lemma \ref{coherent-lemma-existence-easy}
+we see that $(b|_{U'}^*\mathcal{F}_n)$
+is the completion of a coherent $\mathcal{O}_{U'}$-module
+$\mathcal{F}'$.
+By Cohomology of Schemes, Lemma \ref{coherent-lemma-inverse-systems-push-pull}
+we see that there is a map
+$$
+(\mathcal{F}_n) \longrightarrow ((b|_{U'})_*\mathcal{F}')^\wedge
+$$
+whose kernel and cokernel is annihilated by a power of $I$.
+Then finally, we win by applying
+Lemma \ref{lemma-map-kernel-cokernel-on-closed}.
+
+\medskip\noindent
+If $A$ is not complete: FIXME.
 \end{proof}
 
 \begin{proposition}[Algebraization for ideals with few generators]
 \label{proposition-d-generators}
-In Situation \ref{situation-algebraize} assume $A$ is $I$-adically complete,
-has a dualizing complex, and $V(I) = V(f_1, \ldots, f_d)$ for some $d \geq 1$
-and $f_1, \ldots, f_d \in A$.
-Let $(\mathcal{F}_n)$ be an object of $\textit{Coh}(U, I\mathcal{O}_U)$.
-Assume that $(\mathcal{F}_n)$ satisfies the $(??, ??)$-inequalities.
-Then there exists a coherent $\mathcal{O}_U$-module $\mathcal{F}$
-such that $(\mathcal{F}_n)$ is the completion of $\mathcal{F}$.
+In Situation \ref{situation-algebraize} let $(\mathcal{F}_n)$
+be an object of $\textit{Coh}(U, I\mathcal{O}_U)$. Assume
+\begin{enumerate}
+\item $A$ has a dualizing complex,
+\item $V(I) = V(f_1, \ldots, f_d)$ for some $d \geq 1$ and
+$f_1, \ldots, f_d \in A$,
+\item $(\mathcal{F}_n)$ satisfies the $(d + 1, d + 2)$-inequalities, see
+Definition \ref{definition-s-d-inequalities}.
+\end{enumerate}
+Then $(\mathcal{F}_n)$ extends to $X$.  In particular, if $A$ is
+$I$-adically complete, then $(\mathcal{F}_n)$ is the completion
+of a coherent $\mathcal{O}_U$-module. 
 \end{proposition}
 
 \begin{proof}
-We may assume $I = (f_1, \ldots, f_d)$. We will prove the
-proposition by induction on $d$. The case $d = 1$ follows
-immediately from Proposition \ref{proposition-cd-1}.
-
-\medskip\noindent
-Choose generators $h_1, \ldots, h_a$ of $\mathfrak a$.
-Set $U_j = D(h_j) \subset U$. Recall that the restriction
-of $(\mathcal{F}_n)$ to $U_j$ corresponds to finite
-$A_{h_j}^\wedge$-modules $N_j$. See
-Cohomology of Schemes, Lemma \ref{coherent-lemma-inverse-systems-affine}.
-
-\medskip\noindent
-As a first step for $N$ large we consider the morphism
-$$
-f_1^N, \ldots, f_d^N :
-(\mathcal{F}_n)
-\longrightarrow
-\bigoplus\nolimits_{i = 1, \ldots, d} (\mathcal{F}_n)
-$$
-of $\textit{Coh}(U, I\mathcal{O}_U)$.
-Since $\textit{Coh}(U, I\mathcal{O}_U)$ is an abelian category, see
-Cohomology of Schemes, Lemma \ref{coherent-lemma-inverse-systems-abelian},
-we can look at the image of this map.
-On the affine opens $U_j$ this corresponds to
-replacing $N_j$ by the quotient of $N_j$ by its
-$f_1^N, \ldots, f_d^N$-torsion submodule.
-Since $A_{h_j}^\wedge$ is Noetherian and $N_j$ finite
-we see that for $N$ large enough we obtain the quotient
-$N_j/H^0_I(N_j)$ by all $I$-power torsion.
-By Lemma \ref{lemma-map-kernel-cokernel-on-closed}
-we may replace $(\mathcal{F}_n)$ by this image.
-Hence we may assume $H^0_I(N_j) = 0$ for all $j$.
-
-\medskip\noindent
-Consider the finite sets $\text{Ass}(N_j) = \{\mathfrak q_{jk}\}$
-of associated primes of the modules $N_j$.
-Let $\mathfrak p_{jk} \subset A$ be the corresponding primes.
-By the above we see that $I \not \subset \mathfrak p_{jk}$
-for all $j, k$. Applying Algebra, Lemma \ref{algebra-lemma-silly-silly}
-we can find an element of the form
-$$
-f = f_1 + \sum\nolimits_{i = 2, \ldots, d} a_i f_i
-$$
-which is not contained in $\mathfrak p_{jk}$ for any $j, k$.
-Then we see that multiplication by $f$ is injective on $N_j$.
-Thus for every $m \geq 1$ we find a short exact sequence
-$$
-0 \to (\mathcal{F}_n) \xrightarrow{f^m} (\mathcal{F}_n) \to
-(\mathcal{G}_{m, n}) \to 0
-$$
-in $\textit{Coh}(U, I\mathcal{O}_U)$.
-
-\medskip\noindent
-Fix $m$ for the moment. Set $A_m = A/(f^m)$ and let
-$\mathfrak a_m$ and $I_m$ be the images in $A_m$.
-Observe that $V(I_m)$ can be cut out by $d - 1$ elements
-(namely $f_2, \ldots, f_d$). Set $X_m = \Spec(A_m)$,
-$U_m = X_m \setminus V(\mathfrak a_m)$, etc.
-Since $(\mathcal{G}_{m, n})$ is annihilated by $f^m$ it defines
-an object of $\textit{Coh}(U_m, I_m\mathcal{O}_{U_m})$.
-We claim the induction hypothesis applies to $(\mathcal{G}_{m, n})$.
-FIXME.
-
-\medskip\noindent
-By the above we find coherent modules $\mathcal{G}_m$ on
-$U_m$ whose completion is $(\mathcal{G}_{m, n})$.
-By our construction of $(\mathcal{G}_{m, n})$
-we see that $\mathcal{G}_{m + 1}/f^m\mathcal{G}_{m + 1}$
-and $\mathcal{G}_m$ have the same completion.
-FIXME.
+We may assume $I = (f_1, \ldots, f_d)$. Then we see that
+all fibres of the blowup of $X$ in $I$ have dimension at most $d - 1$.
+Thus we get the extension from Lemma \ref{lemma-blowup}.
+The final statement follows from Lemma \ref{lemma-essential-image-completion}.
 \end{proof}
 
 
