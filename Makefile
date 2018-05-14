@@ -248,7 +248,7 @@ install:
 	@echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
 
 WEBDIR=../WEB
-.PHONE: web
+.PHONY: web
 web: tmp/index.tex
 	@echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
 	@echo "% Stuff in WEBDIR will be overwritten!!!!!!!!!        %"
