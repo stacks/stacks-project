@@ -1,6 +1,11 @@
 from functions import *
 
-# Preamble for the book does not have external references
+# Preamble for the web-book to be parsed by plastex
+# All refs are internal in canonical form
+# documentclass book
+# load amsmath package for plastex
+# Ignore reference, slogan, history environments
+# Do not bother with multicol and xr-hyper pacakges
 def print_preamble(path):
 	preamble = open(path + "preamble.tex", 'r')
 	next(preamble)
@@ -28,46 +33,6 @@ def print_preamble(path):
 		print line,
 	preamble.close()
 	return
-
-# Use full labels everywhere in book.tex
-def replace_refs(line, name):
-	n = 0
-	while n < len(list_of_standard_labels):
-		text = "\\ref{" + list_of_standard_labels[n] + "-"
-		repl = "\\ref{" + name + "-" + list_of_standard_labels[n] + "-"
-		line = line.replace(text, repl)
-		n = n + 1
-	return line
-
-# Chapters unmodified
-def print_chapters(path):
-	chapters = open(path + "chapters.tex", 'r')
-	for line in chapters:
-		print line,
-	chapters.close()
-	return
-
-# Print version and date
-def print_version(path):
-	from datetime import date
-	now = date.today()
-	version = git_version(path)
-	print "Version " + version + ", compiled on " + now.strftime('%h %d, %Y.')
-
-# Print license blurp
-def print_license_blurp(path):
-	filename = path + 'introduction.tex'
-	introduction = open(filename, 'r')
-	inside = 0
-	for line in introduction:
-		if line.find('\\begin{verbatim}') == 0:
-			inside = 1
-		if inside == 0:
-			continue
-		print line,
-		if line.find('\\end{verbatim}') == 0:
-			inside = 0
-	introduction.close()
 
 path = get_path()
 
