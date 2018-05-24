@@ -497,7 +497,7 @@ This section is the analogue of Divsors, Section
 \medskip\noindent
 We will introduce Weil divisors and rational equivalence of Weil
 divisors for locally Noetherian integral algebraic spaces.
-Since we are not assuming our schemes are quasi-compact we have
+Since we are not assuming our algebraic spaces are quasi-compact we have
 to be a little careful when defining Weil divisors. We have to allow
 infinite sums of prime divisors because a rational function may have
 infinitely many poles for example. In the quasi-compact case our
@@ -551,9 +551,212 @@ The group of all Weil divisors on $X$ is denoted $\text{Div}(X)$.
 
 \noindent
 Our next task is to define the Weil divisor associated to a rational
-function. In order to do this we use the order of vanishing of a
-rational function along a prime divisor which is defined as follows.
+function. In order to do this we need to define the order of vanishing of a
+rational function along a prime divisor. To do this we will use the
+following lemma.
 
+\begin{lemma}
+\label{lemma-order-vanishing}
+Let $S$ be a scheme. Let $X$ be a locally Noetherian integral algebraic space
+over $S$. Let $Z \subset X$ be a prime divisor and let $\xi \in |Z|$ be
+the generic point. Then the henselian local ring $\mathcal{O}_{X, \xi}^h$
+is a reduced $1$-dimensional Noetherian local ring and
+there is a canonical injective map
+$$
+R(X) \longrightarrow Q(\mathcal{O}_{X, \xi}^h)
+$$
+from the function field $R(X)$ of $X$ into the total ring of fractions.
+\end{lemma}
+
+\begin{proof}
+We will use the results of Decent Spaces, Section
+\ref{decent-spaces-section-residue-fields-henselian-local-rings}.
+Let $(U, u) \to (X, \xi)$ be an elementary \'etale neighbourhood.
+Observe that $U$ is locally Noetherian and reduced.
+Thus $\mathcal{O}_{U, u}$ is a $1$-dimensional
+(by our definition of prime divisors)
+reduced Noetherian ring.
+After replacing $U$ by an affine open neighbourhood of $u$
+we may assume $U$ is Noetherian and affine.
+After replacing $U$ by a smaller open, we may assume every irreducible
+component of $U$ passes through $u$.
+Since $U \to X$ is open and $X$ irreducible, $U \to X$ is dominant.
+Hence we obtain a ring map $R(X) \to R(U)$ by composing rational maps, see
+Morphism of Spaces, Section \ref{spaces-morphisms-section-rational-maps}.
+Since $R(X)$ is a field, this map is injective.
+By our choice of $U$ we see that $R(U)$ is the total quotient
+ring $Q(\mathcal{O}_{U, u})$, see
+Morphisms, Lemma \ref{morphisms-lemma-integral-scheme-rational-functions}
+and
+Algebra, Lemma \ref{algebra-lemma-total-ring-fractions-no-embedded-points}.
+
+\medskip\noindent
+At this point we have proved all the statements in the lemma with
+$\mathcal{O}_{U, u}$ in stead of $\mathcal{O}_{X, \xi}^h$.
+However, $\mathcal{O}_{X, \xi}^h$ is the henselization of
+$\mathcal{O}_{U, u}$. Thus $\mathcal{O}_{X, \xi}^h$ is a $1$-dimensional
+reduced Noetherian ring, see
+More on Algebra, Lemmas
+\ref{more-algebra-lemma-henselization-reduced},
+\ref{more-algebra-lemma-henselization-dimension}, and
+\ref{more-algebra-lemma-henselization-noetherian}.
+Since $\mathcal{O}_{U, u} \to \mathcal{O}_{X, \xi}^h$ is
+faithfully flat by More on Algebra, Lemma
+\ref{more-algebra-lemma-dumb-properties-henselization}
+it sends nonzerodivisors to nonzerodivisors.
+Therefore we obtain a canonical map
+$Q(\mathcal{O}_{U, u}) \to Q(\mathcal{O}_{X, \xi}^h)$
+and we obtain our map.
+We omit the verification that the map is independent of
+the choice of $(U, u) \to (X, x)$; a slightly better
+approach would be to first observe that
+$\colim Q(\mathcal{O}_{U, u}) = Q(\mathcal{O}_{X, \xi}^h)$.
+\end{proof}
+
+\begin{definition}
+\label{definition-order-vanishing}
+Let $S$ be a scheme. Let $X$ be a locally Noetherian integral algebraic
+space over $S$. Let $f \in R(X)^*$. For every prime divisor
+$Z \subset X$ we define the {\it order of vanishing of $f$ along $Z$}
+as the integer
+$$
+\text{ord}_Z(f) =
+\text{length}_{\mathcal{O}_{X, \xi}^h}
+(\mathcal{O}_{X, \xi}^h/a \mathcal{O}_{X, \xi}^h) -
+\text{length}_{\mathcal{O}_{X, \xi}^h}
+(\mathcal{O}_{X, \xi}^h/b \mathcal{O}_{X, \xi}^h)
+$$
+where $a, b \in \mathcal{O}_{X, \xi}^h$ are nonzerodivisors
+such that the image of $f \in Q(\mathcal{O}_{X, \xi}^h)$
+(Lemma \ref{lemma-order-vanishing}) is equal to $a/b$.
+This is well defined by
+Algebra, Lemma \ref{algebra-lemma-ord-additive}.
+\end{definition}
+
+\noindent
+If $\mathcal{O}_{X, \xi}^h$ happens to be a domain, then we obtain
+$$
+\text{ord}_Z(f) = \text{ord}_{\mathcal{O}_{X, \xi}^h}(f)
+$$
+where the right hand side is the notion of
+Algebra, Definition \ref{algebra-definition-ord}.
+Note that for $f, g \in R(X)^*$ we have
+$$
+\text{ord}_Z(fg) = \text{ord}_Z(f) + \text{ord}_Z(g).
+$$
+Of course it can happen that $\text{ord}_Z(f) < 0$.
+In this case we say that $f$ has a {\it pole} along $Z$
+and that $-\text{ord}_Z(f) > 0$ is the
+{\it order of pole of $f$ along $Z$}. It is important to note
+that the condition $\text{ord}_Z(f) \geq 0$ is {\bf not} equivalent
+to the condition $f \in \mathcal{O}_{X, \xi}^h$ unless the local
+ring $\mathcal{O}_{X, \xi}$ is a discrete valuation ring.
+
+\begin{lemma}
+\label{lemma-order-vanishing-agrees}
+Let $S$ be a scheme. Let $X$ be a locally Noetherian integral algebraic
+space over $S$. Let $f \in R(X)^*$. If the prime divisor
+$Z \subset X$ meets the schematic locus of $X$, then the order
+of vanishing $\text{ord}_Z(f)$ of Definition \ref{definition-order-vanishing}
+agrees with the order of vanishing of
+Divisors, Definition \ref{divisors-definition-order-vanishing}.
+\end{lemma}
+
+\begin{proof}
+After shrinking $X$ we may assume $X$ is an integral Noetherian scheme.
+If $\xi \in Z$ denotes the generic point, then we find that
+$\mathcal{O}_{X, \xi}^h$ is the henselization of $\mathcal{O}_{X, \xi}$
+(Decent Spaces, Lemma \ref{decent-spaces-lemma-describe-henselian-local-ring}).
+To prove the lemma it suffices and is necessary to show that
+$$
+\text{length}_{\mathcal{O}_{X, \xi}}
+(\mathcal{O}_{X, \xi}/a \mathcal{O}_{X, \xi}) =
+\text{length}_{\mathcal{O}_{X, \xi}^h}
+(\mathcal{O}_{X, \xi}^h/a \mathcal{O}_{X, \xi}^h)
+$$
+This follows immediately from
+Algebra, Lemma \ref{algebra-lemma-pullback-module}
+(and the fact that $\mathcal{O}_{X, \xi} \to \mathcal{O}_{X, \xi}^h$
+is a flat local ring homomorphism of local Noetherian rings).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-divisor-locally-finite}
+Let $S$ be a scheme. Let $X$ be a locally Noetherian integral algebraic space
+over $S$. Let $f \in R(X)^*$. Then the collections
+$$
+\{Z \subset X \mid Z\text{ a prime divisor with generic point }\xi
+\text{ and }f\text{ not in }\mathcal{O}_{X, \xi}\}
+$$
+and
+$$
+\{Z \subset X \mid Z \text{ a prime divisor and }\text{ord}_Z(f) \not = 0\}
+$$
+are locally finite in $X$.
+\end{lemma}
+
+\begin{proof}
+There exists a nonempty open subspace $U \subset X$
+such that $f$ corresponds to a section of $\Gamma(U, \mathcal{O}_X^*)$.
+Hence the prime divisors which can occur in the sets of the lemma are all
+irreducible components of $X \setminus U$.
+Hence Lemma \ref{lemma-components-locally-finite} gives the desired result.
+\end{proof}
+
+\noindent
+This lemma allows us to make the following definition.
+
+\begin{definition}
+\label{definition-principal-divisor}
+Let $S$ be a scheme.
+Let $X$ be a locally Noetherian integral algebraic space over $S$.
+Let $f \in R(X)^*$.
+The {\it principal Weil divisor associated to $f$} is the Weil divisor
+$$
+\text{div}(f) = \text{div}_X(f) = \sum \text{ord}_Z(f) [Z]
+$$
+where the sum is over prime divisors and $\text{ord}_Z(f)$ is as in
+Definition \ref{definition-order-vanishing}. This makes sense
+by Lemma \ref{lemma-divisor-locally-finite}.
+\end{definition}
+
+\begin{lemma}
+\label{lemma-div-additive}
+Let $S$ be a scheme.
+Let $X$ be a locally Noetherian integral algebraic space over $S$.
+Let $f, g \in R(X)^*$. Then
+$$
+\text{div}_X(fg) = \text{div}_X(f) + \text{div}_X(g)
+$$
+as Weil divisors on $X$.
+\end{lemma}
+
+\begin{proof}
+This is clear from the additivity of the $\text{ord}$ functions.
+\end{proof}
+
+\noindent
+We see from the lemma above that the collection of principal Weil divisors
+form a subgroup of the group of all Weil divisors. This leads to the following
+definition.
+
+\begin{definition}
+\label{definition-class-group}
+Let $S$ be a scheme.
+Let $X$ be a locally Noetherian integral algebraic space over $S$. The
+{\it Weil divisor class group} of $X$ is the quotient of
+the group of Weil divisors by the subgroup of principal Weil divisors.
+Notation: $\text{Cl}(X)$.
+\end{definition}
+
+\noindent
+By construction we obtain an exact complex
+\begin{equation}
+\label{equation-Weil-divisor-class}
+R(X)^* \xrightarrow{\text{div}} \text{Div}(X) \to \text{Cl}(X) \to 0
+\end{equation}
+which we can think of as a presentation of $\text{Cl}(X)$. Our next task
+is to relate the Weil divisor class group to the Picard group.
 
 
 
