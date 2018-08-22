@@ -225,63 +225,6 @@ Omitted. Hint: This is formal.
 \end{proof}
 
 \begin{lemma}
-\label{lemma-limit-fppf-topology}
-Let $T$ be an affine scheme which is written as a limit
-$T = \lim_{i \in I} T_i$ of a directed inverse system of affine schemes.
-\begin{enumerate}
-\item Let $\mathcal{V} = \{V_j \to T\}_{j = 1, \ldots, m}$ be a standard fppf
-covering of $T$, see
-Topologies, Definition \ref{topologies-definition-standard-fppf}.
-Then there exists an index $i$ and a standard fppf covering
-$\mathcal{V}_i = \{V_{i, j} \to T_i\}_{j = 1, \ldots, m}$
-whose base change $T \times_{T_i} \mathcal{V}_i$ to $T$
-is isomorphic to $\mathcal{V}$.
-\item Let $\mathcal{V}_i$, $\mathcal{V}'_i$ be a pair of standard
-fppf coverings of $T_i$. If
-$f : T \times_{T_i} \mathcal{V} \to T \times_{T_i} \mathcal{V}'_i$ is
-a morphism of coverings of $T$, then there exists an index
-$i' \geq i$ and a morphism
-$f_{i'} : T_{i'} \times_{T_i} \mathcal{V} \to
-T_{i'} \times_{T_i} \mathcal{V}'_i$
-whose base change to $T$ is $f$.
-\item If
-$f, g : \mathcal{V} \to \mathcal{V}'_i$
-are morphisms of standard fppf coverings of $T_i$ whose
-base changes $f_T, g_T$ to $T$ are equal then there exists an
-index $i' \geq i$ such that $f_{T_{i'}} = g_{T_{i'}}$.
-\end{enumerate}
-In other words, the category of standard fppf coverings of $T$ is
-the colimit over $I$ of the categories of standard fppf coverings of $T_i$
-\end{lemma}
-
-\begin{proof}
-By
-Limits, Lemma \ref{limits-lemma-descend-finite-presentation}
-the category of schemes of finite presentation over $T$ is the
-colimit over $I$ of the categories of finite presentation over $T_i$. By
-Limits, Lemmas \ref{limits-lemma-descend-affine-finite-presentation}
-and \ref{limits-lemma-descend-flat-finite-presentation}
-the same is true for category of schemes which are affine, flat and
-of finite presentation over $T$.
-To finish the proof of the lemma it suffices to show that if
-$\{V_{j, i} \to T_i\}_{j = 1, \ldots, m}$ is a finite family of
-flat finitely presented morphisms with $V_{j, i}$ affine, and the
-base change $\coprod_j T \times_{T_i} V_{j, i} \to T$ is surjective,
-then for some $i' \geq i$ the morphism
-$\coprod T_{i'} \times_{T_i} V_{j, i} \to T_{i'}$ is surjective.
-Denote $W_{i'} \subset T_{i'}$, resp.\ $W \subset T$ the image.
-Of course $W = T$ by assumption.
-Since the morphisms are flat and of finite presentation we see that
-$W_i$ is a quasi-compact open of $T_i$, see
-Morphisms, Lemma \ref{morphisms-lemma-fppf-open}.
-Moreover, $W = T \times_{T_i} W_i$ (formation of image commutes
-with base change). Hence by
-Limits, Lemma \ref{limits-lemma-descend-opens}
-we conclude that $W_{i'} = T_{i'}$ for some large enough $i'$
-and we win.
-\end{proof}
-
-\begin{lemma}
 \label{lemma-sheafify-finite-presentation}
 Let $S$ be a scheme contained in $\Sch_{fppf}$.
 Let $F : (\Sch/S)_{fppf}^{opp} \to \textit{Sets}$ be a functor.
@@ -307,43 +250,63 @@ F^+(T)
 \colim_{\mathcal{V}\text{ standard covering }T}
 \check H^0(\mathcal{V}, F).
 $$
-By
-Lemma \ref{lemma-limit-fppf-topology}
-we may rewrite this as
-$$
+Any $\mathcal{V} = \{T_k \to T\}_{k = 1, \ldots, n}$
+in the colimit may be written as
+$V_i \times_{T_i} T$ for some $i$ and some standard fppf covering
+$\mathcal{V}_i = \{T_{i, k} \to T_i\}_{k = 1, \ldots, n}$ of $T_i$.
+Denote $\mathcal{V}_{i'} = \{T_{i', k} \to T_{i'}\}_{k = 1, \ldots, n}$
+the base change for $i' \geq i$. Then we see that
+\begin{align*}
+\colim_{i' \geq i} \check H^0(\mathcal{V}_i, F)
+& =
+\colim_{i' \geq i}
+\text{Equalizer}(
+\xymatrix{
+\prod F(T_{i', k})
+\ar@<1ex>[r] \ar@<-1ex>[r] &
+\prod F(T_{i', k} \times_{T_{i'}} T_{i', l})
+}
+\\
+& =
+\text{Equalizer}(
+\xymatrix{
+\colim_{i' \geq i}
+\prod F(T_{i', k})
+\ar@<1ex>[r] \ar@<-1ex>[r] &
+\colim_{k' \geq k}
+\prod F(T_{i', k} \times_{T_{i'}} T_{i', l})
+}
+\\
+& =
+\text{Equalizer}(
+\xymatrix{
+\prod F(T_k)
+\ar@<1ex>[r] \ar@<-1ex>[r] &
+\prod F(T_k \times_T T_l)
+}
+\\
+& =
+\check H^0(\mathcal{V}, F)
+\end{align*}
+Here the second equality holds because filtered colimits are exact.
+The third equality holds because $F$ is limit preserving and because
+$\lim_{i' \geq i} T_{i', k} = T_k$ and
+$\lim_{i' \geq i} T_{i', k} \times_{T_{i'}} T_{i', l} = T_k \times_T T_l$
+by Limits, Lemma \ref{limits-lemma-scheme-over-limit}.
+If we use this for all coverings at the same time we obtain
+\begin{align*}
+F^+(T)
+& =
+\colim_{\mathcal{V}\text{ standard covering }T} \check H^0(\mathcal{V}, F) \\
+& =
 \colim_{i \in I}
 \colim_{\mathcal{V}_i\text{ standard covering }T_i}
-\check H^0(T \times_{T_i}\mathcal{V}_i, F).
-$$
-(The order of the colimits is irrelevant by
-Categories, Lemma \ref{categories-lemma-colimits-commute}.)
-Given a standard fppf covering
-$\mathcal{V}_i = \{V_j \to T_i\}_{j = 1, \ldots, m}$ of $T_i$ we see that
-$$
-T \times_{T_i} V_j = \lim_{i' \geq i} T_{i'} \times_T V_j
-$$
-by
-Limits, Lemma \ref{limits-lemma-scheme-over-limit}, and similarly
-$$
-T \times_{T_i} (V_j \times_{T_i} V_{j'}) =
-\lim_{i' \geq i} T_{i'} \times_T (V_j \times_{T_i} V_{j'}).
-$$
-As the presheaf $F$ is limit preserving this means that
-$$
-\check H^0(T \times_{T_i}\mathcal{V}_i, F)
-=
-\colim_{i' \geq i}
-\check H^0(T_{i'} \times_{T_i}\mathcal{V}_i, F).
-$$
-Hence the colimit expression for $F^+(T)$ above collapses to
-$$
-\colim_{i \in I} \colim_{\mathcal{V}\text{ standard covering }T_i}
-\check H^0(\mathcal{V}, F).
-=
-\colim_{i \in I} F^+(T_i).
-$$
-In other words $F^+(T) = \colim_i F^+(T_i)$ and hence
-the lemma holds.
+\check H^0(T \times_{T_i}\mathcal{V}_i, F) \\
+& =
+\colim_{i \in I} F^+(T_i)
+\end{align*}
+The switch of the order of the colimits is allowed by
+Categories, Lemma \ref{categories-lemma-colimits-commute}.
 \end{proof}
 
 \begin{lemma}
