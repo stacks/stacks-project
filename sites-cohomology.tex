@@ -2039,37 +2039,48 @@ follows.
 
 \noindent
 Let $(\mathcal{C}, \mathcal{O})$ be a ringed site.
-Let $K$ be a sheaf of sets on $\mathcal{C}$ (we intentionally use a
+Let $K$ be a presheaf of sets on $\mathcal{C}$ (we intentionally use a
 roman capital here to distinguish from abelian sheaves).
-Given an abelian sheaf $\mathcal{F}$ we denote
-$\mathcal{F}(K) = \Mor_{\Sh(\mathcal{C})}(K, \mathcal{F})$.
+Given a sheaf of $\mathcal{O}$-modules $\mathcal{F}$ we set
+$$
+\mathcal{F}(K) =
+\Mor_{\textit{PSh}(\mathcal{C})}(K, \mathcal{F}) =
+\Mor_{\Sh(\mathcal{C})}(K^\#, \mathcal{F})
+$$
 The functor $\mathcal{F} \mapsto \mathcal{F}(K)$ is a left exact functor
 $\textit{Mod}(\mathcal{O}) \to \textit{Ab}$ hence we have its
 right derived functors. We will denote these $H^p(K, \mathcal{F})$
 so that $H^0(K, \mathcal{F}) = \mathcal{F}(K)$.
 
 \medskip\noindent
-We mention two special cases. The first is the case where
-$K = h_U^\#$ for some object $U$ of $\mathcal{C}$. In this case
-$H^p(K, \mathcal{F}) = H^p(U, \mathcal{F})$, because
+Here are some observations:
+\begin{enumerate}
+\item Since $\mathcal{F}(K) = \mathcal{F}(K^\#)$, we have
+$H^p(K, \mathcal{F}) = H^p(K^\#, \mathcal{F})$.
+Allowing $K$ to be a presheaf in the definition above is
+a purely notational convenience.
+\item Suppose that $K = h_U$ or $K = h_U^\#$ for some object $U$
+of $\mathcal{C}$. Then $H^p(K, \mathcal{F}) = H^p(U, \mathcal{F})$, because
 $\Mor_{\Sh(\mathcal{C})}(h_U^\#, \mathcal{F}) = \mathcal{F}(U)$, see
 Sites, Section \ref{sites-section-representable-sheaves}.
-The second is the case $\mathcal{O} = \mathbf{Z}$ (the constant
-sheaf). In this case the cohomology groups are functors
-$H^p(K, - ) : \textit{Ab}(\mathcal{C}) \to \textit{Ab}$.
-Here is the analogue of
-Lemma \ref{lemma-cohomology-modules-abelian-agree}.
+\item If $\mathcal{O} = \mathbf{Z}$ (the constant sheaf), then
+the cohomology groups are functors
+$H^p(K, - ) : \textit{Ab}(\mathcal{C}) \to \textit{Ab}$
+since $\textit{Mod}(\mathcal{O}) = \textit{Ab}(\mathcal{C})$ in this case.
+\end{enumerate}
+We can translate some of our already proven results using this language.
 
 \begin{lemma}
 \label{lemma-compute-cohomology-on-sheaf-sets}
 Let $(\mathcal{C}, \mathcal{O})$ be a ringed site.
-Let $K$ be a sheaf of sets on $\mathcal{C}$.
+Let $K$ be a presheaf of sets on $\mathcal{C}$.
 Let $\mathcal{F}$ be an $\mathcal{O}$-module and denote
 $\mathcal{F}_{ab}$ the underlying sheaf of abelian groups.
 Then $H^p(K, \mathcal{F}) = H^p(K, \mathcal{F}_{ab})$.
 \end{lemma}
 
 \begin{proof}
+We may replace $K$ by its sheafification and assume $K$ is a sheaf.
 Note that both $H^p(K, \mathcal{F})$ and $H^p(K, \mathcal{F}_{ab})$
 depend only on the topos, not on the underlying site. Hence by
 Sites, Lemma \ref{sites-lemma-topos-good-site}
@@ -2081,8 +2092,8 @@ Lemma \ref{lemma-cohomology-modules-abelian-agree}.
 
 \begin{lemma}
 \label{lemma-cech-to-cohomology-sheaf-sets}
-Let $\mathcal{C}$ be a site. Let $K' \to K$ be a surjective
-map of sheaves of sets on $\mathcal{C}$. Set
+Let $\mathcal{C}$ be a site. Let $K' \to K$ be a map of presheaves
+of sets on $\mathcal{C}$ whose sheafification is surjective. Set
 $K'_p = K' \times_K \ldots \times_K K'$ ($p + 1$-factors).
 For every abelian sheaf $\mathcal{F}$ there is a spectral sequence
 with $E_1^{p, q} = H^q(K'_p, \mathcal{F})$ converging to
@@ -2090,7 +2101,12 @@ $H^{p + q}(K, \mathcal{F})$.
 \end{lemma}
 
 \begin{proof}
-After replacing $\mathcal{C}$ by a ``larger'' site as in
+Since sheafification is exact, we see that
+$(K_p')^\#$ is equal to
+$(K')^\# \times_{K^\#} \ldots \times_{K^\#} (K')^\#$
+($p + 1$-factors). Thus we may replace $K$ and $K'$ by
+their sheafifications and assume $K \to K'$ is a surjective
+map of sheaves. After replacing $\mathcal{C}$ by a ``larger'' site as in
 Sites, Lemma \ref{sites-lemma-topos-good-site} 
 we may assume that $K, K'$ are objects of $\mathcal{C}$ and that
 $\mathcal{U} = \{K' \to K\}$ is a covering. Then we have the {\v C}ech
@@ -5007,6 +5023,132 @@ is an isomorphism.
 
 
 
+
+
+
+
+\section{Mayer-Vietoris}
+\label{section-mayer-vietoris}
+
+\noindent
+For the usual statement and proof of Mayer-Vietoris, please
+see Cohomology of Sheaves, Section \ref{cohomology-section-mayer-vietoris}.
+
+\medskip\noindent
+Let $\mathcal{C}$ be a site. Consider a commutative diagram
+$$
+\xymatrix{
+E \ar[d] \ar[r] & Y \ar[d] \\
+Z \ar[r] & X
+}
+$$
+of objects of $\mathcal{C}$. In this situation, given an abelian
+sheaf $\mathcal{F}$ on $\mathcal{C}$ we get what looks like the
+beginning of a distinguished triangle
+$$
+R\Gamma(X, \mathcal{F}) \to
+R\Gamma(Z, \mathcal{F}) \oplus
+R\Gamma(Y, \mathcal{F}) \to
+R\Gamma(E, \mathcal{F})
+$$
+Let us give a criterion for when this does produce
+a distinguished triangle.
+
+\begin{lemma}
+\label{lemma-square-triangle}
+In the situation above assume
+\begin{enumerate}
+\item $h_X^\# = h_Y^\# \amalg_{h_E^\#} h_Z^\#$, and
+\item $h_E^\# \to h_Y^\#$ is injective.
+\end{enumerate}
+Then there is a canonical distinguished triangle
+$$
+R\Gamma(X, K) \to
+R\Gamma(Z, K) \oplus
+R\Gamma(Y, K) \to
+R\Gamma(E, K) \to R\Gamma(X, K)[1]
+$$
+functorial for $K$ in $D(\mathcal{C})$.
+\end{lemma}
+
+\begin{proof}
+We can represent $K$ by a K-injective complex whose terms are injective
+abelian sheaves, see Section \ref{section-unbounded}.
+Thus it suffices to show: if $\mathcal{I}$ is an injective abelian
+sheaf, then
+$$
+0 \to \mathcal{I}(X) \to
+\mathcal{I}(Z) \oplus \mathcal{I}(Y) \to
+\mathcal{I}(E) \to 0
+$$
+is a short exact sequence. The first arrow is injective
+because by condition (1) the map $h_Y \amalg h_Z \to h_X$
+becomes surjective after sheafification, which means that
+$\{Y \to X, Z \to X\}$ can be refined by a covering of $X$.
+The last arrow is surjective because $\mathcal{I}(Y) \to \mathcal{I}(E)$
+is surjective. Namely, we have
+$\mathcal{I}(E) = \Hom(\mathbf{Z}_E^\#, \mathcal{I})$,
+$\mathcal{I}(Y) = \Hom(\mathbf{Z}_Y^\#, \mathcal{I})$,
+the map $\mathbf{Z}_E^\# \to \mathbf{Z}_Y^\#$ is injective
+by (2), and $\mathcal{I}$ is an injective abelian sheaf.
+Please compare with Modules on Sites, Section
+\ref{sites-modules-section-free-abelian-sheaf}.
+Finally, suppose we have $s \in \mathcal{I}(Y)$ and
+$t \in \mathcal{F}(Z)$ mapping to the same element of
+$\mathcal{I}(E)$. Then $s$ and $t$ define a map
+$$
+s \amalg t : h_Y^\# \amalg h_Z^\# \longrightarrow \mathcal{I}
+$$
+which by assumption factors through $h_Y^\# \amalg_{h_E^\#} h_Z^\#$.
+Thus by assumption (1) we obtain a unique map
+$h_X^\# \to \mathcal{I}$ which corresponds to an element
+of $\mathcal{I}(X)$ restricting to $s$ on $Y$ and $t$ on $Z$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-square-triangle-general}
+Let $\mathcal{C}$ be a site. Consider a commutative diagram
+$$
+\xymatrix{
+\mathcal{D} \ar[r] \ar[d] & \mathcal{F} \ar[d] \\
+\mathcal{E} \ar[r] & \mathcal{G}
+}
+$$
+of presheaves of sets on $\mathcal{C}$ and assume that
+\begin{enumerate}
+\item $\mathcal{G}^\# =
+\mathcal{E}^\# \amalg_{\mathcal{D}^\#} \mathcal{F}^\#$, and
+\item $\mathcal{D}^\# \to \mathcal{F}^\#$ is injective.
+\end{enumerate}
+Then there is a canonical distinguished triangle
+$$
+R\Gamma(\mathcal{G}, K) \to
+R\Gamma(\mathcal{E}, K) \oplus
+R\Gamma(\mathcal{F}, K) \to
+R\Gamma(\mathcal{D}, K) \to
+R\Gamma(\mathcal{G}, K)[1]
+$$
+functorial in $K \in D(\mathcal{C})$ where $R\Gamma(\mathcal{G}, -)$
+is the cohomology discussed in Section \ref{section-limp}.
+\end{lemma}
+
+\begin{proof}
+Since sheafification is exact and since
+$R\Gamma(\mathcal{G}, -) = R\Gamma(\mathcal{G}^\#, -)$
+we may assume $\mathcal{D}, \mathcal{E}, \mathcal{F}, \mathcal{G}$
+are sheaves of sets. Moreover, the cohomology
+$R\Gamma(\mathcal{G}, -)$ only depends on the topos,
+not on the underlying site. Hence by
+Sites, Lemma \ref{sites-lemma-topos-good-site}
+we may replace $\mathcal{C}$ by a ``larger'' site
+with a subcanonical topology such that $\mathcal{G} = h_X$,
+$\mathcal{F} = h_Y$,
+$\mathcal{E} = h_Z$, and
+$\mathcal{D} = h_E$
+for some objects $X, Y, Z, E$ of $\mathcal{C}$..
+In this case the result follows from
+Lemma \ref{lemma-square-triangle}.
+\end{proof}
 
 
 
