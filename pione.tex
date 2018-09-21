@@ -5095,9 +5095,11 @@ for $y \in Y \setminus V$,
 \item $Y \to X$ is \'etale if and only if $\mathcal{B}$
 is finite locally free as an $\mathcal{O}_X$-module.
 \end{enumerate}
-Moreover, the construction of $\mathcal{B}$ and $Y \to X$ commute
+Moreover, (a) the construction of $\mathcal{B}$ and $Y \to X$ commutes
 with base change by flat morphisms $X' \to X$ of locally Noetherian
-schemes.
+schemes, and (b) if $V' \to U'$ is a finite \'etale morphism with
+$U \subset U' \subset X$ open which restricts to $V \to U$ over $U$,
+then there is a unique isomorphism $Y' \times_X U' = V'$ over $U'$.
 \end{lemma}
 
 \begin{proof}
@@ -5155,9 +5157,11 @@ Algebra, Lemma
 \ref{algebra-lemma-Noetherian-finite-type-is-finite-presentation}).
 
 \medskip\noindent
-The final assertion of the lemma follows from
+As to the final assertions of the lemma, part (a) follows from
 flat base change, see
-Cohomology of Schemes, Lemma \ref{coherent-lemma-flat-base-change-cohomology}.
+Cohomology of Schemes, Lemma \ref{coherent-lemma-flat-base-change-cohomology}
+and part (b) follows from the uniqueness in (2) applied to the restriction
+$Y \times_X U'$.
 \end{proof}
 
 \begin{lemma}
@@ -5616,6 +5620,54 @@ In this section is a continuation of the discussion in
 Sections \ref{section-local-purity} and \ref{section-local-purity-II}.
 
 \begin{lemma}
+\label{lemma-fully-faithful-power-series-over-depth2}
+Let $(A, \mathfrak m)$ be a Noetherian local ring of depth $\geq 2$.
+Let $B = A[[x_1, \ldots, x_d]]$ with $d \geq 1$.
+Set $Y = \Spec(B)$ and $Y_0 = V(x_1, \ldots, x_d)$.
+For any open subscheme $V \subset Y$ with
+$V_0 = V \cap Y_0$ equal to $Y_0 \setminus \{\mathfrak m_B\}$
+the restriction functor
+$$
+\textit{F\'Et}_V \longrightarrow \textit{F\'Et}_{V_0}
+$$
+is fully faithful.
+\end{lemma}
+
+\begin{proof}
+Set $I = (x_1, \ldots, x_d)$. Set $X = \Spec(A)$.
+If we use the map $Y \to X$ to identify $Y_0$ with $X$,
+then $V_0$ is identified with the punctured spectrum $U$ of $A$.
+Pushing forward modules by this affine morphism we get
+\begin{align*}
+\lim_n \Gamma(V_0, \mathcal{O}_V/I^n\mathcal{O}_V)
+& =
+\lim_n \Gamma(V_0, \mathcal{O}_Y/I^n\mathcal{O}_Y) \\
+& =
+\lim_n \Gamma(U, \mathcal{O}_U[x_1, \ldots, x_d]/(x_1, \ldots, x_d)^n) \\
+& =
+\lim_n A[x_1, \ldots, x_d]/(x_1, \ldots, x_d)^n \\
+& =
+B
+\end{align*}
+Namely, as the depth of $A$ is $\geq 2$ we have $\Gamma(U, \mathcal{O}_U) = A$,
+see Local Cohomology, Lemma
+\ref{local-cohomology-lemma-finiteness-pushforwards-and-H1-local}.
+Thus for any $V \subset Y$ open as in the lemma we get
+$$
+B = \Gamma(Y, \mathcal{O}_Y) \to \Gamma(V, \mathcal{O}_V) \to
+\lim_n \Gamma(V_0, \mathcal{O}_Y/I^n\mathcal{O}_Y) = B
+$$
+which implies both arrows are isomorphisms (small detail omitted).
+By Algebraic and Formal Geometry, Lemma 
+\ref{algebraization-lemma-completion-fully-faithful}
+we conclude that
+$\textit{Coh}(\mathcal{O}_V) \to \textit{Coh}(V, I\mathcal{O}_V)$
+is fully faithful on the full subcategory of finite locally free objects.
+Thus we conclude by
+Lemma \ref{lemma-restriction-fully-faithful}.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-purity-power-series-over-depth2}
 Let $(A, \mathfrak m)$ be a Noetherian local ring of depth $\geq 2$. Let
 $B = A[[x_1, \ldots, x_d]]$ with $d \geq 1$. For any open
@@ -5648,60 +5700,43 @@ Lemma \ref{lemma-depth-2-connected-punctured-spectrum}.
 Let $W \to V$ be a finite \'etale morphism. Let $B \to C$ be the unique finite
 ring map such that $\Spec(C) \to Y$ is the finite morphism extending
 $W \to V$ constructed in Lemma \ref{lemma-extend-S2}.
-Set $I = (x_1, \ldots, x_d) \subset B$. For every $n \geq 0$ denote
-$Y_n = \Spec(B/I^{n + 1})$ and consider the finite \'etale morphism
-$$
-W_n = Y_n \times_Y W \longrightarrow V_n = Y_n \cap V
-$$
-Set $X = \Spec(A)$ and denote $U \subset X$ the punctured spectrum of $A$.
-Observe that $Y_0 \to X$ and $V_0 \to U$ are isomorphisms and
-for $n \geq 1$ we have that
-$$
-V_n \cong U \times_X Y_n
-$$
-is a thickening of $V_0 = U$. By the topological invariance of
-finite \'etale coverings we see that there are isomorphisms
-$$
-W_n \cong W_0 \times_X Y_n
-$$
-compatible for varying $n$ as both sides are schemes finite \'etale
-over $V_n$ whose restriction to $V_0 = U$ is equal to $W_0$.
-See Lemma \ref{lemma-thickening}. We conclude that
-$$
-\lim \Gamma(W_n, \mathcal{O}_{W_n}) =
-\lim \Gamma(W_0, \mathcal{O}_{W_0}) \otimes_A B/I^n
-$$
-Observe that $C_0 = \Gamma(W_0, \mathcal{O}_{W_0})$ is a finite $A$-algebra
-by Lemma \ref{lemma-extend-S2} applied to $W_0 \to U \subset X$ (exactly
-as we did for $B \to C$ above). Thus we can consider the map
-$$
-C = \Gamma(W, \mathcal{O}_W)
-\longrightarrow
-\lim \Gamma(W_n, \mathcal{O}_{W_n}) = \lim C_0 \otimes_A B/I^n
-= C_0 \otimes_A B
-$$
-The final equality on the right hand side holds by
-Algebra, Proposition \ref{algebra-proposition-fp-tensor}.
-This map determines a morphism
-$$
-\Psi : \Spec(C_0) \times_X Y \longrightarrow \Spec(C)
-$$
-of schemes over $Y$. Over $U \times_X Y$ these schemes are finite \'etale
-and above points of $V_0 = U \times_X Y_0$
-we obtain an isomorphism by construction.
-Since the fibres of $U \times_X Y \to U$ are connected
-(small detail omitted) we conclude that
-$\Psi$ is an isomorphism over $U \times_X Y$.
-Since the construction in Lemma \ref{lemma-extend-S2}
-is compatible with the flat base change $Y \to X$,
-we conclude that $\Psi$ must be an isomorphism
-(by the uniqueness inherent in the lemma).
+Observe that $C = \Gamma(W, \mathcal{O}_W)$.
 
 \medskip\noindent
-However, we know that $\Spec(C) \to Y$ is \'etale at all points above
-at least one point of $Y$ lying over $\mathfrak m \in X$.
-Since $\Psi$ is an isomorphism, we conclude that $\Spec(C_0) \to X$
-is \'etale at all points above $\mathfrak m$ (small detail omitted).
+Set $Y_0 = V(x_1, \ldots, x_d)$ and $V_0 = V \cap Y_0$. Set $X = \Spec(A)$.
+If we use the map $Y \to X$ to identify $Y_0$ with $X$,
+then $V_0$ is identified with the punctured spectrum $U$ of $A$.
+Thus we may view $W_0 = W \times_Y Y_0$ as a finite \'etale scheme
+over $U$. Then
+$$
+W_0 \times_U (U \times_X Y)
+\quad\text{and}\quad
+W \times_V (U \times_X Y)
+$$
+are schemes finite \'etale over $U \times_X Y$ which restrict to
+isomorphic finite \'etale schemes over $V_0$. By
+Lemma \ref{lemma-fully-faithful-power-series-over-depth2}
+applied to the open $U \times_X Y$ we obtain an isomorphism
+$$
+W_0 \times_U (U \times_X Y) \longrightarrow W \times_V (U \times_X Y)
+$$
+over $U \times_X Y$.
+
+\medskip\noindent
+Observe that $C_0 = \Gamma(W_0, \mathcal{O}_{W_0})$ is a finite $A$-algebra
+by Lemma \ref{lemma-extend-S2} applied to $W_0 \to U \subset X$ (exactly
+as we did for $B \to C$ above). Since the construction in
+Lemma \ref{lemma-extend-S2} is compatible with flat base change
+and with change of opens, the isomorphism above induces
+an isomorphism
+$$
+\Psi : C \longrightarrow C_0 \otimes_A B
+$$
+of finite $B$-algebras. However, we know that $\Spec(C) \to Y$
+is \'etale at all points above at least one point of $Y$ lying
+over $\mathfrak m \in X$. Since $\Psi$ is an isomorphism, we
+conclude that $\Spec(C_0) \to X$
+is \'etale above $\mathfrak m$ (small detail omitted).
 Of course this means that $A \to C_0$ is finite
 \'etale and hence $B \to C$ is finite \'etale.
 \end{proof}
@@ -6902,6 +6937,254 @@ more we may assume $e_i$ is invertible in $A_\lambda$. Then
 $\Spec(A_\lambda) \to \Spec(A)$ is the desired \'etale neighbourhood
 of $x$ and the proof is complete.
 \end{proof}
+
+\begin{lemma}
+\label{lemma-extend-tame-covering-normal}
+In the situation of Lemma \ref{lemma-abhyankar-one-divisor}
+the normalization of $X$ in $Y$ is a finite locally free morphism
+$\pi : Y' \to X$ such that
+\begin{enumerate}
+\item the restriction of $Y'$ to $X \setminus D$ is isomorphic to $Y$,
+\item $D' = \pi^{-1}(D)_{red}$ is an effective Cartier divisor on $Y'$, and
+\item $D'$ is a regular scheme.
+\end{enumerate}
+Moreover, \'etale locally on $X$ the morphism $Y' \to X$ is a finite disjoint
+union of morphisms
+$$
+\Spec(A[x]/(x^e - f)) \to \Spec(A)
+$$
+where $A$ is a Noetherian ring, $f \in A$ is a nonzerodivisor with
+$A/fA$ regular, and $e \geq 1$ is invertible in $A$.
+\end{lemma}
+
+\begin{proof}
+This is just an addendum to Lemma \ref{lemma-abhyankar-one-divisor}
+and in fact the truth of this lemma follows almost immediately if
+you've read the proof of that lemma. But we can also deduce
+the lemma from the result of Lemma \ref{lemma-abhyankar-one-divisor}.
+Namely, taking the normalization of $X$ in $Y$ commutes with
+\'etale base change, see More on Morphisms, Lemma
+\ref{more-morphisms-lemma-normalization-smooth-localization}.
+Hence we see that we may prove the statements on the local structure
+of $Y' \to X$ \'etale locally on $X$. Thus, by
+Lemma \ref{lemma-abhyankar-one-divisor} we may assume that
+$X = \Spec(A)$ where $A$ is a Noetherian ring, that we have a
+nonzerodivisor $f\in A$ such that $A/fA$ is regular, and that $Y$
+is a finite disjoint union of spectra of rings $A_f[x]/(x^e - f)$
+where $e$ is invertible in $A$. We omit the verification that
+the integral closure of $A$ in $A_f[x]/(x^e - f)$ is
+equal to $A' = A[x]/(x^e - f)$. (To see this argue that
+the localizations of $A'$ at primes lying over $(f)$ are regular.)
+We omit the details.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-tame-covering-split}
+In the situation of Lemma \ref{lemma-abhyankar-one-divisor}
+let $Y' \to X$ be as in Lemma \ref{lemma-extend-tame-covering-normal}.
+Let $R$ be a discrete valuation ring with fraction field $K$.
+Let
+$$
+t : \Spec(R) \to X
+$$
+be a morphism such that the scheme theoretic inverse image
+$t^{-1}D$ is the reduced closed point of $\Spec(R)$.
+\begin{enumerate}
+\item If $t|_{\Spec(K)}$ lifts to a point of $Y$, then
+we get a lift $t' : \Spec(R) \to Y'$ such that $Y' \to X$
+is \'etale along $t'(\Spec(R))$.
+\item If $\Spec(K) \times_X Y$ is isomorphic to a disjoint union
+of copies of $\Spec(K)$, then $Y' \to X$ is finite \'etale
+over an open neighbourhood of $t(\Spec(R))$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+By the valuative criterion of properness applied to
+the finite morphism $Y' \to X$ we see that $\Spec(K)$-valued
+points of $Y$ matching $t|_{\Spec(K)}$ as maps into $X$
+lift uniquely to morphisms $t' : \Spec(R) \to Y'$.
+Thus statement (1) make sense.
+
+\medskip\noindent
+Choose an \'etale neighbourhood $(U, u) \to (X, t(\mathfrak m_R))$
+such that $U = \Spec(A)$ and such that $Y' \times_X U \to U$
+has a description as in Lemma \ref{lemma-extend-tame-covering-normal}
+for some $f \in A$. Then $\Spec(R) \times_X U \to \Spec(R)$ is \'etale
+and surjective. If $R'$ denotes the local ring of
+$\Spec(R) \times_X U$ lying over the closed point of $\Spec(R)$,
+then $R'$ is a discrete valuation ring and $R \subset R'$
+is an unramified extension of discrete valuation rings
+(More on Algebra, Lemma \ref{more-algebra-lemma-Dedekind-etale-extension}).
+The assumption on $t$ signifies that the map $A \to R'$
+corresponding to
+$$
+\Spec(R') \to \Spec(R) \times_X U \to U
+$$
+maps $f$ to a uniformizer $\pi \in R'$. Now suppose that
+$$
+Y' \times_X U =
+\coprod\nolimits_{i \in I} \Spec(A[x]/(x^{e_i} - f))
+$$
+for some $e_i \geq 1$. Then we see that
+$$
+\Spec(R') \times_U (Y' \times_X U) =
+\coprod\nolimits_{i \in I} \Spec(R'[x]/(x^{e_i} - \pi))
+$$
+The rings $R'[x]/(x^{e_i} - f)$ are discrete valuation rings
+(More on Algebra, Lemma \ref{more-algebra-lemma-pull-root-uniformizer})
+and hence have no map into the fraction field of $R'$ unless $e_i = 1$.
+
+\medskip\noindent
+Proof of (1). In this case the map $t' : \Spec(R) \to Y'$ base changes
+to determine a corresponding map $t'' : \Spec(R') \to Y' \times_X U$
+which must map into a summand corresponding to $i \in I$ with $e_i = 1$
+by the discussion above. Thus clearly we see that $Y' \times_X U \to U$
+is \'etale along the image of $t''$. Since being \'etale is a property
+one can check after \'etale base chamge, this proves (1).
+
+\medskip\noindent
+Proof of (2). In this case the assumption implies that $e_i = 1$
+for all $i \in I$. Thus $Y' \times_X U \to U$ is finite \'etale
+and we conclude as before.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-extend-covering}
+Let $S$ be an integral normal Noetherian scheme with generic point $\eta$.
+Let $f : X \to S$ be a smooth morphism with geometrically connected fibres.
+Let $\sigma : S \to X$ be a section of $f$. Let $Z \to X_\eta$ be a
+finite \'etale Galois cover (Remark \ref{remark-finite-etale-under-galois})
+with group $G$ of order invertible on $S$ such that
+$Y$ has a $\kappa(\eta)$-rational point mapping to $\sigma(\eta)$.
+Then there exists a finite \'etale Galois cover $Y \to X$ with group $G$
+whose restriction to $X_\eta$ is $Z$.
+\end{lemma}
+
+\begin{proof}
+First assume $S = \Spec(R)$ is the spectrum of a discrete valuation ring $R$
+with closed point $s \in S$. Then $X_s$ is an effective Cartier
+divisor in $X$ and $X_s$ is regular as a scheme smooth over a field.
+Moreover the generic fibre $X_\eta$ is the open subscheme $X \setminus X_s$.
+It follows from
+More on Algebra, Lemma \ref{more-algebra-lemma-galois-conclusion}
+and the assumption on $G$ that $Z$ is tamely ramified
+over $X$ in codimension $1$. Let $Z' \to X$ be as in
+Lemma \ref{lemma-extend-tame-covering-normal}. Observe that
+the action of $G$ on $Z$ extends to an action of $G$ on $Z'$.
+By Lemma \ref{lemma-tame-covering-split}
+we see that $Z' \to X$ is finite \'etale over an open
+neighbourhood of $\sigma(y)$.
+Since $X_s$ is irreducible, this implies $Z \to X_\eta$
+is unramified over $X$ in codimension $1$.
+Then we get a finite \'etale morphism $Y \to X$
+whose restriction to $X_\eta$ is $Z$ by
+Lemma \ref{lemma-purity-one-divisor}.
+Of course $Y \cong Z'$ (details omitted; hint: compute \'etale locally)
+and hence $Y$ is a Galois cover with group $G$.
+
+\medskip\noindent
+General case. Let $U \subset S$ be a maximal open subscheme
+such that there exists a finite \'etale Galois cover
+$Y \to X \times_S U$ with group $G$
+whose restriction to $X_\eta$ is isomorphic to $Z$.
+Assume $U \not = S$ to get a contradiction.
+Let $s \in S \setminus U$ be a generic point of an irreducible
+component of $S \setminus U$. Then the inverse image $U_s$
+of $U$ in $\Spec(\mathcal{O}_{S, s})$
+is the punctured spectrum of $\mathcal{O}_{S, s}$.
+We claim $Y \times_S U_s \to X \times_S U_s$
+is the restriction of a finite \'etale Galois cover
+$Y'_s \to X \times_S \Spec(\mathcal{O}_{S, s})$
+with group $G$.
+
+\medskip\noindent
+Let us first prove the claim produces the desired contradiction.
+By Limits, Lemma \ref{limits-lemma-glueing-near-point}
+we find an open subscheme $U \subset U' \subset S$
+containing $s$ and a morphism $Y'' \to U'$ of finite presentation
+whose restriction to $U$ recovers $Y' \to U$ and
+whose restriction to $\Spec(\mathcal{O}_{S, s})$ recovers $Y'_s$.
+Moreover, by the equivalence of categories given in the
+lemma, we may assume after shrinking $U'$
+there is a morphism $Y'' \to U' \times_S X$
+and there is an action of $G$ on $Y''$ over $U' \times_S X$
+compatible with the given morphisms and actions after base
+change to $U$ and $\Spec(\mathcal{O}_{S, s})$.
+After shrinking $U'$ further if necessary, we may
+assume $Y'' \to U \times_S X$ is finite \'etale, see
+Limits, Lemma \ref{limits-lemma-glueing-near-point-properties}.
+This means we have found a strictly larger open of $S$ over which
+$Y$ extends to a finite \'etale Galois cover with group $G$
+which gives the contradiction we were looking for.
+
+\medskip\noindent
+Proof of the claim. We may and do replace $S$ by $\Spec(\mathcal{O}_{S, s})$.
+Then $S = \Spec(A)$ where $(A, \mathfrak m)$ is a local normal domain.
+Also $U \subset S$ is the punctured spectrum and we have a finite
+\'etale Galois cover $Y \to X \times_S U$ with group $G$.
+If $\dim(A) = 1$, then we can construct the extension of $Y$ to
+a Galois covering of $X$ by the first paragraph of the proof.
+Thus we may assume $\dim(A) \geq 2$ and hence $\text{depth}(A) \geq 2$
+as $S$ is normal, see Algebra, Lemma \ref{algebra-lemma-criterion-normal}.
+Since $X \to S$ is flat, we conclude that
+$\text{depth}(\mathcal{O}_{X, x}) \geq 2$ for every point $x \in X$
+mapping to $s$, see
+Algebra, Lemma \ref{algebra-lemma-apply-grothendieck}.
+Let
+$$
+Y' \longrightarrow X
+$$
+be the finite morphism constructed in Lemma \ref{lemma-extend-S2}
+using $Y \to X \times_S U$. Observe that we obtain a canonical
+$G$-action on $Y$. Thus all that remains is to show that $Y'$
+is \'etale over $X$. In fact, by
+Lemma \ref{lemma-purity-smooth-over-depth2} (for example)
+it even suffices to show that $Y' \to X$ is \'etale over the
+(unique) generic point of the fibre $X_s$. This we do by
+a local calculation in a (formal) neighbourhood of $\sigma(s)$.
+
+\medskip\noindent
+Choose an affine open $\Spec(B) \subset X$ containing $\sigma(s)$.
+Then $A \to B$ is a smooth ring map which has a section $\sigma : B \to A$.
+Denote $I = \Ker(\sigma)$ and denote $B^\wedge$ the
+$I$-adic completion of $B$. Then $B^\wedge \cong A[[x_1, \ldots, x_d]]$
+for some $d \geq 0$, see
+Algebra, Lemma \ref{algebra-lemma-section-smooth}.
+Of course $B \to B^\wedge$ is flat
+(Algebra, Lemma \ref{algebra-lemma-completion-flat})
+and the image of $\Spec(B^\wedge) \to X$ contains the generic point of $X_s$.
+Let $V \subset \Spec(B^\wedge)$ be the inverse image of $U$.
+Consider the finite \'etale morphism
+$$
+W = Y \times_{(X \times_S U)} V \longrightarrow V
+$$
+By the compatibility of the construction of $Y'$
+with flat base change in Lemma \ref{lemma-extend-S2}
+we find that the base chang
+$Y' \times_X \Spec(B^\wedge) \to \Spec(B^\wedge)$
+is constructed from $W \to V$ over $\Spec(B^\wedge)$
+by the procedure in Lemma \ref{lemma-extend-S2}.
+Set $V_0 = V \cap V(x_1, \ldots, x_d) \subset V$ and $W_0 = W \times_V V_0$.
+This is a normal integral scheme which maps into $\sigma(S)$
+by the morphism $\Spec(B^\wedge) \to X$ and in fact is identified
+with $\sigma(U)$. Hence we know that $W_0 \to V_0 = U$ completely decomposes
+as this is true for its generic fibre by our assumption
+on $Z \to X_\eta$ having a $\kappa(\eta)$-rational point lying over
+$\sigma(\eta)$ (and of course the $G$-action then implies the whole
+fibre $Z_{\sigma(\eta)}$ is a disjoint union of copies of
+the scheme $\eta = \Spec(\kappa(\eta))$).
+Finally, by
+Lemma \ref{lemma-fully-faithful-power-series-over-depth2}
+we have
+$$
+W_0 \times_U V \cong W
+$$
+This shows that $W$ is a disjoint union of copies of $V$
+and hence $Y' \times_X \Spec(B^\wedge)$ is a disjoint
+union of copies of $\Spec(B^\wedge)$ and the proof is complete.
+\end{proof}
+
 
 
 
