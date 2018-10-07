@@ -5011,6 +5011,76 @@ $(T \times_S T)_{\overline{s}}$ both
 correspond to this same element and we conclude.
 \end{proof}
 
+\noindent
+Here is a version of Lemma \ref{lemma-sections-upstairs}
+where we do not assume that the morphism is flat.
+
+\begin{lemma}
+\label{lemma-sections-upstairs-submersive}
+Let $S$ be a scheme. Let $f : X \to S$ be a morphism such that
+\begin{enumerate}
+\item $f$ is submersive, and
+\item the geometric fibres of $f$ are connected.
+\end{enumerate}
+Let $\mathcal{F}$ be a sheaf on $S_\etale$.
+Then $\Gamma(S, \mathcal{F}) = \Gamma(X, f^{-1}_{small}\mathcal{F})$.
+\end{lemma}
+
+\begin{proof}
+There is a canonical map
+$\Gamma(S, \mathcal{F}) \to \Gamma(X, f_{small}^{-1}\mathcal{F})$.
+Since $f$ is surjective (because its fibres are connected) we see that
+this map is injective.
+
+\medskip\noindent
+To show that the map is surjective, let
+$\tau \in \Gamma(X, f_{small}^{-1}\mathcal{F})$.
+It suffices to find
+an \'etale covering $\{U_i \to S\}$ and
+sections $\sigma_i \in \mathcal{F}(U_i)$
+such that $\sigma_i$ pulls back to $\tau|_{X \times_S U_i}$.
+Namely, the injectivity shown above guarantees
+that $\sigma_i$ and $\sigma_j$ restrict to the same
+section of $\mathcal{F}$ over $U_i \times_S U_j$.
+Thus we obtain a unique section $\sigma \in \mathcal{F}(S)$
+which restricts to $\sigma_i$ over $U_i$.
+Then the pullback of $\sigma$ to $X$ is $\tau$
+because this is true locally.
+
+\medskip\noindent
+Let $\overline{x}$ be a geometric point of $X$ with image $\overline{s}$
+in $S$. Consider the image of $\tau$ in the stalk
+$$
+(f_{small}^{-1}\mathcal{F})_{\overline{x}} = \mathcal{F}_{\overline{s}}
+$$
+See Lemma \ref{lemma-stalk-pullback}.
+We can find an \'etale neighbourhood $U \to S$ of $\overline{s}$
+and a section $\sigma \in \mathcal{F}(U)$ mapping to this image
+in the stalk. Thus after replacing $S$ by $U$ and $X$ by $X \times_S U$
+we may assume there exits a section $\sigma$ of $\mathcal{F}$ over $S$
+whose image in $(f_{small}^{-1}\mathcal{F})_{\overline{x}}$ is the
+same as $\tau$.
+
+\medskip\noindent
+By Lemma \ref{lemma-where-sections-are-equal}
+there exists a maximal open $W \subset X$ such that
+$f_{small}^{-1}\sigma$ and $\tau$ agree over $W$
+and the formation of $W$ commutes with further pullback.
+Observe that the pullback of $\mathcal{F}$ to the
+geometric fibre $X_{\overline{s}}$ is the pullback
+of $\mathcal{F}_{\overline{s}}$ viewed as a sheaf on
+$\overline{s}$ by $X_{\overline{s}} \to \overline{s}$.
+Hence we see that $\tau$ and $\sigma$ give sections
+of the constant sheaf with value $\mathcal{F}_{\overline{s}}$
+on $X_{\overline{s}}$ which agree in one point. Since
+$X_{\overline{s}}$ is connected by assumption, we conclude
+that $W$ contains $X_s$. The same argument for different
+geometric fibres shows that $W$ contains every fibre it meets.
+Since $f$ is submersive, we conclude that $W$ is the inverse
+image of an open neighbourhood of $s$ in $S$.
+This finishes the proof.
+\end{proof}
+
 \begin{lemma}
 \label{lemma-sections-base-field-extension}
 Let $k \subset K$ be an extension of fields with $k$ separably
@@ -7158,10 +7228,55 @@ See Cohomology on Sites, Lemma
 for a result dealing with higher cohomology groups of colimits
 of abelian sheaves.
 
+\medskip\noindent
+In Cohomology on Sites, Lemma \ref{sites-cohomology-lemma-colimit}
+we generalize this result to a system of sheaves
+on an inverse system of sites. Here is the corresponding
+notion in the case of a system of \'etale sheaves living
+on an inverse system of schemes.
+
+\begin{definition}
+\label{definition-inverse-system-sheaves}
+Let $I$ be a preordered set. Let $(X_i, f_{i'i})$ be an inverse
+system of schemes over $I$.
+A {\it system $(\mathcal{F}_i, \varphi_{i'i})$ of sheaves
+on $(X_i, f_{i'i})$} is given by
+\begin{enumerate}
+\item a sheaf $\mathcal{F}_i$ on $(X_i)_\etale$ for all $i \in I$,
+\item for $i' \geq i$ a map
+$\varphi_{i'i} : f_{i'i}^{-1}\mathcal{F}_i \to \mathcal{F}_{i'}$
+of sheaves on $(X_{i'})_\etale$
+\end{enumerate}
+such that $\varphi_{i''i} = \varphi_{i''i'} \circ f_{i'' i'}^{-1}\varphi_{i'i}$
+whenever $i'' \geq i' \geq i$.
+\end{definition}
+
+\noindent
+In the situation of Definition \ref{definition-inverse-system-sheaves},
+assume $I$ is a directed set and the transition morphisms $f_{i'i}$ affine.
+Let $X = \lim X_i$ be the limit in the category of schemes, see
+Limits, Section \ref{limits-section-limits}.
+Denote $f_i : X \to X_i$ the projection morphisms and consider the maps
+$$
+f_i^{-1}\mathcal{F}_i = f_{i'}^{-1}f_{i'i}^{-1}\mathcal{F}_i
+\xrightarrow{f_{i'}^{-1}\varphi_{i'i}}
+f_{i'}^{-1}\mathcal{F}_{i'}
+$$
+This turns $f_i^{-1}\mathcal{F}_i$ into a system of sheaves on $X_\etale$
+over $I$ (it is a good exercise to check this).
+We often want to know whether there is an isomorphism
+$$
+H^q_\etale(X, \colim f_i^{-1}\mathcal{F}_i) =
+\colim H^q_\etale(X_i, \mathcal{F}_i)
+$$
+It will turn out this is true if $X_i$ is quasi-compact and quasi-separated
+for all $i$, see Theorem \ref{theorem-colimit}.
+
 \begin{lemma}
 \label{lemma-colimit-affine-sites}
-Let $X = \lim_{i \in I} X_i$ be a limit of a directed system of schemes
-with affine transition morphisms $f_{i'i} : X_{i'} \to X_i$. With
+Let $I$ be a directed set. Let $(X_i, f_{i'i})$ be an inverse
+system of schemes over $I$ with affine transition morphisms.
+Let $X = \lim_{i \in I} X_i$. With
 notation as in Lemma \ref{lemma-alternative} we have
 $$
 X_{affine, \etale} = \colim (X_i)_{affine, \etale}
@@ -7191,7 +7306,7 @@ a covering for $i'$ large enough, see
 Limits, Lemma \ref{limits-lemma-descend-surjective}.
 
 \medskip\noindent
-In the general case, let $U$ be an object of $X_{affine, \'etale}$.
+In the general case, let $U$ be an object of $X_{affine, \etale}$.
 Then $U \to X$ is \'etale and separated (as $U$ is separated)
 but in general not quasi-compact. Still, $U \to X$ is locally
 of finite presentation and hence by
@@ -7210,7 +7325,7 @@ Limits, Lemma \ref{limits-lemma-descend-etale}
 to see that $U_{i, j} \to W_{i, j}$ is \'etale
 after possibly increasing $i$.
 In this way we see that the functor
-$\colim (X_i)_{affine, \etale} \to X_{affine, \'etale}$
+$\colim (X_i)_{affine, \etale} \to X_{affine, \etale}$
 is essentially surjective. Fully faithfulness follows
 directly from the already used
 Limits, Lemma \ref{limits-lemma-descend-finite-presentation-variant}.
@@ -7226,16 +7341,8 @@ Using the above we get the following general result on colimits and cohomology.
 Let $X = \lim_{i \in I} X_i$ be a limit of a directed system of schemes
 with affine transition morphisms $f_{i'i} : X_{i'} \to X_i$. We assume
 that $X_i$ is quasi-compact and quasi-separated for all $i \in I$.
-Assume given
-\begin{enumerate}
-\item an abelian sheaf $\mathcal{F}_i$ on $(X_i)_\etale$ for all $i \in I$,
-\item for $i' \geq i$ a map
-$\varphi_{i'i} : f_{i'i}^{-1}\mathcal{F}_i \to \mathcal{F}_{i'}$
-of abelian sheaves on $(X_{i'})_\etale$
-\end{enumerate}
-such that $\varphi_{i''i} = \varphi_{i''i'} \circ f_{i'' i'}^{-1}\varphi_{i'i}$
-whenever $i'' \geq i' \geq i$.
-Denote $f_i : X \to X_i$ the projection and set
+Let $(\mathcal{F}_i, \varphi_{i'i})$ be a system of abelian sheaves
+on $(X_i, f_{i'i})$. Denote $f_i : X \to X_i$ the projection and set
 $\mathcal{F} = \colim f_i^{-1}\mathcal{F}_i$. Then
 $$
 \colim_{i\in I} H_\etale^p(X_i, \mathcal{F}_i) = H_\etale^p(X, \mathcal{F}).
@@ -7257,9 +7364,9 @@ The following two results are special cases of the theorem above.
 
 \begin{lemma}
 \label{lemma-colimit}
-Let $X$ be a quasi-compact and quasi-separated scheme. Let
-$\left(\mathcal{F}_i, \varphi_{ij}\right)$ be a system of abelian sheaves on
-$X_\etale$ over the preordered set $I$. If $I$ is directed then
+Let $X$ be a quasi-compact and quasi-separated scheme. Let $I$
+be a directed set. Let $(\mathcal{F}_i, \varphi_{ij})$ be a system
+of abelian sheaves on $X_\etale$ over $I$. Then
 $$
 \colim_{i\in I} H_\etale^p(X, \mathcal{F}_i) = H_\etale^p(X,
 \colim_{i\in I} \mathcal{F}_i).
@@ -7362,16 +7469,8 @@ Let $S$ be a scheme. Let $X = \lim_{i \in I} X_i$ be a limit of a
 directed system of schemes over $S$ with affine transition morphisms
 $f_{i'i} : X_{i'} \to X_i$. We assume the structure morphisms
 $g_i : X_i \to S$ and $g : X \to S$ are quasi-compact and quasi-separated.
-Assume given
-\begin{enumerate}
-\item an abelian sheaf $\mathcal{F}_i$ on $(X_i)_\etale$ for all $i \in I$,
-\item for $i' \geq i$ a map
-$\varphi_{i'i} : f_{i'i}^{-1}\mathcal{F}_i \to \mathcal{F}_{i'}$
-of abelian sheaves on $(X_{i'})_\etale$
-\end{enumerate}
-such that $\varphi_{i''i} = \varphi_{i''i'} \circ f_{i'' i'}^{-1}\varphi_{i'i}$
-whenever $i'' \geq i' \geq i$.
-Denote $f_i : X \to X_i$ the projection and set
+Let $(\mathcal{F}_i, \varphi_{i'i})$ be a system of abelian sheaves
+on $(X_i, f_{i'i})$. Denote $f_i : X \to X_i$ the projection and set
 $\mathcal{F} = \colim f_i^{-1}\mathcal{F}_i$. Then
 $$
 \colim_{i\in I} R^p g_{i, *} \mathcal{F}_i = R^p g_* \mathcal{F}
@@ -7405,16 +7504,8 @@ $f_{i'i} : X_{i'} \to X_i$ and $h_{i'i} : S_{i'} \to S_i$ are affine.
 Let $g : X \to S$ be the limit of the morphisms $g_i$, see
 Limits, Section \ref{limits-section-limits}.
 Denote $f_i : X \to X_i$ and $h_i : S \to S_i$ the projections.
-Assume given
-\begin{enumerate}
-\item an abelian sheaf $\mathcal{F}_i$ on $(X_i)_\etale$ for all $i \in I$,
-\item for $i' \geq i$ a map
-$\varphi_{i'i} : f_{i'i}^{-1}\mathcal{F}_i \to \mathcal{F}_{i'}$
-of abelian sheaves on $(X_{i'})_\etale$
-\end{enumerate}
-such that $\varphi_{i''i} = \varphi_{i''i'} \circ f_{i'' i'}^{-1}\varphi_{i'i}$
-whenever $i'' \geq i' \geq i$. Set
-$\mathcal{F} = \colim f_i^{-1}\mathcal{F}_i$. Then
+Let $(\mathcal{F}_i, \varphi_{i'i})$ be a system of sheaves
+on $(X_i, f_{i'i})$. Set $\mathcal{F} = \colim f_i^{-1}\mathcal{F}_i$. Then
 $$
 R^p g_* \mathcal{F} =
 \colim_{i \in I} h_i^{-1}R^p g_{i, *} \mathcal{F}_i
@@ -7564,13 +7655,14 @@ we then conclude $\xi' = 0$ hence $\xi = 0$ as desired.
 Let $X = \lim_{i \in I} X_i$ be a directed limit of schemes
 with affine transition morphisms $f_{i'i}$ and projection morphisms
 $f_i : X \to X_i$. Let $\mathcal{F}$ be a sheaf on $X_\etale$. Then
-$$
-\mathcal{F} = \colim f_i^{-1}f_{i, *}\mathcal{F}
-$$
-where the transition maps are $f_{i'}^{-1}\varphi_{i'i}$ for some
-canonical maps
+\begin{enumerate}
+\item there are canonical maps
 $\varphi_{i'i} : f_{i'i}^{-1}f_{i, *}\mathcal{F} \to f_{i', *}\mathcal{F}$
-satisfying a cocycle condition as in Theorem \ref{theorem-colimit}.
+such that $(f_{i, *}\mathcal{F}, \varphi_{i'i})$ is a system of
+sheaves on $(X_i, f_{i'i})$ as in
+Definition \ref{definition-inverse-system-sheaves}, and
+\item $\mathcal{F} = \colim f_i^{-1}f_{i, *}\mathcal{F}$.
+\end{enumerate}
 \end{lemma}
 
 \begin{proof}
@@ -7595,7 +7687,7 @@ $$
 \end{lemma}
 
 \begin{proof}
-Formal combination of Lemmas \ref{lemma-relative-colimit}
+Formal combination of Lemmas \ref{lemma-relative-colimit-general}
 and \ref{lemma-linus-hamann}.
 \end{proof}
 
@@ -8012,60 +8104,6 @@ This is proved in exactly the same way, by showing that
 the sheaf $\mathcal{G}$ is the equalizer of the two maps
 $f_{0, *}f_0^{-1}\mathcal{G} \to f_{1, *}f_1^{-1}\mathcal{G}$.
 \end{remark}
-
-
-
-
-
-\noindent
-Here is a fun generalization of
-Lemma \ref{lemma-vanishing-etale-cohomology-strictly-henselian}.
-
-\begin{lemma}
-\label{lemma-local-rings-strictly-henselian}
-Let $S$ be a scheme all of whose local rings are strictly henselian.
-Then for any abelian sheaf $\mathcal{F}$ on $S_\etale$ we have
-$H^i(S_\etale, \mathcal{F}) = H^i(S_{Zar}, \mathcal{F})$.
-\end{lemma}
-
-\begin{proof}
-Let $\epsilon : S_\etale \to S_{Zar}$ be the morphism of sites given
-by the inclusion functor. The Zariski sheaf $R^p\epsilon_*\mathcal{F}$
-is the sheaf associated to the presheaf $U \mapsto H^p_\etale(U, \mathcal{F})$.
-Thus the stalk at $x \in X$ is
-$\colim H^p_\etale(U, \mathcal{F}) =
-H^p_\etale(\Spec(\mathcal{O}_{X, x}), \mathcal{G}_x)$
-where $\mathcal{G}_x$ denotes the pullback of $\mathcal{F}$
-to $\Spec(\mathcal{O}_{X, x})$, see
-Lemma \ref{lemma-directed-colimit-cohomology}.
-Thus the higher direct images of $R^p\epsilon_*\mathcal{F}$ are
-zero by
-Lemma \ref{lemma-vanishing-etale-cohomology-strictly-henselian}
-and we conclude by the Leray spectral sequence.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-affine-only-closed-points}
-Let $S$ be an affine scheme such that
-(1) all points are closed, and (2) all residue fields are separably
-algebraically closed. Then
-for any abelian sheaf $\mathcal{F}$ on $S_\etale$ we have
-$H^i(S_\etale, \mathcal{F}) = 0$ for $i > 0$.
-\end{lemma}
-
-\begin{proof}
-Condition (1) implies that the underlying topological space
-of $S$ is profinite, see
-Algebra, Lemma \ref{algebra-lemma-ring-with-only-minimal-primes}.
-Thus the higher cohomology groups of an abelian sheaf on the topological
-space $S$ (i.e., Zariski cohomology) is trivial, see
-Cohomology, Lemma \ref{cohomology-lemma-vanishing-for-profinite}.
-The local rings are strictly henselian by
-Algebra, Lemma \ref{algebra-lemma-local-dimension-zero-henselian}.
-Thus \'etale cohomology of $S$ is computed by Zariski cohomology
-by Lemma \ref{lemma-local-rings-strictly-henselian}
-and the proof is done.
-\end{proof}
 
 
 
@@ -12523,13 +12561,70 @@ Lemma \ref{lemma-cohomology-with-support-triangle}.
 
 
 
-\section{Affine analog of proper base change}
-\label{section-gabber-affine-proper}
+
+\section{Schemes with strictly henselian local rings}
+\label{section-strictly-henselian-local-rings}
 
 \noindent
-In this section we discuss a result by Ofer Gabber, see
-\cite{gabber-affine-proper}. This was also proved by Roland Huber, see
-\cite{Huber-henselian}.
+In this section we collect some results about the \'etale cohomology
+of schemes whose local rings are strictly henselian. For example,
+here is a fun generalization of
+Lemma \ref{lemma-vanishing-etale-cohomology-strictly-henselian}.
+
+\begin{lemma}
+\label{lemma-local-rings-strictly-henselian}
+Let $S$ be a scheme all of whose local rings are strictly henselian.
+Then for any abelian sheaf $\mathcal{F}$ on $S_\etale$ we have
+$H^i(S_\etale, \mathcal{F}) = H^i(S_{Zar}, \mathcal{F})$.
+\end{lemma}
+
+\begin{proof}
+Let $\epsilon : S_\etale \to S_{Zar}$ be the morphism of sites given
+by the inclusion functor. The Zariski sheaf $R^p\epsilon_*\mathcal{F}$
+is the sheaf associated to the presheaf $U \mapsto H^p_\etale(U, \mathcal{F})$.
+Thus the stalk at $x \in X$ is
+$\colim H^p_\etale(U, \mathcal{F}) =
+H^p_\etale(\Spec(\mathcal{O}_{X, x}), \mathcal{G}_x)$
+where $\mathcal{G}_x$ denotes the pullback of $\mathcal{F}$
+to $\Spec(\mathcal{O}_{X, x})$, see
+Lemma \ref{lemma-directed-colimit-cohomology}.
+Thus the higher direct images of $R^p\epsilon_*\mathcal{F}$ are
+zero by
+Lemma \ref{lemma-vanishing-etale-cohomology-strictly-henselian}
+and we conclude by the Leray spectral sequence.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-affine-only-closed-points}
+Let $S$ be an affine scheme such that
+(1) all points are closed, and (2) all residue fields are separably
+algebraically closed. Then
+for any abelian sheaf $\mathcal{F}$ on $S_\etale$ we have
+$H^i(S_\etale, \mathcal{F}) = 0$ for $i > 0$.
+\end{lemma}
+
+\begin{proof}
+Condition (1) implies that the underlying topological space
+of $S$ is profinite, see
+Algebra, Lemma \ref{algebra-lemma-ring-with-only-minimal-primes}.
+Thus the higher cohomology groups of an abelian sheaf on the topological
+space $S$ (i.e., Zariski cohomology) is trivial, see
+Cohomology, Lemma \ref{cohomology-lemma-vanishing-for-profinite}.
+The local rings are strictly henselian by
+Algebra, Lemma \ref{algebra-lemma-local-dimension-zero-henselian}.
+Thus \'etale cohomology of $S$ is computed by Zariski cohomology
+by Lemma \ref{lemma-local-rings-strictly-henselian}
+and the proof is done.
+\end{proof}
+
+\noindent
+The spectrum of an absolutely integrally closed ring
+is an example of a scheme all of whose local rings are
+strictly henselian, see More on Algebra, Lemma
+\ref{more-algebra-lemma-absolutely-integrally-closed-strictly-henselian}.
+It turns out that normal domains with separably closed fraction
+fields have an even stronger property as explained in the
+following lemma.
 
 \begin{lemma}
 \label{lemma-normal-scheme-with-alg-closed-function-field}
@@ -12586,6 +12681,27 @@ on the \'etale site of $X$ (Lemma \ref{lemma-describe-etale-local-ring}).
 It can also be proved directly, see
 Fundamental Groups, Lemma
 \ref{pione-lemma-normal-local-domain-separablly-closed-fraction-field}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-Rf-star-zero-normal-with-alg-closed-function-field}
+Let $f : X \to Y$ be a morphism of schemes where $X$ is an integral
+normal scheme with separably closed function field. Then
+$R^qf_*\underline{M} = 0$ for $q > 0$ and any abelian group $M$.
+\end{lemma}
+
+\begin{proof}
+Recall that $R^qf_*\underline{M}$ is the sheaf associated
+to the presheaf $V \mapsto H^q_\etale(V \times_Y X, M)$ on $Y_\etale$, see
+Lemma \ref{lemma-higher-direct-images}.
+If $V$ is affine, then $V \times_Y X \to X$ is separated and \'etale.
+Hence $V \times_Y X = \coprod U_i$ is a disjoint union of open
+subschemes $U_i$ of $X$, see
+Lemma \ref{lemma-normal-scheme-with-alg-closed-function-field}.
+By Lemma \ref{lemma-local-rings-strictly-henselian}
+we see that $H^q_\etale(U_i, M)$ is equal to
+$H^q_{Zar}(U_i, M)$. This vanishes by
+Cohomology, Lemma \ref{cohomology-lemma-irreducible-constant-cohomology-zero}.
 \end{proof}
 
 \begin{lemma}
@@ -12724,6 +12840,24 @@ By Lemma \ref{lemma-directed-colimit-cohomology}
 we see that $\xi$ maps to zero in $H^q_\etale(X'_i \times_X Z, \underline{M})$
 for some $i$ large enough.
 \end{proof}
+
+
+
+
+
+
+
+
+
+
+\section{Affine analog of proper base change}
+\label{section-gabber-affine-proper}
+
+\noindent
+In this section we discuss a result by Ofer Gabber, see
+\cite{gabber-affine-proper}. This was also proved by Roland Huber, see
+\cite{Huber-henselian}. We have already done some of the work needed
+for Gabber's proof in Section \ref{section-strictly-henselian-local-rings}.
 
 \begin{lemma}
 \label{lemma-efface-cohomology-on-closed-by-finite-cover}
@@ -13685,11 +13819,437 @@ we conclude that the image $\xi$ of $\zeta$ is zero as well.
 
 
 
-\section{Smooth base change}
-\label{section-smooth-base-change}
+
+
+
+\section{Preliminaries on base change}
+\label{section-base-change-preliminaries}
 
 \noindent
-In this section we prove the smooth base change theorem.
+If you are interested in either the smooth base change theorem
+or the proper base change theorem, you should skip directly to
+the corresponding sections.
+In this section and the next few sections we consider commutative diagrams
+$$
+\xymatrix{
+X \ar[d]_f & Y \ar[l]^h \ar[d]^e \\
+S & T \ar[l]_g
+}
+$$
+of schemes; we usually assume this diagram is cartesian,
+i.e., $Y = X \times_S T$. A commutative diagram as above
+gives rise to a commutative diagram
+$$
+\xymatrix{
+X_\etale \ar[d]_{f_{small}} & Y_\etale \ar[d]^{e_{small}} \ar[l]^{h_{small}} \\
+S_\etale & T_\etale \ar[l]_{g_{small}}
+}
+$$
+of small \'etale sites. Let us use the notation
+$$
+f^{-1} = f_{small}^{-1}, \quad
+g_* = g_{small, *}, \quad
+e^{-1} = e_{small}^{-1}, \text{ and}\quad
+h_* = h_{small, *}.
+$$
+By Sites, Section \ref{sites-section-pullback}
+we get a base change or pullback map
+$$
+f^{-1}g_*\mathcal{F}
+\longrightarrow
+h_*e^{-1}\mathcal{F}
+$$
+for a sheaf $\mathcal{F}$ on $T_\etale$. If $\mathcal{F}$ is an abelian
+sheaf on $T_\etale$, then we get a derived base change map
+$$
+f^{-1}Rg_*\mathcal{F}
+\longrightarrow
+Rh_*e^{-1}\mathcal{F}
+$$
+see Cohomology on Sites, Lemma
+\ref{sites-cohomology-lemma-base-change-map-flat-case}.
+Finally, if $K$ is an arbitrary object of $D(T_\etale)$
+there is a base change map
+$$
+f^{-1}Rg_*K
+\longrightarrow
+Rh_*e^{-1}K
+$$
+see
+Cohomology on Sites, Remark \ref{sites-cohomology-remark-base-change}.
+
+\begin{lemma}
+\label{lemma-base-change-local}
+Consider a cartesian diagram of schemes
+$$
+\xymatrix{
+X \ar[d]_f & Y \ar[l]^h \ar[d]^e \\
+S & T \ar[l]_g
+}
+$$
+and a sheaf $\mathcal{F}$ on $T_\etale$. Let $\{U_i \to X\}$ be an
+\'etale covering such that $U_i \to S$
+factors as $U_i \to V_i \to S$ with $V_i \to S$ \'etale
+and consider the cartesian diagrams
+$$
+\xymatrix{
+U_i \ar[d]_{f_i} & U_i \times_X Y \ar[l]^{h_i} \ar[d]^{e_i} \\
+V_i & V_i \times_S T \ar[l]_{g_i}
+}
+$$
+Set $\mathcal{F}_i = \mathcal{F}|_{V_i \times_S T}$.
+\begin{enumerate}
+\item If $f_i^{-1}g_{i, *}\mathcal{F}_i = h_{i, *}e_i^{-1}\mathcal{F}_i$
+for all $i$, then
+$f^{-1}g_*\mathcal{F} = h_*e^{-1}\mathcal{F}$.
+\item If $\mathcal{F}$ is an abelian sheaf and
+$f_i^{-1}R^qg_{i, *}\mathcal{F}_i = R^qh_{i, *}e_i^{-1}\mathcal{F}_i$
+for all $i$, then
+$f^{-1}R^qg_*\mathcal{F} = R^qh_*e^{-1}\mathcal{F}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+We have
+$f^{-1}R^qg_*\mathcal{F}|_{U_i} = f_i^{-1}R^qg_{i, *}\mathcal{F}_i$
+and
+$R^qh_*e^{-1}\mathcal{F}|_{U_i} = R^qh_{i, *}e_i^{-1}\mathcal{F}_i$
+as follows from the compatibility of localization with
+morphisms of sites, see
+Sites, Lemma \ref{sites-lemma-localize-morphism-strong}
+and
+Cohomology of Sites, Lemma
+\ref{sites-cohomology-lemma-restrict-direct-image-open}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-base-change-compose}
+Consider a tower of cartesian diagrams of schemes
+$$
+\xymatrix{
+W \ar[d]_i & Z \ar[l]^j \ar[d]^k \\
+X \ar[d]_f & Y \ar[l]^h \ar[d]^e \\
+S & T \ar[l]_g
+}
+$$
+Let $K$ in $D(T_\etale)$. If
+$$
+f^{-1}Rg_*K \to Rh_*e^{-1}K
+\quad\text{and}\quad
+i^{-1}Rh_*e^{-1}K \to Rj_*k^{-1}e^{-1}K
+$$
+are isomorphisms, then
+$(f \circ i)^{-1}Rg_*K \to Rj_*(e \circ k)^{-1}K$
+is an isomorphism.
+Similarly, if $\mathcal{F}$ is an abelian sheaf on $T_\etale$ and if
+$$
+f^{-1}R^qg_*\mathcal{F} \to R^qh_*e^{-1}\mathcal{F}
+\quad\text{and}\quad
+i^{-1}R^qh_*e^{-1}\mathcal{F} \to R^qj_*k^{-1}e^{-1}\mathcal{F}
+$$
+are isomorphisms, then
+$(f \circ i)^{-1}R^qg_*\mathcal{F} \to R^qj_*(e \circ k)^{-1}\mathcal{F}$
+is an isomorphism.
+\end{lemma}
+
+\begin{proof}
+This is formal, provided one checks that the composition of these
+base change maps is the base change maps for the outer rectangle, see
+Cohomology on Sites, Remark
+\ref{sites-cohomology-remark-compose-base-change-horizontal}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-base-change-Rf-star-colim}
+Let $I$ be a directed set. Consider an inverse system of
+cartesian diagrams of schemes
+$$
+\xymatrix{
+X_i \ar[d]_{f_i} & Y_i \ar[l]^{h_i} \ar[d]^{e_i} \\
+S_i & T_i \ar[l]_{g_i}
+}
+$$
+with affine transition morphisms and with $g_i$ quasi-compact and
+quasi-separated. Set $X = \lim X_i$,
+$S = \lim S_i$, $T = \lim T_i$ and $Y = \lim Y_i$ to
+obtain the cartesian diagram
+$$
+\xymatrix{
+X \ar[d]_f & Y \ar[l]^h \ar[d]^e \\
+S & T \ar[l]_g
+}
+$$
+Let $(\mathcal{F}_i, \varphi_{i'i})$ be a system of sheaves on
+$(T_i)$ as in Definition \ref{definition-inverse-system-sheaves}. Set
+$\mathcal{F} = \colim p_i^{-1}\mathcal{F}_i$ on $T$
+where $p_i : T \to T_i$ is the projection.
+Then we have the following
+\begin{enumerate}
+\item If $f_i^{-1}g_{i, *}\mathcal{F}_i = h_{i, *}e_i^{-1}\mathcal{F}_i$
+for all $i$, then
+$f^{-1}g_*\mathcal{F} = h_*e^{-1}\mathcal{F}$.
+\item If $\mathcal{F}_i$ is an abelian sheaf for all $i$ and
+$f_i^{-1}R^qg_{i, *}\mathcal{F}_i = R^qh_{i, *}e_i^{-1}\mathcal{F}_i$
+for all $i$, then
+$f^{-1}R^qg_*\mathcal{F} = R^qh_*e^{-1}\mathcal{F}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+We prove (2) and we omit the proof of (1). We will use without further
+mention that pullback of sheaves commutes with colimits as it is a
+left adjoint. Observe that $h_i$ is quasi-compact and quasi-separated as a
+base change of $g_i$.
+Denoting $q_i : Y \to Y_i$ the projections, observe that
+$e^{-1}\mathcal{F} = \colim e^{-1}p_i^{-1}\mathcal{F}_i =
+\colim q_i^{-1}e_i^{-1}\mathcal{F}_i$.
+By Lemma \ref{lemma-relative-colimit-general}
+this gives
+$$
+R^qh_*e^{-1}\mathcal{F} = \colim r_i^{-1}R^qh_{i, *}e_i^{-1}\mathcal{F}_i
+$$
+where $r_i : X \to X_i$ is the projection.
+Similarly, we have
+$$
+f^{-1}Rg_*\mathcal{F} =
+f^{-1}\colim s_i^{-1}R^qg_{i, *}\mathcal{F}_i =
+\colim r_i^{-1}f_i^{-1}R^qg_{i, *}\mathcal{F}_i
+$$
+where $s_i : S \to S_i$ is the projection. The lemma follows.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-base-change-f-star-general-stalks}
+Let $f : X \to S$ be a morphism of schemes. Let $g : T \to S$ be a
+quasi-compact and quasi-separated morphism of schemes. Let $\mathcal{F}$ be an
+abelian sheaf on $T_\etale$. Let $q \geq 0$. The following are equivalent
+\begin{enumerate}
+\item For every geometric point $\overline{x}$ of $X$ with image
+$\overline{s} = f(\overline{x})$ we have
+$$
+H^q(\Spec(\mathcal{O}^{sh}_{X, \overline{x}}) \times_S T, \mathcal{F})
+=
+H^q(\Spec(\mathcal{O}^{sh}_{S, \overline{s}}) \times_S T, \mathcal{F})
+$$
+\item $f^{-1}R^qg_*\mathcal{F} \to R^qh_*e^{-1}\mathcal{F}$
+is an isomorphism.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Since $Y = X \times_S T$ we have
+$\Spec(\mathcal{O}^{sh}_{X, \overline{x}}) \times_X Y =
+\Spec(\mathcal{O}^{sh}_{X, \overline{x}}) \times_S T$. Thus
+the map in (1) is the map of stalks at $\overline{x}$ for the map
+in (2) by Theorem \ref{theorem-higher-direct-images}.
+Thus the result by Theorem \ref{theorem-exactness-stalks}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-check-stalks-better}
+Let $f : X \to S$ be a morphism of schemes.
+Let $\overline{x}$ be a geometric point of $X$ with image $\overline{s}$ in $S$.
+Let $\Spec(K) \to \Spec(\mathcal{O}^{sh}_{S, \overline{s}})$
+be a morphism with $K$ a separably closed field. Let $\mathcal{F}$ be an
+abelian sheaf on $T_\etale$. Let $q \geq 0$. The following are equivalent
+\begin{enumerate}
+\item
+$H^q(\Spec(\mathcal{O}^{sh}_{X, \overline{x}}) \times_S \Spec(K), \mathcal{F}) =
+H^q(\Spec(\mathcal{O}^{sh}_{S, \overline{s}}) \times_S \Spec(K), \mathcal{F})$
+\item
+$H^q(\Spec(\mathcal{O}^{sh}_{X, \overline{x}})
+\times_{\Spec(\mathcal{O}^{sh}_{S, \overline{s}})} \Spec(K), \mathcal{F}) =
+H^q(\Spec(K), \mathcal{F})$
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Observe that $\Spec(K) \times_S \Spec(\mathcal{O}^{sh}_{S, \overline{s}})$
+is the spectrum of a filtered colimit of \'etale algebras over $K$.
+Since $K$ is separably closed, each \'etale $K$-algebra
+is a finite product of copies of $K$. Thus we can write
+$$
+\Spec(K) \times_S \Spec(\mathcal{O}^{sh}_{S, \overline{s}}) =
+\lim_{i \in I} \coprod\nolimits_{a \in A_i} \Spec(K)
+$$
+as a cofiltered limit where each term is a disjoint union
+of copies of $\Spec(K)$ over a finite set $A_i$.
+Note that $A_i$ is nonempty as we are given
+$\Spec(K) \to \Spec(\mathcal{O}^{sh}_{S, \overline{s}})$.
+It follows that
+\begin{align*}
+\Spec(\mathcal{O}^{sh}_{X, \overline{x}}) \times_S \Spec(K)
+& =
+\Spec(\mathcal{O}^{sh}_{X, \overline{x}})
+\times_{\Spec(\mathcal{O}^{sh}_{S, \overline{s}})}
+\left(
+\Spec(\mathcal{O}^{sh}_{S, \overline{s}})
+\times_S \Spec(K)\right) \\
+& =
+\colim_{i \in I} \coprod\nolimits_{a \in A_i}
+\Spec(\mathcal{O}^{sh}_{X, \overline{x}})
+\times_{\Spec(\mathcal{O}^{sh}_{S, \overline{s}})} \Spec(K)
+\end{align*}
+Since taking cohomology in our setting commutes with limits
+of schemes (Lemma \ref{theorem-colimit}) we conclude.
+\end{proof}
+
+
+
+
+
+\section{Base change for pushforward}
+\label{section-base-change-f-star}
+
+\noindent
+This section is preliminary and should be skipped on a first reading.
+In this section we discuss for what morphisms $f : X \to S$ we have
+$f^{-1}g_* = h_*e^{-1}$ on all sheaves (of sets) for every cartesian
+diagram
+$$
+\xymatrix{
+X \ar[d]_f & Y \ar[l]^h \ar[d]^e \\
+S & T \ar[l]_g
+}
+$$
+with $g$ quasi-compact and quasi-separated.
+
+\begin{lemma}
+\label{lemma-base-change-f-star-general}
+Consider the cartesian diagram of schemes
+$$
+\xymatrix{
+X \ar[d]_f & Y \ar[l]^h \ar[d]^e \\
+S & T \ar[l]_g
+}
+$$
+Assume that $f$ is flat and every object $U$ of $X_\etale$ has
+a covering $\{U_i \to U\}$ such that $U_i \to S$
+factors as $U_i \to V_i \to S$ with $V_i \to S$
+\'etale and $U_i \to V_i$ quasi-compact with
+geometrically connected fibres.
+Then for any sheaf $\mathcal{F}$ of sets on $T_\etale$ we have
+$f^{-1}g_*\mathcal{F} = h_*e^{-1}\mathcal{F}$.
+\end{lemma}
+
+\begin{proof}
+Let $U \to X$ be an \'etale morphism such that $U \to S$ factors as
+$U \to V \to S$ with $V \to S$ \'etale and $U \to V$ quasi-compact
+with geometrically connected fibres. Observe that $U \to V$ is flat
+(More on Flatness, Lemma \ref{flat-lemma-etale-flat-up-down}).
+We claim that
+\begin{align*}
+f^{-1}g_*\mathcal{F}(U)
+& = g_*\mathcal{F}(V) \\
+& = \mathcal{F}(V \times_S T) \\
+& = e^{-1}\mathcal{F}(U \times_X Y) \\
+& = h_*e^{-1}\mathcal{F}(U)
+\end{align*}
+Namely, thinking of $U$ as an object of $X_\etale$ and
+$V$ as an object of $S_\etale$ we see that the first equality
+follows from Lemma \ref{lemma-sections-upstairs}\footnote{Strictly
+speaking, we are also using that the restriction of $f^{-1}g_*\mathcal{F}$
+to $U_\etale$ is the pullback via $U \to V$ of the restriction of
+$g_*\mathcal{F}$ to $V_\etale$. See
+Sites, Lemma \ref{sites-lemma-localize-morphism-strong}.}.
+Thinking of $V \times_S T$ as an object of $T_\etale$
+the second equality follows from the definition of $g_*$.
+Observe that $U \times_X Y = U \times_S T$ (because $Y = X \times_S T$)
+and hence $U \times_X Y \to V \times_S T$
+has geometrically connected fibres as a base change of $U \to V$.
+Thinking of $U \times_X Y$ as an object of $Y_\etale$, we see that
+the third equality  follows from Lemma \ref{lemma-sections-upstairs}
+as before. Finally, the fourth equality follows from the definition
+of $h_*$.
+
+\medskip\noindent
+Since by assumption every object of $X_\etale$ has an \'etale
+covering to which the argument of the previous paragraph applies
+we see that the lemma is true.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-fppf-reduced-fibres-base-change-f-star}
+Consider a cartesian diagram of schemes
+$$
+\xymatrix{
+X \ar[d]_f & Y \ar[l]^h \ar[d]^e \\
+S & T \ar[l]_g
+}
+$$
+where $f$ is flat and locally of finite presentation
+with geometrically reduced fibres.
+Then $f^{-1}g_*\mathcal{F} = h_*e^{-1}\mathcal{F}$
+for any sheaf $\mathcal{F}$ on $T_\etale$.
+\end{lemma}
+
+\begin{proof}
+Combine Lemma \ref{lemma-base-change-f-star-general} with
+More on Morphisms, Lemma
+\ref{more-morphisms-lemma-cover-by-geometrically-connected}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-base-change-f-star-field}
+Consider the cartesian diagrams of schemes
+$$
+\xymatrix{
+X \ar[d]_f & Y \ar[l]^h \ar[d]^e \\
+S & T \ar[l]_g
+}
+$$
+Assume that $S$ is the spectrum of a separably closed field.
+Then $f^{-1}g_*\mathcal{F} = h_*e^{-1}\mathcal{F}$
+for any sheaf $\mathcal{F}$ on $T_\etale$.
+\end{lemma}
+
+\begin{proof}
+We may work locally on $X$. Hence we may assume $X$ is affine.
+Then we can write $X$ as a cofiltered limit of affine schemes of
+finite type over $S$. By Lemma \ref{lemma-base-change-Rf-star-colim}
+we may assume that $X$ is of finite type over $S$.
+Then Lemma \ref{lemma-base-change-f-star-general}
+applies because any scheme of finite
+type over a separably closed field is a finite disjoint
+union of connected and geometrically connected schemes
+(see Varieties, Lemma
+\ref{varieties-lemma-separably-closed-field-connected-components}).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-base-change-f-star-valuation}
+Consider a cartesian diagram of schemes
+$$
+\xymatrix{
+X \ar[d]_f & Y \ar[l]^h \ar[d]^e \\
+S & T \ar[l]_g
+}
+$$
+Assume that
+\begin{enumerate}
+\item $f$ is flat and open,
+\item the residue fields of $S$ are separably algebraically closed,
+\item given an \'etale morphism $U \to X$ with $U$ affine
+we can write $U$ as a finite disjoint union of open subschemes
+of $X$ (for example if $X$ is a normal integral scheme
+with separably closed function field),
+\item any nonempty open of a fibre $X_s$ of $f$ is connected
+(for example if $X_s$ is irreducible or empty).
+\end{enumerate}
+Then for any sheaf $\mathcal{F}$ of sets on $T_\etale$ we have
+$f^{-1}g_*\mathcal{F} = h_*e^{-1}\mathcal{F}$.
+\end{lemma}
+
+\begin{proof}
+Omitted. Hint: the assumptions almost trivially imply
+the condition of Lemma \ref{lemma-base-change-f-star-general}.
+The for example in part (3) follows from
+Lemma \ref{lemma-normal-scheme-with-alg-closed-function-field}.
+\end{proof}
+
+\noindent
+The following lemma doesn't really belong here but there does not
+seem to be a good place for it anywhere.
 
 \begin{lemma}
 \label{lemma-fppf-reduced-fibres-pullback-products}
@@ -13730,55 +14290,576 @@ paragraph applies to $U_i$. The lemma follows.
 \end{proof}
 
 \begin{lemma}
-\label{lemma-fppf-reduced-fibres-base-change-f-star}
-Consider a cartesian diagram of schemes
+\label{lemma-base-change-f-star}
+Let $f : X \to S$ be a flat morphism of schemes such
+that for every geometric point $\overline{x}$ of $X$ the map
+$$
+\mathcal{O}_{S, f(\overline{x})}^{sh}
+\longrightarrow
+\mathcal{O}_{X, \overline{x}}^{sh}
+$$
+has geometrically connected fibres. Then for every
+cartesian diagram of schemes
 $$
 \xymatrix{
 X \ar[d]_f & Y \ar[l]^h \ar[d]^e \\
 S & T \ar[l]_g
 }
 $$
-where $f$ is flat and locally of finite presentation
-with geometrically reduced fibres.
-Then $f^{-1}g_*\mathcal{F} = h_*e^{-1}\mathcal{F}$
-for any sheaf $\mathcal{F}$ on $T_\etale$.
+with $g$ quasi-compact and quasi-separated we have
+$f^{-1}g_*\mathcal{F} = h_*e^{-1}\mathcal{F}$
+for any sheaf $\mathcal{F}$ of sets on $T_\etale$.
 \end{lemma}
 
 \begin{proof}
-Let $U \to X$ be an \'etale morphism such that $U \to S$ factors as
-$U \to V \to S$ with $V \to S$ \'etale and $U \to V$ flat of finite
-presentation with geometrically connected fibres. We claim that
-\begin{align*}
-f^{-1}g_*\mathcal{F}(U)
-& = g_*\mathcal{F}(V) \\
-& = \mathcal{F}(V \times_S T) \\
-& = e^{-1}\mathcal{F}(U \times_X Y) \\
-& = h_*e^{-1}\mathcal{F}(U)
-\end{align*}
-Namely, thinking of $U$ as an object of $X_\etale$ and
-$V$ as an object of $S_\etale$ we see that the first equality
-follows from Lemma \ref{lemma-sections-upstairs}\footnote{Strictly
-speaking, we are also using that the restriction of $f^{-1}g_*\mathcal{F}$
-to $U_\etale$ is the pullback via $U \to V$ of the restriction of
-$g_*\mathcal{F}$ to $V_\etale$. See
-Sites, Lemma \ref{sites-lemma-localize-morphism-strong}.}.
-Thinking of $V \times_S T$ as an object of $T_\etale$
-the second equality follows from the definition of $g_*$.
-Observe that $U \times_X Y = U \times_S T$ (because $Y = X \times_S T$)
-and hence $U \times_X Y \to V \times_S T$
-has geometrically connected fibres as a base change of $U \to V$.
-Thinking of $U \times_X Y$ as an object of $Y_\etale$, we see that
-the third equality  follows from Lemma \ref{lemma-sections-upstairs}
-as before. Finally, the fourth equality follows from the definition
-of $h_*$.
+It suffices to check equality on stalks, see
+Theorem \ref{theorem-exactness-stalks}.
+By Theorem \ref{theorem-higher-direct-images} we have
+$$
+(h_*e^{-1}\mathcal{F})_{\overline{x}} =
+\Gamma(\Spec(\mathcal{O}_{X, \overline{x}}^{sh}) \times_X Y, e^{-1}\mathcal{F})
+$$
+and we have similarly
+$$
+(f^{-1}g_*^{-1}\mathcal{F})_{\overline{x}} =
+(g_*^{-1}\mathcal{F})_{f(\overline{x})} =
+\Gamma(\Spec(\mathcal{O}_{S, f(\overline{x})}^{sh}) \times_S T, \mathcal{F})
+$$
+These sets are equal by an application of Lemma \ref{lemma-sections-upstairs}
+to the morphism
+$$
+\Spec(\mathcal{O}_{X, \overline{x}}^{sh}) \times_X Y
+\longrightarrow
+\Spec(\mathcal{O}_{S, f(\overline{x})}^{sh}) \times_S T
+$$
+which is a base change of
+$\Spec(\mathcal{O}_{X, \overline{x}}^{sh}) \to
+\Spec(\mathcal{O}_{S, f(\overline{x})}^{sh})$
+because $Y = X \times_S T$.
+\end{proof}
+
+
+
+
+
+
+
+\section{Base change for higher direct images}
+\label{section-base-change}
+
+\noindent
+This section is the analogue of Section \ref{section-base-change-f-star}
+for higher direct images.
+This section is preliminary and should be skipped on a first reading.
+
+\begin{remark}
+\label{remark-base-change-holds}
+Let $f : X \to S$ be a morphism of schemes. Let $n$ be an integer.
+We will say $BC(f, n, q_0)$ is true if for every commutative diagram
+$$
+\xymatrix{
+X \ar[d]_f & X' \ar[l] \ar[d]_{f'} & Y \ar[l]^h \ar[d]^e \\
+S & S' \ar[l] & T \ar[l]_g
+}
+$$
+with $X' = X \times_S S'$ and $Y = X' \times_{S'} T$ and
+$g$ quasi-compact and quasi-separated, and every abelian sheaf
+$\mathcal{F}$ on $T_\etale$ annihilated by $n$ the base change map
+$$
+(f')^{-1}R^qg_*\mathcal{F}
+\longrightarrow
+R^qh_*e^{-1}\mathcal{F}
+$$
+is an isomorphism for $q \leq q_0$.
+\end{remark}
+
+\begin{lemma}
+\label{lemma-base-change-q-injective}
+With $f : X \to S$ and $n$ as in Remark \ref{remark-base-change-holds}
+assume for some $q \geq 1$ we have $BC(f, n, q - 1)$. Then
+for every commutative diagram
+$$
+\xymatrix{
+X \ar[d]_f & X' \ar[l] \ar[d]_{f'} & Y \ar[l]^h \ar[d]^e \\
+S & S' \ar[l] & T \ar[l]_g
+}
+$$
+with $X' = X \times_S S'$ and $Y = X' \times_{S'} T$ and
+$g$ quasi-compact and quasi-separated, and every abelian sheaf
+$\mathcal{F}$ on $T_\etale$ annihilated by $n$
+\begin{enumerate}
+\item the base change map
+$(f')^{-1}R^qg_*\mathcal{F}\to R^qh_*e^{-1}\mathcal{F}$
+is injective,
+\item if $\mathcal{F} \subset \mathcal{G}$ where $\mathcal{G}$
+on $T_\etale$ is annihilated by $n$, then
+$$
+\Coker\left(
+(f')^{-1}R^qg_*\mathcal{F}\to R^qh_*e^{-1}\mathcal{F}
+\right)
+\subset
+\Coker\left(
+(f')^{-1}R^qg_*\mathcal{G}\to R^qh_*e^{-1}\mathcal{G}
+\right)
+$$
+\item if in (2) the sheaf $\mathcal{G}$ is an injective sheaf
+of $\mathbf{Z}/n\mathbf{Z}$-modules, then
+$$
+\Coker\left((f')^{-1}R^qg_*\mathcal{F}\to R^qh_*e^{-1}\mathcal{F} \right)
+\subset R^qh_*e^{-1}\mathcal{G}
+$$
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Choose a short exact sequence
+$0 \to \mathcal{F} \to \mathcal{I} \to \mathcal{Q} \to 0$
+where $\mathcal{I}$ is an injective sheaf of $\mathbf{Z}/n\mathbf{Z}$-modules.
+Consider the induced diagram
+$$
+\xymatrix{
+(f')^{-1}R^{q - 1}g_*\mathcal{I} \ar[d]_{\cong} \ar[r] &
+(f')^{-1}R^{q - 1}g_*\mathcal{Q} \ar[d]_{\cong} \ar[r] &
+(f')^{-1}R^qg_*\mathcal{F} \ar[d] \ar[r] &
+0 \ar[d] \\
+R^{q - 1}h_*e^{-1}\mathcal{I} \ar[r] &
+R^{q - 1}h_*e^{-1}\mathcal{Q} \ar[r] &
+R^qh_*e^{-1}\mathcal{F} \ar[r] &
+R^qh_*e^{-1}\mathcal{I}
+}
+$$
+with exact rows. We have the zero in the right upper corner
+as $\mathcal{I}$ is injective. The left two vertical arrows are
+isomorphisms by $BC(f, n, q - 1)$. We conclude that part (1) holds.
+The above also shows that
+$$
+\Coker\left(
+(f')^{-1}R^qg_*\mathcal{F}\to R^qh_*e^{-1}\mathcal{F}
+\right)
+\subset
+R^qh_*e^{-1}\mathcal{I}
+$$
+hence part (3) holds. To prove (2) choose
+$\mathcal{F} \subset \mathcal{G} \subset \mathcal{I}$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-base-change-q-integral-top}
+With $f : X \to S$ and $n$ as in Remark \ref{remark-base-change-holds}
+assume for some $q \geq 1$ we have $BC(f, n, q - 1)$. Consider
+commutative diagrams
+$$
+\vcenter{
+\xymatrix{
+X \ar[d]_f &
+X' \ar[d]_{f'} \ar[l] &
+Y \ar[l]^h \ar[d]^e &
+Y' \ar[l]^{\pi'} \ar[d]^{e'} \\
+S &
+S' \ar[l] &
+T \ar[l]_g &
+T' \ar[l]_\pi
+}
+}
+\quad\text{and}\quad
+\vcenter{
+\xymatrix{
+X' \ar[d]_{f'} & & Y' \ar[ll]^{h' = h \circ \pi'} \ar[d]^{e'} \\
+S' & & T' \ar[ll]_{g' = g \circ \pi}
+}
+}
+$$
+where all squares are cartesian, $g$ quasi-compact and quasi-separated, and
+$\pi$ is integral surjective. Let $\mathcal{F}$ be an abelian sheaf
+on $T_\etale$ annihilated by $n$ and set $\mathcal{F}' = \pi^{-1}\mathcal{F}$.
+If the base change map
+$$
+(f')^{-1}R^qg'_*\mathcal{F}' \longrightarrow R^qh'_*(e')^{-1}\mathcal{F}'
+$$
+is an isomorphism, then the base change map
+$(f')^{-1}R^qg_*\mathcal{F} \to R^qh_*e^{-1}\mathcal{F}$
+is an isomorphism.
+\end{lemma}
+
+\begin{proof}
+Observe that $\mathcal{F} \to \pi_*\pi^{-1}\mathcal{F}'$ is injective
+as $\pi$ is surjective (check on stalks). Thus by
+Lemma \ref{lemma-base-change-q-injective}
+we see that it suffices to show that the base change map
+$$
+(f')^{-1}R^qg_*\pi_*\mathcal{F}'
+\longrightarrow
+R^qh_*e^{-1}\pi_*\mathcal{F}'
+$$
+is an isomorphism. This follows from the assumption because
+we have $R^qg_*\pi_*\mathcal{F}' = R^qg'_*\mathcal{F}'$,
+we have $e^{-1}\pi_*\mathcal{F}' =\pi'_*(e')^{-1}\mathcal{F}'$, and
+we have $R^qh_*\pi'_*(e')^{-1}\mathcal{F}' = R^qh'_*(e')^{-1}\mathcal{F}'$.
+This follows from Lemmas
+\ref{lemma-integral-pushforward-commutes-with-base-change} and
+\ref{lemma-what-integral} and the relative leray spectral sequence
+(Cohomology on Sites, Lemma \ref{sites-cohomology-lemma-relative-Leray}).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-base-change-q-integral-bottom}
+With $f : X \to S$ and $n$ as in Remark \ref{remark-base-change-holds}
+assume for some $q \geq 1$ we have $BC(f, n, q - 1)$. Consider
+commutative diagrams
+$$
+\vcenter{
+\xymatrix{
+X \ar[d]_f &
+X' \ar[d]_{f'} \ar[l] &
+X'' \ar[l]^{\pi'} \ar[d]_{f''} &
+Y \ar[l]^{h'} \ar[d]^e \\
+S &
+S' \ar[l] &
+S'' \ar[l]_\pi &
+T \ar[l]_{g'}
+}
+}
+\quad\text{and}\quad
+\vcenter{
+\xymatrix{
+X' \ar[d]_{f'} & & Y \ar[ll]^{h = h' \circ \pi'} \ar[d]^e \\
+S' & & T \ar[ll]_{g = g' \circ \pi}
+}
+}
+$$
+where all squares are cartesian, $g'$ quasi-compact and quasi-separated, and
+$\pi$ is integral. Let $\mathcal{F}$ be an abelian sheaf
+on $T_\etale$ annihilated by $n$. If the base change map
+$$
+(f')^{-1}R^qg_*\mathcal{F} \longrightarrow R^qh_*e^{-1}\mathcal{F}
+$$
+is an isomorphism, then the base change map
+$(f'')^{-1}R^qg'_*\mathcal{F} \to R^qh'_*e^{-1}\mathcal{F}$
+is an isomorphism.
+\end{lemma}
+
+\begin{proof}
+Since $\pi$ and $\pi'$ are integral we have $R\pi_* = \pi_*$ and
+$R\pi'_* = \pi'_*$, see Lemma \ref{lemma-what-integral}.
+We also have $(f')^{-1}\pi_* = \pi'_*(f'')^{-1}$. Thus we see that
+$\pi'_*(f'')^{-1}R^qg'_*\mathcal{F} = (f')^{-1}R^qg_*\mathcal{F}$
+and
+$\pi'_*R^qh'_*e^{-1}\mathcal{F} = R^qh_*e^{-1}\mathcal{F}$.
+Thus the assumption means that our map becomes an
+isomorphism after applying the functor $\pi'_*$.
+Hence we see that it is an isomorphism by Lemma \ref{lemma-what-integral}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-formal-argument}
+Let $T$ be a quasi-compact and quasi-separated scheme.
+Let $P$ be a property for quasi-compact and quasi-separated
+schemes over $T$. Assume
+\begin{enumerate}
+\item If $T'' \to T'$ is a thickening of quasi-compact and
+quasi-separated schemes over $T$, then $P(T'')$ if and only if $P(T')$.
+\item If $T' = \lim T_i$ is a limit of an inverse system of
+quasi-compact and quasi-separated schemes over $T$ with affine
+transition morphisms and $P(T_i)$ holds for all $i$, then
+$P(T')$ holds.
+\item If $Z \subset T'$ is a closed subscheme with
+quasi-compact complement $V \subset T'$ and $P(T')$ holds,
+then either $P(V)$ or $P(Z)$ holds.
+\end{enumerate}
+Then $P(T)$ implies $P(\Spec(K))$ for some morphism $\Spec(K) \to T$
+where $K$ is a field.
+\end{lemma}
+
+\begin{proof}
+Consider the set $\mathfrak T$ of closed subschemes $T' \subset T$
+such that $P(T')$. By assumption (2) this set has a minimal element,
+say $T'$. By assumption (1) we see that $T'$ is reduced.
+Let $\eta \in T'$ be the generic point of an irreducible
+component of $T'$. Then $\eta = \Spec(K)$ for some field
+$K$ and $\eta = \lim V$ where the limit is over the affine
+open subschemes $V \subset T'$ containing $\eta$.
+By assumption (3) and the minimality of $T'$ we see
+that $P(V)$ holds for all these $V$. Hence $P(\eta)$
+by (2) and the proof is complete.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-base-change-does-not-hold-pre}
+With $f : X \to S$ and $n$ as in Remark \ref{remark-base-change-holds}
+assume for some $q \geq 1$ we have that $BC(f, n, q - 1)$ is true, but
+$BC(f, n, q)$ is not. Then there exist a commutative diagram
+$$
+\xymatrix{
+X \ar[d]_f & X' \ar[d]_{f'} \ar[l] & Y \ar[l]^h \ar[d]^e \\
+S & S' \ar[l] & \Spec(K) \ar[l]_g
+}
+$$
+where $X' = X \times_S S'$, $Y = X' \times_{S'} \Spec(K)$,
+$K$ is a field, and $\mathcal{F}$ is an abelian sheaf
+on $\Spec(K)$ annihilated by $n$ such that
+$(f')^{-1}R^qg_*\mathcal{F} \to R^qh_*e^{-1}\mathcal{F}$
+is not an isomorphism.
+\end{lemma}
+
+\begin{proof}
+Choose a commutative diagram
+$$
+\xymatrix{
+X \ar[d]_f & X' \ar[l] \ar[d]_{f'} & Y \ar[l]^h \ar[d]^e \\
+S & S' \ar[l] & T \ar[l]_g
+}
+$$
+with $X' = X \times_S S'$ and $Y = X' \times_{S'} T$ and
+$g$ quasi-compact and quasi-separated, and an abelian sheaf
+$\mathcal{F}$ on $T_\etale$ annihilated by $n$ such that
+the base change map
+$(f')^{-1}R^qg_*\mathcal{F} \to R^qh_*e^{-1}\mathcal{F}$
+is not an isomorphism. Of course we may and do replace $S'$
+by an affine open of $S'$; this implies that $T$ is quasi-compact
+and quasi-separated. By Lemma \ref{lemma-base-change-q-injective} we see
+$(f')^{-1}R^qg_*\mathcal{F} \to R^qh_*e^{-1}\mathcal{F}$
+is injective. Pick a geometric point $\overline{x}$ of $X'$
+and an element $\xi$ of $(R^qh_*q^{-1}\mathcal{F})_{\overline{x}}$
+which is not in the image of the map
+$((f')^{-1}R^qg_*\mathcal{F})_{\overline{x}} \to
+(R^qh_*e^{-1}\mathcal{F})_{\overline{x}}$.
 
 \medskip\noindent
-By More on Morphisms, Lemma
-\ref{more-morphisms-lemma-cover-by-geometrically-connected}
-every object $U$ of $X_\etale$ has an \'etale covering
-$\{U_i \to U\}$ such that the discussion in the previous
-paragraph applies to $U_i$. The lemma follows.
+Consider a morphism $\pi : T' \to T$ with $T'$ quasi-compact
+and quasi-separated and denote $\mathcal{F}' = \pi^{-1}\mathcal{F}$.
+Denote $\pi' : Y' = Y \times_T T' \to Y$ the base change of $\pi$
+and $e' : Y' \to T'$ the base change of $e$. Picture
+$$
+\vcenter{
+\xymatrix{
+X' \ar[d]_{f'} & Y \ar[l]^h \ar[d]^e & Y' \ar[l]^{\pi'} \ar[d]^{e'} \\
+S' & T \ar[l]_g & T' \ar[l]_\pi
+}
+}
+\quad\text{and}\quad
+\vcenter{
+\xymatrix{
+X' \ar[d]_{f'} & & Y' \ar[ll]^{h' = h \circ \pi'} \ar[d]^{e'} \\
+S' & & T' \ar[ll]_{g' = g \circ \pi}
+}
+}
+$$
+Using pullback maps we obtain a canonical commutative diagram
+$$
+\xymatrix{
+(f')^{-1}R^qg_*\mathcal{F} \ar[r] \ar[d] &
+(f')^{-1}R^qg'_*\mathcal{F}' \ar[d] \\
+R^qh_*e^{-1}\mathcal{F} \ar[r] &
+R^qh'_*(e')^{-1}\mathcal{F}'
+}
+$$
+of abelian sheaves on $X'$. Let $P(T')$ be the property
+\begin{itemize}
+\item The image $\xi'$ of $\xi$ in
+$(Rh'_*(e')^{-1}\mathcal{F}')_{\overline{x}}$ is
+not in the image of the map
+$(f^{-1}R^qg'_*\mathcal{F}')_{\overline{x}} \to
+(R^qh'_*(e')^{-1}\mathcal{F}')_{\overline{x}}$.
+\end{itemize}
+We claim that hypotheses (1), (2), and (3) of
+Lemma \ref{lemma-formal-argument} hold for $P$
+which proves our lemma.
+
+\medskip\noindent
+Condition (1) of Lemma \ref{lemma-formal-argument}
+holds for $P$ because the \'etale topology of a scheme
+and a thickening of the scheme is the same. See
+Proposition \ref{proposition-topological-invariance}.
+
+\medskip\noindent
+Suppose that $I$ is a directed set and that $T_i$
+is an inverse system over $I$ of quasi-compact and quasi-separated
+schemes over $T$ with affine transition morphisms.
+Set $T' = \lim T_i$. Denote $\mathcal{F}'$ and $\mathcal{F}_i$
+the pullback of $\mathcal{F}$ to $T'$, resp.\ $T_i$. Consider
+the diagrams
+$$
+\vcenter{
+\xymatrix{
+X \ar[d]_{f'} & Y \ar[l]^h \ar[d]^e & Y_i \ar[l]^{\pi_i'} \ar[d]^{e_i} \\
+S & T \ar[l]_g & T_i \ar[l]_{\pi_i}
+}
+}
+\quad\text{and}\quad
+\vcenter{
+\xymatrix{
+X \ar[d]_{f'} & & Y_i \ar[ll]^{h_i = h \circ \pi_i'} \ar[d]^{e_i} \\
+S & & T_i \ar[ll]_{g_i = g \circ \pi_i}
+}
+}
+$$
+as in the previous paragraph. It is clear that $\mathcal{F}'$ on
+$T'$ is the colimit of the pullbacks of $\mathcal{F}_i$ to $T'$
+and that $(e')^{-1}\mathcal{F}'$ is the colimit of the pullbacks
+of $e_i^{-1}\mathcal{F}_i$ to $Y'$.
+By Lemma \ref{lemma-relative-colimit-general}
+we have
+$$
+R^qh'_*(e')^{-1}\mathcal{F}' = \colim R^qh_{i, *}e_i^{-1}\mathcal{F}_i
+\quad\text{and}\quad
+(f')^{-1}R^qg'_*\mathcal{F}' = \colim (f')^{-1}R^qg_{i, *}\mathcal{F}_i
+$$
+It follows that if $P(T_i)$ is true for all $i$, then
+$P(T')$ holds. Thus condition (2) of Lemma \ref{lemma-formal-argument}
+holds for $P$.
+
+\medskip\noindent
+The most interesting is condition (3) of Lemma \ref{lemma-formal-argument}.
+Assume $T'$ is a quasi-compact and quasi-separated scheme over $T$
+such that $P(T')$ is true.
+Let $Z \subset T'$ be a closed subscheme with complement $V \subset T'$
+quasi-compact. Consider the diagram
+$$
+\xymatrix{
+Y' \times_{T'} Z \ar[d]_{e_Z} \ar[r]_{i'} &
+Y' \ar[d]_{e'} &
+Y' \times_{T'} V \ar[l]^{j'} \ar[d]^{e_V} \\
+Z \ar[r]^i &
+T' &
+V \ar[l]_j
+}
+$$
+Choose an injective map $j^{-1}\mathcal{F}' \to \mathcal{J}$
+where $\mathcal{J}$ is an injective sheaf of $\mathbf{Z}/n\mathbf{Z}$-modules
+on $V$. Looking at stalks we see that the map
+$$
+\mathcal{F}' \to \mathcal{G} = j_*\mathcal{J} \oplus i_*i^{-1}\mathcal{F}'
+$$
+is injective. Thus $\xi'$ maps to a nonzero element of
+\begin{align*}
+& \Coker\left(
+((f')^{-1}R^qg'_*\mathcal{G})_{\overline{x}}
+\to
+(R^qh'_*(e')^{-1}\mathcal{G})_{\overline{x}}
+\right) = \\
+&
+\Coker\left(
+((f')^{-1}R^qg'_*j_*\mathcal{J})_{\overline{x}}
+\to
+(R^qh'_*(e')^{-1}j_*\mathcal{J})_{\overline{x}}
+\right) \oplus \\
+& \Coker\left(
+((f')^{-1}R^qg'_*i_*i^{-1}\mathcal{F}')_{\overline{x}}
+\to
+(R^qh'_*(e')^{-1}i_*i^{-1}\mathcal{F}')_{\overline{x}}
+\right)
+\end{align*}
+by part (2) of Lemma \ref{lemma-base-change-q-injective}.
+If $\xi'$ does not map to zero in the second summand, then
+we use
+$$
+(f')^{-1}R^qg'_*i_*i^{-1}\mathcal{F}' =
+(f')^{-1}R^q(g' \circ i)_*i^{-1}\mathcal{F}'
+$$
+(because $Ri_* = i_*$ by
+Proposition \ref{proposition-finite-higher-direct-image-zero}) and
+$$
+R^qh'_*(e')^{-1}i_*i^{-1}\mathcal{F} =
+R^qh'_*i'_*e_Z^{-1}i^{-1}\mathcal{F} =
+R^q(h' \circ i')_*e_Z^{-1}i^{-1}\mathcal{F}'
+$$
+(first equality by
+Lemma \ref{lemma-finite-pushforward-commutes-with-base-change}
+and the second because
+$Ri'_* = i'_*$ by
+Proposition \ref{proposition-finite-higher-direct-image-zero})
+to we see that we have $P(Z)$.
+Finally, suppose $\xi'$ does not map to zero in the first summand.
+We have
+$$
+(e')^{-1}j_*\mathcal{J} = j'_*e_V^{-1}\mathcal{J}
+\quad\text{and}\quad
+R^aj'_*e_V^{-1}\mathcal{J} = 0, \quad a = 1, \ldots, q - 1
+$$
+by $BC(f, n, q - 1)$ applied to the diagram
+$$
+\xymatrix{
+X \ar[d]_f & Y' \ar[l] \ar[d]_{e'} & Y \ar[l]^{j'} \ar[d]^{e_V} \\
+S & T' \ar[l] & V \ar[l]_j
+}
+$$
+and the fact that $\mathcal{J}$ is injective.
+By the relative Leray spectral sequence for $h' \circ j'$
+(Cohomology on Sites, Lemma \ref{sites-cohomology-lemma-relative-Leray})
+we deduce that
+$$
+R^qh'_*(e')^{-1}j_*\mathcal{J} =
+R^qh'_*j'_*e_V^{-1}\mathcal{J}
+\longrightarrow
+R^q(h' \circ j')_* e_V^{-1}\mathcal{J}
+$$
+is injective. Thus $\xi$ maps to a nonzero element of
+$(R^q(h' \circ j')_* e_V^{-1}\mathcal{J})_{\overline{x}}$.
+Applying part (3) of Lemma \ref{lemma-base-change-q-injective}
+to the injection $j^{-1}\mathcal{F}' \to \mathcal{J}$
+we conclude that $P(V)$ holds.
 \end{proof}
+
+\begin{lemma}
+\label{lemma-base-change-does-not-hold}
+With $f : X \to S$ and $n$ as in Remark \ref{remark-base-change-holds}
+assume for some $q \geq 1$ we have that
+$BC(f, n, q - 1)$ is true, but $BC(f, n, q)$ is not.
+Then there exist a commutative diagram
+$$
+\xymatrix{
+X \ar[d]_f & X' \ar[d] \ar[l] & Y \ar[l]^h \ar[d] \\
+S & S' \ar[l] & \Spec(K) \ar[l]
+}
+$$
+with both squares cartesian, where
+\begin{enumerate}
+\item $S'$ is affine, integral, and normal with algebraically
+closed function field,
+\item $K$ is algebraically closed and $\Spec(K) \to S'$
+is dominant (in other words $K$ is an extension of
+the function field of $S'$)
+\end{enumerate}
+and there exists an integer $d | n$
+such that $R^qh_*(\mathbf{Z}/d\mathbf{Z})$ is nonzero.
+\end{lemma}
+
+\noindent
+Conversely, nonvanishing of $R^qh_*(\mathbf{Z}/d\mathbf{Z})$
+in the lemma implies $BC(f, n, q)$ isn't true as
+Lemma \ref{lemma-Rf-star-zero-normal-with-alg-closed-function-field}
+shows that $R^q(\Spec(K) \to S')_*\mathbf{Z}/d\mathbf{Z} = 0$.
+
+\begin{proof}
+First choose a diagram and $\mathcal{F}$ as in
+Lemma \ref{lemma-base-change-does-not-hold-pre}.
+We may and do assume $S'$ is affine (this is obvious, but
+see proof of the lemma in case of doubt).
+By Lemma \ref{lemma-base-change-q-integral-top}
+we may assume $K$ is algebraically closed.
+Then $\mathcal{F}$ corresponds to a $\mathbf{Z}/n\mathbf{Z}$-module.
+Such a modules is a direct sum of copies of $\mathbf{Z}/d\mathbf{Z}$
+for varying $d | n$ hence we may assume $\mathcal{F}$ is
+constant with value $\mathbf{Z}/d\mathbf{Z}$.
+By Lemma \ref{lemma-base-change-q-integral-bottom}
+we may replace $S'$ by the normalization
+of $S'$ in $\Spec(K)$ which finishes the proof.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+\section{Smooth base change}
+\label{section-smooth-base-change}
+
+\noindent
+In this section we prove the smooth base change theorem.
 
 \begin{lemma}
 \label{lemma-smooth-base-change-fields}
@@ -13887,7 +14968,11 @@ on $T_\etale$ all of whose stalks at geometric points are torsion of
 orders invertible on $S$.
 \end{theorem}
 
-\begin{proof}
+\begin{proof}[First proof of smooth base change]
+This proof is very long but more direct (using less general theory)
+than the second proof given below.
+
+\medskip\noindent
 The theorem is local on $X_\etale$. More precisely, suppose we have
 $U \to X$ \'etale such that $U \to S$ factors as $U \to V \to S$
 with $V \to S$ \'etale. Then we can consider the cartesian square
@@ -13901,7 +14986,10 @@ and setting $\mathcal{F}' = \mathcal{F}|_{V \times_S T}$
 we have $f^{-1}R^qg_*\mathcal{F}|_U = (f')^{-1}R^qg'_*\mathcal{F}'$
 and $R^qh_*e^{-1}\mathcal{F}|_U = R^qh'_*(e')^{-1}\mathcal{F}'$
 (as follows from the compatibility of localization with morphisms of sites, see
-Sites, Lemma \ref{sites-lemma-localize-morphism-strong}).
+Sites, Lemma \ref{sites-lemma-localize-morphism-strong} and
+and
+Cohomology of Sites, Lemma
+\ref{sites-cohomology-lemma-restrict-direct-image-open}).
 Thus it suffices to produce an \'etale covering of $X$ by
 $U \to X$ and factorizations $U \to V \to S$
 as above such that the theorem holds for the diagram with
@@ -14232,7 +15320,7 @@ Y \times_T Z \ar[d]_{e_Z} \ar[r]_{i'} &
 Y \ar[d]_e &
 Y \times_T V \ar[l]^{j'} \ar[d]^{e_V} \\
 Z \ar[r]^i &
-Y &
+T &
 V \ar[l]_j
 }
 $$
@@ -14281,14 +15369,114 @@ dies after replacing $X$ by the members of a suitable \'etale covering.
 This finishes the proof of the smooth base change theorem.
 \end{proof}
 
+\begin{proof}[Second proof of smooth base change]
+This proof is the same as the longer first proof;
+it is shorter only in that we have split out the
+arguments used in a number of lemmas.
 
+\medskip\noindent
+The case of $q = 0$ is
+Lemma \ref{lemma-fppf-reduced-fibres-base-change-f-star}.
+Thus we may assume $q > 0$ and the result is true
+for all smaller degrees.
 
+\medskip\noindent
+For every $n \geq 1$ invertible on $S$, let $\mathcal{F}[n]$
+be the subsheaf of sections of $\mathcal{F}$ annihilated by $n$. Then
+$\mathcal{F} = \colim \mathcal{F}[n]$ by our assumption on
+the stalks of $\mathcal{F}$. The functors $e^{-1}$ and $f^{-1}$
+commute with colimits as they are left adjoints. The functors
+$R^qh_*$ and $R^qg_*$ commute with filtered colimits by
+Lemma \ref{lemma-relative-colimit}.
+Thus it suffices to prove the theorem for $\mathcal{F}[n]$.
+From now on we fix an integer $n$ invertible on $S$ and we work with
+sheaves of $\mathbf{Z}/n\mathbf{Z}$-modules.
 
+\medskip\noindent
+By Lemma \ref{lemma-base-change-local} the question is \'etale local
+on $X$ and $S$. By the local structure of smooth morphisms, see
+Morphisms, Lemma \ref{morphisms-lemma-smooth-etale-over-affine-space},
+we may assume $X$ and $S$ are affine and $X \to S$
+factors through an \'etale morphism $X \to \mathbf{A}^d_S$.
+Writing $X \to S$ as the composition
+$$
+X \to \mathbf{A}^{d - 1}_S \to \mathbf{A}^{d - 2}_S \to \ldots \to
+\mathbf{A}^1_S \to S
+$$
+we conclude from Lemma \ref{lemma-base-change-compose}
+that it suffices to prove the theorem when $X$ and $S$
+are affine and $X \to S$ has relative dimension $1$.
 
+\medskip\noindent
+By Lemma \ref{lemma-base-change-does-not-hold} it suffices to show that
+$R^qh_*\mathbf{Z}/d\mathbf{Z} = 0$ for $d | n$ whenever we have a
+cartesian diagram
+$$
+\xymatrix{
+X \ar[d] & Y \ar[d] \ar[l]^h \\
+S & \Spec(K) \ar[l]
+}
+$$
+where $X \to S$ is affine and smooth of relative dimension $1$,
+$S$ is the spectrum of a normal
+domain $A$ with algebraically closed fraction field $L$,
+and $K/L$ is an extension of algebraically closed fields.
 
+\medskip\noindent
+Recall that $R^qh_*\mathbf{Z}/d\mathbf{Z}$ is the sheaf associated
+to the presheaf
+$$
+U \longmapsto
+H^q(U \times_X Y, \mathbf{Z}/d\mathbf{Z}) =
+H^q(U \times_S \Spec(K), \mathbf{Z}/d\mathbf{Z})
+$$
+on $X_\etale$ (Lemma \ref{lemma-higher-direct-images}).
+Thus it suffices to show: given $U$ and
+$\xi \in H^q(U \times_S \Spec(K), \mathbf{Z}/d\mathbf{Z})$
+there exists an \'etale covering $\{U_i \to U\}$
+such that $\xi$ dies in $H^q(U_i \times_S \Spec(K), \mathbf{Z}/d\mathbf{Z})$.
 
+\medskip\noindent
+Of course we may take $U$ affine. Then $U \times_S \Spec(K)$
+is a (smooth) affine curve over $K$ and hence we have vanishing
+for $q > 1$ by Theorem \ref{theorem-vanishing-affine-curves}.
 
-
+\medskip\noindent
+Final case: $q = 1$. We may replace $U$ by the members of an
+\'etale covering as in More on Morphisms, Lemma
+\ref{more-morphisms-lemma-cover-smooth-by-special}.
+Then $U \to S$ factors as $U \to V \to S$ where
+$U \to V$ has geometrically connected fibres,
+$U$, $V$ are affine, $V \to S$ is \'etale, and there is
+a section $\sigma : V \to U$. By
+Lemma \ref{lemma-normal-scheme-with-alg-closed-function-field}
+we see that $V$ is isomorphic to a (finite) disjoint union of
+(affine) open subschemes of $S$.
+Clearly we may replace $S$ by one of these
+and $X$ by the corresponding component of $U$.
+Thus we may assume $X \to S$ has geometrically connected
+fibres, has a section $\sigma$, and
+$\xi \in H^1(Y, \mathbf{Z}/d\mathbf{Z})$.
+Since $K$ and $L$ are algebraically closed we have
+$$
+H^1(X_L, \mathbf{Z}/d\mathbf{Z}) =
+H^1(Y, \mathbf{Z}/d\mathbf{Z})
+$$
+See Lemma \ref{lemma-base-change-dim-1-separably-closed}.
+Thus there is a finite \'etale Galois covering
+$Z \to X_L$ with Galois group $G \subset \mathbf{Z}/d\mathbf{Z}$
+which annihilates $\xi$.
+You can either see this by looking at the statement or
+proof of Lemma \ref{lemma-smooth-base-change-fields}
+or by using directly that $\xi$ corresponds to a
+$\mathbf{Z}/d\mathbf{Z}$-torsor over $X_L$.
+Finally, by
+Fundamental Groups, Lemma \ref{pione-lemma-extend-covering-general}
+we find a (necessarily surjective)
+finite \'etale morphism $X' \to X$
+whose restriction to $X_L$ is $Z \to X_L$.
+Since $\xi$ dies in $X'_K$ this finishes the proof.
+\end{proof}
 
 
 
