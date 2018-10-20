@@ -16484,61 +16484,6 @@ this is equal to $g^{-1}f_*\mathcal{I}^\bullet$ as desired.
 \end{proof}
 
 \begin{lemma}
-\label{lemma-proper-mod-n-direct-sums}
-Let $f : X \to Y$ be a proper morphism of schemes. Let $n \geq 1$
-be an integer. Then the functor
-$$
-Rf_* :
-D(X_\etale, \mathbf{Z}/n\mathbf{Z})
-\longrightarrow
-D(Y_\etale, \mathbf{Z}/n\mathbf{Z})
-$$
-commutes with direct sums.
-\end{lemma}
-
-\begin{proof}
-It is enough to prove this when $Y$ is quasi-compact.
-By Lemma \ref{lemma-morphism-finite-type-bounded-dimension}
-we see that the dimension of the fibres of
-$f : X \to Y$ is bounded.
-Thus Lemma \ref{lemma-cohomological-dimension-proper} implies that
-$$
-f_* :
-\textit{Mod}(X_\etale, \mathbf{Z}/n\mathbf{Z})
-\longrightarrow
-\textit{Mod}(Y_\etale, \mathbf{Z}/n\mathbf{Z})
-$$
-has finite cohomological dimension in the sense of
-Derived Categories, Lemma \ref{derived-lemma-unbounded-right-derived}.
-Let $I$ be a set and for $i \in I$ let $E_i$ be
-an object of $D(X_\etale, \mathbf{Z}/n\mathbf{Z})$.
-Choose a K-injective complex $\mathcal{I}_i^\bullet$
-of $\mathbf{Z}/n\mathbf{Z}$-modules each of whose
-terms $\mathcal{I}_i^n$ is an injective sheaf of
-$\mathbf{Z}/n\mathbf{Z}$-modules representing $E_i$.
-See Injectives, Theorem
-\ref{injectives-theorem-K-injective-embedding-grothendieck}.
-Then $\bigoplus E_i$ is represented by the complex
-$\bigoplus \mathcal{I}_i^\bullet$ (termwise direct sum), see
-Injectives, Lemma \ref{injectives-lemma-derived-products}.
-By Lemma \ref{lemma-relative-colimit} we have
-$$
-R^qf_*(\bigoplus \mathcal{I}_i^n) =
-\bigoplus R^qf_*(\mathcal{I}_i^n) = 0
-$$
-for $q > 0$ and any $n$. Hence we conclude by 
-Derived Categories, Lemma \ref{derived-lemma-unbounded-right-derived}
-that we may compute $Rf_*(\bigoplus E_i)$ by the complex
-$$
-f_*(\bigoplus \mathcal{I}_i^\bullet) =
-\bigoplus f_*(\mathcal{I}_i^\bullet)
-$$
-(equality again by Lemma \ref{lemma-relative-colimit}) which
-represents $\bigoplus Rf_*E_i$ by the already used
-Injectives, Lemma \ref{injectives-lemma-derived-products}.
-\end{proof}
-
-\begin{lemma}
 \label{lemma-pull-out-constant}
 Let $X$ be a quasi-compact and quasi-separated scheme.
 Let $E \in D^+(X_\etale)$ and $K \in D^+(\mathbf{Z})$.
@@ -16654,41 +16599,6 @@ $$
 This is shown in Lemma \ref{lemma-pull-out-constant}.
 \end{proof}
 
-\begin{lemma}
-\label{lemma-projection-formula-proper-mod-n}
-Let $f : X \to Y$ be a proper morphism of schemes. Let $n \geq 1$ be
-an integer. Let $E \in D(X_\etale, \mathbf{Z}/n\mathbf{Z})$ and
-$K \in D(Y_\etale, \mathbf{Z}/n\mathbf{Z})$. Then
-$$
-Rf_*E \otimes_{\mathbf{Z}/n\mathbf{Z}}^\mathbf{L} K =
-Rf_*(E \otimes_{\mathbf{Z}/n\mathbf{Z}}^\mathbf{L} f^{-1}K)
-$$
-in $D(Y_\etale, \mathbf{Z}/n\mathbf{Z})$.
-\end{lemma}
-
-\begin{proof}
-There is a canonical map from left to right by
-Cohomology on Sites, Section \ref{sites-cohomology-section-projection-formula}.
-We will check the equality on stalks at $\overline{y}$.
-By the proper base change (in the form of
-Lemma \ref{lemma-proper-base-change-mod-n} where $Y' = \overline{y}$)
-this reduces to the case where $Y$ is the spectrum of
-an algebraically closed field. Then $K \in D(\mathbf{Z}/n\mathbf{Z})$.
-Let $T(K)$ be the property that the statement of the
-lemma holds for $K \in D(\mathbf{Z}/n\mathbf{Z})$.
-We will check conditions (1), (2), and (3) of
-More on Algebra, Remark \ref{more-algebra-remark-P-resolution}
-hold for $T$ to conclude.
-Property (1) holds because both sides of the equality
-commute with direct sums, see
-Lemma \ref{lemma-proper-mod-n-direct-sums}.
-Property (2) holds because we are comparing exact functors
-between triangulated categories and we can use
-Derived Categories, Lemma \ref{derived-lemma-third-isomorphism-triangle}.
-Property (3) says the lemma holds when $K = \mathbf{Z}/n\mathbf{Z}[k]$
-for any shift $k \in \mathbf{Z}$ and this is obvious.
-\end{proof}
-
 
 
 
@@ -16703,7 +16613,9 @@ for any shift $k \in \mathbf{Z}$ and this is obvious.
 \noindent
 We can deduce some bounds on the cohomological dimension of
 schemes and on the cohomological dimension of fields using
-the results in Section \ref{section-vanishing-torsion}.
+the results in Section \ref{section-vanishing-torsion}
+and one, seemingly innocuous, application of the proper base
+change theorem (in the proof of Proposition \ref{proposition-cd-affine}).
 
 \begin{definition}
 \label{definition-cd}
@@ -17065,6 +16977,286 @@ as desired.
 
 
 
+
+
+
+
+
+\section{Finite cohomological dimension}
+\label{section-finite-cd}
+
+\noindent
+We continue the discussion started in Section \ref{section-cd}.
+
+\begin{definition}
+\label{definition-cd-f}
+Let $f : X \to Y$ be a quasi-compact and quasi-separated
+morphism of schemes.
+The {\it cohomological dimension of $f$} is the smallest
+element
+$$
+\text{cd}(f) \in \{0, 1, 2, \ldots\} \cup \{\infty\}
+$$
+such that for any abelian torsion sheaf $\mathcal{F}$
+on $X_\etale$ we have $R^if_*\mathcal{F} = 0$
+for $i > \text{cd}(f)$.
+\end{definition}
+
+\begin{lemma}
+\label{lemma-finite-cd}
+Let $K$ be a field.
+\begin{enumerate}
+\item If $f : X \to Y$ is a morphism of finite type schemes over $K$,
+then $\text{cd}(f) < \infty$.
+\item If $\text{cd}(K) < \infty$, then $\text{cd}(X) < \infty$
+for any finite type scheme $X$ over $K$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Proof of (1). We may assume $Y$ is affine. We will use the
+induction principle of 
+Cohomology of Schemes, Lemma \ref{coherent-lemma-induction-principle}
+to prove this. If $X$ is affine too, then the result holds by
+Lemma \ref{lemma-interlude-I}. Thus it suffices to show that if
+$X = U \cup V$ and the result is true for $U \to Y$, $V \to Y$, and
+$U \cap V \to Y$, then it is true for $f$. This follows from the
+relative Mayer-Vietoris sequence, see
+Lemma \ref{lemma-relative-mayer-vietoris}.
+
+\medskip\noindent
+Proof of (2). We will use the induction principle of
+Cohomology of Schemes, Lemma \ref{coherent-lemma-induction-principle}
+to prove this. If $X$ is affine, then the result holds by
+Proposition \ref{proposition-cd-affine}. Thus it suffices to show that if
+$X = U \cup V$ and the result is true for $U$, $V$, and
+$U \cap V $, then it is true for $X$. This follows from the
+Mayer-Vietoris sequence, see
+Lemma \ref{lemma-mayer-vietoris}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-finite-cd-mod-n-direct-sums}
+Cohomology and direct sums. Let $n \geq 1$ be an integer.
+\begin{enumerate}
+\item Let $f : X \to Y$ be a quasi-compact and quasi-separated morphism
+of schemes with $\text{cd}(f) < \infty$. Then the functor
+$$
+Rf_* :
+D(X_\etale, \mathbf{Z}/n\mathbf{Z})
+\longrightarrow
+D(Y_\etale, \mathbf{Z}/n\mathbf{Z})
+$$
+commutes with direct sums.
+\item Let $X$ be a quasi-compact and quasi-separated scheme with
+$\text{cd}(X) < \infty$. Then the functor
+$$
+R\Gamma(X, -) :
+D(X_\etale, \mathbf{Z}/n\mathbf{Z})
+\longrightarrow
+D(\mathbf{Z}/n\mathbf{Z})
+$$
+commutes with direct sums.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Proof of (1). Since $\text{cd}(f) < \infty$ we see that
+$$
+f_* :
+\textit{Mod}(X_\etale, \mathbf{Z}/n\mathbf{Z})
+\longrightarrow
+\textit{Mod}(Y_\etale, \mathbf{Z}/n\mathbf{Z})
+$$
+has finite cohomological dimension in the sense of
+Derived Categories, Lemma \ref{derived-lemma-unbounded-right-derived}.
+Let $I$ be a set and for $i \in I$ let $E_i$ be
+an object of $D(X_\etale, \mathbf{Z}/n\mathbf{Z})$.
+Choose a K-injective complex $\mathcal{I}_i^\bullet$
+of $\mathbf{Z}/n\mathbf{Z}$-modules each of whose
+terms $\mathcal{I}_i^n$ is an injective sheaf of
+$\mathbf{Z}/n\mathbf{Z}$-modules representing $E_i$.
+See Injectives, Theorem
+\ref{injectives-theorem-K-injective-embedding-grothendieck}.
+Then $\bigoplus E_i$ is represented by the complex
+$\bigoplus \mathcal{I}_i^\bullet$ (termwise direct sum), see
+Injectives, Lemma \ref{injectives-lemma-derived-products}.
+By Lemma \ref{lemma-relative-colimit} we have
+$$
+R^qf_*(\bigoplus \mathcal{I}_i^n) =
+\bigoplus R^qf_*(\mathcal{I}_i^n) = 0
+$$
+for $q > 0$ and any $n$. Hence we conclude by 
+Derived Categories, Lemma \ref{derived-lemma-unbounded-right-derived}
+that we may compute $Rf_*(\bigoplus E_i)$ by the complex
+$$
+f_*(\bigoplus \mathcal{I}_i^\bullet) =
+\bigoplus f_*(\mathcal{I}_i^\bullet)
+$$
+(equality again by Lemma \ref{lemma-relative-colimit}) which
+represents $\bigoplus Rf_*E_i$ by the already used
+Injectives, Lemma \ref{injectives-lemma-derived-products}.
+
+\medskip\noindent
+Proof of (2). This is identical to the proof of (1)
+and we omit it.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-proper-mod-n-direct-sums}
+Let $f : X \to Y$ be a proper morphism of schemes. Let $n \geq 1$
+be an integer. Then the functor
+$$
+Rf_* :
+D(X_\etale, \mathbf{Z}/n\mathbf{Z})
+\longrightarrow
+D(Y_\etale, \mathbf{Z}/n\mathbf{Z})
+$$
+commutes with direct sums.
+\end{lemma}
+
+\begin{proof}
+It is enough to prove this when $Y$ is quasi-compact.
+By Lemma \ref{lemma-morphism-finite-type-bounded-dimension}
+we see that the dimension of the fibres of
+$f : X \to Y$ is bounded.
+Thus Lemma \ref{lemma-cohomological-dimension-proper}
+implies that $\text{cd}(f) < \infty$. Hence the
+result by Lemma \ref{lemma-finite-cd-mod-n-direct-sums}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-pull-out-constant-mod-n}
+Let $X$ be a quasi-compact and quasi-separated scheme
+such that $\text{cd}(X) < \infty$. Let $n \geq 1$ be an integer.
+Let $E \in D(X_\etale, \mathbf{Z}/n\mathbf{Z})$ and
+$K \in D(\mathbf{Z}/n\mathbf{Z})$.
+Then
+$$
+R\Gamma(X, E \otimes_{\mathbf{Z}/n\mathbf{Z}}^\mathbf{L} \underline{K}) =
+R\Gamma(X, E) \otimes_{\mathbf{Z}/n\mathbf{Z}}^\mathbf{L} K
+$$
+\end{lemma}
+
+\begin{proof}
+There is a canonical map from left to right by
+Cohomology on Sites, Section \ref{sites-cohomology-section-projection-formula}.
+Let $T(K)$ be the property that the statement of the
+lemma holds for $K \in D(\mathbf{Z}/n\mathbf{Z})$.
+We will check conditions (1), (2), and (3) of
+More on Algebra, Remark \ref{more-algebra-remark-P-resolution}
+hold for $T$ to conclude.
+Property (1) holds because both sides of the equality
+commute with direct sums, see
+Lemma \ref{lemma-finite-cd-mod-n-direct-sums}.
+Property (2) holds because we are comparing exact functors
+between triangulated categories and we can use
+Derived Categories, Lemma \ref{derived-lemma-third-isomorphism-triangle}.
+Property (3) says the lemma holds when $K = \mathbf{Z}/n\mathbf{Z}[k]$
+for any shift $k \in \mathbf{Z}$ and this is obvious.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-projection-formula-proper-mod-n}
+Let $f : X \to Y$ be a proper morphism of schemes. Let $n \geq 1$ be
+an integer. Let $E \in D(X_\etale, \mathbf{Z}/n\mathbf{Z})$ and
+$K \in D(Y_\etale, \mathbf{Z}/n\mathbf{Z})$. Then
+$$
+Rf_*E \otimes_{\mathbf{Z}/n\mathbf{Z}}^\mathbf{L} K =
+Rf_*(E \otimes_{\mathbf{Z}/n\mathbf{Z}}^\mathbf{L} f^{-1}K)
+$$
+in $D(Y_\etale, \mathbf{Z}/n\mathbf{Z})$.
+\end{lemma}
+
+\begin{proof}
+There is a canonical map from left to right by
+Cohomology on Sites, Section \ref{sites-cohomology-section-projection-formula}.
+We will check the equality on stalks at $\overline{y}$.
+By the proper base change (in the form of
+Lemma \ref{lemma-proper-base-change-mod-n} where $Y' = \overline{y}$)
+this reduces to the case where $Y$ is the spectrum of
+an algebraically closed field.
+This is shown in Lemma \ref{lemma-pull-out-constant-mod-n}
+where we use that $\text{cd}(X) < \infty$ by
+Lemma \ref{lemma-cohomological-dimension-proper}.
+\end{proof}
+
+
+
+
+
+
+\section{K\"unneth in \'etale cohomology}
+\label{section-kunneth}
+
+\noindent
+Short section discussing the K\"unneth formula.
+
+\begin{lemma}
+\label{lemma-kunneth-one-proper}
+Let $k$ be a separably closed field. Let $X$ be a proper scheme over $k$.
+Let $Y$ be a quasi-compact and quasi-separated scheme over $k$.
+\begin{enumerate}
+\item If $E \in D^+(X_\etale)$ has torsion cohomology sheaves and
+$K \in D^+(Y_\etale)$, then
+$$
+R\Gamma(X \times_{\Spec(k)} Y,
+\text{pr}_1^{-1}E
+\otimes_\mathbf{Z}^\mathbf{L}
+\text{pr}_2^{-1}K
+)
+=
+R\Gamma(X, E)
+\otimes_\mathbf{Z}^\mathbf{L}
+R\Gamma(Y, K)
+$$
+\item If $n \geq 1$ is an integer, $Y$ is of finite type over $k$,
+$E \in D(X_\etale, \mathbf{Z}/n\mathbf{Z})$, and
+$K \in D(Y_\etale, \mathbf{Z}/n\mathbf{Z})$, then
+$$
+R\Gamma(X \times_{\Spec(k)} Y,
+\text{pr}_1^{-1}E
+\otimes_{\mathbf{Z}/n\mathbf{Z}}^\mathbf{L}
+\text{pr}_2^{-1}K
+)
+=
+R\Gamma(X, E)
+\otimes_{\mathbf{Z}/n\mathbf{Z}}^\mathbf{L}
+R\Gamma(Y, K)
+$$
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Proof of (1). By Lemma \ref{lemma-projection-formula-proper} we have
+$$
+R\text{pr}_{2, *}(
+\text{pr}_1^{-1}E
+\otimes_\mathbf{Z}^\mathbf{L}
+\text{pr}_2^{-1}K) =
+R\text{pr}_{2, *}(\text{pr}_1^{-1}E)
+\otimes_\mathbf{Z}^\mathbf{L}
+K
+$$
+By proper base change (in the form of Lemma \ref{lemma-proper-base-change})
+this is equal to the object
+$$
+\underline{R\Gamma(X, E)}
+\otimes_\mathbf{Z}^\mathbf{L}
+K
+$$
+of $D(Y_\etale)$. Taking $R\Gamma(Y, -)$ on this object reproduces the
+left hand side of the equality in (1) by the Leray spectral sequence
+for $\text{pr}_2$. Thus we conclude by
+Lemma \ref{lemma-pull-out-constant}.
+
+\medskip\noindent
+Proof of (2). This is exactly the same as the proof of (1)
+except that we use Lemmas \ref{lemma-projection-formula-proper-mod-n},
+\ref{lemma-proper-base-change-mod-n}, and
+\ref{lemma-pull-out-constant-mod-n} as well as
+$\text{cd}(Y) < \infty$ by Lemma \ref{lemma-finite-cd}.
+\end{proof}
 
 
 
