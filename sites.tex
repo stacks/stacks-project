@@ -7349,7 +7349,8 @@ for every presheaf of sets $\mathcal{F}$.
 \begin{proof}
 The first assertion is immediate from the definition of a sheaf, assumptions
 (1) and (2), and the definition of $u^pE$. The second is a restatement of the
-adjointness of $u^p$ and the stalk functor (but now restricted to sheaves).
+adjointness of $u^p$ and the stalk functor
+(Lemma \ref{lemma-adjoint-point-push-stalk}) restricted to sheaves.
 The third assertion follows as, for any set $E$, we have
 $$
 \text{Map}(\mathcal{F}_p, E) =
@@ -7581,6 +7582,36 @@ In this section we give criteria for when a functor
 from a site to the category of sets defines a point of that site.
 
 \begin{lemma}
+\label{lemma-neighbourhoods-cofiltered}
+Let $\mathcal{C}$ be a site. Let $p = u : \mathcal{C} \to \textit{Sets}$
+be a functor. If the category of neighbourhoods of $p$ is
+cofiltered, then the stalk functor (\ref{equation-stalk})
+is left exact.
+\end{lemma}
+
+\begin{proof}
+Let $\mathcal{I} \to \Sh(\mathcal{C})$,
+$i \mapsto \mathcal{F}_i$ be a finite diagram of sheaves.
+We have to show that the stalk of the limit of this
+system agrees with the limit of the stalks.
+Let $\mathcal{F}$ be the limit of the system as a {\it presheaf}.
+According to Lemma \ref{lemma-limit-sheaf} this is a sheaf and
+it is the limit in the category of sheaves.
+Hence we have to show that
+$\mathcal{F}_p = \lim_\mathcal{I} \mathcal{F}_{i, p}$.
+Recall also that $\mathcal{F}$ has a simple description, see
+Section \ref{section-limits-colimits-PSh}. Thus we have to show that
+$$
+\lim_i \colim_{\{(U, x)\}^{opp}} \mathcal{F}_i(U)
+=
+\colim_{\{(U, x)\}^{opp}} \lim_i \mathcal{F}_i(U).
+$$
+This holds, by Categories, Lemma \ref{categories-lemma-directed-commutes},
+because the opposite of the category of neighbourhoods is filtered
+by assumption.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-neighbourhoods-directed}
 Let $\mathcal{C}$ be a site. Assume that $\mathcal{C}$ has
 a final object $X$ and fibred products.
@@ -7591,13 +7622,13 @@ Let $p = u : \mathcal{C} \to \textit{Sets}$ be a functor such that
 the same target the map
 $u(U \times_W V) \to u(U) \times_{u(W)} u(V)$ is bijective.
 \end{enumerate}
-Then the opposite of the category of neighbourhoods of $p$ is filtered.
-Moreover, the stalk functor $\Sh(\mathcal{C}) \to \textit{Sets}$,
+Then the the category of neighbourhoods of $p$ is cofiltered
+and consequently the stalk functor $\Sh(\mathcal{C}) \to \textit{Sets}$,
 $\mathcal{F} \to \mathcal{F}_p$ commutes with finite limits.
 \end{lemma}
 
 \begin{proof}
-This is analogous to the proof of Lemma \ref{lemma-directed} above.
+Please note the analogy with Lemma \ref{lemma-directed}.
 The assumptions on $\mathcal{C}$ imply that $\mathcal{C}$ has finite limits.
 See Categories, Lemma \ref{categories-lemma-finite-limits-exist}.
 Assumption (1) implies that the category of neighbourhoods
@@ -7618,27 +7649,7 @@ $$
 The bijectivity in (2) guarantees there exists an element $z \in u(W)$
 which maps to $((y, y), y)$.
 Then $(W, z) \to (V, y)$ equalizes $a, b$ as desired.
-
-\medskip\noindent
-Let $\mathcal{I} \to \Sh(\mathcal{C})$,
-$i \mapsto \mathcal{F}_i$ be a finite diagram of sheaves.
-We have to show that the stalk of the limit of this
-system agrees with the limit of the stalks.
-Let $\mathcal{F}$ be the limit of the system as a {\it presheaf}.
-According to Lemma \ref{lemma-limit-sheaf} this is a sheaf and
-it is the limit in the category of sheaves.
-Hence we have to show that
-$\mathcal{F}_p = \lim_\mathcal{I} \mathcal{F}_{i, p}$.
-Recall also that $\mathcal{F}$ has a simple description, see
-Section \ref{section-limits-colimits-PSh}. Thus we have to show that
-$$
-\lim_i \colim_{\{(U, x)\}^{opp}} \mathcal{F}_i(U)
-=
-\colim_{\{(U, x)\}^{opp}} \lim_i \mathcal{F}_i(U).
-$$
-This holds, by Categories, Lemma \ref{categories-lemma-directed-commutes},
-because we just showed the opposite of the category of neighbourhoods
-is filtered.
+The ``consequently'' clause is Lemma \ref{lemma-neighbourhoods-cofiltered}.
 \end{proof}
 
 \begin{proposition}
@@ -7847,67 +7858,81 @@ In this section we make a few remarks about points and morphisms
 of topoi.
 
 \begin{lemma}
+\label{lemma-point-functor}
+Let $u : \mathcal{C} \to \mathcal{D}$ be a functor. Let
+$v : \mathcal{D} \to \textit{Sets}$ be a functor and set
+$w = v \circ u$. Denote $q$, resp., $p$ the stalk functor
+(\ref{equation-stalk}) associated to $v$, resp.\ $w$.
+Then $(u_p\mathcal{F})_q = \mathcal{F}_p$ functorially in the
+presheaf $\mathcal{F}$ on $\mathcal{C}$.
+\end{lemma}
+
+\begin{proof}
+This is a simple categorical fact. We have
+\begin{align*}
+(u_p\mathcal{F})_q
+& =
+\colim_{(V, y)} \colim_{U, \phi : V \to u(U)} \mathcal{F}(U) \\
+& = \colim_{(V, y, U, \phi : V \to u(U))} \mathcal{F}(U) \\
+& = \colim_{(U, x)} \mathcal{F}(U) \\
+& = \mathcal{F}_p
+\end{align*}
+The first equality holds by the definition of $u_p$ and the
+definition of the stalk functor. Observe that $y \in v(V)$.
+In the second equality we simply combine colimits.
+To see the third equality we apply
+Categories, Lemma \ref{categories-lemma-colimit-constant-connected-fibers}
+to the functor $F$ of diagram categories defined by the rule
+$$
+F((V, y, U, \phi : V \to u(U))) = (U, v(\phi)(y)).
+$$
+This makes sense because $w(U) = v(u(U))$. Let us check the hypotheses of
+Categories, Lemma \ref{categories-lemma-colimit-constant-connected-fibers}.
+Observe that $F$ has a right inverse, namely
+$(U, x) \mapsto (u(U), x, U, \text{id} : u(U) \to u(U))$.
+Again this makes sense because $x \in w(U) = v(u(U))$. On the other hand,
+there is always a morphism
+$$
+(V, y, U, \phi : V \to u(U))
+\longrightarrow
+(u(U), v(\phi)(y), U, \text{id} : u(U) \to u(U))
+$$
+in the fibre category over $(U, x)$ which shows the fibre categories
+are connected. The fourth and final equality is clear.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-point-morphism-sites}
 \begin{slogan}
 A map of sites defines a map on points, and pullback respects stalks.
 \end{slogan}
 Let $f : \mathcal{D} \to \mathcal{C}$ be a morphism of sites
 given by a continuous functor $u : \mathcal{C} \to \mathcal{D}$.
-Let $p$ be a point of $\mathcal{D}$ given by the functor
+Let $q$ be a point of $\mathcal{D}$ given by the functor
 $v : \mathcal{D} \to \textit{Sets}$, see
 Definition \ref{definition-point}.
 Then the functor $v \circ u : \mathcal{C} \to \textit{Sets}$
-defines a point $q$ of $\mathcal{C}$ and moreover there is
+defines a point $p$ of $\mathcal{C}$ and moreover there is
 a canonical identification
 $$
-(f^{-1}\mathcal{F})_p = \mathcal{F}_q
+(f^{-1}\mathcal{F})_q = \mathcal{F}_p
 $$
 for any sheaf $\mathcal{F}$ on $\mathcal{C}$.
 \end{lemma}
 
 \begin{proof}[First proof Lemma \ref{lemma-point-morphism-sites}]
-Note that since $u$ is continuous and
-since $v$ defines a point, it is immediate that $v \circ u$ satisfies
-conditions (1) and (2) of
-Definition \ref{definition-point}.
-Let us prove the displayed equality.
-Let $\mathcal{F}$ be a sheaf on $\mathcal{C}$.
-Then
+Note that since $u$ is continuous and since $v$ defines a point,
+it is immediate that $v \circ u$ satisfies conditions (1) and (2) of
+Definition \ref{definition-point}. Let us prove the displayed equality.
+Let $\mathcal{F}$ be a sheaf on $\mathcal{C}$. Then
 $$
-\mathcal{F}_q = \colim_{(U, x)} \mathcal{F}(U)
+(f^{-1}\mathcal{F})_q = (u_s\mathcal{F})_q =
+(u_p \mathcal{F})_q = \mathcal{F}_p
 $$
-where the colimit is over objects $U$ in $\mathcal{C}$ and
-elements $x \in v(u(U))$. Similarly, we have
-\begin{align*}
-(f^{-1}\mathcal{F})_p & = (u_p\mathcal{F})_p \\
-& =
-\colim_{(V, x)} \colim_{U, \phi : V \to u(U)} \mathcal{F}(U) \\
-& = \colim_{(V, x, U, \phi : V \to u(U))} \mathcal{F}(U) \\
-& = \colim_{(U, x)} \mathcal{F}(U) \\
-& = \mathcal{F}_q
-\end{align*}
-Explanation:
-The first equality holds because $f^{-1}\mathcal{F} = (u_p\mathcal{F})^\#$
-and because $\mathcal{G}_p = \mathcal{G}^\#_p$ for any presheaf
-$\mathcal{G}$, see
-Lemma \ref{lemma-point-pushforward-sheaf}.
-The second equality holds by the definition of $u_p$.
-In the third equality we simply combine colimits.
-To see the fourth equality we apply
-Categories, Lemma \ref{categories-lemma-colimit-constant-connected-fibers}
-to the functor $F$ of diagram categories defined by the rule
-$F((V, x, U, \phi : V \to u(U))) = (U, v(\phi)(x))$.
-The lemma applies, because $F$ has a right inverse, namely
-$(U, x) \mapsto (u(U), x, U, \text{id} : u(U) \to u(U))$ and
-because there is always a morphism
-$$
-(V, x, U, \phi : V \to u(U))
-\longrightarrow
-(u(U), v(\phi)(x), U, \text{id} : u(U) \to u(U))
-$$
-in the fibre category over $(U, x)$ which shows the fibre categories
-are connected. The fifth equality is clear.
-Hence now we see that $q$ also satisfies condition (3) of
+The first equality since $f^{-1} = u_s$, the second equality
+by Lemma \ref{lemma-point-pushforward-sheaf}, and the third
+by Lemma \ref{lemma-point-functor}.
+Hence now we see that $p$ also satisfies condition (3) of
 Definition \ref{definition-point}
 because it is a composition of exact functors. This finishes the proof.
 \end{proof}
@@ -7915,7 +7940,7 @@ because it is a composition of exact functors. This finishes the proof.
 \begin{proof}[Second proof Lemma \ref{lemma-point-morphism-sites}]
 By
 Lemma \ref{lemma-site-point-morphism}
-we may factor $(p_*, p^{-1})$ as
+we may factor $(q_*, q^{-1})$ as
 $$
 \Sh(pt) \xrightarrow{i} \Sh(\mathcal{S})
 \xrightarrow{h} \Sh(\mathcal{D})
@@ -7949,23 +7974,23 @@ Lemma \ref{lemma-point-pushforward-sheaf}
 the functor $g_*i_* = (v \circ u)^p = (v \circ u)^s$
 is right adjoint to the stalk functor
 $\mathcal{F} \mapsto \mathcal{F}_q$.
-Hence we see that the stalk functor $q^{-1}$ is canonically
+Hence we see that the stalk functor $p^{-1}$ is canonically
 isomorphic to $i^{-1} \circ g^{-1}$. Hence it is exact and
-we conclude that $q$ is a point. Finally, as we have
+we conclude that $p$ is a point. Finally, as we have
 $g = f \circ h$ by construction we see that
-$q^{-1} = i^{-1} \circ h^{-1} \circ f^{-1} = p^{-1} \circ f^{-1}$,
+$p^{-1} = i^{-1} \circ h^{-1} \circ f^{-1} = q^{-1} \circ f^{-1}$,
 i.e., we have the displayed formula of the lemma.
 \end{proof}
 
 \begin{lemma}
 \label{lemma-point-morphism-topoi}
 Let $f : \Sh(\mathcal{D}) \to \Sh(\mathcal{C})$
-be a morphism of topoi. Let $p : \Sh(pt) \to \Sh(\mathcal{D})$
-be a point. Then $q = f \circ p$ is a point of the topos
+be a morphism of topoi. Let $q : \Sh(pt) \to \Sh(\mathcal{D})$
+be a point. Then $p = f \circ q$ is a point of the topos
 $\Sh(\mathcal{C})$ and we have
 a canonical identification
 $$
-(f^{-1}\mathcal{F})_p = \mathcal{F}_q
+(f^{-1}\mathcal{F})_q = \mathcal{F}_p
 $$
 for any sheaf $\mathcal{F}$ on $\mathcal{C}$.
 \end{lemma}
@@ -8520,6 +8545,34 @@ is bijective for each $a, b$.
 By the sheaf condition this shows that
 $\mathcal{F}(W) \to \mathcal{G}(W)$ is bijective, i.e.,
 $\mathcal{F} \to \mathcal{G}$ is an isomorphism.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-check-morphism-sites}
+Let $u : \mathcal{C} \to \mathcal{D}$ be a continuous functor of sites.
+Let $\{(q_i, v_i)\}_{i\in I}$ be a conservative family of points of
+$\mathcal{D}$. If each functor $u_i = v_i \circ u$ defines
+a point of $\mathcal{C}$,
+then $u$ defines a morphism of sites $f : \mathcal{D} \to \mathcal{C}$.
+\end{lemma}
+
+\begin{proof}
+Denote $p_i$ the stalk functor (\ref{equation-stalk}) on
+$\textit{PSh}(\mathcal{C})$ corresponding to the functor $u_i$. We have
+$$
+(f^{-1}\mathcal{F})_{q_i} =
+(u_s\mathcal{F})_{q_i} =
+(u_p\mathcal{F})_{q_i} =
+\mathcal{F}_{p_i}
+$$
+The first equality since $f^{-1} = u_s$, the second equality
+by Lemma \ref{lemma-point-pushforward-sheaf}, and the third
+by Lemma \ref{lemma-point-functor}.
+Hence if $p_i$ is a point, then pulling back by $f$
+and then taking stalks at $q_i$ is an exact functor.
+Since the family of points $\{q_i\}$ is conservative, this
+implies that $f^{-1}$ is an exact functor and we see
+that $f$ is a morphism of sites by Definition \ref{definition-morphism-sites}.
 \end{proof}
 
 
