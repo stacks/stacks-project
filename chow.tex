@@ -4220,11 +4220,10 @@ Remark \ref{remark-pullback-pairs} and
 Lemmas \ref{lemma-closed-in-X-gysin},
 \ref{lemma-gysin-flat-pullback}, and
 \ref{lemma-gysin-commutes-gysin}.
-These results can be generalized to deal with locally principal
+These results can be generalized to locally principal
 closed subschemes with a virtual normal bundle
-(Remark \ref{remark-generalize-to-virtual}).
-A generalization in a different direction comes from looking
-at pseudo-divisors (Remark \ref{remark-generalize-to-pseudo-divisor}).
+(Remark \ref{remark-generalize-to-virtual}) or to
+pseudo-divisors (Remark \ref{remark-generalize-to-pseudo-divisor}).
 
 \medskip\noindent
 Recall that effective Cartier divisors correspond $1$-to-$1$ to
@@ -4288,8 +4287,8 @@ Here $\mathcal{N}$ should be thought of as
 a {\it virtual normal bundle of $D$ in $X$}. The construction of
 $i^* : Z_{k + 1}(X) \to A_k(D)$ in
 Definition \ref{definition-gysin-homomorphism}
-generalizes to such triples and it is perhaps the correct generality
-for the definition.
+generalizes to such triples, see
+Section \ref{section-gysin-higher-codimension}.
 \end{remark}
 
 \begin{remark}
@@ -6304,6 +6303,24 @@ as the bivariant operation which sends $\prod \alpha_r \in \prod A_*(X'_r)$
 to $\prod r\alpha_r$.
 \end{remark}
 
+\begin{remark}
+\label{remark-top-chern-class}
+Let $(S, \delta)$ be as in Situation \ref{situation-setup}. Let $X$
+be locally of finite type over $S$. Let $\mathcal{E}$ be a
+finite locally free $\mathcal{O}_X$-module. Then there is an element
+$$
+c_{top}(\mathcal{E}) \in A^*(X)
+$$
+defined as follows. If $\mathcal{E}$ has constant rank $r$, then
+we set $c_{top}(\mathcal{E}) = c_r(\mathcal{E})$. In general
+we write $X = \coprod X_r$ as in
+Remark \ref{remark-extend-to-finite-locally-free}.
+For $X'/X$ locally of finite type we send $\prod \alpha_r$
+in $\prod A_*(X'_r)$ to $c_r(\mathcal{E}|_{X_r}) \cap \alpha_r$.
+\end{remark}
+
+
+
 
 
 
@@ -6677,7 +6694,24 @@ are invertible ${\mathcal O}_P$-modules.
 \end{lemma}
 
 \begin{proof}
-Omitted. Hint: Use a composition of projective space bundles.
+We may assume $r_i \geq 1$ for all $i$. We will prove the lemma by induction
+on $\sum (r_i - 1)$. If this integer is $0$, then $\mathcal{E}_i$
+is invertible for all $i$ and we conclude by taking $\pi = \text{id}_X$.
+If not, then we can pick an $i$ such that $r_i > 1$ and consider the
+morphism $\pi_i : P_i = \mathbf{P}(\mathcal{E}_i) \to X$.
+We have a short exact sequence
+$$
+0 \to \mathcal{F} \to \pi_i^*\mathcal{E}_i \to \mathcal{O}_{P_i}(1) \to 0
+$$
+of finite locally free $\mathcal{O}_{P_i}$-modules of ranks $r_i - 1$,
+$r_i$, and $1$. Observe that $\pi_i^*$ is injective on chow groups
+after any base change by the projective bundle formula
+(Lemma \ref{lemma-chow-ring-projective-bundle}).
+By the induction hypothesis applied to the finite locally free
+$\mathcal{O}_{P_i}$-modules $\mathcal{F}$ and $\pi_{i'}^*\mathcal{E}_{i'}$
+for $i' \not = i$, we find a morphism $\pi : P \to P_i$ with
+properties stated as in the lemma. Then the composition
+$\pi_i \circ \pi : P \to X$ does the job. Some details omitted.
 \end{proof}
 
 \noindent
@@ -6713,50 +6747,60 @@ applying the injective map $\pi^* : A^*(X) \to A^*(P)$ to the left
 hand side of the equation.
 
 \medskip\noindent
-To see how this works, it is best to give an example. Let us calculate the
-chern classes of the dual $\mathcal{E}^\vee$ of a locally
-free $\mathcal{O}_X$-module $\mathcal{E}$ of rank $r$. Note that
-if $\pi^*\mathcal{E}$ has a filtration with subquotients the invertible
-modules $\mathcal{L}_1, \ldots, \mathcal{L}_r$, then
-$\pi^*\mathcal{E}^\vee$ has a filtration with subquotients invertible
-sheaves $\mathcal{L}_r^{-1}, \ldots, \mathcal{L}_1^{\otimes -1}$.
-Hence if $x_i$ are the chern roots of $\mathcal{E}$, in other words,
-if $x_i = c_1(\mathcal{L}_i)$, then the $-x_i$ are the chern roots of
-$\mathcal{E}^\vee$ by Lemma \ref{lemma-c1-cap-additive}. It follows that
-$$
-\pi^*c(\mathcal{E}^\vee) = \prod (1 - x_i)
-$$
-in $A^*(P)$ and hence by elementary algebra that
-$$
-c_j(\mathcal{E}^\vee) = (-1)^jc_j(\mathcal{E})
-$$
-in $A^*(X)$ by the injectivity above.
+To see how this works, it is best to give some examples.
 
-\medskip\noindent
-Let us compute the chern classes of a tensor product of vector bundles.
-Namely, suppose that $\mathcal{E}$, $\mathcal{F}$
-are finite locally free of ranks $r$, $s$.
-Write
+\begin{lemma}
+\label{lemma-chern-classes-dual}
+In Situation \ref{situation-setup} let $X$ be locally of finite type over $S$.
+Let $\mathcal{E}$ be a finite locally free $\mathcal{O}_X$-module
+with dual $\mathcal{E}^\vee$. Then
 $$
-c(\mathcal{E}) = \prod\nolimits_{i = 1}^r (1 + x_i),
-\quad
-c(\mathcal{F}) = \prod\nolimits_{j = 1}^s (1 + y_j)
+c_i(\mathcal{E}^\vee) = (-1)^i c_i(\mathcal{E})
 $$
-where $x_i$, $y_j$ are the chern roots of $\mathcal{E}$, $\mathcal{F}$.
-We claim that
+in $A^i(X)$.
+\end{lemma}
+
+\begin{proof}
+Choose a morphism $\pi : P \to X$ as in
+Lemma \ref{lemma-splitting-principle}.
+By the injectivity of $\pi^*$ (after any base change)
+it suffices to prove the relation between
+the chern classes of $\mathcal{E}$ and $\mathcal{E}^\vee$
+after pulling back to $P$. Thus we may assume there
+exist invertible $\mathcal{O}_X$-modules
+${\mathcal L}_i$, $i = 1, \ldots, r$
+and a filtration
 $$
-c(\mathcal{E} \otimes_{\mathcal{O}_X} \mathcal{F})
-=
-\prod\nolimits_{i, j} (1 + x_i + y_j)
+0 = \mathcal{E}_0 \subset \mathcal{E}_1 \subset \mathcal{E}_2
+\subset \ldots \subset \mathcal{E}_r = \mathcal{E}
 $$
-Namely, if $\mathcal{E}$ has a filtration whose successive quotients are
-invertible modules $\mathcal{L}_i$ and $\mathcal{F}$ has a filtration whose
-successive quotients are invertible sheaves $\mathcal{N}_j$, then
-$\mathcal{E} \otimes \mathcal{F}$ has a filtration whose successive
-quotients are the invertible sheaves $\mathcal{L}_i \otimes \mathcal{N}_j$.
-Applying the above we find expressions for the chern classes
-of the tensor product in terms of the chern classes of $\mathcal{E}$
-and $\mathcal{F}$. Here are some examples:
+such that $\mathcal{E}_i/\mathcal{E}_{i - 1} \cong \mathcal{L}_i$.
+Then we obtain the dual filtration
+$$
+0 = \mathcal{E}_r^\perp \subset \mathcal{E}_1^\perp \subset \mathcal{E}_2^\perp
+\subset \ldots \subset \mathcal{E}_0^\perp = \mathcal{E}^\vee
+$$
+such that $\mathcal{E}_{i - 1}^\perp/\mathcal{E}_i^\perp \cong
+\mathcal{L}_i^{\otimes -1}$.
+Set $x_i = c_1(\mathcal{L}_i)$.
+Then $c_1(\mathcal{L}_i^{\otimes -1}) = - x_i$
+by Lemma \ref{lemma-c1-cap-additive}.
+By Lemma \ref{lemma-chern-filter-by-linebundles}
+we have
+$$
+c(\mathcal{E}) = \prod\nolimits_{i = 1}^r (1 + x_i)
+\quad\text{and}\quad
+c(\mathcal{E}^\vee) = \prod\nolimits_{i = 1}^r (1 - x_i)
+$$
+in $A^*(X)$. The result follows from a formal computation
+which we omit.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-chern-classes-tensor-product}
+In Situation \ref{situation-setup} let $X$ be locally of finite type over $S$.
+Let $\mathcal{E}$ and $\mathcal{F}$ be a finite locally free
+$\mathcal{O}_X$-modules of ranks $r$ and $s$. Then we have
 $$
 c_1(\mathcal{E} \otimes \mathcal{F})
 =
@@ -6766,12 +6810,62 @@ $$
 c_2(\mathcal{E} \otimes \mathcal{F})
 =
 r^2 c_2(\mathcal{F}) +
-(rs - 1) c_1(\mathcal{F})c_1(\mathcal{E}) +
+rs c_1(\mathcal{F})c_1(\mathcal{E}) +
 s^2 c_2(\mathcal{E})
 $$
-and so on.
+and so on (see proof) in $A^*(X)$.
+\end{lemma}
 
-\medskip\noindent
+\begin{proof}
+Arguing exactly as in the proof of Lemma \ref{lemma-chern-classes-dual}
+we may assume we have
+invertible $\mathcal{O}_X$-modules
+${\mathcal L}_i$, $i = 1, \ldots, r$
+${\mathcal N}_i$, $i = 1, \ldots, s$
+filtrations
+$$
+0 = \mathcal{E}_0 \subset \mathcal{E}_1 \subset \mathcal{E}_2
+\subset \ldots \subset \mathcal{E}_r = \mathcal{E}
+\quad\text{and}\quad
+0 = \mathcal{F}_0 \subset \mathcal{F}_1 \subset \mathcal{F}_2
+\subset \ldots \subset \mathcal{F}_s = \mathcal{F}
+$$
+such that $\mathcal{E}_i/\mathcal{E}_{i - 1} \cong \mathcal{L}_i$
+and such that $\mathcal{F}_j/\mathcal{F}_{j - 1} \cong \mathcal{N}_j$.
+Ordering pairs $(i, j)$ lexicographically
+we obtain a filtration
+$$
+0 \subset \ldots \subset
+\mathcal{E}_i \otimes \mathcal{F}_j
++
+\mathcal{E}_{i - 1} \otimes \mathcal{F}
+\subset \ldots \subset \mathcal{E} \otimes \mathcal{F}
+$$
+with successive quotients
+$$
+\mathcal{L}_1 \otimes \mathcal{N}_1,
+\mathcal{L}_1 \otimes \mathcal{N}_2,
+\ldots,
+\mathcal{L}_1 \otimes \mathcal{N}_s,
+\mathcal{L}_2 \otimes \mathcal{N}_1,
+\ldots,
+\mathcal{L}_r \otimes \mathcal{N}_s
+$$
+By Lemma \ref{lemma-chern-filter-by-linebundles}
+we have
+$$
+c(\mathcal{E}) = \prod (1 + x_i),
+\quad
+c(\mathcal{F}) = \prod (1 + y_j),
+\quad\text{and}\quad
+c(\mathcal{F}) = \prod (1 + x_i + y_j),
+$$
+in $A^*(X)$. The result follows from a formal computation
+which we omit.
+\end{proof}
+
+\begin{remark}
+\label{remark-equalities-nonconstant-rank}
 The equalities proven above remain true even when we work with
 finite locally free
 $\mathcal{O}_X$-modules whose rank is allowed to be nonconstant.
@@ -6803,6 +6897,7 @@ Namely, since $\SheafHom_{\mathcal{O}_X}(\mathcal{E}, \mathcal{E}) =
 calculations above by decomposing $X$ into parts where the rank
 of $\mathcal{E}$ is constant as in
 Remark \ref{remark-extend-to-finite-locally-free}.
+\end{remark}
 
 \begin{example}
 \label{example-power-sum}
@@ -6842,6 +6937,171 @@ $P_0(\mathcal{E}) = r(\mathcal{E})$ as a bivariant class
 
 
 
+
+
+
+\section{Chern classes and sections}
+\label{section-top-chern-class}
+
+\noindent
+A brief section whose main result is that we may compute the
+top chern class of a finite locally free module using the
+vanishing locus of a ``regular section.
+
+\medskip\noindent
+Let $(S, \delta)$ be as in Situation \ref{situation-setup}. Let $X$ be a scheme
+locally of finite type over $S$. Let $\mathcal{E}$ be a finite locally
+free $\mathcal{O}_X$-module. Let $f : X' \to X$ be locally of finite type. Let
+$$
+s \in \Gamma(X', f^*\mathcal{E})
+$$
+be a global section of the pullback of $\mathcal{E}$ to $X'$. Let
+$Z(s) \subset X'$ be the zero scheme of $s$. More precisely, we define
+$Z(s)$ to be the closed subscheme whose quasi-coherent sheaf
+of ideals is the image of the map
+$s : f^*\mathcal{E}^\vee \to \mathcal{O}_{X'}$.
+
+\begin{lemma}
+\label{lemma-top-chern-class}
+In the situation described just above assume $\dim_\delta(X') = n$,
+that $f^*\mathcal{E}$ has constant rank $r$, that
+$\dim_\delta(Z(s)) \leq n - r$, and that for every generic point
+$\xi \in Z(s)$ with $\delta(\xi) = n - r$ the ideal of $Z(s)$
+in $\mathcal{O}_{X', \xi}$ is generated by a regular sequence
+of length $r$. Then
+$$
+c_r(\mathcal{E}) \cap [X']_n = [Z(s)]_{n - r}
+$$
+in $A_*(X')$.
+\end{lemma}
+
+\begin{proof}
+Since $c_r(\mathcal{E})$ is a bivariant class
+(Lemma \ref{lemma-cap-cp-bivariant})
+we may assume $X = X'$ and we have to show that
+$c_r(\mathcal{E}) \cap [X]_n = [Z(s)]_{n - r}$ in $A_{n - r}(X)$.
+We will prove the lemma by induction on $r \geq 0$. (The case
+$r = 0$ is trivial.) The case $r = 1$
+is handled by Lemma \ref{lemma-geometric-cap}. Assume $r > 1$.
+
+\medskip\noindent
+Let $\pi : P \to X$ be the projective space bundle associated to
+$\mathcal{E}$ and consider the short exact sequence
+$$
+0 \to \mathcal{E}' \to \pi^*\mathcal{E} \to \mathcal{O}_P(1) \to 0
+$$
+By the projective space bundle formula
+(Lemma \ref{lemma-chow-ring-projective-bundle})
+it suffices to prove the equality after pulling back by $\pi$.
+Observe that $\pi^{-1}Z(s) = Z(\pi^*s)$ has $\delta$-dimension
+$\leq n - 1$ and that the assumption on regular sequences at
+generic points of $\delta$-dimension $n - 1$ holds by
+flat pullback, see
+Algebra, Lemma \ref{algebra-lemma-flat-increases-depth}.
+Let $t \in \Gamma(P, \mathcal{O}_P(1))$ be the image of $\pi^*s$.
+We claim
+$$
+[Z(t)]_{n + r - 2} = c_1(\mathcal{O}_P(1)) \cap [P]_{n + r - 1}
+$$
+Assuming the claim we finish the proof as follows.
+The restriction $\pi^*s|_{Z(t)}$ maps to zero in
+$\mathcal{O}_P(1)|_{Z(t)}$ hence comes from a unique
+element $s' \in \Gamma(Z(t), \mathcal{E}'|_{Z(t)})$.
+Note that $Z(s') = Z(\pi^*s)$ as closed subschemes of $P$.
+If $\xi \in Z(s')$ is a generic point with $\delta(\xi) = n - 1$,
+then the ideal of $Z(s')$ in $\mathcal{O}_{Z(t), \xi}$
+can be generated by a regular sequence of length $r - 1$: it is generated by
+$r - 1$ elements which are the images of $r - 1$ elements in
+$\mathcal{O}_{P, \xi}$ which together with a generator of the
+ideal of $Z(t)$ in $\mathcal{O}_{P, \xi}$ form a regular sequence
+of length $r$ in $\mathcal{O}_{P, \xi}$. Hence we can apply the
+induction hypothesis to $s'$ on $Z(t)$ to get
+$c_{r - 1}(\mathcal{E}') \cap [Z(t)]_{n + r - 2} = [Z(s')]_{n - 1}$.
+Combining all of the above we obtain
+\begin{align*}
+c_r(\pi^*\mathcal{E}) \cap [P]_{n + r - 1}
+& =
+c_{r - 1}(\mathcal{E}') \cap c_1(\mathcal{O}_P(1)) \cap [P]_{n + r - 1} \\
+& =
+c_{r - 1}(\mathcal{E}') \cap [Z(t)]_{n + r - 2} \\
+& =
+[Z(s')]_{n - 1} \\
+& = [Z(\pi^*s)]_{n - 1}
+\end{align*}
+which is what we had to show.
+
+\medskip\noindent
+Proof of the claim. This will follow from an application of
+the already used Lemma \ref{lemma-geometric-cap}.
+We have $\pi^{-1}(Z(s)) = Z(\pi^*s) \subset Z(t)$.
+On the other hand, for $x \in X$ if $P_x \subset Z(t)$, then
+$t|_{P_x} = 0$ which implies that $s$ is zero in the fibre
+$\mathcal{E} \otimes \kappa(x)$, which implies $x \in Z(s)$.
+It follows that $\dim_\delta(Z(t)) \leq n + (r - 1) - 1$.
+Finally, let $\xi \in Z(t)$ be a generic point with
+$\delta(\xi) = n + r - 2$. If $\xi$ is not the generic point
+of the fibre of $P \to X$ it is immediate that
+a local equation of $Z(t)$ is a nonzerodivisor in $\mathcal{O}_{P, \xi}$
+(because we can check this on the fibre by
+Algebra, Lemma \ref{algebra-lemma-grothendieck}).
+If $\xi$ is the generic point of a fibre, then $x = \pi(\xi) \in Z(s)$
+and $\delta(x) = n + r - 2 - (r - 1) = n - 1$. This is a contradiction
+with $\dim_\delta(Z(s)) \leq n - r$ because $r > 1$
+so this case doesn't happen.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-easy-virtual-class}
+Let $(S, \delta)$ be as in Situation \ref{situation-setup}. Let $X$
+be a scheme locally of finite type over $S$. Let
+$$
+0 \to \mathcal{C}^\vee \to \mathcal{N} \to \mathcal{E} \to 0
+$$
+be a short exact sequence of finite locally free $\mathcal{O}_X$-modules.
+Consider the closed embedding
+$$
+C = \underline{\text{Spec}}_X(\text{Sym}(\mathcal{C}))
+\longrightarrow
+N = \underline{\text{Spec}}_X(\text{Sym}(\mathcal{N}^\vee))
+$$
+Assume $\dim_\delta(X) = n$ and $\mathcal{C}$ constant rank $r$.
+Then we have
+$$
+[C]_{n + r} = p^*(c_{top}(\mathcal{E}) \cap [X]_n)
+$$
+where $p : N \to X$ is the structure morphism.
+\end{lemma}
+
+\begin{proof}
+Here $c_{top}(\mathcal{E})$ is the bivariant class defined in
+Remark \ref{remark-top-chern-class}. By its very definition, in
+order to verify the formula, we may assume that $\mathcal{E}$
+has constant rank $r'$. Observe that $p^*\mathcal{E}$ has a canonical section
+$$
+s \in \Gamma(N, p^*\mathcal{E}) = \Gamma(X, p_*p^*\mathcal{E}) =
+\Gamma(X, \mathcal{E} \otimes_{\mathcal{O}_X} \text{Sym}(\mathcal{N}^\vee)
+\supset \Gamma(X, \SheafHom(\mathcal{N}, \mathcal{E}))
+$$
+corresponding to the surjection $\mathcal{N} \to \mathcal{E}$ given
+in the statement of the lemma. The vanishing scheme of this section
+is exactly $C \subset N$. Hence we see that
+$$
+[C]_{n + r} = c_{r'}(p^*\mathcal{E}) \cap [N]_{n + r + r'}
+$$
+by Lemma \ref{lemma-top-chern-class}.
+Since $[N]_{n + r + r'} = p^*[X]_n$ we conclude by the fact that
+chern classes are bivariant classes.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
 \section{The Chern character and tensor products}
 \label{section-chern-classes-tensor}
 
@@ -6849,7 +7109,7 @@ $P_0(\mathcal{E}) = r(\mathcal{E})$ as a bivariant class
 Let $(S, \delta)$ be as in Situation \ref{situation-setup}.
 Let $X$ be locally of finite type over $S$.
 We define the {\it Chern character} of a finite locally free
-$\mathcal{O}_X$-module of rank $r$ to be the formal expression
+$\mathcal{O}_X$-module to be the formal expression
 $$
 ch({\mathcal E}) = \sum\nolimits_{i=1}^r e^{x_i}
 $$
@@ -6879,13 +7139,10 @@ $ch_p(\mathcal{E})$ as an element of $A^p(X) \otimes \mathbf{Q}$.
 
 \begin{remark}
 \label{remark-extend-chern-character-to-finite-locally-free}
-Let $(S, \delta)$ be as in Situation \ref{situation-setup}.
-Let $X$ be locally of finite type over $S$.
-Let $\mathcal{E}$ be a finite locally free $\mathcal{O}_X$-module.
-If the rank of $\mathcal{E}$ is not constant then we can
-still define the Chern character $ch(\mathcal{E})$ of $\mathcal{E}$
-by the formula $\sum (1/p!)P_p(\mathcal{E})$.
-This is clear from the discussion in Section \ref{section-splitting-principle}.
+In the discussion above we have defined the Chern character
+$ch(\mathcal{E})$ of $\mathcal{E}$ even if the rank of $\mathcal{E}$
+is not constant. See Remarks \ref{remark-extend-to-finite-locally-free} and
+\ref{remark-equalities-nonconstant-rank}.
 \end{remark}
 
 \begin{lemma}
@@ -7707,6 +7964,438 @@ i_* \circ ch(Z \to X, E) = ch(E)
 $$
 in $A^*(X) \otimes \mathbf{Q}$ because we have shown the
 equality (\ref{equation-defining-property-localized-classes}) above.
+
+
+
+
+
+
+
+\section{Blowing up at infinity}
+\label{section-blowup-Z-first}
+
+\noindent
+Let $X$ be a scheme. Let $Z \subset X$ be a closed subscheme cut out
+by a finite type quasi-coherent sheaf of ideals. Denote $X' \to X$
+the blowing up with center $Z$. Let $b : W \to \mathbf{P}^1_X$ be the
+blowing up with center $\infty(Z)$. Denote $E \subset W$ the exceptional
+divisor. There is a commutative diagram
+$$
+\xymatrix{
+X' \ar[r] \ar[d] & W \ar[d]^b \\
+X \ar[r]^\infty & \mathbf{P}^1_X
+}
+$$
+whose horizontal arrows are closed immersion
+(Divisors, Lemma \ref{divisors-lemma-strict-transform}). Denote $E \subset W$
+the exceptional divisor and $W_\infty \subset W$ the inverse image
+of $(\mathbf{P}^1_X)_\infty$. Then the following are true
+\begin{enumerate}
+\item $b$ is an isomorphism over
+$\mathbf{A}^1_X \cup \mathbf{P}^1_{X \setminus Z}$,
+\item $X'$ is an effective Cartier divisor on $W$,
+\item $X' \cap E$ is the exceptional divisor of $X' \to X$,
+\item $W_\infty = X' + E$ as effective Cartier divisors on $W$,
+\item $E = \underline{\text{Proj}}_Z(\mathcal{C}_{Z/X, *}[S])$ where $S$
+is a variable placed in degree $1$,
+\item $X' \cap E = \underline{\text{Proj}}_Z(\mathcal{C}_{Z/X, *})$,
+\item
+\label{item-cone-is-open}
+$E \setminus X' = E \setminus (X' \cap E) =
+\underline{\text{Spec}}_Z(\mathcal{C}_{Z/X, *}) = C_ZX$.
+\end{enumerate}
+We recall that $\mathcal{C}_{Z/X, *}$ is the conormal algebra of $Z$ in $X$,
+see Divisors, Definition \ref{divisors-definition-conormal-sheaf} and
+that $C_ZX$ is the normal cone of $Z$ in $X$, see
+Divisors, Definition \ref{divisors-definition-normal-cone}.
+
+\medskip\noindent
+We now give the proof of the numbered assertions above. We strongly
+urge the reader to work through some examples instead of reading the
+proofs.
+
+\medskip\noindent
+Part (1) follows from the corresponding assertion of Divisors, Lemma
+\ref{divisors-lemma-blowing-up-gives-effective-Cartier-divisor}.
+Observe that $E \subset W$ is an effective Cartier divisor by the same lemma.
+
+\medskip\noindent
+Observe that $W_\infty$ is an effective Cartier divisor by
+Divisors, Lemma \ref{divisors-lemma-blow-up-pullback-effective-Cartier}.
+Since $E \subset W_\infty$ we can write $W_\infty = D + E$ for some
+effective Cartier divisor $D$, see
+Divisors, Lemma \ref{divisors-lemma-difference-effective-Cartier-divisors}.
+We will see below that $D = X'$ which will prove (2) and (4).
+
+\medskip\noindent
+Since $X'$ is the strict transform of the closed immersion
+$\infty : X \to \mathbf{P}^1_X$ (see above) it follows that the exceptional
+divisor of $X' \to X$ is equal to the intersection $X' \cap E$
+(for example because both are cut out by the pullback of the
+ideal sheaf of $Z$ to $X'$). This proves (3).
+
+\medskip\noindent
+Suppose that $\Spec(A) \subset X$ is an affine open and that $Z \cap \Spec(A)$
+corresponds to the finitely generated ideal $I \subset A$.
+An affine neighbourhood of $\infty(Z \cap \Spec(A))$ is the
+affine space over $A$ with coordinate $s = T_0/T_1$. Denote
+$J = (I, s) \subset A[s]$ the ideal generated by $I$ and $s$.
+Let $B = A[s] \oplus J \oplus J^2 \oplus \ldots$ be the Rees algebra
+of $(A[s], J)$. Observe that
+$$
+J^n =
+I^n \oplus sI^{n - 1} \oplus sI^{n - 2} \ldots \oplus s^nA
+\oplus s^{n + 1}A \oplus \ldots
+$$
+as an $A$-submodule of $A[s]$ for all $n \geq 0$. Consider the open subscheme
+$$
+\text{Proj}(B) = \text{Proj}(A[s] \oplus J \oplus J^2 \oplus \ldots)
+\subset W
+$$
+Finally, denote $S$ the element $s \in J$ viewed as a degree $1$ element
+of $B$.
+
+\medskip\noindent
+Since formation of $\text{Proj}$ commutes with base change
+(Constructions, Lemma \ref{constructions-lemma-base-change-map-proj})
+we see that
+$$
+E = \text{Proj}(B \otimes_{A[s]} A/I) =
+\text{Proj}((A/I \oplus I/I^2 \oplus I^2/I^3 \oplus \ldots)[S])
+$$
+The verification that $B \otimes_{A[s]} A/I = \bigoplus J^n/J^{n + 1}$
+is as given
+follows immediately from our description of the powers $J^n$ above.
+This proves (5) because the conormal algebra of $Z \cap \Spec(A)$
+in $\Spec(A)$ corresponds to the graded $A$-algebra
+$A/I \oplus I/I^2 \oplus I^2/I^3 \oplus \ldots$ by
+Divisors, Lemma \ref{divisors-lemma-affine-conormal-sheaf}.
+
+\medskip\noindent
+Recall that $\text{Proj}(B)$ is covered by the affine opens
+$D_+(S)$ and $D_+(f^{(1)})$ for $f \in I$ which are
+the spectra of affine blowup algebras $A[s][\frac{J}{s}]$
+and $A[s][\frac{J}{f}]$, see
+Divisors, Lemma \ref{divisors-lemma-blowing-up-affine} and
+Algebra, Definition \ref{algebra-definition-blow-up}.
+We will describe each of these affine opens and this will finish the
+proof.
+
+\medskip\noindent
+The open $D_+(S)$, i.e., the spectrum of $A[s][\frac{J}{s}]$.
+It follows from the description of the powers of $J$ above
+that
+$$
+A[s][\textstyle{\frac{J}{s}}] = \sum s^{-n}I^n[s] \subset A[s, s^{-1}]
+$$
+The element $s$ is a nonzerodivisor in this ring, defines the exceptional
+divisor $E$ as well as $W_\infty$. Hence $D \cap D_+(S) = \emptyset$.
+Finally, the quotient of $A[s][\frac{J}{s}]$ by $s$ is the conormal algebra
+$$
+A/I \oplus I/I^2 \oplus I^2/I^3 \oplus \ldots
+$$
+This proves (7).
+
+\medskip\noindent
+The open $D_+(f^{(1)})$, i.e., the spectrum of $A[s][\frac{J}{f}]$.
+It follows from the description of the powers of $J$ above that
+$$
+A[s][\textstyle{\frac{J}{f}}] =
+A[\textstyle{\frac{I}{f}}][\textstyle{\frac{s}{f}}]
+$$
+where $\frac{s}{f}$ is a variable. The element $f$ is a nonzerodivisor
+in this ring whose zero scheme defines the exceptional divisor $E$.
+Since $s$ defines $W_\infty$ and $s = f \cdot \frac{s}{f}$
+we conclude that $\frac{s}{f}$ defines
+the divisor $D$ constructed above. Then we see that
+$$
+D \cap D_+(f^{(1)}) = \Spec(A[\textstyle{\frac{I}{f}}])
+$$
+which is the corresponding open of the blowup $X'$ over $\Spec(A)$.
+Namely, the surjective graded $A[s]$-algebra map
+$B \to A \oplus I \oplus I^2 \oplus \ldots$
+to the Rees algebra of $(A, I)$ corresponds to the closed
+immersion $X' \to W$ over $\Spec(A[s])$.
+This proves $D = X'$ as desired.
+
+\medskip\noindent
+It remains to prove (6). Observe that the zero scheme of $\frac{s}{f}$
+in the previous paragraph is the restriction of the zero scheme of $S$
+on the affine open $D_+(f^{(1)})$. Hence we see that $S = 0$ defines
+$X' \cap E$ on $E$. Thus (5) follows from (6).
+
+
+
+
+
+
+
+
+
+\section{Higher codimension gysin homomorphisms}
+\label{section-gysin-higher-codimension}
+
+\noindent
+Let $(S, \delta)$ be as in Situation \ref{situation-setup}. Let $X$ be a scheme
+locally of finite type over $S$. In this section we are going to consider
+triples
+$$
+(Z \to X, \mathcal{N}, \sigma : \mathcal{N}^\vee \to \mathcal{C}_{Z/X})
+$$
+consisting of a closed immersion $Z \to X$ and a locally free
+$\mathcal{O}_Z$-module $\mathcal{N}$ and a surjection(!)
+$\sigma : \mathcal{N}^\vee \to \mathcal{C}_{Z/X}$ from the dual
+of $\mathcal{N}$ to the conormal sheaf of $Z$ in $X$, see
+Morphisms, Section \ref{morphisms-section-conormal-sheaf}.
+We will say
+$\mathcal{N}$ is a {\it virtual normal sheaf for $Z$ in $X$}.
+
+\begin{lemma}
+\label{lemma-pullback-virtual-normal-sheaf}
+Let $(S, \delta)$ be as in Situation \ref{situation-setup}. Let
+$$
+\xymatrix{
+Z' \ar[r] \ar[d]_g & X' \ar[d]^f \\
+Z \ar[r] & X
+}
+$$
+be a cartesian diagram of schemes locally of finite type over $S$
+whose horizontal arrows are closed immersions.
+If $\mathcal{N}$ is a virtual normal sheaf for $Z$ in $X$, then
+$\mathcal{N}' = g^*\mathcal{N}$ is a virtual normal sheaf for
+$Z'$ in $X'$.
+\end{lemma}
+
+\begin{proof}
+This follows from the surjectivity of the map
+$g^*\mathcal{C}_{Z/X} \to \mathcal{C}_{Z'/X'}$ proved in
+Morphisms, Lemma \ref{morphisms-lemma-conormal-functorial-flat}.
+\end{proof}
+
+\noindent
+Let $(S, \delta)$ be as in Situation \ref{situation-setup}. Let $X$ be a scheme
+locally of finite type over $S$. Let $\mathcal{N}$ be a virtual normal bundle
+for a closed immersion $Z \to X$. In this situation we set
+$$
+p : N = \underline{\Spec}_Z(\text{Sym}(\mathcal{N}^\vee)) \longrightarrow Z
+$$
+equal to the vector bundle over $Z$
+whose sections correspond to sections of $\mathcal{N}$.
+In this situation we have canonical closed immersions
+$$
+C_ZX \longrightarrow N_ZX \longrightarrow N
+$$
+The first closed immersion is Divisors, Equation
+(\ref{divisors-equation-normal-cone-in-normal-bundle})
+and the second closed immersion corresponds to the surjection
+$\text{Sym}(\mathcal{N}^\vee) \to \text{Sym}(\mathcal{C}_{Z/X})$
+induced by $\sigma$.
+
+\medskip\noindent
+Let us define our bivariant class. Let
+$$
+b : W \longrightarrow \mathbf{P}^1_X
+$$
+be the blowing up in $\infty(Z)$ constructed in
+Section \ref{section-blowup-Z-first}. By Lemma \ref{lemma-gysin-at-infty}
+we have a canonical bivariant class in
+$$
+c_1 \in A^0(W_\infty \to X)
+$$
+Consider the open immersion $j : C_ZX \to W_\infty$ of
+(\ref{item-cone-is-open}) and the closed immersion
+$i : C_ZX \to N$ constructed above. By Lemma \ref{lemma-vectorbundle}
+for every $\alpha \in A_k(X)$ there exists a unique
+$\beta \in A_*(Z)$ such that
+$$
+i_*j^*(c_1 \cap \alpha) = p^*\beta
+$$
+If $\mathcal{N}$ has constant rank $r$, then $\beta \in A_{k - r}(Z)$.
+
+\begin{lemma}
+\label{lemma-construction-gysin}
+The construction above defines a bivariant class
+$$
+c(Z \to X, \mathcal{N}) \in A^*(Z \to X)
+$$
+and moreover the construction is compatible with base change
+as in Lemma \ref{lemma-pullback-virtual-normal-sheaf}.
+\end{lemma}
+
+\begin{proof}
+Since both $i_* \circ j^* \circ c_1$ and $p^*$ are bivariant classes
+(see Lemmas \ref{lemma-flat-pullback-bivariant} and
+\ref{lemma-push-proper-bivariant}) we can use the equation
+$$
+i_* \circ j^* \circ c_1  = p^* \circ c(Z \to X, \mathcal{N})
+$$
+(suitably interpreted) to define $c(Z \to X, \mathcal{N})$
+as a bivariant class. This works because $p^*$ is always
+bijective on chow groups by Lemma \ref{lemma-vectorbundle}.
+
+\medskip\noindent
+Let $X' \to X$, $Z' \to X'$, and $\mathcal{N}'$ be as in
+Lemma \ref{lemma-pullback-virtual-normal-sheaf}. Write
+$c = c(Z \to X, \mathcal{N})$ and $c' = c(Z' \to X', \mathcal{N}')$.
+The second statement of the lemma means that $c'$ is the restriction of $c$
+as in Remark \ref{remark-restriction-bivariant}. Since we claim this
+is true for all $X'/X$ locally of finite type, a formal argument
+shows that it suffices to check that $c' \cap \alpha' = c \cap \alpha'$
+for $\alpha' \in A_k(X')$.
+To see this, note that we have a commutative diagram
+$$
+\xymatrix{
+C_{Z'}X' \ar[d] \ar[r] &
+W'_\infty \ar[d] \ar[r] &
+W' \ar[d] \ar[r] &
+\mathbf{P}^1_{X'} \ar[d] \\
+C_ZX \ar[r] &
+W_\infty \ar[r] &
+W \ar[r] &
+\mathbf{P}^1_X
+}
+$$
+which induces closed immersions:
+$$
+W' \to W \times_{\mathbf{P}^1_X} \mathbf{P}^1_{X'},\quad
+W'_\infty \to W_\infty \times_X X',\quad
+C_{Z'}X' \to C_ZX \times_Z Z'
+$$
+To get $c \cap \alpha'$ we use the class $c_1 \cap \alpha'$
+defined using the morphism
+$W \times_{\mathbf{P}^1_X} \mathbf{P}^1_{X'} \to \mathbf{P}^1_{X'}$
+in Lemma \ref{lemma-gysin-at-infty}.
+To get $c' \cap \alpha'$ on the other hand, we use the class
+$c'_1 \cap \alpha'$ defined using the morphism $W' \to \mathbf{P}^1_{X'}$.
+By Lemma \ref{lemma-gysin-at-infty-independent} the pushforward of
+$c'_1 \cap \alpha'$ by the closed immersion
+$W'_\infty \to (W \times_{\mathbf{P}^1_X} \mathbf{P}^1_{X'})_\infty$,
+is equal to $c_1 \cap \alpha'$. Hence the same is true for the pullbacks
+to the opens
+$$
+C_{Z'}X' \subset W'_\infty,\quad
+C_ZX \times_Z Z' \subset (W \times_{\mathbf{P}^1_X} \mathbf{P}^1_{X'})_\infty
+$$
+by Lemma \ref{lemma-flat-pullback-proper-pushforward}.
+Since we have a commutative diagram
+$$
+\xymatrix{
+C_{Z'} X' \ar[d] \ar[r] & N' \ar@{=}[d] \\
+C_ZX \times_Z Z' \ar[r] & N \times_Z Z'
+}
+$$
+these classes pushforward to the same class on $N'$ which
+proves that we obtain the same element $c \cap \alpha' = c' \cap \alpha'$
+in $A_*(Z')$.
+\end{proof}
+
+\noindent
+Let $(S, \delta)$ be as in Situation \ref{situation-setup}. Let $X$ be a scheme
+locally of finite type over $S$. Let $\mathcal{N}$ be a virtual normal
+sheaf for a closed subscheme $Z$ of $X$. Let $Y \subset X$ be a closed
+subscheme. Assume that $Z \cap Y \to Y$ is a regular closed immersion, see
+Divisors, Section \ref{divisors-section-regular-immersions}.
+In this case the conormal sheaf $\mathcal{C}_{Z \cap Y/Y}$ is a finite
+locally free $\mathcal{O}_{Z \cap Y}$-module and we obtain a short
+exact sequence
+$$
+0 \to \mathcal{E}^\vee \to
+\mathcal{N}^\vee|_{Z \cap Y} \to \mathcal{C}_{Z \cap Y/Y} \to 0
+$$
+The quotient $\mathcal{N}|_{Y \cap Z} \to \mathcal{E}$ is called the
+{\it excess normal sheaf} of the situation.
+
+\begin{lemma}
+\label{lemma-gysin-fundamental}
+In the situation described just above assume $\dim_\delta(Y) = n$
+and that $\mathcal{C}_{Y \cap Z/Z}$ has constant rank $r$.
+Then
+$$
+c(Z \to X, \mathcal{N}) \cap [Y]_n =
+c_{top}(\mathcal{E}) \cap [Z \cap Y]_{n - r}
+$$
+in $A_*(Z \cap Y)$.
+\end{lemma}
+
+\begin{proof}
+The bivariant class $c_{top}(\mathcal{E}) \in A^*(Z \cap Y)$ was
+defined in Remark \ref{remark-top-chern-class}.
+By Lemma \ref{lemma-construction-gysin} we may replace $X$ by $Y$.
+Thus we may assume $Z \to X$ is a regular closed immersion
+of codimension $r$, we have $\dim_\delta(X) = n$, and we have
+to show that $c(Z \to X, \mathcal{N}) \cap [X]_n =
+c_{top}(\mathcal{E}) \cap [Z]_{n - r}$ in $A_*(Z)$.
+
+\medskip\noindent
+Let us trace through the steps in the definition of
+$c(Z \to X, \mathcal{N}) \cap [X]_n$. Let $b : W \to \mathbf{P}^1_X$
+be the blowing up of $\infty(Z)$. We first have to compute
+$c_1 \cap [X]_n$ where $c_1 \in A^0(W_\infty \to X)$ is
+the class of Lemma \ref{lemma-gysin-at-infty}.
+To do this, note that $[W]_{n + 1}$
+is a cycle on $W$ whose restriction to $\mathbf{A}^1_X$ is
+equal to the flat pullback of $[X]_n$. Hence $c_1 \cap [X]_n$
+is equal to $i_\infty^*[W]_{n + 1}$. Since none of the components
+of $W$ of $\delta$-dimension $n + 1$ is contained in $W_\infty$
+we see that $i_\infty^*[W]_{n + 1} = [W_\infty \cap W]_n = [W_\infty]_n$.
+The restriction of this class to the open $C_ZX \subset W_\infty$
+is of course just $[C_ZX]_n$. Because $Z \subset X$ is regularly
+embedded we have
+$$
+\mathcal{C}_{Z/X, *} = \text{Sym}(\mathcal{C}_{Z/X})
+$$
+as quasi-coherent graded $\mathcal{O}_Z$-algebras, see
+Divisors, Lemma \ref{divisors-lemma-quasi-regular-immersion}.
+Hence $C_ZX \to Z$ is the vector bundle associated to the finite locally
+free module $\mathcal{C}_{Z/X}$ of rank $r$. Denote
+$i : C_ZX \to N$ the closed immersion corresponding to the
+surjection $\sigma : \mathcal{N}^\vee \to \mathcal{C}_{Z/X}$.
+To finish the proof we have to show
+$$
+i_*([C_ZX]_n) = p^*c_{top}(\mathcal{E}) \cap [Z]_{n - r}
+$$
+This is a special case of Lemma \ref{lemma-easy-virtual-class}
+and the proof is complete.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-gysin-agrees}
+Let $(S, \delta)$ be as in Situation \ref{situation-setup}. Let $X$ be a scheme
+locally of finite type over $S$. Let $(\mathcal{L}, s, i : D \to X)$
+be a triple as in Definition \ref{definition-gysin-homomorphism}.
+The gysin homomorphism $i^*$ viewed as an element of $A^1(D \to X)$
+(see Lemma \ref{lemma-gysin-bivariant}) is the same as the bivariant class
+$c(D \to X, \mathcal{N}) \in A^1(D \to X)$
+constructed using $\mathcal{N} = i^*\mathcal{L}$
+viewed as a virtual normal sheaf for $D$ in $X$.
+\end{lemma}
+
+\begin{proof}
+We will use the criterion of Lemma \ref{lemma-bivariant-zero}.
+Thus we may assume that $X$ is an integral scheme and
+we have to show that $i^*[X]$ is equal to $c \cap [X]$.
+Let $n = \dim_\delta(X)$. As usual, there are two cases.
+
+\medskip\noindent
+If $X = D$, then we see that both classes are represented by
+$c_1(\mathcal{N}) \cap [X]_n$. See Lemma \ref{lemma-gysin-fundamental}
+and Definition \ref{definition-gysin-homomorphism}.
+
+\medskip\noindent
+If $D \not = X$, then $D \to X$ is an effective Cartier divisor
+and in particular a regular closed immersion of codimension $1$.
+Again by Lemma \ref{lemma-gysin-fundamental} we conclude
+$c(D \to X, \mathcal{N}) \cap [X]_n = [D]_{n - 1}$. The same
+is true by definition for the gysin homomorphism and we conclude
+once again.
+\end{proof}
+
+
+
+
+
+
+
 
 
 
