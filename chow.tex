@@ -6666,9 +6666,9 @@ This relation really just says that
 $c_i(\mathcal{E}) = c_i(\mathcal{F}) + c_1(\mathcal{L})c_{i - 1}(\mathcal{F})$.
 By Lemma \ref{lemma-get-rid-of-trivial-subbundle}
 we have $c_j(\mathcal{E} \otimes \mathcal{L}^{\otimes -1})
-= c_j(\mathcal{E} \otimes \mathcal{L}^{\otimes -1})$ for
-$j = 0, \ldots, r$ (were we set $c_r(\mathcal{F}) = 0$ by
-convention).
+= c_j(\mathcal{F} \otimes \mathcal{L}^{\otimes -1})$ for
+$j = 0, \ldots, r$ were we set
+$c_r(\mathcal{F} \otimes \mathcal{L}^{-1}) = 0$ by convention.
 Applying Lemma \ref{lemma-chern-classes-E-tensor-L} we deduce
 $$
 \sum_{j = 0}^i
@@ -9759,7 +9759,14 @@ is a variable placed in degree $1$,
 \item
 \label{item-cone-is-open}
 $E \setminus X' = E \setminus (X' \cap E) =
-\underline{\text{Spec}}_Z(\mathcal{C}_{Z/X, *}) = C_ZX$.
+\underline{\text{Spec}}_Z(\mathcal{C}_{Z/X, *}) = C_ZX$,
+\item
+\label{item-find-Z-in-blowup}
+there is a closed immersion $\mathbf{P}^1_Z \to W$ whose
+composition with $b$ is the inclusion morphism
+$\mathbf{P}^1_Z \to \mathbf{P}^1_X$ and whose base change by $\infty$
+is the composition $Z \to C_ZX \to E \to W_\infty$ where the first
+arrow is the vertex of the cone.
 \end{enumerate}
 We recall that $\mathcal{C}_{Z/X, *}$ is the conormal algebra of $Z$ in $X$,
 see Divisors, Definition \ref{divisors-definition-conormal-sheaf} and
@@ -9792,6 +9799,16 @@ divisor of $X' \to X$ is equal to the intersection $X' \cap E$
 ideal sheaf of $Z$ to $X'$). This proves (3).
 
 \medskip\noindent
+The intersection of $\infty(Z)$ with $\mathbf{P}^1_Z$ is the effective
+Cartier divisor $(\mathbf{P}^1_Z)_\infty$ hence the strict transform
+of $\mathbf{P}^1_Z$ by the blowing up $b$ maps isomorphically to
+$\mathbf{P}^1_Z$ (see Divisors, Lemmas \ref{divisors-lemma-strict-transform}
+and \ref{divisors-lemma-blow-up-effective-Cartier-divisor}).
+This gives us the morphism $\mathbf{P}^1_Z \to W$ mentioned in (8).
+It is a closed immersion as $b$ is separated, see
+Schemes, Lemma \ref{schemes-lemma-section-immersion}.
+
+\medskip\noindent
 Suppose that $\Spec(A) \subset X$ is an affine open and that $Z \cap \Spec(A)$
 corresponds to the finitely generated ideal $I \subset A$.
 An affine neighbourhood of $\infty(Z \cap \Spec(A))$ is the
@@ -9801,7 +9818,7 @@ Let $B = A[s] \oplus J \oplus J^2 \oplus \ldots$ be the Rees algebra
 of $(A[s], J)$. Observe that
 $$
 J^n =
-I^n \oplus sI^{n - 1} \oplus sI^{n - 2} \ldots \oplus s^nA
+I^n \oplus sI^{n - 1} \oplus s^2I^{n - 2} \ldots \oplus s^nA
 \oplus s^{n + 1}A \oplus \ldots
 $$
 as an $A$-submodule of $A[s]$ for all $n \geq 0$. Consider the open subscheme
@@ -9876,13 +9893,22 @@ immersion $X' \to W$ over $\Spec(A[s])$.
 This proves $D = X'$ as desired.
 
 \medskip\noindent
-It remains to prove (6). Observe that the zero scheme of $\frac{s}{f}$
+Let us prove (6). Observe that the zero scheme of $\frac{s}{f}$
 in the previous paragraph is the restriction of the zero scheme of $S$
 on the affine open $D_+(f^{(1)})$. Hence we see that $S = 0$ defines
-$X' \cap E$ on $E$. Thus (5) follows from (6).
+$X' \cap E$ on $E$. Thus (6) follows from (5).
 
-
-
+\medskip\noindent
+Finally, we have to prove the last part of (8). This is clear
+because the map $\mathbf{P}^1_Z \to W$ is affine locally
+given by the surjection
+$$
+B \to B \otimes_{A[s]} A/I =
+(A/I \oplus I/I^2 \oplus I^2/I^3 \oplus \ldots)[S] \to
+A/I[S]
+$$
+and the identification $\text{Proj}(A/I[S]) = \Spec(A/I)$.
+Some details omitted.
 
 
 
@@ -10246,6 +10272,200 @@ The bivariant class $c(Z \to X, \mathcal{N})$ does not depend on the choice
 of the open subscheme $U$. All of the lemmas have immediate counterparts
 for this slightly more general construction. We omit the details.
 \end{remark}
+
+
+
+
+
+
+
+\section{Calculating some classes}
+\label{section-calculate}
+
+\noindent
+To get further we need to compute the values of some of the
+classes we've constructed above.
+
+\begin{lemma}
+\label{lemma-compute-koszul}
+Let $(S, \delta)$ be as in Situation \ref{situation-setup}. Let $X$
+be a scheme locally of finite type over $S$. Let $\mathcal{E}$
+be a locally free $\mathcal{O}_X$-module of rank $r$.
+Then
+$$
+\prod\nolimits_{n = 0, \ldots, r} c(\wedge^n \mathcal{E})^{(-1)^n} =
+1 - (r - 1)! c_r(\mathcal{E}) + \ldots
+$$
+\end{lemma}
+
+\begin{proof}
+By the splitting principle we can turn this into a calculation in the
+polynomial ring on the chern roots $x_1, \ldots, x_r$ of $\mathcal{E}$. See
+Section \ref{section-splitting-principle}. Observe that
+$$
+c(\wedge^n \mathcal{E}) =
+\prod\nolimits_{1 \leq i_1 < \ldots < i_n \leq r}
+(1 + x_{i_1} + \ldots + x_{i_n})
+$$
+Thus the logarithm of the left hand side of the equation in the lemma is
+$$
+-
+\sum\nolimits_{p \geq 1}
+\sum\nolimits_{n = 0}^r
+\sum\nolimits_{1 \leq i_1 < \ldots < i_n \leq r}
+\frac{(-1)^{p + n}}{p}(x_{i_1} + \ldots + x_{i_n})^p
+$$
+Please notice the minus sign in front. However, we have
+$$
+\sum\nolimits_{p \geq 0}
+\sum\nolimits_{n = 0}^r
+\sum\nolimits_{1 \leq i_1 < \ldots < i_n \leq r}
+\frac{(-1)^{p + n}}{p!}(x_{i_1} + \ldots + x_{i_n})^p
+=
+\prod (1 - e^{-x_i})
+$$
+Hence we see that the first nonzero term in our chern class
+is in degree $r$ and equal to the predicted value.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-compute-section}
+Let $(S, \delta)$ be as in Situation \ref{situation-setup}. Let $X$
+be a scheme locally of finite type over $S$. Let $\mathcal{C}$
+be a locally free $\mathcal{O}_X$-module of rank $r$. Consider the
+morphisms
+$$
+X = \underline{\text{Proj}}_X(\mathcal{O}_X[T])
+\xrightarrow{i}
+E = \underline{\text{Proj}}_X(\text{Sym}^*(\mathcal{C})[T])
+\xrightarrow{\pi}
+X
+$$
+Then $p^* \circ \pi_* \circ c_r(i_*\mathcal{O}_X) = (-1)^{r - 1}(r - 1)! j^*$
+where
+$j : C \to E$ and $p : C \to X$ are the inclusion and structure
+morphism of the vector bundle
+$C = \underline{\Spec}(\text{Sym}^*(\mathcal{C}))$.
+\end{lemma}
+
+\begin{proof}
+To prove the equality it suffices to assume that $X$ is integral
+and prove that both sides give the same result when capping with
+$[E]$, see Lemma \ref{lemma-bivariant-zero}.
+The canonical map $\pi^*\mathcal{C} \to \mathcal{O}_E(1)$ vanishes
+exactly along $i(X)$. Hence the Koszul complex on the map
+$$
+\pi^*\mathcal{C} \otimes \mathcal{O}_E(-1) \to \mathcal{O}_E
+$$
+is a resolution of $i_*\mathcal{O}_X$. In particular we see that
+$i_*\mathcal{O}_X$ is a perfect object of $D(\mathcal{O}_E)$
+whose chern classes are defined. By Lemma \ref{lemma-compute-koszul}
+we conclude
+$$
+c_r(i_*\mathcal{O}_X) = - (r - 1)!
+c_r(\pi^*\mathcal{C} \otimes \mathcal{O}_E(-1))
+$$
+On the other hand, by Lemma \ref{lemma-chern-classes-dual} we have
+$$
+c_r(\pi^*\mathcal{C} \otimes \mathcal{O}_E(-1)) =
+(-1)^r c_r(\pi^*\mathcal{C}^\vee \otimes \mathcal{O}_E(1))
+$$
+and $\pi^*\mathcal{C}^\vee \otimes \mathcal{O}_E(1)$ has a section
+vanishing exactly along $i(X)$. Thus
+$c_r(\pi^*\mathcal{C}^\vee \otimes \mathcal{O}_E(1)) \cap [E]$
+is $[i(X)]$ by Lemma \ref{lemma-top-chern-class}.
+The result follows easily from this; details omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-agreement-with-loc-chern}
+Let $(S, \delta)$ be as in Situation \ref{situation-setup}. Let $i : Z \to X$
+be a regular closed immersion of codimension $r$
+between schemes locally of finite type over $S$.
+Let $\mathcal{N} = \mathcal{C}_{Z/X}^\vee$ be the normal sheaf. If $X$
+is quasi-compact and has the resolution property, then
+$$
+c_r(Z \to X, i_*\mathcal{O}_Z) = (-1)^{r - 1} (r - 1)! c(Z \to X, \mathcal{N})
+$$
+in $A^r(Z \to X)$. The left hand side is the localized chern class
+of Definition \ref{definition-localized-chern}.
+\end{lemma}
+
+\begin{proof}
+For any $x \in Z$ we can choose an affine open neighbourhood
+$\Spec(A) \subset X$ such that $Z \cap \Spec(A) = V(f_1, \ldots, f_r)$
+where $f_1, \ldots, f_r \in A$ is a regular sequence.
+See Divisors, Definition \ref{divisors-definition-regular-immersion} and
+Lemma \ref{divisors-lemma-Noetherian-scheme-regular-ideal}.
+Then we see that the Koszul complex on $f_1, \ldots, f_r$ is
+a resolution of $A/(f_1, \ldots, f_r)$ for example by
+More on Algebra, Lemma \ref{more-algebra-lemma-regular-koszul-regular}.
+Hence $A/(f_1, \ldots, f_r)$ is perfect as an $A$-module.
+It follows that $F = i_*\mathcal{O}_Z$ is a perfect object of
+$D(\mathcal{O}_X)$ whose restriction to $X \setminus Z$ is zero.
+Since $X$ is quasi-compact and quasi-separated
+(Properties, Lemma \ref{properties-lemma-locally-Noetherian-quasi-separated})
+and has the resolution property we see that $F = i_*\mathcal{O}_Z$ can be
+represented by a bounded complex of finite locally free modules
+(Derived Categories of Schemes, Lemma
+\ref{perfect-lemma-construct-strictly-perfect}) and hence
+the chern classes of $F = i_*\mathcal{O}_Z$ are defined
+(Definition \ref{definition-defined-on-perfect}). All in all
+we conclude that the statement makes sense.
+
+\medskip\noindent
+Denote $b : W \to \mathbf{P}^1_X$ the blowing up in $\infty(Z)$
+as in Section \ref{section-blowup-Z-first}. By (\ref{item-find-Z-in-blowup})
+we have a closed immersion
+$$
+i' : \mathbf{P}^1_Z \longrightarrow W
+$$
+We claim that $Q = i'_*\mathcal{O}_{\mathbf{P}^1_Z}$
+is a perfect object of
+$D(\mathcal{O}_W)$ and that $F$ and $Q$ satisfy the assumptions of
+Lemma \ref{lemma-independent-loc-chern-bQ}.
+
+\medskip\noindent
+Assume the claim. The output of Lemma \ref{lemma-independent-loc-chern-bQ}
+is that we have
+$$
+c_p(Z \to X, F) = c'_p(Q) = (E \to Z)_* \circ c'_p(Q|_E) \circ C
+$$
+On the other hand, by construction of $c(Z \to X, \mathcal{N})$ and
+because $\mathcal{C}_{Z/X} = \mathcal{N}^\vee$ is locally free
+we have
+$$
+j^* \circ C = p^* \circ c(Z \to X, \mathcal{N})
+$$
+where $j : C_ZX \to W_\infty$ and $p : C_ZX \to Z$ are the given maps.
+Thus the relationship follows from Lemma \ref{lemma-compute-section}
+applied to $E \to Z$.
+
+\medskip\noindent
+Proof of the claim. Let $A$ and $f_1, \ldots, f_r$ be as above.
+Consider the affine open $\Spec(A[s]) \subset \mathbf{P}^1_X$
+as in Section \ref{section-blowup-Z-first}. Recall that $s = 0$
+defines $(\mathbf{P}^1_X)_\infty$ over this open. Hence over
+$\Spec(A[s])$ we are blowing up in the ideal generated by
+the regular sequence $s, f_1, \ldots, f_r$. By More on Algebra, Lemma
+\ref{more-algebra-lemma-blowup-regular-sequence} the $r + 1$
+affine charts are global complete intersections over $A[s]$.
+The chart corresponding to the affine blowup algebra
+$$
+A[s][f_1/s, \ldots, f_r/s] = A[s, y_1, \ldots, y_r]/(sy_i - f_i)
+$$
+contains $i'(Z \cap \Spec(A))$ as the closed subscheme cut out by
+$y_1, \ldots, y_r$. Since $y_1, \ldots, y_r, sy_1 - f_1, \ldots, sy_r - f_r$
+is a regular sequence in the polynomial ring $A[s, y_1, \ldots, y_r]$
+we find that $i'$ is a regular immersion. Some details omitted.
+As above we conclude that $Q = i'_*\mathcal{O}_{\mathbf{P}^1_Z}$
+is a perfect object of $D(\mathcal{O}_W)$. Since $W$ also has
+the resolution property (Derived Categories of Schemes,
+Lemma \ref{perfect-lemma-resolution-property-ample-relative})
+we find that the chern classes of $Q$ are defined. All the
+other assumptions on $F$ and $Q$ in Lemma \ref{lemma-independent-loc-chern-bQ}
+(and Lemma \ref{lemma-localized-chern-pre}) are immediately verified.
+\end{proof}
 
 
 
