@@ -2231,35 +2231,49 @@ and Lemma
 \ref{lemma-derived-quasi-coherent-small-etale-site}.
 \end{proof}
 
-\begin{proposition}
-\label{proposition-quasi-compact-affine-diagonal}
-Let $S$ be a scheme. Let $X$ be a quasi-compact algebraic space over $S$
-with affine diagonal. Then the functor (\ref{equation-compare})
+\noindent
+Next, we prove a criterion for when the functor
+$D(\QCoh(\mathcal{O}_X)) \to D_\QCoh(\mathcal{O}_X)$
+is an equivalence.
+
+\begin{lemma}
+\label{lemma-argument-proves}
+Let $S$ be a scheme. Let $X$ be a quasi-compact and quasi-separated
+algebraic space over $S$. Suppose that for every \'etale morphism
+$j : V \to W$ with $W \subset X$ quasi-compact open and $V$ affine
+the right derived functor
+$$
+\Phi : D(\QCoh(\mathcal{O}_U)) \to D(\QCoh(\mathcal{O}_W))
+$$
+of the left exact functor
+$j_* : \QCoh(\mathcal{O}_V) \to \QCoh(\mathcal{O}_W)$
+fits into a commutative diagram
+$$
+\xymatrix{
+D(\QCoh(\mathcal{O}_V)) \ar[d]_\Phi \ar[r]_{i_V} &
+D_\QCoh(\mathcal{O}_V) \ar[d]^{Rj_*} \\
+D(\QCoh(\mathcal{O}_W)) \ar[r]^{i_W} &
+D_\QCoh(\mathcal{O}_W)
+}
+$$
+Then the functor (\ref{equation-compare})
 $$
 D(\QCoh(\mathcal{O}_X))
 \longrightarrow
 D_\QCoh(\mathcal{O}_X)
 $$
 is an equivalence with quasi-inverse given by $RQ_X$.
-\end{proposition}
+\end{lemma}
 
 \begin{proof}
 We first use the induction principle to prove $i_X$ is fully faithful.
-Let $\mathcal{B} \subset \Ob(X_{spaces, \etale})$ be the set of
-objects which are quasi-compact and have affine diagonal.
-For $U \in \mathcal{B}$ let $P(U) =$ ``the functor
-$i_U : D(\QCoh(\mathcal{O}_U)) \to D_\QCoh(\mathcal{O}_U)$
-is fully faithful''.
-By Remark \ref{remark-how-to} conditions (1), (2), and (3)(a) of
-Lemma \ref{lemma-induction-principle-separated} hold and we are
-left with proving (3)(b) and (4). Condition (3)(b) holds by
-Lemma \ref{lemma-affine-coherator}.
-
-\medskip\noindent
+More precisely, we will use Lemma \ref{lemma-induction-principle-enlarge}.
 Let $(U \subset W, V \to W)$ be an elementary distinguished square
-with $V$ affine. Assume that $P$ holds for $U$, $V$, and $U \times_W V$.
-We have to show that $P$ holds for $W$. We may replace $X$ by $W$, i.e.,
-we may assume $W = X$ (we do this just to simplify the notation).
+with $V$ affine and $U, W$ quasi-compact open in $X$. Assume that
+$i_U$ is fully faithful. We have to show that $i_W$ is fully faithful.
+We may replace $X$ by $W$, i.e., we may assume $W = X$ (we do this just
+to simplify the notation -- observe that the condition in the
+statement of the lemma is preserved under this operation).
 
 \medskip\noindent
 Suppose that $A, B$ are objects of $D(\QCoh(\mathcal{O}_X))$.
@@ -2278,22 +2292,19 @@ i_X(B) \to Rj_{V, *}(i_X(B)|_V) = Rj_{V, *}(i_V(B|_V))
 $$
 is a quasi-isomorphism
 (Lemma \ref{lemma-pushforward-with-support-in-open}).
-The morphism $V \to X$ is affine as $V$ is affine and $X$ has affine diagonal
-(Morphisms of Spaces, Lemma \ref{spaces-morphisms-lemma-affine-permanence}).
-Thus we have an object $j_{V, *}(B|_V)$ in $\QCoh(\mathcal{O}_X)$
-and an isomorphism
-$i_X(j_{V, *}(B|_V)) \to Rj_{V, *}(i_V(B|_V))$ in $D(\mathcal{O}_X)$
-(Lemma \ref{lemma-affine-pushforward}). Moreover, $j_{V, *}$ and
-${-}|_V$ are adjoint functors on the derived categories of
-quasi-coherent modules, see proof Lemma \ref{lemma-flat-pushforward-coherator}.
-The adjunction map $B \to j_{V, *}(B|_V)$ becomes an isomorphism
+By assumption we have an isomorphism
+$i_X(\Phi(B|_V)) \to Rj_{V, *}(i_V(B|_V))$ in $D(\mathcal{O}_X)$.
+Moreover, $\Phi$ and ${-}|_V$ are adjoint functors on the derived categories of
+quasi-coherent modules (by
+Derived Categories, Lemma \ref{derived-lemma-derived-adjoint-functors}).
+The adjunction map $B \to \Phi(B|_V)$ becomes an isomorphism
 after applying $i_X$, whence is an isomorphism in
 $D(\QCoh(\mathcal{O}_X))$.
 Hence
 \begin{align*}
 \Mor_{D(\QCoh(\mathcal{O}_X))}(A, B)
 & =
-\Mor_{D(\QCoh(\mathcal{O}_X))}(A, j_{V, *}(B|_V)) \\
+\Mor_{D(\QCoh(\mathcal{O}_X))}(A, \Phi(B|_V)) \\
 & =
 \Mor_{D(\QCoh(\mathcal{O}_V))}(A|_V, B|_V) \\
 & =
@@ -2303,7 +2314,8 @@ Hence
 & =
 \Mor_{D(\mathcal{O}_X)}(i_X(A), i_X(B))
 \end{align*}
-as desired.
+as desired. Here we have used that $i_V$ is fully faithful
+(Lemma \ref{lemma-affine-coherator}).
 
 \medskip\noindent
 In general, choose any complex $\mathcal{B}^\bullet$ of quasi-coherent
@@ -2320,7 +2332,7 @@ of complexes of quasi-coherent modules on $X$.
 Set $B'' = j_{U, *}\mathcal{C}^\bullet$ in $D(\QCoh(\mathcal{O}_X))$
 and choose a distinguished triangle
 $$
-B \to B'' \to B' \to B^\bullet[1]
+B \to B'' \to B' \to B[1]
 $$
 in $D(\QCoh(\mathcal{O}_X))$. Since the first arrow of the triangle
 restricts to an isomorphism over $U$ we see that $B'$ is supported on $T$.
@@ -2344,7 +2356,7 @@ of quasi-coherent modules representing $A$.
 \medskip\noindent
 Let $\alpha : i_X(A) \to i_X(B)$ be a morphism between
 in $D(\mathcal{O}_X)$. The restriction $\alpha|_U$ comes from a
-morphism in $D(\QCoh(\mathcal{O}_U))$ by assumption.
+morphism in $D(\QCoh(\mathcal{O}_U))$ as $i_U$ is fully faithful.
 Hence there exists a choice of
 $s : \mathcal{B}^\bullet|_U \to \mathcal{C}^\bullet$ as above
 such that $\alpha|_U$ is represented by an actual map of complexes
@@ -2360,7 +2372,7 @@ that $a : A \to B$ is a morphism of $D(\QCoh(\mathcal{O}_X))$
 which becomes zero in $D(\mathcal{O}_X)$. After choosing $\mathcal{B}^\bullet$
 suitably, we may assume $a$ is represented by a morphism of complexes
 $a^\bullet : \mathcal{A}^\bullet \to \mathcal{B}^\bullet$.
-Since $P$ holds for $U$ the restriction $a^\bullet|_U$ is zero
+Since $i_U$ is fully faithul the restriction $a^\bullet|_U$ is zero
 in $D(\QCoh(\mathcal{O}_U))$. Thus we can choose $s$
 such that
 $s \circ a^\bullet|_U : \mathcal{A}^\bullet|_U \to \mathcal{C}^\bullet$
@@ -2379,7 +2391,8 @@ $\Hom_{D(\QCoh(\mathcal{O}_X))}(A, B''[-1])$
 which implies $a = 0$ as desired.
 
 \medskip\noindent
-Since $i_X$ is fully faithful with right adjoint $RQ_X$ we see that
+At this point we know that $i_X$ is fully faithful for our original $X$.
+Since $RQ_X$ is its right adjoint, we see that
 $RQ_X \circ i_X = \text{id}$ (Categories, Lemma
 \ref{categories-lemma-adjoint-fully-faithful}).
 To finish the proof we show that for any
@@ -2393,12 +2406,11 @@ above shows that $i_X(RQ_X(E')) = 0$. Thus it suffices to prove that
 for $E \in D_\QCoh(\mathcal{O}_X)$ the condition
 $i_X(RQ_X(E)) = 0$ implies that $E = 0$. Consider an \'etale morphism
 $j : V \to X$ with $V$ affine. By
-Lemmas \ref{lemma-affine-coherator},
-\ref{lemma-affine-pushforward}, and
+Lemmas \ref{lemma-affine-coherator} and
 \ref{lemma-flat-pushforward-coherator}
-we have
+and our assumption we have
 $$
-Rj_*(E|_V) = Rj_*(i_V(RQ_V(E|_V))) = i_X(j_*(RQ_V(E|_V))) =
+Rj_*(E|_V) = Rj_*(i_V(RQ_V(E|_V))) = i_X(\Phi(RQ_V(E|_V))) =
 i_X(RQ_X(Rj_*(E|_V)))
 $$
 Choose a distinguished triangle
@@ -2423,36 +2435,27 @@ conclude that $E|_V$ is zero. Since this holds for all
 affine $V$ \'etale over $X$ we conclude $E$ is zero as desired.
 \end{proof}
 
-\begin{remark}
-\label{remark-argument-proves}
-Analyzing the proof of
-Proposition \ref{proposition-quasi-compact-affine-diagonal}
-we see that we have shown the following.
-Let $X$ be a quasi-compact and quasi-separated scheme. Suppose that
-for every \'etale morphism $j : V \to X$ with $V$ affine
-the right derived functor
-$$
-\Phi : D(\QCoh(\mathcal{O}_U)) \to D(\QCoh(\mathcal{O}_X))
-$$
-of the left exact functor
-$j_* : \QCoh(\mathcal{O}_V) \to \QCoh(\mathcal{O}_X)$
-fits into a commutative diagram
-$$
-\xymatrix{
-D(\QCoh(\mathcal{O}_V)) \ar[d]_\Phi \ar[r]_{i_V} &
-D_\QCoh(\mathcal{O}_V) \ar[d]^{Rj_*} \\
-D(\QCoh(\mathcal{O}_X)) \ar[r]^{i_X} &
-D_\QCoh(\mathcal{O}_X)
-}
-$$
-Then the functor (\ref{equation-compare})
+\begin{proposition}
+\label{proposition-quasi-compact-affine-diagonal}
+Let $S$ be a scheme. Let $X$ be a quasi-compact algebraic space over $S$
+with affine diagonal. Then the functor (\ref{equation-compare})
 $$
 D(\QCoh(\mathcal{O}_X))
 \longrightarrow
 D_\QCoh(\mathcal{O}_X)
 $$
 is an equivalence with quasi-inverse given by $RQ_X$.
-\end{remark}
+\end{proposition}
+
+\begin{proof}
+Let $V \to W$ be an \'etale morphism with $V$ affine and $W$ a
+quasi-compact open subspace of $X$. Then 
+the morphism $V \to W$ is affine as $V$ is affine and $W$ has affine diagonal
+(Morphisms of Spaces, Lemma \ref{spaces-morphisms-lemma-affine-permanence}).
+Lemma \ref{lemma-affine-pushforward} then guarantees that
+the assumption of Lemma \ref{lemma-argument-proves} holds.
+Hence we conclude.
+\end{proof}
 
 \begin{lemma}
 \label{lemma-direct-image-coherator}
@@ -2787,10 +2790,8 @@ is an equivalence with quasi-inverse given by $RQ_X$.
 \end{proposition}
 
 \begin{proof}
-This follows using the exact same argument as in the proof of
-Proposition \ref{proposition-quasi-compact-affine-diagonal}
-using Lemma \ref{lemma-Noetherian-pushforward}.
-See discussion in Remark \ref{remark-argument-proves}.
+Follows immediately from Lemmas \ref{lemma-Noetherian-pushforward} and
+\ref{lemma-argument-proves}.
 \end{proof}
 
 
@@ -3840,8 +3841,21 @@ if and only if it is perfect.
 \end{proposition}
 
 \begin{proof}
-By Cohomology on Sites, Lemma \ref{sites-cohomology-lemma-perfect-is-compact}
-the perfect objects even define compact objects of $D(\mathcal{O}_X)$.
+If $K$ is a perfect object of $D(\mathcal{O}_X)$ with dual
+$K^\vee$ (Cohomology on Sites, Lemma
+\ref{sites-cohomology-lemma-dual-perfect-complex})
+we have
+$$
+\Hom_{D(\mathcal{O}_X)}(K, M) =
+H^0(X, K^\vee \otimes_{\mathcal{O}_X}^\mathbf{L} M)
+$$
+functorially in $M$. Since $K^\vee \otimes_{\mathcal{O}_X}^\mathbf{L} -$
+commutes with direct sums and since $H^0(X, -)$ commutes with direct
+sums on $D_\QCoh(\mathcal{O}_X)$ by
+Lemma \ref{lemma-quasi-coherence-pushforward-direct-sums}
+we conclude that $K$ is compact in $D_\QCoh(\mathcal{O}_X)$.
+
+\medskip\noindent
 Conversely, let $K$ be a compact object of $D_\QCoh(\mathcal{O}_X)$.
 To show that $K$ is perfect, it suffices to show that
 $K|_U$ is perfect for every affine scheme $U$ \'etale over $X$, see
@@ -3886,7 +3900,7 @@ if and only if it is perfect as an object of $D(\mathcal{O}_X)$.
 \begin{proof}
 We observe that $D_{\QCoh, T}(\mathcal{O}_X)$ is a triangulated
 category with direct sums by the remark preceding the lemma.
-By Cohomology on Sites, Lemma \ref{sites-cohomology-lemma-perfect-is-compact}
+By Proposition \ref{proposition-compact-is-perfect}
 the perfect objects define compact objects of $D(\mathcal{O}_X)$
 hence a fortiori of any subcategory preserved under taking direct
 sums. For the converse we will use there exists a generator

@@ -14,10 +14,10 @@ LIJST = introduction conventions sets categories \
 	schemes constructions properties morphisms coherent divisors limits \
 	varieties topologies descent perfect more-morphisms flat groupoids \
 	more-groupoids etale \
-	chow intersection pic \
+	chow intersection weil pic \
 	adequate dualizing duality discriminant local-cohomology \
 	algebraization curves resolve models pione etale-cohomology \
-	crystalline proetale \
+	crystalline proetale more-etale trace \
 	spaces spaces-properties spaces-morphisms decent-spaces \
 	spaces-cohomology spaces-limits spaces-divisors spaces-over-fields \
 	spaces-topologies \

@@ -1,0 +1,2963 @@
+\input{preamble}
+
+% OK, start here.
+%
+\begin{document}
+
+\title{More \'Etale Cohomology}
+
+
+\maketitle
+
+\phantomsection
+\label{section-phantom}
+
+\tableofcontents
+
+
+\section{Introduction}
+\label{section-introduction}
+
+\noindent
+This chapter is the second in a series of chapter on the \'etale cohomology
+of schemes. To read the first chapter, please visit
+\'Etale Cohomology, Section \ref{etale-cohomology-section-introduction}.
+
+\medskip\noindent
+The split with the previous chapter is roughly speaking that anything
+concerning ``shriek functors'' (cohomology with compact support and
+its right adjoint) and anything using this material goes into this chapter.
+
+
+
+
+
+
+\section{Growing sections}
+\label{section-growing}
+
+\noindent
+In this section we discuss results of the following type.
+
+\begin{lemma}
+\label{lemma-section-support-in-locally-closed-pre}
+Let $X$ be a scheme. Let $\mathcal{F}$ be an abelian sheaf on $X_\etale$.
+Let $\varphi : U' \to U$ be a morphism of $X_\etale$. Let $Z' \subset U'$ be a
+closed subscheme such that $Z' \to U' \to U$ is a closed immersion
+with image $Z \subset U$. Then there is a canonical bijection
+$$
+\{s \in \mathcal{F}(U) \mid \text{Supp}(s) \subset Z\} =
+\{s' \in \mathcal{F}(U') \mid \text{Supp}(s') \subset Z'\}
+$$
+which is given by restriction if $\varphi^{-1}(Z) = Z'$.
+\end{lemma}
+
+\begin{proof}
+Consider the closed subscheme $Z'' = \varphi^{-1}(Z)$ of $U'$.
+Then $Z' \subset Z''$ is closed because $Z'$ is closed in $U'$.
+On the other hand, $Z' \to Z''$ is an \'etale morphism
+(as a morphism between schemes \'etale over $Z$) and hence
+open. Thus $Z'' = Z' \amalg T$ for some closed subset $T$.
+The open covering $U' = (U' \setminus T) \cup (U' \setminus Z')$
+shows that
+$$
+\{s' \in \mathcal{F}(U') \mid \text{Supp}(s') \subset Z'\} =
+\{s' \in \mathcal{F}(U' \setminus T) \mid \text{Supp}(s') \subset Z'\}
+$$
+and the \'etale covering $\{U' \setminus T \to U, U \setminus Z \to U\}$
+shows that
+$$
+\{s \in \mathcal{F}(U) \mid \text{Supp}(s) \subset Z\} =
+\{s' \in \mathcal{F}(U' \setminus T) \mid \text{Supp}(s') \subset Z'\}
+$$
+This finishes the proof.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-section-support-in-locally-closed}
+Let $X$ be a scheme. Let $Z \subset X$ be a locally closed subscheme.
+Let $\mathcal{F}$ be an abelian sheaf on $X_\etale$. Given
+$U, U' \subset X$ open containing $Z$ as a closed subscheme,
+there is a canonical bijection
+$$
+\{s \in \mathcal{F}(U) \mid \text{Supp}(s) \subset Z\} =
+\{s \in \mathcal{F}(U') \mid \text{Supp}(s) \subset Z\}
+$$
+which is given by restriction if $U' \subset U$.
+\end{lemma}
+
+\begin{proof}
+Since $Z$ is a closed subscheme of $U \cap U'$, it suffices to
+prove the lemma when $U' \subset U$. Then it is a special case
+of Lemma \ref{lemma-section-support-in-locally-closed-pre}.
+\end{proof}
+
+\noindent
+Let us introduce a bit of nonstandard notation which will stand us
+in good stead later. Namely, in the situation of
+Lemma \ref{lemma-section-support-in-locally-closed} above, let us denote
+$$
+H_Z(\mathcal{F}) = \{s \in \mathcal{F}(U) \mid \text{Supp}(s) \subset Z\}
+$$
+where $U \subset X$ is any choice of open subscheme containing $Z$ as a closed
+subscheme. The reader who is troubled by the lack of precision this entails
+may choose $U = X \setminus \partial Z$ where
+$\partial Z = \overline{Z}\setminus Z$ is the ``boundary'' of $Z$ in $X$.
+However, in many of the arguments below the flexibility of choosing
+different opens will play a role. Here are some properties of this
+construction:
+\begin{enumerate}
+\item
+\label{item-inclusion}
+If $Z \subset Z'$ are locally closed subschemes of $X$ and $Z$ is
+closed in $Z'$, then there is a natural injective map
+$$
+H_Z(\mathcal{F}) \to H_{Z'}(\mathcal{F}).
+$$
+\item
+\label{item-pullback}
+If $f : Y \to X$ is a morphism of schemes and $Z \subset X$ is a locally
+closed subscheme, then there is a natural
+pullback map $f^* : H_Z(\mathcal{F}) \to H_{f^{-1}Z}(f^{-1}\mathcal{F})$.
+\end{enumerate}
+It will be convenient to extend our notation to the following situation:
+suppose that we have $W \in X_\etale$ and a locally closed subscheme
+$Z \subset W$. Then we will denote
+$$
+H_Z(\mathcal{F}) =
+\{s \in \mathcal{F}(U) \mid \text{Supp}(s) \subset Z\} =
+H_Z(\mathcal{F}|_{W_\etale})
+$$
+where $U \subset W$ is any choice of open subscheme containing $Z$
+as a closed subscheme, exactly as above\footnote{In fact,
+Lemma \ref{lemma-section-support-in-locally-closed-pre}
+shows, given $Z$ over $X$ which is isomorphic to a locally closed
+subscheme of some object $W$ of $X_\etale$, that
+the choice of $W$ is irrelevant.}.
+
+
+
+
+
+
+
+\section{Sections with compact support}
+\label{section-compact-support}
+
+\noindent
+A reference for this section is \cite[Exposee XVII, Section 6]{SGA4}.
+Let $f : X \to Y$ be a morphism of schemes which is separated and
+locally of finite type. In this section we define a functor
+$f_! : \textit{Ab}(X_\etale) \to \textit{Ab}(Y_\etale)$
+by taking $f_!\mathcal{F} \subset f_*\mathcal{F}$
+to be the subsheaf of sections which have proper support relative to $Y$
+(suitably defined).
+
+\medskip\noindent
+Warning: The functor $f_!$ is the zeroth cohomology sheaf of a functor
+$Rf_!$ on the derived category (insert future reference), but
+$Rf_!$ is not the derived functor of $f_!$.
+
+\begin{lemma}
+\label{lemma-f-shriek-separated}
+Let $f : X \to Y$ be a morphism of schemes which is locally of finite type.
+Let $\mathcal{F}$ be an abelian sheaf on $X_\etale$. The rule
+$$
+Y_\etale \longrightarrow \textit{Ab},\quad
+V \longmapsto \{s \in f_*\mathcal{F}(V) = \mathcal{F}(X_V) \mid
+\text{Supp}(s) \subset X_V \text{ is proper over }V\}
+$$
+is an abelian subsheaf of $f_*\mathcal{F}$.
+\end{lemma}
+
+\noindent
+Warning: This sheaf isn't the ``correct one'' if $f$ is not separated.
+
+\begin{proof}
+Recall that the support of a section is closed
+(\'Etale Cohomology, Lemma \ref{etale-cohomology-lemma-support-section-closed})
+hence the material in
+Cohomology of Schemes, Section \ref{coherent-section-proper-over-base}
+applies. By the lemma above and
+Cohomology of Schemes, Lemma \ref{coherent-lemma-union-closed-proper-over-base}
+we find that our subset of $f_*\mathcal{F}(V)$ is a subgroup.
+By Cohomology of Schemes, Lemma
+\ref{coherent-lemma-base-change-closed-proper-over-base}
+we see that our rule defines a sub presheaf.
+Finally, suppose that we have $s \in f_*\mathcal{F}(V)$
+and an \'etale covering $\{V_i \to V\}$ such that
+$s|_{V_i}$ has support proper over $V_i$.
+Observe that the support of $s|_{V_i}$ is the inverse
+image of the support of $s|_V$ (use the characterization
+of the support in terms of stalks and
+\'Etale Cohomology, Lemma \ref{etale-cohomology-lemma-stalk-pullback}).
+Whence the support of $s$ is proper over $V$ by
+Descent, Lemma \ref{descent-lemma-descending-property-proper-over-base}.
+This proves that our rule satisfies the sheaf condition.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-separated-etale-shriek}
+Let $j : U \to X$ be a separated \'etale morphism. Let $\mathcal{F}$
+be an abelian sheaf on $U_\etale$. The image of the injective map
+$j_!\mathcal{F} \to j_*\mathcal{F}$ of
+\'Etale Cohomology, Lemma
+\ref{etale-cohomology-lemma-shriek-into-star-separated-etale}
+is the subsheaf of Lemma \ref{lemma-f-shriek-separated}.
+\end{lemma}
+
+\noindent
+An alternative would be to move this lemma later and prove this
+using the descrition of the stalks of both sheaves.
+
+\begin{proof}
+The construction of $j_!\mathcal{F} \to j_*\mathcal{F}$ in the proof of
+\'Etale Cohomology, Lemma
+\ref{etale-cohomology-lemma-shriek-into-star-separated-etale}
+is via the construction of a map
+$j_{p!}\mathcal{F} \to j_*\mathcal{F}$ of presheaves
+whose image is clearly contained in the subsheaf of
+Lemma \ref{lemma-f-shriek-separated}.
+Hence since $j_!\mathcal{F}$ is the sheafification of
+$j_{p!}\mathcal{F}$ we conclude the image of
+$j_!\mathcal{F} \to j_*\mathcal{F}$ is contained in
+this subsheaf. Conversely, let $s \in j_*\mathcal{F}(V)$
+have support $Z$ proper over $V$. Then $Z \to V$ is
+finite with closed image $Z' \subset V$, see
+More on Morphisms, Lemma \ref{more-morphisms-lemma-characterize-finite}.
+The restriction of $s$ to $V \setminus Z'$ is zero and the zero section is
+contained in the image of $j_!\mathcal{F} \to j_*\mathcal{F}$.
+On the other hand, if $v \in Z'$, then we can find
+an \'etale neighbourhood
+$(V', v') \to (V, v)$ such that we have a decomposition
+$U_{V'} = W \amalg U'_1 \amalg \ldots \amalg U'_n$
+into open and closed subschemes with $U'_i \to V'$ an isomorphism
+and with $T_{V'} \subset U'_1 \amalg \ldots \amalg U'_n$, see
+\'Etale Morphisms, Lemma \ref{etale-lemma-etale-etale-local-technical}.
+Inverting the isomorphisms $U'_i \to V'$
+we obtain $n$ morphisms $\varphi'_i : V' \to U$
+and sections $s'_i$ over $V'$ by pulling back $s$.
+Then the section $\sum (\varphi'_i, s'_i)$ of
+$j_{p!}\mathcal{F}$ over $V'$, see formula for $j_{p!}\mathcal{F}(V')$
+in proof of \'Etale Cohomology, Lemma
+\ref{etale-cohomology-lemma-shriek-into-star-separated-etale},
+maps to the restriction of $s$ to $V'$ by construction.
+We conclude that $s$ is \'etale locally in the image
+of $j_!\mathcal{F} \to j_*\mathcal{F}$ and the proof is complete.
+\end{proof}
+
+\begin{definition}
+\label{definition-f-shriek-separated}
+Let $f : X \to Y$ be a morphism of schemes which is separated (!) and
+locally of finite type. Let $\mathcal{F}$ be an abelian sheaf on
+$X_\etale$. The subsheaf $f_!\mathcal{F} \subset f_*\mathcal{F}$
+constructed in Lemma \ref{lemma-f-shriek-separated} is called the
+{\it direct image with compact support}.
+\end{definition}
+
+\noindent
+By Lemma \ref{lemma-separated-etale-shriek} this does not conflict with
+\'Etale Cohomology, Definition \ref{etale-cohomology-definition-extension-zero}
+as we have agreement when both definitions apply. Here is a sanity check.
+
+\begin{lemma}
+\label{lemma-proper-f-shriek}
+Let $f : X \to Y$ be a proper morphism of schemes.
+Then $f_! = f_*$.
+\end{lemma}
+
+\begin{proof}
+Immediate from the construction of $f_!$.
+\end{proof}
+
+\noindent
+A very useful observation is the following.
+
+\begin{remark}[Covariance with respect to open embeddings]
+\label{remark-covariance-f-shriek-separated}
+Let $f : X \to Y$ be morphism of schemes which is separated and
+locally of finite type. Let $\mathcal{F}$ be an abelian sheaf on $X_\etale$.
+Let $X' \subset X$ be an open subscheme. Denote $f' : X' \to Y$
+the restriction of $f$. There is a canonical injective map
+$$
+f'_!(\mathcal{F}|_{X'}) \longrightarrow f_!\mathcal{F}
+$$
+Namely, let $V \in Y_\etale$ and consider a section
+$s' \in f'_*(\mathcal{F}|_{X'})(V) = \mathcal{F}(X' \times_Y V)$
+with support $Z'$ proper over $V$. Then $Z'$ is closed in $X \times_Y V$
+as well, see Cohomology of Schemes, Lemma
+\ref{coherent-lemma-functoriality-closed-proper-over-base}.
+Thus there is a unique section
+$s \in \mathcal{F}(X \times_Y V) = f_*\mathcal{F}(V)$
+whose restriction to $X' \times_Y V$ is $s'$ and whose restriction
+to $X \times_Y V \setminus Z'$ is zero, see
+Lemma \ref{lemma-section-support-in-locally-closed}. This construction is
+compatible with restriction maps and hence induces the desired map of
+sheaves $f'_!(\mathcal{F}|_{X'}) \to f_!\mathcal{F}$ which is clearly
+injective. By construction we obtain a commutative diagram
+$$
+\xymatrix{
+f'_!(\mathcal{F}|_{X'}) \ar[r] \ar[d] &
+f_!\mathcal{F} \ar[d] \\
+f'_*(\mathcal{F}|_{X'}) &
+f_*\mathcal{F} \ar[l]
+}
+$$
+functorial in $\mathcal{F}$. It is clear that for $X'' \subset X'$ open
+with $f'' = f|_{X''} : X'' \to Y$ the composition of the canonical maps
+$f''_!\mathcal{F}|_{X''} \to f'_!\mathcal{F}|_{X'} \to f_!\mathcal{F}$
+just constructed is the canonical map
+$f''_!\mathcal{F}|_{X''} \to f_!\mathcal{F}$.
+\end{remark}
+
+\begin{lemma}
+\label{lemma-compactify-f-shriek-separated}
+Let $Y$ be a scheme. Let $j : X \to \overline{X}$ be an open
+immersion of schemes over $Y$ with $\overline{X}$ proper over $Y$.
+Denote $f : X \to Y$ and $\overline{f} : \overline{X} \to Y$
+the structure morphisms. For $\mathcal{F} \in \textit{Ab}(X_\etale)$
+there is a canonical isomorphism (see proof)
+$$
+f_!\mathcal{F} \longrightarrow \overline{f}_!j_!\mathcal{F}
+$$
+As we have $\overline{f}_! = \overline{f}_*$ by
+Lemma \ref{lemma-proper-f-shriek} we obtain
+$\overline{f}_* \circ j_! = f_!$ as functors
+$\textit{Ab}(X_\etale) \to \textit{Ab}(Y_\etale)$.
+\end{lemma}
+
+\begin{proof}
+We have $(j_!\mathcal{F})|_X = \mathcal{F}$, see
+\'Etale Cohomology, Lemma \ref{etale-cohomology-lemma-jshriek-open}.
+Thus the displayed arrow is the injective map
+$f_!(\mathcal{G}|_X) \to \overline{f}_!\mathcal{G}$
+of Remark \ref{remark-covariance-f-shriek-separated}
+for $\mathcal{G} = j_!\mathcal{F}$. The explicit nature
+of this map implies that it now suffices to show: if $V \in Y_\etale$ and
+$s \in \overline{f}_!\mathcal{G}(V) = \overline{f}_*\mathcal{G}(V) =
+\mathcal{G}(\overline{X}_V)$
+is a section, then the support of $s$ is contained in the open
+$X_V \subset \overline{X}_V$. This is immediate from the fact
+that the stalks of $\mathcal{G}$ are zero at geometric
+points of $\overline{X} \setminus X$.
+\end{proof}
+
+\noindent
+We want to relate the stalks of $f_!\mathcal{F}$ to sections with
+compact support on fibres. In order to state this, we need a definition.
+
+\begin{definition}
+\label{definition-compact-support}
+Let $X$ be a separated scheme locally of finite type over a field $k$.
+Let $\mathcal{F}$ be an abelian sheaf on $X_\etale$. We let
+$H^0_c(X, \mathcal{F}) \subset H^0(X, \mathcal{F})$ be the
+set of sections whose support is proper over $k$. Elements of
+$H^0_c(X, \mathcal{F})$ are called {\it sections with compact support}.
+\end{definition}
+
+\noindent
+Warning: This definition isn't the ``correct one'' if $X$ isn't
+separated over $k$.
+
+\begin{lemma}
+\label{lemma-proper-compact-support}
+Let $X$ be a proper scheme over a field $k$. Then
+$H^0_c(X, \mathcal{F}) = H^0(X, \mathcal{F})$.
+\end{lemma}
+
+\begin{proof}
+Immediate from the construction of $H^0_c$.
+\end{proof}
+
+\begin{remark}[Open embeddings and compactly supported sections]
+\label{remark-covariance-compact-support}
+Let $X$ be a separated scheme locally of finite type over a field $k$.
+Let $\mathcal{F}$ be an abelian sheaf on $X_\etale$.
+Exactly as in Remark \ref{remark-covariance-f-shriek-separated}
+there are injective maps
+$$
+H^0_c(X', \mathcal{F}|_{X'}) \longrightarrow H^0_c(X, \mathcal{F})
+$$
+which turn $H^0_c$ into a ``cosheaf'' on the Zariski site of $X$.
+\end{remark}
+
+\begin{lemma}
+\label{lemma-compactify-compact-support}
+Let $k$ be a field. Let $j : X \to \overline{X}$ be an open
+immersion of schemes over $k$ with $\overline{X}$ proper over $k$.
+For $\mathcal{F} \in \textit{Ab}(X_\etale)$
+there is a canonical isomorphism (see proof)
+$$
+H^0_c(X, \mathcal{F}) \longrightarrow
+H^0_c(\overline{X}, j_!\mathcal{F}) =
+H^0(\overline{X}, j_!\mathcal{F})
+$$
+where we have the equality on the right by
+Lemma \ref{lemma-proper-compact-support}.
+\end{lemma}
+
+\begin{proof}
+We have $(j_!\mathcal{F})|_X = \mathcal{F}$, see
+\'Etale Cohomology, Lemma \ref{etale-cohomology-lemma-jshriek-open}.
+Thus the displayed arrow is the injective map
+$H^0_c(X, \mathcal{G}|_X) \to H^0_c(\overline{X}, \mathcal{G})$
+of Remark \ref{remark-covariance-compact-support}
+for $\mathcal{G} = j_!\mathcal{F}$. The explicit nature
+of this map implies that it now suffices to show: if
+$s \in H^0(\overline{X}, \mathcal{G})$ is a section, then the support of
+$s$ is contained in the open $X$. This is immediate from the fact
+that the stalks of $\mathcal{G}$ are zero at geometric
+points of $\overline{X} \setminus X$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-stalk-f-shriek-separated}
+Let $f : X \to Y$ be a morphism of schemes which is separated and
+locally of finite type. Let $\mathcal{F}$ be an abelian sheaf on
+$X_\etale$. Then there is a canonical isomorphism
+$$
+(f_!\mathcal{F})_{\overline{y}}
+\longrightarrow
+H^0_c(X_{\overline{y}}, \mathcal{F}|_{X_{\overline{y}}})
+$$
+for any geometric point $\overline{y} : \Spec(k) \to Y$.
+\end{lemma}
+
+\begin{proof}
+Recall that $(f_*\mathcal{F})_{\overline{y}} = \colim f_*\mathcal{F}(V)$
+where the colimit is over the \'etale neighbourhoods $(V, \overline{v})$
+of $\overline{y}$. If $s \in f_*\mathcal{F}(V) = \mathcal{F}(X_V)$,
+then we can pullback $s$ to a section of $\mathcal{F}$ over
+$(X_V)_{\overline{v}} = X_{\overline{y}}$. Thus we obtain a canonical map
+$$
+c_{\overline{y}} :
+(f_*\mathcal{F})_{\overline{y}}
+\longrightarrow 
+H^0(X_{\overline{y}}, \mathcal{F}|_{X_{\overline{y}}})
+$$
+We claim that this map induces a bijection between the subgroups
+$(f_!\mathcal{F})_{\overline{y}}$ and
+$H^0_c(X_{\overline{y}}, \mathcal{F}|_{X_{\overline{y}}})$.
+The claim implies the lemma, but is a little bit more precise
+in that it describes the identification of the lemma as given
+by pullbacks of sections of $\mathcal{F}$ to the geometric fibre of $f$.
+
+\medskip\noindent
+Observe that any element
+$s \in (f_!\mathcal{F})_{\overline{y}} \subset (f_*\mathcal{F})_{\overline{y}}$
+is mapped by $c_{\overline{y}}$ to an element of
+$H^0_c(X_{\overline{y}}, \mathcal{F}|_{X_{\overline{y}}}) \subset
+H^0(X_{\overline{y}}, \mathcal{F}|_{X_{\overline{y}}})$.
+This is true because taking the support of a section
+commutes with pullback and because properness is preserved by
+base change. This at least produces the map in the statement of the lemma.
+To prove that it is an isomorphism we may work Zariski
+locally on $Y$ and hence we may and do assume $Y$ is affine.
+
+\medskip\noindent
+An observation that we will use below
+is that given an open subscheme $X' \subset X$
+and if $f' = f|_{X'}$, then we obtain a commutative diagram
+$$
+\xymatrix{
+(f'_!(\mathcal{F}|_{X'}))_{\overline{y}} \ar[r] \ar[d] &
+H^0_c(X'_{\overline{y}}, \mathcal{F}|_{X'_{\overline{y}}}) \ar[d] \\
+(f_!\mathcal{F})_{\overline{y}} \ar[r] &
+H^0_c(X_{\overline{y}}, \mathcal{F}|_{X_{\overline{y}}})
+}
+$$
+where the horizontal arrows are the maps constructed above and
+the vertical arrows are given in
+Remarks \ref{remark-covariance-f-shriek-separated} and
+\ref{remark-covariance-compact-support}.
+The reason is that given an \'etale neighbourhood $(V, \overline{v})$
+of $\overline{y}$ and a section $s \in f_*\mathcal{F}(V) = \mathcal{F}(X_V)$
+whose support $Z$ happens to be contained in $X'_V$ and is proper over $V$,
+so that $s$ gives rise to an element of both
+$(f'_!(\mathcal{F}|_{X'}))_{\overline{y}}$ and
+$(f_!\mathcal{F})_{\overline{y}}$ which correspond via
+the vertical arrow of the diagram, then these elements are mapped via the
+horizontal arrows to the pullback $s|_{X_{\overline{y}}}$ of $s$ to
+$X_{\overline{y}}$ whose support $Z_{\overline{y}}$ is contained in
+$X'_{\overline{y}}$ and hence this restriction gives rise to
+a compatible pair of elements of
+$H^0_c(X'_{\overline{y}}, \mathcal{F}|_{X'_{\overline{y}}})$
+and
+$H^0_c(X_{\overline{y}}, \mathcal{F}|_{X_{\overline{y}}})$.
+
+\medskip\noindent
+Suppose $s \in (f_!\mathcal{F})_{\overline{y}}$ maps to zero in
+$H^0_c(X_{\overline{y}}, \mathcal{F}|_{X_{\overline{y}}})$.
+Say $s$ corresponds to $s \in f_*\mathcal{F}(V) = \mathcal{F}(X_V)$
+with support $Z$ proper over $V$. We may assume that $V$ is affine
+and hence $Z$ is quasi-compact. Then we may choose a quasi-compact open
+$X' \subset X$ containing the image of $Z$. Then $Z$ is contained in
+$X'_V$ and hence $s$ is the image of an element
+$s' \in f'_!(\mathcal{F}|_{X'})(V)$ where $f' = f|_{X'}$ as in
+the previous paragraph. Then $s'$ maps to zero in
+$H^0_c(X'_{\overline{y}}, \mathcal{F}|_{X'_{\overline{y}}})$.
+Hence in order to prove injectivity, we may replace $X$ by
+$X'$, i.e., we may assume $X$ is quasi-compact. We will prove
+this case below.
+
+\medskip\noindent
+Suppose that
+$t \in H^0_c(X_{\overline{y}}, \mathcal{F}|_{X_{\overline{y}}})$.
+Then the support of $t$ is contained in a quasi-compact
+open subscheme $W \subset X_{\overline{y}}$.
+Hence we can find a quasi-compact open subscheme
+$X' \subset X$ such that $X'_{\overline{y}}$ contains $W$.
+Then it is clear that $t$ is contained in the image
+of the injective map
+$H^0_c(X'_{\overline{y}}, \mathcal{F}|_{X'_{\overline{y}}}) \to
+H^0_c(X_{\overline{y}}, \mathcal{F}|_{X_{\overline{y}}})$.
+Hence in order to show surjectivity, we may replace $X$
+by $X'$, i.e., we may assume $X$ is quasi-compact.
+We will prove this case below.
+
+\medskip\noindent
+In this last paragraph of the proof we prove the lemma in case
+$X$ is quasi-compact and $Y$ is affine. By More on Flatness, Theorem
+\ref{flat-theorem-nagata} there exists a compactification
+$j : X \to \overline{X}$ over $Y$. Set $\mathcal{G} = j_!\mathcal{F}$
+so that $\mathcal{F} = \mathcal{G}|_X$ by
+\'Etale Cohomology, Lemma \ref{etale-cohomology-lemma-jshriek-open}.
+By the disussion above we get a commutative diagram
+$$
+\xymatrix{
+(f_!\mathcal{F})_{\overline{y}} \ar[r] \ar[d] &
+H^0_c(X_{\overline{y}}, \mathcal{F}|_{X_{\overline{y}}}) \ar[d] \\
+(\overline{f}_!\mathcal{G})_{\overline{y}} \ar[r] &
+H^0_c(\overline{X}_{\overline{y}}, \mathcal{G}|_{\overline{X}_{\overline{y}}})
+}
+$$
+By Lemmas \ref{lemma-compactify-f-shriek-separated} and
+\ref{lemma-compactify-compact-support} the vertical maps
+are isomorphisms. This reduces us to the case of the proper
+morphism $\overline{X} \to Y$. For a proper morphism our map
+is an isomorphism by
+Lemmas \ref{lemma-proper-f-shriek} and \ref{lemma-proper-compact-support}
+and proper base change for pushforwards, see
+\'Etale Cohomology, Lemma
+\ref{etale-cohomology-lemma-proper-pushforward-stalk}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-base-change-f-shriek-separated}
+Consider a cartesian square
+$$
+\xymatrix{
+X' \ar[r]_{g'} \ar[d]_{f'} & X \ar[d]^f \\
+Y' \ar[r]^g & Y
+}
+$$
+of schemes with $f$ separated and locally of finite type.
+For any abelian sheaf $\mathcal{F}$ on $X_\etale$ we have
+$f'_!(g')^{-1}\mathcal{F} = g^{-1}f_!\mathcal{F}$.
+\end{lemma}
+
+\begin{proof}
+In great generality there is a pullback map
+$g^{-1}f_*\mathcal{F} \to f'_*(g')^{-1}\mathcal{F}$, see
+Sites, Section \ref{sites-section-pullback}.
+We claim that this map sends $g^{-1}f_!\mathcal{F}$
+into the subsheaf $f'_!(g')^{-1}\mathcal{F}$
+and induces the isomorphism in the lemma.
+
+\medskip\noindent
+Choose a geometric point $\overline{y}': \Spec(k) \to Y'$ and denote
+$\overline{y} = g \circ \overline{y}'$ the image in $Y$. There is a
+commutative diagram
+$$
+\xymatrix{
+(f_*\mathcal{F})_{\overline{y}} \ar[r] \ar[d] &
+H^0(X_{\overline{y}}, \mathcal{F}|_{X_{\overline{y}}}) \ar[d] \\
+(f'_*(g')^{-1}\mathcal{F})_{\overline{y}'} \ar[r] &
+H^0(X'_{\overline{y}'}, (g')^{-1}\mathcal{F}|_{X'_{\overline{y}'}})
+}
+$$
+where the horizontal maps were used in the proof of
+Lemma \ref{lemma-stalk-f-shriek-separated}
+and the vertical maps are the pullback maps above.
+The diagram commutes because each of the four maps
+in question is given by pulling back local sections along
+a morphism of schemes and the underlying diagram of morphisms
+of schemes commutes. Since the diagram in the statement of the lemma
+is cartesian we have $X'_{\overline{y}'} = X_{\overline{y}}$.
+Hence by Lemma \ref{lemma-stalk-f-shriek-separated}
+and its proof we obtain a commutative diagram
+$$
+\xymatrix{
+(f_*\mathcal{F})_{\overline{y}} \ar[rrr] \ar[ddd] & & &
+H^0(X_{\overline{y}}, \mathcal{F}|_{X_{\overline{y}}}) \ar[ddd] \\
+& (f_!\mathcal{F})_{\overline{y}} \ar[r] \ar@{..>}[d] \ar[lu] &
+H^0_c(X_{\overline{y}}, \mathcal{F}|_{X_{\overline{y}}}) \ar[d] \ar[ru] \\
+& (f'_!(g')^{-1}\mathcal{F})_{\overline{y}'} \ar[r] \ar[ld] &
+H^0_c(X'_{\overline{y}'}, (g')^{-1}\mathcal{F}|_{X'_{\overline{y}'}}) \ar[rd]\\
+(f'_*(g')^{-1}\mathcal{F})_{\overline{y}'} \ar[rrr] & & &
+H^0(X'_{\overline{y}'}, (g')^{-1}\mathcal{F}|_{X'_{\overline{y}'}})
+}
+$$
+where the horizontal arrows of the inner square are isomorphisms
+and the two right vertical arrows are equalities. Also, the
+se, sw, ne, nw arrows are injective. It follows that there is a unique
+bijective dotted arrow fitting into the diagram. We conclude that
+$g^{-1}f_!\mathcal{F} \subset g^{-1}f_*\mathcal{F} \to f'_*(g')^{-1}\mathcal{F}$
+is mapped into the subsheaf
+$f'_!(g')^{-1}\mathcal{F} \subset f'_*(g')^{-1}\mathcal{F}$
+because this is true on stalks, see
+\'Etale Cohomology, Theorem \ref{etale-cohomology-theorem-exactness-stalks}.
+The same theorem then implies that the induced map is an isomorphism
+and the proof is complete.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-f-shriek-composition}
+Let $f : X \to Y$ and $g : Y \to Z$ be composable morphisms of schemes which
+are separated and locally of finite type. Let $\mathcal{F}$ be an abelian
+sheaf on $X_\etale$. Then $g_!f_!\mathcal{F} = (g \circ f)_!\mathcal{F}$
+as subsheaves of $(g \circ f)_*\mathcal{F}$.
+\end{lemma}
+
+\begin{proof}
+We strongly urge the reader to prove this for themselves.
+Let $W \in Z_\etale$ and
+$s \in (g \circ f)_*\mathcal{F}(W) = \mathcal{F}(X_W)$.
+Denote $T \subset X_W$ the support of $s$; this is a closed
+subset. Observe that $s$ is a section of $(g \circ f)_!\mathcal{F}$
+if and only if $T$ is proper over $W$. We have
+$f_!\mathcal{F} \subset f_*\mathcal{F}$ and hence
+$g_!f_!\mathcal{F} \subset g_!f_*\mathcal{F} \subset g_*f_*\mathcal{F}$.
+On the other hand, $s$ is a section of $g_!f_!\mathcal{F}$ if and only
+if (a) $T$ is proper over $Y_W$ and (b) the support $T'$ of $s$
+viewed as section of $f_!\mathcal{F}$ is proper over $W$.
+If (a) holds, then the image of $T$ in $Y_W$ is closed and since
+$f_!\mathcal{F} \subset f_*\mathcal{F}$ we see that
+$T' \subset Y_W$ is the image of $T$ (details omitted; look at stalks).
+
+\medskip\noindent
+The conclusion is that we have to show a closed subset $T \subset X_W$
+is proper over $W$ if and only if $T$ is proper over $Y_W$
+and the image of $T$ in $Y_W$ is proper over $W$. Let us endow $T$
+with the reduced induced closed subscheme structure.
+If $T$ is proper over $W$, then $T \to Y_W$ is proper by
+Morphisms, Lemma \ref{morphisms-lemma-image-proper-scheme-closed}
+and the image of $T$ in $Y_W$ is proper over $W$ by
+Cohomology of Schemes, Lemma
+\ref{coherent-lemma-functoriality-closed-proper-over-base}.
+Conversely, if $T$ is proper over $Y_W$
+and the image of $T$ in $Y_W$ is proper over $W$,
+then the morphism $T \to W$ is proper as a composition
+of proper morphisms (here we endow the closed image of $T$
+in $Y_W$ with its reduced induced scheme structure to turn the
+question into one about morphisms of schemes), see
+Morphisms, Lemma \ref{morphisms-lemma-composition-proper}.
+\end{proof}
+
+\begin{remark}
+\label{remark-f-shriek-base-change-composition}
+The isomorphisms between functors
+constructed above satisfy the following two properties:
+\begin{enumerate}
+\item Let $f : X \to Y$, $g : Y \to Z$, and $h : Z \to T$ be composable
+morphisms of schemes which are separated and locally of finite type.
+Then the diagram
+$$
+\xymatrix{
+(h \circ g \circ f)_! \ar[r] \ar[d] &
+(h \circ g)_! \circ f_! \ar[d] \\
+h_! \circ (g \circ f)_! \ar[r] &
+h_! \circ g_! \circ f_!
+}
+$$
+commutes where the arrows are those of Lemma \ref{lemma-f-shriek-composition}.
+\item Suppose that we have a diagram of schemes
+$$
+\xymatrix{
+X' \ar[d]_{f'} \ar[r]_c & X \ar[d]^f \\
+Y' \ar[d]_{g'} \ar[r]_b & Y \ar[d]^g \\
+Z' \ar[r]^a & Z
+}
+$$
+with both squares cartesian and $f$ and $g$ separated and
+locally of finite type. Then the diagram
+$$
+\xymatrix{
+a^{-1} \circ (g \circ f)_! \ar[d] \ar[rr] & &
+(g' \circ f')_! \circ c^{-1} \ar[d] \\
+a^{-1} \circ g_! \circ f_! \ar[r] &
+g'_! \circ b^{-1} \circ f_! \ar[r] &
+g'_! \circ f'_! \circ c^{-1}
+}
+$$
+commutes where the horizontal arrows are those of
+Lemma \ref{lemma-base-change-f-shriek-separated}
+the arrows are those of Lemma \ref{lemma-f-shriek-composition}.
+\end{enumerate}
+Part (1) holds true because we have a similar commutative
+diagram for pushforwards. Part (2) holds by the very general
+compatibility of base change maps for pushforwards
+(Sites, Remark \ref{sites-remark-compose-base-change})
+and the fact that the isomorphisms in
+Lemmas \ref{lemma-base-change-f-shriek-separated} and
+\ref{lemma-f-shriek-composition}
+are constructed using the corresponding maps fo pushforwards.
+\end{remark}
+
+\begin{lemma}
+\label{lemma-colim-f-shriek-separated}
+Let $f : X \to Y$ be morphism of schemes which is separated and
+locally of finite type. Let $X = \bigcup_{i \in I} X_i$ be an
+open covering such that for all $i, j \in I$ there exists a $k$
+with $X_i \cup X_j \subset X_k$. Denote $f_i : X_i \to Y$
+the restriction of $f$. Then
+$$
+f_!\mathcal{F} = \colim_{i \in I} f_{i, !}(\mathcal{F}|_{X_i})
+$$
+functorially in $\mathcal{F} \in \textit{Ab}(X_\etale)$
+where the transition maps are the ones constructed in
+Remark \ref{remark-covariance-f-shriek-separated}.
+\end{lemma}
+
+\begin{proof}
+It suffices to show that the canonical map from
+right to left is a bijection when evaluated on a quasi-compact
+object $V$ of $Y_\etale$.
+Observe that the colimit on the right hand side is directed
+and has injective transition maps.
+Thus we can use
+Sites, Lemma \ref{sites-lemma-directed-colimits-sections}
+to evaluate the colimit. Hence, the statement comes down
+to the observation that a closed subset $Z \subset X_V$ proper over $V$
+is quasi-compact and hence is contained in $X_{i, V}$ for some $i$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-f-shriek-separated-direct-sums}
+Let $f : X \to Y$ be a morphism of schemes which is separated and
+locally of finite type. Then functor $f_!$ commutes with direct sums.
+\end{lemma}
+
+\begin{proof}
+Let $\mathcal{F} = \bigoplus \mathcal{F}_i$. To show that the map
+$\bigoplus f_!\mathcal{F}_i \to f_!\mathcal{F}$ is an isomorphism,
+it suffices to show that these sheaves have the same sections over
+a quasi-compact object $V$ of $Y_\etale$. Replacing $Y$ by $V$
+it suffices to show
+$H^0(Y, f_!\mathcal{F}) \subset H^0(X, \mathcal{F})$
+is equal to
+$\bigoplus H^0(Y, f_!\mathcal{F}_i)
+\subset \bigoplus H^0(X, \mathcal{F}_i)
+\subset H^0(X, \bigoplus \mathcal{F}_i)$.
+In this case, by writing $X$ as the union of its quasi-compact opens
+and using Lemma \ref{lemma-colim-f-shriek-separated}
+we reduce to the case where $X$ is quasi-compact as well.
+Then $H^0(X, \mathcal{F}) = \bigoplus H^0(X, \mathcal{F}_i)$
+by \'Etale Cohomology, Theorem \ref{etale-cohomology-theorem-colimit}.
+Looking at supports of sections the reader easily concludes.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-lqf-f-shriek-separated-colimits}
+Let $f : X \to Y$ be a morphism of schemes which is separated and
+locally quasi-finite. Then
+\begin{enumerate}
+\item for $\mathcal{F}$ in $\textit{Ab}(X_\etale)$ and a geometric
+point $\overline{y} : \Spec(k) \to Y$ we have
+$$
+(f_!\mathcal{F})_{\overline{y}} =
+\bigoplus\nolimits_{f(\overline{x}) = \overline{y}} \mathcal{F}_{\overline{x}}
+$$
+functorially in $\mathcal{F}$, and
+\item the functor $f_!$ is exact.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+The functor $f_!$ is left exact by construction. Right exactness may
+be checked on stalks
+(\'Etale Cohomology, Theorem \ref{etale-cohomology-theorem-exactness-stalks}).
+Thus it suffices to prove part (1).
+
+\medskip\noindent
+Let $\overline{y} : \Spec(k) \to Y$ be a geometric point.
+The scheme $X_{\overline{y}}$ has a discrete underlying
+topological space
+(Morphisms, Lemma \ref{morphisms-lemma-locally-quasi-finite-fibres})
+and all the residue fields at the points are equal to $k$
+(as finite extensions of $k$). Hence
+$\{\overline{x} : \Spec(k) \to X : f(\overline{x}) = \overline{y}\}$
+is equal to the set of points of $X_{\overline{y}}$.
+Thus the computation of the stalk follows from the more general
+Lemma \ref{lemma-stalk-f-shriek-separated}.
+\end{proof}
+
+
+
+
+
+
+
+
+
+\section{Sections with finite support}
+\label{section-finite-support}
+
+\noindent
+In this section we extend the construction of
+Section \ref{section-compact-support} to not necessarily
+separated locally quasi-finite morphisms.
+
+\medskip\noindent
+Let $f : X \to Y$ be a locally quasi-finite morphism of schemes.
+Let $\mathcal{F}$ be an abelian sheaf on $X_\etale$. Given $V$ in
+$Y_\etale$ denote $X_V = X \times_Y V$ the base change. We are going
+to consider the group of finite formal sums
+\begin{equation}
+\label{equation-formal-sum}
+s = \sum\nolimits_{i = 1, \ldots, n} (Z_i, s_i)
+\end{equation}
+where $Z_i \subset X_V$ is a locally closed subscheme such that the
+morphism $Z_i \to V$ is finite\footnote{Since $f$ is locally quasi-finite,
+the morphism $Z_i \to V$ is finite if and only if it is proper.}
+and where $s_i \in H_{Z_i}(\mathcal{F})$. Here, as in
+Section \ref{section-growing}, we set
+$$
+H_{Z_i}(\mathcal{F}) =
+\{s \in \mathcal{F}(U_i) \mid \text{Supp}(s) \subset Z_i\}
+$$
+where $U_i \subset X_V$ is an open subscheme containing $Z$ as a
+closed subscheme. We are going to consider these formal sums modulo the
+following relations
+\begin{enumerate}
+\item
+\label{item-sum}
+$(Z, s) + (Z, s') = (Z, s + s')$,
+\item
+\label{item-sub}
+$(Z, s) = (Z', s)$ if $Z \subset Z'$.
+\end{enumerate}
+Observe that the second relation makes sense: since $Z \to V$ is finite
+and $Z' \to V$ is separated, the inclusion $Z \to Z'$ is closed and we
+can use the map discussed in (\ref{item-inclusion}).
+
+\medskip\noindent
+Let us denote $f_{p!}\mathcal{F}(V)$ the quotient of the abelian
+group of formal sums (\ref{equation-formal-sum}) by these relations.
+The first relation tells us that $f_{p!}\mathcal{F}(V)$ is a quotient
+of the direct sum of the abelian groups $H_Z(\mathcal{F})$
+over all locally closed subschemes $Z \subset X_V$ finite over $V$.
+The second relation tells us that we are really taking the colimit
+\begin{equation}
+\label{equation-colimit-definition}
+f_{p!}\mathcal{F}(V) = \colim_Z H_Z(\mathcal{F})
+\end{equation}
+This formula will be a convenient abstract way to think about
+our construction.
+
+\medskip\noindent
+Next, we observe that there is a natural way to turn this construction
+into a presheaf $f_{p!}\mathcal{F}$ of abelian groups on $Y_\etale$.
+Namely, given $V' \to V$ in $Y_\etale$ we obtain the base change morphism
+$X_{V'} \to X_V$. If $Z \subset X_V$ is a locally closed subscheme
+finite over $V$, then the scheme theoretic inverse image $Z' \subset X_{V'}$
+is finite over $V'$. Moreover, if $U \subset X_V$ is an open such
+that $Z$ is closed in $U$, then the inverse image $U' \subset X_{V'}$
+is an open such that $Z'$ is closed in $U'$. Hence the restriction
+mapping $\mathcal{F}(U) \to \mathcal{F}(U')$ of $\mathcal{F}$
+sends $H_Z(\mathcal{F})$ into $H_{Z'}(\mathcal{F})$; this is a special
+case of the functoriality discussed in (\ref{item-pullback}) above.
+Clearly, these maps are compatible with inclusions
+$Z_1 \subset Z_2$ of such locally closed subschemes of $X_V$ and
+we obtain a map
+$$
+f_{p!}\mathcal{F}(V) = \colim_Z H_Z(\mathcal{F})
+\longrightarrow
+\colim_{Z'} H_{Z'}(\mathcal{F}) =
+f_{p!}\mathcal{F}(V')
+$$
+These maps indeed turn $f_{p!}\mathcal{F}$ into a presheaf of abelian
+groups on $Y_\etale$. We omit the details.
+
+\medskip\noindent
+A final observation is that the construction of $f_{p!}\mathcal{F}$
+is functorial in $\mathcal{F}$ in $\textit{Ab}(X_\etale)$.
+We conclude that given a locally quasi-finite morphism $f : X \to Y$
+we have constructed a functor
+$$
+f_{p!} :
+\textit{Ab}(X_\etale)
+\longrightarrow
+\textit{PAb}(Y_\etale)
+$$
+from the category of abelian sheaves on $X_\etale$ to the category
+of abelian presheaves on $Y_\etale$. Before we define $f_!$ as the
+sheafification of this functor, let us check that it agrees with
+the construction in Section \ref{section-compact-support}
+and with the construction in
+\'Etale Cohomology, Section \ref{etale-cohomology-section-extension-by-zero}
+when both apply.
+
+\begin{lemma}
+\label{lemma-finite-support-f-shriek-separated}
+Let $f : X \to Y$ be a separated and locally quasi-finite morphism
+of schemes. Functorially in $\mathcal{F} \in \textit{Ab}(X_\etale)$
+there is a canonical isomorphism(!)
+$$
+f_{p!}\mathcal{F} \longrightarrow f_!\mathcal{F}
+$$
+of abelian presheaves which identifies the sheaf
+$f_!\mathcal{F}$ of Definition \ref{definition-f-shriek-separated}
+with the presheaf $f_{p!}\mathcal{F}$ constructed above.
+\end{lemma}
+
+\begin{proof}
+Let $V$ be an object of $Y_\etale$. If $Z \subset X_V$ is locally closed
+and finite over $V$, then, since $f$ is separated, we see that
+the morphism $Z \to X_V$ is a closed immersion. Moreover, if
+$Z_i$, $i = 1, \ldots, n$ are closed subschemes of $X_V$ finite
+over $V$, then $Z_1 \cup \ldots \cup Z_n$ (scheme theoretic union)
+is a closed subscheme finite over $V$. Hence in this case the colimit
+(\ref{equation-colimit-definition}) defining $f_{p!}\mathcal{F}(V)$
+is directed and we find that $f_{!p}\mathcal{F}(V)$ is simply equal
+to the set of sections of $\mathcal{F}(X_V)$ whose support is finite over $V$.
+Since any closed subset of $X_V$ which is proper over $V$ is
+actually finite over $V$ (as $f$ is locally quasi-finite)
+we conclude that this is equal to $f_!\mathcal{F}(V)$
+by its very definition.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-finite-support-stalk}
+Let $f : X \to Y$ be a morphism of schemes which is locally quasi-finite.
+Let $\overline{y} : \Spec(k) \to Y$ be a geometric point.
+Functorially in $\mathcal{F}$ in $\textit{Ab}(X_\etale)$ we have
+$$
+(f_{p!}\mathcal{F})_{\overline{y}} =
+\bigoplus\nolimits_{f(\overline{x}) = \overline{y}} \mathcal{F}_{\overline{x}}
+$$
+\end{lemma}
+
+\begin{proof}
+Recall that the stalk at $\overline{y}$ of a presheaf is defined by the
+usual colimit over \'etale neighbourhoods $(V, \overline{v})$
+of $\overline{y}$, see \'Etale Cohomology, Definition
+\ref{etale-cohomology-definition-stalk}. Accordingly
+suppose $s = \sum_{i = 1, \ldots, n} (Z_i, s_i)$ as in
+(\ref{equation-formal-sum}) is an element of $f_{p!}\mathcal{F}(V)$
+where $(V, \overline{v})$ is an \'etale neighbourhood of $\overline{y}$.
+Then since
+$$
+X_{\overline{y}} = (X_V)_{\overline{v}} \supset Z_{i, \overline{v}}
+$$
+and since $s_i$ is a section of $\mathcal{F}$ on an open neighbourhood
+of $Z_i$ in $X_V$ we can send $s$ to
+$$
+\sum\nolimits_{i = 1, \ldots, n} 
+\sum\nolimits_{\overline{x} \in Z_{i, \overline{v}}}
+\left(\text{class of }s_i\text{ in }\mathcal{F}_{\overline{x}}\right)
+\quad\in\quad
+\bigoplus\nolimits_{f(\overline{x}) = \overline{y}} \mathcal{F}_{\overline{x}}
+$$
+We omit the verification that this is compatible with restriction
+maps and that the relations (\ref{item-sum}) $(Z, s) + (Z, s') - (Z, s + s')$
+and (\ref{item-sub}) $(Z, s) - (Z', s)$ if $Z \subset Z'$ are sent to zero.
+Thus we obtain a map
+$$
+(f_{p!}\mathcal{F})_{\overline{y}}
+\longrightarrow
+\bigoplus\nolimits_{f(\overline{x}) = \overline{y}} \mathcal{F}_{\overline{x}}
+$$
+
+\medskip\noindent
+Let us prove this arrow is surjective. For this it suffices to pick
+an $\overline{x}$ with $f(\overline{x}) = \overline{y}$ and prove that
+an element $s$ in the summand $\mathcal{F}_{\overline{x}}$ is in the
+image. Let $s$ correspond to the element $s \in \mathcal{F}(U)$
+where $(U, \overline{u})$ is an \'etale neighbourhood of $\overline{x}$.
+Since $f$ is locally quasi-finite, the morphism $U \to Y$
+is locally quasi-finite too. By More on Morphisms, Lemma
+\ref{more-morphisms-lemma-etale-makes-quasi-finite-finite-multiple-points-var}
+we can find an \'etale neighbourhood $(V, \overline{v})$ of
+$\overline{y}$, an open subscheme
+$$
+W \subset U \times_Y V,
+$$
+and a geometric point $\overline{w}$ mapping to $\overline{u}$ and
+$\overline{v}$ such that $W \to V$ is finite and $\overline{w}$ is the
+only geometric point of $W$ mapping to $\overline{v}$. (We omit the translation
+between the language of geometric points we are currently using and the
+language of points and residue field extensions used in the
+statement of the lemma.) Observe that $W \to X_V = X \times_Y V$
+is \'etale. Choose an affine open neighbourhood $W' \subset X_V$
+of the image $\overline{w}'$ of $\overline{w}$. Since $\overline{w}$
+is the only point of $W$ over $\overline{v}$ and since $W \to V$
+is closed, after replacing $V$ by an open neighbourhood of $\overline{v}$,
+we may assume $W \to X_V$ maps into $W'$. Then $W \to W'$ is finite and
+\'etale and there is a unique geometric point $\overline{w}$ of $W$
+lying over $\overline{w}'$. It follows that $W \to W'$ is an open immersion
+over an open neighbourhood of $\overline{w}'$ in $W'$, see
+\'Etale Morphisms, Lemma \ref{etale-lemma-finite-etale-one-point}.
+Shrinking $V$ and $W'$ we may assume $W \to W'$ is an isomorphism.
+Thus $s$ may be viewed as a section $s'$ of $\mathcal{F}$ over
+the open subscheme $W' \subset X_V$ which is finite over $V$.
+Hence by definition $(W', s')$ defines an element of $j_{p!}\mathcal{F}(V)$
+which maps to $s$ as desired.
+
+\medskip\noindent
+Let us prove the arrow is injective. To do this, let
+$s = \sum_{i = 1, \ldots, n} (Z_i, s_i)$ as in (\ref{equation-formal-sum})
+be an element of $f_{p!}\mathcal{F}(V)$ where $(V, \overline{v})$ is an
+\'etale neighbourhood of $\overline{y}$. Assume $s$ maps to zero
+under the map constructed above. First, after replacing
+$(V, \overline{v})$ by an \'etale neighbourhood of itself,
+we may assume there exist decompositions
+$Z_i = Z_{i, 1} \amalg \ldots \amalg Z_{i, m_i}$ into open and closed
+subschemes such that each $Z_{i, j}$ has exactly one geometric point
+over $\overline{v}$. Say under the obvious direct sum decomposition
+$$
+H_{Z_i}(\mathcal{F}) = \bigoplus H_{Z_{i, j}}(\mathcal{F})
+$$
+the element $s_i$ corresponds to $\sum s_{i, j}$. We may use relations
+(\ref{item-sum}) and (\ref{item-sub}) to replace $s$ by
+$\sum_{i = 1, \ldots, n} \sum_{j = 1, \ldots, m_i} (Z_{i, j}, s_{i, j})$.
+In other words, we may assume $Z_i$ has a unique geometric point
+lying over $\overline{v}$. Let $\overline{x}_1, \ldots, \overline{x}_m$
+be the geometric points of $X$ over $\overline{y}$ corresponding to
+the geometric points of our $Z_i$ over $\overline{v}$; note that for
+one $j \in \{1, \ldots, m\}$ there may be multiple indices $i$ for which
+$\overline{x}_j$ corresponds to a point of $Z_i$.
+By More on Morphisms, Lemma
+\ref{more-morphisms-lemma-etale-makes-quasi-finite-finite-multiple-points-var}
+applied to both $X_V \to V$
+after replacing $(V, \overline{v})$ by an \'etale neighbourhood of itself
+we may assume there exist open subschemes
+$$
+W_j \subset X \times_Y V,\quad j = 1, \ldots, m
+$$
+and a geometric point $\overline{w}_j$ of $W_j$ mapping to $\overline{x}_j$ and
+$\overline{v}$ such that $W_j \to V$ is finite and $\overline{w}_j$ is the
+only geometric point of $W_j$ mapping to $\overline{v}$.
+After shrinking $V$ we may assume $Z_i \subset W_j$ for some $j$
+and we have the map $H_{Z_i}(\mathcal{F}) \to H_{W_j}(\mathcal{F})$.
+Thus by the relation (\ref{item-sub})
+we see that our element is equivalent to an element of the form
+$$
+\sum\nolimits_{j = 1, \ldots, m} (W_j, t_j)
+$$
+for some $t_j \in H_{W_j}(\mathcal{F})$. Clearly, this element is mapped
+simply to the class of $t_j$ in the summand $\mathcal{F}_{\overline{x}_j}$.
+Since $s$ maps to zero, we find that $t_j$ maps to zero in
+$\mathcal{F}_{\overline{x}_j}$. This implies that $t_j$ restricts
+to zero on an open neighbourhood of $\overline{w}_j$ in $W_j$, see
+\'Etale Cohomology, Lemma \ref{etale-cohomology-lemma-zero-over-image}.
+Shrinking $V$ once more we obtain $t_j = 0$ for all $j$ as desired.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-finite-support-etale-shriek}
+Let $f = j : U \to X$ be an \'etale of schemes. Denote $j_{p!}$
+the construction of \'Etale Cohomology, Equation
+(\ref{etale-cohomology-equation-j-p-shriek})
+and denote $f_{p!}$ the construction above. Functorially in
+$\mathcal{F} \in \textit{Ab}(X_\etale)$ there is a canonical map
+$$
+j_{p!}\mathcal{F} \longrightarrow f_{p!}\mathcal{F}
+$$
+of abelian presheaves which identifies the sheaf
+$j_!\mathcal{F} = (j_{p!}\mathcal{F})^\#$ of \'Etale Cohomology,
+Definition \ref{etale-cohomology-definition-extension-zero}
+with $(f_{p!}\mathcal{F})^\#$.
+\end{lemma}
+
+\begin{proof}
+Please read the proof of \'Etale Cohomology, Lemma
+\ref{etale-cohomology-lemma-shriek-into-star-separated-etale}
+before reading the proof of this lemma.
+Let $V$ be an object of $X_\etale$. Recall that
+$$
+j_{p!}\mathcal{F}(V) =
+\bigoplus\nolimits_{\varphi : V \to U} \mathcal{F}(V \xrightarrow{\varphi} U)
+$$
+Given $\varphi$ we obtain an open subscheme
+$Z_\varphi \subset U_V = U \times_X V$, namely,
+the image of the graph of $\varphi$. Via $\varphi$
+we obtain an isomorphism $V \to Z_\varphi$ over $U$
+and we can think of an element
+$$
+s_\varphi \in \mathcal{F}(V \xrightarrow{\varphi} U) =
+\mathcal{F}(Z_\varphi) = H_{Z_\varphi}(\mathcal{F})
+$$
+as a section of $\mathcal{F}$ over $Z_{\varphi}$. Since
+$Z_\varphi \subset U_V$ is open, we actually have
+$H_{Z_\varphi}(\mathcal{F}) = \mathcal{F}(Z_\varphi)$
+and we can think of $s_\varphi$ as an element of $H_{Z_\varphi}(\mathcal{F})$.
+Having said this, our map $j_{p!}\mathcal{F} \to f_{p!}\mathcal{F}$
+is defined by the rule
+$$
+\sum\nolimits_{i = 1, \ldots, n} s_{\varphi_i}
+\longmapsto
+\sum\nolimits_{i = 1, \ldots, n} (Z_{\varphi_i}, s_{\varphi_i})
+$$
+with right hand side a sum as in (\ref{equation-formal-sum}).
+We omit the verification that this is compatible with restriction
+mappings and functorial in $\mathcal{F}$.
+
+\medskip\noindent
+To finish the proof, we claim that given a geometric point
+$\overline{y} : \Spec(k) \to Y$ there is a commutative diagram
+$$
+\xymatrix{
+(j_{p!}\mathcal{F})_{\overline{y}} \ar[r] \ar[d] &
+\bigoplus_{j(\overline{x}) = \overline{y}} \mathcal{F}_{\overline{x}}
+\ar@{=}[d] \\
+(f_{p!}\mathcal{F})_{\overline{y}} \ar[r] &
+\bigoplus_{f(\overline{x}) = \overline{y}} \mathcal{F}_{\overline{x}}
+}
+$$
+where the top horizontal arrow is constructed in the proof of
+\'Etale Cohomology, Proposition
+\ref{etale-cohomology-proposition-describe-jshriek},
+the bottom horizontal arrow is constructed in the proof of
+Lemma \ref{lemma-finite-support-stalk},
+the right vertical arrow is the obvious equality, and
+the left veritical arrow is the map defined in the previous
+paragraph on stalks. The claim follows in a straightforward manner
+from the explicit description of all of the arrows involved
+here and in the references given.
+Since the horizontal arrows are isomorphisms
+we conclude so is the left vertical arrow. Hence we find that
+our map induces an isomorphism on sheafifications by
+\'Etale Cohomology, Theorem \ref{etale-cohomology-theorem-exactness-stalks}.
+\end{proof}
+
+\begin{definition}
+\label{definition-f-shriek-lqf}
+Let $f : X \to Y$ be a locally quasi-finite morphism of schemes.
+We define the {\it direct image with compact support} to be the
+functor
+$$
+f_! : \textit{Ab}(X_\etale) \longrightarrow \textit{Ab}(Y_\etale)
+$$
+defined by the formula $f_!\mathcal{F} = (f_{p!}\mathcal{F})^\#$,
+i.e., $f_!\mathcal{F}$ is the sheafification of the presheaf
+$f_{p!}\mathcal{F}$ constructed above.
+\end{definition}
+
+\noindent
+By Lemma \ref{lemma-finite-support-f-shriek-separated}
+this does not conflict with Definition \ref{definition-f-shriek-separated}
+(when both definitions apply) and by
+Lemma \ref{lemma-finite-support-etale-shriek}
+this does not conflict with
+\'Etale Cohomology, Definition \ref{etale-cohomology-definition-extension-zero}
+(when both definitions apply).
+
+\begin{lemma}
+\label{lemma-lqf-f-shriek-stalk}
+Let $f : X \to Y$ be a locally quasi-finite morphism of schemes. Then
+\begin{enumerate}
+\item for $\mathcal{F}$ in $\textit{Ab}(X_\etale)$ and a geometric
+point $\overline{y} : \Spec(k) \to Y$ we have
+$$
+(f_!\mathcal{F})_{\overline{y}} =
+\bigoplus\nolimits_{f(\overline{x}) = \overline{y}} \mathcal{F}_{\overline{x}}
+$$
+functorially in $\mathcal{F}$, and
+\item the functor $f_! : \textit{Ab}(X_\etale) \to \textit{Ab}(Y_\etale)$
+is exact and commutes with direct sums.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+The formula for the stalks is immediate (and in fact equivalent) to
+Lemma \ref{lemma-finite-support-stalk}.
+The exactness of the functor follows immediately from this
+and the fact that exactness may be checked on stalks, see
+\'Etale Cohomology, Theorem \ref{etale-cohomology-theorem-exactness-stalks}.
+\end{proof}
+
+\begin{remark}[Covariance with respect to open embeddings]
+\label{remark-covariance-lqf-f-shriek}
+Let $f : X \to Y$ be locally quasi-finite morphism of schemes. Let
+$\mathcal{F}$ be an abelian sheaf on $X_\etale$.
+Let $X' \subset X$ be an open subscheme and denote $f' : X' \to Y$
+the restriction of $f$.
+We claim there is a canonical map
+$$
+f'_!(\mathcal{F}|_{X'}) \longrightarrow f_!\mathcal{F}
+$$
+Namely, this map will be the sheafification of a canonical map
+$$
+f'_{p!}(\mathcal{F}|_{X'}) \to f_{p!}\mathcal{F}
+$$
+constructed as follows. Let $V \in Y_\etale$ and consider a section
+$s' = \sum_{i = 1, \ldots, n} (Z'_i, s'_i)$ as in
+(\ref{equation-formal-sum}) defining an element of
+$f'_{p!}(\mathcal{F}|_{X'})(V)$.
+Then $Z'_i \subset X'_V$ may also be viewed as a locally closed subscheme
+of $X_V$ and we have $H_{Z'_i}(\mathcal{F}|_{X'}) = H_{Z'_i}(\mathcal{F})$.
+We will map $s'$ to the exact same sum
+$s = \sum_{i = 1, \ldots, n} (Z'_i, s'_i)$
+but now viewed as an element of $f_{p!}\mathcal{F}(V)$.
+We omit the verification that this construction is compatible with
+restriction mappings and functorial in $\mathcal{F}$.
+This construction has the following properties:
+\begin{enumerate}
+\item The maps $f'_{p!}\mathcal{F}' \to f_{p!}\mathcal{F}$ and
+$f'_!\mathcal{F}' \to f_!\mathcal{F}$ are compatible with
+the description of stalks given in Lemmas
+\ref{lemma-finite-support-stalk} and \ref{lemma-lqf-f-shriek-stalk}.
+\item If $f$ is separated, then the map
+$f'_{p!}\mathcal{F}' \to f_{p!}\mathcal{F}$ is the same as the map
+constructed in Remark \ref{remark-covariance-f-shriek-separated}
+via the isomorphism in Lemma \ref{lemma-finite-support-f-shriek-separated}.
+\item If $X'' \subset X'$ is another open, then the composition of
+$f''_{p!}(\mathcal{F}|_{X''}) \to f'_{p!}(\mathcal{F}|_{X'}) \to
+f_{p!}\mathcal{F}$ is the map
+$f''_{p!}(\mathcal{F}|_{X''}) \to f_{p!}\mathcal{F}$ for the
+inclusion $X'' \subset X$. Sheafifying we conclude
+the same holds true for
+$f''_!(\mathcal{F}|_{X''}) \to f'_!(\mathcal{F}|_{X'}) \to f_!\mathcal{F}$.
+\item The map $f'_!\mathcal{F}' \to f_!\mathcal{F}$ is injective
+because we can check this on stalks.
+\end{enumerate}
+All of these statements are easily proven by representing elements
+as finite sums as above and considering what happens to these elements.
+\end{remark}
+
+\begin{lemma}
+\label{lemma-lqf-colimit-f-shriek}
+Let $f : X \to Y$ be a locally quasi-finite morphism of schemes.
+Let $X = \bigcup_{i \in I} X_i$ be an open covering. Then there
+exists an exact complex
+$$
+\ldots \to
+\bigoplus\nolimits_{i_0, i_1, i_2} f_{i_0i_1i_2, !}
+\mathcal{F}|_{X_{i_0i_1i_2}} \to
+\bigoplus\nolimits_{i_0, i_1} f_{i_0i_1, !} \mathcal{F}|_{X_{i_0i_1}} \to
+\bigoplus\nolimits_{i_0} f_{i_0, !} \mathcal{F}|_{X_{i_0}}
+\to f_!\mathcal{F} \to 0
+$$
+functorial in $\mathcal{F} \in \textit{Ab}(X_\etale)$, see
+proof for details.
+\end{lemma}
+
+\begin{proof}
+Here as usual we set $X_{i_0 \ldots i_p} = X_{i_0} \cap \ldots \cap X_{i_p}$
+and we denote $f_{i_0 \ldots i_p}$ the restriction of $f$ to
+$X_{i_0 \ldots i_p}$. The maps in the complex are the maps
+constructed in Remark \ref{remark-covariance-lqf-f-shriek}
+with sign rules as in the {\v C}ech complex.
+Exactness follows easily from the description of stalks in
+Lemma \ref{lemma-lqf-f-shriek-stalk}. Details omitted.
+\end{proof}
+
+\begin{remark}[Alternative construction]
+\label{remark-alternative-lqf-f-shriek}
+Lemma \ref{lemma-lqf-colimit-f-shriek}
+gives an alternative construction of the functor $f_!$
+for locally quasi-finite morphisms $f$.
+Namely, given a locally quasi-finite morphism $f : X \to Y$ of schemes
+we can choose an open covering $X = \bigcup_{i \in I} X_i$
+such that each $f_i : X_i \to Y$ is separated. For example choose
+an affine open covering of $X$. Then we
+can define $f_!\mathcal{F}$ as the cokernel of the penultimate map
+of the complex of the lemma, i.e.,
+$$
+f_!\mathcal{F} = \Coker\left(
+\bigoplus\nolimits_{i_0, i_1} f_{i_0i_1, !} \mathcal{F}|_{X_{i_0i_1}} \to
+\bigoplus\nolimits_{i_0} f_{i_0, !} \mathcal{F}|_{X_{i_0}}
+\right)
+$$
+where we can use the construction of $f_{i_0, !}$ and
+$f_{i_0i_1, !}$ in Section \ref{section-compact-support}
+because the morphisms $f_{i_0}$ and $f_{i_0 i_1}$ are separated.
+One can then compute the stalks of $f_!$ (using the separated
+case, namely Lemma \ref{lemma-lqf-f-shriek-separated-colimits})
+and obtain the result of Lemma \ref{lemma-lqf-f-shriek-stalk}.
+Having done so all the other results of this section can be
+deduced from this as well.
+\end{remark}
+
+\begin{remark}
+\label{remark-construct-map-presheaves-downstairs}
+Let $g : Y' \to Y$ be a morphism of schemes.
+For an abelian presheaf $\mathcal{G}'$ on $Y'_\etale$ let us denote
+$g_*\mathcal{G}'$ the presheaf $V \mapsto \mathcal{G}'(Y' \times_Y V)$.
+If $\alpha : \mathcal{G} \to g_*\mathcal{G}'$ is a map of abelian presheaves
+on $Y_\etale$, then there is a unique map
+$\alpha^\# : \mathcal{G}^\# \to g_*((\mathcal{G}')^\#)$
+of abelian sheaves on $Y_\etale$ such that the diagram
+$$
+\xymatrix{
+\mathcal{G} \ar[d] \ar[r]_\alpha & g_*\mathcal{G}' \ar[d] \\
+\mathcal{G}^\# \ar[r]^-{\alpha^\#} & g_*((\mathcal{G}')^\#)
+}
+$$
+is commutative where the vertical maps come from the canonical maps
+$\mathcal{G} \to \mathcal{G}^\#$ and $\mathcal{G}' \to (\mathcal{G}')^\#$. If
+$\alpha' : g^{-1}\mathcal{G}^\# \to (\mathcal{G}')^\#$
+is the map adjoint to $\alpha^\#$, then for a geometric point
+$\overline{y}' : \Spec(k) \to Y'$ with image
+$\overline{y} = g \circ \overline{y}'$ in $Y$, the map
+$$
+\alpha'_{\overline{y}'} :
+\mathcal{G}_{\overline{y}} =
+(\mathcal{G}^\#)_{\overline{y}} =
+(g^{-1}\mathcal{G}^\#)_{\overline{y}'}
+\longrightarrow
+(\mathcal{G}')^\#_{\overline{y}'} =
+\mathcal{G}'_{\overline{y}'}
+$$
+is given by mapping the class in the stalk of a section $s$ of $\mathcal{G}$
+over an \'etale neighbourhood $(V, \overline{v})$ to the class of the section
+$\alpha(s)$ in $g_*\mathcal{G}'(V) = \mathcal{G}'(Y' \times_Y V)$
+over the \'etale neighbourhood $(Y' \times_Y V, (\overline{y}', \overline{v}))$
+in the stalk of $\mathcal{G}'$ at $\overline{y}'$.
+\end{remark}
+
+\begin{lemma}
+\label{lemma-lqf-base-change-f-shriek}
+Consider a cartesian square
+$$
+\xymatrix{
+X' \ar[r]_{g'} \ar[d]_{f'} & X \ar[d]^f \\
+Y' \ar[r]^g & Y
+}
+$$
+of schemes with $f$ locally quasi-finite. For any abelian sheaf $\mathcal{F}$
+on $X_\etale$ we have $f'_!(g')^{-1}\mathcal{F} = g^{-1}f_!\mathcal{F}$.
+\end{lemma}
+
+\begin{proof}
+With conventions as in Remark \ref{remark-construct-map-presheaves-downstairs}
+we will explicitly construct a map
+$$
+c : f_{p!}\mathcal{F} \longrightarrow g_*f'_{p!}(g')^{-1}\mathcal{F}
+$$
+of abelian presheaves on $Y_\etale$. By the discussion in
+Remark \ref{remark-construct-map-presheaves-downstairs}
+this will determine a canonical map
+$g^{-1}f_!\mathcal{F} \to f'_!(g')^{-1}\mathcal{F}$. Finally, we
+will show this map induces isomorphisms on stalks and conclude by
+\'Etale Cohomology, Theorem \ref{etale-cohomology-theorem-exactness-stalks}.
+
+\medskip\noindent
+Construction of the map $c$. Let $V \in Y_\etale$ and consider a section
+$s = \sum_{i = 1, \ldots, n} (Z_i, s_i)$ as in
+(\ref{equation-formal-sum}) defining an element of $f_{p!}\mathcal{F}(V)$.
+The value of $g_*f'_{p!}(g')^{-1}\mathcal{F}$ at $V$ is
+$f'_{p!}(g')^{-1}\mathcal{F}(V')$ where $V' = V \times_Y Y'$.
+Denote $Z'_i \subset X'_{V'}$ the base change of $Z_i$ to $V'$.
+By (\ref{item-pullback}) there is a pullback map
+$H_{Z_i}(\mathcal{F}) \to H_{Z'_i}((g')^{-1}\mathcal{F})$.
+Denoting $s'_i \in H_{Z'_i}((g')^{-1}\mathcal{F})$ the image of $s_i$
+under pullback, we set $c(s) = \sum_{i = 1, \ldots, n} (Z'_i, s'_i)$ as in
+(\ref{equation-formal-sum}) defining an element of
+$f'_{p!}(g')^{-1}\mathcal{F}(V')$. We omit the verification
+that this construction is compatible the relations
+(\ref{item-sum}) and (\ref{item-sub}) and compatible
+with restriction mappings. The construction is clearly
+functorial in $\mathcal{F}$.
+
+\medskip\noindent
+Let $\overline{y}' : \Spec(k) \to Y'$ be a geometric point with image
+$\overline{y} = g \circ \overline{y}'$ in $Y$. Observe that
+$X'_{\overline{y}'} = X_{\overline{y}}$ by transitivity of
+fibre products. Hence $g'$ produces a bijection
+$\{f'(\overline{x}') = \overline{y}'\} \to \{f(\overline{x}) = \overline{y}\}$
+and if $\overline{x}'$ maps to $\overline{x}$, then
+$((g')^{-1}\mathcal{F})_{\overline{x}'} = \mathcal{F}_{\overline{x}}$
+by \'Etale Cohomology, Lemma \ref{etale-cohomology-lemma-stalk-pullback}.
+Now we claim that the diagram
+$$
+\xymatrix{
+(g^{-1}f_!\mathcal{F})_{\overline{y}'} \ar@{=}[r] \ar[d] &
+(f_!\mathcal{F})_{\overline{y}} \ar[r] \ar[ld] &
+\bigoplus\nolimits_{f(\overline{x}) = \overline{y}}
+\mathcal{F}_{\overline{x}} \ar[d]
+\\
+(f'_!(g')^{-1}\mathcal{F})_{\overline{y}'} \ar[rr] & &
+\bigoplus\nolimits_{f'(\overline{x}') = \overline{y}'}
+(g')^{-1}\mathcal{F}_{\overline{x}'}
+}
+$$
+commutes where the horizontal arrows are given in the proof of
+Lemma \ref{lemma-finite-support-stalk} and where the right vertical
+arrow is an equality by what we just said above. The southwest arrow is
+described in Remark \ref{remark-construct-map-presheaves-downstairs}
+as the pullback map, i.e.,
+simply given by our construction $c$ above. Then the simple
+description of the image of a sum $\sum (Z_i, z_i)$ in the
+stalk at $\overline{x}$ given in the proof of
+Lemma \ref{lemma-finite-support-stalk} immediately shows the
+diagram commutes. This finishes the proof of the lemma.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-lqf-separated-shriek-composition}
+Let $f' : X \to Y'$ and $g : Y' \to Y$ be composable morphisms of schemes
+with $f'$ and $f = g \circ f'$ locally quasi-finite and $g$ separated and
+locally of finite type. Then there is a canonical isomorphism of functors
+$g_! \circ f'_! = f_!$. This isomorphism is compatible with
+\begin{enumerate}
+\item[(a)] covariance with respect to open embeddings as in
+Remarks \ref{remark-covariance-f-shriek-separated} and
+\ref{remark-covariance-lqf-f-shriek},
+\item[(b)] the base change isomorphisms of
+Lemmas \ref{lemma-lqf-base-change-f-shriek}
+and \ref{lemma-base-change-f-shriek-separated}, and
+\item[(c)] equal to the isomorphism of Lemma \ref{lemma-f-shriek-composition}
+via the identifications of Lemma \ref{lemma-finite-support-f-shriek-separated}
+in case $f'$ is separated.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Let $\mathcal{F}$ be an abelian sheaf on $X_\etale$. With conventions as in
+Remark \ref{remark-construct-map-presheaves-downstairs} we will explicitly
+construct a map
+$$
+c : f_{p!}\mathcal{F} \longrightarrow g_*f'_{p!}\mathcal{F}
+$$
+of abelian presheaves on $Y_\etale$. By the discussion in
+Remark \ref{remark-construct-map-presheaves-downstairs}
+this will determine a canonical map
+$c^\# : f_!\mathcal{F} \to g_*f'_!\mathcal{F}$.
+We will show that $c^\#$ has image contained in the subsheaf
+$g_!f'_!\mathcal{F}$, thereby obtaining a map
+$c' : f_!\mathcal{F} \to g_!f'_!\mathcal{F}$. Next, we will prove
+(a), (b), and (c) that. Finally, part (b)
+will allow us to show that $c'$ is an isomorphism.
+
+\medskip\noindent
+Construction of the map $c$. Let $V \in Y_\etale$ and
+let $s = \sum (Z_i, s_i)$ be a sum as in (\ref{equation-formal-sum})
+defining an element of $f_{p!}\mathcal{F}(V)$.
+Recall that $Z_i \subset X_V = X \times_Y V$
+is a locally closed subscheme finite over $V$.
+Setting $V' = Y' \times_Y V$ we get $X_{V'} = X \times_{Y'} V' = X_V$.
+Hence $Z_i \subset X_{V'}$ is locally closed and
+$Z_i$ is finite over $V'$ because $g$ is separated
+(Morphisms, Lemma \ref{morphisms-lemma-finite-permanence}).
+Hence we may set $c(s) = \sum (Z_i, s_i)$ but now viewed
+as an element of $f'_{p!}\mathcal{F}(V') = (g_*f'_{p!}\mathcal{F})(V)$.
+The construction is clearly compatible with relations
+(\ref{item-sum}) and (\ref{item-sub})
+and compatible with restriction mappings and hence we obtain the map $c$.
+
+\medskip\noindent
+Observe that in the discussion above our section $c(s) = \sum (Z_i, s_i)$ of
+$f'_!\mathcal{F}$ over $V'$ restricts to zero on
+$V' \setminus \Im(\coprod Z_i \to V')$. Since $\Im(\coprod Z_i \to V')$
+is proper over $V$ (for example by Morphisms, Lemma
+\ref{morphisms-lemma-scheme-theoretic-image-is-proper})
+we conclude that $c(s)$ defines a section of
+$g_!f'_!\mathcal{F} \subset g_*f'_!\mathcal{F}$ over $V$.
+Since every local section of $f_!\mathcal{F}$ locally comes from a
+local section of $f_{p!}\mathcal{F}$ we conclude that the image
+of $c^\#$ is contained in $g_!f'_!\mathcal{F}$.
+Thus we obtain an induced map $c' : f_!\mathcal{F} \to g_!f'_!\mathcal{F}$
+factoring $c^\#$ as predicted in the first paragraph of the proof.
+
+\medskip\noindent
+Proof of (a). Let $Y'_1 \subset Y'$ be an open subscheme
+and set $X_1 = (f')^{-1}(W')$. We obtain a diagram
+$$
+\xymatrix{
+X_1 \ar[d]_{f'_1} \ar[r]_a \ar@/_2em/[dd]_{f_1} &
+X \ar[d]^{f'} \ar@/^2em/[dd]^f \\
+Y'_1 \ar[d]_{g_1} \ar[r]_{b'} &
+Y' \ar[d]^g \\
+Y \ar@{=}[r] &
+Y
+}
+$$
+where the horizontal arrows are open immersions. Then our claim is that
+the diagram
+$$
+\xymatrix{
+f_{1, !}\mathcal{F}|_{X_1} \ar[r]_{c'_1} \ar[dd] &
+g_{1, !}f'_{1, !}\mathcal{F}|_{X_1} \ar@{=}[d] \\
+& g_{1, !}(f'_!\mathcal{F})|_{Y'_1} \ar[d] \\
+f_!\mathcal{F} \ar[r]^{c'} &
+g_!f'_!\mathcal{F} \ar[r] & g_*f'_!\mathcal{F}
+}
+$$
+commutes where the left vertical arrow is
+Remark \ref{remark-covariance-lqf-f-shriek} and
+the right vertical arrow is Remark \ref{remark-covariance-f-shriek-separated}.
+The equality sign in the diagram comes about because $f'_1$
+is the restriction of $f'$ to $Y'_1$ and our construction
+of $f'_!$ is local on the base.
+Finally, to prove the commutativity we choose an object $V$ of
+$Y_\etale$ and a formal sum $s_1 = \sum (Z_{1, i}, s_{1, i})$ as in
+(\ref{equation-formal-sum}) defining an element of
+$f_{1, p!}\mathcal{F}|_{X_1}(V)$. Recall this means
+$Z_{1, i} \subset X_1 \times_Y V$ is locally closed finite over $V$
+and $s_{1, i} \in H_{Z_{1, i}}(\mathcal{F})$.
+Then we chase this section
+across the maps involved, but we only need to show we
+end up with the same element of
+$g_*f'_!\mathcal{F}(V) = f'_!\mathcal{F}(Y' \times_Y V)$.
+Going around both sides of the diagram the reader immediately
+sees we end up with the element $\sum (Z_{1, i}, s_{1, i})$
+where now $Z_{1, i}$ is viewed as a locally closed subscheme
+of $X \times_{Y'} (Y' \times_Y V) = X \times_Y V$ finite over
+$Y' \times_Y V$.
+
+\medskip\noindent
+Proof of (b). Let $b : Y_1 \to Y$ be a morphism of schemes. Let us form the
+commutative diagram
+$$
+\xymatrix{
+X_1 \ar[d]_{f'_1} \ar[r]_a \ar@/_2em/[dd]_{f_1} &
+X \ar[d]^{f'} \ar@/^2em/[dd]^f \\
+Y'_1 \ar[d]_{g_1} \ar[r]_{b'} &
+Y' \ar[d]^g \\
+Y_1 \ar[r]^b &
+Y
+}
+$$
+with cartesian squares. We claim that our construction is compatible
+with the base change maps of Lemmas \ref{lemma-lqf-base-change-f-shriek}
+and \ref{lemma-base-change-f-shriek-separated}, i.e.,
+that the top rectangle of the diagram
+$$
+\xymatrix{
+b^{-1}f_!\mathcal{F} \ar[rr] \ar[d]_{b^{-1}c'} & &
+f_{1, !}a^{-1}\mathcal{F} \ar[d]^{c_1'} \\
+b^{-1}g_!f'_!\mathcal{F} \ar[r] \ar[d] &
+g_{1, !}(b')^{-1}f'_!\mathcal{F} \ar[r] \ar[d] &
+g_{1, !}f'_{1, !}a^{-1}\mathcal{F} \ar[d] \\
+b^{-1}g_*f'_!\mathcal{F} \ar[r] &
+g_{1, *}(b')^{-1}f'_!\mathcal{F} \ar[r] &
+g_{1, *}f'_{1, !}a^{-1}\mathcal{F}
+}
+$$
+commutes. The verification of this is completely routine and we
+urge the reader to skip it. Since the arrows going from the middle
+row down to the bottom row are injective, it suffices to show that
+the outer diagram commutes.
+To show this it suffices to take a local section of
+$b^{-1}f_!\mathcal{F}$ and show we end up with the same local
+section of $g_{1, *}f'_{1, !}a^{-1}\mathcal{F}$
+going around either way. However, in fact it suffices to check
+this for local sections which are of the the pullback by $b$ of
+a section $s = \sum (Z_i, s_i)$ of $f_{p!}\mathcal{F}(V)$
+as above (since such pullbacks generate the abelian sheaf
+$b^{-1}f_!\mathcal{F}$). Denote $V_1$, $V'_1$, and $Z_{1, i}$
+the base change of $V$, $V' = Y' \times_Y V$, $Z_i$ by $Y_1 \to Y$.
+Recall that $Z_i$ is a locally closed subscheme of $X_V = X_{V'}$
+and hence $Z_{1, i}$ is a locally closed subscheme
+of $(X_1)_{V_1} = (X_1)_{V'_1}$. Then $b^{-1}c'$ sends the pullback
+of $s$ to the pullback of the local section $c(s) \sum (Z_i, s_i)$ viewed
+as an element of $f'_{p!}\mathcal{F}(V') = (g_*f'_{p!}\mathcal{F})(V)$.
+The composition of the bottom two base change maps
+simply maps this to $\sum (Z_{i, 1}, s_{1, i})$ viewed as an
+element of $f'_{1, p!}a^{-1}\mathcal{F}(V'_1) =
+g_{1, *}f'_{1, p!}a^{-1}\mathcal{F}(V_1)$.
+On the other hand, the base change map at the top of the diagram
+sends the pullback of $s$ to $\sum (Z_{1, i}, s_{1, i})$ viewed
+as an element of $f_{1, !}a^{-1}\mathcal{F}(V_1)$.
+Then finally $c'_1$ by its very construction does indeed
+map this to $\sum (Z_{i, 1}, s_{1, i})$ viewed as an
+element of $f'_{1, p!}a^{-1}\mathcal{F}(V'_1) =
+g_{1, *}f'_{1, p!}a^{-1}\mathcal{F}(V_1)$ and the commutativity
+has been verified.
+
+\medskip\noindent
+Proof of (c). This follows from comparing the definitions
+for both maps; we omit the details.
+
+\medskip\noindent
+To finish the proof it suffices to show that the pullback of
+$c'$ via any geometric point $\overline{y} : \Spec(k) \to Y$
+is an isomorphism. Namely, pulling back by $\overline{y}$
+is the same thing as taking stalks and $\overline{y}$
+(\'Etale Cohomology, Remark \ref{etale-cohomology-remark-stalk-pullback})
+and hence we can invoke
+\'Etale Cohomology, Theorem \ref{etale-cohomology-theorem-exactness-stalks}.
+By the compatibility (b) just shown, we 
+conclude that we may assume $Y$ is the spectrum of $k$
+and we have to show that $c'$ is an isomorphism.
+To do this it suffices to show that the induced map
+$$
+\bigoplus\nolimits_{x \in X} \mathcal{F}_x = H^0(Y, f_!\mathcal{F})
+\longrightarrow
+H^0(Y, g_!f'_!\mathcal{F}) = H^0_c(Y', f'_!\mathcal{F})
+$$
+is an isomorphism. The equalities hold by
+Lemmas \ref{lemma-lqf-f-shriek-stalk} and
+\ref{lemma-stalk-f-shriek-separated}.
+Recall that $X$ is a disjoint union of
+spectra of Artinian local rings with residue field $k$, see
+Varieties, Lemma \ref{varieties-lemma-algebraic-scheme-dim-0}.
+Since the left and right hand side commute with direct
+sums (details omitted) we may assume that $\mathcal{F}$ is a skyscraper
+sheaf $x_*A$ supported at some $x \in X$.
+Then $f'_!\mathcal{F}$ is the skyscraper sheaf at the
+image $y'$ of $x$ in $Y$ by Lemma \ref{lemma-lqf-f-shriek-stalk}.
+In this case it is obvious that our construction
+produces the identity map $A \to H^0_c(Y', y'_*A) = A$
+as desired.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-lqf-shriek-composition}
+Let $f : X \to Y$ and $g : Y \to Z$ be composable locally quasi-finite
+morphisms of schemes. Then there is a canonical isomorphism of functors
+$$
+(g \circ f)_! \longrightarrow g_! \circ f_!
+$$
+These isomorphisms satisfy the following properties:
+\begin{enumerate}
+\item If $f$ and $g$ are separated, then the isomorphism agrees
+with Lemma \ref{lemma-f-shriek-composition}.
+\item If $g$ is separated, then the isomorphism agrees with
+Lemma \ref{lemma-lqf-separated-shriek-composition}.
+\item For a geometric point $\overline{z} : \Spec(k) \to Z$ the diagram
+$$
+\xymatrix{
+((g \circ f)_!\mathcal{F})_{\overline{z}} \ar[d] \ar[rr] & &
+\bigoplus\nolimits_{g(f(\overline{x})) = \overline{z}}
+\mathcal{F}_{\overline{x}} \ar@{=}[d] \\
+(g_!f_!\mathcal{F})_{\overline{z}} \ar[r] &
+\bigoplus\nolimits_{g(\overline{y}) = \overline{z}}
+(f_!\mathcal{F})_{\overline{y}} \ar[r] &
+\bigoplus\nolimits_{g(f(\overline{x})) = \overline{z}}
+\mathcal{F}_{\overline{x}}
+}
+$$
+is commutative where the horizontal arrows are given by
+Lemma \ref{lemma-lqf-f-shriek-stalk}.
+\item Let $h : Z \to T$ be a third locally quasi-finite
+morphism of schemes. Then the diagram
+$$
+\xymatrix{
+(h \circ g \circ f)_! \ar[r] \ar[d] &
+(h \circ g)_! \circ f_! \ar[d] \\
+h_! \circ (g \circ f)_! \ar[r] &
+h_! \circ g_! \circ f_!
+}
+$$
+commutes.
+\item Suppose that we have a diagram of schemes
+$$
+\xymatrix{
+X' \ar[d]_{f'} \ar[r]_c & X \ar[d]^f \\
+Y' \ar[d]_{g'} \ar[r]_b & Y \ar[d]^g \\
+Z' \ar[r]^a & Z
+}
+$$
+with both squares cartesian and $f$ and $g$
+locally quasi-finite. Then the diagram
+$$
+\xymatrix{
+a^{-1} \circ (g \circ f)_! \ar[d] \ar[rr] & &
+(g' \circ f')_! \circ c^{-1} \ar[d] \\
+a^{-1} \circ g_! \circ f_! \ar[r] &
+g'_! \circ b^{-1} \circ f_! \ar[r] &
+g'_! \circ f'_! \circ c^{-1}
+}
+$$
+commutes where the horizontal arrows are those of
+Lemma \ref{lemma-lqf-base-change-f-shriek}.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+If $f$ and $g$ are separated, then this is a special case of
+Lemma \ref{lemma-f-shriek-composition}.
+If $g$ is separated, then this is a special case of
+Lemma \ref{lemma-lqf-separated-shriek-composition}
+which moreover agrees with the case where $f$ and $g$ are separated.
+
+\medskip\noindent
+Construction in the general case. Choose an open covering $Y = \bigcup Y_i$
+such that the restriction $g_i : Y_i \to Z$ of $g$ is separated.
+Set $X_i = f^{-1}(Y_i)$ and denote $f_i : X_i \to Y_i$ the restriction
+of $f$. Also denote $h = g \circ f$ and $h_i : X_i \to Z$ the restriction
+of $h$. Consider the following diagram
+$$
+\xymatrix{
+\bigoplus\nolimits_{i_0, i_1}
+h_{i_0i_1, !}\mathcal{F}|_{X_{i_0i_1}} \ar[r] \ar[d] &
+\bigoplus\nolimits_{i_0} h_{i_0, !}\mathcal{F}|_{X_{i_0}} \ar[r] \ar[d] &
+h_!\mathcal{F} \ar[r] \ar@{..>}[dd] &
+0 \\
+\bigoplus\nolimits_{i_0, i_1}
+g_{i_0i_1, !} f_{i_0i_1, !}\mathcal{F}|_{X_{i_0i_1}} \ar[r] \ar[d] &
+\bigoplus\nolimits_{i_0}
+g_{i_0, !} f_{i_0, !}\mathcal{F}|_{X_{i_0}} \ar[d] \\
+\bigoplus\nolimits_{i_0, i_1}
+g_{i_0i_1, !} (f_!\mathcal{F})|_{Y_{i_0i_1}} \ar[r] &
+\bigoplus\nolimits_{i_0}
+g_{i_0, !} (f_!\mathcal{F})|_{Y_{i_0}} \ar[r] &
+g_!f_!\mathcal{F} \ar[r] &
+0
+}
+$$
+By Lemma \ref{lemma-lqf-colimit-f-shriek} the top and bottom row
+in the diagram are exact. By Lemma \ref{lemma-lqf-separated-shriek-composition}
+the top left square commutes. The vertical arrows in the
+lower left square come about because
+$(f_!\mathcal{F})|_{Y_{i_0i_1}} = f_{i_0i_1, !}\mathcal{F}|_{X_{i_0i_1}}$ and
+$(f_!\mathcal{F})|_{Y_{i_0}} = f_{i_0, !}\mathcal{F}|_{X_{i_0}}$
+as the construction of $f_!$ is local on the base. Moreover, these
+equalities are (of course) compatible with the identifications
+$((f_!\mathcal{F})|_{Y_{i_0}})|_{Y_{i_0i_1}} =
+(f_!\mathcal{F})|_{Y_{i_0i_1}}$ and
+$(f_{i_0, !}\mathcal{F}|_{X_{i_0}})|_{Y_{i_0i_1}} =
+f_{i_0i_1, !}\mathcal{F}|_{X_{i_0i_1}}$
+which are used (together with the covariance for open embeddings
+for $Y_{i_0i_1} \subset Y_{i_0}$)
+to define the horizontal maps of the lower left square.
+Thus this square commutes as well.
+In this way we conclude there is a unique
+dotted arrow as indicated in the diagram and
+moreover this arrow is an isomorphism.
+
+\medskip\noindent
+Proof of properties (1) -- (5). Fix the open covering $Y = \bigcup Y_i$.
+Observe that if $Y \to Z$ happens to be separated, then we get a dotted
+arrow fitting into the huge diagram above by using the map of
+Lemma \ref{lemma-lqf-separated-shriek-composition}
+(by the very properties of that lemma).
+This proves (2) and hence also (1) by the compatibility of the
+maps of Lemma \ref{lemma-lqf-separated-shriek-composition}
+and Lemma \ref{lemma-f-shriek-composition}.
+Next, for any scheme $Z'$ over $Z$, we obtain the compatibility in (5)
+for the map $(g' \circ f')_! \to g'_! \circ f'_!$
+constructed using the open covering $Y' = \bigcup b^{-1}(Y_i)$.
+This is clear from the corresponding compatibility of the maps
+constructed in Lemma \ref{lemma-lqf-separated-shriek-composition}.
+In particular, we can consider a geometric point
+$\overline{z} : \Spec(k) \to Z$. Since
+$X_{\overline{z}} \to Y_{\overline{z}} \to \Spec(k)$
+are separated maps, we find that the base change of
+$(g \circ f)_!\mathcal{F} \to g_! f_! \mathcal{F}$
+by $\overline{z}$ is equal to the map of
+Lemma \ref{lemma-f-shriek-composition}.
+The reader then immediately sees that we obtain property (3).
+Of course, property (3) guarantees that our transformation of functors
+$(g \circ f)_! \to g_! \circ f_!$ constructed using the open covering
+$Y = \bigcup Y_i$ doesn't depend on the choice of this open covering.
+Finally, property (4) follows by looking at what happens on stalks
+using the already proven property (3).
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+\section{Upper shriek for locally quasi-finite morphisms}
+\label{section-duality-locally-quasi-finite}
+
+\noindent
+For a locally quasi-finite morphism $f : X \to Y$ of schemes, the
+functor $f_! : \textit{Ab}(X_\etale) \to \textit{Ab}(Y_\etale)$ commutes
+with direct sums and is exact, see Lemma \ref{lemma-lqf-f-shriek-stalk}.
+This suggests that it has a right adjoint which we will denote $f^!$.
+
+\medskip\noindent
+Warning: This functor is the non-derived version!
+
+\begin{lemma}
+\label{lemma-lqf-f-upper-shriek}
+Let $f : X \to Y$ be a locally quasi-finite morphism of schemes. The functor
+$f_! : \textit{Ab}(X_\etale) \to \textit{Ab}(Y_\etale)$
+has a right adjoint
+$f^! : \textit{Ab}(Y_\etale) \to \textit{Ab}(X_\etale)$.
+Moreover, we have $f^!(\overline{y}_*A) =
+\prod_{f(\overline{x}) = \overline{y}} \overline{x}_*A$.
+\end{lemma}
+
+\begin{proof}
+Let $E \subset \Ob(\textit{Ab}(Y_\etale))$ be the class consisting of
+products of skyscraper sheaves. We claim that
+\begin{enumerate}
+\item every $\mathcal{G}$ in $\textit{Ab}(Y_\etale)$ is a subsheaf
+of an element of $E$, and
+\item for every $\mathcal{G} \in E$ there exists an object
+$\mathcal{H}$ of $\textit{Ab}(X_\etale)$ such that
+$\Hom(f_!\mathcal{F}, \mathcal{G}) = \Hom(\mathcal{F}, \mathcal{H})$
+functorially in $\mathcal{F}$.
+\end{enumerate}
+Once the claim has been verified, the dual of
+Homology, Lemma \ref{homology-lemma-partially-defined-adjoint}
+produces the adjoint functor $f^!$.
+
+\medskip\noindent
+Part (1) is true because we can map $\mathcal{G}$ to the sheaf
+$\prod \overline{y}_*\mathcal{G}_{\overline{y}}$ where the
+product is over all geometric points of $Y$. This is an injection by
+\'Etale Cohomology, Theorem \ref{etale-cohomology-theorem-exactness-stalks}.
+(This is the first step in the Godement resolution when
+done in the setting of abelian sheaves on topological spaces.)
+
+\medskip\noindent
+Part (2) and the final statement of the lemma can be seen as follows.
+Suppose that
+$\mathcal{G} = \prod \overline{y}_*A_{\overline{y}}$
+for some abelian groups $A_{\overline{y}}$. Then
+$$
+\Hom(f_!\mathcal{F}, \mathcal{G}) =
+\prod \Hom(f_!\mathcal{F}, \overline{y}_*A_{\overline{y}})
+$$
+Thus it suffices to find abelian sheaves $\mathcal{H}_{\overline{y}}$
+on $X_\etale$ representing the functors
+$\mathcal{F} \mapsto \Hom(f_!\mathcal{F}, \overline{y}_*A_{\overline{y}})$
+and to take $\mathcal{H} = \prod \mathcal{H}_{\overline{y}}$.
+This reduces us to the case $\mathcal{H} = \overline{y}_*A$
+for some fixed geometric point $\overline{y} : \Spec(k) \to Y$
+and some fixed abelian group $A$. We claim that in this case
+$\mathcal{H} = \prod_{f(\overline{x}) = \overline{y}} \overline{x}_*A$ works.
+This will finish the proof of the lemma.
+Namely, we have
+$$
+\Hom(f_!\mathcal{F}, \overline{y}_*A) =
+\Hom_{\textit{Ab}}((f_!\mathcal{F})_{\overline{y}}, A) =
+\Hom_{\textit{Ab}}(\bigoplus\nolimits_{f(\overline{x}) = \overline{y}}
+\mathcal{F}_{\overline{x}}, A)
+$$
+by the description of stalks in
+Lemma \ref{lemma-lqf-f-shriek-stalk}
+on the one hand and on the other hand we have
+$$
+\Hom(\mathcal{F}, \mathcal{H}) =
+\prod\nolimits_{f(\overline{x}) = \overline{y}}
+\Hom(\mathcal{F}, \overline{x}_*A) =
+\prod\nolimits_{f(\overline{x}) = \overline{y}}
+\Hom_{\textit{Ab}}(\mathcal{F}_{\overline{x}}, A)
+$$
+We leave it to the reader to identify these as functors of $\mathcal{F}$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-etale-upper-shriek}
+Let $j : U \to X$ be an \'etale morphism. Then $j^! = j^{-1}$.
+\end{lemma}
+
+\begin{proof}
+This is true because $j_!$ as defined in
+Section \ref{section-finite-support}
+agrees with $j_!$ as defined in \'Etale Cohomology, Section
+\ref{etale-cohomology-section-extension-by-zero}, see
+Lemma \ref{lemma-finite-support-etale-shriek}. Finally, in
+\'Etale Cohomology, Section \ref{etale-cohomology-section-extension-by-zero}
+the functor $j_!$ is defined
+as the left adjoint of $j^{-1}$ and hence we conclude by
+uniqueness of adjoint functors.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-upper-shriek-restriction}
+Let $f : X \to Y$ and $g : Y \to Z$ be separated and locally quasi-finite
+morphisms. There is a canonical isomorphism $(g \circ f)^! \to f^! \circ g^!$.
+Given a third locally quasi-finite morphism $h : Z \to T$
+the diagram
+$$
+\xymatrix{
+(h \circ g \circ f)^! \ar[r] \ar[d] &
+f^! \circ (h \circ g)^! \ar[d] \\
+(g \circ f)^! \circ h^! \ar[r] & f^! \circ g^! \circ h^!
+}
+$$
+commutes.
+\end{lemma}
+
+\begin{proof}
+By uniqueness of adjoint functors, this immediately translates
+into the corresponding (dual) statement for the functors $f_!$.
+See Lemma \ref{lemma-lqf-shriek-composition}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-upper-shriek-restriction-etale}
+Let $j : U \to X$ and $j' : V \to U$ be \'etale morphisms.
+The isomorphism $(j \circ j')^{-1} = (j')^{-1} \circ j^{-1}$
+and the isomorphism $(j \circ j')^! = (j')^! \circ j^!$ of
+Lemma \ref{lemma-upper-shriek-restriction}
+agree via the isomorphism of Lemma \ref{lemma-etale-upper-shriek}.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-lqf-base-change-upper-shriek}
+Consider a cartesian square
+$$
+\xymatrix{
+X' \ar[r]_{g'} \ar[d]_{f'} & X \ar[d]^f \\
+Y' \ar[r]^g & Y
+}
+$$
+of schemes with $f$ locally quasi-finite. For any abelian sheaf $\mathcal{F}$
+on $Y'_\etale$ we have $(g')_*(f')^!\mathcal{F} = f^!g_*\mathcal{F}$.
+\end{lemma}
+
+\begin{proof}
+By uniqueness of adjoint functors, this follows from
+the corresponding (dual) statement for the functors $f_!$.
+See Lemma \ref{lemma-lqf-base-change-f-shriek}.
+\end{proof}
+
+\begin{remark}
+\label{remark-pointed-sets}
+The material in this section can be generalized to sheaves of pointed sets.
+Namely, for a site $\mathcal{C}$ denote $\Sh^*(\mathcal{C})$ the category of
+sheaves of pointed sets. The constructions in this and the preceding section
+apply, mutatis mutandis, to sheaves of pointed sets. Thus given a locally
+quasi-finite morphism $f : X \to Y$ of schemes we obtain
+an adjoint pair of functors
+$$
+f_! : \Sh^*(X_\etale) \longrightarrow \Sh^*(Y_\etale)
+\quad\text{and}\quad
+f^! : \Sh^*(Y_\etale) \longrightarrow \Sh^*(X_\etale)
+$$
+such that for every geometric point $\overline{y}$ of $Y$ there are
+isomorphisms
+$$
+(f_!\mathcal{F})_{\overline{y}} =
+\coprod\nolimits_{f(\overline{x}) = \overline{y}}
+\mathcal{F}_{\overline{x}}
+$$
+(coproduct taken in the category of pointed sets) functorial in
+$\mathcal{F} \in \Sh^*(X_\etale)$ and isomorphisms
+$$
+f^!(\overline{y}_*S) =
+\prod\nolimits_{f(\overline{x}) = \overline{y}}
+\overline{x}_*S
+$$
+functorial in the pointed set $S$. If
+$F : \textit{Ab}(X_\etale) \to \Sh^*(X_\etale)$ and
+$F : \textit{Ab}(Y_\etale) \to \Sh^*(Y_\etale)$
+denote the forgetful functors, compatibility between the constructions
+will guarantee the existence of canonical maps
+$$
+f_!F(\mathcal{F}) \longrightarrow F(f_!\mathcal{F})
+$$
+functorial in $\mathcal{F} \in \textit{Ab}(X_\etale)$ and
+$$
+F(f^!\mathcal{G}) \longrightarrow f^!F(\mathcal{G})
+$$
+functorial in $\mathcal{G} \in \textit{Ab}(Y_\etale)$
+which produce the obvious maps on stalks, resp.\ skyscraper sheaves.
+In fact, the transformation $F \circ f^! \to f^! \circ F$ is an isomorphism
+(because $f^!$ commutes with products).
+\end{remark}
+
+
+
+
+
+
+
+\section{Derived upper shriek for locally quasi-finite morphisms}
+\label{section-derived-duality-locally-quasi-finite}
+
+\noindent
+We can take the derived versions of the functors in
+Section \ref{section-duality-locally-quasi-finite}
+and obtain the following.
+
+\begin{lemma}
+\label{lemma-lqf-shriek-derived}
+Let $f : X \to Y$ be a locally quasi-finite morphism of schemes. The functors
+$f_!$ and $f^!$ of Definition \ref{definition-f-shriek-lqf} and
+Lemma \ref{lemma-lqf-f-upper-shriek}
+induce adjoint functors $f_! : D(X_\etale) \to D(Y_\etale)$
+and $Rf^! : D(Y_\etale) \to D(X_\etale)$ on derived categories.
+\end{lemma}
+
+\noindent
+In the separated case the functor $f_!$ is defined in
+Section \ref{section-compact-support}.
+
+\begin{proof}
+This follows immediately from
+Derived Categories, Lemma \ref{derived-lemma-derived-adjoint-functors},
+the fact that $f_!$ is exact (Lemma \ref{lemma-lqf-f-shriek-stalk})
+and hence $Lf_! = f_!$
+and the fact that we have enough K-injective complexes of abelian sheaves
+on $Y_\etale$ so that $Rf^!$ is defined.
+\end{proof}
+
+
+
+
+\section{Preliminaries to derived lower shriek via compactifications}
+\label{section-prelim}
+
+\noindent
+In this section we prove some lemmas on the existence of
+certain natural isomorphisms of functors which follow immediately
+from proper base change.
+
+\begin{lemma}
+\label{lemma-shriek-proper-and-open}
+Consider a commutative diagram of schemes
+$$
+\xymatrix{
+X' \ar[r]_{g'} \ar[d]_{f'} & X \ar[d]^f \\
+Y' \ar[r]^g & Y
+}
+$$
+with $f$ and $f'$ proper and $g$ and $g'$ separated and locally quasi-finite.
+For a torsion ring $\Lambda$ and $K$ in $D(X'_\etale, \Lambda)$
+there is a canonical isomorphism $g_!Rf'_*K \to Rf_*(g'_!K)$
+in $D(Y_\etale, \Lambda)$.
+\end{lemma}
+
+\begin{proof}
+Represent $K$ by a K-injective complex $\mathcal{J}^\bullet$ of
+sheaves of $\Lambda$-modules on $X'_\etale$. Choose a quasi-isomorphism
+$g'_!\mathcal{J}^\bullet \to \mathcal{I}^\bullet$ to a
+K-injective complex $\mathcal{I}^\bullet$ of
+sheaves of $\Lambda$-modules on $X_\etale$.
+Then we can consider the map
+$$
+g_!f'_*\mathcal{J}^\bullet =
+g_!f'_!\mathcal{J}^\bullet =
+f_!g'_!\mathcal{J}^\bullet =
+f_*g'_!\mathcal{J}^\bullet \to
+f_*\mathcal{I}^\bullet
+$$
+where the first and third equality come from
+Lemma \ref{lemma-proper-f-shriek}
+and the second equality comes from
+Lemma \ref{lemma-f-shriek-composition} which tells us that both
+$g_! \circ f'_!$ and $f_! \circ g'_!$ are equal to
+$(g \circ f')_! = (f \circ g')_!$ as subsheaves of
+$(g \circ f')_* = (f \circ g')_*$.
+To finish the proof it suffices to show that
+$f_*g'_!\mathcal{J}^\bullet \to f_*\mathcal{I}^\bullet$
+is a quasi-isomorphism.
+
+\medskip\noindent
+The question is local on $Y$. Hence we may assume that the dimension
+of fibres of $f$ is bounded, see \'Etale Cohomology, Lemma
+\ref{etale-cohomology-lemma-morphism-finite-type-bounded-dimension}.
+Then we see that $Rf_*$ has finite cohomological dimension, see
+\'Etale Cohomology, Lemma
+\ref{etale-cohomology-lemma-cohomological-dimension-proper}.
+Hence by Derived Categories, Lemma \ref{derived-lemma-unbounded-right-derived},
+if we show that $R^qf_*(g'_!\mathcal{J}) = 0$ for $q > 0$
+and any injective sheaf of $\Lambda$-modules $\mathcal{J}$
+on $X'_\etale$, then the result follows.
+
+\medskip\noindent
+The stalk of $R^qf_*(g'_!\mathcal{J})$ at a geometric point
+$\overline{y}$ is equal to
+$H^q(X_{\overline{y}}, g'_!\mathcal{J}|_{X_{\overline{y}}})$ by
+\'Etale Cohomology, Lemma
+\ref{etale-cohomology-lemma-proper-base-change-stalk}.
+Since formation of $g'_!$ commutes with base change
+this is equal to
+$$
+H^q(X_{\overline{y}}, g'_{\overline{y}, !}(\mathcal{J}|_{X'_{\overline{y}}}))
+$$
+Since $Y' \to Y$ is locally quasi-finite, we see that
+$X'_{\overline{y}}$ is a disjoint union of the fibres
+$X'_{\overline{y}'}$ at geometric points $\overline{y}'$ of $Y'$
+lying over $\overline{y}$. Hence we get
+$$
+H^q(X_{\overline{y}},
+\bigoplus g'_{\overline{y}', !}(\mathcal{J}|_{X'_{\overline{y}'}}))
+$$
+for example by Lemma \ref{lemma-colim-f-shriek-separated} (but it
+is also obvious from the definition of $g'_{\overline{y}, !}$
+in Section \ref{section-compact-support}).
+Since taking \'etale cohomology over $X_{\overline{y}}$
+commutes with direct sums
+(\'Etale Cohomology, Theorem \ref{etale-cohomology-theorem-colimit})
+we conclude it suffices to show that
+$$
+H^q(X_{\overline{y}}, g'_{\overline{y}', !}(\mathcal{J}|_{X'_{\overline{y}'}}))
+$$
+is zero. Observe that
+$g_{\overline{y}'} : X'_{\overline{y}'} \to X_{\overline{y}}$
+is a morphism between proper scheme over $\overline{y}$ and hence is
+proper itself. As it is locally quasi-finite as well we conclude that
+$g_{\overline{y}'}$ is finite. Thus we see that
+$g'_{\overline{y}', !} = g'_{\overline{y}', *} = Rg'_{\overline{y}', *}$.
+By Leray we conlude that we have to show
+$$
+H^q(X'_{\overline{y}'}, \mathcal{J}|_{X'_{\overline{y}'}}))
+$$
+is zero. This of course follows from proper base change
+(in the form we quoted it before) as the higher direct images
+of $\mathcal{J}$ under $f'$ are zero.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-shriek-proper-and-open-compose}
+Consider a commutative diagram of schemes
+$$
+\xymatrix{
+X' \ar[r]_k \ar[d]_{f'} & X \ar[d]^f \\
+Y' \ar[r]_l \ar[d]_{g'} & Y \ar[d]^g \\
+Z' \ar[r]^m & Z
+}
+$$
+with $f$, $f'$, $g$ and $g'$ proper and
+$k$, $l$, and $m$ separated and locally quasi-finite.
+Then the isomorphisms of Lemma \ref{lemma-shriek-proper-and-open}
+for the two squares compose to give the isomorphism
+for the outer rectangle (see proof for a precise statement).
+\end{lemma}
+
+\begin{proof}
+The statement means that if we write
+$R(g \circ f)_* = Rg_* \circ Rf_*$ and
+$R(g' \circ f')_* = Rg'_* \circ Rf'_*$,
+then the isomorphism
+$m_! \circ Rg'_* \circ Rf'_* \to Rg_* \circ Rf_* \circ k_!$
+of the outer rectangle is equal to the composition
+$$
+m_! \circ Rg'_* \circ Rf'_* \to
+Rg_* \circ l_! \circ Rf'_* \to
+Rg_* \circ Rf_* \circ k_!
+$$
+of the two maps of the squares in the diagram. To prove this choose
+a K-injective complex $\mathcal{J}^\bullet$ of $\Lambda$-modules
+on $X'_\etale$ and a quasi-isomorphism
+$k_!\mathcal{J}^\bullet \to \mathcal{I}^\bullet$
+to a K-injective complex $\mathcal{I}^\bullet$ of $\Lambda$-modules
+on $X_\etale$. The proof of Lemma \ref{lemma-shriek-proper-and-open}
+shows that the canonical map
+$$
+a : l_!f'_*\mathcal{J}^\bullet \to f_*\mathcal{I}^\bullet
+$$
+is a quasi-isomorphism and this quasi-isomorphism produces the
+second arrow on applying $Rg_*$. By
+Cohomology on Sites, Lemma \ref{sites-cohomology-lemma-K-injective-flat}
+the complex $f_*\mathcal{I}^\bullet$, resp.\ $f'_*\mathcal{J}^\bullet$
+is a K-injective complex of $\Lambda$-modules on 
+$Y_\etale$, resp.\ $Y'_\etale$.
+(Using this is cheating and could be avoided.)
+In particular, the same reasoning gives that the canonical map
+$$
+b : m_!g'_*f'_*\mathcal{J}^\bullet \to g_*f_*\mathcal{I}^\bullet
+$$
+is a quasi-isomorphism and this quasi-isomorphism represents
+the first arrow. Finally, the proof of Lemma \ref{lemma-shriek-proper-and-open}
+show that $g_*l_!f'_!\mathcal{J}^\bullet$ represents
+$Rg_*(l_!f'_*\mathcal{J}^\bullet)$ because $f'_*\mathcal{J}^\bullet$
+is K-injective. Hence $Rg_*(a) = g_*(a)$ and the composition
+$g_*(a) \circ b$ is the arrow of Lemma \ref{lemma-shriek-proper-and-open}
+for the rectangle.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-shriek-proper-and-open-compose-horizontal}
+Consider a commutative diagram of schemes
+$$
+\xymatrix{
+X'' \ar[r]_{g'} \ar[d]_{f''} &
+X' \ar[r]_g \ar[d]_{f'} &
+X \ar[d]^f \\
+Y'' \ar[r]^{h'} &
+Y' \ar[r]^h &
+Y
+}
+$$
+with $f$, $f'$, and $f''$ proper and
+$g$, $g'$, $h$, and $h'$ separated and locally quasi-finite.
+Then the isomorphisms of Lemma \ref{lemma-shriek-proper-and-open}
+for the two squares compose to give the isomorphism
+for the outer rectangle (see proof for a precise statement).
+\end{lemma}
+
+\begin{proof}
+The statement means that if we write
+$(h \circ h')_! = h_! \circ h'_!$ and
+$(g \circ g')_! = g_! \circ g'_!$
+using the equalities of Lemma \ref{lemma-f-shriek-composition},
+then the isomorphism
+$h_! \circ h'_! \circ Rf''_* \to Rf_* \circ g_! \circ g'_!$
+of the outer rectangle is equal to the composition
+$$
+h_! \circ h'_! \circ Rf''_* \to
+h_! \circ Rf'_* \circ g'_! \to
+Rf_* \circ g_! \circ g'_!
+$$
+of the two maps of the squares in the diagram. To prove this choose
+a K-injective complex $\mathcal{I}^\bullet$ of $\Lambda$-modules
+on $X''_\etale$ and a quasi-isomorphism
+$g'_!\mathcal{I}^\bullet \to \mathcal{J}^\bullet$
+to a K-injective complex $\mathcal{J}^\bullet$ of $\Lambda$-modules
+on $X'_\etale$. Next, choose a quasi-isomorphism
+$g_!\mathcal{J}^\bullet \to \mathcal{K}^\bullet$
+to a K-injective complex $\mathcal{K}^\bullet$ of $\Lambda$-modules
+on $X_\etale$.
+The proof of Lemma \ref{lemma-shriek-proper-and-open} shows that the canonical
+maps
+$$
+h'_!f''_*\mathcal{I}^\bullet \to f'_*\mathcal{J}^\bullet
+\quad\text{and}\quad
+h_!f'_*\mathcal{J}^\bullet \to f_*\mathcal{K}^\bullet
+$$
+are quasi-isomorphisms and these quasi-isomorphisms define the
+first and second arrow above. Since $g_!$ is an exact functor
+(Lemma \ref{lemma-lqf-f-shriek-separated-colimits})
+we find that $g_!g'_!\mathcal{I}^\bullet \to \mathcal{K}^\bullet$
+is a quasi-ismorphism and hence the canonical map
+$$
+h_!h'_!f''_*\mathcal{I}^\bullet \to f_*\mathcal{K}^\bullet
+$$
+is a quasi-isomorphism and represents the map for the outer
+rectangle in the derived category. Clearly this map is the
+composition of the other two and the proof is complete.
+\end{proof}
+
+\begin{remark}
+\label{remark-going-around}
+Consider a commutative diagram
+$$
+\xymatrix{
+X'' \ar[r]_{k'} \ar[d]_{f''} & X' \ar[r]_k \ar[d]_{f'} & X \ar[d]^f \\
+Y'' \ar[r]^{l'} \ar[d]_{g''} & Y' \ar[r]^l \ar[d]_{g'} & Y \ar[d]^g \\
+Z'' \ar[r]^{m'} & Z' \ar[r]^m & Z
+}
+$$
+of schemes whose vertical arrows are proper and whose horizontal
+arrows are separated and locally quasi-finite.
+Let us label the squares of the diagram $A$, $B$, $C$, $D$
+as follows
+$$
+\begin{matrix}
+A & B \\
+C & D
+\end{matrix}
+$$
+Then the maps of Lemma \ref{lemma-shriek-proper-and-open}
+for the squares are (where we use $Rf_* = f_*$, etc)
+$$
+\begin{matrix}
+\gamma_A : l'_! \circ f''_* \to f'_* \circ k'_! &
+\gamma_B : l_! \circ f'_* \to f_* \circ k_! \\
+\gamma_C : m'_! \circ g''_* \to g'_* \circ l'_! &
+\gamma_D : m_! \circ g'_* \to g_* \circ l_!
+\end{matrix}
+$$
+For the $2 \times 1$ and $1 \times 2$ rectangles we have four further
+maps
+$$
+\begin{matrix}
+\gamma_{A + B} :
+(l \circ l')_! \circ f''_* \to f_* \circ (k \circ k')_*  \\
+\gamma_{C + D} :
+(m \circ m')_! \circ g''_* \to g_* \circ (l \circ l')_! \\
+\gamma_{A + C} :
+m'_! \circ (g'' \circ f'')_* \to (g' \circ f')_* \circ k'_! \\
+\gamma_{B + D} :
+m_! \circ (g' \circ f')_* \to (g \circ f)_* \circ k_!
+\end{matrix}
+$$
+By Lemma \ref{lemma-shriek-proper-and-open-compose-horizontal} we have
+$$
+\gamma_{A + B} = \gamma_B \circ \gamma_A, \quad
+\gamma_{C + D} = \gamma_D \circ \gamma_C
+$$
+and by Lemma \ref{lemma-shriek-proper-and-open-compose} we have
+$$
+\gamma_{A + C} = \gamma_A \circ \gamma_C, \quad
+\gamma_{B + D} = \gamma_B \circ \gamma_D
+$$
+Here it would be more correct to write
+$\gamma_{A + B} = (\gamma_B \star \text{id}_{k'_!}) \circ
+(\text{id}_{l_!} \star \gamma_A)$ with notation as in
+Categories, Section \ref{categories-section-formal-cat-cat}
+and similarly for the others.
+Having said all of this we find (a priori) two transformations
+$$
+m_! \circ m'_! \circ g''_* \circ f''_*
+\longrightarrow
+g_* \circ f_* \circ k_! \circ k'_!
+$$
+namely
+$$
+\gamma_B \circ \gamma_D \circ \gamma_A \circ \gamma_C =
+\gamma_{B + D} \circ \gamma_{A + C}
+$$
+and
+$$
+\gamma_B \circ \gamma_A \circ \gamma_D \circ \gamma_C =
+\gamma_{A + B} \circ \gamma_{C + D}
+$$
+The point of this remark is to point out that these transformations
+are equal. Namely, to see this it suffices to show that
+$$
+\xymatrix{
+m_! \circ g'_* \circ l'_! \circ f''_* \ar[r]_{\gamma_D} \ar[d]_{\gamma_A} &
+g_* \circ l_! \circ l'_! \circ f''_* \ar[d]^{\gamma_A} \\
+m_! \circ g'_* \circ f'_* \circ k'_! \ar[r]^{\gamma_D} &
+g_* \circ l_! \circ f'_* \circ k'_!
+}
+$$
+commutes. This is true because the squares $A$ and $D$ meet in only
+one point, more precisely by
+Categories, Lemma \ref{categories-lemma-properties-2-cat-cats}
+or more simply the discussion preceding
+Categories, Definition \ref{categories-definition-horizontal-composition}.
+\end{remark}
+
+\begin{lemma}
+\label{lemma-shriek-proper-and-open-base-change}
+Let $b : Y_1 \to Y$ be a morphism of schemes. Consider a commutative diagram
+of schemes
+$$
+\vcenter{
+\xymatrix{
+X' \ar[r]_{g'} \ar[d]_{f'} & X \ar[d]^f \\
+Y' \ar[r]^g & Y
+}
+}
+\quad\text{and let}\quad
+\vcenter{
+\xymatrix{
+X'_1 \ar[r]_{g'_1} \ar[d]_{f'_1} & X_1 \ar[d]^{f_1} \\
+Y'_1 \ar[r]^{g_1} & Y_1
+}
+}
+$$
+be the base change by $b$. Assume $f$ and $f'$ proper and
+$g$ and $g'$ separated and locally quasi-finite.
+For a torsion ring $\Lambda$ and $K$ in $D(X'_\etale, \Lambda)$
+there is commutative diagram
+$$
+\xymatrix{
+b^{-1}g_!Rf'_*K \ar[d] \ar[r] &
+g_{1, !}(b')^{-1}Rf'_*K \ar[r] &
+g_{1, !}Rf'_{1, *}(a')^{-1}K \ar[d] \\
+b^{-1}Rf_*g'_!K \ar[r] &
+Rf_{1, *}a^{-1}g'_!K \ar[r] &
+Rf_{1, *}g'_{1, !}(a')^{-1}K
+}
+$$
+in $D(Y_{1, \etale}, \Lambda)$ where $a : X_1 \to X$, $a' : X'_1 \to X'$,
+$b' : Y'_1 \to Y'$ are the projections, the vertical maps are the arrows
+of Lemma \ref{lemma-shriek-proper-and-open}
+and the horizontal arrows are the base change map
+(from \'Etale Cohomology, Section
+\ref{etale-cohomology-section-base-change-preliminaries})
+and the base change map of Lemma \ref{lemma-base-change-f-shriek-separated}.
+\end{lemma}
+
+\begin{proof}
+Represent $K$ by a K-injective complex $\mathcal{J}^\bullet$ of
+sheaves of $\Lambda$-modules on $X'_\etale$. Choose a quasi-isomorphism
+$g'_!\mathcal{J}^\bullet \to \mathcal{I}^\bullet$ to a
+K-injective complex $\mathcal{I}^\bullet$ of
+sheaves of $\Lambda$-modules on $X_\etale$.
+The proof of Lemma \ref{lemma-shriek-proper-and-open}
+constructs $g_!Rf'_*K \to Rf_*g'_!K$ as
+$$
+g_!f'_*\mathcal{J}^\bullet =
+g_!f'_!\mathcal{J}^\bullet =
+f_!g'_!\mathcal{J}^\bullet =
+f_*g'_!\mathcal{J}^\bullet \to
+f_*\mathcal{I}^\bullet
+$$
+Choose a quasi-isomorphism
+$(a')^{-1}\mathcal{J}^\bullet \to \mathcal{J}_1^\bullet$
+to a K-injective complex $\mathcal{J}_1^\bullet$ of
+sheaves of $\Lambda$-modules on $X'_{1, \etale}$.
+Then we can pick a diagram of complexes
+$$
+\xymatrix{
+g'_{1, !}\mathcal{J}_1^\bullet \ar[rr] & &
+\mathcal{I}_1^\bullet \\
+g'_{1, !}(a')^{-1}\mathcal{J}^\bullet \ar[u] \ar@{=}[r] &
+a^{-1}g'_!\mathcal{J}^\bullet \ar[r] &
+a^{-1}\mathcal{I}^\bullet \ar[u]
+}
+$$
+commuting up to homotopy where all arrows are quasi-isomorphisms, the
+equality comes from Lemma \ref{lemma-proper-f-shriek},
+and $\mathcal{I}_1^\bullet$ is a K-injective complex of sheaves of
+$\Lambda$-modules on $X_{1, \etale}$. The map
+$g_{1, !}Rf'_{1, *}(a')^{-1}K \to Rf_{1, *}g'_{1, !}(a')^{-1}K$ is given by
+$$
+g_{1, !}f'_{1, *}\mathcal{J}_1^\bullet =
+g_{1, !}f'_{1, !}\mathcal{J}_1^\bullet =
+f_{1, !}g'_{1, !}\mathcal{J}_1^\bullet =
+f_{1, *}g'_{1, !}\mathcal{J}_1^\bullet \to
+f_{1, *}\mathcal{I}_1^\bullet
+$$
+The identifications across the $3$ equal signs in both arrows
+are compatible with pullback maps, i.e., the diagram
+$$
+\xymatrix{
+b^{-1}g_!f'_*\mathcal{J}^\bullet \ar@{=}[d] \ar[r] &
+g_{1, !}(b')^{-1}f'_*\mathcal{J}^\bullet \ar[r] &
+g_{1, !}f'_{1, *}(a')^{-1}\mathcal{J}^\bullet \ar@{=}[d] \\
+b^{-1}f_*g'_!\mathcal{J}^\bullet \ar[r] &
+f_{1, *}a^{-1}g'_!\mathcal{J}^\bullet \ar[r] &
+f_{1, *}g'_{1, !}(a')^{-1}\mathcal{J}^\bullet
+}
+$$
+of complexes of abelian sheaves commutes. To show this it is enough to
+show the diagram commutes with $g_!, g_{1, !}, g'_!, g'_{1, !}$
+replaced by $g_*, g_{1, *}, g'_*, g'_{1, *}$ (because the shriek
+functors are defined as subfunctors of the $*$ functors and the
+base change maps are defined in a manner compatible with this, see
+proof of Lemma \ref{lemma-base-change-f-shriek-separated}).
+For this new diagram the commutativity follows from the compatibility
+of pullback maps with horizontal and vertical stacking of diagrams, see
+Sites, Remarks \ref{sites-remark-compose-base-change} and
+\ref{sites-remark-compose-base-change-horizontal}
+so that going around the diagram in either direction is the pullback
+map for the base change of $f \circ g' = g \circ f'$ by $b$.
+Since of course
+$$
+\xymatrix{
+g_{1, !}f'_{1, *}(a')^{-1}\mathcal{J}^\bullet \ar@{=}[d] \ar[r] &
+g_{1, !}f'_{1, *}\mathcal{J}_1^\bullet \ar@{=}[d] \\
+f_{1, *}g'_{1, !}(a')^{-1}\mathcal{J}^\bullet \ar[r] &
+f_{1, *}g'_{1, !}\mathcal{J}_1^\bullet 
+}
+$$
+commutes, to finish the proof it suffices to show that
+$$
+\xymatrix{
+b^{-1}f_*g'_!\mathcal{J}^\bullet \ar[r] \ar[d] &
+f_{1, *}a^{-1}g'_!\mathcal{J}^\bullet \ar[r] \ar[d] &
+f_{1, *}g'_{1, !}(a')^{-1}\mathcal{J}^\bullet \ar[r] &
+f_{1, *}g'_{1, !}\mathcal{J}_1^\bullet \ar[d] \\
+b^{-1}f_*\mathcal{I}^\bullet \ar[r] &
+f_{1, *}a^{-1}\mathcal{I}^\bullet \ar[rr] & &
+f_{1, *}\mathcal{I}_1^\bullet
+}
+$$
+commutes in the derived category, which holds by our choice of
+maps earlier.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-shriek-lqf-and-proper}
+Consider a commutative diagram of schemes
+$$
+\xymatrix{
+X \ar[r]_f \ar[rd]_g & Y \ar[d]^h \\
+& Z
+}
+$$
+with $f$ and $g$ locally quasi-finite and $h$ proper. For any torsion ring
+$\Lambda$ and $K$ in $D(X_\etale, \Lambda)$ there is a canonical
+isomorphism $g_!K \to Rh_*(f_!K)$ in $D(Z_\etale, \Lambda)$.
+\end{lemma}
+
+\begin{proof}
+This is a special case of Lemma \ref{lemma-shriek-proper-and-open}
+if $f$ and $g$ are separated. We urge the reader to skip the proof
+in the general case
+as we'll mainly use the case where $f$ and $g$ are separated.
+
+\medskip\noindent
+Represent $K$ by a complex $\mathcal{K}^\bullet$ of sheaves of
+$\Lambda$-modules on $X_\etale$. Choose a quasi-isomorphism
+$f_!\mathcal{K}^\bullet \to \mathcal{I}^\bullet$ into a K-injective
+complex $\mathcal{I}^\bullet$ of sheaves of $\Lambda$-modules on $Y_\etale$.
+Consider the map
+$$
+g_!\mathcal{K}^\bullet =
+h_!f_!\mathcal{K}^\bullet =
+h_*f_!\mathcal{K}^\bullet
+\longrightarrow
+h_*\mathcal{I}^\bullet
+$$
+where the equalities are
+Lemmas \ref{lemma-lqf-separated-shriek-composition}
+and \ref{lemma-proper-f-shriek}. This map of complexes determines the map
+$g_!K \to Rh_*(f_!K)$ of the statement of the lemma.
+To check the map is an isomorphism we may work locally on $Z$.
+Hence we may assume that the dimension of fibres of $h$ is bounded,
+see \'Etale Cohomology, Lemma
+\ref{etale-cohomology-lemma-morphism-finite-type-bounded-dimension}.
+Then we see that $Rh_*$ has finite cohomological dimension, see
+\'Etale Cohomology, Lemma
+\ref{etale-cohomology-lemma-cohomological-dimension-proper}.
+Hence by Derived Categories, Lemma \ref{derived-lemma-unbounded-right-derived},
+if we show that $R^qh_*(f_!\mathcal{F}) = 0$ for $q > 0$
+and any sheaf $\mathcal{F}$ of $\Lambda$-modules on $X_\etale$, then
+$h_*f_!\mathcal{K}^\bullet \to h_*\mathcal{I}^\bullet$ is a quasi-isomorphism.
+
+\medskip\noindent
+Observe that $\mathcal{G} = f_!\mathcal{F}$ is a sheaf of $\Lambda$-modules
+on $Y$ whose stalks are nonzero only at points $y \in Y$ such that
+$\kappa(y)/\kappa(h(y))$ is a finite extension. This follows from the
+description of stalks of $f_!\mathcal{F}$ in
+Lemma \ref{lemma-lqf-f-shriek-stalk}
+and the fact that both $f$ and $g$ are locally quasi-finite.
+Hence by the proper base change theorem (\'Etale Cohomology, Lemma
+\ref{etale-cohomology-lemma-proper-base-change-stalk})
+it suffices to show that $H^q(Y_{\overline{z}}, \mathcal{H}) = 0$
+where $\mathcal{H}$ is a sheaf on the proper scheme $Y_{\overline{z}}$
+over $\kappa(\overline{z})$ whose support is contained in the set
+of closed points. Thus the required vanishing by \'Etale Cohomology, Lemma
+\ref{etale-cohomology-lemma-supported-in-closed-points}.
+\end{proof}
+
+
+
+
+
+
+
+\section{Derived lower shriek via compactifications}
+\label{section-derived-lower-shriek-compactification}
+
+\noindent
+Let $f : X \to Y$ be a finite type separated morphism of schemes
+with $Y$ quasi-compact and quasi-separated. Choose a compactification
+$j : X \to \overline{X}$ over $Y$, see
+More on Flatness, Theorem \ref{flat-theorem-nagata}.
+Given a torsion ring $\Lambda$ we define
+$$
+Rf_! = R\overline{f}_* \circ j_! :
+D(X_\etale, \Lambda)
+\longrightarrow
+D(Y_\etale, \Lambda)
+$$
+Here is the obligatory lemma.
+
+\begin{lemma}
+\label{lemma-shriek-well-defined}
+Let $f : X \to Y$ be a finite type separated morphism of quasi-compact
+and quasi-separated schemes. The functor $Rf_!$ is, up to canonical
+isomorphism, independent of the choice of the compactification.
+\end{lemma}
+
+\begin{proof}
+Consider the category of compactifications of $X$ over $Y$, which is
+cofiltered according to More on Flatness, Theorem \ref{flat-theorem-nagata} and
+Lemmas \ref{flat-lemma-compactifications-cofiltered} and
+\ref{flat-lemma-compactifyable}.
+To every choice of a compactification
+$$
+j : X \to \overline{X},\quad \overline{f} : \overline{X} \to Y
+$$
+the construction above associates the functor $R\overline{f}_* \circ j_! :
+D(X_\etale, \Lambda) \to D(Y_\etale, \Lambda)$.
+Let's be a little more explicit. Given a complex $\mathcal{K}^\bullet$
+of sheaves of $\Lambda$-modules on $X_\etale$, we choose a quasi-isomorphism
+$j_!\mathcal{K}^\bullet \to \mathcal{I}^\bullet$ into a K-injective
+complex of sheaves of $\Lambda$-modules on $\overline{X}_\etale$.
+Then our functor sends $\mathcal{K}^\bullet$ to
+$\overline{f}_*\mathcal{I}^\bullet$.
+
+\medskip\noindent
+Suppose given a morphism $g : \overline{X}_1 \to \overline{X}_2$
+between compactifications $j_i : X \to \overline{X}_i$ over $Y$.
+Then we get an isomorphism
+$$
+R\overline{f}_{2, *} \circ j_{2, !} =
+R\overline{f}_{2, *} \circ Rg_* \circ j_{1, !} =
+R\overline{f}_{1, *} \circ j_{1, !}
+$$
+using Lemma \ref{lemma-shriek-lqf-and-proper} in the first equality.
+
+\medskip\noindent
+To finish the proof, since the category of compactifications of $X$ over $Y$
+is cofiltered, it suffices to show compositions of morphisms of
+compactifications of $X$ over $Y$ are turned into compositions of
+isomorphisms of functors\footnote{Namely, if $\alpha, \beta : F \to G$
+are morphisms of functors and $\gamma : G \to H$ is an isomorphism
+of functors such that $\gamma \circ \alpha = \gamma \circ \beta$, then
+we conclude $\alpha = \beta$.}. To do this, suppose that
+$j_3 : X \to \overline{X}_3$
+is a third compactification and that $h : \overline{X}_2 \to \overline{X}_3$
+is a morphism of compactifications. Then we have to show that the
+composition
+$$
+R\overline{f}_{3, *} \circ j_{3, !} =
+R\overline{f}_{3, *} \circ Rh_* \circ j_{2, !} =
+R\overline{f}_{2, *} \circ j_{2, !} =
+R\overline{f}_{2, *} \circ Rg_* \circ j_{1, !} =
+R\overline{f}_{1, *} \circ j_{1, !}
+$$
+is equal to the isomorphism of functors constructed using simply
+$j_3$, $g \circ h$, and $j_1$. A calculation shows that it suffices to
+prove that the composition of the maps
+$$
+j_{3, !} \to Rh_* \circ j_{2, !} \to Rh_* \circ Rg_* \circ j_{1, !}
+$$
+of Lemma \ref{lemma-shriek-lqf-and-proper} agrees with the corresponding
+map $j_{3, !} \to R(h \circ g)_* \circ j_{1, !}$
+via the identification $R(h \circ g)_* = Rh_* \circ Rg_*$.
+Since the map of Lemma \ref{lemma-shriek-lqf-and-proper}
+is a special case of the map of Lemma \ref{lemma-shriek-proper-and-open}
+(as $j_1$ and $j_2$ are separated) this follows immediately from
+Lemma \ref{lemma-shriek-proper-and-open-compose}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-shriek-composition}
+Let $f : X \to Y$ and $g : Y \to Z$ be separated morphisms of finite type
+of quasi-compact and quasi-separated schemes. Then there is a canonical
+isomorphism $Rg_! \circ Rf_! \to R(g \circ f)_!$.
+\end{lemma}
+
+\begin{proof}
+Choose a compactification $i : Y \to \overline{Y}$ of $Y$ over $Z$.
+Choose a compactification $X \to \overline{X}$ of $X$ over
+$\overline{Y}$. This uses More on Flatness, Theorem \ref{flat-theorem-nagata}
+and Lemma \ref{flat-lemma-compactifyable} twice.
+Let $U$ be the inverse image of $Y$ in $\overline{X}$
+so that we get the commutative diagram
+$$
+\xymatrix{
+X \ar[r]_j \ar[d]_f &
+U \ar[dl]^{f'} \ar[r]_{j'} &
+\overline{X} \ar[dl]^{\overline{f}} \\
+Y \ar[r]_i \ar[d]_g &
+\overline{Y} \ar[dl]^{\overline{g}} \\
+Z
+}
+$$
+Then we have
+\begin{align*}
+R(g \circ f)_!
+& =
+R(\overline{g} \circ \overline{f})_* \circ (j' \circ j)_! \\
+& =
+R\overline{g}_* \circ R\overline{f}_* \circ j'_! \circ j_! \\
+& =
+R\overline{g}_* \circ i_! \circ Rf'_* \circ j_! \\
+& =
+Rg_! \circ Rf_!
+\end{align*}
+The first equality is the definition of $R(g \circ f)_!$.
+The second equality uses the identifications
+$R(\overline{g} \circ \overline{f})_* = R\overline{g}_* \circ R\overline{f}_*$
+and $(j' \circ j)_! = j'_! \circ j_!$ of Lemma \ref{lemma-f-shriek-composition}.
+The identification $i_! \circ Rf'_* \to R\overline{f}_* \circ j_!$
+used in the third equality is Lemma \ref{lemma-shriek-proper-and-open}.
+The final fourth equality is the definition of $Rg_!$ and $Rf_!$.
+To finish the proof we show that
+this isomorphism is independent of choices made.
+
+\medskip\noindent
+Suppose we have two diagrams
+$$
+\vcenter{
+\xymatrix{
+X \ar[r]_{j_1} \ar[d] &
+U_1 \ar[dl]^{f_1} \ar[r]_{j'_1} &
+\overline{X}_1 \ar[dl]^{\overline{f}_1} \\
+Y \ar[r]_{i_1} \ar[d] &
+\overline{Y}_1 \ar[dl]^{\overline{g}_1} \\
+Z
+}
+}
+\quad\text{and}\quad
+\vcenter{
+\xymatrix{
+X \ar[r]_{j_2} \ar[d] &
+U_2 \ar[dl]^{f_2} \ar[r]_{j'_2} &
+\overline{X}_2 \ar[dl]^{\overline{f}_2} \\
+Y \ar[r]_{i_2} \ar[d] &
+\overline{Y}_2 \ar[dl]^{\overline{g}_2} \\
+Z
+}
+}
+$$
+We can first choose a compactification $i : Y \to \overline{Y}$
+of $Y$ over $Z$ which dominates both $\overline{Y}_1$ and $\overline{Y}_2$,
+see More on Flatness, Lemma \ref{flat-lemma-compactifications-cofiltered}.
+By More on Flatness, Lemma \ref{flat-lemma-right-multiplicative-system} and
+Categories, Lemmas \ref{categories-lemma-morphisms-right-localization} and
+\ref{categories-lemma-equality-morphisms-right-localization}
+we can choose a compactification $X \to \overline{X}$ of
+$X$ over $\overline{Y}$ with morphisms $\overline{X} \to \overline{X}_1$
+and $\overline{X} \to \overline{X}_2$ and such that the composition
+$\overline{X} \to \overline{Y} \to \overline{Y}_1$ is equal to
+the composition $\overline{X} \to \overline{X}_1 \to \overline{Y}_1$
+and such that the composition
+$\overline{X} \to \overline{Y} \to \overline{Y}_2$ is equal to
+the composition $\overline{X} \to \overline{X}_2 \to \overline{Y}_2$.
+Thus we see that it suffices to compare the maps
+determined by our diagrams when we have a commutative diagram
+as follows
+$$
+\xymatrix{
+X \ar[rr]_{j_1} \ar@{=}[d] & &
+U_1 \ar[d]^{h'} \ar[ddll] \ar[rr]_{j'_1} & &
+\overline{X}_1 \ar[d]^h \ar[ddll] \\
+X \ar'[r][rr]^-{j_2} \ar[d] & &
+U_2 \ar'[dl][ddll] \ar'[r][rr]^-{j'_2} & &
+\overline{X}_2 \ar[ddll] \\
+Y \ar[rr]^{i_1} \ar@{=}[d] & & \overline{Y}_1 \ar[d]^k \\
+Y \ar[rr]^{i_2} \ar[d] & & \overline{Y}_2 \ar[dll] \\
+Z
+}
+$$
+Each of the squares
+$$
+\xymatrix{
+X \ar[r]_{j_1} \ar[d]_{\text{id}} \ar@{}[dr]|A &
+U_1 \ar[d]^{h'} \\
+X \ar[r]^{j_2} &
+U_2
+}
+\quad
+\xymatrix{
+U_2 \ar[r]_{j_2'} \ar[d]_{f_2} \ar@{}[dr]|B &
+\overline{X}_2 \ar[d]^{\overline{f}_2} \\
+Y \ar[r]^{i_2} &
+\overline{Y}_2
+}
+\quad
+\xymatrix{
+U_1 \ar[r]_{j_1'} \ar[d]_{f_1} \ar@{}[dr]|C &
+\overline{X}_1 \ar[d]^{\overline{f}_1} \\
+Y \ar[r]^{i_1} &
+\overline{Y}_1
+}
+\quad
+\xymatrix{
+Y \ar[r]_{i_1} \ar[d]_{\text{id}} \ar@{}[dr]|D &
+\overline{Y}_1 \ar[d]^k \\
+Y \ar[r]^{i_2} &
+\overline{Y}_2
+}
+\quad
+\xymatrix{
+X \ar[r]_{j_1' \circ j_1} \ar[d]_{\text{id}} \ar@{}[dr]|E &
+\overline{X}_1 \ar[d]^h \\
+X \ar[r]^{j_2} &
+\overline{X}_2
+}
+$$
+gives rise to an isomorphism as follows
+\begin{align*}
+\gamma_A & :
+j_{2, !} \to Rh'_* \circ j_{1, !}  \\
+\gamma_B & :
+i_{2, !} \circ Rf_{2, *} \to R\overline{f}_{2, *} \circ j'_{2, !} \\
+\gamma_C & :
+i_{1, !} \circ Rf_{1, *} \to R\overline{f}_{1, *} \circ j'_{1, !} \\
+\gamma_D & :
+i_{2, !} \to Rk_* \circ i_{1, !} \\
+\gamma_E & :
+j_{2, !} \to Rh_* \circ (j'_1 \circ j_1)_!
+\end{align*}
+by applying the map from Lemma \ref{lemma-shriek-proper-and-open}
+(which is the same as the map in Lemma \ref{lemma-shriek-lqf-and-proper}
+in case the left vertical arrow is the identity). Let us write
+\begin{align*}
+F_1 & = Rf_{1, *} \circ j_{1, !} \\
+F_2 & = Rf_{2, *} \circ j_{2, !} \\
+G_1 & = R\overline{g}_{1, *} \circ i_{1, !} \\
+G_2 & = R\overline{g}_{2, *} \circ i_{2, !} \\
+C_1 & = R(\overline{g}_1 \circ \overline{f}_1)_* \circ (j'_1 \circ j_1)_! \\
+C_2 & = R(\overline{g}_2 \circ \overline{f}_2)_* \circ (j'_2 \circ j_2)_!
+\end{align*}
+The construction given in the first paragraph of the proof
+and in Lemma \ref{lemma-shriek-well-defined} uses
+\begin{enumerate}
+\item $\gamma_C$ for the map $G_1 \circ F_1 \to C_1$,
+\item $\gamma_B$ for the map $G_2 \circ F_2 \to C_2 $,
+\item $\gamma_A$ for the map $F_2 \to F_1$,
+\item $\gamma_D$ for the map $G_2 \to G_1$, and
+\item $\gamma_E$ for the map $C_2 \to C_1$.
+\end{enumerate}
+This implies that we have to show that the diagram
+$$
+\xymatrix{
+C_2 \ar[rr]_{\gamma_E} & &
+C_1 \\
+G_2 \circ F_2 \ar[rr]^{\gamma_D \circ \gamma_A} \ar[u]^{\gamma_B} & &
+G_1 \circ F_1 \ar[u]_{\gamma_C}
+}
+$$
+is commutative. We will use
+Lemmas \ref{lemma-shriek-proper-and-open-compose} and
+\ref{lemma-shriek-proper-and-open-compose-horizontal}
+and with (abuse of) notation as in
+Remark \ref{remark-going-around} (in particular
+dropping $\star$ products with identity transformations
+from the notation).
+We can write $\gamma_E = \gamma_F \circ \gamma_A$ where
+$$
+\xymatrix{
+U_1 \ar[r]_{j'_1} \ar[d]_{h'} \ar@{}[rd]|F &
+\overline{X}_1 \ar[d]^h \\
+U_2 \ar[r]^{j'_2} &
+\overline{X}_2
+}
+$$
+Thus we see that
+$$
+\gamma_E \circ \gamma_B = \gamma_F \circ \gamma_A  \circ \gamma_B
+= \gamma_F \circ \gamma_B \circ \gamma_A
+$$
+the last equality because the two squares $A$ and $B$ only
+intersect in one point (similar to the last argument in
+Remark \ref{remark-going-around}). Thus it suffices to prove that
+$\gamma_C \circ \gamma_D = \gamma_F \circ \gamma_B$.
+Since both of these are equal to the map for the square
+$$
+\xymatrix{
+U_1 \ar[r] \ar[d] & \overline{X}_1 \ar[d] \\
+Y \ar[r] & \overline{Y}_2
+}
+$$
+we conclude.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-pseudo-functor}
+Let $f : X \to Y$, $g : Y \to Z$, $h : Z \to T$ be separated morphisms of
+finite type of quasi-compact and quasi-separated schemes. Then
+the diagram
+$$
+\xymatrix{
+Rh_! \circ Rg_! \circ Rf_! \ar[r]_{\gamma_C} \ar[d]^{\gamma_A} &
+R(h \circ g)_! \circ Rf_! \ar[d]_{\gamma_{A + B}} \\
+Rh_! \circ R(g \circ f)_! \ar[r]^{\gamma_{B + C}} &
+R(h \circ g \circ f)_!
+}
+$$
+of isomorphisms of Lemma \ref{lemma-shriek-composition} commutes
+(for the meaning of the $\gamma$'s see proof).
+\end{lemma}
+
+\begin{proof}
+To do this we choose a compactification $\overline{Z}$
+of $Z$ over $T$, then a compactification $\overline{Y}$ of $Y$ over
+$\overline{Z}$, and then a compactification $\overline{X}$ of
+$X$ over $\overline{Y}$. This uses
+More on Flatness, Theorem \ref{flat-theorem-nagata} and
+Lemma \ref{flat-lemma-compactifyable}.
+Let $W \subset \overline{Y}$ be the inverse image of $Z$ under
+$\overline{Y} \to \overline{Z}$ and let $U \subset V \subset \overline{X}$
+be the inverse images of $Y \subset W$ under $\overline{X} \to \overline{Y}$.
+This produces the following diagram
+$$
+\xymatrix{
+X \ar[d]_f \ar[r] & U \ar[r] \ar[d] \ar@{}[dr]|A &
+V \ar[d] \ar[r] \ar@{}[rd]|B & \overline{X} \ar[d] \\
+Y \ar[d]_g \ar[r] & Y \ar[r] \ar[d] & W \ar[r] \ar[d] \ar@{}[rd]|C &
+\overline{Y} \ar[d] \\
+Z \ar[d]_h \ar[r] & Z \ar[d] \ar[r] & Z \ar[d] \ar[r] & \overline{Z} \ar[d] \\
+T \ar[r] & T \ar[r] & T \ar[r] & T
+}
+$$
+Without introducing tons of notation but arguing exactly
+as in the proof of Lemma \ref{lemma-shriek-composition}
+we see that the maps in the first displayed diagram use the
+maps of Lemma \ref{lemma-shriek-proper-and-open} for the rectangles
+$A + B$, $B + C$, $A$, and $C$ as indicated in the diagram in
+the statement of the lemma. Since by
+Lemmas \ref{lemma-shriek-proper-and-open-compose} and
+\ref{lemma-shriek-proper-and-open-compose-horizontal}
+we have $\gamma_{A + B} = \gamma_B \circ \gamma_A$ and
+$\gamma_{B + C} = \gamma_B \circ \gamma_C$ we conclude
+that the desired equality holds provided
+$\gamma_A \circ \gamma_C = \gamma_C \circ \gamma_A$.
+This is true because the two squares $A$ and $C$ only
+intersect in one point (similar to the last argument in
+Remark \ref{remark-going-around}).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-base-change-shriek}
+Consider a cartesian square
+$$
+\xymatrix{
+X' \ar[r]_{g'} \ar[d]_{f'} & X \ar[d]^f \\
+Y' \ar[r]^g & Y
+}
+$$
+of quasi-compact and quasi-separated schemes with $f$ separated and
+of finite type. Then there is a canonical isomorphism
+$$
+g^{-1} \circ Rf_! \to Rf'_! \circ (g')^{-1}
+$$
+Moreover, these isomorphisms are compatible with the isomorphisms
+of Lemma \ref{lemma-shriek-composition}.
+\end{lemma}
+
+\begin{proof}
+Choose a compactification $j : X \to \overline{X}$ over $Y$
+and denote $\overline{f} : \overline{X} \to Y$ the structure morphism.
+Let $j' : X' \to \overline{X}'$ and $\overline{f}' : \overline{X}' \to Y'$
+denote the base changes of $j$ and $\overline{f}$.
+Since $Rf_! = R\overline{f} \circ j_!$ and $Rf'_! = R\overline{f}' \circ j'_!$
+the isomorphism can be constructed via
+$$
+g^{-1} \circ R\overline{f} \circ j_! \to
+R\overline{f}' \circ (\overline{g}')^{-1} \circ j_! \to
+R\overline{f}' \circ j'_! \circ (g')^{-1} 
+$$
+where the first arrow is the isomorphism given to us by the
+proper base change theorem (\'Etale Cohomology, Lemma
+\ref{etale-cohomology-lemma-proper-base-change-mod-n})
+and the second arrow is the isomorphism of
+Lemma \ref{lemma-base-change-f-shriek-separated}.
+
+\medskip\noindent
+To finish the proof we have to show two things: first we have to show
+that the isomorphism of functors so obtained does not depend on
+the choice of the compactification and second we have to show that
+if we vertically stack two base change diagrams as in the lemma, then
+these base change isomorphisms are compatible with the isomorphisms
+of Lemma \ref{lemma-shriek-composition}.
+A straightforward argument which we omit shows that both follow
+if we can show that the isomorphisms
+\begin{enumerate}
+\item $Rg_* \circ Rf_* = R(g \circ f)_*$ for $f : X \to Y$ and $g : Y \to Z$
+proper,
+\item $g_! \circ f_! = (g \circ f)_!$ for $f : X \to Y$ and $g : Y \to Z$
+separated and quasi-finite, and
+\item $g_! \circ Rf'_* = Rf_* \circ g'_!$ for  $f : X \to Y$ and
+$f' : X' \to Y'$ proper and $g : Y' \to Y$ and $g' : X' \to X$
+separated and quasi-finite with $f \circ g' = g \circ f'$
+\end{enumerate}
+are compatible with base change. This holds for (1) by
+Cohomology on Sites, Remark \ref{sites-cohomology-remark-compose-base-change},
+for (2) by Remark \ref{remark-f-shriek-base-change-composition}, and
+(3) by Lemma \ref{lemma-shriek-proper-and-open-base-change}.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\input{chapters}
+
+\bibliography{my}
+\bibliographystyle{amsalpha}
+
+\end{document}
