@@ -4,7 +4,7 @@
 %
 \begin{document}
 
-\title{Weil Cohomology Theories}
+\title{Weil Cohomology Theories, UNDER CONSTRUCTION}
 
 
 \maketitle
@@ -23,6 +23,935 @@ projective schemes over any base field. In the case of an algebraically
 closed base field, our notion is the same as the notion introduced
 in \cite{Kleiman-cycles}, see (insert future reference here).
 
+
+
+
+
+\section{Conventions and notation}
+\label{section-conventions}
+
+\noindent
+Let $R$ be a ring. A {\it graded commutative $R$-algebra} $A$ is a
+strictly commutative differential graded $R$-algebra
+(Differential Graded Algebra, Definitions \ref{dga-definition-dga} and
+\ref{dga-definition-cdga}) whose differential is zero. Thus $A$
+is an $R$-module endowed with a grading
+$A = \bigoplus_{n \in \mathbf{Z}} A^n$ by
+$R$-submodules. The $R$-bilinear multiplication
+$$
+A^n \times A^m \longrightarrow A^{n + m},\quad
+\alpha \times \beta \longmapsto \alpha \cup \beta
+$$
+will be called the {\it cup product} in this chapter.
+The commutativity constraint is
+$\alpha \cup \beta = (-1)^{nm} \beta \cup \alpha$ if
+$\alpha \in A^n$ and $\beta \in A^m$. Finally, there is
+a multiplicative unit $1 \in A^0$, or equivalently, there is an
+additive and multiplicative map $R \to A^0$ which is compatible the
+$R$-module structure on $A$.
+
+\medskip\noindent
+Let $k$ be a field and let $X$ be a scheme of finite type over $k$.
+The Chow groups $A_k(X)$ of $X$ have been defined in
+Chow Homology, Definition \ref{chow-definition-rational-equivalence}.
+Given a proper morphism $f : X \to Y$ of schemes of finite
+type over $k$ there is a pushforward map $f_* : A_k(X) \to A_k(Y)$,
+see Chow Homology, Section \ref{chow-section-proper-pushforward} and
+Lemma \ref{chow-lemma-proper-pushforward-rational-equivalence}.
+If $X$ is smooth over $k$ and equidimensional of dimension $d$, then
+we have
+$$
+A^i(X) = A_{d - i}(X)
+$$
+see Chow Homology, Section \ref{chow-lemma-identify-chow-for-smooth}
+and recall that the isomorphism sends $c \in A^i(X)$ to
+$c \cap [X]_d \in A_{d - i}(X)$.
+If $X$ smooth over $k$ and quasi-compact, then we can write canonically
+$$
+X = X_0 \amalg X_1 \amalg X_2 \amalg \ldots \amalg X_n
+$$
+into open and closed subschemes $X_d$ which are
+equidimensional of dimension $d$. Set $[X] = \sum [X_d]_d$
+as an element of $A_*(X)$. Since
+$A_k(X) = \prod A_k(X_d)$ and $A^i(X) = \prod A^i(X_d)$
+the map $c \mapsto c \cap [X]$ still defines an isomorphism
+$$
+A^*(X) = A_*(X)
+$$
+but it is no longer compatible with gradings, namely,
+$$
+A^i(X) = \bigoplus\nolimits_d A_{d - i}(X_d)
+$$
+The reader may use this as an alternative definition of $A^i(X)$.
+There is an intersection product
+$(\alpha, \beta) \mapsto \alpha \cdot \beta$ on $A_*(X)$
+with the property that it sends $A^i(X) \times A^j(X)$ into $A^{i + j}(X)$,
+see Chow Homology, Section \ref{chow-section-intersection-product}.
+If $f : Y \to X$ is a morphism of schemes smooth over $k$, then
+there is a pullback map
+$$
+f^* : A^i(X) \to A^i(Y),\quad
+\alpha \mapsto f^*\alpha
+$$
+which is compatible with intersection products, see
+Chow Homology, Lemma \ref{}.
+Moreover, if $f$ is also proper, then
+we have $f_*(\alpha \cdot f^*\beta) = f_*\alpha \cdot \beta$, see
+Chow Homology, Lemma \ref{}.
+We have $\alpha \cdot \beta = \Delta^*(\alpha \times \beta)$
+if $\alpha, \beta$ are cycles on $X$ smooth over $k$.
+
+
+
+
+
+
+
+
+
+
+\section{Weil cohomology theories}
+\label{section-axioms}
+
+\noindent
+In this section we state precisely what data constitutes a
+Weil cohomology theory, see \cite[Section 1.2]{Kleiman-cycles}.
+We have modified the conditions to allow for nonalgebraically closed
+base fields, but we have otherwise stuck to the original as
+closely as possible.
+
+\medskip\noindent
+We fix a field $k$ (the base field).
+We fix a field $F$ of characteristic $0$ (the coefficient field).
+A Weil cohomology theory is given by data (D1), (D2), and (D3)
+subject to axioms (A), (B), (C).
+
+\medskip\noindent
+The data is given by:
+\begin{enumerate}
+\item[(D1)] A contravariant functor $H^*$ from the category
+of smooth projective schemes over $k$ to the category of
+graded commutative $F$-algebras.
+\item[(D2)] A $1$-dimensional $F$-vector space $F(1)$.
+\item[(D3)] For every smooth projective scheme $X$ over $k$
+a group homomorphism $\gamma : A^i(X) \to H^{2i}(X)(i)$.
+\item[(D4)] For every smooth projective scheme $X$ over $k$
+which is equidimensional of dimension $d$ a map
+$\int_X : H^{2d}(X)(d) \to F$.
+\end{enumerate}
+We make some remarks to explain what this means and to introduce
+some terminology associated with this.
+
+\medskip\noindent
+Remarks on (D1).
+Given a smooth projective scheme $X$ over $k$ we say that $H^*(X)$
+is the {\it cohomology} of $X$. Given a morphism $f : X \to Y$
+of smooth projective schemes over $k$ we denote $f^* : H^*(Y) \to H^*(X)$
+the map $H^*(f)$ and we call it the {\it pullback map}.
+
+\medskip\noindent
+Remarks on (D2).
+The vector space $F(1)$ gives rise to {\it Tate twists} on the category of
+$F$-vector spaces. Namely, for $n \in \mathbf{Z}$ we set
+$F(n) = F(1)^{\otimes n}$ if $n \geq 0$, we set $F(-1) = \Hom_F(F(1), F)$,
+and we set $F(n) = F(-1)^{\otimes - n}$ if $n < 0$. Please compare
+with More on Algebra, Section \ref{more-algebra-section-picard}.
+For an $F$-vector space $V$ we define then $n$th Tate twist
+$$
+V(n) = V \otimes_F F(n)
+$$
+We will use obvious notation, e.g., given $F$-vector spaces $U$, $V$
+and $W$ and a linear map $U \otimes_F V \to W$ we obtain a linear
+map $U(n) \otimes_F V(m) \to W(n + m)$ for $n, m \in \mathbf{Z}$.
+
+\medskip\noindent
+Remarks on (D3). The map $\gamma$ is called the {\it cycle class map}.
+We say that $\gamma(\alpha)$ is the {\it cohomology class} of $\alpha$.
+If $Z \subset Y \subset X$ are closed subschemes with $Y$ and $X$
+smooth projective over $k$ and $Z$ integral, then $[Z]$ could
+mean the class of the cycle $[Z]$ in $A^*(Y)$ or in $A^*(X)$.
+In this case the notation $\gamma([Z])$ is abiguous and the true meaning
+has to be deduced from context.
+
+\medskip\noindent
+Remarks on (D4). The map $\int_X$ is sometimes called the
+{\it trace map} and is sometimes denoted $\text{Tr}_X$.
+
+\medskip\noindent
+The first axiom is often called {\it Poincar\'e duality}
+\begin{enumerate}
+\item[(A)] Let $X$ be a smooth projective scheme over $k$
+which is equidimensional of dimension $d$. Then
+\begin{enumerate}
+\item $H^i(X) = 0$ unless $i \in [0, 2d]$.
+\item $\dim_F H^i(X) < \infty$ for all $i$,
+\item $H^i(X) \times H^{2d - i}(X)(d) \rightarrow
+H^{2d}(X)(d) \rightarrow F$
+is a perfect pairing for all $i$ where the final
+map is the trace map $\int_X$.
+\end{enumerate}
+\end{enumerate}
+Let $f : X \to Y$ be a morphism of smooth projective schemes with $X$
+equidimensional of dimension $d$ and $Y$ is equidimensional of dimension $e$.
+Using Poincar\'e duality we can define a {\it pushforward}
+$$
+f_* : H^{2d - i}(X)(d) \longrightarrow H^{2e - i}(Y)(e)
+$$
+as the contragredient of the linear map $f^* : H^i(Y) \to H^i(X)$. In a
+formula, for $a \in H^{2d - i}(X)(d)$, the element $f_*a \in H^{2e - i}(Y)(e)$
+is characterized by
+$$
+\int_X f^*b \cup a = \int_Y b \cup f_*a
+$$
+for all $b \in H^i(Y)$.
+
+\begin{lemma}
+\label{lemma-pushforward}
+Assume given (D1), (D2), and (D4) satisfying (A). For $f : X \to Y$
+a morphism of equidimensional smooth projective schemes over $k$ we have
+$f_*(f^*b \cup a) = b \cup f_*a$. If $g : Y \to Z$ is a second morphism
+with $Z$ smooth projective and equidimensional, then
+$g_* \circ f_* = (g \circ f)_*$.
+\end{lemma}
+
+\begin{proof}
+The first equality holds because
+$$
+\int_Y c \cup b \cup f_*a =
+\int_X f^*c \cup f^*b \cup a =
+\int_Y c \cup f_*(f^*b \cup a).
+$$
+The second equality holds because
+$$
+\int_Z c \cup (g \circ f)_*a = \int_X (g \circ f)^*c \cup a =
+\int_X f^* g^* c \cup a = \int_Y g^*c \cup f_*a = \int_Z c \cup g_*f_*a
+$$
+This ends the proof.
+\end{proof}
+
+\noindent
+The second axiom says that $H^*$ respects the monoidal structure
+given by products via the {\it K\"unneth formula}
+\begin{enumerate}
+\item[(B)] Let $X$ and $Y$ be smooth projective schemes over $k$.
+\begin{enumerate}
+\item $\int_{\Spec(k)} : H^0(\Spec(k)) \to F$ sends $1$ to $1$,
+\item $H^*(X) \otimes_F H^*(Y) \to H^*(X \times Y)$,
+$\alpha \otimes \beta \mapsto \text{pr}_1^*\alpha \cup \text{pr}_2^*\beta$
+is an isomorphism,
+\item $H^*(X \amalg Y) \to H^*(X) \times H^*(Y)$,
+$\alpha \longmapsto (\alpha|_X, \alpha|_Y)$ is an isomorphism.
+\end{enumerate}
+\end{enumerate}
+If $H^*(-)$ is a cohomology theory defined only for smooth projective
+varieties over $k$, then we can use axiom (B)(c) to
+(uniquely) extend the functor to all smooth projective schemes over $k$.
+
+\medskip\noindent
+The third axiom concerns the cycle class maps
+\begin{enumerate}
+\item[(C)] The cycle class maps satisfy the following rules
+\begin{enumerate}
+\item for a morphism $f : X \to Y$ of smooth projective schemes over
+$k$ we have $\gamma(f^*\beta) = f^*\gamma(\beta)$ for $\beta \in A^*(Y)$,
+\item for a morphism $f : X \to Y$ of equidimensional smooth projective schemes
+over $k$ we have
+$\gamma(f_*\alpha) = f_*\gamma(\alpha)$ for $\alpha \in A^*(X)$,
+\item for any smooth projective scheme $X$ over $k$ we have
+$\gamma(\alpha \cdot \beta) = \gamma(\alpha) \cup \gamma(\beta)$
+for $\alpha, \beta \in A^*(X)$, and
+\item if $X$ is a smooth projective scheme equidimensional of dimension $d$
+over $k$, then the image of $\gamma : A^d(X) \to H^{2d}(X)(d)$ generates
+$H^{2d}(X)(d)$ over $H^0(X)$.
+\end{enumerate}
+\end{enumerate}
+Let us elucidate condition (b). Namely, say that $X$ is equidimensional
+of dimension $d$ and $Y$ is equidimensional of dimension $e$. Then we
+see that pushforward on Chow groups gives
+$$
+f_* : A^{d - i}(X) = A_i(X) \to A_i(Y) = A^{e - i}(Y)
+$$
+Say $\alpha \in A^{d - i}(X)$. On the one hand, we have
+$f_*\alpha \in A^{e - i}(Y)$ and hence
+$\gamma(f_*\alpha) \in H^{2e - 2i}(Y)(e - i)$.
+On the other hand, we have
+$\gamma(\alpha) \in H^{2d - 2i}(X)(d - i)$ and hence
+$f_*\gamma(\alpha) \in H^{2e - 2i}(Y)(e - i)$ as well.
+Thus the condition $\gamma(f_*\alpha) = f_*\gamma(\alpha)$ makes sense.
+
+\begin{remark}
+\label{remark-replace-cup-product}
+Let $X$ be a smooth projective scheme over $k$. We obtain a map
+$$
+H^*(X) \otimes_F H^*(X) \longrightarrow H^*(X \times X)
+\xrightarrow{\Delta^*} H^*(X)
+$$
+where $\Delta^*$ is pullback along the diagonal morphism
+$\Delta : X \to X \times X$. The composition is the cup product.
+(Hints: pullback is an algebra homomorphism and
+$\Delta^* \circ p^* = \text{id}$ and $\Delta^* \circ 1^* = \text{id}$.)
+On the other hand, the intersection product
+$\alpha \cdot \beta$ of cycles $\alpha, \beta$ on $X$ is the
+pullback of the exterior product $\alpha \times \beta$ on $X \times X$.
+It follows that in order to prove axiom (C)(c) it suffices to show
+that $\gamma$ is compatible with exterior product (we leave the
+precise formulation to the reader).
+\end{remark}
+
+\begin{definition}
+\label{definition-weil-cohomology-theory}
+Let $k$ be a field. Let $F$ be a field of characteristic $0$.
+A {\it Weil cohomology theory} over $k$ with coefficients in $F$
+is given by data (D1), (D2), (D3), and (D4) satisfying
+Poincar\'e duality, the K\"unneth formula, and compatibility
+with cycle classes, more precisely, satisfying (A), (B), and (C).
+\end{definition}
+
+\noindent
+We give some consequences of these axioms.
+
+\begin{lemma}
+\label{lemma-base}
+Let $H^*$ be a Weil cohomology theory
+(Definition \ref{definition-weil-cohomology-theory}).
+Set $S = \Spec(k)$.
+Then $H^i(S) = 0$ for $i \not = 0$ and there is a
+unique $F$-algebra isomorphism $F = H^0(S)$.
+We have $\gamma([S]) = 1$ and
+$\int_S 1 = 1$.
+\end{lemma}
+
+\begin{proof}
+Observe that $S \times S = S$. By axiom (B)(a) we have $H^*(S)$
+is nonzero and by axiom (B)(b) we have
+$H^*(S) \otimes_F H^*(S) = H^*(S)$. Calculating dimensions on both sides
+we see that $H^i(S) = 0$ unless $i = 0$ and we have
+$F = H^0(S)$ via the unique isomorphism given by mapping $1 \in F$ to
+$1 \in H^0(S)$. The element $\gamma([S]) \in H^0(S)$ is nonzero by
+axiom (C)(d). Observe that $[S] \cdot [S] = [S]$. By axiom (C)(c)
+we see that $\gamma([S])^2 = \gamma([S])$. Since $\gamma([S])$
+is nonzero we conclude that $\gamma([S]) = 1$.
+Finally, we have $\int_X 1 = 1$ by axiom (B)(a).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-unit}
+Let $H^*$ be a Weil cohomology theory
+(Definition \ref{definition-weil-cohomology-theory}).
+Let $X$ be a nonempty smooth projective scheme over $k$.
+Then $\gamma([X]) = 1$ and $1 \not = 0$ in $H^0(X)$.
+\end{lemma}
+
+\begin{proof}
+Observe that $[X]$ is the pullback of $[S]$ by the structure morphism
+$p : X \to S = \Spec(k)$. Hence we get $\gamma([X]) = 1$ by axiom (C)(a).
+To see that $1 \not = 0$ it suffices to show that $H^*(X)$ is nonzero.
+By axiom (B)(c) we may decompose $X$ into its irreducible components.
+Hence we may and do assume $X$ is equidimensional of dimension $d$.
+
+\medskip\noindent
+Let $x \in X$ be a closed point whose residue field $k'$ is separable over $k$,
+see Varieties, Lemma \ref{varieties-lemma-smooth-separable-closed-points-dense}.
+Set $S' = \Spec(k')$ and let
+$i : S' \to X$ be the inclusion morphism. Observe that
+$p_*i_*[S'] = [k' : k][S]$ in $A_0(S) = A^0(S)$ is nonzero.
+Using axiom (C)(b) twice and Lemma \ref{lemma-base}
+we conclude that
+$$
+p_*i_*\gamma([S']) = \gamma([k' : k][S]) = [k' : k] \in H^0(S)
+$$
+is nonzero. Thus $i_*\gamma([S']) \in H^{2d}(X)(d)$ is nonzero
+(because it maps to something nonzero via $p_*$). This concludes the proof.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-push-unit}
+Let $H^*$ be a Weil cohomology theory
+(Definition \ref{definition-weil-cohomology-theory}). Let $i : X \to Y$
+be a closed immersion of smooth projective equidimensional schemes over $k$.
+Then $\gamma([X]) = i_*1$ in $H^{2c}(Y)(c)$ where $c = \dim(Y) - \dim(X)$.
+\end{lemma}
+
+\begin{proof}
+This is true because $1 = \gamma([X])$ in $H^0(X)$ by Lemma \ref{lemma-unit}
+and then we can apply axiom (C)(b).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-dim-0}
+Let $H^*$ be a Weil cohomology theory
+(Definition \ref{definition-weil-cohomology-theory}).
+Let $X$ be a smooth projective scheme of dimension zero over $k$.
+Then
+\begin{enumerate}
+\item $H^i(X) = 0$ for $i \not = 0$,
+\item $H^0(X)$ is a finite separable algebra over $F$,
+\item $\dim_F H^0(X) = \deg(X \to \Spec(F))$,
+\item $\int_X : H^0(X) \to F$ is the trace map,
+\item $\gamma([X]) = 1$, and
+\item $\int_X \gamma([X]) = \deg(X \to \Spec(k))$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+We can write $X = \Spec(k')$ where $k'$ is a finite separable
+algebra over $k$. Observe that $\deg(X \to \Spec(k)) = [k' : k]$.
+
+\medskip\noindent
+Choose a finite Galois extension $k''/k$ containing each of the
+factors of $k'$. (Recall that a finite separable $k$-algebra is
+a product of finite separable field extension of $k$.) Then we get
+$$
+k' \otimes_k k'' = \prod\nolimits_{\sigma \in \Hom_k(k', k'')} k''
+$$
+Setting $Y = \Spec(k'')$ axioms (B)(b) and (B)(c) give
+$$
+H^*(X) \otimes_F H^*(Y) =
+\bigoplus\nolimits_{\sigma \in \Hom_k(k', k'')} H^*(Y)
+$$
+as graded commutative $F$-algebras. By Lemma \ref{lemma-unit} the
+$F$-algebra $H^*(Y)$ is nonzero. Comparing dimensions on either side
+of the displayed equation we conclude that $H^*(X)$ sits only in degree $0$ and
+$\dim_F H^0(X) = [k' : k]$. Since
+$$
+H^0(X) \otimes_F H^0(Y) = H^0(Y) \times \ldots \times H^0(Y)
+$$
+as $F$-algebras, it follows that $H^0(X)$ is a separable $F$-algebra
+because we may check this after the faithfully flat base change
+$F \to H^0(Y)$. By Lemma \ref{lemma-unit} we have $\gamma([X]) = 1$.
+Denote $f : X \to \Spec(k)$ the structure morphism. Then we have
+$$
+\int_X \gamma([X]) = \int_{\Spec(k)} f_*\gamma([X]) =
+\int_{\Spec(k)} \gamma(f_*[X]) = [k' : k]
+$$
+The first equality is the definition of $f_*$ on cohomology.
+The second equality follows from axiom (C)(b). The third equality
+follows from $f_*[X] = [k' : k] [\Spec(k)]$ and the results
+of Lemma \ref{lemma-base}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-generated-by-separable}
+Let $k$ be a field. Let $X$ be a smooth projective scheme over $k$.
+Then $A_0(X)$ is generated by classes of closed points whose residue
+fields are separable over $k$.
+\end{lemma}
+
+\begin{proof}
+The lemma is immediate if $k$ has characteristic $0$ or is perfect.
+Thus we may assume $k$ is an infinite field of characteristic $p > 0$.
+
+\medskip\noindent
+We may assume $X$ is irreducible of dimension $d$.
+Observe that $k' = H^0(X, \mathcal{O}_X)$ is a finite separable
+extension of $k$ and that $X$ is geometrically integral over $k'$.
+We may and do replace $k$ by $k'$ and assume that $X$ is
+geometrically integral.
+
+\medskip\noindent
+Let $x \in X$ be a closed point. Choose a sufficiently ample invertible
+$\mathcal{O}_X$-module $\mathcal{L}$. Choose a trivialization
+$\mathcal{L}_x = \mathcal{O}_{X, x}$. Set
+$$
+V = \{s \in H^0(X, \mathcal{L}) \mid s(x) = 0 \}
+$$
+The map $V \to \mathfrak m_x/\mathfrak m_x^2$ is surjective because
+$\mathcal{L}$ is sufficiently ample. Consider the set
+$$
+V^d \supset U =
+\{
+(s_1, \ldots, s_d) \in V^d \mid s_1, \ldots, s_d
+\text{ generate }
+\mathfrak m_x/\mathfrak m_x^2
+\text{ over }\kappa(x)
+\}
+$$
+For $(s_1, \ldots, s_d) \in U$ set $H_i = Z(s_i)$. Since
+$s_1, \ldots, s_d$ generate $\mathfrak m_x$ we see that
+$$
+H_1 \cap \ldots \cap H_d = x \amalg Z
+$$
+scheme theoretically.
+We claim that for sufficiently general $(s_1, \ldots, s_d) \in U$
+the scheme $Z$ is finite \'etale over $\Spec(k)$. This will finish
+the proof as it shows that $[x] \sim_{rat} - [Z] + [Z']$
+where $Z' = H'_1 \cap \ldots \cap H'_d$ is a general complete
+intersection of vanishing loci of sufficiently general sections
+of $\mathcal{L}$.
+
+\medskip\noindent
+To see that the claim is true, we may assume $\mathcal{L}$ is such that
+there exists one choice of $s_1, \ldots, s_d$ such that
+$H_1 \cap \ldots \cap H_d = x \amalg x' \amalg Z''$ (scheme theoretically)
+for some closed point $x' \in X$ whose residue field is separable over $k$.
+Namely, we can find a point $x'$ whose residue field is separable over
+$k$ by
+Varieties, Lemma \ref{varieties-lemma-smooth-separable-closed-points-dense}.
+Then we choose $s_1, \ldots, s_d$ as above, but also vanishing at
+$x'$ and generating $\mathfrak m_{x'}$.
+The existence of this shows that the projection $I \to U$ from
+incidence correspondence
+$$
+U \times X \setminus \{x\} \supset
+I = \{((s_1, \ldots, s_d), x') \mid x' \in H_1 \cap \ldots \cap H_d\}
+$$
+is \'etale at some point. On the other hand, since $X \setminus \{x\}$
+is geometrically integral, and since the geometric fibres of
+the flat finite type morphism
+$I \to X$ are open subschemes of linear spaces, we conclude that 
+$I$ is geometrically integral over $k$.
+Then we conclude that $I \to U$ is \'etale over (!)
+a dense open subscheme $U' \subset U$. Since $k$-rational
+points are dense in $U'$ we conclude.
+Details omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-degrees-cycles}
+Let $H^*$ be a Weil cohomology theory
+(Definition \ref{definition-weil-cohomology-theory}).
+Let $X$ be a smooth projective scheme equidimensional of dimension $d$
+over $k$. The diagram
+$$
+\xymatrix{
+A^d(X) \ar[r]_-\gamma \ar@{=}[d] &
+H^{2d}(X)(d) \ar[d]^{\int_X} \\
+A_0(X) \ar[r]^\deg & F
+}
+$$
+commutes where $\deg : A_0(X) \to \mathbf{Z}$ is the degree of
+zero cycles discussed in Chow Homology, Section
+\ref{chow-section-degree-zero-cycles}.
+\end{lemma}
+
+\begin{proof}
+Let $x$ be a closed point of $X$ whose residue field is separable
+over $k$. View $x$ as a scheme and denote
+$i : x \to X$ the inclusion morphism. To avoid confusion denote
+$\gamma' : A_0(x) \to H^0(x)$ the cycle class map for $x$.
+Then we have
+$$
+\int_X \gamma([x]) = \int_X \gamma(i_*[x]) =
+\int_X i_*\gamma'([x]) = \int_x \gamma'([x]) = \deg(x \to \Spec(k))
+$$
+The second equality is axiom (C)(b) and the third equality is
+the definition of $i_*$ on cohomology. This proves the lemma
+because $A^0(X)$ is generated by the classes of points $x$ as above
+by Lemma \ref{lemma-generated-by-separable}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-trace-disjoint-union}
+Let $H^*$ be a Weil cohomology theory
+(Definition \ref{definition-weil-cohomology-theory}).
+Let $X, Y$ be smooth projective schemes equidimensional of dimension $d$
+over $k$. Then $\int_{X \amalg Y} = \int_X + \int_Y$.
+\end{lemma}
+
+\begin{proof}
+Denote $i : X \to X \amalg Y$ and $j : Y \to X \amalg Y$ be the coprojections.
+By axiom (B)(c) the map
+$(i^*, j^*) : H^*(X \amalg Y) \to H^*(X) \times H^*(Y)$ is an isomorphism.
+The statement of the lemma means that under the isomorphism
+$H^{2d}(X \amalg Y)(d) \to H^{2d}(X)(d) \oplus H^{2d}(Y)(d)$
+the map $\int_X + \int_Y$ is tranformed into $\int_{X \amalg Y}$.
+
+\medskip\noindent
+By Lemma \ref{lemma-push-unit} we have $i_*1 = \gamma([X])$ and
+$j_*1 = \gamma([Y])$. Hence $i_*1 + j_*1 = \gamma([X]) + \gamma([Y]) =
+\gamma([X] + [Y]) = \gamma([X \amalg Y]) = 1$. Thus we have
+$$
+\int_{X \amalg Y} a =
+\int_{X \amalg Y} a(i_*1 + j_*1) =
+\int_{X \amalg Y} i_*(i^*a) + j_*(j^*a) =
+\int_X i^*a +
+\int_Y j^*a
+$$
+as desired. We have used Lemma \ref{lemma-pushforward}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-dim-0-trace}
+Let $H^*$ be a Weil cohomology theory
+(Definition \ref{definition-weil-cohomology-theory}).
+Let $X$ be a smooth projective scheme of dimension zero over $k$.
+Then $\int_X : H^0(X) \to F$ is the trace map.
+\end{lemma}
+
+\begin{proof}
+Write $X = \Spec(k')$ as in the proof of Lemma \ref{lemma-dim-0}.
+Choose $k''/k$ finite Galois such that every factor of $k'$
+maps into $k''$ as in the proof of Lemma \ref{lemma-dim-0}.
+Then $\Sigma = \Hom_k(k', k'')$ has $[k' : k]$ elements and
+we have seen in the proof of Lemma \ref{lemma-dim-0} that the map
+$$
+H^0(X) \otimes_F H^0(Y) \longrightarrow
+\prod\nolimits_{\sigma \in \Sigma} H^0(Y),\quad
+a \otimes b \longmapsto \prod\nolimits_\sigma \Spec(\sigma)^*a \cup b
+$$
+is an isomorphism. Write $H^0(Y) = \prod F_i$ as a finite product of
+finite separable extensions of $F$. Define the $F$-algebra maps
+$$
+\tau_{i, \sigma} :
+H^0(X) \xrightarrow{\Spec(\sigma)^*} H^0(Y) \to F_i
+$$
+We get $H^0(X) \otimes_F F_i = \prod\nolimits_{\sigma \in \Sigma} F_i$
+via the maps $\tau_{i, \sigma}$. Hence $\tau_{i, \sigma}$
+must be pairwise distinct and must exhaust the set
+$T_i = \Hom_F(H^0(X), F_i)$ which must have cardinality $[k' : k]$.
+It follows that $\sum_\sigma \tau_{i, \sigma} = \tau_i \circ \text{Tr}$
+where $\text{Tr} : H^0(X) \to F$ is the trace map and
+$\tau_i : F \to F_i$ is some linear map. Hence
+$\sum_\sigma \Spec(\sigma)^* = \tau \circ \text{Tr}$ where
+$\tau  = \sum \tau_i : F \to H^0(Y)$.
+We conclude that
+$$
+\int_{X \times Y} a \otimes 1 =
+\sum\nolimits_\sigma \int_Y \Spec(\sigma)^*a =
+\int_Y \sum\nolimits_\sigma \Spec(\sigma)^*a =
+\int_Y \tau(\text{Tr}(a))
+$$
+On the other hand, if $p : X \times Y \to X$ is the first projection,
+we have
+$$
+\int_{X \times Y} a \otimes 1 = \int_X p_*(a \otimes 1) =
+\int_X a \cup p_*1 = [k'' : k] \int_X a
+$$
+The first equality is the definition of $p_*$. The second equality
+by Lemma \ref{lemma-pushforward}. The third equality because
+$$
+p_*1 = p_*\gamma([X \times Y]) =
+\gamma(p_*[X \times Y]) = \gamma([k'' : k][Y]) =
+[k'' : k] \gamma([Y]) = [k'' : k]
+$$
+where we've used Lemma \ref{lemma-unit}.
+All in all we conclude that $\int_X a = \lambda(\text{Tr}(a))$
+for some linear map $\lambda : F \to F$.
+Using that $\int_X 1 = \deg(X \to \Spec(k))$ found in Lemma \ref{lemma-dim-0}
+we conclude.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-trace-product}
+Let $H^*$ be a Weil cohomology theory
+(Definition \ref{definition-weil-cohomology-theory}).
+Let $X$ and $Y$ be equidimensional smooth projective schemes over $k$.
+Then $\int_{X \times Y} = \int_X \otimes \int_Y$.
+\end{lemma}
+
+\begin{proof}
+Say $X$ has dimension $d$ and $Y$ has dimension $e$.
+Denote $p : X \times Y \to X$ and $q : X \times Y \to Y$ the
+projections. The statement means that under the isomorphism
+$H^{2d}(X)(d) \otimes_F H^{2e}(Y)(e) \to H^{2d + 2e}(X \times Y)(d + e)$
+the map $\int_{X \times Y}$ is tranformed into $\int_X \otimes \int_Y$.
+
+\medskip\noindent
+Say $X$ and $Y$ have dimension $0$. Then the result holds by
+Lemma \ref{lemma-dim-0-trace} as the trace map has the corresponding property.
+
+\medskip\noindent
+General case. By Lemma \ref{lemma-generated-by-separable} and axiom (C)(d)
+it suffices to check this on element of the form
+$$
+p^*(a \cup \gamma([x])) \cup q^*(b \cup \gamma([y])) =
+p^*a \cup q^*b \cup \gamma([x \times y])
+$$
+where $x \in X$, $y \in Y$ are closed points whose residue fields are
+separable over $k$ and $a \in H^0(X)$, $b \in H^0(Y)$. To see the
+equality use axioms (C)(a) and (C)(c) and use that the intersection
+product of $[x \times Y]$ and $[X \times y]$ is $[x \times y]$.
+Denote $i : x \times y \to X \times Y$ the inclusion morphism.
+Denote $f = p \circ i : x \times y \to X$ and
+$g = q \circ i : x \times y \to y$. We compute
+\begin{align*}
+\int_{X \times Y} p^*a \cup q^*b \cup \gamma([x \times y])
+& =
+\int_{X \times Y} p^*a \cup q^*b \cup i_*1 \\
+& =
+\int_{X \times Y} i_*(f^*a \cup g^*b) \\
+& =
+\int_{x \times y} f^*a \cup g^*b \\
+& =
+(\int_x f^*a) (\int_y g^*b)
+\end{align*}
+The first equality because $i_*1 = \gamma([x \times y])$, see
+Lemma \ref{lemma-push-unit}. The second equality by
+Lemma \ref{lemma-pushforward}. The third is the definition of $i_*$.
+The fourth is the case of dimension $0$.
+We conclude because
+$\int_x f^*a = \int_X a \cup \gamma([x])$ and
+$\int_y g^*b = \int_Y b \cup \gamma([y])$
+by a similar argument which we omit.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-class-diagonal}
+Let $H^*$ be a Weil cohomology theory
+(Definition \ref{definition-weil-cohomology-theory}).
+Let $X$ be a smooth projective scheme which is equidimensional
+of dimension $d$ over $k$. Choose a basis
+$e_{i, j}, j = 1, \ldots, \beta_i$ of $H^i(X)$ over $F$.
+Using K\"unneth write
+$$
+\gamma([\Delta]) =
+\sum\nolimits_{i = 0, \ldots, 2d}
+\sum\nolimits_j e_{i, j} \otimes e'_{2d - i , j}
+\quad\text{in}\quad
+\bigoplus\nolimits_i H^i(X) \otimes_F H^{2d - i}(X)(d)
+$$
+with $e'_{2d - i, j} \in H^{2d - i}(X)(d)$.
+Then $\int_X e_{i, j} \cup e'_{2d - i, j'} = \delta_{jj'}$.
+\end{lemma}
+
+\begin{proof}
+Recall that $\Delta^* : H^*(X \times X) \to H^*(X)$ is equal to the
+cup product map $H^*(X) \otimes_F H^*(X) \to H^*(X)$. On the other
+hand, recall that $\gamma([\Delta]) = \Delta_*1$ (Lemma \ref{lemma-push-unit})
+and hence
+$$
+\int_{X \times X} \gamma([\Delta]) \cup a \otimes b =
+\int_{X \times X} i_*1 \cup a \otimes b =
+\int_X a \cup b
+$$
+On the other hand, we have
+$$
+\int_{X \times X} (\sum e_{i, j} \otimes e'_{2d -i , j}) \cup a \otimes b =
+\sum (\int_X e_{i, j} \cup a)(\int_X e'_{2d - i, j} \cup b)
+$$
+by Lemma \ref{}. Thus if we choose $a$ such that $\int_X e_{i, j} \cup a = 1$
+and all other pairings equal to zero, then we conclude that
+$\int_X e'_{2d - i, j} \cup b = \int_X a \cup b$ for all $b$, i.e.,
+$e'_{2d - i, j} = a$. This proves the lemma.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-square-diagonal}
+Let $H^*$ be a Weil cohomology theory
+(Definition \ref{definition-weil-cohomology-theory}).
+Let $X$ be a smooth projective scheme over $k$ which is equidimensional
+of dimension $d$. We have
+$$
+\sum\nolimits_{i = 0, \ldots, 2d} \dim_F H^i(X) =
+\deg(\Delta \cdot \Delta) = \deg(c_d(\mathcal{T}_{X/k}))
+$$
+\end{lemma}
+
+\begin{proof}
+The equality on the right holds by Chow Homology, Lemma \ref{}.
+By Lemma \ref{} we have
+$$
+\deg(\Delta \cdot \Delta) =
+\int_{X \times X} \gamma([\Delta]) \cup \gamma([\Delta])
+$$
+Write $\gamma([\Delta]) = \sum  e_{i, j} \otimes e'_{2d - i , j}$
+as in Lemma \ref{}.
+Denote $\sigma : X \times X \to X \times X$ the automorphism switching
+the factors. Observe that $a \otimes b = \text{pr}_1^*(a) \cup \text{pr}_2^*b$
+and hence
+$$
+\sigma^*(a \otimes b) =  \text{pr}_2^*(a) \cup \text{pr}_1^*b =
+(-1)^{\deg(a)\deg(b)} b \otimes a
+$$
+Since $\sigma(\Delta) = \Delta$ we find
+$\gamma([\Delta]) = \sum (-1)^i e'_{2d - i , j} \otimes e_{i, j}$.
+Using notation as in Lemma \ref{} we compute
+\begin{align*}
+\gamma([\Delta]) \cup \gamma([\Delta])
+& =
+\sum (-1)^{i'}
+e_{i, j} \otimes e'_{2d - i , j} \cup e'_{2d - i', j'} \otimes e_{i', j'} \\
+& =
+\sum (-1)^{i'} e_{i, j} \cup e'_{2d - i', j'} \otimes 
+e_{i', j'} \cup e'_{2d - i , j}
+\end{align*}
+(Note that we made two switches of order in the second step.)
+If we apply $\int_{X \times X} = \int_X \otimes \int_X$ to this
+we obtain $(-1)^i$ exactly when $i = i'$ and $j = j'$ and zero else.
+This proves the lemma.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-H-0-separable}
+Let $H^*$ be a Weil cohomology theory
+(Definition \ref{definition-weil-cohomology-theory}).
+Let $X$ be a smooth projective scheme over $k$. Then
+$H^0(X)$ is a finite separable algebra over $F$.
+\end{lemma}
+
+\begin{proof}
+By decomposing $X$ into its irreducible components we may
+assume $X$ is irreducible and in particular equidimensional
+of dimension $d$. Combining the finite dimensionality of
+$H^{2d}(X)(d)$ of axiom (A)(b), with axiom (C)(d) and
+Lemma \ref{lemma-generated-by-separable}
+we can find finitely many closed points
+$x_1, \ldots, x_r \in X$ whose residue fields are
+separable over $k$ such that $\gamma([x_1]), \ldots, \gamma([x_r])$
+generate $H^{2d}(X)(d)$ over $H^0(X)$.
+Recall that $\gamma([x_i]) = i_{i, *}1$ where
+$i_i : x_i \to X$ is the inclusion morphism, see
+Lemma \ref{lemma-push-unit}. Thus $a \cup \gamma([x_i]) = i_{i, *}(i_i^*a)$ by
+Lemma \ref{lemma-pushforward}. In other words, we see that
+$$
+(i_{1, *}, \ldots, i_{r, *}) :
+H^0(x_1) \times \ldots \times H^0(x_r)
+\longrightarrow
+H^{2d}(X)(d)
+$$
+is surjective. Using Poincar\'e duality in the form of axiom (A)(c),
+this implies that the $F$-algebra map
+$$
+(i_1^*, \ldots, i_r^*) :
+H^0(X)
+\longrightarrow
+H^0(x_1) \times \ldots \times H^0(x_r)
+$$
+is injective. Using Lemma \ref{lemma-dim-0} we conclude that
+$H^0(X)$ is a separable $F$-algebra.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-relations-classes-points}
+Let $H^*$ be a Weil cohomology theory
+(Definition \ref{definition-weil-cohomology-theory}).
+Let $k'/k$ be a finite separable extension.
+Let $X$ be a smooth projective scheme over $k'$.
+Let $x, x' \in X$ be $k'$-rational points.
+If $\gamma(x) \not = \gamma(x')$, then
+$x - x'$ is not divisible by any integer $n > 1$ in $A_0(X)$.
+\end{lemma}
+
+\begin{proof}
+We may assume $X$ is equidimensional of dimension $d$.
+Say $x - x' = n(\sum m_i x_i)$ for some $x_i \in X$ closed points
+whose residue fields are separable over $k$ (Lemma \ref{}).
+Then
+$$
+\gamma(x) - \gamma(x') = n (\sum m_i \gamma(x_i))
+$$
+in $H^{2d}(X)(d)$. Denote $i^*, (i')^*, i_i^*$ the pullback maps
+$H^0(X) \to H^0(x)$, $H^0(X) \to H^0(x')$, $H^0(X) \to H^0(x_i)$.
+Recall that $\int_x : H^0(x) \to F$ is the trace map, which
+we will denote $\text{Tr}_x$. Similarly for $x'$ and $x_i$.
+Then by Poincar\'e duality the equation above is dual to
+$$
+\text{Tr}_x \circ i^* - \text{Tr}_{x'} \circ (i')^* =
+\sum nm_i \text{Tr}_{x_i} \circ i_i^*
+$$
+which takes place in $\Hom_F(H^0(X), F)$.
+
+\medskip\noindent
+In order to see what is going on, momentarily we assume $F$ is separably closed.
+Then each of $H^0(\Spec(k'))$, $H^0(X)$, $H^0(x)$, $H^0(x')$, $H^0(x_i)$
+is a product of copies of $F$ by Lemma \ref{}.
+Let $e \in H^0(X)$ be an idempotent generating a factor.
+Note that since $x$ and $x'$ are rational points, the composition
+$H^0(\Spec(k')) \to H^0(X) \to H^0(x)$ is an isomorphism.
+This implies $i^*e$ is either a minimal idempotent (i.e.,
+generates a factor $F$) or zero. Similarly for $(i')^*$.
+If $\gamma(x) \not = \gamma(x')$, then $i^* \not = (i')^*$ and
+hence we can choose $e$ such that $i^*e \not = 0$ and
+$(i')^*e = 0$. Then $\text{Tr}_x(i^*e) = 1$ and $\text{Tr}_{x'}((i')^*e) = 0$.
+On the other hand, $i_i^*e$ is an idempotent
+and hence $\text{Tr}_{x_i}(i_i^*e) = r_i$ is an integer.
+We conclude that
+$$
+1 = \sum n m_i r_i = n (\sum m_i r_i)
+$$
+which is impossible.
+
+\medskip\noindent
+If $F$ is not separably algebraically closed, then we replace
+$H^*( - )$ by $H^*( - ) \otimes_F F^{sep}$ and we conclude.
+Details omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-divide-difference-points}
+Let $k$ be a field. Let $X$ be a geometrically connected
+smooth projective scheme over $k$. Let $x, x' \in X$ be $k$-rational points.
+Then there exists a finite separable extension $k'/k$ such that
+the pullback of $x - x'$ to $X_{k'}$
+is divisible by an integer $n > 1$ in $A_0(X_{k'})$.
+\end{lemma}
+
+\begin{proof}
+Using Bertini we can choose a smooth curve $C \subset X$
+such that $x, x' \in C$. (One may have to extend $k$
+a little bit here.) This reduces us to the case where
+$X$ is a curve. Next, we see that $\mathcal{O}_X(x - x')$
+defines a $k$-rational point of $\Pic_{X/k}$.
+Choose a prime $\ell$ invertible in $k$. Since
+$[\ell] : \Pic_{X/k} \to \Pic_{X/k}$ is finite \'etale,
+we see that after replacing $k$ by a finite separable extension
+the invertible module $\mathcal{O}_X(x - x')$ has an
+$\ell$th root in $\Pic(X)$. This is what we had to show.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-H-0}
+Let $H^*$ be a Weil cohomology theory
+(Definition \ref{definition-weil-cohomology-theory}).
+Let $X$ be a smooth projective scheme over $k$. Set
+$k' = H^0(X, \mathcal{O}_X)$. This is a finite separable algebra
+over $k$ and $X \to \Spec(k')$ has geometrically irreducible
+fibres. Finally, $H^0(\Spec(k')) \to H^0(X)$ is an isomorphism.
+\end{lemma}
+
+\begin{proof}
+We omit the proof of the geometric statements. Decomposing
+$X$ into irreducible components, we may assume $X$ is irreducible
+and $k'$ is a field. Let $k''/k'$ be a finite separable field
+extension. Then
+$$
+H^0(X) \otimes_{H^0(\Spec(k'))} H^0(\Spec(k'')) =
+H^0(X \times_{\Spec(k')} \Spec(k''))
+$$
+by K\"unneth and some arguments we omit. Thus, in order to prove that
+$H^0(\Spec(k')) \to H^0(X)$ is an isomorphism, we may always replace
+$k'$ by a finite separable extension.
+Choose $x_1, \ldots, x_r \in X$ closed
+points such that $H^0(X) \to \prod H^0(x_i)$ is injective, see
+proof of Lemma \ref{}.
+After extending $k'$ we may assume $x_1, \ldots, x_r$
+are $k'$-rational points (but this replaces each $x_i$ with multiple
+points, so $r$ is increased in this step). Next, by Lemma \ref{}
+we may assume the differences $x_i - x_j$ are divisible by
+positive integers in $A_0(X)$. Then we see that
+$\gamma(x_1) = \gamma(x_2) = \ldots = \gamma(x_r)$ by Lemma \ref{}.
+In other words all the maps $H^0(X) \to H^0(x_i)$
+are the same. This ends the proof.
+\end{proof}
+
+\begin{remark}
+\label{remark-betti-numbers-in-some-sense}
+Let $H^*$ be a Weil cohomology theory
+(Definition \ref{definition-weil-cohomology-theory}).
+Let $X$ be a geometrically irreducible smooth projective scheme
+over a finite separable extension $k'/k$. Suppose that
+$$
+H^0(\Spec(k')) = F_1 \times \ldots \times F_r
+$$
+for some fields $F_i$. Then we accordingly can write
+$$
+H^*(X) = \prod\nolimits_{i = 1, \ldots, r}
+H^*(X) \otimes_{H^0(\Spec(k'))} F_i
+$$
+Now, Lemma \ref{} tells us that $H^0(X)$ is free of rank $1$
+over $\prod F_i$. In other words, each of the factors
+$H^0(X) \otimes_{H^0(\Spec(k'))} F_i$ has dimension $1$ over $F_i$.
+Poincar\'e duality then tells us that the same is true for
+cohomology in degree $2d$.
+What isn't clear however is that the same holds in other degrees.
+Namely, we don't know that given $0 < n < \dim(X)$ the integers
+$$
+\dim_{F_i} H^n(X) \otimes_{H^0(\Spec(k'))} F_i
+$$
+are independent of $i$! This question appears to be closely related
+to the question of whether betti numbers of smooth projective
+varieties are independent of the choice of a Weil cohomology theory.
+\end{remark}
 
 
 
