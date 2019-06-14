@@ -32,7 +32,7 @@ in \cite{Kleiman-cycles}, see (insert future reference here).
 
 \noindent
 Let $R$ be a ring. A {\it graded commutative $R$-algebra} $A$ is a
-strictly commutative differential graded $R$-algebra
+commutative differential graded $R$-algebra
 (Differential Graded Algebra, Definitions \ref{dga-definition-dga} and
 \ref{dga-definition-cdga}) whose differential is zero. Thus $A$
 is an $R$-module endowed with a grading
@@ -106,22 +106,983 @@ if $\alpha, \beta$ are cycles on $X$ smooth over $k$.
 
 
 
-
-
-
-
-\section{Weil cohomology theories}
-\label{section-axioms}
+\section{Monoidal categories}
+\label{section-monoidal}
 
 \noindent
-In this section we state precisely what data constitutes a
-Weil cohomology theory, see \cite[Section 1.2]{Kleiman-cycles}.
-We have modified the conditions to allow for nonalgebraically closed
-base fields, but we have otherwise stuck to the original as
-closely as possible.
+Let $\mathcal{C}$ be a category. Suppose we are given a functor
+$$
+\otimes : \mathcal{C} \times \mathcal{C} \longrightarrow \mathcal{C}
+$$
+We often want to know whether $\otimes$ satisfies an associative rule
+and whether there is a unit for $\otimes$.
 
 \medskip\noindent
-We fix a field $k$ (the base field).
+An {\it associativity constraint} for $(\mathcal{C}, \otimes)$ is
+a functorial isomorphism
+$$
+\phi_{X, Y, Z} : X \otimes (Y \otimes Z) \to (X \otimes Y) \otimes Z
+$$
+such that for all objects $X, Y, Z, W$ the diagram
+$$
+\xymatrix{
+X \otimes (Y \otimes ( Z \otimes W)) \ar[r] \ar[d] &
+(X \otimes Y) \otimes (Z \otimes W) \ar[r] &
+((X \otimes Y) \otimes Z) \otimes W \ar[d]  \\
+X \otimes ((Y \otimes Z) \otimes W) \ar[rr] & &
+(X \otimes (Y \otimes Z)) \otimes W
+}
+$$
+is commutative where every arrow is determined by a suitable application
+of $\phi$ and functoriality of $\otimes$. Given an associativity constraint
+there are well defined functors
+$$
+\mathcal{C} \times \ldots \times \mathcal{C} \longrightarrow \mathcal{C},
+\quad
+(X_1, \ldots, X_n) \longmapsto X_1 \otimes \ldots \otimes X_n
+$$
+for all $n \geq 1$.
+
+\medskip\noindent
+Let $\phi$ be an associativity constraint. A {\it unit} for
+$(\mathcal{C}, \otimes, \phi)$ is an object $\mathbf{1}$
+of $\mathcal{C}$ together with functorial isomorphisms
+$$
+\mathbf{1} \otimes X \to X
+\quad\text{and}\quad
+X \otimes \mathbf{1} \to X
+$$
+such that for all objects $X, Y$ the diagram
+$$
+\xymatrix{
+X \otimes (\mathbf{1} \otimes Y) \ar[rr]_\phi \ar[rd] & &
+(X \otimes \mathbf{1}) \otimes Y \ar[ld] \\
+& X \otimes Y
+}
+$$
+is commutative where the diagonal arrows are given by the isomorphisms
+introduced above.
+
+\medskip\noindent
+An equivalent definition would be that a unit is a pair
+$(\mathbf{1}, 1)$ where $\mathbf{1}$ is an object of $\mathcal{C}$ and
+$1 : \mathbf{1} \otimes \mathbf{1} \to \mathbf{1}$
+is an isomorphism such that the functors $L : X \mapsto \mathbf{1} \otimes X$
+and $R : X \mapsto X \otimes \mathbf{1}$ are equivalences.
+Certainly, given a unit as above we get the isomorphism
+$1 : \mathbf{1} \otimes \mathbf{1} \to \mathbf{1}$ for free
+and $L$ and $R$ are equivalences as they are isomorphic to the
+identity functor. Conversely, given $(\mathbf{1}, 1)$ such that
+$L$ and $R$ are equivalences, we obtain functorial isomorphisms
+$l : \mathbf{1} \otimes X \to X$ and $r : X \otimes \mathbf{1} \to X$
+characterized by $L(l) = 1 \otimes \text{id}_X$ and
+$R(r) = \text{id}_X \otimes 1$. Then we can use $r$ and $l$
+in the notion of unit as above.
+
+\medskip\noindent
+A unit is unique up to unique isomorphism if it exists (exercise).
+
+\begin{definition}
+\label{definition-monoidal-category}
+A triple $(\mathcal{C}, \otimes, \phi)$ where $\mathcal{C}$ is a category,
+$\otimes : \mathcal{C} \times \mathcal{C} \to \mathcal{C}$ is a functor,
+and $\phi$ is an associativity constraint is called a {\it monoidal category}
+if there exists a unit $\mathbf{1}$.
+\end{definition}
+
+\noindent
+We always write $\mathbf{1}$ to denote a unit of a monoidal category;
+it is determined up to unique isomorphism there is no harm in choosing one.
+From now on we no longer write the brackets when taking tensor
+products in monoidal categories and we always identify
+$X \otimes \mathbf{1}$ and $\mathbf{1} \otimes X$ with $X$.
+Moreover, we will say ``let $\mathcal{C}$ be a monoidal category''
+with $\otimes, \phi, \mathbf{1}$ understood.
+
+\begin{definition}
+\label{definition-functor-monoidal-categories}
+Let $\mathcal{C}$ and $\mathcal{C}'$ be monoidal categories.
+A {\it functor of monoidal categories} $F : \mathcal{C} \to \mathcal{C}'$
+is given by a functor $F$ as indicated and a natural transformation
+$$
+F(X) \otimes F(Y) \to F(X \otimes Y)
+$$
+such that for all objects $X, Y, Z$ the diagram
+$$
+\xymatrix{
+F(X) \otimes (F(Y) \otimes F(Z)) \ar[r] \ar[d] &
+F(X) \otimes F(Y \otimes Z) \ar[r] &
+F(X \otimes (Y \otimes Z)) \ar[d] \\
+(F(X) \otimes F(Y)) \otimes F(Z) \ar[r] &
+F(X \otimes Y) \otimes F(Z) \ar[r] &
+F((X \otimes Y) \otimes Z)
+}
+$$
+commutes and such that $F(\mathbf{1})$ is a unit in $\mathcal{C}'$.
+\end{definition}
+
+\noindent
+By our conventions about units, we may always assume
+$F(\mathbf{1}) = \mathbf{1}$ if $F$ is a functor of monoidal categories.
+As an example, if $A \to B$ is a ring homomorphism, then
+the functor $M \mapsto M \otimes_A B$ is functor of monoidal
+categories from $\text{Mod}_A$ to $\text{Mod}_B$.
+
+\begin{lemma}
+\label{lemma-invertible}
+Let $\mathcal{C}$ be a monoidal category. Let $X$ be an object of
+$\mathcal{C}$. The following are equivalent
+\begin{enumerate}
+\item the functor $L : Y \mapsto X \otimes Y$ is an equivalence,
+\item the functor $R : Y \mapsto Y \otimes X$ is an equivalence,
+\item there exists an object $X'$ such that
+$X \otimes X' \cong X' \otimes X \cong \mathbf{1}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Assume (1). Choose $X'$ such that $L(X') = \mathbf{1}$, i.e.,
+$X \otimes X' \cong \mathbf{1}$. Denote $L'$ and $R'$ the functors
+corresponding to $X'$. The equation $X \otimes X' \cong \mathbf{1}$
+implies $L \circ L' \cong \text{id}$. Thus $L'$ must be the quasi-inverse
+to $L$ (which exists by assumption). Hence $L' \circ L \cong \text{id}$.
+Hence $X' \otimes X \cong \mathbf{1}$. Thus (3) holds.
+
+\medskip\noindent
+The proof of (2) $\Rightarrow$ (3) is dual to what we just said.
+
+\medskip\noindent
+Assume (3). Then it is clear that $L'$ and $L$ are quasi-inverse
+to each other and it is clear that $R'$ and $R$ are quasi-inverse
+to each other. Thus (1) and (2) hold.
+\end{proof}
+
+\begin{definition}
+\label{definition-invertible}
+Let $\mathcal{C}$ be a monoidal category. An object $X$ of $\mathcal{C}$
+is called {\it invertible} if any (or all) of the equivalent conditions of
+Lemma \ref{lemma-invertible} hold.
+\end{definition}
+
+\noindent
+Observe that if $F : \mathcal{C} \to \mathcal{C}'$ is a functor of
+monoidal categories, then $F$ sends invertible objects to invertible
+objects.
+
+\begin{definition}
+\label{definition-dual}
+Given a monoidal category $(\mathcal{C}, \otimes, \phi)$
+and an object $X$ a {\it left dual} is an object $Y$ together with
+morphisms $\eta : \mathbf{1} \to X \otimes Y$ and
+$\epsilon : Y \otimes X \to \mathbf{1}$
+such that the diagrams
+$$
+\vcenter{
+\xymatrix{
+X \ar[rd]_1 \ar[r]_-{\eta \otimes 1} &
+X \otimes Y \otimes X  \ar[d]^{1 \otimes \epsilon} \\
+& X
+}
+}
+\quad\text{and}\quad
+\vcenter{
+\xymatrix{
+Y \ar[rd]_1 \ar[r]_-{1 \otimes \eta} &
+Y \otimes X \otimes Y  \ar[d]^{\epsilon \otimes 1} \\
+& Y
+}
+}
+$$
+commute.
+\end{definition}
+
+\noindent
+Observe that if $F : \mathcal{C} \to \mathcal{C}'$ is a functor of
+monoidal categories, then $F(Y)$ is a left dual of $F(X)$ if
+$Y$ is a left dual of $X$.
+
+\begin{lemma}
+\label{lemma-left-dual-graded-vector-spaces}
+Let $F$ be a field. Let $\mathcal{C}$ be the category of graded
+$F$-vector spaces viewed as a monoidal category
+with the usual tensor structure. If $V$ in $\mathcal{C}$
+has a left dual $W$, then $\sum_i \dim_F V^i < \infty$
+and the map $\epsilon$ defines nondegenerate pairings
+$W^{-i} \times V^i \to F$.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\noindent
+A {\it commutativity constraint} for $(\mathcal{C}, \otimes)$ is a
+functorial isomorphism
+$$
+\psi : X \otimes Y \longrightarrow Y \otimes X
+$$
+such that the composition
+$$
+X \otimes Y \xrightarrow{\psi} Y \otimes X \xrightarrow{\psi} X \otimes Y
+$$
+is the identity. We say $\psi$ is {\it compatible} with a given associativity
+constraint $\phi$ if for all objects $X, Y, Z$ the diagram
+$$
+\xymatrix{
+X \otimes (Y \otimes Z) \ar[r]_\phi \ar[d]^\psi &
+(X \otimes Y) \otimes Z \ar[r]_\psi &
+Z \otimes (X \otimes Y) \ar[d]^\phi \\
+X \otimes (Z \otimes Y) \ar[r]^\phi &
+(X \otimes Z) \otimes Y \ar[r]^\psi &
+(Z \otimes X) \otimes Y
+}
+$$
+commutes.
+
+\begin{definition}
+\label{definition-symmetric-monoidal-category}
+A quadruple $(\mathcal{C}, \otimes, \phi, \psi)$ where
+$\mathcal{C}$ is a category,
+$\otimes : \mathcal{C} \otimes \mathcal{C} \to \mathcal{C}$ is a functor,
+$\phi$ is an associativity constraint, and
+$\psi$ is a commutativity constraint compatible with $\phi$
+is called a {\it symmetric monoidal category} if there exists
+a unit.
+\end{definition}
+
+\noindent
+To be sure, if $(\mathcal{C}, \otimes, \phi, \psi)$ is a
+symmetric monoidal category, then $(\mathcal{C}, \otimes, \phi)$
+is a monoidal category.
+
+\begin{example}
+\label{example-graded-vector-spaces}
+Let $F$ be a field. Let $\mathcal{C}$ be the category of graded
+$F$-vector spaces with its usual tensor structure. There are
+two commutativity constraints on $\mathcal{C}$: one involves the
+intervention of signs and the other does not. In this chapter we will
+use the one that does. To be explicit, if $V$ and $W$ are graded $F$-vector
+spaces we will use the isomorphism
+$$
+\psi : V \otimes_F W \longrightarrow W \otimes_F V
+$$
+which sends $v \otimes w$ to $(-1)^{ab}w \otimes v$ if
+$v \in V^a$ and $w \in W^b$.
+\end{example}
+
+\begin{definition}
+\label{definition-functor-symmetric-monoidal-categories}
+Let $\mathcal{C}$ and $\mathcal{C}'$ be symmetric monoidal categories.
+A {\it functor of symmetric monoidal categories}
+$F : \mathcal{C} \to \mathcal{C}'$
+is given by a functor $F$ as indicated and a natural transformation
+$$
+F(X) \otimes F(Y) \to F(X \otimes Y)
+$$
+such that $F$ is a functor of monoidal categories and such that
+for all objects $X, Y$ the diagram
+$$
+\xymatrix{
+F(X) \otimes F(Y) \ar[r] \ar[d] &
+F(X \otimes Y) \ar[d] \\
+F(Y) \otimes F(X) \ar[r] &
+F(Y \otimes X)
+}
+$$
+commutes.
+\end{definition}
+
+
+
+
+
+
+
+
+\section{Correspondences}
+\label{section-correspondences}
+
+\noindent
+Let $k$ be a field. In this section we construct the graded category over
+$\mathbf{Q}$ whose objects are smooth projective schemes over $k$ and whose
+morphisms are correspondences.
+
+\medskip\noindent
+Let $X$ and $Y$ be smooth projective schemes over $k$.
+Let $X = \coprod X_d$ be the decomposition of $X$ into
+the open and closed subschemes which are equidimensional
+with $\dim(X_d) = d$. We define the $\mathbf{Q}$-vector space
+{\it of correspondences of degree $r$ from $X$ to $Y$}
+by the formula:
+$$
+\text{Corr}^r(X, Y) =
+\bigoplus\nolimits_d A^{d + r}(X_d \times Y) \otimes \mathbf{Q}
+\subset
+A^*(X \times Y)
+$$
+Given $c \in \text{Corr}^r(X, Y)$ and $\beta \in A_k(Y) \otimes \mathbf{Q}$
+we can define the {\it pullback} of $\beta$ by $c$ using the formula
+$$
+c^*(\beta) = \text{pr}_{1, *}(c \cap \text{pr}_2^*\beta)
+\quad\text{in}\quad
+A_{k - r}(X) \otimes \mathbf{Q}
+$$
+This makes sense because $\text{pr}_2$ is flat of relative dimension
+$d$ on $X_d \times Y$, hence $\text{pr}_2^*\beta$ is a cycle of
+dimension $d + k$ on $X_d \times Y$, hence $c \cap \text{pr}_2^*\alpha$
+is a cycle of dimension $k - r$ on $X_d \times Y$ whose pushforward
+by the proper morphism $\text{pr}_1$ is a cycle of the same dimension.
+Similarly, switching to grading by codimension,
+given $\alpha \in A^i(X) \otimes \mathbf{Q}$ we can define the
+{\it pushforward} of $\alpha$ by $c$ using the formula
+$$
+c_*(\alpha) = \text{pr}_{2, *}(c \cap \text{pr}_1^*\alpha)
+\quad\text{in}\quad
+A^{i + r}(Y) \otimes \mathbf{Q}
+$$
+This makes sense because $\text{pr}_1^*\alpha$ is a cycle of codimension
+$i$ on $X \times Y$, hence $c \cap \text{pr}_1^*\alpha$ is a cycle
+of codimension $i + d + r$ on $X_d \times Y$, which pushes forward
+to a cycle of codimension $i + r$ on $Y$.
+
+\medskip\noindent
+Given a three smooth projective schemes $X, Y, Z$ over $k$ we define a
+{\it composition of correspondences}
+$$
+\text{Corr}^s(Y, Z)
+\times
+\text{Corr}^r(X, Y)
+\longrightarrow
+\text{Corr}^{r + s}(X, Z)
+$$
+by the rule
+$$
+(c', c)
+\longmapsto
+c' \circ c =
+\text{pr}_{13, *}(\text{pr}_{12}^*c \cdot \text{pr}_{23}^*c')
+$$
+where $\text{pr}_{12} : X \times Y \times Z \to X \times Y$
+is the projection and similarly for $\text{pr}_{13}$ and $\text{pr}_{23}$.
+
+\begin{lemma}
+\label{lemma-composition-correspondences}
+We have the following for correspondences:
+\begin{enumerate}
+\item composition of correspondences is $\mathbf{Q}$-bilinear
+and associative,
+\item there is a canonical isomorphism
+$$
+A_{-r}(X) = \text{Corr}^r(X, \Spec(k))
+$$
+such that pullback by correspondences corresponds to composition,
+\item there is a canonical isomorphism
+$$
+A^r(X) \otimes \mathbf{Q} = \text{Corr}^r(\Spec(k), X)
+$$
+such that pushforward by correspondences corresponds to composition,
+\item composition of correspondences is compatible with pushforward and
+pullback of cycles.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Bilinearity follows immediately from the linearity of pushforward
+and pullback and the bilinearity of the intersection product.
+To prove associativity, say we have
+$X, Y, Z, W$ and $c \in \text{Corr}(X, Y)$, $c' \in \text{Corr}(Y, Z)$, and
+$c'' \in \text{Corr}(Z, W)$. Then we have
+\begin{align*}
+c'' \circ (c' \circ c)
+& =
+\text{pr}^{134}_{14, *}(
+\text{pr}^{134, *}_{13}
+\text{pr}^{123}_{13, *}(\text{pr}^{123, *}_{12}c \cdot
+\text{pr}^{123, *}_{23}c')
+\cdot \text{pr}^{134, *}_{34}c'') \\
+& =
+\text{pr}^{134}_{14, *}(
+\text{pr}^{1234}_{134, *}
+\text{pr}^{1234, *}_{123}(\text{pr}^{123, *}_{12}c \cdot
+\text{pr}^{123, *}_{23}c')
+\cdot \text{pr}^{134, *}_{34}c'') \\
+& =
+\text{pr}^{134}_{14, *}(
+\text{pr}^{1234}_{134, *}
+(\text{pr}^{1234, *}_{12}c \cdot
+\text{pr}^{1234, *}_{23}c')
+\cdot \text{pr}^{134, *}_{34}c'') \\
+& =
+\text{pr}^{134}_{14, *}
+\text{pr}^{1234}_{134, *}
+((\text{pr}^{1234, *}_{12}c \cdot
+\text{pr}^{1234, *}_{23}c')
+\cdot \text{pr}^{1234, *}_{34}c'') \\
+& =
+\text{pr}^{1234}_{14, *}(
+(\text{pr}^{1234, *}_{12}c \cdot
+\text{pr}^{1234, *}_{23}c') \cdot
+\text{pr}^{1234, *}_{34}c'')
+\end{align*}
+Since intersection product is associative this concludes the proof
+of associativity of composition of correspondences.
+
+\medskip\noindent
+We omit the proofs of (2) and (3).
+
+\medskip\noindent
+The statement on pushforward and pullback of cycles
+means that $(c' \circ c)^*(\alpha) = c^*((c')^*(\alpha))$ and
+$(c' \circ c)_*(\alpha) = (c')_*(c_*(\alpha))$.
+This follows on combining (1), (2), and (3).
+\end{proof}
+
+\begin{example}
+\label{example-graph-correspondence}
+Let $f : Y \to X$ be a morphism of smooth projective schemes over $k$.
+Denote $\Gamma_f \subset X \times Y$ the graph of $f$. More precisely,
+$\Gamma_f$ is the image of the closed immersion
+$$
+(f, \text{id}_Y) : Y \longrightarrow X \times Y
+$$
+If $X$ is equidimensional of dimension $d$, then $\Gamma_f$
+has pure codimension $d$. Hence
+$[\Gamma_f] \in A^*(X \times Y) \otimes \mathbf{Q}$
+is contained in $\text{Corr}^0(X \times Y)$, i.e., $[\Gamma_f]$
+is a correspondence of degree $0$ from $X$ to $Y$.
+\end{example}
+
+\begin{lemma}
+\label{lemma-identity-correspondence}
+Let $X$ be a smooth projective scheme over $k$. Consider the diagonal
+$\Delta \subset X \times X$ of $X$. The class of $\Delta$ is an
+unit element of the graded algebra $\text{Corr}^*(X, X)$.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-contravariant-functor}
+There is a contravariant functor from the category of smooth
+projective schemes over $k$ to the category of correspondences
+which is the identity on objects and sends $f : Y \to X$ to
+the element $[\Gamma_f] \in \text{Corr}^0(X, Y)$.
+\end{lemma}
+
+\begin{proof}
+To see this we have to show if $g : Z \to Y$ is another morphism of
+smooth projective schemes over $k$, then we have
+$[\Gamma_g] \circ [\Gamma_f] = [\Gamma_{g \circ f}]$ in
+$\text{Corr}^0(X, Z)$. Details omitted.
+\end{proof}
+
+\begin{remark}
+\label{remark-transpose}
+Let $X$ and $Y$ be smooth projective schemes over $k$.
+Assume $X$ is equidimensional of dimension $d$ and
+$Y$ is equidimensional of dimension $e$. Then the isomorphism
+$X \times Y \to Y \times X$ switching the factors determines
+an isomorphism
+$$
+\text{Corr}^r(X, Y) \longrightarrow \text{Corr}^{d - e + r}(Y, X),\quad
+c \longmapsto c^t
+$$
+called the {\it transpose}. It acts on cycles as well as cycle classes.
+An example which is sometimes useful, is the transpose
+$[\Gamma_f]^t = [\Gamma_f^t]$ of the graph of a morphism $f : Y \to X$.
+\end{remark}
+
+\begin{lemma}
+\label{lemma-functor-and-cycles}
+Let $f : Y \to X$ be a morphism of smooth projective schemes over $k$.
+Let $[\Gamma_f] \in \text{Corr}^0(X, Y)$ be as in
+Example \ref{example-graph-correspondence}. Then
+\begin{enumerate}
+\item pushforward of cycles by the correspondence $[\Gamma_f]$
+corresponds to pullback of cycles by $f$,
+\item pullback of cycles by the correspondence $[\Gamma_f]$
+corresponds to pushforward of cycles by $f$,
+\item if $X$ and $Y$ are equidimensional of dimensions $d$ and $e$,
+then
+\begin{enumerate}
+\item pushforward of cycles by the correspondence
+$[\Gamma_f^t]$ of Remark \ref{remark-transpose}
+corresponds to pushforward of cycles by $f$, and
+\item pullback of cycles by the correspondence
+$[\Gamma_f^t]$ of Remark \ref{remark-transpose}
+corresponds to pullback of cycles by $f$.
+\end{enumerate}
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\begin{example}
+\label{example-decompose-P1}
+Let $X = \mathbf{P}^1_k$. Then we have
+$$
+\text{Corr}^0(X, X) = A^1(X \times X) = A_1(X \times X)
+$$
+Choose a $k$-rational point $x \in X$ and
+consider the cycles $c_0 = [x \times X]$ and $c_2 = [X \times x]$.
+A computation shows that $1 = [\Delta] = c_0 + c_2$ in $\text{Corr}^0(X, X)$
+and that we have the following rules for composition
+$c_0 \circ c_0 = c_0$,
+$c_0 \circ c_2 = 0$,
+$c_2 \circ c_0 = 0$, and
+$c_2 \circ c_2 = c_2$.
+In other words, $c_0$ and $c_2$ are orthogonal idempotents in
+the algebra $\text{Corr}^0(X, X)$ and in fact we get
+$$
+\text{Corr}^0(X, X) = \mathbf{Q} \times \mathbf{Q}
+$$
+as a $\mathbf{Q}$-algebra.
+\end{example}
+
+\noindent
+The category of correspondences is a symmetric monoidal category.
+Given smooth projective schemes $X$ and $Y$ over $k$, we define
+$X \otimes Y = X \times Y$. As associativity constraint
+$$
+X \otimes (Y \otimes Z) = (X \otimes Y) \otimes Z
+$$
+we use the usual associativity constraint on products of schemes.
+The unit object will be $\Spec(k)$. The commutativity will be
+given by the isomorphism $X \times Y \to Y \times X$ switching the factors.
+Given four smooth projective schemes $X, X', Y, Y'$ over $k$
+we define a tensor product
+$$
+\otimes :
+\text{Corr}^r(X, Y) \times \text{Corr}^{r'}(X', Y')
+\longrightarrow
+\text{Corr}^{r + r'}(X \times X', Y \times Y')
+$$
+by the rule
+$$
+(c, c') \longmapsto
+c \otimes c' = \text{pr}_{13}^*c \cdot \text{pr}_{24}^*c'
+$$
+where $\text{pr}_{13} : X \times X' \times Y \times Y' \to X \times Y$
+and $\text{pr}_{24} : X \times X' \times Y \times Y' \to X' \times Y'$
+are the projections.
+
+\begin{lemma}
+\label{lemma-tensor-product}
+The tensor product of correspondences defined above turns the category of
+correspondences into a symmetric monoidal category with unit $\Spec(k)$.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-prep-dual}
+Let $f : Y \to X$ be a morphism of smooth projective schemes over $k$.
+Assume $X$ and $Y$ equidimensional of dimensions $d$ and $e$.
+Denote $a = [\Gamma_f] \in \text{Corr}^0(X, Y)$ and
+$a^t = [\Gamma_f^t] \in \text{Corr}^{d - e}(Y, X)$.
+Set
+$\eta_X = [\Gamma_{X \to X \times X}] \in \text{Corr}^0(X \times X, X)$,
+$\eta_Y = [\Gamma_{Y \to Y \times Y}] \in \text{Corr}^0(Y \times Y, Y)$,
+$[X] \in \text{Corr}^d(X, \Spec(k))$, and
+$[Y] \in \text{Corr}^e(Y, \Spec(k))$. The diagram
+$$
+\xymatrix{
+X \otimes Y \ar[r]_{a^t \otimes \text{id}} \ar[d]_{\text{id} \otimes a} &
+Y \otimes Y \ar[r]_{\eta_Y} &
+Y \ar[d]^{[Y]} \\
+X \otimes X \ar[r]^{\eta_X} &
+X \ar[r]^{[X]} &
+\Spec(k)
+}
+$$
+is commutative in the category of correspondences.
+\end{lemma}
+
+\begin{proof}
+Going either way around the diagram a computation shows that we
+obtain the element of $\text{Corr}^d(X \times Y, \Spec(k))$
+corresponding to the cycle $\Gamma_f \subset X \times Y$.
+\end{proof}
+
+
+
+
+
+
+
+\section{Chow motives}
+\label{section-chow-motives}
+
+\noindent
+We fix a base field $k$. We want to define an additive
+Karoubian $\mathbf{Q}$-linear category $M_k$ endowed
+with a monoidal structure and a contravariant functor
+$$
+h : \{\text{smooth projective schemes over }k\} \longrightarrow M_k
+$$
+which maps products to tensor products and disjoint unions to direct sums.
+Finally, we want objects of $M_k$ to have (left) duals.
+
+\medskip\noindent
+A {\it motive} or a {\it Chow motive} over $k$ will be a triple
+$(X, p, m)$ where
+\begin{enumerate}
+\item $X$ is a smooth projective scheme over $k$,
+\item $p \in \text{Corr}^0(X, X)$ satisfies $p \circ p = p$,
+\item $m \in \mathbf{Z}$.
+\end{enumerate}
+Given a second motive $(Y, q, n)$ we define a
+{\it morphism of motives} or a {\it morphism of Chow motives}
+to be an element of
+$$
+\Hom((X, p, m), (Y, q, n)) =
+q \circ \text{Corr}^{n - m}(X, Y) \circ p \subset \text{Corr}^{n - m}(X, Y)
+$$
+Composition of morphisms of motives is defined using the composition of
+correspondences defined above.
+
+\begin{lemma}
+\label{lemma-motives}
+The category $M_k$ whose objects are motives over $k$ and morphisms
+are morphisms of motives over $k$ is a $\mathbf{Q}$-linear category.
+There is a contravariant functor
+$$
+h : \{\text{smooth projective schemes over }k\} \longrightarrow M_k
+$$
+defined by $h(X) = (X, 1, 0)$ and $h(f) = [\Gamma_f]$.
+\end{lemma}
+
+\begin{proof}
+Follows immediately from Lemma \ref{lemma-contravariant-functor}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-Karoubian}
+The category $M_k$ is Karoubian.
+\end{lemma}
+
+\begin{proof}
+Let $M = (X, p, m)$ be a motive and let $a \in \Mor(M, M)$
+be a projector. Then $a = a \circ a$ both in $\Mor(M, M)$
+as well as in $\text{Corr}^0(X, X)$. Set $N = (X, a, m)$.
+Since we have $a = p \circ a \circ a$ in $\text{Corr}^0(X, X)$
+we see that $a : N \to M$ is a morphism of $M_k$.
+Next, suppose that $b : (Y, q, n) \to M$ is a morphism
+such that $(1 - a) \circ b = 0$. Then $b = a \circ b$ as well as
+$b = b \circ q$. Hence $b$ is a morphism $b : (Y, q, n) \to N$.
+Thus we see that the projector $1 - a$ has a kernel, namely $N$
+and we find that $M_k$ is Karoubian, see
+Homology, Definition \ref{homology-definition-karoubian}.
+\end{proof}
+
+\noindent
+We define a functor
+$$
+\otimes : M_k \times M_k \longrightarrow M_k
+$$
+On objects we use the formula
+$$
+(X, p, m) \otimes (Y, q, n) = (X \times Y, p \otimes q, m + n)
+$$
+On morphisms, we use
+$$
+\xymatrix{
+\Mor((X, p, m), (Y, q, n)) \times
+\Mor((X', p', m'), (Y', q', n')) \ar[d] \\
+\Mor(
+(X \times X', p \otimes p', m + m'),
+(Y \times Y', q \otimes q', n + n'))
+}
+$$
+given by the simple rule $(a, a') \longmapsto a \otimes a'$ where
+$\otimes$ on correspondences is as in Section \ref{section-correspondences}.
+This makes sense: by definition of morphisms of motives
+we can write $a = q \circ c \circ p$ and $a' = q' \circ c' \circ p'$
+with $c \in \text{Corr}^{n - m}(X, Y)$ and
+$c' \in \text{Corr}^{n' - m'}(X', Y')$
+and then we obtain
+$$
+a \otimes a' =
+(q \circ c \circ p) \otimes (q' \circ c' \circ p') =
+(q \otimes q') \circ (c \otimes c') \circ (p \otimes p')
+$$
+which is indeed a morphism of motives from
+$(X \times X', p \otimes p', m + m')$ to
+$(Y \times Y', q \otimes q', n + n')$.
+
+\begin{lemma}
+\label{lemma-motives-monoidal}
+The category $M_k$ with tensor product defined as above
+is symmetric monoidal with the obvious associativity and commutativity
+constraints and with unit $\mathbf{1} = (\Spec(k), 1, 0)$.
+\end{lemma}
+
+\begin{proof}
+Follows readily from Lemma \ref{lemma-tensor-product}. Details omitted.
+\end{proof}
+
+\noindent
+The motives $\mathbf{1}(n) = (\Spec(k), 1, n)$ are useful. Observe that
+$$
+\mathbf{1} = \mathbf{1}(0)
+\quad\text{and}\quad
+\mathbf{1}(n + m) = \mathbf{1}(n) \otimes \mathbf{1}(m)
+$$
+Thus tensoring with $\mathbf{1}(1)$ is an autoequivalence of the
+category of motives. Given a motive $M$ we sometimes write
+$M(n) = M \otimes \mathbf{1}(n)$. Observe that if $M = (X, p, m)$,
+then $M(n) = (X, p, m + n)$.
+
+\begin{lemma}
+\label{lemma-inverse-h2}
+With notation as in Example \ref{example-decompose-P1}
+\begin{enumerate}
+\item
+the motive $(X, c_0, 0)$ is isomorphic to the motive
+$\mathbf{1} = (\Spec(k), 1, 0)$.
+\item
+the motive $(X, c_2, 0)$ is isomorphic to the motive
+$\mathbf{1}(-1) = (\Spec(k), 1, -1)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+We will use Lemma \ref{lemma-contravariant-functor} without further mention.
+The structure morphism $X \to \Spec(k)$ gives a correspondence
+$a \in \text{Corr}^0(\Spec(k), X)$. On the other hand, the rational
+point $x$ is a morphism $\Spec(k) \to X$ which gives a correspondence
+$b \in \text{Corr}^0(X, \Spec(k))$. We have $b \circ a = 1$ as a
+correspondence on $\Spec(k)$. The composition $a \circ b$ corresponds
+to the graph of the composition $X \to x \to X$ which is
+$c_0 = [x \times X]$. It follows that $a = c_0 \circ a$ and
+$b = b \circ c_0$. Hence, unwinding the definitions, we see that
+$a$ and $b$ are mutually inverse morphisms
+$a : (\Spec(k), 1, 0) \to (X, c_0, 0)$ and
+$b : (X, c_0, 0) \to (\Spec(k), 1, 0)$.
+
+\medskip\noindent
+We will proceed exactly as above to prove the second statement.
+Denote
+$$
+a' \in \text{Corr}^1(\Spec(k), X) = A^1(X)
+$$
+the class of the point $x$. Denote
+$$
+b' \in \text{Corr}^{-1}(X, \Spec(k)) = A^0(X)
+$$
+the class of $[X]$. Then $b' \circ a' = 1$ as a correspondence on $\Spec(k)$.
+Computing the intersection product
+$\text{pr}_{12}^*b' \cdot \text{pr}_{23}^*a'$
+on $X \times \Spec(k) \times X$ gives the cycle
+$X \times \Spec(k) \times x$. Hence
+the composition $a' \circ b'$ is equal to $c_2$ as a
+correspondence on $X$. It follows that $a' = c_0 \circ a'$ and
+$b' = b' \circ c_0$. Recall that
+$$
+\Mor((\Spec(k), 1, -1), (X, c_2, 0)) =
+c_2 \circ \text{Corr}^1(\Spec(k), X)
+\subset
+\text{Corr}^1(\Spec(k), X)
+$$
+and
+$$
+\Mor((X, c_2, 0), (\Spec(k), 1, -1)) =
+\text{Corr}^{-1}(X, \Spec(k)) \circ c_2
+\subset
+\text{Corr}^{-1}(X, \Spec(k))
+$$
+Hence, we see that $a'$ and $b'$ are mutually inverse morphisms
+$a' : (\Spec(k), 1, -1) \to (X, c_0, 0)$ and
+$b' : (X, c_0, 0) \to (\Spec(k), 1, -1)$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-additive}
+The category $M_k$ is additive.
+\end{lemma}
+
+\begin{proof}
+Let $(Y, p, m)$ and $(Z, q, n)$ be motives. If $n = m$, then a
+direct sum is given by $(Y \amalg Z, p + q, m)$, with obvious notation.
+Details omitted.
+
+\medskip\noindent
+Suppose that $n < m$. Let $X$, $c_2$ be as in
+Example \ref{example-decompose-P1}. Then we consider
+\begin{align*}
+(Z, q, n)
+& =
+(Z, q, m) \otimes (\Spec(k), 1, -1) \otimes \ldots \otimes
+(\Spec(k), 1, -1) \\
+& \cong
+(Z, q, m) \otimes (X, c_2, 0) \otimes \ldots \otimes (X, c_2, 0) \\
+& \cong
+(Z \times X^{m - n}, q \otimes c_2 \otimes \ldots \otimes c_2, m)
+\end{align*}
+where we have used Lemma \ref{lemma-inverse-h2}.
+This reduces us to the case discussed in the first paragraph.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-decompose-P1}
+In $M_k$ we have $h(\mathbf{P}^1_k) \cong \mathbf{1} \oplus \mathbf{1}(-1)$.
+\end{lemma}
+
+\begin{proof}
+This follows from Example \ref{example-decompose-P1} and
+Lemma \ref{lemma-inverse-h2}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-characterize-motives}
+Let $X$, $c_2$ be as in Example \ref{example-decompose-P1}.
+Let $\mathcal{C}$ be a Karoubian symmetric monoidal category.
+Any functor
+$$
+F :
+\left\{
+\begin{matrix}
+\text{smooth projective schemes over }k\\
+\text{morphisms are correspondence of degree }0
+\end{matrix}
+\right\}
+\longrightarrow
+\mathcal{C}
+$$
+of symmetric monoidal categories such that the image of $F(c_2)$ on
+$F(X)$ is an invertible object, factors uniquely through a functor
+$F : M_k \to \mathcal{C}$ of symmetric monoidal categories.
+\end{lemma}
+
+\begin{proof}
+Denote $U$ in $\mathcal{C}$ the invertible object which is assumed to exist
+in the statement of the lemma. We extend $F$ to motives by setting
+$$
+F(X, p, m) = \left(\text{the image of
+the projector }F(p)\text{ in }F(X)\right) \otimes U^{\otimes -m}
+$$
+which makes sense because $U$ is invertible and because $\mathcal{C}$
+is Karoubian. An important feature of this choice is that
+$F(X, c_2, 0) = U$. Observe that
+\begin{align*}
+F((X, p, m) \otimes (Y, q, n))
+& =
+F(X \times Y, p \otimes q, m + n) \\
+& =
+\left(\text{the image of }F(p \otimes q)\text{ in }F(X \times Y)\right)
+\otimes U^{\otimes -m - n} \\
+& =
+F(X, p, m) \otimes F(Y, q, n)
+\end{align*}
+Thus we see that our rule is compatible with tensor products on
+the level of objects (details omitted).
+
+\medskip\noindent
+Next, we extend $F$ to morphisms of motives. Suppose that
+$$
+a \in
+\Hom((Y, p, m), (Z, q, n)) =
+q \circ \text{Corr}^{n - m}(Y, Z) \circ p \subset \text{Corr}^{n - m}(Y, Z)
+$$
+is a morphism. If $n = m$, then $a$ is a correspondence of degree $0$
+and we can use $F(a) : F(Y) \to F(Z)$ to get the desired map
+$F(Y, p, m) \to F(Z, q, n)$. If $n < m$ we get canonical identifications
+\begin{align*}
+s : F((Z, q, n))
+& \to
+F(Z, q, m) \otimes U^{m - n} \\
+& \to
+F(Z, q, m) \otimes F(X, c_2, 0) \otimes \ldots \otimes F(X, c_2, 0) \\
+& \to
+F((Z, q, m) \otimes (X, c_2, 0) \otimes \ldots \otimes (X, c_2, 0)) \\
+& \to
+F((Z \times X^{m - n}, q \otimes c_2 \otimes \ldots \otimes c_2, m))
+\end{align*}
+Namely, for the first isomorphism we use the definition of $F$ on motives
+above. For the second, we use the choice of $U$. For the third we use
+the compatibility of $F$ on tensor products of motives. The fourth
+is the definition of tensor products on motives. On the other hand, since
+we similarly have an isomorphism
+$$
+\sigma : (Z, q, n) \to
+(Z \times X^{m - n}, q \otimes c_2 \otimes \ldots \otimes c_2, m)
+$$
+(see proof of Lemma \ref{lemma-additive}). Composing $a$ with this isomorphism
+gives
+$$
+\sigma \circ a \in
+\Hom((Y, p, m),
+(Z \times X^{m - n}, q \otimes c_2 \otimes \ldots \otimes c_2, m))
+$$
+Putting everything together we obtain
+$$
+s^{-1} \circ F(\sigma \circ a) :
+F(Y, p, m) \to
+F(Z, q, n)
+$$
+If $n > m$ we similarly define isomorphisms
+$$
+t : F((Y, p, m)) \to
+F((Y \times X^{n - m}, p \otimes c_2 \otimes \ldots \otimes c_2, n))
+$$
+and
+$$
+\tau : (Y, p, m)) \to
+(Y \times X^{n - m}, p \otimes c_2 \otimes \ldots \otimes c_2, n)
+$$
+and we set $F(a) = F(a \circ \tau^{-1}) \circ t$.
+We omit the verification that this construction defines a functor
+of symmetric monoidal categories.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-dual}
+Let $X$ be a smooth projective scheme over $k$ which is equidimensional
+of dimension $d$. Then $h(X)(d)$ is a left dual to $h(X)$ in $M_k$.
+\end{lemma}
+
+\begin{proof}
+We will use Lemma \ref{lemma-composition-correspondences}
+without further mention. We compute
+$$
+\Hom(\mathbf{1}, h(X) \otimes h(X)(d)) =
+\text{Corr}^d(\Spec(k), X \times X) = A^d(X \times X)
+$$
+Here we have $\eta = [\Delta]$. On the other hand, we have
+$$
+\Hom(h(X)(d) \otimes h(X), \mathbf{1}) =
+\text{Corr}^{-d}(X \times X, \Spec(k)) = A_d(X \times X)
+$$
+and here we have the class $\epsilon = [\Delta]$
+of the diagonal as well. The composition of the correspondence
+$[\Delta] \otimes 1$ with $1 \otimes [\Delta]$ either way
+is the correspondence $[\Delta] = 1$. This proves the lemma.
+\end{proof}
+
+
+
+
+
+
+
+
+\section{Classical Weil cohomology theories}
+\label{section-axioms-classical}
+
+\noindent
+In this section we state precisely what a classical Weil cohomology
+theory amounts to, exactly as in \cite[Section 1.2]{Kleiman-cycles}.
+
+\medskip\noindent
+We fix an algebrically closed field $k$ (the base field).
+In this section {\it variety} will mean a variety over $k$, see
+Varieties, Section \ref{varieties-section-varieties}.
 We fix a field $F$ of characteristic $0$ (the coefficient field).
 A Weil cohomology theory is given by data (D1), (D2), and (D3)
 subject to axioms (A), (B), (C).
@@ -130,75 +1091,57 @@ subject to axioms (A), (B), (C).
 The data is given by:
 \begin{enumerate}
 \item[(D1)] A contravariant functor $H^*$ from the category
-of smooth projective schemes over $k$ to the category of
+of smooth projective varieties to the category of
 graded commutative $F$-algebras.
-\item[(D2)] A $1$-dimensional $F$-vector space $F(1)$.
-\item[(D3)] For every smooth projective scheme $X$ over $k$
-a group homomorphism $\gamma : A^i(X) \to H^{2i}(X)(i)$.
-\item[(D4)] For every smooth projective scheme $X$ over $k$
-which is equidimensional of dimension $d$ a map
-$\int_X : H^{2d}(X)(d) \to F$.
+\item[(D2)] For every smooth projective variety $X$
+a group homomorphism $\gamma : A^i(X) \to H^{2i}(X)$.
+\item[(D3)] For every smooth projective variety $X$ of dimension $d$
+a map $\int_X : H^{2d}(X) \to F$.
 \end{enumerate}
 We make some remarks to explain what this means and to introduce
 some terminology associated with this.
 
 \medskip\noindent
-Remarks on (D1).
-Given a smooth projective scheme $X$ over $k$ we say that $H^*(X)$
-is the {\it cohomology} of $X$. Given a morphism $f : X \to Y$
-of smooth projective schemes over $k$ we denote $f^* : H^*(Y) \to H^*(X)$
-the map $H^*(f)$ and we call it the {\it pullback map}.
+Remarks on (D1). Given a smooth projective variety $X$
+we say that $H^*(X)$ is the {\it cohomology} of $X$. Given a morphism
+$f : X \to Y$ of smooth projective varieties we denote
+$f^* : H^*(Y) \to H^*(X)$ the map $H^*(f)$ and we call it the
+{\it pullback map}.
 
 \medskip\noindent
-Remarks on (D2).
-The vector space $F(1)$ gives rise to {\it Tate twists} on the category of
-$F$-vector spaces. Namely, for $n \in \mathbf{Z}$ we set
-$F(n) = F(1)^{\otimes n}$ if $n \geq 0$, we set $F(-1) = \Hom_F(F(1), F)$,
-and we set $F(n) = F(-1)^{\otimes - n}$ if $n < 0$. Please compare
-with More on Algebra, Section \ref{more-algebra-section-picard}.
-For an $F$-vector space $V$ we define then $n$th Tate twist
-$$
-V(n) = V \otimes_F F(n)
-$$
-We will use obvious notation, e.g., given $F$-vector spaces $U$, $V$
-and $W$ and a linear map $U \otimes_F V \to W$ we obtain a linear
-map $U(n) \otimes_F V(m) \to W(n + m)$ for $n, m \in \mathbf{Z}$.
-
-\medskip\noindent
-Remarks on (D3). The map $\gamma$ is called the {\it cycle class map}.
+Remarks on (D2). The map $\gamma$ is called the {\it cycle class map}.
 We say that $\gamma(\alpha)$ is the {\it cohomology class} of $\alpha$.
 If $Z \subset Y \subset X$ are closed subschemes with $Y$ and $X$
-smooth projective over $k$ and $Z$ integral, then $[Z]$ could
+smooth projective varieties and $Z$ integral, then $[Z]$ could
 mean the class of the cycle $[Z]$ in $A^*(Y)$ or in $A^*(X)$.
 In this case the notation $\gamma([Z])$ is abiguous and the true meaning
 has to be deduced from context.
 
 \medskip\noindent
-Remarks on (D4). The map $\int_X$ is sometimes called the
+Remarks on (D3). The map $\int_X$ is sometimes called the
 {\it trace map} and is sometimes denoted $\text{Tr}_X$.
 
 \medskip\noindent
 The first axiom is often called {\it Poincar\'e duality}
 \begin{enumerate}
-\item[(A)] Let $X$ be a smooth projective scheme over $k$
-which is equidimensional of dimension $d$. Then
+\item[(A)] Let $X$ be a smooth projective variety of dimension $d$. Then
 \begin{enumerate}
-\item $H^i(X) = 0$ unless $i \in [0, 2d]$.
+\item $H^i(X) = 0$ unless $i \in [0, 2d]$,
 \item $\dim_F H^i(X) < \infty$ for all $i$,
-\item $H^i(X) \times H^{2d - i}(X)(d) \rightarrow
-H^{2d}(X)(d) \rightarrow F$
+\item $H^i(X) \times H^{2d - i}(X) \rightarrow H^{2d}(X) \rightarrow F$
 is a perfect pairing for all $i$ where the final
-map is the trace map $\int_X$.
+map is the trace map $\int_X$, and
+\item $\int_X : H^{2d}(X) \to F$ is an isomorphism.
 \end{enumerate}
 \end{enumerate}
-Let $f : X \to Y$ be a morphism of smooth projective schemes with $X$
-equidimensional of dimension $d$ and $Y$ is equidimensional of dimension $e$.
-Using Poincar\'e duality we can define a {\it pushforward}
+Let $f : X \to Y$ be a morphism of smooth projective varieties
+with $\dim(X) = d$ and $\dim(Y) = e$. Using Poincar\'e duality
+we can define a {\it pushforward}
 $$
-f_* : H^{2d - i}(X)(d) \longrightarrow H^{2e - i}(Y)(e)
+f_* : H^{2d - i}(X) \longrightarrow H^{2e - i}(Y)
 $$
 as the contragredient of the linear map $f^* : H^i(Y) \to H^i(X)$. In a
-formula, for $a \in H^{2d - i}(X)(d)$, the element $f_*a \in H^{2e - i}(Y)(e)$
+formula, for $a \in H^{2d - i}(X)$, the element $f_*a \in H^{2e - i}(Y)$
 is characterized by
 $$
 \int_X f^*b \cup a = \int_Y b \cup f_*a
@@ -206,12 +1149,11 @@ $$
 for all $b \in H^i(Y)$.
 
 \begin{lemma}
-\label{lemma-pushforward}
-Assume given (D1), (D2), and (D4) satisfying (A). For $f : X \to Y$
-a morphism of equidimensional smooth projective schemes over $k$ we have
+\label{lemma-pushforward-classical}
+Assume given (D1) and (D3) satisfying (A). For $f : X \to Y$
+a morphism of smooth projective varieties we have
 $f_*(f^*b \cup a) = b \cup f_*a$. If $g : Y \to Z$ is a second morphism
-with $Z$ smooth projective and equidimensional, then
-$g_* \circ f_* = (g \circ f)_*$.
+of smooth projective varieties, then $g_* \circ f_* = (g \circ f)_*$.
 \end{lemma}
 
 \begin{proof}
@@ -233,55 +1175,33 @@ This ends the proof.
 The second axiom says that $H^*$ respects the monoidal structure
 given by products via the {\it K\"unneth formula}
 \begin{enumerate}
-\item[(B)] Let $X$ and $Y$ be smooth projective schemes over $k$.
-\begin{enumerate}
-\item $\int_{\Spec(k)} : H^0(\Spec(k)) \to F$ sends $1$ to $1$,
-\item $H^*(X) \otimes_F H^*(Y) \to H^*(X \times Y)$,
-$\alpha \otimes \beta \mapsto \text{pr}_1^*\alpha \cup \text{pr}_2^*\beta$
-is an isomorphism,
-\item $H^*(X \amalg Y) \to H^*(X) \times H^*(Y)$,
-$\alpha \longmapsto (\alpha|_X, \alpha|_Y)$ is an isomorphism.
+\item[(B)] Let $X$ and $Y$ be smooth projective varieties. The map
+$$
+H^*(X) \otimes_F H^*(Y) \to H^*(X \times Y),\quad
+a \otimes b \mapsto \text{pr}_1^*a \cup \text{pr}_2^*b
+$$
+is an isomorphism.
 \end{enumerate}
-\end{enumerate}
-If $H^*(-)$ is a cohomology theory defined only for smooth projective
-varieties over $k$, then we can use axiom (B)(c) to
-(uniquely) extend the functor to all smooth projective schemes over $k$.
 
 \medskip\noindent
 The third axiom concerns the cycle class maps
 \begin{enumerate}
 \item[(C)] The cycle class maps satisfy the following rules
 \begin{enumerate}
-\item for a morphism $f : X \to Y$ of smooth projective schemes over
-$k$ we have $\gamma(f^*\beta) = f^*\gamma(\beta)$ for $\beta \in A^*(Y)$,
-\item for a morphism $f : X \to Y$ of equidimensional smooth projective schemes
-over $k$ we have
+\item for a morphism $f : X \to Y$ of smooth projective varieties
+we have $\gamma(f^*\beta) = f^*\gamma(\beta)$ for $\beta \in A^*(Y)$,
+\item for a morphism $f : X \to Y$ of smooth projective varieties we have
 $\gamma(f_*\alpha) = f_*\gamma(\alpha)$ for $\alpha \in A^*(X)$,
-\item for any smooth projective scheme $X$ over $k$ we have
+\item for any smooth projective variety $X$ we have
 $\gamma(\alpha \cdot \beta) = \gamma(\alpha) \cup \gamma(\beta)$
 for $\alpha, \beta \in A^*(X)$, and
-\item if $X$ is a smooth projective scheme equidimensional of dimension $d$
-over $k$, then the image of $\gamma : A^d(X) \to H^{2d}(X)(d)$ generates
-$H^{2d}(X)(d)$ over $H^0(X)$.
+\item $\int_{\Spec(k)} \gamma([\Spec(k)]) = 1$.
 \end{enumerate}
 \end{enumerate}
-Let us elucidate condition (b). Namely, say that $X$ is equidimensional
-of dimension $d$ and $Y$ is equidimensional of dimension $e$. Then we
-see that pushforward on Chow groups gives
-$$
-f_* : A^{d - i}(X) = A_i(X) \to A_i(Y) = A^{e - i}(Y)
-$$
-Say $\alpha \in A^{d - i}(X)$. On the one hand, we have
-$f_*\alpha \in A^{e - i}(Y)$ and hence
-$\gamma(f_*\alpha) \in H^{2e - 2i}(Y)(e - i)$.
-On the other hand, we have
-$\gamma(\alpha) \in H^{2d - 2i}(X)(d - i)$ and hence
-$f_*\gamma(\alpha) \in H^{2e - 2i}(Y)(e - i)$ as well.
-Thus the condition $\gamma(f_*\alpha) = f_*\gamma(\alpha)$ makes sense.
 
 \begin{remark}
-\label{remark-replace-cup-product}
-Let $X$ be a smooth projective scheme over $k$. We obtain a map
+\label{remark-replace-cup-product-classical}
+Let $X$ be a smooth projective variety. We obtain a map
 $$
 H^*(X) \otimes_F H^*(X) \longrightarrow H^*(X \times X)
 \xrightarrow{\Delta^*} H^*(X)
@@ -289,146 +1209,514 @@ $$
 where $\Delta^*$ is pullback along the diagonal morphism
 $\Delta : X \to X \times X$. The composition is the cup product.
 (Hints: pullback is an algebra homomorphism and
-$\Delta^* \circ p^* = \text{id}$ and $\Delta^* \circ 1^* = \text{id}$.)
+$\text{pr}_i \circ \Delta = \text{id}$.)
 On the other hand, the intersection product
 $\alpha \cdot \beta$ of cycles $\alpha, \beta$ on $X$ is the
 pullback of the exterior product $\alpha \times \beta$ on $X \times X$.
 It follows that in order to prove axiom (C)(c) it suffices to show
-that $\gamma$ is compatible with exterior product (we leave the
-precise formulation to the reader).
+that $\gamma$ is compatible with exterior product. This is how
+axiom (C)(c) is formulated in \cite{Kleiman-cycles}.
 \end{remark}
 
 \begin{definition}
-\label{definition-weil-cohomology-theory}
-Let $k$ be a field. Let $F$ be a field of characteristic $0$.
-A {\it Weil cohomology theory} over $k$ with coefficients in $F$
-is given by data (D1), (D2), (D3), and (D4) satisfying
+\label{definition-weil-cohomology-theory-classical}
+Let $k$ be an algebraically closed field.
+Let $F$ be a field of characteristic $0$.
+A {\it classical Weil cohomology theory} over $k$ with coefficients in $F$
+is given by data (D1), (D2), and (D3) satisfying
 Poincar\'e duality, the K\"unneth formula, and compatibility
 with cycle classes, more precisely, satisfying (A), (B), and (C).
 \end{definition}
 
 \noindent
-We give some consequences of these axioms.
+We do a tiny bit of work.
 
 \begin{lemma}
-\label{lemma-base}
-Let $H^*$ be a Weil cohomology theory
-(Definition \ref{definition-weil-cohomology-theory}).
-Set $S = \Spec(k)$.
-Then $H^i(S) = 0$ for $i \not = 0$ and there is a
-unique $F$-algebra isomorphism $F = H^0(S)$.
-We have $\gamma([S]) = 1$ and
-$\int_S 1 = 1$.
+\label{lemma-degrees-cycles-classical}
+Let $H^*$ be a classical Weil cohomology theory
+(Definition \ref{definition-weil-cohomology-theory-classical}).
+Let $X$ be a smooth projective variety of dimension $d$. The diagram
+$$
+\xymatrix{
+A^d(X) \ar[r]_-\gamma \ar@{=}[d] &
+H^{2d}(X) \ar[d]^{\int_X} \\
+A_0(X) \ar[r]^\deg & F
+}
+$$
+commutes where $\deg : A_0(X) \to \mathbf{Z}$ is the degree of
+zero cycles discussed in Chow Homology, Section
+\ref{chow-section-degree-zero-cycles}.
 \end{lemma}
 
 \begin{proof}
-Observe that $S \times S = S$. By axiom (B)(a) we have $H^*(S)$
-is nonzero and by axiom (B)(b) we have
-$H^*(S) \otimes_F H^*(S) = H^*(S)$. Calculating dimensions on both sides
-we see that $H^i(S) = 0$ unless $i = 0$ and we have
-$F = H^0(S)$ via the unique isomorphism given by mapping $1 \in F$ to
-$1 \in H^0(S)$. The element $\gamma([S]) \in H^0(S)$ is nonzero by
-axiom (C)(d). Observe that $[S] \cdot [S] = [S]$. By axiom (C)(c)
-we see that $\gamma([S])^2 = \gamma([S])$. Since $\gamma([S])$
-is nonzero we conclude that $\gamma([S]) = 1$.
-Finally, we have $\int_X 1 = 1$ by axiom (B)(a).
+The result holds for $\Spec(k)$ by axiom (C)(d). Let $x : \Spec(k) \to X$
+be a closed point of $X$. Then we have $\gamma([x]) = x_*\gamma([\Spec(k)])$
+in $H^{2d}(X)$ by axiom (C)(b). Hence $\int_X \gamma([x]) = 1$ by the
+definition of $x_*$.
 \end{proof}
 
 \begin{lemma}
-\label{lemma-unit}
-Let $H^*$ be a Weil cohomology theory
-(Definition \ref{definition-weil-cohomology-theory}).
-Let $X$ be a nonempty smooth projective scheme over $k$.
-Then $\gamma([X]) = 1$ and $1 \not = 0$ in $H^0(X)$.
+\label{lemma-trace-product-classical}
+Let $H^*$ be a classical Weil cohomology theory
+(Definition \ref{definition-weil-cohomology-theory-classical}).
+Let $X$ and $Y$ be smooth projective varieties.
+Then $\int_{X \times Y} = \int_X \otimes \int_Y$.
 \end{lemma}
 
 \begin{proof}
-Observe that $[X]$ is the pullback of $[S]$ by the structure morphism
-$p : X \to S = \Spec(k)$. Hence we get $\gamma([X]) = 1$ by axiom (C)(a).
-To see that $1 \not = 0$ it suffices to show that $H^*(X)$ is nonzero.
-By axiom (B)(c) we may decompose $X$ into its irreducible components.
-Hence we may and do assume $X$ is equidimensional of dimension $d$.
+Say $\dim(X) = d$ and $\dim(Y) = e$. By axiom (B) we have
+$H^{2d + 2e}(X \times Y) = H^{2d}(X) \otimes H^{2e}(Y)$
+and by axiom (A)(d) this is $1$-dimensional.
+By Lemma \ref{lemma-degrees-cycles-classical}
+this $1$-dimensional vector space generated by the
+class $\gamma([x \times y])$ of a closed point $(x, y)$ and
+$\int_{X \times Y} \gamma([x \times y]) = 1$.
+Since $\gamma([x \times y]) = \gamma([x]) \otimes \gamma([y])$
+by axioms (C)(a) and (C)(c) and since $\int_X \gamma([x]) = 1$ and
+$\int_Y \gamma([y]) = 1$ we conclude.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-pr2star-classical}
+Let $H^*$ be a classical Weil cohomology theory
+(Definition \ref{definition-weil-cohomology-theory-classical}).
+Let $X$ and $Y$ be smooth projective varieties.
+Then $\text{pr}_{2, *} : H^*(X \times Y) \to H^*(Y)$
+sends $a \otimes b$ to $(\int_X a) b$.
+\end{lemma}
+
+\begin{proof}
+This is equivalent to the result of Lemma \ref{lemma-trace-product-classical}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-class-diagonal-classical}
+Let $H^*$ be a classical Weil cohomology theory
+(Definition \ref{definition-weil-cohomology-theory-classical}).
+Let $X$ be a smooth projective variety of dimension $d$.
+Choose a basis $e_{i, j}, j = 1, \ldots, \beta_i$ of $H^i(X)$ over $F$.
+Using K\"unneth write
+$$
+\gamma([\Delta]) =
+\sum\nolimits_{i = 0, \ldots, 2d}
+\sum\nolimits_j e_{i, j} \otimes e'_{2d - i , j}
+\quad\text{in}\quad
+\bigoplus\nolimits_i H^i(X) \otimes_F H^{2d - i}(X)
+$$
+with $e'_{2d - i, j} \in H^{2d - i}(X)$.
+Then $\int_X e_{i, j} \cup e'_{2d - i, j'} = (-1)^i\delta_{jj'}$.
+\end{lemma}
+
+\begin{proof}
+Recall that $\Delta^* : H^*(X \times X) \to H^*(X)$ is equal to the
+cup product map $H^*(X) \otimes_F H^*(X) \to H^*(X)$, see
+Remark \ref{remark-replace-cup-product-classical}. On the other hand we have
+$\gamma([\Delta]) = \Delta_*\gamma([X]) = \Delta_*1$ by
+axiom (C)(c) and the fact that $\gamma([X]) = 1$. Namely,
+$[X] \cdot [X] = [X]$ hence by axiom (C)(c) $\gamma([X])$ is $0$ or $1$ in
+the $1$-dimensional $F$-algebra $H^0(X)$. But $\gamma([X])$
+cannot be zero as $[X] \cdot [x] = [x]$ for a closed point $x$ of $X$
+and we have the nonvanishing of $\gamma([x])$ by
+Lemma \ref{lemma-degrees-cycles-classical}.
+Hence
+$$
+\int_{X \times X} \gamma([\Delta]) \cup a \otimes b =
+\int_{X \times X} \Delta_*1 \cup a \otimes b =
+\int_X a \cup b
+$$
+by the definition of $\Delta_*$. On the other hand, we have
+$$
+\int_{X \times X} (\sum e_{i, j} \otimes e'_{2d -i , j}) \cup a \otimes b =
+(\int_X a \cup e_{i, j})(\int_X e'_{2d - i, j} \cup b)
+$$
+by Lemma \ref{lemma-trace-product-classical}; note that we made
+two switches of order so that the sign is $1$.
+Thus if we choose $a$ such that $\int_X a \cup e_{i, j} = 1$
+and all other pairings equal to zero, then we conclude that
+$\int_X e'_{2d - i, j} \cup b = \int_X a \cup b$ for all $b$, i.e.,
+$e'_{2d - i, j} = a$. This proves the lemma.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-square-diagonal-classical}
+Let $H^*$ be a classical Weil cohomology theory
+(Definition \ref{definition-weil-cohomology-theory-classical}).
+Let $X$ be a smooth projective variety. We have
+$$
+\sum\nolimits_{i = 0, \ldots, 2\dim(X)} (-1)^i\dim_F H^i(X) =
+\deg(\Delta \cdot \Delta) = \deg(c_d(\mathcal{T}_X))
+$$
+\end{lemma}
+
+\begin{proof}
+The equality on the right holds by Chow Homology, Lemma \ref{}.
+By Lemma \ref{lemma-degrees-cycles-classical} we have
+\begin{align*}
+\deg(\Delta \cdot \Delta)
+& =
+\int_{X \times X} \gamma([\Delta]) \cup \gamma([\Delta]) \\
+& =
+\int_{X \times X} \Delta_*1 \cup \gamma([\Delta]) \\
+& =
+\int_{X \times X} \Delta_*(\Delta^*\gamma([\Delta])) \\
+& =
+\int_X \Delta^*\gamma([\Delta])
+\end{align*}
+Write $\gamma([\Delta]) = \sum  e_{i, j} \otimes e'_{2d - i , j}$
+as in Lemma \ref{lemma-class-diagonal-classical}.
+Recalling that $\Delta^*$ is given by cup product we obtain
+$$
+\int_X \sum\nolimits_{i, j} e_{i, j} \cup e'_{2d - i, j} =
+\sum\nolimits_{i, j} \int_X e_{i, j} \cup e'_{2d - i, j} =
+\sum\nolimits_{i, j} (-1)^i = \sum (-1)^i\beta_i
+$$
+as desired.
+\end{proof}
+
+
+
+
+\noindent
+We will now tie classical Weil cohomology theories in with motives as follows.
+
+\begin{lemma}
+\label{lemma-from-functor-to-weil-classical}
+Let $k$ be an algebraically closed field. Let $F$ be a field of
+characteristic $0$. Consider a $\mathbf{Q}$-linear functor
+$$
+G : M_k \longrightarrow \text{graded }F\text{-vector spaces}
+$$
+of symmetric monoidal categories such that $G(\mathbf{1}(1))$
+is nonzero only in degree $-2$. Then we obtain data (D1), (D2), (D3)
+satisfying all of (A), (B), (C) except for possibly (A)(a) and (A)(d).
+\end{lemma}
+
+\begin{proof}
+We obtain a contravariant functor from the category of smooth
+projective varieties to the category of graded $F$-vector spaces
+by setting $H^*(X) = G(h(X))$. By assumption we have a canonical
+isomorphism
+$$
+H^*(X \times Y) = G(h(X \times Y)) = G(h(X) \otimes h(Y)) =
+G(h(X)) \otimes G(h(Y)) = H^*(X) \otimes H^*(Y)
+$$
+compatible with pullbacks. Using pullback along the diagonal
+$\Delta : X \to X \times X$ we obtain a canonical map
+$$
+H^*(X) \otimes H^*(X) = H^*(X \times X) \to H^*(X)
+$$
+of graded vector spaces compatible with pullbacks.
+This defines a functorial graded $F$-algebra structure on
+$H^*(X)$. Since $\Delta$ commutes with the commutativity
+constraint $h(X) \otimes h(X) \to h(X) \otimes h(X)$ (switching the factors)
+and since $G$ is a functor of symmetric monoidal categories (so compatible with
+commutativity constraints), and by our convention in
+Example \ref{example-graded-vector-spaces}
+we conclude that $H^*(X)$ is a graded
+commutative algebra! Hence we get our datum (D1).
 
 \medskip\noindent
-Let $x \in X$ be a closed point whose residue field $k'$ is separable over $k$,
-see Varieties, Lemma \ref{varieties-lemma-smooth-separable-closed-points-dense}.
-Set $S' = \Spec(k')$ and let
-$i : S' \to X$ be the inclusion morphism. Observe that
-$p_*i_*[S'] = [k' : k][S]$ in $A_0(S) = A^0(S)$ is nonzero.
-Using axiom (C)(b) twice and Lemma \ref{lemma-base}
-we conclude that
+Since $\mathbf{1}(1)$ is invertible in the category of motives
+we see that $G(\mathbf{1}(1))$ is invertible in the category of
+graded $F$-vector spaces. Thus$\sum_i \dim_F G^i(\mathbf{1}(1)) = 1$.
+By assumption we only get something nonzero in degree $2$ and we may
+choose an isomorphism $F[2] \to G(\mathbf{1}(1))$ of graded $F$-vector spaces.
+Here and below $F[n]$ means the graded $F$-vector space which has
+$F$ in degree $-n$ and zero elsewhere. Using compatibility with
+tensor products, we find for all $n \in \mathbf{Z}$ an isomorphism
+$F[2n] \to G(\mathbf{1}(n))$ compatible with tensor products.
+
+\medskip\noindent
+Let $X$ be a smooth projective variety. By
+Lemma \ref{lemma-composition-correspondences} we have
 $$
-p_*i_*\gamma([S']) = \gamma([k' : k][S]) = [k' : k] \in H^0(S)
+A^r(X) \otimes \mathbf{Q} = \text{Corr}^r(\Spec(k), X) =
+\Hom(\mathbf{1}(-r), h(X))
 $$
-is nonzero. Thus $i_*\gamma([S']) \in H^{2d}(X)(d)$ is nonzero
-(because it maps to something nonzero via $p_*$). This concludes the proof.
+Applying the functor $G$ we obtain
+$$
+\gamma :
+A^r(X) \otimes \mathbf{Q} \longrightarrow
+\Hom(G(\mathbf{1}(-r)), H^*(X)) = H^{2r}(X)
+$$
+This is the datum (D2).
+
+\medskip\noindent
+Let $X$ be a smooth projective variety of dimension $d$. By
+Lemma \ref{lemma-composition-correspondences} we have
+$$
+\Mor(h(X)(d), \mathbf{1}) = \Mor((X, 1, d), (\Spec(k), 1, 0)) =
+\text{Corr}^{-d}(X, \Spec(k)) = A_d(X)
+$$
+Thus the class of the cycle $[X]$ in $A_d(X)$ defines a morphism
+$h(X)(d) \to \mathbf{1}$. Applying $G$ we obtain
+$$
+H^*(X) \otimes F[-2d] = G(h(X)(d)) \longrightarrow G(\mathbf{1}) = F
+$$
+This map is zero except in degree $0$ where we obtain
+$\int_X : H^{2d}(X) \to F$. This is the datum (D3).
+
+\medskip\noindent
+Let $X$ be equidimensional of dimension $d$. By Lemma \ref{lemma-dual}
+we know that $h(X)(d)$ is a left dual to $h(X)$. Hence
+$G(h(X)(d)) = H^*(X) \otimes F[-2d]$ is a left dual to
+$H^*(X)$ in the category of graded $F$-vector spaces.
+By Lemma \ref{lemma-left-dual-graded-vector-spaces}
+we find that $\sum_i \dim_F H^i(X) < \infty$ and that
+$\epsilon : h(X)(d) \otimes h(X) \to \mathbf{1}$ produces
+nondegenerate pairings $H^{2d - i}(X) \otimes_F H^i(X) \to F$.
+In the proof of Lemma \ref{lemma-dual} we have seen that
+$\epsilon$ is given by $[\Delta]$ via the identifications
+$$
+\Hom(h(X)(d) \otimes h(X), \mathbf{1}) =
+\text{Corr}^{-d}(X \times X, \Spec(k)) =
+A_d(X \times X)
+$$
+Thus $\epsilon$ is the composition of $[X] : h(X)(d) \to \mathbf{1}$
+and $h(\Delta)(d) : h(X)(d) \otimes h(X) \to h(X)(d)$. It follows
+that the pairings above are given by cup product followed by
+$\int_X$. This proves axiom (A) parts (b) and (c).
+
+\medskip\noindent
+Axiom (B) follows from the assumption that $G$ is compatible
+with tensor structures and our construction of the cup product above.
+
+\medskip\noindent
+Axiom (C). Our construction of $\gamma$ takes a cycle $\alpha$ on $X$,
+interprets it a correspondence $a$ from $\Spec(k)$ to $X$ of some degree,
+and then applies $G$. If $f : Y \to X$ is a morphism of smooth projective
+varieties, then $f^*\alpha$ is the pushforward (!) of $\alpha$
+by the correspondence $[\Gamma_f]$ from $X$ to $Y$, see
+Lemma \ref{lemma-functor-and-cycles}. Hence
+$f^*\alpha$ viewed as a correspondence from $\Spec(k)$ to $Y$
+is equal to $a \circ [\Gamma_f]$, see
+Lemma \ref{lemma-composition-correspondences}.
+Since $G$ is a functor, we conclude
+$\gamma$ is compatible with pullbacks, i.e., axiom (C)(a) holds.
+
+\medskip\noindent
+Let $f : Y \to X$ be a morphism of smooth projective varieties and
+let $\beta \in A^r(Y)$ be a cycle on $Y$. We have to show that
+$$
+\int_Y \gamma(\beta) \cup f^*c = \int_X \gamma(f_*\beta) \cup c
+$$
+for all $c \in H^*(X)$. Let $a, a^t, \eta_X, \eta_Y, [X], [Y]$
+be as in Lemma \ref{lemma-prep-dual}.
+Let $b$ be $\beta$ viewed as a correspondence from $\Spec(k)$ to $Y$
+of degree $r$. Then $f_*\beta$ viewed as a correspondence from
+$\Spec(k)$ to $X$ is equal to $a^t \circ b$, see
+Lemmas \ref{lemma-functor-and-cycles} and
+\ref{lemma-composition-correspondences}.
+The displayed equality above holds if we can show that
+$$
+h(X) = \mathbf{1} \otimes h(X)
+\xrightarrow{b \otimes 1}
+h(Y)(r) \otimes h(X)
+\xrightarrow{1 \otimes a}
+h(Y)(r) \otimes h(Y)
+\xrightarrow{\eta_Y}
+h(Y)(r)
+\xrightarrow{[Y]}
+\mathbf{1}(r - e)
+$$
+is equal to
+$$
+h(X) = \mathbf{1} \otimes h(X)
+\xrightarrow{a^t \circ b \otimes 1}
+h(X)(r + d - e) \otimes h(X)
+\xrightarrow{\eta_X}
+h(X)(r + d - e)
+\xrightarrow{[X]}
+\mathbf{1}(r - e)
+$$
+This follows immediately from Lemma \ref{lemma-prep-dual}.
+Thus we have axiom (C)(b).
+
+\medskip\noindent
+To prove axiom (C)(c) we use the discussion in
+Remark \ref{remark-replace-cup-product-classical}.
+Hence it suffices to prove that $\gamma$ is compatible with
+exterior products. Let $X$, $Y$ be smooth projective varieties and
+let $\alpha$, $\beta$ be cycles on them. Denote
+$a$, $b$ the corresponding correspondences from $\Spec(k)$ to
+$X$, $Y$. Then $\alpha \times \beta$ corresponds to the
+correspondence $a \otimes b$ from $\Spec(k)$ to $X \otimes Y = X \times Y$.
+Hence the requirement follows from the fact that $G$ is
+compatible with the tensor structures on both sides.
+
+\medskip\noindent
+Axiom (C)(d) follows because the cycle $[\Spec(k)]$
+corresponds to the identity morphism on $h(\Spec(k))$.
+This finishes the proof of the lemma.
 \end{proof}
 
 \begin{lemma}
-\label{lemma-push-unit}
-Let $H^*$ be a Weil cohomology theory
-(Definition \ref{definition-weil-cohomology-theory}). Let $i : X \to Y$
-be a closed immersion of smooth projective equidimensional schemes over $k$.
-Then $\gamma([X]) = i_*1$ in $H^{2c}(Y)(c)$ where $c = \dim(Y) - \dim(X)$.
+\label{lemma-from-weil-to-functor-classical}
+Let $k$ be an algebraically closed field. Let $F$ be a field of
+characteristic $0$. Let $H^*$ be a classical Weil cohomology theory.
+Then we can construct a $\mathbf{Q}$-linear functor
+$$
+G : M_k \longrightarrow \text{graded }F\text{-vector spaces}
+$$
+of symmetric monoidal categories such that $H^*(X) = G(h(X))$.
 \end{lemma}
 
 \begin{proof}
-This is true because $1 = \gamma([X])$ in $H^0(X)$ by Lemma \ref{lemma-unit}
-and then we can apply axiom (C)(b).
+By Lemma \ref{lemma-characterize-motives} it suffices to construct a functor
+$G$ on the category of smooth projective schemes over $k$
+with morphisms given by correspondences of degree $0$ such that
+the image of $G(c_2)$ on $G(\mathbf{P}^1)$ is an invertible graded
+$F$-vector space.
+Since every smooth projective scheme is canonically a disjoint
+union of smooth projective varieties, it suffices to construct
+$G$ on the category whose objects are smooth projective varieties
+and whose morphisms are correspondences of degree $0$. (Some details
+omitted.)
+
+\medskip\noindent
+Given a smooth projective variety $X$ we set $G(X) = H^*(X)$.
+
+\medskip\noindent
+Given a correspondence $c \in \text{Corr}^0(X, Y)$ between smooth
+projective varieties we consider the map
+$G(c) : G(X) = H^*(X) \to G(Y) = H^*(Y)$ given by the rule
+$$
+a \longmapsto
+G(c)(a) = \text{pr}_{2, *}(\gamma(c) \cup \text{pr}_1^*a)
+$$
+It is clear that $G(c)$ is additive in $c$ and hence $\mathbf{Q}$-linear.
+Compatibility of $\gamma$ with pullbacks, pushforwards, and
+intersection products given by axioms (C)(a), (C)(b), and (C)(c)
+shows that we have
+$G(c' \circ c) = G(c') \circ G(c)$ if $c' \in \text{Corr}^0(Y, Z)$.
+Namely, for $a \in H^*(X)$ we have
+\begin{align*}
+(G(c') \circ G(c))(a)
+& =
+\text{pr}^{23}_{3, *}(\gamma(c') \cup
+\text{pr}^{23, *}_2(\text{pr}^{12}_{2, *}(\gamma(c) \cup
+\text{pr}^{12, *}_1a))) \\
+& =
+\text{pr}^{23}_{3, *}(\gamma(c') \cup
+\text{pr}^{123}_{23, *}(\text{pr}^{123, *}_{12}(\gamma(c) \cup
+\text{pr}^{12, *}_1 a))) \\
+& =
+\text{pr}^{23}_{3, *}
+\text{pr}^{123}_{23, *}(
+\text{pr}^{123, *}_{23}\gamma(c') \cup
+\text{pr}^{123, *}_{12}\gamma(c) \cup
+\text{pr}^{123, *}_1 a) \\
+& =
+\text{pr}^{23}_{3, *}
+\text{pr}^{123}_{23, *}(
+\gamma(\text{pr}^{123, *}_{23}c') \cup
+\gamma(\text{pr}^{123, *}_{12}c) \cup
+\text{pr}^{123, *}_1 a) \\
+& =
+\text{pr}^{13}_{3, *}
+\text{pr}^{123}_{13, *}(
+\gamma(\text{pr}^{123, *}_{23}c' \cdot \text{pr}^{123, *}_{12}c) \cup
+\text{pr}^{123, *}_1 a) \\
+& =
+\text{pr}^{13}_{3, *}(
+\gamma(\text{pr}^{123}_{13, *}(\text{pr}^{123, *}_{23}c' \cdot \text{pr}^{123, *}_{12}c)) \cup
+\text{pr}^{13, *}_1 a) \\
+& =
+G(c' \circ c)(a)
+\end{align*}
+with obvious notation. To finish the proof that $G$ is a functor,
+we have to show identities are preserved. In other words, if
+$c = [\Delta] \in \text{Corr}^0(X, X)$ is the unit
+(Lemma \ref{lemma-identity-correspondence}), then we have to show that
+$G(c) = \text{id}$. This follows from the determination
+of $\gamma([\Delta])$ in Lemma \ref{lemma-class-diagonal-classical}
+and Lemma \ref{lemma-pr2star-classical}.
+This finishes the construction of $G$ as a functor on
+smooth projective varieties and correspondences of degree $0$.
+
+\medskip\noindent
+It follows from axioms (A)(a) and (A)(d) that
+$G(\Spec(k)) = H^*(\Spec(k))$ is canonically isomorphic to $F$
+as an $F$-algebra.
+The K\"unneth axiom (B) shows our functor is compatible with tensor products.
+Thus our functor is a functor of symmetric monoidal categories.
+
+\medskip\noindent
+We still have to check that the image of $G(c_2)$ on $G(\mathbf{P}^1)$
+is an invertible graded $F$-vector space (in particular we don't know yet
+that $G$ extends to $M_k$).
+By axiom (A)(d) the map $\int_{\mathbf{P}^1} : H^2(\mathbf{P}^1) \to F$
+is an isomorphism. By axiom (A)(c) we see that $\dim_F H^0(\mathbf{P}^1) = 1$.
+By Lemma \ref{lemma-square-diagonal-classical} and axiom (A)(a)
+we obtain $2 - \dim_F H^1(\mathbf{P}^1) = c_1(T_{\mathbf{P}^1}) = 2$.
+Hence $H^1(\mathbf{P}^1) = 0$. Thus
+$$
+G(\mathbf{P}^1) = H^0(\mathbf{P}^1) \oplus H^2(\mathbf{P}^1)
+$$
+Recall that $1 = c_0 + c_2$ is a decomposition of the identity
+into a sum of orthogonal idempotents in
+$\text{Corr}^0(\mathbf{P}^1, \mathbf{P}^1)$, see
+Example \ref{example-decompose-P1}. We have $c_0 = a \circ b$ where
+$a \in \text{Corr}^0(\Spec(k), \mathbf{P}^1)$ and
+$b \in \text{Corr}^0(\mathbf{P}^1, \Spec(k))$ and where
+$b \circ a = 1$ in $\text{Corr}^0(\Spec(k), \Spec(k))$, see proof of
+Lemma \ref{lemma-inverse-h2}. Since $F = G(\Spec(k))$, it follows from
+functoriality that $G(c_0)$ is the projector onto the summand
+$H^0(\mathbf{P}^1) \subset G(\mathbf{P}^1)$. Hence
+$G(c_2)$ must necessarily be the projection onto $H^2(\mathbf{P}^1)$
+and the proof is complete.
 \end{proof}
 
-\begin{lemma}
-\label{lemma-dim-0}
-Let $H^*$ be a Weil cohomology theory
-(Definition \ref{definition-weil-cohomology-theory}).
-Let $X$ be a smooth projective scheme of dimension zero over $k$.
-Then
+\begin{proposition}
+\label{proposition-weil-cohomology-theory-classical}
+Let $k$ be an algebraically closed field. Let $F$ be a field of
+characteristic $0$. A classical Weil cohomology theory is the same thing
+as a $\mathbf{Q}$-linear functor
+$$
+G : M_k \longrightarrow \text{graded }F\text{-vector spaces}
+$$
+of symmetric monoidal categories together with an isomorphism
+$F[2] \to G(\mathbf{1}(1))$ of graded $F$-vector spaces such that
+in addition
 \begin{enumerate}
-\item $H^i(X) = 0$ for $i \not = 0$,
-\item $H^0(X)$ is a finite separable algebra over $F$,
-\item $\dim_F H^0(X) = \deg(X \to \Spec(F))$,
-\item $\int_X : H^0(X) \to F$ is the trace map,
-\item $\gamma([X]) = 1$, and
-\item $\int_X \gamma([X]) = \deg(X \to \Spec(k))$.
+\item $G(h(X))$ lives in nonnegative degrees, and
+\item $\dim_F G^0(h(X)) = 1$
 \end{enumerate}
-\end{lemma}
+for any smooth projective variety $X$.
+\end{proposition}
 
 \begin{proof}
-We can write $X = \Spec(k')$ where $k'$ is a finite separable
-algebra over $k$. Observe that $\deg(X \to \Spec(k)) = [k' : k]$.
+Given $G$ and $F[2] \to G(\mathbf{1}(1))$ by setting $H^*(X) = G(h(X))$
+we obtain data (D1), (D2), (D3) satisfying all of (A), (B), (C)
+except for possibly (A)(a) and (A)(d), see
+Lemma \ref{lemma-from-functor-to-weil-classical} and its proof.
+Observe that assumptions (1) and (2) imply axioms (A)(a) and (A)(d)
+in the presence of the known axioms (A)(b) and (A)(c).
 
 \medskip\noindent
-Choose a finite Galois extension $k''/k$ containing each of the
-factors of $k'$. (Recall that a finite separable $k$-algebra is
-a product of finite separable field extension of $k$.) Then we get
-$$
-k' \otimes_k k'' = \prod\nolimits_{\sigma \in \Hom_k(k', k'')} k''
-$$
-Setting $Y = \Spec(k'')$ axioms (B)(b) and (B)(c) give
-$$
-H^*(X) \otimes_F H^*(Y) =
-\bigoplus\nolimits_{\sigma \in \Hom_k(k', k'')} H^*(Y)
-$$
-as graded commutative $F$-algebras. By Lemma \ref{lemma-unit} the
-$F$-algebra $H^*(Y)$ is nonzero. Comparing dimensions on either side
-of the displayed equation we conclude that $H^*(X)$ sits only in degree $0$ and
-$\dim_F H^0(X) = [k' : k]$. Since
-$$
-H^0(X) \otimes_F H^0(Y) = H^0(Y) \times \ldots \times H^0(Y)
-$$
-as $F$-algebras, it follows that $H^0(X)$ is a separable $F$-algebra
-because we may check this after the faithfully flat base change
-$F \to H^0(Y)$. By Lemma \ref{lemma-unit} we have $\gamma([X]) = 1$.
-Denote $f : X \to \Spec(k)$ the structure morphism. Then we have
-$$
-\int_X \gamma([X]) = \int_{\Spec(k)} f_*\gamma([X]) =
-\int_{\Spec(k)} \gamma(f_*[X]) = [k' : k]
-$$
-The first equality is the definition of $f_*$ on cohomology.
-The second equality follows from axiom (C)(b). The third equality
-follows from $f_*[X] = [k' : k] [\Spec(k)]$ and the results
-of Lemma \ref{lemma-base}.
+Conversely, given $H^*$ we get a functor $G$ by the construction of
+Lemma \ref{lemma-from-weil-to-functor-classical}. The isomorphism
+$F[2] \to G(\mathbf{1}(1))$ comes from the isomorpihsm
+$\int_{\mathbf{P}^1} : H^2(\mathbf{P}^1) \to F$ of axiom (A)(d).
+Since $G(h(X)) = H^*(X)$ assumptions (1) and (2) follow from axiom (A).
 \end{proof}
+
+
+
+
+
+
+
+
+
+
+
+\section{Cycles over non-closed fields}
+\label{sections-cycles-nonclosed}
+
+\noindent
+Some lemmas which will help us in our study of motives
+over base fields which are not algebraically closed.
 
 \begin{lemma}
 \label{lemma-generated-by-separable}
@@ -507,11 +1795,948 @@ Details omitted.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-divide-difference-points}
+Let $k$ be a field. Let $X$ be a geometrically irreducible
+smooth projective scheme over $k$. Let $x, x' \in X$ be $k$-rational points.
+Then there exists a finite separable extension $k'/k$ such that
+the pullback of $[x] - [x']$ to $X_{k'}$
+is divisible by an integer $n > 1$ in $A_0(X_{k'})$.
+\end{lemma}
+
+\begin{proof}
+Using Bertini we can choose a smooth curve $C \subset X$
+which is geometrically irreducible over $k$
+such that $x, x' \in C$. (One may have to extend $k$
+a little bit here.) This reduces us to the case where
+$X$ is a curve. Next, we see that $\mathcal{O}_X(x - x')$
+defines a $k$-rational point of $\Pic_{X/k}$.
+Choose a prime $\ell$ invertible in $k$. Since
+$[\ell] : \Pic_{X/k} \to \Pic_{X/k}$ is finite \'etale,
+we see that after replacing $k$ by a finite separable extension
+the invertible module $\mathcal{O}_X(x - x')$ has an
+$\ell$th root in $\Pic(X)$. This is what we had to show.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Weil cohomology theories, I}
+\label{section-axioms}
+
+\noindent
+For us a Weil cohomology theory will be the analogue of a
+classical Weil cohomology theory (Section \ref{section-axioms-classical})
+when the ground field is not algebraically closed.
+Motivated by Proposition \ref{proposition-weil-cohomology-theory-classical}
+in this section we will list the necessary data and axioms which will
+correspond to functors $G$ of symmetric monoidal categories from
+the category $M_k$ of motives over $k$ to the category of
+graded $F$-vector spaces such that $G(\mathbf{1}(1))$ sits in
+degree $-2$.
+
+\medskip\noindent
+We fix a field $k$ (the base field).
+We fix a field $F$ of characteristic $0$ (the coefficient field).
+The data is given by:
+\begin{enumerate}
+\item[(D1)] A contravariant functor $H^*$ from the category
+of smooth projective schemes over $k$ to the category of
+graded commutative $F$-algebras.
+\item[(D2)] A $1$-dimensional $F$-vector space $F(1)$.
+\item[(D3)] For every smooth projective scheme $X$ over $k$
+a group homomorphism $\gamma : A^i(X) \to H^{2i}(X)(i)$.
+\item[(D4)] For every nonempty smooth projective scheme $X$ over $k$
+which is equidimensional of dimension $d$ a map
+$\int_X : H^{2d}(X)(d) \to F$.
+\end{enumerate}
+We make some remarks to explain what this means and to introduce
+some terminology associated with this.
+
+\medskip\noindent
+Remarks on (D1).
+Given a smooth projective scheme $X$ over $k$ we say that $H^*(X)$
+is the {\it cohomology} of $X$. Given a morphism $f : X \to Y$
+of smooth projective schemes over $k$ we denote $f^* : H^*(Y) \to H^*(X)$
+the map $H^*(f)$ and we call it the {\it pullback map}.
+
+\medskip\noindent
+Remarks on (D2).
+The vector space $F(1)$ gives rise to {\it Tate twists} on the category of
+$F$-vector spaces. Namely, for $n \in \mathbf{Z}$ we set
+$F(n) = F(1)^{\otimes n}$ if $n \geq 0$, we set $F(-1) = \Hom_F(F(1), F)$,
+and we set $F(n) = F(-1)^{\otimes - n}$ if $n < 0$. Please compare
+with More on Algebra, Section \ref{more-algebra-section-picard}.
+For an $F$-vector space $V$ we define then $n$th Tate twist
+$$
+V(n) = V \otimes_F F(n)
+$$
+We will use obvious notation, e.g., given $F$-vector spaces $U$, $V$
+and $W$ and a linear map $U \otimes_F V \to W$ we obtain a linear
+map $U(n) \otimes_F V(m) \to W(n + m)$ for $n, m \in \mathbf{Z}$.
+
+\medskip\noindent
+Remarks on (D3). The map $\gamma$ is called the {\it cycle class map}.
+We say that $\gamma(\alpha)$ is the {\it cohomology class} of $\alpha$.
+If $Z \subset Y \subset X$ are closed subschemes with $Y$ and $X$
+smooth projective over $k$ and $Z$ integral, then $[Z]$ could
+mean the class of the cycle $[Z]$ in $A^*(Y)$ or in $A^*(X)$.
+In this case the notation $\gamma([Z])$ is abiguous and the true meaning
+has to be deduced from context.
+
+\medskip\noindent
+Remarks on (D4). The map $\int_X$ is sometimes called the
+{\it trace map} and is sometimes denoted $\text{Tr}_X$.
+
+\medskip\noindent
+The first axiom is often called {\it Poincar\'e duality}
+\begin{enumerate}
+\item[(A)] Let $X$ be a nonempty smooth projective scheme over $k$
+which is equidimensional of dimension $d$. Then
+\begin{enumerate}
+\item $\dim_F H^i(X) < \infty$ for all $i$,
+\item $H^i(X) \times H^{2d - i}(X)(d) \rightarrow
+H^{2d}(X)(d) \rightarrow F$
+is a perfect pairing for all $i$ where the final
+map is the trace map $\int_X$.
+\end{enumerate}
+\end{enumerate}
+Let $f : X \to Y$ be a morphism of nonempty smooth projective schemes with $X$
+equidimensional of dimension $d$ and $Y$ is equidimensional of dimension $e$.
+Using Poincar\'e duality we can define a {\it pushforward}
+$$
+f_* : H^{2d - i}(X)(d) \longrightarrow H^{2e - i}(Y)(e)
+$$
+as the contragredient of the linear map $f^* : H^i(Y) \to H^i(X)$. In a
+formula, for $a \in H^{2d - i}(X)(d)$, the element $f_*a \in H^{2e - i}(Y)(e)$
+is characterized by
+$$
+\int_X f^*b \cup a = \int_Y b \cup f_*a
+$$
+for all $b \in H^i(Y)$.
+
+\begin{lemma}
+\label{lemma-pushforward}
+Assume given (D1), (D2), and (D4) satisfying (A). For $f : X \to Y$
+a morphism of nonempty equidimensional smooth projective schemes over $k$
+we have $f_*(f^*b \cup a) = b \cup f_*a$. If $g : Y \to Z$ is a second morphism
+with $Z$ nonempty smooth projective and equidimensional, then
+$g_* \circ f_* = (g \circ f)_*$.
+\end{lemma}
+
+\begin{proof}
+The first equality holds because
+$$
+\int_Y c \cup b \cup f_*a =
+\int_X f^*c \cup f^*b \cup a =
+\int_Y c \cup f_*(f^*b \cup a).
+$$
+The second equality holds because
+$$
+\int_Z c \cup (g \circ f)_*a = \int_X (g \circ f)^*c \cup a =
+\int_X f^* g^* c \cup a = \int_Y g^*c \cup f_*a = \int_Z c \cup g_*f_*a
+$$
+This ends the proof.
+\end{proof}
+
+\noindent
+The second axiom says that $H^*$ respects the monoidal structure
+given by products via the {\it K\"unneth formula}
+\begin{enumerate}
+\item[(B)] Let $X$ and $Y$ be smooth projective schemes over $k$.
+\begin{enumerate}
+\item $H^*(X) \otimes_F H^*(Y) \to H^*(X \times Y)$,
+$\alpha \otimes \beta \mapsto \text{pr}_1^*\alpha \cup \text{pr}_2^*\beta$
+is an isomorphism,
+\item if $X$ and $Y$ are nonempty and equidimensional, then
+$\int_{X \times Y} = \int_X \otimes \int_Y$ via (a).
+\end{enumerate}
+\end{enumerate}
+Using axiom (B)(b) we can compute pushforwards along projections.
+
+\begin{lemma}
+\label{lemma-pr2star}
+Assume given (D1), (D2), and (D4) satisfying (A) and (B).
+Let $X$ and $Y$ be smooth projective schemes over $k$.
+If $X$ and $Y$ are nonempty and equidimensional of dimensions $d$ and $e$, then
+$\text{pr}_{2, *} : H^*(X \times Y)(d + e) \to H^*(Y)(e)$ sends
+$a \otimes b$ to $(\int_X a) b$.
+\end{lemma}
+
+\begin{proof}
+This follows from axioms (B)(a) and (B)(b).
+\end{proof}
+
+\noindent
+The third axiom concerns the cycle class maps
+\begin{enumerate}
+\item[(C)] The cycle class maps satisfy the following rules
+\begin{enumerate}
+\item for a morphism $f : X \to Y$ of smooth projective schemes over
+$k$ we have $\gamma(f^*\beta) = f^*\gamma(\beta)$ for $\beta \in A^*(Y)$,
+\item for a morphism $f : X \to Y$ of nonempty
+equidimensional smooth projective schemes over $k$ we have
+$\gamma(f_*\alpha) = f_*\gamma(\alpha)$ for $\alpha \in A^*(X)$,
+\item for any smooth projective scheme $X$ over $k$ we have
+$\gamma(\alpha \cdot \beta) = \gamma(\alpha) \cup \gamma(\beta)$
+for $\alpha, \beta \in A^*(X)$, and
+\item $\int_{\Spec(k)} \gamma([\Spec(k)]) = 1$.
+\end{enumerate}
+\end{enumerate}
+Let us elucidate axiom (C)(b). Namely, say $f : X \to Y$ is
+as in (C)(b) with $\dim(X) = d$ and $\dim(Y) = e$. Then we
+see that pushforward on Chow groups gives
+$$
+f_* : A^{d - i}(X) = A_i(X) \to A_i(Y) = A^{e - i}(Y)
+$$
+Say $\alpha \in A^{d - i}(X)$. On the one hand, we have
+$f_*\alpha \in A^{e - i}(Y)$ and hence
+$\gamma(f_*\alpha) \in H^{2e - 2i}(Y)(e - i)$.
+On the other hand, we have
+$\gamma(\alpha) \in H^{2d - 2i}(X)(d - i)$ and hence
+$f_*\gamma(\alpha) \in H^{2e - 2i}(Y)(e - i)$ as well.
+Thus the condition $\gamma(f_*\alpha) = f_*\gamma(\alpha)$ makes sense.
+
+\begin{remark}
+\label{remark-replace-cup-product}
+Assume given (D1), (D2), (D3) and (D4) satisfying (A), (B), and (C)(a).
+Let $X$ be a smooth projective scheme over $k$. We obtain a map
+$$
+H^*(X) \otimes_F H^*(X) \longrightarrow H^*(X \times X)
+\xrightarrow{\Delta^*} H^*(X)
+$$
+where $\Delta^*$ is pullback along the diagonal morphism
+$\Delta : X \to X \times X$. The composition is the cup product.
+(Hints: pullback is an algebra homomorphism and
+$\text{pr}_i \circ \Delta = \text{id}$.)
+On the other hand, the intersection product
+$\alpha \cdot \beta$ of cycles $\alpha, \beta$ on $X$ is the
+pullback of the exterior product $\alpha \times \beta$ on $X \times X$.
+It follows that in order to prove axiom (C)(c) it suffices to show that
+$$
+\gamma(\alpha \times \beta) =
+\text{pr}_1^*\gamma(\alpha) \cup \text{pr}_2^*\gamma(\beta)
+$$
+Conversely, if $\gamma$ satisfies (C)(a) and (C)(c), then this
+formula always holds as
+$\alpha \times \beta = \text{pr}_1^*\alpha \cdot \text{pr}_2^*\beta$
+in the Chow ring of $X \times Y$.
+\end{remark}
+
+\begin{lemma}
+\label{lemma-base}
+Assume given (D1), (D2), (D3) and (D4) satisfying (A), (B), and (C).
+Then $H^i(\Spec(k)) = 0$ for $i \not = 0$ and there is a
+unique $F$-algebra isomorphism $F = H^0(\Spec(k))$.
+We have $\gamma([\Spec(k)]) = 1$ and $\int_{\Spec(k)} 1 = 1$.
+\end{lemma}
+
+\begin{proof}
+By axiom (C)(d) we see that $H^0(\Spec(k))$ is nonzero and even
+$\gamma([\Spec(k)])$ is nonzero.
+Since $\Spec(k) \times \Spec(k) = \Spec(k)$ we get
+$$
+H^*(\Spec(k)) \otimes_F H^*(\Spec(k)) = H^*(\Spec(k))
+$$
+by axiom (B)(a) which implies (look at dimensions) that only
+$H^0$ is nonzero and moreover has dimension $1$. Thus
+$F = H^0(\Spec(k))$ via the unique $F$-algebra isomorphism
+given by mapping $1 \in F$ to $1 \in H^0(\Spec(k))$.
+Since $[\Spec(k)] \cdot [\Spec(k)] = [\Spec(k)]$ in the
+Chow ring of $\Spec(k)$ we conclude that
+$\gamma([\Spec(k)) \cup \gamma([\Spec(k)]) = \gamma([\Spec(k)])$
+by axiom (C)(c). Since we already know that $\gamma([\Spec(k)])$ is nonzero
+we conclude that it has to be equal to $1$.
+Finally, we have $\int_{\Spec(k)} 1 = 1$ since
+$\int_{\Spec(k)} \gamma([\Spec(k)]) = 1$
+by axiom (C)(d).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-unit}
+Assume given (D1), (D2), (D3) and (D4) satisfying (A), (B), and (C).
+Let $X$ be a smooth projective scheme over $k$.
+If $X = \emptyset$, then $H^*(X) = 0$.
+If $X$ is nonempty, then $\gamma([X]) = 1$ and $1 \not = 0$ in $H^0(X)$.
+\end{lemma}
+
+\begin{proof}
+First assume $X$ is nonempty.
+Observe that $[X]$ is the pullback of $[\Spec(k)]$ by the structure morphism
+$p : X \to \Spec(k)$. Hence we get $\gamma([X]) = 1$ by axiom (C)(a)
+and Lemma \ref{lemma-base}. Let $X' \subset X$ be an irreducible component.
+By functoriality it suffices to show $1 \not = 0$ in $H^0(X')$.
+Thus we may and do assume $X$ is irreducible, and in particular
+nonempty and equidimensional, say of dimension $d$.
+To see that $1 \not = 0$ it suffices to show that $H^*(X)$ is nonzero.
+
+\medskip\noindent
+Let $x \in X$ be a closed point whose residue field $k'$
+is separable over $k$, see
+Varieties, Lemma \ref{varieties-lemma-smooth-separable-closed-points-dense}.
+Let $i : \Spec(k') \to X$ be the inclusion morphism.
+Denote  $p : X \to \Spec(k)$ is the structure morphism.
+Observe that
+$p_*i_*[\Spec(k')] = [k' : k][\Spec(k)]$ in $A_0(\Spec(k))$.
+Using axiom (C)(b) twice and Lemma \ref{lemma-base}
+we conclude that
+$$
+p_*i_*\gamma([\Spec(k')]) = \gamma([k' : k][\Spec(k)]) = [k' : k]
+\in F = H^0(\Spec(k))
+$$
+is nonzero. Thus $i_*\gamma([\Spec(k)]) \in H^{2d}(X)(d)$ is nonzero
+(because it maps to something nonzero via $p_*$). This concludes the proof
+in case $X$ is nonempty.
+
+\medskip\noindent
+Finally, we consider the case of the empty scheme. Axiom (B)(a) gives
+$H^*(\emptyset) \otimes H^*(\emptyset) = H^*(\emptyset)$ and
+we get that $H^*(\emptyset)$ is either zero or $1$-dimensional
+in degree $0$. Then axiom (B)(a) again shows that
+$H^*(\emptyset) \otimes H^*(X) = H^*(\emptyset)$ for
+all smooth projective schemes $X$ over $k$. Using axiom (A)(b)
+and the nonvanishing of $H^0(X)$ we've seen above
+we find that $H^*(X)$ is nonzero in at least two degrees
+if $\dim(X) > 0$. This then forces $H^*(\emptyset)$ to be zero.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-push-unit}
+Assume given (D1), (D2), (D3) and (D4) satisfying (A), (B), and (C).
+Let $i : X \to Y$ be a closed immersion of nonempty smooth projective
+equidimensional schemes over $k$. Then
+$\gamma([X]) = i_*1$ in $H^{2c}(Y)(c)$ where $c = \dim(Y) - \dim(X)$.
+\end{lemma}
+
+\begin{proof}
+This is true because $1 = \gamma([X])$ in $H^0(X)$ by Lemma \ref{lemma-unit}
+and then we can apply axiom (C)(b).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-class-diagonal}
+Assume given (D1), (D2), (D3) and (D4) satisfying (A), (B), and (C).
+Let $X$ be a nonempty smooth projective scheme which is equidimensional
+of dimension $d$ over $k$. Choose a basis
+$e_{i, j}, j = 1, \ldots, \beta_i$ of $H^i(X)$ over $F$.
+Using K\"unneth write
+$$
+\gamma([\Delta]) =
+\sum\nolimits_{i = 0, \ldots, 2d}
+\sum\nolimits_j e_{i, j} \otimes e'_{2d - i , j}
+\quad\text{in}\quad
+\bigoplus\nolimits_i H^i(X) \otimes_F H^{2d - i}(X)(d)
+$$
+with $e'_{2d - i, j} \in H^{2d - i}(X)(d)$.
+Then $\int_X e_{i, j} \cup e'_{2d - i, j'} = (-1)^i\delta_{jj'}$.
+\end{lemma}
+
+\begin{proof}
+Recall that $\Delta^* : H^*(X \times X) \to H^*(X)$ is equal to the
+cup product map $H^*(X) \otimes_F H^*(X) \to H^*(X)$, see
+Remark \ref{remark-replace-cup-product}. On the other
+hand, recall that $\gamma([\Delta]) = \Delta_*1$ (Lemma \ref{lemma-push-unit})
+and hence
+$$
+\int_{X \times X} \gamma([\Delta]) \cup a \otimes b =
+\int_{X \times X} i_*1 \cup a \otimes b =
+\int_X a \cup b
+$$
+by Lemma \ref{lemma-pushforward}.
+On the other hand, we have
+$$
+\int_{X \times X} (\sum e_{i, j} \otimes e'_{2d -i , j}) \cup a \otimes b =
+\sum (\int_X a \cup e_{i, j})(\int_X e'_{2d - i, j} \cup b)
+$$
+by axiom (B)(b); note that we made two switches of order so that the sign
+for each term is $1$. Thus if we choose $a$ such that
+$\int_X a \cup e_{i, j} = 1$ and all other pairings equal to zero, then
+we conclude that $\int_X e'_{2d - i, j} \cup b = \int_X a \cup b$
+for all $b$, i.e., $e'_{2d - i, j} = a$. This proves the lemma.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-cohomology-P1}
+Assume given (D1), (D2), (D3) and (D4) satisfying (A), (B), and (C).
+Then $H^*(\mathbf{P}^1_k)$ is $1$-dimensional in dimensions $0$ and $2$
+and zero in other degree.
+\end{lemma}
+
+\begin{proof}
+Let $x \in \mathbf{P}^1_k$ be a $k$-rational point. Observe that
+$\Delta = \text{pr}_1^*x + \text{pr}_2^*x$ as divisors on
+$\mathbf{P}^1_k \times \mathbf{P}^1_k$. Using axiom (C)(a)
+and additivity of $\gamma$ we see that
+$$
+\gamma([\Delta]) =
+\text{pr}_1^*\gamma([x]) +
+\text{pr}_2^*\gamma([x]) =
+\gamma([x]) \otimes 1 + 1 \otimes \gamma([x])
+$$
+in $H^*(\mathbf{P}^1_k \times \mathbf{P}^1_k) =
+H^*(\mathbf{P}^1_k) \otimes_F H^*(\mathbf{P}^1_k)$.
+However, by Lemma \ref{lemma-class-diagonal}
+we know that $\gamma([\Delta])$ cannot be written
+as a sum of fewer than $\sum \beta_i$ pure tensors
+where $\beta_i = \dim_F H^i(\mathbf{P}^1_k)$.
+Thus we see that $\sum \beta_i \leq 2$.
+By Lemma \ref{lemma-unit} we have $H^0(\mathbf{P}^1_k) \not = 0$.
+By Poincar\'e duality, more precisely axiom (A)(b),
+we have $\beta_0 = \beta_2$. Therefore the lemma holds.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-weil-additive}
+Assume given (D1), (D2), (D3) and (D4) satisfying (A), (B), and (C).
+If $X$ and $Y$ are smooth projective schemes over $k$, then
+$H^*(X \amalg Y) \to H^*(X) \times H^*(Y)$,
+$a \mapsto (i^*a, j^*a)$ is an isomorphism where $i$, $j$
+are the coprojections.
+\end{lemma}
+
+\begin{proof}
+If $X$ or $Y$ is empty, then this is true because
+$H^*(\emptyset) = 0$ by Lemma \ref{lemma-unit}.
+Thus we may assume both $X$ and $Y$ are nonempty.
+
+\medskip\noindent
+We first show that the map is injective. First, observe that
+we can find morphisms $X' \to X$ and $Y' \to Y$
+of smooth projective schemes so that $X'$ and $Y'$ are
+equidimensional of the same dimension and such that
+$X' \to X$ and $Y' \to Y$ each have a section. Namely,
+decompose $X = \coprod X_d$ and $Y = \coprod Y_e$
+into open and closed subschemes equidimensional of
+dimension $d$ and $e$. Then take
+$X' = \coprod X_d \times \mathbf{P}^{n - d}$
+and $Y' = \coprod Y_e \times \mathbf{P}^{n - e}$ for some
+$n$ sufficiently large. Thus pullback by
+$X' \amalg Y' \to X \amalg Y$ is injective
+(because there is a section) and
+it suffices to show the injectivity for $X', Y'$
+as we do in the next parapgrah.
+
+\medskip\noindent
+Let us show the map is injective when $X$ and $Y$ are equidimensional
+of the same dimension $d$.
+Observe that $[X \amalg Y] = [X] + [Y]$ in $A^0(X \amalg Y)$
+and that $[X]$ and $[Y]$ are orthogonal idempotents in $A^0(X \amalg Y)$.
+Thus
+$$
+1 = \gamma([X \amalg Y] = \gamma([X]) + \gamma([Y]) = i_*1 + j_*1
+$$
+is a decomposition into orthogonal idempotents. Here we have used
+Lemmas \ref{lemma-unit} and \ref{lemma-push-unit} and axiom (C)(c).
+Then we see that
+$$
+a = a \cup 1 = a \cup i_*1 + a \cup j_*1 =
+i_*(i^*a) + j_*(j^*a)
+$$
+by the projection formula (Lemma \ref{lemma-pushforward}) and hence the map
+is injective.
+
+\medskip\noindent
+We show the map is surjective. Write $e = \gamma([X])$ and $f = \gamma([Y])$
+viewed as elements in $H^0(X \amalg Y)$. We have
+$i^*e = 1$, $i^*f = 0$, $j^*e = 0$, and $j^*f = 1$ by axiom (C)(a).
+Hence if $i^* : H^*(X \amalg Y) \to  H^*(X)$
+and $j^* : H^*(X \amalg Y) \to H^*(Y)$ are surjective, then
+so is $(i^*, j^*)$. Namely, for $a, a' \in H^*(X \amalg Y)$
+we have
+$$
+(i^*a, j^*a') = (i^*(a \cup e + a' \cup f), j^*(a \cup e + a' \cup f))
+$$
+By symmetry it suffices to show $i^* : H^*(X \amalg Y) \to  H^*(X)$
+is surjective. If there is a morphism $Y \to X$, then there is a morphism
+$g : X \amalg Y \to X$ with $g \circ i = \text{id}_X$ and we conclude.
+To finish the proof, observe that in order to prove
+$i^*$ is surjective, it suffices to do so after tensoring
+by a nonzero graded $F$-vector space. Hence by axiom (B)(b)
+and nonvanishing of cohomology (Lemma \ref{lemma-unit})
+it suffices to prove $i^*$ is surjective after replacing
+$X$ and $Y$ by $X \times \Spec(k')$ and $Y \times \Spec(k')$
+for some finite separable extension $k'/k$.
+If we choose $k'$ such that there exists a closed point
+$x \in X$ with $\kappa(x) = k'$ (and this is possible by
+Varieties, Lemma \ref{varieties-lemma-smooth-separable-closed-points-dense})
+then there is a morphism $Y \times \Spec(k') \to X \times \Spec(k')$
+and we find that the proof is complete.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-from-functor-to-weil}
+Let $k$ be a field. Let $F$ be a field of characteristic $0$.
+Assume given a $\mathbf{Q}$-linear functor
+$$
+G : M_k \longrightarrow \text{graded }F\text{-vector spaces}
+$$
+of symmetric monoidal categories such that $G(\mathbf{1}(1))$
+is nonzero only in degree $-2$. Then we obtain data (D1), (D2), (D3), (D4)
+satisfying all of (A), (B), (C) above.
+\end{lemma}
+
+\begin{proof}
+This proof is the same as the proof of
+Lemma \ref{lemma-from-functor-to-weil-classical};
+we urge the reader to read the proof of that lemma instead.
+We obtain a contravariant functor from the category of smooth
+projective schemes over $k$ to the category of graded $F$-vector spaces
+by setting $H^*(X) = G(h(X))$. By assumption we have a canonical
+isomorphism
+$$
+H^*(X \times Y) = G(h(X \times Y)) = G(h(X) \otimes h(Y)) =
+G(h(X)) \otimes G(h(Y)) = H^*(X) \otimes H^*(Y)
+$$
+compatible with pullbacks. Using pullback along the diagonal
+$\Delta : X \to X \times X$ we obtain a canonical map
+$$
+H^*(X) \otimes H^*(X) = H^*(X \times X) \to H^*(X)
+$$
+of graded vector spaces compatible with pullbacks.
+This defines a functorial graded $F$-algebra structure on
+$H^*(X)$. Since $\Delta$ commutes with the commutativity
+constraint $h(X) \otimes h(X) \to h(X) \otimes h(X)$ (switching the factors)
+and since $G$ is a functor of symmetric monoidal categories (so compatible with
+commutativity constraints), and by our convention in
+Example \ref{example-graded-vector-spaces}
+we conclude that $H^*(X)$ is a graded
+commutative algebra! Hence we get our datum (D1).
+
+\medskip\noindent
+Our datum (D2) is the vector space $F(1) = G^{-2}(\mathbf{1}(1))$.
+Since $G$ is a symmetric monoidal functor we see that
+$F(n) = G^{-2n}(\mathbf{1}(n))$ for all $n$.
+It follows that
+$$
+H^{2r}(X)(r) = G^{2r}(h(X)) \otimes G^{-2r}(\mathbf{1}(r)) =
+G^0(h(X)(r))
+$$
+a formula we will frequently use below.
+
+\medskip\noindent
+Let $X$ be a smooth projective scheme over $k$. By
+Lemma \ref{lemma-composition-correspondences} we have
+$$
+A^r(X) \otimes \mathbf{Q} = \text{Corr}^r(\Spec(k), X) =
+\Hom(\mathbf{1}(-r), h(X)) = \Hom(\mathbf{1}, h(X)(r))
+$$
+Applying the functor $G$ this maps into
+$\Hom(G(\mathbf{1}), G(h(X)(r)))$.
+By taking the image of $1$ in $G^0(\mathbf{1}) = F$
+into $G^0(h(X)(r)) = H^{2r}(X)(r)$ we obtain
+$$
+\gamma :
+A^r(X) \otimes \mathbf{Q} \longrightarrow H^{2r}(X)(r)
+$$
+This is the datum (D2).
+
+\medskip\noindent
+Let $X$ be a nonempty smooth projective scheme over $k$
+which is equidimensional of dimension $d$. By
+Lemma \ref{lemma-composition-correspondences} we have
+$$
+\Mor(h(X)(d), \mathbf{1}) = \Mor((X, 1, d), (\Spec(k), 1, 0)) =
+\text{Corr}^{-d}(X, \Spec(k)) = A_d(X)
+$$
+Thus the class of the cycle $[X]$ in $A_d(X)$ defines a morphism
+$h(X)(d) \to \mathbf{1}$. Applying $G$ and taking degree $0$
+parts we obtain
+$$
+H^{2d}(X)(d) = G^0(h(X)(d)) \longrightarrow G^0(\mathbf{1}) = F
+$$
+This map $\int_X : H^{2d}(X)(d) \to F$ is the datum (D3).
+
+\medskip\noindent
+Let $X$ be a smooth projective scheme over $k$ which is
+nonempty and equidimensional of dimension $d$. By Lemma \ref{lemma-dual}
+we know that $h(X)(d)$ is a left dual to $h(X)$. Hence
+$G(h(X)(d)) = H^*(X) \otimes_F F(d)[2d]$
+is a left dual to $H^*(X)$ in the category of graded $F$-vector spaces.
+Here $[n]$ is the shift functor on graded vector spaces.
+By Lemma \ref{lemma-left-dual-graded-vector-spaces}
+we find that $\sum_i \dim_F H^i(X) < \infty$ and that
+$\epsilon : h(X)(d) \otimes h(X) \to \mathbf{1}$ produces
+nondegenerate pairings $H^{2d - i}(X)(d) \otimes_F H^i(X) \to F$.
+In the proof of Lemma \ref{lemma-dual} we have seen that
+$\epsilon$ is given by $[\Delta]$ via the identifications
+$$
+\Hom(h(X)(d) \otimes h(X), \mathbf{1}) =
+\text{Corr}^{-d}(X \times X, \Spec(k)) =
+A_d(X \times X)
+$$
+Thus $\epsilon$ is the composition of $[X] : h(X)(d) \to \mathbf{1}$
+and $h(\Delta)(d) : h(X)(d) \otimes h(X) \to h(X)(d)$. It follows
+that the pairings above are given by cup product followed by
+$\int_X$. This proves axiom (A).
+
+\medskip\noindent
+Axiom (B) follows from the assumption that $G$ is compatible
+with tensor structures and our construction of the cup product above.
+
+\medskip\noindent
+Axiom (C). Our construction of $\gamma$ takes a cycle $\alpha$ on $X$,
+interprets it a correspondence $a$ from $\Spec(k)$ to $X$ of some degree,
+and then applies $G$. If $f : Y \to X$ is a morphism of nonempty
+equidimensional smooth projective schemes over $k$, then
+$f^*\alpha$ is the pushforward (!) of $\alpha$
+by the correspondence $[\Gamma_f]$ from $X$ to $Y$, see
+Lemma \ref{lemma-functor-and-cycles}. Hence
+$f^*\alpha$ viewed as a correspondence from $\Spec(k)$ to $Y$
+is equal to $a \circ [\Gamma_f]$, see
+Lemma \ref{lemma-composition-correspondences}.
+Since $G$ is a functor, we conclude
+$\gamma$ is compatible with pullbacks, i.e., axiom (C)(a) holds.
+
+\medskip\noindent
+Let $f : Y \to X$ be a morphism of nonempty equidimensional
+smooth projective schemes over $k$ and
+let $\beta \in A^r(Y)$ be a cycle on $Y$. We have to show that
+$$
+\int_Y \gamma(\beta) \cup f^*c = \int_X \gamma(f_*\beta) \cup c
+$$
+for all $c \in H^*(X)$. Let $a, a^t, \eta_X, \eta_Y, [X], [Y]$
+be as in Lemma \ref{lemma-prep-dual}.
+Let $b$ be $\beta$ viewed as a correspondence from $\Spec(k)$ to $Y$
+of degree $r$. Then $f_*\beta$ viewed as a correspondence from
+$\Spec(k)$ to $X$ is equal to $a^t \circ b$, see
+Lemmas \ref{lemma-functor-and-cycles} and
+\ref{lemma-composition-correspondences}.
+The displayed equality above holds if we can show that
+$$
+h(X) = \mathbf{1} \otimes h(X)
+\xrightarrow{b \otimes 1}
+h(Y)(r) \otimes h(X)
+\xrightarrow{1 \otimes a}
+h(Y)(r) \otimes h(Y)
+\xrightarrow{\eta_Y}
+h(Y)(r)
+\xrightarrow{[Y]}
+\mathbf{1}(r - e)
+$$
+is equal to
+$$
+h(X) = \mathbf{1} \otimes h(X)
+\xrightarrow{a^t \circ b \otimes 1}
+h(X)(r + d - e) \otimes h(X)
+\xrightarrow{\eta_X}
+h(X)(r + d - e)
+\xrightarrow{[X]}
+\mathbf{1}(r - e)
+$$
+This follows immediately from Lemma \ref{lemma-prep-dual}.
+Thus we have axiom (C)(b).
+
+\medskip\noindent
+To prove axiom (C)(c) we use the discussion in
+Remark \ref{remark-replace-cup-product-classical}.
+Hence it suffices to prove that $\gamma$ is compatible with
+exterior products. Let $X$, $Y$ be nonempty smooth projective
+schemes over $k$ and let $\alpha$, $\beta$ be cycles on them. Denote
+$a$, $b$ the corresponding correspondences from $\Spec(k)$ to
+$X$, $Y$. Then $\alpha \times \beta$ corresponds to the
+correspondence $a \otimes b$ from $\Spec(k)$ to $X \otimes Y = X \times Y$.
+Hence the requirement follows from the fact that $G$ is
+compatible with the tensor structures on both sides.
+
+\medskip\noindent
+Axiom (C)(d) follows because the cycle $[\Spec(k)]$
+corresponds to the identity morphism on $h(\Spec(k))$.
+This finishes the proof of the lemma.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-from-weil-to-functor}
+Let $k$ be a field. Let $F$ be a field of characteristic $0$. Given
+(D1), (D2), (D3), and (D4) satisfying (A), (B), (C)
+we can construct a $\mathbf{Q}$-linear functor
+$$
+G : M_k \longrightarrow \text{graded }F\text{-vector spaces}
+$$
+of symmetric monoidal categories such that $H^*(X) = G(h(X))$.
+\end{lemma}
+
+\begin{proof}
+The proof of this lemma is the same as the proof of
+Lemma \ref{lemma-from-weil-to-functor-classical};
+we urge the reader to read the proof of that lemma instead.
+By Lemma \ref{lemma-characterize-motives} it suffices to construct a functor
+$G$ on the category of smooth projective schemes over $k$
+with morphisms given by correspondences of degree $0$ such that
+the image of $G(c_2)$ on $G(\mathbf{P}^1_k)$ is an invertible graded
+$F$-vector space.
+
+\medskip\noindent
+Let $X$ be a smooth projective scheme over $k$. There is a canonical
+decomposition
+$$
+X = \coprod\nolimits_{0 \leq d \le \dim(X)} X_d
+$$
+into open and closed subschemes such that $X_d$ is equidimensional
+of dimension $d$. By Lemma \ref{lemma-weil-additive} we have correspondingly
+$$
+H^*(X) \longrightarrow \prod\nolimits_{0 \leq d \le \dim(X)} H^*(X_d)
+$$
+If $Y$ is a second smooth projective scheme over $k$
+and we similarly decompose $Y = \coprod Y_e$, then
+$$
+\text{Corr}^0(X, Y) = \bigoplus \text{Corr}^0(X_d, Y_e)
+$$
+As well we have $X \otimes Y = \coprod X_d \otimes Y_e$ in the
+category of correspondences. From these observations it follows
+that it suffices to construct $G$ on the category whose objects
+are equidimensional smooth projective schemes over $k$
+and whose morphisms are correspondences of degree $0$. (Some details
+omitted.)
+
+\medskip\noindent
+Given an equdimensional smooth projective scheme
+$X$ over $k$ we set $G(X) = H^*(X)$. Observe that $G(X) = 0$
+if $X = \emptyset$ (Lemma \ref{lemma-unit}). Thus maps
+from and to $G(\emptyset)$ are zero and we may and do
+assume our schemes are nonempty in the discussions below.
+
+\medskip\noindent
+Given a correspondence $c \in \text{Corr}^0(X, Y)$ between
+nonempty equidmensional smooth projective schemes over $k$
+we consider the map $G(c) : G(X) = H^*(X) \to G(Y) = H^*(Y)$
+given by the rule
+$$
+a \longmapsto
+G(c)(a) = \text{pr}_{2, *}(\gamma(c) \cup \text{pr}_1^*a)
+$$
+It is clear that $G(c)$ is additive in $c$ and hence $\mathbf{Q}$-linear.
+Compatibility of $\gamma$ with pullbacks, pushforwards, and
+intersection products given by axioms (C)(a), (C)(b), and (C)(c)
+shows that we have
+$G(c' \circ c) = G(c') \circ G(c)$ if $c' \in \text{Corr}^0(Y, Z)$.
+Namely, for $a \in H^*(X)$ we have
+\begin{align*}
+(G(c') \circ G(c))(a)
+& =
+\text{pr}^{23}_{3, *}(\gamma(c') \cup
+\text{pr}^{23, *}_2(\text{pr}^{12}_{2, *}(\gamma(c) \cup
+\text{pr}^{12, *}_1a))) \\
+& =
+\text{pr}^{23}_{3, *}(\gamma(c') \cup
+\text{pr}^{123}_{23, *}(\text{pr}^{123, *}_{12}(\gamma(c) \cup
+\text{pr}^{12, *}_1 a))) \\
+& =
+\text{pr}^{23}_{3, *}
+\text{pr}^{123}_{23, *}(
+\text{pr}^{123, *}_{23}\gamma(c') \cup
+\text{pr}^{123, *}_{12}\gamma(c) \cup
+\text{pr}^{123, *}_1 a) \\
+& =
+\text{pr}^{23}_{3, *}
+\text{pr}^{123}_{23, *}(
+\gamma(\text{pr}^{123, *}_{23}c') \cup
+\gamma(\text{pr}^{123, *}_{12}c) \cup
+\text{pr}^{123, *}_1 a) \\
+& =
+\text{pr}^{13}_{3, *}
+\text{pr}^{123}_{13, *}(
+\gamma(\text{pr}^{123, *}_{23}c' \cdot \text{pr}^{123, *}_{12}c) \cup
+\text{pr}^{123, *}_1 a) \\
+& =
+\text{pr}^{13}_{3, *}(
+\gamma(\text{pr}^{123}_{13, *}(\text{pr}^{123, *}_{23}c' \cdot \text{pr}^{123, *}_{12}c)) \cup
+\text{pr}^{13, *}_1 a) \\
+& =
+G(c' \circ c)(a)
+\end{align*}
+with obvious notation. To finish the proof that $G$ is a functor,
+we have to show identities are preserved. In other words, if
+$c = [\Delta] \in \text{Corr}^0(X, X)$ is the unit
+(Lemma \ref{lemma-identity-correspondence}), then we have to show that
+$G(c) = \text{id}$. This follows from the determination
+of $\gamma([\Delta])$ in Lemma \ref{lemma-class-diagonal}
+and Lemma \ref{lemma-pr2star}.
+This finishes the construction of $G$ as a functor on
+smooth projective schemes over $k$ and correspondences of degree $0$.
+
+\medskip\noindent
+By Lemma \ref{lemma-base} we have that
+$G(\Spec(k)) = H^*(\Spec(k))$ is canonically isomorphic to $F$
+as an $F$-algebra. The K\"unneth axiom (B)(a)
+shows our functor is compatible with tensor products.
+Thus our functor is a functor of symmetric monoidal categories.
+
+\medskip\noindent
+We still have to check that the image of $G(c_2)$ on
+$G(\mathbf{P}^1_k) = H^*(\mathbf{P}^1_k)$
+is an invertible graded $F$-vector space (in particular we don't know yet
+that $G$ extends to $M_k$). By Lemma \ref{lemma-cohomology-P1}
+we only have nonzero cohomology in degrees $0$ and $2$
+both of dimension $1$. We have $1 = c_0 + c_2$ is a decomposition
+of the identity into a sum of orthogonal idempotents in
+$\text{Corr}^0(\mathbf{P}^1_k, \mathbf{P}^1_k)$, see
+Example \ref{example-decompose-P1}. Further we have $c_0 = a \circ b$ where
+$a \in \text{Corr}^0(\Spec(k), \mathbf{P}^1_k)$ and
+$b \in \text{Corr}^0(\mathbf{P}^1_k, \Spec(k))$ and where
+$b \circ a = 1$ in $\text{Corr}^0(\Spec(k), \Spec(k))$, see proof of
+Lemma \ref{lemma-inverse-h2}. Thus $G(c_0)$ is the projector
+onto the degree $0$ part. It follows that $G(c_2)$ must
+be the projector onto the degree $2$ part and the proof is complete.
+\end{proof}
+
+\begin{proposition}
+\label{proposition-weil-cohomology-theory}
+Let $k$ be a field. Let $F$ be a field of characteristic $0$. There is a
+$1$-to-$1$ correspondence between the following
+\begin{enumerate}
+\item data (D1), (D2), (D3), and (D4) satisfying (A), (B), (C), and
+\item $\mathbf{Q}$-linear symmetric monoidal functors
+$$
+G : M_k \longrightarrow \text{graded }F\text{-vector spaces}
+$$
+such that $G(\mathbf{1}(1))$ is nonzero only in degree $-2$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Given $G$ by setting $H^*(X) = G(h(X))$ we obtain data (D1), (D2), (D3)
+satisfying (A), (B), (C), see Lemma \ref{lemma-from-functor-to-weil}
+and its proof.
+
+\medskip\noindent
+Conversely, given data (D1), (D2), (D3)
+satisfying (A), (B), (C) we get a functor $G$ by the construction of
+the proof of Lemma \ref{lemma-from-weil-to-functor}.
+
+\medskip\noindent
+We omit the detailed proof that these constructions are inverse
+to each other.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+\section{Further properties}
+\label{section-further}
+
+\noindent
+In this section we prove a few more results one obtains if
+given data (D1), (D2), (D3) satisfying (A), (B), (C) as in
+Section \ref{section-axioms}.
+
+\begin{lemma}
+\label{lemma-trace-disjoint-union}
+Assume given (D1), (D2), (D3) and (D4) satisfying (A), (B), and (C).
+Let $X, Y$ be nonempty smooth projective schemes both equidimensional
+of dimension $d$ over $k$. Then $\int_{X \amalg Y} = \int_X + \int_Y$.
+\end{lemma}
+
+\begin{proof}
+Denote $i : X \to X \amalg Y$ and $j : Y \to X \amalg Y$ be the coprojections.
+By Lemma \ref{lemma-weil-additive} the map
+$(i^*, j^*) : H^*(X \amalg Y) \to H^*(X) \times H^*(Y)$ is an isomorphism.
+The statement of the lemma means that under the isomorphism
+$(i^*, j^*) : H^{2d}(X \amalg Y)(d) \to H^{2d}(X)(d) \oplus H^{2d}(Y)(d)$
+the map $\int_X + \int_Y$ is tranformed into $\int_{X \amalg Y}$.
+This is true because
+$$
+\int_{X \amalg Y} a =
+\int_{X \amalg Y} i_*(i^*a) + j_*(j^*a) =
+\int_X i^*a + \int_Y j^*a
+$$
+where the equality $a = i_*(i^*a) + j_*(j^*a)$ was shown in
+the proof of Lemma \ref{lemma-weil-additive}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-dim-0}
+Assume given (D1), (D2), (D3) and (D4) satisfying (A), (B), and (C).
+Let $X$ be a smooth projective scheme of dimension zero over $k$.
+Then
+\begin{enumerate}
+\item $H^i(X) = 0$ for $i \not = 0$,
+\item $H^0(X)$ is a finite separable algebra over $F$,
+\item $\dim_F H^0(X) = \deg(X \to \Spec(F))$,
+\item $\int_X : H^0(X) \to F$ is the trace map,
+\item $\gamma([X]) = 1$, and
+\item $\int_X \gamma([X]) = \deg(X \to \Spec(k))$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+We can write $X = \Spec(k')$ where $k'$ is a finite separable
+algebra over $k$. Observe that $\deg(X \to \Spec(k)) = [k' : k]$.
+Choose a finite Galois extension $k''/k$ containing each of the
+factors of $k'$. (Recall that a finite separable $k$-algebra is
+a product of finite separable field extension of $k$.)
+Set $\Sigma = \Hom_k(k', k'')$. Then we get
+$$
+k' \otimes_k k'' = \prod\nolimits_{\sigma \in \Sigma} k''
+$$
+Setting $Y = \Spec(k'')$ axioms (B)(a) and Lemma \ref{lemma-weil-additive} give
+$$
+H^*(X) \otimes_F H^*(Y) =
+\bigoplus\nolimits_{\sigma \in \Sigma} H^*(Y)
+$$
+as graded commutative $F$-algebras. By Lemma \ref{lemma-unit} the
+$F$-algebra $H^*(Y)$ is nonzero. Comparing dimensions on either side
+of the displayed equation we conclude that $H^*(X)$ sits only in degree $0$
+and $\dim_F H^0(X) = [k' : k]$. Applying this to $Y$ we get
+$H^*(Y) = H^0(Y)$. Since
+$$
+H^0(X) \otimes_F H^0(Y) = H^0(Y) \times \ldots \times H^0(Y)
+$$
+as $F$-algebras, it follows that $H^0(X)$ is a separable $F$-algebra
+because we may check this after the faithfully flat base change
+$F \to H^0(Y)$.
+
+\medskip\noindent
+The displayed isomorphism above is given by the map
+$$
+H^0(X) \otimes_F H^0(Y) \longrightarrow
+\prod\nolimits_{\sigma \in \Sigma} H^0(Y),\quad
+a \otimes b \longmapsto \prod\nolimits_\sigma \Spec(\sigma)^*a \cup b
+$$
+Via this isomorphism we have $\int_{X \times Y} = \sum_\sigma \int_Y$ by
+Lemma \ref{lemma-trace-disjoint-union}. Thus
+$$
+\int_X a = \text{pr}_{1, *}(a \otimes 1) = \sum \Spec(\sigma)^*a
+$$
+in $H^0(Y)$; the first equality by Lemma \ref{lemma-pr2star}
+and the second by the observation we just made. Choose an
+algebraic closure $\overline{F}$ and
+a $F$-algebra map $\tau : H^0(Y) \to \overline{F}$.
+The isomorphism above base changes to the isomorphism
+$$
+H^0(X) \otimes_F \overline{F} \longrightarrow
+\prod\nolimits_{\sigma \in \Sigma} \overline{F},\quad
+a \otimes b \longmapsto \prod\nolimits_\sigma \tau(\Spec(\sigma)^*a) b
+$$
+It follows that $a \mapsto \tau(\Spec(\sigma)^*a)$ is a full set
+of embeddings of $H^0(X)$ into $\overline{F}$. Applying $\tau$
+to the formula for $\int_X a$ obtained above we conclude
+that $\int_X$ is the trace map.
+By Lemma \ref{lemma-unit} we have $\gamma([X]) = 1$.
+Finally, we have $\int_X \gamma([X]) = \deg(X \to \Spec(k))$
+because $\gamma([X]) = 1$ and the trace of $1$ is equal to $[k' : k]$
+\end{proof}
+
+\begin{lemma}
 \label{lemma-degrees-cycles}
-Let $H^*$ be a Weil cohomology theory
-(Definition \ref{definition-weil-cohomology-theory}).
-Let $X$ be a smooth projective scheme equidimensional of dimension $d$
-over $k$. The diagram
+Assume given (D1), (D2), (D3) and (D4) satisfying (A), (B), and (C).
+Let $X$ be a nonempty smooth projective scheme
+equidimensional of dimension $d$ over $k$. The diagram
 $$
 \xymatrix{
 A^d(X) \ar[r]_-\gamma \ar@{=}[d] &
@@ -526,250 +2751,236 @@ zero cycles discussed in Chow Homology, Section
 
 \begin{proof}
 Let $x$ be a closed point of $X$ whose residue field is separable
-over $k$. View $x$ as a scheme and denote
-$i : x \to X$ the inclusion morphism. To avoid confusion denote
-$\gamma' : A_0(x) \to H^0(x)$ the cycle class map for $x$.
-Then we have
+over $k$. View $x$ as a scheme and denote $i : x \to X$ the inclusion morphism.
+To avoid confusion denote $\gamma' : A_0(x) \to H^0(x)$ the cycle class map
+for $x$. Then we have
 $$
 \int_X \gamma([x]) = \int_X \gamma(i_*[x]) =
 \int_X i_*\gamma'([x]) = \int_x \gamma'([x]) = \deg(x \to \Spec(k))
 $$
 The second equality is axiom (C)(b) and the third equality is
-the definition of $i_*$ on cohomology. This proves the lemma
-because $A^0(X)$ is generated by the classes of points $x$ as above
+the definition of $i_*$ on cohomology. The final equality is
+Lemma \ref{lemma-dim-0}. This proves the lemma
+because $A_0(X)$ is generated by the classes of points $x$ as above
 by Lemma \ref{lemma-generated-by-separable}.
 \end{proof}
 
 \begin{lemma}
-\label{lemma-trace-disjoint-union}
-Let $H^*$ be a Weil cohomology theory
-(Definition \ref{definition-weil-cohomology-theory}).
-Let $X, Y$ be smooth projective schemes equidimensional of dimension $d$
-over $k$. Then $\int_{X \amalg Y} = \int_X + \int_Y$.
-\end{lemma}
-
-\begin{proof}
-Denote $i : X \to X \amalg Y$ and $j : Y \to X \amalg Y$ be the coprojections.
-By axiom (B)(c) the map
-$(i^*, j^*) : H^*(X \amalg Y) \to H^*(X) \times H^*(Y)$ is an isomorphism.
-The statement of the lemma means that under the isomorphism
-$H^{2d}(X \amalg Y)(d) \to H^{2d}(X)(d) \oplus H^{2d}(Y)(d)$
-the map $\int_X + \int_Y$ is tranformed into $\int_{X \amalg Y}$.
-
-\medskip\noindent
-By Lemma \ref{lemma-push-unit} we have $i_*1 = \gamma([X])$ and
-$j_*1 = \gamma([Y])$. Hence $i_*1 + j_*1 = \gamma([X]) + \gamma([Y]) =
-\gamma([X] + [Y]) = \gamma([X \amalg Y]) = 1$. Thus we have
-$$
-\int_{X \amalg Y} a =
-\int_{X \amalg Y} a(i_*1 + j_*1) =
-\int_{X \amalg Y} i_*(i^*a) + j_*(j^*a) =
-\int_X i^*a +
-\int_Y j^*a
-$$
-as desired. We have used Lemma \ref{lemma-pushforward}.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-dim-0-trace}
-Let $H^*$ be a Weil cohomology theory
-(Definition \ref{definition-weil-cohomology-theory}).
-Let $X$ be a smooth projective scheme of dimension zero over $k$.
-Then $\int_X : H^0(X) \to F$ is the trace map.
-\end{lemma}
-
-\begin{proof}
-Write $X = \Spec(k')$ as in the proof of Lemma \ref{lemma-dim-0}.
-Choose $k''/k$ finite Galois such that every factor of $k'$
-maps into $k''$ as in the proof of Lemma \ref{lemma-dim-0}.
-Then $\Sigma = \Hom_k(k', k'')$ has $[k' : k]$ elements and
-we have seen in the proof of Lemma \ref{lemma-dim-0} that the map
-$$
-H^0(X) \otimes_F H^0(Y) \longrightarrow
-\prod\nolimits_{\sigma \in \Sigma} H^0(Y),\quad
-a \otimes b \longmapsto \prod\nolimits_\sigma \Spec(\sigma)^*a \cup b
-$$
-is an isomorphism. Write $H^0(Y) = \prod F_i$ as a finite product of
-finite separable extensions of $F$. Define the $F$-algebra maps
-$$
-\tau_{i, \sigma} :
-H^0(X) \xrightarrow{\Spec(\sigma)^*} H^0(Y) \to F_i
-$$
-We get $H^0(X) \otimes_F F_i = \prod\nolimits_{\sigma \in \Sigma} F_i$
-via the maps $\tau_{i, \sigma}$. Hence $\tau_{i, \sigma}$
-must be pairwise distinct and must exhaust the set
-$T_i = \Hom_F(H^0(X), F_i)$ which must have cardinality $[k' : k]$.
-It follows that $\sum_\sigma \tau_{i, \sigma} = \tau_i \circ \text{Tr}$
-where $\text{Tr} : H^0(X) \to F$ is the trace map and
-$\tau_i : F \to F_i$ is some linear map. Hence
-$\sum_\sigma \Spec(\sigma)^* = \tau \circ \text{Tr}$ where
-$\tau  = \sum \tau_i : F \to H^0(Y)$.
-We conclude that
-$$
-\int_{X \times Y} a \otimes 1 =
-\sum\nolimits_\sigma \int_Y \Spec(\sigma)^*a =
-\int_Y \sum\nolimits_\sigma \Spec(\sigma)^*a =
-\int_Y \tau(\text{Tr}(a))
-$$
-On the other hand, if $p : X \times Y \to X$ is the first projection,
-we have
-$$
-\int_{X \times Y} a \otimes 1 = \int_X p_*(a \otimes 1) =
-\int_X a \cup p_*1 = [k'' : k] \int_X a
-$$
-The first equality is the definition of $p_*$. The second equality
-by Lemma \ref{lemma-pushforward}. The third equality because
-$$
-p_*1 = p_*\gamma([X \times Y]) =
-\gamma(p_*[X \times Y]) = \gamma([k'' : k][Y]) =
-[k'' : k] \gamma([Y]) = [k'' : k]
-$$
-where we've used Lemma \ref{lemma-unit}.
-All in all we conclude that $\int_X a = \lambda(\text{Tr}(a))$
-for some linear map $\lambda : F \to F$.
-Using that $\int_X 1 = \deg(X \to \Spec(k))$ found in Lemma \ref{lemma-dim-0}
-we conclude.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-trace-product}
-Let $H^*$ be a Weil cohomology theory
-(Definition \ref{definition-weil-cohomology-theory}).
-Let $X$ and $Y$ be equidimensional smooth projective schemes over $k$.
-Then $\int_{X \times Y} = \int_X \otimes \int_Y$.
-\end{lemma}
-
-\begin{proof}
-Say $X$ has dimension $d$ and $Y$ has dimension $e$.
-Denote $p : X \times Y \to X$ and $q : X \times Y \to Y$ the
-projections. The statement means that under the isomorphism
-$H^{2d}(X)(d) \otimes_F H^{2e}(Y)(e) \to H^{2d + 2e}(X \times Y)(d + e)$
-the map $\int_{X \times Y}$ is tranformed into $\int_X \otimes \int_Y$.
-
-\medskip\noindent
-Say $X$ and $Y$ have dimension $0$. Then the result holds by
-Lemma \ref{lemma-dim-0-trace} as the trace map has the corresponding property.
-
-\medskip\noindent
-General case. By Lemma \ref{lemma-generated-by-separable} and axiom (C)(d)
-it suffices to check this on element of the form
-$$
-p^*(a \cup \gamma([x])) \cup q^*(b \cup \gamma([y])) =
-p^*a \cup q^*b \cup \gamma([x \times y])
-$$
-where $x \in X$, $y \in Y$ are closed points whose residue fields are
-separable over $k$ and $a \in H^0(X)$, $b \in H^0(Y)$. To see the
-equality use axioms (C)(a) and (C)(c) and use that the intersection
-product of $[x \times Y]$ and $[X \times y]$ is $[x \times y]$.
-Denote $i : x \times y \to X \times Y$ the inclusion morphism.
-Denote $f = p \circ i : x \times y \to X$ and
-$g = q \circ i : x \times y \to y$. We compute
-\begin{align*}
-\int_{X \times Y} p^*a \cup q^*b \cup \gamma([x \times y])
-& =
-\int_{X \times Y} p^*a \cup q^*b \cup i_*1 \\
-& =
-\int_{X \times Y} i_*(f^*a \cup g^*b) \\
-& =
-\int_{x \times y} f^*a \cup g^*b \\
-& =
-(\int_x f^*a) (\int_y g^*b)
-\end{align*}
-The first equality because $i_*1 = \gamma([x \times y])$, see
-Lemma \ref{lemma-push-unit}. The second equality by
-Lemma \ref{lemma-pushforward}. The third is the definition of $i_*$.
-The fourth is the case of dimension $0$.
-We conclude because
-$\int_x f^*a = \int_X a \cup \gamma([x])$ and
-$\int_y g^*b = \int_Y b \cup \gamma([y])$
-by a similar argument which we omit.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-class-diagonal}
-Let $H^*$ be a Weil cohomology theory
-(Definition \ref{definition-weil-cohomology-theory}).
-Let $X$ be a smooth projective scheme which is equidimensional
-of dimension $d$ over $k$. Choose a basis
-$e_{i, j}, j = 1, \ldots, \beta_i$ of $H^i(X)$ over $F$.
-Using K\"unneth write
-$$
-\gamma([\Delta]) =
-\sum\nolimits_{i = 0, \ldots, 2d}
-\sum\nolimits_j e_{i, j} \otimes e'_{2d - i , j}
-\quad\text{in}\quad
-\bigoplus\nolimits_i H^i(X) \otimes_F H^{2d - i}(X)(d)
-$$
-with $e'_{2d - i, j} \in H^{2d - i}(X)(d)$.
-Then $\int_X e_{i, j} \cup e'_{2d - i, j'} = \delta_{jj'}$.
-\end{lemma}
-
-\begin{proof}
-Recall that $\Delta^* : H^*(X \times X) \to H^*(X)$ is equal to the
-cup product map $H^*(X) \otimes_F H^*(X) \to H^*(X)$. On the other
-hand, recall that $\gamma([\Delta]) = \Delta_*1$ (Lemma \ref{lemma-push-unit})
-and hence
-$$
-\int_{X \times X} \gamma([\Delta]) \cup a \otimes b =
-\int_{X \times X} i_*1 \cup a \otimes b =
-\int_X a \cup b
-$$
-On the other hand, we have
-$$
-\int_{X \times X} (\sum e_{i, j} \otimes e'_{2d -i , j}) \cup a \otimes b =
-\sum (\int_X e_{i, j} \cup a)(\int_X e'_{2d - i, j} \cup b)
-$$
-by Lemma \ref{}. Thus if we choose $a$ such that $\int_X e_{i, j} \cup a = 1$
-and all other pairings equal to zero, then we conclude that
-$\int_X e'_{2d - i, j} \cup b = \int_X a \cup b$ for all $b$, i.e.,
-$e'_{2d - i, j} = a$. This proves the lemma.
-\end{proof}
-
-\begin{lemma}
 \label{lemma-square-diagonal}
-Let $H^*$ be a Weil cohomology theory
-(Definition \ref{definition-weil-cohomology-theory}).
-Let $X$ be a smooth projective scheme over $k$ which is equidimensional
-of dimension $d$. We have
+Assume given (D1), (D2), (D3) and (D4) satisfying (A), (B), and (C).
+Let $X$ be a nonempty smooth projective scheme over $k$ which is
+equidimensional of dimension $d$. We have
 $$
-\sum\nolimits_{i = 0, \ldots, 2d} \dim_F H^i(X) =
+\sum\nolimits_{i = 0, \ldots, 2d} (-1)^i\dim_F H^i(X) =
 \deg(\Delta \cdot \Delta) = \deg(c_d(\mathcal{T}_{X/k}))
 $$
 \end{lemma}
 
 \begin{proof}
 The equality on the right holds by Chow Homology, Lemma \ref{}.
-By Lemma \ref{} we have
-$$
-\deg(\Delta \cdot \Delta) =
-\int_{X \times X} \gamma([\Delta]) \cup \gamma([\Delta])
-$$
-Write $\gamma([\Delta]) = \sum  e_{i, j} \otimes e'_{2d - i , j}$
-as in Lemma \ref{}.
-Denote $\sigma : X \times X \to X \times X$ the automorphism switching
-the factors. Observe that $a \otimes b = \text{pr}_1^*(a) \cup \text{pr}_2^*b$
-and hence
-$$
-\sigma^*(a \otimes b) =  \text{pr}_2^*(a) \cup \text{pr}_1^*b =
-(-1)^{\deg(a)\deg(b)} b \otimes a
-$$
-Since $\sigma(\Delta) = \Delta$ we find
-$\gamma([\Delta]) = \sum (-1)^i e'_{2d - i , j} \otimes e_{i, j}$.
-Using notation as in Lemma \ref{} we compute
+By Lemma \ref{lemma-degrees-cycles} we have
 \begin{align*}
-\gamma([\Delta]) \cup \gamma([\Delta])
+\deg(\Delta \cdot \Delta)
 & =
-\sum (-1)^{i'}
-e_{i, j} \otimes e'_{2d - i , j} \cup e'_{2d - i', j'} \otimes e_{i', j'} \\
+\int_{X \times X} \gamma([\Delta]) \cup \gamma([\Delta]) \\
 & =
-\sum (-1)^{i'} e_{i, j} \cup e'_{2d - i', j'} \otimes 
-e_{i', j'} \cup e'_{2d - i , j}
+\int_{X \times X} \Delta_*1 \cup \gamma([\Delta]) \\
+& =
+\int_{X \times X} \Delta_*(\Delta^*\gamma([\Delta])) \\
+& =
+\int_X \Delta^*\gamma([\Delta])
 \end{align*}
-(Note that we made two switches of order in the second step.)
-If we apply $\int_{X \times X} = \int_X \otimes \int_X$ to this
-we obtain $(-1)^i$ exactly when $i = i'$ and $j = j'$ and zero else.
-This proves the lemma.
+We have used Lemmas \ref{lemma-push-unit} and
+\ref{lemma-pushforward}.
+Write $\gamma([\Delta]) = \sum  e_{i, j} \otimes e'_{2d - i , j}$
+as in Lemma \ref{lemma-class-diagonal-classical}.
+Recalling that $\Delta^*$ is given by cup product
+(Remark \ref{remark-replace-cup-product}) we obtain
+$$
+\int_X \sum\nolimits_{i, j} e_{i, j} \cup e'_{2d - i, j} =
+\sum\nolimits_{i, j} \int_X e_{i, j} \cup e'_{2d - i, j} =
+\sum\nolimits_{i, j} (-1)^i = \sum (-1)^i\beta_i
+$$
+as desired.
 \end{proof}
+
+\begin{lemma}
+\label{lemma-algebra-relations}
+Let $F$ be a field of characteristic $0$.
+Let $F'$ and $F_i$, $i = 1, \ldots, r$
+be finite separable $F$-algebras. Let $A$ be a finite $F$-algebra.
+Let $\sigma, \sigma' : A \to F'$ and $\sigma_i : A \to F_i$
+be $F$-algebra maps. Assume $\sigma$ and $\sigma'$ surjective.
+If there is a relation
+$$
+\text{Tr}_{F'/F} \circ \sigma - \text{Tr}_{F'/F} \circ \sigma' =
+n(\sum m_i \text{Tr}_{F_i/F} \circ \sigma_i)
+$$
+where $n > 1$ and $m_i$ are integers, then $\sigma = \sigma'$.
+\end{lemma}
+
+\begin{proof}
+Let $A \to A'$ be the maximal separable $F$-algebra quotient.
+The maps $\sigma, \sigma', \sigma_i$ each factor through
+$A \to A'$. After replacing $A$ by $A'$ we may assume
+$A$ is a finnite separable $F$-algebra.
+
+\medskip\noindent
+Choose an algebraic closure $\overline{F}$. Set
+$\overline{A} = A \otimes_F \overline{F}$,
+$\overline{F}' = F' \otimes_F \overline{F}$, and
+$\overline{F}_i = F_i \otimes_F \overline{F}$.
+We can base change $\sigma$, $\sigma'$, $\sigma_i$
+to get $\overline{F}$ algebra maps $\overline{A} \to \overline{F}'$
+and $\overline{A} \to \overline{F}_i$. Moreover
+$\text{Tr}_{\overline{F}'/\overline{F}}$ is the base
+change of $\text{Tr}_{F'/F}$ and similarly for
+$\text{Tr}_{F_i/F}$. Thus we may replace
+$F$ by $\overline{F}$ and we reduce to the case discussed in
+the next paragraph.
+
+\medskip\noindent
+Assume $F$ is algebraically closed. Then each of $A$, $F'$, $F_i$
+is a product of copies of $F$. Let us say an element $e$ of a product
+$F \times \ldots \times F$ of copies of $F$ is a minimal idempotent
+if it generates one of the factors, i.e., if
+$e = (0, \ldots, 0, 1, 0, \ldots, 0)$. Let $e \in A$ be a minimal idempotent.
+Since $\sigma$ and $\sigma'$ 
+are surjective, we see that $\sigma(e)$ and $\sigma'(e)$ are minimal
+idempotents or zero. If $\sigma \not = \sigma'$, then we can choose
+a minimal idempotent $e \in A$ such that $\sigma(e) = 0$ and
+$\sigma'(e) \not = 0$ or vice versa. Then
+$\text{Tr}_{F'/F}(\sigma(e)) = 0$ and
+$\text{Tr}_{F'/F}(\sigma'(e)) = 1$ or vice versa.
+On the other hand, $\sigma_i(e)$ is an idempotent
+and hence $\text{Tr}_{F_i/F}(\sigma_i(e)) = r_i$ is an integer.
+We conclude that
+$$
+-1 = \sum n m_i r_i = n (\sum m_i r_i)
+\quad\text{or}\quad
+1 = \sum n m_i r_i = n (\sum m_i r_i)
+$$
+which is impossible.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-relations-classes-points}
+Assume given (D1), (D2), (D3) and (D4) satisfying (A), (B), and (C).
+Let $k'/k$ be a finite separable extension.
+Let $X$ be a smooth projective scheme over $k'$.
+Let $x, x' \in X$ be $k'$-rational points.
+If $\gamma(x) \not = \gamma(x')$, then
+$[x] - [x']$ is not divisible by any integer $n > 1$ in $A_0(X)$.
+\end{lemma}
+
+\begin{proof}
+If $x$ and $x'$ lie on distinct irreducible components of $X$, then
+the result is obvious. Thus we may $X$ irreducible of dimension $d$.
+Say $[x] - [x']$ is divisible by $n > 1$ in $A_0(X)$.
+We may write $[x] - [x'] = n(\sum m_i [x_i])$ in $A_0(X)$
+for some $x_i \in X$ closed points
+whose residue fields are separable over $k$ by
+Lemma \ref{lemma-generated-by-separable}.
+Then
+$$
+\gamma([x]) - \gamma([x']) = n (\sum m_i \gamma([x_i]))
+$$
+in $H^{2d}(X)(d)$. Denote $i^*, (i')^*, i_i^*$ the pullback maps
+$H^0(X) \to H^0(x)$, $H^0(X) \to H^0(x')$, $H^0(X) \to H^0(x_i)$.
+Recall that $H^0(x)$ is a finite separable $F$-algebra
+and that $\int_x : H^0(x) \to F$ is the trace map
+(Lemma \ref{lemma-dim-0}) which we will denote $\text{Tr}_x$.
+Similarly for $x'$ and $x_i$. Then by Poincar\'e duality in the form of
+axiom (A)(b) the equation above is dual to
+$$
+\text{Tr}_x \circ i^* - \text{Tr}_{x'} \circ (i')^* =
+n(\sum m_i \text{Tr}_{x_i} \circ i_i^*)
+$$
+which takes place in $\Hom_F(H^0(X), F)$. Finally, observe that
+$i^*$ and $(i')^*$ are surjective as $x$ and $x'$ are $k'$-rational
+points and hence the compositions $H^0(\Spec(k') \to H^0(X) \to H^0(x)$
+and $H^0(\Spec(k') \to H^0(X) \to H^0(x')$ are isomorphisms.
+By Lemma \ref{lemma-algebra-relations} we conclude that $i^* = (i')^*$
+which contradicts the assumption that $\gamma([x]) \not = \gamma([x'])$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-classes-points}
+Assume given (D1), (D2), (D3) and (D4) satisfying (A), (B), and (C).
+Let $k'/k$ be a finite separable extension. Let $X$ be a geometrically
+irreducible smooth projective scheme over $k'$ of dimension $d$.
+Then $\gamma : A_0(X) \to H^{2d}(X)(d)$ factors through
+$\deg : A_0(X) \to \mathbf{Z}$.
+\end{lemma}
+
+\begin{proof}
+By Lemma \ref{lemma-generated-by-separable} it suffices to show: given
+closed points $x, x' \in X$ whose residue fields are separable over $k$
+we have $\deg(x') \gamma([x]) = \deg(x) \gamma([x'])$.
+
+\medskip\noindent
+We first reduce to the case of $k'$-rational points. Let $k''/k'$ be a
+Galois extension such that $\kappa(x)$ and $\kappa(x')$ embed into $k''$
+over $k$. Set $Y = X \times_{\Spec(k')} \Spec(k'')$ and denote $p : Y \to X$
+the projection. By our choice of $k''/k'$ there exists a
+$k''$-rational point $y$, resp.\ $y'$ on $Y$ mapping to $x$, resp.\ $x'$.
+Then $p_*[y] = [k'' : \kappa(x)][x]$ and
+$p_*[y'] = [k'' : \kappa(x')][x']$ in $A_0(X)$.
+By compatibility with pushforwards given in axiom (C)(b)
+it suffices to prove $\gamma([y]) = \gamma([y'])$ in $A^{2d}(Y)(d)$.
+This reduces us to the discussion in the next paragraph.
+
+\medskip\noindent
+Assume $x$ and $x'$ are $k'$-rational points. By
+Lemma \ref{lemma-divide-difference-points} there
+exists a finite separable extension $k''/k'$ of fields
+such that the pullback $[y] - [y']$
+of the difference $[x] - [x']$ becomes divisible
+by an integer $n > 1$ on $Y = X \times_{\Spec(k')} \Spec(k'')$.
+(Note that $y, y' \in Y$ are $k''$-rational points.)
+By Lemma \ref{lemma-relations-classes-points} we have
+$\gamma([y]) = \gamma([y'])$ in $H^{2d}(Y)(d)$.
+By compatibility with pushforward in axiom (C)(b)
+we conclude the same for $x$ and $x'$.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Weil cohomology theories, II}
+\label{section-old}
+
+\noindent
+UNDER CONSTRUCTION. Not quite sure yet if this is the correct
+definition.
+
+\begin{definition}
+\label{definition-weil-cohomology-theory}
+Let $k$ be a field. Let $F$ be a field of characteristic $0$.
+A {\it Weil cohomology theory} over $k$ with coefficients in $F$
+is given by data (D1), (D2), (D3), and (D4) satisfying
+Poincar\'e duality, the K\"unneth formula, and compatibility
+with cycle classes, more precisely, satisfying (A), (B), and (C).
+\end{definition}
 
 \begin{lemma}
 \label{lemma-H-0-separable}
@@ -780,7 +2991,7 @@ $H^0(X)$ is a finite separable algebra over $F$.
 \end{lemma}
 
 \begin{proof}
-By decomposing $X$ into its irreducible components we may
+FIXME. By decomposing $X$ into its irreducible components we may
 assume $X$ is irreducible and in particular equidimensional
 of dimension $d$. Combining the finite dimensionality of
 $H^{2d}(X)(d)$ of axiom (A)(b), with axiom (C)(d) and
@@ -812,84 +3023,6 @@ $H^0(X)$ is a separable $F$-algebra.
 \end{proof}
 
 \begin{lemma}
-\label{lemma-relations-classes-points}
-Let $H^*$ be a Weil cohomology theory
-(Definition \ref{definition-weil-cohomology-theory}).
-Let $k'/k$ be a finite separable extension.
-Let $X$ be a smooth projective scheme over $k'$.
-Let $x, x' \in X$ be $k'$-rational points.
-If $\gamma(x) \not = \gamma(x')$, then
-$x - x'$ is not divisible by any integer $n > 1$ in $A_0(X)$.
-\end{lemma}
-
-\begin{proof}
-We may assume $X$ is equidimensional of dimension $d$.
-Say $x - x' = n(\sum m_i x_i)$ for some $x_i \in X$ closed points
-whose residue fields are separable over $k$ (Lemma \ref{}).
-Then
-$$
-\gamma(x) - \gamma(x') = n (\sum m_i \gamma(x_i))
-$$
-in $H^{2d}(X)(d)$. Denote $i^*, (i')^*, i_i^*$ the pullback maps
-$H^0(X) \to H^0(x)$, $H^0(X) \to H^0(x')$, $H^0(X) \to H^0(x_i)$.
-Recall that $\int_x : H^0(x) \to F$ is the trace map, which
-we will denote $\text{Tr}_x$. Similarly for $x'$ and $x_i$.
-Then by Poincar\'e duality the equation above is dual to
-$$
-\text{Tr}_x \circ i^* - \text{Tr}_{x'} \circ (i')^* =
-\sum nm_i \text{Tr}_{x_i} \circ i_i^*
-$$
-which takes place in $\Hom_F(H^0(X), F)$.
-
-\medskip\noindent
-In order to see what is going on, momentarily we assume $F$ is separably closed.
-Then each of $H^0(\Spec(k'))$, $H^0(X)$, $H^0(x)$, $H^0(x')$, $H^0(x_i)$
-is a product of copies of $F$ by Lemma \ref{}.
-Let $e \in H^0(X)$ be an idempotent generating a factor.
-Note that since $x$ and $x'$ are rational points, the composition
-$H^0(\Spec(k')) \to H^0(X) \to H^0(x)$ is an isomorphism.
-This implies $i^*e$ is either a minimal idempotent (i.e.,
-generates a factor $F$) or zero. Similarly for $(i')^*$.
-If $\gamma(x) \not = \gamma(x')$, then $i^* \not = (i')^*$ and
-hence we can choose $e$ such that $i^*e \not = 0$ and
-$(i')^*e = 0$. Then $\text{Tr}_x(i^*e) = 1$ and $\text{Tr}_{x'}((i')^*e) = 0$.
-On the other hand, $i_i^*e$ is an idempotent
-and hence $\text{Tr}_{x_i}(i_i^*e) = r_i$ is an integer.
-We conclude that
-$$
-1 = \sum n m_i r_i = n (\sum m_i r_i)
-$$
-which is impossible.
-
-\medskip\noindent
-If $F$ is not separably algebraically closed, then we replace
-$H^*( - )$ by $H^*( - ) \otimes_F F^{sep}$ and we conclude.
-Details omitted.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-divide-difference-points}
-Let $k$ be a field. Let $X$ be a geometrically connected
-smooth projective scheme over $k$. Let $x, x' \in X$ be $k$-rational points.
-Then there exists a finite separable extension $k'/k$ such that
-the pullback of $x - x'$ to $X_{k'}$
-is divisible by an integer $n > 1$ in $A_0(X_{k'})$.
-\end{lemma}
-
-\begin{proof}
-Using Bertini we can choose a smooth curve $C \subset X$
-such that $x, x' \in C$. (One may have to extend $k$
-a little bit here.) This reduces us to the case where
-$X$ is a curve. Next, we see that $\mathcal{O}_X(x - x')$
-defines a $k$-rational point of $\Pic_{X/k}$.
-Choose a prime $\ell$ invertible in $k$. Since
-$[\ell] : \Pic_{X/k} \to \Pic_{X/k}$ is finite \'etale,
-we see that after replacing $k$ by a finite separable extension
-the invertible module $\mathcal{O}_X(x - x')$ has an
-$\ell$th root in $\Pic(X)$. This is what we had to show.
-\end{proof}
-
-\begin{lemma}
 \label{lemma-H-0}
 Let $H^*$ be a Weil cohomology theory
 (Definition \ref{definition-weil-cohomology-theory}).
@@ -900,6 +3033,7 @@ fibres. Finally, $H^0(\Spec(k')) \to H^0(X)$ is an isomorphism.
 \end{lemma}
 
 \begin{proof}
+FIXME.
 We omit the proof of the geometric statements. Decomposing
 $X$ into irreducible components, we may assume $X$ is irreducible
 and $k'$ is a field. Let $k''/k'$ be a finite separable field
@@ -910,22 +3044,20 @@ H^0(X \times_{\Spec(k')} \Spec(k''))
 $$
 by K\"unneth and some arguments we omit. Thus, in order to prove that
 $H^0(\Spec(k')) \to H^0(X)$ is an isomorphism, we may always replace
-$k'$ by a finite separable extension.
-Choose $x_1, \ldots, x_r \in X$ closed
+$k'$ by a finite separable extension. Choose $x_1, \ldots, x_r \in X$ closed
 points such that $H^0(X) \to \prod H^0(x_i)$ is injective, see
 proof of Lemma \ref{}.
 After extending $k'$ we may assume $x_1, \ldots, x_r$
 are $k'$-rational points (but this replaces each $x_i$ with multiple
-points, so $r$ is increased in this step). Next, by Lemma \ref{}
-we may assume the differences $x_i - x_j$ are divisible by
-positive integers in $A_0(X)$. Then we see that
-$\gamma(x_1) = \gamma(x_2) = \ldots = \gamma(x_r)$ by Lemma \ref{}.
+points, so $r$ is increased in this step). By Lemma \ref{}
+$\gamma(x_1) = \gamma(x_2) = \ldots = \gamma(x_r)$.
 In other words all the maps $H^0(X) \to H^0(x_i)$
 are the same. This ends the proof.
 \end{proof}
 
 \begin{remark}
 \label{remark-betti-numbers-in-some-sense}
+FIXME.
 Let $H^*$ be a Weil cohomology theory
 (Definition \ref{definition-weil-cohomology-theory}).
 Let $X$ be a geometrically irreducible smooth projective scheme
