@@ -5661,7 +5661,7 @@ of fixed relative dimension, and
 Definition \ref{definition-gysin-homomorphism}.
 \end{enumerate}
 We omit the detailed formulations. Suppose we denote the collection
-of all such operations $A^*(X \to Z \leftarrow Y)$. A simple example
+of all such operations $A^p(X \to Z \leftarrow Y)$. A simple example
 of the utility of this concept is when we have a proper morphism
 $f : X_2 \to X_1$. Then $f_*$ isn't a bivariant operation in the sense of
 Definition \ref{definition-bivariant-class} but it is in the
@@ -6033,6 +6033,35 @@ The right hand side is a cycle on $X$ whose restriction to $X_i$
 is $c_i \cap \beta|_{Y_j}$ for $i \in I$ with $a(i) = j$.
 Thus $c \cap \beta = \Psi((c_i))$ as desired.
 \end{proof}
+
+\begin{remark}
+\label{remark-completion-bivariant}
+Let $(S, \delta)$ be as in Situation \ref{situation-setup}.
+Let $f : X \to Y$ be a morphism of schemes locally of finite type over $S$.
+Let $X = \coprod_{i \in I} X_i$ and $Y = \coprod_{j \in J} Y_j$
+be the decomposition of $X$ and $Y$ into their connected components
+(the connected components are open as $X$ and $Y$ are locally Noetherian, see
+Topology, Lemma \ref{topology-lemma-locally-Noetherian-locally-connected} and
+Properties, Lemma \ref{properties-lemma-Noetherian-topology}).
+Let $a(i) \in J$ be the index such that $f(X_i) \subset Y_{a(i)}$.
+Then $A^p(X \to Y) = \prod A^p(X_i \to Y_{a(i)})$ by
+Lemma \ref{lemma-disjoint-decomposition-bivariant}.
+In this setting it is convenient to set
+$$
+A^*(X \to Y)^\wedge = \prod\nolimits_i A^*(X_i \to Y_{a(i)})
+$$
+as a kind of natural completion of the graded $\mathbf{Z}$-module
+$A^*(X \to Y)$ of bivariant classes (we omit specifying the precise
+sense in which this is a completion). As a special case we set
+$$
+A^*(X)^\wedge = \prod A^*(X_i)
+$$
+If $Y \to Z$ is a second morphism, then the
+composition $A^*(X \to Y) \times A^*(Y \to Z) \to A^*(X \to Z)$
+extends to a composition
+$A^*(X \to Y)^\wedge \times A^*(Y \to Z)^\wedge \to A^*(X \to Z)^\wedge$
+of completions.
+\end{remark}
 
 
 
@@ -6882,16 +6911,23 @@ are in the center of $A^*(X)$.
 \label{remark-top-chern-class}
 Let $(S, \delta)$ be as in Situation \ref{situation-setup}. Let $X$
 be locally of finite type over $S$. Let $\mathcal{E}$ be a
-finite locally free $\mathcal{O}_X$-module. Then there is an element
-$$
-c_{top}(\mathcal{E}) \in A^*(X)
-$$
-defined as follows. If $\mathcal{E}$ has constant rank $r$, then
-we set $c_{top}(\mathcal{E}) = c_r(\mathcal{E})$. In general
+finite locally free $\mathcal{O}_X$-module. In general
 we write $X = \coprod X_r$ as in
 Remark \ref{remark-extend-to-finite-locally-free}.
-For $X'/X$ locally of finite type we send $\prod \alpha_r$
-in $\prod \CH_*(X'_r)$ to $c_r(\mathcal{E}|_{X_r}) \cap \alpha_r$.
+If only a finite number of the $X_r$ are nonempty, then
+we can set
+$$
+c_{top}(\mathcal{E}) = \sum\nolimits_r c_r(\mathcal{E}|_{X_r})
+\in A^*(X) = \bigoplus A^*(X_r)
+$$
+where the equality is Lemma \ref{lemma-disjoint-decomposition-bivariant}.
+If infinitely many $X_r$ are nonempty, we will use the same
+notation to denote
+$$
+c_{top}(\mathcal{E}) = \prod c_r(\mathcal{E}|_{X_r})
+\in \prod A^r(X_r) \subset A^*(X)^\wedge
+$$
+see Remark \ref{remark-completion-bivariant} for notation.
 \end{remark}
 
 
@@ -7995,13 +8031,14 @@ $$
 be a short exact sequence of finite locally free $\mathcal{O}_X$-modules.
 Consider the closed embedding
 $$
+i :
 N' = \underline{\text{Spec}}_X(\text{Sym}((\mathcal{N}')^\vee))
 \longrightarrow
 N = \underline{\text{Spec}}_X(\text{Sym}(\mathcal{N}^\vee))
 $$
-Then we have
+For $\alpha \in \CH_k(X)$ we have
 $$
-(p')^*\alpha = p^*(c_{top}(\mathcal{E}) \cap \alpha)
+i_*(p')^*\alpha = p^*(c_{top}(\mathcal{E}) \cap \alpha)
 $$
 where $p' : N' \to X$ and $p : N \to X$ are the structure morphisms.
 \end{lemma}
@@ -10576,9 +10613,6 @@ The first closed immersion is Divisors, Equation
 and the second closed immersion corresponds to the surjection
 $\text{Sym}(\mathcal{N}^\vee) \to \text{Sym}(\mathcal{C}_{Z/X})$
 induced by $\sigma$.
-
-\medskip\noindent
-Let us define our bivariant class $c(Z \to X, \mathcal{N}) \in A^*(Z \to X)$.
 Let
 $$
 b : W \longrightarrow \mathbf{P}^1_X
@@ -10599,17 +10633,20 @@ $$
 i_*j^*(C \cap \alpha) = p^*\beta
 $$
 We set $c(Z \to X, \mathcal{N}) \cap \alpha = \beta$.
-If $\mathcal{N}$ has constant rank $r$, then $c(Z \to X, \mathcal{N})$
-is a bivariant class of degree $r$.
 
 \begin{lemma}
 \label{lemma-construction-gysin}
-The construction above defines a bivariant class
+The construction above defines a bivariant class\footnote{The
+notation $A^*(Z \to X)^\wedge$ is discussed in
+Remark \ref{remark-completion-bivariant}.
+If $X$ is quasi-compact, then $A^*(Z \to X)^\wedge = A^*(Z \to X)$.}
 $$
-c(Z \to X, \mathcal{N}) \in A^*(Z \to X)
+c(Z \to X, \mathcal{N}) \in A^*(Z \to X)^\wedge
 $$
 and moreover the construction is compatible with base change
 as in Lemma \ref{lemma-pullback-virtual-normal-sheaf}.
+If $\mathcal{N}$ has constant rank $r$, then
+$c(Z \to X, \mathcal{N}) \in A^r(Z \to X)$.
 \end{lemma}
 
 \begin{proof}
@@ -10852,6 +10889,208 @@ Then we conclude because chern classes are in the center of the
 bivariant ring (in the strong sense formulated in
 Lemma \ref{lemma-cap-commutative-chern}) and commute
 with the gysin homomorphism $i^*$ by definition of bivariant classes.
+\end{proof}
+
+\noindent
+Let $(S, \delta)$ be as in Situation \ref{situation-setup}. Let $X$ be an
+integral scheme locally of finite type over $S$ of $\delta$-dimension $n$.
+Let $Z \subset Y \subset X$ be closed subschemes which are both effective
+Cartier divisors in $X$. Denote $o : Y \to C_Y X$ the zero section of the
+normal line cone of $Y$ in $X$. As $C_YX$ is a line bundle over $Y$
+we obtain a bivariant class $o^* \in A^1(Y \to C_YX)$, see
+Lemma \ref{lemma-gysin-bivariant}.
+
+\begin{lemma}
+\label{lemma-relation-normal-cones}
+With notation as above we have
+$$
+o^*[C_ZX]_n = [C_Z Y]_{n - 1}
+$$
+in $CH_{n - 1}(Y \times_{o, C_Y X} C_ZX)$.
+\end{lemma}
+
+\begin{proof}
+Denote $W \to \mathbf{P}^1_X$ the blowing up of $\infty(Z)$ as in
+Section \ref{section-blowup-Z-first}.
+Similarly, denote $W' \to \mathbf{P}^1_X$ the blowing up of $\infty(Z)$.
+Since $\infty(Z) \subset \infty(Z)$ we get an opposite inclusion
+of ideal sheaves and hence a map of the graded algebras
+defining these blowups. This produces a rational morphism from $W$
+to $W'$ which in fact has a canonical representative
+$$
+W \supset U \longrightarrow W'
+$$
+See Constructions, Lemma \ref{constructions-lemma-morphism-relative-proj}.
+A local calculation (omitted) shows that $U$ contains at least all points
+of $W$ not lying over $\infty$ and the open subscheme $C_Z X$ of the special
+fibre. After shrinking $U$ we may assume $U_\infty = C_Z X$. Another
+local calculation (omitted) show that the morphism $U_\infty \to W'_\infty$
+induces the canonical morphism $C_Z X \to C_Y X \subset W'_\infty$
+of normal cones over $Z$. Denote $W'' \subset W$ the strict transform of
+$\mathbf{P}^1_Y \subset \mathbf{P}^1_X$ in $W$.
+Then we see that $(W'' \cap U)_\infty = C_ZY$.
+
+\medskip\noindent
+Consider the effective Cartier divisor $i : \mathbf{P}^1_Y \to W'$
+from (\ref{item-find-Z-in-blowup}) and its associated bivariant class
+$i^* \in A^1(\mathbf{P}^1_Y \to W')$. On the one hand we have
+$$
+i_\infty^* \circ i^* [U]_{n + 1} =
+i_\infty^* [(W'' \cap U)_\infty]_{n + 1} =
+[C_ZY]_n
+$$
+because $i_\infty^*$ kills all classes supported over $\infty$
+and it is clear that $i^*[U]$ and $[W'']$ agree as cycles
+over $\mathbf{A}^1$ and $C_ZY$ is the fibre of $W'' \cap U$ over $\infty$.
+On the other hand, we have
+$$
+i_\infty^* \circ i^* [U]_{n + 1} = i^* [U_\infty] =
+o^*[C_YX]_n
+$$
+because $i_\infty^*$ and $i^*$ commute (Lemma \ref{lemma-gysin-commutes-gysin})
+and because the fibre of $i : \mathbf{P}^1_Y \to W'$ over $\infty$
+factors as $o : Y \to C_YX$ and the open immersion $C_YX \to W'_\infty$.
+The lemma follows.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-gysin-composition}
+Let $(S, \delta)$ be as in Situation \ref{situation-setup}.
+Let $Z \subset Y \subset X$ be closed subschemes of a scheme locally
+of finite type over $S$.
+Let $\mathcal{N}$ be a virtual normal sheaf for $Z \subset X$.
+Let $\mathcal{N}'$ be a virtual normal sheaf for $Z \subset Y$.
+Let $\mathcal{N}''$ be a virtual normal sheaf for $Y \subset X$.
+Assume there is a commutative diagram
+$$
+\xymatrix{
+(\mathcal{N}'')^\vee|_Z \ar[r] \ar[d] &
+\mathcal{N}^\vee \ar[r] \ar[d] &
+(\mathcal{N}')^\vee \ar[d] \\
+\mathcal{C}_{Y/X}|_Z \ar[r] &
+\mathcal{C}_{Z/X} \ar[r] &
+\mathcal{C}_{Z/Y}
+}
+$$
+where the sequence at the bottom is from More on Morphisms, Lemma
+\ref{more-morphisms-lemma-transitivity-conormal} and the top
+sequence is a short exact sequence. Then
+$$
+c(Z \to X, \mathcal{N}) =
+c(Z \to Y, \mathcal{N}') \circ c(Y \to X, \mathcal{N}'')
+$$
+in $A^*(Z \to X)$.
+\end{lemma}
+
+\begin{proof}
+Observe that the assumptions remain satisfied after any base change
+by a morphism $X' \to X$ which is locally of finite type (the short
+exact sequence of virtual normal sheaves is locally split hence
+remains exact after any base change). Thus to check the
+equality of bivariant classes we may use Lemma \ref{lemma-bivariant-zero}.
+Thus we may assume $X$ is an integral scheme and we have to show
+$c(Z \to X, \mathcal{N}) \cap [X] =
+c(Z \to Y, \mathcal{N}') \cap c(Y \to X, \mathcal{N}'') \cap [X]$.
+
+\medskip\noindent
+If $Y = X$, then we have
+\begin{align*}
+c(Z \to Y, \mathcal{N}') \cap c(Y \to X, \mathcal{N}'') \cap [X]
+& =
+c(Z \to Y, \mathcal{N}') \cap c_{top}(\mathcal{N}'') \cap [X] \\
+& =
+c_{top}(\mathcal{N}''|_Z) \cap c(Z \to Y, \mathcal{N}') \cap [Y] \\
+& =
+c(Z \to X, \mathcal{N}) \cap [X] 
+\end{align*}
+The first equality by Lemma \ref{lemma-gysin-decompose}.
+The second because chern classes commute with bivariant classes
+(Lemma \ref{lemma-cap-commutative-chern}).
+The third equality by Lemma \ref{lemma-gysin-decompose}.
+
+\medskip\noindent
+Assume $Y \not = X$. By Lemma \ref{lemma-bivariant-zero}
+it even suffices to prove the result after blowing up $X$ in a nonzero ideal.
+Let us blowup $X$ in the product of the ideal sheaf of $Y$ and the ideal
+sheaf of $Z$. This reduces us to the case where both $Y$ and $Z$ are
+effective Cartier divisors on $X$, see
+Divisors, Lemmas
+\ref{divisors-lemma-blowing-up-gives-effective-Cartier-divisor} and
+\ref{divisors-lemma-blowing-up-two-ideals}.
+
+\medskip\noindent
+Denote $\mathcal{N}'' \to \mathcal{E}$ the surjection of finite locally
+free $\mathcal{O}_Z$-modules such that
+$0 \to \mathcal{E}^\vee \to (\mathcal{N}'')^\vee \to \mathcal{C}_{Y/X} \to 0$
+is a short exact sequence. Then $\mathcal{N} \to \mathcal{E}|_Z$
+is a surjection as well. Denote $\mathcal{N}_1$ the finite locally free kernel
+of this map and observe that $\mathcal{N}^\vee \to \mathcal{C}_{Z/X}$
+factors through $\mathcal{N}_1$.
+By Lemma \ref{lemma-gysin-decompose} we have
+$$
+c(Y \to X, \mathcal{N}'') = c_{top}(\mathcal{E}) \circ
+c(Y \to X, \mathcal{C}_{Y/X}^\vee)
+$$
+and
+$$
+c(Z \to X, \mathcal{N}) = c_{top}(\mathcal{E}|_Z) \circ
+c(Z \to X, \mathcal{N}_1)
+$$
+Since chern classes of bundles commute with bivariant classes
+(Lemma \ref{lemma-cap-commutative-chern})
+it suffices to prove
+$$
+c(Z \to X, \mathcal{N}_1) =
+c(Z \to Y, \mathcal{N}') \circ c(Y \to X, \mathcal{C}_{Y/X}^\vee)
+$$
+in $A^*(Z \to X)$. This we may assume that $\mathcal{N}'' = \mathcal{C}_{Y/X}$.
+This reduces us to the case discussed in the next paragraph.
+
+\medskip\noindent
+In this paragraph $Z$ and $Y$ are effective Cartier divisors on $X$
+integral of dimension $n$, we have $\mathcal{N}'' = \mathcal{C}_{Y/X}$.
+In this case $c(Y \to X, \mathcal{C}_{Y/X}^\vee) \cap [X] = [Y]$ by
+Lemma \ref{lemma-gysin-fundamental}. Thus we have to prove that
+$c(Z \to X, \mathcal{N}) \cap [X] = c(Z \to Y, \mathcal{N}') \cap [Y]$.
+Denote $N$ and $N'$ the vector bundles over $Z$ associated to
+$\mathcal{N}$ and $\mathcal{N}'$. Consider the commutative diagram
+$$
+\xymatrix{
+N' \ar[r]_i &
+N \ar[r] &
+(C_Y X) \times_Y Z \\
+C_Z Y \ar[r] \ar[u] &
+C_Z X \ar[u]
+}
+$$
+of cones and vector bundles over $Z$. Observe that $N'$ is a relative
+effective Cartier divisor in $N$ over $Z$ and that
+$$
+\xymatrix{
+N' \ar[d] \ar[r]_i & N \ar[d] \\
+Z \ar[r]^-o & (C_Y X) \times_Y Z
+}
+$$
+is cartesian where $o$ is the zero section of the line bundle
+$C_Y X$ over $Y$. By
+Lemma \ref{lemma-relation-normal-cones} we have $o^*[C_ZX]_n = [C_Z Y]_{n - 1}$
+in
+$$
+CH_{n - 1}(Y \times_{o, C_Y X} C_ZX) =
+CH_{n - 1}(Z \times_{o, (C_Y X) \times_Y Z} C_ZX)
+$$
+By the cartesian property of
+the square above this implies that
+$$
+i^*[C_ZX]_n = [C_Z Y]_{n - 1}
+$$
+in $CH_{n - 1}(N')$. Now observe that
+$\gamma = c(Z \to X, \mathcal{N}) \cap [X]$ and
+$\gamma' = c(Z \to Y, \mathcal{N}') \cap [Y]$
+are characterized by $p^*\gamma = [C_Z X]_n$ in $\CH_n(N)$
+and by $(p')^*\gamma' = [C_Z Y]_{n - 1}$ in $\CH_{n - 1}(N')$.
+Hence the proof is finished as $i^* \circ p^* = (p')^*$ by
+Lemma \ref{lemma-relative-effective-cartier}.
 \end{proof}
 
 \begin{remark}[Variant for immersions]
@@ -11272,6 +11511,11 @@ Omitted. Hint: argue exactly as in the proof of
 Proposition \ref{proposition-K-tensor-Q}. See also
 Remark \ref{remark-K-tensor-Q}.
 \end{proof}
+
+
+
+
+
 
 
 
