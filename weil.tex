@@ -758,9 +758,9 @@ Let $[\Gamma_f] \in \text{Corr}^0(X, Y)$ be as in
 Example \ref{example-graph-correspondence}. Then
 \begin{enumerate}
 \item pushforward of cycles by the correspondence $[\Gamma_f]$
-corresponds to pullback of cycles by $f$,
+agrees with the gysin map $f^! : \CH^*(Y) \to \CH^*(X)$,
 \item pullback of cycles by the correspondence $[\Gamma_f]$
-corresponds to pushforward of cycles by $f$,
+agrees with the pushforward map $f_* : \CH_*(Y) \to \CH_*(X)$,
 \item if $X$ and $Y$ are equidimensional of dimensions $d$ and $e$,
 then
 \begin{enumerate}
@@ -769,13 +769,43 @@ $[\Gamma_f^t]$ of Remark \ref{remark-transpose}
 corresponds to pushforward of cycles by $f$, and
 \item pullback of cycles by the correspondence
 $[\Gamma_f^t]$ of Remark \ref{remark-transpose}
-corresponds to pullback of cycles by $f$.
+corresponds to the gysin map $f^!$.
 \end{enumerate}
 \end{enumerate}
 \end{lemma}
 
 \begin{proof}
-Omitted.
+Proof of (1). Recall that
+$[\Gamma_f]_*(\alpha) =
+\text{pr}_{2, *}([\Gamma_f] \cdot \text{pr}_1^*\alpha)$.
+We have
+$$
+[\Gamma_f] \cdot \text{pr}_1^*\alpha =
+(f, 1)_*((f, 1)^! \text{pr}_1^*\alpha) =
+(f, 1)_*((f, 1)^! \text{pr}_1^!\alpha) =
+(f, 1)_*(f^!\alpha)
+$$
+The first equality by Chow Homology, Lemma
+\ref{chow-lemma-intersect-regularly-embedded}.
+The second by 
+Chow Homology, Lemma \ref{chow-lemma-lci-gysin-flat}.
+The third because $\text{pr}_1 \circ (f, 1) = f$ and
+Chow Homology, Lemma \ref{chow-lemma-lci-gysin-composition}.
+Then we coclude because
+$\text{pr}_{2, *} \circ (f, 1)_* = 1_*$ by
+Chow Homology, Lemma \ref{chow-lemma-compose-pushforward}.
+
+\medskip\noindent
+Proof of (2). Recall that $[\Gamma_f]_*(\beta) =
+\text{pr}_{1, *}([\Gamma_f] \cdot \text{pr}_2^*\beta)$.
+Arguing exactly as above we have
+$$
+[\Gamma_f] \cdot \text{pr}_2^*\beta = (f, 1)_*\beta
+$$
+Thus the result follows as before.
+
+\medskip\noindent
+Proof of (3). Proved in exactly the same manner as above.
 \end{proof}
 
 \begin{example}
@@ -803,15 +833,8 @@ as a $\mathbf{Q}$-algebra.
 \noindent
 The category of correspondences is a symmetric monoidal category.
 Given smooth projective schemes $X$ and $Y$ over $k$, we define
-$X \otimes Y = X \times Y$. As associativity constraint
-$$
-X \otimes (Y \otimes Z) = (X \otimes Y) \otimes Z
-$$
-we use the usual associativity constraint on products of schemes.
-The unit object will be $\Spec(k)$. The commutativity will be
-given by the isomorphism $X \times Y \to Y \times X$ switching the factors.
-Given four smooth projective schemes $X, X', Y, Y'$ over $k$
-we define a tensor product
+$X \otimes Y = X \times Y$. Given four smooth projective schemes
+$X, X', Y, Y'$ over $k$ we define a tensor product
 $$
 \otimes :
 \text{Corr}^r(X, Y) \times \text{Corr}^{r'}(X', Y')
@@ -825,7 +848,13 @@ c \otimes c' = \text{pr}_{13}^*c \cdot \text{pr}_{24}^*c'
 $$
 where $\text{pr}_{13} : X \times X' \times Y \times Y' \to X \times Y$
 and $\text{pr}_{24} : X \times X' \times Y \times Y' \to X' \times Y'$
-are the projections.
+are the projections. As associativity constraint
+$$
+X \otimes (Y \otimes Z) = (X \otimes Y) \otimes Z
+$$
+we use the usual associativity constraint on products of schemes.
+The commutativity constraint will be given by the isomorphism
+$X \times Y \to Y \times X$ switching the factors.
 
 \begin{lemma}
 \label{lemma-tensor-product}
@@ -846,11 +875,11 @@ $a^t = [\Gamma_f^t] \in \text{Corr}^{d - e}(Y, X)$.
 Set
 $\eta_X = [\Gamma_{X \to X \times X}] \in \text{Corr}^0(X \times X, X)$,
 $\eta_Y = [\Gamma_{Y \to Y \times Y}] \in \text{Corr}^0(Y \times Y, Y)$,
-$[X] \in \text{Corr}^d(X, \Spec(k))$, and
-$[Y] \in \text{Corr}^e(Y, \Spec(k))$. The diagram
+$[X] \in \text{Corr}^{-d}(X, \Spec(k))$, and
+$[Y] \in \text{Corr}^{-e}(Y, \Spec(k))$. The diagram
 $$
 \xymatrix{
-X \otimes Y \ar[r]_{a^t \otimes \text{id}} \ar[d]_{\text{id} \otimes a} &
+X \otimes Y \ar[r]_{a \otimes \text{id}} \ar[d]_{\text{id} \otimes a^t} &
 Y \otimes Y \ar[r]_{\eta_Y} &
 Y \ar[d]^{[Y]} \\
 X \otimes X \ar[r]^{\eta_X} &
@@ -862,7 +891,30 @@ is commutative in the category of correspondences.
 \end{lemma}
 
 \begin{proof}
-Going either way around the diagram a computation shows that we
+Recall that $\text{Corr}^r(W, \Spec(k)) = \CH_{-r}(W)$ for any
+smooth projective scheme $W$ over $k$
+and given $c \in \text{Corr}^s(W', W)$ the composition
+with $c$ agrees with pullback by $c$ as a map
+$\CH_{-r}(W) \to \CH_{-r - s}(W')$
+(Lemma \ref{lemma-composition-correspondences}).
+Finally, we have Lemma \ref{lemma-functor-and-cycles}
+which tells us how to convert this into usual
+pushforward and pullback of cycles.
+We have
+$$
+(a \otimes \text{id})^* \eta_Y^* [Y] =
+(a \otimes \text{id})^* [\Delta_Y] =
+(f \times \text{id})_*\Delta_Y = [\Gamma_f]
+$$
+and the other way around we get
+$$
+(\text{id} \otimes a^t)^* \eta_X^* [X] =
+(\text{id} \otimes a^t)^* [\Delta_X] =
+(\text{id} \times f)^![\Delta_X] = [\Gamma_f]
+$$
+The last equality follows from
+Chow Homology, Lemma \ref{chow-lemma-lci-gysin-easy}.
+In other words, going either way around the diagram we
 obtain the element of $\text{Corr}^d(X \times Y, \Spec(k))$
 corresponding to the cycle $\Gamma_f \subset X \times Y$.
 \end{proof}
