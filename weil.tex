@@ -2604,6 +2604,24 @@ invertible module on $X$ corresponding to $g'$, then we conclude
 that $\mathcal{O}_X(x - x') \cong \mathcal{L}^{\otimes n}$ as desired.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-kernel-to-closure}
+Let $K/k$ be an algebraic extension of fields.
+Let $X$ be a finite type scheme over $k$.
+The kernel of the map $\CH_i(X) \to \CH_i(X_K)$
+constructed in Lemma \ref{lemma-chow-limit}
+is torsion.
+\end{lemma}
+
+\begin{proof}
+It clearly suffices to show that the kernel
+of flat pullback $\CH_i(X) \to \CH_i(X_{k'})$
+by $\pi : X_{k'} \to X$ is torsion
+for any finite extension $k'/k$. This is clear because
+$\pi_* \pi^* \alpha = [k' : k] \alpha$ by
+Chow Homology, Lemma \ref{chow-lemma-finite-flat}.
+\end{proof}
+
 \begin{lemma}[Voevodsky]
 \label{lemma-smash-nilpotence}
 \begin{reference}
@@ -2611,7 +2629,7 @@ that $\mathcal{O}_X(x - x') \cong \mathcal{L}^{\otimes n}$ as desired.
 \end{reference}
 Let $k$ be a field. Let $X$ be a geometrically irreducible
 smooth projective scheme over $k$. Let $x, x' \in X$ be $k$-rational points.
-Then there exists an $n \geq 1$ such that
+For $n$ large enough the class of the zero cycle
 $$
 ([x] - [x']) \times \ldots \times ([x] - [x']) \in
 \CH_0(X^n)
@@ -2621,12 +2639,17 @@ is torsion.
 
 \begin{proof}
 If we can show this after base change to the algebraic closure of $k$,
-then the result follows over $k$. (The kernel of pullback on zero cycles
-is torsion.) Hence we may and do assume $k$ is algebraically closed.
-Using Bertini we can choose a smooth curve $C \subset X$ passing through
-$x$ and $x'$. Hence we may assume $X$ is a curve.
+then the result follows over $k$ because the kernel of pullback
+is torsion by Lemma \ref{lemma-kernel-to-closure}.
+Hence we may and do assume $k$ is algebraically closed.
 
 \medskip\noindent
+Using Bertini we can choose a smooth curve $C \subset X$ passing through
+$x$ and $x'$. See proof of Lemma \ref{lemma-divide-difference-points}.
+Hence we may assume $X$ is a curve.
+
+\medskip\noindent
+Assume $X$ is a curve and $k$ is algebraically closed.
 Write $S^n(X) = \underline{\Hilbfunctor}^n_{X/k}$ with notation as in
 Picard Schemes of Curves, Sections \ref{pic-section-hilbert-scheme-points}
 and \ref{pic-section-divisors}. There is a canonical morphism
@@ -2653,13 +2676,11 @@ is the $i$th projection. By either
 Divisors, Lemma \ref{divisors-lemma-finite-locally-free-has-norm} or
 Divisors, Lemma \ref{divisors-lemma-norm-in-normal-case}
 there is a norm for $\pi$. Set
-$$
-\mathcal{N} = \text{Norm}_\pi(\mathcal{L}_1)
-$$
-See Divisors, Lemma \ref{divisors-lemma-norm-invertible}. We have
+$\mathcal{N} = \text{Norm}_\pi(\mathcal{L}_1)$, 
+see Divisors, Lemma \ref{divisors-lemma-norm-invertible}. We have
 $$
 \pi^*\mathcal{N} =
-(\otimes_{i = 1, \ldots, n} \mathcal{L}_i)^{\otimes (n - 1)!}
+(\mathcal{L}_1 \otimes \ldots \otimes \mathcal{L}_n)^{\otimes (n - 1)!}
 $$
 in $\Pic(X^n)$ by a calculation. Deails omitted; hint: this follows from
 the fact that
@@ -2672,7 +2693,8 @@ $$
 $$
 in $\CH_0(S^n(X))$. Observe that
 $c_1(\mathcal{L}_i) \cap c_1(\mathcal{L}_i) = 0$
-because $\mathcal{L}_i$ is pulled back from a curve. Thus we see that
+because $\mathcal{L}_i$ is pulled back from a curve, see
+Chow Homology, Lemma \ref{chow-lemma-vanish-above-dimension}. Thus we see that
 \begin{align*}
 \pi^*\beta_n
 & =
@@ -2692,11 +2714,11 @@ $$
 f : S^n(X) \longrightarrow \underline{\Picardfunctor}^n_{X/k}
 $$
 See Picard Schemes of Curves, Lemma \ref{pic-lemma-picard-pieces}.
-For $n \geq 2g - 1$ this morphism is a projective space bundle.
+For $n \geq 2g - 1$ this morphism is a projective space bundle
+(details omitted; compare with the
+proof of Picard Schemes of Curves, Lemma \ref{pic-lemma-picard-pieces}).
 The invertible sheaf $\mathcal{N}$ is trivial on the
-fibres of $f$ (hint: because $\mathcal{L}$ is algebraically
-equivalent to zero, so is $\mathcal{N}$ and the fibres are
-projective spaces). Thus by the projective space bundle formula
+fibres of $f$, see below. Thus by the projective space bundle formula
 (Chow Homology, Lemma \ref{chow-lemma-chow-ring-projective-bundle})
 we see that $\mathcal{N} = f^*\mathcal{M}$ for some invertible
 module $\mathcal{M}$ on $\underline{\Picardfunctor}^n_{X/k}$.
@@ -2704,8 +2726,51 @@ Of course, then we see that
 $$
 c_1(\mathcal{N})^n = f^*(c_1(\mathcal{M})^n)
 $$
-is zero because $n > g = \dim(\underline{\Picardfunctor}^n_{X/k})$.
-This finishes the proof.
+is zero because $n > g = \dim(\underline{\Picardfunctor}^n_{X/k})$
+and we can use Chow Homology, Lemma \ref{chow-lemma-vanish-above-dimension}
+as before.
+
+\medskip\noindent
+We still have to show that $\mathcal{N}$ is trivial on a fibre $F$
+of $f$. Since the fibres of $f$ are projective spaces and since
+$\Pic(\mathbf{P}^m_k) = \mathbf{Z}$
+(Divisors, Lemma \ref{divisors-lemma-Pic-projective-space-UFD}),
+this can be shown by computing the degree of $\mathcal{N}$
+on a line contained in the fibre. Instead we will prove it by
+proving that $\mathcal{N}$ is algebraically
+equivalent to zero. First we claim there is a connected finite type scheme $T$
+over $k$, an invertible module $\mathcal{L}'$ on $T \times X$ and
+$k$-rational points $p, q \in T$ such that
+$\mathcal{M}_p \cong \mathcal{O}_X$ and $\mathcal{M}_q = \mathcal{L}$.
+Namely, since $\mathcal{L} = \mathcal{O}_X(x - x')$ we can take
+$T = X$, $p = x'$, $q = x$, and
+$\mathcal{L}' = \mathcal{O}_{X \times X}(\Delta)
+\otimes \text{pr}_2^*\mathcal{O}_X(-x')$.
+Then we let $\mathcal{L}'_i$ on
+$T \times X^n$ for $i = 1, \ldots, n$
+be the pullback of $\mathcal{L}'$ by
+$\text{id}_T \times \text{pr}_i : T \times X^n \to T \times X$.
+Finally, we let
+$\mathcal{N}' = \text{Norm}_{\text{id}_T \times \pi}(\mathcal{L}'_1)$
+on $T \times S^n(X)$.
+By construction we have $\mathcal{N}'_p = \mathcal{O}_{S^n(X)}$
+and $\mathcal{N}'_q = \mathcal{N}$.
+We conclude that
+$$
+\mathcal{N}'|_{T \times F}
+$$
+is an invertible module on $T \times F \cong T \times \mathbf{P}^m_k$
+whose fibre over $p$ is the trivial invertible module and whose fibre
+over $q$ is $\mathcal{N}|_F$. Since the euler characteristic
+of the trivial bundle is $1$ and since this euler characteristic
+is locally constant in families (Derived Categories of Schemes,
+Lemma \ref{perfect-lemma-chi-locally-constant-geometric})
+we conclude $\chi(F, \mathcal{N}^{\otimes s}|_F) = 1$
+for all $s \in \mathbf{Z}$. This can happen only if
+$\mathcal{N}|_F \cong \mathcal{O}_F$ (see
+Cohomology of Schemes, Lemma
+\ref{coherent-lemma-cohomology-projective-space-over-ring})
+and the proof is complete. Some details omitted.
 \end{proof}
 
 
