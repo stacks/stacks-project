@@ -2654,6 +2654,62 @@ This last expression is the row expansion of the determinant of the matrix
 in the statement of the lemma.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-map-cannot-be-injective}
+\begin{slogan}
+A map of finite free modules cannot be injective if the source has
+rank bigger than the target.
+\end{slogan}
+Let $R$ be a nonzero ring. Let $n \geq 1$. Let $M$ be an $R$-module generated
+by $< n$ elements. Then any $R$-module map $f : R^{\oplus n} \to M$ has a
+nonzero kernel.
+\end{lemma}
+
+\begin{proof}
+Choose a surjection $R^{\oplus n - 1} \to M$.
+We may lift the map $f$ to a map $f' : R^{\oplus n} \to R^{\oplus n - 1}$
+(Lemma \ref{lemma-lift-map}).
+It suffices to prove $f'$ has a nonzero kernel.
+The map $f' : R^{\oplus n} \to R^{\oplus n - 1}$ is given by a
+matrix $A = (a_{ij})$. If one of the $a_{ij}$ is not nilpotent, say
+$a = a_{ij}$ is not, then we can replace $R$ by the localization $R_a$
+and we may assume $a_{ij}$ is a unit. Since if we find a nonzero kernel
+after localization then there was a nonzero kernel to start with as
+localization is exact, see Proposition \ref{proposition-localization-exact}.
+In this case we can do a base change on both $R^{\oplus n}$
+and $R^{\oplus n - 1}$ and reduce to the case where
+$$
+A =
+\left(
+\begin{matrix}
+1 & 0 & 0 & \ldots \\
+0 & a_{22} & a_{23} & \ldots \\
+0 & a_{32} & \ldots \\
+\ldots & \ldots
+\end{matrix}
+\right)
+$$
+Hence in this case we win by induction on $n$. If not then each
+$a_{ij}$ is nilpotent. Set $I = (a_{ij}) \subset R$. Note that
+$I^{m + 1} = 0$ for some $m \geq 0$. Let $m$ be the largest integer
+such that $I^m \not = 0$. Then we see that $(I^m)^{\oplus n}$ is
+contained in the kernel of the map and we win.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-rank}
+\begin{slogan}
+The rank of a finite free module is well defined.
+\end{slogan}
+Let $R$ be a nonzero ring. Let $n, m \geq 0$ be integers.
+If $R^{\oplus n}$ is isomorphic to $R^{\oplus m}$ as
+$R$-modules, then $n = m$.
+\end{lemma}
+
+\begin{proof}
+Immediate from Lemma \ref{lemma-map-cannot-be-injective}.
+\end{proof}
+
 
 
 
@@ -12501,22 +12557,23 @@ given by the dimension function (which is also the length function).
 \end{example}
 
 \begin{example}
-\label{example-K0-polynomial-ring}
-Let $k$ be a field. Then $K_0(k[x]) = K'_0(k[x]) = \mathbf{Z}$.
-
-\medskip\noindent
-Since $R = k[x]$ is a principal ideal domain, any finite projective
-$R$-module is free. In a short exact sequence of modules
+\label{example-K0-PID}
+Let $R$ be a PID. We claim $K_0(R) = K'_0(R) = \mathbf{Z}$.
+Namely, any finite projective $R$-module is finite free.
+A finite free module has a well defined rank by Lemma \ref{lemma-rank}.
+Given a short exact sequence of finite free modules
 $$
 0 \to M' \to M \to M'' \to 0
 $$
-we have $\text{rank}(M) = \text{rank}(M') + \text{rank}(M'')$,
-which gives $K_0(k[x]) = \mathbf{Z}$.
+we have $\text{rank}(M) = \text{rank}(M') + \text{rank}(M'')$
+because we have $M \cong M' \oplus M'$ in this case (for example
+we have a splitting by Lemma \ref{lemma-lift-map}).
+We conclude $K_0(R) = \mathbf{Z}$.
 
 \medskip\noindent
-As for $K'_0$, the structure theorem for modules of a PID says that
+The structure theorem for modules of a PID says that
 any finitely generated $R$-module is of the form
-$M = R^r \times R/(d_1) \times \ldots \times R/(d_k)$.
+$M = R^{\oplus r} \oplus R/(d_1) \oplus \ldots \oplus R/(d_k)$.
 Consider the short exact sequence
 $$
 0 \to (d_i) \to R \to R/(d_i) \to 0
@@ -12524,9 +12581,16 @@ $$
 Since the ideal $(d_i)$ is isomorphic to $R$ as a module
 (it is free with generator $d_i$), in $K'_0(R)$ we have
 $[(d_i)] = [R]$.  Then $[R/(d_i)] = [(d_i)]-[R] = 0$.  From this it
-follows that any torsion part ``disappears'' in $K'_0$.
-Again the rank of the free part determines that $K'_0(k[x]) = \mathbf{Z}$,
-and the canonical homomorphism from $K_0$ to $K'_0$ is an isomorphism.
+follows that a torsion module has zero class in $K'_0(R)$.
+Using the rank of the free part gives an identification $K'_0(R) = \mathbf{Z}$
+and the canonical homomorphism from $K_0(R) \to K'_0(R)$ is an isomorphism.
+\end{example}
+
+\begin{example}
+\label{example-K0-polynomial-ring}
+Let $k$ be a field. Then $K_0(k[x]) = K'_0(k[x]) = \mathbf{Z}$.
+This follows from Example \ref{example-K0-PID} as
+$R = k[x]$ is a PID.
 \end{example}
 
 \begin{example}
@@ -12560,56 +12624,30 @@ Omitted.
 
 \begin{lemma}
 \label{lemma-K0-local}
-Let $R$ be a local ring. Every finite projective $R$-module
+Let $(R, \mathfrak m)$ be a local ring. Every finite projective $R$-module
 is finite free. The map $\text{rank}_R : K_0(R) \to \mathbf{Z}$
 defined by $[M] \to \text{rank}_R(M)$ is well defined
 and an isomorphism.
 \end{lemma}
 
 \begin{proof}
-Let $P$ be a finite projective $R$-module.
-The $n$ generators of $P$ give a surjection
-$R^n \to P$, and since $P$ is projective it
-follows that $R^n \cong P \oplus Q$ for some
-projective module $Q$.
-
-\medskip\noindent
-If $\mathfrak m \subset R$ is the maximal ideal,
-then $P/\mathfrak m$ and $Q/\mathfrak m$ are $R/\mathfrak m$-vector spaces,
-with $P/\mathfrak m \oplus Q/\mathfrak m \cong (R/\mathfrak m)^n$.
-Say that $\dim P = p$, $\dim Q = q$, so $p + q = n$.
-
-\medskip\noindent
-Choose elements $a_1, \ldots, a_p$ in $P$ and $b_1, \ldots, b_q$ in $Q$
-lying above bases for $P/\mathfrak m$ and $Q/\mathfrak m$.
-The homomorphism $R^n \to P \oplus Q \cong R^n$ given by
-$(r_1, \ldots, r_n) \mapsto
-r_1a_1 + \ldots + r_pa_p + r_{p + 1} b_1 + \ldots + r_nb_q$
-is a matrix $A$ which is invertible over $R/\mathfrak m$. Let $B$
-be a matrix over $R$ lying over the inverse of $A$ in $R/\mathfrak m$.
-$AB = I + M$, where $M$ is a matrix whose entries all lie in $\mathfrak m$.
-Thus $\det AB = 1 + x$, for $x \in \mathfrak m$, so $AB$ is invertible,
-so $A$ is invertible.
-
-\medskip\noindent
-The homomorphism $R^p \to P$ given by
-$(r_1, \ldots, r_p) \mapsto r_1a_1 + \ldots + r_pa_p$ inherits injectivity and
-surjectivity from A. Hence, $P \cong R^p$.
-
-\medskip\noindent
-Next we show that the rank of a finite projective module over $R$ is
-well defined: if $P \cong R^\alpha \cong R^\beta$, then $\alpha = \beta$.
-This is immediate in the vector space case, and so it is true in the
-general module case as well, by dividing out the maximal ideal on both sides.
-If $0 \to R^\alpha \to R^\beta \to R^\gamma \to 0$
-is exact, the sequence splits, so $R^\beta \cong R^\alpha \oplus R^\gamma$,
-so $\beta = \alpha + \gamma$.
-
-\medskip\noindent
-So far we have seen that the map $\text{rank}_R : K_0(R) \to \mathbf{Z}$
-is a well-defined homomorphism. It is surjective because
-$\text{rank}_R[R] = 1$. It is injective because the element
-of $K_0(R)$ with rank $\pm\alpha$ is uniquely $\pm [R^\alpha]$.
+Let $P$ be a finite projective $R$-module. Choose elements
+$x_1, \ldots, x_n \in P$ which map to a basis of $P/\mathfrak m P$.
+By Nakayama's Lemma \ref{lemma-NAK} these elements generate $P$.
+The corresponding surjection $u : R^{\oplus n} \to P$ has a splitting
+as $P$ is projective. Hence $R^{\oplus n} = P \oplus Q$ with $Q = \Ker(u)$.
+It follows that $Q/\mathfrak m Q = 0$, hence $Q$ is zero by
+Nakayama's lemma. In this way we see that every finite projective
+$R$-module is finite free.
+A finite free module has a well defined rank by Lemma \ref{lemma-rank}.
+Given a short exact sequence of finite free $R$-modules
+$$
+0 \to M' \to M \to M'' \to 0
+$$
+we have $\text{rank}(M) = \text{rank}(M') + \text{rank}(M'')$
+because we have $M \cong M' \oplus M'$ in this case (for example
+we have a splitting by Lemma \ref{lemma-lift-map}).
+We conclude $K_0(R) = \mathbf{Z}$.
 \end{proof}
 
 \begin{lemma}
@@ -12629,27 +12667,13 @@ Lemmas \ref{lemma-K0prime-Artinian} and \ref{lemma-K0-local}.
 \end{lemma}
 
 \begin{proof}
-By induction on the rank of $M$.
-Suppose $\left[M\right] \in K_0(R)$.
-Then $M$ is a finite projective $R$-module
-over a local ring, so M is free;
-$M \cong R^n$ for some $n$.
-The claim is that
-$\text{rank} (M) \text{length}_R (R) = \text{length}_R(M)$,
-or equivalently that $n\text{length}_R(R) = \text{length}_R (R^n)$
-for all $n \geq 1$. When $n = 1$, this is clearly true.
-Suppose that $(n-1) \text{length}_R(R) =\text{ length}_R(R^{n-1})$.
-Then since there is a split short exact sequence
-$$
-0 \to R \to R^n \to R^{n-1} \to 0
-$$
-by Lemma \ref{lemma-length-additive} we have
-\begin{eqnarray*}
-\text{length}_R(R^n) & = & \text{length}_R(R) + \text{length}_R(R^{n-1}) \\
-& = & \text{length}_R(R) + (n-1) \text{length}_R(R) \\
-& = & n\text{length}_R(R)
-\end{eqnarray*}
-as desired.
+Let $P$ be a finite projective $R$-module. We have to show that
+$\text{length}_R(P) = \text{rank}_R(P) \text{length}_R(R)$.
+By Lemma \ref{lemma-K0-local} the module $P$ is finite free. So
+$P \cong R^{\oplus n}$ for some $n \geq 0$. Then $\text{rank}_R(P) = n$ and
+$\text{length}_R(R^{\oplus n}) = n \text{length}_R(R)$
+by additivity of lenghts (Lemma \ref{lemma-length-additive}).
+Thus the result holds.
 \end{proof}
 
 
@@ -18250,9 +18274,12 @@ to $R_{f_i}^{\oplus r}$.
 \end{definition}
 
 \noindent
-Note that a finite locally free $R$-module is
-automatically finitely presented by
-Lemma \ref{lemma-cover}.
+Note that a finite locally free $R$-module is automatically
+finitely presented by Lemma \ref{lemma-cover}. Moreover, if $M$ is a
+finite locally free module of rank $r$ over a ring $R$ and if
+$R$ is nonzero, then $r$ is uniquely determined by
+Lemma \ref{lemma-rank} (because at least one of the
+localizations $	R_{f_i}$ is a nonzero ring).
 
 \begin{lemma}
 \label{lemma-finite-projective}
