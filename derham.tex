@@ -43,25 +43,6 @@ on local sections.
 See Modules, Section \ref{modules-section-de-rham-complex}.
 
 \medskip\noindent
-Consider the maps
-$\Omega^p_{X/S} \times \Omega^q_{X/S} \to \Omega^{p + q}_{X/S}$
-given by $(\omega , \eta) \longmapsto \omega \wedge \eta$.
-Using the formula for $\text{d}$ given in the previous paragraph
-and the Leibniz rule for $\text{d} : \mathcal{O}_X \to \Omega_{X/S}$
-we see that $\text{d}(\omega \wedge \eta) = \text{d}(\omega) \wedge \eta +
-(-1)^{\deg(\omega)} \omega \wedge \text{d}(\eta)$. This means that
-$\wedge$ defines a morphism
-\begin{equation}
-\label{equation-wedge}
-\wedge :
-\text{Tot}(
-\Omega^\bullet_{X/S} \otimes_{p^{-1}\mathcal{O}_S} \Omega^\bullet_{X/S})
-\longrightarrow
-\Omega^\bullet_{X/S}
-\end{equation}
-of complexes of $p^{-1}\mathcal{O}_S$-modules.
-
-\medskip\noindent
 Given a commutative diagram
 $$
 \xymatrix{
@@ -125,6 +106,74 @@ $$
 Since $\Omega^\bullet_{X/S}$ is a complex of $p^{-1}\mathcal{O}_S$-modules,
 these cohomology groups are naturally modules over $H^0(S, \mathcal{O}_S)$.
 
+\begin{lemma}
+\label{lemma-quasi-coherence-relative}
+Let $p : X \to S$ be a morphism of schemes. If $p$ is quasi-compact
+and quasi-separated, then $Rp_*\Omega^\bullet_{X/S}$ is an object
+of $D_\QCoh(\mathcal{O}_S)$.
+\end{lemma}
+
+\begin{proof}
+There is a spectral sequence with first page
+$E_1^{a, b} = R^ap_*\Omega^q_{X/S}$ converging to $Rp_*\Omega^\bullet_{X/S}$
+(see Derived Categories, Lemma \ref{derived-lemma-two-ss-complex-functor}).
+Hence by Homology, Lemma \ref{homology-lemma-first-quadrant-ss}
+it suffices to show that $R^ap_*\Omega^q_{X/S}$ is quasi-coherent.
+This follows from Cohomology of Schemes, Lemma
+\ref{coherent-lemma-quasi-coherence-higher-direct-images}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-coherence-relative}
+Let $p : X \to S$ be a proper morphism of schemes with $S$ locally
+Noetherian. Then $Rp_*\Omega^\bullet_{X/S}$ is an object
+of $D_{\textit{Coh}}(\mathcal{O}_S)$.
+\end{lemma}
+
+\begin{proof}
+In this case by Morphisms, Lemma \ref{morphisms-lemma-finite-type-differentials}
+the modules $\Omega^i_{X/S}$ are coherent. Hence we can use exactly the
+same argument as in the proof of Lemma \ref{lemma-quasi-coherence-relative}
+using Cohomology of Schemes, Proposition
+\ref{coherent-proposition-proper-pushforward-coherent}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-finite-de-Rham}
+Let $A$ be a Noetherian ring. Let $X$ be a proper scheme over $S = \Spec(A)$.
+Then $H^i_{dR}(X/S)$ is a finite $A$-module for all $i$.
+\end{lemma}
+
+\begin{proof}
+This is a special case of Lemma \ref{lemma-coherence-relative}.
+\end{proof}
+
+
+
+
+
+\section{Cup product}
+\label{section-cup-product}
+
+\noindent
+Consider the maps
+$\Omega^p_{X/S} \times \Omega^q_{X/S} \to \Omega^{p + q}_{X/S}$
+given by $(\omega , \eta) \longmapsto \omega \wedge \eta$.
+Using the formula for $\text{d}$ given in the previous paragraph
+and the Leibniz rule for $\text{d} : \mathcal{O}_X \to \Omega_{X/S}$
+we see that $\text{d}(\omega \wedge \eta) = \text{d}(\omega) \wedge \eta +
+(-1)^{\deg(\omega)} \omega \wedge \text{d}(\eta)$. This means that
+$\wedge$ defines a morphism
+\begin{equation}
+\label{equation-wedge}
+\wedge :
+\text{Tot}(
+\Omega^\bullet_{X/S} \otimes_{p^{-1}\mathcal{O}_S} \Omega^\bullet_{X/S})
+\longrightarrow
+\Omega^\bullet_{X/S}
+\end{equation}
+of complexes of $p^{-1}\mathcal{O}_S$-modules.
+
 \medskip\noindent
 Combining the cup product of
 Cohomology, Section \ref{cohomology-section-cup-product}
@@ -179,7 +228,6 @@ Cohomology, Section \ref{cohomology-section-cech-cohomology-of-complexes}.
 
 
 
-
 \section{Hodge cohomology}
 \label{section-hodge-cohomology}
 
@@ -217,6 +265,7 @@ This lemma is true without the assumption on the diagonal of $X$.
 The proof is identical to the proof of
 Lemma \ref{lemma-cup-product-graded-commutative}.
 \end{proof}
+
 
 
 
@@ -324,6 +373,146 @@ tool (insert future reference here).
 
 
 
+
+\section{K\"unneth formula}
+\label{section-kunneth}
+
+\noindent
+An important feature of de Rham cohomology is that there is a
+K\"unneth formula.
+
+\medskip\noindent
+Let $a : X \to S$ and $b : Y \to S$ be morphisms of schemes with the same
+target. Let $p : X \times_S Y \to X$ and $q : X \times_S Y \to Y$ be the
+projection morphisms and $f = a \circ p = b \circ q$. Here is a picture
+$$
+\xymatrix{
+& X \times_S Y \ar[ld]^p \ar[rd]_q \ar[dd]^f \\
+X \ar[rd]_a & & Y \ar[ld]^b \\
+& S
+}
+$$
+
+\begin{lemma}
+\label{lemma-de-rham-complex-product}
+In the situation above there is a canonical isomorphism
+$$
+\text{Tot}(p^{-1}\Omega^\bullet_{X/S}
+\otimes_{f^{-1}\mathcal{O}_S} q^{-1}\Omega^\bullet_{Y/S})
+\longrightarrow
+\Omega^\bullet_{X \times_S Y/S}
+$$
+of complexes of $f^{-1}\mathcal{O}_S$-modules.
+\end{lemma}
+
+\begin{proof}
+By Derived Categories of Schemes, Equation (\ref{perfect-equation-silly})
+we have
+$$
+p^{-1}\Omega^i_{X/S} \otimes_{f^{-1}\mathcal{O}_S} q^{-1}\Omega^j_{Y/S} =
+p^*\Omega^i_{X/S} \otimes_{\mathcal{O}_{X \times_S Y}} q^*\Omega^j_{Y/S}
+$$
+for all $i, j$. On the other hand, we know that
+$
+\Omega_{X \times_S Y/S} = p^*\Omega_{X/S} \oplus q^*\Omega_{Y/S}
+$
+by Morphisms, Lemma \ref{morphisms-lemma-differential-product}.
+Taking exterior powers we obtain
+$$
+\Omega^n_{X \times_S Y/S} =
+\bigoplus\nolimits_{i + j = n}
+p^*\Omega^i_{X/S} \otimes_{\mathcal{O}_{X \times_S Y}} q^*\Omega^j_{Y/S} =
+\bigoplus\nolimits_{i + j = n}
+p^{-1}\Omega^i_{X/S} \otimes_{f^{-1}\mathcal{O}_S} q^{-1}\Omega^j_{Y/S}
+$$
+by elementary properties of exterior powers. This finishes the proof.
+\end{proof}
+
+\noindent
+If $S = \Spec(A)$ is affine, then combining the result of
+Lemma \ref{lemma-de-rham-complex-product} with the cup product map of
+Derived Categories, Equation (\ref{perfect-equation-de-rham-kunneth})
+we obtain a cup product
+$$
+R\Gamma(X, \Omega^\bullet_{X/S})
+\otimes_A^\mathbf{L}
+R\Gamma(Y, \Omega^\bullet_{Y/S})
+\longrightarrow
+R\Gamma(X \times_S Y, \Omega^\bullet_{X \times_S Y/S})
+$$
+On the level of cohomology, using the discussion in
+More on Algebra, Section \ref{more-algebra-section-products-tor},
+we obtain a canonical map
+$$
+H^i_{dR}(X/S) \otimes_A H^j_{dR}(Y/S)
+\longrightarrow
+H^{i + j}_{dR}(X \times_S Y/S),\quad
+(\xi, \zeta) \longmapsto p^*\xi \cup q^*\zeta
+$$
+We note that the construction above indeed proceeds by
+first pulling back and then taking the cup product.
+
+\begin{lemma}
+\label{lemma-kunneth-de-rham}
+Assume $X$ and $Y$ are smooth, quasi-compact, and quasi-separated over
+$S = \Spec(A)$. Then the map
+$$
+R\Gamma(X, \Omega^\bullet_{X/S})
+\otimes_A^\mathbf{L}
+R\Gamma(Y, \Omega^\bullet_{Y/S})
+\longrightarrow
+R\Gamma(X \times_S Y, \Omega^\bullet_{X \times_S Y/S})
+$$
+is an isomorphism in $D(A)$.
+\end{lemma}
+
+\begin{proof}
+By Morphisms, Lemma \ref{morphisms-lemma-smooth-omega-finite-locally-free}
+the sheaves $\Omega^n_{X/S}$ and $\Omega^m_{Y/S}$ are finite locally free
+$\mathcal{O}_X$ and $\mathcal{O}_Y$-modules. On the other hand, $X$ and $Y$
+are flat over $S$ (Morphisms, Lemma \ref{morphisms-lemma-smooth-flat})
+and hence we find that $\Omega^n_{X/S}$ and $\Omega^m_{Y/S}$ are flat over $S$.
+Thus the result by
+Lemma \ref{lemma-de-rham-complex-product} and
+Derived Categories of Schemes, Lemma \ref{perfect-lemma-kunneth-special}.
+\end{proof}
+
+\noindent
+Given a possibly non-affine base scheme $S$ we can do this
+construction over all affine opens and upon sheafification
+we obtain a relative cup product
+$$
+Ra_*\Omega^\bullet_{X/S}
+\otimes_{\mathcal{O}_S}^\mathbf{L}
+Rb_*\Omega^\bullet_{Y/S}
+\longrightarrow
+Rf_*\Omega^\bullet_{X \times_S Y/S}
+$$
+in $D(\mathcal{O}_S)$ and taking global sections we get
+$$
+H^i_{dR}(X/S) \otimes_{H^0(S, \mathcal{O}_S)} H^j_{dR}(Y/S)
+\longrightarrow
+H^{i + j}_{dR}(X \times_S Y/S),\quad
+(\xi, \zeta) \longmapsto p^*\xi \cup q^*\zeta
+$$
+
+\begin{lemma}
+\label{lemma-kunneth-de-rham-relative}
+Assume $X$ and $Y$ are smooth, quasi-compact, and quasi-separated over
+$S$. Then the map
+$$
+Ra_*\Omega^\bullet_{X/S}
+\otimes_{\mathcal{O}_S}^\mathbf{L}
+Rb_*\Omega^\bullet_{Y/S}
+\longrightarrow
+Rf_*\Omega^\bullet_{X \times_S Y/S}
+$$
+is an isomorphism in $D(\mathcal{O}_S)$.
+\end{lemma}
+
+\begin{proof}
+Immediate consquence of Lemma \ref{lemma-kunneth-de-rham}.
+\end{proof}
 
 
 
