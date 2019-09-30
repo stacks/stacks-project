@@ -131,6 +131,20 @@ In particular, if we work over a fixed base scheme $S$, then de Rham
 cohomology is a contravariant functor on the category of schemes over $S$.
 
 \begin{lemma}
+\label{lemma-de-rham-affine}
+Let $X \to S$ be a morphism of affine schemes given by the ring map
+$R \to A$. Then $R\Gamma(X, \Omega^\bullet_{X/S}) = \Omega^\bullet_{A/R}$
+in $D(R)$ and $H^i_{dR}(X/S) = H^i(\Omega^\bullet_{A/R})$.
+\end{lemma}
+
+\begin{proof}
+This follows from Cohomology of Schemes, Lemma
+\ref{coherent-lemma-quasi-coherent-affine-cohomology-zero}
+and Leray's acyclicity lemma
+(Derived Categories, Lemma \ref{derived-lemma-leray-acyclicity}).
+\end{proof}
+
+\begin{lemma}
 \label{lemma-quasi-coherence-relative}
 Let $p : X \to S$ be a morphism of schemes. If $p$ is quasi-compact
 and quasi-separated, then $Rp_*\Omega^\bullet_{X/S}$ is an object
@@ -229,7 +243,7 @@ commutation with arbitrary base change.
 Consider the maps
 $\Omega^p_{X/S} \times \Omega^q_{X/S} \to \Omega^{p + q}_{X/S}$
 given by $(\omega , \eta) \longmapsto \omega \wedge \eta$.
-Using the formula for $\text{d}$ given in the previous paragraph
+Using the formula for $\text{d}$ given in Section \ref{section-de-rham-complex}
 and the Leibniz rule for $\text{d} : \mathcal{O}_X \to \Omega_{X/S}$
 we see that $\text{d}(\omega \wedge \eta) = \text{d}(\omega) \wedge \eta +
 (-1)^{\deg(\omega)} \omega \wedge \text{d}(\eta)$. This means that
@@ -1107,92 +1121,61 @@ $0 \leq i \leq n$.
 \label{section-relative-spectral-sequence}
 
 \noindent
-Let $S$ be a scheme. Let $f : X \to Y$ be a quasi-compact and
-quasi-separated smooth morphism of schemes over $S$.
-Then we obtain a locally split short exact sequence
+Consider a commutative diagram of schemes
+$$
+\xymatrix{
+X \ar[rr]_f \ar[rd]_p & & Y \ar[ld]^q \\
+& S
+}
+$$
+where $f$ is a smooth morphism. Then we obtain a locally split short
+exact sequence
 $$
 0 \to f^*\Omega_{Y/S} \to \Omega_{X/S} \to \Omega_{X/Y} \to 0
 $$
 by Morphisms, Lemma \ref{morphisms-lemma-triangle-differentials-smooth}.
-Let us think of this as a descending filtration on $\Omega_{X/S}$.
-Then for every $p$ we obtain an induced filtration on $\Omega^p_{X/S}$
+Let us think of this as a descending filtration $F$ on $\Omega_{X/S}$
+with $F^0\Omega_{X/S} = \Omega_{X/S}$, $F^1\Omega_{X/S} = f^*\Omega_{Y/S}$, and
+$F^2\Omega_{X/S} = 0$. Applying the functor $\wedge^p$ we obtain
+for every $p$ an induced filtration
+$$
+\Omega^p_{X/S} = F^0\Omega^p_{X/S} \supset
+F^1\Omega^p_{X/S} \supset
+F^2\Omega^p_{X/S} \supset \ldots \supset F^{p + 1}\Omega^p_{X/S} = 0
+$$
 whose succesive quotients are
 $$
+\text{gr}^k\Omega^p_{X/S} =
+F^k\Omega^p_{X/S}/F^{k + 1}\Omega^p_{X/S} =
 f^*\Omega^k_{Y/S} \otimes_{\mathcal{O}_X} \Omega^{p - k}_{X/Y} =
 f^{-1}\Omega^k_{Y/S} \otimes_{f^{-1}\mathcal{O}_Y} \Omega^{p - k}_{X/Y}
 $$
-for $k = 0, \ldots, p$. In fact, these filtrations give $\Omega^\bullet_{X/S}$
-the structure of a filtered complex. We can also directly define the
-filtration by setting
+for $k = 0, \ldots, p$. In fact, the reader can check using the
+Leibniz rule that $F^k\Omega^\bullet_{X/S}$ is a subcomplex of
+$\Omega^\bullet_{X/S}$. In this way $\Omega^\bullet_{X/S}$ has
+the structure of a filtered complex. We can also see this by observing
+that
 $$
 F^k\Omega^\bullet_{X/S} =
 \Im\left(\wedge :
 \text{Tot}(
-f^{-1}\sigma_{\geq k}\Omega^\bullet_{Y/S} \otimes_{f^{-1}\mathcal{O}_Y}
+f^{-1}\sigma_{\geq k}\Omega^\bullet_{Y/S} \otimes_{p^{-1}\mathcal{O}_S}
 \Omega^\bullet_{X/S})
 \longrightarrow
 \Omega^\bullet_{X/S}\right)
 $$
-as complexes on $X$. Thus we have
+is the image of a map of complexes on $X$. The filtered complex
 $$
 \Omega^\bullet_{X/S} = F^0\Omega^\bullet_{X/S} \supset
 F^1\Omega^\bullet_{X/S} \supset F^2\Omega^\bullet_{X/S} \supset \ldots
 $$
-and we have the identification of complexes
+has the following associated graded parts
 $$
 \text{gr}^k\Omega^\bullet_{X/S} = 
 f^{-1}\Omega^k_{Y/S}[-k] \otimes_{f^{-1}\mathcal{O}_Y} \Omega^\bullet_{X/Y}
 $$
-by the discussion above. Let us study the spectral sequence associated
-to this filtered complex of Cohomology, Lemma
-\ref{cohomology-lemma-relative-spectral-sequence-filtered-object}.
-By Lemma \ref{lemma-cohomology-de-rham-base-change} we have
-$$
-Rf_*\text{gr}^k\Omega^\bullet_{X/S} =
-\Omega^k_{Y/S}[-k] \otimes_{\mathcal{O}_Y}^\mathbf{L} Rf_*\Omega^\bullet_{X/Y}
-$$
-All in all we conclude that there is a spectral sequence
-$$
-E_1^{p, q} =
-H^q(\Omega^p_{Y/S} \otimes_{\mathcal{O}_Y}^\mathbf{L} Rf_*\Omega^\bullet_{X/Y})
-$$
-converging to $R^{p + q}f_*\Omega^\bullet_{X/S}$.
-
-\begin{remark}
-\label{remark-gauss-manin}
-In the situation above consider the cohomology sheaves
-$$
-\mathcal{H}^q_{dR}(X/Y) = H^q(Rf_*\Omega^\bullet_{X/Y}))
-$$
-If $f$ is proper in addition to being smooth and $S$ is a scheme over
-$\mathbf{Q}$ then $\mathcal{H}^q_{dR}(X/Y)$ is finite locally free (insert
-future reference here). If we only assume $\mathcal{H}^q_{dR}(X/Y)$
-are flat $\mathcal{O}_Y$-modules, then we obtain (tiny argument omitted)
-$$
-E_1^{p, q} =
-\Omega^p_{Y/S} \otimes_{\mathcal{O}_Y} \mathcal{H}^q_{dR}(X/Y)
-$$
-and the differentials in the spectral sequence are maps
-$$
-d_1^{p, q} :
-\Omega^p_{Y/S} \otimes_{\mathcal{O}_Y} \mathcal{H}^q_{dR}(X/Y)
-\longrightarrow
-\Omega^{p + 1}_{Y/S} \otimes_{\mathcal{O}_Y} \mathcal{H}^q_{dR}(X/Y)
-$$
-In particular, for $p = 0$ we obtain a map
-$d_1^{0, q} : \mathcal{H}^q_{dR}(X/Y) \to
-\Omega^1_{Y/S} \otimes_{\mathcal{O}_Y} \mathcal{H}^q_{dR}(X/Y)$
-which turns out to be an integrable connection (insert future reference here)
-and the complex
-$$
-\mathcal{H}^q_{dR}(X/Y) \to
-\Omega^1_{Y/S} \otimes_{\mathcal{O}_Y} \mathcal{H}^q_{dR}(X/Y) \to
-\Omega^2_{Y/S} \otimes_{\mathcal{O}_Y} \mathcal{H}^q_{dR}(X/Y) \to \ldots
-$$
-with differentials given by $d_1^{\bullet, q}$
-is the de Rham complex of this connection.
-This connection is known as the {\it Gauss-Manin connection}.
-\end{remark}
+by what was said above. We interrupt the discussion for a techinical
+result.
 
 \begin{lemma}
 \label{lemma-cohomology-de-rham-base-change}
@@ -1295,6 +1278,146 @@ $$
 the proof is finished. Some details omitted.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-spectral-sequence-smooth}
+Let $f : X \to Y$ be a quasi-compact, quasi-separated, and smooth
+morphism of schemes over a base scheme $S$. There is a bounded spectral
+sequence with first page
+$$
+E_1^{p, q} =
+H^q(\Omega^p_{Y/S} \otimes_{\mathcal{O}_Y}^\mathbf{L} Rf_*\Omega^\bullet_{X/Y})
+$$
+converging to $R^{p + q}f_*\Omega^\bullet_{X/S}$.
+\end{lemma}
+
+\begin{proof}
+Consider $\Omega^\bullet_{X/S}$ as a filtered complex with the
+filtration introduced above. The spectral sequence is the
+spectral sequence of Cohomology, Lemma
+\ref{cohomology-lemma-relative-spectral-sequence-filtered-object}.
+By Lemma \ref{lemma-cohomology-de-rham-base-change} we have
+$$
+Rf_*\text{gr}^k\Omega^\bullet_{X/S} =
+\Omega^k_{Y/S}[-k] \otimes_{\mathcal{O}_Y}^\mathbf{L} Rf_*\Omega^\bullet_{X/Y}
+$$
+and thus we conclude.
+\end{proof}
+
+\begin{remark}
+\label{remark-gauss-manin}
+In Lemma \ref{lemma-spectral-sequence-smooth} consider the cohomology sheaves
+$$
+\mathcal{H}^q_{dR}(X/Y) = H^q(Rf_*\Omega^\bullet_{X/Y}))
+$$
+If $f$ is proper in addition to being smooth and $S$ is a scheme over
+$\mathbf{Q}$ then $\mathcal{H}^q_{dR}(X/Y)$ is finite locally free (insert
+future reference here). If we only assume $\mathcal{H}^q_{dR}(X/Y)$
+are flat $\mathcal{O}_Y$-modules, then we obtain (tiny argument omitted)
+$$
+E_1^{p, q} =
+\Omega^p_{Y/S} \otimes_{\mathcal{O}_Y} \mathcal{H}^q_{dR}(X/Y)
+$$
+and the differentials in the spectral sequence are maps
+$$
+d_1^{p, q} :
+\Omega^p_{Y/S} \otimes_{\mathcal{O}_Y} \mathcal{H}^q_{dR}(X/Y)
+\longrightarrow
+\Omega^{p + 1}_{Y/S} \otimes_{\mathcal{O}_Y} \mathcal{H}^q_{dR}(X/Y)
+$$
+In particular, for $p = 0$ we obtain a map
+$d_1^{0, q} : \mathcal{H}^q_{dR}(X/Y) \to
+\Omega^1_{Y/S} \otimes_{\mathcal{O}_Y} \mathcal{H}^q_{dR}(X/Y)$
+which turns out to be an integrable connection
+$\nabla$ (insert future reference here)
+and the complex
+$$
+\mathcal{H}^q_{dR}(X/Y) \to
+\Omega^1_{Y/S} \otimes_{\mathcal{O}_Y} \mathcal{H}^q_{dR}(X/Y) \to
+\Omega^2_{Y/S} \otimes_{\mathcal{O}_Y} \mathcal{H}^q_{dR}(X/Y) \to \ldots
+$$
+with differentials given by $d_1^{\bullet, q}$
+is the de Rham complex of $\nabla$.
+The connection $\nabla$ is known as the {\it Gauss-Manin connection}.
+\end{remark}
+
+\begin{lemma}
+\label{lemma-relative-global-generation-on-fibres}
+Let $f : X \to Y$ be a smooth proper morphism of schemes.
+Let $N$ and $n_1, \ldots, n_N \geq 0$ be integers and let
+$\xi_i \in H^{n_i}_{dR}(X/Y)$, $1 \leq i \leq N$.
+Assume for all points $y \in Y$ the images of $\xi_1, \ldots, \xi_N$
+in $H^*_{dR}(X_y/y)$ form a basis over $\kappa(y)$. Then the map
+$$
+\bigoplus\nolimits_{i = 1}^N \mathcal{O}_Y[-n_i]
+\longrightarrow
+Rf_*\Omega^\bullet_{X/Y}
+$$
+associated to $\xi_1, \ldots, \xi_N$ is an isomorphism.
+\end{lemma}
+
+\begin{proof}
+By Lemma \ref{lemma-proper-smooth-de-Rham}
+$Rf_*\Omega^\bullet_{X/Y}$ is a perfect object of $D(\mathcal{O}_Y)$
+whose formation commutes with arbitrary base change.
+Thus the map of the lemma is a map $a : K \to L$
+between perfect objects of $D(\mathcal{O}_Y)$
+whose derived restriction to any point is an isomorphism
+by our assumption on fibres. Then the cone $C$ on $a$ is a perfect
+object of $D(\mathcal{O}_Y)$ (Cohomology, Lemma
+\ref{cohomology-lemma-two-out-of-three-perfect}) whose
+derived restriction to any point is zero. It follows that $C$
+is zero by More on Algebra, Lemma
+\ref{more-algebra-lemma-lift-perfect-from-residue-field}
+and $a$ is an isomorphism. (This also uses Derived Categories of Schemes,
+Lemmas \ref{perfect-lemma-affine-compare-bounded} and
+\ref{perfect-lemma-perfect-affine} to translate into algebra.)
+\end{proof}
+
+\begin{lemma}
+\label{lemma-K-flat}
+Let $f : X \to Y$ be a morphism of schemes with $Y = \Spec(A)$ affine.
+Let $\mathcal{U} : X = \bigcup_{i \in I}$ be a finite affine open covering
+such that all the finite intersections
+$U_{i_0 \ldots i_p} = U_{i_0} \cap \ldots \cap U_{i_p}$
+are affine. Let $\mathcal{F}^\bullet$ be a bounded complex of
+$f^{-1}\mathcal{O}_Y$-modules. Assume for all $n \in \mathbf{Z}$
+the sheaf $\mathcal{F}^n$ is a flat $f^{-1}\mathcal{O}_Y$-module and
+$\mathcal{F}^n$ has the structure of a quasi-coherent $\mathcal{O}_X$-module
+compatible with the given $p^{-1}\mathcal{O}_Y$-module structure (but the
+differentials in the complex $\mathcal{F}^\bullet$ need not
+be $\mathcal{O}_X$-linear). Then the complex
+$\text{Tot}(\check{\mathcal{C}}^\bullet(\mathcal{U}, \mathcal{F}^\bullet))$
+is K-flat as a complex of $A$-modules.
+\end{lemma}
+
+\begin{proof}
+We may write
+$$
+\mathcal{F}^\bullet = (\mathcal{F}^a \to \ldots \to \mathcal{F}^b)
+$$
+Arguing by induction on $b - a$ and considering the distinguished triangle
+$$
+\mathcal{F}^b[-b] \to (\mathcal{F}^a \to \ldots \to \mathcal{F}^b)
+\to (\mathcal{F}^a \to \ldots \to \mathcal{F}^{b - 1}) \to
+\mathcal{F}^b[-b + 1]
+$$
+and using
+More on Algebra, Lemma \ref{more-algebra-lemma-K-flat-two-out-of-three}
+we reduce to the case where $\mathcal{F}^\bullet$ consists of a
+single quasi-coherent $\mathcal{O}_X$-module $\mathcal{F}$
+placed in degree $0$. In this case the {\v C}ech complex
+for $\mathcal{F}$ and $\mathcal{U}$ is homotopy equivalent to the
+alternation {\v C}ech complex, see
+Cohomology, Lemma \ref{cohomology-lemma-alternating-usual}.
+Since $U_{i_0 \ldots i_p}$ is always affine, we see that
+$\mathcal{F}(U_{i_0 \ldots i_p})$ is $A$-flat.
+Hence
+$\check{\mathcal{C}}_{alt}^\bullet(\mathcal{U}, \mathcal{F})$
+is a bounded complex of flat $A$-modules and hence K-flat
+by More on Algebra, Lemma
+\ref{more-algebra-lemma-derived-tor-quasi-isomorphism}.
+\end{proof}
+
 \begin{proposition}
 \label{proposition-global-generation-on-fibres}
 Let $f : X \to Y$ be a smooth proper morphism of schemes over a base $S$.
@@ -1336,121 +1459,137 @@ $$
 \longrightarrow
 Rf_*\Omega^\bullet_{X/S}
 $$
-which on cohomology (using the Leray spectral sequence)
-gives the map $a \mapsto f^*a \cup \xi_i$. Thus it suffices
-to show that the map
+in $D(Y, q^{-1}\mathcal{O}_S)$. By the discussion in
+Cohomology, Section \ref{cohomology-section-cup-product}
+on cohomology $\tilde \xi_i$ gives the map $a \mapsto f^*a \cup \xi_i$.
+Thus it suffices to show that the map
 $$
 \tilde \xi = \bigoplus \tilde \xi_i :
 \bigoplus \Omega^\bullet_{Y/S}[-n_i]
 \longrightarrow
 Rf_*\Omega^\bullet_{X/S}
 $$
-is an isomorphism in $D(Y, q^{-1}\mathcal{O}_S)$.
+is an isomorphism in $D(Y, q^{-1}\mathcal{O}_S)$. If $Y' \subset Y$
+is open with inverse image $X' \subset X$, then $\tilde \xi|_{X'}$
+induces the map
+$$
+\bigoplus\nolimits_{i = 1}^N H^*_{dR}(Y'/S) \longrightarrow
+H^*_{dR}(X'/S), \quad
+(a_1, \ldots, a_N) \longmapsto  \sum f^*a_i \cup \xi_i|_{X'}
+$$
+on cohomology over $Y'$. Thus it suffices to find a basis for the topology
+on $Y$ such that the proposition holds for the members of the basis.
+This reduces us to the case discussed in the next paragraph.
 
 \medskip\noindent
-Denote $\overline{\xi}_i$ the image of $\xi_i$ in
-$H^{n_i}(Y, Rf_*\Omega^\bullet_{X/Y})$.
-By Lemma \ref{lemma-proper-smooth-de-Rham}
-$Rf_*\Omega^\bullet_{X/Y}$ is a perfect object of $D(\mathcal{O}_Y)$
-whose formation commutes with arbitrary base change.
-Thus the map
+Assume $Y$ and $S$ are affine. Say $Y = \Spec(A)$ and $S = \Spec(R)$.
+In this case $\Omega^\bullet_{A/R}$ computes
+$R\Gamma(Y, \Omega^\bullet_{Y/S})$ by Lemma \ref{lemma-de-rham-affine}.
+Choose a finite affine open covering $\mathcal{U} : X = \bigcup_{i \in I} U_i$.
+Consider the complex
 $$
-\bigoplus \overline{\xi}_i :
-\bigoplus \mathcal{O}_Y[-n_i]
+K^\bullet =
+\text{Tot}(\check{\mathcal{C}}^\bullet(\mathcal{U}, \Omega_{X/S}^\bullet))
+$$
+as in
+Cohomology, Section \ref{cohomology-section-cech-cohomology-of-complexes}.
+Let us collect some facts about this complex most of which
+can be found in the reference just given:
+\begin{enumerate}
+\item $K^\bullet$ is a complex of $R$-modules whose terms are
+$A$-modules,
+\item $K^\bullet$ represents $R\Gamma(X, \Omega^\bullet_{X/S})$ in $D(R)$
+(Cohomology, Lemma \ref{cohomology-lemma-cech-complex-complex-computes}),
+\item there is a natural map $\Omega^\bullet_{A/R} \to K^\bullet$
+of complexes of $R$-modules which is $A$-linear on terms and
+induces the pullback map $H^*_{dR}(Y/S) \to H^*_{dR}(X/S)$
+on cohomology,
+\item $K^\bullet$ has a multiplication denoted $\wedge$
+which turns it into a differential graded $R$-algebra,
+\item the multiplication on $K^\bullet$
+induces the cup product on $H^*_{dR}(X/S)$
+(Cohomology, Section \ref{cohomology-section-cup-product}),
+\item the filtration $F$ on $\Omega^*_{X/S}$ induces a filtration
+$$
+K^\bullet =
+F^0K^\bullet \supset F^1K^\bullet \supset F^2K^\bullet \supset \ldots
+$$
+by subcomplexes on $K^\bullet$ such that
+\begin{enumerate}
+\item $F^kK^n \subset K^n$ is an $A$-submmodule,
+\item $F^kK^\bullet \wedge F^lK^\bullet \subset F^{k + l}K^\bullet$,
+\item $\text{gr}^kK^\bullet$ is a complex of $A$-modules,
+\item $\text{gr}^0K^\bullet =
+\text{Tot}(\check{\mathcal{C}}^\bullet(\mathcal{U}, \Omega_{X/Y}^\bullet))$
+and represents $R\Gamma(X, \Omega^\bullet_{X/Y})$ in $D(A)$,
+\item multiplication induces an isomorphism
+$\Omega^k_{A/R}[-k] \otimes_A \text{gr}^0K^\bullet \to \text{gr}^kK^\bullet$
+\end{enumerate}
+\end{enumerate}
+We omit the detailed proofs of these statements; please see discussion
+leading up to the construction of the spectral sequence in
+Lemma \ref{lemma-spectral-sequence-smooth}.
+
+\medskip\noindent
+For every $i = 1, \ldots, N$ we choose a cocycle $x_i \in K^{n_i}$
+representing $\xi_i$. Next, we look at the map of complexes
+$$
+\tilde x :
+M^\bullet = \bigoplus\nolimits_{i = 1, \ldots, N}
+\Omega^\bullet_{A/R}[-n_i]
 \longrightarrow
-Rf_*\Omega^\bullet_{X/Y}
+K^\bullet
 $$
-is an isomorphism in $D(\mathcal{O}_Y)$ by our assumption on fibres.
-
-\medskip\noindent
-Recall that the spectral sequence discussed above comes from the
-filtration of $\Omega^\bullet_{X/S}$ by the subcomplexes
-$F^p\Omega^\bullet_{X/S}$ which are the image under $\wedge$ of
-$\text{Tot}(
-f^{-1}\sigma_{\geq p}\Omega^\bullet_{Y/S} \otimes_{f^{-1}\mathcal{O}_Y}
-\Omega^\bullet_{X/S})$.
-Hence if we do the construction of $\tilde \xi_i$ starting with the complex
-$\sigma_{\geq p}\Omega^\bullet_{Y/S}$, then we end up getting a morphism
-$\tilde{\xi}_i^p : \sigma_{\geq p}\Omega^\bullet_{Y/S}[-n_i] \to
-Rf_*F^p\Omega^\bullet_{X/S}$. These morphisms
-fit into the following commutative diagrams
+which sends $\omega$ in the $i$th summand to $\omega \wedge x_i$.
+All that remains is to show that this map is a quasi-isomorphism.
+We endow $M^\bullet$ with the structure of a filtered complex
+by the rule
 $$
-\xymatrix{
-\sigma_{\geq p + 1}\Omega_{Y/S}^\bullet[-n_i]
-\ar[r]_{\tilde \xi^{p + 1}_i} \ar[d] &
-Rf_*F^{p + 1}\Omega^\bullet_{X/S} \ar[d] \\
-\sigma_{\geq p}\Omega_{Y/S}^\bullet[-n_i] \ar[r]^{\tilde \xi^p_i} &
-Rf_*F^p\Omega^\bullet_{X/S}
-}
+F^kM^\bullet =
+\bigoplus\nolimits_{i = 1, \ldots, N}
+(\sigma_{\geq k}\Omega^\bullet_{A/R})[-n_i]
 $$
-and for $p = 0$ we obtain $\tilde \xi_i$. These diagrams imply that
-$\tilde \xi_i^p$ induces maps
+With this choice the map $\tilde x$ is a morphism of filtered complexes.
+Observe that $\text{gr}^0M^\bullet = \bigoplus A[-n_i]$
+and multiplication induces an isomorphism
+$\Omega^k_{A/R}[-k] \otimes_A \text{gr}^0M^\bullet \to \text{gr}^kM^\bullet$.
+By construction and Lemma \ref{lemma-relative-global-generation-on-fibres}
+we see that
 $$
-\overline{\xi}^p_i :
-\Omega^p_{Y/S}[-n_i]
+\text{gr}^0\tilde x :
+\text{gr}^0M^\bullet \longrightarrow
+\text{gr}^0K^\bullet
+$$
+is an isomorphism in $D(A)$. It follows that for all $k \geq 0$
+we obtain isomorphisms
+$$
+\text{gr}^k \tilde x :
+\text{gr}^kM^\bullet = \Omega^k_{A/R}[-k] \otimes_A \text{gr}^0M^\bullet
 \longrightarrow
-Rf_*\text{gr}^p\Omega^\bullet_{X/S} =
-\Omega^p_{Y/S}[-p] \otimes_{\mathcal{O}_Y}^\mathbf{L} Rf_*\Omega_{Y/X}
+\Omega^k_{A/R}[-k] \otimes_A \text{gr}^0K^\bullet =
+\text{gr}^kK^\bullet
 $$
-where the equal sign comes from the discussion above (more precisely
-from Lemma \ref{lemma-cohomology-de-rham-base-change}).
-Since we have seen above that $\bigoplus \overline{\xi}_i$
-is an isomorphism and since $\overline{\xi}^p_i$ is compatible
-with $\overline{\xi}_i$ (details omitted), we conclude that
+in $D(A)$. Namely, the complex
+$\text{gr}^0K^\bullet =
+\text{Tot}(\check{\mathcal{C}}^\bullet(\mathcal{U}, \Omega_{X/Y}^\bullet))$
+is K-flat as a complex of $A$-modules by Lemma \ref{lemma-K-flat}.
+Hence the tensor product on the right hand side is the
+derived tensor product as is true by inspection on the left hand side.
+Finally, taking the derived tensor product
+$\Omega^k_{A/R}[-k] \otimes_A^\mathbf{L} -$ is a functor on $D(A)$
+and therefore sends isomorphisms to isomorphisms.
+Arguing by induction on $k$ we deduce that
 $$
-\bigoplus \overline{\xi}^p_i :
-\bigoplus \Omega^p_{Y/S}[-n_i] \to
-\Omega^p_{Y/S}[-p] \otimes_{\mathcal{O}_Y}^\mathbf{L} Rf_*\Omega_{Y/X}
+\tilde x : M^\bullet/F^kM^\bullet \to K^\bullet/F^kK^\bullet
 $$
-is an isomorphism.
-
-\medskip\noindent
-To finish the proof we would like to argue as follows. Consider
-$\bigoplus \Omega_{Y/S}[-n_i]$
-as a filtered complex on $Y$ with filtration given by
+is an isomorphism in $D(R)$ since we have the short exact sequences
 $$
-\bigoplus \Omega_{Y/S}[-n_i] \supset
-\bigoplus \sigma_{\geq 1}\Omega_{Y/S}[-n_i] \supset
-\bigoplus \sigma_{\geq 2}\Omega_{Y/S}[-n_i] \supset \ldots
+0 \to F^kM^\bullet/F^{k + 1}M^\bullet \to
+M^\bullet/F^{k + 1}M^\bullet \to
+\text{gr}^kM^\bullet \to 0
 $$
-Our map $\tilde \xi$ is a map of this filtered complex
-to the filtered complex $Rf_*\Omega_{X/S}$ which induces
-an isomorphism on graded pieces. Hence it is an isomorphism
-in $D(Y, q^{-1}\mathcal{O}_S)$. However, this isn't quite what
-we showed above (it would need a more precise discussion of
-maps between filtered complexes to show this).
-Instead we argue using cones as follows. We know that
-$\bigoplus \overline{\xi}^p_i$ is an isomorphism for all $p$.
-Using Derived Categories, Lemma \ref{derived-lemma-third-isomorphism-triangle}
-we see that the induced map
-$$
-\bigoplus
-\text{Cone}(
-\sigma_{\geq 2}\Omega^\bullet_{Y/S}
-\to
-\Omega^\bullet_{Y/S})[-n_i]
-\to
-\text{Cone}(Rf_*F^2\Omega^\bullet_{X/S} \to
-Rf_*\Omega^\bullet_{X/S})
-$$
-is an isomorphism. Repeating we know that
-$$
-\bigoplus
-\text{Cone}(
-\sigma_{\geq 3}\Omega^\bullet_{Y/S}
-\to
-\Omega^\bullet_{Y/S})[-n_i]
-\to
-\text{Cone}(Rf_*F^3\Omega^\bullet_{X/S} \to
-Rf_*\Omega^\bullet_{X/S})
-$$
-is an isomorphism. And so on. Now if we want to check that $\tilde \xi$
-is an isomorphism in cohomological degree $n$, then
-it suffices to look at the $n$th cone in this process
-and we get the conclusion. (If $Y$ is of
-finite type over $S$, then $\sigma_{\geq n}\Omega^\bullet_{Y/S}$
-is zero for some $n$ and hence we get the isomorphism directly
-in this case.)
+and similarly for $K^\bullet$. This proves that $\tilde x$ is a
+quasi-isomorphism as the filtrations are finite in any given degree.
 \end{proof}
 
 
