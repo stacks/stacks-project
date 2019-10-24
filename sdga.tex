@@ -880,6 +880,48 @@ to the obstruction to the commutativity of the second diagram
 in the last group.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-tensor-with-extension-by-zero}
+In the situation above, let $\mathcal{M}$ be a right graded
+$\mathcal{A}_U$-module and let $\mathcal{N}$ be a left graded
+$\mathcal{A}$-module. Then
+$$
+j_!\mathcal{M} \otimes_\mathcal{A} \mathcal{N} =
+j_!(\mathcal{M} \otimes_{\mathcal{A}_U} \mathcal{N}|_U)
+$$
+as graded $\mathcal{O}$-modules functorially in $\mathcal{M}$
+and $\mathcal{N}$.
+\end{lemma}
+
+\begin{proof}
+Recall that the degree $n$ component of
+$j_!\mathcal{M} \otimes_\mathcal{A} \mathcal{N}$ is the cokernel of
+the canonical map
+$$
+\bigoplus\nolimits_{r + s + t = n}
+j_!\mathcal{M}^r \otimes_\mathcal{O}
+\mathcal{A}^s \otimes_\mathcal{O}
+\mathcal{N}^t
+\longrightarrow
+\bigoplus\nolimits_{p + q = n}
+j_!\mathcal{M}^p \otimes_\mathcal{O} \mathcal{N}^q
+$$
+See Section \ref{section-tensor-product}.
+By Modules on Sites, Lemma \ref{sites-modules-lemma-j-shriek-and-tensor}
+this is the same thing as the cokernel of
+$$
+\bigoplus\nolimits_{r + s + t = n}
+j_!(\mathcal{M}^r \otimes_{\mathcal{O}_U}
+\mathcal{A}^s|_U \otimes_{\mathcal{O}_U}
+\mathcal{N}^t|_U)
+\longrightarrow
+\bigoplus\nolimits_{p + q = n}
+j_!(\mathcal{M}^p \otimes_{\mathcal{O}_U} \mathcal{N}^q|_U)
+$$
+and we win. An alternative proof would be to redo the Yoneda
+argument given in the proof of the lemma cited above.
+\end{proof}
+
 
 
 
@@ -1938,6 +1980,25 @@ that the lemma is true on graded level. Thus all that needs to be
 checked is that the resulting isomorphism is compatible with differentials.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-tensor-with-extension-by-zero-dg}
+In the situation above, let $\mathcal{M}$ be a right differential graded
+$\mathcal{A}_U$-module and let $\mathcal{N}$ be a left differential graded
+$\mathcal{A}$-module. Then
+$$
+j_!\mathcal{M} \otimes_\mathcal{A} \mathcal{N} =
+j_!(\mathcal{M} \otimes_{\mathcal{A}_U} \mathcal{N}|_U)
+$$
+as complexes of $\mathcal{O}$-modules
+functorially in $\mathcal{M}$ and $\mathcal{N}$.
+\end{lemma}
+
+\begin{proof}
+As graded modules, this follows from
+Lemma \ref{lemma-tensor-with-extension-by-zero}.
+We omit the verification that this isomorphism
+is compatible with differentials.
+\end{proof}
 
 
 
@@ -2205,8 +2266,10 @@ $$
 with apologies for the horrendous notation. In any case, we see that
 in our setting the boundary map $\delta$ as constructed in
 Differential Graded Algebra, Lemma \ref{dga-lemma-get-triangle}
-is the usual boundary map used throughout the stacks project
-for termwise split short exact sequences of complexes.
+agrees on underlying complexes of $\mathcal{O}$-modules
+with the usual boundary map used throughout the Stacks project
+for termwise split short exact sequences of complexes, see
+Derived Categories, Definition \ref{derived-definition-split-ses}.
 
 \begin{definition}
 \label{definition-cone}
@@ -2349,6 +2412,27 @@ Differential Graded Algebra, Proposition
 \ref{dga-proposition-ABC-homotopy-category-triangulated}.
 \end{proof}
 
+\begin{remark}
+\label{remark-cone-identity}
+Let $(\mathcal{C}, \mathcal{O})$ be a ringed site.
+Let $\mathcal{A}$ be a sheaf of differential graded algebras
+on $(\mathcal{C}, \mathcal{O})$. Let $C = C(\text{id}_\mathcal{A})$
+be the cone on the identity map $\mathcal{A} \to \mathcal{A}$ viewed
+as a map of differential graded $\mathcal{A}$-modules.
+Then
+$$
+\Hom_{\text{Mod}_{(\mathcal{A}, \text{d})}}(C, \mathcal{M}) =
+\{(x, y) \in
+\Gamma(\mathcal{C}, \mathcal{M}^0) \times
+\Gamma(\mathcal{C}, \mathcal{M}^{-1}) \mid
+x = \text{d}(y)\}
+$$
+where the map from left to right sends $f$ to the pair $(x, y)$
+where $x$ is the image of the global section $(0, 1)$ of
+$C^{-1} = \mathcal{A}^{-1} \oplus \mathcal{A}^0$ and where
+$y$ is the image of the global section $(1, 0)$ of
+$C^0 = \mathcal{A}^0 \oplus \mathcal{A}^1$.
+\end{remark}
 
 
 
@@ -2358,6 +2442,509 @@ Differential Graded Algebra, Proposition
 
 
 
+
+
+\section{Flat resolutions}
+\label{Section-P-resolutions}
+
+\noindent
+This section is the analogue of
+Differential Graded Algebra, Section \ref{dga-section-P-resolutions}.
+
+\medskip\noindent
+Let $(\mathcal{C}, \mathcal{O})$ be a ringed site.
+Let $\mathcal{A}$ be a sheaf of differential graded algebras
+on $(\mathcal{C}, \mathcal{O})$. Let us call a right differential
+graded $\mathcal{A}$-module $\mathcal{P}$ {\it good}
+if
+\begin{enumerate}
+\item the functor
+$\mathcal{N} \mapsto \mathcal{P} \otimes_\mathcal{A} \mathcal{N}$
+is exact on the category of graded left $\mathcal{A}$-modules,
+\item if $\mathcal{N}$ is an acyclic differential graded left
+$\mathcal{A}$-module, then
+$\mathcal{P} \otimes_\mathcal{A} \mathcal{N}$ is acyclic,
+\item for any morphism $(f, f^\sharp) : (\Sh(\mathcal{C}'), \mathcal{O}')
+\to (\Sh(\mathcal{C}), \mathcal{O})$
+of ringed topoi and any differential graded $\mathcal{O}'$-algebra
+$\mathcal{A}'$ and any map $\varphi : f^{-1}\mathcal{A} \to \mathcal{A}'$
+of differential graded $f^{-1}\mathcal{O}_\mathcal{D}$-algebras we have
+properties (1) and (2) for the pullback $f^*\mathcal{P}$
+(Section \ref{section-functoriality-dg})
+viewed as a differential graded $\mathcal{A}'$-module.
+\end{enumerate}
+The first condition means that $\mathcal{P}$ is flat as a right graded
+$\mathcal{A}$-module, the second condition means that $\mathcal{P}$ is
+K-flat in the sense of Spaltenstein (see Cohomology on
+Sites, Section \ref{sites-cohomology-section-flat}), and
+the third condition is that this holds after arbitrary base change.
+
+\medskip\noindent
+Perhaps surprisingly, there are many good modules.
+
+\begin{lemma}
+\label{lemma-supply-good}
+Let $(\mathcal{C}, \mathcal{O})$ be a ringed site.
+Let $\mathcal{A}$ be a sheaf of differential graded algebras
+on $(\mathcal{C}, \mathcal{O})$. Let $U \in \Ob(\mathcal{C})$.
+Then $j_!\mathcal{A}_U$ is a good differential graded
+$\mathcal{A}$-module.
+\end{lemma}
+
+\begin{proof}
+Let $\mathcal{N}$ be a left graded $\mathcal{A}$-module.
+By Lemma \ref{lemma-tensor-with-extension-by-zero} we have
+$$
+j_!\mathcal{A}_U \otimes_\mathcal{A} \mathcal{N} =
+j_!(\mathcal{A}_U \otimes_{\mathcal{A}_U} \mathcal{N}|_U) =
+j_!(\mathcal{N}_U)
+$$
+as graded modules.
+Since both restriction to $U$ and $j_!$ are exact this proves
+condition (1). The same argument works for (2) using
+Lemma \ref{lemma-tensor-with-extension-by-zero-dg}.
+
+\medskip\noindent
+Consider a morphism $(f, f^\sharp) : (\Sh(\mathcal{C}'), \mathcal{O}')
+\to (\Sh(\mathcal{C}), \mathcal{O})$
+of ringed topoi, a differential graded $\mathcal{O}'$-algebra
+$\mathcal{A}'$, and a map $\varphi : f^{-1}\mathcal{A} \to \mathcal{A}'$
+of differential graded $f^{-1}\mathcal{O}$-algebras.
+We have to show that
+$$
+f^*j_!\mathcal{A}_U =
+f^{-1}j_!\mathcal{A}_U \otimes_{f^{-1}\mathcal{A}} \mathcal{A}'
+$$
+satisfies (1) and (2) for the ringed topos
+$(\Sh(\mathcal{C}'), \mathcal{O}')$ endowed with the
+sheaf of differential graded $\mathcal{O}'$-algebras
+$\mathcal{A}'$. To prove this we may replace
+$(\Sh(\mathcal{C}), \mathcal{O})$ and
+$(\Sh(\mathcal{C}'), \mathcal{O}')$ by equivalent ringed topoi.
+Thus by
+Modules on Sites, Lemma
+\ref{sites-modules-lemma-morphism-ringed-topoi-comes-from-morphism-ringed-sites}
+we may assume that $f$ comes from a morphism of sites
+$f : \mathcal{C} \to \mathcal{C}'$ given by the continuous
+functor $u : \mathcal{C} \to \mathcal{C}'$.
+In this case, set $U' = u(U)$ and denote
+$j' : \Sh(\mathcal{C}'/U') \to \Sh(\mathcal{C}')$ the
+corresponding localization morphism.
+We obtain a commutative square of morphisms of ringed topoi
+$$
+\xymatrix{
+(\Sh(\mathcal{C}'/U'), \mathcal{O}'_{U'})
+\ar[rr]_{(j', (j')^\sharp)} \ar[d]_{(f', (f')^\sharp)} & &
+(\Sh(\mathcal{C}'), \mathcal{O}')
+\ar[d]^{(f, f^\sharp)} \\
+(\Sh(\mathcal{C}/U), \mathcal{O}_U)
+\ar[rr]^{(j, j^\sharp)} & &
+(\Sh(\mathcal{C}), \mathcal{O}).
+}
+$$
+and we have $f'_*(j')^{-1} = j^{-1}f_*$. See
+Modules on Sites, Lemma
+\ref{sites-modules-lemma-localize-morphism-ringed-sites}.
+By uniqueness of adjoints we obtain
+$f^{-1}j_! = j'_!(f')^{-1}$. Thus we obtain
+\begin{align*}
+f^*j_!\mathcal{A}_U
+& =
+f^{-1}j_!\mathcal{A}_U \otimes_{f^{-1}\mathcal{A}} \mathcal{A}' \\
+& =
+j'_!(f')^{-1}\mathcal{A}_U \otimes_{f^{-1}\mathcal{A}} \mathcal{A}' \\
+& =
+j'_!\left(
+(f')^{-1}\mathcal{A}_U \otimes_{f^{-1}\mathcal{A}|_{U'}}
+\mathcal{A}'|_{U'}\right) \\
+& =
+j'_!\mathcal{A}'_{U'}
+\end{align*}
+The first equation is the definition of the pullback of $j_!\mathcal{A}_U$
+to a differential graded module over $\mathcal{A}'$.
+The second equation because $f^{-1}j_! = j'_!(f')^{-1}$.
+The third equation by Lemma \ref{lemma-tensor-with-extension-by-zero-dg}
+applied to the ringed site $(\mathcal{C}', f^{-1}\mathcal{O})$ with
+sheaf of differential graded algebras $f^{-1}\mathcal{A}$ and with
+differential graded modules $(f')^{-1}\mathcal{A}_U$ on $\mathcal{C}'/U'$
+and $\mathcal{A}'$ on $\mathcal{C}'$.
+The fourth equation holds because of course we have
+$(f')^{-1}\mathcal{A}_U = f^{-1}\mathcal{A}|_{U'}$.
+Hence we see that the pullback is another module of the
+same kind and we've proven conditions (1) and (2) for it above.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-good-admissible-ses}
+et $(\mathcal{C}, \mathcal{O})$ be a ringed site.
+Let $\mathcal{A}$ be a sheaf of differential graded algebras
+on $(\mathcal{C}, \mathcal{O})$. Let
+$0 \to \mathcal{P} \to \mathcal{P}' \to \mathcal{P}'' \to 0$
+be an admissible short exact sequence of differential graded
+$\mathcal{A}$-modules. If two-out-of-three of these modules
+are good, so is the third.
+\end{lemma}
+
+\begin{proof}
+For condition (1) this is immediate as the sequence is a direct sum
+at the graded level. For condition (2) note that for any
+left differential graded $\mathcal{A}$-module, the sequence
+$$
+0 \to 
+\mathcal{P} \otimes_\mathcal{A} \mathcal{N} \to
+\mathcal{P}' \otimes_\mathcal{A} \mathcal{N} \to
+\mathcal{P}'' \otimes_\mathcal{A} \mathcal{N} \to 0
+$$
+is an admissible short exact sequence of differential graded
+$\mathcal{O}$-modules (since forgetting the differential
+the tensor product is just taken in the category of graded modules).
+Hence if two out of three are exact as complexes of $\mathcal{O}$-modules,
+so is the third. Finally, the same argument shows that given
+a morphism $(f, f^\sharp) : (\Sh(\mathcal{C}'), \mathcal{O}')
+\to (\Sh(\mathcal{C}), \mathcal{O})$
+of ringed topoi, a differential graded $\mathcal{O}'$-algebra
+$\mathcal{A}'$, and a map $\varphi : f^{-1}\mathcal{A} \to \mathcal{A}'$
+of differential graded $f^{-1}\mathcal{O}$-algebras
+we have that
+$$
+0 \to f^*\mathcal{P} \to f^*\mathcal{P}' \to f^*\mathcal{P}'' \to 0
+$$
+is an admissible short exact sequence of differential graded
+$\mathcal{A}'$-modules and the same argument as above applies here.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-good-direct-sum}
+Let $(\mathcal{C}, \mathcal{O})$ be a ringed site.
+Let $\mathcal{A}$ be a sheaf of differential graded algebras
+on $(\mathcal{C}, \mathcal{O})$. An arbitrary
+direct sum of good differential graded $\mathcal{A}$-modules
+is good. A filtered colimit of good differential graded
+$\mathcal{A}$-modules is good. 
+\end{lemma}
+
+\begin{proof}
+Omitted. Hint: direct sums and filtered colimits
+commute with tensor products and with pullbacks.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-good-quotient}
+Let $(\mathcal{C}, \mathcal{O})$ be a ringed site.
+Let $\mathcal{A}$ be a sheaf of differential graded algebras
+on $(\mathcal{C}, \mathcal{O})$. Let $\mathcal{M}$
+be a differential graded $\mathcal{A}$-module. There exists a homomorphism
+$\mathcal{P} \to \mathcal{M}$ of differential graded $\mathcal{A}$-modules
+with the following properties
+\begin{enumerate}
+\item $\mathcal{P} \to \mathcal{M}$ is surjective,
+\item $\Ker(\text{d}_\mathcal{P}) \to \Ker(\text{d}_\mathcal{M})$
+is surjective, and
+\item $\mathcal{P}$ is good.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Consider triples $(U, k, x)$ where $U$ is an object of $\mathcal{C}$,
+$k \in \mathbf{Z}$, and $x$ is a section of $\mathcal{M}^k$ over $U$
+with $\text{d}_\mathcal{M}(x) = 0$. Then we obtain a unique morphism
+of differential graded $\mathcal{A}_U$-modules
+$\varphi_x : \mathcal{A}_U[-k] \to \mathcal{M}|_U$
+mapping $1$ to $x$. This is adjoint to a morphism
+$\psi_x : j_{U!}\mathcal{A}_U[-k] \to \mathcal{M}$.
+Observe that $1 \in \mathcal{A}_U(U)$ corresponds to
+a section $1 \in j_{U!}\mathcal{A}_U[-k](U)$ of degree $k$
+whose differential is zero and which is mapped to $x$ by $\psi_x$.
+Thus if we consider the map
+$$
+\bigoplus\nolimits_{(U, k, x)} j_{U!}\mathcal{A}_U[-k]
+\longrightarrow
+\mathcal{M}
+$$
+then we will have conditions (2) and (3). Namely, the objects
+$j_{U!}\mathcal{A}_U[-k]$ are good (Lemma \ref{lemma-supply-good})
+and any direct sum of good objects is good (Lemma \ref{lemma-good-direct-sum}).
+
+\medskip\noindent
+Next, consider triples $(U, k, x)$ where $U$ is an object of $\mathcal{C}$,
+$k \in \mathbf{Z}$, and $x$ is a section of $\mathcal{M}^k$ (not necessarily
+annihilated by the differential). Then we can consider
+the cone $C_U$ on the identity map $\mathcal{A}_U \to \mathcal{A}_U$
+as in Remark \ref{remark-cone-identity}. The element $x$ will determine a map
+$\varphi_x : C_U[-k - 1] \to \mathcal{A}_U$, see
+Remark \ref{remark-cone-identity}. Now, since we have
+an admissible short exact sequence
+$$
+0 \to \mathcal{A}_U \to C_U \to \mathcal{A}_U[1] \to 0
+$$
+we conclude that $j_{U!}C_U$ is a good module by
+Lemma \ref{lemma-good-admissible-ses} and
+the already used Lemma \ref{lemma-supply-good}.
+As above we conclude that the direct sum of the maps
+$\psi_x : j_{U!}C_U \to \mathcal{M}$ adjoint to the $\varphi_x$
+$$
+\bigoplus\nolimits_{(U, k, x)} j_{U!}C_U \longrightarrow \mathcal{M}
+$$
+is surjective. Taking the direct sum with the map produced
+in the first paragraph we conclude.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-good-resolution-gives-qis}
+Let $\mathcal{C}$ be a site.
+Let $\mathcal{M}^\bullet$ be a complex of sheaves of abelian groups
+on $\mathcal{C}$. Let
+$$
+\ldots \to \mathcal{A}_2^\bullet \to \mathcal{A}_1^\bullet \to
+\mathcal{A}_0^\bullet \to \mathcal{M}^\bullet \to 0
+$$
+be an exact complex of complexes of sheaves of abelian groups such that for
+all $p \in \mathbf{Z}$ the complexes
+$$
+\ldots \to \Ker(d_{\mathcal{A}_2^\bullet}^p) \to
+\Ker(d_{\mathcal{A}_1^\bullet}^p)
+\to \Ker(d_{\mathcal{A}_0^\bullet}^p) \to
+\Ker(d_{\mathcal{M}^\bullet}^p) \to 0
+$$
+are exact as well. Set $\mathcal{A}^{p, q} = \mathcal{A}_{-p}^q$
+to obtain a double complex. Then
+$\text{Tot}(\mathcal{A}^{\bullet, \bullet}) \to \mathcal{M}^\bullet$
+induced by $\mathcal{A}_0^\bullet \to \mathcal{M}^\bullet$
+is a quasi-isomorphism.
+\end{lemma}
+
+\begin{proof}
+Using the short exact sequences
+$0 \to \Ker(d^p_{A_n^\bullet}) \to A_n^p \to \Im(d^p_{A_n^\bullet}) \to 0$
+and the assumptions we see that
+$$
+\ldots \to \Im(d_{A_2^\bullet}^p) \to \Im(d_{A_1^\bullet}^p)
+\to \Im(d_{A_0^\bullet}^p) \to \Im(d_{M^\bullet}^p) \to 0
+$$
+is exact for all $p \in \mathbf{Z}$. Repeating with the exact sequences
+$0 \to \Im(d^{p - 1}_{A_n^\bullet}) \to \Ker(d^p_{A_n^\bullet})
+\to H^p(A_n^\bullet) \to 0$ we find that
+$$
+\ldots \to H^p(A_2^\bullet) \to H^p(A_1^\bullet)
+\to H^p(A_0^\bullet) \to H^p(M^\bullet) \to 0
+$$
+is exact for all $p \in \mathbf{Z}$.
+
+\medskip\noindent
+Write $T^\bullet = \text{Tot}(A^{\bullet, \bullet})$. We will show that
+$H^0(T^\bullet) \to H^0(M^\bullet)$ is an isomorphism. The same argument
+works for other degrees. Let $x \in \Ker(\text{d}_{T^\bullet}^0)$ represent
+an element $\xi \in H^0(T^\bullet)$.
+Write $x = \sum_{i = n, \ldots, 0} x_i$ with $x_i \in A_i^i$.
+Assume $n > 0$. Then $x_n$ is in the kernel of $d_{A_n^\bullet}^n$
+and maps to zero in $H^n(A_{n - 1}^\bullet)$ because it maps
+to an element which is the boundary of $x_{n - 1}$ up to sign.
+By the first paragraph of the proof, we find that
+$x_n \bmod \Im(d^{n - 1}_{A_n^\bullet})$
+is in the image of $H^n(A_{n + 1}^\bullet) \to H^n(A_n^\bullet)$.
+Thus we can modify $x$ by a boundary and reach the situation
+where $x_n$ is a boundary. Modifying $x$ once more we see that
+we may assume $x_n = 0$. By induction we see that every cohomology
+class $\xi$ is represented by a cocycle $x = x_0$.
+Finally, the condition on exactness of kernels tells us
+two such cocycles $x_0$ and $x_0'$ are cohomologous if
+and only if their image in $H^0(M^\bullet)$ are the same.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-resolve}
+Let $(\mathcal{C}, \mathcal{O})$ be a ringed site.
+Let $\mathcal{A}$ be a sheaf of differential graded algebras
+on $(\mathcal{C}, \mathcal{O})$. Let $\mathcal{M}$
+be a differential graded $\mathcal{A}$-module. There exists a homomorphism
+$\mathcal{P} \to \mathcal{M}$ of differential graded $\mathcal{A}$-modules
+with the following properties
+\begin{enumerate}
+\item $\mathcal{P} \to \mathcal{M}$ is a quasi-isomorpism, and
+\item $\mathcal{P}$ is good.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+We urge the reader to read the proof of this lemma in the case of
+differential graded modules first, see Differential Graded Algebra,
+Lemma \ref{dga-lemma-resolve}. Set $\mathcal{M} = \mathcal{M}_0$.
+We inductively choose short exact sequences
+$$
+0 \to \mathcal{M}_{i + 1} \to \mathcal{P}_i \to \mathcal{M}_i \to 0
+$$
+where the maps
+$\mathcal{P}_i \to \mathcal{M}_i$ are chosen as in
+Lemma \ref{lemma-good-quotient}.
+This gives a ``resolution''
+$$
+\ldots \to \mathcal{P}_2 \xrightarrow{f_2}
+\mathcal{P}_1 \xrightarrow{f_1} \mathcal{P}_0 \to \mathcal{M} \to 0
+$$
+Then we let $\mathcal{P}$ be the differential graded
+$\mathcal{A}$-module defined as follows
+\begin{enumerate}
+\item as a graded $\mathcal{A}$-module we set
+$\mathcal{P} = \bigoplus_{a \leq 0} \mathcal{P}_{-a}[-a]$, i.e.,
+the degree $n$ part is given by
+$\mathcal{P}^n = \bigoplus\nolimits_{a + b = n} \mathcal{P}_{-a}^b$,
+\item the differential on $\mathcal{P}$ is as in the construction of
+the total complex associated to a double complex given by
+$$
+\text{d}_\mathcal{P}(x) = f_{-a}(x) + (-1)^a \text{d}_{\mathcal{P}_{-a}}(x)
+$$
+for $x$ a local section of $\mathcal{P}_{-a}^b$.
+\end{enumerate}
+With these conventions $\mathcal{P}$ is indeed a
+differential graded $\mathcal{A}$-module; we omit the details.
+There is a map $\mathcal{P} \to \mathcal{M}$ of differential graded
+$\mathcal{A}$-modules which is zero on the summands $\mathcal{P}_{-a}[-a]$
+for $a < 0$ and the given map $\mathcal{P}_0 \to \mathcal{M}$ for $a = 0$.
+Observe that we have
+$$
+\mathcal{P} = \colim_i F_i\mathcal{P}
+$$
+where $F_i\mathcal{P} \subset \mathcal{P}$ is the differential
+graded $\mathcal{A}$-submodule whose underlying graded $\mathcal{A}$-module
+is
+$$
+F_i\mathcal{P} =
+\bigoplus\nolimits_{i \geq -a \geq 0} \mathcal{P}_{-a}[-a]
+$$
+It is immediate that the maps
+$$
+0 \to F_1\mathcal{P} \to F_2\mathcal{P} \to F_3\mathcal{P} \to
+\ldots \to \mathcal{P}
+$$
+are all admissible monomorphisms and we have admissible short exact sequences
+$$
+0 \to F_i\mathcal{P} \to
+F_{i + 1}\mathcal{P} \to
+\mathcal{P}_{i + 1}[i + 1] \to 0
+$$
+By induction and Lemma \ref{lemma-good-admissible-ses}
+we find that $F_i\mathcal{P}$ is a good differential graded
+$\mathcal{A}$-module. Since $\mathcal{P} = \colim F_i\mathcal{P}$
+we find that $\mathcal{P}$ is good by Lemma \ref{lemma-good-direct-sum}.
+
+\medskip\noindent
+Finally, we have to show that $\mathcal{P} \to \mathcal{M}$
+is a quasi-isomorphism. If $\mathcal{C}$ has enough points, then
+this follows from the elementary
+Homology, Lemma \ref{lemma-good-resolution-gives-qis}
+by checking on stalks. In general, we can argue as follows
+(this proof is far too long --- there is an alternative argument by
+working with local sections as in the elementary proof but it
+is also rather long).
+Since filtered colimits are exact on the category of abelian
+sheaves, we have
+$$
+H^d(\mathcal{P}) = \colim H^d(F_i\mathcal{P})
+$$
+We claim that for each $i \geq 0$ and $d \in \mathbf{Z}$
+we have (a) a short exact sequence
+$$
+0 \to H^d(\mathcal{M}_{i + 1}[i]) \to
+H^d(F_i\mathcal{P}) \to H^d(\mathcal{M}) \to 0
+$$
+where the second arrow comes from
+$F_i\mathcal{P} \to \mathcal{P} \to \mathcal{M}$
+and (b) the composition
+$$
+H^d(\mathcal{M}_{i + 1}[i]) \to
+H^d(F_i\mathcal{P}) \to
+H^d(F_{i + 1}\mathcal{P})
+$$
+is zero. It is clear that the claim suffices to finish the proof.
+
+\medskip\noindent
+Proof of the claim. For any $i \geq 0$ there is a map
+$\mathcal{M}_{i + 1}[i] \to F_i\mathcal{P}$ coming from
+the inclusion of $\mathcal{M}_{i + 1}$ into $\mathcal{P}_i$
+as the kernel of $f_i$. Consider the short exact sequence
+$$
+0 \to \mathcal{M}_{i + 1}[i] \to F_i\mathcal{P} \to C_i \to 0
+$$
+of complexes of $\mathcal{O}$-modules defining $C_i$.
+Observe that $C_0 = \mathcal{M}_0 = \mathcal{M}$.
+Also, observe that $C_i$ is the total complex associated to the
+double complex $C_i^{\bullet, \bullet}$ with columns
+$$
+\mathcal{M}_i = \mathcal{P}_i/\mathcal{M}_{i + 1},
+\mathcal{P}_{i - 1}, \ldots, \mathcal{P}_0
+$$
+in degree $-i, -i + 1, \ldots, 0$. There is a map of double complexes
+$C_i^{\bullet, \bullet} \to C_{i - 1}^{\bullet, \bullet}$ which is
+$0$ on the column in degree $-i$, is the surjection
+$\mathcal{P}_{i - 1} \to \mathcal{M}_{i - 1}$ in degree $-i + 1$,
+and is the identity on the other columns.
+Hence there are maps of complexes
+$$
+C_i \longrightarrow C_{i - 1}
+$$
+These maps are surjective quasi-isomorphisms because the kernel
+is the total complex on the double complex with columns
+$\mathcal{M}_i, \mathcal{M}_i$ in degrees $-i, -i + 1$ and
+the identity map between these two columns. Using the
+resulting identifications
+$H^d(C_i) = H^d(C_{i - 1} = \ldots = H^d(\mathcal{M})$
+this already shows we get a long exact sequence
+$$
+H^d(\mathcal{M}_{i + 1}[i]) \to
+H^d(F_i\mathcal{P}) \to H^d(\mathcal{M}) \to
+H^{d + 1}(\mathcal{M}_{i + 1}[i])
+$$
+from the short exact sequence of complexes above.
+However, we also have the commutative diagram
+$$
+\xymatrix{
+\mathcal{M}_{i + 2}[i + 1] \ar[r]_a & T_{i + 1} \ar[r] &
+F_{i + 1}\mathcal{P} \ar[r] & C_{i + 1} \ar[d] \\
+& \mathcal{M}_{i + 1}[i] \ar[r] \ar[u]^b &
+F_i\mathcal{P} \ar[u] \ar[r] &
+C_i
+}
+$$
+where $T_{i + 1}$ is the total complex on the double complex
+with columns $\mathcal{P}_{i + 1}, \mathcal{M}_{i + 1}$ placed
+in degrees $-i - 1$ and $-i$. In other words, $T_{i + 1}$ is
+a shift of the cone on the map
+$\mathcal{P}_{i + 1} \to \mathcal{M}_{i + 1}$ and we find that
+$a$ is a quasi-isomorphism and the map $a^{-1} \circ b$ is a shift of the
+third map of the distinguished triangle in $D(\mathcal{O})$ associated
+to the short exact sequence
+$$
+0 \to \mathcal{M}_{i + 2} \to \mathcal{P}_{i + 1} \to \mathcal{M}_{i + 1} \to 0
+$$
+The map $H^d(\mathcal{P}_{i + 1}) \to H^d(\mathcal{M}_{i + 1})$
+is surjective because we chose our maps such that
+$\Ker(\text{d}_{\mathcal{P}_{i + 1}}) \to
+\Ker(\text{d}_{\mathcal{M}_{i + 1}})$ is surjective.
+Thus we see that $a^{-1} \circ b$ is zero on cohomology sheaves.
+This proves part (b) of the claim.
+Since $T_{i + 1}$ is the kernel of the surjective map of complexes
+$F_{i + 1}\mathcal{P} \to C_i$ we find a map of long exact
+cohomology sequences
+$$
+\xymatrix{
+H^d(T_{i + 1}) \ar[r] &
+H^d(F_{i + 1}\mathcal{P}) \ar[r] &
+H^d(\mathcal{M}) \ar[r] &
+H^{d + 1}(T_{i + 1}) \\
+H^d(\mathcal{M}_{i + 1}[i]) \ar[r] \ar[u] &
+H^d(F_i\mathcal{P}) \ar[r] \ar[u] &
+H^d(\mathcal{M}) \ar[r] \ar[u] &
+H^{d + 1}(\mathcal{M}_{i + 1}[i]) \ar[u]
+}
+$$
+Here we know, by the discussion above, that the vertical maps
+on the outside are zero. Hence the maps
+$H^d(F_{i + 1}\mathcal{P}) \to H^d(\mathcal{M})$
+are surjective and part (a) of the claim follows.
+More precisely, the claim follows for $i > 0$ and we leave the
+claim for $i = 0$ to the reader (actually it suffices to prove
+the claim for all $i \gg 0$ in order to get the lemma).
+\end{proof}
 
 
 
