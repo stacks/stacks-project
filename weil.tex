@@ -28,10 +28,12 @@ there is no universal agreement in the literature as to what
 constitutes a ``Weil cohomology theory''.
 
 \medskip\noindent
-In Section \ref{section-monoidal} we define (symmetric) monoidal
-categories and we develop just enough basic language concerning
-these categories for the needs of this chapter. Equipped with this
-language we construct in
+Before reading this chapter the reader should take a look at
+Categories, Section \ref{categories-section-monoidal} and
+Homology, Section \ref{homology-section-monoidal} where
+we define (symmetric) monoidal categories and we develop just enough
+basic language concerning these categories for the needs of this chapter.
+Equipped with this language we construct in
 Section \ref{section-correspondences} the symmetric monoidal
 graded category whose objects are smooth projective schemes and
 whose morphisms are correspondences. In Section \ref{section-chow-motives}
@@ -96,6 +98,12 @@ theories in later chapters (insert future references here).
 \label{section-conventions}
 
 \noindent
+Let $F$ be a field. In this chapter we view the category of $F$-graded vector
+spaces as an $F$-linear symmetric monoidal category with associativity
+constraint as usual and with commutativity constraint involving signs.
+See Homology, Example \ref{homology-example-graded-vector-spaces}.
+
+\medskip\noindent
 Let $R$ be a ring. In this chapter a
 {\it graded commutative $R$-algebra} $A$ is a
 commutative differential graded $R$-algebra
@@ -135,394 +143,6 @@ Chow Homology, Section \ref{chow-section-intersection-product}.
 
 
 
-\section{Monoidal categories}
-\label{section-monoidal}
-
-\noindent
-Let $\mathcal{C}$ be a category. Suppose we are given a functor
-$$
-\otimes : \mathcal{C} \times \mathcal{C} \longrightarrow \mathcal{C}
-$$
-We often want to know whether $\otimes$ satisfies an associative rule
-and whether there is a unit for $\otimes$.
-
-\medskip\noindent
-An {\it associativity constraint} for $(\mathcal{C}, \otimes)$ is
-a functorial isomorphism
-$$
-\phi_{X, Y, Z} : X \otimes (Y \otimes Z) \to (X \otimes Y) \otimes Z
-$$
-such that for all objects $X, Y, Z, W$ the diagram
-$$
-\xymatrix{
-X \otimes (Y \otimes ( Z \otimes W)) \ar[r] \ar[d] &
-(X \otimes Y) \otimes (Z \otimes W) \ar[r] &
-((X \otimes Y) \otimes Z) \otimes W  \\
-X \otimes ((Y \otimes Z) \otimes W) \ar[rr] & &
-(X \otimes (Y \otimes Z)) \otimes W \ar[u]
-}
-$$
-is commutative where every arrow is determined by a suitable application
-of $\phi$ and functoriality of $\otimes$. Given an associativity constraint
-there are well defined functors
-$$
-\mathcal{C} \times \ldots \times \mathcal{C} \longrightarrow \mathcal{C},
-\quad
-(X_1, \ldots, X_n) \longmapsto X_1 \otimes \ldots \otimes X_n
-$$
-for all $n \geq 1$.
-
-\medskip\noindent
-Let $\phi$ be an associativity constraint. A {\it unit} for
-$(\mathcal{C}, \otimes, \phi)$ is an object $\mathbf{1}$
-of $\mathcal{C}$ together with functorial isomorphisms
-$$
-\mathbf{1} \otimes X \to X
-\quad\text{and}\quad
-X \otimes \mathbf{1} \to X
-$$
-such that for all objects $X, Y$ the diagram
-$$
-\xymatrix{
-X \otimes (\mathbf{1} \otimes Y) \ar[rr]_\phi \ar[rd] & &
-(X \otimes \mathbf{1}) \otimes Y \ar[ld] \\
-& X \otimes Y
-}
-$$
-is commutative where the diagonal arrows are given by the isomorphisms
-introduced above.
-
-\medskip\noindent
-An equivalent definition would be that a unit is a pair
-$(\mathbf{1}, 1)$ where $\mathbf{1}$ is an object of $\mathcal{C}$ and
-$1 : \mathbf{1} \otimes \mathbf{1} \to \mathbf{1}$
-is an isomorphism such that the functors $L : X \mapsto \mathbf{1} \otimes X$
-and $R : X \mapsto X \otimes \mathbf{1}$ are equivalences.
-Certainly, given a unit as above we get the isomorphism
-$1 : \mathbf{1} \otimes \mathbf{1} \to \mathbf{1}$ for free
-and $L$ and $R$ are equivalences as they are isomorphic to the
-identity functor. Conversely, given $(\mathbf{1}, 1)$ such that
-$L$ and $R$ are equivalences, we obtain functorial isomorphisms
-$l : \mathbf{1} \otimes X \to X$ and $r : X \otimes \mathbf{1} \to X$
-characterized by $L(l) = 1 \otimes \text{id}_X$ and
-$R(r) = \text{id}_X \otimes 1$. Then we can use $r$ and $l$
-in the notion of unit as above.
-
-\medskip\noindent
-A unit is unique up to unique isomorphism if it exists (exercise).
-
-\begin{definition}
-\label{definition-monoidal-category}
-A triple $(\mathcal{C}, \otimes, \phi)$ where $\mathcal{C}$ is a category,
-$\otimes : \mathcal{C} \times \mathcal{C} \to \mathcal{C}$ is a functor,
-and $\phi$ is an associativity constraint is called a {\it monoidal category}
-if there exists a unit $\mathbf{1}$.
-\end{definition}
-
-\noindent
-We always write $\mathbf{1}$ to denote a unit of a monoidal category;
-it is determined up to unique isomorphism there is no harm in choosing one.
-From now on we no longer write the brackets when taking tensor
-products in monoidal categories and we always identify
-$X \otimes \mathbf{1}$ and $\mathbf{1} \otimes X$ with $X$.
-Moreover, we will say ``let $\mathcal{C}$ be a monoidal category''
-with $\otimes, \phi, \mathbf{1}$ understood.
-
-\begin{definition}
-\label{definition-functor-monoidal-categories}
-Let $\mathcal{C}$ and $\mathcal{C}'$ be monoidal categories.
-A {\it functor of monoidal categories} $F : \mathcal{C} \to \mathcal{C}'$
-is given by a functor $F$ as indicated and a natural transformation
-$$
-F(X) \otimes F(Y) \to F(X \otimes Y)
-$$
-such that for all objects $X, Y, Z$ the diagram
-$$
-\xymatrix{
-F(X) \otimes (F(Y) \otimes F(Z)) \ar[r] \ar[d] &
-F(X) \otimes F(Y \otimes Z) \ar[r] &
-F(X \otimes (Y \otimes Z)) \ar[d] \\
-(F(X) \otimes F(Y)) \otimes F(Z) \ar[r] &
-F(X \otimes Y) \otimes F(Z) \ar[r] &
-F((X \otimes Y) \otimes Z)
-}
-$$
-commutes and such that $F(\mathbf{1})$ is a unit in $\mathcal{C}'$.
-\end{definition}
-
-\noindent
-By our conventions about units, we may always assume
-$F(\mathbf{1}) = \mathbf{1}$ if $F$ is a functor of monoidal categories.
-As an example, if $A \to B$ is a ring homomorphism, then
-the functor $M \mapsto M \otimes_A B$ is functor of monoidal
-categories from $\text{Mod}_A$ to $\text{Mod}_B$.
-
-\begin{lemma}
-\label{lemma-invertible}
-Let $\mathcal{C}$ be a monoidal category. Let $X$ be an object of
-$\mathcal{C}$. The following are equivalent
-\begin{enumerate}
-\item the functor $L : Y \mapsto X \otimes Y$ is an equivalence,
-\item the functor $R : Y \mapsto Y \otimes X$ is an equivalence,
-\item there exists an object $X'$ such that
-$X \otimes X' \cong X' \otimes X \cong \mathbf{1}$.
-\end{enumerate}
-\end{lemma}
-
-\begin{proof}
-Assume (1). Choose $X'$ such that $L(X') = \mathbf{1}$, i.e.,
-$X \otimes X' \cong \mathbf{1}$. Denote $L'$ and $R'$ the functors
-corresponding to $X'$. The equation $X \otimes X' \cong \mathbf{1}$
-implies $L \circ L' \cong \text{id}$. Thus $L'$ must be the quasi-inverse
-to $L$ (which exists by assumption). Hence $L' \circ L \cong \text{id}$.
-Hence $X' \otimes X \cong \mathbf{1}$. Thus (3) holds.
-
-\medskip\noindent
-The proof of (2) $\Rightarrow$ (3) is dual to what we just said.
-
-\medskip\noindent
-Assume (3). Then it is clear that $L'$ and $L$ are quasi-inverse
-to each other and it is clear that $R'$ and $R$ are quasi-inverse
-to each other. Thus (1) and (2) hold.
-\end{proof}
-
-\begin{definition}
-\label{definition-invertible}
-Let $\mathcal{C}$ be a monoidal category. An object $X$ of $\mathcal{C}$
-is called {\it invertible} if any (or all) of the equivalent conditions of
-Lemma \ref{lemma-invertible} hold.
-\end{definition}
-
-\noindent
-Observe that if $F : \mathcal{C} \to \mathcal{C}'$ is a functor of
-monoidal categories, then $F$ sends invertible objects to invertible
-objects.
-
-\begin{definition}
-\label{definition-dual}
-Given a monoidal category $(\mathcal{C}, \otimes, \phi)$
-and an object $X$ a {\it left dual} is an object $Y$ together with
-morphisms $\eta : \mathbf{1} \to X \otimes Y$ and
-$\epsilon : Y \otimes X \to \mathbf{1}$
-such that the diagrams
-$$
-\vcenter{
-\xymatrix{
-X \ar[rd]_1 \ar[r]_-{\eta \otimes 1} &
-X \otimes Y \otimes X  \ar[d]^{1 \otimes \epsilon} \\
-& X
-}
-}
-\quad\text{and}\quad
-\vcenter{
-\xymatrix{
-Y \ar[rd]_1 \ar[r]_-{1 \otimes \eta} &
-Y \otimes X \otimes Y  \ar[d]^{\epsilon \otimes 1} \\
-& Y
-}
-}
-$$
-commute. In this situation we say that $X$ is a {\it right dual} of $Y$.
-\end{definition}
-
-\noindent
-Observe that if $F : \mathcal{C} \to \mathcal{C}'$ is a functor of
-monoidal categories, then $F(Y)$ is a left dual of $F(X)$ if
-$Y$ is a left dual of $X$.
-
-\begin{lemma}
-\label{lemma-left-dual}
-Let $\mathcal{C}$ be a monoidal category. If $Y$ is a left dual to $X$,
-then
-$$
-\Mor(Z' \otimes X, Z) = \Mor(Z', Z \otimes Y)
-\quad\text{and}\quad
-\Mor(Y \otimes Z', Z) = \Mor(Z', X \otimes Z)
-$$
-functorially in $Z$ and $Z'$.
-\end{lemma}
-
-\begin{proof}
-Consider the maps
-$$
-\Mor(Z' \otimes X, Z) \to
-\Mor(Z' \otimes X \otimes Y, Z \otimes Y) \to
-\Mor(Z', Z \otimes Y)
-$$
-where we use $\eta$ in the second arrow
-and the sequence of maps
-$$
-\Mor(Z', Z \otimes Y) \to
-\Mor(Z' \otimes X, Z \otimes Y \otimes X) \to
-\Mor(Z' \otimes X, Z)
-$$
-where we use $\epsilon$ in the second arrow. A straightforward calculation
-using the properties of $\eta$ and $\epsilon$
-shows that the compositions of these are mutually inverse.
-Similarly for the other equality.
-\end{proof}
-
-\begin{remark}
-\label{remark-left-dual-adjoint}
-Lemma \ref{lemma-left-dual} says in particular that $Z \mapsto Z \otimes Y$
-is the right adjoint of $Z' \mapsto Z' \otimes X$. Conversely, if this is
-true, then we get $\eta : \mathbf{1} \to X \otimes Y$ by evaluating
-the unit of the adjunction on $\mathbf{1}$
-and $\epsilon : Y \otimes X \to \mathbf{1}$ by evaluating the counit
-of the adjunction on $\mathbf{1}$
-(Categories, Section \ref{categories-section-adjoint}). Thus the
-requirement that $Z \mapsto Z \otimes Y$ be the right adjoint of
-$Z' \mapsto Z' \otimes X$ is an equivalent formulation of the
-property of being a left dual. Uniqueness of adjoint functors
-guarantees that a left dual of $X$, if it exists, is unique up
-to unique isomorphism.
-\end{remark}
-
-\begin{lemma}
-\label{lemma-tensor-dual}
-Let $\mathcal{C}$ be a monoidal category. If $Y_i$, $i = 1, 2$
-are left duals of $X_i$, $i = 1, 2$, then $Y_2 \otimes Y_1$ is
-a left dual of $X_1 \otimes X_2$.
-\end{lemma}
-
-\begin{proof}
-Follows from uniqueness of adjoints and Remark \ref{remark-left-dual-adjoint}.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-additive-dual}
-Let $\mathcal{C}$ be an additive monoidal category.
-If $Y_i$, $i = 1, 2$ are left duals of $X_i$, $i = 1, 2$, then
-$Y_1 \oplus Y_2$ is a left dual of $X_1 \oplus X_2$.
-\end{lemma}
-
-\begin{proof}
-Follows from uniqueness of adjoints and Remark \ref{remark-left-dual-adjoint}.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-Karoubian-dual}
-In an additive Karoubian monoidal category every summand
-of an object which has a left dual has a left dual.
-\end{lemma}
-
-\begin{proof}
-We will use Lemma \ref{lemma-left-dual} without further mention.
-Let $X$ be an object which has a left dual $Y$. We have
-$$
-\Hom(X, X) = \Hom(\mathbf{1}, X \otimes Y) = \Hom(Y, Y)
-$$
-If $a : X \to X$ corresponds to $b : Y \to Y$ then $b$ is the unique
-endomorphism of $Y$ such that precomposing by $a$ on
-$$
-\Hom(Z' \otimes X, Z) = \Hom(Z', Z \otimes Y)
-$$
-is the same as postcomposing by $1 \otimes b$.
-Hence the bijection $\Hom(X, X) \to \Hom(Y, Y)$, $a \mapsto b$
-is an isomorphism of the opposite of the algebra $\Hom(X, X)$ with
-the algebra $\Hom(Y, Y)$. In particular, if $X = X_1 \oplus X_2$, then
-the corresponding projectors $e_1, e_2$ are mapped to idempotents
-in $\Hom(Y, Y)$. If $Y = Y_1 \oplus Y_2$ is the corresponding direct
-sum decomposition of $Y$ (Homology, Section \ref{homology-section-karoubian})
-then we see that under the bijection
-$\Hom(Z' \otimes X, Z) = \Hom(Z', Z \otimes Y)$
-we have $\Hom(Z' \otimes X_i, Z) = \Hom(Z', Z \otimes Y_i)$
-functorially as subgroups for $i = 1, 2$.
-It follows that $Y_i$ is the left dual of
-$X_i$ by the discussion in Remark \ref{remark-left-dual-adjoint}.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-left-dual-graded-vector-spaces}
-Let $F$ be a field. Let $\mathcal{C}$ be the category of graded
-$F$-vector spaces viewed as a monoidal category
-with the usual tensor structure. If $V$ in $\mathcal{C}$
-has a left dual $W$, then $\sum_i \dim_F V^i < \infty$
-and the map $\epsilon$ defines nondegenerate pairings
-$W^{-i} \times V^i \to F$.
-\end{lemma}
-
-\begin{proof}
-Omitted.
-\end{proof}
-
-\noindent
-A {\it commutativity constraint} for $(\mathcal{C}, \otimes)$ is a
-functorial isomorphism
-$$
-\psi : X \otimes Y \longrightarrow Y \otimes X
-$$
-such that the composition
-$$
-X \otimes Y \xrightarrow{\psi} Y \otimes X \xrightarrow{\psi} X \otimes Y
-$$
-is the identity. We say $\psi$ is {\it compatible} with a given associativity
-constraint $\phi$ if for all objects $X, Y, Z$ the diagram
-$$
-\xymatrix{
-X \otimes (Y \otimes Z) \ar[r]_\phi \ar[d]^\psi &
-(X \otimes Y) \otimes Z \ar[r]_\psi &
-Z \otimes (X \otimes Y) \ar[d]^\phi \\
-X \otimes (Z \otimes Y) \ar[r]^\phi &
-(X \otimes Z) \otimes Y \ar[r]^\psi &
-(Z \otimes X) \otimes Y
-}
-$$
-commutes.
-
-\begin{definition}
-\label{definition-symmetric-monoidal-category}
-A quadruple $(\mathcal{C}, \otimes, \phi, \psi)$ where
-$\mathcal{C}$ is a category,
-$\otimes : \mathcal{C} \otimes \mathcal{C} \to \mathcal{C}$ is a functor,
-$\phi$ is an associativity constraint, and
-$\psi$ is a commutativity constraint compatible with $\phi$
-is called a {\it symmetric monoidal category} if there exists
-a unit.
-\end{definition}
-
-\noindent
-To be sure, if $(\mathcal{C}, \otimes, \phi, \psi)$ is a
-symmetric monoidal category, then $(\mathcal{C}, \otimes, \phi)$
-is a monoidal category.
-
-\begin{example}
-\label{example-graded-vector-spaces}
-Let $F$ be a field. Let $\mathcal{C}$ be the category of graded
-$F$-vector spaces with its usual tensor structure. There are
-two commutativity constraints on $\mathcal{C}$ which turn $\mathcal{C}$
-into a symmetric monoidal category: one involves the
-intervention of signs and the other does not. In this chapter we will
-use the one that does. To be explicit, if $V$ and $W$ are graded $F$-vector
-spaces we will use the isomorphism
-$$
-\psi : V \otimes_F W \longrightarrow W \otimes_F V
-$$
-which sends $v \otimes w$ to $(-1)^{ab}w \otimes v$ if
-$v \in V^a$ and $w \in W^b$.
-\end{example}
-
-\begin{definition}
-\label{definition-functor-symmetric-monoidal-categories}
-Let $\mathcal{C}$ and $\mathcal{C}'$ be symmetric monoidal categories.
-A {\it functor of symmetric monoidal categories}
-$F : \mathcal{C} \to \mathcal{C}'$
-is given by a functor $F$ as indicated and a natural transformation
-$$
-F(X) \otimes F(Y) \to F(X \otimes Y)
-$$
-such that $F$ is a functor of monoidal categories and such that
-for all objects $X, Y$ the diagram
-$$
-\xymatrix{
-F(X) \otimes F(Y) \ar[r] \ar[d] &
-F(X \otimes Y) \ar[d] \\
-F(Y) \otimes F(X) \ar[r] &
-F(Y \otimes X)
-}
-$$
-commutes.
-\end{definition}
 
 
 
@@ -1196,7 +816,8 @@ In the literature the motive $(X, c_2, 0)$ is sometimes called the
 $L$, $\mathbf{L}$, $\mathbf{Q}(-1)$, or $h^2(\mathbf{P}^1_k)$
 may be used to denote it. By Lemma \ref{lemma-inverse-h2} the Lefschetz motive
 is isomorphic to $\mathbf{1}(-1)$. Hence the Lefschetz motive is
-invertible (Definition \ref{definition-invertible}) with inverse
+invertible (Categories, Definition \ref{categories-definition-invertible})
+with inverse
 $\mathbf{1}(1)$. The motive $\mathbf{1}(1)$ is sometimes called the
 {\it Tate motive} and depending on the reference the notation
 $L^{-1}$, $\mathbf{L}^{-1}$, $\mathbf{T}$, or $\mathbf{Q}(1)$ may
@@ -1364,7 +985,8 @@ and here we have the class $\epsilon = [\Delta]$
 of the diagonal as well. The composition of the correspondence
 $[\Delta] \otimes 1$ with $1 \otimes [\Delta]$ either way
 is the correspondence $[\Delta] = 1$ in $\text{Corr}^0(X, X)$ which proves
-the required diagrams of Definition \ref{definition-dual} commute.
+the required diagrams of
+Categories, Definition \ref{categories-definition-dual} commute.
 Namely, observe that
 $$
 [\Delta] \otimes 1 \in \text{Corr}^d(X, X \times X \times X) =
@@ -1401,15 +1023,16 @@ Every object of $M_k$ has a left dual.
 \begin{proof}
 Let $M = (X, p, m)$ be an object of $M_k$. Then $M$ is a summand of
 $(X, 0, m) = h(X)(m)$.
-By Lemma \ref{lemma-Karoubian-dual} it suffices to show that
+By Homology, Lemma \ref{homology-lemma-Karoubian-dual}
+it suffices to show that
 $h(X)(m) = h(X) \otimes \mathbf{1}(m)$ has a dual.
 By construction $\mathbf{1}(-m)$ is a left dual of $\mathbf{1}(m)$.
 Hence it suffices to show that $h(X)$ has a left dual, see
-Lemma \ref{lemma-tensor-dual}.
+Categories, Lemma \ref{categories-lemma-tensor-dual}.
 Let $X = \coprod X_i$ be the decomposition of $X$ into
 irreducible components. Then $h(X) = \bigoplus h(X_i)$
 and it suffices to show that $h(X_i)$ has a left dual, see
-Lemma \ref{lemma-additive-dual}.
+Homology, Lemma \ref{homology-lemma-additive-dual}.
 This follows from Lemma \ref{lemma-dual}.
 \end{proof}
 
@@ -1508,7 +1131,8 @@ $$
 \Hom_{M_k}(K, M) \to \Hom_{M_k}(K, N)
 $$
 is an isomorphism for every object $K$ of $M_k$, see
-Lemma \ref{lemma-left-dual}. We conclude by the Yoneda lemma
+Categories, Lemma \ref{categories-lemma-left-dual}.
+We conclude by the Yoneda lemma
 (Categories, Lemma \ref{categories-lemma-yoneda}).
 \end{proof}
 
@@ -2043,7 +1667,7 @@ $H^*(X)$. Since $\Delta$ commutes with the commutativity
 constraint $h(X) \otimes h(X) \to h(X) \otimes h(X)$ (switching the factors)
 and since $G$ is a functor of symmetric monoidal categories (so compatible with
 commutativity constraints), and by our convention in
-Example \ref{example-graded-vector-spaces}
+Homology, Example \ref{homology-example-graded-vector-spaces}
 we conclude that $H^*(X)$ is a graded
 commutative algebra! Hence we get our datum (D1).
 
@@ -2094,7 +1718,7 @@ By Lemma \ref{lemma-dual}
 we know that $h(X)(d)$ is a left dual to $h(X)$. Hence
 $G(h(X)(d)) = H^*(X) \otimes F[-2d]$ is a left dual to
 $H^*(X)$ in the category of graded $F$-vector spaces.
-By Lemma \ref{lemma-left-dual-graded-vector-spaces}
+By Homology, Lemma \ref{homology-lemma-left-dual-graded-vector-spaces}
 we find that $\sum_i \dim_F H^i(X) < \infty$ and that
 $\epsilon : h(X)(d) \otimes h(X) \to \mathbf{1}$ produces
 nondegenerate pairings $H^{2d - i}(X) \otimes_F H^i(X) \to F$.
@@ -3347,7 +2971,7 @@ $H^*(X)$. Since $\Delta$ commutes with the commutativity
 constraint $h(X) \otimes h(X) \to h(X) \otimes h(X)$ (switching the factors)
 and since $G$ is a functor of symmetric monoidal categories (so compatible with
 commutativity constraints), and by our convention in
-Example \ref{example-graded-vector-spaces}
+Homology, Example \ref{homology-example-graded-vector-spaces}
 we conclude that $H^*(X)$ is a graded
 commutative algebra! Hence we get our datum (D1).
 
@@ -3406,7 +3030,7 @@ we know that $h(X)(d)$ is a left dual to $h(X)$. Hence
 $G(h(X)(d)) = H^*(X) \otimes_F F(d)[2d]$
 is a left dual to $H^*(X)$ in the category of graded $F$-vector spaces.
 Here $[n]$ is the shift functor on graded vector spaces.
-By Lemma \ref{lemma-left-dual-graded-vector-spaces}
+By Homology, Lemma \ref{homology-lemma-left-dual-graded-vector-spaces}
 we find that $\sum_i \dim_F H^i(X) < \infty$ and that
 $\epsilon : h(X)(d) \otimes h(X) \to \mathbf{1}$ produces
 nondegenerate pairings $H^{2d - i}(X)(d) \otimes_F H^i(X) \to F$.
@@ -5197,7 +4821,7 @@ $\int_X = \lambda$ as in axiom (A6).
 Let $X$ be a nonempty smooth projective scheme over $k$ which is
 equidimensional of dimension $d$. We will show that the graded $F$-vector space
 $H^*(X)(d)[2d]$ is a left dual to $H^*(X)$. This will prove what we want by
-Lemma \ref{lemma-left-dual-graded-vector-spaces}. We are
+Homology, Lemma \ref{homology-lemma-left-dual-graded-vector-spaces}. We are
 going to use axiom (A5) which in particular says that
 $$
 H^*(X \times X)(d) =
@@ -5248,7 +4872,8 @@ $$
 $$
 by our choice of $\lambda$ as desired. The second condition
 $(\epsilon \otimes 1) \circ (1 \otimes \eta) = \text{id}$
-of Definition \ref{definition-dual} is proved in exactly the
+of Categories, Definition \ref{categories-definition-dual}
+is proved in exactly the
 same manner.
 
 \medskip\noindent
@@ -5270,7 +4895,8 @@ $$
 \gamma([\Delta]) \in \bigoplus\nolimits_i H^i(X) \otimes H^{2d - i}(X)(d)
 $$
 defines a perfect duality between $H^i(X)$ and $H^{2d - i}(X)(d)$
-for all $i$, see proof of Lemma \ref{lemma-left-dual-graded-vector-spaces}.
+for all $i$, see proof of
+Homology, Lemma \ref{homology-lemma-left-dual-graded-vector-spaces}.
 In particular, the linear map $\int_X = \lambda : H^{2d}(X)(d) \to F$ of
 axiom (A6) is unique! We will call the linear map $\int_X$ the trace map
 of $X$ from now on.

@@ -8322,6 +8322,346 @@ Parts of this have been taken from Vistoli's notes \cite{Vis2}.
 
 
 
+
+
+\section{Monoidal categories}
+\label{section-monoidal}
+
+\noindent
+Let $\mathcal{C}$ be a category. Suppose we are given a functor
+$$
+\otimes : \mathcal{C} \times \mathcal{C} \longrightarrow \mathcal{C}
+$$
+We often want to know whether $\otimes$ satisfies an associative rule
+and whether there is a unit for $\otimes$.
+
+\medskip\noindent
+An {\it associativity constraint} for $(\mathcal{C}, \otimes)$ is
+a functorial isomorphism
+$$
+\phi_{X, Y, Z} : X \otimes (Y \otimes Z) \to (X \otimes Y) \otimes Z
+$$
+such that for all objects $X, Y, Z, W$ the diagram
+$$
+\xymatrix{
+X \otimes (Y \otimes ( Z \otimes W)) \ar[r] \ar[d] &
+(X \otimes Y) \otimes (Z \otimes W) \ar[r] &
+((X \otimes Y) \otimes Z) \otimes W  \\
+X \otimes ((Y \otimes Z) \otimes W) \ar[rr] & &
+(X \otimes (Y \otimes Z)) \otimes W \ar[u]
+}
+$$
+is commutative where every arrow is determined by a suitable application
+of $\phi$ and functoriality of $\otimes$. Given an associativity constraint
+there are well defined functors
+$$
+\mathcal{C} \times \ldots \times \mathcal{C} \longrightarrow \mathcal{C},
+\quad
+(X_1, \ldots, X_n) \longmapsto X_1 \otimes \ldots \otimes X_n
+$$
+for all $n \geq 1$.
+
+\medskip\noindent
+Let $\phi$ be an associativity constraint. A {\it unit} for
+$(\mathcal{C}, \otimes, \phi)$ is an object $\mathbf{1}$
+of $\mathcal{C}$ together with functorial isomorphisms
+$$
+\mathbf{1} \otimes X \to X
+\quad\text{and}\quad
+X \otimes \mathbf{1} \to X
+$$
+such that for all objects $X, Y$ the diagram
+$$
+\xymatrix{
+X \otimes (\mathbf{1} \otimes Y) \ar[rr]_\phi \ar[rd] & &
+(X \otimes \mathbf{1}) \otimes Y \ar[ld] \\
+& X \otimes Y
+}
+$$
+is commutative where the diagonal arrows are given by the isomorphisms
+introduced above.
+
+\medskip\noindent
+An equivalent definition would be that a unit is a pair
+$(\mathbf{1}, 1)$ where $\mathbf{1}$ is an object of $\mathcal{C}$ and
+$1 : \mathbf{1} \otimes \mathbf{1} \to \mathbf{1}$
+is an isomorphism such that the functors $L : X \mapsto \mathbf{1} \otimes X$
+and $R : X \mapsto X \otimes \mathbf{1}$ are equivalences.
+Certainly, given a unit as above we get the isomorphism
+$1 : \mathbf{1} \otimes \mathbf{1} \to \mathbf{1}$ for free
+and $L$ and $R$ are equivalences as they are isomorphic to the
+identity functor. Conversely, given $(\mathbf{1}, 1)$ such that
+$L$ and $R$ are equivalences, we obtain functorial isomorphisms
+$l : \mathbf{1} \otimes X \to X$ and $r : X \otimes \mathbf{1} \to X$
+characterized by $L(l) = 1 \otimes \text{id}_X$ and
+$R(r) = \text{id}_X \otimes 1$. Then we can use $r$ and $l$
+in the notion of unit as above.
+
+\medskip\noindent
+A unit is unique up to unique isomorphism if it exists (exercise).
+
+\begin{definition}
+\label{definition-monoidal-category}
+A triple $(\mathcal{C}, \otimes, \phi)$ where $\mathcal{C}$ is a category,
+$\otimes : \mathcal{C} \times \mathcal{C} \to \mathcal{C}$ is a functor,
+and $\phi$ is an associativity constraint is called a {\it monoidal category}
+if there exists a unit $\mathbf{1}$.
+\end{definition}
+
+\noindent
+We always write $\mathbf{1}$ to denote a unit of a monoidal category; as
+it is determined up to unique isomorphism there is no harm in choosing one.
+From now on we no longer write the brackets when taking tensor
+products in monoidal categories and we always identify
+$X \otimes \mathbf{1}$ and $\mathbf{1} \otimes X$ with $X$.
+Moreover, we will say ``let $\mathcal{C}$ be a monoidal category''
+with $\otimes, \phi, \mathbf{1}$ understood.
+
+\begin{definition}
+\label{definition-functor-monoidal-categories}
+Let $\mathcal{C}$ and $\mathcal{C}'$ be monoidal categories.
+A {\it functor of monoidal categories} $F : \mathcal{C} \to \mathcal{C}'$
+is given by a functor $F$ as indicated and a natural transformation
+$$
+F(X) \otimes F(Y) \to F(X \otimes Y)
+$$
+such that for all objects $X, Y, Z$ the diagram
+$$
+\xymatrix{
+F(X) \otimes (F(Y) \otimes F(Z)) \ar[r] \ar[d] &
+F(X) \otimes F(Y \otimes Z) \ar[r] &
+F(X \otimes (Y \otimes Z)) \ar[d] \\
+(F(X) \otimes F(Y)) \otimes F(Z) \ar[r] &
+F(X \otimes Y) \otimes F(Z) \ar[r] &
+F((X \otimes Y) \otimes Z)
+}
+$$
+commutes and such that $F(\mathbf{1})$ is a unit in $\mathcal{C}'$.
+\end{definition}
+
+\noindent
+By our conventions about units, we may always assume
+$F(\mathbf{1}) = \mathbf{1}$ if $F$ is a functor of monoidal categories.
+As an example, if $A \to B$ is a ring homomorphism, then
+the functor $M \mapsto M \otimes_A B$ is functor of monoidal
+categories from $\text{Mod}_A$ to $\text{Mod}_B$.
+
+\begin{lemma}
+\label{lemma-invertible}
+Let $\mathcal{C}$ be a monoidal category. Let $X$ be an object of
+$\mathcal{C}$. The following are equivalent
+\begin{enumerate}
+\item the functor $L : Y \mapsto X \otimes Y$ is an equivalence,
+\item the functor $R : Y \mapsto Y \otimes X$ is an equivalence,
+\item there exists an object $X'$ such that
+$X \otimes X' \cong X' \otimes X \cong \mathbf{1}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Assume (1). Choose $X'$ such that $L(X') = \mathbf{1}$, i.e.,
+$X \otimes X' \cong \mathbf{1}$. Denote $L'$ and $R'$ the functors
+corresponding to $X'$. The equation $X \otimes X' \cong \mathbf{1}$
+implies $L \circ L' \cong \text{id}$. Thus $L'$ must be the quasi-inverse
+to $L$ (which exists by assumption). Hence $L' \circ L \cong \text{id}$.
+Hence $X' \otimes X \cong \mathbf{1}$. Thus (3) holds.
+
+\medskip\noindent
+The proof of (2) $\Rightarrow$ (3) is dual to what we just said.
+
+\medskip\noindent
+Assume (3). Then it is clear that $L'$ and $L$ are quasi-inverse
+to each other and it is clear that $R'$ and $R$ are quasi-inverse
+to each other. Thus (1) and (2) hold.
+\end{proof}
+
+\begin{definition}
+\label{definition-invertible}
+Let $\mathcal{C}$ be a monoidal category. An object $X$ of $\mathcal{C}$
+is called {\it invertible} if any (or all) of the equivalent conditions of
+Lemma \ref{lemma-invertible} hold.
+\end{definition}
+
+\noindent
+Observe that if $F : \mathcal{C} \to \mathcal{C}'$ is a functor of
+monoidal categories, then $F$ sends invertible objects to invertible
+objects.
+
+\begin{definition}
+\label{definition-dual}
+Given a monoidal category $(\mathcal{C}, \otimes, \phi)$
+and an object $X$ a {\it left dual} is an object $Y$ together with
+morphisms $\eta : \mathbf{1} \to X \otimes Y$ and
+$\epsilon : Y \otimes X \to \mathbf{1}$
+such that the diagrams
+$$
+\vcenter{
+\xymatrix{
+X \ar[rd]_1 \ar[r]_-{\eta \otimes 1} &
+X \otimes Y \otimes X  \ar[d]^{1 \otimes \epsilon} \\
+& X
+}
+}
+\quad\text{and}\quad
+\vcenter{
+\xymatrix{
+Y \ar[rd]_1 \ar[r]_-{1 \otimes \eta} &
+Y \otimes X \otimes Y  \ar[d]^{\epsilon \otimes 1} \\
+& Y
+}
+}
+$$
+commute. In this situation we say that $X$ is a {\it right dual} of $Y$.
+\end{definition}
+
+\noindent
+Observe that if $F : \mathcal{C} \to \mathcal{C}'$ is a functor of
+monoidal categories, then $F(Y)$ is a left dual of $F(X)$ if
+$Y$ is a left dual of $X$.
+
+\begin{lemma}
+\label{lemma-left-dual}
+Let $\mathcal{C}$ be a monoidal category. If $Y$ is a left dual to $X$,
+then
+$$
+\Mor(Z' \otimes X, Z) = \Mor(Z', Z \otimes Y)
+\quad\text{and}\quad
+\Mor(Y \otimes Z', Z) = \Mor(Z', X \otimes Z)
+$$
+functorially in $Z$ and $Z'$.
+\end{lemma}
+
+\begin{proof}
+Consider the maps
+$$
+\Mor(Z' \otimes X, Z) \to
+\Mor(Z' \otimes X \otimes Y, Z \otimes Y) \to
+\Mor(Z', Z \otimes Y)
+$$
+where we use $\eta$ in the second arrow
+and the sequence of maps
+$$
+\Mor(Z', Z \otimes Y) \to
+\Mor(Z' \otimes X, Z \otimes Y \otimes X) \to
+\Mor(Z' \otimes X, Z)
+$$
+where we use $\epsilon$ in the second arrow. A straightforward calculation
+using the properties of $\eta$ and $\epsilon$
+shows that the compositions of these are mutually inverse.
+Similarly for the other equality.
+\end{proof}
+
+\begin{remark}
+\label{remark-left-dual-adjoint}
+Lemma \ref{lemma-left-dual} says in particular that $Z \mapsto Z \otimes Y$
+is the right adjoint of $Z' \mapsto Z' \otimes X$. Conversely, if this is
+true, then we get $\eta : \mathbf{1} \to X \otimes Y$ by evaluating
+the unit of the adjunction on $\mathbf{1}$
+and $\epsilon : Y \otimes X \to \mathbf{1}$ by evaluating the counit
+of the adjunction on $\mathbf{1}$
+(Section \ref{section-adjoint}). Thus the
+requirement that $Z \mapsto Z \otimes Y$ be the right adjoint of
+$Z' \mapsto Z' \otimes X$ is an equivalent formulation of the
+property of being a left dual. Uniqueness of adjoint functors
+guarantees that a left dual of $X$, if it exists, is unique up
+to unique isomorphism.
+\end{remark}
+
+\begin{lemma}
+\label{lemma-tensor-dual}
+Let $\mathcal{C}$ be a monoidal category. If $Y_i$, $i = 1, 2$
+are left duals of $X_i$, $i = 1, 2$, then $Y_2 \otimes Y_1$ is
+a left dual of $X_1 \otimes X_2$.
+\end{lemma}
+
+\begin{proof}
+Follows from uniqueness of adjoints and Remark \ref{remark-left-dual-adjoint}.
+\end{proof}
+
+\noindent
+A {\it commutativity constraint} for $(\mathcal{C}, \otimes)$ is a
+functorial isomorphism
+$$
+\psi : X \otimes Y \longrightarrow Y \otimes X
+$$
+such that the composition
+$$
+X \otimes Y \xrightarrow{\psi} Y \otimes X \xrightarrow{\psi} X \otimes Y
+$$
+is the identity. We say $\psi$ is {\it compatible} with a given associativity
+constraint $\phi$ if for all objects $X, Y, Z$ the diagram
+$$
+\xymatrix{
+X \otimes (Y \otimes Z) \ar[r]_\phi \ar[d]^\psi &
+(X \otimes Y) \otimes Z \ar[r]_\psi &
+Z \otimes (X \otimes Y) \ar[d]^\phi \\
+X \otimes (Z \otimes Y) \ar[r]^\phi &
+(X \otimes Z) \otimes Y \ar[r]^\psi &
+(Z \otimes X) \otimes Y
+}
+$$
+commutes.
+
+\begin{definition}
+\label{definition-symmetric-monoidal-category}
+A quadruple $(\mathcal{C}, \otimes, \phi, \psi)$ where
+$\mathcal{C}$ is a category,
+$\otimes : \mathcal{C} \otimes \mathcal{C} \to \mathcal{C}$ is a functor,
+$\phi$ is an associativity constraint, and
+$\psi$ is a commutativity constraint compatible with $\phi$
+is called a {\it symmetric monoidal category} if there exists
+a unit.
+\end{definition}
+
+\noindent
+To be sure, if $(\mathcal{C}, \otimes, \phi, \psi)$ is a
+symmetric monoidal category, then $(\mathcal{C}, \otimes, \phi)$
+is a monoidal category.
+
+\begin{lemma}
+\label{lemma-dual-symmetric}
+Let $(\mathcal{C}, \otimes, \phi, \psi)$ be a symmetric monoidal category.
+Let $X$ be an object of $\mathcal{C}$ and let $Y$,
+$\eta : \mathbf{1} \to X \otimes Y$, and
+$\epsilon : Y \otimes X \to \mathbf{1}$
+be a left dual of $X$ as in Definition \ref{definition-dual}.
+Then $\eta' = \psi \circ \eta : \mathbf{1} \to Y \otimes X$
+and $\epsilon' = \epsilon \circ \psi : X \otimes Y \to \mathbf{1}$
+makes $X$ into a left dual of $Y$.
+\end{lemma}
+
+\begin{proof}
+Omitted. Hint: pleasant exercise in the definitions.
+\end{proof}
+
+\begin{definition}
+\label{definition-functor-symmetric-monoidal-categories}
+Let $\mathcal{C}$ and $\mathcal{C}'$ be symmetric monoidal categories.
+A {\it functor of symmetric monoidal categories}
+$F : \mathcal{C} \to \mathcal{C}'$
+is given by a functor $F$ as indicated and a natural transformation
+$$
+F(X) \otimes F(Y) \to F(X \otimes Y)
+$$
+such that $F$ is a functor of monoidal categories and such that
+for all objects $X, Y$ the diagram
+$$
+\xymatrix{
+F(X) \otimes F(Y) \ar[r] \ar[d] &
+F(X \otimes Y) \ar[d] \\
+F(Y) \otimes F(X) \ar[r] &
+F(Y \otimes X)
+}
+$$
+commutes.
+\end{definition}
+
+
+
+
+
+
+
 \input{chapters}
 
 \bibliography{my}
