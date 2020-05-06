@@ -1,0 +1,742 @@
+\input{preamble}
+
+% OK, start here.
+%
+\begin{document}
+
+\title{Derived Algebraic Geometry}
+
+
+\maketitle
+
+\phantomsection
+\label{section-phantom}
+
+\tableofcontents
+
+\section{Introduction}
+\label{section-introduction}
+
+\noindent
+In this chapter we continue the discussion started in
+Derived Categories of Schemes, Section \ref{perfect-section-introduction}.
+We will discuss Fourier-Mukai transforms,
+first studied by Mukai in \cite{Mukai}.
+We will prove Orlov's theorem on derived equivalences (\cite{Orlov-K3}).
+We also discuss the countability of derived equivalence
+classes proved by Anel and To\"en in \cite{AT}.
+
+
+
+
+\section{Conventions}
+\label{section-conventions}
+
+\noindent
+Let $k$ be a field. A $k$-linear triangulated category $\mathcal{T}$
+is a triangulated category (Derived Categories, Section
+\ref{derived-section-triangulated-definitions})
+which is endowed with a $k$-linear structure
+(Differential Graded Algebra, Section \ref{dga-section-linear})
+such that the translation functors $[n] : \mathcal{T} \to \mathcal{T}$
+are $k$-linear for all $n \in \mathbf{Z}$.
+
+\medskip\noindent
+Let $k$ be a field. For a $k$-vector space $V$ we denote
+$V^\vee$ the $k$-linear dual of $V$, i.e., $V^\vee = \Hom_k(V, k)$.
+
+
+
+
+\section{Serre functors}
+\label{section-Serre-functors}
+
+\noindent
+The material in this section is taken from \cite{Bondal-Kapranov}.
+
+\begin{lemma}
+\label{lemma-Serre-functor-exists}
+Let $k$ be a field. Let $\mathcal{T}$ be a $k$-linear
+triangulated category such that $\dim_k \Hom_\mathcal{T}(X, Y) < \infty$
+for all $X, Y \in \Ob(\mathcal{T})$. The following are equivalent
+\begin{enumerate}
+\item there exists a $k$-linear equivalence
+$S : \mathcal{T} \to \mathcal{T}$ and $k$-linear isomorphisms
+$c_{X, Y} : \Hom_\mathcal{T}(X, Y) \to \Hom_\mathcal{T}(Y, S(X))^\vee$
+functorial in $X, Y \in \Ob(\mathcal{T})$,
+\item for every $X \in \Ob(\mathcal{T})$
+the functor $Y \mapsto \Hom_\mathcal{T}(X, Y)^\vee$
+is representable and the functor $Y \mapsto \Hom_\mathcal{T}(Y, X)^\vee$
+is corepresentable.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Condition (1) implies (2) since given $(S, c)$ and $X \in \Ob(\mathcal{T})$
+the object $S(X)$ represents the functor
+$Y \mapsto \Hom_\mathcal{T}(X, Y)^\vee$ and the object $S^{-1}(X)$ corepresents
+the functor $Y \mapsto \Hom_\mathcal{T}(Y, X)^\vee$.
+
+\medskip\noindent
+Assume (2). We will repeatedly use the Yoneda lemma, see
+Categories, Lemma \ref{categories-lemma-yoneda}.
+For every $X$ denote $S(X)$ the object representing the
+functor $Y \mapsto \Hom_\mathcal{T}(X, Y)^\vee$. Given
+$\varphi : X \to X'$, we obtain a unique arrow $S(\varphi) : S(X) \to S(X')$
+determined by the corresponding transformation of functors
+$\Hom_\mathcal{T}(X, -)^\vee \to \Hom_\mathcal{T}(X', -)^\vee$.
+Thus $S$ is a functor and we obtain the isomorphisms $c_{X, Y}$
+by construction. It remains to show that $S$ is an equivalence.
+For every $X$ denote $S'(X)$ the object corepresenting the
+functor $Y \mapsto \Hom_\mathcal{T}(Y, X)^\vee$. Arguing as
+above we find that $S'$ is a functor. We claim that $S'$
+is quasi-inverse to $S$. To see this observe that
+$$
+\Hom_\mathcal{T}(X, Y) = \Hom_\mathcal{T}(Y, S(X))^\vee =
+\Hom_\mathcal{T}(S'(S(X)), Y)
+$$
+bifunctorially, i.e., we find $S' \circ S \cong \text{id}_\mathcal{T}$.
+Similarly, we have
+$$
+\Hom_\mathcal{T}(Y, X) = \Hom_\mathcal{T}(S'(X), Y)^\vee =
+\Hom_\mathcal{T}(Y, S(S'(X)))
+$$
+and we find $S \circ S' \cong \text{id}_\mathcal{T}$.
+\end{proof}
+
+\begin{definition}
+\label{definition-Serre-functor}
+Let $k$ be a field. Let $\mathcal{T}$ be a $k$-linear
+triangulated category such that $\dim_k \Hom_\mathcal{T}(X, Y) < \infty$
+for all $X, Y \in \Ob(\mathcal{T})$. We say {\it a Serre functor
+exists} if the equivalent conditions of Lemma \ref{lemma-Serre-functor-exists}
+are satisfied. In this case a {\it Serre functor} is a $k$-linear equivalence
+$S : \mathcal{T} \to \mathcal{T}$ endowed with $k$-linear isomorphisms
+$c_{X, Y} : \Hom_\mathcal{T}(X, Y) \to \Hom_\mathcal{T}(Y, S(X))^\vee$
+functorial in $X, Y \in \Ob(\mathcal{T})$.
+\end{definition}
+
+\begin{lemma}
+\label{lemma-Serre-functor}
+In the situation of Definition \ref{definition-Serre-functor}.
+If a Serre functor exists, then it is unique up to unique isomorphism and
+it is an exact functor of triangulated categories.
+\end{lemma}
+
+\begin{proof}
+Given a Serre functor $S$ the object $S(X)$ represents
+the functor $Y \mapsto \Hom_\mathcal{T}(X, Y)^\vee$.
+Thus the object $S(X)$ together with the functorial identification
+$\Hom_\mathcal{T}(X, Y)^\vee = \Hom_\mathcal{T}(Y, S(X))$
+is determined up to unique isomorphism by the Yoneda lemma
+(Categories, Lemma \ref{categories-lemma-yoneda}).
+Moreover, for $\varphi : X \to X'$, the arrow $S(\varphi) : S(X) \to S(X')$
+is uniquely determined by the corresponding transformation of functors
+$\Hom_\mathcal{T}(X, -)^\vee \to \Hom_\mathcal{T}(X', -)^\vee$.
+
+\medskip\noindent
+For objects $X, Y$ of $\mathcal{T}$ we have
+\begin{align*}
+\Hom(Y, S(X)[1])^\vee
+& =
+\Hom(Y[-1], S(X))^\vee \\
+& =
+\Hom(X, Y[-1]) \\
+& =
+\Hom(X[1], Y) \\
+& =
+\Hom(Y, S(X[1]))^\vee
+\end{align*}
+By the Yoneda lemma we conclude that there is a unique isomorphism
+$S(X[1]) \to S(X)[1]$ inducing the isomorphism from top left to bottom right.
+Since each of the isomorphisms above is functorial in both $X$ and $Y$
+we find that this defines an isomorphism of functors
+$S \circ [1] \to [1] \circ S$.
+
+\medskip\noindent
+Let $(A, B, C, f, g, h)$ be a distinguished triangle in $\mathcal{T}$.
+We have to show that the triangle $(S(A), S(B), S(C), S(f), S(g), S(h))$
+is distinguished. Here we use the canonical isomorphism $S(A[1]) \to S(A)[1]$
+constructed above to identify the target $S(A[1])$ of $S(h)$ with $S(A)[1]$.
+We first observe that for any $X$ in $\mathcal{T}$
+the triangle $(S(A), S(B), S(C), S(f), S(g), S(h))$ induces
+a long exact sequence
+$$
+\ldots \to
+\Hom(X, S(A)) \to
+\Hom(X, S(B)) \to
+\Hom(X, S(C)) \to
+\Hom(X, S(A)[1]) \to \ldots
+$$
+of finite dimensional $k$-vector spaces. Namely, this sequence is
+$k$-linear dual of the sequence
+$$
+\ldots \leftarrow
+\Hom(A, X) \leftarrow
+\Hom(B, X) \leftarrow
+\Hom(C, X) \leftarrow
+\Hom(A[1], X) \leftarrow
+\ldots
+$$
+which is exact by Derived Categories, Lemma
+\ref{derived-lemma-representable-homological}.
+Next, we choose a distinguished triangle $(S(A), E, S(C), i, p, S(h))$
+which is possible by axioms TR1 and TR2. We want to construct the dotted
+arrow making following diagram commute
+$$
+\xymatrix{
+S(C)[-1] \ar[r]_-{S(h[-1])} &
+S(A) \ar[r]_{S(f)} &
+S(B) \ar[r]_{S(g)} &
+S(C) \ar[r]_{S(h)} &
+S(A)[1] \\
+S(C)[-1] \ar[r]^-{S(h[-1])} \ar@{=}[u] &
+S(A) \ar[r]^i \ar@{=}[u] &
+E \ar[r]^p \ar@{..>}[u]^\varphi &
+S(C) \ar[r]^{S(h)} \ar@{=}[u] &
+S(A)[1] \ar@{=}[u]
+}
+$$
+Namely, if we have $\varphi$, then we claim for any $X$ the resulting
+map $\Hom(X, E) \to \Hom(X, S(B))$ will be an isomorphism of $k$-vector
+spaces. Namely, we will obtain a commutative diagram
+$$
+\xymatrix{
+\Hom(X, S(C)[-1]) \ar[r] &
+\Hom(X, S(A)) \ar[r] &
+\Hom(X, S(B)) \ar[r] &
+\Hom(X, S(C)) \ar[r] &
+\Hom(X, S(A)[1]) \\
+\Hom(X, S(C)[-1]) \ar[r] \ar@{=}[u] &
+\Hom(X, S(A)) \ar[r] \ar@{=}[u] &
+\Hom(X, E) \ar[r] \ar[u]^\varphi &
+\Hom(X, S(C)) \ar[r] \ar@{=}[u] &
+\Hom(X, S(A)[1]) \ar@{=}[u]
+}
+$$
+with exact rows (see above) and we can apply the 5 lemma
+(Homology, Lemma \ref{homology-lemma-five-lemma}) to see
+that the middle arrow is an isomorphism. By the Yoneda lemma
+we conclude that $\varphi$ is an isomorphism.
+To find $\varphi$ consider the following diagram
+$$
+\xymatrix{
+\Hom(E, S(C)) \ar[r] &
+\Hom(S(A), S(C)) \\
+\Hom(E, S(B)) \ar[u] \ar[r] &
+\Hom(S(A), S(B)) \ar[u]
+}
+$$
+The elements $p$ and $S(f)$ in positions $(0, 1)$ and
+$(1, 0)$ define a cohomology class $\xi$ in the total complex
+of this double complex. The existence of $\varphi$ is
+equivalent to whether $\xi$ is zero. If we take $k$-linear duals
+of this and we use the defining property of $S$ we obtain
+$$
+\xymatrix{
+\Hom(C, E) \ar[d] &
+\Hom(C, S(A)) \ar[l] \ar[d] \\
+\Hom(B, E) &
+\Hom(B, S(A)) \ar[l]
+}
+$$
+Since both $A \to B \to C$ and $S(A) \to E \to S(C)$ are distinguished
+triangles, we know by TR3 that given elements $\alpha \in \Hom(C, E)$
+and $\beta \in \Hom(B, S(A))$ mapping to the same element in
+$\Hom(B, E)$, there exists an element in $\Hom(C, S(A))$ mapping
+to both $\alpha$ and $\beta$. In other words, the cohomology of
+the total complex associated to this double complex is zero in degree
+$1$, i.e., the degree corresponding to $\Hom(C, E) \oplus \Hom(B, S(A))$.
+Taking duals the same must be true for the previous one which concludes
+the proof.
+\end{proof}
+
+
+
+
+
+
+
+\section{Characterizing coherent modules}
+\label{section-coherent}
+
+\noindent
+This section is in some sense a continuation of the discussion
+in Derived Categories of Schemes, Section \ref{perfect-section-pseudo-coherent}
+and More on Morphisms, Section
+\ref{more-morphisms-section-characterize-pseudo-coherent}.
+
+\medskip\noindent
+Before we can state the result we need some notation.
+Let $k$ be a field. Let $n \geq 0$ be an integer.
+Let $S = k[X_0, \ldots, X_n]$. For an integer $e$ denote
+$S_e \subset S$ the homogeneous polynomials of degree $e$.
+Consider the (noncommutative) $k$-algebra
+$$
+R =
+\left(
+\begin{matrix}
+S_0 & S_1 & S_2 & \ldots & \ldots \\
+0 & S_0 & S_1 & \ldots & \ldots\\
+0 & 0 & S_0 & \ldots & \ldots \\
+\ldots & \ldots & \ldots & \ldots & \ldots \\
+0 & \ldots & \ldots & \ldots & S_0
+\end{matrix}
+\right)
+$$
+(with $n + 1$ rows and columns) with obvious multiplication and addition.
+
+\begin{lemma}
+\label{lemma-perfect-for-R}
+With $k$, $n$, and $R$ as above, for an object $K$ of $D(R)$
+the following are equivalent
+\begin{enumerate}
+\item $\sum_{i \in \mathbf{Z}} \dim_k H^i(K) < \infty$, and
+\item $K$ is a compact object.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+If $K$ is a compact object, then $K$ can be represented by a complex
+$M^\bullet$ which is finite projective as a graded $R$-module, see
+Differential Graded Algebra, Lemma \ref{dga-lemma-compact}.
+Since $\dim_k R < \infty$ we conclude $\sum \dim_k M^i < \infty$
+and a fortiori $\sum \dim_k H^i(M^\bullet) < \infty$.
+(One can also easily deduce this implication from the easier
+Differential Graded Algebra, Proposition \ref{dga-proposition-compact}.)
+
+\medskip\noindent
+Assume $K$ satisfies (1). Consider the distinguished triangle
+of trunctions $\tau_{\leq m}K \to K \to \tau_{\geq m + 1}K$, see
+Derived Categories, Remark
+\ref{derived-remark-truncation-distinguished-triangle}.
+It is clear that both $\tau_{\leq m}K$ and $\tau_{\geq m + 1} K$
+satisfy (1). If we can show both are compact, then so is $K$, see
+Derived Categories, Lemma \ref{derived-lemma-compact-objects-subcategory}.
+Hence, arguing on the number of nonzero cohomology modules of $K$
+we may assume $H^i(K)$ is nonzero only for one $i$.
+Shifting, we may assume $K$ is given by the complex
+consisting of a single finite dimensional $R$-module $M$ sitting
+in degree $0$.
+
+\medskip\noindent
+Since $\dim_k(M) < \infty$ we see that $M$ is Artinian as an $R$-module.
+Thus it suffices to show that every simple $R$-module represents a
+compact object of $D(R)$. Observe that
+$$
+I =
+\left(
+\begin{matrix}
+0 & S_1 & S_2 & \ldots & \ldots \\
+0 & 0 & S_1 & \ldots & \ldots\\
+0 & 0 & 0 & \ldots & \ldots \\
+\ldots & \ldots & \ldots & \ldots & \ldots \\
+0 & \ldots & \ldots & \ldots & 0
+\end{matrix}
+\right)
+$$
+is a nilpotent two sided ideal of $R$ and that $R/I$
+is a commutative $k$-algebra isomorphic to a product of $n + 1$ copies of
+$k$ (placed along the diagonal in the matrix, i.e., $R/I$ can be lifted
+to a $k$-subalgebra of $R$). It follows that $R$ has exactly $n + 1$
+isomorphism classes of simple modules $M_0, \ldots, M_n$ (sitting along
+the diagonal). Consider the right $R$-module $P_i$ of row vectors
+$$
+P_i =
+\left(
+\begin{matrix}
+0 &
+\ldots &
+0 &
+S_0 &
+\ldots &
+S_{i - 1} &
+S_i
+\end{matrix}
+\right)
+$$
+with obvious multiplication $P_i \times R \to P_i$. Then we see that
+$R \cong P_0 \oplus \ldots \oplus P_n$ as a right $R$-module. Since clearly
+$R$ is a compact object of $D(R)$, we conclude each $P_i$ is a compact
+object of $D(R)$. (We of course also conclude each $P_i$ is projective
+as an $R$-module, but this isn't what we have to show in this proof.)
+Clearly, $P_0 = M_0$ is the first of our simple $R$-modules.
+For $P_1$ we have a short exact sequence
+$$
+0 \to P_0^{\oplus n + 1} \to P_1 \to M_1 \to 0
+$$
+which proves that $M_1$ fits into a distinguished triangle whose
+other members are compact objects and hence $M_1$ is a compact
+object of $D(R)$. More generally, there exists a short exact sequence
+$$
+0 \to C_i \to P_i \to M_i \to 0
+$$
+where $C_i$ is a finite dimensional $R$-module whose simple contituents
+are isomorphic to $S_j$ for $j < i$. By induction, we first conclude that
+$C_i$ determines a compact object of $D(R)$ whereupon we conclude that $M_i$
+does too as desired.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-coherent-on-projective-space}
+Let $k$ be a field. Let $n \geq 0$. Let
+$K \in D_\QCoh(\mathcal{O}_{\mathbf{P}^n_k})$.
+The following are equivalent
+\begin{enumerate}
+\item $K$ is in $D^b_{\textit{Coh}}(\mathcal{O}_{\mathbf{P}^n_k})$,
+\item $\sum_{i \in \mathbf{Z}}
+\dim_k H^i(\mathbf{P}^n_k, E \otimes^\mathbf{L} K) < \infty$
+for each perfect object $E$ of
+$D(\mathcal{O}_{\mathbf{P}^n_k})$,
+\item $\sum_{i \in \mathbf{Z}}
+\dim_k \Ext^i_{\mathbf{P}^n_k}(E, K) < \infty$
+for each perfect object $E$ of $D(\mathcal{O}_{\mathbf{P}^n_k})$,
+\item $\sum_{i \in \mathbf{Z}} \dim_k H^i(\mathbf{P}^n_k,
+K \otimes^\mathbf{L} \mathcal{O}_{\mathbf{P}^n_k}(d)) < \infty$
+for $d = 0, 1, \ldots, n$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Parts (2) and (3) are equivalent by
+Cohomology, Lemma \ref{cohomology-lemma-dual-perfect-complex}.
+If (1) is true, then for $E$ perfect the derived tensor product
+$E \otimes^\mathbf{L} K$ is in
+$D^b_{\textit{Coh}}(\mathcal{O}_{\mathbf{P}^n_k})$
+and we see that (2) holds by 
+Derived Categories of Schemes, Lemma \ref{perfect-lemma-direct-image-coherent}.
+It is clear that (2) implies (4) as $\mathcal{O}_{\mathbf{P}^n_k}(d)$
+can be viewed
+as a perfect object of the derived category of $\mathbf{P}^n_k$.
+Thus it suffices to prove that (4) implies (1).
+
+\medskip\noindent
+Assume (4). Let $R$ be as in Lemma \ref{lemma-perfect-for-R}.
+Let $P = \bigoplus_{d = 0, \ldots, n} \mathcal{O}_{\mathbf{P}^n_k}(-d)$.
+Recall that $R = \text{End}_{\mathbf{P}^n_k}(P)$ whereas all other
+self-Exts of $P$ are zero and that $P$ determines an equivalence
+$- \otimes^\mathbf{L} P : D(R) \to D_\QCoh(\mathcal{O}_{\mathbf{P}^n_k})$
+by Derived Categories of Schemes, Lemma \ref{perfect-lemma-Pn-module-category}.
+Say $K$ corresponds to $L$ in $D(R)$. Then
+\begin{align*}
+H^i(L)
+& =
+\Ext^i_{D(R)}(R, L) \\
+& =
+\Ext^i_{\mathbf{P}^n_k}(P, K) \\
+& =
+H^i(\mathbf{P}^n_k, K \otimes P^\vee) \\
+& =
+\bigoplus\nolimits_{d = 0, \ldots, n}
+H^i(\mathbf{P}^n_k, K \otimes \mathcal{O}(d))
+\end{align*}
+by Differential Graded Algebra, Lemma
+\ref{dga-lemma-upgrade-tensor-with-complex-derived}
+(and the fact that $- \otimes^\mathbf{L} P$ is an equivalence)
+and Cohomology, Lemma \ref{cohomology-lemma-dual-perfect-complex}.
+Thus our assumption (4) implies that $L$ satisfies condition (2) of
+Lemma \ref{lemma-perfect-for-R} and hence is a compact object of $D(R)$.
+Therefore $K$ is a compact object of
+$D_\QCoh(\mathcal{O}_{\mathbf{P}^n_k})$
+and the proof is complete.
+\end{proof}
+
+
+
+
+
+
+
+\section{A representability theorem}
+\label{section-bondal-van-den-bergh}
+
+\noindent
+The material in this section is taken from \cite{BvdB}.
+
+\medskip\noindent
+Let $k$ be a field and denote $\text{Vect}_k$ the category of
+$k$-vector spaces. Let $\mathcal{T}$ be a $k$-linear triangulated category.
+In this section we consider $k$-linear cohomological functors
+$H$ from $\mathcal{T}$ to the category of $k$-vector spaces.
+This will mean $H$ is a functor
+$$
+H : \mathcal{T}^{opp} \longrightarrow \text{Vect}_k
+$$
+which is $k$-linear such that for any distinguished triangle
+$X \to Y \to Z$ in $\mathcal{T}$ the sequence $H(Z) \to H(Y) \to H(X)$
+is an exact sequence of $k$-vector spaces. See
+Derived Categories, Definition \ref{derived-definition-homological}
+and Differential Graded Algebra, Section \ref{dga-section-linear}.
+
+\begin{lemma}
+\label{lemma-maps-from-compact-filtered}
+Let $\mathcal{D}$ be a triangulated category. Let
+$\mathcal{D}' \subset \mathcal{D}$ be a full triangulated subcategory. Let
+$X \in \Ob(\mathcal{D})$. The category of arrows $E \to X$ with
+$E \in \Ob(\mathcal{D}')$ is filtered.
+\end{lemma}
+
+\begin{proof}
+We check the conditions of
+Categories, Definition \ref{categories-definition-directed}.
+The category is nonempty because it contains $0 \to X$.
+If $E_i \to X$, $i = 1, 2$ are objects, then $E_1 \oplus E_2 \to X$
+is an object and there are morphisms $(E_i \to X) \to (E_1 \oplus E_2 \to X)$.
+Finally, suppose that $a, b : (E \to X) \to (E' \to X)$ are morphisms.
+Choose a distinguished triangle $E \xrightarrow{a - b} E' \to E''$
+in $\mathcal{D}'$. By Axiom TR3 we obtain a morphism of triangles
+$$
+\xymatrix{
+E \ar[r]_{a - b} \ar[d] &
+E' \ar[d] \ar[r] & E'' \ar[d] \\
+0 \ar[r] &
+X \ar[r] &
+X
+}
+$$
+and we find that the resulting arrow $(E' \to X) \to (E'' \to X)$
+equalizes $a$ and $b$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-van-den-bergh}
+\begin{reference}
+\cite[Lemma 2.14]{CKN}
+\end{reference}
+Let $k$ be a field. Let $\mathcal{D}$ be a $k$-linear triangulated category
+which has direct sums and is compactly generated.
+Denote $\mathcal{D}_c$ the full
+subcategory of compact objects. Let $H : \mathcal{D}_c^{opp} \to \text{Vect}_k$
+be a $k$-linear cohomological functor such that
+$\dim_k H(X) < \infty$ for all $X \in \Ob(\mathcal{D}_c)$.
+Then $H$ is isomorphic to the functor $X \mapsto \Hom(X, Y)$
+for some $Y \in \Ob(\mathcal{D})$.
+\end{lemma}
+
+\begin{proof}
+Denote $G : \mathcal{D}_c \to \text{Vect}_k$ the $k$-linear homological
+functor which sends $X$ to $H(X)^\vee$. For any object $Y$ of $\mathcal{D}$
+we set
+$$
+G'(Y) = \colim_{X \to Y, X \in \Ob(\mathcal{D}_c)} G(X)
+$$
+The colimit is filtered by Lemma \ref{lemma-maps-from-compact-filtered}.
+We claim that $G'$ is a $k$-linear homological functor,
+the restriction of $G'$ to $\mathcal{D}_c$ is $G$, and $G'$
+sends direct sums to direct sums.
+
+\medskip\noindent
+Namely, suppose that $Y_1 \to Y_2 \to Y_3$ is a distinguished triangle.
+Let $\xi \in G'(Y_2)$ map to zero in $G'(Y_3)$. Since the colimit is
+filtered $\xi$ is represented by some $X \to Y_2$ with
+$X \in \Ob(\mathcal{D}_c)$ and $g \in G(X)$.
+The fact that $\xi$ maps to zero in $G'(Y_3)$ means the composition
+$X \to Y_2 \to Y_3$ factors as $X \to X' \to Y_3$ with $X' \in \mathcal{D}_c$
+and $g$ mapping to zero in $G(X')$. Choosing a distinguished
+triangle $X'' \to X \to X'$ we find that $X'' \in \Ob(\mathcal{D}_c)$
+and $\xi'$ comes from $g'' \in G'(X'')$.
+Finally, by Axiom TR3 the maps $X \to Y_2$ and $X' \to Y_3$ fit into
+a morphism of distinguished triangles
+$(X'' \to X \to X') \to (Y_1 \to Y_2 \to Y_3)$
+and we find that indeed $\xi$ is the image of the
+element of $G'(Y_1)$ represented by $X'' \to Y_1$ and $g'' \in G(X'')$.
+
+\medskip\noindent
+The proofs of the statements on restriction and direct sums are omitted.
+
+\medskip\noindent
+It follows that the functor $Y \mapsto G'(Y)^\vee$ is cohomological
+and sends direct sums to direct products. Hence by Brown representability,
+see Derived Categories, Proposition \ref{derived-proposition-brown}
+we conclude that there exists a $Y \in \Ob(\mathcal{D})$
+and an isomorphism
+$G'(Z)^\vee = \Hom(Z, Y)$ functorially in $Z$.
+For $X \in \Ob(\mathcal{D}_c)$ we have
+$G'(X)^\vee = G(X)^\vee = (H(X)^\vee)^\vee = H(X)$
+because $\dim_k H(X) < \infty$ and the proof is complete.
+\end{proof}
+
+\begin{theorem}
+\label{theorem-bondal-van-den-bergh}
+\begin{reference}
+\cite[Theorem A.1]{BvdB}
+\end{reference}
+Let $X$ be a projective scheme over a field $k$.
+Let $D_{perf}(X)$ be the triangulated category of
+perfect objects in $D(\mathcal{O}_X)$.
+Let $F : D_{perf}(X)^{opp} \to \text{Vect}_k$ be a cohomological functor
+such that
+$$
+\sum\nolimits_{n \in \mathbf{Z}} \dim_k F(E[n]) < \infty
+$$
+for all $E \in D_{perf}(X)$. Then $F$ is isomorphic to a functor
+of the form $E \mapsto \Hom_X(E, K)$ for some
+$K \in D^b_{\textit{Coh}}(\mathcal{O}_X))$.
+\end{theorem}
+
+\begin{proof}
+The derived category $D_\QCoh(\mathcal{O}_X)$ has direct sums,
+is compactly generated, and $D_{perf}(X)$ is the full subcategory
+of compact objects, see
+Derived Categories of Schemes, Lemma
+\ref{perfect-lemma-quasi-coherence-direct-sums},
+Theorem \ref{perfect-theorem-bondal-van-den-Bergh}, and
+Proposition \ref{perfect-proposition-compact-is-perfect}.
+By Lemma \ref{lemma-van-den-bergh} we may assume
+$F(E) = \Hom_X(E, K)$ for some $K \in \Ob(D_\QCoh(\mathcal{O}_X))$.
+It remains to show that $K$ is in $D^b_{\textit{Coh}}(X)$.
+
+\medskip\noindent
+Choose a closed immersion $i : X \to \mathbf{P}^n_k$. It suffices to show
+that $Ri_*K$ is in $D^b_{\textit{Coh}}(\mathbf{P}^n_k)$ since a quasi-coherent
+module $\mathcal{F}$ on $X$ is coherent, resp.\ zero if and only if
+$i_*\mathcal{F}$ is coherent, resp.\ zero. For a perfect object $E$
+of $D(\mathcal{O}_{\mathbf{P}^n_k})$ we have
+$$
+\Ext^q_{\mathbf{P}^n_k}(E, Ri_*K) = \Ext^q_X(Li^*E, K) = F(Li^*E[q])
+$$
+Hence by our assumption we see that
+$\sum_{q \in \mathbf{Z}} \dim_k \Ext^q_{\mathbf{P}^n_k}(E, Ri_*K) < \infty$.
+We conclude by Lemma \ref{lemma-coherent-on-projective-space}.
+\end{proof}
+
+
+
+
+\section{The regular proper case}
+\label{section-regular-proper}
+
+\noindent
+Theorem \ref{theorem-bondal-van-den-bergh}
+also holds for regular (for example smooth) proper varieties. This
+is proven in \cite{BvdB} using their general characterization
+of saturated
+
+\begin{lemma}
+\label{lemma-trace-map}
+Let $f : X' \to X$ be a proper birational morphism of integral Noetherian
+schemes with $X$ regular. The map $\mathcal{O}_X \to Rf_*\mathcal{O}_{X'}$
+canonically splits in $D(\mathcal{O}_X)$.
+\end{lemma}
+
+\begin{proof}
+Set $E = Rf_*\mathcal{O}_{X'}$ in $D(\mathcal{O}_X)$.
+Observe that $E$ is in $D^b_{\textit{Coh}}(X)$ by
+Derived Categories of Schemes, Lemma \ref{perfect-lemma-direct-image-coherent}.
+By 
+Derived Categories of Schemes, Lemma \ref{perfect-lemma-perfect-on-regular}
+we find that $E$ is a perfect object of $D(\mathcal{O}_X)$.
+Since $\mathcal{O}_{X'}$ is a sheaf of algebras, we have the
+relative cup product $\mu : E \otimes_{\mathcal{O}_X}^\mathbf{L} E \to E$
+by Cohomology, Remark \ref{cohomology-remark-cup-product}.
+Let $\sigma : E \otimes E \to E \otimes E$ be the commutativity
+constraint on the symmetric monoidal category $D(\mathcal{O}_X)$
+(Cohomology of Sheaves, Lemma
+\ref{cohomology-lemma-symmetric-monoidal-derived}).
+Denote $\eta : \mathcal{O}_X \to E \otimes E^\vee$ and
+$\epsilon : E^\vee \otimes E \to \mathcal{O}_X$ the map
+constructed in Cohomology of Sheaves, Example
+\ref{cohomology-example-dual-derived}.
+Then we can consider the map
+$$
+E \xrightarrow{\eta \otimes 1} E \otimes E^\vee \otimes E
+\xrightarrow{\sigma \otimes 1} E^\vee \otimes E \otimes E
+\xrightarrow{1 \otimes \mu} E^\vee \otimes E
+\xrightarrow{\epsilon} \mathcal{O}_X
+$$
+We claim that this map is a one sided inverse to the map in the
+statement of the lemma. To see this it suffices to show that
+the composition $\mathcal{O}_X \to \mathcal{O}_X$ is the identity
+map. This we may do in the generic point of $X$ (or on an open
+subscheme of $X$ over which $f$ is an isomorphism). In this
+case $E = \mathcal{O}_X$ and $\mu$ is the usual multiplication map
+and the result is clear.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-bondal-van-den-bergh}
+Let $X$ be a proper scheme over a field $k$ which is regular.
+Then the assertion of Theorem \ref{theorem-bondal-van-den-bergh}
+is true.
+\end{lemma}
+
+\begin{proof}
+As in the proof of Theorem \ref{theorem-bondal-van-den-bergh}
+we reduce to showing the following: given an object
+$K$ in $D_\QCoh(\mathcal{O}_X)$ such that
+$\sum_{i \in \mathbf{Z}} \dim_k \Ext^i_X(E, K) < \infty$
+for all $E$ in $D(\mathcal{O}_X)$ perfect, then $K$ is in
+$D^b_{\textit{Coh}}(X)$.
+
+\medskip\noindent
+By Chow's lemma we can choose a birational proper morphism
+$f : X' \to X$ with $X'$ projective, see
+Cohomology of Schemes, Lemma \ref{coherent-lemma-chow-Noetherian}
+and Remark \ref{coherent-remark-chow-Noetherian}.
+Denote $a : D_\QCoh(\mathcal{O}_X) \to D_\QCoh(\mathcal{O}_{X'})$
+the right adjoint to $Rf_*$, see
+Duality for Schemes, Lemma \ref{duality-lemma-twisted-inverse-image}.
+If $E$ in $D(\mathcal{O}_{X'})$ is perfect, then so is
+$Rf_*E$ in $D(\mathcal{O}_X)$ by
+Derived Categories of Schemes, Lemmas
+\ref{perfect-lemma-direct-image-coherent} and
+\ref{perfect-lemma-perfect-on-regular}.
+Hence we see that
+$$
+\Ext^i_{X'}(E, a(K)) = \Ext^i_X(Rf_*E, K)
+$$
+is finite dimensional and nonzero for only a finite number of $i$
+by our assumption on $K$. By the proof of
+Theorem \ref{theorem-bondal-van-den-bergh}
+we find that $a(K)$ is in $D^b_{\textit{Coh}}(X')$.
+By Duality for Schemes, Lemma \ref{duality-lemma-iso-on-RSheafHom} we have
+$$
+Rf_*a(K) = R\SheafHom_{\mathcal{O}_X}(Rf_*\mathcal{O}_{X'}, K)
+$$
+The left hand side is in $D^b_{\textit{Coh}}(X)$ by the already used
+Derived Categories of Schemes, Lemmas
+\ref{perfect-lemma-direct-image-coherent}.
+By Lemma \ref{lemma-trace-map} we have that $Rf_*\mathcal{O}_{X'}$
+contains $\mathcal{O}_X$ as a summand. Hence we conclude that
+$K$ is in $D^b_{\textit{Coh}}(\mathcal{O}_X)$
+as desired.
+\end{proof}
+
+
+
+
+
+
+\section{Existence of adjoints}
+\label{section-adjoints}
+
+\begin{lemma}
+\label{lemma-always-right-adjoints}
+Let $X$ and $Y$ be schemes over a field $k$. Let
+$F : D_{perf}(X) \to D_{perf}(Y)$ be a $k$-linear
+exact functor of triangulated categories. If
+\end{lemma}
+
+\begin{proof}
+
+
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+\input{chapters}
+
+\bibliography{my}
+\bibliographystyle{amsalpha}
+
+\end{document}
+
