@@ -10042,9 +10042,10 @@ Let $\mathcal{T}$ be a triangulated category. We will identify full
 subcategories of $\mathcal{T}$ with subsets of $\Ob(\mathcal{T})$.
 Given full subcategories $\mathcal{A}, \mathcal{B}, \ldots$ we let
 \begin{enumerate}
-\item $\mathcal{A}[a, b]$ for $a \leq b$ be the full subcategory of
-$\mathcal{T}$ consisting of all objects $A[-i]$ with $i \in [a, b]$
-with $A \in \Ob(\mathcal{A})$ (please note the minus sign),
+\item $\mathcal{A}[a, b]$ for $-\infty \leq a \leq b \leq \infty$
+be the full subcategory of $\mathcal{T}$ consisting of all objects
+$A[-i]$ with $i \in [a, b] \cap \mathbf{Z}$
+with $A \in \Ob(\mathcal{A})$ (note the minus sign!),
 \item $smd(\mathcal{A})$ be the full subcategory of $\mathcal{T}$
 consisting of all objects which are direct summands of objects
 of $\mathcal{A}$,
@@ -10055,7 +10056,9 @@ of $\mathcal{A}$,
 consisting of all objects $X$ of $\mathcal{T}$ which fit into a distinguished
 triangle $A \to X \to B$ with $A \in \Ob(\mathcal{A})$ and
 $B \in \Ob(\mathcal{B})$,
-\item $\mathcal{C}_n(\mathcal{A}) =
+\item $\mathcal{A}^{\star n} = \mathcal{A} \star \ldots \star \mathcal{A}$
+with $n \geq 1$ factors (we will see $\star$ is associative below),
+\item $smd(add(\mathcal{A})^{\star n}) =
 smd(add(\mathcal{A}) \star \ldots \star add(\mathcal{A}))$
 with $n \geq 1$ factors.
 \end{enumerate}
@@ -10119,7 +10122,7 @@ The result for $smd(add(\mathcal{A}))$ is trivial.
 Let $\mathcal{T}$ be a triangulated category. Given a full subcategory
 $\mathcal{A}$ for $n \geq 1$ the subcategory
 $$
-\mathcal{C}_n(\mathcal{A}) =
+\mathcal{C}_n = smd(add(\mathcal{A})^{\star n}) =
 smd(add(\mathcal{A}) \star \ldots \star add(\mathcal{A}))
 $$
 defined above is a strictly full subcategory of $\mathcal{T}$
@@ -10156,12 +10159,8 @@ $$
 \bigcup \mathcal{B} \star \mathcal{A}_i,
 $$
 $$
-\left(\bigcup \mathcal{A}_i\right) \star \left(\bigcup \mathcal{A}_i\right) =
-\bigcup \mathcal{A}_i \star \mathcal{A}_i,
-$$
-$$
-\mathcal{C}_n\left(\bigcup \mathcal{A}_i\right) =
-\bigcup \mathcal{C}_n(\mathcal{A}_i)
+\left(\bigcup \mathcal{A}_i\right)^{\star n} =
+\bigcup \mathcal{A}_i^{\star n},
 $$
 We omit the trivial verifications.
 \end{remark}
@@ -10174,7 +10173,7 @@ $\mathcal{E} \subset \Ob(\mathcal{A})$ be a subset.
 Assume that $K^i = 0$ for $i \not \in [a, b]$ and that
 each $K^i$ is a direct summand of a finite direct sum of elements of
 $\mathcal{E}$. Then $K^\bullet$ is in
-$\mathcal{C}_{b - a + 1}(\mathcal{E}[a, b])$.
+$smd(add(\mathcal{E}[a, b])^{\star (b - a + 1)})$.
 \end{lemma}
 
 \begin{proof}
@@ -10214,8 +10213,7 @@ $$
 of shifts of $E$. It is clear that in the notation of
 Section \ref{section-operate-on-full} we have
 $$
-\langle E \rangle_1 =
-smd\left(\bigcup\nolimits_{m \geq 1} add(E[-m, m])]\right)
+\langle E \rangle_1 = smd(add(E[-\infty, \infty]))
 $$
 For $n > 1$ let $\langle E \rangle_n$ denote the full
 subcategory of $\mathcal{D}$ consisting of objects of $\mathcal{D}$
@@ -10234,7 +10232,12 @@ Each of the categories $\langle E \rangle_n$ is a strictly full additive
 (by Lemma \ref{lemma-add-star}) subcategory of $\mathcal{D}$ preserved
 under shifts and under taking summands. But, $\langle E \rangle_n$ is not
 necessarily closed under ``taking cones'' or ``extensions'', hence not
-necessarily a triangulated subcategory.
+necessarily a triangulated subcategory. This will be true for the
+subcategory
+$$
+\langle E \rangle = \bigcup\nolimits_n \langle E \rangle_n
+$$
+as will be shown in the lemmas below.
 
 \begin{lemma}
 \label{lemma-generated-by-E-explicit}
@@ -10243,7 +10246,8 @@ of $\mathcal{T}$. For $n \geq 1$ we have
 $$
 \langle E \rangle_n =
 smd(\langle E \rangle_1 \star \ldots \star \langle E \rangle_1) =
-\bigcup\nolimits_{m \geq 1} \mathcal{C}_n(E[-m, m])
+smd({\langle E \rangle_1}^{\star n}) =
+\bigcup\nolimits_{m \geq 1} smd(add(E[-m, m])^{\star n})
 $$
 For $n, n' \geq 1$ we have $\langle E \rangle_{n + n'} =
 smd(\langle E \rangle_n \star \langle E \rangle_{n'})$.
@@ -10252,8 +10256,9 @@ smd(\langle E \rangle_n \star \langle E \rangle_{n'})$.
 \begin{proof}
 The left equality in the displayed formula follows from
 Lemmas \ref{lemma-associativity-star} and \ref{lemma-smd-star}
-and induction. Since $\langle E \rangle_1 =
-smd(\bigcup\nolimits_{m \geq 1} add(E[-m, m])])$
+and induction. The middle equality is a matter of notation.
+Since $\langle E \rangle_1 = smd(add(E[-\infty, \infty])])$
+and since $E[-\infty, \infty] = \bigcup_{m \geq 1} E[-m, m]$
 we see from Remark \ref{remark-operations-unions} and
 Lemma \ref{lemma-smd-star} that we get the equality on the right.
 Then the final statement follows from the remark and the
@@ -10266,7 +10271,7 @@ Let $\mathcal{D}$ be a triangulated category. Let $E$ be an object
 of $\mathcal{D}$. The subcategory
 $$
 \langle E \rangle = \bigcup\nolimits_n \langle E \rangle_n
-= \bigcup\nolimits_{n, m \geq 1} \mathcal{C}_n(E[-m, m])
+= \bigcup\nolimits_{n, m \geq 1} smd(add(E[-m, m])^{\star n})
 $$
 is a strictly full, saturated, triangulated subcategory of $\mathcal{D}$
 and it is the smallest such subcategory of $\mathcal{D}$ containing
@@ -10276,14 +10281,26 @@ the object $E$.
 \begin{proof}
 The equality on the right follows from
 Lemma \ref{lemma-generated-by-E-explicit}.
-It is clear that $\bigcup \langle E \rangle_n$
-is preserved under shifts, direct sums, direct summands.
+It is clear that $\langle E \rangle = \bigcup \langle E \rangle_n$
+contains $E$, is preserved under shifts, direct sums, direct summands.
+If $A \in \langle E \rangle_a$ and $B \in \langle E \rangle_b$
+and if $A \to X \to B \to A[1]$ is a distinguished triangle, then
+$X \in \langle E \rangle_{a + b}$ by Lemma \ref{lemma-generated-by-E-explicit}.
+Hence $\bigcup \langle E \rangle_n$ is also preserved under extensions
+and it follows that it is a triangulated subcategory. 
 
-
-To prove this it suffices to show: if $A \in \langle E \rangle_a$
-and $B \in \langle E \rangle_b$ and if $A \to X \to B \to A[1]$
-is a distinguished triangle, then $X \in \langle E \rangle_{a + b}$.
-We omit the details.
+\medskip\noindent
+Finally, let $\mathcal{D}' \subset \mathcal{D}$ be a 
+strictly full, saturated, triangulated subcategory of $\mathcal{D}$
+containing $E$. Then
+$\mathcal{D}'[-\infty, \infty] \subset \mathcal{D}'$,
+$add(\mathcal{D}) \subset \mathcal{D}'$,
+$smd(\mathcal{D}') \subset \mathcal{D}'$, and
+$\mathcal{D}' \star \mathcal{D}' \subset \mathcal{D}'$.
+In other words, all the operations we used to construct
+$\langle E \rangle$ out of $E$ preserve $\mathcal{D}'$.
+Hence $\langle E \rangle \subset \mathcal{D}'$ and this
+finishes the proof.
 \end{proof}
 
 \begin{definition}
