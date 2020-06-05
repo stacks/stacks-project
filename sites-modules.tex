@@ -2142,6 +2142,20 @@ $\alpha \mapsto \alpha'$ and $\beta \mapsto \beta'$ are mutually inverse.
 We omit the verifications.
 \end{proof}
 
+\noindent
+Note that we have in the situation of
+Definition \ref{definition-localize-ringed-site} we have
+\begin{equation}
+\label{equation-map-lower-shriek-OU-into-module}
+\Hom_\mathcal{O}(j_{U!}\mathcal{O}_U, \mathcal{F}) =
+\Hom_{\mathcal{O}_U}(\mathcal{O}_U, j_U^*\mathcal{F}) =
+\mathcal{F}(U)
+\end{equation}
+for every $\mathcal{O}$-module $\mathcal{F}$. Namely, the first equality
+holds by the adjointness of $j_{U!}$ and $j_U^*$ and the second because
+$\Hom_{\mathcal{O}_U}(\mathcal{O}_U, j_U^*\mathcal{F}) =
+j_U^*\mathcal{F}(U/U) = \mathcal{F}|_U(U/U) = \mathcal{F}(U)$.
+
 \begin{lemma}
 \label{lemma-extension-by-zero-exact}
 Let $(\mathcal{C}, \mathcal{O})$ be a ringed site.
@@ -4672,11 +4686,59 @@ is exact.
 \end{lemma}
 
 \begin{proof}
-This holds because for any $\mathcal{O}$-module $\mathcal{F}$ the functor
+For any $\mathcal{O}$-module $\mathcal{F}$ the functor
 $\Hom_\mathcal{O}(-, \mathcal{F})$ turns our sequence into the exact sequence
 $0 \to \mathcal{F}(U) \to \prod \mathcal{F}(U_i) \to
-\prod \mathcal{F}(U_i \times_U U_j)$. Then the lemma follows from
+\prod \mathcal{F}(U_i \times_U U_j)$, see
+(\ref{equation-map-lower-shriek-OU-into-module}). The lemma follows from
+this and
 Homology, Lemma \ref{homology-lemma-check-exactness}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-silly-quasi-compact}
+Let $(\mathcal{C}, \mathcal{O})$ be a ringed site. Let
+$\mathcal{U} = \{U_i \to U\}_{i \in I}$ be covering of $\mathcal{C}$.
+If $U$ is quasi-compact, then there exist a finite subset
+$I' \subset I$ such that the sequence
+$$
+\bigoplus\nolimits_{i, i' \in I'}
+j_{U_i \times_U U_{i'}!}\mathcal{O}_{U_i \times_U U_{i'}} \to
+\bigoplus\nolimits_{i \in I'}
+j_{U_i!}\mathcal{O}_{U_i} \to
+j_!\mathcal{O}_U \to 0
+$$
+is exact.
+\end{lemma}
+
+\begin{proof}
+This lemma is immediate from Lemma \ref{lemma-covering-gives-surjection}
+if $U$ satisfies condition (3) of
+Sites, Lemma \ref{sites-lemma-conclude-quasi-compact}.
+We urge the reader to skip the proof in the general case.
+By definition there exists a covering
+$\mathcal{V} = \{V_j \to U\}_{j \in J}$ and a morphism
+$\mathcal{V} \to \mathcal{U}$ of families of maps with fixed target
+given by $\text{id} : U \to U$, $\alpha : J \to I$, and
+$f_j : V_j \to U_{\alpha(j)}$
+(see Sites, Definition \ref{sites-definition-morphism-coverings})
+such that the image $I' \subset I$ of $\alpha$ is finite.
+By Homology, Lemma \ref{homology-lemma-check-exactness}
+it suffices to show that for any sheaf of $\mathcal{O}$-modules $\mathcal{F}$
+the functor $\Hom_\mathcal{O}(-, \mathcal{F})$ turns the sequence
+of the lemma into an exact sequence. By
+(\ref{equation-map-lower-shriek-OU-into-module})
+we obtain the usual sequence
+$$
+0 \to
+\mathcal{F}(U) \to
+\prod\nolimits_{i \in I'} \mathcal{F}(U_i) \to
+\prod\nolimits_{i, i' \in I'} \mathcal{F}(U_i \times_U U_{i'})
+$$
+This is an exact sequence by
+Sites, Lemma \ref{sites-lemma-compare-sheaf-condition}
+applied to the family of maps $\{U_i \to U\}_{i \in I'}$
+which is refined by the covering $\mathcal{V}$.
 \end{proof}
 
 \begin{lemma}
@@ -4732,6 +4794,7 @@ $\Hom_\mathcal{O}(j_!\mathcal{O}_U, -)$ commutes with direct sums.
 \begin{proof}
 This is true because
 $\Hom_\mathcal{O}(j_!\mathcal{O}_U, \mathcal{F}) = \mathcal{F}(U)$
+by (\ref{equation-map-lower-shriek-OU-into-module})
 and because the functor $\mathcal{F} \mapsto \mathcal{F}(U)$
 commutes with direct sums by
 Lemma \ref{lemma-sections-over-quasi-compact}.
@@ -4752,12 +4815,11 @@ of objects. We consider the following conditions
 Every object of $\mathcal{C}$ has a covering by elements of $\mathcal{B}$.
 \item
 \label{item-enough-qc}
-Every $U \in \mathcal{B}$ is quasi-compact in the sense that
-every covering of $U$ can be refined by a finite covering with
-objects from $\mathcal{B}$.
+Every $U \in \mathcal{B}$ is quasi-compact
+(Sites, Section \ref{sites-section-quasi-compact}).
 \item
 \label{item-enough-qc-qs}
-For a finite covering $\{U_i \to U\}$ with $U_i, U \in \mathcal{B}$
+For a covering $\{U_i \to U\}$ with $U_i, U \in \mathcal{B}$
 the fibre products $U_i \times_U U_j$ are quasi-compact.
 \end{enumerate}
 \end{situation}
@@ -4776,7 +4838,10 @@ with $U_i$ in $\mathcal{B}$.
 \end{lemma}
 
 \begin{proof}
-Follows immediately from Lemmas \ref{lemma-module-quotient-flat} and
+Part (1) follows from Sites, Lemmas
+\ref{sites-lemma-sheaf-coequalizer-representable} and
+\ref{sites-lemma-covering-surjective-after-sheafification}.
+Part (2) follows from Lemmas \ref{lemma-module-quotient-flat} and
 \ref{lemma-covering-gives-surjection}.
 \end{proof}
 
@@ -4813,8 +4878,8 @@ with $U_i$ and $V_j$ in $\mathcal{B}$.
 
 \begin{proof}
 Proof of (1). By Lemma \ref{lemma-module-quotient-direct-sum}
-every sheaf of sets $\mathcal{F}$ is the target of a surjection whose source
-is a coprod $\mathcal{F}_0$
+every sheaf of sets $\mathcal{F}$ is the target of a surjection
+whose source is a coprod $\mathcal{F}_0$
 of sheaves the form $h_{U}^\#$ with $U \in \mathcal{B}$.
 Applying this to $\mathcal{F}_0 \times_\mathcal{F} \mathcal{F}_0$
 we find that $\mathcal{F}$ is a coequalizer of a pair of maps
@@ -4829,7 +4894,9 @@ for some index sets $I$, $J$ and $V_j$ and $U_i$ in $\mathcal{B}$.
 For every finite subset $J' \subset J$ there is a finite subset
 $I' \subset I$ such that the coproduct over $j \in J'$ maps into
 the coprod over $i \in I'$ via both maps, see
-Lemma \ref{lemma-quasi-compact-hom-from}.
+Sites, Lemma \ref{sites-lemma-directed-colimits-sections}.
+(Details omitted; hint: an infinite coproduct is the filtered colimit
+of the finite sub-coproducts.)
 Thus our sheaf is the colimit of the cokernels of these maps
 between finite coproducts.
 
@@ -4872,73 +4939,96 @@ as in (\ref{equation-towards-constructible}). It suffices to show
 that the cokernel of a map $\varphi : j_{W!}\mathcal{O}_W \to \mathcal{F}$
 with $W \in \mathcal{B}$ is another module of the same type.
 The map $\varphi$ corresponds to $s \in \mathcal{F}(W)$.
-By (\ref{item-enough-qc}) we can find a finite covering
-$\{W_k \to W\}$ with $W_k \in \mathcal{B}$ such that $s|_{W_k}$
-comes from a section $\sum s_{ki}$ of $\bigoplus j_{U_i!}\mathcal{O}_{U_i})$.
-This determines maps
-$j_{W_k!}\mathcal{O}_{W_k} \to \bigoplus j_{U_i!}\mathcal{O}_{U_i}$.
-Since $\bigoplus j_{W_k!}\mathcal{O}_{W_k} \to j_{W!}\mathcal{O}_W$
-is surjective (Lemma \ref{lemma-covering-gives-surjection})
-we see that $\Coker(\varphi)$ is equal to
+Since $\bigoplus j_{U_i!}\mathcal{O}_{U_i} \to \mathcal{F}$ is
+surjective, by (\ref{item-enough}) we may choose a covering
+$\{W_k \to W\}_{k \in K}$ with $W_k \in \mathcal{B}$
+such that $s|_{W_k}$ is the image of some section
+$s_k$ of $\bigoplus j_{U_i!}\mathcal{O}_{U_i})$.
+By (\ref{item-enough-qc}) the object $W$ is quasi-compact.
+By Lemma \ref{lemma-silly-quasi-compact}
+there is a finite subset $K' \subset K$ such that
+$\bigoplus_{k \in K'} j_{W_k!}\mathcal{O}_{W_k} \to j_{W!}\mathcal{O}_W$
+is surjective. We conclude that $\Coker(\varphi)$ is equal to
 $$
 \Coker\left(
-\bigoplus j_{W_k!}\mathcal{O}_{W_k} \oplus
+\bigoplus\nolimits_{k \in K'} j_{W_k!}\mathcal{O}_{W_k} \oplus
 \bigoplus j_{V_j!}\mathcal{O}_{V_j}
 \longrightarrow
 \bigoplus j_{U_i!}\mathcal{O}_{U_i}
 \right)
 $$
-as desired.
+where the map $\bigoplus_{k \in K'} j_{W_k!}\mathcal{O}_{W_k}
+\to \bigoplus j_{U_i!}\mathcal{O}_{U_i}$ corresponds to
+$\sum_{k \in K'} s_k$. This finishes the proof.
 \end{proof}
 
 \begin{lemma}
 \label{lemma-change-presentation-towards-constructibles}
 In Situation \ref{situation-quasi-compact-objects} assume
 (\ref{item-enough}), (\ref{item-enough-qc}), and (\ref{item-enough-qc-qs})
-hold. Let $\mathcal{O}$ be a sheaf of rings.
-Then given a map
+hold. Let $\mathcal{O}$ be a sheaf of rings. Assume given a map
 $$
 \bigoplus\nolimits_{j = 1, \ldots, m} j_{V_j!}\mathcal{O}_{V_j}
 \longrightarrow
 \bigoplus\nolimits_{i = 1, \ldots, n} j_{U_i!}\mathcal{O}_{U_i}
 $$
-with $U_i$ and $V_j$ in $\mathcal{B}$, and finite coverings
-$\{U_{ik} \to U_i\}$ by $U_{ik} \in \mathcal{B}$, there
-exist a finite set of $W_l \in \mathcal{B}$ and
-a commutative diagram
+with $U_i$ and $V_j$ in $\mathcal{B}$, and coverings
+$\{U_{ik} \to U_i\}_{k \in K_i}$ with $U_{ik} \in \mathcal{B}$.
+Then there exist finite subsets $K'_i \subset K_i$ and
+a finite set $L$ of $W_l \in \mathcal{B}$ and a commutative diagram
 $$
 \xymatrix{
-\bigoplus j_{W_l!}\mathcal{O}_{W_l} \ar[d] \ar[r] &
-\bigoplus j_{U_i!}\mathcal{O}_{U_{ik}} \ar[d] \\
-\bigoplus j_{V_j!}\mathcal{O}_{V_j} \ar[r] &
-\bigoplus j_{U_i!}\mathcal{O}_{U_i}
+\bigoplus_{l \in L} j_{W_l!}\mathcal{O}_{W_l} \ar[d] \ar[r] &
+\bigoplus_{i = 1, \ldots, n} \bigoplus_{k \in K'_i}
+j_{U_{ik}!}\mathcal{O}_{U_{ik}} \ar[d] \\
+\bigoplus_{j = 1, \ldots, m} j_{V_j!}\mathcal{O}_{V_j} \ar[r] &
+\bigoplus_{i = 1, \ldots, n} j_{U_i!}\mathcal{O}_{U_i}
 }
 $$
 inducing an isomorphism on cokernels of the horizontal maps.
 \end{lemma}
 
 \begin{proof}
-Since
-$\bigoplus j_{U_{ik}!}\mathcal{O}_{U_{ik}} \to
-\bigoplus j_{U_i!}\mathcal{O}_{U_i}$ is surjective
-(Lemma \ref{lemma-covering-gives-surjection}), we can find
-finite coverings $\{V_{jm} \to V_j\}$ with $V_{jm} \in \mathcal{B}$
-such that we can find a commutative diagram
+Since $U_i$ is quasi-compact, we may choose finite subsets $K'_i \subset K_i$
+as in Lemma \ref{lemma-silly-quasi-compact}.
+Then since
+$\bigoplus_{i = 1, \ldots, n}
+\bigoplus_{k \in K'_i} j_{U_{ik}!}\mathcal{O}_{U_{ik}} \to
+\bigoplus_{i = 1, \ldots, n} j_{U_i!}\mathcal{O}_{U_i}$ is surjective,
+we can find coverings $\{V_{jm} \to V_j\}_{m \in M_j}$ with
+$V_{jm} \in \mathcal{B}$ such that we can find a commutative diagram
 $$
 \xymatrix{
-\bigoplus j_{V_{jm}!}\mathcal{O}_{V_{jm}} \ar[d] \ar[r] &
-\bigoplus j_{U_i!}\mathcal{O}_{U_{ik}} \ar[d] \\
-\bigoplus j_{V_j!}\mathcal{O}_{V_j} \ar[r] &
-\bigoplus j_{U_i!}\mathcal{O}_{U_i}
+\bigoplus_{j = 1, \ldots, m} \bigoplus_{m \in M_j}
+j_{V_{jm}!}\mathcal{O}_{V_{jm}} \ar[d] \ar[r] &
+\bigoplus_{i = 1, \ldots n} \bigoplus_{k \in K'_i}
+j_{U_{ik}!}\mathcal{O}_{U_{ik}} \ar[d] \\
+\bigoplus_{j = 1, \ldots, m} j_{V_j!}\mathcal{O}_{V_j} \ar[r] &
+\bigoplus_{i = 1, \ldots, n} j_{U_i!}\mathcal{O}_{U_i}
 }
 $$
-Adding
+Since $V_j$ is quasi-compact, we can choose finite subsets
+$M'_j \subset M_j$ as in Lemma \ref{lemma-silly-quasi-compact}.
+Set
 $$
-\bigoplus
-j_{U_{ik} \times_{U_i} U_{ik'}!}\mathcal{O}_{U_{ik} \times_{U_i} U_{ik'}}
+L = \left(\coprod\nolimits_{i = 1, \ldots, n} K'_i \times K'_i \right)
+\coprod
+\left(\coprod\nolimits_{j = 1, \ldots, m} M'_j\right)
 $$
-to the upper left corner finishes the proof by
-Lemma \ref{lemma-covering-gives-surjection}.
+and for $l = (k, k') \in K'_i \times K'_i \subset L$ set
+$W_l = U_{ik} \times_{U_i} U_{ik'}$ and for
+$l = m \in M'_j \subset L$ set $W_l = V_{jm}$.
+Since we have the exact sequences of Lemma \ref{lemma-silly-quasi-compact}
+for the families $\{U_{ik} \to U_i\}_{k \in K'_i}$
+we conclude that we get a diagram as in the statement of the lemma
+(details omitted), except that it is not yet clear that $W_l \in \mathcal{B}$.
+However, since $W_l$ is quasi-compact for all $l \in L$
+we do another application of Lemma \ref{lemma-silly-quasi-compact}
+and find finite families of maps $\{W_{lt} \to W_l\}_{t \in T_l}$
+with $W_{lt} \in \mathcal{B}$ such that
+$\bigoplus j_{W_{lt}!}\mathcal{O}_{W_{lt}} \to j_{W_l!}\mathcal{O}_{W_l}$
+is surjective. Then we replace $L$ by $\coprod_{l \in L} T_l$
+and everything is clear.
 \end{proof}
 
 \begin{lemma}
@@ -4962,20 +5052,24 @@ $$
 $$
 In this proof the direct sums are always finite, and
 we write $A_U = j_{U!}\mathcal{O}_U$ for $U \in \mathcal{B}$.
+Since $\mathcal{F}_2 \to \mathcal{F}_3$ is surjective, we can
+choose coverings $\{W_{ik} \to W_i\}$ with $W_{ik} \in \mathcal{B}$
+such that $A_{W_{ik}} \to \mathcal{F}_3$ lifts to a map
+$A_{W_{ik}} \to \mathcal{F}_2$.
 By Lemma \ref{lemma-change-presentation-towards-constructibles}
-we may replace $W_i$ by finite coverings $\{W_{ik} \to W_i\}$
-with $W_{ik} \in \mathcal{B}$. Thus we may assume the map
+we may replace our collection $\{W_i\}$ by a finite subcollection
+of the collection $\{W_{ik}\}$ and assume the map
 $\bigoplus A_{W_i} \to \mathcal{F}_3$ lifts to a map into $\mathcal{F}_2$.
 Consider the kernel
 $$
 \mathcal{K}_2 = \Ker(\bigoplus A_{U_i} \oplus \bigoplus A_{W_i}
 \longrightarrow \mathcal{F}_2)
 $$
-By the snake lemma this kernel surjections onto
+By the snake lemma this kernel surjects onto
 $\mathcal{K}_3 = \Ker(\bigoplus A_{W_i} \to \mathcal{F}_3)$.
-Thus after replacing each $T_j$ by a finite covering with
+Thus, arguing as above, after replacing each $T_j$ by a finite family of
 elements of $\mathcal{B}$ (permissible by
-Lemma \ref{lemma-covering-gives-surjection})
+Lemma \ref{lemma-silly-quasi-compact})
 we may assume there is a map
 $\bigoplus A_{T_j} \to \mathcal{K}_2$ lifting the given map
 $\bigoplus A_{T_j} \to \mathcal{K}_3$.
