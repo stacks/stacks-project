@@ -4205,6 +4205,28 @@ identity functor and hence $j^! = j^*$ by definition.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-restrict-before-or-after}
+In Situation \ref{situation-shriek} let
+$$
+\xymatrix{
+U \ar[r]_j \ar[d]_g & X \ar[d]^f \\
+V \ar[r]^{j'} & Y
+}
+$$
+be a commutative diagram of $\textit{FTS}_S$ where $j$ and $j'$ are
+open immersions. Then $j^* \circ f^! = g^! \circ (j')^*$ as functors
+$D^+_\QCoh(\mathcal{O}_Y) \to D^+(\mathcal{O}_U)$.
+\end{lemma}
+
+\begin{proof}
+Let $h = f \circ j = j' \circ g$. By
+Lemma \ref{lemma-upper-shriek-composition} we have
+$h^! = j^! \circ f^! = g^! \circ (j')^!$. By
+Lemma \ref{lemma-shriek-open-immersion}
+we have $j^! = j^*$ and $(j')^! = (j')^*$.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-shriek-affine-line}
 In Situation \ref{situation-shriek} let $Y$ be an object of $\textit{FTS}_S$
 and let $f : X = \mathbf{A}^1_Y \to Y$ be
@@ -7507,27 +7529,33 @@ $D^b_{\textit{Coh}}(\mathcal{O}_X)$. Then we obtain
 a commutative diagram
 $$
 \xymatrix{
+\ldots \ar[r] &
 \colim \Hom_X(K_n, L) \ar[r] \ar[d] &
 \colim \Hom_X(K_n, M) \ar[r] \ar[d] &
-\colim \Hom_X(K_n, N) \ar[d] \\
+\colim \Hom_X(K_n, N) \ar[r] \ar[d] &
+\ldots \\
+\ldots \ar[r] &
 \Hom_U(K, L|_U) \ar[r] &
 \Hom_U(K, M|_U) \ar[r] &
-\Hom_U(K, N|_U)
+\Hom_U(K, N|_U) \ar[r] &
+\ldots
 }
 $$
-whose rows (which are long exact; not just 3 terms)
-are exact by Derived Categories, Lemma
+whose rows are exact by Derived Categories, Lemma
 \ref{derived-lemma-representable-homological} and
 Algebra, Lemma \ref{algebra-lemma-directed-colimit-exact}.
-Hence if the statement of the lemma holds for $L$ and $N$,
-then it holds for $M$. Thus, using the distinguished triangles
+Hence if the statement of the lemma holds for
+$N[-1]$, $L$, $N$, and $L[1]$ then it holds for $M$ by the 5-lemma.
+Thus, using the distinguished triangles
 for the canonical truncations of $L$ (see Derived Categories, Remark
 \ref{derived-remark-truncation-distinguished-triangle})
 we reduce to the case that $L$ has only one nonzero cohomology sheaf.
 
 \medskip\noindent
-Choose $\mathcal{F}^\bullet$ and $\mathcal{I} \subset \mathcal{O}_X$
-such that $K_n = \mathcal{I}^n\mathcal{F}^\bullet$.
+Choose a bounded complex $\mathcal{F}^\bullet$ of coherent
+$\mathcal{O}_X$-modules and a quasi-coherent ideal
+$\mathcal{I} \subset \mathcal{O}_X$ cutting out $X \setminus U$
+such that $K_n$ is represented by $\mathcal{I}^n\mathcal{F}^\bullet$.
 Using ``stupid'' truncations we obtain compatible termwise split short
 exact sequences of complexes
 $$
@@ -7652,6 +7680,20 @@ such that $\mathcal{I}^l\mathcal{F} \subset \mathcal{I}^m\Im(\varphi)$, see
 Cohomology of Schemes, Lemma \ref{coherent-lemma-power-ideal-kills-sheaf}.
 Taking the image of $\xi_m$ in
 $\Ext^i_X(\mathcal{I}^l\mathcal{F}, \mathcal{G})$ we win.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-lift-map-plus}
+The result of Lemma \ref{lemma-lift-map} holds even for
+$L \in D^+_{\textit{Coh}}(\mathcal{O}_X)$.
+\end{lemma}
+
+\begin{proof}
+Namely, if $(K_n)$ is a Deligne system then there exists a
+$b \in \mathbf{Z}$ such that $H^i(K_n) = 0$ for $i > b$.
+Then $\Hom(K_n, L) = \Hom(K_n, \tau_{\leq b}L)$ and
+$\Hom(K, L) = \Hom(K, \tau_{\leq b}L)$. Hence using
+the result of the lemma for $\tau_{\leq b}L$ we win.
 \end{proof}
 
 \begin{lemma}
@@ -7978,6 +8020,440 @@ Hence the pro-systems $(K_n)$ and $(K'_n)$ are
 pro-isomorphic by
 Categories, Remark \ref{categories-remark-pro-category-copresheaves}.
 \end{proof}
+
+
+
+
+
+
+
+
+
+\section{Preliminaries to compactly supported cohomology}
+\label{section-preliminaries-compactly-supported}
+
+\noindent
+In Situation \ref{situation-shriek} let $f : X \to Y$ be a morphism
+in the category $\textit{FTS}_S$. Using the constructions in the
+previous section, we will construct a functor
+$$
+Rf_! :
+D^b_{\textit{Coh}}(\mathcal{O}_X)
+\longrightarrow
+\text{Pro-}D^b_{\textit{Coh}}(\mathcal{O}_Y)
+$$
+which reduces to the functor of Remark \ref{remark-extension-by-zero}
+if $f$ is an open immersion and in general is constructed using a
+compactification of $f$. Before we do this, we need the following lemmas
+to prove our construction is well defined.
+
+\begin{lemma}
+\label{lemma-well-defined-pre}
+Let $f : X \to Y$ be a proper morphism of Noetherian schemes.
+Let $V \subset Y$ be an open subscheme and set $U = f^{-1}(V)$.
+Picture
+$$
+\xymatrix{
+U \ar[r]_j \ar[d]_g & X \ar[d]^f \\
+V \ar[r]^{j'} & Y
+}
+$$
+Then we have a canonical isomorphism $Rj'_! \circ Rg_* \to Rf_* \circ Rj_!$
+of functors $D^b_{\textit{Coh}}(\mathcal{O}_U) \to
+\text{Pro-}D^b_{\textit{Coh}}(\mathcal{O}_Y)$ where
+$Rj_!$ and $Rj'_!$ are as in Remark \ref{remark-extension-by-zero}.
+\end{lemma}
+
+\begin{proof}[First proof]
+Let $K$ be an object of $D^b_{\textit{Coh}}(\mathcal{O}_U)$. Let $(K_n)$
+be a Deligne system for $U \to X$ whose restriction to $U$ is constant
+with value $K$. Of course this means that $(K_n)$ represents $Rj_!K$
+in $\text{Pro-}D^b_{\textit{Coh}}(\mathcal{O}_X)$. Observe that
+both $Rj'_!Rg_*K$ and $Rf_*Rj_!K$ restrict to the constant pro-object with
+value $Rg_*K$ on $V$. This is immediate for the first one and for the second
+one it follows from the fact that $(Rf_*K_n)|_V = Rg_*(K_n|_U) = Rg_*K$.
+By the uniqueness of Deligne systems in Lemma \ref{lemma-extension-by-zero}
+it suffices to show that $(Rf_*K_n)$ is pro-isomorphic to a
+Deligne system. The lemma referenced will also show that the
+isomorphism we obtain is functorial.
+
+\medskip\noindent
+Proof that $(Rf_*K_n)$ is pro-isomorphic to a Deligne system.
+First, we observe that the question is independent of the choice
+of the Deligne system $(K_n)$ corresponding to $K$ (by the aforementioned
+uniqueness). By Lemmas \ref{lemma-extension-by-zero-triangle} and
+\ref{lemma-deligne-system-2-out-of-3}
+if we have a distinguished triangle
+$$
+K \to L \to M \to K[1]
+$$
+in $D^b_{\textit{Coh}}(\mathcal{O}_U)$ and the result holds for
+$K$ and $M$, then the result holds for $L$. Using the distinguished
+triangles of canonical truncations (Derived Categories, Remark
+\ref{derived-remark-truncation-distinguished-triangle})
+we reduce to the problem studied in the next paragraph.
+
+\medskip\noindent
+Let $\mathcal{F}$ be a coherent $\mathcal{O}_X$-module.
+Let $\mathcal{J} \subset \mathcal{O}_Y$ be a quasi-coherent
+sheaf of ideals cutting out $Y \setminus V$. Denote
+$\mathcal{J}^n\mathcal{F}$ the image of
+$f^*\mathcal{J}^n \otimes \mathcal{F} \to \mathcal{F}$.
+We have to show that $(Rf_*(\mathcal{J}^n\mathcal{F}))$
+is a Deligne system. By Lemma \ref{lemma-characterize-extension-by-zero}
+the question is local on $Y$. Thus we may assume $Y = \Spec(A)$ is affine
+and $\mathcal{J}$ corresponds to an ideal $I \subset A$. By
+Lemma \ref{lemma-characterize-extension-by-zero-algebra}
+it suffices to show that the inverse system of cohomology modules
+$(H^p(X, I^n\mathcal{F}))$ is pro-isomorphic to the inverse system
+$(I^n M)$ for some finite $A$-module $M$.
+This is shown in Cohomology of Schemes, Lemma
+\ref{coherent-lemma-cohomology-powers-ideal-application}.
+\end{proof}
+
+\begin{proof}[Second proof]
+Let $K$ be an object of $D^b_{\textit{Coh}}(\mathcal{O}_U)$.
+Let $L$ be an object of $D^b_{\textit{Coh}}(\mathcal{O}_Y)$.
+We will construct a bijection
+$$
+\Hom_{\text{Pro-}D^b_{\textit{Coh}}(\mathcal{O}_Y)}(Rj'_!Rg_*K, L)
+\longrightarrow
+\Hom_{\text{Pro-}D^b_{\textit{Coh}}(\mathcal{O}_Y)}(Rf_*Rj_!K, L)
+$$
+functorial in $K$ and $L$. Fixing $K$ this will determine an isomorphism
+of pro-objects
+$Rf_*Rj_!K \to Rj'_!Rg_*K$
+by Categories, Remark \ref{categories-remark-pro-category-copresheaves}
+and varying $K$ we obtain that this determines
+an isomorphism of functors. To actually produce the isomorphism we
+use the sequence of functorial equalities
+\begin{align*}
+\Hom_{\text{Pro-}D^b_{\textit{Coh}}(\mathcal{O}_Y)}(Rj'_!Rg_*K, L)
+& =
+\Hom_V(Rg_*K, L|_V) \\
+& =
+\Hom_U(K, g^!(L|_V)) \\
+& =
+\Hom_U(K, f^!L|_U)) \\
+& =
+\Hom_{\text{Pro-}D^b_{\textit{Coh}}(\mathcal{O}_X)}(Rj_!K, f^!L) \\
+& =
+\Hom_{\text{Pro-}D^b_{\textit{Coh}}(\mathcal{O}_Y)}(Rf_*Rj_!K, L)
+\end{align*}
+The first equality is true by Lemma \ref{lemma-lift-map}.
+The second equality is true because $g$ is proper (as the base change
+of $f$ to $V$) and hence $g^!$ is the right adjoint of pushforward by
+construction, see Section \ref{section-upper-shriek}.
+The third equality holds as $g^!(L|_V) = f^!L|_U$ by
+Lemma \ref{lemma-restrict-before-or-after}.
+Since $f^!L$ is in $D^+_{\textit{Coh}}(\mathcal{O}_X)$ by
+Lemma \ref{lemma-shriek-coherent} the fourth equality follows from 
+Lemma \ref{lemma-lift-map-plus}. The fifth equality holds again
+because $f^!$ is the right adjoint to $Rf_*$ as $f$ is proper.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-well-defined}
+Let $j : U \to X$ be an open immersion of Noetherian schemes.
+Let $j' : U \to X'$ be a compactification of $U$ over $X$ (see proof)
+and denote $f : X' \to X$ the structure morphism.
+Then we have a canonical isomorphism $Rj_! \to Rf_* \circ R(j')_!$
+of functors $D^b_{\textit{Coh}}(\mathcal{O}_U) \to
+\text{Pro-}D^b_{\textit{Coh}}(\mathcal{O}_X)$ where
+$Rj_!$ and $Rj'_!$ are as in Remark \ref{remark-extension-by-zero}.
+\end{lemma}
+
+\begin{proof}
+The fact that $X'$ is a compactification of $U$ over $X$ means
+precisely that $f : X' \to X$ is proper, that $j'$ is an open immersion,
+and $j = f \circ j'$. See
+More on Flatness, Section \ref{flat-section-compactify}.
+If $j'(U) = f^{-1}(j(U))$, then the lemma follows immediately from
+Lemma \ref{lemma-well-defined-pre}.
+If $j'(U) \not = f^{-1}(j(U))$, then denote $X'' \subset X'$ the
+scheme theoretic closure of $j' : U \to X'$ and denote
+$j'' : U \to X''$ the corresponding open immersion.
+Picture
+$$
+\xymatrix{
+& & X'' \ar[d]^{f'} \\
+& & X' \ar[d]^f \\
+U \ar[rr]^j \ar[rru]^{j'} \ar[rruu]^{j''} & & X
+}
+$$
+By
+More on Flatness, Lemma \ref{flat-lemma-compactifications-cofiltered} part (c)
+and the discussion above we have isomorphisms
+$Rf'_* \circ Rj''_! = Rj'_!$ and $R(f \circ f')_* \circ Rj''_! = Rj_!$.
+Since $R(f \circ f')_* = Rf_* \circ Rf'_*$ we conclude.
+\end{proof}
+
+
+
+
+
+
+\section{Compactly supported cohomology for coherent modules}
+\label{section-compactly-supported}
+
+\noindent
+In Situation \ref{situation-shriek} given a morphism $f : X \to Y$
+in $\textit{FTS}_S$, we will define a functor
+$$
+Rf_! : D^b_{\textit{Coh}}(\mathcal{O}_X)
+\longrightarrow
+\text{Pro-}D^b_{\textit{Coh}}(\mathcal{O}_Y)
+$$
+Namely, we choose a compactification $j : X \to \overline{X}$ over $Y$
+which is possible by More on Flatness, Theorem \ref{flat-theorem-nagata} and
+Lemma \ref{flat-lemma-compactifyable}. Denote
+$\overline{f} : \overline{X} \to Y$ the structure morphism. Then we set
+$$
+Rf_!K  = R\overline{f}_* Rj_! K
+$$
+for $K \in D^b_{\textit{Coh}}(\mathcal{O}_X)$ where $Rj_!$ is
+as in Remark \ref{remark-extension-by-zero}.
+
+\begin{lemma}
+\label{lemma-lower-shriek-well-defined}
+The functor $Rf_!$ is, up to isomorphism, independent
+of the choice of the compactification.
+\end{lemma}
+
+\noindent
+In fact, the functor $Rf_!$ will be characterized as a ``left adjoint''
+to $f^!$ which will determine it up to unique isomorphism.
+
+\begin{proof}
+Consider the category of compactifications of $X$ over $Y$, which is
+cofiltered according to More on Flatness, Theorem \ref{flat-theorem-nagata} and
+Lemmas \ref{flat-lemma-compactifications-cofiltered} and
+\ref{flat-lemma-compactifyable}.
+To every choice of a compactification
+$$
+j : X \to \overline{X},\quad \overline{f} : \overline{X} \to Y
+$$
+the construction above associates the functor $R\overline{f}_* \circ Rj_!$.
+Suppose given a morphism $g : \overline{X}_1 \to \overline{X}_2$
+between compactifications $j_i : X \to \overline{X}_i$ over $Y$.
+Then we get an isomorphism
+$$
+R\overline{f}_{2, *} \circ Rj_{2, !} =
+R\overline{f}_{2, *} \circ Rg_* \circ j_{1, !} =
+R\overline{f}_{1, *} \circ Rj_{1, !}
+$$
+using Lemma \ref{lemma-well-defined} in the first equality. In this way
+we see our functor is independent of the choice of compactification
+up to isomorphism.
+\end{proof}
+
+\begin{proposition}
+\label{proposition-duality-compactly-supported}
+In Situation \ref{situation-shriek} let $f : X \to Y$ be a morphism of
+$\textit{FTS}_S$. Then the functors $Rf_!$ and $f^!$ are adjoint in
+the following sense: for all $K \in D^b_{\textit{Coh}}(\mathcal{O}_X)$
+and $L \in D^+_{\textit{Coh}}(\mathcal{O}_Y)$ we have
+$$
+\Hom_X(K, f^!L) =
+\Hom_{\text{Pro-}D^+_{\textit{Coh}}(\mathcal{O}_Y)}(Rf_!K, L)
+$$
+bifunctorially in $K$ and $L$.
+\end{proposition}
+
+\begin{proof}
+Choose a compactification $j : X \to \overline{X}$ over $Y$ and
+denote $\overline{f} : \overline{X} \to Y$ the structure morphism.
+Then we have
+\begin{align*}
+\Hom_X(K, f^!L)
+& =
+\Hom_X(K, j^*\overline{f}{}^!L) \\
+& =
+\Hom_{\text{Pro-}D^+_{\textit{Coh}}(\mathcal{O}_{\overline{X}})}
+(Rj_!K, \overline{f}{}^!L) \\
+& =
+\Hom_{\text{Pro-}D^+_{\textit{Coh}}(\mathcal{O}_Y)}(Rf_*Rj_!K, L) \\
+& =
+\Hom_{\text{Pro-}D^+_{\textit{Coh}}(\mathcal{O}_Y)}(Rf_!K, L)
+\end{align*}
+The first equality follows immediately from the construction of $f^!$ in
+Section \ref{section-upper-shriek}.
+By Lemma \ref{lemma-shriek-coherent} we have $\overline{f}{}^!L$
+in $D^+_{\textit{Coh}}(\mathcal{O}_{\overline{X}})$ hence the second
+equality follows from Lemma \ref{lemma-lift-map-plus}.
+Since $\overline{f}$ is proper the functor $\overline{f}{}^!$
+is the right adjoint of pushforward by construction. This is
+why we have the third equality.
+The fourth equality holds because $Rf_! = Rf_* Rj_!$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-compactly-supported-triangle}
+In Situation \ref{situation-shriek} let $f : X \to Y$ be a morphism of
+$\textit{FTS}_S$. Let
+$$
+K \to L \to M \to K[1]
+$$
+be a distinguished triangle of $D^b_{\textit{Coh}}(\mathcal{O}_X)$.
+Then there exists an inverse system of distinguished triangles
+$$
+K_n \to L_n \to M_n \to K_n[1]
+$$
+in $D^b_{\textit{Coh}}(\mathcal{O}_Y)$ such that the pro-systems
+$(K_n)$, $(L_n)$, and $(M_n)$ give $Rf_!K$, $Rf_!L$, and $Rf_!M$.
+\end{lemma}
+
+\begin{proof}
+Choose a compactification $j : X \to \overline{X}$ over $Y$ and
+denote $\overline{f} : \overline{X} \to Y$ the structure morphism.
+Choose an inverse system of distinguished triangles
+$$
+\overline{K}_n \to \overline{L}_n \to \overline{M}_n \to \overline{K}_n[1]
+$$
+in $D^b_{\textit{Coh}}(\mathcal{O}_{\overline{X}})$ as in
+Lemma \ref{lemma-extension-by-zero-triangle} corresponding to the
+open immersion $j$ and the given distinguished triangle. Take
+$K_n = R\overline{f}_*\overline{K}_n$
+and similarly for $L_n$ and $M_n$. This works by the very definition
+of $Rf_!$.
+\end{proof}
+
+\begin{remark}
+\label{remark-compose-inverse-systems}
+Let $\mathcal{C}$ be a category. Suppose given an inverse system
+$$
+\ldots \xrightarrow{\alpha_4} (M_{3, n}) \xrightarrow{\alpha_3} (M_{2, n})
+\xrightarrow{\alpha_2} (M_{1, n})
+$$
+of inverse systems in the category of pro-objects of $\mathcal{C}$.
+In other words, the arrows $\alpha_i$ are morphisms of pro-objects. By
+Categories, Example \ref{categories-example-pro-morphism-inverse-systems}
+we can represent each $\alpha_i$ by a pair $(m_i, a_i)$ where
+$m_i : \mathbf{N} \to \mathbf{N}$ is an increasing function and
+$a_{i, n} : M_{i, m_i(n)} \to M_{i - 1, n}$ is a morphism of $\mathcal{C}$
+making the diagrams
+$$
+\xymatrix{
+\ldots \ar[r] &
+M_{i, m_i(3)} \ar[d]^{a_{i, 3}} \ar[r] &
+M_{i, m_i(2)} \ar[d]^{a_{i, 2}} \ar[r] &
+M_{i, m_i(1)} \ar[d]^{a_{i, 1}} \\
+\ldots \ar[r] &
+M_{i - 1, 3} \ar[r] &
+M_{i - 1, 2} \ar[r] &
+M_{i - 1, 1}
+}
+$$
+commute. By replacing $m_i(n)$ by $\max(n, m_i(n))$ and adjusting
+the morphisms $a_i(n)$ accordingly (as in the example referenced)
+we may assume that $m_i(n) \geq n$. In this situation consider the
+inverse system
+$$
+\ldots \to
+M_{4, m_4(m_3(m_2(4)))} \to
+M_{3, m_3(m_2(3))} \to
+M_{2, m_2(2)} \to
+M_{1, 1}
+$$
+with general term
+$$
+M_k = M_{k, m_k(m_{k - 1}(\ldots (m_2(k))\ldots))}
+$$
+For any object $N$ of $\mathcal{C}$ we have
+$$
+\colim_i \colim_n \Mor_\mathcal{C}(M_{i, n}, N) =
+\colim_k \Mor_\mathcal{C}(M_k, N) 
+$$
+We omit the details. In other words, we see that the inverse system $(M_k)$
+has the property
+$$
+\colim_i \Mor_{\text{Pro-}\mathcal{C}}((M_{i, n}), N) =
+\Mor_{\text{Pro-}\mathcal{C}}((M_k), N)
+$$
+This property determines the inverse system $(M_k)$ up to pro-isomorphism
+by the discussion in
+Categories, Remark \ref{categories-remark-pro-category-copresheaves}.
+In this way we can turn certain inverse systems in $\text{Pro-}\mathcal{C}$
+into pro-objects with countable index categories.
+\end{remark}
+
+\begin{remark}
+\label{remark-composition-lower-shriek}
+In Situation \ref{situation-shriek} let $f : X \to Y$ and $g : Y \to Z$
+be composable morphisms of $\textit{FTS}_S$. Let us define the composition
+$$
+Rg_! \circ Rf_! :
+D^b_{\textit{Coh}}(\mathcal{O}_X)
+\longrightarrow
+\text{Pro-}D^b_{\textit{Coh}}(\mathcal{O}_Z)
+$$
+Namely, by the very construction of $Rf_!$
+for $K$ in $D^b_{\textit{Coh}}(\mathcal{O}_X)$
+the output $Rf_!K$ is the pro-isomorphism class
+of an inverse system $(M_n)$ in $D^b_{\textit{Coh}}(\mathcal{O}_Y)$.
+Then, since $Rg_!$ is constructed similarly, we see that
+$$
+\ldots \to Rg_!M_3 \to Rg_!M_2 \to Rg_!M_1
+$$
+is an inverse system of $\text{Pro-}D^b_{\textit{Coh}}(\mathcal{O}_Y)$.
+By the discussion in Remark \ref{remark-compose-inverse-systems}
+there is a unique pro-isomorphism class, which we will denote
+$Rg_! Rf_! K$, of inverse systems in $D^b_{\textit{Coh}}(\mathcal{O}_Z)$
+such that
+$$
+\Hom_{\text{Pro-}D^b_{\textit{Coh}}(\mathcal{O}_Z)}(Rg_!Rf_!K, L) =
+\colim_n \Hom_{\text{Pro-}D^b_{\textit{Coh}}(\mathcal{O}_Z)}(Rg_!M_n, L)
+$$
+We omit the discussion necessary to see that this construction
+is functorial in $K$ as it will immediately follow from the next lemma.
+\end{remark}
+
+\begin{lemma}
+\label{lemma-composition-lower-shriek}
+In Situation \ref{situation-shriek} let $f : X \to Y$ and $g : Y \to Z$
+be composable morphisms of $\textit{FTS}_S$. With notation as in
+Remark \ref{remark-composition-lower-shriek} we have
+$Rg_! \circ Rf_! = R(g \circ f)_!$.
+\end{lemma}
+
+\begin{proof}
+By the discussion in
+Categories, Remark \ref{categories-remark-pro-category-copresheaves}
+it suffices to show that we obtain the same answer if we compute
+$\Hom$ into $L$ in $D^b_{\textit{Coh}}(\mathcal{O}_Z)$. To do this
+we compute, using the notation in
+Remark \ref{remark-composition-lower-shriek}, as follows
+\begin{align*}
+\Hom_Z(Rg_!Rf_!K, L)
+& =
+\colim_n \Hom_Z(Rg_!M_n, L) \\
+& =
+\colim_n \Hom_Y(M_n, g^!L) \\
+& =
+\Hom_Y(Rf_!K, g^!L) \\
+& =
+\Hom_X(K, f^!g^!L) \\
+& =
+\Hom_X(K, (g \circ f)^!L) \\
+& =
+\Hom_Z(R(g \circ f)_!K, L)
+\end{align*}
+The first equality is the definition of $Rg_!Rf_!K$. The second
+equality is Proposition \ref{proposition-duality-compactly-supported}
+for $g$.
+The third equality is the fact that $Rf_!K$ is given by $(M_n)$.
+The fourth equality is
+Proposition \ref{proposition-duality-compactly-supported} for $f$.
+The fifth equality is Lemma \ref{lemma-upper-shriek-composition}.
+The sixth is 
+Proposition \ref{proposition-duality-compactly-supported} for $g \circ f$.
+\end{proof}
+
+
+
+
+
+
 
 
 
