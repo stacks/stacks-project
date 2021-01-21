@@ -383,21 +383,20 @@ for every quasi-coherent $\mathcal{O}_{X \setminus Y}$-module $\mathcal{F}$.
 \begin{proof}
 Observe that $R\Gamma_Y(-)$ has finite cohomological dimension by
 Dualizing Complexes, Lemma \ref{dualizing-lemma-local-cohomology-adjoint}
-for example. Hence we can choose a large integer $N$ such that
-$H^i_Y(M) = 0$ for all $A$-modules $M$.
+for example. Hence there exists an integer $i_0$ such that
+$H^i_Y(M) = 0$ for all $A$-modules $M$ and $i \geq i_0$.
 
 \medskip\noindent
 Let us prove that (1) and (2) are equivalent. It is immediate that
-(2) implies (1). Assume (1). Choose any $A$-module $M$ and fit it into
+(2) implies (1). Assume (1). By descending induction on $i > d$
+we will show that $H^i_Y(M) = 0$ for all $A$-modules $M$.
+For $i \geq i_0$ we have seen this above. To do the induction step,
+let $i_0 > i > d$. Choose any $A$-module $M$ and fit it into
 a short exact sequence $0 \to N \to F \to M \to 0$ where $F$ is a
 free $A$-module. Since $R\Gamma_Y$ is a right adjoint, we see that
 $H^i_Y(-)$ commutes with direct sums. Hence $H^i_Y(F) = 0$
-for $i > d$ by assumption (1). Then we see that
-$H^i_Y(M) = H^{i + 1}_Y(N)$ for all $i > d$.
-Thus if we've shown the vanishing of $H^j_Y(N)$ for some
-$j > d + 1$ and all $A$-modules $N$, then we obtain the
-vanishing of $H^{j - 1}_Y(M)$ for all $A$-modules $M$.
-By induction we find that (2) is true.
+as $i > d$ by assumption (1). Then we see that
+$H^i_Y(M) = H^{i + 1}_Y(N) = 0$ as desired.
 
 \medskip\noindent
 Assume $d = -1$ and (2) holds. Then $0 = H^0_Y(A/I) = A/I \Rightarrow A = I
@@ -673,17 +672,21 @@ $\text{Tor}^A_i(M, A/I^n) \to \text{Tor}^A_i(M, A/I^{n - c})$
 is zero for all $n \geq c$. In this section, we discuss
 some results which show that one sometimes can choose
 a constant $c$ which works for all $A$-modules $M$ simultaneously
-(and for a range of indices $i$). In Remark \ref{remark-strict-pro-isomorphism}
-we will apply this to show that various pro-systems
-related to derived completion are (or are not) strictly isomorphic.
+(and for a range of indices $i$).
 This material is related to uniform Artin-Rees as discussed in
 \cite{Huneke-uniform} and \cite{AHS}.
 
+\medskip\noindent
+In Remark \ref{remark-strict-pro-isomorphism} we will apply this to show that
+various pro-systems related to derived completion are (or are not)
+strictly pro-isomorphic.
+
 \begin{lemma}
 \label{lemma-map-tor-1-zero}
-Let $A$ be a Noetherian ring. Let $M \to M'$ be a map of finite $A$-modules
-such that $\text{Tor}_1^A(M, N) \to \text{Tor}_1^A(M', N)$ is zero for all
-$A$-modules $N$. Then $M \to M'$ factors through a finite free $A$-module.
+Let $R$ be a ring. Let $M \to M'$ be a map of $R$-modules with
+$M$ of finite presentation
+such that $\text{Tor}_1^R(M, N) \to \text{Tor}_1^R(M', N)$ is zero for all
+$R$-modules $N$. Then $M \to M'$ factors through a free $R$-module.
 \end{lemma}
 
 \begin{proof}
@@ -692,12 +695,12 @@ $$
 \xymatrix{
 0 \ar[r] &
 K \ar[r] \ar[d] &
-A^{\oplus r} \ar[r] \ar[d] &
+R^{\oplus r} \ar[r] \ar[d] &
 M \ar[r] \ar[d] &
 0 \\
 0 \ar[r] &
 K' \ar[r] &
-A^{\oplus r'} \ar[r] &
+\bigoplus_{i \in I} R \ar[r] &
 M' \ar[r] &
 0
 }
@@ -710,12 +713,13 @@ We can factor this map through the short exact sequence
 \end{equation}
 which is the pushout of the first short exact sequence by $K \to K'$.
 By a diagram chase we see that the assumption in the lemma
-implies that the boundary map $\text{Tor}_1^A(M, N) \to K' \otimes_A N$
+implies that the boundary map $\text{Tor}_1^R(M, N) \to K' \otimes_R N$
 induced by (\ref{equation-pushout}) is zero, i.e., the sequence
 (\ref{equation-pushout}) is universally exact. This implies by
-Algebra, Lemma \ref{algebra-lemma-flat-universally-injective}
-that (\ref{equation-pushout}) is split. Hence the map $M \to M'$
-factors through $A^{\oplus r'}$ and we win.
+Algebra, Lemma \ref{algebra-lemma-universally-exact-split}
+that (\ref{equation-pushout}) is split (this is where we use that
+$M$ is of finite presentation). Hence the map $M \to M'$
+factors through $\bigoplus_{i \in I} R$ and we win.
 \end{proof}
 
 \begin{lemma}
@@ -746,8 +750,9 @@ $$
 (1) \Leftrightarrow (2) \Leftrightarrow (3) \Leftrightarrow (4)
 \Leftrightarrow (5) \Rightarrow (6) \Leftrightarrow (7)
 $$
-If $R$ is Noetherian and $M$ and $M'$ are finite $R$-modules, then
-all conditions are equivalent.
+If $M$ is $(-e - 1)$-pseudo-coherent (for example if $R$ is Noetherian
+and $M$ is a finite $R$-module), then all conditions
+are equivalent.
 \end{lemma}
 
 \begin{proof}
@@ -800,23 +805,28 @@ The equivalence of (6) and (7) follows from dimension shifting;
 we omit the details.
 
 \medskip\noindent
-Assume $R$ is Noetherian and $M$ and $M'$ are finite
-$R$-modules. We will show that (7) implies (4) which
+Assume $M$ is $(-e - 1)$-pseudo-coherent. (The parenthetical statement
+in the lemma follows from More on Algebra, Lemma
+\ref{more-algebra-lemma-Noetherian-pseudo-coherent}.)
+We will show that (7) implies (4) which
 finishes the proof. We will use induction on $e$.
-The base case is $e = 0$. This case follows immediately
-from Lemma \ref{lemma-map-tor-1-zero} as a map which factors
-through a finite free module induces the zero map on all higher $\Ext$s.
+The base case is $e = 0$. Then $M$ is of finite presentation by
+More on Algebra, Lemma \ref{more-algebra-lemma-n-pseudo-module}
+and we conclude from Lemma \ref{lemma-map-tor-1-zero} that
+$M \to M'$ factors through a free module. Of course if $M \to M'$
+factors through a free module, then $\Ext^i_R(M', N) \to \Ext^i_R(M, N)$
+is zero for all $i > 0$ as desired.
 Assume $e > 0$. We may choose a map of short exact sequences
 $$
 \xymatrix{
 0 \ar[r] &
 K \ar[r] \ar[d] &
-A^{\oplus r} \ar[r] \ar[d] &
+R^{\oplus r} \ar[r] \ar[d] &
 M \ar[r] \ar[d] &
 0 \\
 0 \ar[r] &
 K' \ar[r] &
-A^{\oplus r'} \ar[r] &
+\bigoplus_{i \in I} R \ar[r] &
 M' \ar[r] &
 0
 }
@@ -826,24 +836,26 @@ $\text{Tor}_{i + 1}^R(M, N) = \text{Tor}^R_i(K, N)$
 and $\Ext^{i + 1}_R(M, N) = \Ext^i_R(K, N)$ for $i \geq 1$
 and all $R$-modules $N$ and similarly for $M', K'$.
 Hence we see that $\text{Tor}_e^R(K, N) \to \text{Tor}_e^R(K', N)$
-is zero for all $R$-modules $N$. By induction we conclude that
+is zero for all $R$-modules $N$. By More on Algebra, Lemma
+\ref{more-algebra-lemma-cone-pseudo-coherent} we see that $K$
+is $(-e)$-pseudo-coherent. By induction we conclude that
 $\Ext^e(K', N) \to \Ext^e(K, N)$ is zero for all $R$-modules
 $N$, which gives what we want.
 \end{proof}
 
 \begin{lemma}
 \label{lemma-cd-sequence-Koszul}
-Let $I$ be an ideal of a Noetherian ring $A$. Set $d = \text{cd}(A, I)$.
+Let $I$ be an ideal of a Noetherian ring $A$.
 For all $n \geq 1$ there exists an $m > n$ such that the map
-$A/I^m \to A/I^n$ satisfies all the equivalent conditions of
-Lemma \ref{lemma-characterize-vanishing-tor-ext-above-e} with $e = d$.
+$A/I^m \to A/I^n$ satisfies the equivalent conditions of
+Lemma \ref{lemma-characterize-vanishing-tor-ext-above-e} with $e = cd(A, I)$.
 \end{lemma}
 
 \begin{proof}
-Let $\xi \in \Ext^{d + 1}_A(A/I^n, N)$ be the element constructed in
+Let $\xi \in \Ext^{e + 1}_A(A/I^n, N)$ be the element constructed in
 Lemma \ref{lemma-characterize-vanishing-tor-ext-above-e} part (5).
-Since $\text{cd}(A, I) = d$ we have
-$0 = H^{d + 1}_Z(N) = H^{d + 1}_I(N) = \colim \Ext^{d + 1}(A/I^m, N)$.
+Since $e = \text{cd}(A, I)$ we have
+$0 = H^{e + 1}_Z(N) = H^{e + 1}_I(N) = \colim \Ext^{e + 1}(A/I^m, N)$.
 Here we have used Dualizing Complexes, Lemmas
 \ref{dualizing-lemma-local-cohomology-noetherian} and
 \ref{dualizing-lemma-local-cohomology-ext}.
@@ -900,6 +912,56 @@ short exact sequences this implies the result holds for $i$ with
 constant $c + c'$.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-annihilates-affine}
+Let $I = (a_1, \ldots, a_t)$ be an ideal of a Noetherian ring $A$.
+Set $a = a_1$ and denote $B = A[\frac{I}{a}]$ the affine blowup algebra.
+There exists a $c > 0$ such that $\text{Tor}_i^A(B, M)$ is annihilated
+by $I^c$ for all $A$-modules $M$ and $i \geq t$.
+\end{lemma}
+
+\begin{proof}
+Recall that $B$ is the quotient of
+$A[x_2, \ldots, x_t]/(a_1x_2 - a_2, \ldots, a_1x_t - a_t)$
+by its $a_1$-torsion, see
+Algebra, Lemma \ref{algebra-lemma-affine-blowup-quotient-description}. Let
+$$
+B_\bullet = \text{Koszul complex on }a_1x_2 - a_2, \ldots, a_1x_t - a_t
+\text{ over }A[x_2, \ldots, x_t]
+$$
+viewed as a chain complex sitting in degrees $(t - 1), \ldots, 0$.
+The complex $B_\bullet[1/a_1]$ is isomorphic to the Koszul complex
+on $x_2 - a_2/a_1, \ldots, x_t - a_t/a_1$ which is a regular sequence
+in $A[1/a_1][x_2, \ldots, x_t]$. Since regular sequences are
+Koszul regular, we conclude that the augmentation
+$$
+\epsilon : B_\bullet \longrightarrow B
+$$
+is a quasi-isomorphism after inverting $a_1$. Since the homology modules
+of the cone $C_\bullet$ on $\epsilon$ are finite $A[x_2, \ldots, x_n]$-modules
+and since $C_\bullet$ is bounded,
+we conclude that there exists a $c \geq 0$ such that $a_1^c$
+annihilates all of these. By
+Derived Categories, Lemma \ref{derived-lemma-trick-vanishing-composition}
+this implies that, after possibly replacing $c$ by a larger integer,
+that $a_1^c$ is zero on $C_\bullet$ in $D(A)$.
+The proof is finished once the reader contemplates
+the distinguished triangle
+$$
+B_\bullet \otimes_A^\mathbf{L} M \to
+B \otimes_A^\mathbf{L} M \to
+C_\bullet \otimes_A^\mathbf{L} M
+$$
+Namely, the first term is represented by $B_\bullet \otimes_A M$ which
+is sitting in homological degrees $(t - 1), \ldots, 0$
+in view of the fact that the terms in the Koszul complex $B_\bullet$
+are free (and hence flat) $A$-modules. Whence
+$\text{Tor}_i^A(B, M) = H_i(C_\bullet \otimes_A^\mathbf{L} M)$
+for $i > t - 1$ and this is annihilated by $a_1^c$.
+Since $a_1^cB = I^cB$ and since the tor module is a module
+over $B$ we conclude.
+\end{proof}
+
 \noindent
 For the rest of the discussion in this section we fix a Noetherian ring $A$
 and an ideal $I \subset A$. We denote
@@ -910,25 +972,32 @@ the blowing up of $\Spec(A)$ in the ideal $I$. In other words, $X$ is the
 $\text{Proj}$ of the Rees algebra $\bigoplus_{n \geq 0} I^n$.
 By Cohomology of Schemes, Lemmas \ref{coherent-lemma-coherent-on-proj} and
 \ref{coherent-lemma-recover-tail-graded-module}
-we can choose an integer $N(A, I)$ such that for all $q \geq N(A, I)$
+we can choose an integer $q(A, I) \geq 0$ such that for all $q \geq q(A, I)$
 we have $H^i(X, \mathcal{O}_X(q)) = 0$ for
 $1 \leq i \leq d$ and $H^0(X, \mathcal{O}_X(q)) = I^q$.
 
 \begin{lemma}
 \label{lemma-compute-tor-Iq}
-In the situation above, for $q \geq N(A, I)$ and any $A$-module $M$
-the complex
+In the situation above, for $q \geq q(A, I)$ and any $A$-module $M$ we have
 $$
-R\Gamma(X, Lp^*\widetilde{M}(q))
+R\Gamma(X, Lp^*\widetilde{M}(q)) \cong M \otimes_A^\mathbf{L} I^q
 $$
-computes $M \otimes_A^\mathbf{L} I^q$.
+in $D(A)$.
 \end{lemma}
 
 \begin{proof}
-Choose a free resolution $F_\bullet \to M$. Then $Lp^*\widetilde{M}$
-is given by the complex with terms $p^*\widetilde{F}_i$. By our choice
-of $N(A, I)$ we have $R\Gamma(X, p^*\widetilde{F}_i(q)) = I^qF_i$.
-The result follows; details omitted.
+Choose a free resolution $F_\bullet \to M$. Then $\widetilde{F}_\bullet$
+is a flat resolution of $\widetilde{M}$. Hence $Lp^*\widetilde{M}$
+is given by the complex $p^*\widetilde{F}_\bullet$. Thus
+$Lp^*\widetilde{M}(q)$ is given by the complex $p^*\widetilde{F}_\bullet(q)$.
+Since $p^*\widetilde{F}_i(q)$ are right acyclic for $\Gamma(X, -)$ by
+our choice of $q \geq q(A, I)$ and since we have
+$\Gamma(X, p^*\widetilde{F}_i(q)) = I^qF_i$ by our choice of $q \geq q(A, I)$,
+we get that $R\Gamma(X, Lp^*\widetilde{M}(q))$ is given by the complex
+with terms $I^qF_i$ by Derived Categories of Schemes, Lemma
+\ref{perfect-lemma-acyclicity-lemma-global}.
+The result follows as the complex $I^qF_\bullet$ computes
+$M \otimes_A^\mathbf{L} I^q$ by definition.
 \end{proof}
 
 \begin{lemma}
@@ -936,33 +1005,25 @@ The result follows; details omitted.
 In the situation above, let $t$ be an upper bound on the number of
 generators for $I$. There exists an integer $c = c(A, I) \geq 0$
 such that for any $A$-module $M$ the cohomology sheaves
-$H^i(Lp^*\widetilde{M})$ are annihilated by $I^c$ for $i \leq t$.
+$H^j(Lp^*\widetilde{M})$ are annihilated by $I^c$ for $j \leq -t$.
 \end{lemma}
 
 \begin{proof}
 Say $I = (a_1, \ldots, a_t)$. The question is affine local on $X$.
-Let $B = A[\frac{I}{a}]$ be the affine blowup algebra where
-$a \in \{a_1, \ldots, a_t\}$. Then it suffices to prove that
+For $1 \leq i \leq t$ let $B_i = A[\frac{I}{a_i}]$ be the affine
+blowup algebra. Then $X$ has an affine open covering by
+the spectra of the rings $B_i$, see
+Divisors, Lemma \ref{divisors-lemma-blowing-up-affine}.
+By the description of derived pullback given in
+Derived Categories of Schemes, Lemma
+\ref{perfect-lemma-quasi-coherence-pullback}
+we conclude it suffices to prove that for each $i$ there exists a $c \geq 0$
+such that
 $$
-\text{Tor}_i^A(B, M)
+\text{Tor}_j^A(B_i, M)
 $$
-is annihilated byu $I^c$. To do this, after renumbering we may assume
-$a = a_1$. Recall that $B$ is the quotient of
-$A[x_2, \ldots, x_t]/(a_1x_2 - a_2, \ldots, a_1x_t - a_t)$
-by its $a_1$-torsion. Let
-$$
-B_\bullet = \text{Koszul complex on }a_1x_2 - a_2, \ldots, a_1x_t - a_t
-\text{ over }A[x_2, \ldots, x_t]
-$$
-sitting in cohomological degrees $-(t - 1), \ldots, 0$. The augmentation
-$$
-\epsilon : B_\bullet \longrightarrow B
-$$
-is a quasi-isomorphism after inverting $a_1$. Since everything is Noertherian
-we conclude that the cone on $\epsilon$ is annihilated by $a_1^c$ for some
-$c \geq 0$. Since the terms of $B_\bullet$ are flat $A$-modules we see
-that $B_\bullet \otimes_A M$ represents the derived tensor product.
-Hence we conclude. Details omitted.
+is annihilated by $I^c$ for $j \geq t$. This is
+Lemma \ref{lemma-annihilates-affine}.
 \end{proof}
 
 \begin{lemma}
@@ -971,18 +1032,43 @@ In the situation above, let $t$ be an upper bound on the number of
 generators for $I$. There exists an integer $c = c(A, I) \geq 0$
 such that for any $A$-module $M$ the tor modules
 $\text{Tor}_i^A(M, A/I^q)$ are annihilated by $I^c$ for $i > t$
-and all $q$.
+and all $q \geq 0$.
 \end{lemma}
 
 \begin{proof}
-Pick $c = dc(A, I)$ where $c(A, I)$ is as in Lemma \ref{lemma-annihilates}
-and $d$ is the maximal dimension of the fibres of $X \to \Spec(A)$.
-Then for $q \geq N(A, I)$ we conclude by Lemma \ref{lemma-compute-tor-Iq}
-and the Leray spectral sequence for $p : X \to \Spec(A)$ that
-$I^c$ annihilates $\text{Tor}_i^A(M, I^q)$ for $i \geq t$.
-Details omitted. This gives that $I^c$ annihilates
-$\text{Tor}_i^A(M, A/I^q)$ for $i > t$ and the same $q$.
-To get the result for all $q$, just replace $c$ by $\max(c, N(A, I))$.
+Let $q(A, I)$ be as above. For $q \geq q(A, I)$ we have
+$$
+R\Gamma(X, Lp^*\widetilde{M}(q)) = M \otimes_A^\mathbf{L} I^q
+$$
+by Lemma \ref{lemma-compute-tor-Iq}.
+We have a bounded and convergent spectral sequence
+$$
+H^a(X, H^b(Lp^*\widetilde{M}(q))) \Rightarrow
+\text{Tor}_{-a - b}^A(M, I^q)
+$$
+by Derived Categories of Schemes, Lemma \ref{perfect-lemma-spectral-sequence}.
+Let $d$ be an integer as in Cohomology of Schemes, Lemma
+\ref{coherent-lemma-vanishing-nr-affines-quasi-separated}
+(actually we can take $d = t$, see
+Cohomology of Schemes, Lemma \ref{coherent-lemma-vanishing-nr-affines}).
+Then we see that $H^{-i}(X, Lp^*\widetilde{M}(q)) = \text{Tor}_i^A(M, I^q)$
+has a finite filtration with at most $d$ steps whose graded are
+subquotients of the modules
+$$
+H^a(X, H^{- i - a}(Lp^*\widetilde{M})(q)),\quad
+a = 0, 1, \ldots, d - 1
+$$
+If $i \geq t$ then all of these modules are annihilated
+by $I^c$ where $c = c(A, I)$ is as in Lemma \ref{lemma-annihilates}
+because the cohomology sheaves $H^{- i - a}(Lp^*\widetilde{M})$
+are all annihilated by $I^c$ by the lemma. Hence we see that
+$\text{Tor}_i^A(M, I^q)$ is annihilated by $I^{dc}$ for
+$q \geq q(A, I)$ and $i \geq t$. Using the short exact sequence
+$0 \to I^q \to A \to A/I^q \to 0$ we find that
+$\text{Tor}_i(M, A/I^q)$ is annihilated by $I^{dc}$ for $q \geq q(A, I)$
+and $i > t$. We conclude that $I^m$ with $m = \max(dc, q(A, I) - 1)$
+annihilates $\text{Tor}_i^A(M, A/I^q)$ for all $q \geq 0$
+and $i > t$ as desired.
 \end{proof}
 
 \begin{lemma}
@@ -1022,7 +1108,8 @@ $(a_1^{c_1}, \ldots, a_t^{c_1}\}$ and hence by
 $I^{t(c_1 - 1) + 1}$. We conclude from
 Lemma \ref{lemma-maps-zero-fixed-torsion}
 that $H_t$ holds by taking $c = N$ to be the maximum of the integers
-$c(A, I, t(c_1 - 1) + 1, t + 1), \ldots, c(A, I, t(c_1 - 1) + 1, 2t + 1)$.
+$c(A, I, t(c_1 - 1) + 1, t + 1), \ldots, c(A, I, t(c_1 - 1) + 1, 2t + 1)$
+found in the lemma.
 
 \medskip\noindent
 Induction step. Say $0 \leq s < t$ we have $N, c$ as in $H_{s + 1}$.
@@ -1055,7 +1142,7 @@ module $\text{Tor}_i(M, A/I^q)$ is sandwiched between
 a quotient module of $\text{Tor}_i(M[a_i^{c_1}], A/I^q)$
 and a submodule of $\text{Tor}_{i + 1}(M/a_i^{c_1}M, A/I^q)$.
 Hence we conclude $H_s$ holds with $N$ replaced by $N + c$
-and $c$ replaced by $2c$. Details omitted.
+and $c$ replaced by $2c$. Some details omitted.
 \end{proof}
 
 \begin{proposition}
@@ -1075,6 +1162,16 @@ Immediate consequence of Lemmas
 \ref{lemma-tor-maps-vanish} and
 \ref{lemma-characterize-vanishing-tor-ext-above-e}.
 \end{proof}
+
+\begin{remark}
+\label{remark-better-bound}
+The paper \cite{AHS} shows, besides many other things, that if $A$ is local,
+then Proposition \ref{proposition-uniform-artin-rees} also holds
+with $e = t$ replaced by $e = \dim(A)$. Looking at
+Lemma \ref{lemma-cd-sequence-Koszul} it is natural to ask whether
+Proposition \ref{proposition-uniform-artin-rees}
+holds with $e = t$ replaced with $e = \text{cd}(A, I)$. We don't know.
+\end{remark}
 
 \begin{remark}
 \label{remark-strict-pro-isomorphism}
@@ -1120,7 +1217,7 @@ then $H^0(K_n)$ is not annihilated by $I^{r(n - 1)}$.\footnote{Of
 course, we can ask whether these pro-systems are isomorphic in
 a category whose objects are inverse systems and where maps are given
 by tuples $(r, c, \varphi_n)$ consisting of $r \geq 1$, $c \geq 0$
-and maps $\varphi_n : X_{rn} \to Y_{n - c}$ for $n \geq c$. Sigh!}
+and maps $\varphi_n : X_{rn} \to Y_{n - c}$ for $n \geq c$.}
 
 \medskip\noindent
 It turns out that the results above show that the natural map from
