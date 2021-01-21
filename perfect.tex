@@ -163,7 +163,7 @@ quasi-coherent.
 \end{enumerate}
 Then for $E \in D_\QCoh(\mathcal{O}_X)$
 \begin{enumerate}
-\item $H^i(RF(\tau_{\leq a}E) \to H^i(RF(E))$ is an isomorphism
+\item $H^i(RF(\tau_{\leq a}E)) \to H^i(RF(E))$ is an isomorphism
 for $i \leq a$,
 \item $H^i(RF(E)) \to H^i(RF(\tau_{\geq b - N + 1}E))$ is an isomorphism
 for $i \geq b$,
@@ -271,7 +271,7 @@ Schemes, Lemmas \ref{schemes-lemma-compare-constructions} and
 \ref{schemes-lemma-equivalence-quasi-coherent}). Thus the functors
 $$
 \xymatrix{
-D(A) \ar@<1ex>[r] & D_\QCoh(\mathcal{O}_X) \ar@<1ex>[l]
+D(A) \ar@<1ex>[r] & D(\mathcal{O}_X) \ar@<1ex>[l]
 }
 $$
 are adjoint (by Cohomology, Lemma \ref{cohomology-lemma-adjoint}). In
@@ -509,6 +509,78 @@ above applies.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-acyclicity-lemma}
+Let $f : X \to S$ be a quasi-separated and quasi-compact morphism
+of schemes. Let $\mathcal{F}^\bullet$ be a complex of quasi-coherent
+$\mathcal{O}_X$-modules each of which is right acyclic for $f_*$.
+Then $f_*\mathcal{F}^\bullet$ represents $Rf_*\mathcal{F}^\bullet$
+in $D(\mathcal{O}_S)$.
+\end{lemma}
+
+\begin{proof}
+There is always a canonical map
+$f_*\mathcal{F}^\bullet \to Rf_*\mathcal{F}^\bullet$.
+Our task is to show that this is an isomorphism on cohomology sheaves.
+As the statement is invariant under shifts it suffices to show that
+$H^0(f_*(\mathcal{F}^\bullet)) \to R^0f_*\mathcal{F}^\bullet$
+is an isomorphism. The statement is local on $S$ hence we
+may assume $S$ affine. By
+Lemma \ref{lemma-quasi-coherence-direct-image}
+we have $R^0f_*\mathcal{F}^\bullet = R^0f_*\tau_{\geq -n}\mathcal{F}^\bullet$
+for all sufficiently large $n$. Thus we may assume $\mathcal{F}^\bullet$
+bounded below. As each $\mathcal{F}^n$ is right $f_*$-acyclic by
+assumption we see that $f_*\mathcal{F}^\bullet \to Rf_*\mathcal{F}^\bullet$
+is a quasi-isomorphism by Leray's acyclicity lemma (Derived Categories, Lemma
+\ref{derived-lemma-leray-acyclicity}).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-acyclicity-lemma-global}
+Let $X$ be a quasi-separated and quasi-compact scheme.
+Let $\mathcal{F}^\bullet$ be a complex of quasi-coherent
+$\mathcal{O}_X$-modules each of which is right acyclic for $\Gamma(X, -)$.
+Then $\Gamma(X, \mathcal{F}^\bullet)$ represents
+$R\Gamma(X, \mathcal{F}^\bullet)$ in $D(\Gamma(X, \mathcal{O}_X)$.
+\end{lemma}
+
+\begin{proof}
+Apply Lemma \ref{lemma-acyclicity-lemma} to the canonical morphism
+$X \to \Spec(\Gamma(X, \mathcal{O}_X))$. Some details omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-spectral-sequence}
+Let $X$ be a quasi-separated and quasi-compact scheme. For any object
+$K$ of $D_\QCoh(\mathcal{O}_X)$ the spectral sequence
+$$
+E_2^{i, j} = H^i(X, H^j(K)) \Rightarrow H^{i + j}(X, K)
+$$
+of Cohomology, Example \ref{cohomology-example-spectral-sequence}
+is bounded and converges.
+\end{lemma}
+
+\begin{proof}
+By the construction of the spectral sequence via
+Cohomology, Lemma \ref{cohomology-lemma-spectral-sequence-filtered-object}
+using the filtration given by $\tau_{\leq -p}K$, we see that
+suffices to show that given $n \in \mathbf{Z}$ we have
+$$
+H^n(X, \tau_{\leq -p}K) = 0 \text{ for } p \gg 0
+$$
+and
+$$
+H^n(X, K) = H^n(X, \tau_{\leq -p}K) \text{ for } p \ll 0
+$$
+The first follows from Lemma \ref{lemma-application-nice-K-injective}
+applied with $F = \Gamma(X, -)$ and the bound in
+Cohomology of Schemes, Lemma
+\ref{coherent-lemma-quasi-coherence-higher-direct-images}.
+The second holds whenever
+$-p \leq n$ for any ringed space $(X, \mathcal{O}_X)$ and any
+$K \in D(\mathcal{O}_X)$.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-quasi-coherence-pushforward-direct-sums}
 Let $f : X \to S$ be a quasi-separated and quasi-compact morphism of
 schemes. Then
@@ -555,6 +627,20 @@ Cohomology of Schemes, Lemma \ref{coherent-lemma-colimit-cohomology}.
 \noindent
 In this section we collect some information about pushforward
 along an affine morphism of schemes.
+
+\begin{lemma}
+\label{lemma-pushforward-affine-morphism}
+Let $f : X \to S$ be an affine morphism of schemes. Let $\mathcal{F}^\bullet$
+be a complex of quasi-coherent $\mathcal{O}_X$-modules. Then
+$f_*\mathcal{F}^\bullet = Rf_*\mathcal{F}^\bullet$.
+\end{lemma}
+
+\begin{proof}
+Combine Lemma \ref{lemma-acyclicity-lemma} with
+Cohomology of Schemes, Lemma \ref{coherent-lemma-relative-affine-vanishing}.
+An alternative proof is to work affine locally on $S$
+and use Lemma \ref{lemma-quasi-coherence-pushforward}.
+\end{proof}
 
 \begin{lemma}
 \label{lemma-affine-morphism}
@@ -1294,26 +1380,7 @@ Hence $f_*$ defines a derived functor
 $f_* : D(\QCoh(\mathcal{O}_X)) \to D(\QCoh(\mathcal{O}_Y))$
 by simply applying $f_*$ to any representative complex, see
 Derived Categories, Lemma \ref{derived-lemma-right-derived-exact-functor}.
-For any complex of $\mathcal{O}_X$-modules
-$\mathcal{F}^\bullet$ there is a canonical map
-$f_*\mathcal{F}^\bullet \to Rf_*\mathcal{F}^\bullet$.
-To finish the proof we show this is a quasi-isomorphism when
-$\mathcal{F}^\bullet$ is a complex with each $\mathcal{F}^n$
-quasi-coherent. As the statement is invariant under shifts it
-suffices to show that
-$H^0(f_*(\mathcal{F}^\bullet)) \to R^0f_*\mathcal{F}^\bullet$
-is an isomorphism. The statement is local on $Y$ hence we
-may assume $Y$ affine. By
-Lemma \ref{lemma-quasi-coherence-direct-image}
-we have $R^0f_*\mathcal{F}^\bullet = R^0f_*\tau_{\geq -n}\mathcal{F}^\bullet$
-for all sufficiently large $n$. Thus we may assume $\mathcal{F}^\bullet$
-bounded below. As each $\mathcal{F}^n$ is $f_*$-acyclic by
-Cohomology of Schemes, Lemma \ref{coherent-lemma-relative-affine-vanishing}
-we see that
-$f_*\mathcal{F}^\bullet \to Rf_*\mathcal{F}^\bullet$
-is a quasi-isomorphism by
-Leray's acyclicity lemma (Derived Categories, Lemma
-\ref{derived-lemma-leray-acyclicity}).
+The diagram commutes by Lemma \ref{lemma-pushforward-affine-morphism}.
 \end{proof}
 
 \begin{lemma}
@@ -1723,32 +1790,14 @@ it suffices to show that the canonical map
 $$
 f_*\mathcal{I}^\bullet \longrightarrow Rf_*\mathcal{I}^\bullet
 $$
-is an isomorphism in $D(\mathcal{O}_Y)$. To see this it suffices to
-prove the map induces an isomorphism on cohomology sheaves. Pick any
-$m \in \mathbf{Z}$. Let $N = N(X, Y, f)$ be as in
-Lemma \ref{lemma-quasi-coherence-direct-image}.
-Consider the short exact sequence
-$$
-0 \to \sigma_{\geq m - N - 1}\mathcal{I}^\bullet \to
-\mathcal{I}^\bullet \to \sigma_{\leq m - N - 2}\mathcal{I}^\bullet \to 0
-$$
-of complexes of quasi-coherent sheaves on $X$. By
-Lemma \ref{lemma-quasi-coherence-direct-image}
-we see that the cohomology sheaves of
-$Rf_*\sigma_{\leq m - N - 2}\mathcal{I}^\bullet$
-are zero in degrees $\geq m - 1$. Thus we see that
-$R^mf_*\mathcal{I}^\bullet$ is isomorphic to
-$R^mf_*\sigma_{\geq m - N - 1}\mathcal{I}^\bullet$.
-In other words, we may assume that $\mathcal{I}^\bullet$
-is a bounded below complex of injective objects of
-$\QCoh(\mathcal{O}_X)$.
-This follows from
-Leray's acyclicity lemma
-(Derived Categories, Lemma \ref{derived-lemma-leray-acyclicity})
-via
-Cohomology, Lemma \ref{cohomology-lemma-flasque-acyclic-pushforward}
-and
-Lemma \ref{lemma-injective-quasi-coherent-sheaf-Noetherian}.
+is an isomorphism in $D(\mathcal{O}_Y)$. To see this by
+Lemma \ref{lemma-acyclicity-lemma}
+it suffices to show that $\mathcal{I}^n$ is right
+$f_*$-acyclic for all $n \in \mathbf{Z}$.
+This is true because $f_*\mathcal{I}^n$ is flasque by
+Lemma \ref{lemma-injective-quasi-coherent-sheaf-Noetherian}
+and flasque modules are right $f_*$-acyclic by
+Cohomology, Lemma \ref{cohomology-lemma-flasque-acyclic-pushforward}.
 \end{proof}
 
 \begin{proposition}
