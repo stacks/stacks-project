@@ -1803,35 +1803,37 @@ $A^h$ and the lemma is proved.
 
 
 
-\section{Glueing rings along an ideal}
+\section{A pushout argument}
 \label{section-approximation}
 
 \noindent
-Let $A$ be a Noetherian ring. Let $I \subset A$ be an ideal.
-In this section we study $I$-adically complete $A$-algebras
-which are, in some vague sense, \'etale over the complement of
-$V(I)$ in $\Spec(A)$.
+The only goal in this section is to prove the following lemma which
+will play a key role in algebraization of rig-\'etale algebras.
+We will use a bit of the theory of algebraic spaces to prove this lemma;
+an earlier version of this chapter gave a (much longer) proof using algebra
+and a bit of deformation theory that the interested reader can find in
+the history of the Stacks project.
 
 \begin{lemma}
 \label{lemma-lift-approximation}
 Let $A$ be a Noetherian ring and $I \subset A$ an ideal.
-Let $J \subset A$ be a nilpotent ideal. Consider a diagram
+Let $J \subset A$ be a nilpotent ideal. Consider a commutative diagram
 $$
 \xymatrix{
-C \ar[r] & C/JC \\
+C \ar[r] & C_0 \ar@{=}[r] & C/JC \\
 & B_0 \ar[u] \\
-A \ar[r] \ar[uu] & A/J \ar[u]
+A \ar[r] \ar[uu] & A_0 \ar[u] \ar@{=}[r] & A/J
 }
 $$
 whose vertical arrows are of finite type such that
 \begin{enumerate}
 \item $\Spec(C) \to \Spec(A)$ is \'etale over $\Spec(A) \setminus V(I)$,
-\item $\Spec(B_0) \to \Spec(A/J)$ is \'etale over
-$\Spec(A/J) \setminus V((I + J)/J)$, and
-\item $B_0 \to C/JC$ is \'etale and induces an isomorphism
-$B_0/IB_0 = C/(I + J)C$.
+\item $\Spec(B_0) \to \Spec(A_0)$ is \'etale over
+$\Spec(A_0) \setminus V(IA_0)$, and
+\item $B_0 \to C_0$ is \'etale and induces an isomorphism
+$B_0/IB_0 = C_0/IC_0$.
 \end{enumerate}
-Then we can fill in the diagram
+Then we can fill in the diagram above to a commutative diagram
 $$
 \xymatrix{
 C \ar[r] & C/JC \\
@@ -1843,29 +1845,48 @@ with $A \to B$ of finite type, $B/JB = B_0$, $B \to C$ \'etale, and
 $\Spec(B) \to \Spec(A)$ \'etale over $\Spec(A) \setminus V(I)$.
 \end{lemma}
 
-\begin{proof}[First proof]
-This proof uses algebraic spaces to construct $B$. Set
-$X = \Spec(A)$, $X_0 = \Spec(A/J)$, $Y_0 = \Spec(B_0)$,
-$Z = \Spec(C)$, $Z_0 = \Spec(C/JC)$. Furthermore, denote
+\begin{proof}
+Set $X = \Spec(A)$, $X_0 = \Spec(A_0)$, $Y_0 = \Spec(B_0)$,
+$Z = \Spec(C)$, $Z_0 = \Spec(C_0)$. Furthermore, denote
 $U \subset X$, $U_0 \subset X_0$, $V_0 \subset Y_0$,
 $W \subset Z$, $W_0 \subset Z_0$ the complement of the
-vanishing set of $I$. The conditions in the lemma guarantee
-that
+vanishing set of $I$. Here is a picture to help visualize the
+situation:
+$$
+\xymatrix{
+Z \ar[dd] & Z_0 \ar[l] \ar[d] \\
+& Y_0 \ar[d] \\
+X & X_0 \ar[l]
+}
+\quad\quad\quad
+\xymatrix{
+W \ar[dd] & W_0 \ar[l] \ar[d] \\
+& V_0 \ar[d] \\
+U & U_0 \ar[l]
+}
+$$
+The conditions in the lemma guarantee that
 $$
 \xymatrix{
 W_0 \ar[r] \ar[d] & Z_0 \ar[d] \\
 V_0 \ar[r] & Y_0
 }
 $$
-is an elementary distinguished square. In addition we know that
+is an elementary distinguished square, see
+Derived Categories of Spaces, Definition
+\ref{spaces-perfect-definition-elementary-distinguished-square}.
+In addition we know that
 $W_0 \to U_0$ and $V_0 \to U_0$ are \'etale. The morphism
-$X_0 \subset X$ is a finite order thickening.
+$X_0 \subset X$ is a finite order thickening as $J$ is assumed nilpotent.
 By the topological invariance of the \'etale site
-we can find a unique \'etale morphism $V \to X$
+we can find a unique \'etale morphism $V \to X$ of schemes
 with $V_0 = V \times_X X_0$ and we can lift the given morphism
-$W_0 \to V_0$ to a unique morphism $W \to V$.
-See More on Morphisms of Spaces, Theorem
-\ref{spaces-more-morphisms-theorem-topological-invariance}.
+$W_0 \to V_0$ to a unique morphism $W \to V$ over $X$.
+See \'Etale Morphisms of Schemes, Theorem
+\ref{etale-theorem-remarkable-equivalence}.
+Since $W_0 \to V_0$ is separated, the morphism $W \to V$ is separated too,
+see for example
+More on Morphisms, Lemma \ref{more-morphisms-lemma-deform-property}.
 By Pushouts of Spaces, Lemma
 \ref{spaces-pushouts-lemma-construct-elementary-distinguished-square}
 we can construct an elementary distinguished square
@@ -1879,238 +1900,24 @@ in the category of algebraic spaces over $X$. Since the base change
 of an elementary distinguished square is an elementary distinguished
 square (Derived Categories of Spaces, Lemma
 \ref{spaces-perfect-lemma-make-more-elementary-distinguished-squares})
-and since elementary distinguished squares are pushouts
-(Pushouts of Spaces, Lemma
-\ref{spaces-pushouts-lemma-elementary-distinguished-square-pushout})
-we see that the base change of this diagram by
-$X_0 \to X$ gives the previous diagram.
+we see that
+$$
+\xymatrix{
+W_0 \ar[r] \ar[d] & Z_0 \ar[d] \\
+V_0 \ar[r] & Y \times_X X_0
+}
+$$
+is an elementary distinguished square. It follows that there is a
+unique isomorphism $Y \times_X X_0 = Y_0$ compatible with the two
+squares involving these spaces because
+elementary distinguished squares are pushouts (Pushouts of Spaces, Lemma
+\ref{spaces-pushouts-lemma-elementary-distinguished-square-pushout}).
 It follows that $Y$ is affine by
 Limits of Spaces, Proposition \ref{spaces-limits-proposition-affine}.
-Write $Y = \Spec(B)$. Then $B$ fits into the desired diagram and
-satisfies all the properties required of it.
+Write $Y = \Spec(B)$. It is clear that $B$ fits into the desired diagram
+and satisfies all the properties required of it.
 \end{proof}
 
-\begin{proof}[Second proof]
-This proof uses a little bit of deformation theory to construct $B$.
-By induction on the smallest $n$ such that $J^n = 0$ we reduce
-to the case $J^2 = 0$. Denote by a subscript zero the base change
-of objects to $A_0 = A/J$. Since $J^2 = 0$ we see that $JC$
-is a $C_0$-module.
-
-\medskip\noindent
-Consider the canonical map
-$$
-\gamma : J \otimes_{A_0} C_0 \longrightarrow JC
-$$
-Since $\Spec(C) \to \Spec(A)$ is \'etale over the complement
-of $V(I)$ (and hence flat) we see that $\gamma$ is an isomorphism
-away from $V(IC_0)$, see
-More on Morphisms, Lemma \ref{more-morphisms-lemma-deform}.
-In particular, the kernel and cokernel of $\gamma$ are annihilated by
-a power of $I$ (use that $C_0$ is Noetherian and that the modules in
-question are finite). Observe that $J \otimes_{A_0} C_0 =
-(J \otimes_{A_0} B_0) \otimes_{B_0} C_0$. Hence by
-More on Algebra, Lemma \ref{more-algebra-lemma-application-formal-glueing}
-there exists a unique $B_0$-module homomorphism
-$$
-c : J \otimes_{A_0} B_0 \to N
-$$
-with $c \otimes \text{id}_{C_0} = \gamma$ and $\Ker(\gamma) = \Ker(c)$
-and $\Coker(\gamma) = \Coker(c)$. Moreover, $N$ is a finite $B_0$-module, see
-More on Algebra, Remark \ref{more-algebra-remark-formal-glueing-algebras}.
-
-\medskip\noindent
-Choose a presentation $B_0 = A[x_1, \ldots, x_r]/K$. To construct $B$
-we try to find the dotted arrow $m$ fitting into the following
-pushout diagram
-$$
-\xymatrix{
-0 \ar[r] & N \ar@{..>}[r] & B \ar@{..>}[r] & B_0 \ar[r] & 0 \\
-0 \ar[r] & K/K^2 \ar[r] \ar@{..>}[u]_m &
-A[x_1, \ldots, x_r]/K^2 \ar[r] \ar@{..>}[u] &
-A[x_1, \ldots, x_r]/K \ar@{=}[u] \ar[r] & 0 \\
-& J \otimes_{A_0} B_0 \ar[u] \ar@/^2pc/[uu] |!{[lu];[u]}\hole
-}
-$$
-where the curved arrow is the map $c$ constructed above and the
-map $J \otimes_{A_0} B_0 \to K/K^2$ is the obvious one.
-
-\medskip\noindent
-As $B_0 \to C_0$ is \'etale we can write
-$C_0 = B_0[y_1, \ldots, y_r]/(g_{0, 1}, \ldots, g_{0, r})$
-such that the determinant of the partial derivatives of the $g_{0, j}$
-is invertible in $C_0$, see
-Algebra, Lemma \ref{algebra-lemma-etale-standard-smooth}.
-We combine this with the chosen presentation of $B_0$ to
-get a presentation $C_0 = A[x_1, \ldots, x_r, y_1, \ldots, y_s]/L$.
-Choose a lift $\psi : A[x_i, y_j] \to C$
-of the map to $C_0$. Then it is the case that $C$ fits into the diagram
-$$
-\xymatrix{
-0 \ar[r] & JC \ar[r] & C \ar[r] & C_0 \ar[r] & 0 \\
-0 \ar[r] & L/L^2 \ar[r] \ar[u]_\mu &
-A[x_i, y_j]/L^2 \ar[r] \ar[u] &
-A[x_i, y_j]/L \ar@{=}[u] \ar[r] & 0 \\
-& J \otimes_{A_0} C_0 \ar[u] \ar@/^2pc/[uu] |!{[lu];[u]}\hole
-}
-$$
-where the curved arrow is the map $\gamma$ constructed above and the
-map $J \otimes_{A_0} C_0 \to L/L^2$ is the obvious one.
-By our choice of presentations and the fact that $C_0$ is
-a complete intersection over $B_0$ we have
-$$
-L/L^2 = K/K^2 \otimes_{B_0} C_0 \oplus \bigoplus C_0 g_j
-$$
-where $g_j \in L$ is any lift of $g_{0, j}$, see
-More on Algebra, Lemma \ref{more-algebra-lemma-transitive-lci-at-end}.
-
-\medskip\noindent
-Consider the three term complex
-$$
-K^\bullet : J \otimes_{A_0} B_0 \to K/K^2 \to \bigoplus B_0 \text{d}x_i
-$$
-where the second arrow is the differential in the naive cotangent
-complex of $B_0$ over $A$ for the given presentation and the last
-term is placed in degree $0$. Since
-$\Spec(B_0) \to \Spec(A_0)$ is \'etale away from $V(I)$
-the cohomology modules of this complex are supported on
-$V(IB_0)$. Namely, for $a \in I$ after inverting $a$
-we can apply 
-More on Algebra, Lemma \ref{more-algebra-lemma-transitive-lci-at-end}
-for the ring maps $A_a \to A_{0, a} \to B_{0, a}$
-and use that $\NL_{A_{0, a}/A_a} = J_a$ and
-$\NL_{B_{0, a}/A_{0, a}} = 0$ (some details omitted).
-Hence these cohomology groups are annihilated by a power of $I$.
-
-\medskip\noindent
-Similarly, consider the three term complex
-$$
-L^\bullet : J \otimes_{A_0} C_0 \to L/L^2 \to
-\bigoplus C_0 \text{d}x_i \oplus \bigoplus C_0 \text{d}y_j
-$$
-By our direct sum decomposition of $L/L^2$ above and the fact
-that the determinant of the partial derivatives of the $g_{0, j}$
-is invertible in $C_0$ we see that the natural map
-$K^\bullet \to L^\bullet$ induces a quasi-isomorphism
-$$
-K^\bullet \otimes_{B_0} C_0 \longrightarrow L^\bullet
-$$
-Applying
-Dualizing Complexes, Lemma \ref{dualizing-lemma-neighbourhood-extensions}
-we find that
-\begin{equation}
-\label{equation-go-down}
-\Hom_{D(B_0)}(K^\bullet, E) =
-\Hom_{D(C_0)}(L^\bullet, E \otimes_{B_0} C_0)
-\end{equation}
-for any object $E \in D(B_0)$.
-
-\medskip\noindent
-The maps $\text{id}_{J \otimes_{A_0} C_0}$ and $\mu$ define
-an element in
-$$
-\Hom_{D(C_0)}(L^\bullet, (J \otimes_{A_0} C_0 \to  JC))
-$$
-(the target two term complex is placed in degree $-2$ and $-1$)
-such that the composition with the map to $J \otimes_{A_0} C_0[2]$
-is the element in $\Hom_{D(C_0)}(L^\bullet, J \otimes_{A_0} C_0[2])$
-corresponding to $\text{id}_{J \otimes_{A_0} C_0}$. Picture
-$$
-\xymatrix{
-J \otimes_{A_0} C_0 \ar[r] \ar[d]_{\text{id}_{J \otimes_{A_0} C_0}} &
-L/L^2 \ar[r] \ar[d]^\mu &
-\bigoplus C_0 \text{d}x_i \oplus \bigoplus C_0 \text{d}y_j \\
-J \otimes_{A_0} C_0 \ar[r]^-\gamma &
-JC
-}
-$$
-Applying (\ref{equation-go-down}) we obtain a unique element
-$$
-\xi \in \Hom_{D(B_0)}(K^\bullet, (J \otimes_{A_0} B_0 \to N))
-$$
-Its composition with the map to $J \otimes_{A_0} B_0[2]$
-is the element in $\Hom_{D(C_0)}(K^\bullet, J \otimes_{A_0} B_0[2])$
-corresponding to $\text{id}_{J \otimes_{A_0} B_0}$. By
-Lemma \ref{lemma-map-out-of-almost-free}
-we can find a map of complexes $K^\bullet \to (J \otimes_{A_0} B_0 \to N)$
-representing $\xi$ and equal to $\text{id}_{J \otimes_{A_0} B_0}$
-in degree $-2$. Denote $m : K/K^2 \to N$ the degree $-1$ part
-of this map. Picture
-$$
-\xymatrix{
-J \otimes_{A_0} B_0 \ar[r] \ar[d]_{\text{id}_{J \otimes_{A_0} B_0}} &
-K/K^2 \ar[r] \ar[d]^m &
-\bigoplus B_0 \text{d}x_i \\
-J \otimes_{A_0} B_0 \ar[r]^-c &
-N
-}
-$$
-Thus we can use $m$ to create an algebra $B$ by push out as
-explained above. However, we may still have to change $m$ a bit to
-make sure that $B$ maps to $C$ in the correct manner.
-
-\medskip\noindent
-Denote $m \otimes \text{id}_{C_0} \oplus 0 : L/L^2 \to JC$
-the map coming from the direct sum decomposition of $L/L^2$
-(see above), using that $N \otimes_{B_0} C_0 = JC$, and using $0$
-on the second factor. By our choice of $m$ above the maps of complexes
-$(\text{id}_{J \otimes_{A_0} C_0}, \mu, 0)$ and
-$(\text{id}_{J \otimes_{A_0} C_0}, m \otimes \text{id}_{C_0} \oplus 0, 0)$
-define the same element of
-$\Hom_{D(C_0)}(L^\bullet, (J \otimes_{A_0} C_0 \to  JC))$.
-By Lemma \ref{lemma-map-out-of-almost-free} there exist maps
-$h : L^{-1} \to J \otimes_{A_0} C_0$ and $h' : L^0 \to JC$
-which define a homotopy between
-$(\text{id}_{J \otimes_{A_0} C_0}, \mu, 0)$ and
-$(\text{id}_{J \otimes_{A_0} C_0}, m \otimes \text{id}_{C_0} \oplus 0, 0)$.
-Picture
-$$
-\xymatrix{
-J \otimes_{A_0} C_0 \ar[r] \ar[d]_{\text{id}_{J \otimes_{A_0} C_0}} &
-K/K^2 \otimes_{B_0} C_0 \oplus \bigoplus C_0 g_j \ar@{..>}[ld]_h
-\ar[r] \ar@<-1ex>[d]_\mu \ar[d]^{m \otimes \text{id}_{C_0} \oplus 0} &
-\bigoplus C_0 \text{d}x_i \oplus \bigoplus C_0 \text{d}y_j \ar@{..>}[ld]_{h'}\\
-J \otimes_{A_0} C_0 \ar[r]^-\gamma &
-JC
-}
-$$
-Since $h$ precomposed with $d_L^{-2}$ is zero it defines
-an element in $\Hom_{D(C_0)}(L^\bullet, J \otimes_{A_0} C_0[1])$
-which comes from a unique element $\chi$ of
-$\Hom_{D(B_0)}(K^\bullet, J \otimes_{A_0} B_0[1])$
-by (\ref{equation-go-down}).
-Applying Lemma \ref{lemma-map-out-of-almost-free} again we represent $\chi$
-by a map $g : K/K^2 \to J \otimes_{A_0} B_0$.
-Then the base change $g \otimes \text{id}_{C_0}$ and $h$ differ
-by a homotopy $h'' : L^0 \to J \otimes_{A_0} C$.
-Hence if we modify $m$ into $m + c \circ g$, then
-we find that $m \otimes \text{id}_{C_0} \oplus 0$ and $\mu$ just differ by
-a map $h' : L^0 \to JC$.
-
-\medskip\noindent
-Changing our choice of the map $\psi : A[x_i, y_j] \to C$
-by sending $x_i$ to $\psi(x_i) + h'(\text{d}x_i)$ and sending
-$y_j$ to $\psi(y_j) + h'(\text{d}y_j)$, we find a commutative
-diagram
-$$
-\xymatrix{
-N \ar[r] & JC \\
-K/K^2 \ar[r] \ar[u]_m & L/L^2 \ar[u]_\mu \\
-J \otimes_{A_0} B_0 \ar[u] \ar@/^2pc/[uu]^c \ar[r] &
-J \otimes_{A_0} C_0 \ar[u] \ar@/_2pc/[uu]_\gamma
-}
-$$
-At this point we can define $B$ as the pushout in the first
-commutative diagram of the proof. The commutativity of the
-diagram just displayed, shows that there is an $A$-algebra
-map $B \to C$ compatible with the given map $N = JB \to JC$.
-As $N \otimes_{B_0} C_0 = JC$ it follows from
-More on Morphisms, Lemma \ref{more-morphisms-lemma-deform}
-that $B \to C$ is flat.
-From this it easily follows that it is \'etale.
-We omit the proof of the other properties as they are mostly
-self evident at this point.
-\end{proof}
 
 
 
@@ -2134,8 +1941,8 @@ self evident at this point.
 The main goal is to prove algebraization for rig-\'etale algebras
 when the underlying Noetherian ring $A$ is not assumed to be a G-ring
 and when the ideal $I \subset A$ is arbitrary -- not necessarily principal.
-We first prove the principal ideal case and then use the results
-of Section \ref{} to finish the proof.
+We first prove the principal ideal case and then use the result
+of Section \ref{section-approximation} to finish the proof.
 
 \begin{lemma}
 \label{lemma-approximate-principal}
