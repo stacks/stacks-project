@@ -2118,6 +2118,20 @@ Then the univeral property of reduction shows that the canonical morphism
 $X_{red} \to X \times_Y Y_{red}$ is an isomorphism.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-reduction-surjective}
+Let $S$ be a scheme. Let $f : X \to Y$ be a morphism of
+formal algebraic spaces over $S$ which is representable by
+algebraic spaces. Then $f$ is surjective in the sense of
+Bootstrap, Definition \ref{bootstrap-definition-property-transformation}
+if and only if $f_{red} : X_{red} \to Y_{red}$ is a
+surjective morphism of algebraic spaces.
+\end{lemma}
+
+\begin{proof}
+Omitted.
+\end{proof}
+
 
 
 
@@ -2394,18 +2408,80 @@ between the completions.
 
 \begin{lemma}
 \label{lemma-map-completions-representable}
-Let $S$ be a scheme. Let $f : X \to Y$ be a morphism
-of algebraic spaces over $S$. Let $T \subset |Y|$
-be a closed subset and let $T' = |f|^{-1}(T) \subset |X|$.
-Then $X_{/T'} \to Y_{/T}$ is representable by algebraic spaces.
+Let $S$ be a scheme. Let $f : X' \to X$ be a morphism
+of algebraic spaces over $S$. Let $T \subset |X|$
+be a closed subset and let $T' = |f|^{-1}(T) \subset |X'|$.
+Then
+$$
+\xymatrix{
+X'_{/T'} \ar[r] \ar[d] & X' \ar[d]^f \\
+X_{/T} \ar[r] & X
+}
+$$
+is a cartesian diagram of sheaves. In particular, the morphism
+$X'_{/T'} \to X_{/T}$ is representable by algebraic spaces.
 \end{lemma}
 
 \begin{proof}
-Namely, suppose that $V \to Y$ is a morphism from a scheme into $Y$ such
-that $|V|$ maps into $T$. Then $V \times_Y X \to X$ is a morphism of
-algebraic spaces such that $|V \times_Y X|$ maps into $T'$. Hence the
-functor $V \times_{Y_{/T'}} X_{/T}$ is represented by $V \times_Y X$
+Namely, suppose that $Y \to X$ is a morphism from a scheme into $X$ such
+that $|Y|$ maps into $T$. Then $Y \times_X X' \to X$ is a morphism of
+algebraic spaces such that $|Y \times_X X'|$ maps into $T'$. Hence the
+functor $Y \times_{X_{/T}} X'_{/T'}$ is represented by $Y \times_X X'$
 and we see that the lemma holds.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-reduction-completion}
+Let $S$ be a scheme. Let $X$ be an algebraic space over $S$.
+Let $T \subset |X|$ be a closed subset. The reduction $(X_{/T})_{red}$
+of the completion $X_{/T}$ of $X$ along $T$ is
+the reduced induced closed subspace $Z$ of $X$ corresponding to $T$.
+\end{lemma}
+
+\begin{proof}
+It follows from Lemma \ref{lemma-reduction-formal-algebraic-space},
+Properties of Spaces, Definition
+\ref{spaces-properties-definition-reduced-induced-space}
+(which uses Properties of Spaces, Lemma
+\ref{spaces-properties-lemma-reduced-closed-subspace} to construct $Z$),
+and the definition of $X_{/T}$ that
+$Z$ and $(X_{/T})_{red}$ are reduced algebraic spaces
+characterized the same mapping property:
+a morphism $g : Y \to X$ whose source is a reduced algebraic space
+factors through them if and only if $|Y|$ maps into $T \subset |X|$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-affine-formal-completion-types}
+Let $S$ be a scheme. Let $X = \Spec(A)$ be an affine scheme over $S$.
+Let $T \subset X$ be a closed subset. Let $X_{/T}$ be the
+formal completion of $X$ along $T$.
+\begin{enumerate}
+\item If $X \setminus T$ is quasi-compact, i.e., $T$ is constructible,
+then $X_{/T}$ is adic*.
+\item If $T = V(I)$ for some finitely generated ideal $I \subset A$,
+then $X_{/T} = \text{Spf}(A^\wedge)$ where $A^\wedge$ is the
+$I$-adic completion of $A$.
+\item If $X$ is Noetherian, then $X_{/T}$ is Noetherian.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+By Algebra, Lemma \ref{algebra-lemma-qc-open} if (1) holds, then
+we can find an ideal $I \subset A$ as in (2). If (3) holds then
+we can find an ideal $I \subset A$ as in (2). Moreover, completions
+of Noetherian rings are Noetherian by
+Algebra, Lemma \ref{algebra-lemma-completion-Noetherian-Noetherian}.
+All in all we see that it suffices to prove (2).
+
+\medskip\noindent
+Proof of (2).
+Let $I = (f_1, \ldots, f_r) \subset A$ cut out $T$.
+If $Z = \Spec(B)$ is an affine scheme and $g : Z \to X$ is
+a morphism with $g(Z) \subset T$ (set theoretically), then
+$g^\sharp(f_i)$ is nilpotent in $B$ for each $i$. Thus
+$I^n$ maps to zero in $B$ for some $n$. Hence we see that
+$X_{/T} = \colim \Spec(A/I^n) = \text{Spf}(A^\wedge)$.
 \end{proof}
 
 \noindent
@@ -3914,31 +3990,14 @@ Choose a surjective \'etale morphism $U \to X$ with $U = \coprod U_i$
 a disjoint union of affine schemes, see Properties of Spaces, Lemma
 \ref{spaces-properties-lemma-cover-by-union-affines}.
 Let $T_i \subset U_i$ be the inverse image of $T$.
-We have $X_{/T} \times_X U_i = (U_i)_{/T_i}$ (small detail omitted).
+We have $X_{/T} \times_X U_i = (U_i)_{/T_i}$
+(Lemma \ref{lemma-map-completions-representable}).
 Hence $\{(U_i)_{/T_i} \to X_{/T}\}$ is a covering as in
 Definition \ref{definition-formal-algebraic-space}.
 Moreover, if $X \setminus T \to X$ is quasi-compact, so is
 $U_i \setminus T_i \to U_i$ and if $X$ is locally Noetherian, so is
-$U_i$. Thus it suffices to prove the lemma in case $X$ is affine.
-
-\medskip\noindent
-Assume $X = \Spec(A)$ is affine and $X \setminus T \to X$ is quasi-compact.
-Then there exists a finitely generated ideal
-$I = (f_1, \ldots, f_r) \subset A$ cutting out $T$
-(Algebra, Lemma \ref{algebra-lemma-qc-open}).
-If $Z = \Spec(B)$ is an affine scheme and $g : Z \to X$ is
-a morphism with $g(Z) \subset T$ (set theoretically), then
-$g^\sharp(f_i)$ is nilpotent in $B$ for each $i$. Thus
-$I^n$ maps to zero in $B$ for some $n$. Hence we see that
-$X_{/T} = \colim \Spec(A/I^n)$ and $X$ is adic*.
-
-\medskip\noindent
-Assume $X = \Spec(A)$ is affine with $A$ Noetherian. By the above
-we see that $X_{/T} = \text{Spf}(A^\wedge)$ where $A^\wedge$
-is the $I$-adic completion of $A$ with respect to some ideal
-$I \subset A$. Then $X_{/T}$ is Noetherian because
-$A^\wedge$ is so, see
-Algebra, Lemma \ref{algebra-lemma-completion-Noetherian-Noetherian}.
+$U_i$. Thus the lemma follows from the affine case which is
+Lemma \ref{lemma-affine-formal-completion-types}.
 \end{proof}
 
 \begin{remark}[Warning]
@@ -5011,25 +5070,6 @@ $Z \times_Y X$ is locally Noetherian.
 The morphism $Z \times_Y X \to Z$ is locally of finite type by
 Lemma \ref{lemma-base-change-finite-type}. Hence this follows
 from Lemma \ref{lemma-locally-finite-type-locally-noetherian}.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-map-completions-finite-type}
-Let $S$ be a scheme. Let $f : X \to Y$ be a morphism
-of algebraic spaces over $S$ which is locally of finite type.
-Let $T \subset |Y|$ be a closed subset and let $T' = |f|^{-1}(T) \subset |X|$.
-Then $X_{/T'} \to Y_{/T}$ is locally of finite type.
-\end{lemma}
-
-\begin{proof}
-Namely, suppose that $V \to Y$ is a morphism from a scheme into $Y$ such
-that $|V|$ maps into $T$. In the proof of
-Lemma \ref{lemma-map-completions-representable}
-we have seen that $V \times_Y X \to X$ is an algebraic space
-representing $V \times_{Y_{/T}} X_{/T'}$.
-Since $V \times_Y X \to V$ is locally of finite type
-(by Morphisms of Spaces, Lemma
-\ref{spaces-morphisms-lemma-base-change-finite-type}) we conclude.
 \end{proof}
 
 
@@ -6179,6 +6219,46 @@ that $x'$ descends to a morphism $x : \Spec(R) \to X$.
 We omit the proof that $x_n$ is the restriction of $x$ to
 $\Spec(R/\mathfrak m^n)$.
 \end{proof}
+
+\begin{lemma}
+\label{lemma-adic-into-completion}
+Let $S$ be a scheme. Let $X$ be an algebraic space over $S$.
+Let $T \subset |X|$ be a closed subset such that
+$X \setminus T \to X$ is quasi-compact. Let $R$ be a complete local
+Noetherian $S$-algebra. Then an adic morphism $p : \text{Spf}(R) \to X_{/T}$
+corresponds to a unique morphism $g : \Spec(R) \to X$ such
+that $g^{-1}(T) = \{\mathfrak m_R\}$. 
+\end{lemma}
+
+\begin{proof}
+The statement makes sense because $X_{/T}$ is adic* by
+Lemma \ref{lemma-formal-completion-types} (and hence we're
+allowed to use the terminology adic for morphisms, see
+Definition \ref{definition-adic-morphism}).
+Let $p$ be given. By Lemma \ref{lemma-map-into-algebraic-space}
+we get a unique morphism $g : \Spec(R) \to X$ corresponding to
+the composition $\text{Spf}(R) \to X_{/T} \to X$.
+Let $Z \subset X$ be the reduced induced closed subspace structure
+on $T$. The incusion morphism $Z \to X$ corresponds to a morphism
+$Z \to X_{/T}$. Since $p$ is adic it is representable by algebraic
+spaces and we find
+$$
+\text{Spf}(R) \times_{X_{/T}} Z = \text{Spf}(R) \times_X Z
+$$
+is an algebraic space endowed with a closed immersion to $\text{Spf}(R)$.
+(Equality holds because $X_{/T} \to X$ is a monomorphism.)
+Thus this fibre product is equal to $\Spec(R/J)$ for some
+ideal $J \subset R$ wich contains $\mathfrak m_R^{n_0}$ for some
+$n_0 \geq 1$. This implies that $\Spec(R) \times_X Z$
+is a closed subscheme of $\Spec(R)$,
+say $\Spec(R) \times_X Z = \Spec(R/I)$, whose intersection with
+$\Spec(R/\mathfrak m_R^n)$ for $n \geq n_0$ is equal to $\Spec(R/J)$.
+In algebraic terms this says
+$I + \mathfrak m_R^n = J + \mathfrak m_R^n = J$ for all $n \geq n_0$.
+By Krull's intersection theorem
+this implies $I = J$ and we conclude.
+\end{proof}
+
 
 
 
