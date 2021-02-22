@@ -4052,8 +4052,10 @@ over $S$ with $X, X_i$ objects of $\mathcal{C}$, then
 $F(X) = \colim F(X_i)$.
 \end{enumerate}
 Then there is a unique way to extend $F$ to a functor
-$(\Sch/S)^{opp} \to \textit{Sets}$ satisfying
-(a) and (b).
+$F' : (\Sch/S)^{opp} \to \textit{Sets}$ satisfying the analogues of
+(a) and (b), i.e., $F'$ satisfies the sheaf condition for any
+Zariski covering and $F'(X) = \colim F'(X_i)$ whenever $X = \lim X_i$
+is a directed limit of affine schemes over $S$.
 \end{lemma}
 
 \begin{proof}
@@ -4280,21 +4282,28 @@ from Limits, Lemmas
 \end{proof}
 
 \begin{lemma}
-\label{lemma-extend-sheaf}
-Let $\tau \in \{Zariski, \etale, smooth, syntomic, fppf\}$.
-Let $S$ be a scheme contained in a big site $\Sch_\tau$.
-Let $\mathcal{F}$ be a sheaf on $(\Sch/S)_\tau$ satisfying
-property (b) of Lemma \ref{lemma-extend}. Then the extension
-$F$ of $\mathcal{F}$ to the category of all schemes over $S$
-satisfies the sheaf condition for all $\tau$-coverings.
+\label{lemma-extend-sheaf-general}
+Let $S$, $\mathcal{C}$, $F$ satisfy conditions (1), (2), (a), and (b) of
+Lemma \ref{lemma-extend} and denote $F' : (\Sch/S)^{opp} \to \textit{Sets}$
+the unique extension constructed in the lemma. Let
+$\tau \in \{Zariski, \etale, smooth, syntomic, fppf\}$. Assume
+\begin{enumerate}
+\item[(c)] for any standard $\tau$-covering $\{V_i \to V\}_{i = 1, \ldots, n}$
+of affines in $\Sch/S$ such that $V \to S$ factors through an affine open
+$U \subset S$ and $V \to U$ is of finite presentation, the sheaf condition
+hold for $F$ and $\{V_i \to V\}_{i = 1, \ldots, n}$\footnote{This makes
+sense as $V$, $V_i$, and $V_i \times_V V_j$ are isomorphic to objects
+of $\mathcal{C}$ by (2).}.
+\end{enumerate}
+Then $F'$ satisfies the sheaf condition for all $\tau$-coverings.
 \end{lemma}
 
 \begin{proof}
 Let $X$ be a scheme over $S$ and let $\{X_i \to X\}_{i \in I}$
-be a $\tau$-covering. Let $s_i \in F(X_i)$ be elements such that
-$s_i$ and $s_j$ map to the same element of $F(X_i \times_X X_j)$
+be a $\tau$-covering. Let $s_i \in F'(X_i)$ be elements such that
+$s_i$ and $s_j$ map to the same element of $F'(X_i \times_X X_j)$
 for all $i, j \in I$. We have to show that there is a
-unique element of $F(X)$ restricting to $s_i \in F(X_i)$ for all $i \in I$.
+unique element $s \in F'(X)$ restricting to $s_i \in F'(X_i)$ for all $i \in I$.
 
 \medskip\noindent
 Special case: $X$ is an affine such that the structure morphism
@@ -4307,22 +4316,12 @@ $$
 as a cofiltered limit with $V_k \to U$ of finite presentation
 and $V_k$ affine. See Algebra, Lemma \ref{algebra-lemma-ring-colimit-fp}.
 By Lemma \ref{lemma-limit-fppf-topology} there exists a $k$ and a standard
-$\tau$-covering $\{W_{k, i} \to V_k\}_{i \in I}$ whose base change
+$\tau$-covering $\{V_{k, i} \to V_k\}_{i \in I}$ whose base change
 to $X$ is the given covering. For $k' \geq k$ denote
-$\{W_{k', i} \to V_{k'}\}_{i \in I}$ the base change to $V_{k'}$
-of our covering. Observe that $\{W_{k', i} \to V_{k'}\}_{i \in I}$
-is tautologically equivalent to a covering in $(\Sch/S)_\tau$, see
-Sets, Lemma \ref{sets-lemma-what-is-in-it} as well as
-Lemmas \ref{lemma-zariski-induced},
-\ref{lemma-etale-induced},
-\ref{lemma-smooth-induced},
-\ref{lemma-syntomic-induced}, and
-\ref{lemma-fppf-induced}. Thus we know the sheaf property holds
-for $F$ and all of these coverings (because $F$ restricts to
-$\mathcal{F}$ on $(\Sch/S)_\tau$ by construction).
-Then we see that
+$\{V_{k', i} \to V_{k'}\}_{i \in I}$ the base change to $V_{k'}$
+of our covering. Then we see that
 \begin{align*}
-F(X)
+F'(X)
 & =
 \colim_{k' \geq k} F(V_k) \\
 & =
@@ -4347,15 +4346,16 @@ F(X)
 & =
 \text{Equalizer}(
 \xymatrix{
-\prod F(X_i)
+\prod F'(X_i)
 \ar@<1ex>[r] \ar@<-1ex>[r] &
-\prod F(X_i \times_X X_j)
+\prod F'(X_i \times_X X_j)
 }
 \end{align*}
-The first equality by property (b) for $F$. The second because of the
-sheaf property for $F$ on these coverings. The third because
-filtered colimits are exact. The fourth by property (b) for $F$.
-In this way we find that the sheaf property holds for $\{X_i \to X\}_{i \in I}$.
+The first equality holds by construction of $F'$. The second holds by
+assumption (c). The third holds because filtered colimits are exact.
+The fourth again holds by construction of $F'$.
+In this way we find that the sheaf property holds for $F'$
+with respect to $\{X_i \to X\}_{i \in I}$.
 
 \medskip\noindent
 General case. Choose an affine open covering $X = \bigcup U_k$ such that
@@ -4364,30 +4364,59 @@ a standard $\tau$-covering $\{V_{k, j} \to U_k\}_{j = 1, \ldots, m_k}$
 which refines $\{X_i \times_X U_k \to U_k\}_{i \in I}$. For each
 $j \in \{1, \ldots, m_k\}$ choose an index $i_{k, j} \in I$
 and a morphism $g_{k, j} : V_{k, j} \to X_{i_{k, j}}$ over $X$.
-Let $s_{k, j}$ be the element of $F(V_{k, j})$ we get by restricting
+Let $s_{k, j}$ be the element of $F'(V_{k, j})$ we get by restricting
 $s_{i_{k, j}}$ via $g_{k, j}$. Observe that $s_{k, j}$ and $s_{k', j'}$
-restrict to the same element of $F(V_{k, j} \times_X V_{k', j'})$
+restrict to the same element of $F'(V_{k, j} \times_X V_{k', j'})$
 for all $k$ and $k'$ and all $j \in \{1, \ldots, m_k\}$
 and $j' \in \{1, \ldots, m_{k'}\}$; verification omitted.
 In particular, by the result of the previous paragraph there is a unique
-element $s_k \in F(U_k)$ restricting to $s_{k, j}$ for all $j$.
+element $s_k \in F'(U_k)$ restricting to $s_{k, j}$ for all $j$.
 With this notation we are ready to finish the proof.
 
 \medskip\noindent
-Proof of uniqueness of $s$: this is true because $F$ satisfies
+Proof of uniqueness of $s$: this is true because $F'$ satisfies
 the sheaf property for Zariski coverings and $s|_{U_k}$ must be equal
 to $s_k$ because both restrict to $s_{k, j}$ for all $j$.
 This uniqueness then shows that $s_k$ and $s_{k'}$ must restrict
-to the same section of $F$ over (the non-affine scheme) $U_k \cap U_{k'}$
+to the same section of $F'$ over (the non-affine scheme) $U_k \cap U_{k'}$
 because these sections restrict to the same section over the
 $\tau$-covering $\{V_{k, j} \times_X V_{k', j'} \to U_k \cap U_{k'}\}$.
 Thus by the sheaf property for Zariski coverings, there is a unique
-section $s$ of $F$ over $X$ whose restriction to $U_k$ is $s_k$.
+section $s$ of $F'$ over $X$ whose restriction to $U_k$ is $s_k$.
 We omit the verification (similar to the above) that $s$ restricts
 to $s_i$ over $X_i$.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-extend-sheaf}
+Let $\tau \in \{Zariski, \etale, smooth, syntomic, fppf\}$.
+Let $S$ be a scheme contained in a big site $\Sch_\tau$.
+Let $F : (\Sch/S)_\tau^{opp} \to \textit{Sets}$ be a $\tau$-sheaf
+satisfying property (b) of Lemma \ref{lemma-extend} with
+$\mathcal{C} = (\Sch/S)_\tau$. Then the extension
+$F'$ of $F$ to the category of all schemes over $S$
+satisfies the sheaf condition for all $\tau$-coverings.
+\end{lemma}
 
+\begin{proof}
+This follows from Lemma \ref{lemma-extend-sheaf-general}
+applied with $\mathcal{C} = (\Sch/S)_\tau$.
+Conditions (1), (2), (a), and (b) of Lemma \ref{lemma-extend}
+hold; we omit the details. Thus we get our unique extension $F'$
+to the category of all schemes over $S$. Finally, observe that
+any standard $\tau$-covering is tautologically equivalent to a
+covering in $(\Sch/S)_\tau$, see Sets, Lemma \ref{sets-lemma-what-is-in-it}
+as well as Lemmas \ref{lemma-zariski-induced},
+\ref{lemma-etale-induced},
+\ref{lemma-smooth-induced},
+\ref{lemma-syntomic-induced}, and
+\ref{lemma-fppf-induced}. By
+Sites, Lemma \ref{sites-lemma-tautological-same-sheaf}
+the sheaf property passes through tautological equivalence
+of coverings. Hence the fact that $F$ is a $\tau$-sheaf implies
+that property (c) of Lemma \ref{lemma-extend-sheaf-general} holds
+and we conclude.
+\end{proof}
 
 
 
