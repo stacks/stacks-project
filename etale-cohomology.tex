@@ -1131,17 +1131,24 @@ so forth.
 \section{Faithfully flat descent}
 \label{section-fpqc-descent}
 
+\noindent
+In this section we discuss faithfully flat descent for quasi-coherent
+modules. More precisely, we will prove quasi-coherent modules satisfy
+effect descent with respect to fpqc coverings.
+
 \begin{definition}
 \label{definition-descent-datum}
 Let $\mathcal{U} = \{ t_i : T_i \to T\}_{i \in I}$ be a family of
 morphisms of schemes with fixed target. A {\it descent datum} for
-quasi-coherent sheaves with respect to
-$\mathcal{U}$ is a family $(\mathcal{F}_i, \varphi_{ij})_{i, j\in I}$ where
+quasi-coherent sheaves with respect to $\mathcal{U}$ is a collection
+$((\mathcal{F}_i)_{i \in I}, (\varphi_{ij})_{i, j \in I})$ where
 \begin{enumerate}
-\item for all $i$, $\mathcal{F}_i$ is a quasi-coherent sheaf on $T_i$, and
-\item for all $i, j \in I$ the map
-$\varphi_{ij} : \text{pr}_0^* \mathcal{F}_i \cong \text{pr}_1^* \mathcal{F}_j$
-is an isomorphism on $T_i \times_T T_j$ such that the diagrams
+\item $\mathcal{F}_i$ is a quasi-coherent sheaf on $T_i$, and
+\item $\varphi_{ij} : \text{pr}_0^* \mathcal{F}_i \to
+\text{pr}_1^* \mathcal{F}_j$ is an isomorphism of modules
+on $T_i \times_T T_j$,
+\end{enumerate}
+such that the {\it cocycle condition} holds: the diagrams
 $$
 \xymatrix{
 \text{pr}_0^*\mathcal{F}_i \ar[dr]_{\text{pr}_{02}^*\varphi_{ik}}
@@ -1151,11 +1158,10 @@ $$
 }
 $$
 commute on $T_i \times_T T_j \times_T T_k$.
-\end{enumerate}
 This descent datum is called {\it effective} if there exist a quasi-coherent
 sheaf $\mathcal{F}$ over $T$ and $\mathcal{O}_{T_i}$-module isomorphisms
-$\varphi_i : t_i^* \mathcal{F} \cong \mathcal{F}_i$ satisfying the cocycle
-condition, namely
+$\varphi_i : t_i^* \mathcal{F} \cong \mathcal{F}_i$ compatible with
+the maps $\varphi_{ij}$, namely
 $$
 \varphi_{ij} = \text{pr}_1^* (\varphi_j) \circ \text{pr}_0^* (\varphi_i)^{-1}.
 $$
@@ -20332,6 +20338,443 @@ $H^q_\etale(X, \underline{A}) = H^q_h(X, \underline{A})$.
 This follows from Lemma \ref{lemma-cohomological-descent-etale-h}
 by Cohomology on Sites, Remark \ref{sites-cohomology-remark-before-Leray}.
 \end{proof}
+
+
+
+
+
+
+
+
+
+
+
+\section{Descending \'etale sheaves}
+\label{section-glueing-etale}
+
+\noindent
+We prove that \'etale sheaves ``glue'' in the fppf and h topology
+and related results. We have already shown the following related
+results
+\begin{enumerate}
+\item Lemma \ref{lemma-describe-pullback} tells us that a sheaf
+on the small \'etale site of a scheme $S$ determines a sheaf on the
+big \'etale site of $S$ satisfying the sheaf condition for
+fpqc coverings (and a fortiori for Zariski, \'etale, smooth, syntomic,
+and fppf coverings),
+\item Lemma \ref{lemma-describe-pullback-pi-fppf} is a restatement of
+the previous point for the fppf topology,
+\item Lemma \ref{lemma-describe-pullback-pi-ph} proves the same for the
+ph topology,
+\item Lemma \ref{lemma-describe-pullback-pi-h} proves the same for the
+h topology,
+\item Lemma \ref{lemma-descent-sheaf-fppf-etale} is a version of
+fppf descent for \'etale sheaves, and
+\item Remark \ref{remark-cohomological-descent-finite} tells us that
+we have descent of \'etale sheaves for finite surjective morphisms
+(we will clarify and strengthen this below).
+\end{enumerate}
+In the chapter on simplicial spaces we will prove some additional
+results on this, see for example
+Simplicial Spaces, Sections \ref{spaces-simplicial-section-fppf-hypercovering}
+and \ref{spaces-simplicial-section-proper-hypercovering-spaces}.
+
+\medskip\noindent
+In order to conveniently express our results we need some notation.
+Let $\mathcal{U} = \{f_i : X_i \to X\}$
+be a family of morphisms of schemes with fixed target.
+A {\it descent datum} for \'etale sheaves with respect to
+$\mathcal{U}$ is a family
+$((\mathcal{F}_i)_{i \in I}, (\varphi_{ij})_{i, j \in I})$ where
+\begin{enumerate}
+\item $\mathcal{F}_i$ is in $\Sh(X_{i, \etale})$, and
+\item $\varphi_{ij} :
+\text{pr}_{0, small}^{-1} \mathcal{F}_i
+\longrightarrow
+\text{pr}_{1, small}^{-1} \mathcal{F}_j$
+is an isomorphism in $\Sh((X_i \times_X X_j)_\etale)$
+\end{enumerate}
+such that the {\it cocycle condition} holds: the diagrams
+$$
+\xymatrix{
+\text{pr}_{0, small}^{-1}\mathcal{F}_i
+\ar[dr]_{\text{pr}_{02, small}^{-1}\varphi_{ik}}
+\ar[rr]^{\text{pr}_{01, small}^{-1}\varphi_{ij}} & &
+\text{pr}_{1, small}^{-1}\mathcal{F}_j
+\ar[dl]^{\text{pr}_{12, small}^{-1}\varphi_{jk}} \\
+& \text{pr}_{2, small}^{-1}\mathcal{F}_k
+}
+$$
+commute in $\Sh((X_i \times_X X_j \times_X X_k)_\etale)$.
+There is an obvious notion of {\it morphisms of descent data}
+and we obtain a category of descent data.
+A descent datum
+$((\mathcal{F}_i)_{i \in I}, (\varphi_{ij})_{i, j \in I})$
+is called {\it effective} if there exist a
+$\mathcal{F}$ in $\Sh(X_\etale)$ and isomorphisms
+$\varphi_i : f_{i, small}^{-1} \mathcal{F} \to \mathcal{F}_i$
+in $\Sh(X_{i, \etale})$ compatible with the $\varphi_{ij}$, i.e.,
+such that
+$$
+\varphi_{ij} =
+\text{pr}_{1, small}^{-1} (\varphi_j) \circ
+\text{pr}_{0, small}^{-1} (\varphi_i^{-1})
+$$
+Another way to say this is the following. Given an object $\mathcal{F}$
+of $\Sh(X_\etale)$ we obtain the {\it canonical descent datum}
+$(f_{i, small}^{-1}\mathcal{F}_i, c_{ij})$ where $c_{ij}$
+is the canonical isomorphism
+$$
+c_{ij} : text{pr}_{0, small}^{-1} f_{i, small}^{-1}\mathcal{F}
+\longrightarrow
+\text{pr}_{1, small}^{-1} f_{j, small}^{-1}\mathcal{F}
+$$
+The descent datum
+$((\mathcal{F}_i)_{i \in I}, (\varphi_{ij})_{i, j \in I})$
+is effective if and only if it is isomorphic to the canonical
+descent datum associated to some $\mathcal{F}$ in $\Sh(X_\etale)$.
+
+\medskip\noindent
+If the family consists of a single morphism $\{X \to Y\}$,
+then we think of a descent datum as a pair $(\mathcal{F}, \varphi)$
+where $\mathcal{F}$ is an object of $\Sh(X_\etale)$ and
+$\varphi$ is an isomorphism
+$$
+\text{pr}_{0, small}^{-1} \mathcal{F}
+\longrightarrow
+\text{pr}_{1, small}^{-1} \mathcal{F}
+$$
+in $\Sh((X \times_Y X)_\etale)$ such that the cocycle condition holds:
+$$
+\xymatrix{
+\text{pr}_{0, small}^{-1}\mathcal{F}
+\ar[dr]_{\text{pr}_{02, small}^{-1}\varphi}
+\ar[rr]^{\text{pr}_{01, small}^{-1}\varphi} & &
+\text{pr}_{1, small}^{-1}\mathcal{F}
+\ar[dl]^{\text{pr}_{12, small}^{-1}\varphi} \\
+& \text{pr}_{2, small}^{-1}\mathcal{F}
+}
+$$
+commutes in $\Sh((X \times_Y X \times_Y X)_\etale)$.
+There is a notion of morphisms of descent data and effectivity
+exactly as before.
+
+\medskip\noindent
+We first prove effective descent for surjective integral morphisms.
+
+\begin{lemma}
+\label{lemma-glue-etale-sheaf-section}
+Let $f : X \to Y$ be a morphism of schemes which has a section. Then the
+functor
+$$
+\Sh(Y_\etale)
+\longrightarrow
+\text{descent data for \'etale sheaves wrt }\{X \to Y\}
+$$
+sending $\mathcal{G}$ in $\Sh(Y_\etale)$ to the canonical descent datum
+is an equivalence of categories.
+\end{lemma}
+
+\begin{proof}
+This is formal and depends only on functoriality of the pullback
+functors. We omit the details. Hint: If $s : Y \to X$ is a section,
+then a quasi-inverse is the functor sending $(\mathcal{F}, \varphi)$
+to $s_{small}^{-1}\mathcal{F}$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-glue-etale-sheaf-integral-surjective}
+Let $f : X \to Y$ be a surjective integral morphism of schemes.
+The functor
+$$
+\Sh(Y_\etale)
+\longrightarrow
+\text{descent data for \'etale sheaves wrt }\{X \to Y\}
+$$
+is an equivalence of categories.
+\end{lemma}
+
+\begin{proof}
+In this proof we drop the subscript ${}_{small}$ from our pullback
+and pushforward functors.
+Denote $X_1 = X \times_Y X$ and denote $f_1 : X_1 \to Y$ the
+morphism $f \circ \text{pr}_0 = f \circ \text{pr}_1$.
+Let $(\mathcal{F}, \varphi)$ be a descent datum for $\{X \to Y\}$.
+Let us set $\mathcal{F}_1 = \text{pr}_0^{-1}\mathcal{F}$.
+We may think of $\varphi$ as defining an isomorphism
+$\mathcal{F}_1 \to \text{pr}_1^{-1}\mathcal{F}$.
+We claim that the rule which sends a descent datum
+$(\mathcal{F}, \varphi)$
+to the sheaf
+$$
+\mathcal{G} =
+\text{Equalizer}\left(
+\xymatrix{
+f_*\mathcal{F}
+\ar@<1ex>[r] \ar@<-1ex>[r] &
+f_{1, *}\mathcal{F}_1
+}
+\right)
+$$
+is a quasi-inverse to the functor in the statement of the lemma.
+The first of the two arrows comes from the map
+$$
+f_*\mathcal{F} \to
+f_*\text{pr}_{0, *}\text{pr}_0^{-1}\mathcal{F} =
+f_{1, *}\mathcal{F}_1
+$$
+and the second arrow comes from the map
+$$
+f_*\mathcal{F} \to
+f_* \text{pr}_{1, *}\text{pr}_1^{-1}\mathcal{F}
+\xleftarrow{\varphi}
+f_* \text{pr}_{0, *} \text{pr}_0^{-1}\mathcal{F} =
+f_{1, *}\mathcal{F}_1
+$$
+where the arrow pointing left is invertible.
+To prove this works we have to show
+that the canonical map $f^{-1}\mathcal{G} \to \mathcal{F}$
+is an isomorphism; details omitted. In order to prove this it
+suffices to check after pulling back by any collection of morphisms
+$\Spec(k) \to Y$ where $k$ is an algebraically closed field.
+Namely, the corresponing base changes $X_k \to X$ are jointly
+surjective and we can check whether a map of sheaves on $X_\etale$
+is an isomorphism by looking at stalks on geometric points, see
+Theorem \ref{theorem-exactness-stalks}.
+By Lemma \ref{lemma-integral-pushforward-commutes-with-base-change}
+the construction of $\mathcal{G}$ from the descent datum
+$(\mathcal{F}, \varphi)$ commutes with any base change.
+Thus we may assume $Y$ is the spectrum of an algebraically
+closed point (note that base change preserves the properties
+of the morphism $f$, see
+Morphisms, Lemma \ref{morphisms-lemma-base-change-surjective}
+and \ref{morphisms-lemma-base-change-finite}).
+In this case the morphism $X \to Y$ has a section, so we
+know that the functor is an equivalence by
+Lemma \ref{lemma-glue-etale-sheaf-section}.
+However, the reader may show that the functor is an equivalence
+if and only if the construction above is a quasi-inverse;
+details omitted. This finishes the proof.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-glue-etale-sheaf-check-after-integral-surjective-base-change}
+Let $f : X \to Y$ be a morphism of schemes. Let $Z \to Y$ be a surjective
+integral morphism of schemes. If the functors
+$$
+\Sh(Z_\etale)
+\longrightarrow
+\text{descent data for \'etale sheaves wrt }\{X \times_Y Z \to Z\}
+$$
+and
+$$
+\Sh((Z \times_Y Z)_\etale)
+\longrightarrow
+\text{descent data for \'etale sheaves wrt }
+\{X \times_Y (Z \times_Y Z) \to Z \times_Y Z\}
+$$
+are equivalences of categories, then
+$$
+\Sh(Y_\etale)
+\longrightarrow
+\text{descent data for \'etale sheaves wrt }\{X \to Y\}
+$$
+is an equivalence.
+\end{lemma}
+
+\begin{proof}
+Formal consequence of the definitions and
+Lemma \ref{lemma-glue-etale-sheaf-integral-surjective}. Details omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-glue-etale-sheaf-fppf-cover}
+Let $f : X \to Y$ be a morphism of schemes which is
+surjective, flat, locally of finite presentation.
+The functor
+$$
+\Sh(Y_\etale)
+\longrightarrow
+\text{descent data for \'etale sheaves wrt }\{X \to Y\}
+$$
+is an equivalence of categories.
+\end{lemma}
+
+\begin{proof}
+Exactly as in the proof of
+Lemma \ref{lemma-glue-etale-sheaf-integral-surjective}
+we claim a quasi-inverse is given by the functor sending
+$(\mathcal{F}, \varphi)$ to
+$$
+\mathcal{G} =
+\text{Equalizer}\left(
+\xymatrix{
+f_*\mathcal{F}
+\ar@<1ex>[r] \ar@<-1ex>[r] &
+f_{1, *}\mathcal{F}_1
+}
+\right)
+$$
+and in order to prove this it suffices to show that
+$f^{-1}\mathcal{G} \to \mathcal{F}$ is an isomorphism.
+This we may check locally, hence we may and do assume $Y$
+is affine. Then we can find a finite surjective morphism
+$Z \to Y$ such that there exists an open covering
+$Z = \bigcup W_i$ such that $W_i \to Y$ factors through $X$.
+See
+More on Morphisms, Lemma \ref{more-morphisms-lemma-dominate-fppf-finite}.
+Applying Lemma
+\ref{lemma-glue-etale-sheaf-check-after-integral-surjective-base-change}
+we see that it suffices to prove
+the lemma after replacing $Y$ by $Z$ and $Z \times_Y Z$ and $f$
+by its base change. Thus we may assume $f$ has sections Zariski locally.
+Of course, using that the problem is local on $Y$ we reduce
+to the case where we have a section which is
+Lemma \ref{lemma-glue-etale-sheaf-section}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-glue-etale-sheaf-fppf}
+Let $\{f_i : X_i \to X\}$ be an fppf covering of schemes.
+The functor
+$$
+\Sh(Y_\etale)
+\longrightarrow
+\text{descent data for \'etale sheaves wrt }\{f_i : X_i \to X\}
+$$
+is an equivalence of categories.
+\end{lemma}
+
+\begin{proof}
+We have Lemma \ref{lemma-glue-etale-sheaf-fppf-cover}
+for the morphism $f : \coprod X_i \to X$.
+Then a formal argument shows that descent data for $f$
+are the same thing as descent data for the covering, compare
+with Descent, Lemma \ref{descent-lemma-family-is-one}.
+Details omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-glue-etale-sheaf-modification}
+Let $f : X' \to X$ be a proper morphism of schemes. Let $i : Z \to X$
+be a closed immersion. Set $E = Z \times_X X'$. Picture
+$$
+\xymatrix{
+E \ar[d]_g \ar[r]_j & X' \ar[d]^f \\
+Z \ar[r]^i & X
+}
+$$
+If $f$ is an isomorphism over $X \setminus Z$, then the functor
+$$
+\Sh(X_\etale)
+\longrightarrow
+\Sh(X'_\etale) \times_{\Sh(E_\etale)} \Sh(Z_\etale)
+$$
+is an equivalence of categories.
+\end{lemma}
+
+\begin{proof}
+We will work with the $2$-fibre product category as constructed in
+Categories, Example \ref{categories-example-2-fibre-product-categories}.
+The functor sends $\mathcal{F}$ to the triple
+$(f^{-1}\mathcal{F}, i^{-1}\mathcal{F}, c)$ where
+$c : j^{-1}f^{-1}\mathcal{F} \to g^{-1}i^{-1}\mathcal{F}$
+is the canonical isomorphism. We will construct a quasi-inverse functor. Let
+$(\mathcal{F}', \mathcal{G}, \alpha)$ be an object
+of the right hand side of the arrow.
+We obtain an isomorphism
+$$
+i^{-1}f_*\mathcal{F}' = g_*j^{-1}\mathcal{F}'
+\xrightarrow{g_*\alpha}
+g_*g^{-1}\mathcal{G}
+$$
+The first equality is Lemma \ref{lemma-proper-base-change-f-star}.
+Using this we obtain maps
+$i_*\mathcal{G} \to i_*g_*g^{-1}\mathcal{G}$
+and $f'_*\mathcal{F}' \to i_*g_*g^{-1}\mathcal{G}$. We set
+$$
+\mathcal{F} = f_*\mathcal{F}' \times_{i_*g_*g^{-1}\mathcal{G}} i_*\mathcal{G}
+$$
+and we claim that $\mathcal{F}$ is an object of the left hand side
+of the arrow whose image in the right hand side is isomorphic to
+the triple we started out with. Let us compute the stalk of $\mathcal{F}$
+at a geometric point $\overline{x}$ of $X$.
+
+\medskip\noindent
+If $\overline{x}$ is not
+in $Z$, then on the one hand $\overline{x}$ comes from a unique
+geometric point $\overline{x}'$ of $X'$ and
+$\mathcal{F}'_{\overline{x}'} = (f_*\mathcal{F}')_{\overline{x}}$
+and on the other hand we have $(i_*\mathcal{G})_{\overline{x}}$
+and $(i_*g_*g^{-1}\mathcal{G})_{\overline{x}}$ are singletons.
+Hence we see that $\mathcal{F}_{\overline{x}}$ equals
+$\mathcal{F}'_{\overline{x}'}$.
+
+\medskip\noindent
+If $\overline{x}$ is in $Z$, i.e., $\overline{x}$ is the image of
+a geometric point $\overline{z}$ of $Z$, then we obtain
+$(i_*\mathcal{G})_{\overline{x}} = \mathcal{G}_{\overline{z}}$
+and
+$$
+(i_*g_*g^{-1}\mathcal{G})_{\overline{x}} =
+(g_*g^{-1}\mathcal{G})_{\overline{z}} =
+\Gamma(E_{\overline{z}}, g^{-1}\mathcal{G}|_{E_{\overline{z}}})
+$$
+(by the proper base change for pushforward used above)
+and similarly
+$$
+(f_*\mathcal{F}')_{\overline{x}} =
+\Gamma(X'_{\overline{x}}, \mathcal{F}'|_{X'_{\overline{x}}})
+$$
+Since we have the identification
+$E_{\overline{z}} = X'_{\overline{x}}$ and since $\alpha$
+defines an isomorphism between the sheaves
+$\mathcal{F}'|_{X'_{\overline{x}}}$ and
+$g^{-1}\mathcal{G}|_{E_{\overline{z}}}$
+we conclude that we get
+$$
+\mathcal{F}_{\overline{x}} = \mathcal{G}_{\overline{z}}
+$$
+in this case.
+
+\medskip\noindent
+To finish the proof, we observe that there are canonical maps
+$i^{-1}\mathcal{F} \to \mathcal{G}$ and $f^{-1}\mathcal{F} \to \mathcal{F}'$
+compatible with $\alpha$ which on stalks produce the isomorphisms
+we saw above. We omit the careful construction of these maps.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-h-descent-etale-sheaves}
+Let $S$ be a scheme. Then the category fibred in groupoids
+$$
+p : \mathcal{S} \longrightarrow (\Sch/S)_h
+$$
+whose fibre category over $U$ is the category $\Sh(U_\etale)$
+of sheaves on the small \'etale site of $U$ is a stack in groupoids.
+\end{lemma}
+
+\begin{proof}
+To prove the lemma we will check conditions (1), (2), and (3) of
+More on Flatness, Lemma \ref{flat-lemma-refine-check-h-stack}.
+
+\medskip\noindent
+Condition (1) holds because we have glueing for sheaves (and
+Zariski coverings are \'etale coverings). See
+Sites, Lemma \ref{sites-lemma-glue-sheaves}.
+
+\medskip\noindent
+To see condition (2), suppose that $f : X \to Y$ is a surjective,
+flat, proper morphism of finite presentation over $S$ with $Y$ affine.
+Then we have descent for $\{X \to Y\}$ by
+Lemma \ref{lemma-glue-etale-sheaf-fppf-cover}.
+
+\medskip\noindent
+Condition (3) follows immediately from the more general
+Lemma \ref{lemma-glue-etale-sheaf-modification}.
+\end{proof}
+
+
 
 
 
