@@ -60,17 +60,35 @@ of algebraic spaces.
 
 
 
-\section{Pushouts in the category of algebraic spaces}
-\label{section-pushouts}
+
+\section{Conventions}
+\label{section-conventions}
 
 \noindent
-This section is analogue of
-More on Morphisms, Section \ref{more-morphisms-section-pushouts}.
-We first prove a general result on colimits and algebraic spaces.
-To do this we discuss a bit of notation. Let $S$ be a scheme.
+The standing assumption is that all schemes are contained in
+a big fppf site $\Sch_{fppf}$. And all rings $A$ considered
+have the property that $\Spec(A)$ is (isomorphic) to an
+object of this big site.
+
+\medskip\noindent
+Let $S$ be a scheme and let $X$ be an algebraic space over $S$.
+In this chapter and the following we will write $X \times_S X$
+for the product of $X$ with itself (in the category of algebraic
+spaces over $S$), instead of $X \times X$.
+
+
+
+
+\section{Colimits of algebraic spaces}
+\label{section-pushouts-generalities}
+
+\noindent
+We briefly discuss colimits of algebraic spaces. Let $S$ be a scheme.
 Let $\mathcal{I} \to (\Sch/S)_{fppf}$, $i \mapsto X_i$
 be a diagram (see Categories, Section \ref{categories-section-limits}).
-For each $i$ we may consider the small \'etale site $X_{i, \etale}$.
+For each $i$ we may consider the small \'etale site $X_{i, \etale}$
+whose objects are schemes \'etale over $X_i$, see
+Properties of Spaces, Section \ref{spaces-properties-section-etale-site}.
 For each morphism $i \to j$ of $\mathcal{I}$ we have the morphism
 $X_i \to X_j$ and hence a pullback functor
 $X_{j, \etale} \to X_{i, \etale}$.
@@ -98,7 +116,7 @@ With this notation in hand we can formulate our lemma.
 \begin{lemma}
 \label{lemma-colimit-agrees}
 Let $S$ be a scheme. Let $\mathcal{I} \to (\Sch/S)_{fppf}$, $i \mapsto X_i$
-be a diagram as above. Assume that
+be a diagram of schemes over $S$ as above. Assume that
 \begin{enumerate}
 \item $X = \colim X_i$ exists in the category of schemes,
 \item $\coprod X_i \to X$ is surjective,
@@ -140,6 +158,107 @@ As $Z$ is a sheaf for the \'etale topology, we conclude that
 $g : U \to Z$ descends to $f : X \to Z$ as desired.
 \end{proof}
 
+\noindent
+The same technique can be used to reduce a colimit construction to a
+subcategory of the category of all algebraic spaces.
+
+\medskip\noindent
+Let $S$ be a scheme and let $B$ be an algebraic space over $S$. Let
+$\mathcal{I}$ be an index category and let $i \mapsto X_i$
+be a diagram in the category of algebraic spaces over $B$,
+see Categories, Section \ref{categories-section-limits}.
+For each $i$ we may consider the small \'etale site
+$X_{i, spaces, \etale}$
+whose objects are algebraic spaces \'etale over $X_i$, see
+Properties of Spaces, Section \ref{spaces-properties-section-etale-site}.
+For each morphism $i \to j$ of $\mathcal{I}$ we have the morphism
+$X_i \to X_j$ and hence a pullback functor
+$X_{j, spaces, \etale} \to X_{i, spaces, \etale}$.
+Hence we obtain a pseudo functor from $\mathcal{I}^{opp}$ into
+the $2$-category of categories. Denote
+$$
+\lim_i X_{i, spaces, \etale}
+$$
+the $2$-limit (see insert future reference here). What does this mean
+concretely? An object of this limit is a diagram
+$i \mapsto (U_i \to X_i)$ in the category of arrows of
+algebraic spaces over $B$
+such that for each $i \to j$ in $\mathcal{I}$ the diagram
+$$
+\xymatrix{
+U_i \ar[r] \ar[d] & U_j \ar[d] \\
+X_i \ar[r] & X_j
+}
+$$
+is cartesian. Morphisms between objects are defined in the obvious manner.
+Suppose that $f_i : X_i \to Z$ is a family of morphisms of algebraic
+spaces over $B$ such that
+for each $i \to j$ the composition $X_i \to X_j \to Z$ is equal to $f_i$.
+Then we get a functor $Z_{spaces, \etale} \to \lim X_{i, spaces, \etale}$.
+With this notation in hand we can formulate our next lemma.
+
+\begin{lemma}
+\label{lemma-colimit-separated-enough}
+Let $S$ be a scheme. Let $B$ be an algebraic space over $S$.
+Let $\mathcal{I} \to (\Sch/S)_{fppf}$, $i \mapsto X_i$
+be a diagram of algebraic spaces over $B$. Assume that
+\begin{enumerate}
+\item each $X_i$ is separated over $B$,
+\item $X = \colim X_i$ exists in the category of
+algebraic spaces separated over $B$,
+\item $\coprod X_i \to X$ is surjective,
+\item if $U \to X$ is an \'etale separated morphism of algebraic spaces and
+$U_i = X_i \times_X U$, then $U = \colim U_i$ in
+the category of algebraic spaces separated over $B$, and
+\item every object $(U_i \to X_i)$ of $\lim X_{i, spaces, \etale}$
+with $U_i \to X_i$ separated is of the form $U_i = X_i \times_X U$
+for some \'etale separated morphism of algebraic spaces $U \to X$.
+\end{enumerate}
+Then $X = \colim X_i$ in the category of all algebraic spaces over $B$.
+\end{lemma}
+
+\begin{proof}
+Let $Z$ be an algebraic space over $B$. Suppose that $f_i : X_i \to Z$ is
+a family of morphisms such that for each $i \to j$ the composition
+$X_i \to X_j \to Z$ is equal to $f_i$. We have to construct a morphism
+of algebraic spaces $f : X \to Z$ over $B$ such that we can recover $f_i$ as
+the composition $X_i \to X \to Z$. Let $W \to Z$ be a surjective
+\'etale morphism of a scheme to $Z$. We may assume that $W$ is a
+disjoint union of affines and in particular we may assume that
+$W \to Z$ is separated and that $W$ is separated over $B$. For each $i$ set
+$U_i = W \times_{Z, f_i} X_i$ and denote $h_i : U_i \to W$ the projection.
+Then $U_i \to X_i$ forms an object of $\lim X_{i, spaces, \etale}$
+with $U_i \to X_i$ separated. By
+assumption (5) we can find a separated \'etale morphism $U \to X$
+of algebraic spaces and (functorial) isomorphisms $U_i = X_i \times_X U$.
+By assumption (4) there exists a morphism $h : U \to W$ over $B$
+such that the compositions $U_i \to U \to W$ are $h_i$.
+Let $g : U \to Z$ be the composition of $h$ with the map $W \to Z$. To
+finish the proof we have to show that $g : U \to Z$
+descends to a morphism $X \to Z$. To do this, consider the morphism
+$(h, h) : U \times_X U \to W \times_S W$.
+Composing with $U_i \times_{X_i} U_i \to U \times_X U$ we obtain
+$(h_i, h_i)$ which factors through $W \times_Z W$. Since $U \times_X U$
+is the colimit of the algebraic spaces $U_i \times_{X_i} U_i$
+in the category of algebraic spaces separated over $B$ by (4) we see
+that $(h, h)$ factors through $W \times_Z W$. Hence the two compositions
+$U \times_X U \to U \to W \to Z$ are equal. Because each $U_i \to X_i$ is
+surjective and assumption (2) we see that $U \to X$ is surjective.
+As $Z$ is a sheaf for the \'etale topology, we conclude that
+$g : U \to Z$ descends to $f : X \to Z$ as desired.
+\end{proof}
+
+
+
+
+
+\section{Pushouts along thickenings and affine morphisms}
+\label{section-pushouts}
+
+\noindent
+This section is analogue of
+More on Morphisms, Section \ref{more-morphisms-section-pushouts}.
+
 \begin{lemma}
 \label{lemma-pushout-along-thickening-schemes}
 Let $S$ be a scheme. Let $X \to X'$ be a thickening of schemes
@@ -155,32 +274,6 @@ More on Morphisms, Lemmas
 \ref{more-morphisms-lemma-pushout-along-thickening},
 \ref{more-morphisms-lemma-equivalence-categories-schemes-over-pushout}, and
 \ref{more-morphisms-lemma-equivalence-categories-schemes-over-pushout-flat}.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-pushout-along-closed-immersion-and-integral}
-In More on Morphisms, Situation
-\ref{more-morphisms-situation-pushout-along-closed-immersion-and-integral}
-let $Y \amalg_Z X$ be the pushout in the category of schemes
-(More on Morphisms, Proposition
-\ref{more-morphisms-proposition-pushout-along-closed-immersion-and-integral}).
-Then $Y \amalg_Z X$
-is also a pushout in the category of algebraic spaces over $S$.
-\end{lemma}
-
-\begin{proof}
-This is a consequence of Lemma \ref{lemma-colimit-agrees}, the proposition
-mentioned in the lemma and More on Morphisms, Lemmas
-\ref{more-morphisms-lemma-pushout-functor} and
-\ref{more-morphisms-lemma-pushout-functor-equivalence-flat}.
-Conditions (1) and (2) of Lemma \ref{lemma-colimit-agrees}
-follow immediately. To see (3) and (4) note that an \'etale morphism
-is locally quasi-finite and use that the equivalence of categories of
-More on Morphisms, Lemma
-\ref{more-morphisms-lemma-pushout-functor-equivalence-flat}
-is constructed using the pushout construction of
-More on Morphisms, Lemmas \ref{more-morphisms-lemma-pushout-functor}.
-Minor details omitted.
 \end{proof}
 
 \begin{lemma}
@@ -636,6 +729,44 @@ But $G(F(W)) \to W$ is an isomorphism on underlying reduced
 algebraic spaces (by construction), hence it is an isomorphism.
 \end{proof}
 
+
+
+
+
+
+
+\section{Pushouts along closed immersions and integral morphisms}
+\label{section-pushouts-II}
+
+\noindent
+This section is analogue of
+More on Morphisms, Section \ref{more-morphisms-section-pushouts-II}.
+
+\begin{lemma}
+\label{lemma-pushout-along-closed-immersion-and-integral}
+In More on Morphisms, Situation
+\ref{more-morphisms-situation-pushout-along-closed-immersion-and-integral}
+let $Y \amalg_Z X$ be the pushout in the category of schemes
+(More on Morphisms, Proposition
+\ref{more-morphisms-proposition-pushout-along-closed-immersion-and-integral}).
+Then $Y \amalg_Z X$
+is also a pushout in the category of algebraic spaces over $S$.
+\end{lemma}
+
+\begin{proof}
+This is a consequence of Lemma \ref{lemma-colimit-agrees}, the proposition
+mentioned in the lemma and More on Morphisms, Lemmas
+\ref{more-morphisms-lemma-pushout-functor} and
+\ref{more-morphisms-lemma-pushout-functor-equivalence-flat}.
+Conditions (1) and (2) of Lemma \ref{lemma-colimit-agrees}
+follow immediately. To see (3) and (4) note that an \'etale morphism
+is locally quasi-finite and use that the equivalence of categories of
+More on Morphisms, Lemma
+\ref{more-morphisms-lemma-pushout-functor-equivalence-flat}
+is constructed using the pushout construction of
+More on Morphisms, Lemmas \ref{more-morphisms-lemma-pushout-functor}.
+Minor details omitted.
+\end{proof}
 
 
 
