@@ -4090,25 +4090,34 @@ is local and we conclude also.
 
 \begin{lemma}
 \label{lemma-pushout-fpqc-local}
-Let $\mathcal{I} \to (\Sch/S)_{fppf}$, $i \mapsto X_i$ be a diagram of schemes.
-Let $(W, X_i \to W)$ be a cocone for the diagram in the category of schemes
-(Categories, Remark \ref{categories-remark-cones-and-cocones}).
-If there exists a fpqc covering $\{W_a \to W\}_{a \in A}$ of schemes such that
-\begin{enumerate}
-\item for all $a \in A$ we have
-$W_a = \colim X_i \times_W W_a$
-in the category of schemes, and
-\item for all $a, b \in A$ we have
-$W_a \times_W W_b = \colim X_i \times_W W_a \times_W W_b$
-in the category of schemes,
-\end{enumerate}
-then $W = \colim X_i$ in the category of schemes.
+Consider a commutative diagram of schemes
+$$
+\xymatrix{
+Z \ar[r]_i \ar[d]_j & X \ar[d]^a \\
+Y \ar[r]^-b & W
+}
+$$
+and set $c = a \circ i = b \circ j$. If there exists an fpqc covering
+$\{W_i \to W\}$ such that for all $i$ and $i'$ the diagrams
+$$
+\xymatrix{
+Z \times_{c, W} W_i \ar[r] \ar[d] & X \times_{a, W} W_i \ar[d] \\
+Y \times_{b, W} W_i \ar[r] & W_i
+}
+\quad
+\xymatrix{
+Z \times_{c, W} (W_i \times_W W_{i'}) \ar[r] \ar[d] &
+X \times_{a, W} (W_i \times_W W_{i'}) \ar[d] \\
+Y \times_{b, W} (W_i \times_W W_{i'}) \ar[r] &
+(W_i \times_W W_{i'})
+}
+$$
+are cocartesian, then so is the original diagram.
 \end{lemma}
 
 \begin{proof}
 Namely, for a scheme $T$ a morphism $W \to T$ is the same thing as
-a collection of morphism $W_a \to T$, $a \in A$ which agree on the
-overlaps $W_a \times_W W_b$, see
+a collection of morphism $W_i \to T$ which agree on overlaps, see
 Descent, Lemma \ref{descent-lemma-fpqc-universal-effective-epimorphisms}.
 \end{proof}
 
@@ -18862,8 +18871,65 @@ $\mathbf{P}^n_A$ this means $K|_U$ is pseudo-coherent relative to $A$
 by Lemma \ref{lemma-check-relative-pseudo-coherence-on-charts}.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-characterize-pseudo-coh-improved}
+Let $A$ be a ring. Let $X$ be a scheme separated and of finite presentation over $A$. Let 
+$K \in D_\QCoh(\mathcal{O}_X).$ If 
+$R \Gamma (X, E \otimes ^{\mathbf{L}} K)$ is
+pseudo-coherent in $D(A)$ for every perfect 
+$E \in D(\mathcal{O}_X)$, then $K$ is pseudo-coherent
+relative to $A$.
+\end{lemma}
 
+\begin{proof}
+In view of Lemma \ref{lemma-characterize-pseudo-coherent}, it suffices
+to show $R \Gamma (X, E \otimes ^{\mathbf{L}} K)$ is
+pseudo-coherent in $D(A)$ for every pseudo-coherent 
+$E \in D(\mathcal{O}_X)$. By Derived Categories of
+Schemes, Proposition
+\ref{perfect-proposition-detecting-bounded-above} and Theorem \ref{perfect-theorem-bondal-van-den-Bergh}, it
+follows that $K \in D^-_\QCoh (\mathcal{O}_X)$. Now the
+result follows by Derived Categories of Schemes, Lemma
+\ref{perfect-lemma-perfect-enough}.
+\end{proof}
 
+\begin{lemma}
+\label{lemma-characterize-relatively-perfect}
+Let $A$ be a ring. Let $X$ be a scheme separated, of
+finite presentation, and flat over $A$. Let 
+$K \in D_\QCoh (\mathcal{O}_X).$ If 
+$R \Gamma (X, E \otimes ^{\mathbf{L}}K)$ is perfect in
+$D(A)$ for every perfect $E \in D( \mathcal{O}_X)$, then $K$ is $A$-perfect.
+\end{lemma}
+
+\begin{proof}
+By Lemma \ref{lemma-characterize-pseudo-coh-improved},
+$K$ is pseudo-coherent relative to $A$. By Lemma
+\ref{lemma-check-relative-pseudo-coherence-on-charts},
+$K$ is pseudo-coherent in $D( \mathcal{O}_X)$. Let
+$\mathfrak{p}$ be a prime ideal of $A$ and denote 
+$i : X_{\kappa (\mathfrak{p})} \to X$ the inclusion
+of the fibre over $\mathfrak{p}$. By Derived
+Categories of Schemes, Lemma \ref{perfect-lemma-bounded-on-fibres},
+we will be done if we can show 
+$Li^*(K) \in D^b(\mathcal{O}_{X_{\kappa(\mathfrak{p})}})$. 
+Let $G\in D_{perf} (\mathcal{O}_X)$ be a perfect
+complex which generates $D_\QCoh (\mathcal{O}_X)$ 
+(see Derived Categories of Schemes, Theorem \ref{perfect-theorem-bondal-van-den-Bergh}). 
+By Derived Categories of Schemes, Lemma
+\ref{perfect-lemma-flat-base-change-tor-independent},
+we have
+$$
+R \Hom _{\mathcal{O}_{X_{\kappa(\mathfrak{p})}}} (Li^*(G), Li^*(K)) = R \Gamma (X_{\kappa(\mathfrak{p})}, Li^*(G ^\vee \otimes ^\mathbf{L} K)) = R \Gamma (X, G ^\vee \otimes ^{\mathbf{L}} K) \otimes^\mathbf{L} _A \kappa(\mathfrak{p})
+$$
+and it follows from our hypothesis that this is a
+perfect object of $D(\kappa(\mathfrak{p})).$
+Since 
+$Li^*(G) \in D_{perf}(\mathcal{O}_{X_{\kappa(\mathfrak{p})}})$ 
+generates 
+$D_\QCoh(\mathcal{O}_{X_{\kappa(\mathfrak{p})}})$
+(see Derived Categories of Schemes, Remark \ref{perfect-remark-pullback-generator}), Derived Categories of Schemes, Proposition \ref{perfect-proposition-detecting-bounded-below} now implies that $Li^*(K)$ is bounded and we win.
+\end{proof}
 
 
 
