@@ -16050,7 +16050,7 @@ and the stupid truncations.
 Let $R$ be a ring. Let $a, b \in \mathbf{Z}$. Let $K^\bullet \in D^b(R)$
 such that $H^i(K^\bullet)$ has tor amplitude in $[a - i, b - i]$
 for all $i$. Then $K^\bullet$ has tor amplitude in $[a, b]$. In particular
-if $K^\bullet \in D^{-}(R)$ and all its cohomology groups have finite tor
+if $K^\bullet \in D^b(R)$ and all its cohomology groups have finite tor
 dimension then $K^\bullet$ has finite tor dimension.
 \end{lemma}
 
@@ -18892,7 +18892,7 @@ Some lemmas that allow us to prove certain complexes are perfect.
 \begin{lemma}
 \label{lemma-lift-bounded-pseudo-coherent-to-perfect}
 Let $R$ be a ring and let $\mathfrak p \subset R$ be a prime.
-Let $K \in D^-(R)$ be pseudo-coherent. Set
+Let $K$ be pseudo-coherent and bounded below. Set
 $d_i = \dim_{\kappa(\mathfrak p)}
 H^i(K \otimes_R^\mathbf{L} \kappa(\mathfrak p))$.
 If there exists an $a \in \mathbf{Z}$ such that $d_i = 0$ for $i < a$,
@@ -18975,7 +18975,7 @@ $$
 (1) \Rightarrow (2) \Leftrightarrow (3) \Leftrightarrow (3)
 \Leftrightarrow (4) \Leftrightarrow (5)
 $$
-If $K^\bullet$ is in $D^{-}(R)$, then all conditions are equivalent.
+If $K^\bullet$ is bounded below, then all conditions are equivalent.
 \end{lemma}
 
 \begin{proof}
@@ -19016,7 +19016,7 @@ is nonzero which is a contradiction.
 
 \medskip\noindent
 Assume the equivalent conditions (2) -- (5) hold and that
-$K^\bullet$ is in $D^{-}(R)$. Say $H^i(K^\bullet) = 0$ for
+$K^\bullet$ is bounded below. Say $H^i(K^\bullet) = 0$ for
 $i < a$. Pick a maximal ideal $\mathfrak m$ of $R$.
 It suffices to show there exists an $f \in R$, $f \not \in \mathfrak m$
 such that $K^\bullet \otimes_R^\mathbf{L} R_f$ is perfect
@@ -20142,8 +20142,9 @@ for pseudo-coherence.
 
 \begin{lemma}
 \label{lemma-pull-push}
-Let $R$ be a ring. Let $K^\bullet$ be an object of $D^{-}(R)$.
-Consider the $R$-algebra map $R[x] \to R$ which maps $x$ to zero. Then
+Let $R$ be a ring. Let $K^\bullet$ be a complex of $R$-modules.
+Consider the $R$-algebra map $R[x] \to R$ which maps $x$ to zero.
+Then
 $$
 K^\bullet \otimes_{R[x]}^{\mathbf{L}} R \cong K^\bullet \oplus K^\bullet[1]
 $$
@@ -20151,13 +20152,24 @@ in $D(R)$.
 \end{lemma}
 
 \begin{proof}
-Choose a projective resolution $P^\bullet \to K^\bullet$ over $R$.
-Then
+Choose a K-flat resolution $P^\bullet \to K^\bullet$ over $R$
+such that $P^n$ is a flat $R$-module for all $n$, see
+Lemma \ref{lemma-K-flat-resolution}. Then $P^\bullet \otimes_R R[x]$
+is a K-flat complex of $R[x]$-modules whose terms are flat $R[x]$-modules, see
+Lemma \ref{lemma-base-change-K-flat} and
+Algebra, Lemma \ref{algebra-lemma-flat-base-change}.
+In particular $x : P^n \otimes_R R[x] \to P^n \otimes_R R[x]$
+is injective with cokernel isomorphic to $P^n$. Thus
 $$
 P^\bullet \otimes_R R[x] \xrightarrow{x} P^\bullet \otimes_R R[x]
 $$
-is a double complex of projective $R[x]$-modules whose associated
-total complex is quasi-isomorphic to $P^\bullet$. Hence
+is a double complex of $R[x]$-modules whose associated
+total complex is quasi-isomorphic to $P^\bullet$ and hence $K^\bullet$.
+Moreover, this associated total complex is a K-flat complex
+of $R[x]$-modules for example by
+Lemma \ref{lemma-tensor-product-K-flat} or by
+Lemma \ref{lemma-K-flat-two-out-of-three}.
+Hence
 \begin{align*}
 K^\bullet \otimes_{R[x]}^{\mathbf{L}} R
 & \cong
@@ -21129,7 +21141,7 @@ desired bound on the tor amplitude of $K'$.
 \end{proof}
 
 \begin{lemma}
-\label{lemma-lift-from-fibre-relativelu-perfect}
+\label{lemma-lift-from-fibre-relatively-perfect}
 Let $R$ be a ring. Let $A = R[x_1, \ldots, x_d]/I$
 be flat and of finite presentation over $R$.
 Let $\mathfrak q \subset A$ be a prime ideal lying over
@@ -21150,6 +21162,49 @@ using our assumption, we find that $K_\mathfrak q$ is perfect
 in $D(A_\mathfrak q)$ with tor amplitude in $[a - d, b]$.
 Since $R_\mathfrak p \to A_\mathfrak q$ is flat, we conclude
 by Lemma \ref{lemma-flat-push-tor-amplitude}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-bounded-on-fibres-relatively-perfect}
+Let $R \to A$ be a ring map which is flat and of finite presentation.
+Let $K \in D(A)$ be pseudo-coherent. The following are equivalent
+\begin{enumerate}
+\item $K$ is $R$-perfect, and
+\item $K$ is bounded below and for every prime ideal $\mathfrak p \subset R$
+the object $K \otimes_R^\mathbf{L} \kappa(\mathfrak p)$ is bounded below.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Observe that (1) implies (2) as an $R$-perfect complex has bounded
+tor dimension as a complex of $R$-modules by definition. Let us prove
+the other implication.
+
+\medskip\noindent
+Write $A = R[x_1, \ldots, x_d]/I$. Denote $L$ in $D(R[x_1, \ldots, x_d])$
+the restriction of $K$. By
+Lemma \ref{lemma-more-relative-pseudo-coherent-is-moot}
+we see that $L$ is pseudo-coherent.
+Since $L$ and $K$ have the same image in $D(R)$ we see that
+$L$ is $R$-perfect if and only if $K$ is $R$-perfect.
+Also $L \otimes_R^\mathbf{L} \kappa(\mathfrak p)$
+and $K \otimes_R^\mathbf{L} \kappa(\mathfrak p)$ are the same objects of
+$D(\kappa(\mathfrak p))$. This reduces us to the case
+$A = R[x_1, \ldots, x_d]$.
+
+\medskip\noindent
+Say $A = R[x_1, \ldots, x_d]$ and $K$ satisfies (2).
+Let $\mathfrak q \subset A$ be a prime lying over a
+prime $\mathfrak p \subset R$. By
+Lemma \ref{lemma-perfect-over-regular-local-ring} applied
+to $R_\mathfrak p \to A_\mathfrak q$ and the complex $K_\mathfrak q$
+using our assumption, we find that $K_\mathfrak q$ is perfect
+in $D(A_\mathfrak q)$. Since $K$ is bounded below, we see that
+$K$ is perfect in $D(A)$ by 
+Lemma \ref{lemma-check-perfect-stalks}.
+This implies that $K$ is $R$-perfect by
+Lemma \ref{lemma-perfect-relatively-perfect}
+and the proof is complete.
 \end{proof}
 
 
