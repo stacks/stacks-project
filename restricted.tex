@@ -6266,6 +6266,24 @@ Then it follows that $E = X$ since our assumptions imply that $|X| = |E|$.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-faithful-general}
+Let $S$ be a scheme. Let $X$, $W$ be algebraic spaces over $S$ with
+$X$ locally Noetherian. Let $T \subset |X|$ be a closed subset.
+Let $a, b : X \to W$ be morphisms of algebraic spaces over $S$ such
+that $a|_{X \setminus T} = b|_{X \setminus T}$ and such that
+$a_{/T} = b_{/T}$ as morphisms $X_{/T} \to W$. Then $a = b$.
+\end{lemma}
+
+\begin{proof}
+Let $E$ be the equalizer of $a$ and $b$. Then $E$ is an algebraic space
+and $E \to X$ is locally of finite type and a monomorphism, see
+Morphisms of Spaces, Lemma \ref{spaces-morphisms-lemma-properties-diagonal}.
+Our assumptions imply we can apply Lemma \ref{lemma-factor} to the two
+morphisms $f = \text{id} : X \to X$ and $g : E \to X$ and the closed
+subset $T$ of $|X|$.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-faithful}
 Let $S$ be a scheme. Let $X$, $Y$ be locally Noetherian algebraic spaces
 over $S$. Let $T \subset |X|$ and $T' \subset |Y|$ be closed subsets.
@@ -6277,12 +6295,7 @@ Then $a = b$.
 \end{lemma}
 
 \begin{proof}
-Let $E$ be the equalizer of $a$ and $b$. Then $E$ is an algebraic space
-and $E \to X$ is locally of finite type and a monomorphism, see
-Morphisms of Spaces, Lemma \ref{spaces-morphisms-lemma-properties-diagonal}.
-Our assumptions imply we can apply Lemma \ref{lemma-factor} to the two
-morphisms $f = \text{id} : X \to X$ and $g : E \to X$ and the closed
-subset $T$ of $|X|$.
+Consequence of the more general Lemma \ref{lemma-faithful-general}.
 \end{proof}
 
 \begin{lemma}
@@ -6381,6 +6394,118 @@ we have $X''_{/T} = (X'_{/T}) / (R_{/T})$ as sheaves. Since
 $X'_{/T} = R_{/T}$ we conclude that $X'_{/T} = X''_{/T}$
 and this finishes the proof.
 \end{proof}
+
+
+
+
+
+
+
+
+\section{Rig glueing of morphisms}
+\label{section-glue-formal-to-actual}
+
+\noindent
+Let $X$, $W$ be algebraic spaces with $X$ Noetherian. Let $Z \subset X$
+be a closed subspace with open complement $U$.
+The proposition below says roughly speaking that
+$$
+\{\text{morphisms }X \to W\} =
+\{\text{compatible morphisms }U \to W\text{ and }X_{/Z} \to W\}
+$$
+where compatibility of $a : U \to W$ and $b : X_{/Z} \to W$
+means that $a$ and $b$ define the same ``morphism of rig-spaces''.
+To introduce the category of ``rig-spaces'' requires a lot of work, but
+we don't need to do so in order to state precisely what the
+condition means in this case.
+
+\begin{proposition}
+\label{proposition-glue-modification}
+Let $S$ be a scheme. Let $X$ be a locally Noetherian algebraic space over $S$.
+Let $T \subset |X|$ be a closed subset with complementary open subspace
+$U \subset X$. Let $f : X' \to X$ be a proper morphism
+of algebraic spaces such that $f^{-1}(U) \to U$ is an isomorphism.
+For any algebraic space $W$ over $S$ the map
+$$
+\Mor_S(X, W) \longrightarrow
+\Mor_S(X', W) \times_{\Mor_S(X'_{/T}, W)} \Mor_S(X_{/T}, W)
+$$
+is bijective.
+\end{proposition}
+
+\begin{proof}
+Let $w' : X' \to W$ and $\hat w : X_{/T} \to W$ be morphisms
+which determine the same morphism $X'_{/T} \to W$ by composition
+with $X'_{/T} \to X$ and $X'_{/T} \to X_{/T}$. We have to prove
+there exists a unique morphism $w : X \to W$ whose composition
+with $X' \to X$ and $X_{/T} \to X$ recovers $w'$ and $\hat w$.
+The uniqueness is immediate from Lemma \ref{lemma-faithful-general}.
+
+\medskip\noindent
+The assumptions on $T$ and $f$ are preserved by base change
+by any \'etale morphism $X_1 \to X$ of algebraic spaces.
+Since formal algebraic spaces are sheaves for the
+\'etale topology and since we aready have the uniqueness,
+it suffices to prove existence after replacing $X$ by
+the members of an \'etale covering. Thus we may assume $X$ is
+an affine Noetherian scheme.
+
+\medskip\noindent
+Assume $X$ is an affine Noetherian scheme. We will construct
+the morphism $w : X \to W$ using the material in
+Pushouts of Spaces, Section \ref{spaces-pushouts-section-coequalizer-glue}.
+It makes sense to read a little bit of the material
+in that section before continuing the read the proof.
+
+\medskip\noindent
+Set $X'' = X' \times_X X'$ and consider the two morphisms
+$a = w' \circ \text{pr}_1 : X'' \to W$ and 
+$b = w' \circ \text{pr}_2 : X'' \to W$.
+Then we see that $a$ and $b$ agree over the open $U$
+and that $a_{/T}$ and $b_{a/T}$ agree (as these are
+both equal to the composition $X''_{/T} \to X_{/T} \to W$
+where the second arrow is $\hat w$).
+Thus by Lemma \ref{lemma-faithful-general}
+we see $a = b$.
+
+\medskip\noindent
+Denote $Z \subset X$ the reduced induced closed subscheme structure
+on $T$. For $n \geq 1$ denote $Z_n \subset X$ the $n$th infinitesimal
+neighbourhood of $Z$. Denote $w_n = \hat w|_{Z_n} : Z_n \to W$
+so that we have $\hat w = \colim w_n$ on $X_{/T} = \colim Z_n$.
+Set $Y_n = X' \amalg Z_n$. Consider the two projections
+$$
+s_n, t_n : R_n = Y_n \times_X Y_n \longrightarrow Y_n
+$$
+Let $Y_n \to X_n \to X$ be the coequalizer of $s_n$ and $t_n$ as in
+Pushouts of Spaces, Section \ref{spaces-pushouts-section-coequalizer-glue}
+(in particular this coequalizer exists, has good properties, etc, see
+Pushouts of Spaces, Lemma \ref{spaces-pushouts-lemma-coequalizer}).
+By the result $a = b$ of the previous parapgraph and the agreement
+of $w'$ and $\hat w$ over $X'_{/T}$ we see that the morphism
+$$
+w' \amalg w_n : Y_n \longrightarrow W
+$$
+equalizes the morphisms $s_n$ and $t_n$. Hence we see that for all $n \geq 1$
+there is a morphism $w^n : X_n \to W$ compatible with $w'$ and $w_n$.
+Moreover, for $m \geq 1$ the composition
+$$
+X_n \to X_{n + m} \xrightarrow{w^{n + m}} W
+$$
+is equal to $w^n$ by construction (as the corresponding statement holds
+for $w' \amalg w_{n + m}$ and $w' \amalg w_n$). By
+Pushouts of Spaces, Lemma
+\ref{spaces-pushouts-lemma-essentially-constant} and
+Remark \ref{spaces-pushouts-remark-essentially-constant}
+the system of algebraic spaces $X_n$ is essentially constant
+with value $X$ and we conclude.
+\end{proof}
+
+
+
+
+
+
 
 
 
