@@ -159,7 +159,39 @@ $g : U \to Z$ descends to $f : X \to Z$ as desired.
 \end{proof}
 
 \noindent
-The same technique can be used to reduce a colimit construction to a
+We can check that a cocone is a colimit (fpqc) locally on the cocone.
+
+\begin{lemma}
+\label{lemma-pushout-fpqc-local}
+Let $S$ be a scheme. Let $B$ be an algebraic space over $S$.
+Let $\mathcal{I} \to (\Sch/S)_{fppf}$, $i \mapsto X_i$
+be a diagram of algebraic spaces over $B$. Let $(X, X_i \to X)$
+be a cocone for the diagram in the category of algebraic spaces over $B$
+(Categories, Remark \ref{categories-remark-cones-and-cocones}).
+If there exists a fpqc covering $\{U_a \to X\}_{a \in A}$ such that
+\begin{enumerate}
+\item for all $a \in A$ we have
+$U_a = \colim X_i \times_X U_a$
+in the category of algebraic spaces over $B$, and
+\item for all $a, b \in A$ we have
+$U_a \times_X U_b = \colim X_i \times_X U_a \times_X U_b$
+in the category of algebraic spaces over $B$,
+\end{enumerate}
+then $X = \colim X_i$ in the category of algebraic spaces over $B$.
+\end{lemma}
+
+\begin{proof}
+Namely, for an algebraic space $Y$ over $B$ a morphism $X \to Y$ over $B$
+is the same thing as a collection of morphism $U_a \to Y$ which agree on
+the overlaps $U_a \times_X U_b$ for all $a, b \in A$, see
+Descent on Spaces, Lemma
+\ref{spaces-descent-lemma-fpqc-universal-effective-epimorphisms}.
+\end{proof}
+
+\noindent
+We are going to find a common partial generalization of
+Lemmas \ref{lemma-colimit-agrees} and \ref{lemma-pushout-fpqc-local}
+which can in particular be used to reduce a colimit construction to a
 subcategory of the category of all algebraic spaces.
 
 \medskip\noindent
@@ -198,6 +230,113 @@ Then we get a functor $Z_{spaces, \etale} \to \lim X_{i, spaces, \etale}$.
 With this notation in hand we can formulate our next lemma.
 
 \begin{lemma}
+\label{lemma-colimit-check-etale-locally}
+Let $S$ be a scheme. Let $B$ be an algebraic space over $S$.
+Let $\mathcal{I} \to (\Sch/S)_{fppf}$, $i \mapsto X_i$
+be a diagram of algebraic spaces over $B$. Let $(X, X_i \to X)$
+be a cocone for the diagram in the category of algebraic spaces over $B$
+(Categories, Remark \ref{categories-remark-cones-and-cocones}).
+Assume that
+\begin{enumerate}
+\item the base change functor
+$X_{spaces, \'etale} \to \lim X_{i, spaces, \etale}$,
+sending $U$ to $U_i = X_i \times_X U$ is an equivalence,
+\item given
+\begin{enumerate}
+\item $B'$ affine and \'etale over $B$,
+\item $Z$ an affine scheme over $B'$,
+\item $U \to X \times_B B'$ an \'etale morphism of algebraic spaces
+with $U$ affine,
+\item $f_i : U_i \to Z$ a cocone over $B'$ of the diagram
+$i \mapsto U_i = U \times_X X_i$,
+\end{enumerate}
+there exists a unique morphism $f : U \to Z$ over $B'$
+such that $f_i$ equals the composition $U_i \to U \to Z$.
+\end{enumerate}
+Then $X = \colim X_i$ in the category of all algebraic spaces over $B$.
+\end{lemma}
+
+\begin{proof}
+In this paragraph we reduce to the case where $B$ is an affine scheme.
+Let $B' \to B$ be an \'etale morphism of algebraic spaces.
+Observe that conditions (1) and (2) are preserved if we replace
+$B$, $X_i$, $X$ by $B'$, $X_i \times_B B'$, $X \times_B B'$.
+Let $\{B_a \to B\}_{a \in A}$ be an \'etale covering with $B_a$
+affine, see Properties of Spaces, Lemma
+\ref{spaces-properties-lemma-cover-by-union-affines}.
+For $a \in A$ denote $X_a$, $X_{a, i}$ the base changes of $X$ and the
+diagram to $B_a$. For $a, b \in A$ denote
+$X_{a, b}$ and $X_{a, b, i}$ the base changes of $X$ and the
+diagram to $B_a \times_B B_b$.
+By Lemma \ref{lemma-pushout-fpqc-local}
+it suffices to prove that $X_a = \colim X_{a, i}$ and
+$X_{a, b} = \colim X_{a, b, i}$.
+This reduces us to the case where $B = B_a$ (an affine scheme) or
+$B = B_a \times_B B_b$ (a separated scheme). Repeating the
+argument once more, we conclude that we may assume $B$ is
+an affine scheme (this uses that the intersection of affine
+opens in a separated scheme is affine).
+
+\medskip\noindent
+Assume $B$ is an affine scheme. Let $Z$ be an algebraic space over $B$.
+We have to show
+$$
+\Mor_B(X, Z) \longrightarrow \lim \Mor_B(X_i, Z)
+$$
+is a bijection.
+
+\medskip\noindent
+Proof of injectivity. Let $f, g : X \to Z$ be morphisms
+such that the compositions $f_i, g_i : X_i \to Z$ are the same for all $i$.
+Choose an affine scheme $Z'$ and an \'etale morphism $Z' \to Z$. By
+Properties of Spaces, Lemma \ref{spaces-properties-lemma-cover-by-union-affines}
+we know we can cover $Z$ by such affines. Set $U = X \times_{f, Z} Z'$
+and $U' = X \times_{g, Z} Z'$ and denote $p : U \to X$ and $p' : U' \to X$
+the projections. Since $f_i = g_i$ for all $i$, we see that
+$$
+U_i = X_i \times_{f_i, Z} Z' = X_i \times_{g_i, Z} Z' = U'_i
+$$
+compatible with transition morphisms. By (1) there is a unique isomorphism
+$\epsilon : U \to U'$ as algebraic spaces over $X$, i.e., with
+$p = p' \circ \epsilon$ which is compatible with
+the displayed identifications. Choose an \'etale covering
+$\{h_a : U_a \to U\}$ with $U_a$ affine.
+By (2) we see that $f \circ p \circ h_a = g \circ p' \circ \epsilon \circ h_a =
+g \circ p \circ h_a$. Since $\{h_a : U_a \to U\}$ is an \'etale covering
+we conclude $f \circ p = g \circ p$.
+Since the collection of morphisms $p : U \to X$ we obtain
+in this manner is an \'etale covering, we conclude that $f = g$.
+
+\medskip\noindent
+Proof of surjectivity. Let $f_i : X_i \to Z$ be an element of the
+right hand side of the displayed arrow in the first paragraph of the proof.
+It suffices to find an \'etale covering $\{U_c \to X\}_{c \in C}$
+such that the families $f_{c, i} \in \lim_i \Mor_B(X_i \times_X U_c, Z)$
+come from morphisms $f_c : U_c \to Z$. Namely, by the uniqueness
+proved above the morphisms $f_c$ will agree on $U_c \times_X U_b$
+and hence will descend to give the desired morphism $f : X \to Z$.
+To find our covering, we first choose an \'etale covering
+$\{g_a : Z_a \to Z\}_{a \in A}$ where each $Z_a$ is affine. Then we let
+$U_{a, i} = X_i \times_{f_i, Z} Z_a$. By (1) we find
+$U_{a, i} = X_i \times_X U_a$ for some algebraic spaces $U_a$ \'etale
+over $X$. Then we choose \'etale coverings
+$\{U_{a, b} \to U_a\}_{b \in B_a}$
+with $U_{a, b}$ affine and we consider the morphisms
+$$
+U_{a, b, i} = X_i \times_X U_{a, b} \to
+X_i \times_X U_a = X_i \times_{f_i, Z} Z_a \to Z_a
+$$
+By (2) we obtain morphisms $f_{a, b} : U_{a, b} \to Z_a$ compatible with these
+morphisms. Setting $C = \coprod_{a \in A} B_a$ and for $c \in C$
+corresponding to $b \in B_a$ setting $U_c = U_{a, b}$ and
+$f_c = g_a \circ f_{a, b} : U_c \to Z$ we conclude.
+\end{proof}
+
+\noindent
+Here is an application of these ideas to reduce the general case
+to the case of separated algebraic spaces.
+
+\begin{lemma}
 \label{lemma-colimit-separated-enough}
 Let $S$ be a scheme. Let $B$ be an algebraic space over $S$.
 Let $\mathcal{I} \to (\Sch/S)_{fppf}$, $i \mapsto X_i$
@@ -218,6 +357,11 @@ Then $X = \colim X_i$ in the category of all algebraic spaces over $B$.
 \end{lemma}
 
 \begin{proof}
+We encourage the reader to look instead at
+Lemma \ref{lemma-colimit-check-etale-locally}
+and its proof.
+
+\medskip\noindent
 Let $Z$ be an algebraic space over $B$. Suppose that $f_i : X_i \to Z$ is
 a family of morphisms such that for each $i \to j$ the composition
 $X_i \to X_j \to Z$ is equal to $f_i$. We have to construct a morphism
@@ -246,33 +390,6 @@ $U \times_X U \to U \to W \to Z$ are equal. Because each $U_i \to X_i$ is
 surjective and assumption (2) we see that $U \to X$ is surjective.
 As $Z$ is a sheaf for the \'etale topology, we conclude that
 $g : U \to Z$ descends to $f : X \to Z$ as desired.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-pushout-fpqc-local}
-Let $S$ be a scheme. Let $B$ be an algebraic space over $S$.
-Let $\mathcal{I} \to (\Sch/S)_{fppf}$, $i \mapsto X_i$
-be a diagram of algebraic spaces over $B$. Let $(W, X_i \to W)$
-be a cocone for the diagram in the category of algebraic spaces over $B$
-(Categories, Remark \ref{categories-remark-cones-and-cocones}).
-If there exists a fpqc covering $\{W_a \to W\}_{a \in A}$ such that
-\begin{enumerate}
-\item for all $a \in A$ we have
-$W_a = \colim X_i \times_W W_a$
-in the category of algebraic spaces over $B$, and
-\item for all $a, b \in A$ we have
-$W_a \times_W W_b = \colim X_i \times_W W_a \times_W W_b$
-in the category of algebraic spaces over $B$,
-\end{enumerate}
-then $W = \colim X_i$ in the category of algebraic spaces over $B$.
-\end{lemma}
-
-\begin{proof}
-Namely, for an algebraic space $Y$ over $B$ a morphism $W \to Y$ over $B$
-is the same thing as a collection of morphism $W_a \to Y$ which agree on
-the overlaps $W_a \times_W W_b$ for all $a, b \in A$, see
-Descent on Spaces, Lemma
-\ref{spaces-descent-lemma-fpqc-universal-effective-epimorphisms}.
 \end{proof}
 
 
@@ -625,9 +742,8 @@ We omit the details.
 
 \noindent
 In this section we combine the glueing results for \'etale sheaves given in
-\'Etale Cohomology, Section \ref{etale-cohomology-section-glueing-etale}
-with the flexibility of algebraic spaces to get some descent statements
-for \'etale morphisms of algebraic spaces.
+Section \ref{section-glueing-etale} with the flexibility of algebraic spaces
+to get some descent statements for \'etale morphisms of algebraic spaces.
 
 \begin{lemma}
 \label{lemma-descend-etale-proper-surjective}
@@ -2530,29 +2646,35 @@ is the $n$th infinitesimal neighbourhood of $Z$ in $X$.
 \label{lemma-coequalizer}
 Let $S$ be a scheme. Let
 $$
-\xymatrix{
-Y \ar[rr]_g \ar[rd] & & X \ar[ld] \\
-& B
-}
+g : Y \longrightarrow X
 $$
-be a commutative diagram of algebraic spaces over $S$. Assume
-$B$ Noetherian, $g$ proper and surjective, and $X \to B$ separated
-of finite type. Let $R = Y \times_X Y$ with projection morphisms
-$t, s : R \to Y$.  There exists a coequalizer $X'$ of $s, t : R \to Y$
-in the category of algebraic spaces separated over $B$. The morphism
-$X' \to X$ is a finite universal homeomorphism.
+be a morphism of algebraic spaces over $S$. Assume $X$ is locally Noetherian,
+and $g$ is proper. Let $R = Y \times_X Y$ with projection morphisms
+$t, s : R \to Y$. There exists a coequalizer $X'$ of $s, t : R \to Y$
+in the category of algebraic spaces over $S$. Moreover
+\begin{enumerate}
+\item The morphism $X' \to X$ is finite.
+\item The morphism $Y \to X'$ is proper.
+\item The morphism $Y \to X'$ is surjective.
+\item The morphism $X' \to X$ is universally injective.
+\item If $g$ is surjective, the morphism $X' \to X$
+is a universal homeomorphism.
+\end{enumerate}
 \end{lemma}
 
 \begin{proof}
-Denote $h : R \to X$ the given morphism. The sheaves
+Denote $h : R \to X$ denote the composition of either $s$ or $t$
+with $g$. Then $h$ is proper by Morphisms of Spaces, Lemmas
+\ref{spaces-morphisms-lemma-base-change-proper} and
+\ref{spaces-morphisms-lemma-composition-proper}.
+The sheaves
 $$
 g_*\mathcal{O}_Y
 \quad\text{and}\quad
 h_*\mathcal{O}_R
 $$
-are coherent $\mathcal{O}_X$-algebras
-(Cohomology of Spaces, Lemma
-\ref{spaces-cohomology-lemma-proper-pushforward-coherent}).
+are coherent $\mathcal{O}_X$-algebras by Cohomology of Spaces, Lemma
+\ref{spaces-cohomology-lemma-proper-pushforward-coherent}.
 The $X$-morphisms $s$, $t$ induce $\mathcal{O}_X$-algebra maps
 $s^\sharp, t^\sharp$ from the first to the second.
 Set
@@ -2575,107 +2697,104 @@ $$
 Y \longrightarrow X' \longrightarrow X
 $$
 and the morphism $g' : Y \to X'$ equalizes $s$ and $t$.
-Since $\mathcal{A}$ is a coherent $\mathcal{O}_X$-module it is clear that
-$X' \to X$ is a finite morphism of algebraic spaces. Since the
-surjective morphism $g : Y \to X$ factors through $X'$ we see that
-$X' \to X$ is surjective.
 
 \medskip\noindent
-To check that $X' \to X$ is a universal homeomorphism, it suffices
-to check that it is universally injective (as we've already seen that
-it is universally surjective and universally closed). To check this it
-suffices to check that $|X' \times_X U| \to |U|$ is injective, for all
-$U \to X$ \'etale, see
-More on Morphisms of Spaces, Lemma
-\ref{spaces-more-morphisms-lemma-check-universally-injective}.
-It suffices to check this in all cases where $U$ is an affine scheme
-(minor detail omitted). Since the construction of $X'$
-commutes with \'etale localization, we may replace $U$ by $X$.
-Hence it suffices to check that $|X'| \to |X|$ is injective
-when $X$ is moreover an affine scheme. First observe that
-$|Y| \to |X'|$ is surjective, because $g' : Y \to X'$ is proper
-by Morphisms of Spaces, Lemma
-\ref{spaces-morphisms-lemma-universally-closed-permanence}
-(hence the image is closed) and
-$\mathcal{O}_{X'} \subset g'_*\mathcal{O}_Y$ by construction.
-Thus if $x_1, x_2 \in |X'|$ map to the same point in $|X|$, then
-we can lift $x_1, x_2$ to points $y_1, y_2 \in |Y|$ mapping to the
-same point of $|X|$. Then we can find an $r \in |R|$ with
-$s(r) = y_1$ and $t(r) = y_2$, see
-Properties of Spaces, Lemma \ref{spaces-properties-lemma-points-cartesian}).
-Since $g'$ coequalizes $s$ and $t$ we conclude that $x_1 = x_2$ as desired.
+Before we show that $X'$ is the coequalizer of $s$ and $t$, we show
+that $Y \to X'$ and $X' \to X$ have the desired properties. Since $\mathcal{A}$
+is a coherent $\mathcal{O}_X$-module it is clear that $X' \to X$ is a
+finite morphism of algebraic spaces. This proves (1).
+The morphism $Y \to X'$ is proper by Morphisms of Spaces, Lemma
+\ref{spaces-morphisms-lemma-universally-closed-permanence}. This proves (2).
+Denote $Y \to Y' \to X$ with
+$Y' = \underline{\Spec}_X(g_*\mathcal{O}_Y)$ the Stein factorization of $g$,
+see More on Morphisms of Spaces, Theorem
+\ref{spaces-more-morphisms-theorem-stein-factorization-Noetherian}.
+Of course we obtain morphisms $Y \to Y' \to X' \to X$ fitting
+with the morphisms studied above.
+Since $\mathcal{O}_{X'} \subset g_*\mathcal{O}_Y$ is a finite extension
+we see that $Y' \to X'$ is finite and surjective.
+Some details omitted; hint: use
+Algebra, Lemma \ref{algebra-lemma-integral-overring-surjective}
+and reduce to the affine case by \'etale localization.
+Since $Y \to Y'$ is surjective (with geometrically connected fibres)
+we conclude that $Y \to X'$ is surjective. This proves (3).
+To show that $X' \to X$ is universally injective, we have to show
+that $X' \to X' \times_X X'$ is surjective, see
+Morphisms of Spaces, Definition
+\ref{spaces-morphisms-definition-universally-injective} and
+Lemma \ref{spaces-morphisms-lemma-universally-injective}.
+Since $Y \to X'$ is surjective (see above) and since base changes
+and compositions of surjective morphisms are surjective by
+Morphisms of Spaces, Lemmas
+\ref{spaces-morphisms-lemma-base-change-surjective} and
+\ref{spaces-morphisms-lemma-composition-surjective}
+we see that $Y \times_X Y \to X' \times_X X'$ is surjective.
+However, since $Y \to X'$ equalizes $s$ and $t$, we see that
+$Y \times_X Y \to X' \times_X X'$ factors through $X' \to X' \times_X X'$
+and we conclude this latter map is surjective. This proves (4).
+Finally, if $g$ is surjective, then since $g$ factors through $X' \to X$
+we see that $X' \to X$ is surjective. Since a surjective, universally
+injective, finite morphism is a universal homeomorphism (because it
+is universally bijective and universally closed), this proves (5).
 
 \medskip\noindent
-To prove that $X'$ is the coequalizer, let $W \to B$ be a separated morphism
-of algebraic spaces over $S$ and let $a : Y \to W$ be a morphism over $B$
-which equalizes $s$ and $t$. We will show that $a$ factors in a unique manner
-through the morphism $g' : Y \to X'$. We will first reduce this to the
-case where $W \to B$ is separated of finite type by a limit argument
-(we recommend the reader skip this argument). Since $Y$ is quasi-compact
-we can find a quasi-compact open subspace $W' \subset W$ such that $a$
-factors through $W'$. After replacing $W$ by $W'$ we may assume $W$ is
-quasi-compact. By Limits of Spaces, Lemma
-\ref{spaces-limits-lemma-relative-approximation}
-we can write $W = \lim_{i \in I} W_i$ as a cofiltered limit with
-affine transition morphisms with $W_i$ of finite type over $B$. After
-shrinking $I$ we may assume $W_i \to B$ is separated as well, see
-Limits of Spaces, Lemma \ref{spaces-limits-lemma-descend-separated-morphism}.
-Since $W = \lim W_i$ we have $a = \lim a_i$ for some morphisms
-$a_i : Y \to W_i$. If we can prove $a_i$ factors through $g'$
-for all $i$, then the same thing is true for $a$.
-This proves the reduction to the case of a finite type $W$.
-
-\medskip\noindent
-Assume we have $a : Y \to W$ equalizing $s$ and $t$ with $W \to B$ separated
-and of finite type. Consider
-$$
-\Gamma \subset X \times_B W
-$$
-the scheme theoretic image of $(g, a) : Y \to X \times_B W$.
-Since $g$ is proper we conclude $Y \to \Gamma$ is surjective and
-the projection $p : \Gamma \to X$ is proper, see
-Morphisms of Spaces, Lemma
-\ref{spaces-morphisms-lemma-scheme-theoretic-image-is-proper}.
-Since both $g$ and $a$ equalize $s$ and $t$, the morphism $Y \to \Gamma$
-also equalizes $s$ and $t$.
-
-\medskip\noindent
-We claim that $p : \Gamma \to X$ is a universal homeomorphism.
-As in the proof of the corresponding fact for $X' \to X$, it
-suffices to show that $p$ is universally injective. By
-More on Morphisms of Spaces, Lemma
-\ref{spaces-more-morphisms-lemma-check-universally-injective}
-it suffices to check $|\Gamma \times_X U| \to |U|$ is injective
-for every $U \to X$ \'etale. It suffices to check this for
-$U$ affine (minor details omitted). Taking scheme
-theoretic image commutes with \'etale localization
+In the rest of the proof we show that $Y \to X'$ is the coequalizer
+of $s$ and $t$ in the category of algebraic spaces over $S$.
+Observe that $X'$ is locally Noetherian
 (Morphisms of Spaces, Lemma
-\ref{spaces-morphisms-lemma-quasi-compact-scheme-theoretic-image}).
-Hence we may replace $X$ by $V$ and we conclude it suffices
-to show that $|\Gamma| \to |X|$ is injective.
-If $\gamma_1, \gamma_2 \in |\Gamma|$ map to the same point in $|X|$, then
-we can lift $\gamma_1, \gamma_2$ to points $y_1, y_2 \in |Y|$ mapping to the
-same point of $|X|$ (by surjectivity of $Y \to \Gamma$ we've seen above).
-Then we can find an $r \in |R|$ with $s(r) = y_1$ and $t(r) = y_2$, see
-Properties of Spaces, Lemma \ref{spaces-properties-lemma-points-cartesian}).
-Since $Y \to \Gamma$ coequalizes $s$ and $t$ we conclude that
-$\gamma_1 = \gamma_2$ as desired.
+\ref{spaces-morphisms-lemma-locally-finite-type-locally-noetherian}).
+Moreover, observe that $Y \times_{X'} Y \to Y \times_X Y$ is an
+isomorphism as $Y \to X'$ equalizes $s$ and $t$ (this is a categorical
+statement). Hence in order to prove the statement that $Y \to X'$
+is the coequalizer of $s$ and $t$, we may and do assume $X = X'$.
+In other words, $\mathcal{O}_X$ is the equalizer of the maps
+$s^\sharp, t^\sharp : g_*\mathcal{O}_Y \to h_*\mathcal{O}_R$.
 
 \medskip\noindent
-As a proper universal homeomorphism the morphism $p$ is finite
-(see for example More on Morphisms of Spaces, Lemma
-\ref{spaces-more-morphisms-lemma-characterize-finite}).
-We conclude that
+Let $X_1 \to X$ be a flat morphism of algebraic spaces over $S$ with $X_1$
+locally Noetherian. Denote $g_1 : Y_1 \to X_1$, $h_1 : R_1 \to X_1$ and
+$s_1, t_1 : R_1 \to Y_1$ the base changes of $g, h, s, t$ to $X_1$.
+Of course $g_1$ is proper and $R_1 = Y_1 \times_{X_1} Y_1$.
+Since we have flat base change for pushforward of quasi-coherent modules,
+Cohomology of Spaces, Lemma
+\ref{spaces-cohomology-lemma-flat-base-change-cohomology}, we see that
+$\mathcal{O}_{X_1}$ is the equalizer of the maps
+$s_1^\sharp, t_1^\sharp : g_{1, *}\mathcal{O}_{Y_1} \to
+h_{1, *}\mathcal{O}_{R_1}$. Hence all the assumptions we have
+are preserved by this base change.
+
+\medskip\noindent
+At this point we are going to check conditions (1) and (2) of
+Lemma \ref{lemma-colimit-check-etale-locally}. Condition (1)
+follows from Lemma \ref{lemma-descend-etale-proper-surjective}
+and the fact that $g$ is proper and surjective (because $X = X'$).
+To check condition (2), by the remarks on base change above,
+we reduce to the statement discussed and proved in the next paragraph.
+
+\medskip\noindent
+Assume $S = \Spec(A)$ is an affine scheme, $X = X'$ is an affine scheme, and
+$Z$ is an affine scheme over $S$. We have to show that
 $$
-\Gamma = \underline{\Spec}(p_*\mathcal{O}_\Gamma).
+\Mor_S(X, Z) \longrightarrow
+\text{Equalizer}(s, t : \Mor_S(Y, Z) \to \Mor_S(R, Z))
 $$
-Since $Y \to \Gamma$ equalizes $s$ and $t$ the map
-$p_*\mathcal{O}_\Gamma \to g_*\mathcal{O}_Y$ factors through
-$\mathcal{A}$ and we obtain a morphism
-$X' \to \Gamma$ by functoriality of the $\underline{\Spec}$ construction.
-We can compose this morphism with the projection
-$q : \Gamma \to W$ to get the desired morphism $X' \to W$.
-We omit the proof of uniqueness of the factorization.
+is bijective. However, this is clear from the fact that $X = X'$
+which implies $\mathcal{O}_X$ is the equalizer of the maps
+$s^\sharp, t^\sharp : g_*\mathcal{O}_Y \to h_*\mathcal{O}_R$
+which in turn implies
+$$
+\Gamma(X, \mathcal{O}_X) =
+\text{Equalizer}\left(
+s^\sharp, t^\sharp : \Gamma(Y, \mathcal{O}_Y) \to
+\Gamma(R, \mathcal{O}_R)
+\right)
+$$
+Namely, we have
+$$
+\Mor_S(X, Z) = \Hom_A(\Gamma(Z, \mathcal{O}_Z), \Gamma(X, \mathcal{O}_X))
+$$
+and similarly for $Y$ and $R$, see Properties of Spaces, Lemma
+\ref{spaces-properties-lemma-morphism-to-affine-scheme}.
 \end{proof}
 
 \noindent
@@ -2683,21 +2802,19 @@ We will work in the following situation.
 
 \begin{situation}
 \label{situation-coequalizer-glue}
-Let $S$ be a scheme. Let $X \to B$ be a separated finite type morphism of
-algebraic spaces over $S$ with $B$ Noetherian. Let
-$Z \to X$ be a closed immersion and let $U \subset X$ be the complementary
+Let $S$ be a scheme. Let $X$ be a locally Noetherian algebraic space over $S$.
+Let $Z \to X$ be a closed immersion and let $U \subset X$ be the complementary
 open subspace. Finally, let $f : X' \to X$ be a proper morphism of algebraic
 spaces such that $f^{-1}(U) \to U$ is an isomorphism.
 \end{situation}
 
 \begin{lemma}
 \label{lemma-coequalizer-glue}
-In Situation \ref{situation-coequalizer-glue} let
-$Y = X' \amalg Z$ and $R = Y \times_X Y$ with projections $t, s : R \to Y$.
-There exists a coequalizer $X_1$ of $s, t : R \to Y$ in the category
-of algebraic spaces separated over $B$. The morphism
-$X_1 \to X$ is a finite universal homeomorphism, an isomorphism
-over $U$ and $Z \to X$ lifts to $X_1$.
+In Situation \ref{situation-coequalizer-glue} let $Y = X' \amalg Z$ and
+$R = Y \times_X Y$ with projections $t, s : R \to Y$. There exists a
+coequalizer $X_1$ of $s, t : R \to Y$ in the category of algebraic spaces
+over $S$. The morphism $X_1 \to X$ is a finite universal homeomorphism,
+an isomorphism over $U$, and $Z \to X$ lifts to $X_1$.
 \end{lemma}
 
 \begin{proof}
@@ -2705,7 +2822,7 @@ Existence of $X_1$ and the fact that $X_1 \to X$ is a finite
 universal homeomorphism is a special case of Lemma \ref{lemma-coequalizer}.
 The formation of $X_1$ commutes with \'etale localization on $X$
 (see proof of Lemma \ref{lemma-coequalizer}).
-Thus the morphisms $X_n \to X$ are isomorphisms over $U$.
+Thus the morphism $X_1 \to X$ is an isomorphism over $U$.
 It is immediate from the construction that $Z \to X$ lifts to $X_1$.
 \end{proof}
 
