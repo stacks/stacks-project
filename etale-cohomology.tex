@@ -7510,14 +7510,21 @@ associated to the presheaf
 $$
 (V \to Y) \longmapsto H_\etale^p(X \times_Y V, \mathcal{F}|_{X \times_Y V}).
 $$
+More generally, for $K \in D(X_\etale)$ we have that $R^pf_*K$ is the
+sheaf associated to the presheaf
+$$
+(V \to Y) \longmapsto H_\etale^p(X \times_Y V, K|_{X \times_Y V}).
+$$
 \end{lemma}
 
 \begin{proof}
 This lemma is valid for topological spaces, and the proof in this case is the
-same. See
-Cohomology on Sites, Lemma
+same. See Cohomology on Sites, Lemma
 \ref{sites-cohomology-lemma-higher-direct-images}
-for details.
+for the case of a sheaf and see
+Cohomology on Sites, Lemma
+\ref{sites-cohomology-lemma-sheafification-cohomology}
+for the case of a complex of abelian sheaves.
 \end{proof}
 
 \begin{lemma}
@@ -7748,24 +7755,77 @@ Formal combination of Lemmas \ref{lemma-relative-colimit-general}
 and \ref{lemma-linus-hamann}.
 \end{proof}
 
-\begin{remark}
-\label{remark-colimit-variant-complexes}
-Many of the results above have variants for bounded below
-complexes, but one has to be careful that the bounds have
-to be uniform. We explain this in the simplest case.
-Let $X$ be a quasi-compact and quasi-separated scheme.
-Let $I$ be a directed set. Let $\mathcal{F}_i^\bullet$ be a
-system over $I$ of complexes of sheaves on $X_\etale$.
-Assume there is an integer $a$ such that
+\begin{lemma}
+\label{lemma-colimit-variant-complexes}
+Let $X = \lim_{i \in I} X_i$ be a limit of a directed system of schemes
+with affine transition morphisms $f_{i'i} : X_{i'} \to X_i$. We assume
+that $X_i$ is quasi-compact and quasi-separated for all $i \in I$.
+Let $\mathcal{F}_i^\bullet$ be a complex of abelian sheaves on
+$X_{i, \etale}$. Let $\varphi_{i'i} : f_{i'i}^{-1}\mathcal{F}_i^\bullet \to
+\mathcal{F}_{i'}^\bullet$ be a map of complexes on $X_{i, \etale}$
+such that $\varphi_{i''i} = \varphi_{i''i'} \circ f_{i'' i'}^{-1}\varphi_{i'i}$
+whenever $i'' \geq i' \geq i$. Assume there is an integer $a$ such that
 $\mathcal{F}_i^n = 0$ for $n < a$ and all $i \in I$.
 Then we have
 $$
-H^p_\etale(X, \colim \mathcal{F}_i^\bullet) =
-\colim H^p_\etale(X, \mathcal{F}^\bullet_i)
+H^p_\etale(X, \colim f_i^{-1}\mathcal{F}_i^\bullet) =
+\colim H^p_\etale(X_i, \mathcal{F}^\bullet_i)
 $$
-If we ever need this we will state a precise lemma with
-full proof here.
-\end{remark}
+where $f_i : X \to X_i$ is the projection.
+\end{lemma}
+
+\begin{proof}
+This is a consequence of Theorem \ref{theorem-colimit}. Set
+$\mathcal{F}^\bullet = \colim f_i^{-1}\mathcal{F}_i^\bullet$.
+The theorem tells us that
+$$
+\colim_{i \in I} H_\etale^p(X_i, \mathcal{F}_i^n) =
+H_\etale^p(X, \mathcal{F}^n)
+$$
+for all $n, p \in \mathbf{Z}$. Let us use the spectral sequences
+$$
+E_{1, i}^{s, t} = H_\etale^t(X_i, \mathcal{F}_i^s) \Rightarrow
+H_\etale^{s + t}(X_i, \mathcal{F}_i^\bullet)
+$$
+and
+$$
+E_1^{s, t} = H_\etale^t(X, \mathcal{F}^s) \Rightarrow
+H_\etale^{s + t}(X, \mathcal{F}^\bullet)
+$$
+of Derived Categories, Lemma \ref{derived-lemma-two-ss-complex-functor}.
+Since $\mathcal{F}_i^n = 0$ for $n < a$ (with $a$ independent of $i$)
+we see that only a fixed finite number of terms $E_{1, i}^{s, t}$
+(independent of $i$) and $E_1^{s, t}$ contribute to
+$H^q_\etale(X_i, \mathcal{F}_i^\bullet)$ and
+$H^q_\etale(X, \mathcal{F}^\bullet)$ and $E_1^{s, t} = \colim E_{i, i}^{s, t}$.
+This implies what we want. Some details omitted.
+(There is an alternative argument using ``stupid'' truncations
+of complexes which avoids using spectral sequences.)
+\end{proof}
+
+\begin{lemma}
+\label{lemma-colimit-complexes}
+Let $S$ be a scheme. Let $X = \lim_{i \in I} X_i$ be a limit of a
+directed system of schemes over $S$ with affine transition morphisms
+$f_{i'i} : X_{i'} \to X_i$. We assume that $X_i$ is quasi-compact and
+quasi-separated for all $i \in I$. Let $K \in D^+(S_\etale)$. Then
+$$
+\colim_{i \in I} H_\etale^p(X_i, K|_{X_i}) = H_\etale^p(X, K|_X).
+$$
+for all $p \in \mathbf{Z}$ where $K|_{X_i}$ and $K|_X$
+are the pullbacks of $K$ to $X_i$ and $X$.
+\end{lemma}
+
+\begin{proof}
+We may represent $K$ by a bounded below complex $\mathcal{G}^\bullet$
+of abelian sheaves on $S_\etale$. Say $\mathcal{G}^n = 0$ for $n < a$.
+Denote $\mathcal{F}^\bullet_i$ and $\mathcal{F}^\bullet$ the pullbacks
+of this complex of $X_i$ and $X$. These complexes represent the
+objects $K|_{X_i}$ and $K|_X$ and we have
+$\mathcal{F}^\bullet = \colim f_i^{-1}\mathcal{F}_i^\bullet$
+termwise. Hence the lemma follows from
+Lemma \ref{lemma-colimit-variant-complexes}.
+\end{proof}
 
 
 
@@ -7773,6 +7833,9 @@ full proof here.
 
 \section{Stalks of higher direct images}
 \label{section-stalks-direct-image}
+
+\noindent
+The stalks of higher direct images can often be computed as follows.
 
 \begin{theorem}
 \label{theorem-higher-direct-images}
@@ -7785,7 +7848,12 @@ H_\etale^n( X \times_S \Spec(\mathcal{O}_{S, s}^{sh}),
 p^{-1}\mathcal{F})
 $$
 where $p : X \times_S \Spec(\mathcal{O}_{S, s}^{sh}) \to X$
-is the projection.
+is the projection. More generally we have
+$$
+\left(R^nf_*K\right)_{\overline{s}} =
+H_\etale^n( X \times_S \Spec(\mathcal{O}_{S, s}^{sh}), p^{-1}K)
+$$
+for $K \in D^+(X_\etale)$.
 \end{theorem}
 
 \begin{proof}
@@ -7812,6 +7880,9 @@ X \times_S \Spec(\mathcal{O}_{S, s}^{sh}) =
 \lim_{(V, \overline{v}) \in \mathcal{I}} X \times_S V
 $$
 We conclude by Lemma \ref{lemma-directed-colimit-cohomology}.
+For the second variant, use the same argument using
+Lemma \ref{lemma-colimit-complexes} instead of
+Lemma \ref{lemma-directed-colimit-cohomology}.
 \end{proof}
 
 
