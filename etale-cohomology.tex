@@ -7775,6 +7775,26 @@ Formal combination of Lemmas \ref{lemma-relative-colimit-general}
 and \ref{lemma-linus-hamann}.
 \end{proof}
 
+
+
+
+
+
+
+
+
+
+
+\section{Colimits and complexes}
+\label{section-colimit-complexes}
+
+\noindent
+In this section we discuss taking cohomology of systems of complexes
+in various settings, continuing the discussion for sheaves started
+in Section \ref{section-colimit}.
+We strongly urge the reader not to read this section unless absolutely
+necessary.
+
 \begin{lemma}
 \label{lemma-colimit-variant-complexes}
 Let $X = \lim_{i \in I} X_i$ be a limit of a directed system of schemes
@@ -7824,6 +7844,28 @@ of complexes which avoids using spectral sequences.)
 \end{proof}
 
 \begin{lemma}
+\label{lemma-direct-sum-bounded-below-cohomology}
+Let $X$ be a quasi-compact and quasi-sepated scheme. Let
+$K_i \in D(X_\etale)$, $i \in I$ be a family of objects.
+Assume given $a \in \mathbf{Z}$ such that $H^n(K_i) = 0$ for $n < a$
+and $i \in I$. Then $R\Gamma(X, \bigoplus_i K_i) =
+\bigoplus_i R\Gamma(X, K_i)$.
+\end{lemma}
+
+\begin{proof}
+We have to show that $H^p(X, \bigoplus_i K_i) =
+\bigoplus_i H^p(X, K_i)$ for all $p \in \mathbf{Z}$.
+Choose complexes $\mathcal{F}_i^\bullet$ representing $K_i$
+such that $\mathcal{F}_i^n = 0$ for $n < a$.
+The direct sum of the complexes $\mathcal{F}_i^\bullet$
+represents the object $\bigoplus K_i$ by
+Injectives, Lemma \ref{injectives-lemma-derived-products}.
+Since $\bigoplus \mathcal{F}^\bullet$ is the filtered
+colimit of the finite direct sums, the result follows
+from Lemma \ref{lemma-colimit-variant-complexes}.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-colimit-complexes}
 Let $S$ be a scheme. Let $X = \lim_{i \in I} X_i$ be a limit of a
 directed system of schemes over $S$ with affine transition morphisms
@@ -7870,7 +7912,7 @@ the formula are zero for $p \leq p_0$ by trivial vanishing, see
 Derived Categories, Lemma \ref{derived-lemma-negative-vanishing}.
 Assume $a \leq p_0$. Consider the distinguished triangle
 $$
-H^a(K_0) \to K_0 \to \tau_{\geq a + 1}K_0
+H^a(K_0)[-a] \to K_0 \to \tau_{\geq a + 1}K_0
 $$
 Pulling back this distinguished triangle to $X_i$ and $X$
 gives compatible distinguished triangles for $K_i$ and $K$.
@@ -7880,18 +7922,18 @@ $$
 \colim_{i \geq 0} h_i^{-1}R^{p - 1}g_{i, *}(\tau_{\geq a + 1}K_i)
 \ar[r]_-\alpha \ar[d] &
 R^{p - 1}g_*(\tau_{\geq a + 1}K) \ar[d] \\
-\colim_{i \geq 0} h_i^{-1}R^pg_{i, *}H^a(K_i)
+\colim_{i \geq 0} h_i^{-1}R^pg_{i, *}(H^a(K_i)[-a])
 \ar[r]_-\beta \ar[d] &
-R^pg_*H^a(K) \ar[d] \\
+R^pg_*(H^a(K)[-a]) \ar[d] \\
 \colim_{i \geq 0} h_i^{-1}R^pg_{i, *}K_i
 \ar[r]_-\gamma \ar[d] &
 R^pg_*K \ar[d] \\
 \colim_{i \geq 0} R^pg_{i, *}\tau_{\geq a + 1}K_i
 \ar[r]_-\delta \ar[d] &
 R^pg_*\tau_{\geq a + 1}K \ar[d] \\
-\colim_{i \geq 0} R^{p + 1}g_{i, *}H^a(K_i)
+\colim_{i \geq 0} R^{p + 1}g_{i, *}(H^a(K_i)[-a])
 \ar[r]^-\epsilon &
-R^{p + 1}g_*H^a(K)
+R^{p + 1}g_*(H^a(K)[-a])
 }
 $$
 with exact columns. The arrows $\beta$ and $\epsilon$ are isomorphisms by
@@ -7900,6 +7942,79 @@ The arrows $\alpha$ and $\delta$ are isomorphisms
 by induction hypothesis.
 Hence $\gamma$ is an isomorphism as desired.
 \end{proof}
+
+\begin{lemma}
+\label{lemma-relative-colimit-general-really-complexes}
+Let $I$, $g_i : X_i \to S_i$, $g : X \to S$, $f_{ii'}$, $f_i$, $g_i$, $h_i$
+be as in Lemma \ref{lemma-relative-colimit-general}.
+Let $\mathcal{F}_i^\bullet$ be a complex of abelian sheaves on
+$X_{i, \etale}$. Let $\varphi_{i'i} : f_{i'i}^{-1}\mathcal{F}_i^\bullet \to
+\mathcal{F}_{i'}^\bullet$ be a map of complexes on $X_{i, \etale}$
+such that $\varphi_{i''i} = \varphi_{i''i'} \circ f_{i'' i'}^{-1}\varphi_{i'i}$
+whenever $i'' \geq i' \geq i$. Assume there is an integer $a$ such that
+$\mathcal{F}_i^n = 0$ for $n < a$ and all $i \in I$. Then
+$$
+R^pg_*(\colim f_i^{-1}\mathcal{F}_i^\bullet) =
+\colim_{i \geq 0} h_i^{-1}R^pg_{i, *}\mathcal{F}_i^\bullet
+$$
+for all $p \in \mathbf{Z}$.
+\end{lemma}
+
+\begin{proof}
+This is a consequence of Lemma \ref{lemma-relative-colimit-general}. Set
+$\mathcal{F}^\bullet = \colim f_i^{-1}\mathcal{F}_i^\bullet$.
+The lemma tells us that
+$$
+\colim_{i \in I} h_i^{-1}R^pg_{i, *}\mathcal{F}_i^n = R^pg_*\mathcal{F}^n
+$$
+for all $n, p \in \mathbf{Z}$. Let us use the spectral sequences
+$$
+E_{1, i}^{s, t} = R^tg_{i, *}\mathcal{F}_i^s \Rightarrow
+R^{s + t}g_{i, *}\mathcal{F}_i^\bullet
+$$
+and
+$$
+E_1^{s, t} = R^tg_*\mathcal{F}^s \Rightarrow
+R^{s + t}g_*\mathcal{F}^\bullet
+$$
+of Derived Categories, Lemma \ref{derived-lemma-two-ss-complex-functor}.
+Since $\mathcal{F}_i^n = 0$ for $n < a$ (with $a$ independent of $i$)
+we see that only a fixed finite number of terms $E_{1, i}^{s, t}$
+(independent of $i$) and $E_1^{s, t}$ contribute and
+$E_1^{s, t} = \colim E_{i, i}^{s, t}$.
+This implies what we want. Some details omitted.
+(There is an alternative argument using ``stupid'' truncations
+of complexes which avoids using spectral sequences.)
+\end{proof}
+
+\begin{lemma}
+\label{lemma-direct-sum-bounded-below-pushforward}
+Let $f : X \to Y$ be a quasi-compact and quasi-sepated morphism of
+schemes. Let $K_i \in D(X_\etale)$, $i \in I$ be a family of objects.
+Assume given $a \in \mathbf{Z}$ such that $H^n(K_i) = 0$ for $n < a$
+and $i \in I$. Then $Rf_*(\bigoplus_i K_i) = \bigoplus_i Rf_*K_i$.
+\end{lemma}
+
+\begin{proof}
+We have to show that $R^pf_*(\bigoplus_i K_i) =
+\bigoplus_i R^pf_*K_i$ for all $p \in \mathbf{Z}$.
+Choose complexes $\mathcal{F}_i^\bullet$ representing $K_i$
+such that $\mathcal{F}_i^n = 0$ for $n < a$.
+The direct sum of the complexes $\mathcal{F}_i^\bullet$
+represents the object $\bigoplus K_i$ by
+Injectives, Lemma \ref{injectives-lemma-derived-products}.
+Since $\bigoplus \mathcal{F}^\bullet$ is the filtered
+colimit of the finite direct sums, the result follows
+from Lemma \ref{lemma-relative-colimit-general-really-complexes}.
+\end{proof}
+
+
+
+
+
+
+
+
 
 
 
@@ -13079,7 +13194,6 @@ where the horizontal arrows are those of Remark \ref{remark-stalk-fibre}.
 In general there won't be a vertical map on the right
 between the cohomologies of $K$ on the fibres fitting into this
 diagram, even in the case of Lemma \ref{lemma-specialization-map-pushforward}.
-We will continue the discussion \ref{here}.
 \end{remark}
 
 
