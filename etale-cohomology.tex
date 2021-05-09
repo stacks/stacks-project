@@ -7847,6 +7847,61 @@ termwise. Hence the lemma follows from
 Lemma \ref{lemma-colimit-variant-complexes}.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-relative-colimit-general-complexes}
+Let $I$, $g_i : X_i \to S_i$, $g : X \to S$, $f_i$, $g_i$, $h_i$ be as in
+Lemma \ref{lemma-relative-colimit-general}.
+Let $0 \in I$ and $K_0 \in D^+(X_{0, \etale})$.
+For $i \geq 0$ denote $K_i$ the pullback of $K_0$ to $X_i$.
+Denote $K$ the pullback of $K$ to $X$. Then
+$$
+R^pg_*K = \colim_{i \geq 0} h_i^{-1}R^pg_{i, *}K_i
+$$
+for all $p \in \mathbf{Z}$.
+\end{lemma}
+
+\begin{proof}
+Fix an integer $p_0 \in \mathbf{Z}$.
+Let $a$ be an integer such that $H^j(K_0) = 0$ for $j < a$.
+We will prove the formula holds for all $p \leq p_0$
+by descending induction on $a$. If
+$a > p_0$, then we see that the left and right hand side of
+the formula are zero for $p \leq p_0$ by trivial vanishing, see
+Derived Categories, Lemma \ref{derived-lemma-negative-vanishing}.
+Assume $a \leq p_0$. Consider the distinguished triangle
+$$
+H^a(K_0) \to K_0 \to \tau_{\geq a + 1}K_0
+$$
+Pulling back this distinguished triangle to $X_i$ and $X$
+gives compatible distinguished triangles for $K_i$ and $K$.
+For $p \leq p_0$ we consider the commutative diagram
+$$
+\xymatrix{
+\colim_{i \geq 0} h_i^{-1}R^{p - 1}g_{i, *}(\tau_{\geq a + 1}K_i)
+\ar[r]_-\alpha \ar[d] &
+R^{p - 1}g_*(\tau_{\geq a + 1}K) \ar[d] \\
+\colim_{i \geq 0} h_i^{-1}R^pg_{i, *}H^a(K_i)
+\ar[r]_-\beta \ar[d] &
+R^pg_*H^a(K) \ar[d] \\
+\colim_{i \geq 0} h_i^{-1}R^pg_{i, *}K_i
+\ar[r]_-\gamma \ar[d] &
+R^pg_*K \ar[d] \\
+\colim_{i \geq 0} R^pg_{i, *}\tau_{\geq a + 1}K_i
+\ar[r]_-\delta \ar[d] &
+R^pg_*\tau_{\geq a + 1}K \ar[d] \\
+\colim_{i \geq 0} R^{p + 1}g_{i, *}H^a(K_i)
+\ar[r]^-\epsilon &
+R^{p + 1}g_*H^a(K)
+}
+$$
+with exact columns. The arrows $\beta$ and $\epsilon$ are isomorphisms by
+Lemma \ref{lemma-relative-colimit-general}.
+The arrows $\alpha$ and $\delta$ are isomorphisms
+by induction hypothesis.
+Hence $\gamma$ is an isomorphism as desired.
+\end{proof}
+
+
 
 
 
@@ -13024,15 +13079,8 @@ where the horizontal arrows are those of Remark \ref{remark-stalk-fibre}.
 In general there won't be a vertical map on the right
 between the cohomologies of $K$ on the fibres fitting into this
 diagram, even in the case of Lemma \ref{lemma-specialization-map-pushforward}.
-However, if formation of $Rf_*K$ commutes with any base change, then
-we do because then both horizontal maps in the diagram as well as the
-the composites
-$(Rf_*K)_{\overline{s}} \to R\Gamma(X_{\overline{s}}, K)$
-and
-$(Rf_*K)_{\overline{t}} \to R\Gamma(X_{\overline{t}}, K)$
-are isomorphisms.
+We will continue the discussion \ref{here}.
 \end{remark}
-
 
 
 
@@ -15037,8 +15085,7 @@ X \ar[d]_f & Y \ar[l]^h \ar[d]^e \\
 S & T \ar[l]_g
 }
 $$
-and a sheaf $\mathcal{F}$ on $T_\etale$. Let $\{U_i \to X\}$ be an
-\'etale covering such that $U_i \to S$
+Let $\{U_i \to X\}$ be an \'etale covering such that $U_i \to S$
 factors as $U_i \to V_i \to S$ with $V_i \to S$ \'etale
 and consider the cartesian diagrams
 $$
@@ -15047,11 +15094,14 @@ U_i \ar[d]_{f_i} & U_i \times_X Y \ar[l]^{h_i} \ar[d]^{e_i} \\
 V_i & V_i \times_S T \ar[l]_{g_i}
 }
 $$
-Set $\mathcal{F}_i = \mathcal{F}|_{V_i \times_S T}$.
+Let $\mathcal{F}$ be a sheaf on $T_\etale$. Let $K$ in $D(T_\etale)$.
+Set $K_i = K|_{V_i \times_S T}$ and
+$\mathcal{F}_i = \mathcal{F}|_{V_i \times_S T}$.
 \begin{enumerate}
 \item If $f_i^{-1}g_{i, *}\mathcal{F}_i = h_{i, *}e_i^{-1}\mathcal{F}_i$
-for all $i$, then
-$f^{-1}g_*\mathcal{F} = h_*e^{-1}\mathcal{F}$.
+for all $i$, then $f^{-1}g_*\mathcal{F} = h_*e^{-1}\mathcal{F}$.
+\item If $f_i^{-1}Rg_{i, *}K_i = Rh_{i, *}e_i^{-1}K_i$
+for all $i$, then $f^{-1}Rg_*K = Rh_*e^{-1}K$.
 \item If $\mathcal{F}$ is an abelian sheaf and
 $f_i^{-1}R^qg_{i, *}\mathcal{F}_i = R^qh_{i, *}e_i^{-1}\mathcal{F}_i$
 for all $i$, then
@@ -15060,14 +15110,34 @@ $f^{-1}R^qg_*\mathcal{F} = R^qh_*e^{-1}\mathcal{F}$.
 \end{lemma}
 
 \begin{proof}
-We have
-$f^{-1}R^qg_*\mathcal{F}|_{U_i} = f_i^{-1}R^qg_{i, *}\mathcal{F}_i$
-and
-$R^qh_*e^{-1}\mathcal{F}|_{U_i} = R^qh_{i, *}e_i^{-1}\mathcal{F}_i$
-as follows from the compatibility of localization with
-morphisms of sites, see
+Proof of (1). First we observe that
+$$
+(f^{-1}g_*\mathcal{F})|_{U_i} =
+f_i^{-1}(g_*\mathcal{F}|_{V_i}) =
+f_i^{-1}g_{i, *}\mathcal{F}_i
+$$
+The first equality because $U_i \to X \to S$ is equal to
+$U_i \to V_i \to S$ and the second equality because
+$g_*\mathcal{F}|_{V_i} = g_{i, *}\mathcal{F}_i$ by
+Sites, Lemma \ref{sites-lemma-localize-morphism-strong}.
+Similarly we have
+$$
+(h_*e^{-1}\mathcal{F})|_{U_i} =
+h_{i, *}(e^{-1}\mathcal{F}|_{U_i \times_X Y}) =
+h_{i, *}e_i^{-1}\mathcal{F}_i
+$$
+Thus if the base change maps
+$f_i^{-1}g_{i, *}\mathcal{F}_i \to h_{i, *}e_i^{-1}\mathcal{F}_i$
+are isomorphisms for all $i$, then the base change map
+$f^{-1}g_*\mathcal{F} \to h_*e^{-1}\mathcal{F}$
+restricts to an isomorphism over $U_i$ for all $i$
+and we conclude it is an isomorphism as $\{U_i \to X\}$
+is an \'etale covering.
+
+\medskip\noindent
+For the other two statements we replace the appeal to
 Sites, Lemma \ref{sites-lemma-localize-morphism-strong}
-and
+by an appeal to
 Cohomology on Sites, Lemma
 \ref{sites-cohomology-lemma-restrict-direct-image-open}.
 \end{proof}
@@ -15169,6 +15239,34 @@ where $s_i : S \to S_i$ is the projection. The lemma follows.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-base-change-Rf-star-colim-complexes}
+Let $I$, $X_i$, $Y_i$, $S_i$, $T_i$, $f_i$, $h_i$, $e_i$, $g_i$,
+$X$, $Y$, $S$, $T$, $f$, $h$, $e$, $g$ be as in the statement
+of Lemma \ref{lemma-base-change-Rf-star-colim}.
+Let $0 \in I$ and let $K_0 \in D^+(T_{0, \etale})$.
+For $i \in I$, $i \geq 0$ denote $K_i$ the pullback of
+$K_0$ to $T_i$. Denote $K$ the pullback of $K_0$ to $T$.
+If $f_i^{-1}Rg_{i, *}K_i = Rh_{i, *}e_i^{-1}K_i$
+for all $i \geq 0$, then $f^{-1}Rg_*K = Rh_*e^{-1}K$.
+\end{lemma}
+
+\begin{proof}
+It suffices to show that the base change map
+$f^{-1}Rg_*K \to Rh_*e^{-1}K$ induces an isomorphism
+on cohomology sheaves. In other words, we have to show
+that $f^{-1}R^pg_*K \to R^ph_*e^{-1}K$ is an isomorphism
+for all $p \in \mathbf{Z}$ if we are given that
+$f_i^{-1}R^pg_{i, *}K_i \to R^ph_{i, *}e_i^{-1}K_i$
+is an isomorphism for all $i \geq 0$ and $p \in \mathbf{Z}$.
+At this point we can argue exactly as in the proof of
+Lemma \ref{lemma-base-change-Rf-star-colim}
+replacing reference to
+Lemma \ref{lemma-relative-colimit-general}
+by a reference to
+Lemma \ref{lemma-relative-colimit-general-complexes}.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-base-change-f-star-general-stalks}
 Consider a cartesian diagram of schemes
 $$
@@ -15252,6 +15350,14 @@ It follows that
 Since taking cohomology in our setting commutes with limits
 of schemes (Theorem \ref{theorem-colimit}) we conclude.
 \end{proof}
+
+
+
+
+
+
+
+
 
 
 
@@ -16822,454 +16928,6 @@ by the relative Leray spectral sequence. This finishes the proof.
 
 
 
-\section{Local acyclicity}
-\label{section-local-acyclicity}
-
-\noindent
-In this section we deduce local acyclicity of smooth morphisms
-from the smooth base change theorem. In SGA 4 or SGA 4.5 the authors
-first prove a version of local acyclicity for smooth morphisms
-and then deduce the smooth base change theorem.
-
-\medskip\noindent
-We will use the formulation of local acyclicity given by
-Deligne \cite[Definition 2.12, page 242]{SGA4.5}.
-Let $f : X \to S$ be a morphism of schemes.
-Let $\overline{x}$ be a geometric point of $X$ with image
-$\overline{s} = f(\overline{x})$ in $S$.
-Let $\overline{t}$ be a geometric point of
-$\Spec(\mathcal{O}^{sh}_{S, \overline{s}})$.
-We obtain a commutative diagram
-$$
-\xymatrix{
-F_{\overline{x}, \overline{t}} =
-\overline{t} \times_{\Spec(\mathcal{O}^{sh}_{S, \overline{s}})}
-\Spec(\mathcal{O}^{sh}_{X, \overline{x}}) \ar[r] \ar[d] &
-\Spec(\mathcal{O}^{sh}_{X, \overline{x}}) \ar[r] \ar[d] &
-X \ar[d] \\
-\overline{t} \ar[r] &
-\Spec(\mathcal{O}^{sh}_{S, \overline{s}}) \ar[r] &
-S
-}
-$$
-The scheme $F_{\overline{x}, \overline{t}}$ is called
-a {\it variety of vanishing cycles of $f$ at $\overline{x}$}.
-Let $K$ be an object of $D(X_\etale)$. For any morphism of schemes
-$g : Y\to X$ we write $R\Gamma(Y, K)$ instead of
-$R\Gamma(Y_\etale, g_{small}^{-1}K)$. Since
-$\mathcal{O}^{sh}_{X, \overline{x}}$ is strictly henselian
-we have
-$K_{\overline{x}} = R\Gamma(\Spec(\mathcal{O}^{sh}_{X, \overline{x}}), K)$.
-Thus we obtain a canonical map
-\begin{equation}
-\label{equation-alpha-K}
-\alpha_{K, \overline{x}, \overline{t}} :
-K_{\overline{x}}
-\longrightarrow
-R\Gamma(F_{\overline{x}, \overline{t}}, K)
-\end{equation}
-by pulling back cohomology along
-$F_{\overline{x}, \overline{t}} \to \Spec(\mathcal{O}^{sh}_{X, \overline{x}})$.
-
-\begin{definition}
-\label{definition-locally-acyclic}
-\begin{reference}
-\cite[Definition 2.12, page 242]{SGA4.5} and
-\cite[Definition (1.3), page 54]{SGA4.5}
-\end{reference}
-Let $f : X \to S$ be a morphism of schemes.
-Let $K$ be an object of $D(X_\etale)$.
-\begin{enumerate}
-\item
-Let $\overline{x}$ be a geometric point of $X$ with image
-$\overline{s} = f(\overline{x})$.
-We say $f$ is {\it locally acyclic at $\overline{x}$ relative to $K$}
-if for every geometric point $\overline{t}$ of
-$\Spec(\mathcal{O}^{sh}_{S, \overline{s}})$ the
-map (\ref{equation-alpha-K}) is an isomorphism.
-\item We say $f$ is {\it locally acyclic relative to $K$}
-if $f$ is locally acyclic at $\overline{x}$ relative to $K$
-for every geometric point $\overline{x}$ of $X$.
-\item We say $f$ is {\it universally locally acyclic relative to $K$}
-if for any morphism $S' \to S$ of schemes the base change $f' : X' \to S'$
-is locally acyclic relative to the pullback of $K$ to $X'$.
-\item We say $f$ is {\it locally acyclic} if for all geometric
-points $\overline{x}$ of $X$ and any integer $n$ prime to the characteristic
-of $\kappa(\overline{x})$, the morphism $f$ is locally acyclic
-at $\overline{x}$ relative to the constant sheaf with value
-$\mathbf{Z}/n\mathbf{Z}$.
-\item We say $f$ is {\it universally locally acyclic} if
-for any morphism $S' \to S$ of schemes the base change $f' : X' \to S'$
-is locally acyclic.
-\end{enumerate}
-\end{definition}
-
-\noindent
-Let $M$ be an abelian group. Then local acyclicity of $f : X \to S$
-with respect to the constant sheaf $\underline{M}$ boils down
-to the requirement that
-$$
-H^q(F_{\overline{x}, \overline{t}}, \underline{M}) =
-\left\{
-\begin{matrix}
-M & \text{if} & q = 0 \\
-0 & \text{if} & q \not = 0
-\end{matrix}
-\right.
-$$
-for any geometric point $\overline{x}$ of $X$ and any geometric
-point $\overline{t}$ of $\Spec(\mathcal{O}^{sh}_{S, f(\overline{x})})$.
-In this way we see that being locally acyclic corresponds to the
-vanishing of the higher cohomology groups of the geometric fibres
-$F_{\overline{x}, \overline{t}}$ of the maps between the
-strict henselizations at $\overline{x}$ and $\overline{s}$.
-
-\begin{proposition}
-\label{proposition-smooth-locally-acyclic}
-Let $f : X \to S$ be a smooth morphism of schemes.
-Then $f$ is universally locally acyclic.
-\end{proposition}
-
-\begin{proof}
-Since the base change of a smooth morphism is smooth, it suffices
-to show that smooth morphisms are locally acyclic.
-Let $\overline{x}$ be a geometric point of $X$ with image
-$\overline{s} = f(\overline{x})$. Let
-$\overline{t}$ be a geometric point of
-$\Spec(\mathcal{O}^{sh}_{S, f(\overline{x})})$.
-Since we are trying to prove a property of the ring map
-$\mathcal{O}^{sh}_{S, \overline{s}} \to \mathcal{O}^{sh}_{X, \overline{x}}$
-(see discussion following Definition \ref{definition-locally-acyclic})
-we may and do replace $f : X \to S$ by the base change
-$X \times_S \Spec(\mathcal{O}^{sh}_{S, \overline{s}}) \to
-\Spec(\mathcal{O}^{sh}_{S, \overline{s}})$.
-Thus we may and do assume that $S$ is the spectrum of a strictly
-henselian local ring and that $\overline{s}$ lies over
-the closed point of $S$.
-
-\medskip\noindent
-We will apply Lemma \ref{lemma-base-change-f-star-general-stalks}
-to the diagram
-$$
-\xymatrix{
-X \ar[d]_f & X_{\overline{t}} \ar[l]^h \ar[d]^e \\
-S & \overline{t} \ar[l]_g
-}
-$$
-and the sheaf $\mathcal{F} = \underline{M}$ where $M = \mathbf{Z}/n\mathbf{Z}$
-for some integer $n$ prime to the characteristic of the residue field of
-$\overline{x}$. We know that the map
-$f^{-1}R^qg_*\mathcal{F} \to R^qh_*e^{-1}\mathcal{F}$
-is an isomorphism by smooth base change, see
-Theorem \ref{theorem-smooth-base-change} (the assumption
-on torsion holds by our choice of $n$).
-Thus Lemma \ref{lemma-base-change-f-star-general-stalks}
-gives us the middle equality in
-$$
-H^q(F_{\overline{x}, \overline{t}}, \underline{M}) =
-H^q(\Spec(\mathcal{O}^{sh}_{X, \overline{x}}) \times_S \overline{t},
-\underline{M})
-=
-H^q(\Spec(\mathcal{O}^{sh}_{S, \overline{s}}) \times_S \overline{t},
-\underline{M}) =
-H^q(\overline{t}, \underline{M})
-$$
-For the outer two equalities we use that
-$S = \Spec(\mathcal{O}^{sh}_{S, \overline{s}})$.
-Since $\overline{t}$ is the spectrum of a separably
-closed field we conclude that
-$$
-H^q(F_{\overline{x}, \overline{t}}, \underline{M}) =
-\left\{
-\begin{matrix}
-M & \text{if} & q = 0 \\
-0 & \text{if} & q \not = 0
-\end{matrix}
-\right.
-$$
-which is what we had to show (see discussion following
-Definition \ref{definition-locally-acyclic}).
-\end{proof}
-
-\begin{lemma}
-\label{lemma-locally-acyclic-locally-constant}
-Let $f : X \to S$ be a morphism of schemes. Let $\mathcal{F}$ be a finite
-locally constant abelian sheaf on $X_\etale$ such that for every geometric
-point $\overline{x}$ of $X$ the finite abelian group
-$\mathcal{F}_{\overline{x}}$ has order prime to the characteristic of the
-residue field of $\overline{x}$. If $f$ is locally acyclic, then $f$ is
-locally acyclic relative to $\mathcal{F}$.
-\end{lemma}
-
-\begin{proof}
-Namely, let $\overline{x}$ be a geometric point of $X$.
-Since $\mathcal{F}$ is finite locally constant we see that
-the restriction of $\mathcal{F}$ to $\Spec(\mathcal{O}^{sh}_{X, \overline{x}})$
-is isomorphic to the constant sheaf $\underline{M}$ with
-$M = \mathcal{F}_{\overline{x}}$. By assumption we can write
-$M = \bigoplus \mathbf{Z}/n_i\mathbf{Z}$ for some integers $n_i$
-prime to the characteristic of the residue field of $\overline{x}$.
-Since $f$ is locally acyclic we see that
-$$
-H^q(F_{\overline{x}, \overline{t}}, \underline{\mathbf{Z}/n_i\mathbf{Z}}) =
-\left\{
-\begin{matrix}
-\mathbf{Z}/n_i\mathbf{Z} & \text{if} & q = 0 \\
-0 & \text{if} & q \not = 0
-\end{matrix}
-\right.
-$$
-for any geometric point $\overline{t}$ of
-$\Spec(\mathcal{O}^{sh}_{S, f(\overline{x})})$.
-See discussion following Definition \ref{definition-locally-acyclic}.
-Taking direct sums we conclude that
-$$
-H^q(F_{\overline{x}, \overline{t}}, \underline{M}) =
-\left\{
-\begin{matrix}
-M & \text{if} & q = 0 \\
-0 & \text{if} & q \not = 0
-\end{matrix}
-\right.
-$$
-and we win.
-\end{proof}
-
-\begin{lemma}
-\label{lemma-locally-acyclic-quasi-finite-base-change}
-Let
-$$
-\xymatrix{
-X' \ar[r]_{g'} \ar[d]_{f'} & X \ar[d]^f \\
-S' \ar[r]^g & S
-}
-$$
-be a cartesian diagram of schemes. Let $K$ be an object of $D(X_\etale)$.
-Let $\overline{x}'$ be a geometric point of $X'$ with image $\overline{x}$
-in $X$. If
-\begin{enumerate}
-\item $f$ is locally acyclic at $\overline{x}$ relative to $K$ and
-\item $g$ is locally quasi-finite, or $S' = \lim S_i$
-is a directed inverse limit of schemes locally quasi-finite over $S$
-with affine transition morphisms, or $g : S' \to S$ is integral,
-\end{enumerate}
-then $f'$ locally acyclic at $\overline{x}'$ relative to $(g')^{-1}K$.
-\end{lemma}
-
-\begin{proof}
-Denote $\overline{s}'$ and $\overline{s}$ the images of
-$\overline{x}'$ and $\overline{x}$ in $S'$ and $S$.
-Let $\overline{t}'$ be a geometric point of the spectrum of
-$\Spec(\mathcal{O}^{sh}_{S', \overline{s}'})$ and denote
-$\overline{t}$ the image in $\Spec(\mathcal{O}^{sh}_{S, \overline{s}})$.
-By Algebra, Lemma
-\ref{algebra-lemma-base-change-strict-henselization-quasi-finite}
-and our assumptions on $g$ we have
-$$
-\mathcal{O}^{sh}_{X, \overline{x}}
-\otimes_{\mathcal{O}^{sh}_{S, \overline{s}}}
-\mathcal{O}^{sh}_{S', \overline{s}'}
-\longrightarrow
-\mathcal{O}^{sh}_{X', \overline{x}'}
-$$
-is an isomorphism. Since by our conventions
-$\kappa(\overline{t}) = \kappa(\overline{t}')$
-we conclude that
-$$
-F_{\overline{x}', \overline{t}'} =
-\Spec\left(
-\mathcal{O}^{sh}_{X', \overline{x}'}
-\otimes_{\mathcal{O}^{sh}_{S', \overline{s}'}}
-\kappa(\overline{t}')\right) =
-\Spec\left(
-\mathcal{O}^{sh}_{X, \overline{x}}
-\otimes_{\mathcal{O}^{sh}_{S, \overline{s}}}
-\kappa(\overline{t})\right) =
-F_{\overline{x}, \overline{t}}
-$$
-In other words, the varieties of vanishing cycles
-of $f'$ at $\overline{x}'$ are examples of varieties of vanishing
-cycles of $f$ at $\overline{x}$. The lemma follows
-immediately from this and the definitions.
-\end{proof}
-
-
-
-
-
-
-
-
-
-
-\section{The cospecialization map}
-\label{section-cospecialization}
-
-\noindent
-Let $f : X \to S$ be a morphism of schemes. Let $\overline{x}$ be a
-geometric point of $X$ with image $\overline{s} = f(\overline{x})$ in $S$.
-Let $\overline{t}$ be a geometric point of
-$\Spec(\mathcal{O}^{sh}_{S, \overline{s}})$.
-Let $K \in D(X_\etale)$. For any morphism $g : Y \to X$ of schemes
-we write $K|_Y$ instead of $g_{small}^{-1}K$ and $R\Gamma(Y, K)$
-instead of $R\Gamma(Y_\etale, g_{small}^{-1}K)$.
-We claim that if
-\begin{enumerate}
-\item $K$ is bounded below, i.e., $K \in D^+(X_\etale)$,
-\item $f$ is locally acyclic relative to $K$
-\end{enumerate}
-then there is a {\it cospecialization map}
-$$
-cosp :
-R\Gamma(X_{\overline{t}}, K)
-\longrightarrow
-R\Gamma(X_{\overline{s}}, K)
-$$
-which will be closely related to the specialization map
-considered in Section \ref{section-specialization} and especially
-Remark \ref{remark-specialization-map-and-fibres}.
-
-\medskip\noindent
-To construct the map we consider the morphisms
-$$
-X_{\overline{t}}
-\xrightarrow{h}
-X \times_S \Spec(\mathcal{O}^{sh}_{S, \overline{s}})
-\xleftarrow{i}
-X_{\overline{s}}
-$$
-The unit of the adjunction between $h^{-1}$ and $Rh_*$ gives a map
-$$
-\beta_{K, \overline{s}, \overline{t}} :
-K|_{X \times_S \Spec(\mathcal{O}^{sh}_{S, \overline{s}})}
-\longrightarrow
-Rh_*(K|_{X_{\overline{t}}})
-$$
-in $D((X \times_S \Spec(\mathcal{O}^{sh}_{S, \overline{s}}))_\etale)$.
-Lemma \ref{lemma-beta-is-isomorphism} below shows that the pullback
-$i^{-1}\beta_{K, \overline{s}, \overline{t}}$
-is an isomorphism under the assumptions above.
-Thus we can define the cospecialization map as the composition
-\begin{align*}
-R\Gamma(X_{\overline{t}}, K)
-& =
-R\Gamma(X \times_S \Spec(\mathcal{O}^{sh}_{S, \overline{s}}),
-Rh_*(K|_{X_{\overline{t}}})) \\
-&
-\xrightarrow{i^{-1}}
-R\Gamma(X_{\overline{s}}, i^{-1}Rh_*(K|_{X_{\overline{t}}})) \\
-&
-\xrightarrow{(i^{-1}\beta_{K, \overline{s}, \overline{t}})^{-1}}
-R\Gamma(X_{\overline{s}},
-i^{-1}(K|_{X \times_S \Spec(\mathcal{O}^{sh}_{S, \overline{s}})})) \\
-& =
-R\Gamma(X_{\overline{s}}, K)
-\end{align*}
-
-\begin{lemma}
-\label{lemma-beta-is-isomorphism}
-The map $i^{-1}\beta_{K, \overline{s}, \overline{t}}$ is an isomorphism.
-\end{lemma}
-
-\begin{proof}
-The construction of the maps $h$, $i$, $\beta_{K, \overline{s}, \overline{t}}$
-only depends on the
-base change of $X$ and $K$ to $\Spec(\mathcal{O}^{sh}_{S, \overline{s}})$.
-Thus we may and do assume that $S$ is a strictly henselian scheme
-with closed point $\overline{s}$. Observe that the local acyclicity
-of $f$ relative to $K$ is preserved by this base change (for example
-by Lemma \ref{lemma-locally-acyclic-quasi-finite-base-change} or just
-directly by comparing strictly henselian rings in this very special case).
-
-\medskip\noindent
-Let $\overline{x}$ be a geometric point of $X_{\overline{s}}$.
-Or equivalently, let $\overline{x}$ be a geometric point whose image
-by $f$ is $\overline{s}$. Let us compute the stalk of
-$i^{-1}\beta_{K, \overline{s}, \overline{t}}$
-at $\overline{x}$. First, we have
-$$
-(i^{-1}\beta_{K, \overline{s}, \overline{t}})_{\overline{x}} =
-(\beta_{K, \overline{s}, \overline{t}})_{\overline{x}}
-$$
-since pullback preserves stalks, see Lemma \ref{lemma-stalk-pullback}.
-Since we are in the situation $S = \Spec(\mathcal{O}^{sh}_{S, \overline{s}})$
-we see that $h : X_{\overline{t}} \to X$ has the property that
-$X_{\overline{t}} \times_X \Spec(\mathcal{O}^{sh}_{X, \overline{x}})
-= F_{\overline{x}, \overline{t}}$. Thus we see that
-$$
-(\beta_{K, \overline{s}, \overline{t}})_{\overline{x}} :
-K_{\overline{x}}
-\longrightarrow
-Rh_*(K|_{X_{\overline{t}}})_{\overline{x}} =
-R\Gamma(F_{\overline{x}, \overline{t}}, K)
-$$
-where the equal sign is Theorem \ref{theorem-higher-direct-images}.
-It follows that the map $(\beta_{K, \overline{s}, \overline{t}})_{\overline{x}}$
-is none other than the map $\alpha_{K, \overline{x}, \overline{t}}$ used
-in Definition \ref{definition-locally-acyclic}. The result follows as we may
-check whether a map is an isomorphism in stalks by
-Theorem \ref{theorem-exactness-stalks}.
-\end{proof}
-
-\noindent
-The cospecialization map when it exists is trying to be the inverse
-of the specialization map.
-
-\begin{lemma}
-\label{lemma-specialization-cospecialization}
-In the situation above, if in addition
-$f$ is quasi-compact and quasi-separated, then the diagram
-$$
-\xymatrix{
-(Rf_*K)_{\overline{s}} \ar[r] \ar[d]_{sp} &
-R\Gamma(X_{\overline{s}}, K) \\
-(Rf_*K)_{\overline{t}} \ar[r] &
-R\Gamma(X_{\overline{t}}, K) \ar[u]_{cosp}
-}
-$$
-is commutative.
-\end{lemma}
-
-\begin{proof}
-As in the proof of Lemma \ref{lemma-beta-is-isomorphism}
-we may replace $S$ by $\Spec(\mathcal{O}^{sh}_{S, \overline{s}})$.
-Then our maps simplify to $h : X_{\overline{t}} \to X$,
-$i : X_{\overline{s}} \to X$, and
-$\beta_{K, \overline{s}, \overline{t}} : K \to Rh_*(K|_{X_{\overline{t}}})$.
-Using that $(Rf_*K)_{\overline{s}} = R\Gamma(X, K)$ by
-Theorem \ref{theorem-higher-direct-images}
-the composition of $sp$ with the base change map
-$(Rf_*K)_{\overline{t}} \to R\Gamma(X_{\overline{t}}, K)$
-is just pullback of cohomology along $h$.
-This is the same as the map
-$$
-R\Gamma(X, K) \xrightarrow{\beta_{K, \overline{s}, \overline{t}}}
-R\Gamma(X, Rh_*(K|_{X_{\overline{t}}})) =
-R\Gamma(X_{\overline{t}}, K)
-$$
-Now the map $cosp$ first inverts the $=$ sign in this displayed
-formula, then pulls back along $i$, and finally applies
-the inverse of $i^{-1}\beta_{K, \overline{s}, \overline{t}}$.
-Hence we get the desired commutativity.
-\end{proof}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 \section{The proper base change theorem}
 \label{section-proper-base-change}
 
@@ -17855,7 +17513,8 @@ be a geometric point.
 $(R^nf_*\mathcal{F})_{\overline{y}} =
 H^n_\etale(X_{\overline{y}}, \mathcal{F}_{\overline{y}})$.
 \item For $E \in D^+(X_\etale)$ with torsion cohomology sheaves we have
-$(R^nf_*E)_{\overline{y}} = H^n_\etale(X_{\overline{y}}, E_{\overline{y}})$.
+$(R^nf_*E)_{\overline{y}} =
+H^n_\etale(X_{\overline{y}}, E|_{X_{\overline{y}}})$.
 \end{enumerate}
 \end{lemma}
 
@@ -18162,6 +17821,513 @@ E|_{X_{\overline{y}}}) \otimes_\mathbf{Z}^\mathbf{L} K_{\overline{y}}
 $$
 This is shown in Lemma \ref{lemma-pull-out-constant}.
 \end{proof}
+
+
+
+
+
+
+
+
+\section{Local acyclicity}
+\label{section-local-acyclicity}
+
+\noindent
+In this section we deduce local acyclicity of smooth morphisms
+from the smooth base change theorem. In SGA 4 or SGA 4.5 the authors
+first prove a version of local acyclicity for smooth morphisms
+and then deduce the smooth base change theorem.
+
+\medskip\noindent
+We will use the formulation of local acyclicity given by
+Deligne \cite[Definition 2.12, page 242]{SGA4.5}.
+Let $f : X \to S$ be a morphism of schemes.
+Let $\overline{x}$ be a geometric point of $X$ with image
+$\overline{s} = f(\overline{x})$ in $S$.
+Let $\overline{t}$ be a geometric point of
+$\Spec(\mathcal{O}^{sh}_{S, \overline{s}})$.
+We obtain a commutative diagram
+$$
+\xymatrix{
+F_{\overline{x}, \overline{t}} =
+\overline{t} \times_{\Spec(\mathcal{O}^{sh}_{S, \overline{s}})}
+\Spec(\mathcal{O}^{sh}_{X, \overline{x}}) \ar[r] \ar[d] &
+\Spec(\mathcal{O}^{sh}_{X, \overline{x}}) \ar[r] \ar[d] &
+X \ar[d] \\
+\overline{t} \ar[r] &
+\Spec(\mathcal{O}^{sh}_{S, \overline{s}}) \ar[r] &
+S
+}
+$$
+The scheme $F_{\overline{x}, \overline{t}}$ is called
+a {\it variety of vanishing cycles of $f$ at $\overline{x}$}.
+Let $K$ be an object of $D(X_\etale)$. For any morphism of schemes
+$g : Y\to X$ we write $R\Gamma(Y, K)$ instead of
+$R\Gamma(Y_\etale, g_{small}^{-1}K)$. Since
+$\mathcal{O}^{sh}_{X, \overline{x}}$ is strictly henselian
+we have
+$K_{\overline{x}} = R\Gamma(\Spec(\mathcal{O}^{sh}_{X, \overline{x}}), K)$.
+Thus we obtain a canonical map
+\begin{equation}
+\label{equation-alpha-K}
+\alpha_{K, \overline{x}, \overline{t}} :
+K_{\overline{x}}
+\longrightarrow
+R\Gamma(F_{\overline{x}, \overline{t}}, K)
+\end{equation}
+by pulling back cohomology along
+$F_{\overline{x}, \overline{t}} \to \Spec(\mathcal{O}^{sh}_{X, \overline{x}})$.
+
+\begin{definition}
+\label{definition-locally-acyclic}
+\begin{reference}
+\cite[Definition 2.12, page 242]{SGA4.5} and
+\cite[Definition (1.3), page 54]{SGA4.5}
+\end{reference}
+Let $f : X \to S$ be a morphism of schemes.
+Let $K$ be an object of $D(X_\etale)$.
+\begin{enumerate}
+\item
+Let $\overline{x}$ be a geometric point of $X$ with image
+$\overline{s} = f(\overline{x})$.
+We say $f$ is {\it locally acyclic at $\overline{x}$ relative to $K$}
+if for every geometric point $\overline{t}$ of
+$\Spec(\mathcal{O}^{sh}_{S, \overline{s}})$ the
+map (\ref{equation-alpha-K}) is an isomorphism\footnote{We do not
+assume $\overline{t}$ is an algebraic geometric point of
+$\Spec(\mathcal{O}^{sh}_{S, \overline{s}})$. Often using
+Lemma \ref{lemma-smooth-base-change-separably-closed}
+one may reduce to this case.}.
+\item We say $f$ is {\it locally acyclic relative to $K$}
+if $f$ is locally acyclic at $\overline{x}$ relative to $K$
+for every geometric point $\overline{x}$ of $X$.
+\item We say $f$ is {\it universally locally acyclic relative to $K$}
+if for any morphism $S' \to S$ of schemes the base change $f' : X' \to S'$
+is locally acyclic relative to the pullback of $K$ to $X'$.
+\item We say $f$ is {\it locally acyclic} if for all geometric
+points $\overline{x}$ of $X$ and any integer $n$ prime to the characteristic
+of $\kappa(\overline{x})$, the morphism $f$ is locally acyclic
+at $\overline{x}$ relative to the constant sheaf with value
+$\mathbf{Z}/n\mathbf{Z}$.
+\item We say $f$ is {\it universally locally acyclic} if
+for any morphism $S' \to S$ of schemes the base change $f' : X' \to S'$
+is locally acyclic.
+\end{enumerate}
+\end{definition}
+
+\noindent
+Let $M$ be an abelian group. Then local acyclicity of $f : X \to S$
+with respect to the constant sheaf $\underline{M}$ boils down
+to the requirement that
+$$
+H^q(F_{\overline{x}, \overline{t}}, \underline{M}) =
+\left\{
+\begin{matrix}
+M & \text{if} & q = 0 \\
+0 & \text{if} & q \not = 0
+\end{matrix}
+\right.
+$$
+for any geometric point $\overline{x}$ of $X$ and any geometric
+point $\overline{t}$ of $\Spec(\mathcal{O}^{sh}_{S, f(\overline{x})})$.
+In this way we see that being locally acyclic corresponds to the
+vanishing of the higher cohomology groups of the geometric fibres
+$F_{\overline{x}, \overline{t}}$ of the maps between the
+strict henselizations at $\overline{x}$ and $\overline{s}$.
+
+\begin{proposition}
+\label{proposition-smooth-locally-acyclic}
+Let $f : X \to S$ be a smooth morphism of schemes.
+Then $f$ is universally locally acyclic.
+\end{proposition}
+
+\begin{proof}
+Since the base change of a smooth morphism is smooth, it suffices
+to show that smooth morphisms are locally acyclic.
+Let $\overline{x}$ be a geometric point of $X$ with image
+$\overline{s} = f(\overline{x})$. Let
+$\overline{t}$ be a geometric point of
+$\Spec(\mathcal{O}^{sh}_{S, f(\overline{x})})$.
+Since we are trying to prove a property of the ring map
+$\mathcal{O}^{sh}_{S, \overline{s}} \to \mathcal{O}^{sh}_{X, \overline{x}}$
+(see discussion following Definition \ref{definition-locally-acyclic})
+we may and do replace $f : X \to S$ by the base change
+$X \times_S \Spec(\mathcal{O}^{sh}_{S, \overline{s}}) \to
+\Spec(\mathcal{O}^{sh}_{S, \overline{s}})$.
+Thus we may and do assume that $S$ is the spectrum of a strictly
+henselian local ring and that $\overline{s}$ lies over
+the closed point of $S$.
+
+\medskip\noindent
+We will apply Lemma \ref{lemma-base-change-f-star-general-stalks}
+to the diagram
+$$
+\xymatrix{
+X \ar[d]_f & X_{\overline{t}} \ar[l]^h \ar[d]^e \\
+S & \overline{t} \ar[l]_g
+}
+$$
+and the sheaf $\mathcal{F} = \underline{M}$ where $M = \mathbf{Z}/n\mathbf{Z}$
+for some integer $n$ prime to the characteristic of the residue field of
+$\overline{x}$. We know that the map
+$f^{-1}R^qg_*\mathcal{F} \to R^qh_*e^{-1}\mathcal{F}$
+is an isomorphism by smooth base change, see
+Theorem \ref{theorem-smooth-base-change} (the assumption
+on torsion holds by our choice of $n$).
+Thus Lemma \ref{lemma-base-change-f-star-general-stalks}
+gives us the middle equality in
+$$
+H^q(F_{\overline{x}, \overline{t}}, \underline{M}) =
+H^q(\Spec(\mathcal{O}^{sh}_{X, \overline{x}}) \times_S \overline{t},
+\underline{M})
+=
+H^q(\Spec(\mathcal{O}^{sh}_{S, \overline{s}}) \times_S \overline{t},
+\underline{M}) =
+H^q(\overline{t}, \underline{M})
+$$
+For the outer two equalities we use that
+$S = \Spec(\mathcal{O}^{sh}_{S, \overline{s}})$.
+Since $\overline{t}$ is the spectrum of a separably
+closed field we conclude that
+$$
+H^q(F_{\overline{x}, \overline{t}}, \underline{M}) =
+\left\{
+\begin{matrix}
+M & \text{if} & q = 0 \\
+0 & \text{if} & q \not = 0
+\end{matrix}
+\right.
+$$
+which is what we had to show (see discussion following
+Definition \ref{definition-locally-acyclic}).
+\end{proof}
+
+\begin{lemma}
+\label{lemma-locally-acyclic-locally-constant}
+Let $f : X \to S$ be a morphism of schemes. Let $\mathcal{F}$ be a finite
+locally constant abelian sheaf on $X_\etale$ such that for every geometric
+point $\overline{x}$ of $X$ the finite abelian group
+$\mathcal{F}_{\overline{x}}$ has order prime to the characteristic of the
+residue field of $\overline{x}$. If $f$ is locally acyclic, then $f$ is
+locally acyclic relative to $\mathcal{F}$.
+\end{lemma}
+
+\begin{proof}
+Namely, let $\overline{x}$ be a geometric point of $X$.
+Since $\mathcal{F}$ is finite locally constant we see that
+the restriction of $\mathcal{F}$ to $\Spec(\mathcal{O}^{sh}_{X, \overline{x}})$
+is isomorphic to the constant sheaf $\underline{M}$ with
+$M = \mathcal{F}_{\overline{x}}$. By assumption we can write
+$M = \bigoplus \mathbf{Z}/n_i\mathbf{Z}$ for some integers $n_i$
+prime to the characteristic of the residue field of $\overline{x}$.
+Since $f$ is locally acyclic we see that
+$$
+H^q(F_{\overline{x}, \overline{t}}, \underline{\mathbf{Z}/n_i\mathbf{Z}}) =
+\left\{
+\begin{matrix}
+\mathbf{Z}/n_i\mathbf{Z} & \text{if} & q = 0 \\
+0 & \text{if} & q \not = 0
+\end{matrix}
+\right.
+$$
+for any geometric point $\overline{t}$ of
+$\Spec(\mathcal{O}^{sh}_{S, f(\overline{x})})$.
+See discussion following Definition \ref{definition-locally-acyclic}.
+Taking direct sums we conclude that
+$$
+H^q(F_{\overline{x}, \overline{t}}, \underline{M}) =
+\left\{
+\begin{matrix}
+M & \text{if} & q = 0 \\
+0 & \text{if} & q \not = 0
+\end{matrix}
+\right.
+$$
+and we win.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-locally-acyclic-quasi-finite-base-change}
+Let
+$$
+\xymatrix{
+X' \ar[r]_{g'} \ar[d]_{f'} & X \ar[d]^f \\
+S' \ar[r]^g & S
+}
+$$
+be a cartesian diagram of schemes. Let $K$ be an object of $D(X_\etale)$.
+Let $\overline{x}'$ be a geometric point of $X'$ with image $\overline{x}$
+in $X$. If
+\begin{enumerate}
+\item $f$ is locally acyclic at $\overline{x}$ relative to $K$ and
+\item $g$ is locally quasi-finite, or $S' = \lim S_i$
+is a directed inverse limit of schemes locally quasi-finite over $S$
+with affine transition morphisms, or $g : S' \to S$ is integral,
+\end{enumerate}
+then $f'$ locally acyclic at $\overline{x}'$ relative to $(g')^{-1}K$.
+\end{lemma}
+
+\begin{proof}
+Denote $\overline{s}'$ and $\overline{s}$ the images of
+$\overline{x}'$ and $\overline{x}$ in $S'$ and $S$.
+Let $\overline{t}'$ be a geometric point of the spectrum of
+$\Spec(\mathcal{O}^{sh}_{S', \overline{s}'})$ and denote
+$\overline{t}$ the image in $\Spec(\mathcal{O}^{sh}_{S, \overline{s}})$.
+By Algebra, Lemma
+\ref{algebra-lemma-base-change-strict-henselization-quasi-finite}
+and our assumptions on $g$ we have
+$$
+\mathcal{O}^{sh}_{X, \overline{x}}
+\otimes_{\mathcal{O}^{sh}_{S, \overline{s}}}
+\mathcal{O}^{sh}_{S', \overline{s}'}
+\longrightarrow
+\mathcal{O}^{sh}_{X', \overline{x}'}
+$$
+is an isomorphism. Since by our conventions
+$\kappa(\overline{t}) = \kappa(\overline{t}')$
+we conclude that
+$$
+F_{\overline{x}', \overline{t}'} =
+\Spec\left(
+\mathcal{O}^{sh}_{X', \overline{x}'}
+\otimes_{\mathcal{O}^{sh}_{S', \overline{s}'}}
+\kappa(\overline{t}')\right) =
+\Spec\left(
+\mathcal{O}^{sh}_{X, \overline{x}}
+\otimes_{\mathcal{O}^{sh}_{S, \overline{s}}}
+\kappa(\overline{t})\right) =
+F_{\overline{x}, \overline{t}}
+$$
+In other words, the varieties of vanishing cycles
+of $f'$ at $\overline{x}'$ are examples of varieties of vanishing
+cycles of $f$ at $\overline{x}$. The lemma follows
+immediately from this and the definitions.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+\section{The cospecialization map}
+\label{section-cospecialization}
+
+\noindent
+Let $f : X \to S$ be a morphism of schemes. Let $\overline{x}$ be a
+geometric point of $X$ with image $\overline{s} = f(\overline{x})$ in $S$.
+Let $\overline{t}$ be a geometric point of
+$\Spec(\mathcal{O}^{sh}_{S, \overline{s}})$.
+Let $K \in D(X_\etale)$. For any morphism $g : Y \to X$ of schemes
+we write $K|_Y$ instead of $g_{small}^{-1}K$ and $R\Gamma(Y, K)$
+instead of $R\Gamma(Y_\etale, g_{small}^{-1}K)$.
+We claim that if
+\begin{enumerate}
+\item $K$ is bounded below, i.e., $K \in D^+(X_\etale)$,
+\item $f$ is locally acyclic relative to $K$
+\end{enumerate}
+then there is a {\it cospecialization map}
+$$
+cosp :
+R\Gamma(X_{\overline{t}}, K)
+\longrightarrow
+R\Gamma(X_{\overline{s}}, K)
+$$
+which will be closely related to the specialization map
+considered in Section \ref{section-specialization} and especially
+Remark \ref{remark-specialization-map-and-fibres}.
+
+\medskip\noindent
+To construct the map we consider the morphisms
+$$
+X_{\overline{t}}
+\xrightarrow{h}
+X \times_S \Spec(\mathcal{O}^{sh}_{S, \overline{s}})
+\xleftarrow{i}
+X_{\overline{s}}
+$$
+The unit of the adjunction between $h^{-1}$ and $Rh_*$ gives a map
+$$
+\beta_{K, \overline{s}, \overline{t}} :
+K|_{X \times_S \Spec(\mathcal{O}^{sh}_{S, \overline{s}})}
+\longrightarrow
+Rh_*(K|_{X_{\overline{t}}})
+$$
+in $D((X \times_S \Spec(\mathcal{O}^{sh}_{S, \overline{s}}))_\etale)$.
+Lemma \ref{lemma-beta-is-isomorphism} below shows that the pullback
+$i^{-1}\beta_{K, \overline{s}, \overline{t}}$
+is an isomorphism under the assumptions above.
+Thus we can define the cospecialization map as the composition
+\begin{align*}
+R\Gamma(X_{\overline{t}}, K)
+& =
+R\Gamma(X \times_S \Spec(\mathcal{O}^{sh}_{S, \overline{s}}),
+Rh_*(K|_{X_{\overline{t}}})) \\
+&
+\xrightarrow{i^{-1}}
+R\Gamma(X_{\overline{s}}, i^{-1}Rh_*(K|_{X_{\overline{t}}})) \\
+&
+\xrightarrow{(i^{-1}\beta_{K, \overline{s}, \overline{t}})^{-1}}
+R\Gamma(X_{\overline{s}},
+i^{-1}(K|_{X \times_S \Spec(\mathcal{O}^{sh}_{S, \overline{s}})})) \\
+& =
+R\Gamma(X_{\overline{s}}, K)
+\end{align*}
+
+\begin{lemma}
+\label{lemma-beta-is-isomorphism}
+The map $i^{-1}\beta_{K, \overline{s}, \overline{t}}$ is an isomorphism.
+\end{lemma}
+
+\begin{proof}
+The construction of the maps $h$, $i$, $\beta_{K, \overline{s}, \overline{t}}$
+only depends on the
+base change of $X$ and $K$ to $\Spec(\mathcal{O}^{sh}_{S, \overline{s}})$.
+Thus we may and do assume that $S$ is a strictly henselian scheme
+with closed point $\overline{s}$. Observe that the local acyclicity
+of $f$ relative to $K$ is preserved by this base change (for example
+by Lemma \ref{lemma-locally-acyclic-quasi-finite-base-change} or just
+directly by comparing strictly henselian rings in this very special case).
+
+\medskip\noindent
+Let $\overline{x}$ be a geometric point of $X_{\overline{s}}$.
+Or equivalently, let $\overline{x}$ be a geometric point whose image
+by $f$ is $\overline{s}$. Let us compute the stalk of
+$i^{-1}\beta_{K, \overline{s}, \overline{t}}$
+at $\overline{x}$. First, we have
+$$
+(i^{-1}\beta_{K, \overline{s}, \overline{t}})_{\overline{x}} =
+(\beta_{K, \overline{s}, \overline{t}})_{\overline{x}}
+$$
+since pullback preserves stalks, see Lemma \ref{lemma-stalk-pullback}.
+Since we are in the situation $S = \Spec(\mathcal{O}^{sh}_{S, \overline{s}})$
+we see that $h : X_{\overline{t}} \to X$ has the property that
+$X_{\overline{t}} \times_X \Spec(\mathcal{O}^{sh}_{X, \overline{x}})
+= F_{\overline{x}, \overline{t}}$. Thus we see that
+$$
+(\beta_{K, \overline{s}, \overline{t}})_{\overline{x}} :
+K_{\overline{x}}
+\longrightarrow
+Rh_*(K|_{X_{\overline{t}}})_{\overline{x}} =
+R\Gamma(F_{\overline{x}, \overline{t}}, K)
+$$
+where the equal sign is Theorem \ref{theorem-higher-direct-images}.
+It follows that the map $(\beta_{K, \overline{s}, \overline{t}})_{\overline{x}}$
+is none other than the map $\alpha_{K, \overline{x}, \overline{t}}$ used
+in Definition \ref{definition-locally-acyclic}. The result follows as we may
+check whether a map is an isomorphism in stalks by
+Theorem \ref{theorem-exactness-stalks}.
+\end{proof}
+
+\noindent
+The cospecialization map when it exists is trying to be the inverse
+of the specialization map.
+
+\begin{lemma}
+\label{lemma-specialization-cospecialization}
+In the situation above, if in addition
+$f$ is quasi-compact and quasi-separated, then the diagram
+$$
+\xymatrix{
+(Rf_*K)_{\overline{s}} \ar[r] \ar[d]_{sp} &
+R\Gamma(X_{\overline{s}}, K) \\
+(Rf_*K)_{\overline{t}} \ar[r] &
+R\Gamma(X_{\overline{t}}, K) \ar[u]_{cosp}
+}
+$$
+is commutative.
+\end{lemma}
+
+\begin{proof}
+As in the proof of Lemma \ref{lemma-beta-is-isomorphism}
+we may replace $S$ by $\Spec(\mathcal{O}^{sh}_{S, \overline{s}})$.
+Then our maps simplify to $h : X_{\overline{t}} \to X$,
+$i : X_{\overline{s}} \to X$, and
+$\beta_{K, \overline{s}, \overline{t}} : K \to Rh_*(K|_{X_{\overline{t}}})$.
+Using that $(Rf_*K)_{\overline{s}} = R\Gamma(X, K)$ by
+Theorem \ref{theorem-higher-direct-images}
+the composition of $sp$ with the base change map
+$(Rf_*K)_{\overline{t}} \to R\Gamma(X_{\overline{t}}, K)$
+is just pullback of cohomology along $h$.
+This is the same as the map
+$$
+R\Gamma(X, K) \xrightarrow{\beta_{K, \overline{s}, \overline{t}}}
+R\Gamma(X, Rh_*(K|_{X_{\overline{t}}})) =
+R\Gamma(X_{\overline{t}}, K)
+$$
+Now the map $cosp$ first inverts the $=$ sign in this displayed
+formula, then pulls back along $i$, and finally applies
+the inverse of $i^{-1}\beta_{K, \overline{s}, \overline{t}}$.
+Hence we get the desired commutativity.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-sp-isom-proper-torsion-loc-ac}
+Let $f : X \to S$ be a morphism of schemes. Let $K \in D(X_\etale)$.
+Assume
+\begin{enumerate}
+\item $K$ is bounded below, i.e., $K \in D^+(X_\etale)$,
+\item $f$ is locally acyclic relative to $K$,
+\item $f$ is proper, and
+\item $K$ has torsion cohomology sheaves.
+\end{enumerate}
+Then for every geometric point $\overline{s}$ of $S$ and every geometric
+point $\overline{t}$ of $\Spec(\mathcal{O}^{sh}_{S, \overline{s}})$
+both the specialization map
+$sp : (Rf_*K)_{\overline{s}} \to (Rf_*K)_{\overline{t}}$
+and the cospecialization map
+$cosp : R\Gamma(X_{\overline{t}}, K) \to R\Gamma(X_{\overline{s}}, K)$
+are isomorphisms.
+\end{lemma}
+
+\begin{proof}
+By the proper base change theorem (in the form of
+Lemma \ref{lemma-proper-base-change-stalk}) we have
+$(Rf_*K)_{\overline{s}} = R\Gamma(X_{\overline{s}}, K)$
+and similarly for $\overline{t}$. The ``correct'' proof would be
+to show that the argument in
+Lemma \ref{lemma-specialization-cospecialization}
+shows that $sp$ and $cosp$ are inverse isomorphisms in this case.
+Instead we will show directly that $cosp$ is an isomorphism.
+From the discussion above we see that $cosp$ is an isomorphism
+if and only if pullback by $i$
+$$
+R\Gamma(X \times_S \Spec(\mathcal{O}^{sh}_{S, \overline{s}}),
+Rh_*(K|_{X_{\overline{t}}}))
+\longrightarrow
+R\Gamma(X_{\overline{s}}, i^{-1}Rh_*(K|_{X_{\overline{t}}}))
+$$
+is an isomorphism in $D^+(\textit{Ab})$. This is true by the proper
+base change theorem for the proper morphism
+$f' : X \times_S \Spec(\mathcal{O}^{sh}_{S, \overline{s}}) \to
+\Spec(\mathcal{O}^{sh}_{S, \overline{s}})$
+by the morphism $\overline{s} \to \Spec(\mathcal{O}^{sh}_{S, \overline{s}})$
+and the complex $K' = Rh_*(K|_{X_{\overline{t}}})$. The complex
+$K'$ is bounded below and has torsion cohomology sheaves
+by Lemma \ref{lemma-torsion-direct-image}.
+Since $\Spec(\mathcal{O}^{sh}_{S, \overline{s}})$ is strictly henselian
+with $\overline{s}$ lying over the closed point,
+we see that the source of the displayed arrow equals
+$(Rf'_*K')_{\overline{s}}$ and the target equals
+$R\Gamma(X_{\overline{s}}, K')$ and the displayed map is an isomorphism
+by the already used
+Lemma \ref{lemma-proper-base-change-stalk}.
+Thus we see that three out of the four arrows in the diagram
+of Lemma \ref{lemma-specialization-cospecialization} are isomorphisms
+and we conclude.
+\end{proof}
+
+
+
+
+
+
+
+
+
 
 
 
