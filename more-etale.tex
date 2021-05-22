@@ -2040,6 +2040,33 @@ are obtained by applying $f^{-1}$ and $f_!$ to any complexes
 of modules representing the objects in question.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-trace-composition}
+Let $f : X \to Y$ and $g : Y \to Z$ be locally quasi-finite morphisms.
+Let $w_f : X \to \mathbf{Z}$ be a weighting of $f$ and let
+$w_g : Y \to \mathbf{Z}$ be a weighting of $g$. For
+$K \in D(Z_\etale, \Lambda)$ the composition
+$$
+(g \circ f)_!(g \circ f)^{-1}K =
+g_! f_! f^{-1} g^{-1}K
+\xrightarrow{g_! \text{Tr}_{f, w_f, g^{-1}K}}
+g_!g^{-1}K
+\xrightarrow{\text{Tr}_{g, w_g, K}}
+K
+$$
+is equal to $\text{Tr}_{g \circ f, w_{g \circ f}, K}$ where
+$w_{g \circ f}(x) = w_f(x) w_g(f(x))$.
+\end{lemma}
+
+\begin{proof}
+We have $(g \circ f)_! = g_! \circ f_!$ by
+Lemma \ref{lemma-lqf-shriek-composition}.
+In More on Morphisms, Lemma \ref{more-morphisms-lemma-weighting-composition}
+we have seen that $w_{g \circ f}$ is a weighting for $g \circ f$
+so the statement makes sense. To check equality compute on stalks.
+Details omitted.
+\end{proof}
+
 \begin{example}[Trace for flat quasi-finite]
 \label{example-trace-for-flat-quasi-finite}
 Let $f : X \to Y$ be a morphism of schemes which is flat,
@@ -2063,6 +2090,16 @@ with arbitrary base change. Note that any base change
 $f' : X' \to Y'$ of $f$ satisfies the same properties and that $w$
 restricts to the canonical weighting for $f'$.
 \end{example}
+
+\begin{remark}
+\label{remark-trace-etale-counit}
+Let $j : U \to X$ be an \'etale morphism of schemes. Then the trace
+map $\text{Tr} : j_!j^{-1}K \to K$ of
+Example \ref{example-trace-for-flat-quasi-finite} is equal to the
+counit for the adjunction between $j_!$ and $j^{-1}$.
+We already used the terminology ``trace'' for this counit in
+\'Etale cohomology, Section \ref{etale-cohomology-section-trace-method}.
+\end{remark}
 
 \begin{example}[Trace for quasi-finite over normal]
 \label{example-trace-for-quasi-finite-over-normal}
@@ -4787,9 +4824,89 @@ We conclude by \'Etale Cohomology, Lemma
 
 
 
+\section{More on derived upper shriek}
+\label{section-more-derived-upper-shriek}
 
+\noindent
+Let $\Lambda$ be a torsion ring. Consider a commutative diagram
+$$
+\xymatrix{
+U \ar[rr]_j \ar[rd]_g & & U' \ar[ld]^{g'} \\
+& Y
+}
+$$
+of quasi-compact and quasi-separated schemes with $g$ and $g'$
+separated and of finite type and with $j$ \'etale. This induces
+a canonical map
+$$
+Rg_!\Lambda \longrightarrow Rg'_!\Lambda
+$$
+in $D(Y_\etale, \Lambda)$. Namely, by Lemmas \ref{lemma-shriek-composition}
+and \ref{lemma-Rf-shriek-for-quasi-finite} we have $Rg_! = Rg'_! \circ j_!$.
+On the other hand, since $j_!$ is left adjoint to $j^{-1}$ we have
+the counit $\text{Tr}_j : j_!\Lambda = j_!j^{-1}\Lambda \to \Lambda$;
+we also call this the trace map for $j$, see
+Remark \ref{remark-trace-etale-counit}.
+The map above is constructed as the composition
+$$
+Rg_!\Lambda = Rg'_!j_!\Lambda
+\xrightarrow{Rg'_! \text{Tr}_j}
+Rg'_!\Lambda
+$$
+Given a second \'etale morphism $j' : U' \to U''$
+for some $g'' : U'' \o Y$ separated and of finite type
+the composition
+$$
+Rg_!\Lambda \longrightarrow Rg'_!\Lambda \longrightarrow Rg''_!\Lambda
+$$
+of the maps for $j$ and $j'$ is equal to the map
+$Rg_!\Lambda \longrightarrow Rg''_!\Lambda$ constructed for $j' \circ j$.
+This follows from the corresponding statement on trace maps,
+see Lemma \ref{lemma-trace-composition} for a more general case.
 
+\medskip\noindent
+Let $f : X \to Y$ be a separated finite type morphism of quasi-compact
+and quasi-separated schemes. Then we obtain a functor
+$$
+X_{affine, \etale}
+\longrightarrow
+\left\{
+\begin{matrix}
+\text{schemes separated of finite type over }Y\\
+\text{with \'etale morphisms between them}
+\end{matrix}
+\right\}
+$$
+Thus the construction above determines a functor
+$X_{affine, \etale}^{opp} \to D(Y_\etale, \Lambda)$
+sending $U$ to $R(U \to Y)_!\Lambda$.
 
+\begin{lemma}
+\label{lemma-describe-Rf-upper-shriek}
+Let $f : X \to Y$ be a separated finite type morphism of quasi-compact
+and quasi-separated schemes. Let $\Lambda$ be a torsion ring.
+Let $K \in D(Y_\etale, \Lambda)$. For $n \in \mathbf{Z}$ the
+cohomology sheaf $H^n(Rf^!K)$ restricted to $X_{affine, \etale}$
+is the sheaf associated to the presheaf
+$$
+U \longmapsto \Hom_Y(R(U \to Y)_!\Lambda, K[n])
+$$
+See discussion above for the functorial nature of $R(U \to Y)_!\Lambda$.
+\end{lemma}
+
+\begin{proof}
+Let $j : U \to X$ be an object of $X_{affine, \etale}$ and set $g = f \circ j$.
+Recall that $\Hom_X(j_!\Lambda, M[n]) = H^n(U, M)$ for any $M$ in
+$D(X_\etale, \Lambda)$. Then $H^n(Rf^!K)$ is the sheaf associated to the
+presheaf
+$$
+U \mapsto H^n(U, Rf^!K) = \Hom_X(j_!\Lambda, Rf^!K[n]) =
+\Hom_Y(Rf_!j_!\Lambda, K[n] = \Hom_Y(Rg_!\Lambda, K[n])
+$$
+We omit the verification that the transition maps are given by the transition
+maps between the objects $Rg_!\Lambda = R(U \to Y)_!\Lambda$ we constructed
+above.
+\end{proof}
 
 
 
