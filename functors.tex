@@ -250,7 +250,7 @@ the quasi-inverse of $F$.
 
 \medskip\noindent
 Since $K$ is invertible as a $B$-module we see that $\Hom_B(K, K) = B$.
-Thus the $A$-module structure on $K$ defines a ring map
+Since $K = F(A)$ the action of $A$ on $K$ defines a ring isomorphism
 $A \to B$. The lemma follows.
 \end{proof}
 
@@ -283,17 +283,234 @@ Here are some comments:
 \item Since $F(A)$ is a unit (by our definitions) we have $F(A) = B$.
 \item We obtain a multiplicative map $\varphi : A \to B$
 by sending $a \in A$ to its action on $F(A) = B$.
-\item If $F$ is additive, then $\varphi$ is a ring map.
 \item Take $A = B$ and $F(M) = M \otimes_A M$. In this case $\varphi(a) = a^2$.
+\item If $F$ is additive, then $\varphi$ is a ring map.
+\item Take $A = B = \mathbf{Z}$ and $F(M) = M/\text{torsion}$. Then
+$\varphi = \text{id}_\mathbf{Z}$ but $F$ is not the identity functor.
 \item If $F$ is right exact and commutes with direct sums,
-then $F(M) = M \otimes_{A, \varphi} B$ by Lemma \ref{lemma-functor}
-and the discussion so far.
+then $F(M) = M \otimes_{A, \varphi} B$ by Lemma \ref{lemma-functor}.
 \end{enumerate}
 In other words, ring maps $A \to B$ are in bijection with isomorphism classes
 of functors of monoidal categories $\text{Mod}_A \to \text{Mod}_B$
 which commute with all colimits.
 \end{remark}
 
+
+
+
+\section{Extending functors on categories of modules}
+\label{section-functors-extend}
+
+\noindent
+For a ring $A$ let us denote $\text{Mod}^{fp}_A$ the category of
+finitely presented $A$-modules.
+
+\begin{lemma}
+\label{lemma-functor-fp-modules}
+Let $A$ and $B$ be rings. Let
+$F : \text{Mod}^{fp}_A \to \text{Mod}^{fp}_B$ be a functor.
+Then $F$ extends uniquely to a functor
+$F' : \text{Mod}_A \to \text{Mod}_B$
+which commutes with filtered colimits.
+\end{lemma}
+
+\begin{proof}
+This follows from
+Categories, Lemma \ref{categories-lemma-extend-functor-by-colim}.
+To see that the lemma applies observe that
+finitely presented $A$-modules are
+categorically compact objects of $\text{Mod}_A$ by
+Algebra, Lemma \ref{algebra-lemma-characterize-finitely-presented-module-hom}.
+Also, every $A$-module is a filtered colimit
+of finitely presented $A$-modules by
+Algebra, Lemma \ref{algebra-lemma-module-colimit-fp}.
+\end{proof}
+
+\begin{remark}
+\label{remark-monoidal-extension}
+With $A$, $B$, $F$, and $F'$ as in Lemma \ref{lemma-functor-fp-modules}.
+Observe that the tensor product of two finitely presented modules is
+finitely presented, see Algebra, Lemma \ref{algebra-lemma-tensor-finiteness}.
+Thus we may endow $\text{Mod}^{fp}_A$, $\text{Mod}^{fp}_B$,
+$\text{Mod}_A$, and $\text{Mod}_B$ with the usual monoidal structure
+given by tensor products of modules. In this case, if $F$ is
+a functor of monoidal categories, so is $F'$. This follows immediately
+from the fact that tensor products of modules commutes with filtered
+colimits.
+\end{remark}
+
+\begin{lemma}
+\label{lemma-functor-fp-modules-exact}
+With $A$, $B$, $F$, and $F'$ as in Lemma \ref{lemma-functor-fp-modules}.
+\begin{enumerate}
+\item If $F$ is additive, then $F'$ is additive and
+commutes with arbitrary direct sums, and
+\item if $F$ is right exact, then $F'$ is right exact.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Assume $F$ is additive. To show that $F'$ is additive it suffices to show
+that $F'(M) \oplus F'(M') \to F'(M \oplus M')$ is an isomorphism for
+any $A$-modules $M$, $M'$, see
+Homology, Lemma \ref{homology-lemma-additive-functor}.
+Write $M = \colim_i M_i$ and $M' = \colim_j M'_j$ as filtered colimits
+of finitely presented $A$-modules $M_i$. Then
+$F'(M) = \colim_i F(M_i)$, $F'(M') = \colim_j F(M'_j)$, and
+\begin{align*}
+F'(M \oplus M')
+& =
+F'(\colim_{i, j} M_i \oplus M'_j) \\
+& =
+\colim_{i, j} F(M_i \oplus M'_j) \\
+& =
+\colim_{i, j} F(M_i) \oplus F(M'_j) \\
+& =
+F'(M) \oplus F'(M')
+\end{align*}
+as desired. To show that $F'$ commutes with direct sums, assume
+we have $M = \bigoplus_{i \in I} M_i$. Then
+$M = \colim_{I' \subset I\text{ finite}} \bigoplus_{i \in I'} M_i$
+is a filtered colimit. We obtain
+\begin{align*}
+F'(M)
+& =
+\colim_{I' \subset I\text{ finite}}
+F'(\bigoplus\nolimits_{i \in I'} M_i) \\
+& =
+\colim_{I' \subset I\text{ finite}}
+\bigoplus\nolimits_{i \in I'} F'(M_i) \\
+& =
+\bigoplus\nolimits_{i \in I} F'(M_i)
+\end{align*}
+The second equality holds by the additivity of $F'$ already shown.
+This proves (1).
+
+\medskip\noindent
+Before we continue the proof a warning:
+the categories $\text{Mod}^{fp}_A$ and $\text{Mod}^{fp}_B$
+are not abelian in general. But these categories have all finite colimits as
+a cokernel of a map of finitely presented modules is finitely presented,
+see Algebra, Lemma \ref{algebra-lemma-extension}.
+Hence right exactness of the functor $F$
+is defined in Categories, Definition \ref{categories-definition-exact}.
+On the other hand, the categories $\text{Mod}_A$ and $\text{Mod}_B$
+are abelian, and there we use the criterion for right exactness given in
+Homology, Lemma \ref{homology-lemma-exact-functor}.
+
+\medskip\noindent
+Proof of (2). Assume $F$ is right exact.
+Then $F$ commutes with coproducts of pairs, which are
+represented by direct sums. Hence $F$ is additive by
+Homology, Lemma \ref{homology-lemma-additive-functor}.
+Hence so is $F'$ by (1). Let $0 \to K \to L \to M \to 0$
+be a short exact sequence of $A$-modules. We have to show that
+$$
+F'(K) \to F'(L) \to F'(M) \to 0
+$$
+is exact. Write $M = \colim M_i$ as a filtered colimit of finitely
+presented $A$-modules. Pulling back our short exact sequence
+we obtain short exact sequences $0 \to K \to L_i \to M_i \to 0$.
+Since $F'$ commutes with filtered colimits and since
+filtered colimits are exact
+(Algebra, Lemma \ref{algebra-lemma-directed-colimit-exact})
+it suffices to prove the statement for each of the sequences
+$0 \to K \to L_i \to M_i \to 0$, i.e., we may assume $M$
+is finitely presented. In this case we write $L = \colim L_i$
+as a filtered colimit of finitely presented $A$-modules
+with the property that each $L_i$ surjects onto $M$.
+We obtain a directed system of short exact sequences
+$0 \to \Ker(L_i \to M) \to L_i \to M \to 0$.
+Repeating the argument already given, we reduce to the case that both
+$L$ and $M$ are finitely presented $A$-modules.
+In this case the module $K$ is finite
+(Algebra, Lemma \ref{algebra-lemma-extension})
+and we can choose a surjection $A^{\oplus n} \to K$.
+Denote $\varphi : A^{\oplus n} \to L$ the composition.
+Then we have
+$$
+M = \text{Coeq}(\varphi, 0 : A^{\oplus n} \to L)
+$$
+Since $F$ commutes with coequalizers we obtain
+$$
+F(M) = \text{Coeq}(F(\varphi), 0 : F(A^{\oplus n}) \to F(L))
+$$
+Since $F(\varphi)$ factors through the map
+$F(A^{\oplus n}) \to F'(K)$
+and since the composition $F'(K) \to F(L) \to F(M)$ is zero
+we conclude.
+\end{proof}
+
+\begin{remark}
+\label{remark-monoidal-extension-exact}
+Combining Remarks \ref{remark-monoidal} and \ref{remark-monoidal-extension}
+and Lemma \ref{lemma-functor-fp-modules-exact}
+we find the following. Given rings $A$ and $B$ the set of ring maps $A \to B$
+is in bijection with the set of isomorphism classes
+of functors of monoidal categories $\text{Mod}^{fp}_A \to \text{Mod}^{fp}_B$
+which are right exact.
+\end{remark}
+
+\begin{lemma}
+\label{lemma-functor-fp-modules-left-exact}
+With $A$, $B$, $F$, and $F'$ as in Lemma \ref{lemma-functor-fp-modules}.
+Assume $A$ is a coherent ring
+(Algebra, Definition \ref{algebra-definition-coherent}).
+If $F$ is left exact, then $F'$ is left exact.
+\end{lemma}
+
+\begin{proof}
+Since $A$ is coherent, the category $\text{Mod}^{fp}_A$ is abelian
+(by Algebra, Lemmas \ref{algebra-lemma-coherent-ring} and
+\ref{algebra-lemma-coherent}). Hence all finite limits exist in
+$\text{Mod}^{fp}_A$ and
+Categories, Definition \ref{categories-definition-exact}
+applies.
+
+\medskip\noindent
+Assume $F$ is left exact. Then $F$ commutes with products of pairs, which are
+represented by direct sums. Hence $F$ is additive by
+Homology, Lemma \ref{homology-lemma-additive-functor}.
+Let $0 \to K \to L \to M \to 0$
+be a short exact sequence of $A$-modules. We have to show that
+$$
+0 \to F'(K) \to F'(L) \to F'(M)
+$$
+is exact, see Homology, Lemma \ref{homology-lemma-exact-functor}.
+By exactly the same arguments as given in the proof of
+Lemma \ref{lemma-functor-fp-modules-left-exact}
+we reduce to the case where both $M$ and $L$ are of finite
+presentation. However, then $K$ is of finite presentation too.
+Thus we have to show that
+$0 \to F(K) \to F(L) \to F(M)$ is exact
+which follows from the left exactness of $F$
+(via Homology, Lemma \ref{homology-lemma-additive-functor}
+applied to $F$ viewed as a functor into $\text{Mod}_B$).
+\end{proof}
+
+\noindent
+For a ring $A$ let us denote $\text{Mod}^{fg}_A$ the category of
+finitely generated $A$-modules (AKA finite $A$-modules).
+
+\begin{lemma}
+\label{lemma-functor-finite-modules}
+Let $A$ and $B$ be Noetherian rings. Let
+$F : \text{Mod}^{fg}_A \to \text{Mod}^{fg}_B$ be a functor.
+Then $F$ extends uniquely to a functor $F' : \text{Mod}_A \to \text{Mod}_B$
+which commutes with filtered colimits. If $F$ is additive, then
+$F'$ is additive and commutes with arbitrary direct sums.
+If $F$ is exact, left exact, or right exact, so is $F'$.
+\end{lemma}
+
+\begin{proof}
+See Lemmas \ref{lemma-functor-fp-modules-exact} and
+\ref{lemma-functor-fp-modules-left-exact}.
+Also, use the finite $A$-modules are finitely presented $A$-modules,
+see Algebra, Lemma
+\ref{algebra-lemma-Noetherian-finite-type-is-finite-presentation},
+and use that Noetherian rings are coherent, see
+Algebra, Lemma \ref{algebra-lemma-Noetherian-coherent}.
+\end{proof}
 
 
 
