@@ -30,6 +30,333 @@ This relationship was studied in \cite{Gabriel}.
 
 
 
+\section{Preliminaries}
+\label{section-preliminary}
+
+\noindent
+For a ring $A$ let us denote $\text{Mod}^{fp}_A$ the category of
+finitely presented $A$-modules.
+
+\begin{lemma}
+\label{lemma-functor-on-fp-modules}
+Let $A$ be a ring. Let $\mathcal{B}$ be a category having filtered
+colimits. Let $F : \text{Mod}^{fp}_A \to \mathcal{B}$ be a functor. Then $F$
+extends uniquely to a functor $F' : \text{Mod}_A \to \mathcal{B}$
+which commutes with filtered colimits.
+\end{lemma}
+
+\begin{proof}
+This follows from
+Categories, Lemma \ref{categories-lemma-extend-functor-by-colim}.
+To see that the lemma applies observe that
+finitely presented $A$-modules are
+categorically compact objects of $\text{Mod}_A$ by
+Algebra, Lemma \ref{algebra-lemma-characterize-finitely-presented-module-hom}.
+Also, every $A$-module is a filtered colimit
+of finitely presented $A$-modules by
+Algebra, Lemma \ref{algebra-lemma-module-colimit-fp}.
+\end{proof}
+
+\noindent
+If a category $\mathcal{B}$ is additive and has filtered colimits,
+then $\mathcal{B}$ has arbitrary direct sums: any direct sum can be written
+as a filtered colimit of finite direct sums.
+
+\begin{lemma}
+\label{lemma-functor-on-fp-modules-additive}
+Let $A$, $\mathcal{B}$, $F$ be as in Lemma \ref{lemma-functor-on-fp-modules}.
+Assume $\mathcal{B}$ is additive and $F$ is additive. Then
+$F'$ is additive and commutes with arbitrary direct sums.
+\end{lemma}
+
+\begin{proof}
+To show that $F'$ is additive it suffices to show
+that $F'(M) \oplus F'(M') \to F'(M \oplus M')$ is an isomorphism for
+any $A$-modules $M$, $M'$, see
+Homology, Lemma \ref{homology-lemma-additive-functor}.
+Write $M = \colim_i M_i$ and $M' = \colim_j M'_j$ as filtered colimits
+of finitely presented $A$-modules $M_i$. Then
+$F'(M) = \colim_i F(M_i)$, $F'(M') = \colim_j F(M'_j)$, and
+\begin{align*}
+F'(M \oplus M')
+& =
+F'(\colim_{i, j} M_i \oplus M'_j) \\
+& =
+\colim_{i, j} F(M_i \oplus M'_j) \\
+& =
+\colim_{i, j} F(M_i) \oplus F(M'_j) \\
+& =
+F'(M) \oplus F'(M')
+\end{align*}
+as desired. To show that $F'$ commutes with direct sums, assume
+we have $M = \bigoplus_{i \in I} M_i$. Then
+$M = \colim_{I' \subset I\text{ finite}} \bigoplus_{i \in I'} M_i$
+is a filtered colimit. We obtain
+\begin{align*}
+F'(M)
+& =
+\colim_{I' \subset I\text{ finite}}
+F'(\bigoplus\nolimits_{i \in I'} M_i) \\
+& =
+\colim_{I' \subset I\text{ finite}}
+\bigoplus\nolimits_{i \in I'} F'(M_i) \\
+& =
+\bigoplus\nolimits_{i \in I} F'(M_i)
+\end{align*}
+The second equality holds by the additivity of $F'$ already shown.
+\end{proof}
+
+\noindent
+If a category $\mathcal{B}$ is additive, has filtered colimits, and
+has cokernels, then $\mathcal{B}$ has arbitrary colimits, see
+discussion above and Categories, Lemma
+\ref{categories-lemma-colimits-coproducts-coequalizers}.
+
+\begin{lemma}
+\label{lemma-functor-on-fp-modules-right-exact}
+Let $A$, $\mathcal{B}$, $F$ be as in Lemma \ref{lemma-functor-on-fp-modules}.
+Assume $\mathcal{B}$ is additive, has cokernels, and $F$ is right exact. Then
+$F'$ is additive, right exact, and commutes with arbitrary direct sums.
+\end{lemma}
+
+\begin{proof}
+Since $F$ is right exact, $F$ commutes with coproducts of pairs, which are
+represented by direct sums. Hence $F$ is additive by
+Homology, Lemma \ref{homology-lemma-additive-functor}.
+Hence $F'$ is additive and commutes with direct sums by
+Lemma \ref{lemma-functor-on-fp-modules-additive}.
+We urge the reader to prove that $F'$ is right exact themselves
+instead of reading the proof below.
+
+\medskip\noindent
+To show that $F'$ is right exact, it suffices to show that $F'$ commutes
+with coequalizers, see
+Categories, Lemma \ref{categories-lemma-characterize-right-exact}.
+Now, if $a, b : K \to L$ are maps of $A$-modules, then the
+coequalizer of $a$ and $b$ is the cokernel of $a - b : K \to L$.
+Thus let $K \to L \to M \to 0$ be an exact sequence
+of $A$-modules. We have to show that in
+$$
+F'(K) \to F'(L) \to F'(M) \to 0
+$$
+the second arrow is a cokernel for the first arrow in $\mathcal{B}$
+(if $\mathcal{B}$ were abelian we would say that the displayed sequence
+is exact).
+Write $M = \colim_{i \in I} M_i$ as a filtered colimit of finitely
+presented $A$-modules, see
+Algebra, Lemma \ref{algebra-lemma-module-colimit-fp}.
+Let $L_i = L \times_M M_i$. 
+We obtain a system of exact sequences $K \to L_i \to M_i \to 0$ over $I$.
+Since colimits commute with colimits by
+Categories, Lemma \ref{categories-lemma-colimits-commute}
+and since cokernels are a type of coequalizer,
+it suffices to show that $F'(L_i) \to F(M_i)$ is the cokernel of
+$F'(K) \to F'(L_i)$ in $\mathcal{B}$ for all $i \in I$. In other words, we may
+assume $M$ is finitely presented. Write $L = \colim_{i \in I} L_i$
+as a filtered colimit of finitely presented $A$-modules
+with the property that each $L_i$ surjects onto $M$.
+Let $K_i = K \times_L L_i$. We obtain a system of short exact sequences
+$K_i \to L_i \to M \to 0$ over $I$.
+Repeating the argument already given, we reduce to showing
+$F(L_i) \to F(M_i)$ is the cokernel of
+$F'(K) \to F(L_i)$ in $\mathcal{B}$ for all $i \in I$.
+In other words, we may assume both
+$L$ and $M$ are finitely presented $A$-modules.
+In this case the module $\Ker(L \to M)$ is finite
+(Algebra, Lemma \ref{algebra-lemma-extension}).
+Thus we can write $K = \colim_{i \in I} K_i$ as a filtered colimit
+of finitely presented $A$-modules each surjecting onto $\Ker(L \to M)$.
+We obtain a system of short exact sequences
+$K_i \to L \to M \to 0$ over $I$.
+Repeating the argument already given, we reduce to showing
+$F(L) \to F(M)$ is the cokernel of
+$F(K_i) \to F(L)$ in $\mathcal{B}$ for all $i \in I$.
+In other words, we may assume $K$, $L$, and $M$
+are finitely presented $A$-modules. This final case follows
+from the assumption that $F$ is right exact.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-functor-on-modules-fp}
+Let $A$ be a ring. Let $\mathcal{B}$ be an additive category
+with cokernels. There is an equivalence of categories between
+\begin{enumerate}
+\item the category of functors $F : \text{Mod}^{fp}_A \to \mathcal{B}$
+which are right exact, and
+\item the category of pairs $(K, \kappa)$ where $K \in \Ob(\mathcal{B})$
+and $\kappa : A \to \text{End}_\mathcal{B}(K)$ is a ring homomorphism
+\end{enumerate}
+given by the rule sending $F$ to $F(A)$ with its natural $A$-action.
+\end{lemma}
+
+\begin{proof}
+Let $(K, \kappa)$ be as in (2). We will construct a functor
+$F : \text{Mod}^{fp}_A \to \mathcal{B}$ such that $F(A) = K$
+endowed with the given $A$-action $\kappa$. Namely, given an
+integer $n \geq 0$ let us set
+$$
+F(A^{\oplus n}) = K^{\oplus n}
+$$
+Given an $A$-linear map $\varphi : A^{\oplus m} \to A^{\oplus n}$
+with matrix $(a_{ij}) \in \text{Mat}(n \times m, A)$ we define
+$$
+F(\varphi) :
+F(A^{\oplus m}) = K^{\oplus m}
+\longrightarrow
+K^{\oplus n} = F(A^{\oplus n})
+$$
+to be the map with matrix $(\kappa(a_{ij}))$. This defines an additive
+functor from the full subcategory of
+$\text{Mod}^{fp}_A$ with objects $0$, $A$, $A^{\oplus 2}$, $\ldots$
+to $\mathcal{B}$; we omit the verification.
+
+\medskip\noindent
+For each object $M$ of $\text{Mod}^{fp}_A$ choose a presentation
+$$
+A^{\oplus m_M} \xrightarrow{\varphi_M} A^{\oplus n_M} \to M \to 0
+$$
+of $M$ as an $A$-module. Let us use the trivial presentation
+$0 \to A^{\oplus n} \xrightarrow{1} A^{\oplus n} \to 0$ if $M = A^{\oplus n}$
+(this isn't necessary but simplifies the exposition).
+For each morphism $f : M \to N$ of
+$\text{Mod}^{fp}_A$ we can choose a commutative diagram
+\begin{equation}
+\label{equation-map}
+\vcenter{
+\xymatrix{
+A^{\oplus m_M} \ar[r]_{\varphi_M} \ar[d]_{\psi_f} &
+A^{\oplus n_M} \ar[r] \ar[d]_{\chi_f} &
+M \ar[r] \ar[d]_f & 0 \\
+A^{\oplus m_N} \ar[r]^{\varphi_N} &
+A^{\oplus n_N} \ar[r] &
+N \ar[r] & 0
+}
+}
+\end{equation}
+Having made these choices we can define: for an object
+$M$ of $\text{Mod}^{fp}_A$ we set
+$$
+F(M) = \Coker(F(\varphi_M) : F(A^{\oplus m_M}) \to F(A^{\oplus n_M}))
+$$
+and for a morphism $f : M \to N$ of $\text{Mod}^{fp}_A$ we set
+$$
+F(f) = \text{the map }F(M) \to F(N)\text{ induced by }
+F(\psi_f)\text{ and }F(\chi_f)\text{ on cokernels}
+$$
+Note that this rule extends the given functor $F$ on
+the full subcategory consisting of the free modules $A^{\oplus n}$.
+We still have to show that $F$ is a functor, that $F$ is additive,
+and that $F$ is right exact.
+
+\medskip\noindent
+Let $f : M \to N$ be a morphism $\text{Mod}^{fp}_A$. We claim that the map
+$F(f)$ defined above is independent of the choices of $\psi_f$ and $\chi_f$
+in (\ref{equation-map}). Namely, say
+$$
+\xymatrix{
+A^{\oplus m_M} \ar[r]_{\varphi_M} \ar[d]_\psi &
+A^{\oplus n_M} \ar[r] \ar[d]_\chi &
+M \ar[r] \ar[d]_f & 0 \\
+A^{\oplus m_N} \ar[r]^{\varphi_N} &
+A^{\oplus n_N} \ar[r] &
+N \ar[r] & 0
+}
+$$
+is also commutative. Denote $F(f)' : F(M) \to F(N)$ the map
+induced by $F(\psi)$ and $F(\chi)$. Looking at the commutative
+diagrams, by elementary commutative algebra there exists a map
+$\omega : A^{\oplus n_M} \to A^{\oplus m_N}$ such that
+$\chi = \chi_f + \varphi_N \circ \omega$. Applying $F$ we
+find that $F(\chi) = F(\chi_f) + F(\varphi_N) \circ F(\omega)$.
+As $F(N)$ is the cokernel of $F(\varphi_N)$ we find
+that the map $F(A^{\oplus n_M}) \to F(M)$ equalizes $F(f)$ and $F(f)'$.
+Since a cokernel is an epimorphism, we conclude that $F(f) = F(f)'$.
+
+\medskip\noindent
+Let us prove $F$ is a functor. First, observe that
+$F(\text{id}_M) = \text{id}_{F(M)}$ because we may pick
+the identities for $\psi_f$ and $\chi_f$ in the diagram above
+in case $f = \text{id}_M$. Second, suppose we have
+$f : M \to N$ and $g : L \to M$. Then we see that
+$\psi = \psi_f \circ \psi_g$ and $\chi = \chi_f \circ \chi_g$
+fit into (\ref{equation-map}) for $f \circ g$.
+Hence these induce the correct map which exactly
+says that $F(f) \circ F(g) = F(f \circ g)$.
+
+\medskip\noindent
+Let us prove that $F$ is additive. Namely, suppose we have
+$f, g : M \to N$. Then we see that $\psi = \psi_f + \psi_g$ and
+$\chi = \chi_f + \chi_g$ fit into (\ref{equation-map}) for $f + g$.
+Hence these induce the correct map which exactly
+says that $F(f) + F(g) = F(f + g)$.
+
+\medskip\noindent
+Finally, let us prove that $F$ is right exact. It suffices to show that $F$
+commutes with coequalizers, see
+Categories, Lemma \ref{categories-lemma-characterize-right-exact}.
+For this, it suffices to prove that $F$ commutes with cokernels.
+Let $K \to L \to M \to 0$ be an exact sequence of $A$-modules
+with $K$, $L$, $M$ finitely presented. Since $F$ is an additive
+functor, this certainly gives a complex
+$$
+F(K) \to F(L) \to F(M) \to 0
+$$
+and we have to show that the second arrow is the cokernel of the first
+in $\mathcal{B}$. In any case, we obtain a map
+$\Coker(F(K) \to F(L)) \to F(M)$.
+By elementary commutative algebra there exists a commutative diagram
+$$
+\xymatrix{
+A^{\oplus m_M} \ar[r]_{\varphi_M} \ar[d]_\psi &
+A^{\oplus n_M} \ar[r] \ar[d]_\chi &
+M \ar[r] \ar[d]_1 & 0 \\
+K \ar[r] &
+L \ar[r] &
+M \ar[r] & 0
+}
+$$
+Applying $F$ to this diagram and using the construction of $F(M)$ as
+the cokernel of $F(\varphi_M)$ we find there exists a map
+$F(M) \to \Coker(F(K) \to F(L))$ which is a right inverse
+to the map $\Coker(F(K) \to F(L)) \to F(M)$. This first implies
+that $F(L) \to F(M)$ is an epimorphism always. Next, the above shows
+we have
+$$
+\Coker(F(K) \to F(L)) = F(M) \oplus E
+$$
+where the direct sum decomposition is compatible with both
+$F(M) \to \Coker(F(K) \to F(L))$ and $\Coker(F(K) \to F(L)) \to F(M)$.
+However, then the epimorphism $p : F(L) \to E$ becomes zero both
+after composition with $F(K) \to F(L)$ and after composition
+with $F(A^{n_M}) \to F(L)$. However, since $K \oplus A^{n_M} \to L$
+is surjective (algebra argument omitted), we conclude that
+$F(K \oplus A^{n_M}) \to F(L)$ is an epimorphism (by the above)
+whence $E = 0$. This finishes the proof.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-functor-on-modules}
+Let $A$ be a ring. Let $\mathcal{B}$ be an additive category
+with arbitrary direct sums and cokernels. There is an equivalence
+of categories between
+\begin{enumerate}
+\item the category of functors $F : \text{Mod}_A \to \mathcal{B}$
+which are right exact and commute with arbitrary direct sums, and
+\item the category of pairs $(K, \kappa)$ where $K \in \Ob(\mathcal{B})$
+and $\kappa : A \to \text{End}_\mathcal{B}(K)$ is a ring homomorphism
+\end{enumerate}
+given by the rule sending $F$ to $F(A)$ with its natural $A$-action.
+\end{lemma}
+
+\begin{proof}
+Combine Lemmas \ref{lemma-functor-on-modules-fp} and
+\ref{lemma-functor-on-fp-modules-right-exact}.
+\end{proof}
+
+
+
+
+
 
 \section{Functors between categories of modules}
 \label{section-functors}
@@ -549,6 +876,10 @@ Moreover, our functor is $R$-linear and commutes with arbitrary direct sums,
 see Cohomology of Schemes, Lemma \ref{coherent-lemma-colimit-cohomology}.
 \end{example}
 
+\noindent
+The following lemma is a natural generalization of
+Lemma \ref{lemma-functor-modules}.
+
 \begin{lemma}
 \label{lemma-functor-quasi-coherent-from-affine}
 Let $R$ be a ring. Let $X$ and $Y$ be schemes over $R$ with $X$ affine.
@@ -563,27 +894,30 @@ given by sending $\mathcal{K}$ to the functor $F$ in (\ref{equation-FM-QCoh}).
 \end{lemma}
 
 \begin{proof}
-First we observe that since $\text{pr}_2 : X \times_R Y Y$ is affine
+Let $\mathcal{K}$ be an object of $\QCoh(\mathcal{O}_{X \times_R Y})$
+and $F$ the functor (\ref{equation-FM-QCoh}). By the discussion in
+Example \ref{example-functor-quasi-coherent} we already know that
+$F$ is $R$-linear and commutes with arbitrary direct sums.
+Since $\text{pr}_2 : X \times_R Y \to Y$ is affine
 (Morphisms, Lemma \ref{morphisms-lemma-base-change-affine}) the functor
-$\text{pr}_{2, *}$ is exact (see for example Cohomology of Schemes, Lemma
-\ref{coherent-lemma-relative-affine-vanishing}). Hence the functor
-(\ref{equation-FM-QCoh}) is right exact in this case.
+$\text{pr}_{2, *}$ is exact, see Cohomology of Schemes, Lemma
+\ref{coherent-lemma-relative-affine-vanishing}.
+Hence $F$ is right exact as well, in other words $F$ is as in (1).
 
 \medskip\noindent
-Let us construct the quasi-inverse to the construction. Let $F$ be
-as in (1). Say $X = \Spec(A)$. Consider the quasi-coherent
+Let $F$ be as in (1). Say $X = \Spec(A)$. Consider the quasi-coherent
 $\mathcal{O}_Y$-module $\mathcal{G} = F(\mathcal{O}_X)$.
-Every element $a \in A$ induces an endomorphism of $\mathcal{G}$
-and this defines an $R$-linear map
-$A \to \text{End}_{\mathcal{O}_Y}(\mathcal{G})$. Hence we see that
+The functor $F$ induces an $R$-linear map
+$A \to \text{End}_{\mathcal{O}_Y}(\mathcal{G})$,
+$a \mapsto F(a \cdot \text{id}$. Thus
 $\mathcal{G}$ is a sheaf of modules over
 $$
 A \otimes_R \mathcal{O}_Y = \text{pr}_{2, *}\mathcal{O}_{X \times_R Y}
 $$
 By Morphisms, Lemma \ref{morphisms-lemma-affine-equivalence-modules}
-we find that there is a unique
-quasi-coherent module $\mathcal{K}$ on $X \times_R Y$ such that
-$\mathcal{G} = \text{pr}_{2, *}\mathcal{K}$ compatible with action
+we find that there is a unique quasi-coherent module $\mathcal{K}$
+on $X \times_R Y$ such that $F(\mathcal{O}_X) = \mathcal{G} =
+\text{pr}_{2, *}\mathcal{K}$ compatible with action
 of $A$ and $\mathcal{O}_Y$. Commutation with direct sums shows that
 $F(\bigoplus_{i \in I} \mathcal{O}_X) = \bigoplus_{i \in I} \mathcal{G}$.
 Finally, since $X = \Spec(A)$ for every quasi-coherent $\mathcal{O}_X$-module
