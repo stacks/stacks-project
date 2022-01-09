@@ -3485,7 +3485,22 @@ $$
 and similarly for sheaves.
 These follow from their algebraic counterparts and sheafification.
 
-\medskip\noindent
+\begin{lemma}
+\label{lemma-sheafification-tensor}
+Let $\mathcal{C}$ be a site. Let $\mathcal{O}$ be a presheaf of rings.
+Let $\mathcal{F}$, $\mathcal{G}$ be presheaves of $\mathcal{O}$-modules.
+Then
+$\mathcal{F}^\# \otimes_{\mathcal{O}^\#} \mathcal{G}^\#$
+is equal to
+$(\mathcal{F} \otimes_{p, \mathcal{O}} \mathcal{G})^\#$.
+\end{lemma}
+
+\begin{proof}
+Omitted. Hint: use the characterization of tensor product in terms
+of bilinear maps below and use the universal property of sheafification.
+\end{proof}
+
+\noindent
 Let $\mathcal{C}$ be a site, let $\mathcal{O}$ be a sheaf of rings and let
 $\mathcal{F}$, $\mathcal{G}$, $\mathcal{H}$ be sheaves of
 $\mathcal{O}$-modules. In this case we define
@@ -3650,6 +3665,45 @@ commutes with restriction to $U$ for $U \in \Ob(\mathcal{C})$.
 \begin{proof}
 Immediate from the definition.
 \end{proof}
+
+\begin{remark}
+\label{remark-pullback-internal-hom}
+Let $f : (\mathcal{C}, \mathcal{O}_\mathcal{C}) \to
+(\mathcal{D}, \mathcal{O}_\mathcal{D})$ be a morphism
+of ringed sites. Let
+$\mathcal{F}, \mathcal{G}$ be sheaves of $\mathcal{O}_\mathcal{D}$-modules.
+There is a canonical map
+$$
+f^*\SheafHom_{\mathcal{O}_\mathcal{D}}(\mathcal{F}, \mathcal{G})
+\longrightarrow
+\SheafHom_{\mathcal{O}_\mathcal{C}}(f^*\mathcal{F}, f^*\mathcal{G})
+$$
+Namely, this map is adjoint to the map
+$$
+\SheafHom_{\mathcal{O}_\mathcal{D}}(\mathcal{F}, \mathcal{G})
+\longrightarrow
+f_*\SheafHom_{\mathcal{O}_\mathcal{C}}(f^*\mathcal{F}, f^*\mathcal{G})
+$$
+defined as follows. Say $f$ is given by the continuous functor
+$u : \mathcal{D} \to \mathcal{C}$. For sections over $V \in \Ob(\mathcal{D})$
+we use the map
+\begin{align*}
+\Gamma(V, \SheafHom_{\mathcal{O}_\mathcal{D}}(\mathcal{F}, \mathcal{G}))
+& =
+\Hom_{\mathcal{O}_V}(\mathcal{F}|_V, \mathcal{G}|_V) \\
+& \longrightarrow
+\Hom_{\mathcal{O}_{u(V)}}(f^*\mathcal{F}|_{u(V)}, \mathcal{G}|_{u(V)}) \\
+& =
+\Gamma(u(V), \SheafHom_{\mathcal{O}_\mathcal{C}}(f^*\mathcal{F},
+f^*\mathcal{G})) \\
+& =
+\Gamma(V, f_*\SheafHom_{\mathcal{O}_\mathcal{C}}(f^*\mathcal{F},
+f^*\mathcal{G}))
+\end{align*}
+where for the arrow we use pullback by the morphism
+$(\mathcal{C}/u(V), \mathcal{O}_{u(V)}) \to
+(\mathcal{D}/V, \mathcal{O}_V)$ induced by $f$.
+\end{remark}
 
 \noindent
 In the situation of Lemma \ref{lemma-internal-hom}
@@ -4041,7 +4095,7 @@ Sites, Remark \ref{sites-remark-stronger-conditions}.
 Set $\mathcal{H} =
 \SheafHom_\mathcal{O}(\mathcal{F}, \colim \mathcal{G}_\lambda)$
 and $\mathcal{H}_\lambda =
-\SheafHom_{\mathcal{O}_X}(\mathcal{F}, \mathcal{G}_\lambda)$.
+\SheafHom_\mathcal{O}(\mathcal{F}, \mathcal{G}_\lambda)$.
 Recall that
 $$
 \Hom_\mathcal{O}(\mathcal{F}, \mathcal{G}) = \Gamma(\mathcal{C}, \mathcal{H})
@@ -4120,7 +4174,7 @@ This is immediate from the definitions.
 
 \begin{lemma}
 \label{lemma-flatness-sheafification}
-Let $\mathcal{C}$ be a category.
+Let $\mathcal{C}$ be a site.
 Let $\mathcal{O}$ be a presheaf of rings.
 Let $\mathcal{F}$ be a presheaf of $\mathcal{O}$-modules.
 If $\mathcal{F}$ is a flat $\mathcal{O}$-module, then
@@ -4129,6 +4183,42 @@ $\mathcal{F}^\#$ is a flat $\mathcal{O}^\#$-module.
 
 \begin{proof}
 Omitted. (Hint: Sheafification is exact.)
+\end{proof}
+
+\begin{lemma}
+\label{lemma-flatness-sheafification-refined}
+Let $\mathcal{C}$ be a site. Let $\mathcal{O}$ be a presheaf of rings.
+Let $\mathcal{F}$ be a presheaf of $\mathcal{O}$-modules. Assume
+that every object $U$ of $\mathcal{C}$ has a covering $\{U_i \to U\}_{i \in I}$
+such that $\mathcal{F}(U_i)$ is a flat $\mathcal{O}(U_i)$-module.
+Then $\mathcal{F}^\#$ is a flat $\mathcal{O}^\#$-module.
+\end{lemma}
+
+\begin{proof}
+Let $\mathcal{G} \subset \mathcal{G}'$ be an inclusion of
+$\mathcal{O}^\#$-modules. We have to show that
+$$
+\mathcal{G} \otimes_{\mathcal{O}^\#} \mathcal{F}^\#
+\longrightarrow
+\mathcal{G}' \otimes_{\mathcal{O}^\#} \mathcal{F}^\#
+$$
+is injective. By Lemma \ref{lemma-sheafification-tensor}
+the source of this arrow is the sheafification of
+the presheaf $\mathcal{G} \otimes_{p, \mathcal{O}} \mathcal{F}$
+and similarly for the target. If $U$ is an object of $\mathcal{C}$ such that
+$\mathcal{F}(U)$ is a flat $\mathcal{O}(U)$-module, then
+$$
+(\mathcal{G} \otimes_{p, \mathcal{O}} \mathcal{F})(U) =
+\mathcal{G}(U) \otimes_{\mathcal{O}(U)} \mathcal{F}(U)
+\longrightarrow
+\mathcal{G}'(U) \otimes_{\mathcal{O}(U)} \mathcal{F}(U) =
+(\mathcal{G}' \otimes_{p, \mathcal{O}} \mathcal{F})(U)
+$$
+is injective. Hence we reduce to showing: given a map of presheaves
+$f : \mathcal{H} \to \mathcal{H}'$ on $\mathcal{C}$ such that
+every $U$ in $\mathcal{C}$ has a covering $\{U_i \to U\}_{i \in I}$
+with $\mathcal{H}(U_i) \to \mathcal{H}'(U_i)$ injective, then
+$f^\#$ is injective. This we leave to the reader as an exercise.
 \end{proof}
 
 \begin{lemma}
@@ -5380,6 +5470,77 @@ This is compatible with the notion as defined for morphisms of ringed spaces,
 see Modules, Definition \ref{modules-definition-flat-module}
 and the discussion following.
 
+\begin{lemma}
+\label{lemma-pullback-internal-hom}
+Let $f : (\mathcal{C}, \mathcal{O}_\mathcal{C}) \to
+(\mathcal{D}, \mathcal{O}_\mathcal{D})$ be a morphism
+of ringed sites. Let $\mathcal{F}$, $\mathcal{G}$ be
+$\mathcal{O}_\mathcal{D}$-modules.
+If $\mathcal{F}$ is finitely presented and $f$ is flat,
+then the canonical map
+$$
+f^*\SheafHom_{\mathcal{O}_\mathcal{D}}(\mathcal{F}, \mathcal{G})
+\longrightarrow
+\SheafHom_{\mathcal{O}_\mathcal{C}}(f^*\mathcal{F}, f^*\mathcal{G})
+$$
+of Remark \ref{remark-pullback-internal-hom} is an isomorphism.
+\end{lemma}
+
+\begin{proof}
+Say $f$ is given by the continuous functor $u : \mathcal{D} \to \mathcal{C}$.
+We have to show that the restriction of the map to $\mathcal{C}/U$
+for any $U \in \Ob(\mathcal{C})$ is an isomorphism.
+We may replace $U$ by the members of a covering of $U$.
+Hence by Sites, Lemma \ref{sites-lemma-morphism-of-sites-covering}
+we may assume there exists a morphism $U \to u(V)$ for some
+$V \in \Ob(\mathcal{C})$. Of course, then we may replace $U$ by $u(V)$.
+Then since $u$ is continuous, we may replace $V$ by a covering
+and assume there is a presentation
+$\mathcal{O}_V^{\oplus m} \to \mathcal{O}_V^{\oplus n} \to
+\mathcal{F}|_V \to 0$
+over $\mathcal{D}/V$. Since formation of $\SheafHom$
+commutes with localization (Lemma \ref{lemma-internal-hom-restriction})
+we may replace $f$ by the morphism
+$(\mathcal{C}/u(V), \mathcal{O}_{u(V)}) \to
+(\mathcal{D}/V, \mathcal{O}_V)$ induced by $f$.
+Hence we reduce to the case where $\mathcal{F}$ has a global
+presentation
+$\mathcal{O}_\mathcal{D}^{\oplus m} \to \mathcal{O}_\mathcal{D}^{\oplus n} \to
+\mathcal{F} \to 0$.
+Since $f$ is flat and $f^*\mathcal{O}_\mathcal{D} = \mathcal{O}_\mathcal{C}$
+we obtain a corresponding presentation
+$\mathcal{O}_\mathcal{C}^{\oplus m} \to \mathcal{O}_\mathcal{C}^{\oplus n} \to
+f^*\mathcal{F} \to 0$, see
+Lemma \ref{lemma-flat-pullback-exact}.
+Using that $\SheafHom$ commutes with finite direct sums in the
+first variable, using that both
+$\SheafHom_{\mathcal{O}_\mathcal{C}}(\mathcal{O}_\mathcal{C}, -)$ and
+$\SheafHom_{\mathcal{O}_\mathcal{D}}(\mathcal{O}_\mathcal{D}, -)$
+are the identity functor, and using the
+functoriality of the construction of
+Remark \ref{remark-pullback-internal-hom}
+we obtain a commutative diagram
+$$
+\xymatrix{
+0 \ar[r] &
+f^*\SheafHom_{\mathcal{O}_\mathcal{D}}(\mathcal{F}, \mathcal{G})
+\ar[d] \ar[r] &
+f^*\mathcal{G}^{\oplus n} \ar[d] \ar[r] &
+f^*\mathcal{G}^{\oplus n} \ar[d] \\
+0 \ar[r] &
+\SheafHom_{\mathcal{O}_\mathcal{C}}(f^*\mathcal{F}, f^*\mathcal{G})
+\ar[r] &
+f^*\mathcal{G}^{\oplus n} \ar[r] &
+f^*\mathcal{G}^{\oplus n}
+}
+$$
+where the right two vertical arrows are isomorphisms.
+By Lemma \ref{lemma-internal-hom-exact} the rows are exact.
+We conclude by the 5 lemma.
+\end{proof}
+
+
+
 
 
 
@@ -6549,7 +6710,7 @@ $\mathcal{F} \mapsto \mathcal{F}_p$ is a left adjoint,
 and by
 Sites, Lemma \ref{sites-lemma-point-pushforward-sheaf}
 we see the same thing for
-$\textit{Sh}(\mathcal{C}) \to \textit{Sets}$,
+$\Sh(\mathcal{C}) \to \textit{Sets}$,
 $\mathcal{F} \mapsto \mathcal{F}_p$.
 Hence the stalk functor commutes with arbitrary colimits (see
 Categories, Lemma \ref{categories-lemma-adjoint-exact}).
