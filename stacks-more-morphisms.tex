@@ -4276,8 +4276,8 @@ In particular there is an evaluation map
 $ev : \mathcal{F}_i \otimes_{\mathcal{O}_\mathcal{X}} \mathcal{F}_i^\vee
 \to \mathcal{O}_\mathcal{X}$.
 Evaluation at $s$ defines a map
-$s^\vee : \mathcal{F}_i^\vee \to \mathcal{O}_X$. Dual to the statement about
-$s$ we see that $g^*(s^\vee)$ is surjective, see
+$s^\vee : \mathcal{F}_i^\vee \to \mathcal{O}_\mathcal{X}$.
+Dual to the statement about $s$ we see that $g^*(s^\vee)$ is surjective, see
 see Cohomology of Stacks, Section
 \ref{stacks-cohomology-section-further-remarks}
 for compatibility of $hom$ and $\otimes$ with restriction to $U$.
@@ -4380,6 +4380,62 @@ Lemma \ref{perfect-lemma-kunneth}.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-fully-faithful}
+Let $\mathcal{X}$ be an algebraic stack with affine diagonal.
+Let $B$ be a ring. Let $f_i : \Spec(B) \to \mathcal{X}$, $i = 1, 2$
+be two morphisms. Let $t : f_1^* \to f_2^*$ be an isomorphism
+of the tensor functors
+$f_i^* : \text{QCoh}(\mathcal{O}_\mathcal{X}) \to \text{Mod}_B$.
+Then there is a $2$-arrow $f_1 \to f_2$ inducing $t$.
+\end{lemma}
+
+\begin{proof}
+Choose an affine scheme $U = \Spec(A)$ and a surjective smooth
+morphism $g : U \to \mathcal{X}$, see
+Properties of Stacks, Lemma \ref{stacks-properties-lemma-quasi-compact-stack}.
+Since the diagonal of $\mathcal{X}$ is affine, we see that
+$U_i = \Spec(B) \times_{f_i, \mathcal{X}, g} U$ is affine.
+Say $U_i = \Spec(C_i)$. Then $C_i$ is the $B$-algebra endowed
+with ring map $A \to C_i$ constructed in Lemma \ref{lemma-affine}
+using the functor $F = f_i^*$. Therefore $t$ induces an isomorphism
+$C_1 \to C_2$ of $B$-algebras, compatible with the ring maps
+$A \to C_1$ and $A \to C_2$. In other words, we have a commutative
+diagrams
+$$
+\xymatrix{
+U_i \ar[r] \ar[d] & U \ar[d]^g \\
+\Spec(B) \ar[r]^{f_i} & \mathcal{X}
+}
+\quad\quad
+\xymatrix{
+&
+U_2 \ar[ld] \ar[d]^{\cong} \ar[rd] \\
+\Spec(B) &
+U_1 \ar[l] \ar[r] &
+U
+}
+$$
+This already shows that the objects $f_1$ and $f_2$ of $\mathcal{X}$
+over $\Spec(B)$ become isomorphic after the smooth covering
+$\{U_1 \to \Spec(B)\}$. To show that this descends to an isomorphism
+of $f_1$ and $f_2$ over $\Spec(B)$, we have to show that our isomorphism
+(which comes from the commutative diagrams above) is compatible
+with the descent data over $U_1 \times_{\Spec(B)} U_1$. For this
+we observe that $U \times_\mathcal{X} U$ is affine too, that
+we have the morphism $g' : U \times_\mathcal{X} U \to \mathcal{X}$, and
+that
+$$
+U_i \times_{\Spec(B)} U_i =
+\Spec(B) \times_{f_i, \mathcal{X}, g'}
+(U \times_\mathcal{X} U)
+$$
+It follows that the isomorphism $C_1 \otimes_B C_1 \to C_2 \otimes_B C_2$
+coming from the isomorphism $C_1 \to C_2$ is compatible with the
+morphisms $U_i \times_{\Spec(B)} U_i \to U \times_\mathcal{X} U$.
+Some details omitted.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-main}
 Let $\mathcal{X}$ be a Noetherian algebraic stack with affine diagonal.
 Let $B$ be a ring.
@@ -4389,8 +4445,10 @@ Then $F$ comes from a unique morphism $\Spec(B) \to \mathcal{X}$.
 \end{lemma}
 
 \begin{proof}
-Choose a surjective smooth morphism $g : U \to X$ with $U = \Spec(A)$
-affine. Apply Lemma \ref{lemma-affine} to get the finite type
+Choose a surjective smooth morphism $g : U \to \mathcal{X}$ with $U = \Spec(A)$
+affine, see Properties of Stacks, Lemma
+\ref{stacks-properties-lemma-quasi-compact-stack}. Apply
+Lemma \ref{lemma-affine} to get the finite type
 commutative $B$-algebra $C = F(g_{\QCoh, *}\mathcal{O}_U)$
 and the ring map $A \to C$.
 By Lemma \ref{lemma-universally-injective}
@@ -4436,22 +4494,25 @@ we conclude that $C \otimes_B C$ is flat over $C$.
 By Lemma \ref{lemma-flat} we conclude that $B \to C$ is faithfully flat.
 
 \medskip\noindent
-We claim there is a commutative diagram
+We claim there is a solid commutative diagram
 $$
 \xymatrix{
-U \times_\mathcal{X} U \ar@<1ex>[d] \ar@<-1ex>[d] &
-\Spec(C \otimes_B C) \ar@<1ex>[d] \ar@<-1ex>[d] \ar[l] \\
-U \ar[d] & \Spec(C) \ar[d] \ar[l] \\
-X & \Spec(B) \ar@{..>}[l]
+\Spec(C \otimes_B C) \ar@<1ex>[d] \ar@<-1ex>[d] \ar[r] &
+U \times_\mathcal{X} U \ar@<1ex>[d] \ar@<-1ex>[d] \\
+\Spec(C) \ar[d] \ar[r] &
+U \ar[d] \\
+\Spec(B) \ar@{..>}[r] &
+\mathcal{X}
 }
 $$
 The arrow $\Spec(C) \to U = \Spec(A)$ comes from the ring map
 $A \to C$ in the statement of Lemma \ref{lemma-affine}.
 The arrow $\Spec(C \otimes_B C) \to U \times_\mathcal{X} U$
 simlarly comes from the ring map $R \to C \otimes_B C$.
-We omit the verification that the top square commutes.
+To verify the top square commutes use Lemma \ref{lemma-fully-faithful};
+details omitted.
 We conclude we get the dotted arrow $\Spec(B) \to \mathcal{X}$
-by descent theory; details omitted.
+by Proposition \ref{proposition-stack-fpqc}.
 
 \medskip\noindent
 The statement that $F$ is the functor corresponding to pullback
