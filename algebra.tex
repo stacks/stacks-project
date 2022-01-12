@@ -8729,27 +8729,33 @@ assumption, the same is true for $I \otimes_R M \to M$.
 \begin{lemma}
 \label{lemma-colimit-rings-flat}
 Let $\{R_i, \varphi_{ii'}\}$ be a system of rings over the directed set $I$.
-Let $R = \colim_i R_i$. Let $M$ be an $R$-module such that
-$M$ is flat as an $R_i$-module for all $i$. Then $M$ is flat as
-an $R$-module.
+Let $R = \colim_i R_i$.
+\begin{enumerate}
+\item If $M$ is an $R$-module such that $M$ is flat as an $R_i$-module
+for all $i$, then $M$ is flat as an $R$-module.
+\item For $i \in I$ let $M_i$ be a flat $R_i$-module and
+for $i' \geq i$ let $f_{ii'} : M_i \to M_{i'}$ be a $\varphi_{ii'}$-linear
+map such that $f_{i' i''} \circ f_{i i'} = f_{i i''}$. Then
+$M = \colim_{i \in I} M_i$ is a flat $R$-module.
+\end{enumerate}
 \end{lemma}
 
 \begin{proof}
+Part (1) is a special case of part (2) with $M_i = M$ for all $i$
+and $f_{i i'} = \text{id}_M$. Proof of (2).
 Let $\mathfrak a \subset R$ be a finitely generated ideal. By
 Lemma \ref{lemma-flat}
 it suffices to show that $\mathfrak a \otimes_R M \to M$ is
 injective. We can find an $i \in I$ and a finitely generated ideal
 $\mathfrak a' \subset R_i$ such that $\mathfrak a = \mathfrak a'R$.
 Then $\mathfrak a = \colim_{i' \geq i} \mathfrak a'R_{i'}$.
-Hence the map $\mathfrak a \otimes_R M \to M$ is the colimit of the
-maps
+Since $\otimes$ commutes with colimits the map $\mathfrak a \otimes_R M \to M$
+is the colimit of the maps
 $$
-\mathfrak a'R_{i'} \otimes_{R_{i'}} M \longrightarrow M
+\mathfrak a'R_{i'} \otimes_{R_{i'}} M_{i'} \longrightarrow M_{i'}
 $$
-which are all injective by assumption. Since $\otimes$ commutes with
-colimits and since colimits over $I$ are exact by
-Lemma \ref{lemma-directed-colimit-exact}
-we win.
+These maps are all injective by assumption. Since colimits over $I$
+are exact by Lemma \ref{lemma-directed-colimit-exact} we win.
 \end{proof}
 
 \begin{lemma}
@@ -36161,19 +36167,58 @@ is free with basis given by the elements $f_i \bmod (f_1, \ldots, f_c)^2$.
 \end{lemma}
 
 \begin{proof}
-First, by Lemma \ref{lemma-regular-quasi-regular}, part (3) follows
-from part (1). Parts (1) and (2) immediately reduce to the Noetherian case
-by Lemma \ref{lemma-relative-global-complete-intersection-Noetherian}
-(some minor details omitted). Assume $R$ is Noetherian. Let
-$\mathfrak p = R \cap \mathfrak q'$.
+By Lemma \ref{lemma-regular-quasi-regular} part (3) follows
+from part (1).
+
+\medskip\noindent
+Assume $R$ is Noetherian. Let $\mathfrak p = R \cap \mathfrak q'$.
 By Lemma \ref{lemma-lci} for example we see
 that $f_1, \ldots, f_c$ form a regular sequence in the local ring
 $R[x_1, \ldots, x_n]_{\mathfrak q'} \otimes_R \kappa(\mathfrak p)$.
 Moreover, the local ring $R[x_1, \ldots, x_n]_{\mathfrak q'}$
 is flat over $R_{\mathfrak p}$. Since $R$, and hence
-$R[x_1, \ldots, x_n]_{\mathfrak q'}$ is Noetherian we
-may apply Lemma \ref{lemma-grothendieck-regular-sequence}
-to conclude.
+$R[x_1, \ldots, x_n]_{\mathfrak q'}$ is Noetherian we see from
+Lemma \ref{lemma-grothendieck-regular-sequence} that (1) and (2) hold.
+
+\medskip\noindent
+Let $R$ be general. Write $R = \colim_{\lambda \in \Lambda} R_\lambda$
+as the filtered colimit of finite type $\mathbf{Z}$-subalgebras (compare with
+Section \ref{section-colimits-flat}). We may assume that
+$f_1, \ldots, f_c \in R_\lambda[x_1, \ldots, x_n]$ for all $\lambda$.
+Let $R_0 \subset R$ be as in
+Lemma \ref{lemma-relative-global-complete-intersection-Noetherian}.
+Then we may assume $R_0 \subset R_\lambda$ for all $\lambda$.
+It follows that $S_\lambda = R_\lambda[x_1, \ldots, x_n]/(f_1, \ldots, f_c)$
+is a relative global complete intersection (as base change of
+$S_0$ via $R_0 \to R_\lambda$, see 
+Lemma \ref{lemma-base-change-relative-global-complete-intersection}).
+Denote $\mathfrak p_\lambda$, $\mathfrak q_\lambda$, $\mathfrak q'_\lambda$
+the prime of $R_\lambda$, $S_\lambda$, $R_\lambda[x_1, \ldots, x_n]$
+induced by $\mathfrak p$, $\mathfrak q$, $\mathfrak q'$.
+With this notation, we have (1) and (2) for each $\lambda$. Since
+$$
+R[x_1, \ldots, x_n]_{\mathfrak q'}/(f_1, \ldots, f_i)
+=
+\colim R_\lambda[x_1, \ldots, x_n]_{\mathfrak q_\lambda'}/(f_1, \ldots, f_i)
+$$
+we deduce flatness in (2) over $R$ from
+Lemma \ref{lemma-colimit-rings-flat}.
+Since we have
+\begin{align*}
+R[x_1, \ldots, x_n]_{\mathfrak q'}/(f_1, \ldots, f_i)
+\xrightarrow{f_{i + 1}}
+R[x_1, \ldots, x_n]_{\mathfrak q'}/(f_1, \ldots, f_i) \\
+=
+\colim
+\left(
+R_\lambda[x_1, \ldots, x_n]_{\mathfrak q_\lambda'}/(f_1, \ldots, f_i)
+\xrightarrow{f_{i + 1}}
+R_\lambda[x_1, \ldots, x_n]_{\mathfrak q_\lambda'}/(f_1, \ldots, f_i)
+\right)
+\end{align*}
+and since filtered colimits are exact
+(Lemma \ref{lemma-directed-colimit-exact})
+we conclude that we have (1).
 \end{proof}
 
 \begin{lemma}
