@@ -33,7 +33,7 @@ def find_defined_terms(def_text):
 		n = def_text.find("{\\it ", m)
 	return def_terms
 
-# Spits out the git version of the git repositor in the path
+# Spits out the git version of the git repository in the path
 def git_version(path):
 	from subprocess import Popen, PIPE, STDOUT
 	cmd = 'git --git-dir=' + path + '.git log --pretty=format:%h -n1'
