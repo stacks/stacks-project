@@ -95,7 +95,7 @@ return(nr)
    where li is an integer and ai is a multi-index of length n - 1 such that
 	h(s)_a = \sum li s_ai
    in the cech complex, where h is the homotopy of Equation
-   \ref{equation-second-homotopy} comparing semi-orderd Cech cochains with
+   \ref{equation-second-homotopy} comparing semi-ordered Cech cochains with
    ordered cochains in the proof of
    	Cohomology, Lemma \ref{cohomology-lemma-alternating-usual}. */
 h_single(m) =
