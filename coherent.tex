@@ -555,6 +555,9 @@ of {\it all} $\mathcal{O}_X$-modules.
 
 \begin{lemma}[Induction Principle]
 \label{lemma-induction-principle}
+\begin{reference}
+\cite[Proposition 3.3.1]{BvdB}
+\end{reference}
 Let $X$ be a quasi-compact and quasi-separated scheme. Let $P$ be a property
 of the quasi-compact opens of $X$. Assume that
 \begin{enumerate}
@@ -1777,22 +1780,63 @@ h :
 \to
 \check{\mathcal{C}}^p(\vec{e})
 $$
-given by the rule
+given by the rule that for $i_0 < \ldots < i_p$ we have
 $$
-h(s)_{i_0 \ldots i_p} = s_{i_{\text{fix}} i_0 \ldots i_p}
+h(s)_{i_0 \ldots i_p} =
+\left\{
+\begin{matrix}
+0 & \text{if} & p \not \in \{0, \ldots, n - 1\} \\
+0 & \text{if} & i_{\text{fix}} \in \{i_0, \ldots, i_p\} \\
+s_{i_{\text{fix}} i_0 \ldots i_p} & \text{if} & i_{\text{fix}} < i_0 \\
+(-1)^a s_{i_0 \ldots i_{a - 1} i_{\text{fix}} i_a \ldots i_p} &
+\text{if} & i_{a - 1} < i_{\text{fix}} < i_a \\
+(-1)^p s_{i_0 \ldots i_p} & \text{if} & i_p < i_{\text{fix}}
+\end{matrix}
+\right.
 $$
-(compare with the proof of
-Lemma \ref{lemma-cech-cohomology-quasi-coherent-trivial}).
-It is clear that this is well defined since
+Please compare with the proof of
+Lemma \ref{lemma-cech-cohomology-quasi-coherent-trivial}.
+This makes sense because we have
 $$
 NEG(\vec{e}) \subset \{i_0, \ldots, i_p\}
 \Leftrightarrow
 NEG(\vec{e}) \subset \{i_{\text{fix}}, i_0, \ldots, i_p\}
 $$
-Also $\check{\mathcal{C}}^0(\vec{e}) = 0$ so that this
-formula does work for all $p$ including $p = - 1$.
-The exact same (combinatorial) computation as in the
-proof of Lemma \ref{lemma-cech-cohomology-quasi-coherent-trivial}
+The exact same (combinatorial) computation\footnote{
+For example, suppose that $i_0 < \ldots < i_p$ is such that
+$i_{\text{fix}} \not \in \{i_0, \ldots, i_p\}$ and that
+$i_{a - 1} < i_{\text{fix}} < i_a$ for some $1 \leq a \leq p$. Then we have
+\begin{align*}
+&
+(dh + hd)(s)_{i_0 \ldots i_p} \\
+& =
+\sum\nolimits_{j = 0}^p
+(-1)^j
+h(s)_{i_0 \ldots \hat i_j \ldots i_p}
++
+(-1)^a d(s)_{i_0 \ldots i_{a - 1} i_{\text{fix}} i_a \ldots i_p}\\
+& =
+\sum\nolimits_{j = 0}^{a - 1}
+(-1)^{j + a - 1}
+s_{i_0 \ldots \hat i_j \ldots i_{a - 1} i_{\text{fix}} i_a \ldots i_p} +
+\sum\nolimits_{j = a}^p
+(-1)^{j + a}
+s_{i_0 \ldots i_{a - 1} i_{\text{fix}} i_a \ldots \hat i_j \ldots i_p}
++ \\
+&
+\sum\nolimits_{j = 0}^{a - 1}
+(-1)^{a + j}
+s_{i_0 \ldots \hat i_j \ldots i_{a - 1} i_{\text{fix}} i_a \ldots i_p} +
+(-1)^{2a} s_{i_0 \ldots i_p} +
+\sum\nolimits_{j = a}^p
+(-1)^{a + j + 1}
+s_{i_0 \ldots i_{a - 1} i_{\text{fix}} i_a \ldots \hat i_j \ldots i_p}
+\\
+& =
+s_{i_0 \ldots i_p}
+\end{align*}
+as desired. The other cases are similar.}
+as in the proof of Lemma \ref{lemma-cech-cohomology-quasi-coherent-trivial}
 shows that
 $$
 (hd + dh)(s)_{i_0 \ldots i_p}
@@ -2668,7 +2712,7 @@ Modules, Lemma \ref{modules-lemma-internal-hom}
 $\varphi$ corresponds to a map
 $$
 \varphi :
-\mathcal{I}^{\otimes n} \otimes_{\mathcal{O}_X} \mathcal{G}
+\mathcal{I}^n \otimes_{\mathcal{O}_X} \mathcal{G}
 \longrightarrow
 \mathcal{F}.
 $$
@@ -2950,7 +2994,7 @@ Let $\xi \in Z$ be the generic point.
 Let $\mathcal{F}$ be a coherent sheaf on $X$.
 Assume that $\mathcal{F}_\xi$ is annihilated by
 $\mathfrak m_\xi$. Then there exist an integer
-$r \geq 0$ and a sheaf of ideals $\mathcal{I} \subset \mathcal{O}_Z$
+$r \geq 0$ and a coherent sheaf of ideals $\mathcal{I} \subset \mathcal{O}_Z$
 and an injective map of coherent sheaves
 $$
 i_*\left(\mathcal{I}^{\oplus r}\right) \to \mathcal{F}
@@ -3021,8 +3065,8 @@ $$
 \ldots \subset \mathcal{F}_m = \mathcal{F}
 $$
 by coherent subsheaves such that for each $j = 1, \ldots, m$
-there exist an integral closed subscheme $Z_j \subset X$
-and a sheaf of ideals $\mathcal{I}_j \subset \mathcal{O}_{Z_j}$
+there exist an integral closed subscheme $Z_j \subset X$ and
+a nonzero coherent sheaf of ideals $\mathcal{I}_j \subset \mathcal{O}_{Z_j}$
 such that
 $$
 \mathcal{F}_j/\mathcal{F}_{j - 1}
@@ -3845,18 +3889,42 @@ We have to show that the map $M \to N$ of graded $A$-modules
 is an isomorphism in all sufficiently large degrees.
 By Properties, Lemma \ref{properties-lemma-proj-quasi-coherent}
 we have a canonical isomorphism $\widetilde{N} \to \widetilde{M}$
-such that $M_n \to N_n = \Gamma(X, \widetilde{M}(n))$
-is the canonical map. Let $K = \Ker(M \to N)$ and $Q = \Coker(M \to N)$.
-Recall that the functor
-$M \mapsto \widetilde{M}$ is exact, see
+such that the induced maps $N_n \to N_n = \Gamma(X, \widetilde{M}(n))$
+are the identity maps. Thus we have maps
+$\widetilde{M} \to \widetilde{N} \to \widetilde{M}$
+such that for all $n$ the diagram
+$$
+\xymatrix{
+M_n \ar[d] \ar[r] & N_n \ar[d] \ar@{=}[rd] \\
+\Gamma(X, \widetilde{M}(n)) \ar[r] &
+\Gamma(X, \widetilde{N}(n)) \ar[r]^{\cong} &
+\Gamma(X, \widetilde{M}(n))
+}
+$$
+is commutative. This means that the composition
+$$
+M_n \to \Gamma(X, \widetilde{M}(n))
+\to \Gamma(X, \widetilde{N}(n)) \to \Gamma(X, \widetilde{M}(n)
+$$
+is equal to the canonical map $M_n \to \Gamma(X, \widetilde{M}(n)$.
+Clearly this implies that the composition
+$\widetilde{M} \to \widetilde{N} \to \widetilde{M}$
+is the identity. Hence $\widetilde{M} \to \widetilde{N}$ is an isomorphism.
+Let $K = \Ker(M \to N)$ and $Q = \Coker(M \to N)$.
+Recall that the functor $M \mapsto \widetilde{M}$ is exact, see
 Constructions, Lemma \ref{constructions-lemma-proj-sheaves}.
 Hence we see that $\widetilde{K} = 0$ and $\widetilde{Q} = 0$.
-On the other hand, $A$ is a Noetherian ring and $M$ and $N$
-are finitely generated $A$-modules (for $N$ this follows from
-the last part of Lemma \ref{lemma-coherent-on-proj}).
-Hence $K$ and $Q$ are finite $A$-modules. Thus it suffices to show
+Recall that $A$ is a Noetherian ring, $M$ is a finitely generated
+$A$-module, and $N$ is a graded $A$-module such that
+$N' = \bigoplus_{n \geq 0} N$ is finitely generated by
+the last part of Lemma \ref{lemma-coherent-on-proj}.
+Hence $K' = \bigoplus_{n \geq 0} N_n$ and
+$Q' = \bigoplus_{n \geq 0} Q_n$ are finite $A$-modules.
+Observe that $\widetilde{Q} = \widetilde{Q'}$ and
+$\widetilde{K} = \widetilde{K'}$.
+Thus to finish the proof it suffices to show
 that a finite $A$-module $K$ with $\widetilde{K} = 0$
-has only finitely many nonzero homogeneous parts $K_d$.
+has only finitely many nonzero homogeneous parts $K_d$ with $d \geq 0$.
 To do this, let $x_1, \ldots, x_r \in K$ be homogeneous generators
 say sitting in degrees $d_1, \ldots, d_r$.
 Let $f_1, \ldots, f_n \in A_1$ be elements generating $A$ over $A_0$.
@@ -5721,7 +5789,7 @@ Note that $i_{n, *}\mathcal{F}_n = i_{n, *}i_n^*\mathcal{F}
 for $i_n$, and Lemma \ref{lemma-finite-pushforward-coherent} we see that
 $$
 H^p(X_n, \mathcal{F}_n) =
-H^p(X, i_{n, *}\mathcal{F}) =
+H^p(X, i_{n, *}\mathcal{F}_n) =
 H^p(X, \mathcal{F}/\mathfrak m^n\mathcal{F})
 $$
 Hence we may indeed apply the theorem on formal functions to compute
@@ -6724,7 +6792,7 @@ for the coherent sheaf $\mathcal{H}$.
 
 \begin{lemma}
 \label{lemma-vanishing-projective}
-Let $A$ be Noetherian ring and $I \subset A$ and ideal.
+Let $A$ be Noetherian ring and $I \subset A$ an ideal.
 Let $f : X \to \Spec(A)$ be a proper morphism and let
 $\mathcal{L}$ be an $f$-ample invertible sheaf. Let
 $\mathcal{I} = I\mathcal{O}_X$. Let $(\mathcal{F}_n)$ be an

@@ -890,6 +890,12 @@ which are both locally quasi-coherent
 (Section \ref{section-locally-quasi-coherent})
 and have the flat base change property
 (Section \ref{section-flat-comparison}).
+We have
+$$
+\QCoh(\mathcal{O}_\mathcal{X}) \subset
+\textit{LQCoh}^{fbc}(\mathcal{O}_\mathcal{X})
+$$
+by Sheaves on Stacks, Lemma \ref{stacks-sheaves-lemma-quasi-coherent}.
 
 \begin{proposition}
 \label{proposition-loc-qcoh-flat-base-change}
@@ -1118,7 +1124,7 @@ Proposition \ref{proposition-loc-qcoh-flat-base-change}.
 Let $f : \mathcal{X} \to \mathcal{Y}$ be an affine morphism of algebraic
 stacks. The functor $f_* : \textit{LQCoh}^{fbc}(\mathcal{O}_\mathcal{X}) \to
 \textit{LQCoh}^{fbc}(\mathcal{O}_\mathcal{Y})$ is exact and commutes
-with direct sums. The functor $R^if_*$ for $i > 0$ vanish on
+with direct sums. The functors $R^if_*$ for $i > 0$ vanish on
 $\textit{LQCoh}^{fbc}(\mathcal{O}_\mathcal{X})$.
 \end{lemma}
 
@@ -1334,26 +1340,67 @@ aren't exact in general.
 \begin{lemma}
 \label{lemma-exact-sequence-quasi-coherent-parasitic-cohomology}
 Let $\mathcal{X}$ be an algebraic stack. Let
-$\mathcal{F}^\bullet$ be an
-exact complex in $\QCoh(\mathcal{O}_\mathcal{X})$.
-Then the cohomology sheaves of $\mathcal{F}^\bullet$
-in either the \'etale or the fppf topology
-are parasitic $\mathcal{O}_\mathcal{X}$-modules.
+$\alpha : \mathcal{F} \to \mathcal{G}$ and
+$\beta : \mathcal{G} \to \mathcal{H}$
+be maps in $\QCoh(\mathcal{O}_\mathcal{X})$ with
+$\beta \circ \alpha = 0$. The following are equivalent:
+\begin{enumerate}
+\item in the abelian category $\QCoh(\mathcal{O}_\mathcal{X})$
+the complex $\mathcal{F} \to \mathcal{G} \to \mathcal{H}$
+is exact at $\mathcal{G}$,
+\item $\Ker(\beta)/\Im(\alpha)$ computed in either
+$\textit{Mod}(\mathcal{X}_\etale, \mathcal{O}_\mathcal{X})$ or
+$\textit{Mod}(\mathcal{X}_{fppf}, \mathcal{O}_\mathcal{X})$
+is parasitic.
+\end{enumerate}
 \end{lemma}
 
 \begin{proof}
+We have $\QCoh(\mathcal{O}_\mathcal{X}) \subset
+\textit{LQCoh}^{fbc}(\mathcal{O}_\mathcal{X})$, see
+Section \ref{section-loc-qcoh-flat-base-change}.
+Hence $\Ker(\beta)/\Im(\alpha)$ computed in
+$\textit{Mod}(\mathcal{X}_\etale, \mathcal{O}_\mathcal{X})$ or
+$\textit{Mod}(\mathcal{X}_{fppf}, \mathcal{O}_\mathcal{X})$ agree, see
+Proposition \ref{proposition-loc-qcoh-flat-base-change}.
+From now on we will use the \'etale topology on $\mathcal{X}$.
+
+\medskip\noindent
+Let $\mathcal{E}$ be the cohomology of
+$\mathcal{F} \to \mathcal{G} \to \mathcal{H}$
+computed in the abelian category $\QCoh(\mathcal{O}_\mathcal{X})$.
 Let $x : U \to \mathcal{X}$ be a flat morphism where $U$ is a scheme.
-Then $x^*\mathcal{F}^\bullet$ is exact by
-Lemma \ref{lemma-flat-pullback-quasi-coherent}.
-Hence the restriction $x^*\mathcal{F}^\bullet|_{U_\etale}$
-is exact which is what we had to prove.
+As we are using the \'etale topology, the restriction functor
+$\textit{Mod}(\mathcal{X}_\etale, \mathcal{O}_\mathcal{X})
+\to \textit{Mod}(U_\etale, \mathcal{O}_U)$ is exact.
+On the other hand, by Lemma \ref{lemma-flat-pullback-quasi-coherent} and
+Sheaves on Stacks, Lemma \ref{stacks-sheaves-lemma-compare-quasi-coherent}
+the restriction functor
+$$
+\QCoh(\mathcal{O}_\mathcal{X}) \xrightarrow{x^*}
+\QCoh((\Sch/U)_\etale, \mathcal{O}) \xrightarrow{{-}|_{U_\etale}}
+\QCoh(U_\etale, \mathcal{O}_U)
+$$
+is exact too. We conclude that
+$\mathcal{E}|_{U_\etale} = (\Ker(\beta)/\Im(\alpha))|_{U_\etale}$.
+
+\medskip\noindent
+If (1) holds, then $\mathcal{E} = 0$ hence $\Ker(\beta)/\Im(\alpha)$
+restricts to zero on $U_\etale$ for all $U$ flat over $\mathcal{X}$ and this
+is the definition of a parasitic module. If (2) holds, then
+$\Ker(\beta)/\Im(\alpha)$ restricts to zero on $U_\etale$ for all $U$
+flat over $\mathcal{X}$ hence $\mathcal{E}$ restricts to zero on
+$U_\etale$ for all $U$ flat over $\mathcal{X}$. This certainly implies
+that the quasi-coherent module $\mathcal{E}$ is zero, for example apply
+Lemma \ref{lemma-quasi-coherent-check-exact}
+to the map $0 \to \mathcal{E}$.
 \end{proof}
 
 
 
 
 
-\section{Quasi-coherent modules, I}
+\section{Quasi-coherent modules}
 \label{section-quasi-coherent}
 
 \noindent
@@ -1548,6 +1595,45 @@ $\mathcal{F} \mapsto \mathcal{F}|_{U_\etale}$ commutes with
 direct sums, the desired equality is clear.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-flat-morphism-and-Q}
+Let $f : \mathcal{X} \to \mathcal{Y}$ be a flat morphism of algebraic stacks.
+Then $Q_\mathcal{X} \circ f^* = f^* \circ Q_\mathcal{Y}$ where
+$Q_\mathcal{X}$ and $Q_\mathcal{Y}$ are as in Lemma \ref{lemma-adjoint}.
+\end{lemma}
+
+\begin{proof}
+Observe that $f^*$ preserves both $\QCoh$ and $\textit{LQCoh}^{fbc}$,
+see Sheaves on Stacks, Lemma
+\ref{stacks-sheaves-lemma-pullback-quasi-coherent} and
+Proposition \ref{proposition-loc-qcoh-flat-base-change}.
+If $\mathcal{F}$ is in $\textit{LQCoh}^{fbc}(\mathcal{O}_\mathcal{Y})$
+then $Q_\mathcal{Y}(\mathcal{F}) \to \mathcal{F}$
+has parasitic kernel and cokernel
+by Lemma \ref{lemma-adjoint-kernel-parasitic}.
+As $f$ is flat we get that $f^*Q_\mathcal{Y}(\mathcal{F}) \to f^*\mathcal{F}$
+has parasitic kernel and cokernel by
+Lemma \ref{lemma-parasitic}.
+Thus the induced map
+$f^*Q_\mathcal{Y}(\mathcal{F}) \to Q_\mathcal{X}(f^*\mathcal{F})$
+has parasitic kernel and cokernel and hence is an isomorphism
+for example by
+Lemma \ref{lemma-exact-sequence-quasi-coherent-parasitic-cohomology}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-flat-object-and-Q}
+Let $\mathcal{X}$ be an algebraic stack. Let $x$ be an object of $\mathcal{X}$
+lying over the scheme $U$ such that $x : U \to \mathcal{X}$ is flat.
+Then for $\mathcal{F}$ in $\textit{QCoh}^{fbc}(\mathcal{O}_\mathcal{X})$
+we have $Q(\mathcal{F})|_{U_\etale} = \mathcal{F}|_{U_\etale}$.
+\end{lemma}
+
+\begin{proof}
+True because the kernel and cokernel of $Q(\mathcal{F}) \to \mathcal{F}$
+are parasitic, see Lemma \ref{lemma-adjoint-kernel-parasitic}.
+\end{proof}
+
 \begin{remark}
 \label{remark-QCoh-abelian}
 Let $\mathcal{X}$ be an algebraic stack. The category
@@ -1660,9 +1746,81 @@ Lemma \ref{stacks-perfect-lemma-bousfield-colocalization}
 we prove that a similar result holds on the level of derived categories.
 \end{remark}
 
+\begin{lemma}
+\label{lemma-internal-hom-fp-into-qcoh}
+Let $\mathcal{X}$ be an algebraic stack. Let $\mathcal{F}$ be an
+$\mathcal{O}_\mathcal{X}$-module of finite presentation and let
+$\mathcal{G}$ be a quasi-coherent $\mathcal{O}_\mathcal{X}$-module.
+The internal homs
+$\SheafHom_{\mathcal{O}_\mathcal{X}}(\mathcal{F}, \mathcal{G})$
+computed in
+$\textit{Mod}(\mathcal{X}_\etale, \mathcal{O}_\mathcal{X})$ or
+$\textit{Mod}(\mathcal{O}_\mathcal{X})$ agree and the common value
+is an object of $\textit{LQCoh}^{fbc}(\mathcal{O}_\mathcal{X})$.
+The quasi-coherent module
+$
+hom(\mathcal{F}, \mathcal{G}) =
+Q(\SheafHom_{\mathcal{O}_\mathcal{X}}(\mathcal{F}, \mathcal{G}))
+$
+has the following universal property
+$$
+\Hom_\mathcal{X}(\mathcal{H}, hom(\mathcal{F}, \mathcal{G})) =
+\Hom_\mathcal{X}(\mathcal{H} \otimes_{\mathcal{O}_\mathcal{X}} \mathcal{F},
+\mathcal{G})
+$$
+for $\mathcal{H}$ in $\QCoh(\mathcal{O}_\mathcal{X})$.
+\end{lemma}
 
+\begin{proof}
+The construction of
+$\SheafHom_{\mathcal{O}_\mathcal{X}}(\mathcal{F}, \mathcal{G})$ in
+Modules on Sites, Section \ref{sites-modules-section-internal-hom}
+depends only on $\mathcal{F}$ and $\mathcal{G}$ as presheaves
+of modules; the output $\SheafHom$ is a sheaf for the fppf
+topology because $\mathcal{F}$ and $\mathcal{G}$ are assumed
+sheaves in the fppf topology, see
+Modules on Sites, Lemma \ref{sites-modules-lemma-internal-hom}.
+By Sheaves on Stacks, Lemma \ref{stacks-sheaves-lemma-lqc-colimits}
+we see that $\SheafHom_{\mathcal{O}_\mathcal{X}}(\mathcal{F}, \mathcal{G})$
+is locally quasi-coherent.
+By Lemma \ref{lemma-check-flat-comparison-on-etale-covering}
+we see that $\SheafHom_{\mathcal{O}_\mathcal{X}}(\mathcal{F}, \mathcal{G})$
+has the flat base change property. Hence
+$\SheafHom_{\mathcal{O}_\mathcal{X}}(\mathcal{F}, \mathcal{G})$
+is an object of $\textit{LQCoh}^{fbc}(\mathcal{O}_\mathcal{X})$
+and it makes sense to apply the functor $Q$ of Lemma \ref{lemma-adjoint}
+to it. By the universal property of $Q$ we have
+$$
+\Hom_\mathcal{X}(\mathcal{H},
+Q(\SheafHom_{\mathcal{O}_\mathcal{X}}(\mathcal{F}, \mathcal{G}))) =
+\Hom_\mathcal{X}(\mathcal{H},
+\SheafHom_{\mathcal{O}_\mathcal{X}}(\mathcal{F}, \mathcal{G}))
+$$
+for $\mathcal{H}$ quasi-coherent, hence the displayed formula 
+of the lemma follows from Modules on Sites, Lemma
+\ref{sites-modules-lemma-internal-hom-adjoint-tensor}.
+\end{proof}
 
+\begin{lemma}
+\label{lemma-flat-morphism-and-hom}
+Let $f : \mathcal{X} \to \mathcal{Y}$ be a flat morphism of algebraic stacks.
+Let $\mathcal{F}$ be an
+$\mathcal{O}_\mathcal{Y}$-module of finite presentation and let
+$\mathcal{G}$ be a quasi-coherent $\mathcal{O}_\mathcal{Y}$-module.
+Then $f^*hom(\mathcal{F}, \mathcal{G}) = hom(f^*\mathcal{F}, f^*\mathcal{G})$
+with notation as in Lemma \ref{lemma-internal-hom-fp-into-qcoh}.
+\end{lemma}
 
+\begin{proof}
+We have $f^*\SheafHom_{\mathcal{O}_\mathcal{Y}}(\mathcal{F}, \mathcal{G}) =
+\SheafHom_{\mathcal{O}_\mathcal{X}}(f^*\mathcal{F}, f^*\mathcal{G})$
+by Modules on Sites, Lemma \ref{sites-modules-lemma-pullback-internal-hom}.
+(Observe that this step is not where the flatness of $f$ is used
+as the morphism of ringed topoi associated to $f$ is always flat, see
+Sheaves on Stacks, Remark \ref{stacks-sheaves-remark-flat}.)
+Then apply Lemma \ref{lemma-flat-morphism-and-Q} (and here we do use
+flatness of $f$).
+\end{proof}
 
 
 
@@ -2065,6 +2223,156 @@ $Q_\mathcal{Y} : \textit{LQCoh}^{fbc}(\mathcal{O}_\mathcal{Y}) \to
 $\QCoh(\mathcal{O}_\mathcal{Y})$.
 \end{proof}
 
+
+
+
+
+
+
+\section{Further remarks on quasi-coherent modules}
+\label{section-further-remarks}
+
+\noindent
+In this section we collect some results that to help understand how
+to use quasi-coherent modules on algebraic stacks.
+
+\medskip\noindent
+Let $f : \mathcal{U} \to \mathcal{X}$ be a morphism of algebraic stacks.
+Assume $\mathcal{U}$ is represented by the algebraic space $U$.
+Consider the functor
+$$
+a :
+\textit{Mod}(\mathcal{X}_\etale, \mathcal{O}_\mathcal{X})
+\longrightarrow
+\textit{Mod}(U_\etale, \mathcal{O}_U),\quad
+\mathcal{F}
+\longmapsto
+f^*\mathcal{F}|_{U_\etale}
+$$
+given by pullback (Sheaves on Stacks, Section
+\ref{stacks-sheaves-section-modules}) followed by restriction
+(Sheaves on Stacks, Section
+\ref{stacks-sheaves-section-restriction-algebraic-spaces}).
+Applying this functor to locally quasi-coherent modules we obtain a functor
+$$
+b : \textit{LQCoh}(\mathcal{O}_\mathcal{X})
+\longrightarrow
+\QCoh(U_\etale, \mathcal{O}_U)
+$$
+See Sheaves on Stacks, Lemmas \ref{stacks-sheaves-lemma-pullback-lqc} and
+\ref{stacks-sheaves-lemma-compare-locally-quasi-coherent}.
+We can further limit our functor to even smaller subcategories to obtain
+$$
+c :
+\textit{LQCoh}^{fbc}(\mathcal{O}_\mathcal{X})
+\longrightarrow
+\QCoh(U_\etale, \mathcal{O}_U)
+$$
+and
+$$
+d :
+\QCoh(\mathcal{O}_\mathcal{X})
+\longrightarrow
+\QCoh(U_\etale, \mathcal{O}_U)
+$$
+About these functors we can say the following:\footnote{We suggest
+working out why these statements are true on a napkin instead of
+following the references given.}
+\begin{enumerate}
+\item The functor $a$ is exact. Namely, pullback $f^* = f^{-1}$ is exact 
+(Sheaves on Stacks, Section \ref{stacks-sheaves-section-modules})
+and restriction to $U_\etale$ is exact, see
+Sheaves on Stacks, Equation (\ref{stacks-sheaves-equation-restrict}).
+\item The functor $b$ is exact. Namely, by
+Sheaves on Stacks, Lemma \ref{stacks-sheaves-lemma-lqc-colimits}
+the inclusion $\textit{LQCoh}(\mathcal{O}_\mathcal{X}) \to
+\textit{Mod}(\mathcal{X}_\etale, \mathcal{O}_\mathcal{X})$ is exact.
+\item The functor $c$ is exact. Namely, by
+Proposition \ref{proposition-loc-qcoh-flat-base-change}
+the inclusion functor $\textit{LQCoh}^{fbc}(\mathcal{O}_\mathcal{X}) \to
+\textit{Mod}(\mathcal{X}_\etale, \mathcal{O}_\mathcal{X})$ is exact.
+\item The functor $d$ is right exact but not exact in general.
+Namely, by Sheaves on Stacks, Lemma
+\ref{stacks-sheaves-lemma-qc-colimits}
+the inclusion functor $\QCoh(\mathcal{O}_\mathcal{X}) \to
+\textit{Mod}(\mathcal{X}_\etale, \mathcal{O}_\mathcal{X})$ is right
+exact. We omit giving an example showing non-exactness.
+\item If $f$ is flat, then $d$ is exact. This follows on combining
+Lemma \ref{lemma-flat-pullback-quasi-coherent} and
+Sheaves on Stacks, Lemma \ref{stacks-sheaves-lemma-compare-quasi-coherent}.
+\item If $f$ is flat, then $c$ kills parasitic objects.
+Namely, $f^*$ preserves parasitic object by Lemma \ref{lemma-parasitic}.
+Then for any scheme $V$ \'etale over $U$ and hence flat over $\mathcal{X}$
+we see that
+$0 = f^*\mathcal{F}|_{V_\etale} = c(\mathcal{F})|_{V_\etale}$
+by the compatibility of restriction with \'etale localization
+Sheaves on Stacks, Remark \ref{stacks-sheaves-remark-compare}.
+Hence clearly $c(\mathcal{F}) = 0$.
+\item If $f$ is flat, then $c = d \circ Q$. Namely, the kernel and
+cokernel of $Q(\mathcal{F}) \to \mathcal{F}$ are parasitic by
+Lemma \ref{lemma-adjoint-kernel-parasitic}. Thus, since
+$c$ is exact (3) and kills parasitic objects (6),
+we see that $c$ applied to $Q(\mathcal{F}) \to \mathcal{F}$
+is an isomorphism.
+\item The functors $a, b, c, d$ commute with colimits
+and arbitrary direct sums. This is true for $f^*$ and restriction
+as left adjoints and hence it holds for $a$. Then it follows for
+$b$, $c$, $d$ by the references given above.
+\item The functors $a, b, c, d$ commute with tensor products.
+\item If $f$ is flat and surjective, $\mathcal{F}$ is in
+$\textit{LQCoh}^{fbc}(\mathcal{O}_\mathcal{X})$, and $c(\mathcal{F}) = 0$,
+then $\mathcal{F}$ is parasitic. Namely, by (7) we get $d(Q(\mathcal{F})) = 0$.
+We may assume $U$ is a scheme by the compatibility of restriction
+with \'etale localization (see reference above). Then
+Lemma \ref{lemma-quasi-coherent-check-exact} applied to $0 \to Q(\mathcal{F})$
+and the morphism $f : U \to \mathcal{X}$ shows that $Q(\mathcal{F}) = 0$.
+Thus $\mathcal{F}$ is parasitic by Lemma \ref{lemma-adjoint-kernel-parasitic}.
+\item If $f$ is flat and surjective, then the functor $d$
+reflects exactness. More precisely, let $\mathcal{F}^\bullet$ be a complex in
+$\QCoh(\mathcal{O}_\mathcal{X})$. Then $\mathcal{F}^\bullet$ is exact
+in $\QCoh(\mathcal{O}_\mathcal{X})$ if and only if $d(\mathcal{F}^\bullet)$
+is exact. Namely, we have seen one implication in (5). For the other,
+suppose that $H^i(d(\mathcal{F}^\bullet)) = 0$. Then
+$\mathcal{G} = H^i(\mathcal{F}^\bullet)$ is an object of
+$\QCoh(\mathcal{O}_\mathcal{X})$ with $d(\mathcal{G}) = 0$.
+Hence $\mathcal{G}$ is both quasi-coherent and parasitic by (10),
+whence $0$ for example by Remark \ref{remark-bousfield-colocalization}.
+\item
+\label{item-hom-restriction}
+If $f$ is flat,
+$\mathcal{F}, \mathcal{G} \in \Ob(\QCoh(\mathcal{O}_\mathcal{X}))$,
+and $\mathcal{F}$ of finite presentation and let
+then we have
+$$
+d(hom(\mathcal{F}, \mathcal{G})) =
+\SheafHom_{\mathcal{O}_U}(d(\mathcal{F}), d(\mathcal{G}))
+$$
+with notation as in Lemma \ref{lemma-internal-hom-fp-into-qcoh}.
+Perhaps the easiest way to see this is as follows
+\begin{align*}
+d(hom(\mathcal{F}, \mathcal{G}))
+& =
+d(Q(\SheafHom_{\mathcal{O}_\mathcal{X}}(\mathcal{F}, \mathcal{G}))) \\
+& =
+c(\SheafHom_{\mathcal{O}_\mathcal{X}}(\mathcal{F}, \mathcal{G})) \\
+& =
+f^*\SheafHom_{\mathcal{O}_\mathcal{X}}(\mathcal{F}, \mathcal{G})|_{U_\etale} \\
+& =
+\SheafHom_{\mathcal{O}_\mathcal{U}}(f^*\mathcal{F},
+f^*\mathcal{G})|_{U_\etale} \\
+& =
+\SheafHom_{\mathcal{O}_U}(f^*\mathcal{F}|_{U_\etale},
+f^*\mathcal{G}|_{U_\etale})
+\end{align*}
+The first equality by construction of $hom$. The second equality
+by (7). The third equality by definition of $c$. The fourth equality
+by Modules on Sites, Lemma \ref{sites-modules-lemma-pullback-internal-hom}.
+The final equality by the same reference applied to the flat morphism
+of ringed topoi $i_U (U_\etale, \mathcal{O}_U) \to
+(\mathcal{U}_\etale, \mathcal{O}_\mathcal{U})$ of
+Sheaves on Stacks, Lemma \ref{stacks-sheaves-lemma-compare}.
+\item add more here.
+\end{enumerate}
 
 
 
@@ -2902,7 +3210,7 @@ of the lemma, we note that the fact that $V \to \mathcal{Y}$ is smooth
 
 
 
-\section{Quasi-coherent modules, II}
+\section{Quasi-coherent modules and the lisse-\'etale and flat-fppf sites}
 \label{section-quasi-coherent-modules-II}
 
 \noindent
@@ -3515,6 +3823,24 @@ Sheaves on Stacks, Section
 Sheaves on Stacks, Proposition \ref{stacks-sheaves-proposition-quasi-coherent},
 and Groupoids in Spaces, Section
 \ref{spaces-groupoids-section-colimits}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-coherent-hom}
+Let $\mathcal{X}$ be a locally Noetherian algebraic stack. Let $\mathcal{F}$
+and $\mathcal{G}$ be coherent be $\mathcal{O}_\mathcal{X}$-modules. Then
+the internal hom $hom(\mathcal{F}, \mathcal{G})$
+constructed in Lemma \ref{lemma-internal-hom-fp-into-qcoh}
+is a coherent $\mathcal{O}_\mathcal{X}$-module.
+\end{lemma}
+
+\begin{proof}
+Let $U \to \mathcal{X}$ be a smooth surjective morphism from a scheme.
+By item (\ref{item-hom-restriction}) in Section \ref{section-further-remarks}
+we see that the restriction of
+$hom(\mathcal{F}, \mathcal{G})$ to $U$ is the Hom sheaf of the restrictions.
+Hence this lemma follows from the case of algebraic spaces, see
+Cohomology of Spaces, Lemma \ref{spaces-cohomology-lemma-tensor-hom-coherent}.
 \end{proof}
 
 

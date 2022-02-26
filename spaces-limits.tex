@@ -2041,12 +2041,17 @@ Thus the result follows formally.
 \begin{lemma}
 \label{lemma-descend-invertible-modules}
 With notation and assumptions as in
-Lemma \ref{lemma-descend-finite-presentation}.
-Then any invertible $\mathcal{O}_X$-module is the pullback of an invertible
+Lemma \ref{lemma-descend-finite-presentation}. Then
+\begin{enumerate}
+\item any finite locally free $\mathcal{O}_X$-module is the pullback
+of a finite locally free $\mathcal{O}_{X_i}$-module for some $i$,
+\item any invertible $\mathcal{O}_X$-module is the pullback of an invertible
 $\mathcal{O}_{X_i}$-module for some $i$.
+\end{enumerate}
 \end{lemma}
 
 \begin{proof}
+Proof of (2).
 Let $\mathcal{L}$ be an invertible $\mathcal{O}_X$-module. Since
 invertible modules are of finite presentation we can find an $i$
 and modules $\mathcal{L}_i$ and $\mathcal{N}_i$ of finite presentation
@@ -2064,6 +2069,14 @@ is isomorphic to $\mathcal{O}_{X_{i'}}$ for some $i' \geq i$.
 It follows that $f_{i'i}^*\mathcal{L}_i$ is invertible
 (Modules on Sites, Lemma \ref{sites-modules-lemma-invertible})
 and the proof is complete.
+
+\medskip\noindent
+Proof of (1). Omitted. Hint: argue as in the proof of (2)
+using that a module (on a locally ringed site) is finite locally free
+if and only if it has a dual, see
+Modules on Sites, Section \ref{sites-modules-section-duals}.
+Alternatively, argue as in the proof for schemes, see
+Limits, Lemma \ref{limits-lemma-descend-invertible-modules}.
 \end{proof}
 
 
@@ -2553,7 +2566,71 @@ to conclude.
 \label{section-relative-approximation}
 
 \noindent
-The title of this section refers to the following result.
+We discuss variants of Proposition \ref{proposition-approximate}
+over a base.
+
+\begin{lemma}
+\label{lemma-approximate-morphism}
+Let $f : X \to Y$ be a morphism of quasi-compact and quasi-separated
+algebraic spaces over $\mathbf{Z}$.
+Then there exists a direct set $I$ and an inverse system $(f_i : X_i \to Y_i)$
+of morphisms algebraic spaces over $I$, such that the transition morphisms
+$X_i \to X_{i'}$ and $Y_i \to Y_{i'}$ are affine, such that $X_i$
+and $Y_i$ are quasi-separated and of finite type over $\mathbf{Z}$, and
+such that $(X \to Y) = \lim (X_i \to Y_i)$.
+\end{lemma}
+
+\begin{proof}
+Write $X = \lim_{a \in A} X_a$ and $Y = \lim_{b \in B} Y_b$ as in
+Proposition \ref{proposition-approximate}, i.e., with $X_a$ and $Y_b$
+quasi-separated and of finite type over $\mathbf{Z}$ and
+with affine transition morphisms.
+
+\medskip\noindent
+Fix $b \in B$.
+By Lemma \ref{lemma-better-characterize-relative-limit-preserving}
+applied to $Y_b$ and $X = \lim X_a$ over $\mathbf{Z}$
+we find there exists an $a \in A$ and a morphism
+$f_{a, b} : X_a \to Y_b$ making the diagram
+$$
+\xymatrix{
+X \ar[d] \ar[r] & Y \ar[d] \\
+X_a \ar[r] & Y_b
+}
+$$
+commute. Let $I$ be the set of triples $(a, b, f_{a, b})$ we
+obtain in this manner.
+
+\medskip\noindent
+Let $(a, b, f_{a, b})$ and $(a', b', f_{a', b'})$ be in $I$.
+Let $b'' \leq \min(b, b')$. By
+Lemma \ref{lemma-better-characterize-relative-limit-preserving}
+again, there exists an $a'' \geq \max(a, a')$ such that
+the compositions $X_{a''} \to X_a \to Y_b \to Y_{b''}$ and
+$X_{a''} \to X_{a'} \to Y_{b'} \to Y_{b''}$ are equal.
+We endow $I$ with the preorder
+$$
+(a, b, f_{a, b}) \geq (a', b', f_{a', b'})
+\Leftrightarrow
+a \geq a',\ b \geq b',\text{ and }
+g_{b, b'} \circ f_{a, b} = f_{a', b'} \circ h_{a, a'}
+$$
+where $h_{a, a'} : X_a \to X_{a'}$ and $g_{b, b'} : Y_b \to Y_{b'}$
+are the transition morphisms. The remarks above show that $I$
+is directed and that the maps $I \to A$, $(a, b, f_{a, b}) \mapsto a$
+and $I \to B$, $(a, b, f_{a, b})$ are cofinal. If for $i = (a, b, f_{a, b})$
+we set $X_i = X_a$, $Y_i = Y_b$, and $f_i = f_{a, b}$, then we get
+an inverse system of morphisms over $I$ and we have
+$$
+\lim_{i \in I} X_i = \lim_{a \in A} X_a = X
+\quad\text{and}\quad
+\lim_{i \in I} S_i = \lim_{b \in B} Y_b = Y
+$$
+by Categories, Lemma \ref{categories-lemma-initial} (recall that
+limits over $I$ are really limits over the opposite category
+associated to $I$ and hence cofinal turns into initial).
+This finishes the proof.
+\end{proof}
 
 \begin{lemma}
 \label{lemma-relative-approximation}
@@ -2571,41 +2648,18 @@ over $Y$.
 \begin{proof}
 Since $|f|(|X|)$ is quasi-compact we may replace $Y$ by a quasi-compact
 open subspace whose set of points contains $|f|(|X|)$. Hence we may assume
-$Y$ is quasi-compact as well. Write $X = \lim X_a$ and $Y = \lim Y_b$ as in
-Proposition \ref{proposition-approximate}, i.e., with $X_a$ and $Y_b$
-of finite type over $\mathbf{Z}$ and with affine transition morphisms.
-By Proposition \ref{proposition-characterize-locally-finite-presentation}
-we find that for each $b$ there exists an $a$ and a morphism
-$f_{a, b} : X_a \to Y_b$ making the diagram
-$$
-\xymatrix{
-X \ar[d] \ar[r] & Y \ar[d] \\
-X_a \ar[r] & Y_b
-}
-$$
-commute. Moreover the same proposition implies that, given a second
-triple $(a', b', f_{a', b'})$, there exists an $a'' \geq a'$ such that
-the compositions $X_{a''} \to X_a \to X_b$ and
-$X_{a''} \to X_{a'} \to X_{b'} \to X_b$ are equal.
-Consider the set of triples $(a, b, f_{a, b})$ endowed with the preordering
-$$
-(a, b, f_{a, b}) \geq (a', b', f_{a', b'})
-\Leftrightarrow
-a \geq a',\ b' \geq b,\text{ and }
-f_{a', b'} \circ h_{a, a'} = g_{b', b} \circ f_{a, b}
-$$
-where $h_{a, a'} : X_a \to X_{a'}$ and $g_{b', b} : Y_{b'} \to Y_b$
-are the transition morphisms. The remarks above show that this system
-is directed. It follows formally from the equalities
-$X = \lim X_a$ and $Y = \lim Y_b$ that
-$$
-X = \lim_{(a, b, f_{a, b})} X_a \times_{f_{a, b}, Y_b} Y.
-$$
-where the limit is over our directed system above. The transition morphisms
-$X_a \times_{Y_b} Y \to X_{a'} \times_{Y_{b'}} Y$ are affine as
+$Y$ is quasi-compact as well.
+By Lemma \ref{lemma-approximate-morphism} we can write
+$(X \to Y) = \lim (X_i \to Y_i)$ for some directed inverse system
+of morphisms of finite type schemes over $\mathbf{Z}$ with
+affine transition morphisms. Since limits commute with limits
+(Categories, Lemma \ref{categories-lemma-colimits-commute})
+we have $X = \lim X_i \times_{Y_i} Y$. For $i \geq i'$
+the transition morphism
+$X_i \times_{Y_i} Y \to X_{i'} \times_{Y_{i'}} Y$ is affine as
 the composition
 $$
-X_a \times_{Y_b} Y \to X_a \times_{Y_{b'}} Y \to X_{a'} \times_{Y_{b'}} Y
+X_i \times_{Y_i} Y \to X_i \times_{Y_{i'}} Y \to X_{i'} \times_{Y_{i'}} Y
 $$
 where the first morphism is a closed immersion (by
 Morphisms of Spaces, Lemma
@@ -2614,11 +2668,11 @@ and the second is a base change of an affine morphism
 (Morphisms of Spaces, Lemma \ref{spaces-morphisms-lemma-base-change-affine})
 and the composition of affine morphisms is affine
 (Morphisms of Spaces, Lemma \ref{spaces-morphisms-lemma-composition-affine}).
-The morphisms $f_{a, b}$ are of finite presentation
+The morphisms $f_i$ are of finite presentation
 (Morphisms of Spaces, Lemmas
 \ref{spaces-morphisms-lemma-noetherian-finite-type-finite-presentation} and
 \ref{spaces-morphisms-lemma-finite-presentation-permanence})
-and hence the base changes $X_a \times_{f_{a, b}, S_b} S \to S$
+and hence the base changes $X_i \times_{f_i, Y_i} Y \to Y$
 are of finite presentation
 (Morphisms of Spaces, Lemma
 \ref{spaces-morphisms-lemma-base-change-finite-presentation}).
@@ -3363,21 +3417,29 @@ we conclude.
 \begin{proposition}
 \label{proposition-affine}
 Let $S$ be a scheme. Let $f : X \to Y$ be a morphism of algebraic spaces
-over $S$. Assume that $f$ is surjective and integral, and assume that $X$
-is affine. Then $Y$ is affine.
+over $S$. Assume that $X$ is affine and $f$ is surjective and universally
+closed\footnote{An integral morphism is universally closed, see
+Morphisms of Spaces, Lemma
+\ref{spaces-morphisms-lemma-integral-universally-closed}.}. Then $Y$ is affine.
 \end{proposition}
 
 \begin{proof}
 We may and do view $f : X \to Y$ as a morphism of algebraic spaces over
 $\Spec(\mathbf{Z})$ (see
 Spaces, Definition \ref{spaces-definition-base-change}).
-Note that integral morphisms are affine and universally closed, see
-Morphisms of Spaces, Lemma
-\ref{spaces-morphisms-lemma-integral-universally-closed}.
 By Morphisms of Spaces, Lemma
 \ref{spaces-morphisms-lemma-image-universally-closed-separated}
-we see that $Y$ is a separated algebraic space.
-As $f$ is surjective and $X$ is quasi-compact we see that $Y$ is
+we see that $Y$ is a separated algebraic space. Then by
+Morphisms of Spaces, Lemma \ref{spaces-morphisms-lemma-affine-permanence}
+we find that $f$ is affine. Whereupon by
+Morphisms of Spaces, Lemma
+\ref{spaces-morphisms-lemma-integral-universally-closed}
+we see that $f$ is integral.
+
+\medskip\noindent
+By the preceding paragraph, we may assume $f : X \to Y$
+is surjective and integral, $X$ is affine, and $Y$ is separated.
+Since $f$ is surjective and $X$ is quasi-compact we also deduce that $Y$ is
 quasi-compact.
 
 \medskip\noindent
