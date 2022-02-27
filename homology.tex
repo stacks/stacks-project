@@ -70,21 +70,19 @@ one morphism $x \to y$, namely the zero map.
 \label{lemma-preadditive-zero}
 Let $\mathcal{A}$ be a preadditive category.
 Let $x$ be an object of $\mathcal{A}$.
-The following are equivalent
+The following are equivalent:
 \begin{enumerate}
 \item $x$ is an initial object,
-\item $x$ is a final object, and
-\item $\text{id}_x = 0$ in $\Mor_\mathcal{A}(x, x)$.
+\item $x$ is a final object,
+\item $\Mor_\mathcal{A}(x,x)$ is the trivial abelian group, and
+\item $\operatorname{id}_x = 0$ in $\Mor_\mathcal{A}(x, x)$.
 \end{enumerate}
 Furthermore, if such an object $0$ exists, then a morphism
 $\alpha : x \to y$ factors through $0$ if and only if $\alpha = 0$.
 \end{lemma}
 
 \begin{proof}
-First assume that $x$ is either (1) initial or (2) final.
-In both cases, it follows that $\Mor(x,x)$ is a trivial abelian group
-containing $\text{id}_x$, thus $\text{id}_x = 0$ in
-$\Mor(x, x)$, which shows that each of (1) and (2) implies (3).
+It is clear that (1) or (2) implies (3), and that (3) implies (4).
 
 \medskip\noindent
 Now assume that $\text{id}_x = 0$ in $\Mor(x,x)$. Let $y$
@@ -93,7 +91,7 @@ Denote $C : \Mor(x,x) \times \Mor(x,y) \to \Mor(x,y)$ the composition map.
 Then $f = C(0, f)$ and since $C$ is bilinear we have $C(0, f) = 0$.
 Thus $f = 0$. Hence $x$ is initial in $\mathcal{A}$.
 A similar argument for $f \in \Mor(y, x)$ can be used to show that
-$x$ is also final. Thus (3) implies both (1) and (2).
+$x$ is also final. Thus (4) implies both (1) and (2).
 \end{proof}
 
 \begin{definition}
@@ -191,7 +189,7 @@ Hence, $F$ transforms direct sums to direct sums.
 
 \medskip\noindent
 To see that $F$ transforms zero to zero, use the
-characterization (3) of the zero object in
+characterization (4) of the zero object in
 Lemma \ref{lemma-preadditive-zero}.
 \end{proof}
 
@@ -243,8 +241,7 @@ up to unique isomorphism. This follows from the Yoneda lemma
 (Categories, Section \ref{categories-section-opposite})
 because the kernel of $f : x \to y$ represents the functor
 sending an object $z$ to the set
-$\Ker(\Mor_\mathcal{A}(z, x) \to \Mor_\mathcal{A}(z, y))$.
-The case of cokernels is dual.
+$\Ker(\Mor_\mathcal{A}(z, x) \to \Mor_\mathcal{A}(z, y))$. Dually, the cokernel of $f:x\to y$ represents the functor sending an object $w$ to the set $\Ker(\Mor_\mathcal{A}(y,w) \to \Mor_\mathcal{A}(x,w))$.
 
 \medskip\noindent
 We first relate the direct sum to kernels as follows.
@@ -576,8 +573,8 @@ in $\mathcal{A}$. We say such a sequence is a {\it complex} if the
 composition of any two consecutive (drawn) arrows is zero.
 If $\mathcal{A}$ is abelian then we say a complex of the first
 type above is {\it exact at $y$} if $\Im(x \to y) = \Ker(y \to z)$
-and we say a complex of the second kind is {\it exact at $x_i$}
-where $1 < i < n$ if
+and we say a complex of the second kind is {\it exact at $x_i$,}
+where $1 < i < n$, if
 $\Im(x_{i - 1} \to x_i) = \Ker(x_i \to x_{i + 1})$. We a
 sequence as above is {\it exact} or is an {\it exact sequence} or is an
 {\it exact complex} if it is a complex and exact at every object (in
@@ -1314,56 +1311,96 @@ or pullback of the given short exact sequence.
 \label{section-functors}
 
 \noindent
-First a completely silly lemma characterizing additive functors
+Given morphisms $f:A\to A'$ and $g:B\to B'$ in an additive category, we denote $f\oplus g:A\oplus B\to A'\oplus B'$ to the morphism $i'\circ f\circ p+j'\circ g\circ q$, where $i',j'$ are the inclusions of $A'$ and $B'$ into $A'\oplus B'$, respectively, and $p,q$ are the projections from $A\oplus B$ into $A$ and $B$, respectively. That is, $f\oplus g$ equals the morphism
+\begin{equation}\label{equation-direct-sum-morphisms}
+	\begin{aligned}
+		(f\times 0)\amalg(0\times g)
+		&=(i'\circ f)\amalg(j'\circ g)\\
+		&=i'\circ f\circ p+j'\circ g\circ q\\
+		&=(f\circ p)\times (g\circ q)\\
+		&=(f\amalg 0)\times(0\amalg g).
+	\end{aligned}
+\end{equation}
+Note that, with this definition, $\operatorname{id}_A\oplus\operatorname{id}_B=\operatorname{id}_{A\oplus B}$.
+
+First we see a completely silly lemma characterizing additive functors
 between additive categories.
 
 \begin{lemma}
 \label{lemma-additive-functor}
 Let $\mathcal{A}$ and $\mathcal{B}$ be additive categories.
 Let $F : \mathcal{A} \to \mathcal{B}$ be a functor.
-The following are equivalent
+The following are equivalent:
 \begin{enumerate}
 \item $F$ is additive,
-\item $F(A) \oplus F(B) \to F(A \oplus B)$ is an isomorphism for
+\item $F$ commutes with coproducts, i.e., $F(A) \oplus F(B) \xrightarrow{Fi\amalg Fj} F(A \oplus B)$ is an isomorphism for
+all $A, B \in \mathcal{A}$,
+\item $F$ commutes with products, i.e., $F(A \oplus B) \xrightarrow{Fp\times Fq} F(A) \oplus F(B)$ is an isomorphism for
 all $A, B \in \mathcal{A}$, and
-\item $F(A \oplus B) \to F(A) \oplus F(B)$  is an isomorphism for
-all $A, B \in \mathcal{A}$.
+\item $F$ commutes with direct sums. That is, if $(A\oplus B, i, j,p,q)$ is a direct sum of $A,B\in\mathcal{A}$, then $(F(A\oplus B),F(i),F(j),F(p),F(q))$ is a direct sum of $F(A),F(B)\in\mathcal{B}$. 
 \end{enumerate}
 \end{lemma}
 
 \begin{proof}
-Additive functors commute with direct sums by
-Lemma \ref{lemma-additive-additive} hence (1)
-implies (2) and (3). On the other hand (2) and (3)
-are equivalent because the composition
-$F(A) \oplus F(B) \to F(A \oplus B) \to F(A) \oplus F(B)$
-is the identity map. Assume (2) and (3) hold.
-Let $f, g : A \to B$ be maps. Then $f + g$ is equal to
-the composition
+(1)$\Rightarrow$(4). It is the content of Lemma \ref{lemma-additive-additive}.
+
+(2)$\Leftrightarrow$(3). Suppose we've proven the claim
+\begin{equation}\tag{*}\label{equation-aux-claim}
+	\text{(2) or (3) implies that $F$ preserves the zero object, }F(0)=0.
+\end{equation} (Note that a functor preserves the zero object if and only if it preserves zero maps.) Then, using
+\begin{enumerate}
+	\item[(i)] the general identities $g\circ(f\amalg f')=(g\circ f)\amalg (g\circ f')$ and $(f\times f')\circ h=(f\circ h)\times (f'\circ h)$,
+	\item[(ii)] the identities from Remark \ref{remark-direct-sum},
+	\item[(iii)] the fact that $F$ preserves zero maps by \eqref{equation-aux-claim}, and
+	\item[(iv)] the definition of the direct sum of morphisms in \eqref{equation-direct-sum-morphisms},
+\end{enumerate}
+it is not difficult to verify that the composite
 $$
-A \to A \oplus A \xrightarrow{\text{diag}(f, g)} B \oplus B \to B
+F(A) \oplus F(B) \xrightarrow{Fi\amalg Fj} F(A \oplus B) \xrightarrow{Fp\times Fq} F(A) \oplus F(B)
 $$
+equals the identity map. From this fact it follows that (2)$\Leftrightarrow$(3). It is left to prove the claim \eqref{equation-aux-claim}. Suppose (3) holds. By Lemma \ref{lemma-preadditive-zero}, it suffices to verify that $F(0)$ is terminal. If $B\in\mathcal{B}$, then there is at least one map $B\to F(0)$ (the zero map), since $\mathcal{B}$ is preadditive. Now let $f,g:B\to F(0)$ be maps. The morphism $f-g$ equals the composite
+$$
+B\xrightarrow{f\times g}F(0)\oplus F(0)\xrightarrow{p'_1-p'_2} F(0),
+$$
+where $p_1',p_2':F(0)\oplus F(0)\to F(0)$ are the projections. Since $0\oplus 0=0$ is an initial object, the projections $p_1,p_2:0\oplus 0\to 0$ satisfy $p_1=p_2$. Thus, since the diagram
+$$
+\xymatrix{
+	F(0\oplus 0)\ar[rr]^{Fp_1\times Fp_2}\ar[dr]_{Fp_i}
+	&&F(0)\oplus F(0)\ar[dl]^{p_i'}\\
+	&F(0)&
+}
+$$
+commutes, for $i=1,2$, and $Fp_1\times Fp_2$ is an isomorphism, it follows that $p_1'=p_2'$. Therefore $f-g=(p_1'-p_2')\circ(f\times g)=0\circ(f\times g)=0$. Hence, $F(0)$ is terminal in $\mathcal{B}$. Dually, from (2) one can show that $F(0)$ is an initial object. This proves the claim \eqref{equation-aux-claim}.
+
+(2)+(3) $\Leftrightarrow$ (4). The implication to the right is clear. The implication to the left also holds because in a preadditive category any coproduct and any product is also a direct sum (Lemma \ref{lemma-preadditive-direct-sum}).
+
+(2)+(3) $\Rightarrow$ (1). Let $f, g : A \to B$ be maps. Then, using \eqref{equation-direct-sum-morphisms} we see that the morphism $f + g$ equals the composite
+$$
+A \xrightarrow{\Delta_A} A \oplus A \xrightarrow{f\oplus g} B \oplus B \xrightarrow{\nabla_B} B,
+$$
+where $\Delta_A=\operatorname{id}_A\times\operatorname{id}_A$ and $\nabla_B=\operatorname{id}_B\amalg\operatorname{id}_B$ denote the diagonal and codiagonal morphisms, respectively.
 Apply the functor $F$ and consider the following diagram
 $$
 \xymatrix{
-F(A) \ar[r] \ar[rd] &
-F(A \oplus A) \ar[rr]_{F(\text{diag}(f, g))} & &
-F(B \oplus B) \ar[r] \ar[d] &
+F(A) \ar[r]^{F(\Delta_A)} \ar[rd]_{\Delta_{F(A)}} &
+F(A \oplus A) \ar[rr]^{F(f\oplus g)} & &
+F(B \oplus B) \ar[r]^{F(\nabla_B)} \ar[d]_{Fq_1\times Fq_2} &
 F(B) \\
 &
-F(A) \oplus F(A) \ar[u] \ar[rr]^{\text{diag}(F(f), F(g))} & &
-F(B) \oplus F(B) \ar[ru]
+F(A) \oplus F(A) \ar[u]_{Fi_1\amalg Fi_2} \ar[rr]_{F(f)\oplus F(g)} & &
+F(B) \oplus F(B) \ar[ru]_{\nabla_{F(B)}}
 }
 $$
-We claim this is commutative. For the middle square we can verify it
-separately for each of the four induced maps $F(A) \to F(B)$
-where it follows from the fact that $F$ is a functor (in other words
-this square commutes even if $F$ does not satisfy any properties
-beyond being a functor). For the triangle on the left, we use that
-$F(A \oplus A) \to F(A) \oplus F(A)$ is an isomorphism
-to see that it suffice to check after composition with
-this map and this check is trivial. Dually for the other triangle.
-Thus going around the bottom is equal to $F(f + g)$ and we conclude.
+Here $i_1,i_2:A\to A\oplus A$ are the inclusions and $q_1,q_2:B\oplus B\to B$ are the projections. We claim this diagram is commutative. Commutativity of the middle square can be verified using the facts (i) to (iv) from the proof of (2)$\Leftrightarrow$(3). For commutativity of the left and right triangles, first note that using again facts (i) to (iv) from proof of (2)$\Leftrightarrow$(3), it is easy to verify that $Fp_1\times Fp_2$ is a left inverse of $Fi_1\amalg Fi_2$, and, thus, it must be \emph{the} inverse, for (2) and (3) hold. Therefore, to verify commutativity of the left triangle:
+\begin{align*}
+	(Fp_1\times Fp_2)\circ F\Delta_A
+	&=(Fp_1\circ F\Delta_A)\times(Fp_2\circ F\Delta_A)\\
+	&=F(p_1\Delta_A)\times F(p_2\Delta_A)\\
+	&=F\operatorname{id}_A\times F\operatorname{id}_A\\
+	&=\operatorname{id}_{FA}\times\operatorname{id}_{FA}\\
+	&=\Delta_{FA}.
+\end{align*}
+Dually, the right triangle commutes. Thus, the top composite in the diagram equals the bottom one. That is, we have that $F(f + g)=Ff+Fg$, and we conclude.
 \end{proof}
 
 \noindent
