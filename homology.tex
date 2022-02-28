@@ -213,14 +213,24 @@ Let $f : x \to y$ be a morphism.
 $i : z \to x$ such that (a) $f \circ i = 0$ and (b)
 for any $i' : z' \to x$ such that $f \circ i' = 0$ there
 exists a unique morphism $g : z' \to z$ such that
-$i' = i \circ g$.
+$i' = i \circ g$. Equivalently, $i:z\to x$ is a kernel of $f:x\to y$ if it is the equalizer of
+$
+\xymatrix@C=3.5ex{
+x\ar@<0.5ex>[r]^f\ar@<-0.5ex>[r]_0&y.
+}
+$
 \item If the kernel of $f$ exists, then we denote
 this $\Ker(f) \to x$.
 \item A {\it cokernel} of $f$ is a morphism
 $p : y \to z$ such that (a) $p \circ f = 0$ and (b)
 for any $p' : y \to z'$ such that $p' \circ f = 0$ there
 exists a unique morphism $g : z \to z'$ such that
-$p' = g \circ p$.
+$p' = g \circ p$. Equivalently, $p:y\to z$ is a cokernel of $f:x\to y$ if it is the coequalizer of
+$
+\xymatrix@C=3.5ex{
+	x\ar@<0.5ex>[r]^f\ar@<-0.5ex>[r]_0&y.
+}
+$
 \item If a cokernel of $f$ exists we denote this
 $y \to \Coker(f)$.
 \item If a kernel of $f$ exists, then a {\it coimage
@@ -237,8 +247,8 @@ this $\Im(f) \to y$.
 \noindent
 In the above definition, we have spoken of ``the kernel'' and
 ``the cokernel'', tacitly using their uniqueness
-up to unique isomorphism. This follows from the Yoneda lemma
-(Categories, Section \ref{categories-section-opposite})
+up to unique isomorphism. This follows from the essential uniqueness of a (co)limit, since a (co)kernel is a (co)equalizer. This uniqueness can be also verified via the Yoneda lemma
+(Categories, Section \ref{categories-section-opposite}),
 because the kernel of $f : x \to y$ represents the functor
 sending an object $z$ to the set
 $\Ker(\Mor_\mathcal{A}(z, x) \to \Mor_\mathcal{A}(z, y))$. Dually, the cokernel of $f:x\to y$ represents the functor sending an object $w$ to the set $\Ker(\Mor_\mathcal{A}(y,w) \to \Mor_\mathcal{A}(x,w))$.
@@ -301,8 +311,7 @@ the image is a monomorphism.
 \end{lemma}
 
 \begin{proof}
-Part (1) follows easily from the uniqueness required in the
-definition of a kernel. The proof of (2) is dual.
+Part (1) follows from the fact that an equalizer is always monic. Dually, (2) follows from the fact that a coequalizer is epic.
 Part (3) follows from (2), since the coimage is a cokernel.
 Similarly, (4) follows from (1).
 \end{proof}
@@ -521,22 +530,93 @@ surjective, then we say that $y$ is a {\it quotient} of $x$.
 
 \begin{lemma}
 \label{lemma-characterize-injective}
-Let $f : x \to y$ be a morphism in an abelian category $\mathcal{A}$. Then
+Let $f : x \to y$ be a morphism in an abelian category $\mathcal{A}$. The following are equivalent:
 \begin{enumerate}
-\item $f$ is injective if and only if $f$ is a monomorphism, and
-\item $f$ is surjective if and only if $f$ is an epimorphism.
+\item $f$ is injective,
+\item $\Ker(f)\to x$ is the zero map,
+\item $\Coim(f)=x$,
+\item $x\to \Coim(f)$ is an isomorphism, and
+\item $f$ is a monomorphism.
+\end{enumerate}
+Dually, the following are also equivalent:
+\begin{enumerate}
+	\item[(1')] $f$ is surjective,
+	\item[(2')] $y\to\Coker(f)$ is the zero map,
+	\item[(3')] $\Im(f)=y$,
+	\item[(4')] $\Im(f)\to y$ is an isomorphism, and
+	\item[(5')] $f$ is an epimorphism.
 \end{enumerate}
 \end{lemma}
 
 \begin{proof}
-Proof of (1). Recall that $\Ker(f)$ is an object representing the
+(1)$\Leftrightarrow$(5). Recall that $\Ker(f)$ is an object representing the
 functor sending $z$ to
 $\Ker(\Mor_\mathcal{A}(z, x) \to \Mor_\mathcal{A}(z, y))$, see
 Definition \ref{definition-kernel}.
 Thus $\Ker(f)$ is $0$ if and only if
 $\Mor_\mathcal{A}(z, x) \to \Mor_\mathcal{A}(z, y)$
 is injective for all $z$ if and only if $f$ is a monomorphism.
-The proof of (2) is similar.
+
+(1)$\Rightarrow$(2). Clear.
+
+(2)$\Rightarrow$(1). If $g:z\to x$ is such that $f\circ g=0$, then $g$ factors through the zero map $\Ker(f)\to x$, and thus $g=0$. That is, $g$ factors uniquely through $0\to x$. Hence, $0$ is a kernel of $f$.
+
+(1)$\Rightarrow$(3). Since the diagram
+$
+\xymatrix@C=3.5ex{
+	0\ar@<0.5ex>[r]\ar@<-0.5ex>[r]&x\ar[r]&x
+}
+$
+is a coequalizer diagram, from $\Ker(f)=0$ we deduce $x=\Coim(f)$.
+
+(3)$\Rightarrow$(4). It's clear.
+
+(4)$\Rightarrow$(2). Denote $i:\Ker(f)\to x$ and $p:x\to\Coim(f)$. Since $p$ is a cokernel of $i$, we have $p\circ i=0$. Thus, composing on the left with the inverse of $p$, we get $i=0$.
+
+The proof of the other equivalences is similar.
+\end{proof}
+\noindent
+The zero map can be detected by the (co)kernel and the (co)image.
+\begin{lemma}\label{lemma-characterize-zero-map}
+	Let $\mathcal{A}$ be a abelian category and let $f:x\to y$ be a morphism in $\mathcal{A}$. The following are equivalent:
+	\begin{enumerate}
+		\item $f$ is the zero map,
+		\item $\Ker f=x$,
+		\item $\Ker f\to x$ is an isomorphism,
+		\item $\Coker f=y$,
+		\item $y\to\Coker f$ is an isomorphism,
+		\item $\Im f=0$,
+		\item $\Im f\to y$ is the zero map,
+		\item $\Coim f=0$, and
+		\item $x\to\Coim f$ is the zero map.
+	\end{enumerate}
+\end{lemma}
+\begin{proof}
+	(1)$\Rightarrow$(2). Since the diagram
+	$
+	\xymatrix@C=3.5ex{x\ar[r]&
+		x\ar@<0.5ex>[r]^0\ar@<-0.5ex>[r]_0&y
+	}
+	$
+	is always an equalizer diagram, we conclude that $f=0$ implies $\Ker f=x$.
+	
+	(2)$\Rightarrow$(3). Clear.
+	
+	(3)$\Rightarrow$(1). Call $i:\Ker f\to x$ to the inclusion. Then $f\circ i=0$, and since $i$ is an isomorphism, $f=0$.
+	
+	The implications $(1)\Rightarrow (4)\Rightarrow (5)\Rightarrow (1)$ are similar.
+	
+	(5)$\Rightarrow$(6). Since $y\to\Coker f$ is an isomorphism, in particular it is a monomorphism, and, thus, it has trivial kernel by Lemma \ref{lemma-characterize-injective}. That is, $\Im f=0$.
+	
+	(6)$\Leftrightarrow$(7). It's 1$\Leftrightarrow$2 from Lemma \ref{lemma-characterize-injective}.
+	
+	(6)$\Rightarrow$(5). $\Im f=0$ means that $y\to \Coker f$ has trivial kernel, and so it is a monomorphism, by Lemma \ref{lemma-characterize-injective}. But since it is also a regular epimorphism, it is an isomorphism.
+	
+	(8)$\Leftrightarrow$(9). It's (1')$\Leftrightarrow$(2') from Lemma \ref{lemma-characterize-injective}.
+	
+	(3)$\Rightarrow$(8). By (5')$\Leftrightarrow$(1') from Lemma \ref{lemma-characterize-injective}.
+	
+	(8)$\Rightarrow$(3) We have that $\Ker f\to x$ is a regular monomorphism and also epic. Hence, it is iso.
 \end{proof}
 
 \noindent
@@ -606,6 +686,9 @@ $$
 0 \to A  \to B \to C \to 0.
 $$
 \end{definition}
+\begin{remark}
+	In an abelian category a morphism $f:x\to y$ is injective (resp., surjective) if and only if $0\to x\xrightarrow{f}y$ is exact (resp., if $ x\xrightarrow{f}y\to 0$ is exact). This follows from lemmas \ref{lemma-characterize-injective} and \ref{lemma-characterize-zero-map}.
+\end{remark}
 
 \noindent
 In the following lemma we assume the reader knows what it means
@@ -1451,9 +1534,7 @@ is exact.
 \end{lemma}
 
 \begin{proof}
-If $F$ is left exact, i.e., $F$ commutes with finite limits, then
-$F$ sends products to products, hence $F$ preserved direct sums,
-hence $F$ is additive by Lemma \ref{lemma-additive-functor}.
+$F$ being left (right) exact means $F$ commutes with finite (co)limits, and in particular, $F$ commutes with finite (co)products. Thus, on either case $F$ is additive by Lemma \ref{lemma-additive-functor}.
 On the other hand, suppose that for every short exact sequence
 $0 \to A \to B \to C \to 0$ the sequence $0 \to F(A) \to F(B) \to F(C)$
 is exact. Let $A, B$ be two objects. Then we have a short
