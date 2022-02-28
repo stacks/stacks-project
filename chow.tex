@@ -3524,7 +3524,34 @@ which is completely decomposed
 \end{definition}
 
 \noindent
-A reason this is useful is the following.
+The exact sequence of Lemma \ref{lemma-envelope}
+is the main motivation for the definition.
+
+\begin{lemma}
+\label{lemma-composition-envelope}
+Let $(S, \delta)$ be as in Situation \ref{situation-setup}.
+Let $X$ be a scheme locally of finite type over $S$.
+If $f : Y \to X$ and $g : Z \to Y$ are envelopes, then
+$f \circ g$ is an envelope.
+\end{lemma}
+
+\begin{proof}
+Follows from Morphisms, Lemma \ref{morphisms-lemma-composition-proper}
+and More on Morphisms, Lemma \ref{more-morphisms-lemma-composition-cd}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-base-change-envelope}
+Let $(S, \delta)$ be as in Situation \ref{situation-setup}.
+Let $X' \to X$ be a morphism of schemes locally of finite type over $S$.
+If $f : Y \to X$ is an envelope, then the base change $f' : Y' \to X'$
+of $f$ is an envelope too.
+\end{lemma}
+
+\begin{proof}
+Follows from Morphisms, Lemma \ref{morphisms-lemma-base-change-proper}
+and More on Morphisms, Lemma \ref{more-morphisms-lemma-base-change-cd}.
+\end{proof}
 
 \begin{lemma}
 \label{lemma-envelope}
@@ -6625,19 +6652,140 @@ In this setting it is convenient to set
 $$
 A^*(X \to Y)^\wedge = \prod\nolimits_i A^*(X_i \to Y_{a(i)})
 $$
-as a kind of natural completion of the graded $\mathbf{Z}$-module
-$A^*(X \to Y)$ of bivariant classes (we omit specifying the precise
-sense in which this is a completion). As a special case we set
+This ``completed'' bivariant group is the subset
 $$
-A^*(X)^\wedge = \prod A^*(X_i)
+A^*(X \to Y)^\wedge \quad\subset\quad \prod\nolimits_{p \geq 0} A^p(X)
 $$
+consisting of elements $c = (c_0, c_1, c_2, \ldots)$ such that
+for each connected component $X_i$ the image of $c_p$ in
+$A^p(X_i \to Y_{a(i)})$ is zero for almost all $p$.
 If $Y \to Z$ is a second morphism, then the
 composition $A^*(X \to Y) \times A^*(Y \to Z) \to A^*(X \to Z)$
 extends to a composition
 $A^*(X \to Y)^\wedge \times A^*(Y \to Z)^\wedge \to A^*(X \to Z)^\wedge$
-of completions.
+of completions. 
+We sometimes call $A^*(X)^\wedge = A^*(X \to X)^\wedge$ the
+{\it completed bivariant cohomology ring} of $X$.
 \end{remark}
 
+\begin{lemma}
+\label{lemma-envelope-bivariant}
+Let $(S, \delta)$ be as in Situation \ref{situation-setup}.
+Let $f : X \to Y$ be a morphism of schemes locally of finite type over $S$.
+Let $g : Y' \to Y$ be an envelope (Definition \ref{definition-envelope})
+and denote $X' = Y' \times_Y X$. Let $p \in \mathbf{Z}$ and let
+$c' \in A^p(X' \to Y')$. If the two restrictions
+$$
+res_1(c') = res_2(c') \in A^p(X' \times_X X' \to Y' \times_Y Y')
+$$
+are equal (see proof), then there exists a unique $c \in A^p(X \to Y)$
+whose restriction $res(c) = c'$ in $A^p(X' \to Y')$.
+\end{lemma}
+
+\begin{proof}
+We have a commutative diagram
+$$
+\xymatrix{
+X' \times_X X' \ar[d]^{f''} \ar@<1ex>[r]^-a \ar@<-1ex>[r]_-b &
+X' \ar[d]^{f'} \ar[r]_h &
+X \ar[d]^f \\
+Y' \times_Y Y' \ar@<1ex>[r]^-p \ar@<-1ex>[r]_-q &
+Y' \ar[r]^g &
+Y
+}
+$$
+The element $res_1(c')$ is the restriction (see
+Remark \ref{remark-restriction-bivariant}) of $c'$ for the cartesian square
+with morphisms $a, f', p, f''$ and the element $res_2(c')$ is the restriction
+of $c'$ for the cartesian square with morphisms $b, f', q, f''$.
+Assume $res_1(c') = res_2(c')$ and let $\beta \in \CH_k(Y)$.
+By Lemma \ref{lemma-envelope} we can find a $\beta' \in \CH_k(Y')$
+with $g_*\beta' = \beta$. Then we set
+$$
+c \cap \beta = h_*(c' \cap \beta')
+$$
+To see that this is independent of the choice of
+$\beta'$ it suffices to show that
+$h_*(c' \cap (p_*\gamma - q_*\gamma))$ is zero
+for $\gamma \in \CH_k(Y' \times_Y Y')$.
+Since $c'$ is a bivariant class we have
+$$
+h_*(c' \cap (p_*\gamma - q_*\gamma)) =
+h_*(a_*(c' \cap \gamma) - b_*(c' \cap \gamma)) = 0
+$$
+the last equality since $h_* \circ a_* = h_* \circ b_*$
+as $h \circ a = h \circ b$.
+
+\medskip\noindent
+Observe that our choice for $c \cap \beta$ is forced
+by the requirement that $res(c) = c'$ and the compatibility
+of bivariant classes with proper pushforward.
+
+\medskip\noindent
+Of course, in order to define the bivariant class $c$ we need
+to construct maps $c \cap -: \CH_k(Y_1) \to \CH_{k + p}(Y_1 \times_Y X)$
+for any morphism $Y_1 \to Y$ locally of finite type satisfying the
+conditions listed in Definition \ref{definition-bivariant-class}.
+Denote $Y'_1 = Y' \times_Y Y_1$, $X_1 = X \times_Y Y_1$.
+The morphism $Y'_1 \to Y_1$ is an envelope by
+Lemma \ref{lemma-base-change-envelope}. Hence we can use the base
+changed diagram
+$$
+\xymatrix{
+X'_1 \times_{X_1} X'_1 \ar[d]^{f''_1} \ar@<1ex>[r]^-{a_1} \ar@<-1ex>[r]_-{b_1} &
+X'_1 \ar[d]^{f'_1} \ar[r]_{h_1} &
+X_1 \ar[d]^{f_1} \\
+Y'_1 \times_{Y_1} Y'_1 \ar@<1ex>[r]^-{p_1} \ar@<-1ex>[r]_-{q_1} &
+Y'_1 \ar[r]^{g_1} &
+Y_1
+}
+$$
+and the same arguments to get a well defined map
+$c \cap - : \CH_k(Y_1) \to \CH_{k + p}(X_1)$ as before.
+
+\medskip\noindent
+Next, we have to check conditions (1), (2), and (3) of
+Definition \ref{definition-bivariant-class} for $c$.
+For example, suppose that $t : Y_2 \to Y_1$ is a proper morphism
+of schemes locally of finite type over $Y$. Denote as above
+the base changes of the first diagram to $Y_1$, resp.\ $Y_2$,
+by subscripts ${}_1$, resp.\ ${}_2$. Denote $t' : Y'_2 \to Y'_1$,
+$s : X_2 \to X_1$, and $s' : X'_2 \to X'_1$ the base changes of $t$
+to $Y'$, $X$, and $X'$. We have to show that
+$$
+s_*(c \cap \beta_2) = c \cap t_*\beta_2
+$$
+for $\beta_2 \in \CH_k(Y_2)$. Choose $\beta'_2 \in \CH_k(Y'_2)$
+with $g_{2, *}\beta'_2 = \beta_2$. Since $c'$ is a bivariant class
+and the diagrams
+$$
+\vcenter{
+\xymatrix{
+X'_2 \ar[d]_{s'} \ar[r]_{h_2} & X_2 \ar[d]^s \\
+X'_1 \ar[r]^{h_1} & X_1
+}
+}
+\quad\text{and}\quad
+\vcenter{
+\xymatrix{
+X'_2 \ar[d]_{s'} \ar[r]_{f'_2} & Y'_2 \ar[d]^{t'} \\
+X'_2 \ar[r]^{f'_1} & Y'_1
+}
+}
+$$
+are cartesian we have
+$$
+s_*(c \cap \beta_2) =
+s_*(h_{2, *}(c' \cap \beta'_2)) =
+h_{1, *}s'_*(c' \cap \beta'_2) =
+h_{1, *}(c' \cap (t'_*\beta'_2))
+$$
+and the final expression computes $c \cap t_*\beta_2$ by construction:
+$t'_*\beta'_2 \in \CH_k(Y'_1)$ is a class whose image by $g_{1, *}$ is
+$t_*\beta_2$. This proves condition (1).
+The other conditions are proved in the same manner
+and we omit the detailed arguments.
+\end{proof}
 
 
 
@@ -7460,25 +7608,33 @@ where $X_r \subset X$ is the open and closed subspace where
 the rank of $\mathcal{E}$ is $r$. By 
 Lemma \ref{lemma-disjoint-decomposition-bivariant}
 we have $A^p(X) = \prod A^p(X_r)$.
-Hence we can define $c_i(\mathcal{E})$ to be the
-product of the classes $c_i(\mathcal{E}|_{X_r})$ in $A^i(X_r)$.
+Hence we can define $c_p(\mathcal{E})$ to be the
+product of the classes $c_p(\mathcal{E}|_{X_r})$ in $A^p(X_r)$.
 Explicitly, if $X' \to X$ is a morphism locally of finite type,
 then we obtain by pullback a corresponding decomposition of $X'$
 and we find that
 $$
 \CH_*(X') = \prod\nolimits_{r \geq 0} \CH_*(X'_r)
 $$
-by our definitions. Then $c_i(\mathcal{E}) \in A^i(X)$
+by our definitions. Then $c_p(\mathcal{E}) \in A^p(X)$
 is the bivariant class which preserves these direct
 product decompositions and acts by the already defined
 operations $c_i(\mathcal{E}|_{X_r}) \cap -$
 on the factors. Observe that in this setting it may happen
-that $c_i(\mathcal{E})$ is nonzero for infinitely many $i$.
-In this setting we moreover define the ``rank'' of $\mathcal{E}$
+that $c_p(\mathcal{E})$ is nonzero for infinitely many $p$.
+It follows that the total chern class is an element
+$$
+c(\mathcal{E}) =
+c_0(\mathcal{E}) + c_1(\mathcal{E}) + c_2(\mathcal{E}) + \ldots
+\in A^*(X)^\wedge
+$$
+of the completed bivariant cohomology ring, see
+Remark \ref{remark-completion-bivariant}.
+In this setting we define the ``rank'' of $\mathcal{E}$
 to be the element $r(\mathcal{E}) \in A^0(X)$
 as the bivariant operation which sends $(\alpha_r) \in \prod \CH_*(X'_r)$
 to $(r\alpha_r) \in \prod \CH_*(X'_r)$.
-Note that it is still true that $c_i(\mathcal{E})$ and $r(\mathcal{E})$
+Note that it is still true that $c_p(\mathcal{E})$ and $r(\mathcal{E})$
 are in the center of $A^*(X)$.
 \end{remark}
 
@@ -8740,17 +8896,27 @@ c_1(\mathcal{E}) +
 \sum\nolimits_{p = 0, 1, 2, \ldots} \frac{P_p(\mathcal{E})}{p!}
 \end{align*}
 with $P_p$ polynomials in the Chern classes as in
-Example \ref{example-power-sum}.
+Example \ref{example-power-sum}. The degree $p$ component of
+the above is
+$$
+ch_p(\mathcal{E}) = \frac{P_p(\mathcal{E})}{p!} \in A^p(X) \otimes \mathbf{Q}
+$$
 What does it mean that the coefficients are rational numbers?
 Well this simply means that we think of
 $ch_p(\mathcal{E})$ as an element of $A^p(X) \otimes \mathbf{Q}$.
 
 \begin{remark}
 \label{remark-extend-chern-character-to-finite-locally-free}
-In the discussion above we have defined the Chern character
-$ch(\mathcal{E})$ of $\mathcal{E}$ even if the rank of $\mathcal{E}$
+In the discussion above we have defined the components of the Chern character
+$ch_p(\mathcal{E}) \in A^p(X) \otimes \mathbf{Q}$
+of $\mathcal{E}$ even if the rank of $\mathcal{E}$
 is not constant. See Remarks \ref{remark-extend-to-finite-locally-free} and
-\ref{remark-equalities-nonconstant-rank}.
+\ref{remark-equalities-nonconstant-rank}. Thus the full Chern character
+of $\mathcal{E}$ is
+an element of $\prod_{p \geq 0} (A^p(X) \otimes \mathbf{Q})$. If $X$
+is quasi-compact and $\dim(X) < \infty$ (usual dimension), then one can show
+using Lemma \ref{lemma-vanish-above-dimension} and the splitting principle
+that $ch(\mathcal{E}) \in A^*(X) \otimes \mathbf{Q}$.
 \end{remark}
 
 \begin{lemma}
@@ -8765,7 +8931,7 @@ Then we have the equality
 $$
 ch(\mathcal{E}) = ch(\mathcal{E}_1) + ch(\mathcal{E}_2)
 $$
-in $A^*(X) \otimes \mathbf{Q}$. More precisely, we have
+More precisely, we have
 $P_p(\mathcal{E}) = P_p(\mathcal{E}_1) + P_p(\mathcal{E}_2)$
 in $A^p(X)$ where $P_p$ is as in Example \ref{example-power-sum}.
 \end{lemma}
@@ -8791,7 +8957,7 @@ $$
 ch(\mathcal{E}_1 \otimes_{\mathcal{O}_X} \mathcal{E}_2) =
 ch(\mathcal{E}_1) ch(\mathcal{E}_2)
 $$
-in $A^*(X) \otimes \mathbf{Q}$. More precisely, we have
+More precisely, we have
 $$
 P_p(\mathcal{E}_1 \otimes_{\mathcal{O}_X} \mathcal{E}_2) =
 \sum\nolimits_{p_1 + p_2 = p}
@@ -8818,7 +8984,8 @@ shape of our polynomials $P_p$ in Example \ref{example-power-sum}.
 In Situation \ref{situation-setup} let $X$ be locally of finite type over $S$.
 Let $\mathcal{E}$ be a finite locally free $\mathcal{O}_X$-module
 with dual $\mathcal{E}^\vee$. Then
-$ch_i(\mathcal{E}^\vee) = (-1)^i ch_i(\mathcal{E})$ in $A^i(X)$.
+$ch_i(\mathcal{E}^\vee) = (-1)^i ch_i(\mathcal{E})$ in
+$A^i(X) \otimes \mathbf{Q}$.
 \end{lemma}
 
 \begin{proof}
@@ -8850,43 +9017,54 @@ Let $X$ be locally of finite type over $S$. Let
 $$
 \mathcal{E}^a \to \mathcal{E}^{a + 1} \to \ldots \to \mathcal{E}^b
 $$
-be a finite complex of finite locally free $\mathcal{O}_X$-modules.
+be a bounded complex of finite locally free $\mathcal{O}_X$-modules
+of constant rank.
 Then we define the {\it total Chern class of the complex} by the formula
 $$
-c(\mathcal{E}^\bullet) = \prod\nolimits_{p = a, \ldots, b}
-c(\mathcal{E}^p)^{(-1)^p}
+c(\mathcal{E}^\bullet) = \prod\nolimits_{n = a, \ldots, b}
+c(\mathcal{E}^n)^{(-1)^n} \in \prod\nolimits_{p \geq 0} A^p(X)
 $$
-in $A^*(X)$. Here the inverse is the formal inverse, so
+Here the inverse is the formal inverse, so
 $$
 (1 + c_1 + c_2 + c_3 + \ldots)^{-1} =
 1 - c_1 + c_1^2 - c_2 - c_1^3 + 2c_1 c_2 - c_3 + \ldots
 $$
+We will denote $c_p(\mathcal{E}^\bullet) \in A^p(X)$
+the degree $p$ part of $c(\mathcal{E}^\bullet)$.
 We similarly define the {\it Chern character of the complex} by
 the formula
 $$
-ch(\mathcal{E}^\bullet) = \sum\nolimits_{p = a, \ldots, b}
-(-1)^p ch(\mathcal{E}^p)
+ch(\mathcal{E}^\bullet) = \sum\nolimits_{n = a, \ldots, b}
+(-1)^n ch(\mathcal{E}^n) \in
+\prod\nolimits_{p \geq 0} (A^p(X) \otimes \mathbf{Q})
 $$
-in $A^*(X) \otimes \mathbf{Q}$. Finally, for
-$P_p \in \mathbf{Z}[r, c_1, c_2, c_3, \ldots]$
+We will denote $ch_p(\mathcal{E}^\bullet) \in A^p(X) \otimes \mathbf{Q}$
+the degree $p$ part of $ch(\mathcal{E}^\bullet)$.
+Finally, for $P_p \in \mathbf{Z}[r, c_1, c_2, c_3, \ldots]$
 as in Example \ref{example-power-sum} we define
 $$
-P_p(\mathcal{E}^\bullet) = \sum\nolimits_{i = a, \ldots, b}
-(-1)^i P_p(\mathcal{E}^i)
+P_p(\mathcal{E}^\bullet) = \sum\nolimits_{n = a, \ldots, b}
+(-1)^n P_p(\mathcal{E}^n)
 $$
-in $A^p(X)$. Let us prove that these constructions only depends
+in $A^p(X)$. Then we have
+$ch_p(\mathcal{E}^\bullet) = (1/p!)P_p(\mathcal{E}^\bullet)$
+as usual. The next lemma shows that these constructions only depends
 on the image of the complex in the derived category.
 
 \begin{lemma}
 \label{lemma-pre-derived-chern-class}
 Let $(S, \delta)$ be as in Situation \ref{situation-setup}.
 Let $X$ be locally of finite type over $S$. Let $E \in D(\mathcal{O}_X)$
-be an object such that there exists a finite complex $\mathcal{E}^\bullet$
-of finite locally free $\mathcal{O}_X$-modules representing $E$.
-Then $c(\mathcal{E}^\bullet) \in A^*(X)$,
-$ch(\mathcal{E}^\bullet) \in A^*(X) \otimes \mathbf{Q}$, and
-$P_p(\mathcal{E}^\bullet) \in A^p(X)$
-are independent of the choice of the complex.
+be an object such that there exists a locally bounded complex
+$\mathcal{E}^\bullet$ of finite locally free $\mathcal{O}_X$-modules
+representing $E$. Then a slight generalization of the above constructions
+$$
+c(\mathcal{E}^\bullet) \in \prod\nolimits_{p \geq 0} A^p(X),\quad
+ch(\mathcal{E}^\bullet) \in
+\prod\nolimits_{p \geq 0} A^p(X) \otimes \mathbf{Q},\quad
+P_p(\mathcal{E}^\bullet) \in A^p(X)
+$$
+are independent of the choice of the complex $\mathcal{E}^\bullet$.
 \end{lemma}
 
 \begin{proof}
@@ -8897,7 +9075,30 @@ instead of
 Lemma \ref{lemma-additivity-chern-classes}.
 
 \medskip\noindent
-Suppose we have a second finite complex
+As in Remark \ref{remark-extend-to-finite-locally-free} in order
+to define the total chern class $c(\mathcal{E}^\bullet)$
+we decompose $X$ into open and closed subschemes
+$$
+X = \coprod\nolimits_{i \in I} X_i
+$$
+such that the rank $\mathcal{E}^n$ is constant on $X_i$ for
+all $n$ and $i$. (Since these ranks are locally constant functions
+on $X$ we can do this.) Since $\mathcal{E}^\bullet$ is locally
+bounded, we see that only a finite number of the sheaves
+$\mathcal{E}^n|_{X_i}$ are nonzero for a fixed $i$. Hence we
+can define
+$$
+c(\mathcal{E}^\bullet|_{X_i}) =
+\prod\nolimits_n c(\mathcal{E}^n|_{X_i})^{(-1)^n}
+\in \prod\nolimits_{p \geq 0} A^p(X_i)
+$$
+as above. By Lemma \ref{lemma-disjoint-decomposition-bivariant}
+we have $A^p(X) = \prod_i A^p(X_i)$. Hence for each $p \in \mathbf{Z}$
+we have a unique element $c_p(\mathcal{E}^\bullet) \in A^p(X)$ restricting
+to $c_p(\mathcal{E}^\bullet|_{X_i})$ on $X_i$ for all $i$.
+
+\medskip\noindent
+Suppose we have a second locally bounded complex
 $\mathcal{F}^\bullet$ of finite locally free $\mathcal{O}_X$-modules
 representing $E$.
 Let $g : Y \to X$ be a morphism locally of finite type with $Y$ integral.
@@ -8905,15 +9106,19 @@ By Lemma \ref{lemma-bivariant-zero} it suffices to show that
 with $c(g^*\mathcal{E}^\bullet) \cap [Y]$ is the same as
 $c(g^*\mathcal{F}^\bullet) \cap [Y]$ and it even suffices to prove
 this after replacing $Y$ by an integral scheme proper and birational
-over $Y$. By
+over $Y$. Then first we conclude that $g^*\mathcal{E}^\bullet$
+and $g^*\mathcal{F}^\bullet$ are bounded complexes of finite locally
+free $\mathcal{O}_Y$-modules of constant rank. Next, by
 More on Flatness, Lemma \ref{flat-lemma-blowup-complex-integral}
 we may assume that $H^i(Lg^*E)$ is perfect of tor dimension $\leq 1$
 for all $i \in \mathbf{Z}$.
 This reduces us to the case discussed in the next paragraph.
 
 \medskip\noindent
-Assume $X$ is integral and $H^i(E)$ is a perfect $\mathcal{O}_X$-module
-of tor dimension $\leq 1$ for all $i \in \mathbf{Z}$. We have to
+Assume $X$ is integral, $\mathcal{E}^\bullet$ and $\mathcal{F}^\bullet$
+are bounded complexes of finite locally free modules of constant rank, and
+$H^i(E)$ is a perfect $\mathcal{O}_X$-module of tor dimension $\leq 1$
+for all $i \in \mathbf{Z}$. We have to
 show that $c(\mathcal{E}^\bullet) \cap [X]$ is the same as
 $c(\mathcal{F}^\bullet) \cap [X]$. Denote
 $d_\mathcal{E}^i : \mathcal{E}^i \to \mathcal{E}^{i + 1}$ and
@@ -8968,31 +9173,138 @@ $$
 as desired.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-defined-by-envelope}
+Let $(S, \delta)$ be as in Situation \ref{situation-setup}.
+Let $X$ be locally of finite type over $S$. Let $E \in D(\mathcal{O}_X)$
+be a perfect object. Assume there exists an envelope
+$f : Y \to X$ (Definition \ref{definition-envelope})
+such that $Lf^*E$ is isomorphic in $D(\mathcal{O}_Y)$
+to a locally bounded complex $\mathcal{E}^\bullet$ of finite locally free
+$\mathcal{O}_Y$-modules. Then there exists unique bivariant classes
+$c(E) \in A^*(X)$, $ch(E) \in A^*(X) \otimes \mathbf{Q}$, and
+$P_p(E) \in A^p(X)$, independent of the choice of $f : Y \to X$
+and $\mathcal{E}^\bullet$, such that the restriction of these classes
+to $Y$ are equal to $c(\mathcal{E}^\bullet) \in A^*(Y)$,
+$ch(\mathcal{E}^\bullet) \in A^*(Y) \otimes \mathbf{Q}$, and
+$P_p(\mathcal{E}^\bullet) \in A^p(Y)$.
+\end{lemma}
+
+\begin{proof}
+Fix $p \in \mathbf{Z}$. We will prove the lemma for the chern
+class $c_p(E) \in A^p(X)$ and omit the arguments for the other cases.
+
+\medskip\noindent
+Let $g : T \to X$ be a morphism locally of finite type such that
+there exists a locally bounded complex $\mathcal{E}^\bullet$ of finite locally
+free $\mathcal{O}_T$-modules representing $Lg^*E$ in $D(\mathcal{O}_T)$.
+The bivariant class $c_p(\mathcal{E}^\bullet) \in A^p(T)$
+is independent of the choice of $\mathcal{E}^\bullet$ by
+Lemma \ref{lemma-pre-derived-chern-class}.
+Let us write $c_p(Lg^*E) \in A^p(T)$ for this class.
+For any further morphism $h : T' \to T$ which is locally
+of finite type, setting $g' = g \circ h$ we see that
+$L(g')^*E = L(g \circ h)^*E = Lh^*Lg^*E$ is represented by
+$h^*\mathcal{E}^\bullet$ in $D(\mathcal{O}_{T'})$.
+We conclude that $c_p(L(g')^*E)$ makes sense and is equal to the
+restriction (Remark \ref{remark-restriction-bivariant})
+of $c_p(Lg^*E)$ to $T'$ (strictly speaking this requires an application of
+Lemma \ref{lemma-cap-cp-bivariant}).
+
+\medskip\noindent
+Let $f : Y \to X$ and $\mathcal{E}^\bullet$ be as in the statement
+of the lemma. We obtain a bivariant class $c_p(E) \in A^p(X)$ from
+an application of Lemma \ref{lemma-envelope-bivariant}
+to $f : Y \to X$ and the class $c' = c_p(Lf^*E)$ we constructed
+in the previous paragraph. The assumption in the lemma is
+satisfied because by the discussion in the previous paragraph we have
+$res_1(c') = c_p(Lg^*E) = res_2(c')$ where
+$g = f \circ p = f \circ q : Y \times_X Y \to X$.
+
+\medskip\noindent
+Finally, suppose that $f' : Y' \to X$ is a second envelope
+such that $L(f')*E$ is represented by a bounded complex of
+finite locally free $\mathcal{O}_{Y'}$-modules. Then it follows
+that the restrictions of $c_p(Lf^*E)$ and $c_p(L(f')^*E)$
+to $Y \times_X Y'$ are equal. Since $Y \times_X Y' \to X$
+is an envelope (Lemmas \ref{lemma-base-change-envelope} and
+\ref{lemma-composition-envelope}), we see that our two candidates for $c_p(E)$
+agree by the unicity in Lemma \ref{lemma-envelope-bivariant}.
+\end{proof}
+
 \begin{definition}
 \label{definition-defined-on-perfect}
 Let $(S, \delta)$ be as in Situation \ref{situation-setup}.
 Let $X$ be locally of finite type over $S$. Let $E \in D(\mathcal{O}_X)$
-be a perfect object. If $E$ is isomorphic in $D(\mathcal{O}_X)$
-to a finite complex $\mathcal{E}^\bullet$ of finite locally free
-$\mathcal{O}_X$-modules, then we say {\it Chern classes of $E$ are defined}.
-If this is the case, then we define $c(E) = c(\mathcal{E}^\bullet) \in A^*(X)$,
-$ch(E) = ch(\mathcal{E}^\bullet) \in A^*(X) \otimes \mathbf{Q}$, and
-$P_p(E) = P_p(\mathcal{E}^\bullet) \in A^p(X)$.
+be a perfect object.
+\begin{enumerate}
+\item We say the {\it Chern classes of $E$ are defined}\footnote{See
+Lemma \ref{lemma-chern-classes-defined} for some criteria.} if there exists
+an envelope $f : Y \to X$ such that $Lf^*E$ is isomorphic in
+$D(\mathcal{O}_Y)$ to a locally bounded complex of finite locally free
+$\mathcal{O}_Y$-modules.
+\item If the Chern classes of $E$ are defined, then we define
+$$
+c(E) \in \prod\nolimits_{p \geq 0} A^p(X),\quad
+ch(E) \in
+\prod\nolimits_{p \geq 0} A^p(X) \otimes \mathbf{Q},\quad
+P_p(E) \in A^p(X)
+$$
+by an application of Lemma \ref{lemma-defined-by-envelope}.
+\end{enumerate}
 \end{definition}
 
 \noindent
-To be sure, by Lemma \ref{lemma-pre-derived-chern-class} this is well defined.
-It follows from the material in Derived Categories of Schemes,
-Lemmas \ref{perfect-lemma-resolution-property-ample},
-\ref{perfect-lemma-regular-resolution-property}, and
-\ref{perfect-lemma-construct-strictly-perfect}
-that if $X$ has an ample invertible module or if
-$X$ is quasi-compact, regular, with affine diagonal, then
-$c(E)$, $ch(E)$, and $P_p(E)$ are always defined. (There is little doubt
-that these bivariant classes can be defined on any $X$ as in the
-definition without any assumption
-on $E$ apart from being perfect, but in order to do this a different
-approach needs to be used.)
+This definition applies in many but not all situations envisioned
+in this chapter, see Lemma \ref{lemma-chern-classes-defined}.
+Perhaps an elementary construction of these bivariant classes for general
+$E/X/(S,\delta)$ as in the definition exists; we don't know.
+
+\begin{lemma}
+\label{lemma-chern-classes-defined}
+Let $(S, \delta)$ be as in Situation \ref{situation-setup}.
+Let $X$ be locally of finite type over $S$. Let $E \in D(\mathcal{O}_X)$
+be a perfect object. If one of the following conditions hold, then
+the Chern classes of $E$ are defined:
+\begin{enumerate}
+\item there exists an envelope $f : Y \to X$ such that $Lf^*E$
+is isomorphic in $D(\mathcal{O}_Y)$ to a locally bounded complex of finite
+locally free $\mathcal{O}_Y$-modules,
+\item $E$ can be represented by a bounded complex of finite locally
+free $\mathcal{O}_X$-modules,
+\item the irreducible components of $X$ are quasi-compact and
+$E$ has finite tor dimension (Cohomology, Definition
+\ref{cohomology-definition-tor-amplitude}),
+\item $X$ is quasi-compact, or
+\item add more here.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Condition (1) is just Definition \ref{definition-defined-on-perfect} part (1).
+Condition (2) implies (1).
+
+\medskip\noindent
+As in (3) assume the irreducible components $X_i$ of $X$ are quasi-compact.
+We view $X_i$ as a reduced integral closed subscheme over $X$.
+The morphism $\coprod X_i \to X$ is an envelope. For each $i$ there
+exists an envelope $X'_i \to X_i$ such that $X'_i$ has an ample family
+of invertible modules, see More on Morphisms, Proposition
+\ref{more-morphisms-proposition-envelope-with-resolution-property}.
+Observe that $f : Y = \coprod X'_i \to X$ is an envelope; small detail omitted.
+By Derived Categories of Schemes, Lemma
+\ref{perfect-lemma-resolution-property-ample-family}
+each $X'_i$ has the resolution property.
+Thus the perfect object $L(f|_{X'_i})^*E$ of $D(\mathcal{O}_{X'_i})$
+can be represented by a bounded
+complex of finite locally free $\mathcal{O}_{X'_i}$-modules, see
+Derived Categories of Schemes, Lemma
+\ref{perfect-lemma-resolution-property-perfect-complex}.
+This proves (3) implies (1).
+
+\medskip\noindent
+Part (4) implies (3).
+\end{proof}
 
 \begin{lemma}
 \label{lemma-commutative-chern-perfect}
