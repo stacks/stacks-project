@@ -315,6 +315,10 @@ Part (1) follows from the fact that an equalizer is always monic. Dually, (2) fo
 Part (3) follows from (2), since the coimage is a cokernel.
 Similarly, (4) follows from (1).
 \end{proof}
+\begin{definition}\label{definition-normal-mono-epi}
+	Let $\mathcal{A}$ be a preadditive category and let $f:x\to y$ be a morphism in $\mathcal{A}$. We say that $f$ is a {\it normal monomorphism} if it arises as the kernel of some other morphism. That is, if there is $g:y\to z$ in $\mathcal{A}$ such that $\ker g=f$. Dually, we say that $f$ is a {\it normal epimorphism} if it is a cokernel, i.e., if there is $h:w\to x$ such that $\operatorname{coker} h=f$.
+\end{definition}
+Every normal monomorphism or normal epimorphism is, respectively, indeed monic and epic, by Lemma \ref{lemma-kernel-mono}.
 
 \begin{lemma}
 \label{lemma-coim-im-map}
@@ -485,9 +489,8 @@ Example \ref{example-not-abelian} shows that it is necessary.
 
 \begin{definition}
 \label{definition-abelian-category}
-A category $\mathcal{A}$ is {\it abelian} if
-it is additive, if all kernels and cokernels exist,
-and if the natural map $\Coim(f) \to \Im(f)$
+A category $\mathcal{A}$ is {\it preabelian} if
+it is additive and if all kernels and cokernels exist. And it is called {\it abelian} if it is preabelian and the natural map $\Coim(f) \to \Im(f)$
 is an isomorphism for all morphisms $f$ of
 $\mathcal{A}$.
 \end{definition}
@@ -499,8 +502,11 @@ The additions on sets of morphisms make
 $\mathcal{A}^{opp}$ into a preadditive category.
 Furthermore, $\mathcal{A}$ is additive if and only if $\mathcal{A}^{opp}$
 is additive, and
-$\mathcal{A}$ is abelian if and only if $\mathcal{A}^{opp}$ is abelian.
+$\mathcal{A}$ is (pre)abelian if and only if $\mathcal{A}^{opp}$ is (pre)abelian.
 \end{lemma}
+\begin{slogan}
+	(Pre)abelianity is a self-dual property.
+\end{slogan}
 
 \begin{proof}
 The first statement is straightforward.
@@ -509,8 +515,8 @@ is additive, recall that additivity can be characterized by
 the existence of a zero object and direct sums, which are both
 preserved when passing to the opposite category.
 Finally, to see that
-$\mathcal{A}$ is abelian if and only if $\mathcal{A}^{opp}$ is abelian,
-observes that kernels, cokernels, images and coimages in
+$\mathcal{A}$ is (pre)abelian if and only if $\mathcal{A}^{opp}$ is abelian,
+observe that kernels, cokernels, images and coimages in
 $\mathcal{A}^{opp}$ correspond to
 cokernels, kernels, coimages and images in $\mathcal{A}$,
 respectively.
@@ -518,7 +524,7 @@ respectively.
 
 \begin{definition}
 \label{definition-injective-surjective}
-Let $f : x \to y$ be a morphism in an abelian category.
+Let $f : x \to y$ be a morphism in a preabelian category.
 \begin{enumerate}
 \item We say $f$ is {\it injective} if $\Ker(f) = 0$.
 \item We say $f$ is {\it surjective} if $\Coker(f) = 0$.
@@ -530,7 +536,7 @@ surjective, then we say that $y$ is a {\it quotient} of $x$.
 
 \begin{lemma}
 \label{lemma-characterize-injective}
-Let $f : x \to y$ be a morphism in an abelian category $\mathcal{A}$. The following are equivalent:
+Let $f : x \to y$ be a morphism in a preabelian category $\mathcal{A}$. The following are equivalent:
 \begin{enumerate}
 \item $f$ is injective,
 \item $\Ker(f)\to x$ is the zero map,
@@ -575,10 +581,77 @@ is a coequalizer diagram, from $\Ker(f)=0$ we deduce $x=\Coim(f)$.
 
 The proof of the other equivalences is similar.
 \end{proof}
+
+\noindent A morphism $f:x\to y$ in a preabelian category factors canonically through $\Im f$ and through $\Coim f$. This is because the composites $x\xrightarrow{f}y\to\Coker f$ and $\Ker f\to x\xrightarrow{f} y$ are always zero.
+$$
+\xymatrix{
+x\ar[rr]^f\ar@{-->}[dr]_{\exists!}&&y&&
+x\ar[rr]^f\ar[dr]&&y\\
+&\Im f\ar[ru]
+&&&&\Coim f\ar@{-->}[ru]_{\exists!}&
+}
+$$
+
 \noindent
+Recall Definition \ref{definition-normal-mono-epi} of normal monos and epis. We will need the following lemma to after give the characterization of abelian categories.
+\begin{lemma}\label{lemma-all-epis-normal-coim-map-monic}
+	Let $\mathcal{A}$ be a preabelian category and let $f:x\to y$ be a morphism of $\mathcal{A}$. Suppose all epis of $\mathcal{A}$ are normal. Then the canonical map $i:\Coim f\to y$ is monic. Dually, if all monos of $\mathcal{A}$ are normal, then the canonical map $x\to\Im f$ is epic.
+\end{lemma}
+\begin{proof}
+	To show that $i$ is a monomorphism, let $g:z\to \Coim f$ be such that $ig=0$.
+	$$
+	\xymatrix{
+	x\ar[rr]^f\ar@{>>}[rd]_p&&y\\
+	z\ar[r]_(0.4)g&\Coim f\ar@{>>}[r]_q\ar[ru]_i&\Coker g\ar[u]_j
+	}
+	$$
+	Let $q=\operatorname{coker}x$ and let $j:\Coker g\to y$ be the unique map such that $i=jq$. Since $qp$ is epic (epicness is stable under composition), by hypothesis there exists $h:w\to x$ such that $qp=\operatorname{coker}h$.
+	$$
+	\xymatrix@C=8ex{
+	&\Ker f\ar[d]^k&\\
+	w\ar[r]^h\ar[rd]_0
+	\ar[ru]^{h'}
+	&x\ar@{>>}[r]^(0.4){qp=\operatorname{coker}h}
+	\ar@{>>}[d]^p
+	&\Coker g\ar[dl]^{p'}\\
+	&\Coim f&
+	}
+	$$
+	Now $fh=iph=jqph=j0=0$, so $h$ factors uniquely through $\Ker f$, $h=kh'$. This gives that $ph=pkh'=0h'=0$, so $p$ factors as $p=p'(qp)=(p'q)p$. But $p$ is epic (By Lemma \ref{lemma-kernel-mono}), so $p'q=1_{\Coim f}$. That is, $q$ is a split monomorphism and finally $qg=0$ implies that $g=0$. We have shown that $ig=0$ implies $g=0$ and thus $i$ is a monomorphism.
+	
+	The other part is the dual statement.
+\end{proof}
+
+\begin{lemma}\label{lemma-characterize-abelian-categories}
+	A preabelian category is abelian if and only if all its monos and epis are normal.
+\end{lemma}
+
+\begin{proof}
+	Let $\mathcal{A}$ be a preabelian category.
+	
+	($\Rightarrow$) Let $f:x\to y$ be a monomorphism of $\mathcal{A}$. By Lemma \ref{lemma-characterize-injective}, $x\to\Coim f$ is an isomorphism. Since the diagram
+	$$
+	\xymatrix{
+	x\ar[r]^f\ar[d]_\cong&y\\
+	\Coim f\ar[r]_\cong&\Im f\ar[u]
+	}
+	$$
+	commutes, we have that the morphisms $f:x\to y$ and $\Im f\to y$ are isomorphic as objects over $y$. Thus $f$ is a kernel. Dually, all epis are normal.
+	
+	($\Leftarrow$) By the uniqueness of the image-coimage factorization of $f$ (given in Lemma \ref{lemma-coim-im-map}),
+	\begin{equation}\label{equation-im-coim-map}
+		\xymatrix{
+			x\ar[r]^f\ar[d]_g&y\\
+			\Coim f\ar[r]_{\overline{f}}&\Im f\ar[u]_h
+		}
+	\end{equation}
+	the canonical morphism $x\to\Im f$ (resp., the canonical morphism $\Coim f\to y$) must coincide with the left-bottom composite (resp., the bottom-right composite) of \eqref{equation-im-coim-map}. By Lemma \ref{lemma-all-epis-normal-coim-map-monic}, the composites $\overline{f}g$ and $h\overline{f}$ are epic and monic, respectively. Thus, by Lemma \ref{lemma-new-mono-epi-from-old}, $\overline{f}$ is also epic and monic. By hypothesis, $\overline{f}$ must be a normal monomorphism and a normal epimorphism, and thus in particular a regular mono and epi. By Lemma \ref{lemma-characterize-iso}, $\overline{f}$ is an isomorphism.
+\end{proof}
+From lemmas \ref{lemma-characterize-injective}, \ref{lemma-characterize-abelian-categories}, and \ref{lemma-characterize-iso}, it follows that in an abelian category a morphism is an isomorphism if and only if it is injective and surjective (i.e., an abelian category is an example of what category theorists call a {\it balanced category}). However, this condition does not characterize abelianity: there exist preabelian categories which are balanced but not abelian. For an example, see \href{https://mathoverflow.net/a/41726/101848}{this}.
+
 The zero map can be detected by the (co)kernel and the (co)image.
 \begin{lemma}\label{lemma-characterize-zero-map}
-	Let $\mathcal{A}$ be a abelian category and let $f:x\to y$ be a morphism in $\mathcal{A}$. The following are equivalent:
+	Let $\mathcal{A}$ be a preabelian category and let $f:x\to y$ be a morphism in $\mathcal{A}$. The following are equivalent:
 	\begin{enumerate}
 		\item $f$ is the zero map,
 		\item $\Ker f=x$,
@@ -628,7 +701,7 @@ $$
 
 \begin{lemma}
 \label{lemma-colimit-abelian-category}
-Let $\mathcal{A}$ be an abelian category.
+Let $\mathcal{A}$ be a preabelian category.
 All finite limits and finite colimits exist in $\mathcal{A}$.
 \end{lemma}
 
@@ -644,7 +717,7 @@ is similar but dual to this.
 
 \begin{example}
 \label{example-fibre-product-pushouts}
-Let $\mathcal{A}$ be an abelian category.
+Let $\mathcal{A}$ be a preabelian category.
 Pushouts and fibre products in $\mathcal{A}$ have the following
 simple descriptions:
 \begin{enumerate}
@@ -671,7 +744,7 @@ If $\mathcal{A}$ is abelian then we say a complex of the first
 type above is {\it exact at $y$} if $\Im(x \to y) = \Ker(y \to z)$
 and we say a complex of the second kind is {\it exact at $x_i$,}
 where $1 < i < n$, if
-$\Im(x_{i - 1} \to x_i) = \Ker(x_i \to x_{i + 1})$. We a
+$\Im(x_{i - 1} \to x_i) = \Ker(x_i \to x_{i + 1})$. We say that a
 sequence as above is {\it exact} or is an {\it exact sequence} or is an
 {\it exact complex} if it is a complex and exact at every object (in
 the first case) or exact at $x_i$ for all $1 < i < n$ (in the second case).
@@ -686,8 +759,16 @@ $$
 0 \to A  \to B \to C \to 0.
 $$
 \end{definition}
+Note that in the definition of exact sequence we may drop the complex condition if $\mathcal{A}$ is preabelian. Indeed, if $x\xrightarrow{f}y\xrightarrow{g}z$ is such that $\Im f=\Ker g$, then, by the image-coimage factorization of $f$ we have a commutative diagram
+$$
+\xymatrix{
+x\ar[r]^f\ar[d]&y\ar[r]^g&z\\
+\Coim f\ar[r]&\Im f=\Ker g\ar[u]&
+}
+$$
+and so, it follows that $gf=0$ since the composite $\Ker g\to y\xrightarrow{g}z$ is zero. Thus, any exact sequence of morphisms in a preabelian category must be a complex.
 \begin{remark}
-	In an abelian category a morphism $f:x\to y$ is injective (resp., surjective) if and only if $0\to x\xrightarrow{f}y$ is exact (resp., if $ x\xrightarrow{f}y\to 0$ is exact). This follows from lemmas \ref{lemma-characterize-injective} and \ref{lemma-characterize-zero-map}.
+	In a preabelian category a morphism $f:x\to y$ is injective (resp., surjective) if and only if $0\to x\xrightarrow{f}y$ is exact (resp., if $ x\xrightarrow{f}y\to 0$ is exact). This follows from lemmas \ref{lemma-characterize-injective} and \ref{lemma-characterize-zero-map}. If the category in question is also abelian, then, since on that case all monos and epis will be normal (and thus regular), by Lemma \ref{lemma-characterize-iso} it follows that $f$ is an isomorphism if and only if $0\to x\xrightarrow{f}y\to 0$ is exact.
 \end{remark}
 
 \noindent
