@@ -620,7 +620,7 @@ $$
 $$
 commutes, $f$ and $\Im f\to y$ are isomorphic as objects over $y$. Thus $f$ is its own image.
 
-(7)$\Rightarrow$(6) By uniqueness of the image factorization, the canonical morphism $x\to\Im f=x$ must be the identity.f
+(7)$\Rightarrow$(6) By uniqueness of the image factorization, the canonical morphism $x\to\Im f=x$ must be the identity.
 
 The proof of the other equivalences is dual.
 \end{proof}
@@ -761,6 +761,14 @@ $x \times_y z = \Ker((a, -b) : x \oplus z \to y)$.
 we have the pushout:
 $x \amalg_y z = \Coker((a, -b) : y \to x \oplus z)$.
 \end{enumerate}
+We can also compute the (co)kernel of the composition in terms of a (co)cartesian diagram: If $x\xrightarrow{f}y\xrightarrow{g}z$ are morphisms in $\mathcal{A}$, then
+\begin{align*}
+	\Ker(gf)&=x\times_y\Ker g\\
+	\Coker(gf)&=z\amalg_y\Coker f.
+\end{align*}
+Using the universal properties of $\Ker g$ and of $x\times_y\Ker g$, it is not difficult to show that $x\times_y\Ker g$ is indeed a kernel of $gf$. By a duality argument, it follows that $\Coker(gf)=z\amalg_y\Coker f$.
+
+In particular, since a (co)kernel can be defined in terms of a (co)cartesian diagram (see comments before Lemma \ref{lemma-additive-cat-biproduct-kernel}), it follows that if $g$ is injective if and only if $\Ker(gf)=\Ker f$ for every morphism $f$ pre-composable with $g$. Dually, we have that $f$ is surjective if and only if $\Coker(gf)=\Coker g$ for every morphism $g$ post-composable with $f$.
 \end{example}
 
 \begin{definition}
@@ -827,8 +835,10 @@ and so, it follows that $gf=0$ since the composite $\Ker g\to y\xrightarrow{g}z$
 		\item[(iii)] By a duality argument and since exactness is a self-dual property (Lemma \ref{lemma-exact-self-dual}), from (ii) it follows that a morphism $g:y\to z$ will be a cokernel of the morphism $f:x\to y$ if and only if the sequence $x\xrightarrow{f}y\xrightarrow{g}z\to 0$ is exact.
 	\end{enumerate}
 \end{remark}
+\noindent
+In an abelian category, using the previous facts, we can also characterize short exact sequences in the following way: a sequence $0\to A\xrightarrow{f} B\xrightarrow{g} C\to 0$ is short exact if and only if $f=\Ker g$ and $g=\Coker f$ and if and only if $f$ is injective, $g$ is surjective and $y/x=z$.
 
-\begin{lemma}
+\begin{lemma}\label{lemma-complex-im-subob-ker}
 	\begin{slogan}
 		In a complex from an abelian category, the image of a morphism is a subobject of the kernel of the next morphism.
 	\end{slogan}
@@ -839,7 +849,7 @@ and so, it follows that $gf=0$ since the composite $\Ker g\to y\xrightarrow{g}z$
 	\Im f\ar[r]^{i'}&\Ker g\ar[u]	
 	}
 	$$
-	is commutative, where $x\to\Im f$ is the canonical morphism. Moreover, such a morphism $i'$ is unique and monic, and we have that $x\xrightarrow{f}y\xrightarrow{g}z$ is exact if and only if $i'$ is an isomorphism.
+	is commutative, where $x\to\Im f$ is the canonical morphism. Moreover, such a morphism $i'$ is unique and injective, and we have that $x\xrightarrow{f}y\xrightarrow{g}z$ is exact if and only if $i'$ is an isomorphism.
 \end{lemma}
 
 \begin{proof}
@@ -854,7 +864,7 @@ and so, it follows that $gf=0$ since the composite $\Ker g\to y\xrightarrow{g}z$
 	$$
 	Then we have $0=gf=gif'$. Since $f'$ is epic (Lemma \ref{lemma-all-epis-normal-coim-map-monic}), we deduce $0=gi$. Therefore $i$ factors as $i=ji'$. Since $i$ is monic (it is a normal monomorphism), by Lemma \ref{lemma-new-mono-epi-from-old} we deduce that $i'$ is also monic.
 	
-	Uniqueness of $i'$ follows from the fact that $f'$ is epic and $j$ is monic, and we've proven that $i'$ must be a monomorphism.
+	Uniqueness of $i'$ follows from the fact that $f'$ is epic and $j$ is monic, and we've proven that $i'$ must be a monomorphism, and thus injective.
 	
 	On the other hand, if $x\xrightarrow{f}y\xrightarrow{g}z$ is exact, $\Im f=\Ker g$, then $i'$ must be the identity. And if $i'$ is an isomorphism, then by the factorization $i=ji'$, we have that $\Im f$ and $\Ker g$ are isomorphic as objects over $y$, so $\Im f=\Ker g$.
 \end{proof}
@@ -866,7 +876,7 @@ and so, it follows that $gf=0$ since the composite $\Ker g\to y\xrightarrow{g}z$
 	&\Coker f\ar[r]&\Coim g\ar[u]
 	}
 	$$
-	where $\Coker f\to\Coim g$ is epic.
+	where $\Coker f\to\Coim g$ is surjective.
 \end{remark}
 
 \noindent
@@ -1696,91 +1706,160 @@ Let $\mathcal{A}$ and $\mathcal{B}$ be abelian categories.
 Let $F : \mathcal{A} \to \mathcal{B}$ be a functor.
 \begin{enumerate}
 \item If $F$ is either left or right exact, then it is additive.
-\item $F$ is left exact if and only if
-for every short exact sequence
-$0 \to A \to B \to C \to 0$
-the sequence $0 \to F(A) \to F(B) \to F(C)$
-is exact.
-\item $F$ is right exact if and only if for every short exact sequence
-$0 \to A \to B \to C \to 0$
-the sequence $F(A) \to F(B) \to F(C) \to 0$
-is exact.
-\item $F$ is exact if and only if for every short exact sequence
-$0 \to A \to B \to C \to 0$
-the sequence $0 \to F(A) \to F(B) \to F(C) \to 0$
-is exact.
+\item The following are equivalent:
+\begin{enumerate}
+	\item[(i)] $F$ is left exact.
+	\item[(ii)] $F$ preserves kernels: For every exact sequence
+	$0 \to A \to B \to C$
+	the sequence $0 \to F(A) \to F(B) \to F(C)$
+	is exact.
+	\item[(iii)] For every short exact sequence
+	$0 \to A \to B \to C \to 0$
+	the sequence $0 \to F(A) \to F(B) \to F(C)$
+	is exact.
+\end{enumerate}
+\item[(2')] Dually, the following are equivalent:
+\begin{enumerate}
+	\item[(i')] $F$ is right exact.
+	\item[(ii')] $F$ preserves cokernels: For every exact sequence
+	$A \to B \to C\to 0$
+	the sequence $F(A) \to F(B) \to F(C)\to 0$
+	is exact.
+	\item[(iii')] For every short exact sequence
+	$0 \to A \to B \to C \to 0$
+	the sequence $F(A) \to F(B) \to F(C)\to 0$
+	is exact.
+\end{enumerate}
+%\item $F$ is right exact if and only if for every short exact sequence
+%$0 \to A \to B \to C \to 0$
+%the sequence $F(A) \to F(B) \to F(C) \to 0$
+%is exact.
+\item[(3)] The following are equivalent:
+\begin{enumerate}
+	\item[(\textsc{i})] $F$ is exact.
+	\item[(\textsc{ii})] $F$ preserves exact sequences:
+	for every exact sequence $A\to B\to C$
+	the sequence $F(A)\to F(B)\to F(C)$
+	is exact.
+	\item[(\textsc{iii})] $F$ preserves short exact sequences:
+	for every short exact sequence
+	$0 \to A \to B \to C \to 0$
+	the sequence $0 \to F(A) \to F(B) \to F(C) \to 0$
+	is exact.
+\end{enumerate}
 \end{enumerate}
 \end{lemma}
 
 \begin{proof}
-$F$ being left (right) exact means $F$ commutes with finite (co)limits, and in particular, $F$ commutes with finite (co)products. Thus, on either case $F$ is additive by Lemma \ref{lemma-additive-functor}.
-On the other hand, suppose that for every short exact sequence
-$0 \to A \to B \to C \to 0$ the sequence $0 \to F(A) \to F(B) \to F(C)$
-is exact. Let $A, B$ be two objects. Then we have a short
+(1). $F$ being left (right) exact means $F$ commutes with finite (co)limits
+and in particular, $F$ commutes with finite (co)products.
+Thus, on either case $F$ is additive by Lemma \ref{lemma-additive-functor}.
+
+\medskip\noindent
+(2). We are going to show that for the proof we can assume that $F$ is additive.
+By (1), condition (i) implies additivity.
+Hence, since (ii)$\Rightarrow$(iii) trivially,
+we have only to show that any functor $F$ that satisfies (iii) must be additive.
+Suppose then that $F$ is such a functor.
+On that case, $F$ will preserve the zero object,
+for it sends the trivial short exact sequence to the exact sequence $0\to F0 \xrightarrow{1_{F0}} F0 \xrightarrow{1_{F0}} F0$,
+so $0=\Ker 1_{F0}=\Im 1_{F0}=F0$.
+Let $A, B$ be two objects. Then we have a short
 exact sequence
 $$
 0 \to A \to A \oplus B \to B \to 0
 $$
 see for example Lemma \ref{lemma-additive-cat-biproduct-kernel}.
-By assumption, the lower row in the commutative diagram
+We want to apply the five lemma (Lemma \ref{lemma-five-lemma}) to the diagram
 $$
 \xymatrix{
 0 \ar[r] &
 F(A) \ar[d] \ar[r] &
-F(A) \oplus F(B) \ar[r] \ar[d] &
+F(A) \oplus F(B) \ar[r] \ar[d]^{Fi\amalg Fj} &
 F(B) \ar[d] \ar[r] &
 0 \\
 0 \ar[r] &
 F(A) \ar[r] &
-F(A \oplus B) \ar[r] &
-F(B)
+F(A \oplus B) \ar[r]_{Fq} &
+F(B)\ar[r]&0
 }
 $$
-is exact. Hence by the snake lemma (Lemma \ref{lemma-snake})
-we conclude that $F(A) \oplus F(B) \to F(A \oplus B)$ is an
-isomorphism. Hence $F$ is additive in this case as well.
-Thus for the rest of the proof we may assume $F$ is additive.
+to conclude that $Fi\amalg Fj$ is an
+isomorphism, so we verify the hypotheses.
+We know the top row of the diagram is exact, but also is the bottom row:
+On the one hand, by the assumption we deduce exactness of the bottom row at its first two non-zero terms.
+On the other hand, the bottom row is exact at $F(B)$ too,
+since $q:A\oplus B\to B$ has a retraction $j:B\to A\oplus B$,
+and functors preserve split epimorphisms (see also Remark \ref{remark-characterize-injective-exact-sequence}).
+Moreover, the diagram is commutative on the left square.
+To see that the right square also commutes,
+$Fq\circ(Fi\amalg Fj)=Fqi\amalg Fqj=F0\amalg F1_B=0\amalg 1_{FB}$
+(where $F$ preserves the zero map for we know it preserves the zero object).
+Hence $Fi\amalg Fj$ is an isomorphism and,
+by Lemma \ref{lemma-additive-functor}, $F$ is additive.
+Thus, for the rest of the proof we may assume $F$ is additive.
 
 \medskip\noindent
+(i)$\Rightarrow$(ii).
 Denote $f : B \to C$ a map from $B$ to $C$.
 Exactness of $0 \to A \to B \to C$ just means that
-$A = \Ker(f)$. Clearly the kernel of $f$ is
+$A = \Ker(f)$
+(see Remark \ref{remark-characterize-injective-exact-sequence}, (ii)).
+By definition, the kernel of $f$ is
 the equalizer of the two maps $f$ and $0$ from $B$ to $C$.
-Hence if $F$ commutes with limits, then $F(\Ker(f))
-= \Ker(F(f))$ which exactly means that
+Hence if $F$ commutes with finite limits, then $F(\Ker(f))
+= \Ker(F(f))$, which exactly means that
 $0 \to F(A) \to F(B) \to F(C)$ is exact.
 
 \medskip\noindent
-Conversely, suppose that $F$ is additive and
-transforms any short exact sequence $0 \to A \to B \to C \to 0$ into
-an exact sequence $0 \to F(A) \to F(B) \to F(C)$.
-Because it is additive it commutes with direct sums
-and hence finite products in $\mathcal{A}$. To show
-it commutes with finite limits it therefore
+(ii)$\Rightarrow$(iii). Trivial.
+
+\medskip\noindent
+(iii)$\Rightarrow$(i).
+Since $F$ is additive, it commutes with direct sums,
+and, hence, with finite products in $\mathcal{A}$. Therefore, to show
+it commutes with finite limits, it
 suffices to show that it commutes with
 equalizers. But equalizers in an abelian category
 are the same as the kernel of the difference map,
 hence it suffices to show that $F$ commutes with
 taking kernels. Let $f : A \to B$ be a morphism.
 Factor $f$ as $A \to I \to B$ with $f' : A \to I$ surjective
-and $i : I \to B$ injective. (This is possible by the
-definition of an abelian category.) Then it is
-clear that $\Ker(f) = \Ker(f')$. Also
+and $i : I \to B$ injective.
+(This is possible by the
+definition of an abelian category.)
+We have $\Ker(f) = \Ker(f')$
+(see last paragraph of Example \ref{example-fibre-product-pushouts}). Also
 $0 \to \Ker(f') \to A \to I \to 0$
 and
 $0 \to I \to B \to B/I \to 0$
-are short exact. By the condition imposed on $F$
+are short exact
+(See comments before Lemma \ref{lemma-complex-im-subob-ker}.
+The former sequence is exact by Lemma \ref{lemma-characterize-injective}, (1')$\Leftrightarrow$(7')).
+By the condition imposed on $F$
 we see that
 $0 \to F(\Ker(f')) \to F(A) \to F(I)$
 and
 $0 \to F(I) \to F(B) \to F(B/I)$
-are exact. Hence it is also the case that
-$F(\Ker(f'))$ is the kernel of the map
-$F(A) \to F(B)$, and we win.
+are exact. Hence $F(\Ker(f')) \to F(A)$ is a kernel of
+$F(A) \to F(I)$.
+Since pre-composing with injective morphisms does not change the kernel,
+$F(\Ker (f))=F(\Ker(f')) \to F(A)$
+is also a kernel of $F(f)$, and we win.
 
 \medskip\noindent
-The proof of (3) is similar to the proof of (2).
-Statement (4) is a combination of (2) and (3).
+(2') follows by a duality argument applied to (2).
+
+\medskip\noindent
+(3).
+
+\medskip\noindent
+(\textsc{i})$\Rightarrow$(\textsc{ii}). $F$ preserves finite (co)limits, so it preserves images and kernels.
+
+\noindent
+(\textsc{ii})$\Rightarrow$(\textsc{iii}). Obvious.
+
+\noindent(\textsc{iii})$\Rightarrow$(\textsc{i}). Follows from (2) and (2').
 \end{proof}
 
 \begin{lemma}
