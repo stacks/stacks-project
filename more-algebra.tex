@@ -13618,33 +13618,88 @@ H^{-p}(N \otimes_R^{\mathbf{L}} A) = \text{Tor}_p^R(N, A).
 $$
 In particular these Tor groups naturally have the structure of $A$-modules.
 
+\medskip\noindent
+We will generalize the material in this section to unbounded
+complexes in the next few sections.
 
 
 
 
 
 
-\section{Derived tensor product}
-\label{section-derived-tensor-product}
+\section{Tensor products of complexes}
+\label{section-symmetric-monoidal}
 
 \noindent
-We can construct the derived tensor product in greater generality.
-In fact, it turns out that the boundedness assumptions are not
-necessary, provided we choose K-flat resolutions.
-In this section we use Homology, Example
-\ref{homology-example-double-complex-as-tensor-product-of}
-and
+Let $R$ be a ring. The category $\text{Comp}(R)$ of complexes of $R$-modules
+has a symmetric monoidal structure. Namely, suppose that we have two
+complexes of $R$-modules $L^\bullet$ and $M^\bullet$. Using Homology, Example
+\ref{homology-example-double-complex-as-tensor-product-of} and
 Homology, Definition \ref{homology-definition-associated-simple-complex}
-to turn a pair of complexes of modules into a double complex
-and its associated total complex.
+we obtain a third complex of $R$-modules, namely
+$$
+\text{Tot}(L^\bullet \otimes_R M^\bullet)
+$$
+Clearly this construction is functorial in both $L^\bullet$ and $M^\bullet$.
+The associativity constraint will be the canonical isomorphism of complexes
+$$
+\text{Tot}(\text{Tot}(K^\bullet \otimes_R L^\bullet) \otimes_R M^\bullet)
+\longrightarrow
+\text{Tot}(K^\bullet \otimes_R \text{Tot}(L^\bullet \otimes_R M^\bullet))
+$$
+constructed in Homology, Remark \ref{homology-remark-triple-complex}
+from the triple complex $K^\bullet \otimes_R L^\bullet \otimes_R M^\bullet$.
+The commutativity constraint is the canonical isomorphism
+$$
+\text{Tot}(L^\bullet \otimes_R M^\bullet) \to
+\text{Tot}(M^\bullet \otimes_R L^\bullet)
+$$
+which uses the sign $(-1)^{pq}$ on the summand $L^p \otimes_R M^q$.
+To see that it is a map of complexes we compute for
+$x \in L^p$ and $y \in M^q$ that
+$$
+\text{d}(x \otimes y) =
+\text{d}_L(x) \otimes y + (-1)^px \otimes \text{d}_M(y)
+$$
+Our rule says the right hand side is mapped to
+$$
+(-1)^{(p + 1)q}y \otimes \text{d}_L(x) +
+(-1)^{p + p(q + 1)} \text{d}_M(y) \otimes x
+$$
+On the other hand, we see that
+$$
+\text{d}((-1)^{pq}y \otimes x) =
+(-1)^{pq} \text{d}_M(y) \otimes x +
+(-1)^{pq + q} y \otimes \text{d}_L(x)
+$$
+These two expressions agree by inspection as desired.
+
+\begin{lemma}
+\label{lemma-symmetric-monoidal-cat-complexes}
+Let $R$ be a ring. The category $\text{Comp}(R)$ of complexes of $R$-modules
+endowed with the functor
+$(L^\bullet, M^\bullet) \mapsto \text{Tot}(L^\bullet \otimes_R M^\bullet)$
+and associativity and commutativity constraints as above is a symmetric
+monoidal category.
+\end{lemma}
+
+\begin{proof}
+Omitted. Hints: as unit $\mathbf{1}$ we take the complex having
+$R$ in degree $0$ and zero in other degrees with obvious isomorphisms
+$\text{Tot}(\mathbf{1} \otimes_R M^\bullet) = M^\bullet$ and
+$\text{Tot}(K^\bullet \otimes_R \mathbf{1}) = K^\bullet$.
+to prove the lemma you have to check the commutativity
+of various diagrams, see Categories, Definitions
+\ref{categories-definition-monoidal-category} and
+\ref{categories-definition-symmetric-monoidal-category}.
+The verifications are straightforward in each case.
+\end{proof}
 
 \begin{lemma}
 \label{lemma-derived-tor-homotopy}
-Let $R$ be a ring.
-Let $P^\bullet$ be a complex of $R$-modules.
-Let $\alpha, \beta : L^\bullet \to M^\bullet$ be homotopy equivalent
-maps of complexes. Then $\alpha$ and $\beta$ induce homotopy equivalent
-maps
+Let $R$ be a ring. Let $P^\bullet$ be a complex of $R$-modules.
+Let $\alpha, \beta : L^\bullet \to M^\bullet$ be homotopic
+maps of complexes. Then $\alpha$ and $\beta$ induce homotopic maps
 $$
 \text{Tot}(\alpha \otimes \text{id}_P),
 \text{Tot}(\beta \otimes \text{id}_P) :
@@ -13676,17 +13731,30 @@ as maps $\text{Tot}(L^\bullet \otimes_R P^\bullet) \to
 \end{proof}
 
 \begin{lemma}
+\label{lemma-symmetric-monoidal-homotopy-category}
+Let $R$ be a ring. The homotopy category $K(R)$ of complexes of $R$-modules
+endowed with the functor
+$(L^\bullet, M^\bullet) \mapsto \text{Tot}(L^\bullet \otimes_R M^\bullet)$
+and associativity and commutativity constraints as above is a symmetric
+monoidal category.
+\end{lemma}
+
+\begin{proof}
+This follows from Lemmas \ref{lemma-symmetric-monoidal-cat-complexes} and
+\ref{lemma-derived-tor-homotopy}. Details omitted.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-derived-tor-exact}
-Let $R$ be a ring.
-Let $P^\bullet$ be a complex of $R$-modules.
+Let $R$ be a ring. Let $P^\bullet$ be a complex of $R$-modules.
 The functors
 $$
-K(\text{Mod}_R) \longrightarrow K(\text{Mod}_R), \quad
+K(R) \longrightarrow K(R), \quad
 L^\bullet \longmapsto \text{Tot}(P^\bullet \otimes_R L^\bullet)
 $$
 and
 $$
-K(\text{Mod}_R) \longrightarrow K(\text{Mod}_R), \quad
+K(R) \longrightarrow K(R), \quad
 L^\bullet \longmapsto \text{Tot}(L^\bullet \otimes_R P^\bullet)
 $$
 are exact functors of triangulated categories.
@@ -13697,9 +13765,16 @@ This follows from Derived Categories, Remark
 \ref{derived-remark-double-complex-as-tensor-product-of}.
 \end{proof}
 
+
+
+
+\section{Derived tensor product}
+\label{section-derived-tensor-product}
+
 \noindent
-The following definition will allow us to think intelligently
-about derived tensor products of unbounded complexes.
+We can construct the derived tensor product in greater generality.
+In fact, it turns out that the boundedness assumptions are not
+necessary, provided we choose K-flat resolutions.
 
 \begin{definition}
 \label{definition-K-flat}
@@ -13713,7 +13788,7 @@ $\text{Tot}(M^\bullet \otimes_R K^\bullet)$ is acyclic.
 Let $R$ be a ring. Let $K^\bullet$ be a K-flat complex.
 Then the functor
 $$
-K(\text{Mod}_R) \longrightarrow K(\text{Mod}_R), \quad
+K(R) \longrightarrow K(R), \quad
 L^\bullet \longmapsto \text{Tot}(L^\bullet \otimes_R K^\bullet)
 $$
 transforms quasi-isomorphisms into quasi-isomorphisms.
@@ -13722,8 +13797,8 @@ transforms quasi-isomorphisms into quasi-isomorphisms.
 \begin{proof}
 Follows from
 Lemma \ref{lemma-derived-tor-exact}
-and the fact that quasi-isomorphisms in $K(\text{Mod}_R)$ and
-$K(\text{Mod}_A)$ are characterized by having acyclic cones.
+and the fact that quasi-isomorphisms in $K(R)$
+are characterized by having acyclic cones.
 \end{proof}
 
 \begin{lemma}
@@ -13760,7 +13835,7 @@ and the definition.
 \begin{lemma}
 \label{lemma-K-flat-two-out-of-three}
 Let $R$ be a ring. Let $(K_1^\bullet, K_2^\bullet, K_3^\bullet)$ be
-a distinguished triangle in $K(\text{Mod}_R)$. If two out of three
+a distinguished triangle in $K(R)$. If two out of three
 of $K_i^\bullet$ are K-flat, so is the third.
 \end{lemma}
 
@@ -13768,7 +13843,7 @@ of $K_i^\bullet$ are K-flat, so is the third.
 Follows from
 Lemma \ref{lemma-derived-tor-exact}
 and the fact that in a distinguished triangle in
-$K(\text{Mod}_A)$ if two out of three are acyclic, so is the third.
+$K(R)$ if two out of three are acyclic, so is the third.
 \end{proof}
 
 \begin{lemma}
@@ -14013,13 +14088,13 @@ By
 Lemmas \ref{lemma-derived-tor-homotopy} and \ref{lemma-derived-tor-exact}
 we obtain an exact functor of triangulated categories
 $$
-K(\text{Mod}_R) \longrightarrow K(\text{Mod}_R), \quad
+K(R) \longrightarrow K(R), \quad
 L^\bullet \longmapsto \text{Tot}(L^\bullet \otimes_R K^\bullet)
 $$
 By
 Lemma \ref{lemma-K-flat-quasi-isomorphism}
 this functor induces a functor $D(R) \to D(R)$ simply because
-$D(R)$ is the localization of $K(\text{Mod}_R)$ at quasi-isomorphism.
+$D(R)$ is the localization of $K(R)$ at quasi-isomorphism.
 By
 Lemma \ref{lemma-derived-tor-quasi-isomorphism-other-side}
 the resulting functor (up to isomorphism)
@@ -14063,33 +14138,9 @@ for explanation).
 \end{lemma}
 
 \begin{proof}
-Replace the complexes by K-flat complexes $K^\bullet, L^\bullet$.
-Then we consider the map
-$$
-\text{Tot}(K^\bullet \otimes_R L^\bullet)
-\longrightarrow
-\text{Tot}(L^\bullet \otimes_R K^\bullet)
-$$
-given by using $(-1)^{pq}$ times the canonical map
-$K^p \otimes_R L^q \to L^q \otimes_R K^p$. This is an isomorphism.
-To see that it is a map of complexes we compute for
-$x \in K^p$ and $y \in L^q$ that
-$$
-\text{d}(x \otimes y) =
-\text{d}_K(x) \otimes y + (-1)^px \otimes \text{d}_L(y)
-$$
-Our rule says the right hand side is mapped to
-$$
-(-1)^{(p + 1)q}y \otimes \text{d}_K(x) +
-(-1)^{p + p(q + 1)} \text{d}_L(y) \otimes x
-$$
-On the other hand, we see that
-$$
-\text{d}((-1)^{pq}y \otimes x) =
-(-1)^{pq} \text{d}_L(y) \otimes x +
-(-1)^{pq + q} y \otimes \text{d}_K(x)
-$$
-These two expressions agree by inspection and the lemma is proved.
+We may and do replace the complexes by K-flat complexes $K^\bullet$ and
+$L^\bullet$ and then we use the commutativity constraint discussed
+in Section \ref{section-symmetric-monoidal}.
 \end{proof}
 
 \begin{lemma}
@@ -14105,8 +14156,8 @@ functorial in all three complexes.
 \end{lemma}
 
 \begin{proof}
-Replace the complexes by K-flat complexes and apply
-Homology, Remark \ref{homology-remark-triple-complex}.
+Replace the complexes by K-flat complexes and use the
+associativity constraint in Section \ref{section-symmetric-monoidal}.
 \end{proof}
 
 \begin{lemma}
@@ -14126,7 +14177,7 @@ such that the same is true for $N^\bullet$.
 \end{lemma}
 
 \begin{proof}
-We will use that the homotopy category $K(\text{Mod}_R)$
+We will use that the homotopy category $K(R)$
 is a triangulated category, see Derived Categories, Proposition
 \ref{derived-proposition-homotopy-category-triangulated}.
 Choose a distinguished triangle
@@ -14183,8 +14234,7 @@ We can also use K-flat resolutions to define a functor
 $$
 - \otimes_R^{\mathbf{L}} N^\bullet : D(R) \to D(A)
 $$
-as the left derived functor of the functor
-$K(\text{Mod}_R) \to K(\text{Mod}_A)$,
+as the left derived functor of the functor $K(R) \to K(A)$,
 $M^\bullet \mapsto \text{Tot}(M^\bullet \otimes_R N^\bullet)$.
 In particular, taking $N^\bullet = A[0]$ we obtain a
 derived base change functor
@@ -14222,14 +14272,14 @@ To prove the existence of the derived functor
 $- \otimes_R^\mathbf{L} N^\bullet$
 we use the general theory developed in
 Derived Categories, Section \ref{derived-section-derived-functors}.
-Set $\mathcal{D} = K(\text{Mod}_R)$ and $\mathcal{D}' = D(A)$.
+Set $\mathcal{D} = K(R)$ and $\mathcal{D}' = D(A)$.
 Let us write $F : \mathcal{D} \to \mathcal{D}'$ the exact functor
 of triangulated categories defined by the rule
 $F(M^\bullet) = \text{Tot}(M^\bullet \otimes_R N^\bullet)$.
 To prove the stated properties of $F$ use
 Lemmas \ref{lemma-derived-tor-homotopy} and \ref{lemma-derived-tor-exact}.
 We let $S$ be the set of
-quasi-isomorphisms in $\mathcal{D} = K(\text{Mod}_R)$.
+quasi-isomorphisms in $\mathcal{D} = K(R)$.
 This gives a situation as in
 Derived Categories, Situation \ref{derived-situation-derived-functor}
 so that
@@ -17470,7 +17520,7 @@ $$
 \text{Tot}(K^\bullet \otimes_R \text{Tot}(L^\bullet \otimes_R M^\bullet))
 $$
 defined without the intervention of signs. See
-Homology, Remark \ref{homology-remark-triple-complex}.
+Section \ref{section-symmetric-monoidal}.
 \item
 \label{item-flip-tensor-product}
 There is a canonical isomorphism
@@ -17479,32 +17529,11 @@ $$
 \text{Tot}(M^\bullet \otimes_R L^\bullet)
 $$
 which uses the sign $(-1)^{pq}$ on the summand $L^p \otimes_R M^q$.
-See Lemma \ref{lemma-flip-douoble-tensor-product}.
+See Section \ref{section-symmetric-monoidal}.
 \end{enumerate}
 Before we get into a discussion of the sign conventions regarding
 Hom-complexes, we construct the dual of a complex with respect to
 the conventions above.
-
-\begin{lemma}
-\label{lemma-symmetric-monoidal-cat-complexes}
-Let $R$ be a ring. The category of complexes of $R$-modules with
-tensor product defined by
-$K^\bullet \otimes M^\bullet = \text{Tot}(K^\bullet \otimes_R M^\bullet)$
-is a symmetric monoidal category with the associativity and
-commutativity constraints given above.
-\end{lemma}
-
-\begin{proof}
-Omitted. Hints: as unit $\mathbf{1}$ we take the complex having
-$R$ in degree $0$ and zero in other degrees with obvious isomorphisms
-$\text{Tot}(\mathbf{1} \otimes_R M^\bullet) = M^\bullet$ and
-$\text{Tot}(K^\bullet \otimes_R \mathbf{1}) = K^\bullet$.
-to prove the lemma you have to check the commutativity
-of various diagrams, see Categories, Definitions
-\ref{categories-definition-monoidal-category} and
-\ref{categories-definition-symmetric-monoidal-category}.
-The verifications are straightforward in each case.
-\end{proof}
 
 \begin{lemma}
 \label{lemma-left-dual-module}
@@ -37005,7 +37034,13 @@ commutativity constraints as in Section \ref{section-sign-rules}.
 \end{lemma}
 
 \begin{proof}
-Omitted. Compare with Lemma \ref{lemma-symmetric-monoidal-cat-complexes}.
+Omitted. Hints: The associativity constraint is the isomorphism of
+Lemma \ref{lemma-triple-tensor-product}
+and the commutativity constraint is the isomorphism of
+Lemma \ref{lemma-flip-douoble-tensor-product}.
+Having said this the commutativity of various diagrams
+follows from the corresponding result for the category
+of complexes of $R$-modules, see Section \ref{section-symmetric-monoidal}.
 \end{proof}
 
 \noindent
