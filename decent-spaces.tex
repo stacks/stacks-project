@@ -1292,6 +1292,24 @@ Lemma \ref{lemma-U-finite-above-x}, as desired.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-no-specializations-map-to-same-point-Noetherian}
+Let $S$ be a scheme. Let $X$ be an algebraic space over $S$.
+Let $U \to X$ be an \'etale morphism from a scheme to $X$.
+Assume $u, u' \in |U|$ map to the same point $x$ of $|X|$, and
+$u' \leadsto u$. If $X$ is locally Noetherian, then $u = u'$.
+\end{lemma}
+
+\begin{proof}
+The discussion in Schemes, Section \ref{schemes-section-points}
+shows that $\mathcal{O}_{U, u'}$ is a localization of
+the Noetherian local ring $\mathcal{O}_{U, u}$.
+By Properties of Spaces, Lemma
+\ref{spaces-properties-lemma-pre-dimension-local-ring}
+we have $\dim(\mathcal{O}_{U, u}) = \dim(\mathcal{O}_{U, u'})$.
+By dimension theory for Noetherian local rings we conclude $u = u'$.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-specialization}
 Let $S$ be a scheme.
 Let $X$ be an algebraic space over $S$.
@@ -3051,8 +3069,33 @@ finitely presented morphism
 $$
 \Spec(k) \longrightarrow Z_x.
 $$
-It turns out that $Z_x$
-is a regular algebraic space as follows from the following lemma.
+The residual space is often given by a monomorphism
+from the spectrum of a field.
+
+\begin{lemma}
+\label{lemma-residual-space-monomorphism}
+Let $S$ be a scheme. Let $X$ be an algebraic space over $S$. Let $x \in |X|$.
+The residual space $Z_x$ of $X$ at $x$ is isomorphic to the spectrum of a field
+if and only if $x$ can be represented by a monomorphism $\Spec(k) \to X$
+where $k$ is a field. If $X$ is decent, this holds for all $x \in |X|$.
+\end{lemma}
+
+\begin{proof}
+Since $Z_x \to X$ is a monomorphism, if $Z_x = \Spec(k)$ for some field $k$,
+then $x$ is represented by the monomorphism $\Spec(k) = Z_x \to X$.
+Conversely, if $\Spec(k) \to X$ is a monomorphism which represents $x$,
+then $Z_x \times_X \Spec(k) \to \Spec(k)$ is a monomorphism whose source
+is nonempty by Properties of Spaces, Lemma
+\ref{spaces-properties-lemma-points-cartesian}.
+Hence $Z_x \times_X \Spec(k) = \Spec(k)$ by Morphisms of Spaces, Lemma
+\ref{spaces-morphisms-lemma-monomorphism-toward-field}.
+Hence we get a monomorphism $\Spec(k) \to Z_x$. This is
+an isomorphism by Lemma \ref{lemma-monomorphism-into-point}.
+The final statement follows from Lemma \ref{lemma-decent-points-monomorphism}.
+\end{proof}
+
+\noindent
+The residual space is a regular algebraic space by the following lemma.
 
 \begin{lemma}
 \label{lemma-residual-space-regular}
@@ -3074,6 +3117,79 @@ Descent, Lemma \ref{descent-lemma-descend-regular}.
 By definition this means that $Z$ is regular.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-factor-through-residual-space-Noetherian}
+Let $S$ be a scheme. Let $f : Y \to X$ be a morphism of algebraic
+spaces over $S$. Let $x \in |X|$ be a point. Assume
+\begin{enumerate}
+\item $|f|(|Y|)$ is contained in $\{x\} \subset |X|$,
+\item $Y$ is reduced, and
+\item $X$ is locally Noetherian.
+\end{enumerate}
+Then $f$ factors through the residual space $Z_x$ of $X$ at $x$.
+\end{lemma}
+
+\begin{proof}
+Preliminary remark: since $Z_x \to X$ is a monomorphism, it suffices to find
+a surjective \'etale morphism $Y' \to Y$ such that $Y' \to X$
+factors through $Z_x$. A remark here is that $Y'$ is reduced as well.
+
+\medskip\noindent
+Let $U$ be an affine scheme and let $U \to X$ be an \'etale morphism
+such that $x$ is in the image of $|U| \to |X|$. Since $X$ is locally
+Noetherian, $U$ is a Noetherian affine scheme. By assumption (1)
+we see that $Y' = U \times_X Y \to Y$ is surjective as well as \'etale.
+Denote $E \subset |U|$ the set of points mapping to $x$.
+There are no nontrivial specializations between the elements of $E$, see
+Lemma \ref{lemma-no-specializations-map-to-same-point-Noetherian}.
+The morphism $Y' \to U$ maps $|Y'|$ into $E$. By our construction
+of $Z_x$ in the proof of Lemma \ref{lemma-find-singleton-from-point}
+we know that $\coprod_{u \in E} u \to X$ factors through $Z_x$.
+Hence it suffices to prove that $Y' \to U$ factors through
+$\coprod_{u \in E} u \to X$. After replacing $Y'$ by an \'etale covering
+by a scheme (which we are allowed by our preliminary remark), this follows
+from Morphisms, Lemma \ref{morphisms-lemma-factor-through-set-of-points}.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-factor-through-residual-space-decent}
+Let $S$ be a scheme. Let $f : Y \to X$ be a morphism of algebraic
+spaces over $S$. Let $x \in |X|$ be a point. Assume
+\begin{enumerate}
+\item $|f|(|Y|)$ is contained in $\{x\} \subset |X|$,
+\item $Y$ is reduced, and
+\item $X$ is decent.
+\end{enumerate}
+Then $f$ factors through the residual space $Z_x$ of $X$ at $x$.
+In other words, if $x : \Spec(k) \to X$ is a monomorphism from the
+spectrum of a field representing $x$, then $f$ factors through $x$.
+\end{lemma}
+
+\begin{proof}
+By Lemma \ref{lemma-residual-space-monomorphism} we can represent
+$x$ by a monomorphism $x : \Spec(k) \to X$ as in the last sentence
+and then $Z_x = \Spec(k)$.
+
+\medskip\noindent
+Preliminary remark: since $Z_x \to X$ is a monomorphism, it suffices to find
+a surjective \'etale morphism $Y' \to Y$ such that $Y' \to X$
+factors through $Z_x$. A remark here is that $Y'$ is reduced as well.
+
+\medskip\noindent
+Let $Z \subset X$ be the reduced closed subspace with $|Z| = \{x\}$
+(Properties of Spaces,
+Lemma \ref{spaces-properties-lemma-reduced-closed-subspace}).
+Note that $Z$ is a decent algebraic space by
+Lemma \ref{lemma-representable-named-properties}.
+By Properties of Spaces, Lemma \ref{spaces-properties-lemma-map-into-reduction}
+we see that $f$ factors through $Z$. Thus we may replace $X$
+by $Z$ and assume $x$ is a generic point of $|X|$.
+Then $x$ is in the schematic locus of $X$ by
+Theorem \ref{theorem-decent-open-dense-scheme}
+and hence we reduce to the case where $X$ is a scheme.
+By our preliminary remark we may assume $Y$ is a scheme too.
+This reduces us to Morphisms, Lemma \ref{morphisms-lemma-factor-through-point}.
+\end{proof}
 
 
 
