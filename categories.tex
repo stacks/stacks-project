@@ -89,6 +89,8 @@ sets with a left $G$-action.
 \item Given a ring $R$ the category $\text{Mod}_R$ of $R$-modules.
 \item Given a field $k$ the category of vector spaces over $k$.
 \item The category of rings.
+\item The category of divided power rings, see
+Divided Power Algebra, Section \ref{dpa-section-divided-power-rings}.
 \item The category of schemes.
 \item The category $\textit{Top}$ of topological spaces.
 \item Given a topological space $X$ the category
@@ -360,7 +362,7 @@ In this case we say that $G$ is a {\it quasi-inverse} to $F$.
 \begin{lemma}
 \label{lemma-construct-quasi-inverse}
 Let $F : \mathcal{A} \to \mathcal{B}$ be a fully faithful functor.
-Suppose for every $X \in \Ob(\mathcal{B})$ given an
+Suppose for every $X \in \Ob(\mathcal{B})$ we are given an
 object $j(X)$ of $\mathcal{A}$ and an isomorphism $i_X : X \to F(j(X))$.
 Then there is a unique functor $j : \mathcal{B} \to \mathcal{A}$
 such that $j$ extends the rule on objects, and the isomorphisms
@@ -1445,7 +1447,7 @@ $$
 $$
 exists, where the morphisms are determined by their components
 as follows: The component $M_{s(a)}$ maps via $\psi$
-to the component $M_{t(a)}$ via the morphism $a$.
+to the component $M_{t(a)}$ via the morphism $M(a)$.
 The component $M_{s(a)}$ maps via $\phi$ to the component
 $M_{s(a)}$ by the identity morphism. Then this coequalizer is the
 colimit of the diagram.
@@ -2595,7 +2597,7 @@ of Lemma \ref{lemma-functorial-colimit} is an isomorphism.
 $M : \mathcal{I}^{opp} \to \mathcal{C}$ in $\mathcal{C}$, denote
 $(M(x_i), M(\varphi_{ii'}))$ the corresponding inverse system
 over $I$. If $\lim_{i \in I} M(x_i)$ exists then so does
-$\lim_\mathcal{I} M$ and the transformation
+$\lim_{\mathcal{I}^{opp}} M$ and the transformation
 $$
 \theta :
 \lim_{\mathcal{I}^{opp}} M
@@ -2617,7 +2619,7 @@ our construction will produce a directed partially ordered set.}, and a cofinal
 functor $M_0 : \mathcal{I}_0 \to \mathcal{I}$. Then, by
 Lemma \ref{lemma-cofinal}, the colimit of a diagram
 $M : \mathcal{I} \to \mathcal{C}$ coincides with the
-colimit of the diagram $M \circ M_0 | \mathcal{I}_0 \to \mathcal{C}$,
+colimit of the diagram $M \circ M_0 : \mathcal{I}_0 \to \mathcal{C}$,
 from which the statement follows. The second statement is dual to the
 first and may be proved by interpreting a limit in $\mathcal{C}$ as
 a colimit in $\mathcal{C}^{opp}$. We omit the details.
@@ -2645,11 +2647,11 @@ Now let $\mathcal{F}$ be any finitely generated
 subcategory of $\mathcal{I}\times \omega$.
 By using the axioms of a filtered category and a simple induction
 argument on a finite set of generators of $\mathcal{F}$,
-we may construct a cocone $(\{f_i\}, i_\infty)$ in $\mathcal{I}$
-for the diagram $\mathcal{F} \to \mathcal{I}$. That is, a morphism
+we may construct a cocone $(\{f_i\}, i_\infty)$ in $\mathcal{I} \times \omega$
+for the diagram $\mathcal{F} \to \mathcal{I} \times \omega$. That is, a morphism
 $f_i : i \to i_\infty$ for every object $i$ in $\mathcal{F}$
 such that for each arrow $f : i \to i'$ in $\mathcal{F}$
-we have $f_i = f\circ f_{i'}$. We can also choose $i_\infty$ such
+we have $f_i = f_{i'} \circ f$. We can also choose $i_\infty$ such
 that there are no arrows from $i_\infty$ to an object in $\mathcal{F}$.
 This is possible since
 we may always post-compose the arrows $f_i$ with an arrow
@@ -3138,6 +3140,8 @@ then $\mathcal{I}^{opp}$ is cofinal in $\mathcal{J}^{opp}$.
 \section{Exact functors}
 \label{section-exact-functor}
 
+\noindent
+In this section we define exact functors.
 
 \begin{definition}
 \label{definition-exact}
@@ -4167,29 +4171,60 @@ have the same denominator.
 \begin{lemma}
 \label{lemma-equality-morphisms-left-localization}
 Let $\mathcal{C}$ be a category and let $S$ be a left multiplicative
-system of morphisms of $\mathcal{C}$. Let $A, B : X \to Y$ be
-morphisms of $S^{-1}\mathcal{C}$ which are the equivalence
-classes of $(f : X \to Y', s : Y \to Y')$ and
-$(g : X \to Y', s : Y \to Y')$. Then
-$A = B$ if and only if there exists a morphism
-$a : Y' \to Y''$ with $a \circ s \in S$ and
-such that $a \circ f = a \circ g$.
+system of morphisms of $\mathcal{C}$. Let $A, B : X \to Y$ be morphisms
+of $S^{-1}\mathcal{C}$ which are the equivalence classes of
+$(f : X \to Y', s : Y \to Y')$ and $(g : X \to Y', s : Y \to Y')$.
+The following are equivalent
+\begin{enumerate}
+\item $A = B$
+\item there exists a morphism $t : Y' \to Y''$
+in $S$ with $t \circ f = t \circ g$, and
+\item there exists a morphism $a : Y' \to Y''$
+such that $a \circ f = a \circ g$ and $a \circ s \in S$.
+\end{enumerate}
 \end{lemma}
 
 \begin{proof}
-The equality of $A$ and $B$ means that there exists a commutative diagram
+We are going to use that $S^{-1}\mathcal{C}$ is a category
+(Lemma \ref{lemma-left-localization}) and we will
+use the notation of Definition \ref{definition-left-localization-as-fraction}
+as well as the discussion following that definition to identify some
+morphisms in $S^{-1}\mathcal{C}$. Thus we write $A = s^{-1}f$ and $B = s^{-1}g$.
+
+\medskip\noindent
+If $A = B$ then
+$(\text{id}_{Y'}^{-1}s) \circ A = (\text{id}_{Y'}^{-1}s) \circ B$.
+We have $(\text{id}_{Y'}^{-1}s) \circ A = \text{id}_{Y'}^{-1}f$
+and $(\text{id}_{Y'}^{-1}s) \circ B = \text{id}_{Y'}^{-1}g$.
+The equality of $\text{id}_{Y'}^{-1}f$ and $\text{id}_{Y'}^{-1}g$
+means by definition that there exists a commutative diagram
 $$
 \xymatrix{
  & Y' \ar[d]^u & \\
 X \ar[ru]^f \ar[r]^h \ar[rd]_g &
 Z &
-Y \ar[lu]_s \ar[l]_t \ar[ld]^s \\
+Y' \ar[lu]_{\text{id}_{Y'}} \ar[l]_t \ar[ld]^{\text{id}_{Y'}} \\
 & Y' \ar[u]_v &
 }
 $$
-with $t \in S$. In particular $u \circ s = v \circ s$. Hence by LMS3 there
-exists an $s' : Z \to Y''$ in $S$ such that $s' \circ u = s' \circ v$.
-Setting $a$ equal to this common value does the job.
+with $t \in S$. In particular $u = v = t \in S$ and $t \circ f = t\circ g$.
+Thus (1) implies (2).
+
+\medskip\noindent
+The implication (2) $\Rightarrow$ (3) is immediate. Assume $a$ is as in (3).
+Denote $s' = a \circ s \in S$.
+Then $\text{id}_{Y''}^{-1}s'$ is an isomorphism in the category
+$S^{-1}\mathcal{C}$ (with inverse $(s')^{-1}\text{id}_{Y''}$).
+Thus to check $A = B$ it suffices to check that
+$\text{id}_{Y''}^{-1}s' \circ A = \text{id}_{Y''}^{-1}s' \circ B$.
+We compute using the rules discussed in the text following
+Definition \ref{definition-left-localization-as-fraction} that
+$\text{id}_{Y''}^{-1}s' \circ A = 
+\text{id}_{Y''}^{-1}(a \circ s) \circ s^{-1}f =
+\text{id}_{Y''}^{-1}(a \circ f) =
+\text{id}_{Y''}^{-1}(a \circ g) =
+\text{id}_{Y''}^{-1}(a \circ s) \circ s^{-1}g =
+\text{id}_{Y''}^{-1}s' \circ B$ and we see that (1) is true.
 \end{proof}
 
 \begin{remark}
@@ -4477,10 +4512,14 @@ Let $\mathcal{C}$ be a category and let $S$ be a right multiplicative
 system of morphisms of $\mathcal{C}$. Let $A, B : X \to Y$ be
 morphisms of $S^{-1}\mathcal{C}$ which are the equivalence
 classes of $(f : X' \to Y, s : X' \to X)$ and
-$(g : X' \to Y, s : X' \to X)$. Then
-$A = B$ if and only if there exists a morphism
-$a : X'' \to X'$ with $s \circ a \in S$ and
-such that $f \circ a = g \circ a$.
+$(g : X' \to Y, s : X' \to X)$. The following are equivalent
+\begin{enumerate}
+\item $A = B$,
+\item there exists a morphism $t : X'' \to X'$ in $S$ with
+$f \circ t = g \circ t$, and
+\item there exists a morphism $a : X'' \to X'$ with
+$f \circ a = g \circ a$ and $s \circ a \in S$.
+\end{enumerate}
 \end{lemma}
 
 \begin{proof}
@@ -5948,6 +5987,26 @@ is given by $W \mapsto (p_\mathcal{W}(W), X(W), Y(W), t_W)$.
 Details omitted; compare with Lemma \ref{lemma-2-fibre-product-categories}.
 \end{proof}
 
+\begin{example}
+\label{example-different-2-fibre-products}
+The constructions of $2$-fibre products of categories over categories given in
+Lemma \ref{lemma-2-product-categories-over-C} and of categories in
+Lemma \ref{lemma-2-fibre-product-categories}
+(as in Example \ref{example-2-fibre-product-categories})
+produce non-equivalent outputs in general.
+Namely, let $\mathcal{S}$ be the groupoid category with one object and two
+arrows, and let $\mathcal{X}$ be the discrete category with one object.
+Taking the $2$-fibre product $\mathcal{X} \times_\mathcal{S} \mathcal{X}$
+as categories yields the discrete category with two objects. However, if
+we view all of these as categories over $\mathcal{S}$, the
+$2$-fiber product $\mathcal{X} \times_\mathcal{S} \mathcal{X}$
+as categories over $\mathcal{S}$ is the discrete category with one object.
+The difference is that (in the notation of
+Lemma \ref{lemma-2-product-categories-over-C}), we were allowed to choose
+any comparison isomorphism $f$ in the first situation, but could only
+choose the identity arrow in the second situation.
+\end{example}
+
 \begin{lemma}
 \label{lemma-fibre-2-fibre-product-categories-over-C}
 Let $\mathcal{C}$ be a category.
@@ -7043,6 +7102,28 @@ it is enough to show that the $2$-fibre product of groupoids
 is a groupoid, which is clear (from the construction in
 Lemma \ref{lemma-2-fibre-product-categories} for example).
 \end{proof}
+
+\begin{remark}
+\label{remark-2-product-fibred-categories-same}
+Let $\mathcal{C}$ be a category. Let $f : \mathcal{X} \to \mathcal{S}$
+and $g : \mathcal{Y} \to \mathcal{S}$ be $1$-morphisms of
+categories fibred in groupoids over $\mathcal{C}$.
+Let $p : \mathcal{S} \to \mathcal{C}$ be the given functor.
+We claim the $2$-fibre product of Lemma \ref{lemma-2-product-fibred-categories}
+is canonically equivalent (as a category) to the one in
+Lemma \ref{example-2-fibre-product-categories}.
+Objects of the former are quadruples $(U, x, y, \alpha)$
+where $p(\alpha) = \text{id}_U$
+(see Lemma \ref{lemma-2-product-categories-over-C})
+and objects of the latter are triples $(x, y, \alpha)$ (see
+Example \ref{example-2-fibre-product-categories}).
+The equivalence between the two categories is given by
+the rules $(U, x, y, \alpha) \mapsto (x, y, \alpha)$
+and $(x, y, \alpha) \mapsto (p(f(x)), x, y', \alpha')$
+where $\alpha' = g(\gamma)^{-1} \circ \alpha$ and $\gamma : y' \to y$
+is a lift of the arrow $p(\alpha) : p(f(x)) \to p(g(y))$.
+Details omitted.
+\end{remark}
 
 \begin{lemma}
 \label{lemma-equivalence-fibred-categories}
@@ -8281,14 +8362,65 @@ we have $\Mor_{\textit{PSh}(\mathcal{C})}(h_X, h_Y)
 
 
 
-\section{Representable 1-morphisms}
-\label{section-representable-1-morphisms}
+
+
+\section{The 2-Yoneda lemma}
+\label{section-2-yoneda}
 
 \noindent
+Let $\mathcal{C}$ be a category. The $2$-category of fibred categories
+over $\mathcal{C}$ was constructed/defined in
+Definition \ref{definition-fibred-categories-over-C}.
+If $\mathcal{S}$, $\mathcal{S}'$ are fibred categories
+over $\mathcal{C}$ then
+$$
+\Mor_{\textit{Fib}/\mathcal{C}}(\mathcal{S}, \mathcal{S}')
+$$
+denotes the category of $1$-morphisms in this $2$-category.
+Here is the $2$-category analogue of the Yoneda lemma
+in the setting of fibred categories.
+
+\begin{lemma}[2-Yoneda lemma for fibred categories]
+\label{lemma-yoneda-2category-fibred}
 Let $\mathcal{C}$ be a category.
-In this section we explain what it means for a $1$-morphism
-between categories fibred in groupoids over $\mathcal{C}$
-to be representable. Note that the $2$-category of categories
+Let $\mathcal{S} \to \mathcal{C}$ be a fibred category over $\mathcal{C}$.
+Let $U \in \Ob(\mathcal{C})$.
+The functor
+$$
+\Mor_{\textit{Fib}/\mathcal{C}}(\mathcal{C}/U, \mathcal{S})
+\longrightarrow
+\mathcal{S}_U
+$$
+given by $G \mapsto G(\text{id}_U)$ is an equivalence.
+\end{lemma}
+
+\begin{proof}
+Make a choice of pullbacks for $\mathcal{S}$
+(see Definition \ref{definition-pullback-functor-fibred-category}).
+We define a functor
+$$
+\mathcal{S}_U
+\longrightarrow
+\Mor_{\textit{Fib}/\mathcal{C}}(\mathcal{C}/U, \mathcal{S})
+$$
+as follows. Given
+$x \in \Ob(\mathcal{S}_U)$
+the associated functor is
+\begin{enumerate}
+\item on objects: $(f : V \to U) \mapsto f^*x$, and
+\item on morphisms: the arrow $(g : V'/U \to V/U)$ maps to
+the composition
+$$
+(f \circ g)^*x \xrightarrow{(\alpha_{g, f})_x} g^*f^*x \rightarrow f^*x
+$$
+where $\alpha_{g, f}$ is as in Lemma \ref{lemma-fibred}.
+\end{enumerate}
+We omit the verification that this is an inverse to the functor
+of the lemma.
+\end{proof}
+
+\noindent
+Let $\mathcal{C}$ be a category. The $2$-category of categories
 fibred in groupoids over $\mathcal{C}$ is a
 ``full'' sub $2$-category of the $2$-category of categories over
 $\mathcal{C}$ (see
@@ -8373,7 +8505,20 @@ is an equivalence, and thus $G$ is an equivalence between $\mathcal{S}$ and
 $\mathcal{S}'$ by Lemma \ref{lemma-equivalence-fibred-categories}.
 \end{remark}
 
+
+
+
+
+\section{Representable 1-morphisms}
+\label{section-representable-1-morphisms}
+
 \noindent
+Let $\mathcal{C}$ be a category.
+In this section we explain what it means for a $1$-morphism
+between categories fibred in groupoids over $\mathcal{C}$
+to be representable.
+
+\medskip\noindent
 Let $\mathcal{C}$ be a category.
 Let $\mathcal{X}$, $\mathcal{Y}$ be categories fibred in groupoids
 over $\mathcal{C}$.
@@ -8577,7 +8722,8 @@ $$
 $$
 is cartesian. This implies that
 $\mathcal{C}/W \cong \mathcal{C}/U \times_\mathcal{S} \mathcal{C}/V$
-(see Lemma \ref{lemma-diagonal-1})
+(see Lemma \ref{lemma-diagonal-1} and
+Remark \ref{remark-2-product-fibred-categories-same})
 as desired.
 
 \medskip\noindent
@@ -8610,7 +8756,8 @@ namely
 & \cong &
 \mathcal{C}/V \times_{(\mathcal{S} \times \mathcal{S})} \mathcal{S}
 \end{eqnarray*}
-(for the last isomorphism see Lemma \ref{lemma-diagonal-2})
+(for the last isomorphism see Lemma \ref{lemma-diagonal-2} and
+Remark \ref{remark-2-product-fibred-categories-same})
 which proves the lemma.
 \end{proof}
 
@@ -8993,6 +9140,235 @@ F(Y \otimes X)
 $$
 commutes.
 \end{definition}
+
+\begin{remark}
+\label{remark-internal-hom-monoidal}
+Let $\mathcal{C}$ be a monoidal category. We say $\mathcal{C}$ has
+an {\it internal hom} if for every pair of objects $X, Y$ of $\mathcal{C}$
+there is an object $hom(X, Y)$ of $\mathcal{C}$ such that we have
+$$
+\Mor(X, hom(Y, Z)) = \Mor(X \otimes Y, Z)
+$$
+functorially in $X, Y, Z$. By the Yoneda lemma the bifunctor
+$(X, Y) \mapsto hom(X, Y)$ is determined up to unique isomorphism
+if it exists. Given an internal hom we obtain canonical maps
+\begin{enumerate}
+\item $hom(X, Y) \otimes X \to Y$,
+\item $hom(Y, Z) \otimes hom(X, Y) \to hom(X, Z)$,
+\item $Z \otimes hom(X, Y) \to hom(X, Z \otimes Y)$,
+\item $Y \to hom(X, Y \otimes X)$, and
+\item $hom(Y, Z) \otimes X \to hom(hom(X, Y), Z)$ in case
+$\mathcal{C}$ is symmetric monoidal.
+\end{enumerate}
+Namely, the map in (1) is the image of $\text{id}_{hom(X, Y)}$
+by $\Mor(hom(X, Y), hom(X, Y)) \to \Mor(hom(X, Y) \otimes X, Y)$.
+To construct the map in (2) by the defining property of $hom(X, Z)$
+we need to construct a map
+$$
+hom(Y, Z) \otimes hom(X, Y) \otimes X \longrightarrow Z
+$$
+and such a map exists since by (1) we have
+maps $hom(X, Y) \otimes X \to Y$ and $hom(Y, Z) \otimes Y \to Z$.
+To construct the map in (3) by the defining property of $hom(X, Z \otimes Y)$
+we need to construct a map
+$$
+Z \otimes hom(X, Y) \otimes X \to Z \otimes Y
+$$
+for which we use $\text{id}_Z \otimes a$ where
+$a$ is the map in (1). To construct the map in (4)
+we note that we already have the map
+$Y \otimes hom(X, X) \to hom(X, Y \otimes X)$ by (3).
+Thus it suffices to construct a map $\mathbf{1} \to hom(X, X)$
+and for this we take the element in $\Mor(\mathbf{1}, hom(X, X))$
+corresponding to the canonical isomorphism $\mathbf{1} \otimes X \to X$
+in $\Mor(\mathbf{1} \otimes X, X)$.
+Finally, we come to (5). By the universal property of
+$hom(hom(X, Y), Z)$ it suffices to construct a map
+$$
+hom(Y, Z) \otimes X \otimes hom(X, Y) \longrightarrow Z
+$$
+We do this by swapping the last two tensor products using the
+commutativity constraint and then using the maps
+$hom(X, Y) \otimes X \to Y$ and $hom(Y, Z) \otimes Y \to Z$.
+\end{remark}
+
+
+
+
+
+\section{Categories of dotted arrows}
+\label{section-dotted-arrows}
+
+\noindent 
+We discuss certain ``categories of dotted arrows'' in $(2,1)$-categories. 
+These will appear when formulating various lifting criteria for 
+algebraic stacks, see for example Morphisms of Stacks,
+Section \ref{stacks-morphisms-section-valuative} and
+More on Morphisms of Stacks, Section 
+\ref{stacks-more-morphisms-section-formally-smooth}.
+
+\begin{definition}
+\label{definition-dotted-arrows}
+Let $\mathcal{C}$ be a $(2,1)$-category. Consider a $2$-commutative 
+solid diagram
+\begin{equation}
+\label{equation-dotted-arrows}
+\vcenter{
+\xymatrix{
+S \ar[r]_-x \ar[d]_j & X \ar[d]^f \\
+T \ar[r]^-y \ar@{..>}[ru] & Y
+}
+}
+\end{equation}
+in $\mathcal{C}$. Fix a $2$-isomorphism 
+$$
+\gamma : y \circ j \rightarrow f \circ x
+$$
+witnessing the $2$-commutativity of the diagram.
+Given (\ref{equation-dotted-arrows}) and $\gamma$, a \emph{dotted arrow} 
+is a triple $(a, \alpha, \beta)$ consisting of a morphism 
+$a \colon T \to X$ and and $2$-isomorphisms
+$\alpha : a \circ j \to x$, $\beta : y \to f \circ a$
+such that
+$\gamma = (\text{id}_f \star \alpha) \circ (\beta \star \text{id}_j)$,
+in other words such that
+$$
+\xymatrix{
+& f \circ a \circ j \ar[rd]^{\text{id}_f \star \alpha} \\
+y \circ j \ar[ru]^{\beta \star \text{id}_j} \ar[rr]^\gamma & &
+f \circ x
+}
+$$
+is commutative. A {\it morphism of dotted arrows}
+$(a, \alpha, \beta) \to (a', \alpha', \beta')$ is a
+$2$-arrow $\theta : a \to a'$ such that
+$\alpha = \alpha' \circ (\theta \star \text{id}_j)$ and
+$\beta' = (\text{id}_f \star \theta) \circ \beta$.
+\end{definition}
+
+\noindent
+In the situation of Definition \ref{definition-dotted-arrows}, there 
+is an associated \emph{category of dotted arrows}. 
+This category is a groupoid. It may depend on $\gamma$ in general. 
+The next two lemmas say that categories of dotted arrows 
+are well-behaved with respect to base change and composition for $f$.
+
+\begin{lemma}
+\label{lemma-cat-dotted-arrows-base-change}
+Let $\mathcal{C}$ be a $(2,1)$-category. Assume given a $2$-commutative diagram
+$$
+\xymatrix{
+S \ar[r]_-{x'} \ar[d]_j &
+X' \ar[d]^p \ar[r]_q &
+X \ar[d]^f \\
+T \ar[r]^-{y'} &
+Y' \ar[r]^g &
+Y
+}
+$$
+in $\mathcal{C}$, where the right square is $2$-cartesian 
+with respect to a $2$-isomorphism $\phi \colon g \circ p \to f \circ q$. 
+Choose a $2$-arrow
+$\gamma' : y' \circ j \to p \circ x'$. Set
+$x = q \circ x'$, $y = g \circ y'$ and let
+$\gamma : y \circ j \to f \circ x$ be  the $2$-isomorphism 
+$\gamma = (\phi \star \text{id}_{x'}) \circ (\text{id}_g \star \gamma')$. 
+Then the category $\mathcal{D}'$ of dotted arrows
+for the left square and $\gamma'$ is equivalent to the category 
+$\mathcal{D}$ of dotted
+arrows for the outer rectangle and $\gamma$.
+\end{lemma}
+
+\begin{proof}
+There is a functor $\mathcal{D}' \to \mathcal{D}$ which is 
+$(a, \alpha, \beta) \mapsto (q \circ a, \text{id}_q \star \alpha,
+(\phi \star \text{id}_a) \circ (\text{id}_g \star \beta))$ 
+on objects and $\theta \mapsto \text{id}_q \star \theta$ on arrows. 
+Checking that this functor $\mathcal{D}' \to \mathcal{D}$ is an equivalence 
+follows formally from the universal property for $2$-fibre products 
+as in Section \ref{section-2-fibre-products}. Details omitted.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-cat-dotted-arrows-composition}
+Let $\mathcal{C}$ be a $(2,1)$-category. Assume given a solid $2$-commutative
+diagram
+$$
+\xymatrix{
+S \ar[r]_-x \ar[dd]_j & X \ar[d]^f \\
+& Y \ar[d]^g \\
+T \ar[r]^-z \ar@{..>}[ruu] & Z
+}
+$$
+in $\mathcal{C}$. 
+Choose a $2$-isomorphism $\gamma \colon z \circ j \to g \circ f \circ x$. 
+Let $\mathcal{D}$ be the category of dotted arrows for 
+the outer rectangle and $\gamma$. Let $\mathcal{D}'$ be 
+the category of dotted arrows for the solid square
+$$
+\xymatrix{
+S \ar[r]_-{f \circ x} \ar[d]_j & Y \ar[d]^g \\
+T \ar[r]^-z \ar@{..>}[ru] & Z
+}
+$$
+and $\gamma$. Then $\mathcal{D}$ is equivalent to 
+a category $\mathcal{D}''$ which has the following property: 
+there is a functor $\mathcal{D}'' \to \mathcal{D}'$ which turns $\mathcal{D}''$
+into a category fibred in groupoids over $\mathcal{D}'$ and whose fibre
+categories  are isomorphic to categories of dotted arrows for certain
+solid squares of the form
+$$
+\xymatrix{
+S \ar[r]_-x \ar[d]_j & X \ar[d]^f \\
+T \ar[r]^-y \ar@{..>}[ru] & Y
+}
+$$
+and some choices of $2$-isomorphism $y \circ j \to f \circ x$.
+\end{lemma}
+
+\begin{proof}
+Construct the category $\mathcal{D}''$ whose objects are tuples
+$(a,\alpha,\beta,b,\eta)$ 
+where $(a,\alpha,\beta)$ is an object of $\mathcal{D}$ and 
+$b \colon T \rightarrow Y$ is a $1$-morphism
+and $\eta \colon b \rightarrow f \circ a$ is a $2$-isomorphism. 
+Morphisms $(a,\alpha,\beta,b,\eta) \rightarrow (a',\alpha',\beta',b',\eta')$
+in $\mathcal{D}''$ 
+are pairs $(\theta_1,\theta_2)$, where $\theta_1 \colon a \rightarrow a'$ 
+defines an arrow $(a, \alpha, \beta) \rightarrow (a', \alpha', \beta')$ 
+in $\mathcal{D}$ and $\theta_2 \colon b \rightarrow b'$ is a $2$-isomorphism 
+with the compatibility condition 
+$\eta' \circ \theta_2 = (\text{id}_f \star \theta_1) \circ \eta$.
+
+\medskip\noindent
+There is a functor $\mathcal{D}'' \rightarrow \mathcal{D}'$ which is
+$(a, \alpha, \beta, b, \eta) \mapsto
+(b, (\text{id}_f \star \alpha) \circ (\eta \star \text{id}_j),
+(\text{id}_g \star \eta^{-1}) \circ \beta)$
+on objects and $(\theta_1,\theta_2) \mapsto \theta_2$ on arrows. 
+Then $\mathcal{D}'' \rightarrow \mathcal{D}'$ is fibred in groupoids. 
+
+\medskip\noindent
+If $(y, \delta, \epsilon)$ is an object of $\mathcal{D}'$, write
+$\mathcal{D}_{y,\delta}$ 
+for the category of dotted arrows for the last displayed diagram with 
+$y \circ j \rightarrow f \circ x$ given by $\delta$.
+There is a functor $\mathcal{D}_{y,\delta} \rightarrow \mathcal{D}''$ given by
+$(a, \alpha, \eta) \mapsto
+(a, \alpha, (\text{id}_g \star \eta) \circ \epsilon, y, \eta)$
+on objects and $\theta \mapsto (\theta, \text{id}_y)$ on arrows. 
+This exhibits an isomorphism from $\mathcal{D}_{y,\delta}$ to
+the fibre category of $\mathcal{D}'' \rightarrow \mathcal{D}'$ over
+$(y,\delta,\epsilon)$.
+
+\medskip\noindent
+There is also a functor $\mathcal{D} \rightarrow \mathcal{D}''$ which is 
+$(a,\alpha,\beta) \mapsto (a,\alpha,\beta,f \circ a, \text{id}_{f \circ a})$ 
+on objects and $\theta \mapsto (\theta, \text{id}_f \star \theta)$ on arrows. 
+This functor is fully faithful and essentially surjective, hence an
+equivalence. Details omitted.
+\end{proof}
+
 
 
 

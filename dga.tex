@@ -249,13 +249,18 @@ And so on and so forth.
 \begin{definition}
 \label{definition-shift}
 Let $(A, \text{d})$ be a differential graded algebra.
-Let $M$ be a differential graded module.
-For any $k \in \mathbf{Z}$ we define the {\it $k$-shifted module}
-$M[k]$ as follows
+Let $M$ be a differential graded module whose underlying complex
+of $R$-modules is $M^\bullet$. For any $k \in \mathbf{Z}$
+we define the {\it $k$-shifted module} $M[k]$ as follows
 \begin{enumerate}
-\item as $A$-module $M[k] = M$,
-\item $M[k]^n = M^{n + k}$,
-\item $\text{d}_{M[k]} = (-1)^k\text{d}_M$.
+\item the underlying complex of $R$-modules of $M[k]$ is $M^\bullet[k]$,
+i.e., we have $M[k]^n = M^{n + k}$ and
+$\text{d}_{M[k]} = (-1)^k\text{d}_M$ and
+\item as $A$-module the multiplication
+$$
+(M[k])^n \times A^m \longrightarrow (M[k])^{n + m}
+$$
+is equal to the given multiplication $M^{n + k} \times A^m \to M^{n + k + m}$.
 \end{enumerate}
 For a morphism $f : M \to N$ of differential graded $A$-modules
 we let $f[k] : M[k] \to N[k]$ be the map equal to $f$ on underlying
@@ -264,6 +269,35 @@ $[k] : \text{Mod}_{(A, \text{d})} \to \text{Mod}_{(A, \text{d})}$.
 \end{definition}
 
 \noindent
+Let us check that with this choice the Leibniz rule is satisfied.
+Let $x \in M[k]^n = M^{n + k}$ and $a \in A^m$ and denoting
+$\cdot_{M[k]}$ the product in $M[k]$ then we see
+\begin{align*}
+\text{d}_{M[k]}(x \cdot_{M[k]} a)
+& =
+(-1)^k \text{d}_M(xa) \\
+& =
+(-1)^k \text{d}_M(x) a + (-1)^{k + n + k} x \text{d}(a) \\
+& =
+\text{d}_{M[k]}(x) a + (-1)^n x \text{d}(a) \\
+& =
+\text{d}_{M[k]}(x) \cdot_{M[k]} a + (-1)^n x \cdot_{M[k]} \text{d}(a)
+\end{align*}
+This is what we want as $x$ has degree $n$ as a homogeneous element of $M[k]$.
+We also observe that with these choices we may think of
+the multiplication map as the map of complexes
+$$
+\text{Tot}(M^\bullet[k] \otimes _R A^\bullet) \to
+\text{Tot}(M^\bullet \otimes _R A^\bullet)[k] \to
+M^\bullet[k]
+$$
+where the first arrow is
+More on Algebra, Section \ref{more-algebra-section-sign-rules}
+(\ref{more-algebra-item-shift-tensor}) which in this
+case does not involve a sign. (In fact, we could have deduced
+that the Liebniz rule holds from this observation.)
+
+\medskip\noindent
 The remarks in Homology, Section \ref{homology-section-homotopy-shift} apply.
 In particular, we will identify the cohomology groups of all shifts
 $M[k]$ without the intervention of signs.
@@ -1261,22 +1295,33 @@ $$
 is equal to $(-1)^{nk}$ times the given multiplication
 $A^n \times M^{m + k} \to M^{n + m + k}$.
 \end{enumerate}
-The reason for the sign in the multiplication in (2) is that our conventions
-(Section \ref{section-conventions}) say that we need to choose (1) first
-and then work out the consequences for multiplication. To see that the
-sign in (2) is correct, i.e., satisfies the Leibniz rule, we think
-of the multiplication as the map of complexes
+Let us check that with this choice the Leibniz rule is satisfied.
+Let $a \in A^n$ and $x \in M[k]^m = M^{m + k}$ and denoting
+$\cdot_{M[k]}$ the product in $M[k]$ then we see
+\begin{align*}
+\text{d}_{M[k]}(a \cdot_{M[k]} x)
+& =
+(-1)^{k + nk} \text{d}_M(ax) \\
+& =
+(-1)^{k + nk} \text{d}(a) x + (-1)^{k + nk + n} a \text{d}_M(x) \\
+& =
+\text{d}(a) \cdot_{M[k]} x + (-1)^{nk + n} a \text{d}_{M[k]}(x) \\
+& =
+\text{d}(a) \cdot_{M[k]} x + (-1)^n a \cdot_{M[k]} \text{d}_{M[k]}(x)
+\end{align*}
+This is what we want as $a$ has degree $n$ as a homogeneous element of $A$.
+We also observe that with these choices we may think of
+the multiplication map as the map of complexes
 $$
-\text{Tot}(A^\bullet \otimes_R M^\bullet[k])
-\to
-\text{Tot}(A^\bullet \otimes_R M^\bullet)[k]
-\to
+\text{Tot}(A^\bullet \otimes_R M^\bullet[k]) \to
+\text{Tot}(A^\bullet \otimes_R M^\bullet)[k] \to
 M^\bullet[k]
 $$
-where the first arrow is taken from
+where the first arrow is
 More on Algebra, Section \ref{more-algebra-section-sign-rules}
-which uses a $(-1)^{nk}$ on the summand $A^n \otimes_R M^m$
-for any $m \in \mathbf{Z}$.
+(\ref{more-algebra-item-shift-tensor}) which in this
+case involves exactly the sign we chose above. (In fact, we could have deduced
+that the Liebniz rule holds from this observation.)
 
 \medskip\noindent
 With the rule above we have canonical identifications
@@ -5342,6 +5387,29 @@ the map $F_{n + 1}(M)/F_n(M) \otimes_A N \to F_{n + 1}(M)/F_n(M) \otimes_A N'$
 is a quasi-isomorphism. This is true because $F_{n + 1}(M)/F_n(M)$
 is a direct sum of shifts of $A$ and the result is true for $A[k]$
 as $f : N \to N'$ is a quasi-isomorphism.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-compute-bc}
+Let $R$ be a ring. Let $(A, \text{d})$ and $(B, \text{d})$ be
+differential graded $R$-algebras. Let $N$ be a differential graded
+$(A, B)$-bimodule which has property (P) as a left differential graded
+$A$-module. Then $M \otimes_A^\mathbf{L} N$ is computed by
+$M \otimes_A N$ for all differential graded $A$-modules $M$.
+\end{lemma}
+
+\begin{proof}
+Let $f : M \to M'$ be a homomorphism of differential graded $A$-modules
+which is a quasi-isomorphism. We claim that $f \otimes \text{id} :
+M \otimes_A N \to M' \otimes_A N$ is a quasi-isomorphism. If this
+is true, then by the construction of the derived tensor product
+in the proof of Lemma \ref{lemma-derived-bc} we obtain the desired result.
+The construction of the map $f \otimes \text{id}$ only depends
+on the left differential graded $A$-module structure on $N$.
+Moreover, we have $M \otimes_A N = N \otimes_{A^{opp}} M =
+N \otimes_{A^{opp}}^\mathbf{L} M$ because $N$ has property (P) as
+a differential graded $A^{opp}$-module. Hence the claim follows
+from Lemma \ref{lemma-functoriality-bc}.
 \end{proof}
 
 \begin{lemma}
