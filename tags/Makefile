@@ -19,7 +19,7 @@ LIJST = introduction conventions sets categories \
 	adequate dualizing duality discriminant derham local-cohomology \
 	algebraization curves resolve models functors equiv \
 	pione etale-cohomology \
-	crystalline proetale more-etale trace \
+	crystalline proetale relative-cycles more-etale trace \
 	spaces spaces-properties spaces-morphisms decent-spaces \
 	spaces-cohomology spaces-limits spaces-divisors spaces-over-fields \
 	spaces-topologies \
