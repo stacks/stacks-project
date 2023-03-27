@@ -31340,7 +31340,7 @@ $P = \prod_{\sigma \in G} (T - \sigma(a))$.
 Let $R$ be a ring. Let $G$ be a finite group acting on $R$. Let $I \subset R$
 be an ideal such that $\sigma(I) \subset I$ for all $\sigma \in G$.
 Then $R^G/I^G \subset (R/I)^G$ is an integral extension of rings which
-induces homeomorphisms on spectra and purely inseparable extensions of
+induces a homeomorphism on spectra and purely inseparable extensions of
 residue fields.
 \end{lemma}
 
@@ -31352,52 +31352,90 @@ applies.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-pol-in-ideal}
+Let $G$ be a finite group of order $n$ acting on a ring $R$.
+Let $J \subset R^G$ be an ideal. For $x \in JR$
+we have $\prod_{\sigma \in G} (T - \sigma(x)) =
+T^n + a_1 T^{n - 1} + \ldots + a_n$ with $a_i \in J$.
+\end{lemma}
+
+\begin{proof}
+Observe that the polynomial is indeed monic and has coefficients in $R^G$.
+We can write $x = f_1 b_1 + \ldots + f_m b_m$ with $f_j \in J$ and $b_j \in R$.
+Thus, arguing by induction on $m$, we may assume that $x = y - fb$ with
+$f \in J$, $b \in R$, and $y \in JR$ such that the result holds for $y$.
+Then we see that
+$$
+\prod\nolimits_{\sigma \in G} (T - \sigma(x)) =
+\prod\nolimits_{\sigma \in G} (T - \sigma(y) + f\sigma(b)) =
+\prod\nolimits_{\sigma \in G} (T - \sigma(y)) +
+\sum_{i = 1, \ldots, n} f^i a_i
+$$
+where we have
+$$
+a_i =
+\sum\nolimits_{S \subset G,\ |S| = i}
+\prod\nolimits_{\sigma \in S} \sigma(b)
+\prod\nolimits_{\sigma \not \in S} (T - \sigma(y))
+$$
+A computation we omit shows that $a_i \in R^G$ (hint: the given expression
+is symmetric). Thus the polynomial
+of the statement of the lemma
+for $x$ is congruent modulo $J$ to the polynomial for $y$
+and this proves the induction step.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-invariants-modulo-bis}
+Let $R$ be a ring. Let $G$ be a finite group of order $n$ acting on $R$.
+Let $J \subset R^G$ be an ideal. Then $R^G/J \to (R/JR)^G$ is ring map
+such that
+\begin{enumerate}
+\item for $b \in (R/JR)^G$ there is a monic polynomial
+$P \in R^G/J[T]$ whose image in $(R/JR)^G[T]$ is $(T - b)^n$,
+\item for $a \in \Ker(R^G/J \to (R/JR)^G)$
+we have $(T - a)^n = T^n$ in $R^G/J[T]$.
+\end{enumerate}
+In particular, $R^G/J \to (R/JR)^G$ is an integral ring map which
+induces homeomorphisms on spectra and purely inseparable extensions of
+residue fields.
+\end{lemma}
+
+\begin{proof}
+Part (1) follow from Lemma \ref{lemma-pol-lifting} with $I = JR$.
+If $a$ is as in part (2), then $a$ is the image of $x \in R^G \cap JR$.
+Hence $(T - x)^n = \prod_{\sigma \in G} (T - \sigma(x))$
+is congruent to $T^n$ modulo $J$ by Lemma \ref{lemma-pol-in-ideal}.
+This proves part (2). To see the final statement we may apply
+Algebra, Lemma \ref{algebra-lemma-universally-bijective}.
+\end{proof}
+
+\begin{remark}
+\label{remark-when-iso}
+In Lemma \ref{lemma-invariants-modulo-bis}
+we see that the map $R^G/J \to (R/JR)^G$
+is an isomorphism if $n$ is invertible in $R$.
+\end{remark}
+
+\begin{lemma}
 \label{lemma-functor-invariants-tensor}
 Let $R$ be a ring. Let $G$ be a finite group of order $n$ acting on $R$.
 Let $A$ be an $R^G$-algebra.
 \begin{enumerate}
 \item for $b \in (A \otimes_{R^G} R)^G$ there exists a monic polynomial
 $P \in A[T]$ whose image in $(A \otimes_{R^G} R)^G[T]$ is $(T - b)^n$,
-\item for $a \in A$ mapping to zero in $(A \otimes_{R^G} R)^G$ we have
-$(T - a)^{n^2} = T^{n^2}$ in $A[T]$.
+\item for $a \in \Ker(A \to (A \otimes_{R^G} R)^G)$ we have
+$(T - a)^n = T^n$ in $A[T]$.
 \end{enumerate}
 \end{lemma}
 
 \begin{proof}
-Write $A$ as the quotient of a polynomial algebra $P$ over $R^G$.
-Then $(P \otimes_{R^G} R)^G = P$ because $P$ is free as an $R^G$-module.
-Hence part (1) follows from Lemma \ref{lemma-pol-lifting}.
-
-\medskip\noindent
-Let $J = \Ker(P \to A)$. Lift $a$ as in (2) to an element $f \in P$.
-Then $f \otimes 1$ maps to zero in $A \otimes_{R^G} R$.
-Hence $f \otimes 1$ is in $(J')^G$ where $J' \subset P \otimes_{R^G} R$
-is the image of the map $J \otimes_{R^G} R \to P \otimes_{R^G} R$.
-Apply Lemma \ref{lemma-pol-lifting} to $f \otimes 1$
-and the surjective ring map
-$$
-\text{Sym}^*_{R^G}(J) \otimes_{R^G} R
-\longrightarrow
-A' \subset \text{Sym}^*_{R^G}(P) \otimes_{R^G} R
-$$
-which defines $A'$. We obtain
-$P \in (\text{Sym}^*_{R^G}(J) \otimes_{R^G} R)^G[T]$
-mapping to $(T - f \otimes 1)^n$ in $A'[T]$.
-Apply part (1) to see that there exists a
-$P' \in \text{Sym}^*_{R^G}(J)[T, T']$ whose image
-is $(T' - P)^n$. Since $\text{Sym}_{R^G}^*(P)$ is still
-free over $R^G$ we conclude that $P'$ maps to $(T' - (T - f)^n)^n$
-in $\text{Sym}_{R^G}^*(P)$. On the other hand, tracing through
-the construction of the polynomials $P$ and $P'$ in
-Lemma \ref{lemma-pol-lifting}
-we see that $P'$ is congruent to $(T' - T^n)^n$ modulo
-the irrelevant ideal of the graded ring $\text{Sym}^*_{R^G}(J)$.
-It follows that
-$$
-(T' - (T - a)^n)^n = (T' - T^n)^n
-$$
-in $A[T', T]$. Setting $T' = 0$ for example we obtain the statement
-of the lemma.
+Choose a surjection $E \to A$ where $E$ is a polynomial algebra over $R^G$.
+Then $(E \otimes_{R^G} R)^G = E$ because $E$ is free as an $R^G$-module.
+Denote $J = \Ker(E \to A)$. Since tensor product is right exact we see
+that $A \otimes_{R^G} R$ is the quotient of $E \otimes_{R^G} R$
+by the ideal generated by $J$. In this way we see that our lemma
+is a special case of Lemma \ref{lemma-invariants-modulo-bis}.
 \end{proof}
 
 \begin{lemma}
@@ -31413,12 +31451,15 @@ induces purely inseparable residue field extensions.
 \end{lemma}
 
 \begin{proof}
-The first statement follows from Lemma \ref{lemma-functor-invariants-tensor}
-and Algebra, Lemma \ref{algebra-lemma-universally-bijective}.
-To see the second consider the
+To see the first statement consider the
 exact sequence $0 \to R^G \to R \to \bigoplus_{\sigma \in G} R$
-where the second map sends $x$ to $(\sigma(x) - x)$. Tensoring with
-$A$ the sequence remains exact if $R^G \to A$ is flat.
+where the second map sends $x$ to $(\sigma(x) - x)_{\sigma \in G}$.
+Tensoring with $A$ the sequence remains exact if $R^G \to A$ is flat.
+Thus $A$ is the $G$-invariants in $(A \otimes_{R^G} R)^G$.
+
+\medskip\noindent
+The second statement follows from Lemma \ref{lemma-functor-invariants-tensor}
+and Algebra, Lemma \ref{algebra-lemma-universally-bijective}.
 \end{proof}
 
 \begin{lemma}
