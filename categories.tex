@@ -1750,7 +1750,6 @@ This is a special case of Lemma \ref{lemma-colimit-constant-connected-fibers}.
 
 
 
-
 \section{Finite limits and colimits}
 \label{section-finite-limits}
 
@@ -2833,6 +2832,22 @@ Remarks \ref{remark-ind-category} and \ref{remark-pro-category}.
 In fact we will often use the terminology ``essentially constant system''
 which formally speaking is only defined for systems over directed sets.
 
+\begin{remark}
+	\label{remark-essentially-constant-down-the-diagram}
+	Let $M:\mathcal{I}\to\mathcal{C}$ be a diagram,
+	with $\mathcal{I}$ filtered (resp., cofiltered).
+	Suppose that $M$ is essentially constant
+	with value $X$
+	with respect to a morphism $X\to M_i$
+	(resp., to a morphism $M_i\to X$). Then, for any morphism
+	$i\to j$ (resp., $j\to i$) in $\mathcal{I}$,
+	the diagram $M$ is also essentially constant with value $X$
+	with respect to the composite morphism $X\to M_i\to M_j$
+	(resp., $M_j\to M_i\to X$). Verifying this fact is an easy exercise
+	that uses the (co)filteredness of $\mathcal{I}$
+	and we leave it to the reader.
+\end{remark}
+
 \begin{definition}
 \label{definition-essentially-constant-system}
 Let $\mathcal{C}$ be a category. A directed system
@@ -3000,7 +3015,7 @@ definition that $F(X)$ is a value for $F \circ M$.
 \label{lemma-characterize-essentially-constant-ind}
 Let $\mathcal{C}$ be a category. Let $M : \mathcal{I} \to \mathcal{C}$
 be a diagram with filtered index category $\mathcal{I}$.
-The following are equivalent
+The following are equivalent:
 \begin{enumerate}
 \item $M$ is an essentially constant ind-object, and
 \item $X = \colim_i M_i$ exists and for any $W$ in $\mathcal{C}$
@@ -3010,11 +3025,20 @@ $$
 \Mor_\mathcal{C}(W, X)
 $$
 is bijective.
+\item There are objects $X$ in $\mathcal{C}$, $i$ in $\mathcal{I}$,
+and a map $f:X\to M_i$ such that for any $W$ in $\mathcal{C}$, the map
+\[
+\Mor_\mathcal{C}(W,X)
+\to\colim_{j\in\mathcal{I}}\Mor_\mathcal{C}(W,M_j),
+\]
+induced by postcomposition with $f:X\to M_i$, is bijective.
 \end{enumerate}
+Moreover, if (3) holds, then $X=\colim_{\mathcal{I}}M_j$.
 \end{lemma}
 
 \begin{proof}
-Assume (2) holds. Then $\text{id}_X \in \Mor_\mathcal{C}(X, X)$
+(2) $\Rightarrow$ [(1)+(3)].
+We have that $\text{id}_X \in \Mor_\mathcal{C}(X, X)$
 comes from a morphism $X \to M_i$ for some $i$, i.e., $X \to M_i \to X$
 is the identity. Then both maps
 $$
@@ -3034,17 +3058,51 @@ $$
 \longrightarrow
 \colim_i \Mor_\mathcal{C}(W, M_i)
 $$
-is the identity too. Setting $W = M_j$ and starting with $\text{id}_{M_j}$
+is the identity too.
+This proves (3) holds.
+Setting $W = M_j$ and starting with $\text{id}_{M_j}$
 in the colimit, we see that $M_j \to X \to M_i \to M_k$ is equal to
 $M_j \to M_k$ for some $k$ large enough. This proves (1) holds.
+
+\medskip\noindent
 The proof of (1) $\Rightarrow$ (2) is omitted.
+
+\medskip\noindent (3) $\Rightarrow$ (1).
+Let $j\in\mathcal{I}$ and consider $W=M_j$.
+Then taking the pre-image of $\text{id}_{M_j}$ by the map
+from the statement gives a unique map $c_j:M_j\to X$ for which
+there are morphisms $\alpha:i\to k$, $\beta:j\to k$ in $\mathcal{I}$
+such that the diagram
+\[
+\xymatrix{
+	M_j \ar@{->}[r]^{M_\beta} \ar@{->}[d]_{c_j} & M_k \\
+	X \ar@{->}[r]^{f} & M_i \ar@{->}[u]_{M_\alpha}
+}
+\]
+commutes.
+Note that condition (b) of Definition
+\ref{definition-essentially-constant-diagram} is automatically satisfied.
+On the other hand, from the uniqueness of $c_j$ one deduces
+that the morphisms $\{c_j\}$ assemble into a cocone under $M$.
+Finally, to see $c_i\circ f=\text{id}_X$, it suffices to see
+equality under the map from point (3) of the statement.
+In other words, we must see that $f$ and $f\circ c_i\circ f$
+belong to the same equivalence class in the colimit.
+Indeed, there are maps $\alpha,\beta:i\to k$ such that the diagram
+\[
+\xymatrix{
+	X \ar@{->}[r]^{f} & M_i \ar@/_1pc/@{->}[rrr]_{M_\beta} \ar@{->}[r]^{c_i}
+	& X \ar@{->}[r]^{f} & M_i \ar@{->}[r]^{M_\alpha} & M_k
+}
+\]
+commutes.
 \end{proof}
 
 \begin{lemma}
 \label{lemma-characterize-essentially-constant-pro}
 Let $\mathcal{C}$ be a category. Let $M : \mathcal{I} \to \mathcal{C}$
 be a diagram with cofiltered index category $\mathcal{I}$.
-The following are equivalent
+The following are equivalent:
 \begin{enumerate}
 \item $M$ is an essentially constant pro-object, and
 \item $X = \lim_i M_i$ exists and for any $W$ in $\mathcal{C}$
@@ -3055,11 +3113,19 @@ $$
 \Mor_\mathcal{C}(X, W)
 $$
 is bijective.
+\item There are objects $X$ in $\mathcal{C}$, $i$ in $\mathcal{I}$,
+and a map $f:M_i\to X$ such that for any $W$ in $\mathcal{C}$, the map
+\[
+\Mor_\mathcal{C}(X,W)
+\to\colim_{j\in\mathcal{I}^\text{opp}}\Mor_\mathcal{C}(M_j,X),
+\]
+induced by precomposition with $f:M_i\to X$, is bijective.
 \end{enumerate}
+Moreover, if (3) holds, then $X=\lim_{\mathcal{I}}M_j$.
 \end{lemma}
 
 \begin{proof}
-Assume (2) holds. Then $\text{id}_X \in \Mor_\mathcal{C}(X, X)$
+(2) $\Rightarrow$ [(1)+(3)]. Then $\text{id}_X \in \Mor_\mathcal{C}(X, X)$
 comes from a morphism $M_i \to X$ for some $i$, i.e., $X \to M_i \to X$
 is the identity. Then both maps
 $$
@@ -3079,10 +3145,14 @@ $$
 \longrightarrow
 \colim_i \Mor_\mathcal{C}(M_i, W)
 $$
-is the identity too. Setting $W = M_j$ and starting with $\text{id}_{M_j}$
+is the identity too.
+This proves (3) holds.
+Setting $W = M_j$ and starting with $\text{id}_{M_j}$
 in the colimit, we see that $M_k \to M_i \to X \to M_j$ is equal to
 $M_k \to M_j$ for some $k$ large enough. This proves (1) holds.
 The proof of (1) $\Rightarrow$ (2) is omitted.
+The proof of (3) $\Rightarrow$ (1) is dual to the corresponding one in
+Lemma \ref{lemma-characterize-essentially-constant-ind}.
 \end{proof}
 
 \begin{lemma}
@@ -3131,7 +3201,6 @@ Lemmas \ref{lemma-characterize-essentially-constant-pro},
 the fact that if $\mathcal{I}$ is initial in $\mathcal{J}$,
 then $\mathcal{I}^{opp}$ is cofinal in $\mathcal{J}^{opp}$.
 \end{proof}
-
 
 
 
