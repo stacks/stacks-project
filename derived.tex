@@ -47,20 +47,21 @@ and pre-triangulated categories.
 
 \begin{definition}
 \label{definition-triangle}
-Let $\mathcal{D}$ be an additive category.
-Let $[n] : \mathcal{D} \to \mathcal{D}$, $E \mapsto E[n]$
-be a collection of additive functors indexed by $n \in \mathbf{Z}$ such that
-$[n] \circ [m] = [n + m]$  and $[0] = \text{id}$ (equality as functors).
-In this situation we define a {\it triangle} to be a sextuple
+Let $\mathcal{D}$ be an additive category. Let
+$[1] : \mathcal{D} \to \mathcal{D}$, $E \mapsto E[1]$
+be an additive functor which is an auto-equivalence of $\mathcal{D}$.
+\begin{enumerate}
+\item A {\it triangle} is a sextuple
 $(X, Y, Z, f, g, h)$ where $X, Y, Z \in \Ob(\mathcal{D})$ and
 $f : X \to Y$, $g : Y \to Z$ and $h : Z \to X[1]$ are morphisms
 of $\mathcal{D}$.
-A {\it morphism of triangles}
+\item A {\it morphism of triangles}
 $(X, Y, Z, f, g, h) \to (X', Y', Z', f', g', h')$
 is given by morphisms $a : X \to X'$, $b : Y \to Y'$ and $c : Z \to Z'$
 of $\mathcal{D}$ such that
 $b \circ f = f' \circ a$, $c  \circ g = g' \circ b$ and
 $a[1] \circ h = h' \circ c$.
+\end{enumerate}
 \end{definition}
 
 \noindent
@@ -78,6 +79,15 @@ Z' \ar[r] &
 X'[1]
 }
 $$
+In the setting of Definition \ref{definition-triangle}, we
+write $[0] = \text{id}$, for $n > 0$ we denote $[n]$ the $n$-fold
+composition of $[1]$, we choose a quasi-inverse $[-1]$ of $[1]$, and
+we set $[-n]$ equal to the $n$-fold composition of $[-1]$. Then
+$\{[n]\}_{n \in \mathbf{Z}}$ is a collection of additive auto-equivalences
+of $\mathcal{D}$ indexed by $n \in \mathbf{Z}$ such that we are given
+isomorphisms of functors $[n] \circ [m] \cong [n + m]$.
+
+\medskip\noindent
 Here is the definition of a triangulated category as given in
 Verdier's thesis.
 
@@ -88,11 +98,11 @@ $(\mathcal{D}, \{[n]\}_{n\in \mathbf{Z}}, \mathcal{T})$
 where
 \begin{enumerate}
 \item $\mathcal{D}$ is an additive category,
-\item $[n] : \mathcal{D} \to \mathcal{D}$, $E \mapsto E[n]$
-is a collection of additive functors indexed by $n \in \mathbf{Z}$ such that
-$[n] \circ [m] = [n + m]$ and $[0] = \text{id}$ (equality as functors), and
-\item $\mathcal{T}$ is a set of triangles called the
-{\it distinguished triangles}
+\item $[1] : \mathcal{D} \to \mathcal{D}$, $E \mapsto E[1]$
+is an additive auto-equivalence and $[n]$ for $n \in \mathbf{Z}$ is
+as discussed above, and
+\item $\mathcal{T}$ is a set of triangles (Definition \ref{definition-triangle})
+called the {\it distinguished triangles}
 \end{enumerate}
 subject to the following conditions
 \begin{enumerate}
@@ -218,7 +228,8 @@ In this case we drop $\mathcal{T}'$ from the notation.}
 is a pair $(\mathcal{D}', \mathcal{T}')$ such that
 \begin{enumerate}
 \item $\mathcal{D}'$ is an additive subcategory of $\mathcal{D}$
-which is preserved under $[1]$ and $[-1]$,
+which is preserved under $[1]$ and such that
+$[1] : \mathcal{D}' \to \mathcal{D}'$ is an auto-equivalence,
 \item $\mathcal{T}' \subset \mathcal{T}$ is a subset such that for every
 $(X, Y, Z, f, g, h) \in \mathcal{T}'$ we have
 $X, Y, Z \in \Ob(\mathcal{D}')$ and
@@ -854,7 +865,8 @@ The following are equivalent
 \item there exists a set of triangles $\mathcal{T}'$ such that
 $(\mathcal{D}', \mathcal{T}')$ is a pre-triangulated subcategory
 of $\mathcal{D}$,
-\item $\mathcal{D}'$ is preserved under $[1], [-1]$ and
+\item $\mathcal{D}'$ is preserved under $[1]$ and
+$[1] : \mathcal{D}' \to \mathcal{D}'$ is an auto-equivalence and
 given any morphism $f : X \to Y$ in $\mathcal{D}'$ there exists
 a distinguished triangle $(X, Y, Z, f, g, h)$ in $\mathcal{D}$
 such that $Z$ is isomorphic to an object of $\mathcal{D}'$.
@@ -1147,7 +1159,8 @@ Let $\mathcal{D}$ be a pre-triangulated category. We say a multiplicative
 system $S$ is {\it compatible with the triangulated structure} if
 the following two conditions hold:
 \begin{enumerate}
-\item[MS5] For $s \in S$ we have $s[n] \in S$ for all $n \in \mathbf{Z}$.
+\item[MS5] For a morphism $f$ of $\mathcal{D}$ we have
+$f \in S \Leftrightarrow f[1] \in S$\footnote{See Remark \ref{remark-MS5}.}.
 \item[MS6] Given a solid commutative square
 $$
 \xymatrix{
@@ -1174,15 +1187,38 @@ axioms defining multiplicative systems.
 \begin{lemma}
 \label{lemma-localization-conditions}
 Let $\mathcal{D}$ be a pre-triangulated category.
-Let $S$ be a set of morphisms of $\mathcal{D}$ and assume that axioms
-MS1, MS5, MS6 hold (see
-Categories, Definition \ref{categories-definition-multiplicative-system}
-and
-Definition \ref{definition-localization}).
-Then MS2 holds.
+Let $S \subset \text{Arrows}(\mathcal{D})$.
+\begin{enumerate}
+\item If $S$ contains all identities and MS6 holds
+(Definition \ref{definition-localization}),
+then every isomorphism of $\mathcal{D}$ is in $S$.
+\item If MS1, MS5 (Categories, Definition
+\ref{categories-definition-multiplicative-system}) and MS6 hold,
+then MS2 holds.
+\end{enumerate}
 \end{lemma}
 
 \begin{proof}
+Assume $S$ contains all identities and MS6 holds.
+Let $f : X \to Y$ be an isomorphism of $\mathcal{D}$.
+Consider the diagram
+$$
+\xymatrix{
+0 \ar[r] \ar[d]^1 &
+X \ar[r]_1 \ar[d]^1 &
+X \ar[r] \ar@{-->}[d] &
+0[1] \ar[d]^{1[1]} \\
+0 \ar[r] &
+X \ar[r]^f &
+Y \ar[r] &
+0[1]
+}
+$$
+The rows are distinguished triangles by Lemma \ref{lemma-third-object-zero}.
+By MS6 we see that the dotted arrow exists and is in $S$, so $f$ is in $S$.
+
+\medskip\noindent
+Assume MS1, MS5, MS6.
 Suppose that $f : X \to Y$ is a morphism of $\mathcal{D}$ and
 $t : X \to X'$ an element of $S$. Choose a distinguished triangle
 $(X, Y, Z, f, g, h)$. Next, choose a distinguished triangle
@@ -1203,6 +1239,19 @@ X'[1]
 $$
 with moreover $s' \in S$. This proves LMS2. The proof of RMS2 is dual.
 \end{proof}
+
+\begin{remark}
+\label{remark-MS5}
+In the presence of MS1 and MS6, condition MS5 is equivalent to asking
+$s[n] \in S$ for all $s \in S$ and $n \in \mathbf{Z}$. For example,
+suppose MS5 holds, we have $s \in S$, and we want to show $s[-1] \in S$.
+This isn't immediate because $s[-1][1]$ is not equal to $s$, only
+isomorphic to $s$ as an arrow of $\mathcal{D}$. Still, this does imply that
+$s[-1][1] = f \circ s \circ g$ for isomorphisms $f$, $g$. By
+Lemma \ref{lemma-localization-conditions} (1) we find $f, g \in S$,
+hence $s[-1][1] \in S$ by MS1, hence $s[-1] \in S$ by MS5.
+We leave a complete proof to the reader as an exercise.
+\end{remark}
 
 \begin{lemma}
 \label{lemma-triangle-functor-localize}
@@ -1312,8 +1361,8 @@ The proof of RMS3 is dual.
 Let $\mathcal{D}$ be a pre-triangulated category. Let $S$ be a multiplicative
 system compatible with the triangulated structure.
 Then there exists a unique structure of a pre-triangulated category on
-$S^{-1}\mathcal{D}$ such that the localization functor
-$Q : \mathcal{D} \to S^{-1}\mathcal{D}$ is exact.
+$S^{-1}\mathcal{D}$ such that $[1] \circ Q = Q \circ [1]$ and
+the localization functor $Q : \mathcal{D} \to S^{-1}\mathcal{D}$ is exact.
 Moreover, if $\mathcal{D}$ is a triangulated category, so is
 $S^{-1}\mathcal{D}$.
 \end{proposition}
@@ -1322,11 +1371,12 @@ $S^{-1}\mathcal{D}$.
 We have seen that $S^{-1}\mathcal{D}$ is an additive category
 and that the localization functor $Q$ is additive in
 Homology, Lemma \ref{homology-lemma-localization-additive}.
-It is clear that we may define $Q(X)[n] = Q(X[n])$ since
-$\mathcal{S}$ is preserved under the shift functors $[n]$ by
-MS5. Finally, we say a triangle of $S^{-1}\mathcal{D}$ is distinguished
-if it is isomorphic to the image of a distinguished triangle under
-the localization functor $Q$.
+It follows from MS5 that there is a unique additive auto-equivalence
+$[1] : S^{-1}\mathcal{D} \to S^{-1}\mathcal{D}$
+such that $Q \circ [1] = [1] \circ Q$ (equality of functors);
+we omit the details. We say a triangle of $S^{-1}\mathcal{D}$
+is distinguished if it is isomorphic to the image of a
+distinguished triangle under the localization functor $Q$.
 
 \medskip\noindent
 Proof of TR1. The only thing to prove here is that if
