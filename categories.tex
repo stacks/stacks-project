@@ -371,7 +371,24 @@ are quasi-inverse equivalences of categories.
 \end{lemma}
 
 \begin{proof}
-Omitted.
+    To construct $j : \mathcal{B} \to \mathcal{A}$, there are two steps. Firstly, we define the map $j : \Ob(\mathcal{B}) \to \Ob(\mathcal{A})$ that associates $j(X)$ to $X \in \mathcal{B}$. Secondly, if $X,Y \in \Ob(\mathcal{B})$ and $\phi : X \to Y$, we consider $\phi' := i_Y \circ\phi\circ i_X^{-1}$. There is an unique $\varphi$ verifying $F(\varphi) = \phi'$, using that $F$ is fully faithful. Now, if we define $j(\phi) = \varphi$, the diagram
+        $$\xymatrix{
+        X \ar[r]^{i_X} \ar[d]_{\phi}
+        &
+        F(j(X)) \ar[d]^{F\circ j(\phi)}
+        \\
+        Y \ar[r]^{i_Y}
+        &
+        F(j(Y))
+        }
+        $$
+    commutes. Thus, as each component $i_X$ is an isomorphism, $\{i_X\}_X$ is an isomorphism of functor $\text{id}_\mathcal{B} \to F\circ j$. To conclude, we have to also prove that $j \circ F$ is isomorphic to $\text{id}_\mathcal{A}$. If $Y \in \Ob(\mathcal A)$, by full faithfulness of $F$ , there is a unique isomorphism $k_Y : Y \to j(F(Y))$ such that $F(k_Y) = i_{F(Y)}$. Let $Y,Z \in \Ob(\mathcal A)$ and $\phi : Y \to Z$. We know that  
+    $$ F(k_Z \circ \phi) = F(k_Z)\circ F(\phi) = i_{F(Z)}\circ F(\phi) $$
+    and
+    $$ F(j(F(\phi))\circ k_Y) = F(j(F(\phi))\circ F(k_Y) = F(j(F(\phi))\circ i_{F(Y)} $$ by construction. However, we proved that $ \text{id}_\mathcal{B} \cong F\circ j $, which gives the relation $ i_{F(Z)}\circ F(\phi) = F(j(F(\phi))\circ i_{F(Y)} $. Therefore, 
+    $$ F(k_Z \circ \phi) = F(j(F(\phi))\circ k_Y) $$
+    and then
+    $$ k_Z \circ \phi = j(F(\phi))\circ k_Y $$ by faithfulness of $F$. It proves that $k : \text{id}_\mathcal{A} \to j\circ F$ is an isomorphism of functor, which concludes the proof.
 \end{proof}
 
 \begin{lemma}
@@ -770,7 +787,100 @@ Then $g \circ f : x \to z$ is representable.
 \end{lemma}
 
 \begin{proof}
-Omitted.
+    Let $t \in \Ob(\mathcal C)$ and $ \varphi \in \Mor_{\mathcal C}(t,z) $. As $g$ is representable, it gives two morphisms $p$ and $q$ such that 
+        $$\xymatrix{
+        y \times_z t \ar[r]^{q} \ar[d]_p
+        &
+        t \ar[d]^{\varphi}
+        \\
+        y \ar[r]^{g}
+        &
+        z
+        }
+        $$
+    commutes. Again, as $f$ is also representable, we have $p'$ and $q'$ such that
+        $$\xymatrix{
+        x \times_y (y\! \times_z\! t) \ar[r]^{q'} \ar[d]_{p'}
+        &
+        y \times_z t \ar[d]^{p}
+        \\
+        x \ar[r]^{f}
+        &
+        y
+        }
+        $$
+    commutes. Therefore it is the same for the diagram
+        $$\xymatrix@C4.5pc{
+        x \times_y (y\! \times_z\! t) \ar[r]^{q \circ q'} \ar[d]_{p'}
+        &
+        t \ar[d]^{\varphi}
+        \\
+        x \ar[r]^{f\circ g}
+        &
+        z
+        }
+        $$
+    with $ q \circ q' \in \Mor_\mathcal{C}(x \times_y (y\! \times_z\! t),t) $.
+    Now let $w\in \Ob(\mathcal C)$ and $x \times_z t$ be $ x \times_y (y \times_z t) $. By definition of the fibre product, there are unique morphisms $\delta$ and $\gamma$ such that 
+        $$
+        \xymatrix{
+        w \ar[rrrd]^\beta \ar@{-->}[rrd]_\delta \ar[rrdd]_{f\circ\alpha}
+        &
+        &
+        \\
+        &
+        &
+        y \times_z t \ar[d]_p \ar[r]_q
+        &
+        t \ar[d]^{\varphi}
+        \\
+        &
+        &
+        y \ar[r]^{g}
+        &
+        z}
+        $$
+        and
+        $$
+        \xymatrix{
+        w \ar[rrrd]^\delta \ar@{-->}[rrd]_\gamma \ar[rrdd]_{\alpha}
+        &
+        &
+        \\
+        &
+        &
+        x \times_y (y\!\times_z\! t) \ar[d]_{p'} \ar[r]_{q'}
+        &
+        y \times_z t \ar[d]^{p}
+        \\
+        &
+        &
+        x \ar[r]^{f}
+        &
+        y}
+        $$
+    commute. Then, $\gamma$ makes the diagram
+        $$
+        \xymatrix{
+        w \ar[rrrd]^\beta \ar@{-->}[rrd]_\gamma \ar[rrdd]_{\alpha}
+        &
+        &
+        \\
+        &
+        &
+        x \times_z t \ar[d]_{p'} \ar[r]_{q\circ q'}
+        &
+        t \ar[d]^{\varphi}
+        \\
+        &
+        &
+        x \ar[r]^{g\circ f}
+        &
+        z}
+        $$
+    commute. To show its uniqueness, let $\gamma'$ verify $ q\circ q'\circ\gamma' = \beta $ and $ p'\circ \gamma' = \alpha $. Because $\gamma$ is unique, we just need to prove that $ q'\circ\gamma' = \delta $ and $ p'\circ\gamma' = \alpha $ to conclude. We supposed the second equality. For the first one, we also need to use the uniqueness of delta. Notice that $\delta$ is the only morphism verifying $ q\circ\delta = \beta $ and $ p\circ\delta = f\circ\alpha $. We already supposed that $ q\circ (q'\circ\gamma') = \beta $. Furthermore, by definition of the fibre product, we know that $ f\circ p' = p\circ q' $. Therefore : 
+    $$ p\circ (q'\circ\gamma') = (p\circ q')\circ\gamma' = (f\circ p')\circ\gamma' = f\circ (p'\circ\gamma') = f\circ\alpha. $$ 
+    Then $ q'\circ\gamma' = \delta $, which concludes the proof.
 \end{proof}
 
 \begin{lemma}
@@ -1140,7 +1250,35 @@ $Y \amalg_X Y$.
 \end{lemma}
 
 \begin{proof}
-Omitted.
+    Let suppose that $f$ is a monomorphism. Let $W$ be an object of $\mathcal C$ and $\alpha, \beta \in \Mor_\mathcal C(W,X)$ such that $f\circ \alpha = f\circ \beta$. Therefore $\alpha = \beta$ as $f$ is monic. In addition, we have the commutative diagram 
+        $$\xymatrix{
+        X \ar[r]^{\text{id}_X} \ar[d]_{\text{id}_X}
+        &
+        X \ar[d]^{f}
+        \\
+        X \ar[r]^{f}
+        &
+        Y
+        }
+        $$
+    which verify the universal property with $\gamma := \alpha = \beta$. Thus $X$ is indeed the fibre product $X\times_Y X$.
+    
+    Now let suppose that $ X\times_Y X \cong X $. The diagram
+        $$\xymatrix{
+        X \ar[r]^{\text{id}_X} \ar[d]_{\text{id}_X}
+        &
+        X \ar[d]^{f}
+        \\
+        X \ar[r]^{f}
+        &
+        Y
+        }
+        $$
+    commutes and if $W\in\Ob(\mathcal C)$ and $\alpha,\beta : X\to Y$ such that $ f\circ\alpha = f\circ\beta $, we have a unique $\gamma$ verifying
+    $$ \gamma = \text{id}_X\circ\gamma = \alpha = \beta $$
+    which proves that $\alpha = \beta$.
+    
+    The proof is exactly the same for the second point, but with the pushout $Y\amalg_X Y = Y$.
 \end{proof}
 
 
