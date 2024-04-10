@@ -10078,7 +10078,7 @@ Let $(K_n, f_n)$ be a system of objects of $\mathcal{D}$.
 We may think of a derived colimit as an object $K$
 of $\mathcal{D}$ endowed with morphisms $i_n : K_n \to K$
 such that $i_{n + 1} \circ f_n = i_n$ and such that there
-exists a morphism $c : K \to \bigoplus K_n$ with the property that
+exists a morphism $c : K \to \bigoplus K_n[1]$ with the property that
 $$
 \bigoplus K_n \xrightarrow{1 - f_n} \bigoplus K_n \xrightarrow{i_n}
 K \xrightarrow{c} \bigoplus K_n[1]
@@ -10349,7 +10349,7 @@ $$
 K \to \prod K_n \to \prod K_n \to K[1]
 $$
 where the map $\prod K_n \to \prod K_n$ is given
-by $(k_n) \mapsto (k_n - f_{n+1}(k_{n + 1}))$. If this is the
+by $(k_n) \mapsto (k_n - f_{n + 1}(k_{n + 1}))$. If this is the
 case, then we sometimes indicate this by the notation $K = R\lim K_n$.
 \end{definition}
 
@@ -10421,17 +10421,50 @@ Then $\prod K_n$ is represented by $\prod I_n^\bullet$, see
 Lemma \ref{lemma-product-K-injective}.
 \end{proof}
 
+\begin{remark}
+\label{remark-map-into-derived-limit-truncations}
+Let $\mathcal{A}$ be an abelian category. Let $K^\bullet$ be a
+complex of $\mathcal{A}$. Then $\tau_{\geq -n}K^\bullet$ is an
+inverse system of complexes and which in particular determines
+an inverse system in $D(\mathcal{A})$. Let us assume that
+$R\lim \tau_{\geq -n}K^\bullet$ exists. Then the canonical maps
+$c_n : K^\bullet \to \tau_{\geq -n}K^\bullet$ are compatible with the
+transition maps of our inverse system. By the defining distinguished
+triangle of Definition \ref{definition-derived-limit} and
+Lemma \ref{lemma-representable-homological}
+we conclude there exists a morphism
+$$
+c : K^\bullet \longrightarrow R\lim \tau_{\geq -n}K^\bullet
+$$
+in $D(\mathcal{A})$ such that the composition of $c$ with the projection
+$R\lim \tau_{\geq -n}K^\bullet \to \tau_{\geq -m}K^\bullet$ is equal to $c_m$.
+Now the morphism $c$ may not be unique, but we claim that whether or not
+$c$ is an isomorphism is independent of the choice of $c$ (and of our choice
+of the homotopy limit). Namely, for $i \in \mathbf{Z}$ and for $m > -i$
+the composition
+$$
+H^i(K^\bullet) \xrightarrow{H^i(c)} H^i(R\lim \tau_{\geq -n}K^\bullet)
+\to H^i(\tau_{\geq -m}K^\bullet) = H^i(K^\bullet)
+$$
+is the identity. Hence $H^i(c)$ is an isomorphism if and only if the
+second map is an isomorphism. This is independent of $c$ and also
+independent of the choice of the homotopy limit (as any two choices
+are isomorphic).
+\end{remark}
+
 \begin{lemma}
 \label{lemma-difficulty-K-injectives}
 Let $\mathcal{A}$ be an abelian category with countable products and
 enough injectives. Let $K^\bullet$ be a complex. Let $I_n^\bullet$ be
 the inverse system of bounded below complexes of injectives produced by
 Lemma \ref{lemma-special-inverse-system}. Then
-$I^\bullet = \lim I_n^\bullet$ exists, is K-injective, and
-the following are equivalent
+$I^\bullet = \lim I_n^\bullet$ exists, is K-injective, represents
+$R\lim \tau_{\geq -n}K^\bullet$ in $D(\mathcal{A})$,
+and the following are equivalent
 \begin{enumerate}
-\item the map $K^\bullet \to I^\bullet$ is a quasi-isomorphism,
-\item the canonical map $K^\bullet \to R\lim \tau_{\geq -n}K^\bullet$
+\item the map $K^\bullet \to I^\bullet$ (see proof) is a quasi-isomorphism,
+\item the map $K^\bullet \to R\lim \tau_{\geq -n}K^\bullet$
+of Remark \ref{remark-map-into-derived-limit-truncations}
 is an isomorphism in $D(\mathcal{A})$.
 \end{enumerate}
 \end{lemma}
@@ -10464,20 +10497,33 @@ the products are K-injective and represent the corresponding
 products in $D(\mathcal{A})$.
 It follows that $I^\bullet$ represents $R\lim I_n^\bullet$
 (Definition \ref{definition-derived-limit}).
-Moreover, it follows that $I^\bullet$ is K-injective by
+Since $R\lim I_n^\bullet \cong R\lim \tau_{\geq -n}K^\bullet$
+as derived limits are defined on the level of the derived
+category, we see that $I^\bullet$ represents $R\lim \tau_{\geq -n}K^\bullet$.
+Moreover, the complex $I^\bullet$ is K-injective by
 Lemma \ref{lemma-triangle-K-injective}.
 By the commutative diagram of Lemma \ref{lemma-special-inverse-system}
-we obtain a corresponding commutative diagram
+and since $K^i = (\tau_{\geq -n}K^\bullet)^i$
+for $n \gg 0$ we see that we get a unique map
+$\gamma : K^\bullet \to I^\bullet$ such that the diagrams
 $$
 \xymatrix{
-K^\bullet \ar[r] \ar[d] & R\lim \tau_{\geq -n} K^\bullet \ar[d] \\
-I^\bullet \ar[r] & R\lim I_n^\bullet
+K^\bullet \ar[r] \ar[d]_\gamma & \tau_{\geq -n} K^\bullet \ar[d] \\
+I^\bullet \ar[r] & I_n^\bullet
 }
 $$
-in $D(\mathcal{A})$. Since the right vertical arrow is an isomorphism
-(as derived limits are defined on the level of the derived category
-and since $\tau_{\geq -n}K^\bullet \to I_n^\bullet$ is a quasi-isomorphism),
-the lemma follows.
+commute. It follows that $\gamma$ is a map of complexes which represents
+the map $c : K^\bullet \to R\lim \tau_{\geq -n}K^\bullet$ of
+Remark \ref{remark-map-into-derived-limit-truncations}
+in $D(\mathcal{A})$. In other words, the diagram
+$$
+\xymatrix{
+K^\bullet \ar[r]_-c \ar[d]_\gamma & R\lim \tau_{\geq -n} K^\bullet
+\ar[d]^{\cong} \\
+I^\bullet \ar[r]^-{\cong} & R\lim I_n^\bullet
+}
+$$
+is commutative in $D(\mathcal{A})$. The lemma follows.
 \end{proof}
 
 \begin{lemma}
