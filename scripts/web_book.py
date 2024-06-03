@@ -13,8 +13,8 @@ def print_preamble(path):
 	next(preamble)
 	next(preamble)
 	next(preamble)
-	print "\\documentclass{book}"
-	print "\\usepackage{amsmath}"
+	print("\\documentclass{book}")
+	print("\\usepackage{amsmath}")
 	for line in preamble:
 		if line.find("%") == 0:
 			continue
@@ -30,7 +30,7 @@ def print_preamble(path):
 			continue
 		if line.find("xr-hyper") >= 0:
 			continue
-		print line,
+		print(line, end = '')
 	preamble.close()
 	return
 
@@ -38,17 +38,17 @@ path = get_path()
 
 print_preamble(path)
 
-print "\\begin{document}"
-print "\\begin{titlepage}"
-print "\\pagestyle{empty}"
-print "\\setcounter{page}{1}"
-print "\\centerline{\\LARGE\\bfseries Stacks Project}"
-print "\\vskip1in"
-print "\\noindent"
-print "\\centerline{"
+print("\\begin{document}")
+print("\\begin{titlepage}")
+print("\\pagestyle{empty}")
+print("\\setcounter{page}{1}")
+print("\\centerline{\\LARGE\\bfseries Stacks Project}")
+print("\\vskip1in")
+print("\\noindent")
+print("\\centerline{")
 print_version(path)
-print "}"
-print "\\end{titlepage}"
+print("}")
+print("\\end{titlepage}")
 print_license_blurp(path)
 
 lijstje = list_text_files(path)
@@ -58,9 +58,9 @@ parts = get_parts(path)
 ext = ".tex"
 for name in lijstje:
 	if name in parts:
-		print "\\part{" + parts[name][0] + "}"
-		print "\\label{" + parts[name][1] + "}"
-	
+		print("\\part{" + parts[name][0] + "}")
+		print("\\label{" + parts[name][1] + "}")
+
 	filename = path + name + ext
 	tex_file = open(filename, 'r')
 	verbatim = 0
@@ -70,7 +70,7 @@ for name in lijstje:
 			if end_of_verbatim(line):
 				verbatim = 0
 			if name != 'introduction':
-				print line,
+				print(line, end = '')
 			continue
 		if line.find("\\input{preamble}") == 0:
 			continue
@@ -93,10 +93,10 @@ for name in lijstje:
 			line = line.replace("\\label{", text)
 		if contains_ref(line):
 			line = replace_refs(line, name)
-		print line,
+		print(line, end = '')
 
 	tex_file.close()
 
-print "\\bibliography{my}"
-print "\\bibliographystyle{amsalpha}"
-print "\\end{document}"
+print("\\bibliography{my}")
+print("\\bibliographystyle{amsalpha}")
+print("\\end{document}")

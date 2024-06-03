@@ -2,10 +2,10 @@
 def get_path():
 	from sys import argv
 	if not len(argv) == 2:
-		print
-		print "This script needs exactly one argument"
-		print "namely the path to the stacks project directory"
-		print
+		print()
+		print("This script needs exactly one argument")
+		print("namely the path to the stacks project directory")
+		print()
 		raise Exception('Wrong arguments')
 	path = argv[1]
 	path.rstrip("/")
@@ -37,7 +37,7 @@ def find_defined_terms(def_text):
 def git_version(path):
 	from subprocess import Popen, PIPE, STDOUT
 	cmd = 'git --git-dir=' + path + '.git log --pretty=format:%h -n1'
-	p = Popen(cmd, shell=True, stdout=PIPE).stdout
+	p = Popen(cmd, shell=True, text=True, stdout=PIPE).stdout
 	version = p.read()
 	p.close()
 	return version
@@ -142,7 +142,7 @@ def get_new_tags(path, tags):
 def print_new_tags(new_tags):
 	n = 0
 	while n < len(new_tags):
-		print new_tags[n][0] + "," + new_tags[n][1]
+		print(new_tags[n][0] + "," + new_tags[n][1])
 		n = n + 1
 	return
 
@@ -205,7 +205,7 @@ def list_text_files(path):
 		line = line.rstrip()
 		line = line.rstrip("\\")
 		lijst = lijst + " " + line
-		line = Makefile_file.next()
+		line = Makefile_file.readline()
 	Makefile_file.close()
 	lijst = lijst + " " + line
 	lijst = lijst.replace("LIJST = ", "")
@@ -315,7 +315,7 @@ def replace_refs(line, name):
 def print_chapters(path):
 	chapters = open(path + "chapters.tex", 'r')
 	for line in chapters:
-		print line,
+		print(line, end = '')
 	chapters.close()
 	return
 
@@ -324,7 +324,7 @@ def print_version(path):
 	from datetime import date
 	now = date.today()
 	version = git_version(path)
-	print "Version " + version + ", compiled on " + now.strftime('%h %d, %Y.')
+	print("Version " + version + ", compiled on " + now.strftime('%h %d, %Y.'))
 
 
 # Print license blurp
@@ -337,7 +337,7 @@ def print_license_blurp(path):
 			inside = 1
 		if inside == 0:
 			continue
-		print line,
+		print(line, end = '')
 		if line.find('\\end{verbatim}') == 0:
 			inside = 0
 	introduction.close()
