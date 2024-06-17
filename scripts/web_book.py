@@ -5,7 +5,7 @@ from functions import *
 # documentclass book
 # load amsmath package for plastex
 # Ignore reference, slogan, history environments
-# Do not bother with multicol and xr-hyper pacakges
+# Do not bother with multicol and xr-hyper packages
 def print_preamble(path):
 	preamble = open(path + "preamble.tex", 'r')
 	next(preamble)

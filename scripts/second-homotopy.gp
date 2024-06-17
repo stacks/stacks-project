@@ -197,7 +197,7 @@ while(i,
 	if(test(m) <> [], error("Did not work for m = ", m));
 	j = 1;
 	while((j <= d - 1) && (bits[j] == 1), j = j + 1);
-	if(j == d, print("Succes!"); return);
+	if(j == d, print("Success!"); return);
 	bits[j] = 1;
 	j = j - 1;
 	while(j >= 1, bits[j] = 0; j = j - 1);
