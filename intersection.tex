@@ -268,7 +268,7 @@ Let $Z \subset X$ be a $k$-dimensional closed subvariety. We define
 $f^*[Z]$ to be the $(k + r)$-cycle associated to the scheme theoretic
 inverse image: $f^*[Z] = [f^{-1}(Z)]_{k + r}$. Let
 $\alpha = \sum n_i [Z_i]$ be a $k$-cycle on $Y$. The {\it pullback} of
-$\alpha$ is the sum $f_* \alpha = \sum n_i f^*[Z_i]$ where each $f^*[Z_i]$
+$\alpha$ is the sum $f^* \alpha = \sum n_i f^*[Z_i]$ where each $f^*[Z_i]$
 is defined as above. This defines a homomorphism
 $$
 f^* : Z_k(Y) \longrightarrow Z_{k + r}(X)
@@ -903,10 +903,11 @@ Algebra, Lemma \ref{algebra-lemma-support-dimension-d}.
 
 \begin{definition}
 \label{definition-multiplicity}
-In the situation above, if $d \geq \dim(\text{Supp}(M))$, then we set
-$e_I(M, d)$ equal to $0$ if $d > \dim(\text{Supp}(M))$
-and equal to $d!$ times the
-leading coefficient of the numerical polynomial $\chi_{I, M}$ so that
+In the situation above, assume $d \geq \dim(\text{Supp}(M))$.
+In this case, if  $d > \dim(\text{Supp}(M))$, then we set $e_I(M, d) = 0$
+and if $d = \dim(\text{Supp}(M))$, then we set $e_I(M, d)$ equal to $d!$
+times the leading coefficient of the numerical polynomial $\chi_{I, M}$.
+Thus in both cases we have
 $$
 \chi_{I, M}(n) \sim e_I(M, d) \frac{n^d}{d!} + \text{lower order terms}
 $$
@@ -1374,7 +1375,7 @@ in the closed subscheme $Y \cap Z$ is $1$.
 Then
 \begin{enumerate}
 \item the coefficient of $T$ in $[Y]_r \cdot [Z]_s$ is $1$,
-\item $Y$ and $Z$ are nonsingular at the generic point of $Z$,
+\item $Y$ and $Z$ are nonsingular at the generic point of $T$,
 \item $n_{i_0} = 1$, $m_{j_0} = 1$, and
 \item $T$ is not contained in $Y_i$ or $Z_j$ for $i \not = i_0$ and
 $j \not = j_0$.
@@ -1384,7 +1385,7 @@ $j \not = j_0$.
 \begin{proof}
 Set $n = \dim(X)$, $a = n - r$, $b = n - s$. Observe that
 $\dim(T) = r + s - n = n - a - b$ by the assumption that the
-intersections are transversal. Let $(A, \mathfrak m, \kappa) =
+intersections are proper. Let $(A, \mathfrak m, \kappa) =
 (\mathcal{O}_{X, \xi}, \mathfrak m_\xi, \kappa(\xi))$ where $\xi \in T$
 is the generic point. Then $\dim(A) = a + b$, see
 Varieties, Lemma \ref{varieties-lemma-dimension-locally-algebraic}.
@@ -1456,7 +1457,7 @@ $\alpha \times \beta \sim_{rat} 0$.
 
 \begin{proof}
 By linearity and symmetry in $X$ and $Y$, it suffices to prove this when
-$\alpha = [V]$ for some subvariety $V \subset X$ of dimension $s$ and
+$\alpha = [V]$ for some subvariety $V \subset X$ of dimension $r$ and
 $\beta = [W_a]_s - [W_b]_s$ for some closed subvariety
 $W \subset Y \times \mathbf{P}^1$ of dimension $s + 1$ which
 intersects $Y \times a$ and $Y \times b$ properly. In this case
@@ -2315,6 +2316,28 @@ $r_p|_X : X \to \mathbf{P}(W_p)$ is \'etale at $x$ and finite.
 \end{proof}
 
 \begin{lemma}
+\label{lemma-projection-generically-immersion-refined}
+Let $V$ be a vector space. Let $Z \subset X \subset \mathbf{P}(V)$ be closed
+subvarieties with $Z \not = X \not = \mathbf{P}(V)$. Let $x \in Z$ be a point
+which is nonsingular on $X$. Then there is a nonempty Zariski open
+$U \subset \mathbf{P}(V)$ such that for all closed points $p \in U$ the
+morphism $r_p|_Z : Z \to r_p(Z)$ is an isomorphism over an open neighbourhood
+of $r_p(x)$.
+\end{lemma}
+
+\begin{proof}
+Arguing as in the proof of Lemma \ref{lemma-projection-generically-immersion}
+we find a nonempty Zariski open $U$ such that for $p \in U$ the map
+$r_p|_X : X \to r_p(X)$ is \'etale at $x$ and
+$r_p^{-1}(r_p(\{x\})) \cap Z = \{x\}$. Details omitted.
+Set $Z' = r_p(Z)$ viewed as a closed subvariety of $\mathbf{P}(W_p)$.
+Then the morphism $\pi : Z \to Z'$ is finite
+(Lemma \ref{lemma-projection-generically-finite}), unramified at $x$
+(small detail omitted) and $\pi^{-1}(\pi(\{x\})) = \{x\}$. The result follows
+from \'Etale Morphisms, Lemma \ref{etale-lemma-finite-unramified-one-point}.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-projection-injective}
 Let $V$ be a vector space of dimension $n + 1$.
 Let $Y, Z \subset \mathbf{P}(V)$ be closed subvarieties.
@@ -2359,7 +2382,7 @@ Let $V$ be a vector space. Let $B \subset \mathbf{P}(V)$
 be a closed subvariety of codimension $\geq 2$.
 Let $p \in \mathbf{P}(V)$ be a closed point, $p \not \in B$.
 Then there exists a line $\ell \subset \mathbf{P}(V)$
-with $\ell \cap B = \emptyset$. Moreover, these lines
+with $p \in \ell$ and $\ell \cap B = \emptyset$. Moreover, these lines
 sweep out an open subset of $\mathbf{P}(V)$.
 \end{lemma}
 
@@ -2404,14 +2427,16 @@ is an irreducible element of the polynomial ring $k[x_{ij}]$.
 
 \begin{proof}
 Let $V$ be an $n$ dimensional vector space. Translating into geometry
-the lemma signifies that the variety $C$ of non-invertible linear maps
-$V \to V$ is irreducible. Let $W$ be a vector space of dimension $n - 1$.
-By elementary linear algebra, the morphism
+the lemma signifies that the locus $C$ of non-invertible linear maps
+$V \to V$ is irreducible (note that since the determinant has degree
+$1$ in each variable, it is squarefree). Let $W$ be a vector space of
+dimension $n - 1$. By elementary linear algebra, the morphism
 $$
 \Hom(W, V) \times \Hom(V, W) \longrightarrow \Hom(V, V),\quad
 (\psi, \varphi) \longmapsto \psi \circ \varphi
 $$
 has image $C$. Since the source is irreducible, so is the image.
+Details omitted.
 \end{proof}
 
 \noindent
@@ -2585,8 +2610,8 @@ with strict inequality if $Z$ does not intersect $T_i$ properly in $X$.
 \end{lemma}
 
 \begin{proof}
-Write $\mathbf{P}^N = \mathbf{P}(V_N)$ so $\dim(V_N) = N + 1$ and set
-$X_N = X$. We are going to choose a sequence of projections from points
+Write $\mathbf{P}^N = \mathbf{P}(V_N)$ so $\dim(V_N) = N + 1$.
+We are going to choose a sequence of projections from points
 \begin{align*}
 & r_N : 
 \mathbf{P}(V_N) \setminus \{p_N\} \to \mathbf{P}(V_{N - 1}), \\
@@ -2618,16 +2643,26 @@ $\dim(E_i) \leq d + d' + 1 - (n + 1) = d + d' - n$.
 \end{enumerate}
 It follows in a straightforward manner from
 Lemmas \ref{lemma-projection-generically-finite},
-\ref{lemma-projection-generically-immersion}, and
+\ref{lemma-projection-generically-immersion},
+\ref{lemma-projection-generically-immersion-refined}, and
 \ref{lemma-projection-injective} and induction that we can do this;
 observe that the last projection is from $\mathbf{P}(V_{n + 1})$ and that
-$\dim(V_{n + 1}) = n + 2$ which explains the inequality in (4).
+$\dim(V_{n + 1}) = n + 2$ which explains the inequality in (4). In a bit
+more detail, let $X_j, Z_j, T_{i, j} \subset \mathbf{P}(V_j)$ be the images
+of $X$, $Z$, $T_i$ for $j = N, \ldots, n$. Then
+$T_{i, j + 1} \cap r_{j + 1}^{-1}(Z_j) = (T_{i, j + 1} \cap Z_{j + 1})
+\cup E_{i, j + 1}$ where we have a dimension bound on $E_{i, j + 1}$
+from Lemma \ref{lemma-projection-injective}. Then note that
+$T_i \cap \pi^{-1}(\pi(Z))$ is the union of $T_i \cap Z$
+and the inverse images of the $E_{i, j}$. Since the transition morphisms
+between the $X_j$ are finite we obtain the desired dimension bound.
 
 \medskip\noindent
 Let $C \subset \mathbf{P}(V_N)$ be the scheme theoretic closure of
 $(r_{n + 1} \circ \ldots \circ r_N)^{-1}(\pi(Z))$. Because $\pi$
 is \'etale at the point $x$ of $Z$, we see that the closed subscheme
-$C \cap X$ contains $Z$ with multiplicity $1$ (local calculation omitted).
+$C \cap X = \pi^{-1}(\pi(Z))$
+contains $Z$ with multiplicity $1$ (local calculation omitted).
 Hence by Lemma \ref{lemma-transversal-subschemes} we conclude that
 $$
 C \cdot X = [Z] + \sum m_j[Z_j]
@@ -2637,8 +2672,8 @@ $$
 C \cap X = \pi^{-1}(\pi(Z))
 $$
 set theoretically. Hence
-$T_i \cap Z_j \subset T_i \cap \pi^{-1}(\pi(Z)) \subset T_i \cap Z \cup E_i$.
-For any irreducible component of $T_i \cap Z$ contained in $E_i$ we
+$T_i \cap Z_j \subset T_i \cap \pi^{-1}(\pi(Z)) \subset (T_i \cap Z) \cup E_i$.
+For any irreducible component of $T_i \cap Z_j$ contained in $E_i$ we
 have the desired dimension bound. Finally, let $V$ be an irreducible
 component of $T_i \cap Z_j$ which is contained in $T_i \cap Z$. To finish
 the proof it suffices to show that $V$ does not contain any of the
@@ -2738,7 +2773,7 @@ $$
 $$
 On the other hand the cycle
 $\gamma_\infty = \text{pr}_{X, *}(\gamma \cdot X \times \infty)$
-is supported on $C'_\infty \cap X$ hence intersects $\beta$ transversally.
+is supported on $C'_\infty \cap X$ hence intersects $\beta$ properly.
 Thus we see that $[Z] \sim_{rat} - \sum m_j[Z_j] + \gamma_\infty$
 by Lemma \ref{lemma-rational-equivalence-and-intersection}. Since by
 induction each $[Z_j]$ is rationally equivalent to a cycle which properly

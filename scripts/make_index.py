@@ -1,26 +1,26 @@
 from functions import *
 
 def print_section_title(title):
-	print
-	print "\\medskip\\noindent"
-	print "{\\bf " + title + "}"
-	print
-	print "\\medskip"
+	print("")
+	print("\\medskip\\noindent")
+	print("{\\bf " + title + "}")
+	print("")
+	print("\\medskip")
 	return
 
 def print_def_terms(label, def_terms):
-	print
-	print "\\noindent"
-	print "In \\ref{" + label + "}: "
+	print("")
+	print("\\noindent")
+	print("In \\ref{" + label + "}: ")
 	n = len(def_terms)
 	m = 0
 	while m < n:
 		if m + 1 < n:
-			print def_terms[m] + ","
+			print(def_terms[m] + ",")
 		else:
-			print def_terms[m]
+			print(def_terms[m])
 		m = m + 1
-	print
+	print("")
 	return
 
 def add_def_terms(terms, label, def_terms):
@@ -78,31 +78,31 @@ for name in lijstje:
 	tex_file.close()
 
 
-print "\\input{preamble}"
-print "\\begin{document}"
-print "\\title{Auto generated index}"
-print "\\maketitle"
-print
-print "\\phantomsection"
-print "\\label{section-phantom}"
-print
-print "\\tableofcontents"
-print
-print "\\frenchspacing"
-print
-print
-print "\\begin{multicols}{2}[\\section{Alphabetized definitions}\\label{section-alphabetized}]"
+print("\\input{preamble}")
+print("\\begin{document}")
+print("\\title{Auto generated index}")
+print("\\maketitle")
+print()
+print("\\phantomsection")
+print("\\label{section-phantom}")
+print()
+print("\\tableofcontents")
+print()
+print("\\frenchspacing")
+print()
+print()
+print("\\begin{multicols}{2}[\\section{Alphabetized definitions}\\label{section-alphabetized}]")
 terms.sort(key=lambda x: x[0].lower())
 n = 0
 while n < len(terms):
-	print "\\noindent"
-	print terms[n][0]
-	print "in \\ref{" + terms[n][1] + "}"
-	print
+	print("\\noindent")
+	print(terms[n][0])
+	print("in \\ref{" + terms[n][1] + "}")
+	print()
 	n = n + 1
-print "\\end{multicols}"
-print
-print "\\begin{multicols}{2}[\\section{Definitions listed per chapter}\\label{section-per-chapter}]"
+print("\\end{multicols}")
+print()
+print("\\begin{multicols}{2}[\\section{Definitions listed per chapter}\\label{section-per-chapter}]")
 n = 0
 m = 0
 for name in lijstje:
@@ -112,7 +112,7 @@ for name in lijstje:
 		print_def_terms(defs[n][1], defs[n][0])
 		n = n + 1
 
-print "\\end{multicols}"
-print
-print "\\input{chapters}"
-print "\\end{document}"
+print("\\end{multicols}")
+print()
+print("\\input{chapters}")
+print("\\end{document}")

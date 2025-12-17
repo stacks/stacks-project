@@ -428,6 +428,33 @@ to see that $F$ is representable and we win.
 \end{proof}
 
 \begin{remark}
+\label{remark-pushout}
+Let
+$$
+\xymatrix{
+(B, J, \delta) \ar[r] & (B'', J'', \delta'') \\
+(A, I, \gamma) \ar[r] \ar[u] & (B', J', \delta') \ar[u]
+}
+$$
+be a pushout in the category of divided power rings (pushouts exist
+by Lemma \ref{lemma-colimits}). Then
+\begin{enumerate}
+\item $B''/J'' = B/J \otimes_{A/I} B'/J'$,
+\item the map $\varphi : B \otimes_A B' \to B''$ is surjective, and
+\item the map $J \otimes_A B' + B \otimes_A J' \to J''$ induced by $\varphi$
+is surjective.
+\end{enumerate}
+To see (1) consider maps $(B'', J'', \delta'') \to (C, (0), \emptyset)$
+and apply the definition of a pushout. To see (2) consider the
+image $\tilde B = \varphi(B \otimes_A B')$ and the ideal
+$\tilde J = \varphi(J \otimes_A B' + B \otimes_A J')$. Then it is
+clear that $\delta''_n(\tilde J) \subset \tilde J$ for all $n \geq 1$
+because of the compatibility of $\delta''$ with $\delta$ and $\delta'$.
+Hence we must have $\tilde B = B''$ and $\tilde J = J''$ by the universality
+of the pushout.
+\end{remark}
+
+\begin{remark}
 \label{remark-forgetful}
 The forgetful functor $(A, I, \gamma) \mapsto A$ does not commute with
 colimits. For example, let
@@ -437,9 +464,9 @@ $$
 (A, I, \gamma) \ar[r] \ar[u] & (B', J', \delta') \ar[u]
 }
 $$
-be a pushout in the category of divided power rings.
-Then in general the map $B \otimes_A B' \to B''$ isn't an
-isomorphism. (It is always surjective.)
+be a pushout in the category of divided power rings as discussed
+in Remark \ref{remark-pushout}. Then in general the map
+$B \otimes_A B' \to B''$ isn't an isomorphism.
 An explicit example is given by
 $(A, I, \gamma) = (\mathbf{Z}, (0), \emptyset)$,
 $(B, J, \delta) = (\mathbf{Z}/4\mathbf{Z}, 2\mathbf{Z}/4\mathbf{Z}, \delta)$,
@@ -453,13 +480,7 @@ divided power structure on $J$, resp.\ $J'$ such that
 $\delta_2 : J \to J$, resp.\ $\delta'_2 : J' \to J'$
 is the map $0 \mapsto 0, 2 \mapsto 2$, resp.\ $0 \mapsto 0, 2 \mapsto 0$.
 Then $(B'', J'', \delta'') = (\mathbf{F}_2, (0), \emptyset)$
-which doesn't agree with the tensor product. However, note that it is always
-true that
-$$
-B''/J'' = B/J \otimes_{A/I} B'/J'
-$$
-as can be seen from the universal property of the pushout by considering
-maps into divided power algebras of the form $(C, (0), \emptyset)$.
+which doesn't agree with the tensor product.
 \end{remark}
 
 
@@ -808,7 +829,8 @@ Let $I \subset A$ be an ideal. Two divided power structures
 $\gamma, \gamma'$ on $I$ are equal if and only if $\gamma_p = \gamma'_p$.
 Moreover, given a map $\delta : I \to I$ such that
 \begin{enumerate}
-\item $p!\delta(x) = x^p$ for all $x \in I$,
+\item $p!\delta(x) = x^p$ for all $x \in I$\footnote{This condition
+follows from the other two, see Remark \ref{remark-ryo-suzuki}.},
 \item $\delta(ax) = a^p\delta(x)$ for all $a \in A$, $x \in I$, and
 \item
 $\delta(x + y) =
@@ -877,9 +899,28 @@ Applying this for $f = u + v$ we see that axiom (4) for $\gamma$
 follows from the fact that $\epsilon$ is a divided power structure.
 \end{proof}
 
-
-
-
+\begin{remark}
+\label{remark-ryo-suzuki}
+With $A \supset I$ as in Lemma \ref{lemma-need-only-gamma-p},
+let $\delta : I \to I$ be a map satisfying (2) and (3) of the lemma.
+Then (1) holds too.
+First, we prove $\delta(nx) = n\delta(x) + \frac{n^p - n}{p!}x^p$
+for $n \geq 1$ by induction on $n$.  The case $n = 1$ is OK.
+Assume that it is OK for some $n$, then
+$\delta((n + 1)x) = \delta(nx) + \delta(x) +
+(\sum_{i = 1}^{p - 1} \frac{n^i}{i!(p - i)!})x^p
+= (n + 1)\delta(x) + \left( \frac{n^p - n}{p!} + \frac{(n + 1)^p}{p!}
+- \frac{n^p + 1}{p!} \right)x^p =
+(n + 1)\delta(x) + \frac{(n + 1)^p - (n + 1)}{p!}x^p$,
+so it is also OK for $n + 1$.  On the other hand, we have
+$\delta(nx) = n^p\delta(x)$, hence
+$(n^p - n)\delta(x) = \frac{n^p - n}{p!}x^p$. 
+But for any $p$ there exists $n$ such that $p^2 \not \mid n^p - n$.
+Namely, we have
+$(\mathbb{Z}/p^2\mathbb{Z})^\times \cong \mathbb{Z}/p(p-1)\mathbb{Z}$.
+So there exists $n$ such that $n^{p-1} \not \equiv 1 \mod p^2$. 
+Hence we get $p!\delta(x)=x^p$
+\end{remark}
 
 
 
@@ -2640,7 +2681,7 @@ $$
 K_n = K_{n, \bullet} = R\langle \xi_1, \ldots, \xi_r\rangle
 $$
 the differential graded Koszul algebra with $\xi_i$ in degree $1$ and
-$\text{d}(\xi_i) = f_i$. There exists a unique divided power structure on this
+$\text{d}(\xi_i) = f_i^n$. There exists a unique divided power structure on this
 (as in Definition \ref{definition-divided-powers-dga}), see
 Example \ref{example-adjoining-odd}. For $m > n$ the transition map
 $K_m \to K_n$ is the differential graded algebra map compatible with

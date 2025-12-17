@@ -20,7 +20,7 @@
 
 \noindent
 In this chapter, we shall discuss the theory of fields. Recall that a
-{\it field} is a ring in which all nonzero elements are invertible.
+{\it field} is a nonzero ring in which all nonzero elements are invertible.
 Equivalently, the only two ideals of a field are $(0)$ and $(1)$
 since any nonzero element is a unit. Consequently fields will be the
 simplest cases of much of the theory developed later.
@@ -391,6 +391,37 @@ a morphism $k(t) \to F$
 whose image contains $\alpha$. It is thus surjective, hence an isomorphism.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-common-extension-field}
+Let $k$ be a field and let $E/k$ and $F/k$ be field extensions.
+Then there exists a common field extension $M/k$, i.e., an extension
+field such that there exist maps $E \to M$ and $F \to M$ of extensions of $k$.
+\end{lemma}
+
+\begin{proof}
+We only prove this when $E$ is a finitely generated field extension
+of $k$; the general case follows from this by a Zorn's lemma type argument
+(details omitted).
+
+\medskip\noindent
+First, suppose that $E$ is a simple extension of $k$. By
+Lemma \ref{lemma-field-extension-generated-by-one-element}
+this means either $E = k(t)$ is the rational function field
+or $E = k[t]/(P)$ for some irreducible polynomial $P \in k[t]$.
+In the first case, we take $M = F(t)$ the rational function field
+with obvious maps $E \to M$ and $F \to M$. In the second case, we
+choose an irreducible factor $Q$ of the image of $P$ in $F[t]$
+and we take $M = F[t]/(Q)$ with obvious maps $E \to M$ and $F \to M$.
+
+\medskip\noindent
+If $E = k(\alpha_1, \ldots, \alpha_n)$, then by induction on $n$
+we can find an extension $M/k$ and maps $F \to M$ and
+$k(\alpha_1, \ldots, \alpha_{n - 1}) \to M$. By the simple
+case discussed in the previous paragraph,
+we can find an extension $M'/k(\alpha_1, \ldots, \alpha_{n - 1})$
+and maps $M \to M'$ and $k(\alpha_1, \ldots, \alpha_n) \to M'$.
+Then $M'$ viewed as an extension of $k$ works.
+\end{proof}
 
 
 
@@ -638,8 +669,8 @@ In general, it is very false that an algebraic extension is finite.
 
 \begin{proof}
 Let $E/k$ be finite, say of degree $n$. Choose $\alpha \in E$. Then the
-elements $\{1, \alpha, \ldots, \alpha^n\}$ are linearly
-dependent over $E$, or we would necessarily have $[E : k] > n$. A relation of
+elements $1, \alpha, \ldots, \alpha^n$ are linearly
+dependent over $k$, or we would necessarily have $[E : k] > n$. A relation of
 linear dependence now gives the desired polynomial that $\alpha$ must satisfy.
 
 \medskip\noindent
@@ -747,8 +778,7 @@ $r(P, E) = \{\alpha \in E \mid P(\alpha) = 0\}$
 is finite (details omitted). Moreover, the fact that $E$ is algebraic
 over $F$ implies that $E = \bigcup_{P \in S} r(P, E)$.
 It is clear that $S$ has cardinality bounded by $\max(\aleph_0, |F|)$
-because the cardinality of a countable product of copies of $F$ has
-cardinality at most $\max(\aleph_0, |F|)$.
+because it is a countable union of finite products of copies of $F$.
 Thus so does $E$.
 \end{proof}
 
@@ -762,7 +792,7 @@ Any subring $F \subset R \subset E$ is a field.
 Let $\alpha \in R$ be nonzero. Then $1, \alpha, \alpha^2, \ldots$
 are contained in $R$. By Lemma \ref{lemma-finite-is-algebraic}
 we find a nontrivial relation
-$a_0 + a_1 \alpha + \ldots + a_d \alpha^d = 0$.
+$a_0 + a_1 \alpha + \ldots + a_d \alpha^d = 0$ with $a_i \in F$.
 We may assume $a_0 \not = 0$ because if not we can divide the relation
 by $\alpha$ to decrease $d$. Then we see that
 $$
@@ -1090,7 +1120,7 @@ which case the result is clear from what we have already proved.
 
 
 
-\section{Separable extensions}
+\section{Separable algebraic extensions}
 \label{section-separable-extensions}
 
 \noindent
@@ -1402,8 +1432,9 @@ over $k$ form a subextension of $E/k$.
 \begin{proof}
 Let $\alpha, \beta \in E$ be separable over $k$. Then $\beta$ is separable
 over $k(\alpha)$ by Lemma \ref{lemma-separable-goes-up}.
-Thus we can apply Lemma \ref{lemma-separable-permanence} to $k(\alpha, \beta)$
-to see that $k(\alpha, \beta)$ is separable over $k$.
+By Lemma \ref{lemma-separably-generated-separable} (applied with $n = 2$,
+$\alpha_1 = \alpha$, and $\alpha_2 = \beta$) we see that
+$k(\alpha, \beta)$ is separable over $k$.
 \end{proof}
 
 
@@ -1445,7 +1476,7 @@ for all $g \in G$. Fix $h \in G$. Then we would also get
 & = \sum\nolimits_{i = 1, \ldots, n - 1} \lambda_i\chi_i(hg) \\
 & = \sum\nolimits_{i = 1, \ldots, n - 1} \lambda_i\chi_i(h) \chi_i(g)
 \end{align*}
-Multiplying the previous relation by $\chi_n(h)$ and substracting we obtain
+Multiplying the previous relation by $\chi_n(h)$ and subtracting we obtain
 $$
 0 = \sum\nolimits_{i = 1, \ldots, n - 1}
 \lambda_i (\chi_n(h) - \chi_i(h)) \chi_i(g)
@@ -1547,6 +1578,10 @@ if there exists a power $q$ of $p$ such that $\alpha^q \in F$.
 \item The extension $K/F$ is said to be {\it purely inseparable}
 if and only if every element of $K$ is purely inseparable over $F$.
 \end{enumerate}
+If we have a field extension $L/M$ (with no condition on the characteristic
+of $M$), then we will say the extension is {\it purely inseparable}
+if either $L = M$ or the characteristic of $M$ is a prime number $p$
+and $L/M$ is purely inseparable in the sense defined above.
 \end{definition}
 
 \noindent
@@ -2072,8 +2107,8 @@ we can extend $\sigma_0$ to $\sigma : K \to \overline{F}$ and
 $\sigma' : K' \to \overline{F}$.
 By Lemma \ref{lemma-intersect-normal} we see that
 $\sigma(K) \cap \sigma'(K')$ is normal over $F$.
-By minimality we conclude that $\sigma(K) = \sigma(K')$.
-Thus $\sigma \circ (\sigma')^{-1} : K' \to K$ gives an isomorphism
+By minimality we conclude that $\sigma(K) = \sigma'(K')$.
+Thus $\sigma^{-1} \circ \sigma' : K' \to K$ gives an isomorphism
 of extensions of $E$.
 \end{proof}
 
@@ -2135,12 +2170,16 @@ Set $n = [L : K]_s = |\Mor_K(L, \overline{K})|$ with equality by
 Lemma \ref{lemma-separable-degree}.
 Say $\Mor_K(L, \overline{K}) = \{\sigma_1, \ldots, \sigma_n\}$.
 Let $M' \subset \overline{K}$ be the $K$-subalgebra
-generated by $\sigma_i(L)$, $i = 1, \ldots, n$.
-It follows from Lemma \ref{lemma-characterize-normal}
+generated by $\sigma_i(L)$, $i = 1, \ldots, n$. Then $M'$ is
+a field since any $K$-subalgebra of $\overline{K}$ is a field.
+Any $K$-algebra map from $M'$ to $\overline{K}$ permutes the $\sigma_i$
+so sends $M'$ into and onto $M'$. By construction the field $M'$
+is generated by conjugates of elements of $\sigma_1(L)$. Having said
+this it follows from Lemma \ref{lemma-characterize-normal}
 that $M'$ is normal over $K$ and that it is the
 smallest normal subextension of $\overline{K}$ containing
-$\sigma_1(L)$. By uniqueness of normal closure we
-have $M \cong M'$. Finally, there is a surjective map
+$\sigma_1(L)$. By uniqueness of normal closure we have $M \cong M'$.
+Finally, there is a surjective map
 $$
 L \otimes_K L \otimes_K \ldots \otimes_K L \longrightarrow M',
 \quad
@@ -2262,13 +2301,9 @@ Moreover, (1) and (2) hold if $E/F$ is separable.
 
 \begin{proof}
 Let $\alpha \in E$ be a primitive element. Let $P$ be the minimal
-polynomial of $\alpha$ over $F$. Let $E \subset M$ be a splitting
-field for $P$ over $E$, so that
-$P(x) = (x - \alpha)(x - \alpha_2) \ldots (x - \alpha_n)$ over $M$.
-For ease of notation we set $\alpha_1 = \alpha$.
-Next, let $E/K/F$ be a subextension. Let $Q$ be the minimal
-polynomial of $\alpha$ over $K$. Observe that $\deg(Q) = [E : K]$.
-Writing $Q = x^d + \sum_{i < d} a_i x^i$ we claim that
+polynomial of $\alpha$ over $F$. Next, let $E/K/F$ be a subextension.
+Let $Q$ be the minimal polynomial of $\alpha$ over $K$. Observe that
+$\deg(Q) = [E : K]$. Writing $Q = x^d + \sum_{i < d} a_i x^i$ we claim that
 $K$ is equal to $L = F(a_0, \ldots, a_{d - 1})$. Indeed $\alpha$ has degree
 $d$ over $L$ and $L \subset K$. Hence $[E : L] = [E : K]$ and it follows
 that $[K : L] = 1$, i.e., $K = L$.
@@ -2821,7 +2856,7 @@ $$
 $$
 is continuous when $E$ is given the discrete topology. Then
 \begin{enumerate}
-\item for any topological space $X$ and map $X \to \text{Aut}(E/F)$
+\item for any topological space $X$ and map $X \to \text{Gal}(E/F)$
 such that the action $X \times E \to E$ is continuous the induced map
 $X \to \text{Gal}(E/F)$ is continuous,
 \item this topology turns $\text{Gal}(E/F)$ into
@@ -3067,7 +3102,7 @@ subgroups and subextensions.
 
 \medskip\noindent
 Assume $H \subset G$ is open. Arguing as above we find that
-$H$ containes $\text{Gal}(L/E)$ for some large enough finite
+$H$ contains $\text{Gal}(L/E)$ for some large enough finite
 Galois subextension $E$ and we find that $L^H$ is contained
 in $E$ whence finite over $K$. Conversely, if $M$ is a finite
 subextension, then $M$ is generated by a finite subset $S$

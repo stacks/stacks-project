@@ -813,7 +813,7 @@ Let $\mathcal{I} = \Ker(\mathcal{O}_Y \to f_*\mathcal{O}_X)$.
 If $\mathcal{I}$ is quasi-coherent then we just take $Z$ to be the
 closed subscheme determined by $\mathcal{I}$, see
 Lemma \ref{lemma-closed-immersion-bijection-ideals}. This works by
-Schemes, Lemma \ref{schemes-lemma-characterize-closed-subspace}.
+Lemma \ref{lemma-closed-immersion-ideals}.
 In general the same lemma requires us to show that there exists
 a largest quasi-coherent sheaf of ideals $\mathcal{I}'$ contained in
 $\mathcal{I}$.
@@ -1150,7 +1150,7 @@ By Lemma \ref{lemma-factor-quasi-compact-immersion} or
 Lemma \ref{lemma-factor-reduced-immersion} we can factor
 $Z \to X$ as $Z \to \overline{Z}_1 \to X$ with $Z \to \overline{Z}_1$
 open and $\overline{Z}_1 \to X$ closed. On the other hand, let
-$Z \to \overline{Z} \subset X$ be the scheme theoretic closure of
+$Z \to \overline{Z} \subset X$ be the scheme theoretic image of
 $Z \to X$. We conclude that $\overline{Z} \subset \overline{Z}_1$.
 Since $Z$ is an open subscheme of $\overline{Z}_1$ it follows
 that $Z$ is an open subscheme of $\overline{Z}$ as well.
@@ -1304,10 +1304,15 @@ Algebra, Lemma \ref{algebra-lemma-image-dense-generic-points}.
 \begin{lemma}
 \label{lemma-base-change-dominant}
 Let $f : X \to S$ be a quasi-compact dominant morphism of schemes.
-Let $g : S' \to S$ be a morphism of schemes and denote $f' : X' \to S'$
-the base change of $f$ by $g$. If generalizations lift along $g$,
+Let $g : S' \to S$ be a morphism of schemes,  and let $f' : X' \to S'$
+be the base change of $f$ by $g$. If generalizations lift along $g$,
 then $f'$ is dominant.
 \end{lemma}
+
+\noindent
+We will see that generalizations lift along $g$ if $g$ is open
+(Lemma \ref{lemma-open-generizing})
+or flat (Lemma \ref{lemma-generalizations-lift-flat}).
 
 \begin{proof}
 Observe that $f'$ is quasi-compact by Schemes, Lemma
@@ -1320,6 +1325,30 @@ we see that $\eta$ is in the image of $f$.
 Hence $\eta'$ is in the image of $f'$ by
 Schemes, Lemma \ref{schemes-lemma-points-fibre-product}.
 It follows that $f'$ is dominant by Lemma \ref{lemma-quasi-compact-dominant}.
+\end{proof}
+
+\noindent
+Part of this holds for arbitrary (not necessarily quasi-compact)
+dominant morphisms.
+
+\begin{lemma}
+\label{lemma-open-base-change-dominant}
+Let $f : X \to S$ be a dominant morphism of schemes.
+Let $g : S' \to S$ be an open morphism of schemes, and let $f' : X' \to S'$
+be the base change of $f$ by $g$. Then $f'$ is dominant.
+\end{lemma}
+
+\begin{proof}
+If $f'$ is not dominant, then $f'(X')$ is contained in some closed
+subset $B$ not equal to $S'$. Then $S'-B$ is open in $S'$ and nonempty.
+Since $g$ is open, $g(S'-B)$ is nonempty and open in $S$. Since $f(X)$
+is dense in $S$, there is a point $x\in X$ with $f(x) \in g(S'-B)$.
+Let $W = \Spec(\kappa (f(x)))$,
+and write $X_W$, $S_W$, $S'_W$ for the pullbacks
+of these schemes from $S$ to $W$. Then $X_W$ and $(S'-B)_W$ are nonempty,
+and so $X_W \times_W (S'-B)_W$ is nonempty, as $W$ is the spectrum
+of a field. This contradicts that $f'(X \times_S S')$ is contained
+in $B \subset S'$. So in fact $f'$ is dominant.
 \end{proof}
 
 \begin{lemma}
@@ -1810,6 +1839,54 @@ Constructions, Lemma \ref{constructions-lemma-spec-properties} part (2).
 \end{proof}
 
 \begin{lemma}
+\label{lemma-quasi-coherence-scalar-restriction}
+Let $S$ be a scheme and let $\mathcal{A}$ be a quasi-coherent
+$\mathcal{O}_S$-algebra. An $\mathcal{A}$-module is
+quasi-coherent as an $\mathcal{O}_S$-module if and only if
+it is quasi-coherent as an $\mathcal{A}$-module.
+\end{lemma}
+
+\begin{proof}
+Let $\mathcal{F}$ be an $\mathcal{A}$-module.
+If $\mathcal{F}$ is quasi-coherent as an $\mathcal{A}$-module, then
+for every $s \in S$ there exists an open neighbourhood $U$ of $s$
+and an exact sequence
+$$
+\bigoplus\nolimits_J\mathcal{A}|_U\to
+\bigoplus\nolimits_I\mathcal{A}|_U\to
+\mathcal{F}|_U
+$$
+of $\mathcal{A}|_U$-modules.
+Then this is also an exact sequence of $\mathcal{O}_U$-modules.
+Hence $\mathcal{F}|_U$ is quasi-coherent as the cokernel of a morphism
+of quasi-coherent $\mathcal{O}_U$-modules on a scheme. It follows
+that $\mathcal{F}$ is quasi-coherent as an $\mathcal{O}_X$-module.
+
+\medskip\noindent
+Conversely, assume $\mathcal{F}$ is quasi-coherent as an $\mathcal{O}_X$-module.
+Pick an open affine $\Spec(R) = U \subset S$. We have isomorphisms of
+$\mathcal{O}_U$-modules $\mathcal{A}|_U \cong \widetilde{A}$ and
+$\mathcal{F}|_U \cong \widetilde{M}$, for some $R$-algebra $A$
+and some $R$-module $M$. The $\mathcal{A}$-module structure on $\mathcal{F}$
+translates into an $A$-module structure on $M$ compatible with the
+given $R$-module structure (details omitted). Choose an exact sequence
+$$
+\bigoplus\nolimits_J A \to
+\bigoplus\nolimits_I A \to
+M \to 0
+$$
+of $A$-modules. Since the functor $\widetilde{\ }$ is exact, this
+produces an exact sequence
+$$
+\bigoplus\nolimits_J \widetilde{A}\to
+\bigoplus\nolimits_I \widetilde{A}\to
+\widetilde{M} \to 0
+$$
+of $\widetilde{A}$-modules. This means that
+$\mathcal{F}$ is quasi-coherent as an $\mathcal{A}$-module.
+\end{proof}
+
+\begin{lemma}
 \label{lemma-affine-equivalence-modules}
 Let $f : X \to S$ be an affine morphism of schemes.
 Let $\mathcal{A} = f_*\mathcal{O}_X$.
@@ -1836,7 +1913,51 @@ it is quasi-coherent as an $\mathcal{A}$-module.
 \end{lemma}
 
 \begin{proof}
-Omitted.
+The final statement is Lemma \ref{lemma-quasi-coherence-scalar-restriction}.
+By Lemma \ref{lemma-affine-separated} and
+Schemes, Lemma \ref{schemes-lemma-push-forward-quasi-coherent}
+the pushforward $f_*\mathcal{F}$ of a quasi-coherent $\mathcal{O}_X$-module
+$\mathcal{F}$
+is a quasi-coherent $\mathcal{O}_S$-module. Hence a functor as in
+the statement of the lemma.
+
+\medskip\noindent
+We will construct an quasi-inverse $h$ to this functor. Let $\mathcal{G}$
+be a quasi-coherent $\mathcal{A}$-module. Then we set
+$$
+h(\mathcal{G}) = f^*\mathcal{G} \otimes_{f^*\mathcal{A}} \mathcal{O}_X =
+f^*\mathcal{G} \otimes_{f^*f_*\mathcal{O}_X} \mathcal{O}_X
+$$
+Elucidation: the pullback $f^*\mathcal{A} = f^*f_*\mathcal{O}_X$
+is an $\mathcal{O}_X$-algebra, the adjunction map
+$f^*f_*\mathcal{O}_X \to \mathcal{O}_X$ is an algebra homomorphism, and
+the pullback $f^*\mathcal{G}$ is an $f^*\mathcal{A}$-module. Observe that
+$h(\mathcal{G})$ is quasi-coherent as quasi-coherence is preserved by
+pullbacks and change of rings. Observe that there is a functorial map
+$$
+h(f_*\mathcal{F}) =
+f^*f_*\mathcal{F} \otimes_{f^*f_*\mathcal{O}_X} \mathcal{O}_X \to \mathcal{F}
+$$
+coming from the adjunction map $f^*f_*\mathcal{F} \to \mathcal{F}$ and
+a functorial map
+$$
+\mathcal{G} \to f_*h(\mathcal{G}) \quad\text{adjoint to the map}\quad
+f^*\mathcal{G} \to f^*\mathcal{G} \otimes_{f^*f_*\mathcal{O}_X} \mathcal{O}_X
+$$
+which sends a local section $s$ of $f^*\mathcal{F}$ to $s \otimes 1$.
+To finish the proof it suffices to show that these maps are isomorphisms
+for $\mathcal{F}$ and $\mathcal{G}$ as above. This may be checked on the
+members of an affine covering, i.e., when $X$ and $S$ are affine.
+
+\medskip\noindent
+The key algebra observation which makes this work is the
+following: Let $R \to A$ be a ring map. Let $N$ be an $A$-module. Then
+$$
+(N \otimes_R A) \otimes_{(A \otimes_R A)} A = N
+$$
+Namely, the left hand side of this equality is the effect of applying
+$h$ to the quasi-coherent $\widetilde{A}$-module $\widetilde{N}$ on $\Spec(R)$.
+We omit the details.
 \end{proof}
 
 \begin{lemma}
@@ -4762,7 +4883,7 @@ and glueing. Details omitted. For the final assertion, observe that the
 projection $Z \times_{X, g} Y \to Y$ is a flat
 (Lemma \ref{lemma-base-change-flat}) closed immersion which
 is bijective on underlying topological spaces and hence must be
-an isomorphism by the bijection esthablished in the first part of the proof.
+an isomorphism by the bijection established in the first part of the proof.
 \end{proof}
 
 \begin{lemma}
@@ -5023,7 +5144,7 @@ and $M_{ij}$ is a finite $B_i$-module.
 
 \medskip\noindent
 At this point we apply
-Algebra, Lemma \ref{algebra-lemma-generic-flatness-reduced}
+Algebra, Lemma \ref{algebra-lemma-generic-flatness-reduced} to
 the pairs $(A \to B_i, M_{ij})$ and to the pairs $(A \to B_i, M_i)$.
 Thus we obtain dense opens
 $U(A \to B_i, M_{ij}) \subset S$ and dense opens
@@ -5045,8 +5166,9 @@ and $U(A \to B, M_i)$ there exist $f_{ij}, f_i \in A$ such that
 (b) $A_{f_{ij}} \to B_{i, f_{ij}}$ is flat and of finite presentation
 and $M_{ij, f_{ij}}$ is flat over $A_{f_{ij}}$ and of finite presentation
 over $B_{i, f_{ij}}$, and
-(c) $B_{i, f_i}$ is flat and of finite presentation over $A_f$ and
-$M_{i, f_i}$ is flat and of finite presentation over $B_{i, f_i}$. Set
+(c) $B_{i, f_i}$ is flat and of finite presentation over $A_{f_i}$ and
+$M_{i, f_i}$ is of finite presentation over $B_{i, f_i}$ and flat over
+$A_{f_i}$. Set
 $f = (\prod f_i) (\prod f_{ij})$.
 Now it suffices to prove that $X \to S$ is flat and of finite presentation
 over $D(f)$ and that $\mathcal{F}$ restricted to $X_{D(f)}$ is
@@ -5379,6 +5501,7 @@ dimension $0$.
 \end{lemma}
 
 \begin{proof}
+First proof.
 If $f$ is quasi-finite at $x$ then $\kappa(x)$ is a finite extension of
 $\kappa(s)$ (by
 Lemma \ref{lemma-residue-field-quasi-finite})
@@ -5395,6 +5518,13 @@ Lemma \ref{lemma-algebraic-residue-field-extension-closed-point-fibre}
 and by
 Lemma \ref{lemma-quasi-finite-at-point-characterize} (3)
 we conclude that $f$ is quasi-finite at $x$.
+
+\medskip\noindent
+Second proof. The fibre $X_s$ is a scheme locally of finite type over a field,
+hence locally Noetherian (Lemma \ref{lemma-finite-type-noetherian}).
+The result now follows from
+Lemma \ref{lemma-quasi-finite-at-point-characterize}
+and Properties, Lemma \ref{properties-lemma-isolated-dim-0-locally-noetherian}.
 \end{proof}
 
 \begin{lemma}
@@ -5949,7 +6079,7 @@ f^*\mathcal{C}_{Z'/X'}
 $$
 characterized by the following property: For every pair of affine opens
 $(\Spec(R) = U \subset X, \Spec(R') = U' \subset X')$ with
-$f(U) \subset U'$ such that
+$g(U) \subset U'$ such that
 $Z \cap U = \Spec(R/I)$ and $Z' \cap U' = \Spec(R'/I')$
 the induced map
 $$
@@ -5957,8 +6087,8 @@ $$
 \longrightarrow
 I/I^2 = \Gamma(Z \cap U, \mathcal{C}_{Z/X})
 $$
-is the one induced by the ring map $f^\sharp : R' \to R$ which
-has the property $f^\sharp(I') \subset I$.
+is the one induced by the ring map $g^\sharp : R' \to R$ which
+has the property $g^\sharp(I') \subset I$.
 \end{lemma}
 
 \begin{proof}
@@ -6365,6 +6495,8 @@ Lemma \ref{lemma-functoriality-differentials}.
 \begin{proof}
 This is the sheafified version of
 Algebra, Lemma \ref{algebra-lemma-exact-sequence-differentials}.
+Alternatively, there is a general version for morphisms of ringed
+spaces, see Modules, Lemma \ref{modules-lemma-triangle-differentials}.
 \end{proof}
 
 \begin{lemma}
@@ -8772,7 +8904,7 @@ We will do some preliminary work before proving it.
 Let $S$ be a scheme. Let $\mathcal{A}$ be a quasi-coherent graded
 $\mathcal{O}_S$-algebra generated by $\mathcal{A}_1$ over $\mathcal{A}_0$.
 Set $X = \underline{\text{Proj}}_S(\mathcal{A})$. In this case
-$\mathcal{O}_X(1)$ is a very ample invertible sheaf on $X$. Namely,
+$\mathcal{O}_X(1)$ is invertible and very ample on $X/S$. Namely,
 the morphism associated to the graded $\mathcal{O}_S$-algebra map
 $$
 \text{Sym}_{\mathcal{O}_X}^*(\mathcal{A}_1)
@@ -9177,7 +9309,7 @@ and Definition \ref{constructions-definition-projective-space}.
 Moreover, $j^*\mathcal{O}_{\mathbf{P}_S}(1) = \mathcal{L}^{\otimes N}$.
 We name the homogeneous coordinates $T_0, \ldots, T_n, T_{ij}$
 instead of $T_0, \ldots, T_m$.
-For $i = 0, \ldots, n$ we have $i^{-1}(D_{+}(T_i)) = X_{a_i}$.
+For $i = 0, \ldots, n$ we have $j^{-1}(D_{+}(T_i)) = X_{a_i}$.
 Moreover, pulling back the element $T_{ij}/T_i$ via $j^\sharp$ we
 get the element $f_{ij} \in \mathcal{O}_X(X_{a_i})$.
 Hence the morphism $j$ restricted to $X_{a_i}$
@@ -10578,9 +10710,9 @@ then the corresponding surjection $\mathcal{O}_S^{\oplus n} \to \mathcal{E}$
 induces a closed immersion
 $$
 \mathbf{P}(\mathcal{E}) \longrightarrow
-\mathbf{P}(\mathcal{O}_S^{\oplus n}) = \mathbf{P}^n_S
+\mathbf{P}(\mathcal{O}_S^{\oplus n}) = \mathbf{P}^{n - 1}_S
 $$
-as desired. In general, let $\mathcal{L}$ be an invertible sheaf on $S$.
+as desired. In general, let $\mathcal{L}$ be an ample invertible sheaf on $S$.
 By Properties, Proposition \ref{properties-proposition-characterize-ample}
 there exists an integer $n$ such that
 $\mathcal{E} \otimes_{\mathcal{O}_S} \mathcal{L}^{\otimes n}$
@@ -10971,9 +11103,28 @@ $$
 f^*f_*\mathcal{O}_X \longrightarrow \mathcal{O}_X
 $$
 coming from the adjunction map $f^*f_* \to \text{id}$. Then $\sigma$
-is a closed immersion by
-Schemes, Lemma \ref{schemes-lemma-section-immersion} and
-Constructions, Lemma \ref{constructions-lemma-projective-bundle-separated}.
+is a closed immersion. Namely, affine locally on $S$ we can write
+$X = \Spec(A)$ and $S = \Spec(R)$. Since $X$ is finite over $S$
+we may choose $a_1, \ldots, a_n \in A$ generating $A$ as an $R$-module.
+Then the $R$-algebra map $R[T_0, T_1, \ldots, T_n] \to \text{Sym}_R^*(A)$
+sending $T_0$ to $1$ and $T_i$ to $a_i$ for $1 \leq i \leq n$ is surjective.
+Whence $\mathbf{P}(f_*\mathcal{O}_X)$ is a closed subscheme of
+$\mathbf{P}^n_S$ by Constructions, Lemma
+\ref{constructions-lemma-surjective-graded-rings-map-proj}.
+Thus it suffices to prove that the induced morphism
+$X \to \mathbf{P}^n_S$ is a closed immersion
+(see for example, Lemma \ref{lemma-closed-immersion-ideals}).
+The reader checks that $X \to \mathbf{P}^n_S$ has image contained
+in the open $D_+(T_0) \cong \mathbf{A}^n_S$ and that $X \to \mathbf{A}^n_S$
+corresponds to the surjective $R$-algebra map
+$R[x_1, \ldots, x_n] \to \text{Sym}_R^*(A)$ sending $x_i$ to $a_i$.
+Whence $X \to \mathbf{P}^n_S$ is an immersion (as a composition
+of a closed immersion and an open immersion). Since
+$X$ is finite over $S$ the image of this immersion is closed
+(this uses Lemma \ref{lemma-finite-proper},
+Lemma \ref{lemma-image-proper-scheme-closed}, and
+Constructions, Lemma \ref{constructions-lemma-projective-space-separated}).
+We conclude by Schemes, Lemma \ref{schemes-lemma-immersion-when-closed}.
 \end{proof}
 
 
@@ -11995,7 +12146,7 @@ Let $X$ be a scheme. The following are equivalent
 \item $X$ is seminormal,
 \item $X$ is equal to its own seminormalization, i.e., the morphism
 $X^{sn} \to X$ is an isomorphism,
-\item if $\pi : Y \to X$ is a universal homomorphism inducing isomorphisms
+\item if $\pi : Y \to X$ is a universal homeomorphism inducing isomorphisms
 on residue fields with $Y$ reduced, then $\pi$ is an isomorphism.
 \end{enumerate}
 \end{lemma}
@@ -12006,7 +12157,7 @@ Lemma \ref{lemma-seminormalization}. If (3) holds, then $X^{sn} \to X$
 is an isomorphism and we see that (2) holds.
 
 \medskip\noindent
-Assume (2) holds and let $\pi : Y \to X$ be a universal homomorphism
+Assume (2) holds and let $\pi : Y \to X$ be a universal homeomorphism
 inducing isomorphisms on residue fields with $Y$ reduced. Then there exists
 a factorization $X \to Y \to X$ of $\text{id}_X$ by
 Lemma \ref{lemma-seminormalization}. Then $X \to Y$ is a closed immersion
@@ -12024,7 +12175,7 @@ Let $X$ be a scheme. The following are equivalent
 \item $X$ is absolutely weakly normal,
 \item $X$ is equal to its own absolute weak normalization, i.e., the morphism
 $X^{awn} \to X$ is an isomorphism,
-\item if $\pi : Y \to X$ is a universal homomorphism with $Y$ reduced, then
+\item if $\pi : Y \to X$ is a universal homeomorphism with $Y$ reduced, then
 $\pi$ is an isomorphism.
 \end{enumerate}
 \end{lemma}
@@ -12691,7 +12842,7 @@ is an isomorphism.
 \noindent
 We will see below that the fibres of a birational morphism
 over generic points are singletons. Moreover, we will see that
-in most cases one encounters in practice the existence a birational morphism
+in most cases one encounters in practice the existence of a birational morphism
 between irreducible schemes $X$ and $Y$ implies
 $X$ and $Y$ are birational schemes.
 
@@ -13677,12 +13828,16 @@ separated as an affine morphism) we see that $f'(Y)$ is dense in $X'$.
 Hence $f'$ is dominant.
 
 \medskip\noindent
+Observe that $g$ is quasi-compact and quasi-separated by
+Schemes, Lemmas \ref{schemes-lemma-compose-after-separated} and
+\ref{schemes-lemma-quasi-compact-permanence}. Thus the last statement
+of the lemma makes sense.
 The morphism $h$ in (2) is integral by Lemma \ref{lemma-finite-permanence}.
 Given a factorization $g = \pi' \circ g'$ with $\pi' : Z' \to Z$
 integral, we get a factorization $f = (\pi \circ \pi') \circ g'$ and
 we get a morphism $h' : X' \to Z'$. Uniqueness implies that
 $\pi' \circ h' = h$. Hence the characterization (1), (2) applies
-to the morphism $h : X' \to Z$ which gives the last statement of the lemma.
+to the morphism $h : X' \to Z$ which gives the final assertion of the lemma.
 \end{proof}
 
 \begin{lemma}
@@ -14330,6 +14485,27 @@ Since $f$ is finite (or integral) every element of $\mathcal{O}_X(U)$
 is integral over $\mathcal{O}_Y(V)$. We conclude that
 $\mathcal{O}_Y(V) = \mathcal{O}_X(U)$. This proves that $f$ is an
 isomorphism as desired.
+\end{proof}
+
+\begin{lemma}
+\label{lemma-normalization-trivial}
+Let $X$ be a scheme with locally finitely many irreducible components.
+The normalization morphism $\nu : X^\nu \to X$ is an isomorphism
+if and only if $X$ is normal.
+\end{lemma}
+
+\begin{proof}
+If $\nu$ is an isomorphism, then $X$ is normal by
+Lemma \ref{lemma-normalization-normal}.
+Conversely, suppose $X$ is normal.
+By Lemma \ref{lemma-normalization-localization} and
+Properties, Lemma \ref{properties-lemma-normal-locally-finite-nr-irreducibles}
+we may assume $X$ is integral.
+By Lemma \ref{lemma-normalization-normal} the morphism
+$\nu$ is integral and $X^\nu$ has a unique irreducible component
+(so it is an integral scheme).
+We conclude from Lemmas \ref{lemma-normalization-birational} and
+\ref{lemma-finite-birational-over-normal}.
 \end{proof}
 
 \begin{lemma}

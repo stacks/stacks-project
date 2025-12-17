@@ -591,25 +591,28 @@ closed point as desired.
 \begin{lemma}
 \label{lemma-locally-Noetherian-specialization-dvr}
 Let $X$ be a locally Noetherian scheme.
-Let $x' \leadsto x$ be a specialization of points of $X$.
-Then
+Let $x' \leadsto x$ be a specialization of points of $X$. Then
 \begin{enumerate}
 \item there exists a discrete valuation ring $R$ and a morphism
 $f : \Spec(R) \to X$ such that the generic point $\eta$ of
 $\Spec(R)$ maps to $x'$ and the special point maps to $x$, and
-\item given a finitely generated field extension $K/\kappa(x')$
-we may arrange it so that the extension $\kappa(\eta)/\kappa(x')$
+\item provided $x \not = x'$ given a finitely generated field
+extension $K/\kappa(x')$, we may arrange it so that the extension
+$\kappa(\eta)/\kappa(x')$
 induced by $f$ is isomorphic to the given one.
 \end{enumerate}
 \end{lemma}
 
 \begin{proof}
-Let $x' \leadsto x$ be a specialization in $X$, and let
-$K/\kappa(x')$ be a finitely generated extension of fields. By
+First assume $x' \leadsto x$ is a specialization in $X$
+with $x \not = x'$ and let $K/\kappa(x')$ be a finitely
+generated extension of fields. By
 Schemes, Lemma \ref{schemes-lemma-specialize-points}
 and the discussion following
 Schemes, Lemma \ref{schemes-lemma-characterize-points}
 this leads to ring maps $\mathcal{O}_{X, x} \to \kappa(x') \to K$.
+Since $x \not = x'$ the image of $\mathcal{O}_{X, x}$ in $K$
+is not a field (details omitted).
 Let $R \subset K$ be any discrete valuation ring whose field of fractions is
 $K$ and which dominates the image of $\mathcal{O}_{X, x} \to K$, see
 Algebra, Lemma \ref{algebra-lemma-exists-dvr}.
@@ -617,6 +620,7 @@ The ring map $\mathcal{O}_{X, x} \to R$ induces the morphism
 $f : \Spec(R) \to X$, see
 Schemes, Lemma \ref{schemes-lemma-morphism-from-spec-local-ring}.
 This morphism has all the desired properties by construction.
+If $x = x'$ then we can set $R = \kappa(x)[t]_{(t)}$.
 \end{proof}
 
 \begin{lemma}
@@ -916,7 +920,7 @@ Immediate from the definitions.
 \begin{lemma}
 \label{lemma-integral-normal}
 Let $X$ be an integral scheme.
-Then $X$ is normal if and only if for every affine open
+Then $X$ is normal if and only if for every nonempty affine open
 $U \subset X$ the ring $\mathcal{O}_X(U)$ is a normal domain.
 \end{lemma}
 
@@ -1021,7 +1025,7 @@ $\mathcal{O}_X(U)$ which is integral over $\mathcal{O}_X(U)$
 (because we can use the same polynomial
 $f^d + \sum_{i = 0, \ldots, d - 1} a_i|_U f^i = 0$ on $U$).
 Since $\mathcal{O}_X(U)$ is a normal domain
-(Lemma \ref{lemma-locally-normal}), we see that
+(Lemma \ref{lemma-integral-normal}), we see that
 $f_U = (a|_U)/(b|_U) \in \mathcal{O}_X(U)$. It is clear
 that $f_U|_V = f_V$ whenever $V \subset U \subset X$ are
 nonempty affine open. Hence the local sections $f_U$ glue to an element
@@ -1365,6 +1369,23 @@ $U = (U_1 \setminus U_2) \amalg (U_1 \cap U_2) \amalg (U_2 \setminus U_1)$
 and the arguments above show that each of the pieces is affine.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-isolated-dim-0-locally-noetherian}
+Let $x$ be a point of a locally Noetherian scheme $X$.
+Then $\dim_x(X) = 0$ if and only if $x$ is an isolated point of $X$.
+\end{lemma}
+
+\begin{proof}
+If $x$ is an isolated point, then $\{x\}$ is an open subset of $X$
+(Topology, Definition \ref{topology-definition-isolated-point})
+and hence $\dim_x(X) = \dim(\{x\}) = 0$ by definition. Conversely, if
+$\dim_x(X) = 0$, then there exists an open neighbourhood $U \subset X$
+of $x$ such that $\dim(U) = 0$
+(Topology, Definition \ref{topology-definition-Krull}).
+By Lemma \ref{lemma-locally-Noetherian-dimension-0}
+we see that the topology on $U$ is discrete and hence
+$x$ is an isolated point.
+\end{proof}
 
 
 
@@ -1992,7 +2013,7 @@ The following lemma implies that $\mathcal{F}$ is of finite type
 (see Modules, Definition \ref{modules-definition-finite-type})
 if and only if $\mathcal{F}$ is
 on each open affine $\Spec(A) = U \subset X$
-of the form $\widetilde M$ for some finite type $A$-module $M$.
+of the form $\widetilde M$ for some finite $A$-module $M$.
 Similarly, $\mathcal{F}$ is of finite presentation
 (see Modules, Definition \ref{modules-definition-finite-presentation})
 if and only if $\mathcal{F}$ is
@@ -2843,7 +2864,7 @@ $\varphi'|_U = \varphi$.
 
 \begin{proof}
 The beginning of the proof is a repeat of the beginning of the
-proof of Lemma \ref{lemma-extend}. We write it out carefuly anyway.
+proof of Lemma \ref{lemma-extend}. We write it out carefully anyway.
 
 \medskip\noindent
 Let $n$ be the minimal number of affine opens $U_i \subset X$,
@@ -4689,7 +4710,8 @@ denote $s' = i^*s$ the pullback of $s$ to $X'$. Note that
 $s'$ is a section of $(i^*\mathcal{L})^{\otimes d}$. By
 Proposition \ref{proposition-characterize-ample}
 the opens $X_s$, for $s \in \Gamma(X, \mathcal{L}^{\otimes d})$,
-form a basis for the topology on $X$. Since $X'_{s'} = i^{-1}(X_s)$
+form a basis for the topology on $X$. Since $X'_{s'} = i^{-1}(X_s)$ by
+Modules, Remark \ref{modules-remark-pullback-s-open}
 and since $X' \to i(X')$ is a homeomorphism, we conclude
 the opens $X'_{s'}$ form a basis for the topology of $X'$. Hence
 $i^*\mathcal{L}$ is ample by
@@ -5303,6 +5325,18 @@ After translation into algebra, this follows from
 Algebra, Lemma \ref{algebra-lemma-subring-of-local-ring}.
 \end{proof}
 
+\begin{lemma}
+\label{lemma-standard-open-two-affines}
+Let $U$, $V$ be affine schemes and let $W \to U$ and $W \to V$
+be open immersions. For any $w \in W$ there exists an affine
+open neighbourhood $W' \subset W$ of $w$ such that $W'$
+maps to a standard open of both $U$ and $V$.
+\end{lemma}
+
+\begin{proof}
+Let $X$ be the glueing of $U$ and $V$ along $W$ and
+apply Schemes, Lemma \ref{schemes-lemma-standard-open-two-affines}.
+\end{proof}
 
 
 
